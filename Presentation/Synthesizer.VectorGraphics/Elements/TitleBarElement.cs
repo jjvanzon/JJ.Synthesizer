@@ -71,6 +71,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             }
         }
 
+        public bool CloneButtonVisible
+        {
+            get => _buttonBarElement.CloneButtonVisible;
+            set
+            {
+                _buttonBarElement.CloneButtonVisible = value;
+                PositionElements();
+            }
+        }
+
         public bool CloseButtonVisible
         {
             get => _buttonBarElement.CloseButtonVisible;
@@ -211,6 +221,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         {
             add => _buttonBarElement.BrowseClicked += value;
             remove => _buttonBarElement.BrowseClicked -= value;
+        }
+
+        public event EventHandler CloneClicked
+        {
+            add => _buttonBarElement.CloneClicked += value;
+            remove => _buttonBarElement.CloneClicked -= value;
         }
 
         public event EventHandler CloseClicked

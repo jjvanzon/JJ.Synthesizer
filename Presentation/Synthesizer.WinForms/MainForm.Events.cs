@@ -193,6 +193,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             patchDetailsUserControl.AddToInstrumentRequested += PatchDetailsUserControl_AddToInstrumentRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += PatchDetailsUserControl_ChangeInputOutletRequested;
+            patchDetailsUserControl.CloneRequested += PatchDetailsUserControl_CloneRequested;
             patchDetailsUserControl.CloseRequested += PatchDetailsUserControl_CloseRequested;
             patchDetailsUserControl.DeleteRequested += PatchDetailsUserControl_DeleteRequested;
             patchDetailsUserControl.MoveOperatorRequested += PatchDetailsUserControl_MoveOperatorRequested;
@@ -1002,6 +1003,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     _mainPresenter.Operator_ChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID);
                     RecreatePatchCalculatorIfSuccessful();
                 });
+
+        private void PatchDetailsUserControl_CloneRequested(object sender, EventArgs<int> e)
+            => TemplateActionHandler(() => _mainPresenter.PatchDetails_Clone(e.Value));
 
         private void PatchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchDetails_Close(e.Value));

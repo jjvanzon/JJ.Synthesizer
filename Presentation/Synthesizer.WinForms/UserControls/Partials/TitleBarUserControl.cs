@@ -88,6 +88,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
+        public bool CloneButtonVisible
+        {
+            get => _titleBarElement.CloneButtonVisible;
+            set
+            {
+                _titleBarElement.CloneButtonVisible = value;
+                PositionControls();
+            }
+        }
+
         public bool CloseButtonVisible
         {
             get => _titleBarElement.CloseButtonVisible;
@@ -239,6 +249,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             add => _titleBarElement.BrowseClicked += value;
             remove => _titleBarElement.BrowseClicked -= value;
+        }
+
+        public event EventHandler CloneClicked
+        {
+            add => _titleBarElement.CloneClicked += value;
+            remove => _titleBarElement.CloneClicked -= value;
         }
 
         public event EventHandler CloseClicked

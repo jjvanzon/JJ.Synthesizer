@@ -902,25 +902,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
-            // Template Method
-            DocumentTreeViewModel viewModel = ExecuteCreateAction(userInput, () => _documentTreePresenter.Clone(userInput));
+            // Get ID
+            if (!userInput.SelectedItemID.HasValue) throw new NotHasValueException(() => userInput.SelectedItemID);
+            int id = userInput.SelectedItemID.Value;
 
-            if (viewModel.Successful)
-            {
-                // Refresh
-                DocumentViewModel_Refresh();
-
-                // Undo History
-                var undoItem = new UndoCreateViewModel
-                {
-                    EntityTypesAndIDs = (EntityTypeEnum.Patch, viewModel.CreatedEntityID).ToViewModel().AsArray(),
-                    States = GetPatchStates(viewModel.CreatedEntityID)
-                };
-                MainViewModel.Document.UndoHistory.Push(undoItem);
-
-                // Redirect
-                Patch_Expand(viewModel.CreatedEntityID);
-            }
+            // Redirect
+            Patch_Clone(userInput, id);
         }
 
         public void DocumentTree_Create()
@@ -2752,7 +2739,56 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Patch
 
+        private void Patch_Clone(ScreenViewModelBase userInput, int id)
+        {
+            int createdEntityID = default;
+
+            // Template Method
+            ScreenViewModelBase viewModel = ExecuteCreateAction(userInput, () =>
+            {
+                // GetEntity
+                Patch sourcePatch = _repositories.PatchRepository.Get(id);
+
+                // Business
+                Patch destPatch = _patchFacade.ClonePatch(sourcePatch);
+
+                // Non-Persisted
+                createdEntityID = destPatch.ID;
+
+                // Successful
+                userInput.Successful = true;
+
+                return userInput;
+            });
+
+            if (viewModel.Successful)
+            {
+                // Refresh
+                DocumentViewModel_Refresh();
+
+                // Undo History
+                var undoItem = new UndoCreateViewModel
+                {
+                    EntityTypesAndIDs = (EntityTypeEnum.Patch, createdEntityID).ToViewModel().AsArray(),
+                    States = GetPatchStates(createdEntityID)
+                };
+                MainViewModel.Document.UndoHistory.Push(undoItem);
+
+                // Redirect
+                Patch_Expand(createdEntityID);
+            }
+        }
+
         public void PatchDetails_AddToInstrument(int id) => InstrumentBar_AddPatch(id);
+
+        public void PatchDetails_Clone(int id)
+        {
+            // GetViewModel
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
+
+            // Redirect
+            Patch_Clone(userInput, id);
+        }
 
         public void PatchDetails_Close(int id)
         {
@@ -2849,6 +2885,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
             ExecuteUpdateAction(userInput, () => _patchPropertiesPresenter.ChangeHasDimension(userInput));
+        }
+
+        public void PatchProperties_Clone(int id)
+        {
+            // GetViewModel
+            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
+
+            // Redirect
+            Patch_Clone(userInput, id);
         }
 
         public void PatchProperties_Close(int id)
