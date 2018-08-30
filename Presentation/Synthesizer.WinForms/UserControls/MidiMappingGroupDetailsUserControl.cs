@@ -43,13 +43,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void MidiMappingGroupDetailsUserControl_Load(object sender, EventArgs e)
 		{
-			TitleBarBackColor = SystemColors.Window;
+            TitleBarUserControl.BackColor = SystemColors.Window;
+            TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAdd.Visible = true;
+            TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAddToInstrument.Visible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonNew.Visible = true;
 
-			AddToInstrumentButtonVisible = true;
-			PlayButtonVisible = false;
-			NewButtonVisible = true;
-
-			diagramControl.Left = 0;
+            diagramControl.Left = 0;
 			diagramControl.Top = 0;
 			diagramControl.Diagram = _converter.Result.Diagram;
 

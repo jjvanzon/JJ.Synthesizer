@@ -38,10 +38,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			InitializeComponent();
 
-			TitleBarBackColor = SystemColors.Window;
+			TitleBarUserControl.BackColor = SystemColors.Window;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAdd.Visible = true;
 
-			// Make sure the base's button bar is in front of the diagramControl.
-			diagramControl.SendToBack();
+            // Make sure the base's button bar is in front of the diagramControl.
+            diagramControl.SendToBack();
 
 			_textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 		}

@@ -7,9 +7,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	internal partial class LibraryPropertiesUserControl : PropertiesUserControlBase
 	{
-		public LibraryPropertiesUserControl() => InitializeComponent();
+		public LibraryPropertiesUserControl()
+	    {
+	        InitializeComponent();
 
-		protected override void AddProperties()
+            TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonExpand.Visible = true;
+	        TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonPlay.Visible = true;
+	    }
+
+        protected override void AddProperties()
 		{
 			AddProperty(labelNameTitle, labelNameValue);
 			AddProperty(labelAlias, textBoxAlias);
@@ -17,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void SetTitles()
 		{
-			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Library);
+			TitleBarUserControl.TitleBarElement.TitleLabel.Text = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Library);
 			labelNameTitle.Text = CommonResourceFormatter.Name;
 			labelAlias.Text = ResourceFormatter.Alias;
 		}

@@ -17,9 +17,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			InitializeComponent();
 
 			IDPropertyName = nameof(IDAndName.ID);
-			Title = ResourceFormatter.Documents;
+			TitleBarUserControl.TitleBarElement.TitleLabel.Text = ResourceFormatter.Documents;
 			ColumnTitlesVisible = false;
-			PlayButtonVisible = true;
+
+			TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonPlay.Visible = true;
 
 			KeyDown += base_KeyDown;
 			CellClick += base_CellClick;

@@ -126,16 +126,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// 
 			// titleBarUserControl
 			// 
-			this.titleBarUserControl.AddButtonVisible = false;
 			this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
-			this.titleBarUserControl.CloseButtonVisible = true;
 			this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
 			this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
 			this.titleBarUserControl.Name = "titleBarUserControl";
-			this.titleBarUserControl.PlayButtonVisible = false;
-			this.titleBarUserControl.DeleteButtonVisible = false;
-			this.titleBarUserControl.SaveButtonVisible = false;
 			this.titleBarUserControl.Size = new System.Drawing.Size(573, 26);
 			this.titleBarUserControl.TabIndex = 7;
 			// 

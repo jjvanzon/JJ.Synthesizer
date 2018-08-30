@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using JJ.Framework.Common;
@@ -39,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 		// Fields
 
-		private readonly TitleBarUserControl _titleBarUserControl;
+		public TitleBarUserControl TitleBarUserControl { get; }
 		private readonly SpecializedDataGridView _specializedDataGridView;
 		private int _columnCounter = 1;
 
@@ -51,8 +50,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			TableLayoutPanel tableLayoutPanel = CreateTableLayoutPanel();
 			Controls.Add(tableLayoutPanel);
 
-			_titleBarUserControl = CreateTitleBarUserControl();
-			tableLayoutPanel.Controls.Add(_titleBarUserControl, 0, 0);
+			TitleBarUserControl = CreateTitleBarUserControl();
+			tableLayoutPanel.Controls.Add(TitleBarUserControl, 0, 0);
 
 			_specializedDataGridView = CreateSpecializedDataGridView();
 			tableLayoutPanel.Controls.Add(_specializedDataGridView, 0, 1);
@@ -86,21 +85,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		{
 			var titleBarUserControl = new TitleBarUserControl
 			{
-				AddButtonVisible = true,
-				CloseButtonVisible = true,
-				DeleteButtonVisible = true,
-				SaveButtonVisible = false,
-				PlayButtonVisible = false,
 				Dock = DockStyle.Fill,
 				Margin = new Padding(0),
-				Name = nameof(_titleBarUserControl)
+				Name = nameof(TitleBarUserControl)
 			};
 
-			titleBarUserControl.TitleBarElement.ButtonBarElement.AddClicked += _titleBarUserControl_AddClicked;
-			titleBarUserControl.TitleBarElement.ButtonBarElement.CloseClicked += _titleBarUserControl_CloseClicked;
-			titleBarUserControl.TitleBarElement.ButtonBarElement.ExpandClicked += _titleBarUserControl_OpenClicked;
-			titleBarUserControl.TitleBarElement.ButtonBarElement.PlayClicked += _titleBarUserControl_PlayClicked;
-			titleBarUserControl.TitleBarElement.ButtonBarElement.DeleteClicked += TitleBarUserControl_DeleteClicked;
+		    titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAdd.Visible = true;
+		    titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonClose.Visible = true;
+		    titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonDelete.Visible = true;
+
+			titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAdd.MouseDown += PictureButtonAdd_MouseDown;
+			titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonClose.MouseDown += PictureButtonClose_MouseDown;
+			titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonExpand.MouseDown += PictureButtonExpand_MouseDown;
+			titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonPlay.MouseDown += PictureButtonPlay_MouseDown;
+			titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonDelete.MouseDown += PictureButtonDelete_MouseDown;
 
 			return titleBarUserControl;
 		}
@@ -122,49 +120,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 		// Gui
 
-		protected string Title
-		{
-			get => _titleBarUserControl.Text;
-			set => _titleBarUserControl.Text = value;
-		}
-
 		protected bool ColumnTitlesVisible
 		{
 			get => _specializedDataGridView.ColumnHeadersVisible;
 			set => _specializedDataGridView.ColumnHeadersVisible = value;
-		}
-
-		[DefaultValue(true)]
-		protected bool AddButtonVisible
-		{
-			get => _titleBarUserControl.AddButtonVisible;
-			set => _titleBarUserControl.AddButtonVisible = value;
-		}
-
-		[DefaultValue(true)]
-		protected bool CloseButtonVisible
-		{
-			get => _titleBarUserControl.CloseButtonVisible;
-			set => _titleBarUserControl.CloseButtonVisible = value;
-		}
-
-		protected bool OpenItemExternallyButtonVisible
-		{
-			get => _titleBarUserControl.ExpandButtonVisible;
-			set => _titleBarUserControl.ExpandButtonVisible = value;
-		}
-
-		protected bool PlayButtonVisible
-		{
-			get => _titleBarUserControl.PlayButtonVisible;
-			set => _titleBarUserControl.PlayButtonVisible = value;
-		}
-
-		[DefaultValue(true)]
-		protected bool DeleteButtonVisible
-		{
-			get => _titleBarUserControl.DeleteButtonVisible;
-			set => _titleBarUserControl.DeleteButtonVisible = value;
 		}
 
 		protected bool FullRowSelect
@@ -258,11 +217,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 		// Event Handlers
 
-		private void _titleBarUserControl_AddClicked(object sender, EventArgs e) => Add();
-		private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
-		private void _titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternally();
-		private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
-		private void TitleBarUserControl_DeleteClicked(object sender, EventArgs e) => Delete();
+		private void PictureButtonAdd_MouseDown(object sender, EventArgs e) => Add();
+		private void PictureButtonClose_MouseDown(object sender, EventArgs e) => Close();
+		private void PictureButtonExpand_MouseDown(object sender, EventArgs e) => OpenItemExternally();
+		private void PictureButtonPlay_MouseDown(object sender, EventArgs e) => Play();
+		private void PictureButtonDelete_MouseDown(object sender, EventArgs e) => Delete();
 		private void _specializedDataGridView_DoubleClick(object sender, EventArgs e) => ShowItem();
 
 		private void _specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
@@ -287,21 +246,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 		// Actions
 
-		private void Add()
-		{
-			if (ViewModel == null) return;
+		private void Add() => AddRequested?.Invoke(this, EventArgs.Empty);
 
-			AddRequested?.Invoke(this, EventArgs.Empty);
-		}
+	    private void Close() => CloseRequested?.Invoke(this, EventArgs.Empty);
 
-		private void Close()
-		{
-			if (ViewModel == null) return;
-
-			CloseRequested?.Invoke(this, EventArgs.Empty);
-		}
-
-		protected void OpenItemExternally()
+	    protected void OpenItemExternally()
 		{
 			if (ViewModel == null) return;
 

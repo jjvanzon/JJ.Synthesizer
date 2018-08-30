@@ -29,10 +29,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             specializedDataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
 
-            titleBarUserControl.TitleBarElement.ButtonBarElement.AddClicked += titleBarUserControl_AddClicked;
-            titleBarUserControl.TitleBarElement.ButtonBarElement.AddToInstrumentClicked += titleBarUserControl_AddToInstrumentClicked;
-            titleBarUserControl.TitleBarElement.ButtonBarElement.CloseClicked += titleBarUserControl_CloseClicked;
-            titleBarUserControl.TitleBarElement.ButtonBarElement.DeleteClicked += titleBarUserControl_DeleteClicked;
+            titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAdd.Visible = true;
+            titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAddToInstrument.Visible = true;
+            titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonClose.Visible = true;
+
+            titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAdd.MouseDown += PictureButtonAdd_MouseDown;
+            titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAddToInstrument.MouseDown += PictureButtonAddToInstrument_MouseDown;
+            titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonClose.MouseDown += PictureButtonClose_MouseDown;
+            titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonDelete.MouseDown += PictureButtonDelete_MouseDown;
         }
 
         // Gui
@@ -101,14 +105,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
-        private void titleBarUserControl_AddClicked(object sender, EventArgs e) => CreateTone();
+        private void PictureButtonAdd_MouseDown(object sender, EventArgs e) => CreateTone();
 
-        private void titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e)
+        private void PictureButtonAddToInstrument_MouseDown(object sender, EventArgs e)
             => SetInstrumentScaleRequested(sender, new EventArgs<int>(ViewModel.ScaleID));
 
-        private void titleBarUserControl_DeleteClicked(object sender, EventArgs e) => DeleteTone();
+        private void PictureButtonDelete_MouseDown(object sender, EventArgs e) => DeleteTone();
 
-        private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
+        private void PictureButtonClose_MouseDown(object sender, EventArgs e) => Close();
 
         private void specializedDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
             => BeginInvoke(new Action(() => Edited.Invoke(this, new EventArgs<int>(ViewModel.ScaleID))));

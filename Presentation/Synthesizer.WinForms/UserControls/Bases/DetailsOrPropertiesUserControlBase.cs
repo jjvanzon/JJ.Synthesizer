@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using JJ.Framework.Common;
@@ -14,8 +13,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
 	internal class DetailsOrPropertiesUserControlBase : UserControlBase
 	{
-		private readonly TitleBarUserControl _titleBarUserControl;
+		public TitleBarUserControl TitleBarUserControl { get; }
 
+	    public event EventHandler AddRequested;
 		public event EventHandler<EventArgs<int>> AddToInstrumentRequested;
 		public event EventHandler<EventArgs<int>> CloneRequested;
 		public event EventHandler<EventArgs<int>> CloseRequested;
@@ -26,12 +26,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		public event EventHandler<EventArgs<int>> SaveRequested;
 		public event EventHandler<EventArgs<int>> PlayRequested;
 
-		public event EventHandler AddRequested
-		{
-			add => _titleBarUserControl.TitleBarElement.ButtonBarElement.AddClicked += value;
-			remove => _titleBarUserControl.TitleBarElement.ButtonBarElement.AddClicked -= value;
-		}
-
 		// ReSharper disable once MemberCanBeProtected.Global
 		public DetailsOrPropertiesUserControlBase()
 		{
@@ -40,22 +34,25 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			Resize += Base_Resize;
 			Leave += Base_Leave;
 
-			_titleBarUserControl = CreateTitleBarUserControl();
-			Controls.Add(_titleBarUserControl);
-			_titleBarUserControl.TitleBarElement.ButtonBarElement.AddToInstrumentClicked += _titleBarUserControl_AddToInstrumentClicked;
-			_titleBarUserControl.TitleBarElement.ButtonBarElement.CloneClicked += _titleBarUserControl_CloneClicked;
-			_titleBarUserControl.TitleBarElement.ButtonBarElement.CloseClicked += _titleBarUserControl_CloseClicked;
-			_titleBarUserControl.TitleBarElement.ButtonBarElement.ExpandClicked += _titleBarUserControl_ExpandClicked;
-			_titleBarUserControl.TitleBarElement.ButtonBarElement.NewClicked += _titleBarUserControl_NewClicked;
-			_titleBarUserControl.TitleBarElement.ButtonBarElement.SaveClicked += _titleBarUserControl_SaveClicked;
-			_titleBarUserControl.TitleBarElement.ButtonBarElement.PlayClicked += _titleBarUserControl_PlayClicked;
-			_titleBarUserControl.TitleBarElement.ButtonBarElement.DeleteClicked += _titleBarUserControl_DeleteClicked;
-
-			_titleBarUserControl.DeleteButtonVisible = true;
+			TitleBarUserControl = CreateTitleBarUserControl();
+			Controls.Add(TitleBarUserControl);
+			TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAddToInstrument.MouseDown += PictureButtonAddToInstrument_MouseDown;
+			TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonClone.MouseDown += PictureButtonClone_MouseDown;
+			TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonClose.MouseDown += PictureButtonClose_MouseDown;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonDelete.Visible = true;
+			TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonExpand.MouseDown += PictureButtonExpand_MouseDown;
+			TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonNew.MouseDown += PictureButtonNew_MouseDown;
+			TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonSave.MouseDown += PictureButtonSave_MouseDown;
+			TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonPlay.MouseDown += PictureButtonPlay_MouseDown;
+			TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonDelete.MouseDown += PictureButtonDelete_MouseDown;
+            TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAdd.MouseDown += PictureButtonAdd_MouseDown;
 		}
 
-		/// <summary> Executes SetTiltes, ApplyStyling, PositionControls and AutomaticallyAssignTabIndexes. </summary>
-		protected override void OnLoad(EventArgs e)
+	    private void PictureButtonAdd_MouseDown(object sender, Framework.VectorGraphics.EventArg.MouseEventArgs e)
+	        => AddRequested?.Invoke(this, EventArgs.Empty);
+
+        /// <summary> Executes SetTitles, ApplyStyling, PositionControls and AutomaticallyAssignTabIndexes. </summary>
+        protected override void OnLoad(EventArgs e)
 		{
 			SetTitles();
 			ApplyStyling();
@@ -73,94 +70,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 	    /// <summary> does nothing </summary>
 		protected virtual void SetTitles() { }
 
-		public string TitleBarText
-		{
-			get => _titleBarUserControl.Text;
-			set => _titleBarUserControl.Text = value;
-		}
-
-		protected bool AddButtonVisible
-		{
-			get => _titleBarUserControl.AddButtonVisible;
-			set => _titleBarUserControl.AddButtonVisible = value;
-		}
-
-		protected bool AddToInstrumentButtonVisible
-		{
-			get => _titleBarUserControl.AddToInstrumentButtonVisible;
-			set => _titleBarUserControl.AddToInstrumentButtonVisible = value;
-		}
-
-		[DefaultValue(false)]
-		protected bool CloneButtonVisible
-		{
-			get => _titleBarUserControl.CloneButtonVisible;
-			set => _titleBarUserControl.CloneButtonVisible = value;
-		}
-
-		protected bool CloseButtonVisible
-		{
-			get => _titleBarUserControl.CloseButtonVisible;
-			set => _titleBarUserControl.CloseButtonVisible = value;
-		}
-
-		[DefaultValue(false)]
-		protected bool ExpandButtonVisible
-		{
-			get => _titleBarUserControl.ExpandButtonVisible;
-			set => _titleBarUserControl.ExpandButtonVisible = value;
-		}
-
-		[DefaultValue(false)]
-		protected bool NewButtonVisible
-		{
-			get => _titleBarUserControl.NewButtonVisible;
-			set => _titleBarUserControl.NewButtonVisible = value;
-		}
-
-		protected bool PlayButtonVisible
-		{
-			get => _titleBarUserControl.PlayButtonVisible;
-			set => _titleBarUserControl.PlayButtonVisible = value;
-		}
-
-		protected bool DeleteButtonVisible
-		{
-			get => _titleBarUserControl.DeleteButtonVisible;
-			set => _titleBarUserControl.DeleteButtonVisible = value;
-		}
-
-		protected bool RefreshButtonVisible
-		{
-			get => _titleBarUserControl.RefreshButtonVisible;
-			set => _titleBarUserControl.RefreshButtonVisible = value;
-		}
-
-		protected bool SaveButtonVisible
-		{
-			get => _titleBarUserControl.SaveButtonVisible;
-			set => _titleBarUserControl.SaveButtonVisible = value;
-		}
-
-		public Color TitleBarBackColor
-		{
-			get => _titleBarUserControl.BackColor;
-			set => _titleBarUserControl.BackColor = value;
-		}
-
-		protected int TitleBarHeight => _titleBarUserControl.Height;
+		protected int TitleBarHeight => TitleBarUserControl.Height;
 
 		protected virtual void PositionControls()
 		{
-            if (!string.IsNullOrEmpty(_titleBarUserControl.Text))
+            if (!string.IsNullOrEmpty(TitleBarUserControl.Text))
 			{
-				_titleBarUserControl.Width = Width;
-			    _titleBarUserControl.Left = 0;
+				TitleBarUserControl.Width = Width;
+			    TitleBarUserControl.Left = 0;
 			}
             else
 			{
-				_titleBarUserControl.Width = _titleBarUserControl.ButtonBarWidth;
-				_titleBarUserControl.Left = Width - _titleBarUserControl.ButtonBarWidth;
+				TitleBarUserControl.Width = TitleBarUserControl.ButtonBarWidth;
+				TitleBarUserControl.Left = Width - TitleBarUserControl.ButtonBarWidth;
 			}
 		}
 
@@ -207,14 +129,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 	    // Events
 
-		private void _titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested?.Invoke(sender, new EventArgs<int>(GetID()));
-		private void _titleBarUserControl_CloneClicked(object sender, EventArgs e) => CloneRequested?.Invoke(this, new EventArgs<int>(GetID()));
-        private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
-		private void _titleBarUserControl_ExpandClicked(object sender, EventArgs e) => ExpandRequested?.Invoke(sender, new EventArgs<int>(GetID()));
-		private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
-		private void _titleBarUserControl_DeleteClicked(object sender, EventArgs e) => Delete();
-		private void _titleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested?.Invoke(sender, new EventArgs<int>(GetID()));
-		private void _titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));
+		private void PictureButtonAddToInstrument_MouseDown(object sender, EventArgs e) => AddToInstrumentRequested?.Invoke(sender, new EventArgs<int>(GetID()));
+		private void PictureButtonClone_MouseDown(object sender, EventArgs e) => CloneRequested?.Invoke(this, new EventArgs<int>(GetID()));
+        private void PictureButtonClose_MouseDown(object sender, EventArgs e) => Close();
+		private void PictureButtonExpand_MouseDown(object sender, EventArgs e) => ExpandRequested?.Invoke(sender, new EventArgs<int>(GetID()));
+		private void PictureButtonPlay_MouseDown(object sender, EventArgs e) => Play();
+		private void PictureButtonDelete_MouseDown(object sender, EventArgs e) => Delete();
+		private void PictureButtonNew_MouseDown(object sender, EventArgs e) => NewRequested?.Invoke(sender, new EventArgs<int>(GetID()));
+		private void PictureButtonSave_MouseDown(object sender, EventArgs e) => SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 
 		// This event does not go off, if not clicked on a control that according to WinForms can get focus.
 		private void Base_Leave(object sender, EventArgs e)
@@ -234,18 +156,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		{
 			var titleBarUserControl = new TitleBarUserControl
 			{
-				Name = nameof(_titleBarUserControl),
+				Name = nameof(TitleBarUserControl),
 				BackColor = SystemColors.Control,
-				CloseButtonVisible = true,
-				DeleteButtonVisible = false,
-				AddButtonVisible = false,
-				PlayButtonVisible = false,
-				SaveButtonVisible = false,
 				Margin = new Padding(0, 0, 0, 0),
 				Height = StyleHelper.TitleBarHeight,
 				Left = 0,
 				Top = 0
 			};
+
+		    titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonClose.Visible = true;
 
 			return titleBarUserControl;
 		}

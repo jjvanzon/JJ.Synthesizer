@@ -12,12 +12,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			InitializeComponent();
 
-			DeleteButtonVisible = false;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonPlay.Visible = true;
 		}
 
-		// Gui
+        // Gui
 
-		protected override void AddProperties()
+        protected override void AddProperties()
 		{
 			AddProperty(labelSamplingRate, numericUpDownSamplingRate);
 			AddProperty(labelSpeakerSetup, comboBoxSpeakerSetup);
@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void SetTitles()
 		{
-			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.AudioOutput);
+			TitleBarUserControl.TitleBarElement.TitleLabel.Text = CommonResourceFormatter.Properties_WithName(ResourceFormatter.AudioOutput);
 			labelSamplingRate.Text = ResourceFormatter.SamplingRate;
 			labelSpeakerSetup.Text = ResourceFormatter.SpeakerSetup;
 			labelMaxConcurrentNotes.Text = ResourceFormatter.MaxConcurrentNotes;

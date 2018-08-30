@@ -46,8 +46,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// 
 			// MidiMappingGroupDetailsUserControl
 			// 
-			this.AddToInstrumentButtonVisible = true;
-			this.AddButtonVisible = true;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.Controls.Add(this.diagramControl);

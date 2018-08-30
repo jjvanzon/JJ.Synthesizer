@@ -369,7 +369,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "OperatorPropertiesUserControl_ForSample";
 			this.Size = new System.Drawing.Size(813, 414);
-			this.TitleBarText = "Operator Properties";
 			this.Controls.SetChildIndex(this._comboBoxUnderlyingPatch, 0);
 			this.Controls.SetChildIndex(this._labelUnderlyingPatch, 0);
 			this.Controls.SetChildIndex(this.labelDurationValue, 0);

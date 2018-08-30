@@ -28,10 +28,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		{
 			Name = GetType().Name;
 
-			PlayButtonVisible = true;
-			ExpandButtonVisible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonPlay.Visible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonExpand.Visible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonDelete.Visible = true;
 
-			_labelUnderlyingPatch = CreateLabelUnderlyingPatch();
+            _labelUnderlyingPatch = CreateLabelUnderlyingPatch();
 			_comboBoxUnderlyingPatch = CreateComboBoxUnderlyingPatch();
 			Controls.Add(_labelUnderlyingPatch);
 			Controls.Add(_comboBoxUnderlyingPatch);
@@ -56,8 +57,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 			_labelOutletCount = CreateLabelOutletCount();
 			_numericUpDownOutletCount = CreateNumericUpDownOutletCount();
-
-			DeleteButtonVisible = true;
 		}
 
 		protected new OperatorPropertiesViewModelBase ViewModel
@@ -70,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 		protected override void SetTitles()
 		{
-			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Operator);
+			TitleBarUserControl.TitleBarElement.TitleLabel.Text = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Operator);
 			_labelUnderlyingPatch.Text = CommonResourceFormatter.Type;
 			_labelStandardDimension.Text = ResourceFormatter.StandardDimension;
 			_labelCustomDimensionName.Text = ResourceFormatter.CustomDimension;

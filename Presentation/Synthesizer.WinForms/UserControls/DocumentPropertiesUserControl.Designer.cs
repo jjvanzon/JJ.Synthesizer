@@ -63,7 +63,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Controls.Add(this.textBoxName);
 			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.Name = "DocumentPropertiesUserControl";
-			this.PlayButtonVisible = true;
 			this.Size = new System.Drawing.Size(13, 12);
 			this.Controls.SetChildIndex(this.textBoxName, 0);
 			this.Controls.SetChildIndex(this.labelName, 0);

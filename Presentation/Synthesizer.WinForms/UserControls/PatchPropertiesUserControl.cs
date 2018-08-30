@@ -19,14 +19,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			InitializeComponent();
 
-			AddToInstrumentButtonVisible = true;
-			ExpandButtonVisible = true;
-		    CloneButtonVisible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAddToInstrument.Visible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonClone.Visible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonExpand.Visible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonPlay.Visible = true;
 		}
 
-		// Gui
+        // Gui
 
-		protected override void AddProperties()
+        protected override void AddProperties()
 		{
 			AddProperty(labelName, textBoxName);
 			AddProperty(labelGroup, textBoxGroup);
@@ -38,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void SetTitles()
 		{
-			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Patch);
+		    TitleBarUserControl.TitleBarElement.TitleLabel.Text = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Patch);
 			labelName.Text = CommonResourceFormatter.Name;
 			labelGroup.Text = ResourceFormatter.Group;
 			labelHasDimension.Text = ResourceFormatter.HasDimension;

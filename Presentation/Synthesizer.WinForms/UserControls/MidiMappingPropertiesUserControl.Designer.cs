@@ -279,7 +279,6 @@
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "MidiMappingPropertiesUserControl";
 			this.Size = new System.Drawing.Size(467, 746);
-			this.TitleBarText = "";
 			this.Controls.SetChildIndex(this.labelIsActive, 0);
 			this.Controls.SetChildIndex(this.checkBoxIsActive, 0);
 			this.Controls.SetChildIndex(this.labelIsRelative, 0);

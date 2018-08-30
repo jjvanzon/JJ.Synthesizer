@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using JJ.Framework.Drawing;
@@ -38,12 +37,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             diagramControl.Diagram = diagram;
         }
 
-        public override string Text
-        {
-            get => TitleBarElement.Text;
-            set => TitleBarElement.Text = value;
-        }
-
         public override Color BackColor
         {
             get => base.BackColor;
@@ -55,157 +48,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 {
                     diagramControl.Diagram.Background.Style.BackStyle.Color = value.ToVectorGrahics();
                 }
-            }
-        }
-
-        public bool AddButtonVisible
-        {
-            get => TitleBarElement.AddButtonVisible;
-            set
-            {
-                TitleBarElement.AddButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool AddToInstrumentButtonVisible
-        {
-            get => TitleBarElement.AddToInstrumentButtonVisible;
-            set
-            {
-                TitleBarElement.AddToInstrumentButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool BrowseButtonVisible
-        {
-            get => TitleBarElement.BrowseButtonVisible;
-            set
-            {
-                TitleBarElement.BrowseButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool CloneButtonVisible
-        {
-            get => TitleBarElement.CloneButtonVisible;
-            set
-            {
-                TitleBarElement.CloneButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool CloseButtonVisible
-        {
-            get => TitleBarElement.CloseButtonVisible;
-            set
-            {
-                TitleBarElement.CloseButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool DeleteButtonVisible
-        {
-            get => TitleBarElement.DeleteButtonVisible;
-            set
-            {
-                TitleBarElement.DeleteButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool ExpandButtonVisible
-        {
-            get => TitleBarElement.ExpandButtonVisible;
-            set
-            {
-                TitleBarElement.ExpandButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        [DefaultValue(false)]
-        public bool NewButtonVisible
-        {
-            get => TitleBarElement.NewButtonVisible;
-            set
-            {
-                TitleBarElement.NewButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool PlayButtonVisible
-        {
-            get => TitleBarElement.PlayButtonVisible;
-            set
-            {
-                TitleBarElement.PlayButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool RedoButtonVisible
-        {
-            get => TitleBarElement.RedoButtonVisible;
-            set
-            {
-                TitleBarElement.RedoButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool RefreshButtonVisible
-        {
-            get => TitleBarElement.RefreshButtonVisible;
-            set
-            {
-                TitleBarElement.RefreshButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool RenameButtonVisible
-        {
-            get => TitleBarElement.RenameButtonVisible;
-            set
-            {
-                TitleBarElement.RenameButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool SaveButtonVisible
-        {
-            get => TitleBarElement.SaveButtonVisible;
-            set
-            {
-                TitleBarElement.SaveButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool TreeStructureButtonVisible
-        {
-            get => TitleBarElement.TreeStructureButtonVisible;
-            set
-            {
-                TitleBarElement.TreeStructureButtonVisible = value;
-                PositionControls();
-            }
-        }
-
-        public bool UndoButtonVisible
-        {
-            get => TitleBarElement.UndoButtonVisible;
-            set
-            {
-                TitleBarElement.UndoButtonVisible = value;
-                PositionControls();
             }
         }
 

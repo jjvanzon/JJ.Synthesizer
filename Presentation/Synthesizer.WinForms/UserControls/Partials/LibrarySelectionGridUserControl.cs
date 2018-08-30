@@ -17,16 +17,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
 		public LibrarySelectionGridUserControl()
 		{
-			Title = CommonResourceFormatter.Select_WithName(ResourceFormatter.Library);
+		    TitleBarUserControl.TitleBarElement.TitleLabel.Text = CommonResourceFormatter.Select_WithName(ResourceFormatter.Library);
 			IDPropertyName = nameof(IDAndName.ID);
 			ColumnTitlesVisible = true;
-			AddButtonVisible = false;
-			DeleteButtonVisible = false;
-			CloseButtonVisible = false;
-			PlayButtonVisible = true;
 			ColumnTitlesVisible = false;
 			FullRowSelect = false;
-			OpenItemExternallyButtonVisible = true;
+
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonPlay.Visible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonExpand.Visible = true;
 
 			KeyDown += base_KeyDown;
 			CellClick += base_CellClick;

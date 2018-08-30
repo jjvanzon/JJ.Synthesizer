@@ -143,8 +143,6 @@
             this.midiMappingDetailsUserControl.Name = "midiMappingDetailsUserControl";
             this.midiMappingDetailsUserControl.Size = new System.Drawing.Size(615, 488);
             this.midiMappingDetailsUserControl.TabIndex = 1;
-            this.midiMappingDetailsUserControl.TitleBarBackColor = System.Drawing.SystemColors.Window;
-            this.midiMappingDetailsUserControl.TitleBarText = "";
             this.midiMappingDetailsUserControl.ViewModel = null;
             this.midiMappingDetailsUserControl.Visible = false;
             // 
@@ -210,8 +208,6 @@
             this.patchDetailsUserControl.Name = "patchDetailsUserControl";
             this.patchDetailsUserControl.Size = new System.Drawing.Size(615, 488);
             this.patchDetailsUserControl.TabIndex = 1;
-            this.patchDetailsUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.patchDetailsUserControl.TitleBarText = "Patch Details";
             this.patchDetailsUserControl.ViewModel = null;
             this.patchDetailsUserControl.Visible = false;
             // 
@@ -226,8 +222,6 @@
             this.midiMappingPropertiesUserControl.Name = "midiMappingPropertiesUserControl";
             this.midiMappingPropertiesUserControl.Size = new System.Drawing.Size(553, 488);
             this.midiMappingPropertiesUserControl.TabIndex = 1;
-            this.midiMappingPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.midiMappingPropertiesUserControl.TitleBarText = "MIDI Mapping Properties";
             this.midiMappingPropertiesUserControl.ViewModel = null;
             this.midiMappingPropertiesUserControl.Visible = false;
             // 
@@ -241,8 +235,6 @@
             this.libraryPropertiesUserControl.Name = "libraryPropertiesUserControl";
             this.libraryPropertiesUserControl.Size = new System.Drawing.Size(553, 488);
             this.libraryPropertiesUserControl.TabIndex = 1;
-            this.libraryPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.libraryPropertiesUserControl.TitleBarText = "Library Properties";
             this.libraryPropertiesUserControl.ViewModel = null;
             this.libraryPropertiesUserControl.Visible = false;
             // 
@@ -257,8 +249,6 @@
             this.operatorPropertiesUserControl_ForNumber.Name = "operatorPropertiesUserControl_ForNumber";
             this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(553, 488);
             this.operatorPropertiesUserControl_ForNumber.TabIndex = 1;
-            this.operatorPropertiesUserControl_ForNumber.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_ForNumber.TitleBarText = "Operator Properties";
             this.operatorPropertiesUserControl_ForNumber.ViewModel = null;
             this.operatorPropertiesUserControl_ForNumber.Visible = false;
             // 
@@ -273,8 +263,6 @@
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Name = "operatorPropertiesUserControl_WithCollectionRecalculation";
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Size = new System.Drawing.Size(553, 488);
             this.operatorPropertiesUserControl_WithCollectionRecalculation.TabIndex = 1;
-            this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleBarText = "Operator Properties";
             this.operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = null;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Visible = false;
             // 
@@ -289,8 +277,6 @@
             this.operatorPropertiesUserControl_ForInletsToDimension.Name = "operatorPropertiesUserControl_ForInletsToDimension";
             this.operatorPropertiesUserControl_ForInletsToDimension.Size = new System.Drawing.Size(553, 488);
             this.operatorPropertiesUserControl_ForInletsToDimension.TabIndex = 1;
-            this.operatorPropertiesUserControl_ForInletsToDimension.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_ForInletsToDimension.TitleBarText = "Operator Properties";
             this.operatorPropertiesUserControl_ForInletsToDimension.ViewModel = null;
             this.operatorPropertiesUserControl_ForInletsToDimension.Visible = false;
             // 
@@ -304,8 +290,6 @@
             this.audioOutputPropertiesUserControl.Name = "audioOutputPropertiesUserControl";
             this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(553, 488);
             this.audioOutputPropertiesUserControl.TabIndex = 1;
-            this.audioOutputPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.audioOutputPropertiesUserControl.TitleBarText = "Audio Output Properties";
             this.audioOutputPropertiesUserControl.ViewModel = null;
             this.audioOutputPropertiesUserControl.Visible = false;
             // 
@@ -320,8 +304,6 @@
             this.operatorPropertiesUserControl_ForCache.Name = "operatorPropertiesUserControl_ForCache";
             this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(553, 488);
             this.operatorPropertiesUserControl_ForCache.TabIndex = 1;
-            this.operatorPropertiesUserControl_ForCache.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_ForCache.TitleBarText = "Operator Properties";
             this.operatorPropertiesUserControl_ForCache.ViewModel = null;
             this.operatorPropertiesUserControl_ForCache.Visible = false;
             // 
@@ -336,8 +318,6 @@
             this.operatorPropertiesUserControl_WithInterpolation.Name = "operatorPropertiesUserControl_WithInterpolation";
             this.operatorPropertiesUserControl_WithInterpolation.Size = new System.Drawing.Size(553, 488);
             this.operatorPropertiesUserControl_WithInterpolation.TabIndex = 1;
-            this.operatorPropertiesUserControl_WithInterpolation.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_WithInterpolation.TitleBarText = "Operator Properties";
             this.operatorPropertiesUserControl_WithInterpolation.ViewModel = null;
             this.operatorPropertiesUserControl_WithInterpolation.Visible = false;
             // 
@@ -352,8 +332,6 @@
             this.nodePropertiesUserControl.Name = "nodePropertiesUserControl";
             this.nodePropertiesUserControl.Size = new System.Drawing.Size(553, 488);
             this.nodePropertiesUserControl.TabIndex = 1;
-            this.nodePropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.nodePropertiesUserControl.TitleBarText = "Node Properties";
             this.nodePropertiesUserControl.ViewModel = null;
             this.nodePropertiesUserControl.Visible = false;
             // 
@@ -368,8 +346,6 @@
             this.operatorPropertiesUserControl_ForCurve.Name = "operatorPropertiesUserControl_ForCurve";
             this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(553, 488);
             this.operatorPropertiesUserControl_ForCurve.TabIndex = 1;
-            this.operatorPropertiesUserControl_ForCurve.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_ForCurve.TitleBarText = "Operator Properties";
             this.operatorPropertiesUserControl_ForCurve.ViewModel = null;
             this.operatorPropertiesUserControl_ForCurve.Visible = false;
             // 
@@ -384,8 +360,6 @@
             this.scalePropertiesUserControl.Name = "scalePropertiesUserControl";
             this.scalePropertiesUserControl.Size = new System.Drawing.Size(553, 488);
             this.scalePropertiesUserControl.TabIndex = 1;
-            this.scalePropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.scalePropertiesUserControl.TitleBarText = "Scale Properties";
             this.scalePropertiesUserControl.ViewModel = null;
             this.scalePropertiesUserControl.Visible = false;
             // 
@@ -400,8 +374,6 @@
             this.operatorPropertiesUserControl_ForPatchInlet.Name = "operatorPropertiesUserControl_ForPatchInlet";
             this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(553, 488);
             this.operatorPropertiesUserControl_ForPatchInlet.TabIndex = 1;
-            this.operatorPropertiesUserControl_ForPatchInlet.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_ForPatchInlet.TitleBarText = "Operator Properties";
             this.operatorPropertiesUserControl_ForPatchInlet.ViewModel = null;
             this.operatorPropertiesUserControl_ForPatchInlet.Visible = false;
             // 
@@ -416,8 +388,6 @@
             this.documentPropertiesUserControl.Name = "documentPropertiesUserControl";
             this.documentPropertiesUserControl.Size = new System.Drawing.Size(553, 488);
             this.documentPropertiesUserControl.TabIndex = 1;
-            this.documentPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.documentPropertiesUserControl.TitleBarText = "Document Properties";
             this.documentPropertiesUserControl.ViewModel = null;
             this.documentPropertiesUserControl.Visible = false;
             // 
@@ -432,8 +402,6 @@
             this.operatorPropertiesUserControl.Name = "operatorPropertiesUserControl";
             this.operatorPropertiesUserControl.Size = new System.Drawing.Size(553, 488);
             this.operatorPropertiesUserControl.TabIndex = 1;
-            this.operatorPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl.TitleBarText = "Operator Properties";
             this.operatorPropertiesUserControl.ViewModel = null;
             this.operatorPropertiesUserControl.Visible = false;
             // 
@@ -448,8 +416,6 @@
             this.patchPropertiesUserControl.Name = "patchPropertiesUserControl";
             this.patchPropertiesUserControl.Size = new System.Drawing.Size(553, 488);
             this.patchPropertiesUserControl.TabIndex = 1;
-            this.patchPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.patchPropertiesUserControl.TitleBarText = "Patch Properties";
             this.patchPropertiesUserControl.ViewModel = null;
             this.patchPropertiesUserControl.Visible = false;
             // 
@@ -464,8 +430,6 @@
             this.audioFileOutputPropertiesUserControl.Name = "audioFileOutputPropertiesUserControl";
             this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(553, 488);
             this.audioFileOutputPropertiesUserControl.TabIndex = 1;
-            this.audioFileOutputPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.audioFileOutputPropertiesUserControl.TitleBarText = "Title";
             this.audioFileOutputPropertiesUserControl.ViewModel = null;
             this.audioFileOutputPropertiesUserControl.Visible = false;
             // 
@@ -480,8 +444,6 @@
             this.operatorPropertiesUserControl_ForSample.Name = "operatorPropertiesUserControl_ForSample";
             this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(553, 488);
             this.operatorPropertiesUserControl_ForSample.TabIndex = 1;
-            this.operatorPropertiesUserControl_ForSample.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_ForSample.TitleBarText = "Operator Properties";
             this.operatorPropertiesUserControl_ForSample.ViewModel = null;
             this.operatorPropertiesUserControl_ForSample.Visible = false;
             // 
@@ -496,8 +458,6 @@
             this.operatorPropertiesUserControl_ForPatchOutlet.Name = "operatorPropertiesUserControl_ForPatchOutlet";
             this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(553, 488);
             this.operatorPropertiesUserControl_ForPatchOutlet.TabIndex = 1;
-            this.operatorPropertiesUserControl_ForPatchOutlet.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_ForPatchOutlet.TitleBarText = "Operator Properties";
             this.operatorPropertiesUserControl_ForPatchOutlet.ViewModel = null;
             this.operatorPropertiesUserControl_ForPatchOutlet.Visible = false;
             // 

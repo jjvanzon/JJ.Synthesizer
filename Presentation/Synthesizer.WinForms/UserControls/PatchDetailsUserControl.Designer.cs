@@ -48,7 +48,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// 
 			// PatchDetailsUserControl
 			// 
-			this.AddToInstrumentButtonVisible = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -56,7 +55,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "PatchDetailsUserControl";
-			this.PlayButtonVisible = true;
 			this.Size = new System.Drawing.Size(713, 325);
 			this.Controls.SetChildIndex(this.diagramControl, 0);
 			this.ResumeLayout(false);

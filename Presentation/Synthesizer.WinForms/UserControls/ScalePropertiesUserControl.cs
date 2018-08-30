@@ -8,11 +8,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	internal partial class ScalePropertiesUserControl : PropertiesUserControlBase
 	{
-		public ScalePropertiesUserControl() => InitializeComponent();
+		public ScalePropertiesUserControl()
+	    {
+	        InitializeComponent();
 
-		// Gui
+            TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAddToInstrument.Visible = true;
+	    }
 
-		protected override void AddProperties()
+        // Gui
+
+        protected override void AddProperties()
 		{
 			AddProperty(labelName, textBoxName);
 			AddProperty(labelScaleType, comboBoxScaleType);
@@ -21,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void SetTitles()
 		{
-			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Scale);
+		    TitleBarUserControl.TitleBarElement.TitleLabel.Text = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Scale);
 			labelName.Text = CommonResourceFormatter.Name;
 			labelScaleType.Text = CommonResourceFormatter.Type;
 			labelBaseFrequency.Text = ResourceFormatter.BaseFrequency;

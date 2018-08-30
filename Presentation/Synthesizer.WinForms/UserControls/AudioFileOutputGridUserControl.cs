@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			InitializeComponent();
 
-			Title = ResourceFormatter.AudioFileOutputList;
+		    TitleBarUserControl.TitleBarElement.TitleLabel.Text = ResourceFormatter.AudioFileOutputList;
 			IDPropertyName = nameof(AudioFileOutputListItemViewModel.ID);
 			ColumnTitlesVisible = true;
 		}

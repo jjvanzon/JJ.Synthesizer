@@ -15,19 +15,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             UnderlyingPictureWrapper underlyingPictureWrapper)
             : base(parent)
         {
-            ButtonBarElement = new ButtonBarElement(this,toolTipElement, underlyingPictureWrapper)
-            {
-                AddButtonVisible = false,
-                BrowseButtonVisible = true,
-                CloneButtonVisible = true,
-                CloseButtonVisible = false,
-                RedoButtonVisible = true,
-                RefreshButtonVisible = true,
-                RenameButtonVisible = true,
-                SaveButtonVisible = true,
-                TreeStructureButtonVisible = true,
-                UndoButtonVisible = true
-            };
+            ButtonBarElement = new ButtonBarElement(this,toolTipElement, underlyingPictureWrapper);
+            ButtonBarElement.PictureButtonBrowse.Visible = true;
+            ButtonBarElement.PictureButtonClone.Visible = true;
+            ButtonBarElement.PictureButtonRedo.Visible = true;
+            ButtonBarElement.PictureButtonRefresh.Visible = true;
+            ButtonBarElement.PictureButtonRename.Visible = true;
+            ButtonBarElement.PictureButtonSave.Visible = true;
+            ButtonBarElement.PictureButtonTreeStructure.Visible = true;
+            ButtonBarElement.PictureButtonUndo.Visible = true;
 
             // DIRTY: Low priority: Coincidentally this is the max number of visible buttons in any given situation (currently).
             const int maxVisibleButtonCount = 11;
@@ -49,12 +45,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         protected override void ApplyViewModelToElements()
         {
             ButtonBarElement.Visible = ViewModel.Visible;
-            ButtonBarElement.AddToInstrumentButtonVisible = ViewModel.CanAddToInstrument;
-            ButtonBarElement.NewButtonVisible = ViewModel.CanCreate;
-            ButtonBarElement.CloneButtonVisible = ViewModel.CanClone;
-            ButtonBarElement.DeleteButtonVisible = ViewModel.CanDelete;
-            ButtonBarElement.ExpandButtonVisible = ViewModel.CanOpenExternally;
-            ButtonBarElement.PlayButtonVisible = ViewModel.CanPlay;
+            ButtonBarElement.PictureButtonAddToInstrument.Visible = ViewModel.CanAddToInstrument;
+            ButtonBarElement.PictureButtonNew.Visible = ViewModel.CanCreate;
+            ButtonBarElement.PictureButtonClone.Visible = ViewModel.CanClone;
+            ButtonBarElement.PictureButtonDelete.Visible = ViewModel.CanDelete;
+            ButtonBarElement.PictureButtonExpand.Visible = ViewModel.CanOpenExternally;
+            ButtonBarElement.PictureButtonPlay.Visible = ViewModel.CanPlay;
         }
 
         public override void PositionElements() => ButtonBarElement.PositionElements();

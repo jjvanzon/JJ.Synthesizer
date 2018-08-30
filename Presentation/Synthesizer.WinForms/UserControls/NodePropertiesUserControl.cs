@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			InitializeComponent();
 
-			ExpandButtonVisible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonExpand.Visible = true;
 		}
 
 		// Gui
@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void SetTitles()
 		{
-			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Node);
+            TitleBarUserControl.TitleBarElement.TitleLabel.Text = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Node);
 			labelX.Text = ResourceFormatter.X;
 			labelY.Text = ResourceFormatter.Y;
 			labelInterpolationType.Text = ResourceFormatter.Interpolation;

@@ -228,19 +228,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             topBarUserControl.TopBarElement.DocumentClosePictureButton.MouseDown += DocumentClosePictureButton_MouseDown;
 
-            _topButtonBarElement.ButtonBarElement.AddToInstrumentClicked += TopButtonBarElement_AddToInstrumentClicked;
-            _topButtonBarElement.ButtonBarElement.BrowseClicked += TopButtonBarElement_BrowseClicked;
-            _topButtonBarElement.ButtonBarElement.CloneClicked += TopButtonBarElement_CloneClicked;
-            _topButtonBarElement.ButtonBarElement.DeleteClicked += TopButtonBarElement_DeleteClicked;
-            _topButtonBarElement.ButtonBarElement.RenameClicked += TopButtonBarElement_RenameClicked;
-            _topButtonBarElement.ButtonBarElement.TreeStructureClicked += TopButtonBarElement_TreeStructureClicked;
-            _topButtonBarElement.ButtonBarElement.NewClicked += TopButtonBarElement_NewClicked;
-            _topButtonBarElement.ButtonBarElement.ExpandClicked += TopButtonBarElement_ExpandClicked;
-            _topButtonBarElement.ButtonBarElement.PlayClicked += TopButtonBarElement_PlayClicked;
-            _topButtonBarElement.ButtonBarElement.RedoClicked += TopButtonBarElement_RedoClicked;
-            _topButtonBarElement.ButtonBarElement.RefreshClicked += TopButtonBarElement_RefreshClicked;
-            _topButtonBarElement.ButtonBarElement.SaveClicked += TopButtonBarElement_SaveClicked;
-            _topButtonBarElement.ButtonBarElement.UndoClicked += TopButtonBarElement_UndoClicked;
+            _topButtonBarElement.ButtonBarElement.PictureButtonAddToInstrument.MouseDown += TopButtonBarElement_AddToInstrumentMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonBrowse.MouseDown += TopButtonBarElement_BrowseMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonClone.MouseDown += TopButtonBarElement_CloneMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonDelete.MouseDown += TopButtonBarElement_DeleteMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonRename.MouseDown += TopButtonBarElement_RenameMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonTreeStructure.MouseDown += TopButtonBarElement_TreeStructureMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonNew.MouseDown += TopButtonBarElement_NewMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonExpand.MouseDown += TopButtonBarElement_ExpandMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonPlay.MouseDown += TopButtonBarElement_PlayMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonRedo.MouseDown += TopButtonBarElement_RedoMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonRefresh.MouseDown += TopButtonBarElement_RefreshMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonSave.MouseDown += TopButtonBarElement_SaveMouseDown;
+            _topButtonBarElement.ButtonBarElement.PictureButtonUndo.MouseDown += TopButtonBarElement_UndoMouseDown;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
@@ -1124,7 +1124,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // TopButtonBar
 
-        private void TopButtonBarElement_AddToInstrumentClicked(object sender, EventArgs e)
+        private void TopButtonBarElement_AddToInstrumentMouseDown(object sender, EventArgs e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -1133,29 +1133,29 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void TopButtonBarElement_CloneClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Clone);
+        private void TopButtonBarElement_CloneMouseDown(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Clone);
 
-        private void TopButtonBarElement_DeleteClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Delete);
+        private void TopButtonBarElement_DeleteMouseDown(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Delete);
 
-        private void TopButtonBarElement_TreeStructureClicked(object sender, EventArgs e)
+        private void TopButtonBarElement_TreeStructureMouseDown(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.TopButtonBar_ShowOrCloseDocumentTree);
 
-        private void TopButtonBarElement_BrowseClicked(object sender, EventArgs e)
+        private void TopButtonBarElement_BrowseMouseDown(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.TopButtonBar_ShowDocumentGrid);
 
-        private void TopButtonBarElement_RenameClicked(object sender, EventArgs e)
+        private void TopButtonBarElement_RenameMouseDown(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.TopButtonBar_ShowDocumentProperties);
 
-        private void TopButtonBarElement_NewClicked(object sender, EventArgs e) 
+        private void TopButtonBarElement_NewMouseDown(object sender, EventArgs e) 
             => TemplateActionHandler(_mainPresenter.TopButtonBar_Create);
 
-        private void TopButtonBarElement_ExpandClicked(object sender, EventArgs e)
+        private void TopButtonBarElement_ExpandMouseDown(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.TopButtonBar_OpenItemExternally);
 
-        private void TopButtonBarElement_PlayClicked(object sender, EventArgs e)
+        private void TopButtonBarElement_PlayMouseDown(object sender, EventArgs e)
             => TemplateActionHandler(() => _mainPresenter.TopButtonBar_Play());
 
-        private void TopButtonBarElement_RefreshClicked(object sender, EventArgs e)
+        private void TopButtonBarElement_RefreshMouseDown(object sender, EventArgs e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -1163,11 +1163,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
 
-        private void TopButtonBarElement_RedoClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Redo);
+        private void TopButtonBarElement_RedoMouseDown(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Redo);
 
-        private void TopButtonBarElement_SaveClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Save);
+        private void TopButtonBarElement_SaveMouseDown(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Save);
 
-        private void TopButtonBarElement_UndoClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Undo);
+        private void TopButtonBarElement_UndoMouseDown(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Undo);
 
         // Scale
 

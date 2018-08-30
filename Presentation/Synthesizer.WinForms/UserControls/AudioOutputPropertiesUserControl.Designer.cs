@@ -165,7 +165,6 @@
 			this.Controls.Add(this.numericUpDownDesiredBufferDuration);
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "AudioOutputPropertiesUserControl";
-			this.PlayButtonVisible = true;
 			this.Size = new System.Drawing.Size(10, 10);
 			this.Controls.SetChildIndex(this.numericUpDownDesiredBufferDuration, 0);
 			this.Controls.SetChildIndex(this.labelDesiredBufferDuration, 0);

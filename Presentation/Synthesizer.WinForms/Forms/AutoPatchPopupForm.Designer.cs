@@ -41,7 +41,6 @@
 			this.patchDetailsUserControl.Name = "patchDetailsUserControl";
 			this.patchDetailsUserControl.Size = new System.Drawing.Size(1403, 751);
 			this.patchDetailsUserControl.TabIndex = 1;
-			this.patchDetailsUserControl.TitleBarText = "Patch Details";
 			this.patchDetailsUserControl.ViewModel = null;
 			// 
 			// AutoPatchPopupForm

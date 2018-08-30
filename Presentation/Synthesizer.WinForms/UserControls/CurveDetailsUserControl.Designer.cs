@@ -44,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// 
 			// CurveDetailsUserControl
 			// 
-			this.AddButtonVisible = true;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.diagramControl);
 			this.Name = "CurveDetailsUserControl";

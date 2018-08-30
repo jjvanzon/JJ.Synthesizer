@@ -11,16 +11,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			InitializeComponent();
 
-			DeleteButtonVisible = false;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonPlay.Visible = true;
 		}
 
-		// Gui
+        // Gui
 
-		protected override void AddProperties() => AddProperty(labelName, textBoxName);
+        protected override void AddProperties() => AddProperty(labelName, textBoxName);
 
 		protected override void SetTitles()
 		{
-			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Document);
+			TitleBarUserControl.TitleBarElement.TitleLabel.Text = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Document);
 			labelName.Text = CommonResourceFormatter.Name;
 		}
 

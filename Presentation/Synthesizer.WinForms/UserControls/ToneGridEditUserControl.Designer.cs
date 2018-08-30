@@ -67,22 +67,13 @@
 			// 
 			// titleBarUserControl
 			// 
-			this.titleBarUserControl.AddButtonVisible = true;
-			this.titleBarUserControl.AddToInstrumentButtonVisible = true;
 			this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
-			this.titleBarUserControl.CloseButtonVisible = true;
 			this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.titleBarUserControl.ExpandButtonVisible = false;
 			this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
 			this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
 			this.titleBarUserControl.Name = "titleBarUserControl";
-			this.titleBarUserControl.PlayButtonVisible = false;
-			this.titleBarUserControl.RedoButtonVisible = false;
-			this.titleBarUserControl.RefreshButtonVisible = false;
-			this.titleBarUserControl.SaveButtonVisible = false;
 			this.titleBarUserControl.Size = new System.Drawing.Size(623, 32);
 			this.titleBarUserControl.TabIndex = 8;
-			this.titleBarUserControl.UndoButtonVisible = false;
 			// 
 			// specializedDataGridView
 			// 

@@ -177,7 +177,6 @@
 			this.Controls.Add(this.textBoxGroup);
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "PatchPropertiesUserControl";
-			this.PlayButtonVisible = true;
 			this.Size = new System.Drawing.Size(487, 302);
 			this.Controls.SetChildIndex(this.textBoxGroup, 0);
 			this.Controls.SetChildIndex(this.textBoxName, 0);

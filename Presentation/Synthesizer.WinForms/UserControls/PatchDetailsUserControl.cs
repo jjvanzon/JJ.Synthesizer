@@ -44,15 +44,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			InitializeComponent();
 
-			ExpandButtonVisible = true;
-		    CloneButtonVisible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonAddToInstrument.Visible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonClone.Visible = true;
+            TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonExpand.Visible = true;
+		    TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonPlay.Visible = true;
 
-			_textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
+            _textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 		}
 
 		// Gui
 
-		protected override void SetTitles() => TitleBarText = CommonResourceFormatter.Details_WithName(ResourceFormatter.Patch);
+		protected override void SetTitles() => TitleBarUserControl.TitleBarElement.TitleLabel.Text = CommonResourceFormatter.Details_WithName(ResourceFormatter.Patch);
 
 		protected override void PositionControls()
 		{
@@ -77,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void ApplyViewModelToControls()
 		{
-			SaveButtonVisible = ViewModel.CanSave;
+            TitleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonSave.Visible = ViewModel.CanSave;
 
 			UnbindVectorGraphicsEvents();
 

@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void SetTitles()
 		{
-			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.MidiMapping);
+			TitleBarUserControl.TitleBarElement.TitleLabel.Text = CommonResourceFormatter.Properties_WithName(ResourceFormatter.MidiMapping);
 
 			labelMidiMappingType.Text = CommonResourceFormatter.Type;
 			labelMidiValues.Text = ResourceFormatter.MidiValues;

@@ -19,7 +19,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             InitializeComponent();
 
-            titleBarUserControl.TitleBarElement.ButtonBarElement.CloseClicked += titleBarUserControl_CloseClicked;
+            titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonClose.Visible = true;
+
+            titleBarUserControl.TitleBarElement.ButtonBarElement.PictureButtonClose.MouseDown += PictureButtonClose_MouseDown;
 
             SetTitles();
 
@@ -84,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
-        private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
+        private void PictureButtonClose_MouseDown(object sender, EventArgs e) => Close();
 
         private void buttonSave_Click(object sender, EventArgs e) => Save();
 
