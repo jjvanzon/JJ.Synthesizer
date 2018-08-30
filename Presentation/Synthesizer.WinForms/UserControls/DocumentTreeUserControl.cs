@@ -647,7 +647,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (viewModel.HasLighterStyle)
 			{
-				treeNode.ForeColor = StyleHelper.LightGray;
+				treeNode.ForeColor = StyleHelper.MediumGray;
 			}
 
 			return treeNode;
