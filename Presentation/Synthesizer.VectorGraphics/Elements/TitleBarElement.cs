@@ -34,8 +34,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
         // Positioning
 
-        public float ButtonBarWidth => ButtonBarElement.Position.Width;
-
         public void PositionElements()
         {
             ButtonBarElement.PositionElements();

@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
-        public int ButtonBarWidth => (int)TitleBarElement.ButtonBarWidth;
+        public int ButtonBarWidth => (int)TitleBarElement.ButtonBarElement.Position.Width;
 
         // Positioning
 
