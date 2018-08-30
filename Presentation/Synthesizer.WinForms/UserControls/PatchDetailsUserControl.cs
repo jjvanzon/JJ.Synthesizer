@@ -45,6 +45,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			InitializeComponent();
 
 			ExpandButtonVisible = true;
+		    CloneButtonVisible = true;
 
 			_textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 		}

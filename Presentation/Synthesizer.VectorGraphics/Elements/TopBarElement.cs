@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Resources;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
@@ -24,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
             TopButtonBarElement = new TopButtonBarElement(this, toolTipElement, underlyingPictureWrapper);
             InstrumentBarElement = new InstrumentBarElement(this, underlyingPictureWrapper, textMeasurer);
-            DocumentClosePictureButton = new PictureButtonElement(this, underlyingPictureWrapper.PictureClose, CommonResourceFormatter.Close, toolTipElement);
+            DocumentClosePictureButton = new PictureButtonElement(this, underlyingPictureWrapper.PictureClose, CommonResourceFormatter.Close_WithName(ResourceFormatter.Document), toolTipElement);
 
             TopButtonBarElement.Position.X = StyleHelper.SPACING_SMALL;
         }

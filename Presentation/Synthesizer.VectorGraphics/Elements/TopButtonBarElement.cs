@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             {
                 AddButtonVisible = false,
                 BrowseButtonVisible = true,
+                CloneButtonVisible = true,
                 CloseButtonVisible = false,
                 RedoButtonVisible = true,
                 RefreshButtonVisible = true,
@@ -29,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             };
 
             // DIRTY: Low priority: Coincidentally this is the max number of visible buttons in any given situation (currently).
-            const int maxVisibleButtonCount = 10;
+            const int maxVisibleButtonCount = 11;
             float width = ButtonBarElement.GetWidth(maxVisibleButtonCount);
             const float height = StyleHelper.ROW_HEIGHT;
 
@@ -50,9 +51,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             ButtonBarElement.Visible = ViewModel.Visible;
             ButtonBarElement.AddToInstrumentButtonVisible = ViewModel.CanAddToInstrument;
             ButtonBarElement.NewButtonVisible = ViewModel.CanCreate;
+            ButtonBarElement.CloneButtonVisible = ViewModel.CanClone;
+            ButtonBarElement.DeleteButtonVisible = ViewModel.CanDelete;
             ButtonBarElement.ExpandButtonVisible = ViewModel.CanOpenExternally;
             ButtonBarElement.PlayButtonVisible = ViewModel.CanPlay;
-            ButtonBarElement.DeleteButtonVisible = ViewModel.CanDelete;
         }
 
         public override void PositionElements() => ButtonBarElement.PositionElements();

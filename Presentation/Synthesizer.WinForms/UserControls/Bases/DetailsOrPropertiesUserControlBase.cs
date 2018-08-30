@@ -17,13 +17,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		private readonly TitleBarUserControl _titleBarUserControl;
 
 		public event EventHandler<EventArgs<int>> AddToInstrumentRequested;
+		public event EventHandler<EventArgs<int>> CloneRequested;
 		public event EventHandler<EventArgs<int>> CloseRequested;
+	    public event EventHandler<EventArgs<int>> DeleteRequested;
 		public event EventHandler<EventArgs<int>> ExpandRequested;
 		public event EventHandler<EventArgs<int>> NewRequested;
 		public event EventHandler<EventArgs<int>> LoseFocusRequested;
 		public event EventHandler<EventArgs<int>> SaveRequested;
 		public event EventHandler<EventArgs<int>> PlayRequested;
-		public event EventHandler<EventArgs<int>> DeleteRequested;
 
 		public event EventHandler AddRequested
 		{
@@ -42,6 +43,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			_titleBarUserControl = CreateTitleBarUserControl();
 			Controls.Add(_titleBarUserControl);
 			_titleBarUserControl.AddToInstrumentClicked += _titleBarUserControl_AddToInstrumentClicked;
+			_titleBarUserControl.CloneClicked += _titleBarUserControl_CloneClicked;
 			_titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
 			_titleBarUserControl.ExpandClicked += _titleBarUserControl_ExpandClicked;
 			_titleBarUserControl.NewClicked += _titleBarUserControl_NewClicked;
@@ -101,6 +103,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		{
 			get => _titleBarUserControl.AddToInstrumentButtonVisible;
 			set => _titleBarUserControl.AddToInstrumentButtonVisible = value;
+		}
+
+		[DefaultValue(false)]
+		protected bool CloneButtonVisible
+		{
+			get => _titleBarUserControl.CloneButtonVisible;
+			set => _titleBarUserControl.CloneButtonVisible = value;
 		}
 
 		protected bool CloseButtonVisible
@@ -213,7 +222,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 	    // Events
 
 		private void _titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested?.Invoke(sender, new EventArgs<int>(GetID()));
-		private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
+		private void _titleBarUserControl_CloneClicked(object sender, EventArgs e) => CloneRequested?.Invoke(this, new EventArgs<int>(GetID()));
+        private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
 		private void _titleBarUserControl_ExpandClicked(object sender, EventArgs e) => ExpandRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 		private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
 		private void _titleBarUserControl_DeleteClicked(object sender, EventArgs e) => Delete();
