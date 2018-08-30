@@ -83,10 +83,6 @@
 			this.titleBarUserControl.Size = new System.Drawing.Size(623, 32);
 			this.titleBarUserControl.TabIndex = 8;
 			this.titleBarUserControl.UndoButtonVisible = false;
-			this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
-			this.titleBarUserControl.AddToInstrumentClicked += new System.EventHandler(this.titleBarUserControl_AddToInstrumentClicked);
-			this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
-			this.titleBarUserControl.DeleteClicked += new System.EventHandler(this.titleBarUserControl_DeleteClicked);
 			// 
 			// specializedDataGridView
 			// 

@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
     internal partial class TitleBarUserControl : UserControl
     {
-        private readonly TitleBarElement _titleBarElement;
+        public TitleBarElement TitleBarElement { get; }
 
         public TitleBarUserControl()
         {
@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
             ITextMeasurer textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 
-            _titleBarElement = new TitleBarElement(
+            TitleBarElement = new TitleBarElement(
                 diagram.Background,
                 textMeasurer,
                 UnderlyingPictureHelper.UnderlyingPictureWrapper
@@ -40,8 +40,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public override string Text
         {
-            get => _titleBarElement.Text;
-            set => _titleBarElement.Text = value;
+            get => TitleBarElement.Text;
+            set => TitleBarElement.Text = value;
         }
 
         public override Color BackColor
@@ -60,70 +60,70 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public bool AddButtonVisible
         {
-            get => _titleBarElement.AddButtonVisible;
+            get => TitleBarElement.AddButtonVisible;
             set
             {
-                _titleBarElement.AddButtonVisible = value;
+                TitleBarElement.AddButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool AddToInstrumentButtonVisible
         {
-            get => _titleBarElement.AddToInstrumentButtonVisible;
+            get => TitleBarElement.AddToInstrumentButtonVisible;
             set
             {
-                _titleBarElement.AddToInstrumentButtonVisible = value;
+                TitleBarElement.AddToInstrumentButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool BrowseButtonVisible
         {
-            get => _titleBarElement.BrowseButtonVisible;
+            get => TitleBarElement.BrowseButtonVisible;
             set
             {
-                _titleBarElement.BrowseButtonVisible = value;
+                TitleBarElement.BrowseButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool CloneButtonVisible
         {
-            get => _titleBarElement.CloneButtonVisible;
+            get => TitleBarElement.CloneButtonVisible;
             set
             {
-                _titleBarElement.CloneButtonVisible = value;
+                TitleBarElement.CloneButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool CloseButtonVisible
         {
-            get => _titleBarElement.CloseButtonVisible;
+            get => TitleBarElement.CloseButtonVisible;
             set
             {
-                _titleBarElement.CloseButtonVisible = value;
+                TitleBarElement.CloseButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool DeleteButtonVisible
         {
-            get => _titleBarElement.DeleteButtonVisible;
+            get => TitleBarElement.DeleteButtonVisible;
             set
             {
-                _titleBarElement.DeleteButtonVisible = value;
+                TitleBarElement.DeleteButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool ExpandButtonVisible
         {
-            get => _titleBarElement.ExpandButtonVisible;
+            get => TitleBarElement.ExpandButtonVisible;
             set
             {
-                _titleBarElement.ExpandButtonVisible = value;
+                TitleBarElement.ExpandButtonVisible = value;
                 PositionControls();
             }
         }
@@ -131,85 +131,85 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         [DefaultValue(false)]
         public bool NewButtonVisible
         {
-            get => _titleBarElement.NewButtonVisible;
+            get => TitleBarElement.NewButtonVisible;
             set
             {
-                _titleBarElement.NewButtonVisible = value;
+                TitleBarElement.NewButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool PlayButtonVisible
         {
-            get => _titleBarElement.PlayButtonVisible;
+            get => TitleBarElement.PlayButtonVisible;
             set
             {
-                _titleBarElement.PlayButtonVisible = value;
+                TitleBarElement.PlayButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool RedoButtonVisible
         {
-            get => _titleBarElement.RedoButtonVisible;
+            get => TitleBarElement.RedoButtonVisible;
             set
             {
-                _titleBarElement.RedoButtonVisible = value;
+                TitleBarElement.RedoButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool RefreshButtonVisible
         {
-            get => _titleBarElement.RefreshButtonVisible;
+            get => TitleBarElement.RefreshButtonVisible;
             set
             {
-                _titleBarElement.RefreshButtonVisible = value;
+                TitleBarElement.RefreshButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool RenameButtonVisible
         {
-            get => _titleBarElement.RenameButtonVisible;
+            get => TitleBarElement.RenameButtonVisible;
             set
             {
-                _titleBarElement.RenameButtonVisible = value;
+                TitleBarElement.RenameButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool SaveButtonVisible
         {
-            get => _titleBarElement.SaveButtonVisible;
+            get => TitleBarElement.SaveButtonVisible;
             set
             {
-                _titleBarElement.SaveButtonVisible = value;
+                TitleBarElement.SaveButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool TreeStructureButtonVisible
         {
-            get => _titleBarElement.TreeStructureButtonVisible;
+            get => TitleBarElement.TreeStructureButtonVisible;
             set
             {
-                _titleBarElement.TreeStructureButtonVisible = value;
+                TitleBarElement.TreeStructureButtonVisible = value;
                 PositionControls();
             }
         }
 
         public bool UndoButtonVisible
         {
-            get => _titleBarElement.UndoButtonVisible;
+            get => TitleBarElement.UndoButtonVisible;
             set
             {
-                _titleBarElement.UndoButtonVisible = value;
+                TitleBarElement.UndoButtonVisible = value;
                 PositionControls();
             }
         }
 
-        public int ButtonBarWidth => (int)_titleBarElement.ButtonBarWidth;
+        public int ButtonBarWidth => (int)TitleBarElement.ButtonBarWidth;
 
         // Positioning
 
@@ -217,11 +217,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             diagramControl.Width = Width;
 
-            if (_titleBarElement != null)
+            if (TitleBarElement != null)
             {
-                _titleBarElement.Position.Width = Width;
-                _titleBarElement?.PositionElements();
-                Height = (int)_titleBarElement.Position.Height;
+                TitleBarElement.Position.Width = Width;
+                TitleBarElement?.PositionElements();
+                Height = (int)TitleBarElement.Position.Height;
             }
 
             diagramControl.Height = Height;
@@ -230,97 +230,5 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         private void TitleBarUserControl_Load(object sender, EventArgs e) => PositionControls();
         private void TitleBarUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
-
-        // Events
-
-        public event EventHandler AddClicked
-        {
-            add => _titleBarElement.AddClicked += value;
-            remove => _titleBarElement.AddClicked -= value;
-        }
-
-        public event EventHandler AddToInstrumentClicked
-        {
-            add => _titleBarElement.AddToInstrumentClicked += value;
-            remove => _titleBarElement.AddToInstrumentClicked -= value;
-        }
-
-        public event EventHandler BrowseClicked
-        {
-            add => _titleBarElement.BrowseClicked += value;
-            remove => _titleBarElement.BrowseClicked -= value;
-        }
-
-        public event EventHandler CloneClicked
-        {
-            add => _titleBarElement.CloneClicked += value;
-            remove => _titleBarElement.CloneClicked -= value;
-        }
-
-        public event EventHandler CloseClicked
-        {
-            add => _titleBarElement.CloseClicked += value;
-            remove => _titleBarElement.CloseClicked -= value;
-        }
-
-        public event EventHandler DeleteClicked
-        {
-            add => _titleBarElement.DeleteClicked += value;
-            remove => _titleBarElement.DeleteClicked -= value;
-        }
-
-        public event EventHandler ExpandClicked
-        {
-            add => _titleBarElement.ExpandClicked += value;
-            remove => _titleBarElement.ExpandClicked -= value;
-        }
-
-        public event EventHandler NewClicked
-        {
-            add => _titleBarElement.NewClicked += value;
-            remove => _titleBarElement.NewClicked -= value;
-        }
-
-        public event EventHandler PlayClicked
-        {
-            add => _titleBarElement.PlayClicked += value;
-            remove => _titleBarElement.PlayClicked -= value;
-        }
-
-        public event EventHandler RedoClicked
-        {
-            add => _titleBarElement.RedoClicked += value;
-            remove => _titleBarElement.RedoClicked -= value;
-        }
-
-        public event EventHandler RefreshClicked
-        {
-            add => _titleBarElement.RefreshClicked += value;
-            remove => _titleBarElement.RefreshClicked -= value;
-        }
-
-        public event EventHandler RenameClicked
-        {
-            add => _titleBarElement.RenameClicked += value;
-            remove => _titleBarElement.RenameClicked -= value;
-        }
-
-        public event EventHandler SaveClicked
-        {
-            add => _titleBarElement.SaveClicked += value;
-            remove => _titleBarElement.SaveClicked -= value;
-        }
-
-        public event EventHandler TreeStructureClicked
-        {
-            add => _titleBarElement.TreeStructureClicked += value;
-            remove => _titleBarElement.TreeStructureClicked -= value;
-        }
-
-        public event EventHandler UndoClicked
-        {
-            add => _titleBarElement.UndoClicked += value;
-            remove => _titleBarElement.UndoClicked -= value;
-        }
     }
 }

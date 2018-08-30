@@ -138,7 +138,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.titleBarUserControl.SaveButtonVisible = false;
 			this.titleBarUserControl.Size = new System.Drawing.Size(573, 26);
 			this.titleBarUserControl.TabIndex = 7;
-			this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
 			// 
 			// tableLayoutPanel1
 			// 

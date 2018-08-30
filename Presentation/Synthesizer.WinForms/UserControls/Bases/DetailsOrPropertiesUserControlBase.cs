@@ -28,8 +28,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 		public event EventHandler AddRequested
 		{
-			add => _titleBarUserControl.AddClicked += value;
-			remove => _titleBarUserControl.AddClicked -= value;
+			add => _titleBarUserControl.TitleBarElement.ButtonBarElement.AddClicked += value;
+			remove => _titleBarUserControl.TitleBarElement.ButtonBarElement.AddClicked -= value;
 		}
 
 		// ReSharper disable once MemberCanBeProtected.Global
@@ -42,30 +42,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 			_titleBarUserControl = CreateTitleBarUserControl();
 			Controls.Add(_titleBarUserControl);
-			_titleBarUserControl.AddToInstrumentClicked += _titleBarUserControl_AddToInstrumentClicked;
-			_titleBarUserControl.CloneClicked += _titleBarUserControl_CloneClicked;
-			_titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
-			_titleBarUserControl.ExpandClicked += _titleBarUserControl_ExpandClicked;
-			_titleBarUserControl.NewClicked += _titleBarUserControl_NewClicked;
-			_titleBarUserControl.SaveClicked += _titleBarUserControl_SaveClicked;
-			_titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
-			_titleBarUserControl.DeleteClicked += _titleBarUserControl_DeleteClicked;
+			_titleBarUserControl.TitleBarElement.ButtonBarElement.AddToInstrumentClicked += _titleBarUserControl_AddToInstrumentClicked;
+			_titleBarUserControl.TitleBarElement.ButtonBarElement.CloneClicked += _titleBarUserControl_CloneClicked;
+			_titleBarUserControl.TitleBarElement.ButtonBarElement.CloseClicked += _titleBarUserControl_CloseClicked;
+			_titleBarUserControl.TitleBarElement.ButtonBarElement.ExpandClicked += _titleBarUserControl_ExpandClicked;
+			_titleBarUserControl.TitleBarElement.ButtonBarElement.NewClicked += _titleBarUserControl_NewClicked;
+			_titleBarUserControl.TitleBarElement.ButtonBarElement.SaveClicked += _titleBarUserControl_SaveClicked;
+			_titleBarUserControl.TitleBarElement.ButtonBarElement.PlayClicked += _titleBarUserControl_PlayClicked;
+			_titleBarUserControl.TitleBarElement.ButtonBarElement.DeleteClicked += _titleBarUserControl_DeleteClicked;
 
 			_titleBarUserControl.DeleteButtonVisible = true;
-		}
-
-		~DetailsOrPropertiesUserControlBase()
-		{
-			if (_titleBarUserControl != null)
-			{
-				_titleBarUserControl.AddToInstrumentClicked -= _titleBarUserControl_AddToInstrumentClicked;
-				_titleBarUserControl.CloseClicked -= _titleBarUserControl_CloseClicked;
-				_titleBarUserControl.ExpandClicked -= _titleBarUserControl_ExpandClicked;
-				_titleBarUserControl.NewClicked -= _titleBarUserControl_NewClicked;
-				_titleBarUserControl.SaveClicked -= _titleBarUserControl_SaveClicked;
-				_titleBarUserControl.PlayClicked -= _titleBarUserControl_PlayClicked;
-				_titleBarUserControl.DeleteClicked -= _titleBarUserControl_DeleteClicked;
-			}
 		}
 
 		/// <summary> Executes SetTiltes, ApplyStyling, PositionControls and AutomaticallyAssignTabIndexes. </summary>

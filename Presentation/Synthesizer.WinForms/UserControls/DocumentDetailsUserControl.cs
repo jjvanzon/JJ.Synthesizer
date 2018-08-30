@@ -9,105 +9,107 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	internal partial class DocumentDetailsUserControl : UserControlBase
-	{
-		public event EventHandler SaveRequested;
-		public event EventHandler<EventArgs<int>> DeleteRequested;
-		public event EventHandler CloseRequested;
+    internal partial class DocumentDetailsUserControl : UserControlBase
+    {
+        public event EventHandler SaveRequested;
+        public event EventHandler<EventArgs<int>> DeleteRequested;
+        public event EventHandler CloseRequested;
 
-		public DocumentDetailsUserControl()
-		{
-			InitializeComponent();
+        public DocumentDetailsUserControl()
+        {
+            InitializeComponent();
 
-			SetTitles();
+            titleBarUserControl.TitleBarElement.ButtonBarElement.CloseClicked += titleBarUserControl_CloseClicked;
 
-			this.AutomaticallyAssignTabIndexes();
-		}
+            SetTitles();
 
-		// Gui
+            this.AutomaticallyAssignTabIndexes();
+        }
 
-		public new DocumentDetailsViewModel ViewModel
-		{
-			// ReSharper disable once MemberCanBePrivate.Global
-			get => (DocumentDetailsViewModel)base.ViewModel;
-			set => base.ViewModel = value;
-		}
+        // Gui
 
-		private void SetTitles()
-		{
-			titleBarUserControl.Text = ResourceFormatter.Document;
-			labelIDTitle.Text = CommonResourceFormatter.ID;
-			labelName.Text = CommonResourceFormatter.Name;
-			buttonSave.Text = CommonResourceFormatter.Save;
-			buttonDelete.Text = CommonResourceFormatter.Delete;
-		}
+        public new DocumentDetailsViewModel ViewModel
+        {
+            // ReSharper disable once MemberCanBePrivate.Global
+            get => (DocumentDetailsViewModel)base.ViewModel;
+            set => base.ViewModel = value;
+        }
 
-		protected override void ApplyViewModelToControls()
-		{
-			if (ViewModel == null) return;
+        private void SetTitles()
+        {
+            titleBarUserControl.Text = ResourceFormatter.Document;
+            labelIDTitle.Text = CommonResourceFormatter.ID;
+            labelName.Text = CommonResourceFormatter.Name;
+            buttonSave.Text = CommonResourceFormatter.Save;
+            buttonDelete.Text = CommonResourceFormatter.Delete;
+        }
 
-			labelIDValue.Text = ViewModel.Document.ID.ToString();
-			textBoxName.Text = ViewModel.Document.Name;
+        protected override void ApplyViewModelToControls()
+        {
+            if (ViewModel == null) return;
 
-			labelIDTitle.Visible = ViewModel.IDVisible;
-			labelIDValue.Visible = ViewModel.IDVisible;
+            labelIDValue.Text = ViewModel.Document.ID.ToString();
+            textBoxName.Text = ViewModel.Document.Name;
 
-			buttonDelete.Visible = ViewModel.CanDelete;
-		}
+            labelIDTitle.Visible = ViewModel.IDVisible;
+            labelIDValue.Visible = ViewModel.IDVisible;
 
-		private void ApplyControlsToViewModel()
-		{
-			if (ViewModel == null) return;
+            buttonDelete.Visible = ViewModel.CanDelete;
+        }
 
-			ViewModel.Document.Name = textBoxName.Text;
-		}
+        private void ApplyControlsToViewModel()
+        {
+            if (ViewModel == null) return;
 
-		// Actions
+            ViewModel.Document.Name = textBoxName.Text;
+        }
 
-		private void Save()
-		{
-			ApplyControlsToViewModel();
-			SaveRequested?.Invoke(this, EventArgs.Empty);
-		}
+        // Actions
 
-		private void Close() => CloseRequested?.Invoke(this, EventArgs.Empty);
+        private void Save()
+        {
+            ApplyControlsToViewModel();
+            SaveRequested?.Invoke(this, EventArgs.Empty);
+        }
 
-	    private void Delete()
-		{
-			if (ViewModel == null) return;
+        private void Close() => CloseRequested?.Invoke(this, EventArgs.Empty);
 
-			var e = new EventArgs<int>(ViewModel.Document.ID);
-			DeleteRequested?.Invoke(this, e);
-		}
+        private void Delete()
+        {
+            if (ViewModel == null) return;
 
-		// Events
+            var e = new EventArgs<int>(ViewModel.Document.ID);
+            DeleteRequested?.Invoke(this, e);
+        }
 
-		private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
+        // Events
 
-	    private void buttonSave_Click(object sender, EventArgs e) => Save();
+        private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
 
-	    private void buttonDelete_Click(object sender, EventArgs e) => Delete();
+        private void buttonSave_Click(object sender, EventArgs e) => Save();
 
-	    private void DocumentDetailsUserControl_VisibleChanged(object sender, EventArgs e)
-		{
-			// ReSharper disable once InvertIf
-			if (Visible)
-			{
-				textBoxName.Focus();
-				textBoxName.Select(0, 0);
-			}
-		}
+        private void buttonDelete_Click(object sender, EventArgs e) => Delete();
 
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-		{
-			// ReSharper disable once InvertIf
-			if (keyData == Keys.Enter)
-			{
-				buttonSave.PerformClick();
-				return true;
-			}
+        private void DocumentDetailsUserControl_VisibleChanged(object sender, EventArgs e)
+        {
+            // ReSharper disable once InvertIf
+            if (Visible)
+            {
+                textBoxName.Focus();
+                textBoxName.Select(0, 0);
+            }
+        }
 
-			return base.ProcessCmdKey(ref msg, keyData);
-		}
-	}
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            // ReSharper disable once InvertIf
+            if (keyData == Keys.Enter)
+            {
+                buttonSave.PerformClick();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+    }
 }

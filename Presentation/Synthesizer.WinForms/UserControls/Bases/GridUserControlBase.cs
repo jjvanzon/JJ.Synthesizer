@@ -96,11 +96,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 				Name = nameof(_titleBarUserControl)
 			};
 
-			titleBarUserControl.AddClicked += _titleBarUserControl_AddClicked;
-			titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
-			titleBarUserControl.ExpandClicked += _titleBarUserControl_OpenClicked;
-			titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
-			titleBarUserControl.DeleteClicked += TitleBarUserControl_DeleteClicked;
+			titleBarUserControl.TitleBarElement.ButtonBarElement.AddClicked += _titleBarUserControl_AddClicked;
+			titleBarUserControl.TitleBarElement.ButtonBarElement.CloseClicked += _titleBarUserControl_CloseClicked;
+			titleBarUserControl.TitleBarElement.ButtonBarElement.ExpandClicked += _titleBarUserControl_OpenClicked;
+			titleBarUserControl.TitleBarElement.ButtonBarElement.PlayClicked += _titleBarUserControl_PlayClicked;
+			titleBarUserControl.TitleBarElement.ButtonBarElement.DeleteClicked += TitleBarUserControl_DeleteClicked;
 
 			return titleBarUserControl;
 		}
