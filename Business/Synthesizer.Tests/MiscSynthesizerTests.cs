@@ -16,6 +16,8 @@ using JJ.Framework.Common;
 using JJ.Framework.Data;
 using JJ.Framework.Testing.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+// ReSharper disable once RedundantUsingDirective
+using static JJ.Business.Synthesizer.Helpers.SystemPatchNames;
 
 // ReSharper disable SuggestVarOrType_SimpleTypes
 // ReSharper disable UnusedVariable
@@ -46,7 +48,7 @@ namespace JJ.Business.Synthesizer.Tests
                         var x = new OperatorFactory(patch, repositories);
 
                         var add = x.Add(x.Number(2), x.Number(3));
-                        var subtract = x.Subtract(add, x.Number(1));
+                        var subtract = x.New(nameof(Subtract), add, x.Number(1));
 
                         IPatchCalculator calculator1 = patchFacade.CreateCalculator(
                             add,
@@ -138,9 +140,9 @@ namespace JJ.Business.Synthesizer.Tests
                         Patch patch = patchFacade.CreatePatch();
                         var x = new OperatorFactory(patch, repositories);
 
-                        var subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
+                        var subtract = x.New(nameof(Subtract), x.Add(x.Number(2), x.Number(3)), x.Number(1));
 
-                        var subtract2 = x.Subtract(
+                        var subtract2 = x.New(nameof(Subtract),
                             x.Add(
                                 x.Number(2),
                                 x.Number(3)
@@ -162,7 +164,6 @@ namespace JJ.Business.Synthesizer.Tests
                         var patchFacade = new PatchFacade(repositories);
                         Patch patch = patchFacade.CreatePatch();
                         var x = new OperatorFactory(patch, repositories);
-
                         var outlet = x.MultiplyWithOrigin(x.Curve(1, DimensionEnum.Time, "", 0, 1, 0.8, null, null, 0.8, 0), x.Sine(x.Number(440)));
 
                         CultureHelper.SetCurrentCultureName("nl-NL");

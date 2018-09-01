@@ -16,11 +16,10 @@ using JJ.Framework.Business;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.IO;
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedMember.Global
 
 namespace JJ.Business.Synthesizer
 {
+    /// <summary> TODO: Refactor away more and more specific methods and use generic ones instead. </summary>
 	public class OperatorFactory
 	{
 		private readonly Patch _patch;
@@ -41,44 +40,11 @@ namespace JJ.Business.Synthesizer
 			_systemFacade = new SystemFacade(repositories.DocumentRepository);
 		}
 
-		public OperatorWrapper Absolute(Outlet number = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Number] = number;
-
-			return wrapper;
-		}
-
 		public OperatorWrapper Add(params Outlet[] items) => Add((IList<Outlet>)items);
 
 	    public OperatorWrapper Add(IList<Outlet> items) => NewWithItemInlets(items);
 
-	    public OperatorWrapper AllPassFilter(
-			Outlet sound = null,
-			Outlet centerFrequency = null,
-			Outlet width = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Sound] = sound;
-			wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
-			wrapper.Inputs[DimensionEnum.Width] = width;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper And(Outlet a = null, Outlet b = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper AverageFollower(
+	    private OperatorWrapper AverageFollower(
 			Outlet signal = null,
 			Outlet sliceLength = null,
 			Outlet sampleCount = null,
@@ -91,7 +57,7 @@ namespace JJ.Business.Synthesizer
 		        standardDimension,
 		        customDimension);
 
-	    public OperatorWrapper_WithCollectionRecalculation AverageOverDimension(
+	    private OperatorWrapper_WithCollectionRecalculation AverageOverDimension(
 			Outlet signal = null,
 			Outlet from = null,
 			Outlet till = null,
@@ -108,39 +74,9 @@ namespace JJ.Business.Synthesizer
 	            customDimension,
 	            collectionRecalculation);
 
-	    public OperatorWrapper AverageOverInlets(params Outlet[] operands) => AverageOverInlets((IList<Outlet>)operands);
+	    private OperatorWrapper AverageOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
 
-	    public OperatorWrapper AverageOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
-
-	    public OperatorWrapper BandPassFilterConstantPeakGain(
-			Outlet sound = null,
-			Outlet centerFrequency = null,
-			Outlet width = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Sound] = sound;
-			wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
-			wrapper.Inputs[DimensionEnum.Width] = width;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper BandPassFilterConstantTransitionGain(
-			Outlet sound = null,
-			Outlet centerFrequency = null,
-			Outlet width = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Sound] = sound;
-			wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
-			wrapper.Inputs[DimensionEnum.Width] = width;
-
-			return wrapper;
-		}
-
-		public Cache_OperatorWrapper Cache(
+	    private Cache_OperatorWrapper Cache(
 			Outlet signal = null,
 			Outlet start = null,
 			Outlet end = null,
@@ -163,17 +99,7 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public OperatorWrapper ChangeTrigger(Outlet passThrough = null, Outlet reset = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
-			wrapper.Inputs[DimensionEnum.Reset] = reset;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper_WithCollectionRecalculation ClosestOverDimension(
+	    private OperatorWrapper_WithCollectionRecalculation ClosestOverDimension(
 			Outlet input = null,
 			Outlet collection = null,
 			Outlet from = null,
@@ -192,7 +118,7 @@ namespace JJ.Business.Synthesizer
 		        customDimension,
 		        collectionRecalculation);
 
-	    public OperatorWrapper_WithCollectionRecalculation ClosestOverDimensionExp(
+	    private OperatorWrapper_WithCollectionRecalculation ClosestOverDimensionExp(
 			Outlet input = null,
 			Outlet collection = null,
 			Outlet from = null,
@@ -211,15 +137,11 @@ namespace JJ.Business.Synthesizer
 	            customDimension,
 	            collectionRecalculation);
 
-	    public OperatorWrapper ClosestOverInlets(Outlet input, params Outlet[] items) => ClosestOverInlets(input, (IList<Outlet>)items);
+	    private OperatorWrapper ClosestOverInlets(Outlet input, IList<Outlet> items) => NewWithInputAndItemsInlets(input, items);
 
-	    public OperatorWrapper ClosestOverInlets(Outlet input, IList<Outlet> items) => NewWithInputAndItemsInlets(input, items);
+	    private OperatorWrapper ClosestOverInletsExp(Outlet input, IList<Outlet> items) => NewWithInputAndItemsInlets(input, items);
 
-	    public OperatorWrapper ClosestOverInletsExp(Outlet input, params Outlet[] items) => ClosestOverInletsExp(input, (IList<Outlet>)items);
-
-	    public OperatorWrapper ClosestOverInletsExp(Outlet input, IList<Outlet> items) => NewWithInputAndItemsInlets(input, items);
-
-	    public OperatorWrapper Curve(
+	    private OperatorWrapper Curve(
 			DimensionEnum? standardDimension = null,
 			string customDimension = null)
 		{
@@ -246,7 +168,7 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public OperatorWrapper Curve(
+	    private OperatorWrapper Curve(
 			double xSpan,
 			DimensionEnum? standardDimension = null,
 			string customDimension = null,
@@ -276,37 +198,7 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public OperatorWrapper DimensionToOutlets(Outlet signal, DimensionEnum standardDimension, string customDimension, int outletCount) => DimensionToOutletsPrivate(signal, standardDimension, customDimension, outletCount);
-
-	    public OperatorWrapper DimensionToOutlets(Outlet signal, DimensionEnum standardDimension, string customDimension) => DimensionToOutletsPrivate(signal, standardDimension, customDimension, null);
-
-	    public OperatorWrapper DimensionToOutlets(Outlet signal, DimensionEnum standardDimension, int outletCount) => DimensionToOutletsPrivate(signal, standardDimension, null, outletCount);
-
-	    public OperatorWrapper DimensionToOutlets(Outlet signal, DimensionEnum standardDimension) => DimensionToOutletsPrivate(signal, standardDimension, null, null);
-
-	    public OperatorWrapper DimensionToOutlets(Outlet signal, string customDimension, int outletCount) => DimensionToOutletsPrivate(signal, null, customDimension, outletCount);
-
-	    public OperatorWrapper DimensionToOutlets(Outlet signal, string customDimension) => DimensionToOutletsPrivate(signal, null, customDimension, null);
-
-	    public OperatorWrapper DimensionToOutlets(Outlet signal, int outletCount) => DimensionToOutletsPrivate(signal, null, null, outletCount);
-
-	    public OperatorWrapper DimensionToOutlets(Outlet signal) => DimensionToOutletsPrivate(signal, null, null, null);
-
-	    public OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension, int outletCount) => DimensionToOutletsPrivate(null, standardDimension, customDimension, outletCount);
-
-	    public OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension) => DimensionToOutletsPrivate(null, standardDimension, customDimension, null);
-
-	    public OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, int outletCount) => DimensionToOutletsPrivate(null, standardDimension, null, outletCount);
-
-	    public OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension) => DimensionToOutletsPrivate(null, standardDimension, null, null);
-
-	    public OperatorWrapper DimensionToOutlets(int outletCount, string customDimension) => DimensionToOutletsPrivate(null, null, customDimension, outletCount);
-
-	    public OperatorWrapper DimensionToOutlets(string customDimension) => DimensionToOutletsPrivate(null, null, customDimension, null);
-
-	    public OperatorWrapper DimensionToOutlets(int outletCount) => DimensionToOutletsPrivate(null, null, null, outletCount);
-
-	    public OperatorWrapper DimensionToOutlets() => DimensionToOutletsPrivate(null, null, null, null);
+	    private OperatorWrapper DimensionToOutlets(Outlet signal, int outletCount) => DimensionToOutletsPrivate(signal, null, null, outletCount);
 
 	    private OperatorWrapper DimensionToOutletsPrivate(
 			Outlet signal,
@@ -314,7 +206,7 @@ namespace JJ.Business.Synthesizer
 			string customDimension,
 			int? outletCount)
 		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
+			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension, nameof(SystemPatchNames.DimensionToOutlets));
 			Operator op = wrapper.WrappedOperator;
 
 			// OutletCount
@@ -326,147 +218,7 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public OperatorWrapper Divide(Outlet a = null, Outlet b = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper DivideWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
-			wrapper.Inputs[DimensionEnum.Origin] = origin;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Equal(Outlet a = null, Outlet b = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Low] = low;
-			wrapper.Inputs[DimensionEnum.High] = high;
-			wrapper.Inputs[DimensionEnum.Ratio] = ratio;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper GetPosition(DimensionEnum? standardDimension = null, string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-			return wrapper;
-		}
-
-		public OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper GreaterThanOrEqual(Outlet a = null, Outlet b = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper HighPassFilter(
-			Outlet sound = null,
-			Outlet minFrequency = null,
-			Outlet blobVolume = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Sound] = sound;
-			wrapper.Inputs[DimensionEnum.Frequency] = minFrequency;
-			wrapper.Inputs[DimensionEnum.BlobVolume] = blobVolume;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper HighShelfFilter(
-			Outlet sound = null,
-			Outlet transitionFrequency = null,
-			Outlet transitionSlope = null,
-			Outlet dbGain = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Sound] = sound;
-			wrapper.Inputs[DimensionEnum.Frequency] = transitionFrequency;
-			wrapper.Inputs[DimensionEnum.Slope] = transitionSlope;
-			wrapper.Inputs[DimensionEnum.Decibel] = dbGain;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Hold(Outlet signal = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Signal] = signal;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper If(Outlet condition = null, Outlet then = null, Outlet @else = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Condition] = condition;
-			wrapper.Inputs[DimensionEnum.Then] = then;
-			wrapper.Inputs[DimensionEnum.Else] = @else;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper_WithInterpolation InletsToDimension(
-			InterpolationTypeEnum interpolation,
-			DimensionEnum standardDimension,
-			params Outlet[] items)
-		    => InletsToDimensionPrivate(items, interpolation, standardDimension);
-
-	    public OperatorWrapper_WithInterpolation InletsToDimension(InterpolationTypeEnum interpolation, params Outlet[] items) => InletsToDimensionPrivate(items, interpolation, null);
-
-	    public OperatorWrapper_WithInterpolation InletsToDimension(DimensionEnum standardDimension, params Outlet[] items) => InletsToDimensionPrivate(items, null, standardDimension);
-
-	    public OperatorWrapper_WithInterpolation InletsToDimension(params Outlet[] items) => InletsToDimensionPrivate(items, null, null);
-
-	    public OperatorWrapper_WithInterpolation InletsToDimension(
-			IList<Outlet> items,
-			InterpolationTypeEnum interpolation,
-			DimensionEnum standardDimension)
-	        => InletsToDimensionPrivate(items, interpolation, standardDimension);
-
-	    public OperatorWrapper_WithInterpolation InletsToDimension(IList<Outlet> items, InterpolationTypeEnum interpolation) => InletsToDimensionPrivate(items, interpolation, null);
-
-	    public OperatorWrapper_WithInterpolation InletsToDimension(IList<Outlet> items, DimensionEnum standardDimension) => InletsToDimensionPrivate(items, null, standardDimension);
-
-	    public OperatorWrapper_WithInterpolation InletsToDimension(IList<Outlet> items) => InletsToDimensionPrivate(items, null, null);
+	    private OperatorWrapper_WithInterpolation InletsToDimension(params Outlet[] items) => InletsToDimensionPrivate(items, null, null);
 
 	    private OperatorWrapper_WithInterpolation InletsToDimensionPrivate(
 			IList<Outlet> items,
@@ -476,7 +228,7 @@ namespace JJ.Business.Synthesizer
 		{
 			if (items == null) throw new NullException(() => items);
 
-			Operator op = NewWithDimension(standardDimension, customDimension);
+			Operator op = NewWithDimension(standardDimension, customDimension, nameof(InletsToDimension));
 
 			var wrapper = new OperatorWrapper_WithInterpolation(op)
 			{
@@ -484,7 +236,9 @@ namespace JJ.Business.Synthesizer
 			};
 
 			// Items
-			wrapper.Inputs.SetMany(DimensionEnum.Item, items);
+		    VoidResult setOperatorInletCountResult = _patchFacade.SetOperatorInletCount(op, items.Count);
+		    setOperatorInletCountResult.Assert();
+		    wrapper.Inputs.SetMany(DimensionEnum.Item, items);
 
 			return wrapper;
 		}
@@ -508,83 +262,9 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public OperatorWrapper LessThan(Outlet a = null, Outlet b = null)
-		{
-			OperatorWrapper wrapper = NewBase();
+	    private OperatorWrapper MaxOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
 
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper LessThanOrEqual(Outlet a = null, Outlet b = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Loop(
-			Outlet signal = null,
-			Outlet skip = null,
-			Outlet loopStartMarker = null,
-			Outlet loopEndMarker = null,
-			Outlet releaseEndMarker = null,
-			Outlet noteDuration = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-
-			wrapper.Inputs[DimensionEnum.Signal] = signal;
-			wrapper.Inputs[DimensionEnum.Skip] = skip;
-			wrapper.Inputs[DimensionEnum.LoopStartMarker] = loopStartMarker;
-			wrapper.Inputs[DimensionEnum.LoopEndMarker] = loopEndMarker;
-			wrapper.Inputs[DimensionEnum.ReleaseEndMarker] = releaseEndMarker;
-			wrapper.Inputs[DimensionEnum.NoteDuration] = noteDuration;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper LowPassFilter(
-			Outlet sound = null,
-			Outlet maxFrequency = null,
-			Outlet blobVolume = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Sound] = sound;
-			wrapper.Inputs[DimensionEnum.Frequency] = maxFrequency;
-			wrapper.Inputs[DimensionEnum.BlobVolume] = blobVolume;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper LowShelfFilter(
-			Outlet sound = null,
-			Outlet transitionFrequency = null,
-			Outlet transitionSlope = null,
-			Outlet dbGain = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Sound] = sound;
-			wrapper.Inputs[DimensionEnum.Frequency] = transitionFrequency;
-			wrapper.Inputs[DimensionEnum.Slope] = transitionSlope;
-			wrapper.Inputs[DimensionEnum.Decibel] = dbGain;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper MaxOverInlets(params Outlet[] items) => MaxOverInlets((IList<Outlet>)items);
-
-	    public OperatorWrapper MaxOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
-
-	    public OperatorWrapper MaxFollower(
+	    private OperatorWrapper MaxFollower(
 			Outlet signal = null,
 			Outlet sliceLength = null,
 			Outlet sampleCount = null,
@@ -592,7 +272,7 @@ namespace JJ.Business.Synthesizer
 			string customDimension = null)
 	        => NewForAggregateFollower(signal, sliceLength, sampleCount, standardDimension, customDimension);
 
-	    public OperatorWrapper_WithCollectionRecalculation MaxOverDimension(
+	    private OperatorWrapper_WithCollectionRecalculation MaxOverDimension(
 			Outlet signal = null,
 			Outlet from = null,
 			Outlet till = null,
@@ -609,11 +289,9 @@ namespace JJ.Business.Synthesizer
 	            customDimension,
 	            collectionRecalculation);
 
-	    public OperatorWrapper MinOverInlets(params Outlet[] items) => MinOverInlets((IList<Outlet>)items);
+	    private OperatorWrapper MinOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
 
-	    public OperatorWrapper MinOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
-
-	    public OperatorWrapper MinFollower(
+	    private OperatorWrapper MinFollower(
 			Outlet signal = null,
 			Outlet sliceLength = null,
 			Outlet sampleCount = null,
@@ -621,7 +299,7 @@ namespace JJ.Business.Synthesizer
 			string customDimension = null)
 	        => NewForAggregateFollower(signal, sliceLength, sampleCount, standardDimension, customDimension);
 
-	    public OperatorWrapper_WithCollectionRecalculation MinOverDimension(
+	    private OperatorWrapper_WithCollectionRecalculation MinOverDimension(
 			Outlet signal = null,
 			Outlet from = null,
 			Outlet till = null,
@@ -640,66 +318,22 @@ namespace JJ.Business.Synthesizer
 
 	    public OperatorWrapper Multiply(params Outlet[] items) => Multiply((IList<Outlet>)items);
 
-	    public OperatorWrapper Multiply(IList<Outlet> items) => NewWithItemInlets(items);
-
+	    private OperatorWrapper Multiply(IList<Outlet> items) => NewWithItemInlets(items);
 	    public OperatorWrapper MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
-		{
-			OperatorWrapper wrapper = NewBase();
+	    {
+	        OperatorWrapper wrapper = NewBase();
 
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
-			wrapper.Inputs[DimensionEnum.Origin] = origin;
+	        wrapper.Inputs[DimensionEnum.A] = a;
+	        wrapper.Inputs[DimensionEnum.B] = b;
+	        wrapper.Inputs[DimensionEnum.Origin] = origin;
 
-			return wrapper;
-		}
-
-		public OperatorWrapper Negative(Outlet number = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Number] = number;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Noise(
+	        return wrapper;
+	    }
+        public OperatorWrapper Noise(
 			DimensionEnum? standardDimension = null,
 			string customDimension = null)
 		{
 			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-			return wrapper;
-		}
-
-		public OperatorWrapper Not(Outlet yesNo = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.YesNo] = yesNo;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper NotchFilter(
-			Outlet sound = null,
-			Outlet centerFrequency = null,
-			Outlet width = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Sound] = sound;
-			wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
-			wrapper.Inputs[DimensionEnum.Width] = width;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper NotEqual(Outlet a = null, Outlet b = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
-
 			return wrapper;
 		}
 
@@ -708,25 +342,6 @@ namespace JJ.Business.Synthesizer
 			Operator op = NewBase();
 
 			var wrapper = new Number_OperatorWrapper(op) { Number = number };
-
-			return wrapper;
-		}
-
-		public OperatorWrapper OneOverX(Outlet number = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Number] = number;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Or(Outlet a = null, Outlet b = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
 
 			return wrapper;
 		}
@@ -752,25 +367,7 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public PatchInletOrOutlet_OperatorWrapper PatchInlet(string name)
-		{
-			PatchInletOrOutlet_OperatorWrapper wrapper = PatchInlet();
-			wrapper.Inlet.Name = name;
-
-			return wrapper;
-		}
-
-		public PatchInletOrOutlet_OperatorWrapper PatchInlet(string name, double defaultValue)
-		{
-			PatchInletOrOutlet_OperatorWrapper wrapper = PatchInlet();
-
-			wrapper.Inlet.Name = name;
-			wrapper.Inlet.DefaultValue = defaultValue;
-
-			return wrapper;
-		}
-
-		public PatchInletOrOutlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
+	    public PatchInletOrOutlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
 		{
 			PatchInletOrOutlet_OperatorWrapper wrapper = PatchInlet();
 
@@ -803,66 +400,7 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public PatchInletOrOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
-		{
-			PatchInletOrOutlet_OperatorWrapper wrapper = PatchOutlet(input);
-
-			wrapper.Outlet.Name = name;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper PeakingEQFilter(
-			Outlet sound = null,
-			Outlet centerFrequency = null,
-			Outlet width = null,
-			Outlet dbGain = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Sound] = sound;
-			wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
-			wrapper.Inputs[DimensionEnum.Width] = width;
-			wrapper.Inputs[DimensionEnum.Decibel] = dbGain;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Base] = @base;
-			wrapper.Inputs[DimensionEnum.Exponent] = exponent;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Pulse(
-			Outlet frequency = null,
-			Outlet width = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-
-			wrapper.Inputs[DimensionEnum.Frequency] = frequency;
-			wrapper.Inputs[DimensionEnum.Width] = width;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper PulseTrigger(Outlet passThrough = null, Outlet reset = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
-			wrapper.Inputs[DimensionEnum.Reset] = reset;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper_WithInterpolation Random(
+	    private OperatorWrapper_WithInterpolation Random(
 			Outlet rate = null,
 			InterpolationTypeEnum interpolationType = InterpolationTypeEnum.Stripe,
 			DimensionEnum? standardDimension = null,
@@ -877,23 +415,7 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public OperatorWrapper RangeOverDimension(
-			Outlet from = null,
-			Outlet till = null,
-			Outlet step = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-
-			wrapper.Inputs[DimensionEnum.From] = from;
-			wrapper.Inputs[DimensionEnum.Till] = till;
-			wrapper.Inputs[DimensionEnum.Step] = step;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper RangeOverOutlets(
+	    private OperatorWrapper RangeOverOutlets(
 			Outlet from = null,
 			Outlet step = null,
 			int? outletCount = null)
@@ -913,7 +435,7 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public Reset_OperatorWrapper Reset(Outlet passThrough = null, int? position = null)
+	    private Reset_OperatorWrapper Reset(Outlet passThrough = null, int? position = null)
 		{
 			Operator op = NewBase();
 
@@ -924,32 +446,7 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public OperatorWrapper Reverse(
-			Outlet signal = null,
-			Outlet factor = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-
-			wrapper.Inputs[DimensionEnum.Signal] = signal;
-			wrapper.Inputs[DimensionEnum.Factor] = factor;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Round(Outlet signal = null, Outlet step = null, Outlet offset = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.Signal] = signal;
-			wrapper.Inputs[DimensionEnum.Step] = step;
-			wrapper.Inputs[DimensionEnum.Offset] = offset;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Sample(
+	    private OperatorWrapper Sample(
 			Stream stream,
 			Outlet frequency = null,
 			DimensionEnum? standardDimension = null,
@@ -982,66 +479,11 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public OperatorWrapper SawDown(
-			Outlet frequency = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		    => NewWithFrequency(frequency, standardDimension, customDimension);
-
 	    public OperatorWrapper SawUp(
 			Outlet frequency = null,
 			DimensionEnum? standardDimension = null,
 			string customDimension = null)
 	        => NewWithFrequency(frequency, standardDimension, customDimension);
-
-	    public Scaler_OperatorWrapper Scaler(
-			Outlet signal = null,
-			Outlet sourceValueA = null,
-			Outlet sourceValueB = null,
-			Outlet targetValueA = null,
-			Outlet targetValueB = null)
-		{
-			Operator op = NewBase();
-
-			var wrapper = new Scaler_OperatorWrapper(op)
-			{
-				SignalInput = signal,
-				SourceValueA = sourceValueA,
-				SourceValueB = sourceValueB,
-				TargetValueA = targetValueA,
-				TargetValueB = targetValueB
-			};
-
-			return wrapper;
-		}
-
-		public OperatorWrapper SetDimension(
-			Outlet passThrough = null,
-			Outlet number = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-
-			wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
-			wrapper.Inputs[DimensionEnum.Inherit] = number;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Shift(
-			Outlet signal = null,
-			Outlet difference = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-
-			wrapper.Inputs[DimensionEnum.Signal] = signal;
-			wrapper.Inputs[DimensionEnum.Difference] = difference;
-
-			return wrapper;
-		}
 
 		public OperatorWrapper Sine(
 			Outlet frequency = null,
@@ -1049,7 +491,7 @@ namespace JJ.Business.Synthesizer
 			string customDimension = null)
 		    => NewWithFrequency(frequency, standardDimension, customDimension);
 
-	    public OperatorWrapper_WithCollectionRecalculation SortOverDimension(
+	    private OperatorWrapper_WithCollectionRecalculation SortOverDimension(
 			Outlet signal = null,
 			Outlet from = null,
 			Outlet till = null,
@@ -1066,77 +508,9 @@ namespace JJ.Business.Synthesizer
 	            customDimension,
 	            collectionRecalculation);
 
-	    public OperatorWrapper SortOverInlets(params Outlet[] items) => SortOverInlets((IList<Outlet>)items);
+	    private OperatorWrapper SortOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
 
-	    public OperatorWrapper SortOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
-
-	    public OperatorWrapper Spectrum(
-			Outlet sound = null,
-			Outlet start = null,
-			Outlet end = null,
-			Outlet frequencyCount = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-
-			wrapper.Inputs[DimensionEnum.Sound] = sound;
-			wrapper.Inputs[DimensionEnum.Start] = start;
-			wrapper.Inputs[DimensionEnum.End] = end;
-			wrapper.Inputs[DimensionEnum.FrequencyCount] = frequencyCount;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Square(
-			Outlet frequency = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		    => NewWithFrequency(frequency, standardDimension, customDimension);
-
-	    public OperatorWrapper Squash(
-			Outlet signal = null,
-			Outlet factor = null,
-			Outlet origin = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-
-			wrapper.Inputs[DimensionEnum.Signal] = signal;
-			wrapper.Inputs[DimensionEnum.Factor] = factor;
-			wrapper.Inputs[DimensionEnum.Origin] = origin;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Stretch(
-			Outlet signal = null,
-			Outlet factor = null,
-			Outlet origin = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-
-			wrapper.Inputs[DimensionEnum.Signal] = signal;
-			wrapper.Inputs[DimensionEnum.Factor] = factor;
-			wrapper.Inputs[DimensionEnum.Origin] = origin;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Subtract(Outlet a = null, Outlet b = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.A] = a;
-			wrapper.Inputs[DimensionEnum.B] = b;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper SumFollower(
+	    private OperatorWrapper SumFollower(
 			Outlet signal = null,
 			Outlet sliceLength = null,
 			Outlet sampleCount = null,
@@ -1144,7 +518,7 @@ namespace JJ.Business.Synthesizer
 			string customDimension = null)
 		    => NewForAggregateFollower(signal, sliceLength, sampleCount, standardDimension, customDimension);
 
-	    public OperatorWrapper_WithCollectionRecalculation SumOverDimension(
+	    private OperatorWrapper_WithCollectionRecalculation SumOverDimension(
 			Outlet signal = null,
 			Outlet from = null,
 			Outlet till = null,
@@ -1161,33 +535,7 @@ namespace JJ.Business.Synthesizer
 	            customDimension,
 	            collectionRecalculation);
 
-	    public OperatorWrapper TimePower(
-			Outlet signal = null,
-			Outlet exponent = null,
-			Outlet origin = null,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-
-			wrapper.Inputs[DimensionEnum.Signal] = signal;
-			wrapper.Inputs[DimensionEnum.Exponent] = exponent;
-			wrapper.Inputs[DimensionEnum.Origin] = origin;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper ToggleTrigger(Outlet passThrough = null, Outlet reset = null)
-		{
-			OperatorWrapper wrapper = NewBase();
-
-			wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
-			wrapper.Inputs[DimensionEnum.Reset] = reset;
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Triangle(Outlet frequency = null, DimensionEnum? standardDimension = null, string customDimension = null) => NewWithFrequency(frequency, standardDimension, customDimension);
+	    public OperatorWrapper Triangle(Outlet frequency = null, DimensionEnum? standardDimension = null, string customDimension = null) => NewWithFrequency(frequency, standardDimension, customDimension);
 
 	    // Helpers
 
@@ -1334,9 +682,15 @@ namespace JJ.Business.Synthesizer
 			return New(patch, variableInletOrOutletCount);
 		}
 
-		public OperatorWrapper New(Patch underlyingPatch, params Outlet[] operands) => New(underlyingPatch, (IList<Outlet>)operands);
+	    public OperatorWrapper New(string systemPatchName, params Outlet[] operands)
+	    {
+	        Patch patch = _systemFacade.GetSystemPatch(systemPatchName);
+	        return New(patch, operands);
+	    }
 
-	    public OperatorWrapper New(Patch underlyingPatch, IList<Outlet> operands)
+        private OperatorWrapper New(Patch underlyingPatch, params Outlet[] operands) => New(underlyingPatch, (IList<Outlet>)operands);
+
+	    private OperatorWrapper New(Patch underlyingPatch, IList<Outlet> operands)
 		{
 			if (underlyingPatch == null) throw new NullException(() => underlyingPatch);
 			if (operands == null) throw new NullException(() => operands);
@@ -1368,36 +722,36 @@ namespace JJ.Business.Synthesizer
 		/// </summary>
 		public OperatorWrapper New(Patch underlyingPatch, int variableInletOrOutletCount = 16)
 		{
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Add))) return Add(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(AverageFollower))) return AverageFollower();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(AverageOverDimension))) return AverageOverDimension();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(AverageOverInlets))) return AverageOverInlets(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Cache))) return Cache();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ClosestOverDimension))) return ClosestOverDimension();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ClosestOverDimensionExp))) return ClosestOverDimensionExp();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ClosestOverInlets))) return ClosestOverInlets(null, new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ClosestOverInletsExp))) return ClosestOverInletsExp(null, new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Curve))) return Curve();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(DimensionToOutlets))) return DimensionToOutlets(null, variableInletOrOutletCount);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(InletsToDimension))) return InletsToDimension(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Interpolate))) return Interpolate();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(MaxFollower))) return MaxFollower();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(MaxOverDimension))) return MaxOverDimension();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(MaxOverInlets))) return MaxOverInlets(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(MinFollower))) return MinFollower();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(MinOverDimension))) return MinOverDimension();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(MinOverInlets))) return MinOverInlets(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Multiply))) return Multiply(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Number))) return Number(1);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(PatchInlet))) return PatchInlet();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(PatchOutlet))) return PatchOutlet();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Random))) return Random();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(RangeOverOutlets))) return RangeOverOutlets(outletCount: variableInletOrOutletCount);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Reset))) return Reset();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SortOverDimension))) return SortOverDimension();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SortOverInlets))) return SortOverInlets(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SumFollower))) return SumFollower();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SumOverDimension))) return SumOverDimension();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Add))) return Add(new Outlet[variableInletOrOutletCount]);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.AverageFollower))) return AverageFollower();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.AverageOverDimension))) return AverageOverDimension();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.AverageOverInlets))) return AverageOverInlets(new Outlet[variableInletOrOutletCount]);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Cache))) return Cache();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.ClosestOverDimension))) return ClosestOverDimension();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.ClosestOverDimensionExp))) return ClosestOverDimensionExp();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.ClosestOverInlets))) return ClosestOverInlets(null, new Outlet[variableInletOrOutletCount]);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.ClosestOverInletsExp))) return ClosestOverInletsExp(null, new Outlet[variableInletOrOutletCount]);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Curve))) return Curve();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.DimensionToOutlets))) return DimensionToOutlets(null, variableInletOrOutletCount);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.InletsToDimension))) return InletsToDimension(new Outlet[variableInletOrOutletCount]);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Interpolate))) return Interpolate();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MaxFollower))) return MaxFollower();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MaxOverDimension))) return MaxOverDimension();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MaxOverInlets))) return MaxOverInlets(new Outlet[variableInletOrOutletCount]);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MinFollower))) return MinFollower();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MinOverDimension))) return MinOverDimension();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MinOverInlets))) return MinOverInlets(new Outlet[variableInletOrOutletCount]);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Multiply))) return Multiply(new Outlet[variableInletOrOutletCount]);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Number))) return Number(1);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.PatchInlet))) return PatchInlet();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.PatchOutlet))) return PatchOutlet();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Random))) return Random();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.RangeOverOutlets))) return RangeOverOutlets(outletCount: variableInletOrOutletCount);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Reset))) return Reset();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.SortOverDimension))) return SortOverDimension();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.SortOverInlets))) return SortOverInlets(new Outlet[variableInletOrOutletCount]);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.SumFollower))) return SumFollower();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.SumOverDimension))) return SumOverDimension();
 
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Sample)))
 			{
