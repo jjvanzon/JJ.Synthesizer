@@ -26,14 +26,14 @@ namespace JJ.Business.Synthesizer.Tests
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LookAhead,
                 DimensionEnum.Number,
-                new List<(double x, double y)>
+                new[]
                 {
-                    (0, 1),
-                    (1, -1),
-                    (2, 2),
-                    (3, -2)
+                    (0.0, 1.0),
+                    (1.0, -1.0),
+                    (2.0, 2.0),
+                    (3.0, -2.0)
                 },
-                new List<(double x, double y)>
+                new[]
                 {
                     (0.00, 1.0),
                     (0.33, 1.0),
@@ -60,14 +60,14 @@ namespace JJ.Business.Synthesizer.Tests
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LagBehind,
                 DimensionEnum.Time,
-                new List<(double x, double y)>
+                new[]
                 {
-                    (0, 1),
-                    (1, -1),
-                    (2, 2),
-                    (3, -2)
+                    (0.0, 1.0),
+                    (1.0, -1.0),
+                    (2.0, 2.0),
+                    (3.0, -2.0)
                 },
-                new List<(double x, double y)>
+                new[]
                 {
                     (0.0, 1.0),
                     (0.5, 0.0),
@@ -86,14 +86,14 @@ namespace JJ.Business.Synthesizer.Tests
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LagBehind,
                 DimensionEnum.Time,
-                new List<(double x, double y)>
+                new[]
                 {
-                    (-1.5, 1),
-                    (-0.5, -1),
-                    (0.5, 2),
-                    (1.5, -2)
+                    (-1.5, 1.0),
+                    (-0.5, -1.0),
+                    (0.5, 2.0),
+                    (1.5, -2.0)
                 },
-                new List<(double x, double y)>
+                new[]
                 {
                     (-2.0, 1.0),
                     (-1.5, 1.0),
@@ -112,14 +112,14 @@ namespace JJ.Business.Synthesizer.Tests
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LagBehind,
                 DimensionEnum.Number,
-                new List<(double x, double y)>
+                new[]
                 {
-                    (-1.5, 1),
-                    (-0.5, -1),
-                    (0.5, 2),
-                    (1.5, -2)
+                    (-1.5, 1.0),
+                    (-0.5, -1.0),
+                    (0.5, 2.0),
+                    (1.5, -2.0)
                 },
-                new List<(double x, double y)>
+                new[]
                 {
                     (3.0, -2.0),
                     (2.5, -2.0),
@@ -145,9 +145,9 @@ namespace JJ.Business.Synthesizer.Tests
                     {
                         // Arrange
                         RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-                        PatchFacade patchFacade = new PatchFacade(repositories);
+                        var patchFacade = new PatchFacade(repositories);
                         Patch patch = patchFacade.CreatePatch();
-                        OperatorFactory o = new OperatorFactory(patch, repositories);
+                        var o = new OperatorFactory(patch, repositories);
 
                         var curve = o.Curve(
                             dimensionEnum,
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Tests
                         for (var i = 0; i < expectedOutputPoints.Count; i++)
                         {
                             (double expectedX, double expectedY) = expectedOutputPoints[i];
-                            double actualY = actualYs[0];
+                            double actualY = actualYs[i];
 
                             if (Math.Abs(expectedY - actualY) > 0.00000001)
                             {
