@@ -253,8 +253,10 @@
     <Compile Include="Converters\ToneToDtoConverter.cs" />
     <Compile Include="CopiedCode\FromFramework\Randomizer.cs" />
     <Compile Include="Dto\MidiMappingDto.cs" />
-    <Compile Include="Dto\Operators\DoubleToBoolean_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\BooleanToDouble_OperatorDto.cs" />
+    <Compile Include="Dto\Operators\NthRoot_OperatorDto.cs" />
+    <Compile Include="Dto\Operators\LogN_OperatorDto.cs" />
+    <Compile Include="Dto\Operators\OperatorDto_WithAAndB Classes.cs" />
+    <Compile Include="Dto\Operators\OperatorDto_WithNumber Classes.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithInterpolation_AndFollowingMode.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithInterpolation.cs" />
@@ -276,7 +278,6 @@
     <Compile Include="Dto\Operators\OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_WithInput.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_WithSound.cs" />
-    <Compile Include="Dto\Operators\Remainder_OperatorDto.cs" />
     <Compile Include="Dto\ToneDto.cs" />
     <Compile Include="Enums\FollowingModeEnum.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_WithInterpolation_AndFollowingMode.cs" />
@@ -483,7 +484,6 @@
     <Compile Include="Dto\Operators\ClosestOverDimensionExp OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\ClosestOverInlets_OperatorDto.cs" />
     <Compile Include="Dto\Operators\ClosestOverDimension OperatorDto Classes.cs" />
-    <Compile Include="Dto\Operators\Subtract_OperatorDto.cs" />
     <Compile Include="Dto\Operators\SumFollower OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\SumOverDimension OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\AverageOverInlets_OperatorDto.cs" />
@@ -497,7 +497,6 @@
     <Compile Include="Dto\Operators\DimensionToOutlets_Outlet_OperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_AggregateOverDimension.cs" />
     <Compile Include="Dto\Operators\RangeOverDimension OperatorDto Classes.cs" />
-    <Compile Include="Dto\Operators\Negative_OperatorDto.cs" />
     <Compile Include="Dto\Operators\If_OperatorDto.cs" />
     <Compile Include="Dto\Operators\AverageFollower_OperatorDto.cs" />
     <Compile Include="Dto\Operators\MaxFollower_OperatorDto.cs" />
@@ -508,21 +507,12 @@
     <Compile Include="Dto\Operators\Round_OperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_AggregateFollower.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_WithNumber.cs" />
-    <Compile Include="Dto\Operators\Not_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\Or_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\And_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\GreaterThanOrEqual_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\LessThanOrEqual_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\GreaterThan_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\LessThan_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\NotEqual_OperatorDto.cs" />
     <Compile Include="Dto\Operators\Random OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\Spectrum_OperatorDto.cs" />
     <Compile Include="Dto\Operators\HighPassFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\LowPassFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\Reset_OperatorDto.cs" />
     <Compile Include="Dto\Operators\Squash OperatorDto Classes.cs" />
-    <Compile Include="Dto\Operators\Equal_OperatorDto.cs" />
     <Compile Include="Dto\Operators\MinFollower_OperatorDto.cs" />
     <Compile Include="Dto\Operators\PulseTrigger_OperatorDto.cs" />
     <Compile Include="Dto\Operators\ToggleTrigger_OperatorDto.cs" />
@@ -532,7 +522,6 @@
     <Compile Include="Dto\Operators\Noise_OperatorDto.cs" />
     <Compile Include="Dto\Operators\SampleWithRate1 OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\Curve OperatorDto Classes.cs" />
-    <Compile Include="Dto\Operators\Divide_OperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_WithAAndB.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase.cs" />
     <Compile Include="Dto\Operators\Power_OperatorDto.cs" />

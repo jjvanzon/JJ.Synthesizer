@@ -1162,4 +1162,100 @@
   <data name="Off" xml:space="preserve">
     <value>Off</value>
   </data>
+  <data name="ArcCos" xml:space="preserve">
+    <value>arccos</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="ArcSin" xml:space="preserve">
+    <value>arcsin</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="ArcTan" xml:space="preserve">
+    <value>arctan</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Ceiling" xml:space="preserve">
+    <value>Ceiling</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Cos" xml:space="preserve">
+    <value>cos</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="CosH" xml:space="preserve">
+    <value>cosh</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="CubeRoot" xml:space="preserve">
+    <value>³√</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Factorial" xml:space="preserve">
+    <value>!</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Floor" xml:space="preserve">
+    <value>Floor</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Ln" xml:space="preserve">
+    <value>ln</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="LogN" xml:space="preserve">
+    <value>log n</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Nand" xml:space="preserve">
+    <value>Nand</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="NthRoot" xml:space="preserve">
+    <value>ʸ√x</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Pi" xml:space="preserve">
+    <value>π</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Sign" xml:space="preserve">
+    <value>Sign</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Sin" xml:space="preserve">
+    <value>sin</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="SinH" xml:space="preserve">
+    <value>sinh</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="SquareRoot" xml:space="preserve">
+    <value>√</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Tan" xml:space="preserve">
+    <value>tan</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="TanH" xml:space="preserve">
+    <value>tanh</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Truncate" xml:space="preserve">
+    <value>Truncate</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="TwoPi" xml:space="preserve">
+    <value>2π</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="Xor" xml:space="preserve">
+    <value>Xor</value>
+    <comment>math-related</comment>
+  </data>
+  <data name="E" xml:space="preserve">
+    <value>e</value>
+    <comment>math-related</comment>
+  </data>
 </root>

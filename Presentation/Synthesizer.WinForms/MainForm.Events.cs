@@ -1250,9 +1250,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 action();
 
+                ApplyViewModel();
                 PlayOutletIfNeeded();
                 OpenDocumentExternallyAndOptionallyPatchIfNeeded();
-                ApplyViewModel();
             }
             finally
             {

@@ -100,9 +100,9 @@ namespace JJ.Business.Synthesizer.Visitors
 			return inputDto;
 		}
 
-		private static IOperatorDto InsertBooleanToDouble(IOperatorDto inputOperatorDto) => new BooleanToDouble_OperatorDto { Input = InputDtoFactory.CreateInputDto(inputOperatorDto) };
+		private static IOperatorDto InsertBooleanToDouble(IOperatorDto inputOperatorDto) => new BooleanToDouble_OperatorDto { Number = InputDtoFactory.CreateInputDto(inputOperatorDto) };
 
-	    private static InputDto InsertBooleanToDouble(InputDto inputDto) => new BooleanToDouble_OperatorDto { Input = inputDto };
+	    private static InputDto InsertBooleanToDouble(InputDto inputDto) => new BooleanToDouble_OperatorDto { Number = inputDto };
 
 	    private static bool OutputIsAlwaysBoolean(InputDto inputDto)
 		{

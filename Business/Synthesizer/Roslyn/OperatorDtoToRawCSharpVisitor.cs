@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 	    protected override IOperatorDto Visit_BooleanToDouble_OperatorDto(BooleanToDouble_OperatorDto dto)
 		{
-			string input = GetLiteralFromInputDto(dto.Input);
+			string input = GetLiteralFromInputDto(dto.Number);
 			string output = GetVariableName(dto.OperatorTypeEnum);
 
 			AppendOperatorTitleComment(dto);

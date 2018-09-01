@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             };
 
             // DIRTY: Low priority: Coincidentally this is the max number of visible buttons in any given situation (currently).
-            const int maxVisibleButtonCount = 11;
+            const int maxVisibleButtonCount = 12;
             float width = ButtonBarElement.GetWidth(maxVisibleButtonCount);
             const float height = StyleHelper.ROW_HEIGHT;
 

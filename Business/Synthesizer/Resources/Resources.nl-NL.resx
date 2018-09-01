@@ -1143,4 +1143,76 @@
   <data name="Off" xml:space="preserve">
     <value>Uit</value>
   </data>
+  <data name="ArcCos" xml:space="preserve">
+    <value>arccos</value>
+  </data>
+  <data name="ArcSin" xml:space="preserve">
+    <value>arcsin</value>
+  </data>
+  <data name="ArcTan" xml:space="preserve">
+    <value>arctan</value>
+  </data>
+  <data name="Ceiling" xml:space="preserve">
+    <value>Afronden naar boven</value>
+  </data>
+  <data name="Cos" xml:space="preserve">
+    <value>cos</value>
+  </data>
+  <data name="CosH" xml:space="preserve">
+    <value>cosh</value>
+  </data>
+  <data name="CubeRoot" xml:space="preserve">
+    <value>³√</value>
+  </data>
+  <data name="Factorial" xml:space="preserve">
+    <value>!</value>
+  </data>
+  <data name="Floor" xml:space="preserve">
+    <value>Afronden naar beneden</value>
+  </data>
+  <data name="Ln" xml:space="preserve">
+    <value>ln</value>
+  </data>
+  <data name="LogN" xml:space="preserve">
+    <value>log n</value>
+  </data>
+  <data name="Nand" xml:space="preserve">
+    <value>Nand</value>
+  </data>
+  <data name="NthRoot" xml:space="preserve">
+    <value>ʸ√x</value>
+  </data>
+  <data name="Pi" xml:space="preserve">
+    <value>π</value>
+  </data>
+  <data name="Sign" xml:space="preserve">
+    <value>Teken</value>
+  </data>
+  <data name="Sin" xml:space="preserve">
+    <value>sin</value>
+  </data>
+  <data name="SinH" xml:space="preserve">
+    <value>sinh</value>
+  </data>
+  <data name="SquareRoot" xml:space="preserve">
+    <value>√</value>
+  </data>
+  <data name="Tan" xml:space="preserve">
+    <value>tan</value>
+  </data>
+  <data name="TanH" xml:space="preserve">
+    <value>tanh</value>
+  </data>
+  <data name="Truncate" xml:space="preserve">
+    <value>Gehele deel van getal</value>
+  </data>
+  <data name="TwoPi" xml:space="preserve">
+    <value>2π</value>
+  </data>
+  <data name="Xor" xml:space="preserve">
+    <value>Xor</value>
+  </data>
+  <data name="E" xml:space="preserve">
+    <value>e</value>
+  </data>
 </root>
