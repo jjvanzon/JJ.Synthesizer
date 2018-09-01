@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -23,45 +24,58 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Add, VisitAdd },
                 { OperatorTypeEnum.AllPassFilter, VisitAllPassFilter },
                 { OperatorTypeEnum.And, VisitAnd },
+                { OperatorTypeEnum.ArcCos, VisitArcCos },
+                { OperatorTypeEnum.ArcSin, VisitArcSin },
+                { OperatorTypeEnum.ArcTan, VisitArcTan },
                 { OperatorTypeEnum.AverageFollower, VisitAverageFollower },
                 { OperatorTypeEnum.AverageOverDimension, VisitAverageOverDimension },
                 { OperatorTypeEnum.AverageOverInlets, VisitAverageOverInlets },
                 { OperatorTypeEnum.BandPassFilterConstantPeakGain, VisitBandPassFilterConstantPeakGain },
                 { OperatorTypeEnum.BandPassFilterConstantTransitionGain, VisitBandPassFilterConstantTransitionGain },
                 { OperatorTypeEnum.Cache, VisitCache },
+                { OperatorTypeEnum.Ceiling, VisitCeiling },
                 { OperatorTypeEnum.ChangeTrigger, VisitChangeTrigger },
-                { OperatorTypeEnum.ClosestOverInlets, VisitClosestOverInlets },
-                { OperatorTypeEnum.ClosestOverInletsExp, VisitClosestOverInletsExp },
                 { OperatorTypeEnum.ClosestOverDimension, VisitClosestOverDimension },
                 { OperatorTypeEnum.ClosestOverDimensionExp, VisitClosestOverDimensionExp },
+                { OperatorTypeEnum.ClosestOverInlets, VisitClosestOverInlets },
+                { OperatorTypeEnum.ClosestOverInletsExp, VisitClosestOverInletsExp },
+                { OperatorTypeEnum.Cos, VisitCos },
+                { OperatorTypeEnum.CosH, VisitCosH },
+                { OperatorTypeEnum.CubeRoot, VisitCubeRoot },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Equal, VisitEqual },
+                { OperatorTypeEnum.Floor, VisitFloor },
                 { OperatorTypeEnum.GetPosition, VisitGetPosition },
                 { OperatorTypeEnum.GreaterThan, VisitGreaterThan },
                 { OperatorTypeEnum.GreaterThanOrEqual, VisitGreaterThanOrEqual },
-                { OperatorTypeEnum.Hold, VisitHold },
                 { OperatorTypeEnum.HighPassFilter, VisitHighPassFilter },
                 { OperatorTypeEnum.HighShelfFilter, VisitHighShelfFilter },
+                { OperatorTypeEnum.Hold, VisitHold },
                 { OperatorTypeEnum.If, VisitIf },
+                { OperatorTypeEnum.InletsToDimension, VisitInletsToDimension },
+                { OperatorTypeEnum.Interpolate, VisitInterpolate },
                 { OperatorTypeEnum.LessThan, VisitLessThan },
                 { OperatorTypeEnum.LessThanOrEqual, VisitLessThanOrEqual },
+                { OperatorTypeEnum.Ln, VisitLn },
+                { OperatorTypeEnum.LogN, VisitLogN },
                 { OperatorTypeEnum.Loop, VisitLoop },
                 { OperatorTypeEnum.LowPassFilter, VisitLowPassFilter },
                 { OperatorTypeEnum.LowShelfFilter, VisitLowShelfFilter },
-                { OperatorTypeEnum.InletsToDimension, VisitInletsToDimension },
-                { OperatorTypeEnum.MaxOverInlets, VisitMaxOverInlets },
                 { OperatorTypeEnum.MaxFollower, VisitMaxFollower },
                 { OperatorTypeEnum.MaxOverDimension, VisitMaxOverDimension },
-                { OperatorTypeEnum.MinOverInlets, VisitMinOverInlets },
+                { OperatorTypeEnum.MaxOverInlets, VisitMaxOverInlets },
                 { OperatorTypeEnum.MinFollower, VisitMinFollower },
                 { OperatorTypeEnum.MinOverDimension, VisitMinOverDimension },
+                { OperatorTypeEnum.MinOverInlets, VisitMinOverInlets },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
+                { OperatorTypeEnum.Nand, VisitNand },
                 { OperatorTypeEnum.Negative, VisitNegative },
                 { OperatorTypeEnum.Noise, VisitNoise },
                 { OperatorTypeEnum.Not, VisitNot },
                 { OperatorTypeEnum.NotchFilter, VisitNotchFilter },
                 { OperatorTypeEnum.NotEqual, VisitNotEqual },
+                { OperatorTypeEnum.NthRoot, VisitNthRoot },
                 { OperatorTypeEnum.Number, VisitNumber },
                 { OperatorTypeEnum.Or, VisitOr },
                 { OperatorTypeEnum.PatchInlet, VisitPatchInlet },
@@ -71,41 +85,28 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.PulseTrigger, VisitPulseTrigger },
                 { OperatorTypeEnum.RandomStripe, VisitRandomStripe },
                 { OperatorTypeEnum.RangeOverDimension, VisitRangeOverDimension },
-                { OperatorTypeEnum.Interpolate, VisitInterpolate },
                 { OperatorTypeEnum.Remainder, VisitRemainder },
                 { OperatorTypeEnum.Reset, VisitReset },
                 { OperatorTypeEnum.Round, VisitRound },
                 { OperatorTypeEnum.SampleWithRate1, VisitSampleWithRate1 },
                 { OperatorTypeEnum.SetPosition, VisitSetPosition },
+                { OperatorTypeEnum.Sign, VisitSign },
+                { OperatorTypeEnum.Sin, VisitSin },
                 { OperatorTypeEnum.SineWithRate1, VisitSineWithRate1 },
+                { OperatorTypeEnum.SinH, VisitSinH },
                 { OperatorTypeEnum.SortOverDimension, VisitSortOverDimension },
                 { OperatorTypeEnum.Spectrum, VisitSpectrum },
+                { OperatorTypeEnum.SquareRoot, VisitSquareRoot },
                 { OperatorTypeEnum.Squash, VisitSquash },
                 { OperatorTypeEnum.Subtract, VisitSubtract },
-                { OperatorTypeEnum.SumOverDimension, VisitSumOverDimension },
                 { OperatorTypeEnum.SumFollower, VisitSumFollower },
-                { OperatorTypeEnum.TriangleWithRate1, VisitTriangleWithRate1 },
-                { OperatorTypeEnum.ToggleTrigger, VisitToggleTrigger },
-                { OperatorTypeEnum.Sin, VisitSin },
-                { OperatorTypeEnum.Cos, VisitCos },
+                { OperatorTypeEnum.SumOverDimension, VisitSumOverDimension },
                 { OperatorTypeEnum.Tan, VisitTan },
-                { OperatorTypeEnum.SinH, VisitSinH },
-                { OperatorTypeEnum.CosH, VisitCosH },
                 { OperatorTypeEnum.TanH, VisitTanH },
-                { OperatorTypeEnum.ArcSin, VisitArcSin },
-                { OperatorTypeEnum.ArcCos, VisitArcCos },
-                { OperatorTypeEnum.ArcTan, VisitArcTan },
-                { OperatorTypeEnum.LogN, VisitLogN },
-                { OperatorTypeEnum.Ln, VisitLn },
-                { OperatorTypeEnum.SquareRoot, VisitSquareRoot },
-                { OperatorTypeEnum.CubeRoot, VisitCubeRoot },
-                { OperatorTypeEnum.NthRoot, VisitNthRoot },
-                { OperatorTypeEnum.Sign, VisitSign },
-                { OperatorTypeEnum.Xor, VisitXor },
-                { OperatorTypeEnum.Nand, VisitNand },
-                { OperatorTypeEnum.Ceiling, VisitCeiling },
-                { OperatorTypeEnum.Floor, VisitFloor },
-                { OperatorTypeEnum.Truncate, VisitTruncate }
+                { OperatorTypeEnum.ToggleTrigger, VisitToggleTrigger },
+                { OperatorTypeEnum.TriangleWithRate1, VisitTriangleWithRate1 },
+                { OperatorTypeEnum.Truncate, VisitTruncate },
+                { OperatorTypeEnum.Xor, VisitXor }
             };
 
             _visitInletDelegateDictionary = new Dictionary<OperatorTypeEnum, Action<Inlet>>
@@ -243,6 +244,15 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitAnd(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
+        protected virtual void VisitArcCos(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitArcSin(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitArcTan(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
         protected virtual void VisitAverageFollower(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
@@ -258,13 +268,13 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitBandPassFilterConstantTransitionGain(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
+        protected virtual void VisitCache(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitCeiling(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
         protected virtual void VisitChangeTrigger(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitClosestOverInlets(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitClosestOverInletsExp(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitClosestOverDimension(Operator op) => VisitOperatorBase(op);
@@ -273,7 +283,19 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitClosestOverDimensionExp(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitCache(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitClosestOverInlets(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitClosestOverInletsExp(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitCos(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitCosH(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitCubeRoot(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitCurveOperator(Operator op) => VisitOperatorBase(op);
@@ -285,6 +307,9 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitEqual(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
+        protected virtual void VisitFloor(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
         protected virtual void VisitGetPosition(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
@@ -294,13 +319,13 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitGreaterThanOrEqual(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitHold(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
         protected virtual void VisitHighPassFilter(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitHighShelfFilter(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitHold(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitIf(Operator op) => VisitOperatorBase(op);
@@ -309,10 +334,19 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitInletsToDimension(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
+        protected virtual void VisitInterpolate(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
         protected virtual void VisitLessThan(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitLessThanOrEqual(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitLn(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitLogN(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitLoop(Operator op) => VisitOperatorBase(op);
@@ -324,13 +358,16 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitLowShelfFilter(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
+        protected virtual void VisitMaxFollower(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
         protected virtual void VisitMaxOverDimension(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitMaxOverInlets(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitMaxFollower(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitMinFollower(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitMinOverDimension(Operator op) => VisitOperatorBase(op);
@@ -339,10 +376,10 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitMinOverInlets(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitMinFollower(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitMultiply(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitMultiply(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitNand(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitNegative(Operator op) => VisitOperatorBase(op);
@@ -358,6 +395,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
         /*[DebuggerHidden]*/
         protected virtual void VisitNotEqual(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitNthRoot(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitNumber(Operator op) => VisitOperatorBase(op);
@@ -388,9 +428,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitRangeOverDimension(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitInterpolate(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
         protected virtual void VisitRemainder(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
@@ -415,7 +452,16 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitSetPosition(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
+        protected virtual void VisitSign(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitSin(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
         protected virtual void VisitSineWithRate1(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitSinH(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitSortOverDimension(Operator op) => VisitOperatorBase(op);
@@ -424,82 +470,37 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitSpectrum(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
+        protected virtual void VisitSquareRoot(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
         protected virtual void VisitSquash(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitSubtract(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitSumOverDimension(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
         protected virtual void VisitSumFollower(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitTriangleWithRate1(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitToggleTrigger(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitSin(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitCos(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitSumOverDimension(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitTan(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitSinH(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitCosH(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
         protected virtual void VisitTanH(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitArcSin(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitToggleTrigger(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitArcCos(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitArcTan(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitLogN(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitLn(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitSquareRoot(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitCubeRoot(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitNthRoot(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitSign(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitXor(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitNand(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitCeiling(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitFloor(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitTriangleWithRate1(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitTruncate(Operator op) => VisitOperatorBase(op);
+
+        /*[DebuggerHidden]*/
+        protected virtual void VisitXor(Operator op) => VisitOperatorBase(op);
 
         // Inlets
 

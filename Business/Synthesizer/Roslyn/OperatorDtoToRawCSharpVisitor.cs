@@ -139,11 +139,17 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => ProcessMultiVarOperator(dto, PLUS_SYMBOL);
 
-	    protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetAllPassFilterVariables));
-
 	    protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
+	    protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetAllPassFilterVariables));
+
 	    protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto) => ProcessBinaryBoolOperator(dto, AND_SYMBOL);
+
+	    protected override IOperatorDto Visit_ArcCos_OperatorDto(ArcCos_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Acos");
+
+	    protected override IOperatorDto Visit_ArcSin_OperatorDto(ArcSin_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Asin");
+
+	    protected override IOperatorDto Visit_ArcTan_OperatorDto(ArcTan_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Atan");
 
 	    protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => throw new NotImplementedException();
 
@@ -217,6 +223,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 	    protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Stripe(Cache_OperatorDto_SingleChannel_Stripe dto) => throw new NotImplementedException();
 
+	    protected override IOperatorDto Visit_Ceiling_OperatorDto(Ceiling_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Ceiling");
+
 	    protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto) => throw new NotImplementedException();
 
 	    protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(
@@ -239,73 +247,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 	    protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto) => Process_ClosestOverInlets(dto, isExp: true);
 
-	    private IOperatorDto Process_ClosestOverInlets(ClosestOverInlets_OperatorDto dto, bool isExp)
-		{
-			string input = GetLiteralFromInputDto(dto.Input);
-			IList<string> items = dto.Items.Select(GetLiteralFromInputDto).ToArray();
-			int itemCount = items.Count;
-			string firstItem = items.First();
-			string smallestDistance = GetVariableName(nameof(smallestDistance));
-			string closestItem = GetVariableName(nameof(closestItem));
-			string output = GetVariableName(dto.OperatorTypeEnum);
-			string transformedInput = GetVariableName(nameof(transformedInput));
-			string transformedFirstItem = GetVariableName(nameof(transformedFirstItem));
-			const string geometry = nameof(Geometry);
-			const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
+	    protected override IOperatorDto Visit_Cos_OperatorDto(Cos_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Cos");
 
-			AppendOperatorTitleComment(dto);
-
-			if (isExp)
-			{
-				AppendLine($"double {transformedInput} = Math.Log({input});");
-				AppendLine($"double {transformedFirstItem} = Math.Log({firstItem});");
-			}
-			else
-			{
-				AppendLine($"double {transformedInput} = {input};");
-				AppendLine($"double {transformedFirstItem} = {firstItem};");
-			}
-			AppendLine();
-
-			AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({transformedInput}, {transformedFirstItem});");
-			AppendLine($"double {closestItem} = {firstItem};");
-			AppendLine();
-
-			// NOTE: i = 1.
-			for (int i = 1; i < itemCount; i++)
-			{
-				string item = items[i];
-				string transformedItem = GetVariableName(nameof(transformedItem));
-				string distance = GetVariableName(nameof(distance));
-
-				if (isExp)
-				{
-					AppendLine($"double {transformedItem} = Math.Log({item});");
-				}
-				else
-				{
-					AppendLine($"double {transformedItem} = {item};");
-				}
-
-				AppendLine($"double {distance} = {geometry}.{absoluteDistance}({transformedInput}, {transformedItem});");
-
-				AppendLine($"if ({smallestDistance} > {distance})");
-				AppendLine("{");
-				Indent();
-				{
-
-					AppendLine($"{smallestDistance} = {distance};");
-					AppendLine($"{closestItem} = {item};");
-					Unindent();
-				}
-				AppendLine("}");
-				AppendLine();
-			}
-
-			AppendLine($"double {output} = {closestItem};");
-
-			return GenerateOperatorWrapUp(dto, output);
-		}
+	    protected override IOperatorDto Visit_CosH_OperatorDto(CosH_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Cosh");
 
 		protected override IOperatorDto Visit_Curve_OperatorDto_NoOriginShifting(Curve_OperatorDto_NoOriginShifting dto)
 		{
@@ -353,17 +297,19 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => ProcessBinaryBoolOperator(dto, EQUALS_SYMBOL);
 
+	    protected override IOperatorDto Visit_Floor_OperatorDto(Floor_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Floor");
+
 	    protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto) => ProcessBinaryBoolOperator(dto, GREATER_THAN_SYMBOL);
 
 	    protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
 
-	    protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetHighPassFilterVariables));
-
 	    protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-	    protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetHighShelfFilterVariables));
+	    protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetHighPassFilterVariables));
 
 	    protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
+
+	    protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetHighShelfFilterVariables));
 
 	    protected override IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto)
 		{
@@ -421,52 +367,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 	    protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto) => Process_InletsToDimension(dto, isStripe: true);
 
-	    // ReSharper disable once SuggestBaseTypeForParameter
-		private IOperatorDto Process_InletsToDimension(InletsToDimension_OperatorDto dto, bool isStripe)
-		{
-			string position = GetLiteralFromInputDto(dto.Position);
-			string transformedPosition = GetVariableName(nameof(transformedPosition));
-			string castedPosition = GetVariableName(nameof(castedPosition));
-			string output = GetVariableName(dto.OperatorTypeEnum);
-
-			AppendOperatorTitleComment(dto);
-
-			// Transform and cast position.
-			AppendLine($"double {transformedPosition} = {position};");
-			if (isStripe)
-			{
-				AppendLine($"{transformedPosition} += 0.5;");
-			}
-			AppendLine($"int {castedPosition} = (int){transformedPosition};");
-
-			// Switch over position.
-			AppendLine($"double {output} = 0.0;");
-			AppendLine($"switch ({castedPosition})");
-			AppendLine("{");
-			Indent();
-			{
-				int count = dto.InputsExceptPosition.Count - 1;
-
-				for (int i = 0; i < count; i++)
-				{
-					AppendLine($"case {i}:");
-					Indent();
-					{
-						string operand = GetLiteralFromInputDto(dto.InputsExceptPosition[i]);
-
-						AppendLine($"{output} = {operand};");
-						AppendLine("break;");
-						AppendLine();
-						Unindent();
-					}
-				}
-				Unindent();
-			}
-			AppendLine("}");
-
-			return GenerateOperatorWrapUp(dto, output);
-		}
-
 		protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto) => throw new NotImplementedException();
 
 	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto) => throw new NotImplementedException();
@@ -481,171 +381,19 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 	    protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, LESS_THAN_OR_EQUAL_SYMBOL);
 
+	    protected override IOperatorDto Visit_Ln_OperatorDto(Ln_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Log");
+
+	    protected override IOperatorDto Visit_LogN_OperatorDto(LogN_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Log");
+
 	    protected override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto) => Process_Loop_OperatorDto(dto);
-
-	    private IOperatorDto Process_Loop_OperatorDto(Loop_OperatorDto dto)
-		{
-			string output = GetVariableName(dto.OperatorTypeEnum);
-			string sourcePosition = GetLiteralFromInputDto(dto.Position);
-			string origin = GetLongLivedVariableName(nameof(origin));
-			string nullableInputPosition = GetVariableName(nameof(nullableInputPosition));
-
-			AppendOperatorTitleComment(dto);
-
-			AppendLineToReset($"{origin} = {sourcePosition};");
-
-			AppendLine($"double {output};");
-
-			// Ported from Loop_OperatorCalculator_Helper.GetTransformedPosition.
-			// The reason the generated code does not just call that helper method,
-			// is because then you would have to retrieve all the inputs first,
-			// while if you inline it, you could get inputs only when you need them,
-			// which is more efficient.
-
-			string outputPosition = GetVariableName(nameof(outputPosition));
-			string inputPosition = GetVariableName(nameof(inputPosition));
-			string isBeforeAttack = GetVariableName(nameof(isBeforeAttack));
-			string isInAttack = GetVariableName(nameof(isInAttack));
-			string cycleLength = GetVariableName(nameof(cycleLength));
-			string outputLoopStart = GetVariableName(nameof(outputLoopStart));
-			string noteEndPhase = GetVariableName(nameof(noteEndPhase));
-			string outputLoopEnd = GetVariableName(nameof(outputLoopEnd));
-			string isInLoop = GetVariableName(nameof(isInLoop));
-			string phase = GetVariableName(nameof(phase));
-			string releaseLength = GetVariableName(nameof(releaseLength));
-			string outputReleaseEndPosition = GetVariableName(nameof(outputReleaseEndPosition));
-			string isInRelease = GetVariableName(nameof(isInRelease));
-			string positionInRelease = GetVariableName(nameof(positionInRelease));
-			AppendLine($"double? {nullableInputPosition};");
-			AppendLine();
-			AppendLine($"double {outputPosition} = {sourcePosition};");
-			AppendLine($"double {inputPosition} = {outputPosition};");
-			AppendLine();
-			AppendLine($"{inputPosition} -= {origin};");
-			AppendLine();
-			AppendLine("// BeforeAttack");
-			AppendLine();
-			string skip = GetLiteralFromInputDto(dto.Skip);
-			AppendLine($"{inputPosition} += {skip};");
-			AppendLine($"bool {isBeforeAttack} = {inputPosition} < {skip};");
-			AppendLine($"if ({isBeforeAttack})");
-			AppendLine("{");
-			Indent();
-			{
-				AppendLine($"{nullableInputPosition} = null;");
-				Unindent();
-			}
-			AppendLine("}");
-			AppendLine("else");
-			AppendLine("{");
-			Indent();
-			{
-				AppendLine("// InAttack");
-				AppendLine();
-				string loopStartMarker = GetLiteralFromInputDto(dto.LoopStartMarker);
-				AppendLine($"bool {isInAttack} = {inputPosition} < {loopStartMarker};");
-				AppendLine($"if ({isInAttack})");
-				AppendLine("{");
-				Indent();
-				{
-					AppendLine($"{nullableInputPosition} = {inputPosition};");
-					Unindent();
-				}
-				AppendLine("}");
-				AppendLine("else");
-				AppendLine("{");
-				Indent();
-				{
-					AppendLine("// InLoop");
-					AppendLine();
-					string loopEndMarker = GetLiteralFromInputDto(dto.LoopEndMarker);
-					AppendLine($"double {cycleLength} = {loopEndMarker} - {loopStartMarker};");
-					AppendLine();
-					AppendLine("// Round up end of loop to whole cycles.");
-					AppendLine($"double {outputLoopStart} = {loopStartMarker} - {skip};");
-					AppendLine();
-					string noteDuration = GetLiteralFromInputDto(dto.NoteDuration);
-					AppendLine($"double {noteEndPhase} = ({noteDuration} - {outputLoopStart}) / {cycleLength};");
-					AppendLine($"double {outputLoopEnd} = {outputLoopStart} + Math.Ceiling({noteEndPhase}) * {cycleLength};");
-					AppendLine();
-					AppendLine($"bool {isInLoop} = {outputPosition} < {outputLoopEnd};");
-					AppendLine($"if ({isInLoop})");
-					AppendLine("{");
-					Indent();
-					{
-						AppendLine($"double {phase} = ({inputPosition} - {loopStartMarker}) % {cycleLength};");
-						AppendLine($"{inputPosition} = {loopStartMarker} + {phase};");
-						AppendLine($"{nullableInputPosition} = {inputPosition};");
-						Unindent();
-					}
-					AppendLine("}");
-					AppendLine("else");
-					AppendLine("{");
-					Indent();
-					{
-						AppendLine("// InRelease");
-						AppendLine();
-						string releaseEndMarker = GetLiteralFromInputDto(dto.ReleaseEndMarker);
-						AppendLine($"double {releaseLength} = {releaseEndMarker} - {loopEndMarker};");
-						AppendLine($"double {outputReleaseEndPosition} = {outputLoopEnd} + {releaseLength};");
-						AppendLine($"bool {isInRelease} = {outputPosition} < {outputReleaseEndPosition};");
-						AppendLine($"if ({isInRelease})");
-						AppendLine("{");
-						Indent();
-						{
-							AppendLine($"double {positionInRelease} = {outputPosition} - {outputLoopEnd};");
-							AppendLine($"{inputPosition} = {loopEndMarker} + {positionInRelease};");
-							AppendLine($"{nullableInputPosition} = {inputPosition};");
-							Unindent();
-						}
-						AppendLine("}");
-						AppendLine("else");
-						AppendLine("{");
-						Indent();
-						{
-							AppendLine("// AfterRelease");
-							AppendLine($"{nullableInputPosition} = null;");
-							Unindent();
-						}
-						AppendLine("}");
-						Unindent();
-					}
-					AppendLine("}");
-					Unindent();
-				}
-				AppendLine("}");
-				Unindent();
-			}
-			AppendLine("}");
-			AppendLine();
-
-			AppendLine($"if (!{nullableInputPosition}.HasValue)");
-			AppendLine("{");
-			Indent();
-			{
-				AppendLine($"{output} = 0.0;");
-				Unindent();
-			}
-			AppendLine("}");
-			AppendLine("else");
-			AppendLine("{");
-			Indent();
-			{
-				AppendLine($"{output} = {nullableInputPosition}.Value;");
-				Unindent();
-			}
-			AppendLine("}");
-
-			return GenerateOperatorWrapUp(dto, output);
-		}
-
-		protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetLowPassFilterVariables));
 
 	    protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-	    protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetLowShelfFilterVariables));
+		protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetLowPassFilterVariables));
 
 	    protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
+
+	    protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetLowShelfFilterVariables));
 
 	    protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto) => throw new NotImplementedException();
 
@@ -740,9 +488,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetNotchFilterVariables));
-
 	    protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
+
+		protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetNotchFilterVariables));
 
 	    protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, NOT_EQUAL_SYMBOL);
 
@@ -755,9 +503,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => ProcessBinaryBoolOperator(dto, OR_SYMBOL);
 
-	    protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetPeakingEQFilterVariables));
-
 	    protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
+
+	    protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetPeakingEQFilterVariables));
 
 	    protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Pow");
 
@@ -766,28 +514,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 	    protected override IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto) => Process_Random_OperatorDto(dto);
 
 	    protected override IOperatorDto Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto) => Process_Random_OperatorDto(dto);
-
-	    private IOperatorDto Process_Random_OperatorDto(Random_OperatorDto dto)
-		{
-			string rate = GetLiteralFromInputDto(dto.Rate);
-			string output = GetVariableName(dto.OperatorTypeEnum);
-			string offset = GetRandomOrNoiseOffsetVariableNameCamelCase(dto.OperationIdentity);
-			string arrayCalculator = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
-			const string randomCalculatorHelper = nameof(RandomCalculatorHelper);
-			const string generateOffset = nameof(RandomCalculatorHelper.GenerateOffset);
-
-			AppendOperatorTitleComment(dto);
-
-			AppendLineToReset($"{offset} = {randomCalculatorHelper}.{generateOffset}();");
-
-			string phase = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
-
-			// TODO: Low priority: Just assigning offset to phase in the reset operation would be slightly faster,
-			// however, this might make the GeneratePhaseCalculationWithPhaseTracking not reusable here.
-			AppendLine($"double {output} = {arrayCalculator}.Calculate({phase} + {offset});");
-
-			return GenerateOperatorWrapUp(dto, output);
-		}
 
 		protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
 		{
@@ -1074,7 +800,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
+	    protected override IOperatorDto Visit_Sign_OperatorDto(Sign_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sign");
+
+	    protected override IOperatorDto Visit_Sin_OperatorDto(Sin_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sin");
+
 		protected override IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto) => ProcessMethodCallOperator(dto, "SineCalculator.Sin");
+
+	    protected override IOperatorDto Visit_SinH_OperatorDto(SinH_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sinh");
 
 		protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			SortOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
@@ -1123,18 +855,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto) => throw new NotImplementedException();
 
-	    protected override IOperatorDto Visit_Squash_OperatorDto_WithOrigin(Squash_OperatorDto_WithOrigin dto)
-		{
-			string factor = GetLiteralFromInputDto(dto.Factor);
-			string origin = GetLiteralFromInputDto(dto.Origin);
-			string sourcePosition = GetLiteralFromInputDto(dto.Position);
-			string destPosition = GetVariableName(dto.OperatorTypeEnum);
-
-			AppendOperatorTitleComment(dto);
-			AppendLine($"double {destPosition} = ({sourcePosition} - {origin}) * {factor} + {origin};");
-
-			return GenerateOperatorWrapUp(dto, destPosition);
-		}
+	    protected override IOperatorDto Visit_SquareRoot_OperatorDto(SquareRoot_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sqrt");
 
 		protected override IOperatorDto Visit_Squash_OperatorDto_ConstFactor_WithOriginShifting(Squash_OperatorDto_ConstFactor_WithOriginShifting dto)
 		{
@@ -1147,18 +868,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 			AppendLineToReset($"{origin} = {sourcePosition};");
 			AppendLine($"double {destPosition} = ({sourcePosition} - {origin}) * {factor} + {origin};");
 
-			return GenerateOperatorWrapUp(dto, destPosition);
-		}
-
-		protected override IOperatorDto Visit_Squash_OperatorDto_ZeroOrigin(Squash_OperatorDto_ZeroOrigin dto)
-		{
-			string factor = GetLiteralFromInputDto(dto.Factor);
-			string sourcePosition = GetLiteralFromInputDto(dto.Position);
-			string destPosition = GetVariableName(dto.OperatorTypeEnum);
-
-			AppendOperatorTitleComment(dto);
-			AppendLine($"double {destPosition} = {sourcePosition} * {factor};");
-			
 			return GenerateOperatorWrapUp(dto, destPosition);
 		}
 
@@ -1185,6 +894,31 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, destPosition);
 		}
 
+	    protected override IOperatorDto Visit_Squash_OperatorDto_WithOrigin(Squash_OperatorDto_WithOrigin dto)
+		{
+			string factor = GetLiteralFromInputDto(dto.Factor);
+			string origin = GetLiteralFromInputDto(dto.Origin);
+			string sourcePosition = GetLiteralFromInputDto(dto.Position);
+			string destPosition = GetVariableName(dto.OperatorTypeEnum);
+
+			AppendOperatorTitleComment(dto);
+			AppendLine($"double {destPosition} = ({sourcePosition} - {origin}) * {factor} + {origin};");
+
+			return GenerateOperatorWrapUp(dto, destPosition);
+		}
+
+		protected override IOperatorDto Visit_Squash_OperatorDto_ZeroOrigin(Squash_OperatorDto_ZeroOrigin dto)
+		{
+			string factor = GetLiteralFromInputDto(dto.Factor);
+			string sourcePosition = GetLiteralFromInputDto(dto.Position);
+			string destPosition = GetVariableName(dto.OperatorTypeEnum);
+
+			AppendOperatorTitleComment(dto);
+			AppendLine($"double {destPosition} = {sourcePosition} * {factor};");
+			
+			return GenerateOperatorWrapUp(dto, destPosition);
+		}
+
 		protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => ProcessBinaryDoubleOperator(dto, SUBTRACT_SYMBOL);
 
 	    protected override IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto) => throw new NotImplementedException();
@@ -1196,6 +930,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 	    protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			SumOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
 	        => throw new NotImplementedException();
+
+	    protected override IOperatorDto Visit_Tan_OperatorDto(Tan_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Tan");
+
+	    protected override IOperatorDto Visit_TanH_OperatorDto(TanH_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Tanh");
 
 	    protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => throw new NotImplementedException();
 
@@ -1224,6 +962,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
+	    protected override IOperatorDto Visit_Truncate_OperatorDto(Truncate_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Truncate");
+
 		protected override IOperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
 		{
 			string inputVariable = GetInputName(dto);
@@ -1231,39 +971,299 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, inputVariable);
 		}
 
-	    protected override IOperatorDto Visit_Sin_OperatorDto(Sin_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sin");
-
-	    protected override IOperatorDto Visit_Cos_OperatorDto(Cos_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Cos");
-
-	    protected override IOperatorDto Visit_Tan_OperatorDto(Tan_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Tan");
-
-	    protected override IOperatorDto Visit_SinH_OperatorDto(SinH_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sinh");
-
-	    protected override IOperatorDto Visit_CosH_OperatorDto(CosH_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Cosh");
-
-	    protected override IOperatorDto Visit_TanH_OperatorDto(TanH_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Tanh");
-
-	    protected override IOperatorDto Visit_ArcSin_OperatorDto(ArcSin_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Asin");
-
-	    protected override IOperatorDto Visit_ArcCos_OperatorDto(ArcCos_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Acos");
-
-	    protected override IOperatorDto Visit_ArcTan_OperatorDto(ArcTan_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Atan");
-
-	    protected override IOperatorDto Visit_LogN_OperatorDto(LogN_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Log");
-
-	    protected override IOperatorDto Visit_Ln_OperatorDto(Ln_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Log");
-
-	    protected override IOperatorDto Visit_SquareRoot_OperatorDto(SquareRoot_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sqrt");
-
-	    protected override IOperatorDto Visit_Sign_OperatorDto(Sign_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sign");
-
 	    protected override IOperatorDto Visit_Xor_OperatorDto(Xor_OperatorDto dto) => ProcessBinaryBoolOperator(dto, "^");
 
-	    protected override IOperatorDto Visit_Ceiling_OperatorDto(Ceiling_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Ceiling");
+	    private IOperatorDto Process_ClosestOverInlets(ClosestOverInlets_OperatorDto dto, bool isExp)
+		{
+			string input = GetLiteralFromInputDto(dto.Input);
+			IList<string> items = dto.Items.Select(GetLiteralFromInputDto).ToArray();
+			int itemCount = items.Count;
+			string firstItem = items.First();
+			string smallestDistance = GetVariableName(nameof(smallestDistance));
+			string closestItem = GetVariableName(nameof(closestItem));
+			string output = GetVariableName(dto.OperatorTypeEnum);
+			string transformedInput = GetVariableName(nameof(transformedInput));
+			string transformedFirstItem = GetVariableName(nameof(transformedFirstItem));
+			const string geometry = nameof(Geometry);
+			const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
 
-	    protected override IOperatorDto Visit_Floor_OperatorDto(Floor_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Floor");
+			AppendOperatorTitleComment(dto);
 
-	    protected override IOperatorDto Visit_Truncate_OperatorDto(Truncate_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Truncate");
+			if (isExp)
+			{
+				AppendLine($"double {transformedInput} = Math.Log({input});");
+				AppendLine($"double {transformedFirstItem} = Math.Log({firstItem});");
+			}
+			else
+			{
+				AppendLine($"double {transformedInput} = {input};");
+				AppendLine($"double {transformedFirstItem} = {firstItem};");
+			}
+			AppendLine();
+
+			AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({transformedInput}, {transformedFirstItem});");
+			AppendLine($"double {closestItem} = {firstItem};");
+			AppendLine();
+
+			// NOTE: i = 1.
+			for (int i = 1; i < itemCount; i++)
+			{
+				string item = items[i];
+				string transformedItem = GetVariableName(nameof(transformedItem));
+				string distance = GetVariableName(nameof(distance));
+
+				if (isExp)
+				{
+					AppendLine($"double {transformedItem} = Math.Log({item});");
+				}
+				else
+				{
+					AppendLine($"double {transformedItem} = {item};");
+				}
+
+				AppendLine($"double {distance} = {geometry}.{absoluteDistance}({transformedInput}, {transformedItem});");
+
+				AppendLine($"if ({smallestDistance} > {distance})");
+				AppendLine("{");
+				Indent();
+				{
+
+					AppendLine($"{smallestDistance} = {distance};");
+					AppendLine($"{closestItem} = {item};");
+					Unindent();
+				}
+				AppendLine("}");
+				AppendLine();
+			}
+
+			AppendLine($"double {output} = {closestItem};");
+
+			return GenerateOperatorWrapUp(dto, output);
+		}
+
+	    // ReSharper disable once SuggestBaseTypeForParameter
+		private IOperatorDto Process_InletsToDimension(InletsToDimension_OperatorDto dto, bool isStripe)
+		{
+			string position = GetLiteralFromInputDto(dto.Position);
+			string transformedPosition = GetVariableName(nameof(transformedPosition));
+			string castedPosition = GetVariableName(nameof(castedPosition));
+			string output = GetVariableName(dto.OperatorTypeEnum);
+
+			AppendOperatorTitleComment(dto);
+
+			// Transform and cast position.
+			AppendLine($"double {transformedPosition} = {position};");
+			if (isStripe)
+			{
+				AppendLine($"{transformedPosition} += 0.5;");
+			}
+			AppendLine($"int {castedPosition} = (int){transformedPosition};");
+
+			// Switch over position.
+			AppendLine($"double {output} = 0.0;");
+			AppendLine($"switch ({castedPosition})");
+			AppendLine("{");
+			Indent();
+			{
+				int count = dto.InputsExceptPosition.Count - 1;
+
+				for (int i = 0; i < count; i++)
+				{
+					AppendLine($"case {i}:");
+					Indent();
+					{
+						string operand = GetLiteralFromInputDto(dto.InputsExceptPosition[i]);
+
+						AppendLine($"{output} = {operand};");
+						AppendLine("break;");
+						AppendLine();
+						Unindent();
+					}
+				}
+				Unindent();
+			}
+			AppendLine("}");
+
+			return GenerateOperatorWrapUp(dto, output);
+		}
+
+	    private IOperatorDto Process_Loop_OperatorDto(Loop_OperatorDto dto)
+		{
+			string output = GetVariableName(dto.OperatorTypeEnum);
+			string sourcePosition = GetLiteralFromInputDto(dto.Position);
+			string origin = GetLongLivedVariableName(nameof(origin));
+			string nullableInputPosition = GetVariableName(nameof(nullableInputPosition));
+
+			AppendOperatorTitleComment(dto);
+
+			AppendLineToReset($"{origin} = {sourcePosition};");
+
+			AppendLine($"double {output};");
+
+			// Ported from Loop_OperatorCalculator_Helper.GetTransformedPosition.
+			// The reason the generated code does not just call that helper method,
+			// is because then you would have to retrieve all the inputs first,
+			// while if you inline it, you could get inputs only when you need them,
+			// which is more efficient.
+
+			string outputPosition = GetVariableName(nameof(outputPosition));
+			string inputPosition = GetVariableName(nameof(inputPosition));
+			string isBeforeAttack = GetVariableName(nameof(isBeforeAttack));
+			string isInAttack = GetVariableName(nameof(isInAttack));
+			string cycleLength = GetVariableName(nameof(cycleLength));
+			string outputLoopStart = GetVariableName(nameof(outputLoopStart));
+			string noteEndPhase = GetVariableName(nameof(noteEndPhase));
+			string outputLoopEnd = GetVariableName(nameof(outputLoopEnd));
+			string isInLoop = GetVariableName(nameof(isInLoop));
+			string phase = GetVariableName(nameof(phase));
+			string releaseLength = GetVariableName(nameof(releaseLength));
+			string outputReleaseEndPosition = GetVariableName(nameof(outputReleaseEndPosition));
+			string isInRelease = GetVariableName(nameof(isInRelease));
+			string positionInRelease = GetVariableName(nameof(positionInRelease));
+			AppendLine($"double? {nullableInputPosition};");
+			AppendLine();
+			AppendLine($"double {outputPosition} = {sourcePosition};");
+			AppendLine($"double {inputPosition} = {outputPosition};");
+			AppendLine();
+			AppendLine($"{inputPosition} -= {origin};");
+			AppendLine();
+			AppendLine("// BeforeAttack");
+			AppendLine();
+			string skip = GetLiteralFromInputDto(dto.Skip);
+			AppendLine($"{inputPosition} += {skip};");
+			AppendLine($"bool {isBeforeAttack} = {inputPosition} < {skip};");
+			AppendLine($"if ({isBeforeAttack})");
+			AppendLine("{");
+			Indent();
+			{
+				AppendLine($"{nullableInputPosition} = null;");
+				Unindent();
+			}
+			AppendLine("}");
+			AppendLine("else");
+			AppendLine("{");
+			Indent();
+			{
+				AppendLine("// InAttack");
+				AppendLine();
+				string loopStartMarker = GetLiteralFromInputDto(dto.LoopStartMarker);
+				AppendLine($"bool {isInAttack} = {inputPosition} < {loopStartMarker};");
+				AppendLine($"if ({isInAttack})");
+				AppendLine("{");
+				Indent();
+				{
+					AppendLine($"{nullableInputPosition} = {inputPosition};");
+					Unindent();
+				}
+				AppendLine("}");
+				AppendLine("else");
+				AppendLine("{");
+				Indent();
+				{
+					AppendLine("// InLoop");
+					AppendLine();
+					string loopEndMarker = GetLiteralFromInputDto(dto.LoopEndMarker);
+					AppendLine($"double {cycleLength} = {loopEndMarker} - {loopStartMarker};");
+					AppendLine();
+					AppendLine("// Round up end of loop to whole cycles.");
+					AppendLine($"double {outputLoopStart} = {loopStartMarker} - {skip};");
+					AppendLine();
+					string noteDuration = GetLiteralFromInputDto(dto.NoteDuration);
+					AppendLine($"double {noteEndPhase} = ({noteDuration} - {outputLoopStart}) / {cycleLength};");
+					AppendLine($"double {outputLoopEnd} = {outputLoopStart} + Math.Ceiling({noteEndPhase}) * {cycleLength};");
+					AppendLine();
+					AppendLine($"bool {isInLoop} = {outputPosition} < {outputLoopEnd};");
+					AppendLine($"if ({isInLoop})");
+					AppendLine("{");
+					Indent();
+					{
+						AppendLine($"double {phase} = ({inputPosition} - {loopStartMarker}) % {cycleLength};");
+						AppendLine($"{inputPosition} = {loopStartMarker} + {phase};");
+						AppendLine($"{nullableInputPosition} = {inputPosition};");
+						Unindent();
+					}
+					AppendLine("}");
+					AppendLine("else");
+					AppendLine("{");
+					Indent();
+					{
+						AppendLine("// InRelease");
+						AppendLine();
+						string releaseEndMarker = GetLiteralFromInputDto(dto.ReleaseEndMarker);
+						AppendLine($"double {releaseLength} = {releaseEndMarker} - {loopEndMarker};");
+						AppendLine($"double {outputReleaseEndPosition} = {outputLoopEnd} + {releaseLength};");
+						AppendLine($"bool {isInRelease} = {outputPosition} < {outputReleaseEndPosition};");
+						AppendLine($"if ({isInRelease})");
+						AppendLine("{");
+						Indent();
+						{
+							AppendLine($"double {positionInRelease} = {outputPosition} - {outputLoopEnd};");
+							AppendLine($"{inputPosition} = {loopEndMarker} + {positionInRelease};");
+							AppendLine($"{nullableInputPosition} = {inputPosition};");
+							Unindent();
+						}
+						AppendLine("}");
+						AppendLine("else");
+						AppendLine("{");
+						Indent();
+						{
+							AppendLine("// AfterRelease");
+							AppendLine($"{nullableInputPosition} = null;");
+							Unindent();
+						}
+						AppendLine("}");
+						Unindent();
+					}
+					AppendLine("}");
+					Unindent();
+				}
+				AppendLine("}");
+				Unindent();
+			}
+			AppendLine("}");
+			AppendLine();
+
+			AppendLine($"if (!{nullableInputPosition}.HasValue)");
+			AppendLine("{");
+			Indent();
+			{
+				AppendLine($"{output} = 0.0;");
+				Unindent();
+			}
+			AppendLine("}");
+			AppendLine("else");
+			AppendLine("{");
+			Indent();
+			{
+				AppendLine($"{output} = {nullableInputPosition}.Value;");
+				Unindent();
+			}
+			AppendLine("}");
+
+			return GenerateOperatorWrapUp(dto, output);
+		}
+
+	    private IOperatorDto Process_Random_OperatorDto(Random_OperatorDto dto)
+		{
+			string rate = GetLiteralFromInputDto(dto.Rate);
+			string output = GetVariableName(dto.OperatorTypeEnum);
+			string offset = GetRandomOrNoiseOffsetVariableNameCamelCase(dto.OperationIdentity);
+			string arrayCalculator = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
+			const string randomCalculatorHelper = nameof(RandomCalculatorHelper);
+			const string generateOffset = nameof(RandomCalculatorHelper.GenerateOffset);
+
+			AppendOperatorTitleComment(dto);
+
+			AppendLineToReset($"{offset} = {randomCalculatorHelper}.{generateOffset}();");
+
+			string phase = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
+
+			// TODO: Low priority: Just assigning offset to phase in the reset operation would be slightly faster,
+			// however, this might make the GeneratePhaseCalculationWithPhaseTracking not reusable here.
+			AppendLine($"double {output} = {arrayCalculator}.Calculate({phase} + {offset});");
+
+			return GenerateOperatorWrapUp(dto, output);
+		}
 
         // Generalized Methods
 
