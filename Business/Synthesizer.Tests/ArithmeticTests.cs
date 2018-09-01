@@ -25,15 +25,15 @@ namespace JJ.Business.Synthesizer.Tests
                 x => x.New(nameof(SystemPatchNames.Sin), x.PatchInlet(DimensionEnum.Number)),
                 new[]
                 {
-                    (Math.PI * 0.00, 0),
-                    (Math.PI * 0.25, Math.Sqrt(2) / 2.0),
-                    (Math.PI * 0.50, 1),
-                    (Math.PI * 0.75, Math.Sqrt(2) / 2.0),
-                    (Math.PI * 1.00, 0),
-                    (Math.PI * 1.25, -Math.Sqrt(2) / 2.0),
-                    (Math.PI * 1.50, -1),
-                    (Math.PI * 1.75, -Math.Sqrt(2) / 2.0),
-                    (Math.PI * 2.00, 0)
+                    (Math.PI * 0.00, Math.Sin(Math.PI * 0.00)),
+                    (Math.PI * 0.25, Math.Sin(Math.PI * 0.25)),
+                    (Math.PI * 0.50, Math.Sin(Math.PI * 0.50)),
+                    (Math.PI * 0.75, Math.Sin(Math.PI * 0.75)),
+                    (Math.PI * 1.00, Math.Sin(Math.PI * 1.00)),
+                    (Math.PI * 1.25, Math.Sin(Math.PI * 1.25)),
+                    (Math.PI * 1.50, Math.Sin(Math.PI * 1.50)),
+                    (Math.PI * 1.75, Math.Sin(Math.PI * 1.75)),
+                    (Math.PI * 2.00, Math.Sin(Math.PI * 2.00))
                 }
             );
 
@@ -44,15 +44,15 @@ namespace JJ.Business.Synthesizer.Tests
                 x => x.New(nameof(SystemPatchNames.Cos), x.PatchInlet(DimensionEnum.Number)),
                 new[]
                 {
-                    (Math.PI * 0.00, 1),
-                    (Math.PI * 0.25, Math.Sqrt(2) / 2.0),
-                    (Math.PI * 0.50, 0),
-                    (Math.PI * 0.75, -Math.Sqrt(2) / 2.0),
-                    (Math.PI * 1.00, -1),
-                    (Math.PI * 1.25, -Math.Sqrt(2) / 2.0),
-                    (Math.PI * 1.50, 0),
-                    (Math.PI * 1.75, Math.Sqrt(2) / 2.0),
-                    (Math.PI * 2.00, 1)
+                    (Math.PI * 0.00, Math.Cos(Math.PI * 0.00)),
+                    (Math.PI * 0.25, Math.Cos(Math.PI * 0.25)),
+                    (Math.PI * 0.50, Math.Cos(Math.PI * 0.50)),
+                    (Math.PI * 0.75, Math.Cos(Math.PI * 0.75)),
+                    (Math.PI * 1.00, Math.Cos(Math.PI * 1.00)),
+                    (Math.PI * 1.25, Math.Cos(Math.PI * 1.25)),
+                    (Math.PI * 1.50, Math.Cos(Math.PI * 1.50)),
+                    (Math.PI * 1.75, Math.Cos(Math.PI * 1.75)),
+                    (Math.PI * 2.00, Math.Cos(Math.PI * 2.00))
                 }
             );
 
