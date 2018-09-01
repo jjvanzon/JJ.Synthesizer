@@ -358,8 +358,8 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName)
 			=> string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
 
-		public static string RepetitionPositionsNotConsecutive(string concatinatedRepetitionPositions)
-			=> string.Format(Resources.RepetitionPositionsNotConsecutive, concatinatedRepetitionPositions);
+		public static string RepetitionPositionsNotConsecutive(string concatenatedRepetitionPositions)
+			=> string.Format(Resources.RepetitionPositionsNotConsecutive, concatenatedRepetitionPositions);
 
 		public static string SetPositionWithPlaceholder(string dimension) => string.Format(Resources.SetPositionWithPlaceholder, dimension);
 

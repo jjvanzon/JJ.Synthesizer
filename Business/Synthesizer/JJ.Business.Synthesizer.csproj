@@ -418,7 +418,7 @@
     <Compile Include="Roslyn\Helpers\VariableCollections.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />
     <Compile Include="MidiMappingFacade.cs" />
-    <Compile Include="SideEffects\MidiMappingGroup_SideEffect_AutoCreate_MidiMaping.cs" />
+    <Compile Include="SideEffects\MidiMappingGroup_SideEffect_AutoCreate_MidiMapping.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_SystemDocumentReference.cs" />
     <Compile Include="SideEffects\Document_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Document_SideEffect_ApplyUnderlyingPatches.cs" />

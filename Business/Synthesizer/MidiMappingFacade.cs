@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer
 			_repositories.MidiMappingGroupRepository.Insert(entity);
 
 			new MidiMappingGroup_SideEffect_GenerateName(entity).Execute();
-			new MidiMappingGroup_SideEffect_AutoCreate_MidiMaping(entity, this).Execute();
+			new MidiMappingGroup_SideEffect_AutoCreate_MidiMapping(entity, this).Execute();
 
 			return entity;
 		}

@@ -961,15 +961,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to !.
-        /// </summary>
-        internal static string Factorial {
-            get {
-                return ResourceManager.GetString("Factorial", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Factors.
         /// </summary>
         internal static string Factors {

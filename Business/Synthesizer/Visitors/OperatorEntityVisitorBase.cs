@@ -101,7 +101,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.CubeRoot, VisitCubeRoot },
                 { OperatorTypeEnum.NthRoot, VisitNthRoot },
                 { OperatorTypeEnum.Sign, VisitSign },
-                { OperatorTypeEnum.Factorial, VisitFactorial },
                 { OperatorTypeEnum.Xor, VisitXor },
                 { OperatorTypeEnum.Nand, VisitNand },
                 { OperatorTypeEnum.Ceiling, VisitCeiling },
@@ -486,9 +485,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         /*[DebuggerHidden]*/
         protected virtual void VisitSign(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitFactorial(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitXor(Operator op) => VisitOperatorBase(op);

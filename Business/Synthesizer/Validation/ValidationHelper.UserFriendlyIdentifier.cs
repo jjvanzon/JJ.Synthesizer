@@ -352,9 +352,9 @@ namespace JJ.Business.Synthesizer.Validation
 				identifierElements.Add(audioFileFormatDisplayName);
 			}
 
-			string indentifier = StringHelper.Join(' ', identifierElements);
+			string identifier = StringHelper.Join(' ', identifierElements);
 
-			return $"'{indentifier}'";
+			return $"'{identifier}'";
 		}
 
 		public static string GetUserFriendlyIdentifier(Scale entity)

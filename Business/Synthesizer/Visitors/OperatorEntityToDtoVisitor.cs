@@ -294,7 +294,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitLn(Operator op) => ProcessPolymorphicRecursive(op, new Ln_OperatorDto());
         protected override void VisitSquareRoot(Operator op) => ProcessPolymorphicRecursive(op, new SquareRoot_OperatorDto());
         protected override void VisitSign(Operator op) => ProcessPolymorphicRecursive(op, new Sign_OperatorDto());
-        protected override void VisitFactorial(Operator op) => ProcessPolymorphicRecursive(op, new Factorial_OperatorDto());
         protected override void VisitXor(Operator op) => ProcessPolymorphicRecursive(op, new Xor_OperatorDto());
         protected override void VisitCeiling(Operator op) => ProcessPolymorphicRecursive(op, new Ceiling_OperatorDto());
         protected override void VisitFloor(Operator op) => ProcessPolymorphicRecursive(op, new Floor_OperatorDto());

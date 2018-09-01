@@ -1164,9 +1164,6 @@
   <data name="CubeRoot" xml:space="preserve">
     <value>³√</value>
   </data>
-  <data name="Factorial" xml:space="preserve">
-    <value>!</value>
-  </data>
   <data name="Floor" xml:space="preserve">
     <value>Afronden naar beneden</value>
   </data>

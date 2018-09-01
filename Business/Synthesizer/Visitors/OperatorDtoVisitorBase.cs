@@ -325,7 +325,6 @@ namespace JJ.Business.Synthesizer.Visitors
             { typeof(Ln_OperatorDto), x => Visit_Ln_OperatorDto((Ln_OperatorDto)x) },
             { typeof(SquareRoot_OperatorDto), x => Visit_SquareRoot_OperatorDto((SquareRoot_OperatorDto)x) },
             { typeof(Sign_OperatorDto), x => Visit_Sign_OperatorDto((Sign_OperatorDto)x) },
-            { typeof(Factorial_OperatorDto), x => Visit_Factorial_OperatorDto((Factorial_OperatorDto)x) },
             { typeof(Xor_OperatorDto), x => Visit_Xor_OperatorDto((Xor_OperatorDto)x) },
             { typeof(Ceiling_OperatorDto), x => Visit_Ceiling_OperatorDto((Ceiling_OperatorDto)x) },
             { typeof(Floor_OperatorDto), x => Visit_Floor_OperatorDto((Floor_OperatorDto)x) },
@@ -501,7 +500,6 @@ namespace JJ.Business.Synthesizer.Visitors
 	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Ln_OperatorDto(Ln_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SquareRoot_OperatorDto(SquareRoot_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sign_OperatorDto(Sign_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Factorial_OperatorDto(Factorial_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Xor_OperatorDto(Xor_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Ceiling_OperatorDto(Ceiling_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Floor_OperatorDto(Floor_OperatorDto dto) => Visit_OperatorDto_Base(dto);

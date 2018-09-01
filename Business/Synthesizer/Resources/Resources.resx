@@ -1190,10 +1190,6 @@
     <value>³√</value>
     <comment>math-related</comment>
   </data>
-  <data name="Factorial" xml:space="preserve">
-    <value>!</value>
-    <comment>math-related</comment>
-  </data>
   <data name="Floor" xml:space="preserve">
     <value>Floor</value>
     <comment>math-related</comment>

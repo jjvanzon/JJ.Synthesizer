@@ -154,8 +154,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 					x.IsWarningAsError ||
 					x.Severity == DiagnosticSeverity.Error);
 
-				string concatinatedFailureDiagnostics = string.Join(Environment.NewLine, failureDiagnostics);
-				throw new Exception("CSharpCompilation.Emit failed. " + concatinatedFailureDiagnostics);
+				string concatenatedFailureDiagnostics = string.Join(Environment.NewLine, failureDiagnostics);
+				throw new Exception("CSharpCompilation.Emit failed. " + concatenatedFailureDiagnostics);
 			}
 
 			assemblyStream.Position = 0;

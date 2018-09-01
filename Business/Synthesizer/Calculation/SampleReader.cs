@@ -42,9 +42,9 @@ namespace JJ.Business.Synthesizer.Calculation
 	    /// <summary> In the returned array, the first array index is channel index, the second array index is the frame. </summary>
 		private static double ReadInt16Value(BinaryReader binaryReader)
 		{
-			short shrt = binaryReader.ReadInt16();
+			short int16 = binaryReader.ReadInt16();
 			// ReSharper disable once RedundantCast
-			double value = (double)shrt / INT16_VALUE_DIVIDER;
+			double value = (double)int16 / INT16_VALUE_DIVIDER;
 			return value;
 		}
 

@@ -77,11 +77,6 @@ namespace JJ.Business.Synthesizer.Dto.Operators
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sign;
     }
 
-    internal class Factorial_OperatorDto : OperatorDtoBase_WithNumber
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Factorial;
-    }
-
     internal class Ceiling_OperatorDto : OperatorDtoBase_WithNumber
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Ceiling;

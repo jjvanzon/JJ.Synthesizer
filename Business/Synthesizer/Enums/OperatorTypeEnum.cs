@@ -125,7 +125,6 @@
         CubeRoot,
         NthRoot,
         Sign,
-        Factorial,
         Xor,
         Nand,
         Ceiling,

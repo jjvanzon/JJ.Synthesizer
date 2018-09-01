@@ -19,9 +19,9 @@ namespace JJ.Business.Synthesizer.Calculation
 			if (items == null) throw new NullException(() => items);
 			if (items.Count < 1) throw new NullException(() => items);
 
-			double[] remaingItems = items.Skip(1).ToArray();
+			double[] remainingItems = items.Skip(1).ToArray();
 
-			return ClosestUnsafe(input, items[0], remaingItems, remaingItems.Length);
+			return ClosestUnsafe(input, items[0], remainingItems, remainingItems.Length);
 		}
 
 		/// <summary> Slower than the other overload. </summary>
@@ -31,9 +31,9 @@ namespace JJ.Business.Synthesizer.Calculation
 			if (items == null) throw new NullException(() => items);
 			if (items.Count < 1) throw new NullException(() => items);
 
-			double[] remaingItems = items.Skip(1).ToArray();
+			double[] remainingItems = items.Skip(1).ToArray();
 
-			return ClosestExpUnsafe(input, items[0], remaingItems, remaingItems.Length);
+			return ClosestExpUnsafe(input, items[0], remainingItems, remainingItems.Length);
 		}
 
 		/// <summary> Null-checks a.o. omitted for performance. </summary>
