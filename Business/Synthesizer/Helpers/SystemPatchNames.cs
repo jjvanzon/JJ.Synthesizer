@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void ClosestOverDimensionExp() => Throw();
         public static void ClosestOverInlets() => Throw();
         public static void ClosestOverInletsExp() => Throw();
+        public static void Cos() => Throw();
         public static void Curve() => Throw();
         public static void DimensionToOutlets() => Throw();
         public static void InletsToDimension() => Throw();
@@ -29,10 +30,12 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void Number() => Throw();
         public static void PatchInlet() => Throw();
         public static void PatchOutlet() => Throw();
+        public static void Pi() => Throw();
         public static void Random() => Throw();
         public static void RangeOverOutlets() => Throw();
         public static void Reset() => Throw();
         public static void Sample() => Throw();
+        public static void Sin() => Throw();
         public static void SortOverDimension() => Throw();
         public static void SortOverInlets() => Throw();
         public static void Subtract() => Throw();
