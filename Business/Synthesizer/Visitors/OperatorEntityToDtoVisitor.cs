@@ -281,11 +281,29 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected override void VisitSumFollower(Operator op) => ProcessPolymorphicRecursive(op, new SumFollower_OperatorDto());
 		protected override void VisitTriangleWithRate1(Operator op) => ProcessPolymorphicRecursive(op, new TriangleWithRate1_OperatorDto());
 		protected override void VisitToggleTrigger(Operator op) => ProcessPolymorphicRecursive(op, new ToggleTrigger_OperatorDto());
+	    protected override void VisitSin(Operator op) => ProcessPolymorphicRecursive(op, new Sin_OperatorDto());
+        protected override void VisitCos(Operator op) => ProcessPolymorphicRecursive(op, new Cos_OperatorDto());
+        protected override void VisitTan(Operator op) => ProcessPolymorphicRecursive(op, new Tan_OperatorDto());
+        protected override void VisitSinH(Operator op) => ProcessPolymorphicRecursive(op, new SinH_OperatorDto());
+        protected override void VisitCosH(Operator op) => ProcessPolymorphicRecursive(op, new CosH_OperatorDto());
+        protected override void VisitTanH(Operator op) => ProcessPolymorphicRecursive(op, new TanH_OperatorDto());
+        protected override void VisitArcSin(Operator op) => ProcessPolymorphicRecursive(op, new ArcSin_OperatorDto());
+        protected override void VisitArcCos(Operator op) => ProcessPolymorphicRecursive(op, new ArcCos_OperatorDto());
+        protected override void VisitArcTan(Operator op) => ProcessPolymorphicRecursive(op, new ArcTan_OperatorDto());
+        protected override void VisitLogN(Operator op) => ProcessPolymorphicRecursive(op, new LogN_OperatorDto());
+        protected override void VisitLn(Operator op) => ProcessPolymorphicRecursive(op, new Ln_OperatorDto());
+        protected override void VisitSquareRoot(Operator op) => ProcessPolymorphicRecursive(op, new SquareRoot_OperatorDto());
+        protected override void VisitSign(Operator op) => ProcessPolymorphicRecursive(op, new Sign_OperatorDto());
+        protected override void VisitFactorial(Operator op) => ProcessPolymorphicRecursive(op, new Factorial_OperatorDto());
+        protected override void VisitXor(Operator op) => ProcessPolymorphicRecursive(op, new Xor_OperatorDto());
+        protected override void VisitCeiling(Operator op) => ProcessPolymorphicRecursive(op, new Ceiling_OperatorDto());
+        protected override void VisitFloor(Operator op) => ProcessPolymorphicRecursive(op, new Floor_OperatorDto());
+        protected override void VisitTruncate(Operator op) => ProcessPolymorphicRecursive(op, new Truncate_OperatorDto());
 
-		// Helpers
+        // Helpers
 
-		/// <see cref="ProcessPolymorphic" />
-		private void ProcessPolymorphicRecursive(Operator op, IOperatorDto dto)
+        /// <see cref="ProcessPolymorphic" />
+        private void ProcessPolymorphicRecursive(Operator op, IOperatorDto dto)
 		{
 			VisitOperatorBase(op);
 			ProcessPolymorphic(op, dto);

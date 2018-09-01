@@ -57,11 +57,6 @@ namespace JJ.Business.Synthesizer.Dto.Operators
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Subtract;
     }
 
-    internal class Nand_OperatorDto : OperatorDtoBase_WithAAndB
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Nand;
-    }
-
     internal class Xor_OperatorDto : OperatorDtoBase_WithAAndB
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Xor;

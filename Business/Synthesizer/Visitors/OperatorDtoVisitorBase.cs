@@ -311,8 +311,26 @@ namespace JJ.Business.Synthesizer.Visitors
 		    { typeof(SumOverDimension_OperatorDto_CollectionRecalculationUponReset), x => Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset((SumOverDimension_OperatorDto_CollectionRecalculationUponReset)x) },
 		    { typeof(ToggleTrigger_OperatorDto), x => Visit_ToggleTrigger_OperatorDto((ToggleTrigger_OperatorDto)x) },
 		    { typeof(TriangleWithRate1_OperatorDto), x => Visit_TriangleWithRate1_OperatorDto((TriangleWithRate1_OperatorDto)x) },
-		    { typeof(VariableInput_OperatorDto), x => Visit_VariableInput_OperatorDto((VariableInput_OperatorDto)x) }
-		};
+		    { typeof(VariableInput_OperatorDto), x => Visit_VariableInput_OperatorDto((VariableInput_OperatorDto)x) },
+		    { typeof(Sin_OperatorDto), x => Visit_Sin_OperatorDto((Sin_OperatorDto)x) },
+            { typeof(Cos_OperatorDto), x => Visit_Cos_OperatorDto((Cos_OperatorDto)x) },
+            { typeof(Tan_OperatorDto), x => Visit_Tan_OperatorDto((Tan_OperatorDto)x) },
+            { typeof(SinH_OperatorDto), x => Visit_SinH_OperatorDto((SinH_OperatorDto)x) },
+            { typeof(CosH_OperatorDto), x => Visit_CosH_OperatorDto((CosH_OperatorDto)x) },
+            { typeof(TanH_OperatorDto), x => Visit_TanH_OperatorDto((TanH_OperatorDto)x) },
+            { typeof(ArcSin_OperatorDto), x => Visit_ArcSin_OperatorDto((ArcSin_OperatorDto)x) },
+            { typeof(ArcCos_OperatorDto), x => Visit_ArcCos_OperatorDto((ArcCos_OperatorDto)x) },
+            { typeof(ArcTan_OperatorDto), x => Visit_ArcTan_OperatorDto((ArcTan_OperatorDto)x) },
+            { typeof(LogN_OperatorDto), x => Visit_LogN_OperatorDto((LogN_OperatorDto)x) },
+            { typeof(Ln_OperatorDto), x => Visit_Ln_OperatorDto((Ln_OperatorDto)x) },
+            { typeof(SquareRoot_OperatorDto), x => Visit_SquareRoot_OperatorDto((SquareRoot_OperatorDto)x) },
+            { typeof(Sign_OperatorDto), x => Visit_Sign_OperatorDto((Sign_OperatorDto)x) },
+            { typeof(Factorial_OperatorDto), x => Visit_Factorial_OperatorDto((Factorial_OperatorDto)x) },
+            { typeof(Xor_OperatorDto), x => Visit_Xor_OperatorDto((Xor_OperatorDto)x) },
+            { typeof(Ceiling_OperatorDto), x => Visit_Ceiling_OperatorDto((Ceiling_OperatorDto)x) },
+            { typeof(Floor_OperatorDto), x => Visit_Floor_OperatorDto((Floor_OperatorDto)x) },
+            { typeof(Truncate_OperatorDto), x => Visit_Truncate_OperatorDto((Truncate_OperatorDto)x) }
+        };
 
 	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
@@ -470,5 +488,23 @@ namespace JJ.Business.Synthesizer.Visitors
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_TriangleWithRate1_OperatorDto(TriangleWithRate1_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-	}
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sin_OperatorDto(Sin_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cos_OperatorDto(Cos_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Tan_OperatorDto(Tan_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SinH_OperatorDto(SinH_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_CosH_OperatorDto(CosH_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_TanH_OperatorDto(TanH_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ArcSin_OperatorDto(ArcSin_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ArcCos_OperatorDto(ArcCos_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ArcTan_OperatorDto(ArcTan_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LogN_OperatorDto(LogN_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Ln_OperatorDto(Ln_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SquareRoot_OperatorDto(SquareRoot_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sign_OperatorDto(Sign_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Factorial_OperatorDto(Factorial_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Xor_OperatorDto(Xor_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Ceiling_OperatorDto(Ceiling_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Floor_OperatorDto(Floor_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+	    /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Truncate_OperatorDto(Truncate_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+    }
 }

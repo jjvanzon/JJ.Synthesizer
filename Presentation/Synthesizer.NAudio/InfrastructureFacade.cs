@@ -32,10 +32,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			remove => _midiInputProcessor.DimensionValuesChanged -= value;
 		}
 
-		public event EventHandler<EventArgs<Exception>> ExceptionOnMidiThreadOcurred
+		public event EventHandler<EventArgs<Exception>> ExceptionOnMidiThreadOccurred
 		{
-			add => _midiInputProcessor.ExceptionOnMidiThreadOcurred += value;
-			remove => _midiInputProcessor.ExceptionOnMidiThreadOcurred -= value;
+			add => _midiInputProcessor.ExceptionOnMidiThreadOccurred += value;
+			remove => _midiInputProcessor.ExceptionOnMidiThreadOccurred -= value;
 		}
 
 		private static readonly bool _midiInputEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().MidiInputEnabled;

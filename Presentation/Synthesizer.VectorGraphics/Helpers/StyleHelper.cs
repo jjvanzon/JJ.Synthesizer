@@ -152,7 +152,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             Wrap = true
         };
 
-        public static TextStyle MidiMappingTextStyleInactive { get; } = HalfenOpacity(MidiMappingTextStyle);
+        public static TextStyle MidiMappingTextStyleInactive { get; } = HalveOpacity(MidiMappingTextStyle);
 
         public static BackStyle OperatorBackStyleSelected { get; } = new BackStyle
         {
@@ -241,9 +241,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             Color = MediumGray
         };
 
-        public static LineStyle CircleLineStyleInactive { get; } = HalfenOpacity(CircleLineStyle);
+        public static LineStyle CircleLineStyleInactive { get; } = HalveOpacity(CircleLineStyle);
 
-        public static LineStyle CircleLineStyleSelectedInactive { get; } = HalfenOpacity(CircleLineStyleSelected);
+        public static LineStyle CircleLineStyleSelectedInactive { get; } = HalveOpacity(CircleLineStyleSelected);
 
         public static PointStyle PointStyle { get; } = new PointStyle
         {
@@ -286,9 +286,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             Color = MediumGray
         };
 
-        public static PointStyle DentPointStyleInactive { get; } = HalfenOpacity(DentPointStyle);
+        public static PointStyle DentPointStyleInactive { get; } = HalveOpacity(DentPointStyle);
 
-        public static PointStyle DentPointStyleSelectedInactive { get; } = HalfenOpacity(DentPointStyleSelected);
+        public static PointStyle DentPointStyleSelectedInactive { get; } = HalveOpacity(DentPointStyleSelected);
 
         public static BackStyle ToolTipBackStyle { get; } = new BackStyle
         {
@@ -359,9 +359,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
         public static BackStyle CircleBackStyle { get; } = NeutralBackStyle;
 
-        public static BackStyle CircleBackStyleInactive { get; } = HalfenOpacity(CircleBackStyle);
+        public static BackStyle CircleBackStyleInactive { get; } = HalveOpacity(CircleBackStyle);
 
-        public static BackStyle CircleBackStyleSelectedInactive { get; } = HalfenOpacity(CircleBackStyleSelected);
+        public static BackStyle CircleBackStyleSelectedInactive { get; } = HalveOpacity(CircleBackStyleSelected);
 
         public static RectangleStyle RectangleStyleInvisible { get; } = new RectangleStyle
         {
@@ -375,28 +375,28 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             LineStyle = BorderStyleInvisible
         };
 
-        private static PointStyle HalfenOpacity(PointStyle sourceStyle)
+        private static PointStyle HalveOpacity(PointStyle sourceStyle)
         {
             PointStyle destStyle = sourceStyle.Clone();
             destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
             return destStyle;
         }
 
-        private static LineStyle HalfenOpacity(LineStyle sourceStyle)
+        private static LineStyle HalveOpacity(LineStyle sourceStyle)
         {
             LineStyle destStyle = sourceStyle.Clone();
             destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
             return destStyle;
         }
 
-        private static TextStyle HalfenOpacity(TextStyle sourceStyle)
+        private static TextStyle HalveOpacity(TextStyle sourceStyle)
         {
             TextStyle destStyle = sourceStyle.Clone();
             destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
             return destStyle;
         }
 
-        private static BackStyle HalfenOpacity(BackStyle sourceStyle)
+        private static BackStyle HalveOpacity(BackStyle sourceStyle)
         {
             BackStyle destStyle = sourceStyle.Clone();
             destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);

@@ -257,7 +257,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _librarySelectionPopupForm.OpenItemExternallyRequested += _librarySelectionPopupForm_OpenItemExternallyRequested;
             _librarySelectionPopupForm.PlayRequested += _librarySelectionPopupForm_PlayRequested;
 
-            _infrastructureFacade.ExceptionOnMidiThreadOcurred += _infrastructureFacade_ExceptionOnMidiThreadOcurred;
+            _infrastructureFacade.ExceptionOnMidiThreadOccurred += _infrastructureFacade_ExceptionOnMidiThreadOccurred;
             _infrastructureFacade.MidiControllerValueChanged += _infrastructureFacade_MidiControllerValueChanged;
             _infrastructureFacade.MidiNoteOnOccurred += _infrastructureFacade_MidiNoteOnOccurred;
             _infrastructureFacade.MidiDimensionValuesChanged += InfrastructureFacade_MidiDimensionValuesChanged;
@@ -571,7 +571,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                         e.Value.midiVelocity,
                         e.Value.midiChannel)));
 
-        private void _infrastructureFacade_ExceptionOnMidiThreadOcurred(object sender, EventArgs<Exception> e)
+        private void _infrastructureFacade_ExceptionOnMidiThreadOccurred(object sender, EventArgs<Exception> e)
             => _infrastructureFacade_ExceptionOnMidiThreadOccurred_DelayedInvoker.InvokeWithDelay(
                 () => UnhandledExceptionMessageBoxShower.ShowMessageBox(e.Value));
 

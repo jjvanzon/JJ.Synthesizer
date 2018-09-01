@@ -253,7 +253,6 @@
     <Compile Include="Converters\ToneToDtoConverter.cs" />
     <Compile Include="CopiedCode\FromFramework\Randomizer.cs" />
     <Compile Include="Dto\MidiMappingDto.cs" />
-    <Compile Include="Dto\Operators\NthRoot_OperatorDto.cs" />
     <Compile Include="Dto\Operators\LogN_OperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDto_WithAAndB Classes.cs" />
     <Compile Include="Dto\Operators\OperatorDto_WithNumber Classes.cs" />

@@ -759,18 +759,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 	    protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-	    protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
-		{
-			string @base = GetLiteralFromInputDto(dto.Base);
-			string exponent = GetLiteralFromInputDto(dto.Exponent);
-			string output = GetVariableName(dto.OperatorTypeEnum);
-
-			AppendOperatorTitleComment(dto);
-
-			AppendLine($"double {output} = Math.Pow({@base}, {exponent});");
-
-			return GenerateOperatorWrapUp(dto, output);
-		}
+	    protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Pow");
 
 		protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto) => throw new NotImplementedException();
 
@@ -1012,20 +1001,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_Round_OperatorDto_ZeroOffset(Round_OperatorDto_ZeroOffset dto)
-		{
-			string signal = GetLiteralFromInputDto(dto.Signal);
-			string step = GetLiteralFromInputDto(dto.Step);
-			string output = GetVariableName(dto.OperatorTypeEnum);
-			const string mathHelper = nameof(MathHelper);
-			const string roundWithStep = nameof(MathHelper.RoundWithStep);
-
-			AppendOperatorTitleComment(dto);
-
-			AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step});");
-
-			return GenerateOperatorWrapUp(dto, output);
-		}
+		protected override IOperatorDto Visit_Round_OperatorDto_ZeroOffset(Round_OperatorDto_ZeroOffset dto) => ProcessMethodCallOperator(dto, "MathHelper.RoundWithStep");
 
 		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_MonoToStereo(SampleWithRate1_OperatorDto_MonoToStereo dto)
 		{
@@ -1098,17 +1074,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto)
-		{
-			string position = GetLiteralFromInputDto(dto.Position);
-			string output = GetVariableName(dto.OperatorTypeEnum);
-
-			AppendOperatorTitleComment(dto);
-
-			AppendLine($"double {output} = SineCalculator.Sin({position});");
-
-			return GenerateOperatorWrapUp(dto, output);
-		}
+		protected override IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto) => ProcessMethodCallOperator(dto, "SineCalculator.Sin");
 
 		protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			SortOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
@@ -1205,16 +1171,16 @@ namespace JJ.Business.Synthesizer.Roslyn
 			string destPosition = GetVariableName(dto.OperatorTypeEnum);
 
 			AppendOperatorTitleComment(dto);
-			string positionTranformationLine = $"double {destPosition} = {phase} + ({sourcePosition} - {previousPosition}) * {factor};";
+			string positionTransformationLine = $"double {destPosition} = {phase} + ({sourcePosition} - {previousPosition}) * {factor};";
 
-			AppendLineToCalculate(positionTranformationLine);
+			AppendLineToCalculate(positionTransformationLine);
 			AppendLineToCalculate($"{previousPosition} = {sourcePosition};");
 			AppendLineToCalculate($"{phase} = {destPosition};");
 			// I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level, while phase needs to be uniquely used by the operator instance.
 
 			AppendLineToReset($"{phase} = 0.0;");
 			AppendLineToReset($"{previousPosition} = {sourcePosition};");
-			AppendLineToReset(positionTranformationLine);
+			AppendLineToReset(positionTransformationLine);
 
 			return GenerateOperatorWrapUp(dto, destPosition);
 		}
@@ -1265,9 +1231,43 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, inputVariable);
 		}
 
-		// Generalized Methods
+	    protected override IOperatorDto Visit_Sin_OperatorDto(Sin_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sin");
 
-		private IOperatorDto Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(OperatorDtoBase_Filter_VarSound dto, string biQuadFilterSetFilterVariablesMethodName)
+	    protected override IOperatorDto Visit_Cos_OperatorDto(Cos_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Cos");
+
+	    protected override IOperatorDto Visit_Tan_OperatorDto(Tan_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Tan");
+
+	    protected override IOperatorDto Visit_SinH_OperatorDto(SinH_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sinh");
+
+	    protected override IOperatorDto Visit_CosH_OperatorDto(CosH_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Cosh");
+
+	    protected override IOperatorDto Visit_TanH_OperatorDto(TanH_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Tanh");
+
+	    protected override IOperatorDto Visit_ArcSin_OperatorDto(ArcSin_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Asin");
+
+	    protected override IOperatorDto Visit_ArcCos_OperatorDto(ArcCos_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Acos");
+
+	    protected override IOperatorDto Visit_ArcTan_OperatorDto(ArcTan_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Atan");
+
+	    protected override IOperatorDto Visit_LogN_OperatorDto(LogN_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Log");
+
+	    protected override IOperatorDto Visit_Ln_OperatorDto(Ln_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Log");
+
+	    protected override IOperatorDto Visit_SquareRoot_OperatorDto(SquareRoot_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sqrt");
+
+	    protected override IOperatorDto Visit_Sign_OperatorDto(Sign_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Sign");
+
+	    protected override IOperatorDto Visit_Xor_OperatorDto(Xor_OperatorDto dto) => ProcessBinaryBoolOperator(dto, "^");
+
+	    protected override IOperatorDto Visit_Ceiling_OperatorDto(Ceiling_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Ceiling");
+
+	    protected override IOperatorDto Visit_Floor_OperatorDto(Floor_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Floor");
+
+	    protected override IOperatorDto Visit_Truncate_OperatorDto(Truncate_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Truncate");
+
+        // Generalized Methods
+
+        private IOperatorDto Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(OperatorDtoBase_Filter_VarSound dto, string biQuadFilterSetFilterVariablesMethodName)
 		{
 			string sound = GetLiteralFromInputDto(dto.Sound);
 			// TODO: I would expect a dto.Frequency in the abstract type, instead of resorting to dto.Inputs.ElementAt(1).
@@ -1294,7 +1294,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			const string biQuadFilterClassName = nameof(BiQuadFilterWithoutFields);
 			string setFilterVariablesMethodName = biQuadFilterSetFilterVariablesMethodName;
 			const string transformMethodName = nameof(BiQuadFilterWithoutFields.Transform);
-			string concatinatedAdditionalFilterParameters = string.Join(", ", additionalFilterParameters);
+			string concatenatedAdditionalFilterParameters = string.Join(", ", additionalFilterParameters);
 
 			AppendFilterReset(x1, y1, x2, y2);
 
@@ -1306,7 +1306,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			AppendLine($"{biQuadFilterClassName}.{setFilterVariablesMethodName}(");
 			Indent();
 			{
-				AppendLine($"{samplingRate}, {limitedFrequency}, {concatinatedAdditionalFilterParameters}, ");
+				AppendLine($"{samplingRate}, {limitedFrequency}, {concatenatedAdditionalFilterParameters}, ");
 				AppendLine($"out {a0}, out {a1}, out {a2}, out {a3}, out {a4});");
 				Unindent();
 			}
@@ -1382,7 +1382,20 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		private IOperatorDto Process_MinOrMaxOverInlets_MoreThan2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum)
+	    private IOperatorDto ProcessMethodCallOperator(IOperatorDto dto, string qualifiedMethodName)
+	    {
+	        IList<string> values = dto.Inputs.Select(GetLiteralFromInputDto).ToArray();
+
+	        string output = GetVariableName(dto.OperatorTypeEnum);
+
+	        AppendOperatorTitleComment(dto);
+
+	        AppendLine($"double {output} = {qualifiedMethodName}({string.Join(", ", values)});");
+
+	        return GenerateOperatorWrapUp(dto, output);
+	    }
+
+        private IOperatorDto Process_MinOrMaxOverInlets_MoreThan2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum)
 		{
 			IList<string> values = dto.Inputs.Select(GetLiteralFromInputDto).ToArray();
 			int valueCount = values.Count;

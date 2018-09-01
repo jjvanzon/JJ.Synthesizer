@@ -72,11 +72,6 @@ namespace JJ.Business.Synthesizer.Dto.Operators
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SquareRoot;
     }
 
-    internal class CubeRoot_OperatorDto : OperatorDtoBase_WithNumber
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.CubeRoot;
-    }
-
     internal class Sign_OperatorDto : OperatorDtoBase_WithNumber
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sign;
