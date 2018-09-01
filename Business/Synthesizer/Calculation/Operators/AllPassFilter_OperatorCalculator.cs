@@ -24,9 +24,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				centerFrequencyCalculator,
 				widthCalculator })
 		{
-			_soundCalculator = soundCalculator ?? throw new NullException(() => soundCalculator);
-			_centerFrequencyCalculator = centerFrequencyCalculator ?? throw new NullException(() => centerFrequencyCalculator);
-			_widthCalculator = widthCalculator ?? throw new NullException(() => widthCalculator);
+			_soundCalculator = soundCalculator;
+			_centerFrequencyCalculator = centerFrequencyCalculator;
+			_widthCalculator = widthCalculator;
 			_targetSamplingRate = targetSamplingRate;
 			_biQuadFilter = new BiQuadFilter();
 

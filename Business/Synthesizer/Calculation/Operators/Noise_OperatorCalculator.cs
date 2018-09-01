@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		public Noise_OperatorCalculator(OperatorCalculatorBase positionCalculator, NoiseCalculator noiseCalculator)
 			: base(new[] { positionCalculator })
 		{
-			_positionCalculator = positionCalculator ?? throw new ArgumentNullException(nameof(positionCalculator));
+			_positionCalculator = positionCalculator;
 			_noiseCalculator = noiseCalculator ?? throw new ArgumentNullException(nameof(noiseCalculator));
 		}
 

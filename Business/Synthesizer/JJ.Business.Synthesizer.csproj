@@ -221,6 +221,23 @@
     </Compile>
     <Compile Include="Calculation\ICalculatorWithPosition.cs" />
     <Compile Include="Calculation\NoiseCalculatorHelper.cs" />
+    <Compile Include="Calculation\Operators\Truncate_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Floor_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Ceiling_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Xor_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Sign_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SquareRoot_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\LogN_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\ArcTan_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\ArcCos_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\ArcSin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Ln_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\TanH_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\CosH_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SinH_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Tan_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Cos_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Sin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\HighShelfFilter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_2Point.cs" />

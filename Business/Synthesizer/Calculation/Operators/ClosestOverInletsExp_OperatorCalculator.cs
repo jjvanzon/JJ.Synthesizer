@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			if (itemCalculators == null) throw new NullException(() => itemCalculators);
 			if (itemCalculators.Count < 1) throw new LessThanException(() => itemCalculators.Count, 1);
 
-			_inputCalculator = inputCalculator ?? throw new NullException(() => inputCalculator);
+			_inputCalculator = inputCalculator;
 			_firstItemCalculators = itemCalculators.First();
 			_remainingItemCalculators = itemCalculators.Skip(1).ToArray();
 			_remainingItemCalculatorsCount = _remainingItemCalculators.Length;
