@@ -7,16 +7,19 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Data;
+using JJ.Framework.Mathematics;
 using JJ.Framework.Testing.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 // ReSharper disable UnusedVariable
 // ReSharper disable InvertIf
+// ReSharper disable CompareOfFloatsByEqualityOperator
+// ReSharper disable LocalizableElement
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
 	internal static class TestHelper
 	{
-        private const double DEFAULT_PRECISION = 0.00001;
+        private const int DEFAULT_SIGNIFICANT_DIGITS = 6;
 
         public static double CalculateOneValue(IPatchCalculator patchCalculator, double time = 0.0)
 		{
@@ -31,17 +34,17 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Func<double, double> func,
             Func<OperatorFactory, Outlet> operatorCreationDelegate,
             IList<double> xValues,
-            double precision = DEFAULT_PRECISION)
+            int significantDigits = DEFAULT_SIGNIFICANT_DIGITS)
         {
             IList<(double x, double y)> expectedOutputPoints = xValues.Select(x => (x, func(x))).ToArray();
-            ExecuteTest(dimensionEnum, operatorCreationDelegate, expectedOutputPoints, precision);
+            ExecuteTest(dimensionEnum, operatorCreationDelegate, expectedOutputPoints, significantDigits);
         }
 
 	    public static void ExecuteTest(
             DimensionEnum dimensionEnum,
             Func<OperatorFactory, Outlet> operatorCreationDelegate,
             IList<(double x, double y)> expectedOutputPoints,
-            double precision = DEFAULT_PRECISION)
+            int significantDigits = DEFAULT_SIGNIFICANT_DIGITS)
             => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
                 {
@@ -80,15 +83,18 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                             (double expectedX, double expectedY) = expectedOutputPoints[i];
                             double actualY = actualYs[i];
 
-                            if (Math.Abs(expectedY - actualY) > precision)
+                            double roundedExpectedY = MathHelper.RoundToSignificantDigits(expectedY, significantDigits);
+                            double roundedActualY = MathHelper.RoundToSignificantDigits(actualY, significantDigits);
+
+                            if (roundedExpectedY != roundedActualY)
                             {
-                                //string message =
-                                //    $"Point [{i}] is expected to be ({expectedX}, {expectedY}), but it is ({expectedX}, {actualY}) instead.";
-
-                                string message =
-                                    $"Point [{i}] on x = {expectedX} should have y = {expectedY}, but has y = {actualY} instead.";
-
-                                Assert.Fail(message);
+                                Assert.Fail(
+                                    $"Point [{i}] on x = {expectedX} should have y = {roundedExpectedY}, but has y = {roundedActualY} instead. " +
+                                    $"(y's are rounded to {significantDigits} significant digits.)");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Tested point [{i}] = ({expectedX}, {roundedActualY})");
                             }
                         }
                     }

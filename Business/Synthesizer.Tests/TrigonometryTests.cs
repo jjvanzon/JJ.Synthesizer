@@ -5,6 +5,8 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+// ReSharper disable LocalizableElement
+
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
@@ -20,9 +22,9 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Cos()
             => ExecuteTrigonometryTest(Math.Cos, x => x.New(nameof(SystemPatchNames.Cos), x.PatchInlet(DIMENSION_ENUM)));
 
-        //[TestMethod]
-        //public void Test_Synthesizer_Tan()
-        //    => ExecuteTrigonometryTest(Math.Tan, x => x.New(nameof(SystemPatchNames.Tan), x.PatchInlet(DIMENSION_ENUM)));
+        [TestMethod]
+        public void Test_Synthesizer_Tan()
+            => ExecuteTrigonometryTest(Math.Tan, x => x.New(nameof(SystemPatchNames.Tan), x.PatchInlet(DIMENSION_ENUM)));
 
         [TestMethod]
         public void Test_Synthesizer_SinH()
@@ -36,13 +38,13 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_TanH()
             => ExecuteTrigonometryTest(Math.Tanh, x => x.New(nameof(SystemPatchNames.TanH), x.PatchInlet(DIMENSION_ENUM)));
 
-        [TestMethod]
-        public void Test_Synthesizer_ArcSin()
-            => ExecuteTrigonometryTest(Math.Asin, x => x.New(nameof(SystemPatchNames.ArcSin), x.PatchInlet(DIMENSION_ENUM)));
+        //[TestMethod]
+        //public void Test_Synthesizer_ArcSin()
+        //    => ExecuteTrigonometryTest(Math.Asin, x => x.New(nameof(SystemPatchNames.ArcSin), x.PatchInlet(DIMENSION_ENUM)));
 
-        [TestMethod]
-        public void Test_Synthesizer_ArcCos()
-            => ExecuteTrigonometryTest(Math.Acos, x => x.New(nameof(SystemPatchNames.ArcCos), x.PatchInlet(DIMENSION_ENUM)));
+        //[TestMethod]
+        //public void Test_Synthesizer_ArcCos()
+        //    => ExecuteTrigonometryTest(Math.Acos, x => x.New(nameof(SystemPatchNames.ArcCos), x.PatchInlet(DIMENSION_ENUM)));
 
         [TestMethod]
         public void Test_Synthesizer_ArcTan()
@@ -53,7 +55,7 @@ namespace JJ.Business.Synthesizer.Tests
                 DIMENSION_ENUM,
                 func,
                 operatorCreationDelegate,
-                xValues: new[]
+                new[]
                 {
                     Math.PI * 0.00,
                     Math.PI * 0.25,
