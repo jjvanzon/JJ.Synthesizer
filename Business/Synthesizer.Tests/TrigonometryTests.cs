@@ -38,13 +38,13 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_TanH()
             => ExecuteTrigonometryTest(Math.Tanh, x => x.New(nameof(SystemPatchNames.TanH), x.PatchInlet(DIMENSION_ENUM)));
 
-        //[TestMethod]
-        //public void Test_Synthesizer_ArcSin()
-        //    => ExecuteTrigonometryTest(Math.Asin, x => x.New(nameof(SystemPatchNames.ArcSin), x.PatchInlet(DIMENSION_ENUM)));
+        [TestMethod]
+        public void Test_Synthesizer_ArcSin()
+            => ExecuteTrigonometryTest(Math.Asin, x => x.New(nameof(SystemPatchNames.ArcSin), x.PatchInlet(DIMENSION_ENUM)));
 
-        //[TestMethod]
-        //public void Test_Synthesizer_ArcCos()
-        //    => ExecuteTrigonometryTest(Math.Acos, x => x.New(nameof(SystemPatchNames.ArcCos), x.PatchInlet(DIMENSION_ENUM)));
+        [TestMethod]
+        public void Test_Synthesizer_ArcCos()
+            => ExecuteTrigonometryTest(Math.Acos, x => x.New(nameof(SystemPatchNames.ArcCos), x.PatchInlet(DIMENSION_ENUM)));
 
         [TestMethod]
         public void Test_Synthesizer_ArcTan()
