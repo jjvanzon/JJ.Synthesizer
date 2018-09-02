@@ -6,6 +6,9 @@ namespace JJ.Business.Synthesizer.Helpers
     public static class SystemPatchNames
     {
         public static void Add() => Throw();
+        public static void ArcCos() => Throw();
+        public static void ArcSin() => Throw();
+        public static void ArcTan() => Throw();
         public static void AverageFollower() => Throw();
         public static void AverageOverDimension() => Throw();
         public static void AverageOverInlets() => Throw();
@@ -15,6 +18,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void ClosestOverInlets() => Throw();
         public static void ClosestOverInletsExp() => Throw();
         public static void Cos() => Throw();
+        public static void CosH() => Throw();
         public static void Curve() => Throw();
         public static void DimensionToOutlets() => Throw();
         public static void InletsToDimension() => Throw();
@@ -36,11 +40,14 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void Reset() => Throw();
         public static void Sample() => Throw();
         public static void Sin() => Throw();
+        public static void SinH() => Throw();
         public static void SortOverDimension() => Throw();
         public static void SortOverInlets() => Throw();
         public static void Subtract() => Throw();
         public static void SumFollower() => Throw();
         public static void SumOverDimension() => Throw();
+        public static void Tan() => Throw();
+        public static void TanH() => Throw();
 
         private static void Throw() => throw new NameOfOnlyException();
     }

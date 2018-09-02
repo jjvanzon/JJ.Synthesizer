@@ -60,7 +60,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="ArithmeticTests.cs" />
+    <Compile Include="TrigonometryTests.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
@@ -143,7 +143,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

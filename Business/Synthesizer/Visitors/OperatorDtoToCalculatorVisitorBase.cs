@@ -259,7 +259,7 @@ namespace JJ.Business.Synthesizer.Visitors
             => ProcessOperatorDto(dto, () => new Cos_OperatorCalculator(_stack.Pop()));
 
         protected override IOperatorDto Visit_CosH_OperatorDto(CosH_OperatorDto dto)
-            => ProcessOperatorDto(dto, () => new Cos_OperatorCalculator(_stack.Pop()));
+            => ProcessOperatorDto(dto, () => new CosH_OperatorCalculator(_stack.Pop()));
 
         protected override IOperatorDto Visit_Curve_OperatorDto_NoOriginShifting(Curve_OperatorDto_NoOriginShifting dto) => ProcessCurveOperator(dto);
 
@@ -772,7 +772,7 @@ namespace JJ.Business.Synthesizer.Visitors
             => ProcessOperatorDto(dto, () => new Tan_OperatorCalculator(_stack.Pop()));
 
         protected override IOperatorDto Visit_TanH_OperatorDto(TanH_OperatorDto dto)
-            => ProcessOperatorDto(dto, () => new Tan_OperatorCalculator(_stack.Pop()));
+            => ProcessOperatorDto(dto, () => new TanH_OperatorCalculator(_stack.Pop()));
 
         protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
             => ProcessOperatorDto(dto, () => new ToggleTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
