@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		// EntityPosotion
+		// EntityPosition
 
 		public static PositionViewModel ToViewModel(this EntityPosition entityPosition)
 		{

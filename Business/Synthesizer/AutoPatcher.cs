@@ -384,7 +384,7 @@ namespace JJ.Business.Synthesizer
 		{
 			IList<Outlet> soundOutlets = GetSoundOutletsFromPatchesWithoutSoundInlets(document.Patches, mustIncludeHidden);
 
-			// TODO: Select the first patch with a sound inlet and use autopatch those two together.
+			// TODO: Select the first patch with a sound inlet and use auto-patch those two together.
 
 			Outlet soundOutlet = Randomizer.TryGetRandomItem(soundOutlets);
 

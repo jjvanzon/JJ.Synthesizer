@@ -409,7 +409,7 @@ namespace JJ.Business.Synthesizer.Resources
 
 		public static string GetDisplayName(DimensionEnum enumValue) => GetDisplayName(enumValue.ToString());
 
-		// FollwoingModeEnum
+		// FollowingModeEnum
 
 		public static string GetDisplayName(FollowingModeEnum enumValue) => GetDisplayName(enumValue.ToString());
 

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Configuration;
 using JJ.Framework.Data;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Testing.Data;
@@ -30,16 +32,18 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 		}
 
         public static void ExecuteTest(
+            CalculationMethodEnum calculationMethodEnum,
             DimensionEnum dimensionEnum,
             Func<double, double> func,
             Func<OperatorFactory, Outlet> operatorCreationDelegate,
             IList<double> xValues)
         {
             IList<(double x, double y)> expectedOutputPoints = xValues.Select(x => (x, func(x))).ToArray();
-            ExecuteTest(dimensionEnum, operatorCreationDelegate, expectedOutputPoints);
+            ExecuteTest(calculationMethodEnum, dimensionEnum, operatorCreationDelegate, expectedOutputPoints);
         }
 
 	    public static void ExecuteTest(
+	        CalculationMethodEnum calculationMethodEnum,
             DimensionEnum dimensionEnum,
             Func<OperatorFactory, Outlet> operatorCreationDelegate,
             IList<(double x, double y)> expectedOutputPoints)
@@ -50,7 +54,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     {
                         // Arrange
                         RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-                        var patchFacade = new PatchFacade(repositories);
+                        var patchFacade = new PatchFacade(repositories, calculationMethodEnum);
                         Patch patch = patchFacade.CreatePatch();
                         var o = new OperatorFactory(patch, repositories);
 
@@ -76,7 +80,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                         }
 
                         // Assert
-                        Console.WriteLine($"Note: Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.");
+                        Console.WriteLine(
+                            $"Note: Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.");
 
                         for (var i = 0; i < expectedOutputPoints.Count; i++)
                         {

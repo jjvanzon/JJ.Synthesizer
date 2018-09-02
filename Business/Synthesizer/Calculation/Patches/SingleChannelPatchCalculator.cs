@@ -9,20 +9,17 @@ using JJ.Business.Synthesizer.Visitors;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
-using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
-	public class SingleChannelPatchCalculator : PatchCalculatorBase
+	internal class SingleChannelPatchCalculator : PatchCalculatorBase
 	{
 #if !USE_INVAR_INDICES
 		// ReSharper disable once UnusedMember.Local
 		private const int TOP_LEVEL_DIMENSION_STACK_INDEX = 0;
 #endif
-		private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
-
 		private readonly VariableInput_OperatorCalculator _timeInputCalculator;
 
 		private readonly OperatorCalculatorBase _outputOperatorCalculator;
@@ -33,20 +30,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 		private readonly Dictionary<string, IList<OperatorCalculatorBase>> _name_To_ResettableOperatorCalculators_Dictionary;
 
 		public SingleChannelPatchCalculator(
-			Outlet topLevelOutlet,
-			int samplingRate,
-			int channelCount,
-			int channelIndex,
-			CalculatorCache calculatorCache,
-			ICurveRepository curveRepository,
-			ISampleRepository sampleRepository,
-			ISpeakerSetupRepository speakerSetupRepository)
+		    Outlet topLevelOutlet,
+		    int samplingRate,
+		    int channelCount,
+		    int channelIndex,
+		    CalculatorCache calculatorCache,
+		    ICurveRepository curveRepository,
+		    ISampleRepository sampleRepository,
+		    ISpeakerSetupRepository speakerSetupRepository,
+		    CalculationMethodEnum calculationMethodEnum)
 			: base(samplingRate, channelCount, channelIndex)
 		{
 			if (topLevelOutlet == null) throw new NullException(() => topLevelOutlet);
 
 			ToCalculatorResult result;
-			switch (_calculationMethodEnum)
+			switch (calculationMethodEnum)
 			{
 				case CalculationMethodEnum.CalculatorClasses:
 					{
@@ -63,7 +61,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 					}
 
 				default:
-					throw new ValueNotSupportedException(_calculationMethodEnum);
+					throw new ValueNotSupportedException(calculationMethodEnum);
 			}
 
 			// Yield over results to fields.
@@ -94,7 +92,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 			// Get special dimensions' inputs.
 
 			// Instead of just getting a Single one with DimensionEnum.Time / DimensionEnum.Channel,
-			// make the filters a little more specific and the selection more multiplificy tollerant,
+			// make the filters a little more specific and the selection more multiplicity tolerant,
 			// because these dimensions can just as well be used by the user,
 			// even though it is supposed to be used primarily by the system.
 			// Note that e.g. _timeInputCalculator can even be null, if the calculation does not even use time.

@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                         double value = TestHelper.CalculateOneValue(calculator);
 
-                        //adder.Operator.Inlets[0].Name = "qwer";
+                        //adder.Operator.Inlets[0].Name = "blah";
                         //IValidator validator2 = new OperatorValidator_Adder(adder.Operator);
                         //validator2.Verify();
                     }

@@ -36,16 +36,21 @@ namespace JJ.Business.Synthesizer
 	/// </summary>
 	public class PatchFacade
 	{
-		private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
-
+		private readonly CalculationMethodEnum _calculationMethodEnum;
 		private readonly RepositoryWrapper _repositories;
 	    private readonly PatchCloner _patchCloner;
 
-		// Constructors
+        // Constructors
 
-		public PatchFacade(RepositoryWrapper repositories)
+	    public PatchFacade(RepositoryWrapper repositories)
+            : this(repositories, CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod)
+	    { }
+
+	    internal PatchFacade(RepositoryWrapper repositories, CalculationMethodEnum calculationMethodEnum)
 	    {
-	        _repositories = repositories ?? throw new NullException(() => repositories);
+	        _calculationMethodEnum = calculationMethodEnum;
+
+            _repositories = repositories ?? throw new NullException(() => repositories);
 	        _patchCloner = new PatchCloner(repositories);
 	    }
 
@@ -369,7 +374,8 @@ namespace JJ.Business.Synthesizer
 						calculatorCache,
 						_repositories.CurveRepository,
 						_repositories.SampleRepository,
-						_repositories.SpeakerSetupRepository);
+						_repositories.SpeakerSetupRepository,
+					    _calculationMethodEnum);
 					break;
 
 				case CalculationMethodEnum.Roslyn:

@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			base.PositionControls();
 
 			_tableLayoutPanel.Width =
-				Width - StyleHelper.DefaultSpacing; // Arbitraily take off spacing, because otherwise it is stuck at the left side.
+				Width - StyleHelper.DefaultSpacing; // Arbitrarily take off spacing, because otherwise it is stuck at the left side.
 
 			_tableLayoutPanel.Height = Height - StyleHelper.TitleBarHeight;
 		}

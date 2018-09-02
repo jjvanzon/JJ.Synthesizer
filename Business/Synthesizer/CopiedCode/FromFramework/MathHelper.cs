@@ -66,7 +66,7 @@ namespace JJ.Framework.Mathematics
 
         /// <summary>
         /// Calculates where x is in between x0 and x1 on a logarithmic scale.
-        /// 0 means it is on point x0. 1 means it is on pont x1.
+        /// 0 means it is on point x0. 1 means it is on point x1.
         /// between 0 and 1 means it is somewhere in between.
         /// 0.5 means it is precisely half-way x0 and x1 logarithmically.
         /// Note that it can also be outside the bounds 0 and 1 if it is not in between those numbers.
@@ -325,7 +325,7 @@ namespace JJ.Framework.Mathematics
             if (sourceList == null) throw new NullException(() => sourceList);
             if (destList == null) throw new NullException(() => destList);
 
-            // TODO: This unncessarily created an intermediate dictionary, but at least it reuses code.
+            // TODO: This unnecessarily created an intermediate dictionary, but at least it reuses code.
             Dictionary<int, int> intDictionary = SpreadIntegers(sourceList.Count, destList.Count);
 
             Dictionary<TSource, TDest> destDictionary = intDictionary.ToDictionary(x => sourceList[x.Key], x => destList[x.Value]);

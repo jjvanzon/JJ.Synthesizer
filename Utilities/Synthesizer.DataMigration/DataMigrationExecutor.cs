@@ -127,7 +127,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 				// and then the dependent documents will not be immediately updated.
 				// So at any time 'invalid' data (non-updated operators)
 				// can be in the database and that would be no problem.
-				// However if you just asser the documents,
+				// However if you just assert the documents,
 				// it will just complain about mismatches all over the place.
 
 				documentFacade.Get(document.ID);
@@ -179,7 +179,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 		///// - Sample Operators with sole ownership over a sample.
 		///// - Sample Operators with joint ownership of the sample.
 		///// - Samples without an operator.
-		///// All those sitations have to translated to unique and required link between an operator and a sample.
+		///// All those situations have to translated to unique and required link between an operator and a sample.
 		///// 
 		///// In this version of the migration procedure,
 		///// all samples without an operator are deleted.
@@ -299,10 +299,10 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 		///// <summary>
 		///// There are multiple situations that need to be handled:
 		///// - Curve Operators without a curve.
-		///// - Curve Operators with sole ownership over a cample.
+		///// - Curve Operators with sole ownership over a sample.
 		///// - Curve Operators with joint ownership of the curve.
 		///// - Curve without an operator.
-		///// All those sitations have to translated to unique and required link between an operator and a curve.
+		///// All those situations have to translated to unique and required link between an operator and a curve.
 		///// 
 		///// In this version of the migration procedure,
 		///// all curves without an operator are deleted.

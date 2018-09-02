@@ -182,7 +182,7 @@
 		//}
 
 		///// <summary>
-		///// Renames curves and samples so they are unique within a root documant and its child documents.
+		///// Renames curves and samples so they are unique within a root document and its child documents.
 		///// Only renames ones with actual duplicate names.
 		///// </summary>
 		//public static void MakeCurveNamesAndSampleNamesUnique(Action<string> progressCallback)
@@ -2266,7 +2266,7 @@
 		//			progressCallback(progressMessage);
 		//		}
 
-		//		// Flush to make NHibernate not accidently mistake the deleted child documents for root documents.
+		//		// Flush to make NHibernate not accidentally mistake the deleted child documents for root documents.
 		//		// (for some reason that happens).
 		//		context.Flush();
 

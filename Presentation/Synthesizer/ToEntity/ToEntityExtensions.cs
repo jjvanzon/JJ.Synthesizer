@@ -646,7 +646,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-			// Order-Dependenc2: EntityPosition must be created first and then Operator, or you get a null constraint violation.
+			// Order-Dependence: EntityPosition must be created first and then Operator, or you get a null constraint violation.
 			EntityPosition entityPosition = viewModel.Position.ToEntity(entityPositionRepository);
 
 			MidiMapping entity = viewModel.ToEntity(midiMappingRepository);

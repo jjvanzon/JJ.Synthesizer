@@ -144,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             // Set Margin
             // (This is not full-proof, since margin is calculated based on the point's pixel width and scaling without margin,
             //  But then the scaling is changed based on the margin, making the point's scaled width a little off.
-            //  The difference will probably be 'marginal', but it can get noticable when you make the diagram very small.)
+            //  The difference will probably be 'marginal', but it can get noticeable when you make the diagram very small.)
             float marginInPixels = StyleHelper.PointStyleThick.Width / 2;
             float marginX = Result.Diagram.Position.PixelsToWidth(marginInPixels);
             float marginY = Result.Diagram.Position.PixelsToHeight(marginInPixels);
@@ -454,7 +454,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private void UpdateWaterMarkTitleLabel(string text)
         {
             _waterMarkTitleLabel.Text = text;
-            // 44 pixels magin from the left is to accomodate a reasonable amount of digits
+            // 44 pixels margin from the left is to accomodate a reasonable amount of digits
             // in the left-bound coordinate label without overlapping the title label.
             _waterMarkTitleLabel.Position.X = _waterMarkTitleLabel.Diagram.Background.Position.PixelsToRelativeX(44);
             _waterMarkTitleLabel.Position.Width = _waterMarkTitleLabel.Diagram.Position.ScaledWidth - _waterMarkTitleLabel.Position.X;

@@ -180,7 +180,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void MoveNodeGesture_Moved(object sender, ElementEventArgs e)
 		{
-			// TODO: Lots of code repetition betwen Moved and Moving events.
+			// TODO: Lots of code repetition between Moved and Moving events.
 			if (ViewModel == null) return;
 			if (NodeMoved == null) return;
 			AssertConverter();
