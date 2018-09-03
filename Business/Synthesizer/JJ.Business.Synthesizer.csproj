@@ -264,6 +264,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
+    <EmbeddedResource Include="Calculation\SineCalculator_EmbeddedResource.cs" />
     <Compile Include="Calculation\ToneCalculator.cs" />
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
     <Compile Include="Converters\MidiMappingToDtoConverter.cs" />
@@ -566,9 +567,7 @@
     <Compile Include="Calculation\SampleReader.cs" />
     <Compile Include="Calculation\InterpretedCurveCalculator.cs" />
     <Compile Include="Calculation\SampleArrayDtoFactory.cs" />
-    <Compile Include="Calculation\SineCalculator.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Calculation\SineCalculator.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_Block.cs" />
     <Compile Include="Calculation\NoiseCalculator.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -812,6 +811,7 @@
   <ItemGroup>
     <None Include="Calculation\AudioFileOutputs\AudioFileOutputCalculators.cd" />
     <Compile Include="Validation\ValidationHelper.Unicity.cs" />
+    <None Include="CopyToEmbeddedResources.bat" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -832,7 +832,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(ProjectDir)CopyFrameworkCode.bat"</PreBuildEvent>
+    <PreBuildEvent>call "$(ProjectDir)CopyFrameworkCode.bat"
+call "$(ProjectDir)CopyToEmbeddedResources.bat"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
