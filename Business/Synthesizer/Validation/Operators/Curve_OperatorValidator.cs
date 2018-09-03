@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators

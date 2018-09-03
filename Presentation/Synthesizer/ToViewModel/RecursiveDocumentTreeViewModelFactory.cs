@@ -3,7 +3,7 @@ using System.Linq;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;

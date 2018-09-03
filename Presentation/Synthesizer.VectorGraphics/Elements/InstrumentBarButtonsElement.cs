@@ -1,5 +1,5 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Framework.Resources;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;

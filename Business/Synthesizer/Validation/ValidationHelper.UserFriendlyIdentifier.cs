@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
