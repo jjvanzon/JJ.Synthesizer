@@ -139,9 +139,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                             }
                             else
                             {
-                                //string formattedExpectedX = $"{expectedX:E16}";
-                                string formattedExpectedX = $"{expectedX}";
-                                Console.WriteLine($"Tested point [{i}] = ({formattedExpectedX}, {canonicalActualY})");
+                                Console.WriteLine($"Tested point [{i}] = ({expectedX}, {canonicalActualY})");
                             }
                         }
 
