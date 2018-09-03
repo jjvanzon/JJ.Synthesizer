@@ -17,144 +17,144 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         public void Test_Synthesizer_Sin_WithRoslyn()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(Sin), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(Sin), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Sin,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_Sin_WithCalculatorClasses()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(Sin), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(Sin), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Sin,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
         public void Test_Synthesizer_Cos_WithRoslyn()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(Cos), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(Cos), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Cos,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_Cos_WithCalculatorClasses()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(Cos), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(Cos), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Cos,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
         public void Test_Synthesizer_Tan_WithRoslyn()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(Tan), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(Tan), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Tan,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_Tan_WithCalculatorClasses()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(Tan), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(Tan), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Tan,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
         public void Test_Synthesizer_SinH_WithRoslyn()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(SinH), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(SinH), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Sinh,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_SinH_WithCalculatorClasses()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(SinH), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(SinH), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Sinh,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
         public void Test_Synthesizer_CosH_WithRoslyn()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(CosH), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(CosH), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Cosh,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_CosH_WithCalculatorClasses()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(CosH), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(CosH), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Cosh,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
         public void Test_Synthesizer_TanH_WithRoslyn()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(TanH), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(TanH), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Tanh,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_TanH_WithCalculatorClasses()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(TanH), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(TanH), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Tanh,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
         public void Test_Synthesizer_ArcSin_WithRoslyn()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(ArcSin), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(ArcSin), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Asin,
                 _valuesFromMinus1To1,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_ArcSin_WithCalculatorClasses()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(ArcSin), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(ArcSin), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Asin,
                 _valuesFromMinus1To1,
                 CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
         public void Test_Synthesizer_ArcCos_WithRoslyn()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(ArcCos), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(ArcCos), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Acos,
                 _valuesFromMinus1To1,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_ArcCos_WithCalculatorClasses()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(ArcCos), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(ArcCos), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Acos,
                 _valuesFromMinus1To1,
                 CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
         public void Test_Synthesizer_ArcTan_WithRoslyn()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(ArcTan), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(ArcTan), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Atan,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_ArcTan_WithCalculatorClasses()
-            => TestHelper.TestMultipleValues(
-                x => x.New(nameof(ArcTan), x.PatchInlet(TestHelper.DEFAULT_DIMENSION_ENUM)),
+            => TestExecutor.TestMultipleValues(
+                x => x.New(nameof(ArcTan), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Atan,
                 _valuesFrom0To2Pi,
                 CalculationMethodEnum.CalculatorClasses);

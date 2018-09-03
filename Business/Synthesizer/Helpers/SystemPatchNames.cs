@@ -47,6 +47,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void SinH() => Throw();
         public static void SortOverDimension() => Throw();
         public static void SortOverInlets() => Throw();
+        public static void SquareRoot() => Throw();
         public static void Subtract() => Throw();
         public static void SumFollower() => Throw();
         public static void SumOverDimension() => Throw();
