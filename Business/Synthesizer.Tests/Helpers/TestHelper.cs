@@ -102,8 +102,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                         Outlet outlet = operatorFactory(o);
 
-                        var buffer = new float[1];
                         IPatchCalculator calculator = patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache());
+
+                        var buffer = new float[1];
 
                         // Execute
                         var actualYs = new double[expectedOutputPoints.Count];
@@ -144,7 +145,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                         Console.WriteLine(
                             $"(Note: Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)");
-
                     }
                 });
         }

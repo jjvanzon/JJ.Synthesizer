@@ -60,6 +60,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Synthesizer_LogN_Tests.cs" />
     <Compile Include="Synthesizer_Constants_Tests.cs" />
     <Compile Include="Synthesizer_IntegerConversions_Tests.cs" />
     <Compile Include="Synthesizer_Trigonometry_Tests.cs" />

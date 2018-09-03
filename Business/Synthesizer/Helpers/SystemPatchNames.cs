@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void Floor() => Throw();
         public static void InletsToDimension() => Throw();
         public static void Interpolate() => Throw();
+        public static void LogN() => Throw();
         public static void MaxFollower() => Throw();
         public static void MaxOverDimension() => Throw();
         public static void MaxOverInlets() => Throw();
