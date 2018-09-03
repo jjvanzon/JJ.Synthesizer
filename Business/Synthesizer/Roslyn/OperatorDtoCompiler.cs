@@ -37,12 +37,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private static readonly SyntaxTree[] _includedSyntaxTrees =
             CreateIncludedSyntaxTreesFromEmbeddedResources(
-                    (typeof(SineCalculator).Assembly, "Calculation", "SineCalculator_EmbeddedResource.cs")
+                    (typeof(SineCalculator).Assembly, "Calculation.EmbeddedResources", "SineCalculator.cs")//,
+                    //(typeof(NoiseCalculator).Assembly, "Calculation.EmbeddedResources", "NoiseCalculator.cs")
                 )
                 .Union(
                     CreateIncludedSyntaxTreesFromFiles(
                         //$"Calculation\\{nameof(SineCalculator)}.cs",
-                        $"Calculation\\{nameof(NoiseCalculator)}.cs",
+                        //$"Calculation\\{nameof(NoiseCalculator)}.cs",
                         $"Calculation\\{nameof(BiQuadFilterWithoutFields)}.cs",
                         $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Block)}.cs",
                         $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Cubic)}.cs",
@@ -209,9 +210,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private static SyntaxTree CreateSyntaxTreeFromFile(string codeFileName)
         {
-            string codeFileCSharp = File.ReadAllText(codeFileName);
-
-            return CSharpSyntaxTree.ParseText(codeFileCSharp, path: codeFileName, encoding: Encoding.UTF8);
+            string cSharp = File.ReadAllText(codeFileName);
+            return CSharpSyntaxTree.ParseText(cSharp, path: codeFileName, encoding: Encoding.UTF8);
         }
 
         private static SyntaxTree[] CreateIncludedSyntaxTreesFromEmbeddedResources(
@@ -220,9 +220,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private static SyntaxTree CreateSyntaxTreeFromEmbeddedResource(Assembly assembly, string subNameSpace, string fileName)
         {
-            string codeFileCSharp = EmbeddedResourceHelper.GetEmbeddedResourceText(assembly, subNameSpace, fileName);
-
-            return CSharpSyntaxTree.ParseText(codeFileCSharp, path: fileName, encoding: Encoding.UTF8);
+            string cSharp = EmbeddedResourceHelper.GetEmbeddedResourceText(assembly, subNameSpace, fileName);
+            return CSharpSyntaxTree.ParseText(cSharp, path: fileName, encoding: Encoding.UTF8);
         }
     }
 }

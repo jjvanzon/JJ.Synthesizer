@@ -220,6 +220,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Calculation\ICalculatorWithPosition.cs" />
+    <EmbeddedResource Include="Calculation\EmbeddedResources\NoiseCalculator.cs" />
     <Compile Include="Calculation\NoiseCalculatorHelper.cs" />
     <Compile Include="Calculation\Operators\Truncate_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Floor_OperatorCalculator.cs" />
@@ -264,7 +265,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
-    <EmbeddedResource Include="Calculation\SineCalculator_EmbeddedResource.cs" />
+    <EmbeddedResource Include="Calculation\EmbeddedResources\SineCalculator.cs" />
     <Compile Include="Calculation\ToneCalculator.cs" />
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
     <Compile Include="Converters\MidiMappingToDtoConverter.cs" />
@@ -569,9 +570,7 @@
     <Compile Include="Calculation\SampleArrayDtoFactory.cs" />
     <Compile Include="Calculation\SineCalculator.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_Block.cs" />
-    <Compile Include="Calculation\NoiseCalculator.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Calculation\NoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_WithCollectionRecalculation.cs" />
