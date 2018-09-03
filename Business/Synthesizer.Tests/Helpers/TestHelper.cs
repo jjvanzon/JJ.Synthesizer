@@ -7,46 +7,83 @@ using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Configuration;
+using JJ.Framework.Collections;
 using JJ.Framework.Data;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Testing.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 // ReSharper disable UnusedVariable
 // ReSharper disable InvertIf
 // ReSharper disable CompareOfFloatsByEqualityOperator
 // ReSharper disable LocalizableElement
+// ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-	internal static class TestHelper
-	{
+    internal static class TestHelper
+    {
         private const int DEFAULT_SIGNIFICANT_DIGITS = 6;
+        public const DimensionEnum DEFAULT_DIMENSION_ENUM = DimensionEnum.Number;
 
         public static double CalculateOneValue(IPatchCalculator patchCalculator, double time = 0.0)
-		{
-			const int frameCount = 1;
-			var buffer = new float[1];
-			patchCalculator.Calculate(buffer, frameCount, time);
-			return buffer[0];
-		}
-
-        public static void ExecuteTest(
-            CalculationMethodEnum calculationMethodEnum,
-            DimensionEnum dimensionEnum,
-            Func<double, double> func,
-            Func<OperatorFactory, Outlet> operatorCreationDelegate,
-            IList<double> xValues)
         {
-            IList<(double x, double y)> expectedOutputPoints = xValues.Select(x => (x, func(x))).ToArray();
-            ExecuteTest(calculationMethodEnum, dimensionEnum, operatorCreationDelegate, expectedOutputPoints);
+            const int frameCount = 1;
+            var buffer = new float[1];
+            patchCalculator.Calculate(buffer, frameCount, time);
+            return buffer[0];
         }
 
-	    public static void ExecuteTest(
-	        CalculationMethodEnum calculationMethodEnum,
-            DimensionEnum dimensionEnum,
+        public static void TestOneValue(
             Func<OperatorFactory, Outlet> operatorCreationDelegate,
-            IList<(double x, double y)> expectedOutputPoints)
+            double expectedYValue,
+            CalculationMethodEnum calculationMethodEnum)
+        {
+            var expectedOutputPoints = (0.0, expectedYValue).AsArray();
+            ExecuteTest(operatorCreationDelegate, DEFAULT_DIMENSION_ENUM, expectedOutputPoints, calculationMethodEnum);
+        }
+
+        public static void TestOneValue(
+            Func<OperatorFactory, Outlet> operatorCreationDelegate,
+            double xValue,
+            double expectedYValue,
+            CalculationMethodEnum calculationMethodEnum)
+            => TestOneValue(operatorCreationDelegate, xValue, expectedYValue, DEFAULT_DIMENSION_ENUM, calculationMethodEnum);
+
+        public static void TestOneValue(
+            Func<OperatorFactory, Outlet> operatorCreationDelegate,
+            double xValue,
+            double expectedYValue,
+            DimensionEnum dimensionEnum,
+            CalculationMethodEnum calculationMethodEnum)
+        {
+            var expectedOutputPoints = (xValue, expectedYValue).AsArray();
+            ExecuteTest(operatorCreationDelegate, dimensionEnum, expectedOutputPoints, calculationMethodEnum);
+        }
+
+        public static void TestMultipleValues(
+            Func<OperatorFactory, Outlet> operatorCreationDelegate,
+            Func<double, double> func,
+            IList<double> xValues,
+            CalculationMethodEnum calculationMethodEnum)
+            => TestMultipleValues(operatorCreationDelegate, func, DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum);
+
+        public static void TestMultipleValues(
+            Func<OperatorFactory, Outlet> operatorCreationDelegate,
+            Func<double, double> func,
+            DimensionEnum dimensionEnum,
+            IList<double> xValues,
+            CalculationMethodEnum calculationMethodEnum)
+        {
+            IList<(double x, double y)> expectedOutputPoints = xValues.Select(x => (x, func(x))).ToArray();
+            ExecuteTest(operatorCreationDelegate, dimensionEnum, expectedOutputPoints, calculationMethodEnum);
+        }
+
+        public static void ExecuteTest(
+            Func<OperatorFactory, Outlet> operatorCreationDelegate,
+            DimensionEnum dimensionEnum,
+            IList<(double x, double y)> expectedOutputPoints,
+            CalculationMethodEnum calculationMethodEnum)
             => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
                 {

@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void CosH() => Throw();
         public static void Curve() => Throw();
         public static void DimensionToOutlets() => Throw();
+        public static void E() => Throw();
         public static void InletsToDimension() => Throw();
         public static void Interpolate() => Throw();
         public static void MaxFollower() => Throw();
@@ -48,6 +49,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void SumOverDimension() => Throw();
         public static void Tan() => Throw();
         public static void TanH() => Throw();
+        public static void TwoPi() => Throw();
 
         private static void Throw() => throw new NameOfOnlyException();
     }
