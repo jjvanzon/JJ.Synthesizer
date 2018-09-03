@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                         // Assert
                         Console.WriteLine(
-                            $"Note: Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.");
+                            $"(Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)");
 
                         for (var i = 0; i < expectedOutputPoints.Count; i++)
                         {

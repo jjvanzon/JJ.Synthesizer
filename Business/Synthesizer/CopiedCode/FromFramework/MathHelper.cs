@@ -5,9 +5,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Framework.Mathematics
 {
+    // Do not use [PublicAPI], because this code is statically compiled into places where there is no reference to JetBrains.Annotations.
     public static class MathHelper
     {
         public const double SQRT_2 = 1.4142135623730950;
@@ -334,14 +337,18 @@ namespace JJ.Framework.Mathematics
         }
 
         /// <summary> Equally spreads out a number of points over a span. </summary>
-        public static double[] SpreadDoubles(double valueSpan, int pointCount)
+        public static double[] SpreadDoubles(double valueSpan, int pointCount) => SpreadDoubles(0, valueSpan, pointCount);
+
+        /// <summary> Equally spreads out a number of points over a span. </summary>
+        public static double[] SpreadDoubles(double startValue, double endValue, int pointCount)
         {
-            if (valueSpan <= 0) throw new LessThanOrEqualException(() => valueSpan, 0);
             if (pointCount < 2) throw new LessThanException(() => pointCount, 2);
 
             var values = new double[pointCount];
-            double value = 0;
+            double valueSpan = endValue - startValue;
             double dx = valueSpan / (pointCount - 1);
+
+            double value = startValue;
 
             for (var i = 0; i < pointCount; i++)
             {
