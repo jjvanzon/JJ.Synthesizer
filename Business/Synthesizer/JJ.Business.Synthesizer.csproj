@@ -164,9 +164,7 @@
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
-    <Compile Include="Calculation\BiQuadFilterWithoutFields.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Calculation\BiQuadFilterWithoutFields.cs" />
     <Compile Include="Calculation\ICalculatorWithPosition.cs" />
     <EmbeddedResource Include="EmbeddedResources\NoiseCalculator.cs" />
     <Compile Include="Calculation\NoiseCalculatorHelper.cs" />
@@ -209,9 +207,7 @@
     <Compile Include="Calculation\Operators\SineWithRate1_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TriangleWithoutFrequency_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorBase.cs" />
-    <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
     <EmbeddedResource Include="EmbeddedResources\SineCalculator.cs" />
     <Compile Include="Calculation\ToneCalculator.cs" />
@@ -271,6 +267,12 @@
     <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_RotatePosition_Line_NoRate.cs" />
     <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_RotatePosition_Stripe.cs" />
     <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_RotatePosition_Stripe_NoRate.cs" />
+    <EmbeddedResource Include="EmbeddedResources\BiQuadFilterWithoutFields.cs" />
+    <EmbeddedResource Include="EmbeddedResources\CalculationHelper.cs" />
+    <EmbeddedResource Include="EmbeddedResources\Geometry.cs" />
+    <EmbeddedResource Include="EmbeddedResources\Interpolator.cs" />
+    <EmbeddedResource Include="EmbeddedResources\MathHelper.cs" />
+    <EmbeddedResource Include="EmbeddedResources\PatchCalculatorHelper.cs" />
     <Compile Include="Enums\FollowingModeEnum.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_WithInterpolation_AndFollowingMode.cs" />
     <Compile Include="Enums\EntityTypeEnum.cs" />
@@ -281,9 +283,7 @@
     <Compile Include="Extensions\IInletOrOutletExtensions.cs" />
     <Compile Include="Extensions\SortExtensions.cs" />
     <Compile Include="Helpers\AggregateInfoFactory.cs" />
-    <Compile Include="Helpers\CalculationHelper.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\CurveArrayDtoFactory.cs" />
     <Compile Include="Calculation\Operators\PeakingEQFilter_OperatorCalculator.cs" />
@@ -527,15 +527,9 @@
     <Compile Include="Extensions\OperatorExtensions.cs" />
     <Compile Include="Calculation\BiQuadFilter.cs" />
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
-    <Compile Include="CopiedCode\FromFramework\Geometry.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="CopiedCode\FromFramework\Interpolator.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="CopiedCode\FromFramework\MathHelper.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
+    <Compile Include="CopiedCode\FromFramework\Interpolator.cs" />
+    <Compile Include="CopiedCode\FromFramework\MathHelper.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_Stripe.cs" />

@@ -63,18 +63,14 @@ namespace JJ.Business.Synthesizer.Roslyn
                     (Assembly.GetExecutingAssembly(), "EmbeddedResources", $"{nameof(ArrayCalculatorBase_Hermite)}.cs"),
                     (Assembly.GetExecutingAssembly(), "EmbeddedResources", $"{nameof(ArrayCalculatorBase_Line)}.cs"),
                     (Assembly.GetExecutingAssembly(), "EmbeddedResources", $"{nameof(ArrayCalculatorBase_Stripe)}.cs"),
-                    (Assembly.GetExecutingAssembly(), "EmbeddedResources", $"{nameof(ArrayCalculatorFactory)}.cs")
-                )
-                .Union(
-                    CreateIncludedSyntaxTreesFromFiles(
-                        $"Calculation\\{nameof(BiQuadFilterWithoutFields)}.cs",
-                        $"Calculation\\Patches\\{nameof(PatchCalculatorHelper)}.cs",
-                        $"CopiedCode\\FromFramework\\{nameof(Geometry)}.cs",
-                        $"CopiedCode\\FromFramework\\{nameof(Interpolator)}.cs",
-                        $"CopiedCode\\FromFramework\\{nameof(MathHelper)}.cs",
-                        $"Helpers\\{nameof(CalculationHelper)}.cs")
-                )
-                .ToArray();
+                    (Assembly.GetExecutingAssembly(), "EmbeddedResources", $"{nameof(ArrayCalculatorFactory)}.cs"),
+                    (Assembly.GetExecutingAssembly(), "EmbeddedResources", $"{nameof(BiQuadFilterWithoutFields)}.cs"),
+                    (Assembly.GetExecutingAssembly(), "EmbeddedResources", $"{nameof(PatchCalculatorHelper)}.cs"),
+                    (Assembly.GetExecutingAssembly(), "EmbeddedResources", $"{nameof(Geometry)}.cs"),
+                    (Assembly.GetExecutingAssembly(), "EmbeddedResources", $"{nameof(Interpolator)}.cs"),
+                    (Assembly.GetExecutingAssembly(), "EmbeddedResources", $"{nameof(MathHelper)}.cs"),
+                    (Assembly.GetExecutingAssembly(), "EmbeddedResources", $"{nameof(CalculationHelper)}.cs")
+                ).ToArray();
 
         private static readonly IList<MetadataReference> _metaDataReferences = new MetadataReference[]
         {
@@ -83,10 +79,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             MetadataReference.CreateFromFile(typeof(LessThanException).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(Expression).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(ConfigurationHelper).Assembly.Location),
-            // NOTE: Referencing JJ.Framework.Mathematics is a little 'dangerous', since then you could more easily fall into the trap
-            // of not using the classes copied from JJ.Framework.Mathematics to JJ.Business.Synthesizer, copied to promote inlining.
-            // Inlining is a big deal in this calculation engine.
-            MetadataReference.CreateFromFile(typeof(Randomizer).Assembly.Location)
         };
 
         [Obsolete("Consider using CompileToPatchCalculatorActivationInfo instead, to compile once and instantiate multiple times.")]
@@ -200,15 +192,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 #endif
             // ReSharper disable once RedundantArgumentDefaultValue
             return new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: optimizationLevel);
-        }
-
-        private static SyntaxTree[] CreateIncludedSyntaxTreesFromFiles(params string[] codeFilesNames)
-            => codeFilesNames.Select(CreateSyntaxTreeFromFile).ToArray();
-
-        private static SyntaxTree CreateSyntaxTreeFromFile(string codeFileName)
-        {
-            string cSharp = File.ReadAllText(codeFileName);
-            return CSharpSyntaxTree.ParseText(cSharp, path: codeFileName, encoding: Encoding.UTF8);
         }
 
         private static SyntaxTree[] CreateIncludedSyntaxTreesFromEmbeddedResources(
