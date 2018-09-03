@@ -13,6 +13,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void AverageOverDimension() => Throw();
         public static void AverageOverInlets() => Throw();
         public static void Cache() => Throw();
+        public static void Ceiling() => Throw();
         public static void ClosestOverDimension() => Throw();
         public static void ClosestOverDimensionExp() => Throw();
         public static void ClosestOverInlets() => Throw();
@@ -22,6 +23,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void Curve() => Throw();
         public static void DimensionToOutlets() => Throw();
         public static void E() => Throw();
+        public static void Floor() => Throw();
         public static void InletsToDimension() => Throw();
         public static void Interpolate() => Throw();
         public static void MaxFollower() => Throw();
@@ -49,6 +51,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void SumOverDimension() => Throw();
         public static void Tan() => Throw();
         public static void TanH() => Throw();
+        public static void Truncate() => Throw();
         public static void TwoPi() => Throw();
 
         private static void Throw() => throw new NameOfOnlyException();

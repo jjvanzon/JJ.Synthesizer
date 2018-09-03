@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 using JJ.Framework.Data;
@@ -35,56 +36,61 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         }
 
         public static void TestOneValue(
-            Func<OperatorFactory, Outlet> operatorCreationDelegate,
-            double expectedYValue,
+            Func<OperatorFactory, Outlet> operatorFactory,
+            Func<double, double> func,
+            double x,
             CalculationMethodEnum calculationMethodEnum)
-        {
-            var expectedOutputPoints = (0.0, expectedYValue).AsArray();
-            ExecuteTest(operatorCreationDelegate, DEFAULT_DIMENSION_ENUM, expectedOutputPoints, calculationMethodEnum);
-        }
+            => TestOneValue(operatorFactory, x, func(x), DEFAULT_DIMENSION_ENUM, calculationMethodEnum);
 
         public static void TestOneValue(
-            Func<OperatorFactory, Outlet> operatorCreationDelegate,
-            double xValue,
-            double expectedYValue,
+            Func<OperatorFactory, Outlet> operatorFactory,
+            double expectedY,
             CalculationMethodEnum calculationMethodEnum)
-            => TestOneValue(operatorCreationDelegate, xValue, expectedYValue, DEFAULT_DIMENSION_ENUM, calculationMethodEnum);
+            => TestOneValue(operatorFactory, default, expectedY, DEFAULT_DIMENSION_ENUM, calculationMethodEnum);
 
         public static void TestOneValue(
-            Func<OperatorFactory, Outlet> operatorCreationDelegate,
-            double xValue,
-            double expectedYValue,
+            Func<OperatorFactory, Outlet> operatorFactory,
+            double x,
+            double expectedY,
+            CalculationMethodEnum calculationMethodEnum)
+            => TestOneValue(operatorFactory, x, expectedY, DEFAULT_DIMENSION_ENUM, calculationMethodEnum);
+
+        public static void TestOneValue(
+            Func<OperatorFactory, Outlet> operatorFactory,
+            double x,
+            double expectedY,
             DimensionEnum dimensionEnum,
             CalculationMethodEnum calculationMethodEnum)
-        {
-            var expectedOutputPoints = (xValue, expectedYValue).AsArray();
-            ExecuteTest(operatorCreationDelegate, dimensionEnum, expectedOutputPoints, calculationMethodEnum);
-        }
+            => ExecuteTest(operatorFactory, dimensionEnum, (x, expectedY).AsArray(), calculationMethodEnum);
 
         public static void TestMultipleValues(
-            Func<OperatorFactory, Outlet> operatorCreationDelegate,
+            Func<OperatorFactory, Outlet> operatorFactory,
             Func<double, double> func,
             IList<double> xValues,
             CalculationMethodEnum calculationMethodEnum)
-            => TestMultipleValues(operatorCreationDelegate, func, DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum);
+            => TestMultipleValues(operatorFactory, func, DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum);
 
         public static void TestMultipleValues(
-            Func<OperatorFactory, Outlet> operatorCreationDelegate,
+            Func<OperatorFactory, Outlet> operatorFactory,
             Func<double, double> func,
             DimensionEnum dimensionEnum,
             IList<double> xValues,
             CalculationMethodEnum calculationMethodEnum)
         {
             IList<(double x, double y)> expectedOutputPoints = xValues.Select(x => (x, func(x))).ToArray();
-            ExecuteTest(operatorCreationDelegate, dimensionEnum, expectedOutputPoints, calculationMethodEnum);
+            ExecuteTest(operatorFactory, dimensionEnum, expectedOutputPoints, calculationMethodEnum);
         }
 
         public static void ExecuteTest(
-            Func<OperatorFactory, Outlet> operatorCreationDelegate,
+            Func<OperatorFactory, Outlet> operatorFactory,
             DimensionEnum dimensionEnum,
             IList<(double x, double y)> expectedOutputPoints,
             CalculationMethodEnum calculationMethodEnum)
-            => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
+        {
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
+            if (expectedOutputPoints == null) throw new ArgumentNullException(nameof(expectedOutputPoints));
+
+            AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
                 {
                     using (IContext context = PersistenceHelper.CreateContext())
@@ -95,7 +101,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                         Patch patch = patchFacade.CreatePatch();
                         var o = new OperatorFactory(patch, repositories);
 
-                        Outlet outlet = operatorCreationDelegate(o);
+                        Outlet outlet = operatorFactory(o);
 
                         var buffer = new float[1];
                         IPatchCalculator calculator = patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache());
@@ -117,9 +123,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                         }
 
                         // Assert
-                        Console.WriteLine(
-                            $"(Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)");
-
                         for (var i = 0; i < expectedOutputPoints.Count; i++)
                         {
                             (double expectedX, double expectedY) = expectedOutputPoints[i];
@@ -136,11 +139,18 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                             }
                             else
                             {
-                                Console.WriteLine($"Tested point [{i}] = ({expectedX}, {canonicalActualY})");
+                                //string formattedExpectedX = $"{expectedX:E16}";
+                                string formattedExpectedX = $"{expectedX}";
+                                Console.WriteLine($"Tested point [{i}] = ({formattedExpectedX}, {canonicalActualY})");
                             }
                         }
+
+                        Console.WriteLine(
+                            $"(Note: Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)");
+
                     }
                 });
+        }
 
         /// <summary> Rounds to significant digits, and converts NaN to 0 which winmm would trip over. </summary>
         private static double ToCanonical(double input)
