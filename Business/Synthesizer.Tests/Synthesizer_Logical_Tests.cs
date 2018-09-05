@@ -21,9 +21,21 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Xor_WithCalculatorClasses() => Test_Synthesizer_Xor(CalculationMethodEnum.CalculatorClasses);
 
         private void Test_Synthesizer_Xor(CalculationMethodEnum calculationMethodEnum)
+            => ExecuteTest(nameof(SystemPatchNames.Xor), (x, y) => (x != 0) ^ (y != 0) ? 1 : 0, calculationMethodEnum);
+
+        [TestMethod]
+        public void Test_Synthesizer_Nand_WithRoslyn() => Test_Synthesizer_Nand(CalculationMethodEnum.Roslyn);
+
+        [TestMethod]
+        public void Test_Synthesizer_Nand_WithCalculatorClasses() => Test_Synthesizer_Nand(CalculationMethodEnum.CalculatorClasses);
+
+        private void Test_Synthesizer_Nand(CalculationMethodEnum calculationMethodEnum)
+            => ExecuteTest(nameof(SystemPatchNames.Nand), (x, y) => !(x != 0 && y != 0) ? 1 : 0, calculationMethodEnum);
+
+        private void ExecuteTest(string systemPatchName, Func<double, double, double> func, CalculationMethodEnum calculationMethodEnum)
             => TestExecutor.Test2In1Out(
-                x => x.New(nameof(SystemPatchNames.Xor), x.PatchInlet(DimensionEnum.A), x.PatchInlet(DimensionEnum.B)),
-                (x, y) => (x != 0) ^ (y != 0) ? 1.0 : 0.0,
+                x => x.New(systemPatchName, x.PatchInlet(DimensionEnum.A), x.PatchInlet(DimensionEnum.B)),
+                func,
                 DimensionEnum.A,
                 _values,
                 DimensionEnum.B,

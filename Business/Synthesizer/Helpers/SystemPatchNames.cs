@@ -37,6 +37,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void MinOverInlets() => Throw();
         public static void Multiply() => Throw();
         public static void MultiplyWithOrigin() => Throw();
+        public static void Nand() => Throw();
         public static void NthRoot() => Throw();
         public static void Number() => Throw();
         public static void PatchInlet() => Throw();
