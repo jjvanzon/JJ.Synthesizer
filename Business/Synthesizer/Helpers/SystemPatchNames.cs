@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void ClosestOverInletsExp() => Throw();
         public static void Cos() => Throw();
         public static void CosH() => Throw();
+        public static void CubeRoot() => Throw();
         public static void Curve() => Throw();
         public static void DimensionToOutlets() => Throw();
         public static void E() => Throw();
@@ -27,6 +28,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void InletsToDimension() => Throw();
         public static void Interpolate() => Throw();
         public static void LogN() => Throw();
+        public static void Ln() => Throw();
         public static void MaxFollower() => Throw();
         public static void MaxOverDimension() => Throw();
         public static void MaxOverInlets() => Throw();
@@ -43,6 +45,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void RangeOverOutlets() => Throw();
         public static void Reset() => Throw();
         public static void Sample() => Throw();
+        public static void Sign() => Throw();
         public static void Sin() => Throw();
         public static void SinH() => Throw();
         public static void SortOverDimension() => Throw();
