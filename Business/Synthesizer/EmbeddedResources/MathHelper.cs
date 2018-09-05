@@ -92,6 +92,9 @@ namespace JJ.Framework.Mathematics
             return scale * Math.Round(value / scale, digitCount);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RoundToSignificantDigits(float value, int digitCount) => (float)RoundToSignificantDigits((double)value, digitCount);
+
         /// <summary>
         /// Rounds to multiples of step, with an offset.
         /// It uses Math.Round as a helper, which supports a wide range of values.

@@ -128,8 +128,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                             (double expectedX, double expectedY) = expectedOutputPoints[i];
                             double actualY = actualYs[i];
 
-                            double canonicalExpectedY = ToCanonical(expectedY);
-                            double canonicalActualY = ToCanonical(actualY);
+                            float canonicalExpectedY = ToCanonical(expectedY);
+                            float canonicalActualY = ToCanonical(actualY);
 
                             if (canonicalExpectedY != canonicalActualY)
                             {
@@ -150,12 +150,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         }
 
         /// <summary> Rounds to significant digits, and converts NaN to 0 which winmm would trip over. </summary>
-        private static double ToCanonical(double input)
+        private static float ToCanonical(double input)
         {
-            double output = MathHelper.RoundToSignificantDigits(input, DEFAULT_SIGNIFICANT_DIGITS);
+            var output = (float)input;
+
+            output = MathHelper.RoundToSignificantDigits(output, DEFAULT_SIGNIFICANT_DIGITS);
 
             // Calculation engine will not output NaN.
-            if (double.IsNaN(output))
+            if (float.IsNaN(output))
             {
                 output = 0;
             }
