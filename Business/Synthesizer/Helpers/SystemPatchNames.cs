@@ -59,6 +59,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void TanH() => Throw();
         public static void Truncate() => Throw();
         public static void TwoPi() => Throw();
+        public static void Xor() => Throw();
 
         private static void Throw() => throw new NameOfOnlyException();
     }
