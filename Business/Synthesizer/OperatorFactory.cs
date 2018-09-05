@@ -358,16 +358,16 @@ namespace JJ.Business.Synthesizer
 			return new PatchInletOrOutlet_OperatorWrapper(op);
 		}
 
-		public PatchInletOrOutlet_OperatorWrapper PatchInlet(DimensionEnum dimension)
-		{
-			PatchInletOrOutlet_OperatorWrapper wrapper = PatchInlet();
+	    public PatchInletOrOutlet_OperatorWrapper PatchInlet(DimensionEnum dimension)
+	    {
+	        PatchInletOrOutlet_OperatorWrapper wrapper = PatchInlet();
 
-			wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
+	        wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
-			return wrapper;
-		}
+	        return wrapper;
+	    }
 
-	    public PatchInletOrOutlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
+        public PatchInletOrOutlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
 		{
 			PatchInletOrOutlet_OperatorWrapper wrapper = PatchInlet();
 

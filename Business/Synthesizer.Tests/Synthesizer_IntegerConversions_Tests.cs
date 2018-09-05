@@ -24,11 +24,13 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         public void Test_Synthesizer_Ceiling_WithCalculatorClasses()
-            => TestExecutor.TestMultipleValues(
+        {
+            TestExecutor.TestMultipleValues(
                 x => x.New(nameof(Ceiling), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Ceiling,
                 _xValues,
                 CalculationMethodEnum.CalculatorClasses);
+        }
 
         [TestMethod]
         public void Test_Synthesizer_Floor_WithRoslyn()

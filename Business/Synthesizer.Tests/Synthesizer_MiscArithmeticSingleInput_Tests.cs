@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class Synthesizer_MiscArithmetic_Tests
+    public class Synthesizer_MiscArithmeticSingleInput_Tests
     {
         private static readonly double[] _xValues = MathHelper.SpreadDoubles(1, 15, 29);
 
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests
                 x => x.New(nameof(SystemPatchNames.SquareRoot), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Sqrt,
                 _xValues,
-                CalculationMethodEnum.Roslyn);
+                CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
         public void Test_Synthesizer_CubeRoot_WithRoslyn()
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Tests
                 x => x.New(nameof(SystemPatchNames.CubeRoot), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 x => Math.Pow(x, 1.0 / 3.0),
                 _xValues,
-                CalculationMethodEnum.Roslyn);
+                CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
         public void Test_Synthesizer_Ln_WithRoslyn()
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Tests
                 x => x.New(nameof(SystemPatchNames.Ln), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Log,
                 _xValues,
-                CalculationMethodEnum.Roslyn);
+                CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
         public void Test_Synthesizer_Sign_WithRoslyn()
@@ -74,6 +74,6 @@ namespace JJ.Business.Synthesizer.Tests
                 x => x.New(nameof(SystemPatchNames.Sign), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Log,
                 _xValues,
-                CalculationMethodEnum.Roslyn);
+                CalculationMethodEnum.CalculatorClasses);
     }
 }
