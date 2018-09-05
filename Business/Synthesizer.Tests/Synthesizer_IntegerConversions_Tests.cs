@@ -1,9 +1,10 @@
-﻿using System;
+﻿// ReSharper disable once RedundantUsingDirective
+
+using System;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Mathematics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-// ReSharper disable once RedundantUsingDirective
 using static JJ.Business.Synthesizer.Helpers.SystemPatchNames;
 
 namespace JJ.Business.Synthesizer.Tests

@@ -21,10 +21,35 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal static class TestExecutor
+    internal class TestExecutor : IDisposable
     {
         private const int DEFAULT_SIGNIFICANT_DIGITS = 6;
+
+        private static readonly string _note = $"(Note: Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)";
+
+        private IContext _context;
+        private readonly IPatchCalculator _calculator;
+
         public const DimensionEnum DEFAULT_DIMENSION_ENUM = DimensionEnum.Number;
+
+        private TestExecutor(CalculationMethodEnum calculationMethodEnum, Func<OperatorFactory, Outlet> operatorFactoryDelegate)
+        {
+            if (operatorFactoryDelegate == null) throw new ArgumentNullException(nameof(operatorFactoryDelegate));
+
+            AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(() => _context = PersistenceHelper.CreateContext());
+
+            RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(_context);
+            var patchFacade = new PatchFacade(repositories, calculationMethodEnum);
+            Patch patch = patchFacade.CreatePatch();
+            var operatorFactory = new OperatorFactory(patch, repositories);
+            Outlet outlet = operatorFactoryDelegate(operatorFactory);
+
+            _calculator = patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache());
+        }
+
+        ~TestExecutor() => Dispose();
+
+        public void Dispose() => _context?.Dispose();
 
         public static double CalculateOneValue(IPatchCalculator patchCalculator, double time = 0.0)
         {
@@ -60,7 +85,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             double expectedY,
             DimensionEnum dimensionEnum,
             CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(operatorFactoryDelegate, dimensionEnum, (x, expectedY).AsArray(), calculationMethodEnum);
+        {
+            using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
+            {
+                testExecutor.ExecuteTest(dimensionEnum, (x, expectedY).AsArray());
+            }
+        }
 
         public static void TestMultipleValues(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
@@ -77,79 +107,129 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationMethodEnum calculationMethodEnum)
         {
             IList<(double x, double y)> expectedOutputPoints = xValues.Select(x => (x, func(x))).ToArray();
-            ExecuteTest(operatorFactoryDelegate, dimensionEnum, expectedOutputPoints, calculationMethodEnum);
+
+            using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
+            {
+                testExecutor.ExecuteTest(dimensionEnum, expectedOutputPoints);
+            }
         }
 
-        public static void ExecuteTest(
+        public static void Test2In1Out(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            DimensionEnum dimensionEnum,
-            IList<(double x, double y)> expectedOutputPoints,
+            Func<double, double, double> func,
+            DimensionEnum xDimensionEnum,
+            IList<double> xValues,
+            DimensionEnum yDimensionEnum,
+            IList<double> yValues,
             CalculationMethodEnum calculationMethodEnum)
         {
-            if (operatorFactoryDelegate == null) throw new ArgumentNullException(nameof(operatorFactoryDelegate));
-            if (expectedOutputPoints == null) throw new ArgumentNullException(nameof(expectedOutputPoints));
+            IList<(double x, double y, double z)> expectedOutputPoints = xValues.CrossJoin(yValues, (x, y) => (x, y, func(x, y))).ToArray();
 
-            AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
-                () =>
-                {
-                    using (IContext context = PersistenceHelper.CreateContext())
-                    {
-                        // Arrange
-                        RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-                        var patchFacade = new PatchFacade(repositories, calculationMethodEnum);
-                        Patch patch = patchFacade.CreatePatch();
-                        var o = new OperatorFactory(patch, repositories);
-
-                        Outlet outlet = operatorFactoryDelegate(o);
-
-                        IPatchCalculator calculator = patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache());
-
-                        var buffer = new float[1];
-
-                        // Execute
-                        var actualYs = new double[expectedOutputPoints.Count];
-                        double firstX = expectedOutputPoints.First().x;
-                        calculator.Reset(firstX);
-
-                        for (var i = 0; i < expectedOutputPoints.Count; i++)
-                        {
-                            (double expectedX, double expectedY) = expectedOutputPoints[i];
-
-                            Array.Clear(buffer, 0, buffer.Length);
-                            calculator.SetValue(dimensionEnum, expectedX);
-                            calculator.Calculate(buffer, buffer.Length, expectedX);
-                            double actualY = buffer[0];
-                            actualYs[i] = actualY;
-                        }
-
-                        // Assert
-                        for (var i = 0; i < expectedOutputPoints.Count; i++)
-                        {
-                            (double expectedX, double expectedY) = expectedOutputPoints[i];
-                            double actualY = actualYs[i];
-
-                            float canonicalExpectedY = ToCanonical(expectedY);
-                            float canonicalActualY = ToCanonical(actualY);
-
-                            if (canonicalExpectedY != canonicalActualY)
-                            {
-                                Assert.Fail(
-                                    $"Point [{i}] on x = {expectedX} should have y = {canonicalExpectedY}, but has y = {canonicalActualY} instead. " +
-                                    $"(y's are rounded to {DEFAULT_SIGNIFICANT_DIGITS} significant digits.)");
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Tested point [{i}] = ({expectedX}, {canonicalActualY})");
-                            }
-                        }
-
-                        Console.WriteLine(
-                            $"(Note: Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)");
-                    }
-                });
+            using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
+            {
+                testExecutor.ExecuteTest(xDimensionEnum, yDimensionEnum, expectedOutputPoints);
+            }
         }
 
-        /// <summary> Rounds to significant digits, and converts NaN to 0 which winmm would trip over. </summary>
+        private void ExecuteTest(DimensionEnum dimensionEnum, IList<(double x, double y)> expectedOutputPoints)
+        {
+            if (expectedOutputPoints == null) throw new ArgumentNullException(nameof(expectedOutputPoints));
+
+            // Arrange
+            var buffer = new float[1];
+
+            // Execute
+            var actualYs = new double[expectedOutputPoints.Count];
+            double firstX = expectedOutputPoints.First().x;
+            _calculator.Reset(firstX);
+
+            for (var i = 0; i < expectedOutputPoints.Count; i++)
+            {
+                (double expectedX, double expectedY) = expectedOutputPoints[i];
+
+                Array.Clear(buffer, 0, buffer.Length);
+                _calculator.SetValue(dimensionEnum, expectedX);
+                _calculator.Calculate(buffer, buffer.Length, expectedX);
+                double actualY = buffer[0];
+                actualYs[i] = actualY;
+            }
+
+            // Assert
+            for (var i = 0; i < expectedOutputPoints.Count; i++)
+            {
+                (double expectedX, double expectedY) = expectedOutputPoints[i];
+                double actualY = actualYs[i];
+
+                float canonicalExpectedY = ToCanonical(expectedY);
+                float canonicalActualY = ToCanonical(actualY);
+
+                if (canonicalExpectedY != canonicalActualY)
+                {
+                    Assert.Fail(
+                        $"Point [{i}] on x = {expectedX} should have y = {canonicalExpectedY}, but has y = {canonicalActualY} instead. {_note}");
+                }
+                else
+                {
+                    Console.WriteLine($"Tested point [{i}] = ({expectedX}, {canonicalActualY})");
+                }
+            }
+
+            Console.WriteLine(_note);
+        }
+
+        private void ExecuteTest(
+            DimensionEnum xDimensionEnum,
+            DimensionEnum yDimensionEnum,
+            IList<(double x, double y, double z)> expectedOutputPoints)
+        {
+            if (expectedOutputPoints == null) throw new ArgumentNullException(nameof(expectedOutputPoints));
+
+            // Arrange
+            var buffer = new float[1];
+
+            // Execute
+            var actualZs = new double[expectedOutputPoints.Count];
+            double firstX = expectedOutputPoints.First().x;
+            _calculator.Reset(firstX);
+
+            for (var i = 0; i < expectedOutputPoints.Count; i++)
+            {
+                (double expectedX, double expectedY, double expectedZ) = expectedOutputPoints[i];
+
+                Array.Clear(buffer, 0, buffer.Length);
+                _calculator.SetValue(xDimensionEnum, expectedX);
+                _calculator.SetValue(yDimensionEnum, expectedY);
+                _calculator.Calculate(buffer, buffer.Length, expectedX);
+                double actualZ = buffer[0];
+                actualZs[i] = actualZ;
+            }
+
+            // Assert
+            for (var i = 0; i < expectedOutputPoints.Count; i++)
+            {
+                (double expectedX, double expectedY, double expectedZ) = expectedOutputPoints[i];
+                double actualZ = actualZs[i];
+
+                float canonicalExpectedZ = ToCanonical(expectedZ);
+                float canonicalActualZ = ToCanonical(actualZ);
+
+                if (canonicalExpectedZ != canonicalActualZ)
+                {
+                    Assert.Fail(
+                        $"Point [{i}] with {xDimensionEnum}={expectedX}, {yDimensionEnum}={expectedY}) " +
+                        $"should have result = {canonicalExpectedZ}, " +
+                        $"but has result = {canonicalActualZ} instead. {_note}");
+                }
+                else
+                {
+                    Console.WriteLine($"Tested point [{i}] = ({xDimensionEnum}={expectedX}, {yDimensionEnum}={expectedY}, {canonicalActualZ})");
+                }
+            }
+
+            Console.WriteLine(_note);
+        }
+
+        /// <summary> Converts to float, rounds to significant digits and converts NaN to 0 which winmm would trip over. </summary>
         private static float ToCanonical(double input)
         {
             var output = (float)input;
