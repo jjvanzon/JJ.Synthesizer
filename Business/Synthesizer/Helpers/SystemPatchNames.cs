@@ -6,6 +6,7 @@ namespace JJ.Business.Synthesizer.Helpers
     public static class SystemPatchNames
     {
         public static void Add() => Throw();
+        public static void And() => Throw();
         public static void ArcCos() => Throw();
         public static void ArcSin() => Throw();
         public static void ArcTan() => Throw();
@@ -38,8 +39,10 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void Multiply() => Throw();
         public static void MultiplyWithOrigin() => Throw();
         public static void Nand() => Throw();
+        public static void Not() => Throw();
         public static void NthRoot() => Throw();
         public static void Number() => Throw();
+        public static void Or() => Throw();
         public static void PatchInlet() => Throw();
         public static void PatchOutlet() => Throw();
         public static void Pi() => Throw();
