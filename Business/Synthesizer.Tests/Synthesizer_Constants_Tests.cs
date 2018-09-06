@@ -13,26 +13,39 @@ namespace JJ.Business.Synthesizer.Tests
     {
         [TestMethod]
         public void Test_Synthesizer_ConstantE_WithRoslyn()
-            => TestExecutor.TestOneValue(x => x.New(nameof(E)), Math.E, CalculationMethodEnum.Roslyn);
+            => Test_Synthesizer_ConstantE(CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_ConstantE_WithCalculatorClasses()
-            => TestExecutor.TestOneValue(x => x.New(nameof(E)), Math.E, CalculationMethodEnum.CalculatorClasses);
+            => Test_Synthesizer_ConstantE(CalculationMethodEnum.CalculatorClasses);
+
+        private void Test_Synthesizer_ConstantE(CalculationMethodEnum calculationMethodEnum)
+            => TestExecutor.TestOneValue(x => x.New(nameof(E)), Math.E, calculationMethodEnum);
+
+        // Pi
 
         [TestMethod]
         public void Test_Synthesizer_ConstantPi_WithRoslyn()
-            => TestExecutor.TestOneValue(x => x.New(nameof(Pi)), Math.PI, CalculationMethodEnum.Roslyn);
+            => Test_Synthesizer_ConstantPi(CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_ConstantPi_WithCalculatorClasses()
-            => TestExecutor.TestOneValue(x => x.New(nameof(Pi)), Math.PI, CalculationMethodEnum.CalculatorClasses);
+            => Test_Synthesizer_ConstantPi(CalculationMethodEnum.CalculatorClasses);
+
+        private void Test_Synthesizer_ConstantPi(CalculationMethodEnum calculationMethodEnum)
+            => TestExecutor.TestOneValue(x => x.New(nameof(Pi)), Math.PI, calculationMethodEnum);
+
+        // TwoPi
 
         [TestMethod]
         public void Test_Synthesizer_ConstantTwoPi_WithRoslyn()
-            => TestExecutor.TestOneValue(x => x.New(nameof(TwoPi)), MathHelper.TWO_PI, CalculationMethodEnum.Roslyn);
+            => Test_Synthesizer_ConstantTwoPi(CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_ConstantTwoPi_WithCalculatorClasses()
-            => TestExecutor.TestOneValue(x => x.New(nameof(TwoPi)), MathHelper.TWO_PI, CalculationMethodEnum.CalculatorClasses);
+            => Test_Synthesizer_ConstantTwoPi(CalculationMethodEnum.CalculatorClasses);
+
+        private void Test_Synthesizer_ConstantTwoPi(CalculationMethodEnum calculationMethodEnum)
+            => TestExecutor.TestOneValue(x => x.New(nameof(TwoPi)), MathHelper.TWO_PI, calculationMethodEnum);
     }
 }

@@ -14,54 +14,46 @@ namespace JJ.Business.Synthesizer.Tests
     {
         private static readonly double[] _xValues = MathHelper.SpreadDoubles(-5, 5, 20);
 
-        [TestMethod]
-        public void Test_Synthesizer_Ceiling_WithRoslyn()
-            => TestExecutor.TestMultipleValues(
-                x => x.New(nameof(Ceiling), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
-                Math.Ceiling,
-                _xValues,
-                CalculationMethodEnum.Roslyn);
+        // Ceiling
 
         [TestMethod]
-        public void Test_Synthesizer_Ceiling_WithCalculatorClasses()
-        {
-            TestExecutor.TestMultipleValues(
-                x => x.New(nameof(Ceiling), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
-                Math.Ceiling,
-                _xValues,
-                CalculationMethodEnum.CalculatorClasses);
-        }
+        public void Test_Synthesizer_Ceiling_WithRoslyn() => Test_Synthesizer_Ceiling(CalculationMethodEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Floor_WithRoslyn()
-            => TestExecutor.TestMultipleValues(
-                x => x.New(nameof(Floor), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
-                Math.Floor,
-                _xValues,
-                CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Ceiling_WithCalculatorClasses() => Test_Synthesizer_Ceiling(CalculationMethodEnum.CalculatorClasses);
+
+        private void Test_Synthesizer_Ceiling(CalculationMethodEnum calculationMethodEnum)
+            => ExecuteTest(nameof(Ceiling), Math.Ceiling, calculationMethodEnum);
+
+        // Floor
 
         [TestMethod]
-        public void Test_Synthesizer_Floor_WithCalculatorClasses()
-            => TestExecutor.TestMultipleValues(
-                x => x.New(nameof(Floor), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
-                Math.Floor,
-                _xValues,
-                CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Floor_WithRoslyn() => Test_Synthesizer_Floor(CalculationMethodEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Truncate_WithRoslyn()
-            => TestExecutor.TestMultipleValues(
-                x => x.New(nameof(Truncate), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
-                Math.Truncate,
-                _xValues,
-                CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Floor_WithCalculatorClasses() => Test_Synthesizer_Floor(CalculationMethodEnum.CalculatorClasses);
+
+        private void Test_Synthesizer_Floor(CalculationMethodEnum calculationMethodEnum)
+            => ExecuteTest(nameof(Floor), Math.Floor, calculationMethodEnum);
+
+        // Truncate
 
         [TestMethod]
-        public void Test_Synthesizer_Truncate_WithCalculatorClasses()
+        public void Test_Synthesizer_Truncate_WithRoslyn() => Test_Synthesizer_Truncate(CalculationMethodEnum.Roslyn);
+
+        [TestMethod]
+        public void Test_Synthesizer_Truncate_WithCalculatorClasses() => Test_Synthesizer_Truncate(CalculationMethodEnum.CalculatorClasses);
+
+        private void Test_Synthesizer_Truncate(CalculationMethodEnum calculationMethodEnum)
+            => ExecuteTest(nameof(Truncate), Math.Truncate, calculationMethodEnum);
+
+        // Generalized Method
+
+        private void ExecuteTest(string systemPatchName, Func<double, double> func, CalculationMethodEnum calculationMethodEnum)
             => TestExecutor.TestMultipleValues(
-                x => x.New(nameof(Truncate), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
-                Math.Truncate,
+                x => x.New(systemPatchName, x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
+                func,
                 _xValues,
-                CalculationMethodEnum.CalculatorClasses);
+                calculationMethodEnum);
     }
 }
