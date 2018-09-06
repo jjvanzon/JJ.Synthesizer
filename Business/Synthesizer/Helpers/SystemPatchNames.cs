@@ -6,6 +6,7 @@ namespace JJ.Business.Synthesizer.Helpers
     public static class SystemPatchNames
     {
         public static void Add() => Throw();
+        public static void Absolute() => Throw();
         public static void And() => Throw();
         public static void ArcCos() => Throw();
         public static void ArcSin() => Throw();
@@ -24,10 +25,16 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void CubeRoot() => Throw();
         public static void Curve() => Throw();
         public static void DimensionToOutlets() => Throw();
+        public static void Divide() => Throw();
         public static void E() => Throw();
+        public static void Equal() => Throw();
         public static void Floor() => Throw();
+        public static void GreaterThan() => Throw();
+        public static void GreaterThanOrEqual() => Throw();
         public static void InletsToDimension() => Throw();
         public static void Interpolate() => Throw();
+        public static void LessThan() => Throw();
+        public static void LessThanOrEqual() => Throw();
         public static void LogN() => Throw();
         public static void Ln() => Throw();
         public static void MaxFollower() => Throw();
@@ -39,13 +46,18 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void Multiply() => Throw();
         public static void MultiplyWithOrigin() => Throw();
         public static void Nand() => Throw();
+        public static void Negative() => Throw();
         public static void Not() => Throw();
+        public static void NotEqual() => Throw();
         public static void NthRoot() => Throw();
         public static void Number() => Throw();
+        public static void OneOverX() => Throw();
         public static void Or() => Throw();
         public static void PatchInlet() => Throw();
         public static void PatchOutlet() => Throw();
         public static void Pi() => Throw();
+        public static void Power() => Throw();
+        public static void Remainder() => Throw();
         public static void Random() => Throw();
         public static void RangeOverOutlets() => Throw();
         public static void Reset() => Throw();

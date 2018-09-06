@@ -222,7 +222,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 }
                 else
                 {
-                    Console.WriteLine($"Tested point [{i}] = ({xDimensionEnum}={expectedX}, {yDimensionEnum}={expectedY}) => {canonicalActualZ}'");
+                    Console.WriteLine($"Tested point [{i}] = ({xDimensionEnum}={expectedX}, {yDimensionEnum}={expectedY}) => {canonicalActualZ}");
                 }
             }
 

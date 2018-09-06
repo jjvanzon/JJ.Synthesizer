@@ -8,16 +8,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class Synthesizer_MiscArithmeticSingleInput_Tests
+    public class Synthesizer_RootsAndLogsSingleInput_Tests
     {
-        private static readonly double[] _xValues = MathHelper.SpreadDoubles(1, 15, 29);
+        private static readonly double[] _values = MathHelper.SpreadDoubles(1, 15, 29);
 
         [TestMethod]
         public void Test_Synthesizer_SquareRoot_WithRoslyn()
             => TestExecutor.TestMultipleValues(
                 x => x.New(nameof(SystemPatchNames.SquareRoot), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Sqrt,
-                _xValues,
+                _values,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests
             => TestExecutor.TestMultipleValues(
                 x => x.New(nameof(SystemPatchNames.SquareRoot), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Sqrt,
-                _xValues,
+                _values,
                 CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Tests
             => TestExecutor.TestMultipleValues(
                 x => x.New(nameof(SystemPatchNames.CubeRoot), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 x => Math.Pow(x, 1.0 / 3.0),
-                _xValues,
+                _values,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests
             => TestExecutor.TestMultipleValues(
                 x => x.New(nameof(SystemPatchNames.CubeRoot), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 x => Math.Pow(x, 1.0 / 3.0),
-                _xValues,
+                _values,
                 CalculationMethodEnum.CalculatorClasses);
 
         [TestMethod]
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
             => TestExecutor.TestMultipleValues(
                 x => x.New(nameof(SystemPatchNames.Ln), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Log,
-                _xValues,
+                _values,
                 CalculationMethodEnum.Roslyn);
 
         [TestMethod]
@@ -57,23 +57,7 @@ namespace JJ.Business.Synthesizer.Tests
             => TestExecutor.TestMultipleValues(
                 x => x.New(nameof(SystemPatchNames.Ln), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 Math.Log,
-                _xValues,
-                CalculationMethodEnum.CalculatorClasses);
-
-        [TestMethod]
-        public void Test_Synthesizer_Sign_WithRoslyn()
-            => TestExecutor.TestMultipleValues(
-                x => x.New(nameof(SystemPatchNames.Sign), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
-                Math.Log,
-                _xValues,
-                CalculationMethodEnum.Roslyn);
-
-        [TestMethod]
-        public void Test_Synthesizer_Sign_WithCalculatorClasses()
-            => TestExecutor.TestMultipleValues(
-                x => x.New(nameof(SystemPatchNames.Sign), x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
-                Math.Log,
-                _xValues,
+                _values,
                 CalculationMethodEnum.CalculatorClasses);
     }
 }
