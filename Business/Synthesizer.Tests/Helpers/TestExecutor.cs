@@ -25,7 +25,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     {
         private const int DEFAULT_SIGNIFICANT_DIGITS = 6;
 
-        private static readonly string _note = $"(Note: Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)";
+        private static readonly string _note =
+            $"(Note: Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)";
 
         private IContext _context;
         private readonly IPatchCalculator _calculator;
@@ -59,47 +60,25 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return buffer[0];
         }
 
-        public static void TestOneValue(
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            Func<double, double> func,
-            double x,
-            CalculationMethodEnum calculationMethodEnum)
-            => TestOneValue(operatorFactoryDelegate, x, func(x), DEFAULT_DIMENSION_ENUM, calculationMethodEnum);
-
-        public static void TestOneValue(
+        public static void Test0In1Out(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             double expectedY,
-            CalculationMethodEnum calculationMethodEnum)
-            => TestOneValue(operatorFactoryDelegate, default, expectedY, DEFAULT_DIMENSION_ENUM, calculationMethodEnum);
-
-        public static void TestOneValue(
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            double x,
-            double expectedY,
-            CalculationMethodEnum calculationMethodEnum)
-            => TestOneValue(operatorFactoryDelegate, x, expectedY, DEFAULT_DIMENSION_ENUM, calculationMethodEnum);
-
-        public static void TestOneValue(
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            double x,
-            double expectedY,
-            DimensionEnum dimensionEnum,
             CalculationMethodEnum calculationMethodEnum)
         {
             using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
             {
-                testExecutor.ExecuteTest(dimensionEnum, (x, expectedY).AsArray());
+                testExecutor.ExecuteTest(DEFAULT_DIMENSION_ENUM, ((double)default, expectedY).AsArray());
             }
         }
 
-        public static void TestMultipleValues(
+        public static void Test1In1Out(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double> func,
             IList<double> xValues,
             CalculationMethodEnum calculationMethodEnum)
-            => TestMultipleValues(operatorFactoryDelegate, func, DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum);
+            => Test1In1Out(operatorFactoryDelegate, func, DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum);
 
-        public static void TestMultipleValues(
+        public static void Test1In1Out(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double> func,
             DimensionEnum dimensionEnum,

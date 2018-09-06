@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Tests
             => Test_Synthesizer_ConstantE(CalculationMethodEnum.CalculatorClasses);
 
         private void Test_Synthesizer_ConstantE(CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.TestOneValue(x => x.New(nameof(E)), Math.E, calculationMethodEnum);
+            => TestExecutor.Test0In1Out(x => x.New(nameof(E)), Math.E, calculationMethodEnum);
 
         // Pi
 
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Tests
             => Test_Synthesizer_ConstantPi(CalculationMethodEnum.CalculatorClasses);
 
         private void Test_Synthesizer_ConstantPi(CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.TestOneValue(x => x.New(nameof(Pi)), Math.PI, calculationMethodEnum);
+            => TestExecutor.Test0In1Out(x => x.New(nameof(Pi)), Math.PI, calculationMethodEnum);
 
         // TwoPi
 
@@ -46,6 +46,6 @@ namespace JJ.Business.Synthesizer.Tests
             => Test_Synthesizer_ConstantTwoPi(CalculationMethodEnum.CalculatorClasses);
 
         private void Test_Synthesizer_ConstantTwoPi(CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.TestOneValue(x => x.New(nameof(TwoPi)), MathHelper.TWO_PI, calculationMethodEnum);
+            => TestExecutor.Test0In1Out(x => x.New(nameof(TwoPi)), MathHelper.TWO_PI, calculationMethodEnum);
     }
 }

@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Tests
                 calculationMethodEnum);
 
         private void ExecuteTest(string systemPatchName, Func<double, double> func, CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.TestMultipleValues(
+            => TestExecutor.Test1In1Out(
                 x => x.New(systemPatchName, x.PatchInlet(DimensionEnum.Number)),
                 func,
                 DimensionEnum.Number,
