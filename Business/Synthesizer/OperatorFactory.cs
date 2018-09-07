@@ -40,10 +40,6 @@ namespace JJ.Business.Synthesizer
 			_systemFacade = new SystemFacade(repositories.DocumentRepository);
 		}
 
-		public OperatorWrapper Add(params Outlet[] items) => Add((IList<Outlet>)items);
-
-	    public OperatorWrapper Add(IList<Outlet> items) => NewWithItemInlets(items);
-
 	    private OperatorWrapper AverageFollower(
 			Outlet signal = null,
 			Outlet sliceLength = null,
@@ -73,8 +69,6 @@ namespace JJ.Business.Synthesizer
 	            standardDimension,
 	            customDimension,
 	            collectionRecalculation);
-
-	    private OperatorWrapper AverageOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
 
 	    private Cache_OperatorWrapper Cache(
 			Outlet signal = null,
@@ -262,8 +256,6 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-	    private OperatorWrapper MaxOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
-
 	    private OperatorWrapper MaxFollower(
 			Outlet signal = null,
 			Outlet sliceLength = null,
@@ -288,8 +280,6 @@ namespace JJ.Business.Synthesizer
 	            standardDimension,
 	            customDimension,
 	            collectionRecalculation);
-
-	    private OperatorWrapper MinOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
 
 	    private OperatorWrapper MinFollower(
 			Outlet signal = null,
@@ -316,9 +306,6 @@ namespace JJ.Business.Synthesizer
 	            customDimension,
 	            collectionRecalculation);
 
-	    public OperatorWrapper Multiply(params Outlet[] items) => Multiply((IList<Outlet>)items);
-
-	    private OperatorWrapper Multiply(IList<Outlet> items) => NewWithItemInlets(items);
 	    public OperatorWrapper MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
 	    {
 	        OperatorWrapper wrapper = NewBase();
@@ -329,7 +316,8 @@ namespace JJ.Business.Synthesizer
 
 	        return wrapper;
 	    }
-        public OperatorWrapper Noise(
+
+	    public OperatorWrapper Noise(
 			DimensionEnum? standardDimension = null,
 			string customDimension = null)
 		{
@@ -508,8 +496,6 @@ namespace JJ.Business.Synthesizer
 	            customDimension,
 	            collectionRecalculation);
 
-	    private OperatorWrapper SortOverInlets(IList<Outlet> items) => NewWithItemInlets(items);
-
 	    private OperatorWrapper SumFollower(
 			Outlet signal = null,
 			Outlet sliceLength = null,
@@ -572,24 +558,45 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		/// <param name="systemPatchName">If not provided, falls back to the method name of the caller.</param>
-		private OperatorWrapper NewWithItemInlets(IList<Outlet> items, [CallerMemberName] string systemPatchName = null)
-		{
-			if (items == null) throw new NullException(() => items);
+	    public OperatorWrapper NewWithItemInlets(Patch patch, params Outlet[] items) => NewWithItemInlets(patch, (IList<Outlet>)items);
 
-			Operator op = NewBase(systemPatchName);
+	    public OperatorWrapper NewWithItemInlets(Patch patch, IList<Outlet> items) => NewWithItemInlets(patch, null, items);
 
-			VoidResult setInletCountResult = _patchFacade.SetOperatorInletCount(op, items.Count);
-			setInletCountResult.Assert();
+	    public OperatorWrapper NewWithItemInlets(string systemPatchName, params Outlet[] items)
+	        => NewWithItemInlets(systemPatchName, (IList<Outlet>)items);
 
-			var wrapper = new OperatorWrapper(op);
-			wrapper.Inputs.SetMany(DimensionEnum.Item, items);
+	    public OperatorWrapper NewWithItemInlets(string systemPatchName, IList<Outlet> items) => NewWithItemInlets(null, systemPatchName, items);
 
-			return wrapper;
-		}
+	    private OperatorWrapper NewWithItemInlets(Patch underlyingPatch, string systemPatchName, IList<Outlet> items)
+	    {
+	        if (items == null) throw new NullException(() => items);
 
-		/// <param name="systemPatchName">If not provided, falls back to the method name of the caller.</param>
-		private OperatorWrapper NewWithInputAndItemsInlets(
+	        Operator op;
+
+	        if (underlyingPatch != null)
+	        {
+	            op = NewBase(underlyingPatch);
+	        }
+	        else if (!string.IsNullOrEmpty(systemPatchName))
+	        {
+	            op = NewBase(systemPatchName);
+	        }
+	        else
+	        {
+	            throw new Exception($"Neither {nameof(underlyingPatch)} nor {nameof(systemPatchName)} is filled in.");
+	        }
+
+	        VoidResult setInletCountResult = _patchFacade.SetOperatorInletCount(op, items.Count);
+	        setInletCountResult.Assert();
+
+	        var wrapper = new OperatorWrapper(op);
+	        wrapper.Inputs.SetMany(DimensionEnum.Item, items);
+
+	        return wrapper;
+	    }
+
+        /// <param name="systemPatchName">If not provided, falls back to the method name of the caller.</param>
+        private OperatorWrapper NewWithInputAndItemsInlets(
 			Outlet input,
 			IList<Outlet> items,
 			[CallerMemberName] string systemPatchName = null)
@@ -722,10 +729,8 @@ namespace JJ.Business.Synthesizer
 		/// </summary>
 		public OperatorWrapper New(Patch underlyingPatch, int variableInletOrOutletCount = 16)
 		{
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Add))) return Add(new Outlet[variableInletOrOutletCount]);
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.AverageFollower))) return AverageFollower();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.AverageOverDimension))) return AverageOverDimension();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.AverageOverInlets))) return AverageOverInlets(new Outlet[variableInletOrOutletCount]);
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Cache))) return Cache();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.ClosestOverDimension))) return ClosestOverDimension();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.ClosestOverDimensionExp))) return ClosestOverDimensionExp();
@@ -737,11 +742,8 @@ namespace JJ.Business.Synthesizer
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Interpolate))) return Interpolate();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MaxFollower))) return MaxFollower();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MaxOverDimension))) return MaxOverDimension();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MaxOverInlets))) return MaxOverInlets(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MinFollower))) return MinFollower();
+		    if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MinFollower))) return MinFollower();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MinOverDimension))) return MinOverDimension();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MinOverInlets))) return MinOverInlets(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Multiply))) return Multiply(new Outlet[variableInletOrOutletCount]);
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Number))) return Number(1);
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.PatchInlet))) return PatchInlet();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.PatchOutlet))) return PatchOutlet();
@@ -749,11 +751,20 @@ namespace JJ.Business.Synthesizer
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.RangeOverOutlets))) return RangeOverOutlets(outletCount: variableInletOrOutletCount);
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Reset))) return Reset();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.SortOverDimension))) return SortOverDimension();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.SortOverInlets))) return SortOverInlets(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.SumFollower))) return SumFollower();
+		    if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.SumFollower))) return SumFollower();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.SumOverDimension))) return SumOverDimension();
 
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Sample)))
+		    if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Add)) ||
+		        NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.AverageOverInlets)) ||
+		        NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MaxOverInlets)) ||
+		        NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.MinOverInlets)) ||
+		        NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.Multiply)) ||
+		        NameHelper.AreEqual(underlyingPatch.Name, nameof(SystemPatchNames.SortOverInlets)))
+		    {
+		        return NewWithItemInlets(underlyingPatch.Name, new Outlet[variableInletOrOutletCount]);
+		    }
+
+		    if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Sample)))
 			{
 				throw new NotSupportedException(
 					$"{nameof(Sample)} operator cannot be created with the generic {nameof(New)} method, " +

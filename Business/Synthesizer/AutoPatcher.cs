@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer
 				var operatorFactory = new OperatorFactory(intermediateFirstUnmatchedOutlet.Operator.Patch, _repositories);
 
 				// You only need an adder, when there is more than 1 unmatchedOutlet.
-				intermediatePatchOutletInput = operatorFactory.Add(intermediateUnmatchedOutlets);
+				intermediatePatchOutletInput = operatorFactory.NewWithItemInlets(nameof(SystemPatchNames.Add), intermediateUnmatchedOutlets);
 			}
 
 			destPatchOutletWrapper.Input = intermediatePatchOutletInput;
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer
 					return soundOutlets[0];
 
 				default:
-					OperatorWrapper add = operatorFactory.Add(soundOutlets);
+				    OperatorWrapper add = operatorFactory.NewWithItemInlets(nameof(SystemPatchNames.Add), soundOutlets);
 					return add;
 			}
 		}
@@ -307,7 +307,7 @@ namespace JJ.Business.Synthesizer
 				return new Result<Outlet>(ResourceFormatter.PatchHasNoOutlets);
 			}
 
-			Outlet add = operatorFactory.Add(soundOutlets);
+			Outlet add = operatorFactory.NewWithItemInlets(nameof(SystemPatchNames.Add), soundOutlets);
 			Outlet patchOutlet = operatorFactory.PatchOutlet(DimensionEnum.Sound, add);
 
 			return new Result<Outlet>

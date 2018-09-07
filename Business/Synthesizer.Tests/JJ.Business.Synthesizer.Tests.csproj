@@ -64,7 +64,8 @@
     <Compile Include="Synthesizer_Logical_Tests.cs" />
     <Compile Include="Synthesizer_Comparative_Tests.cs" />
     <Compile Include="Synthesizer_SimpleArithmeticWith1Input_Tests.cs" />
-    <Compile Include="Synthesizer_SimpleArithmeticWith3Input_Tests.cs" />
+    <Compile Include="Synthesizer_SimpleArithmeticWithNInputs_Tests.cs" />
+    <Compile Include="Synthesizer_SimpleArithmeticWith3Inputs_Tests.cs" />
     <Compile Include="Synthesizer_SimpleArithmeticWith2Inputs_Tests.cs" />
     <Compile Include="Synthesizer_NthRoot_Tests.cs" />
     <Compile Include="Synthesizer_RootsAndLogsWith1Input_Tests.cs" />

@@ -65,6 +65,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void Sample() => Throw();
         public static void Sign() => Throw();
         public static void Sin() => Throw();
+        public static void Sine() => Throw();
         public static void SinH() => Throw();
         public static void SortOverDimension() => Throw();
         public static void SortOverInlets() => Throw();
