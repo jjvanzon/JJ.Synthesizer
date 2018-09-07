@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class Synthesizer_RootsAndLogsSingleInput_Tests
+    public class Synthesizer_RootsAndLogsWith1Input_Tests
     {
         private static readonly double[] _values = MathHelper.SpreadDoubles(1, 15, 29);
 
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
         // Generalized Method
 
         private void ExecuteTest(string systemPatchName, Func<double, double> func, CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.Test1In1Out(
+            => TestExecutor.TestWith1Input(
                 x => x.New(systemPatchName, x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 func,
                 _values,

@@ -63,11 +63,11 @@
     <Compile Include="Synthesizer_Number_Tests.cs" />
     <Compile Include="Synthesizer_Logical_Tests.cs" />
     <Compile Include="Synthesizer_Comparative_Tests.cs" />
-    <Compile Include="Synthesizer_SimpleArithmetic1In1Out_Tests.cs" />
-    <Compile Include="Synthesizer_SimpleArithmetic3In1Out_Tests.cs" />
-    <Compile Include="Synthesizer_SimpleArithmetic2In1Out_Tests.cs" />
+    <Compile Include="Synthesizer_SimpleArithmeticWith1Input_Tests.cs" />
+    <Compile Include="Synthesizer_SimpleArithmeticWith3Input_Tests.cs" />
+    <Compile Include="Synthesizer_SimpleArithmeticWith2Inputs_Tests.cs" />
     <Compile Include="Synthesizer_NthRoot_Tests.cs" />
-    <Compile Include="Synthesizer_RootsAndLogsSingleInput_Tests.cs" />
+    <Compile Include="Synthesizer_RootsAndLogsWith1Input_Tests.cs" />
     <Compile Include="Synthesizer_LogN_Tests.cs" />
     <Compile Include="Synthesizer_Constants_Tests.cs" />
     <Compile Include="Synthesizer_IntegerConversions_Tests.cs" />

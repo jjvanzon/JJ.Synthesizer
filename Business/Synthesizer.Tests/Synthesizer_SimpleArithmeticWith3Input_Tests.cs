@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class Synthesizer_SimpleArithmetic3In1Out_Tests
+    public class Synthesizer_SimpleArithmeticWith3Input_Tests
     {
         private static readonly double[] _aValues = { -31, 0, 17.5, 41.75 };
         private static readonly double[] _bValues = { -2, 0, 3 };
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests
         // Generalized Method
 
         private void ExecuteTest(string systemPatchName, Func<double, double, double, double> func, CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.Test3In1Out(
+            => TestExecutor.TestWith3Inputs(
                 x => x.New(systemPatchName, x.PatchInlet(DimensionEnum.A), x.PatchInlet(DimensionEnum.B), x.PatchInlet(DimensionEnum.Origin)),
                 func,
                 DimensionEnum.A,

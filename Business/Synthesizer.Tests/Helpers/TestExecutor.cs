@@ -62,25 +62,25 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return buffer[0];
         }
 
-        public static void Test0In1Out(
+        public static void TestWithoutInputs(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             double expectedY,
             CalculationMethodEnum calculationMethodEnum)
         {
             using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
             {
-                testExecutor.Test1In1Out(DEFAULT_DIMENSION_ENUM, ((double)default, expectedY).AsArray());
+                testExecutor.TestWith1Input(DEFAULT_DIMENSION_ENUM, ((double)default, expectedY).AsArray());
             }
         }
 
-        public static void Test1In1Out(
+        public static void TestWith1Input(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double> func,
             IList<double> xValues,
             CalculationMethodEnum calculationMethodEnum)
-            => Test1In1Out(operatorFactoryDelegate, func, DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum);
+            => TestWith1Input(operatorFactoryDelegate, func, DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum);
 
-        public static void Test1In1Out(
+        public static void TestWith1Input(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double> func,
             DimensionEnum dimensionEnum,
@@ -91,11 +91,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
             {
-                testExecutor.Test1In1Out(dimensionEnum, expectedOutputPoints);
+                testExecutor.TestWith1Input(dimensionEnum, expectedOutputPoints);
             }
         }
 
-        public static void Test2In1Out(
+        public static void TestWith2Inputs(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double, double> func,
             DimensionEnum xDimensionEnum,
@@ -108,11 +108,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
             {
-                testExecutor.Test2In1Out(xDimensionEnum, yDimensionEnum, expectedOutputPoints);
+                testExecutor.TestWith2Inputs(xDimensionEnum, yDimensionEnum, expectedOutputPoints);
             }
         }
 
-        public static void Test3In1Out(
+        public static void TestWith3Inputs(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double, double, double> func,
             DimensionEnum xDimensionEnum,
@@ -131,13 +131,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
             {
-                testExecutor.Test3In1Out(xDimensionEnum, yDimensionEnum, zDimensionEnum, expectedOutputPoints);
+                testExecutor.TestWith3Inputs(xDimensionEnum, yDimensionEnum, zDimensionEnum, expectedOutputPoints);
             }
         }
 
         // Private Instance Methods
 
-        private void Test1In1Out(DimensionEnum dimensionEnum, IList<(double x, double y)> expectedOutputPoints)
+        private void TestWith1Input(DimensionEnum dimensionEnum, IList<(double x, double y)> expectedOutputPoints)
         {
             if (expectedOutputPoints == null) throw new ArgumentNullException(nameof(expectedOutputPoints));
 
@@ -186,7 +186,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Console.WriteLine(_note);
         }
 
-        private void Test2In1Out(
+        private void TestWith2Inputs(
             DimensionEnum xDimensionEnum,
             DimensionEnum yDimensionEnum,
             IList<(double x, double y, double z)> expectedOutputPoints)
@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Console.WriteLine(_note);
         }
 
-        private void Test3In1Out(
+        private void TestWith3Inputs(
             DimensionEnum xDimensionEnum,
             DimensionEnum yDimensionEnum,
             DimensionEnum zDimensionEnum,
