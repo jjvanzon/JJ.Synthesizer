@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void Curve() => Throw();
         public static void DimensionToOutlets() => Throw();
         public static void Divide() => Throw();
+        public static void DivideWithOrigin() => Throw();
         public static void E() => Throw();
         public static void Equal() => Throw();
         public static void Floor() => Throw();

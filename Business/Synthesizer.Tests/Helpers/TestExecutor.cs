@@ -52,6 +52,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public void Dispose() => _context?.Dispose();
 
+        // Public Static Methods
+
         public static double CalculateOneValue(IPatchCalculator patchCalculator, double time = 0.0)
         {
             const int frameCount = 1;
@@ -67,7 +69,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
             {
-                testExecutor.ExecuteTest(DEFAULT_DIMENSION_ENUM, ((double)default, expectedY).AsArray());
+                testExecutor.Test1In1Out(DEFAULT_DIMENSION_ENUM, ((double)default, expectedY).AsArray());
             }
         }
 
@@ -89,7 +91,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
             {
-                testExecutor.ExecuteTest(dimensionEnum, expectedOutputPoints);
+                testExecutor.Test1In1Out(dimensionEnum, expectedOutputPoints);
             }
         }
 
@@ -106,11 +108,36 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
             {
-                testExecutor.ExecuteTest(xDimensionEnum, yDimensionEnum, expectedOutputPoints);
+                testExecutor.Test2In1Out(xDimensionEnum, yDimensionEnum, expectedOutputPoints);
             }
         }
 
-        private void ExecuteTest(DimensionEnum dimensionEnum, IList<(double x, double y)> expectedOutputPoints)
+        public static void Test3In1Out(
+            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
+            Func<double, double, double, double> func,
+            DimensionEnum xDimensionEnum,
+            IList<double> xValues,
+            DimensionEnum yDimensionEnum,
+            IList<double> yValues,
+            DimensionEnum zDimensionEnum,
+            IList<double> zValues,
+            CalculationMethodEnum calculationMethodEnum)
+        {
+            IList<(double x, double y, double z, double w)> expectedOutputPoints =
+                xValues.CrossJoin(yValues, (x, y) => (x, y))
+                       .CrossJoin(yValues, (xy, z) => (xy.x, xy.y, z))
+                       .CrossJoin(zValues, (xyz, w) => (xyz.x, xyz.y, xyz.z, func(xyz.x, xyz.y, xyz.z)))
+                       .ToArray();
+
+            using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
+            {
+                testExecutor.Test3In1Out(xDimensionEnum, yDimensionEnum, zDimensionEnum, expectedOutputPoints);
+            }
+        }
+
+        // Private Instance Methods
+
+        private void Test1In1Out(DimensionEnum dimensionEnum, IList<(double x, double y)> expectedOutputPoints)
         {
             if (expectedOutputPoints == null) throw new ArgumentNullException(nameof(expectedOutputPoints));
 
@@ -119,6 +146,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             // Execute
             var actualYs = new double[expectedOutputPoints.Count];
+
+            // HACK: This is assuming X is the time dimension.
             double firstX = expectedOutputPoints.First().x;
             _calculator.Reset(firstX);
 
@@ -144,8 +173,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                 if (canonicalExpectedY != canonicalActualY)
                 {
-                    Assert.Fail(
-                        $"Point [{i}] on x = {expectedX} should have y = {canonicalExpectedY}, but has y = {canonicalActualY} instead. {_note}");
+                    Assert.Fail($"Point [{i}] on x = {expectedX} " +
+                                $"should have y = {canonicalExpectedY}, " +
+                                $"but has y = {canonicalActualY} instead. {_note}");
                 }
                 else
                 {
@@ -156,7 +186,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Console.WriteLine(_note);
         }
 
-        private void ExecuteTest(
+        private void Test2In1Out(
             DimensionEnum xDimensionEnum,
             DimensionEnum yDimensionEnum,
             IList<(double x, double y, double z)> expectedOutputPoints)
@@ -168,6 +198,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             // Execute
             var actualZs = new double[expectedOutputPoints.Count];
+            
+            // HACK: This is assuming X is the time dimension.
             double firstX = expectedOutputPoints.First().x;
             _calculator.Reset(firstX);
 
@@ -201,7 +233,70 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 }
                 else
                 {
-                    Console.WriteLine($"Tested point [{i}] = ({xDimensionEnum}={expectedX}, {yDimensionEnum}={expectedY}) => {canonicalActualZ}");
+                    Console.WriteLine($"Tested point [{i}] = (" +
+                                      $"{xDimensionEnum}={expectedX}, " +
+                                      $"{yDimensionEnum}={expectedY}) " +
+                                      $"=> {canonicalActualZ}");
+                }
+            }
+
+            Console.WriteLine(_note);
+        }
+
+        private void Test3In1Out(
+            DimensionEnum xDimensionEnum,
+            DimensionEnum yDimensionEnum,
+            DimensionEnum zDimensionEnum,
+            IList<(double x, double y, double z, double w)> expectedOutputPoints)
+        {
+            if (expectedOutputPoints == null) throw new ArgumentNullException(nameof(expectedOutputPoints));
+
+            // Arrange
+            var buffer = new float[1];
+
+            // Execute
+            var actualWs = new double[expectedOutputPoints.Count];
+            
+            // HACK: This is assuming X is the time dimension.
+            double firstX = expectedOutputPoints.First().x;
+            _calculator.Reset(firstX);
+
+            for (var i = 0; i < expectedOutputPoints.Count; i++)
+            {
+                (double expectedX, double expectedY, double expectedZ, double expectedW) = expectedOutputPoints[i];
+
+                Array.Clear(buffer, 0, buffer.Length);
+                _calculator.SetValue(xDimensionEnum, expectedX);
+                _calculator.SetValue(yDimensionEnum, expectedY);
+                _calculator.SetValue(zDimensionEnum, expectedZ);
+                _calculator.Calculate(buffer, buffer.Length, expectedX);
+                double actualW = buffer[0];
+                actualWs[i] = actualW;
+            }
+
+            // Assert
+            for (var i = 0; i < expectedOutputPoints.Count; i++)
+            {
+                (double expectedX, double expectedY, double expectedZ, double expectedW) = expectedOutputPoints[i];
+                double actualW = actualWs[i];
+
+                float canonicalExpectedW = ToCanonical(expectedW);
+                float canonicalActualW = ToCanonical(actualW);
+
+                if (canonicalExpectedW != canonicalActualW)
+                {
+                    Assert.Fail(
+                        $"Point [{i}] with {xDimensionEnum}={expectedX}, {yDimensionEnum}={expectedY}, {zDimensionEnum}={expectedZ}) " +
+                        $"should have result = {canonicalExpectedW}, " +
+                        $"but has result = {canonicalActualW} instead. {_note}");
+                }
+                else
+                {
+                    Console.WriteLine($"Tested point [{i}] = (" +
+                                      $"{xDimensionEnum}={expectedX}, " +
+                                      $"{yDimensionEnum}={expectedY}, " +
+                                      $"{zDimensionEnum}={expectedZ}) " +
+                                      $"=> {canonicalActualW}");
                 }
             }
 

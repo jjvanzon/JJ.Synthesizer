@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class Synthesizer_SimpleArithmeticSingleInput_Tests
+    public class Synthesizer_SimpleArithmetic1In1Out_Tests
     {
         private static readonly double[] _values = { -67, -53.6, -40.2, -26.8, -13.4, 0, 13.4, 26.8, 40.2, 53.6, 67 };
 
