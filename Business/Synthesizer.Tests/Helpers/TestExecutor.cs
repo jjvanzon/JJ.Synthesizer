@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Configuration;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Data;
 using JJ.Framework.Exceptions.Basic;
@@ -26,28 +32,67 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     internal class TestExecutor : IDisposable
     {
         private const int DEFAULT_SIGNIFICANT_DIGITS = 6;
+        public const DimensionEnum DEFAULT_DIMENSION_ENUM = DimensionEnum.Number;
 
+        private static readonly double?[] _specialConstsToCheck = { null, 0, 1, 2 };
         private static readonly string _note =
             $"(Note: Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)";
 
         private IContext _context;
         private readonly IPatchCalculator _calculator;
+        private readonly SystemFacade _systemFacade;
+        private readonly PatchFacade _patchFacade;
 
-        public const DimensionEnum DEFAULT_DIMENSION_ENUM = DimensionEnum.Number;
-
-        private TestExecutor(CalculationMethodEnum calculationMethodEnum, Func<OperatorFactory, Outlet> operatorFactoryDelegate)
+        private TestExecutor(
+            CalculationMethodEnum calculationMethodEnum,
+            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
+            params double?[] constsToReplaceVariables)
         {
             if (operatorFactoryDelegate == null) throw new ArgumentNullException(nameof(operatorFactoryDelegate));
+            if (constsToReplaceVariables == null) throw new ArgumentNullException(nameof(constsToReplaceVariables));
 
             AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(() => _context = PersistenceHelper.CreateContext());
 
             RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(_context);
-            var patchFacade = new PatchFacade(repositories, calculationMethodEnum);
-            Patch patch = patchFacade.CreatePatch();
+
+            _systemFacade = new SystemFacade(repositories.DocumentRepository);
+            _patchFacade = new PatchFacade(repositories, calculationMethodEnum);
+
+            Patch patch = _patchFacade.CreatePatch();
             var operatorFactory = new OperatorFactory(patch, repositories);
             Outlet outlet = operatorFactoryDelegate(operatorFactory);
 
-            _calculator = patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache());
+            ReplaceVarsWithConstsIfNeeded(patch, constsToReplaceVariables);
+
+            _calculator = _patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache());
+        }
+
+        private void ReplaceVarsWithConstsIfNeeded(Patch patch, double?[] constsToReplaceVariables)
+        {
+            IList<Operator> patchInlets = patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet).ToArray();
+
+            if (constsToReplaceVariables.Length > patchInlets.Count)
+            {
+                throw new GreaterThanException(() => constsToReplaceVariables.Length, () => patchInlets.Count);
+            }
+
+            for (var i = 0; i < constsToReplaceVariables.Length; i++)
+            {
+                double? constToReplaceVariable = constsToReplaceVariables[i];
+
+                if (!constToReplaceVariable.HasValue)
+                {
+                    continue;
+                }
+
+                Operator op = patchInlets[i];
+
+                Patch numberPatch = _systemFacade.GetSystemPatch(OperatorTypeEnum.Number);
+                op.LinkToUnderlyingPatch(numberPatch);
+                new Number_OperatorWrapper(op) { Number = constToReplaceVariable.Value };
+                VoidResult result = _patchFacade.SaveOperator(op);
+                result.Assert();
+            }
         }
 
         ~TestExecutor() => Dispose();
@@ -95,7 +140,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             {
                 testExecutor.TestWithNInputs(
                     new[] { dimensionEnum },
-                    inputValues.Select(x => new[] { x }).Cast<IList<double>>().ToArray(),
+                    inputValues.Select(x => new[] { x }).ToArray(),
                     expectedOutputValues);
             }
         }
@@ -109,15 +154,29 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double> yValues,
             CalculationMethodEnum calculationMethodEnum)
         {
-            IList<(double x, double y)> inputPoints = xValues.CrossJoin(yValues, (x, y) => (x, y)).ToArray();
-            IList<double> expectedOutputValues = inputPoints.Select(xy => func(xy.x, xy.y)).ToArray();
+            IList<DimensionEnum> inputDimensionEnums = new[] { xDimensionEnum, yDimensionEnum };
 
-            using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
+            foreach (double? const1 in _specialConstsToCheck)
             {
-                testExecutor.TestWithNInputs(
-                    new[] { xDimensionEnum, yDimensionEnum },
-                    inputPoints.Select(x => new[] { x.x, x.y }).Cast<IList<double>>().ToArray(),
-                    expectedOutputValues);
+                foreach (double? const2 in _specialConstsToCheck)
+                {
+                    string message = FormatVarConstMessage(inputDimensionEnums, new[] { const1, const2 });
+                    Console.WriteLine(message);
+
+                    IList<double[]> inputPoints = xValues.CrossJoin(yValues, (x, y) => (const1 ?? x, const2 ?? y))
+                                                         .Distinct()
+                                                         .Select(x => new[] { x.Item1, x.Item2 })
+                                                         .ToArray();
+
+                    IList<double> expectedOutputValues = inputPoints.Select(point => func(point[0], point[1])).ToArray();
+
+                    using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate, const1, const2))
+                    {
+                        testExecutor.TestWithNInputs(inputDimensionEnums, inputPoints, expectedOutputValues);
+                    }
+
+                    Console.WriteLine();
+                }
             }
         }
 
@@ -143,7 +202,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             {
                 testExecutor.TestWithNInputs(
                     new[] { xDimensionEnum, yDimensionEnum, zDimensionEnum },
-                    inputPoints.Select(x => new[] { x.x, x.y, x.z }).Cast<IList<double>>().ToArray(),
+                    inputPoints.Select(x => new[] { x.x, x.y, x.z }).ToArray(),
                     expectedOutputValues);
             }
         }
@@ -196,7 +255,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private void TestWithNInputs(
             IList<DimensionEnum> inputDimensionEnums,
-            IList<IList<double>> inputPoints,
+            IList<double[]> inputPoints,
             IList<double> expectedOutputValues)
         {
             // Pre-Conditions
@@ -214,9 +273,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             for (var i = 0; i < inputPoints.Count; i++)
             {
-                if (inputPoints[i].Count != inputDimensionEnums.Count)
+                if (inputPoints[i].Length != inputDimensionEnums.Count)
                 {
-                    throw new NotEqualException(() => inputPoints[i].Count, () => inputDimensionEnums.Count);
+                    throw new NotEqualException(() => inputPoints[i].Length, () => inputDimensionEnums.Count);
                 }
             }
 
@@ -298,6 +357,25 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             string pointDescriptor = $"Tested point [{i}] = ({concatenatedInputValues})";
             return pointDescriptor;
         }
+
+        private static string FormatVarConstMessage(IList<DimensionEnum> inputDimensionEnums, double?[] consts)
+        {
+            var sb = new StringBuilder();
+
+            sb.Append("Testing for (");
+
+            string concatenatedVarConstDescriptors =
+                string.Join(", ", inputDimensionEnums.Zip(consts).Select(x => FormatVarConstDescriptor(x.Item1, x.Item2)));
+
+            sb.Append(concatenatedVarConstDescriptors);
+
+            sb.Append(").");
+
+            return sb.ToString();
+        }
+
+        private static string FormatVarConstDescriptor(DimensionEnum inputDimensionEnum, double? @const) 
+            => @const.HasValue ? $"const {@const}" : $"var {inputDimensionEnum}";
 
         /// <summary> Converts to float, rounds to significant digits and converts NaN to 0 which 'winmm' would trip over. </summary>
         private float ToCanonical(double input)

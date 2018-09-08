@@ -123,6 +123,8 @@ namespace JJ.Business.Synthesizer
 		/// Related operators will also be added to the operator's patch.
 		/// If one of the related operators has a different patch assigned to it,
 		/// a validation message is returned.
+		/// Underlying patch will be reapplied.
+		/// Derived operators will be updated.
 		/// </summary>
 		public VoidResult SaveOperator(Operator op)
 		{
