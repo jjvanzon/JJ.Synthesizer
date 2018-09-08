@@ -34,21 +34,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		private const string TAB_STRING = "	";
 
-		private const string AND_SYMBOL = "&&";
-		private const string DIVIDE_SYMBOL = "/";
-		private const string EQUALS_SYMBOL = "==";
-		private const string GREATER_THAN_SYMBOL = ">";
-		private const string GREATER_THAN_OR_EQUAL_SYMBOL = ">=";
-		private const string LESS_THAN_SYMBOL = "<";
-		private const string LESS_THAN_OR_EQUAL_SYMBOL = "<=";
-		private const string MULTIPLY_SYMBOL = "*";
-		private const string NOT_EQUAL_SYMBOL = "!=";
-		private const string OR_SYMBOL = "||";
-		private const string PLUS_SYMBOL = "+";
-		private const string REMAINDER_SYMBOL = "%";
-		private const string SUBTRACT_SYMBOL = "-";
-
-		private const string ARRAY_CALCULATOR_MNEMONIC = "arraycalculator";
+	    private const string ARRAY_CALCULATOR_MNEMONIC = "arraycalculator";
 		private const string ARRAY_MNEMONIC = "array";
 		private const string DEFAULT_INPUT_MNEMONIC = "input";
 		private const string OFFSET_MNEMONIC = "offset";
@@ -137,13 +123,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => ProcessMultiVarOperator(dto, PLUS_SYMBOL);
+		protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => ProcessMultiVarOperator(dto, "+");
 
 	    protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
 	    protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetAllPassFilterVariables));
 
-	    protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto) => ProcessBinaryBoolOperator(dto, AND_SYMBOL);
+	    protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto) => ProcessBinaryBoolOperator(dto, "&&");
 
 	    protected override IOperatorDto Visit_ArcCos_OperatorDto(ArcCos_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Acos");
 
@@ -282,7 +268,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto) => ProcessBinaryDoubleOperator(dto, DIVIDE_SYMBOL);
+		protected override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto) => ProcessBinaryDoubleOperator(dto, "/");
 
 	    protected override IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto)
 		{
@@ -295,13 +281,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => ProcessBinaryBoolOperator(dto, EQUALS_SYMBOL);
+		protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => ProcessBinaryBoolOperator(dto, "==");
 
 	    protected override IOperatorDto Visit_Floor_OperatorDto(Floor_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Floor");
 
-	    protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto) => ProcessBinaryBoolOperator(dto, GREATER_THAN_SYMBOL);
+	    protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto) => ProcessBinaryBoolOperator(dto, ">");
 
-	    protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
+	    protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, ">=");
 
 	    protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
@@ -377,9 +363,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto) => throw new NotImplementedException();
 
-	    protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto) => ProcessBinaryBoolOperator(dto, LESS_THAN_SYMBOL);
+	    protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto) => ProcessBinaryBoolOperator(dto, "<");
 
-	    protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, LESS_THAN_OR_EQUAL_SYMBOL);
+	    protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, "<=");
 
 	    protected override IOperatorDto Visit_Ln_OperatorDto(Ln_OperatorDto dto) => ProcessMethodCallOperator(dto, "Math.Log");
 
@@ -443,7 +429,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			}
 		}
 
-		protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto) => ProcessMultiVarOperator(dto, MULTIPLY_SYMBOL);
+		protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto) => ProcessMultiVarOperator(dto, "*");
 
 	    protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
 		{
@@ -492,7 +478,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetNotchFilterVariables));
 
-	    protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, NOT_EQUAL_SYMBOL);
+	    protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, "!=");
 
 	    protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
 		{
@@ -501,7 +487,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => ProcessBinaryBoolOperator(dto, OR_SYMBOL);
+		protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => ProcessBinaryBoolOperator(dto, "||");
 
 	    protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
@@ -693,7 +679,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto) => ProcessBinaryDoubleOperator(dto, REMAINDER_SYMBOL);
+		protected override IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto) => ProcessBinaryDoubleOperator(dto, "%");
 
 	    protected override IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto) => throw new NotImplementedException();
 
@@ -919,7 +905,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, destPosition);
 		}
 
-		protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => ProcessBinaryDoubleOperator(dto, SUBTRACT_SYMBOL);
+		protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => ProcessBinaryDoubleOperator(dto, "-");
 
 	    protected override IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto) => throw new NotImplementedException();
 
@@ -1631,10 +1617,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 			switch (minOrMaxEnum)
 			{
 				case MinOrMaxEnum.Min:
-					return GREATER_THAN_SYMBOL;
+					return ">";
 
 				case MinOrMaxEnum.Max:
-					return LESS_THAN_SYMBOL;
+					return "<";
 
 				default:
 					throw new ValueNotSupportedException(minOrMaxEnum);

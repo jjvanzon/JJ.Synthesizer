@@ -605,10 +605,10 @@ namespace JJ.Business.Synthesizer
 
 			Operator op = NewBase(systemPatchName);
 
-			VoidResult setInletCountResult = _patchFacade.SetOperatorInletCount(op, items.Count + 1);
-			setInletCountResult.Assert();
+		    VoidResult setInletCountResult = _patchFacade.SetOperatorInletCount(op, items.Count + 1);
+		    setInletCountResult.Assert();
 
-			var wrapper = new OperatorWrapper(op);
+		    var wrapper = new OperatorWrapper(op);
 			wrapper.Inputs[DimensionEnum.Input] = input;
 			wrapper.Inputs.SetMany(DimensionEnum.Item, items);
 

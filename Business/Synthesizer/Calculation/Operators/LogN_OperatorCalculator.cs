@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new[] { numberCalculator, baseCalculator })
         {
             _numberCalculator = numberCalculator;
-            _baseCalculator = numberCalculator;
+            _baseCalculator = baseCalculator;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

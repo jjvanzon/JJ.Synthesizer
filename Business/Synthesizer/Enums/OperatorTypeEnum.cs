@@ -62,7 +62,6 @@
 		MinOverDimension,
 		MinOverInlets,
 		Multiply,
-        Nand,
 		Negative,
 
 		/// <summary>
@@ -75,7 +74,6 @@
 		Not,
 		NotchFilter,
 		NotEqual,
-        NthRoot,
 		Number,
 		Or,
 		PatchInlet,

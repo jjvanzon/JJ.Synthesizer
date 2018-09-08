@@ -68,13 +68,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.MinOverDimension, VisitMinOverDimension },
                 { OperatorTypeEnum.MinOverInlets, VisitMinOverInlets },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
-                { OperatorTypeEnum.Nand, VisitNand },
                 { OperatorTypeEnum.Negative, VisitNegative },
                 { OperatorTypeEnum.Noise, VisitNoise },
                 { OperatorTypeEnum.Not, VisitNot },
                 { OperatorTypeEnum.NotchFilter, VisitNotchFilter },
                 { OperatorTypeEnum.NotEqual, VisitNotEqual },
-                { OperatorTypeEnum.NthRoot, VisitNthRoot },
                 { OperatorTypeEnum.Number, VisitNumber },
                 { OperatorTypeEnum.Or, VisitOr },
                 { OperatorTypeEnum.PatchInlet, VisitPatchInlet },
@@ -378,9 +376,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitMultiply(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
-        protected virtual void VisitNand(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
         protected virtual void VisitNegative(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
@@ -394,9 +389,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         /*[DebuggerHidden]*/
         protected virtual void VisitNotEqual(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitNthRoot(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitNumber(Operator op) => VisitOperatorBase(op);
