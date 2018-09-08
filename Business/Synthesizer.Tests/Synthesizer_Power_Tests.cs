@@ -11,8 +11,8 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class Synthesizer_Power_Tests
     {
-        private readonly double[] _bases = MathHelper.SpreadDoubles(0, 10, 21);
-        private readonly double[] _exponents = { 0, 2, Math.E, 12 };
+        private readonly double[] _bases = MathHelper.SpreadDoubles(-10, 10, 21);
+        private readonly double[] _exponents = { -1, 0, 2, Math.E, 12 };
 
         [TestMethod]
         public void Test_Synthesizer_Power_WithRoslyn() => Test_Synthesizer_Power(CalculationMethodEnum.Roslyn);
