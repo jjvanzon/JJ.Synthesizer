@@ -40,7 +40,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.ClosestOverInletsExp, VisitClosestOverInletsExp },
                 { OperatorTypeEnum.Cos, VisitCos },
                 { OperatorTypeEnum.CosH, VisitCosH },
-                { OperatorTypeEnum.CubeRoot, VisitCubeRoot },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Equal, VisitEqual },
@@ -290,9 +289,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         /*[DebuggerHidden]*/
         protected virtual void VisitCosH(Operator op) => VisitOperatorBase(op);
-
-        /*[DebuggerHidden]*/
-        protected virtual void VisitCubeRoot(Operator op) => VisitOperatorBase(op);
 
         /*[DebuggerHidden]*/
         protected virtual void VisitCurveOperator(Operator op) => VisitOperatorBase(op);

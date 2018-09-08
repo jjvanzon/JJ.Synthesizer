@@ -32,7 +32,6 @@
 		ClosestOverInletsExp,
         Cos,
         CosH,
-        CubeRoot,
 		Curve,
 		DimensionToOutlets,
 		Divide,
