@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
@@ -31,12 +30,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class TestExecutor : IDisposable
     {
-        private const int DEFAULT_SIGNIFICANT_DIGITS = 6;
+        public const int DEFAULT_SIGNIFICANT_DIGITS = 6;
         public const DimensionEnum DEFAULT_DIMENSION_ENUM = DimensionEnum.Number;
 
         private static readonly double?[] _specialConstsToCheck = { null, 0, 1, 2 };
-        private static readonly string _note =
-            $"(Note: Values are tested for {DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)";
 
         private IContext _context;
         private readonly IPatchCalculator _calculator;
@@ -141,7 +138,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             // Loop through special constants
             foreach (double? @const in _specialConstsToCheck)
             {
-                Console.WriteLine(FormatVarConstMessage(inputDimensionEnums, new[] { @const }));
+                Console.WriteLine(MessageFormatter.GetTestingVarConstMessage(inputDimensionEnums, @const));
 
                 // Replace input with constants
                 IList<double[]> inputPointsWithConsts = inputPoints
@@ -173,14 +170,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             // To nested arrays
             IList<DimensionEnum> inputDimensionEnums = new[] { xDimensionEnum, yDimensionEnum };
 
-            IList<double[]> inputPoints = xValues.CrossJoin(yValues, (x, y) => new[] {x, y}).ToArray();
+            IList<double[]> inputPoints = xValues.CrossJoin(yValues, (x, y) => new[] { x, y }).ToArray();
 
             // Loop through special constants
             foreach (double? constX in _specialConstsToCheck)
             {
                 foreach (double? constY in _specialConstsToCheck)
                 {
-                    Console.WriteLine(FormatVarConstMessage(inputDimensionEnums, new[] { constX, constY }));
+                    Console.WriteLine(MessageFormatter.GetTestingVarConstMessage(inputDimensionEnums, constX, constY));
 
                     // Replace input with constants
                     IList<double[]> inputPointsWithConsts = inputPoints
@@ -227,7 +224,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 {
                     foreach (double? constZ in _specialConstsToCheck)
                     {
-                        Console.WriteLine(FormatVarConstMessage(inputDimensionEnums, new[] { constX, constY, constZ }));
+                        Console.WriteLine(MessageFormatter.GetTestingVarConstMessage(inputDimensionEnums, constX, constY, constZ));
 
                         // Replace input with constants
                         IList<double[]> inputPointsWithConsts = inputPoints
@@ -288,11 +285,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 }
                 else
                 {
-                    Console.WriteLine($"Result = {canonicalActualOutputValue}");
+                    Console.WriteLine(MessageFormatter.GetOutputValueMessage_WithoutInputs(i, canonicalActualOutputValue));
                 }
             }
 
-            Console.WriteLine(_note);
+            Console.WriteLine(MessageFormatter.Note);
         }
 
         private void ExecuteTest(
@@ -370,54 +367,24 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 float canonicalExpectedOutputValue = ToCanonical(expectedOutputValue);
                 float canonicalActualOutputValue = ToCanonical(actualOutputValue);
 
-                string pointDescriptor = GetPointDescriptor(inputDimensionEnums, inputValues, i);
-
                 if (canonicalExpectedOutputValue != canonicalActualOutputValue)
                 {
                     Assert.Fail(
-                        $"{pointDescriptor} " +
-                        $"should have result = {canonicalExpectedOutputValue}, " +
-                        $"but has result = {canonicalActualOutputValue} instead. {_note}");
+                        MessageFormatter.GetOutputValueMessage_NotValid(
+                            i,
+                            inputDimensionEnums,
+                            inputValues,
+                            canonicalExpectedOutputValue,
+                            canonicalActualOutputValue));
                 }
                 else
                 {
-                    Console.WriteLine($"{pointDescriptor} => {canonicalActualOutputValue}");
+                    Console.WriteLine(MessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
                 }
             }
 
-            Console.WriteLine(_note);
+            Console.WriteLine(MessageFormatter.Note);
         }
-
-        private string GetPointDescriptor(IList<DimensionEnum> inputDimensionEnums, IList<double> inputValues, int i)
-        {
-            if (inputValues.Count != inputDimensionEnums.Count)
-            {
-                throw new NotEqualException(() => inputValues.Count, () => inputDimensionEnums.Count);
-            }
-
-            string concatenatedInputValues = string.Join(", ", inputDimensionEnums.Zip(inputValues).Select(x => $"{x.Item1}={x.Item2}"));
-            string pointDescriptor = $"Tested point [{i}] = ({concatenatedInputValues})";
-            return pointDescriptor;
-        }
-
-        private static string FormatVarConstMessage(IList<DimensionEnum> inputDimensionEnums, double?[] consts)
-        {
-            var sb = new StringBuilder();
-
-            sb.Append("Testing for (");
-
-            string concatenatedVarConstDescriptors =
-                string.Join(", ", inputDimensionEnums.Zip(consts).Select(x => FormatVarConstDescriptor(x.Item1, x.Item2)));
-
-            sb.Append(concatenatedVarConstDescriptors);
-
-            sb.Append(").");
-
-            return sb.ToString();
-        }
-
-        private static string FormatVarConstDescriptor(DimensionEnum inputDimensionEnum, double? @const) 
-            => @const.HasValue ? $"const {@const}" : $"var {inputDimensionEnum}";
 
         /// <summary> Converts to float, rounds to significant digits and converts NaN to 0 which 'winmm' would trip over. </summary>
         private float ToCanonical(double input)
