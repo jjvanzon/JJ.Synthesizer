@@ -134,7 +134,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             IList<(double x, double y, double z)> inputPoints =
                 xValues.CrossJoin(yValues, (x, y) => (x, y))
-                       .CrossJoin(yValues, (xy, z) => (xy.x, xy.y, z))
+                       .CrossJoin(zValues, (xy, z) => (xy.x, xy.y, z))
                        .ToArray();
 
             IList<double> expectedOutputValues = inputPoints.Select(xyz => func(xyz.x, xyz.y, xyz.z)).ToArray();
