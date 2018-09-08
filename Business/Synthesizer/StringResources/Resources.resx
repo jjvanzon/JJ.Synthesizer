@@ -1207,7 +1207,7 @@
     <comment>math-related</comment>
   </data>
   <data name="NthRoot" xml:space="preserve">
-    <value>ʸ√x</value>
+    <value>ⁿ√</value>
     <comment>math-related</comment>
   </data>
   <data name="Pi" xml:space="preserve">

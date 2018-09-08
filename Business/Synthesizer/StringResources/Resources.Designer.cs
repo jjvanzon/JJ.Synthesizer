@@ -1951,7 +1951,7 @@ namespace JJ.Business.Synthesizer.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ʸ√x.
+        ///   Looks up a localized string similar to ⁿ√.
         /// </summary>
         internal static string NthRoot {
             get {
