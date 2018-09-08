@@ -324,7 +324,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (dto.A.IsConst && dto.B.IsConst)
             {
                 // Pre-calculate
-                if (dto.A == dto.B)
+                if (dto.A.Const == dto.B.Const)
                 {
                     return new Number_OperatorDto(1);
                 }
@@ -738,8 +738,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (dto.A.IsConst && dto.B.IsConst)
             {
                 // Pre-calculate
-                // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if (dto.A != dto.B)
+                if (dto.A.Const != dto.B.Const)
                 {
                     return new Number_OperatorDto(1);
                 }

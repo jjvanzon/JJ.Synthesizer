@@ -23,17 +23,6 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_Synthesizer_Divide(CalculationMethodEnum calculationMethodEnum)
             => ExecuteTest(nameof(SystemPatchNames.Divide), (a, b) => a / b, calculationMethodEnum);
 
-        // Power
-
-        [TestMethod]
-        public void Test_Synthesizer_Power_WithRoslyn() => Test_Synthesizer_Power(CalculationMethodEnum.Roslyn);
-
-        [TestMethod]
-        public void Test_Synthesizer_Power_WithCalculatorClasses() => Test_Synthesizer_Power(CalculationMethodEnum.CalculatorClasses);
-
-        private void Test_Synthesizer_Power(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(nameof(SystemPatchNames.Power), Math.Pow, calculationMethodEnum);
-
         // Remainder
 
         [TestMethod]

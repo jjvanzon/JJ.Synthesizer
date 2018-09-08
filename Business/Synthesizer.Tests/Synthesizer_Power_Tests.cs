@@ -9,21 +9,21 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class Synthesizer_NthRoot_Tests
+    public class Synthesizer_Power_Tests
     {
         private readonly double[] _bases = MathHelper.SpreadDoubles(0, 10, 21);
         private readonly double[] _exponents = { 0, 2, Math.E, 12 };
 
         [TestMethod]
-        public void Test_Synthesizer_NthRoot_WithRoslyn() => Test_Synthesizer_NthRoot(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Power_WithRoslyn() => Test_Synthesizer_Power(CalculationMethodEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_NthRoot_WithCalculatorClasses() => Test_Synthesizer_NthRoot(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Power_WithCalculatorClasses() => Test_Synthesizer_Power(CalculationMethodEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_NthRoot(CalculationMethodEnum calculationMethodEnum)
+        private void Test_Synthesizer_Power(CalculationMethodEnum calculationMethodEnum)
             => TestExecutor.TestWith2Inputs(
-                x => x.New(nameof(SystemPatchNames.NthRoot), x.PatchInlet(DimensionEnum.Base), x.PatchInlet(DimensionEnum.Exponent)),
-                (x, y) => Math.Pow(x, 1.0 / y),
+                x => x.New(nameof(SystemPatchNames.Power), x.PatchInlet(DimensionEnum.Base), x.PatchInlet(DimensionEnum.Exponent)),
+                Math.Pow,
                 DimensionEnum.Base,
                 _bases,
                 DimensionEnum.Exponent,
