@@ -835,18 +835,12 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Pre-calculate
                 return new Number_OperatorDto { Number = Math.Pow(dto.Base, dto.Exponent) };
             }
-            else if (dto.Base.IsConstZero)
-            {
-                // 0
-                return new Number_OperatorDto(0);
-            }
             else if (dto.Base.IsConstOne)
             {
                 // 1
                 return new Number_OperatorDto(1);
             }
-
-            if (dto.Exponent.IsConstZero)
+            else if (dto.Exponent.IsConstZero)
             {
                 // 1
                 return new Number_OperatorDto(1);
