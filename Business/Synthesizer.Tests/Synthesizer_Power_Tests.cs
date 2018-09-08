@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Power_WithCalculatorClasses() => Test_Synthesizer_Power(CalculationMethodEnum.CalculatorClasses);
 
         private void Test_Synthesizer_Power(CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.TestWith2Inputs(
+            => TestExecutor.ExecuteTest(
                 x => x.New(nameof(SystemPatchNames.Power), x.PatchInlet(DimensionEnum.Base), x.PatchInlet(DimensionEnum.Exponent)),
                 Math.Pow,
                 DimensionEnum.Base,

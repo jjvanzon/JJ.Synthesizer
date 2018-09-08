@@ -14,6 +14,6 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Number_WithCalculatorClasses() => Test_Synthesizer_Number(CalculationMethodEnum.CalculatorClasses);
 
         private void Test_Synthesizer_Number(CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.TestWithoutInputs(x => x.Number(123.456), 123.456, calculationMethodEnum);
+            => TestExecutor.ExecuteTest(x => x.Number(123.456), 123.456, calculationMethodEnum);
     }
 }

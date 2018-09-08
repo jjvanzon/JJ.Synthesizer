@@ -117,14 +117,14 @@ namespace JJ.Business.Synthesizer.Tests
         // Generalized Methods
 
         private void ExecuteTest_From0To2Pi(string systemPatchName, Func<double, double> func, CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.TestWith1Input(
+            => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 func,
                 _valuesFrom0To2Pi,
                 calculationMethodEnum);
 
         private void ExecuteTest_FromMinus1To1(string systemPatchName, Func<double, double> func, CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.TestWith1Input(
+            => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(TestExecutor.DEFAULT_DIMENSION_ENUM)),
                 func,
                 _valuesFromMinus1To1,

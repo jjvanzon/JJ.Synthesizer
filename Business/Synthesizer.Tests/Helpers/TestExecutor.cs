@@ -109,25 +109,25 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return buffer[0];
         }
 
-        public static void TestWithoutInputs(
+        public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             double expectedY,
             CalculationMethodEnum calculationMethodEnum)
         {
             using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
             {
-                testExecutor.TestWithoutInputs(new[] { expectedY });
+                testExecutor.ExecuteTest(new[] { expectedY });
             }
         }
 
-        public static void TestWith1Input(
+        public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double> func,
             IList<double> xValues,
             CalculationMethodEnum calculationMethodEnum)
-            => TestWith1Input(operatorFactoryDelegate, func, DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum);
+            => ExecuteTest(operatorFactoryDelegate, func, DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum);
 
-        public static void TestWith1Input(
+        public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double> func,
             DimensionEnum dimensionEnum,
@@ -154,14 +154,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 // Execute test
                 using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
                 {
-                    testExecutor.TestWithNInputs(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
+                    testExecutor.ExecuteTest(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
                 }
 
                 Console.WriteLine();
             }
         }
 
-        public static void TestWith2Inputs(
+        public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double, double> func,
             DimensionEnum xDimensionEnum,
@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     // Execute test
                     using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate, constX, constY))
                     {
-                        testExecutor.TestWithNInputs(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
+                        testExecutor.ExecuteTest(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
                     }
 
                     Console.WriteLine();
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
         }
 
-        public static void TestWith3Inputs(
+        public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double, double, double> func,
             DimensionEnum xDimensionEnum,
@@ -240,7 +240,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                         // Execute test
                         using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
                         {
-                            testExecutor.TestWithNInputs(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
+                            testExecutor.ExecuteTest(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
                         }
 
                         Console.WriteLine();
@@ -251,7 +251,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         // Private Instance Methods
 
-        private void TestWithoutInputs(IList<double> expectedOutputValues)
+        private void ExecuteTest(IList<double> expectedOutputValues)
         {
             // Pre-Conditions
             if (expectedOutputValues == null) throw new ArgumentNullException(nameof(expectedOutputValues));
@@ -295,7 +295,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Console.WriteLine(_note);
         }
 
-        private void TestWithNInputs(
+        private void ExecuteTest(
             IList<DimensionEnum> inputDimensionEnums,
             IList<double[]> inputPoints,
             IList<double> expectedOutputValues)

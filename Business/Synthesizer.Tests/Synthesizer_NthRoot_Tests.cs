@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_NthRoot_WithCalculatorClasses() => Test_Synthesizer_NthRoot(CalculationMethodEnum.CalculatorClasses);
 
         private void Test_Synthesizer_NthRoot(CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.TestWith2Inputs(
+            => TestExecutor.ExecuteTest(
                 x => x.New(nameof(SystemPatchNames.NthRoot), x.PatchInlet(DimensionEnum.Base), x.PatchInlet(DimensionEnum.Exponent)),
                 (x, y) => Math.Pow(x, 1.0 / y),
                 DimensionEnum.Base,
