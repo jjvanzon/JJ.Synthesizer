@@ -154,25 +154,30 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double> yValues,
             CalculationMethodEnum calculationMethodEnum)
         {
+            // To nested arrays
             IList<DimensionEnum> inputDimensionEnums = new[] { xDimensionEnum, yDimensionEnum };
 
-            foreach (double? const1 in _specialConstsToCheck)
+            IList<double[]> inputPoints = xValues.CrossJoin(yValues, (x, y) => new[] {x, y}).ToArray();
+
+            // Loop through special constants
+            foreach (double? constX in _specialConstsToCheck)
             {
-                foreach (double? const2 in _specialConstsToCheck)
+                foreach (double? constY in _specialConstsToCheck)
                 {
-                    string message = FormatVarConstMessage(inputDimensionEnums, new[] { const1, const2 });
-                    Console.WriteLine(message);
+                    Console.WriteLine(FormatVarConstMessage(inputDimensionEnums, new[] { constX, constY }));
 
-                    IList<double[]> inputPoints = xValues.CrossJoin(yValues, (x, y) => (const1 ?? x, const2 ?? y))
-                                                         .Distinct()
-                                                         .Select(x => new[] { x.Item1, x.Item2 })
-                                                         .ToArray();
+                    // Replace input with constants
+                    IList<double[]> inputPointsWithConsts = inputPoints
+                                                            .Select(point => new[] { constX ?? point[0], constY ?? point[1] })
+                                                            .Distinct(point => (point[0], point[1]))
+                                                            .ToArray();
 
-                    IList<double> expectedOutputValues = inputPoints.Select(point => func(point[0], point[1])).ToArray();
+                    IList<double> expectedOutputValues = inputPointsWithConsts.Select(point => func(point[0], point[1])).ToArray();
 
-                    using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate, const1, const2))
+                    // Execute test
+                    using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate, constX, constY))
                     {
-                        testExecutor.TestWithNInputs(inputDimensionEnums, inputPoints, expectedOutputValues);
+                        testExecutor.TestWithNInputs(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
                     }
 
                     Console.WriteLine();
@@ -191,19 +196,40 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double> zValues,
             CalculationMethodEnum calculationMethodEnum)
         {
-            IList<(double x, double y, double z)> inputPoints =
+            // To nested arrays
+            IList<DimensionEnum> inputDimensionEnums = new[] { xDimensionEnum, yDimensionEnum, zDimensionEnum };
+
+            IList<double[]> inputPoints =
                 xValues.CrossJoin(yValues, (x, y) => (x, y))
-                       .CrossJoin(zValues, (xy, z) => (xy.x, xy.y, z))
+                       .CrossJoin(zValues, (xy, z) => new[] { xy.x, xy.y, z })
                        .ToArray();
 
-            IList<double> expectedOutputValues = inputPoints.Select(xyz => func(xyz.x, xyz.y, xyz.z)).ToArray();
-
-            using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
+            // Loop through special constants
+            foreach (double? constX in _specialConstsToCheck)
             {
-                testExecutor.TestWithNInputs(
-                    new[] { xDimensionEnum, yDimensionEnum, zDimensionEnum },
-                    inputPoints.Select(x => new[] { x.x, x.y, x.z }).ToArray(),
-                    expectedOutputValues);
+                foreach (double? constY in _specialConstsToCheck)
+                {
+                    foreach (double? constZ in _specialConstsToCheck)
+                    {
+                        Console.WriteLine(FormatVarConstMessage(inputDimensionEnums, new[] { constX, constY, constZ }));
+
+                        // Replace input with constants
+                        IList<double[]> inputPointsWithConsts = inputPoints
+                                                                .Select(point => new[] { constX ?? point[0], constY ?? point[1], constZ ?? point[2] })
+                                                                .Distinct(point => (point[0], point[1], point[2]))
+                                                                .ToArray();
+
+                        IList<double> expectedOutputValues = inputPointsWithConsts.Select(point => func(point[0], point[1], point[2])).ToArray();
+
+                        // Execute test
+                        using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
+                        {
+                            testExecutor.TestWithNInputs(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
+                        }
+
+                        Console.WriteLine();
+                    }
+                }
             }
         }
 
