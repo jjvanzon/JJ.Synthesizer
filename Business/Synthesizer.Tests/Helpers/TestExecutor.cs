@@ -134,14 +134,30 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double> inputValues,
             CalculationMethodEnum calculationMethodEnum)
         {
-            IList<double> expectedOutputValues = inputValues.Select(func).ToArray();
+            // To Arrays
+            IList<DimensionEnum> inputDimensionEnums = new[] { dimensionEnum };
+            IList<double[]> inputPoints = inputValues.Select(x => new[] { x }).ToArray();
 
-            using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
+            // Loop through special constants
+            foreach (double? @const in _specialConstsToCheck)
             {
-                testExecutor.TestWithNInputs(
-                    new[] { dimensionEnum },
-                    inputValues.Select(x => new[] { x }).ToArray(),
-                    expectedOutputValues);
+                Console.WriteLine(FormatVarConstMessage(inputDimensionEnums, new[] { @const }));
+
+                // Replace input with constants
+                IList<double[]> inputPointsWithConsts = inputPoints
+                                                        .Select(x => new[] { @const ?? x[0] })
+                                                        .Distinct(x => x[0])
+                                                        .ToArray();
+
+                IList<double> expectedOutputValues = inputPointsWithConsts.Select(x => func(x[0])).ToArray();
+
+                // Execute test
+                using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
+                {
+                    testExecutor.TestWithNInputs(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
+                }
+
+                Console.WriteLine();
             }
         }
 
