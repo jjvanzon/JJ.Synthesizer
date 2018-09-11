@@ -557,10 +557,6 @@
       <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
       <Name>JJ.Framework.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
-      <Project>{5D06A212-5459-47F3-8109-E012C5FC9E3A}</Project>
-      <Name>JJ.Framework.Collections</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Conversion\JJ.Framework.Conversion.csproj">
       <Project>{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4}</Project>
       <Name>JJ.Framework.Conversion</Name>

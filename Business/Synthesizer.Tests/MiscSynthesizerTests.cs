@@ -88,46 +88,6 @@ namespace JJ.Business.Synthesizer.Tests
                 });
 
         [TestMethod]
-        public void Test_Synthesizer_AddValidator_IsValidTrue() => Assert.Inconclusive("Test method was outcommented");
-
-        [TestMethod]
-        public void Test_Synthesizer_Add()
-            => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
-                () =>
-                {
-                    using (IContext context = PersistenceHelper.CreateContext())
-                    {
-                        RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-
-                        var patchFacade = new PatchFacade(repositories);
-                        Patch patch = patchFacade.CreatePatch();
-
-                        var x = new OperatorFactory(patch, repositories);
-
-                        Number_OperatorWrapper val1 = x.Number(1);
-                        Number_OperatorWrapper val2 = x.Number(2);
-                        Number_OperatorWrapper val3 = x.Number(3);
-                        OperatorWrapper add = x.NewWithItemInlets(nameof(Add), val1, val2, val3);
-
-                        //IValidator validator = new OperatorValidator_Adder(adder.Operator);
-                        //validator.Verify();
-
-                        IPatchCalculator calculator = patchFacade.CreateCalculator(
-                            add,
-                            DEFAULT_SAMPLING_RATE,
-                            DEFAULT_CHANNEL_COUNT,
-                            DEFAULT_CHANNEL_INDEX,
-                            new CalculatorCache());
-
-                        double value = TestExecutor.CalculateOneValue(calculator);
-
-                        //adder.Operator.Inlets[0].Name = "blah";
-                        //IValidator validator2 = new OperatorValidator_Adder(adder.Operator);
-                        //validator2.Verify();
-                    }
-                });
-
-        [TestMethod]
         public void Test_Synthesizer_ShorterCodeNotation()
             => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>

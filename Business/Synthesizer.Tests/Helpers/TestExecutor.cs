@@ -19,7 +19,8 @@ using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Testing.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+#pragma warning disable IDE0039 // Use local function
+// ReSharper disable ConvertToLocalFunction
 // ReSharper disable UnusedVariable
 // ReSharper disable InvertIf
 // ReSharper disable CompareOfFloatsByEqualityOperator
@@ -33,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public const int DEFAULT_SIGNIFICANT_DIGITS = 6;
         public const DimensionEnum DEFAULT_DIMENSION_ENUM = DimensionEnum.Number;
 
-        private static readonly double?[] _specialConstsToCheck = { null, 0, 1, 2 };
+        private static readonly double?[] _specialConstsToTest = { null, 0, 1, 2 };
 
         private IContext _context;
         private readonly IPatchCalculator _calculator;
@@ -136,7 +137,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double[]> inputPoints = inputValues.Select(x => new[] { x }).ToArray();
 
             // Loop through special constants
-            foreach (double? @const in _specialConstsToCheck)
+            foreach (double? @const in _specialConstsToTest)
             {
                 Console.WriteLine(MessageFormatter.GetTestingVarConstMessage(inputDimensionEnums, @const));
 
@@ -167,34 +168,51 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double> yValues,
             CalculationMethodEnum calculationMethodEnum)
         {
-            // To nested arrays
-            IList<DimensionEnum> inputDimensionEnums = new[] { xDimensionEnum, yDimensionEnum };
+            Func<double[], double> funcWithArray = x => func(x[0], x[1]);
 
-            IList<double[]> inputPoints = xValues.CrossJoin(yValues, (x, y) => new[] { x, y }).ToArray();
-
-            // Loop through special constants
-            foreach (double? constX in _specialConstsToCheck)
-            {
-                foreach (double? constY in _specialConstsToCheck)
+            IList<DimensionInfo> dimensionInfoList =
+                new[]
                 {
-                    Console.WriteLine(MessageFormatter.GetTestingVarConstMessage(inputDimensionEnums, constX, constY));
+                    new DimensionInfo(xDimensionEnum, xValues),
+                    new DimensionInfo(yDimensionEnum, yValues)
+                };
 
-                    // Replace input with constants
-                    IList<double[]> inputPointsWithConsts = inputPoints
-                                                            .Select(point => new[] { constX ?? point[0], constY ?? point[1] })
-                                                            .Distinct(point => (point[0], point[1]))
-                                                            .ToArray();
+            ExecuteTest(operatorFactoryDelegate, funcWithArray, dimensionInfoList, calculationMethodEnum);
+        }
 
-                    IList<double> expectedOutputValues = inputPointsWithConsts.Select(point => func(point[0], point[1])).ToArray();
+        public static void ExecuteTest(
+            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
+            Func<double[], double> func,
+            IList<DimensionInfo> dimensionInfoList,
+            CalculationMethodEnum calculationMethodEnum)
+        {
+            IList<DimensionEnum> inputDimensionEnums = dimensionInfoList.Select(x => x.DimensionEnum).ToArray();
+            IList<double[]> inputPoints = dimensionInfoList.Select(x => x.Values).CrossJoin(x => x.ToArray()).ToArray();
 
-                    // Execute test
-                    using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate, constX, constY))
-                    {
-                        testExecutor.ExecuteTest(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
-                    }
+            IList<double?[]> constsLists = CollectionHelper.Repeat(dimensionInfoList.Count, () => _specialConstsToTest)
+                                                           .CrossJoin(x => x.ToArray())
+                                                           .ToArray();
+            // Loop through special constants
+            foreach (double?[] consts in constsLists)
+            {
+                Console.WriteLine(MessageFormatter.GetTestingVarConstMessage(inputDimensionEnums, consts));
 
-                    Console.WriteLine();
+                // Replace input with constants
+                IList<double[]> inputPointsWithConsts = inputPoints
+                                                        .Select(point => consts.Zip(point, (x, y) => x ?? y).ToArray())
+                                                        // TODO: Generalize distinct.
+                                                        .Distinct(point => (point[0], point[1]))
+                                                        .ToArray();
+
+                IList<double> expectedOutputValues = inputPointsWithConsts.Select(func).ToArray();
+
+                // Execute test
+                using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate, consts))
+                {
+                    testExecutor.ExecuteTest(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
                 }
+
+                Console.WriteLine();
             }
         }
 
@@ -218,11 +236,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                        .ToArray();
 
             // Loop through special constants
-            foreach (double? constX in _specialConstsToCheck)
+            foreach (double? constX in _specialConstsToTest)
             {
-                foreach (double? constY in _specialConstsToCheck)
+                foreach (double? constY in _specialConstsToTest)
                 {
-                    foreach (double? constZ in _specialConstsToCheck)
+                    foreach (double? constZ in _specialConstsToTest)
                     {
                         Console.WriteLine(MessageFormatter.GetTestingVarConstMessage(inputDimensionEnums, constX, constY, constZ));
 

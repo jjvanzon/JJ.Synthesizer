@@ -214,7 +214,15 @@
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
     <Compile Include="Converters\MidiMappingToDtoConverter.cs" />
     <Compile Include="Converters\ToneToDtoConverter.cs" />
+    <Compile Include="CopiedCode\FromFramework\CollectionExtensions.cs" />
+    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_Ancestors.cs" />
+    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_IEnumerable.cs" />
+    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_IList.cs" />
+    <Compile Include="CopiedCode\FromFramework\NestedEnumerator.cs" />
     <Compile Include="CopiedCode\FromFramework\Randomizer.cs" />
+    <Compile Include="CopiedCode\FromFramework\RedBlackTree.cs" />
+    <Compile Include="CopiedCode\FromFramework\RedBlackTreeColorEnum.cs" />
+    <Compile Include="CopiedCode\FromFramework\RedBlackTreeNode.cs" />
     <Compile Include="Dto\MidiMappingDto.cs" />
     <Compile Include="Dto\Operators\LogN_OperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDto_WithAAndB Classes.cs" />
@@ -727,10 +735,6 @@
     <ProjectReference Include="..\..\Framework\Business\JJ.Framework.Business.csproj">
       <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
       <Name>JJ.Framework.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
-      <Project>{5d06a212-5459-47f3-8109-e012c5fc9e3a}</Project>
-      <Name>JJ.Framework.Collections</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
