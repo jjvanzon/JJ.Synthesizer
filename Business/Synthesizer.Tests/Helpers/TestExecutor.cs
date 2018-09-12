@@ -168,16 +168,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double> yValues,
             CalculationMethodEnum calculationMethodEnum)
         {
-            Func<double[], double> funcWithArray = x => func(x[0], x[1]);
+            var dimensionInfoList = new[] { new DimensionInfo(xDimensionEnum, xValues), new DimensionInfo(yDimensionEnum, yValues) };
 
-            IList<DimensionInfo> dimensionInfoList =
-                new[]
-                {
-                    new DimensionInfo(xDimensionEnum, xValues),
-                    new DimensionInfo(yDimensionEnum, yValues)
-                };
-
-            ExecuteTest(operatorFactoryDelegate, funcWithArray, dimensionInfoList, calculationMethodEnum);
+            ExecuteTest(operatorFactoryDelegate, x => func(x[0], x[1]), dimensionInfoList, calculationMethodEnum);
         }
 
         public static void ExecuteTest(
@@ -200,8 +193,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 // Replace input with constants
                 IList<double[]> inputPointsWithConsts = inputPoints
                                                         .Select(point => consts.Zip(point, (x, y) => x ?? y).ToArray())
-                                                        // TODO: Generalize distinct.
-                                                        .Distinct(point => (point[0], point[1]))
+                                                        .DistinctMany()
                                                         .ToArray();
 
                 IList<double> expectedOutputValues = inputPointsWithConsts.Select(func).ToArray();

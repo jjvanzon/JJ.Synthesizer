@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using JetBrains.Annotations;
+using JJ.Framework.Common;
 using JJ.Framework.Exceptions.Aggregates;
 using JJ.Framework.Reflection;
 
@@ -132,6 +133,33 @@ namespace JJ.Framework.Collections
                 }
             }
         }
+
+        public static IEnumerable<TItem[]> DistinctMany<TItem>(this IEnumerable<TItem[]> enumerables)
+            => DistinctMany<TItem[], TItem>(enumerables);
+
+        public static IEnumerable<IEnumerable<TItem>> DistinctMany<TItem>(this IEnumerable<IEnumerable<TItem>> enumerables)
+            => DistinctMany<IEnumerable<TItem>, TItem>(enumerables);
+
+        public static IEnumerable<TEnumerable> DistinctMany<TEnumerable, TItem>(this IEnumerable<TEnumerable> enumerables)
+            where TEnumerable : IEnumerable<TItem>
+        {
+            if (enumerables == null) throw new ArgumentNullException(nameof(enumerables));
+
+            var hashSet = new HashSet<string>();
+
+            foreach (TEnumerable enumerable in enumerables)
+            {
+                string key = KeyHelper.CreateKey(enumerable);
+
+                if (hashSet.Add(key))
+                {
+                    yield return enumerable;
+                }
+            }
+        }
+
+        //public static IEnumerable<TItem[]> DistinctMany<TItem>(this IEnumerable<TItem[]> enumerable)
+        //    => enumerable.Distinct(ArrayEqualityComparer<TItem>.Instance);
 
         public static IEnumerable<T> Except<T>(this IEnumerable<T> enumerable, T x)
         {
