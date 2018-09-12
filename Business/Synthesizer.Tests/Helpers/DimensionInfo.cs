@@ -6,13 +6,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class DimensionInfo
     {
-        public DimensionInfo(DimensionEnum dimensionEnum, IList<double> values)
+        public DimensionInfo(DimensionEnum dimensionEnum, IList<double> inputValues)
         {
             DimensionEnum = dimensionEnum;
-            Values = values ?? throw new ArgumentNullException(nameof(values));
+            InputValues = inputValues ?? throw new ArgumentNullException(nameof(inputValues));
         }
 
         public DimensionEnum DimensionEnum { get; }
-        public IList<double> Values { get; }
+        public IList<double> InputValues { get; }
     }
 }

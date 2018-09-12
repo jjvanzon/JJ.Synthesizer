@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
@@ -51,11 +52,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             float expectedOutputValue,
             float actualOutputValue)
         {
+            if (inputDimensionEnums == null) throw new ArgumentNullException(nameof(inputDimensionEnums));
+            if (inputValues == null) throw new ArgumentNullException(nameof(inputValues));
+
+            if (!inputDimensionEnums.Any() && !inputValues.Any())
+            {
+                return $"Result should be {expectedOutputValue}, but is {actualOutputValue} instead.";
+            }
+            
             string pointDescriptor = GetPointDescriptor(i, inputDimensionEnums, inputValues);
 
             string message = $"{pointDescriptor} " +
                              $"should have result = {expectedOutputValue}, " +
-                             $"but has result = {actualOutputValue} instead. {Note}";
+                             $"but has result = {actualOutputValue} instead.";
 
             return message;
         }
