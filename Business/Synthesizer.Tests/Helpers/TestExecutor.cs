@@ -116,22 +116,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             double expectedY,
             CalculationMethodEnum calculationMethodEnum)
-        {
-            var failureMessages = new List<string>();
-
-            using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate))
-            {
-                List<string> failureMessages2 = testExecutor.ExecuteTestWithoutDimensions(new[] { expectedY });
-                failureMessages.AddRange(failureMessages2);
-            }
-
-            Console.WriteLine(MessageFormatter.Note);
-
-            if (failureMessages.Any())
-            {
-                Assert.Fail(string.Join(Environment.NewLine, failureMessages) + " " + MessageFormatter.Note);
-            }
-        }
+            => ExecuteTest(operatorFactoryDelegate, arr => expectedY, Array.Empty<DimensionInfo>(), calculationMethodEnum);
 
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
@@ -196,12 +181,16 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             IList<double?[]> constsLists = CollectionHelper.Repeat(dimensionInfoList.Count, () => _specialConstsToTest)
                                                            .CrossJoin(x => x.ToArray())
+                                                           .DefaultIfEmpty(Array.Empty<double?>())
                                                            .ToArray();
-
             // Loop through special constants
             foreach (double?[] consts in constsLists)
             {
-                Console.WriteLine(MessageFormatter.GetTestingVarConstMessage(inputDimensionEnums, consts));
+                string varConstMessage = TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts);
+                if (!string.IsNullOrEmpty(varConstMessage))
+                {
+                    Console.WriteLine(varConstMessage);
+                }
 
                 // Replace input with constants
                 IList<double[]> inputPointsWithConsts = inputPoints
@@ -210,6 +199,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                                                         .ToArray();
 
                 IList<double> expectedOutputValues = inputPointsWithConsts.Select(func).ToArray();
+                if (expectedOutputValues.Count == 0)
+                {
+                    expectedOutputValues = new List<double> { func(null) };
+                }
 
                 // Execute test
                 using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate, consts))
@@ -222,11 +215,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 Console.WriteLine();
             }
 
-            Console.WriteLine(MessageFormatter.Note);
+            Console.WriteLine(TestMessageFormatter.Note);
 
             if (failureMessages.Any())
             {
-                Assert.Fail(string.Join(Environment.NewLine, failureMessages) + " " + MessageFormatter.Note);
+                Assert.Fail(string.Join(Environment.NewLine, failureMessages) + " " + TestMessageFormatter.Note);
             }
         }
 
@@ -239,22 +232,25 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             // Pre-Conditions
             if (inputDimensionEnums == null) throw new ArgumentNullException(nameof(inputDimensionEnums));
-            if (inputDimensionEnums.Count == 0) throw new CollectionEmptyException(nameof(inputDimensionEnums));
             if (inputPoints == null) throw new ArgumentNullException(nameof(inputPoints));
-            if (inputPoints.Count == 0) throw new CollectionEmptyException(nameof(inputPoints));
             if (expectedOutputValues == null) throw new ArgumentNullException(nameof(expectedOutputValues));
             if (expectedOutputValues.Count == 0) throw new CollectionEmptyException(nameof(expectedOutputValues));
 
-            if (inputPoints.Count != expectedOutputValues.Count)
-            {
-                throw new NotEqualException(() => inputPoints.Count, () => expectedOutputValues.Count);
-            }
+            bool hasInput = inputDimensionEnums.Count != 0 || inputPoints.Count != 0;
 
-            for (var i = 0; i < inputPoints.Count; i++)
+            if (hasInput)
             {
-                if (inputPoints[i].Length != inputDimensionEnums.Count)
+                if (inputPoints.Count != expectedOutputValues.Count)
                 {
-                    throw new NotEqualException(() => inputPoints[i].Length, () => inputDimensionEnums.Count);
+                    throw new NotEqualException(() => inputPoints.Count, () => expectedOutputValues.Count);
+                }
+
+                for (var i = 0; i < inputPoints.Count; i++)
+                {
+                    if (inputPoints[i].Length != inputDimensionEnums.Count)
+                    {
+                        throw new NotEqualException(() => inputPoints[i].Length, () => inputDimensionEnums.Count);
+                    }
                 }
             }
 
@@ -267,26 +263,29 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 _calculator.Reset(firstTimeValue);
             }
 
-            IList<double> actualOutputValues = new double[inputPoints.Count];
+            IList<double> actualOutputValues = new double[expectedOutputValues.Count];
 
-            for (var pointIndex = 0; pointIndex < actualOutputValues.Count; pointIndex++)
+            for (var pointIndex = 0; pointIndex < expectedOutputValues.Count; pointIndex++)
             {
-                IList<double> inputValues = inputPoints[pointIndex];
-
-                // Set Input Values
-                for (var dimensionIndex = 0; dimensionIndex < inputDimensionEnums.Count; dimensionIndex++)
-                {
-                    DimensionEnum inputDimensionEnum = inputDimensionEnums[dimensionIndex];
-                    double inputValue = inputValues[dimensionIndex];
-                    _calculator.SetValue(inputDimensionEnum, inputValue);
-                }
-
-                // Determine Time
                 double time = 0;
 
-                if (timeDimensionIndex.HasValue)
+                if (hasInput)
                 {
-                    time = inputValues[timeDimensionIndex.Value];
+                    IList<double> inputValues = inputPoints[pointIndex];
+
+                    // Set Input Values
+                    for (var dimensionIndex = 0; dimensionIndex < inputDimensionEnums.Count; dimensionIndex++)
+                    {
+                        DimensionEnum inputDimensionEnum = inputDimensionEnums[dimensionIndex];
+                        double inputValue = inputValues[dimensionIndex];
+                        _calculator.SetValue(inputDimensionEnum, inputValue);
+                    }
+
+                    // Determine Time
+                    if (timeDimensionIndex.HasValue)
+                    {
+                        time = inputValues[timeDimensionIndex.Value];
+                    }
                 }
 
                 // Calculate Value
@@ -300,9 +299,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             // Check
             var failureMessages = new List<string>();
 
-            for (var i = 0; i < inputPoints.Count; i++)
+            for (var i = 0; i < expectedOutputValues.Count; i++)
             {
-                IList<double> inputValues = inputPoints[i];
+                IList<double> inputValues = hasInput ? inputPoints[i] : Array.Empty<double>();
                 double expectedOutputValue = expectedOutputValues[i];
                 double actualOutputValue = actualOutputValues[i];
 
@@ -311,72 +310,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                 if (canonicalExpectedOutputValue != canonicalActualOutputValue)
                 {
-                    string message = MessageFormatter.GetOutputValueMessage_NotValid(
+                    string failureMessage = TestMessageFormatter.GetOutputValueMessage_NotValid(
                         i,
                         inputDimensionEnums,
                         inputValues,
                         canonicalExpectedOutputValue,
                         canonicalActualOutputValue);
 
-                    Console.WriteLine(message);
-                    failureMessages.Add(message);
+                    Console.WriteLine(failureMessage);
+                    failureMessages.Add(failureMessage);
                 }
                 else
                 {
-                    Console.WriteLine(MessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
-                }
-            }
-
-            return failureMessages;
-        }
-
-        private List<string> ExecuteTestWithoutDimensions(IList<double> expectedOutputValues)
-        {
-            // Pre-Conditions
-            if (expectedOutputValues == null) throw new ArgumentNullException(nameof(expectedOutputValues));
-            if (expectedOutputValues.Count == 0) throw new CollectionEmptyException(nameof(expectedOutputValues));
-
-            // Execute
-            IList<double> actualOutputValues = new double[expectedOutputValues.Count];
-
-            for (var i = 0; i < actualOutputValues.Count; i++)
-            {
-                // Reset
-                _calculator.Reset(0);
-
-                // Calculate Value
-                var buffer = new float[1];
-                _calculator.Calculate(buffer, buffer.Length, 0);
-                double actualOutputValue = buffer[0];
-
-                actualOutputValues[i] = actualOutputValue;
-            }
-
-            // Check
-            var failureMessages = new List<string>();
-            for (var i = 0; i < expectedOutputValues.Count; i++)
-            {
-                double expectedOutputValue = expectedOutputValues[i];
-                double actualOutputValue = actualOutputValues[i];
-
-                float canonicalExpectedOutputValue = ToCanonical(expectedOutputValue);
-                float canonicalActualOutputValue = ToCanonical(actualOutputValue);
-
-                if (canonicalExpectedOutputValue != canonicalActualOutputValue)
-                {
-                    string message = MessageFormatter.GetOutputValueMessage_NotValid(
-                        i,
-                        Array.Empty<DimensionEnum>(),
-                        Array.Empty<double>(),
-                        canonicalExpectedOutputValue,
-                        canonicalActualOutputValue);
-
-                    Console.WriteLine(message);
-                    failureMessages.Add(message);
-                }
-                else
-                {
-                    Console.WriteLine(MessageFormatter.GetOutputValueMessage_WithoutInputs(i, canonicalActualOutputValue));
+                    Console.WriteLine(TestMessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
                 }
             }
 

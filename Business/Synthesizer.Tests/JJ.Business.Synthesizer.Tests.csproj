@@ -61,7 +61,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Helpers\DimensionInfo.cs" />
-    <Compile Include="Helpers\MessageFormatter.cs" />
+    <Compile Include="Helpers\TestMessageFormatter.cs" />
     <Compile Include="Synthesizer_Number_Tests.cs" />
     <Compile Include="Synthesizer_Logical_Tests.cs" />
     <Compile Include="Synthesizer_Comparative_Tests.cs" />

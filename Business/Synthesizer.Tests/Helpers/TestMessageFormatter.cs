@@ -8,13 +8,18 @@ using JJ.Framework.Exceptions.Comparative;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal static class MessageFormatter
+    internal static class TestMessageFormatter
     {
         public static string Note { get; } =
             $"(Note: Values are tested for {TestExecutor.DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)";
 
-        public static string GetTestingVarConstMessage(IList<DimensionEnum> inputDimensionEnums, params double?[] consts)
+        public static string TryGetVarConstMessage(IList<DimensionEnum> inputDimensionEnums, params double?[] consts)
         {
+            if (!consts.Any())
+            {
+                return null;
+            }
+
             var sb = new StringBuilder();
 
             sb.Append("Testing for ");
@@ -36,14 +41,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private static string GetVarConstDescriptor(DimensionEnum inputDimensionEnum, double? @const)
             => @const.HasValue ? $"const {@const}" : $"var {inputDimensionEnum}";
 
-        public static string GetOutputValueMessage_WithoutInputs(int i, float outputValue) => $"Result [{i}] = {outputValue}";
-
         public static string GetOutputValueMessage(int i, IList<DimensionEnum> inputDimensionEnums, IList<double> inputValues, float outputValue)
         {
+            if (!inputDimensionEnums.Any())
+            {
+                return GetOutputValueMessage_WithoutInputs(i, outputValue);
+            }
+
             string pointDescriptor = GetPointDescriptor(i, inputDimensionEnums, inputValues);
             string message = $"{pointDescriptor} => {outputValue}";
             return message;
         }
+
+        private static string GetOutputValueMessage_WithoutInputs(int i, float outputValue) => $"Result [{i}] = {outputValue}";
 
         public static string GetOutputValueMessage_NotValid(
             int i,
@@ -57,9 +67,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             if (!inputDimensionEnums.Any() && !inputValues.Any())
             {
-                return $"Result should be {expectedOutputValue}, but is {actualOutputValue} instead.";
+                return GetOutputValueMessage_WithoutInputs_NotValue(expectedOutputValue, actualOutputValue);
             }
-            
+
             string pointDescriptor = GetPointDescriptor(i, inputDimensionEnums, inputValues);
 
             string message = $"{pointDescriptor} " +
@@ -68,6 +78,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             return message;
         }
+
+        private static string GetOutputValueMessage_WithoutInputs_NotValue(float expectedOutputValue, float actualOutputValue) => $"Result should be {expectedOutputValue}, but is {actualOutputValue} instead.";
 
         private static string GetPointDescriptor(int i, IList<DimensionEnum> inputDimensionEnums, IList<double> inputValues)
         {
