@@ -18,7 +18,6 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Testing.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #pragma warning disable IDE0039 // Use local function
 // ReSharper disable ConvertToLocalFunction
@@ -30,19 +29,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal class TestExecutor : IDisposable
+    internal class PatchTester : IDisposable
     {
-        public const int DEFAULT_SIGNIFICANT_DIGITS = 6;
-        public const DimensionEnum DEFAULT_DIMENSION_ENUM = DimensionEnum.Number;
-
-        private static readonly double?[] _specialConstsToTest = { null, 0, 1, 2 };
-
         private IContext _context;
         private readonly IPatchCalculator _calculator;
         private readonly SystemFacade _systemFacade;
         private readonly PatchFacade _patchFacade;
 
-        private TestExecutor(
+        public PatchTester(
             CalculationMethodEnum calculationMethodEnum,
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             params double?[] constsToReplaceVariables)
@@ -98,137 +92,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
         }
 
-        ~TestExecutor() => Dispose();
+        ~PatchTester() => Dispose();
 
         public void Dispose() => _context?.Dispose();
 
-        // Public Static Methods
-
-        public static double CalculateOneValue(IPatchCalculator patchCalculator, double time = 0.0)
-        {
-            const int frameCount = 1;
-            var buffer = new float[1];
-            patchCalculator.Calculate(buffer, frameCount, time);
-            return buffer[0];
-        }
-
-        public static void ExecuteTest(
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            double expectedY,
-            CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(operatorFactoryDelegate, arr => expectedY, Array.Empty<DimensionInfo>(), calculationMethodEnum);
-
-        public static void ExecuteTest(
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            Func<double, double> func,
-            IList<double> xValues,
-            CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(operatorFactoryDelegate, func, DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum);
-
-        public static void ExecuteTest(
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            Func<double, double> func,
-            DimensionEnum dimensionEnum,
-            IList<double> inputValues,
-            CalculationMethodEnum calculationMethodEnum)
-        {
-            var dimensionInfoList = new[] { new DimensionInfo(dimensionEnum, inputValues) };
-            ExecuteTest(operatorFactoryDelegate, arr => func(arr[0]), dimensionInfoList, calculationMethodEnum);
-        }
-
-        public static void ExecuteTest(
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            Func<double, double, double> func,
-            DimensionEnum xDimensionEnum,
-            IList<double> xValues,
-            DimensionEnum yDimensionEnum,
-            IList<double> yValues,
-            CalculationMethodEnum calculationMethodEnum)
-        {
-            var dimensionInfoList = new[] { new DimensionInfo(xDimensionEnum, xValues), new DimensionInfo(yDimensionEnum, yValues) };
-            ExecuteTest(operatorFactoryDelegate, arr => func(arr[0], arr[1]), dimensionInfoList, calculationMethodEnum);
-        }
-
-        public static void ExecuteTest(
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            Func<double, double, double, double> func,
-            DimensionEnum xDimensionEnum,
-            IList<double> xValues,
-            DimensionEnum yDimensionEnum,
-            IList<double> yValues,
-            DimensionEnum zDimensionEnum,
-            IList<double> zValues,
-            CalculationMethodEnum calculationMethodEnum)
-        {
-            var dimensionInfoList = new[]
-            {
-                new DimensionInfo(xDimensionEnum, xValues), new DimensionInfo(yDimensionEnum, yValues), new DimensionInfo(zDimensionEnum, zValues)
-            };
-
-            ExecuteTest(operatorFactoryDelegate, arr => func(arr[0], arr[1], arr[2]), dimensionInfoList, calculationMethodEnum);
-        }
-
-        public static void ExecuteTest(
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            Func<double[], double> func,
-            IList<DimensionInfo> dimensionInfoList,
-            CalculationMethodEnum calculationMethodEnum)
-        {
-            var failureMessages = new List<string>();
-
-            IList<DimensionEnum> inputDimensionEnums = dimensionInfoList.Select(x => x.DimensionEnum).ToArray();
-            IList<double[]> inputPoints = dimensionInfoList.Select(x => x.InputValues).CrossJoin(x => x.ToArray()).ToArray();
-
-            IList<double?[]> constsLists = CollectionHelper.Repeat(dimensionInfoList.Count, () => _specialConstsToTest)
-                                                           .CrossJoin(x => x.ToArray())
-                                                           .DefaultIfEmpty(Array.Empty<double?>())
-                                                           .ToArray();
-            // Loop through special constants
-            foreach (double?[] consts in constsLists)
-            {
-                string varConstMessage = TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts);
-                if (!string.IsNullOrEmpty(varConstMessage))
-                {
-                    Console.WriteLine(varConstMessage);
-                }
-
-                // Replace input with constants
-                IList<double[]> inputPointsWithConsts = inputPoints
-                                                        .Select(point => consts.Zip(point, (x, y) => x ?? y).ToArray())
-                                                        .DistinctMany()
-                                                        .ToArray();
-
-                IList<double> expectedOutputValues = inputPointsWithConsts.Select(func).ToArray();
-                if (expectedOutputValues.Count == 0)
-                {
-                    expectedOutputValues = new List<double> { func(null) };
-                }
-
-                // Execute test
-                using (var testExecutor = new TestExecutor(calculationMethodEnum, operatorFactoryDelegate, consts))
-                {
-                    List<string> failureMessages2 = testExecutor.ExecuteTest(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
-
-                    failureMessages.AddRange(failureMessages2);
-                }
-
-                Console.WriteLine();
-            }
-
-            Console.WriteLine(TestMessageFormatter.Note);
-
-            if (failureMessages.Any())
-            {
-                Assert.Fail(string.Join(Environment.NewLine, failureMessages) + " " + TestMessageFormatter.Note);
-            }
-        }
-
-        // Private Instance Methods
-
-        private List<string> ExecuteTest(
-            IList<DimensionEnum> inputDimensionEnums,
-            IList<double[]> inputPoints,
-            IList<double> expectedOutputValues)
+        /// <summary> Outputs failure messages. </summary>
+        public List<string> ExecuteTest(IList<DimensionEnum> inputDimensionEnums, IList<double[]> inputPoints, IList<double> expectedOutputValues)
         {
             // Pre-Conditions
             if (inputDimensionEnums == null) throw new ArgumentNullException(nameof(inputDimensionEnums));
@@ -334,7 +203,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             var output = (float)input;
 
-            output = MathHelper.RoundToSignificantDigits(output, DEFAULT_SIGNIFICANT_DIGITS);
+            output = MathHelper.RoundToSignificantDigits(output, TestConstants.DEFAULT_SIGNIFICANT_DIGITS);
 
             // Calculation engine will not output NaN.
             if (float.IsNaN(output))

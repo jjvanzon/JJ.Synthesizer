@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_LogN_WithCalculatorClasses() => Test_Synthesizer_LogN(CalculationMethodEnum.CalculatorClasses);
 
         private void Test_Synthesizer_LogN(CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.ExecuteTest(
+            => TestHelper.ExecuteTest(
                 x => x.New(nameof(SystemPatchNames.LogN), x.PatchInlet(DimensionEnum.Number), x.PatchInlet(DimensionEnum.Base)),
                 // Switch number and base so the test output looks better organized.
                 (x, y) => Math.Log(y, x),

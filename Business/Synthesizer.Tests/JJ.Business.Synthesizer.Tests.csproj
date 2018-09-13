@@ -61,6 +61,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Helpers\DimensionInfo.cs" />
+    <Compile Include="Helpers\PatchTester.cs" />
+    <Compile Include="Helpers\PatchTester_WithConstVarVariations.cs" />
+    <Compile Include="Helpers\TestConstants.cs" />
     <Compile Include="Helpers\TestMessageFormatter.cs" />
     <Compile Include="Synthesizer_Number_Tests.cs" />
     <Compile Include="Synthesizer_Logical_Tests.cs" />
@@ -78,7 +81,7 @@
     <Compile Include="Synthesizer_Trigonometry_Tests.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
-    <Compile Include="Helpers\TestExecutor.cs" />
+    <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="PatchCalculator_Interpolate_Line_Tests.cs" />
     <Compile Include="MiscSynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

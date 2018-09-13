@@ -134,12 +134,15 @@ namespace JJ.Framework.Collections
             }
         }
 
+        /// <summary> Returns distinct 'arrays'. So checks the equality of all items in several sets of 'arrays'. </summary>
         public static IEnumerable<TItem[]> DistinctMany<TItem>(this IEnumerable<TItem[]> enumerables)
             => DistinctMany<TItem[], TItem>(enumerables);
 
+        /// <summary> Returns distinct 'arrays'. So checks the equality of all items in several sets of 'arrays'. </summary>
         public static IEnumerable<IEnumerable<TItem>> DistinctMany<TItem>(this IEnumerable<IEnumerable<TItem>> enumerables)
             => DistinctMany<IEnumerable<TItem>, TItem>(enumerables);
 
+        /// <summary> Returns distinct 'arrays'. So checks the equality of all items in several sets of 'arrays'. </summary>
         public static IEnumerable<TEnumerable> DistinctMany<TEnumerable, TItem>(this IEnumerable<TEnumerable> enumerables)
             where TEnumerable : IEnumerable<TItem>
         {

@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Tests
         // Generalized Method
 
         private void ExecuteTest(string systemPatchName, Func<double, double, bool> func, CalculationMethodEnum calculationMethodEnum)
-            => TestExecutor.ExecuteTest(
+            => TestHelper.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(DimensionEnum.A), x.PatchInlet(DimensionEnum.B)),
                 (a, b) => func(a, b) ? 1 : 0,
                 DimensionEnum.A,

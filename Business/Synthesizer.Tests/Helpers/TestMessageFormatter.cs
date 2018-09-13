@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     internal static class TestMessageFormatter
     {
         public static string Note { get; } =
-            $"(Note: Values are tested for {TestExecutor.DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)";
+            $"(Note: Values are tested for {TestConstants.DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)";
 
         public static string TryGetVarConstMessage(IList<DimensionEnum> inputDimensionEnums, params double?[] consts)
         {
