@@ -108,41 +108,10 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override IOperatorDto Visit_ArcCos_OperatorDto(ArcCos_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Acos(dto.Number.Const) };
-            }
-
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_ArcSin_OperatorDto(ArcSin_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Asin(dto.Number.Const) };
-            }
-
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_ArcTan_OperatorDto(ArcTan_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Atan(dto.Number.Const) };
-            }
-
-            return dto;
-        }
-
+        protected override IOperatorDto Visit_ArcCos_OperatorDto(ArcCos_OperatorDto dto) => ProcessFunc(dto, Math.Acos);
+        protected override IOperatorDto Visit_ArcSin_OperatorDto(ArcSin_OperatorDto dto) => ProcessFunc(dto, Math.Asin);
+        protected override IOperatorDto Visit_ArcTan_OperatorDto(ArcTan_OperatorDto dto) => ProcessFunc(dto, Math.Atan);
         protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => ProcessWithSignal(dto);
-
         protected override IOperatorDto Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto) => ProcessWithSignal(dto);
 
         protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
@@ -173,18 +142,7 @@ namespace JJ.Business.Synthesizer.Visitors
             => Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
 
         protected override IOperatorDto Visit_Cache_OperatorDto_ConstSignal(Cache_OperatorDto_ConstSignal dto) => ProcessWithSignal(dto);
-
-        protected override IOperatorDto Visit_Ceiling_OperatorDto(Ceiling_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Ceiling(dto.Number.Const) };
-            }
-
-            return dto;
-        }
-
+        protected override IOperatorDto Visit_Ceiling_OperatorDto(Ceiling_OperatorDto dto) => ProcessFunc(dto, Math.Ceiling);
         protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto) => Process_Trigger(dto);
 
         protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
@@ -265,28 +223,8 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override IOperatorDto Visit_Cos_OperatorDto(Cos_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Cos(dto.Number.Const) };
-            }
-
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_CosH_OperatorDto(CosH_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Cosh(dto.Number.Const) };
-            }
-
-            return dto;
-        }
-
+        protected override IOperatorDto Visit_Cos_OperatorDto(Cos_OperatorDto dto) => ProcessFunc(dto, Math.Cos);
+        protected override IOperatorDto Visit_CosH_OperatorDto(CosH_OperatorDto dto) => ProcessFunc(dto, Math.Cosh);
         protected override IOperatorDto Visit_Curve_OperatorDto_NoCurve(Curve_OperatorDto_NoCurve dto) => ProcessZero(dto);
 
         protected override IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
@@ -342,16 +280,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override IOperatorDto Visit_Floor_OperatorDto(Floor_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Floor(dto.Number.Const) };
-            }
-
-            return dto;
-        }
+        protected override IOperatorDto Visit_Floor_OperatorDto(Floor_OperatorDto dto) => ProcessFunc(dto, Math.Floor);
 
         protected override IOperatorDto Visit_GetPosition_OperatorDto(GetPosition_OperatorDto dto)
         {
@@ -603,16 +532,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override IOperatorDto Visit_Ln_OperatorDto(Ln_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Log(dto.Number.Const) };
-            }
-
-            return dto;
-        }
+        protected override IOperatorDto Visit_Ln_OperatorDto(Ln_OperatorDto dto) => ProcessFunc(dto, Math.Log);
 
         protected override IOperatorDto Visit_LogN_OperatorDto(LogN_OperatorDto dto)
         {
@@ -897,41 +817,10 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoSample(SampleWithRate1_OperatorDto_NoSample dto) => ProcessZero(dto);
-
         protected override IOperatorDto Visit_SetPosition_OperatorDto(SetPosition_OperatorDto dto) => dto.Position.VarOrConst;
-
-        protected override IOperatorDto Visit_Sign_OperatorDto(Sign_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Sign(dto.Number.Const) };
-            }
-
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_Sin_OperatorDto(Sin_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Sin(dto.Number.Const) };
-            }
-
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_SinH_OperatorDto(SinH_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Sinh(dto.Number.Const) };
-            }
-
-            return dto;
-        }
+        protected override IOperatorDto Visit_Sign_OperatorDto(Sign_OperatorDto dto) => ProcessFunc(dto, x => Math.Sign(x));
+        protected override IOperatorDto Visit_Sin_OperatorDto(Sin_OperatorDto dto) => ProcessFunc(dto, Math.Sin);
+        protected override IOperatorDto Visit_SinH_OperatorDto(SinH_OperatorDto dto) => ProcessFunc(dto, Math.Sinh);
 
         protected override IOperatorDto Visit_SortOverDimension_OperatorDto_ConstSignal(SortOverDimension_OperatorDto_ConstSignal dto)
             => ProcessIdentity(dto);
@@ -951,17 +840,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override IOperatorDto Visit_SquareRoot_OperatorDto(SquareRoot_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Sqrt(dto.Number.Const) };
-            }
-
-            return dto;
-        }
-
+        protected override IOperatorDto Visit_SquareRoot_OperatorDto(SquareRoot_OperatorDto dto) => ProcessFunc(dto, Math.Sqrt);
         protected override IOperatorDto Visit_Squash_OperatorDto_FactorZero(Squash_OperatorDto_FactorZero dto) => ProcessZero(dto);
 
         protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
@@ -1020,40 +899,10 @@ namespace JJ.Business.Synthesizer.Visitors
             return new Number_OperatorDto { Number = result };
         }
 
-        protected override IOperatorDto Visit_Tan_OperatorDto(Tan_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Tan(dto.Number.Const) };
-            }
-
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_TanH_OperatorDto(TanH_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Tanh(dto.Number.Const) };
-            }
-
-            return dto;
-        }
-
+        protected override IOperatorDto Visit_Tan_OperatorDto(Tan_OperatorDto dto) => ProcessFunc(dto, Math.Tan);
+        protected override IOperatorDto Visit_TanH_OperatorDto(TanH_OperatorDto dto) => ProcessFunc(dto, Math.Tanh);
         protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => Process_Trigger(dto);
-
-        protected override IOperatorDto Visit_Truncate_OperatorDto(Truncate_OperatorDto dto)
-        {
-            if (dto.Number.IsConst)
-            {
-                // Precalculate
-                return new Number_OperatorDto { Number = Math.Truncate(dto.Number.Const) };
-            }
-
-            return dto;
-        }
+        protected override IOperatorDto Visit_Truncate_OperatorDto(Truncate_OperatorDto dto) => ProcessFunc(dto, Math.Truncate);
 
         protected override IOperatorDto Visit_Xor_OperatorDto(Xor_OperatorDto dto)
         {
@@ -1068,28 +917,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Helpers
 
-        private static IOperatorDto Commute(OperatorDtoBase_WithAAndB dto)
+        private IOperatorDto Commute(OperatorDtoBase_WithAAndB dto)
         {
             InputDto tempA = dto.A;
             InputDto tempB = dto.B;
 
             dto.A = tempB;
             dto.B = tempA;
-
-            return dto;
-        }
-
-        private IOperatorDto ProcessIdentity(double number) => new Number_OperatorDto { Number = number };
-
-        private IOperatorDto Process_Filter_SoundVarOrConst_OtherInputsVar(IOperatorDto_WithSound dto)
-        {
-            Visit_OperatorDto_Base(dto);
-
-            if (dto.Sound.IsConst)
-            {
-                // Identity
-                return new Number_OperatorDto { Number = dto.Sound };
-            }
 
             return dto;
         }
@@ -1127,6 +961,53 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
+        private IOperatorDto Process_Filter_SoundVarOrConst_OtherInputsVar(IOperatorDto_WithSound dto)
+        {
+            Visit_OperatorDto_Base(dto);
+
+            if (dto.Sound.IsConst)
+            {
+                // Identity
+                return new Number_OperatorDto { Number = dto.Sound };
+            }
+
+            return dto;
+        }
+
+        private IOperatorDto Process_ShelfFilter_SoundVarOrConst_OtherInputsConst(
+            OperatorDtoBase_ShelfFilter_SoundVarOrConst_OtherInputsConst dto,
+            SetShelfFilterParametersDelegate setFilterParametersDelegate)
+        {
+            Visit_OperatorDto_Base(dto);
+
+            if (dto.Sound.IsConst)
+            {
+                // Identity
+                return new Number_OperatorDto { Number = dto.Sound };
+            }
+
+            double limitedFrequency = LimitFrequency(dto.Frequency, dto.NyquistFrequency);
+
+            setFilterParametersDelegate(
+                dto.TargetSamplingRate,
+                limitedFrequency,
+                dto.TransitionSlope,
+                dto.DBGain,
+                out double a0,
+                out double a1,
+                out double a2,
+                out double a3,
+                out double a4);
+
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
+
+            return dto;
+        }
+
         private double LimitFrequency(double frequency, double nyquistFrequency)
         {
             double limitedFrequency = frequency;
@@ -1138,6 +1019,34 @@ namespace JJ.Business.Synthesizer.Visitors
 
             return limitedFrequency;
         }
+
+        private IOperatorDto Process_Trigger(OperatorDtoBase_Trigger dto)
+        {
+            Visit_OperatorDto_Base(dto);
+
+            if (dto.PassThroughInput.IsConst && dto.Reset.IsConst)
+            {
+                return Process_Trigger_ConstPassThrough_ConstReset_Identity(dto);
+            }
+            else if (dto.PassThroughInput.IsConst && dto.Reset.IsVar)
+            {
+                return Process_Trigger_ConstPassThrough_VarReset_Identity(dto);
+            }
+            else if (dto.PassThroughInput.IsVar && dto.Reset.IsConst)
+            {
+                return Process_Trigger_VarPassThrough_ConstReset_Identity(dto);
+            }
+
+            return dto;
+        }
+
+        private IOperatorDto Process_Trigger_ConstPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger dto)
+            => new Number_OperatorDto { Number = dto.PassThroughInput };
+
+        private IOperatorDto Process_Trigger_ConstPassThrough_VarReset_Identity(OperatorDtoBase_Trigger dto)
+            => new Number_OperatorDto { Number = dto.PassThroughInput };
+
+        private IOperatorDto Process_Trigger_VarPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger dto) => dto.PassThroughInput.Var;
 
         private IOperatorDto ProcessAggregateOverInlets(IOperatorDto_WithAggregateInfo dto, Func<IEnumerable<double>, double> aggregationDelegate)
         {
@@ -1183,74 +1092,25 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        private IOperatorDto Process_ShelfFilter_SoundVarOrConst_OtherInputsConst(
-            OperatorDtoBase_ShelfFilter_SoundVarOrConst_OtherInputsConst dto,
-            SetShelfFilterParametersDelegate setFilterParametersDelegate)
+        private IOperatorDto ProcessIdentity(double number) => new Number_OperatorDto { Number = number };
+
+        private IOperatorDto ProcessIdentity(IOperatorDto_WithSignal dto)
         {
             Visit_OperatorDto_Base(dto);
 
-            if (dto.Sound.IsConst)
-            {
-                // Identity
-                return new Number_OperatorDto { Number = dto.Sound };
-            }
-
-            double limitedFrequency = LimitFrequency(dto.Frequency, dto.NyquistFrequency);
-
-            setFilterParametersDelegate(
-                dto.TargetSamplingRate,
-                limitedFrequency,
-                dto.TransitionSlope,
-                dto.DBGain,
-                out double a0,
-                out double a1,
-                out double a2,
-                out double a3,
-                out double a4);
-
-            dto.A0 = a0;
-            dto.A1 = a1;
-            dto.A2 = a2;
-            dto.A3 = a3;
-            dto.A4 = a4;
-
-            return dto;
+            // Identity
+            return new Number_OperatorDto { Number = dto.Signal };
         }
 
-        private IOperatorDto Process_Trigger(OperatorDtoBase_Trigger dto)
+        private IOperatorDto ProcessFunc(IOperatorDto_WithNumber dto, Func<double, double> func)
         {
-            Visit_OperatorDto_Base(dto);
-
-            if (dto.PassThroughInput.IsConst && dto.Reset.IsConst)
+            if (dto.Number.IsConst)
             {
-                return Process_Trigger_ConstPassThrough_ConstReset_Identity(dto);
-            }
-            else if (dto.PassThroughInput.IsConst && dto.Reset.IsVar)
-            {
-                return Process_Trigger_ConstPassThrough_VarReset_Identity(dto);
-            }
-            else if (dto.PassThroughInput.IsVar && dto.Reset.IsConst)
-            {
-                return Process_Trigger_VarPassThrough_ConstReset_Identity(dto);
+                // Precalculate
+                return new Number_OperatorDto { Number = func(dto.Number.Const) };
             }
 
             return dto;
-        }
-
-        private IOperatorDto Process_Trigger_ConstPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger dto)
-            => new Number_OperatorDto { Number = dto.PassThroughInput };
-
-        private IOperatorDto Process_Trigger_ConstPassThrough_VarReset_Identity(OperatorDtoBase_Trigger dto)
-            => new Number_OperatorDto { Number = dto.PassThroughInput };
-
-        private IOperatorDto Process_Trigger_VarPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger dto) => dto.PassThroughInput.Var;
-
-        private IOperatorDto ProcessZero(IOperatorDto dto)
-        {
-            Visit_OperatorDto_Base(dto);
-
-            // 0
-            return new Number_OperatorDto(0);
         }
 
         private IOperatorDto ProcessWithSignal(IOperatorDto_WithSignal dto)
@@ -1266,12 +1126,12 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        private IOperatorDto ProcessIdentity(IOperatorDto_WithSignal dto)
+        private IOperatorDto ProcessZero(IOperatorDto dto)
         {
             Visit_OperatorDto_Base(dto);
 
-            // Identity
-            return new Number_OperatorDto { Number = dto.Signal };
+            // 0
+            return new Number_OperatorDto(0);
         }
     }
 }

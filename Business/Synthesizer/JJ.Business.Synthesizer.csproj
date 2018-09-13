@@ -224,6 +224,7 @@
     <Compile Include="CopiedCode\FromFramework\RedBlackTreeColorEnum.cs" />
     <Compile Include="CopiedCode\FromFramework\RedBlackTreeNode.cs" />
     <Compile Include="Dto\MidiMappingDto.cs" />
+    <Compile Include="Dto\Operators\IOperatorDto_WithNumber.cs" />
     <Compile Include="Dto\Operators\LogN_OperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDto_WithAAndB Classes.cs" />
     <Compile Include="Dto\Operators\OperatorDto_WithNumber Classes.cs" />
@@ -246,7 +247,6 @@
     <Compile Include="Dto\Operators\OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_Filter_VarSound.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst.cs" />
-    <Compile Include="Dto\Operators\OperatorDtoBase_WithInput.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_WithSound.cs" />
     <Compile Include="Dto\ToneDto.cs" />
     <EmbeddedResource Include="EmbeddedResources\ArrayCalculatorBase.cs" />
