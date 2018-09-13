@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        double value = TestHelper.CalculateOneValue(calculator1);
+                        double value = TestExecutor.CalculateOneValue(calculator1);
                         Assert.AreEqual(5, value, 0.0001);
 
                         IPatchCalculator calculator2 = patchFacade.CreateCalculator(
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        value = TestHelper.CalculateOneValue(calculator2);
+                        value = TestExecutor.CalculateOneValue(calculator2);
                         Assert.AreEqual(4, value, 0.0001);
 
                         // Test recursive validator
@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                         foreach (double time in times)
                         {
-                            values[0] = TestHelper.CalculateOneValue(calculator, time);
+                            values[0] = TestExecutor.CalculateOneValue(calculator, time);
                         }
                     }
                 });
@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        double result = TestHelper.CalculateOneValue(calculator);
+                        double result = TestExecutor.CalculateOneValue(calculator);
                         Assert.AreEqual(3.0, result, 0.0001);
                     }
                 });
@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        double result = TestHelper.CalculateOneValue(calculator);
+                        double result = TestExecutor.CalculateOneValue(calculator);
                         Assert.AreEqual(2.0, result, 0.000000001);
                     }
                 });
@@ -262,7 +262,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        double result = TestHelper.CalculateOneValue(calculator);
+                        double result = TestExecutor.CalculateOneValue(calculator);
                         Assert.AreEqual(3.0, result, 0.000000001);
                     }
                 });
@@ -289,7 +289,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        double result = TestHelper.CalculateOneValue(calculator);
+                        double result = TestExecutor.CalculateOneValue(calculator);
                         Assert.AreEqual(7.0, result, 0.000000001);
                     }
                 });
@@ -343,11 +343,11 @@ namespace JJ.Business.Synthesizer.Tests
                         // ReSharper disable once JoinDeclarationAndInitializer
                         double value;
 
-                        value = TestHelper.CalculateOneValue(calculator, 0.2);
-                        value = TestHelper.CalculateOneValue(calculator, 0.2);
+                        value = TestExecutor.CalculateOneValue(calculator, 0.2);
+                        value = TestExecutor.CalculateOneValue(calculator, 0.2);
 
-                        value = TestHelper.CalculateOneValue(calculator, 0.3);
-                        value = TestHelper.CalculateOneValue(calculator, 0.3);
+                        value = TestExecutor.CalculateOneValue(calculator, 0.3);
+                        value = TestExecutor.CalculateOneValue(calculator, 0.3);
 
                         Assert.Inconclusive(message);
                     }
@@ -530,7 +530,7 @@ namespace JJ.Business.Synthesizer.Tests
                             2.00
                         };
 
-                        double[] values = times.Select(time => TestHelper.CalculateOneValue(patchCalculator, time)).ToArray();
+                        double[] values = times.Select(time => TestExecutor.CalculateOneValue(patchCalculator, time)).ToArray();
                     }
                 });
 
@@ -575,7 +575,7 @@ namespace JJ.Business.Synthesizer.Tests
                             2.000
                         };
 
-                        double[] values = times.Select(time => TestHelper.CalculateOneValue(patchCalculator, time)).ToArray();
+                        double[] values = times.Select(time => TestExecutor.CalculateOneValue(patchCalculator, time)).ToArray();
                     }
                 });
 

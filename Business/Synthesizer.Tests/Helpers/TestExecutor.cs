@@ -7,7 +7,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal static class TestHelper
+    internal static class TestExecutor
     {
         private static readonly IList<DimensionInfo> _emptyDimensionInfoList = Array.Empty<DimensionInfo>();
 
@@ -22,25 +22,28 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             double expectedY,
-            CalculationMethodEnum calculationMethodEnum)
-            => PatchTester_WithConstVarVariations.ExecuteTest(operatorFactoryDelegate, _ => expectedY, _emptyDimensionInfoList, calculationMethodEnum);
+            CalculationMethodEnum calculationMethodEnum,
+            bool mustCompareZeroAndNonZeroOnly = false)
+            => PatchTester_WithConstVarVariations.ExecuteTest(operatorFactoryDelegate, _ => expectedY, _emptyDimensionInfoList, calculationMethodEnum, mustCompareZeroAndNonZeroOnly);
 
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double> func,
             IList<double> xValues,
-            CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(operatorFactoryDelegate, func, TestConstants.DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum);
+            CalculationMethodEnum calculationMethodEnum,
+            bool mustCompareZeroAndNonZeroOnly = false)
+            => ExecuteTest(operatorFactoryDelegate, func, TestConstants.DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum, mustCompareZeroAndNonZeroOnly);
 
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double> func,
             DimensionEnum dimensionEnum,
             IList<double> inputValues,
-            CalculationMethodEnum calculationMethodEnum)
+            CalculationMethodEnum calculationMethodEnum,
+            bool mustCompareZeroAndNonZeroOnly = false)
         {
             var dimensionInfoList = new[] { new DimensionInfo(dimensionEnum, inputValues) };
-            PatchTester_WithConstVarVariations.ExecuteTest(operatorFactoryDelegate, arr => func(arr[0]), dimensionInfoList, calculationMethodEnum);
+            PatchTester_WithConstVarVariations.ExecuteTest(operatorFactoryDelegate, arr => func(arr[0]), dimensionInfoList, calculationMethodEnum, mustCompareZeroAndNonZeroOnly);
         }
 
         public static void ExecuteTest(
@@ -50,7 +53,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double> xValues,
             DimensionEnum yDimensionEnum,
             IList<double> yValues,
-            CalculationMethodEnum calculationMethodEnum)
+            CalculationMethodEnum calculationMethodEnum,
+            bool mustCompareZeroAndNonZeroOnly = false)
         {
             var dimensionInfoList = new[] { new DimensionInfo(xDimensionEnum, xValues), new DimensionInfo(yDimensionEnum, yValues) };
 
@@ -58,7 +62,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 operatorFactoryDelegate,
                 arr => func(arr[0], arr[1]),
                 dimensionInfoList,
-                calculationMethodEnum);
+                calculationMethodEnum,
+                mustCompareZeroAndNonZeroOnly);
         }
 
         public static void ExecuteTest(
@@ -70,7 +75,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double> yValues,
             DimensionEnum zDimensionEnum,
             IList<double> zValues,
-            CalculationMethodEnum calculationMethodEnum)
+            CalculationMethodEnum calculationMethodEnum,
+            bool mustCompareZeroAndNonZeroOnly = false)
         {
             var dimensionInfoList = new[]
             {
@@ -81,7 +87,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 operatorFactoryDelegate,
                 arr => func(arr[0], arr[1], arr[2]),
                 dimensionInfoList,
-                calculationMethodEnum);
+                calculationMethodEnum,
+                mustCompareZeroAndNonZeroOnly);
         }
     }
 }

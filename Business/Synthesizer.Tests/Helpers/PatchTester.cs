@@ -31,6 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class PatchTester : IDisposable
     {
+        private readonly bool _mustCompareZeroAndNonZeroOnly;
         private IContext _context;
         private readonly IPatchCalculator _calculator;
         private readonly SystemFacade _systemFacade;
@@ -39,10 +40,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public PatchTester(
             CalculationMethodEnum calculationMethodEnum,
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            params double?[] constsToReplaceVariables)
+            IList<double?> constsToReplaceVariables,
+            bool mustCompareZeroAndNonZeroOnly)
         {
             if (operatorFactoryDelegate == null) throw new ArgumentNullException(nameof(operatorFactoryDelegate));
             if (constsToReplaceVariables == null) throw new ArgumentNullException(nameof(constsToReplaceVariables));
+
+            _mustCompareZeroAndNonZeroOnly = mustCompareZeroAndNonZeroOnly;
 
             AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(() => _context = PersistenceHelper.CreateContext());
 
@@ -60,7 +64,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             _calculator = _patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache());
         }
 
-        private void ReplaceVarsWithConstsIfNeeded(Patch patch, double?[] constsToReplaceVariables)
+        private void ReplaceVarsWithConstsIfNeeded(Patch patch, IList<double?> constsToReplaceVariables)
         {
             IList<Operator> patchInlets = patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
                                                .Select(x => new PatchInletOrOutlet_OperatorWrapper(x))
@@ -68,12 +72,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                                                .Select(x => x.WrappedOperator)
                                                .ToArray();
 
-            if (constsToReplaceVariables.Length > patchInlets.Count)
+            if (constsToReplaceVariables.Count > patchInlets.Count)
             {
-                throw new GreaterThanException(() => constsToReplaceVariables.Length, () => patchInlets.Count);
+                throw new GreaterThanException(() => constsToReplaceVariables.Count, () => patchInlets.Count);
             }
 
-            for (var i = 0; i < constsToReplaceVariables.Length; i++)
+            for (var i = 0; i < constsToReplaceVariables.Count; i++)
             {
                 double? constToReplaceVariable = constsToReplaceVariables[i];
 
@@ -209,6 +213,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             if (float.IsNaN(output))
             {
                 output = 0;
+            }
+
+            if (_mustCompareZeroAndNonZeroOnly)
+            {
+                if (output != 0)
+                {
+                    output = 1;
+                }
             }
 
             return output;

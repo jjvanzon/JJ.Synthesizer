@@ -72,21 +72,23 @@ namespace JJ.Business.Synthesizer.Tests
         // Generalized Methods
 
         private void ExecuteTest(string systemPatchName, Func<double, double, double> func, CalculationMethodEnum calculationMethodEnum)
-            => TestHelper.ExecuteTest(
+            => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(DimensionEnum.A), x.PatchInlet(DimensionEnum.B)),
                 func,
                 DimensionEnum.A,
                 _values,
                 DimensionEnum.B,
                 _values,
-                calculationMethodEnum);
+                calculationMethodEnum,
+                mustCompareZeroAndNonZeroOnly: true);
 
         private void ExecuteTest(string systemPatchName, Func<double, double> func, CalculationMethodEnum calculationMethodEnum)
-            => TestHelper.ExecuteTest(
+            => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(DimensionEnum.Number)),
                 func,
                 DimensionEnum.Number,
                 _values,
-                calculationMethodEnum);
+                calculationMethodEnum,
+                mustCompareZeroAndNonZeroOnly: true);
     }
 }

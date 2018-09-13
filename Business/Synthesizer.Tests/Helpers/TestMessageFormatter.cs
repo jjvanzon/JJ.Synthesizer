@@ -41,7 +41,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private static string GetVarConstDescriptor(DimensionEnum inputDimensionEnum, double? @const)
             => @const.HasValue ? $"const {@const}" : $"var {inputDimensionEnum}";
 
-        public static string GetOutputValueMessage(int i, IList<DimensionEnum> inputDimensionEnums, IList<double> inputValues, float outputValue)
+        public static string GetOutputValueMessage(
+            int i,
+            IList<DimensionEnum> inputDimensionEnums,
+            IList<double> inputValues,
+            float outputValue)
         {
             if (!inputDimensionEnums.Any())
             {
@@ -79,7 +83,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return message;
         }
 
-        private static string GetOutputValueMessage_WithoutInputs_NotValue(float expectedOutputValue, float actualOutputValue) => $"Result should be {expectedOutputValue}, but is {actualOutputValue} instead.";
+        private static string GetOutputValueMessage_WithoutInputs_NotValue(float expectedOutputValue, float actualOutputValue)
+            => $"Result should be {expectedOutputValue}, but is {actualOutputValue} instead.";
 
         private static string GetPointDescriptor(int i, IList<DimensionEnum> inputDimensionEnums, IList<double> inputValues)
         {
@@ -88,7 +93,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 throw new NotEqualException(() => inputValues.Count, () => inputDimensionEnums.Count);
             }
 
-            string concatenatedInputValues = string.Join(", ", inputDimensionEnums.Zip(inputValues).Select(x => $"{x.Item1}={x.Item2}"));
+            string concatenatedInputValues = string.Join(
+                ", ",
+                inputDimensionEnums.Zip(inputValues).Select(x => $"{x.Item1}={x.Item2}"));
+
             string pointDescriptor = $"Point [{i}]: ({concatenatedInputValues})";
             return pointDescriptor;
         }
