@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static string Note { get; } =
             $"(Note: Values are tested for {TestConstants.DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)";
 
-        public static string TryGetVarConstMessage(IList<DimensionEnum> inputDimensionEnums, params double?[] consts)
+        public static string TryGetVarConstMessage(IList<DimensionEnum> inputDimensionEnums, IList<double?> consts)
         {
             if (!consts.Any())
             {
@@ -24,14 +24,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             sb.Append("Testing for ");
 
-            if (consts.Length > 1) sb.Append('(');
+            if (consts.Count > 1) sb.Append('(');
 
             string concatenatedVarConstDescriptors =
                 string.Join(", ", inputDimensionEnums.Zip(consts).Select(x => GetVarConstDescriptor(x.Item1, x.Item2)));
 
             sb.Append(concatenatedVarConstDescriptors);
 
-            if (consts.Length > 1) sb.Append(')');
+            if (consts.Count > 1) sb.Append(')');
 
             sb.Append(".");
 
