@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Collections;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -24,7 +27,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             double expectedY,
             CalculationMethodEnum calculationMethodEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
-            => PatchTester_WithConstVarVariations.ExecuteTest(operatorFactoryDelegate, _ => expectedY, _emptyDimensionInfoList, calculationMethodEnum, mustCompareZeroAndNonZeroOnly);
+            => ExecuteTest(
+                operatorFactoryDelegate,
+                _ => expectedY,
+                _emptyDimensionInfoList,
+                calculationMethodEnum,
+                mustCompareZeroAndNonZeroOnly);
 
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
@@ -32,7 +40,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double> xValues,
             CalculationMethodEnum calculationMethodEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
-            => ExecuteTest(operatorFactoryDelegate, func, TestConstants.DEFAULT_DIMENSION_ENUM, xValues, calculationMethodEnum, mustCompareZeroAndNonZeroOnly);
+            => ExecuteTest(
+                operatorFactoryDelegate,
+                func,
+                TestConstants.DEFAULT_DIMENSION_ENUM,
+                xValues,
+                calculationMethodEnum,
+                mustCompareZeroAndNonZeroOnly);
 
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
@@ -43,7 +57,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             bool mustCompareZeroAndNonZeroOnly = false)
         {
             var dimensionInfoList = new[] { new DimensionInfo(dimensionEnum, inputValues) };
-            PatchTester_WithConstVarVariations.ExecuteTest(operatorFactoryDelegate, arr => func(arr[0]), dimensionInfoList, calculationMethodEnum, mustCompareZeroAndNonZeroOnly);
+
+            ExecuteTest(
+                operatorFactoryDelegate,
+                arr => func(arr[0]),
+                dimensionInfoList,
+                calculationMethodEnum,
+                mustCompareZeroAndNonZeroOnly);
         }
 
         public static void ExecuteTest(
@@ -58,7 +78,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             var dimensionInfoList = new[] { new DimensionInfo(xDimensionEnum, xValues), new DimensionInfo(yDimensionEnum, yValues) };
 
-            PatchTester_WithConstVarVariations.ExecuteTest(
+            ExecuteTest(
                 operatorFactoryDelegate,
                 arr => func(arr[0], arr[1]),
                 dimensionInfoList,
@@ -80,15 +100,38 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             var dimensionInfoList = new[]
             {
-                new DimensionInfo(xDimensionEnum, xValues), new DimensionInfo(yDimensionEnum, yValues), new DimensionInfo(zDimensionEnum, zValues)
+                new DimensionInfo(xDimensionEnum, xValues), new DimensionInfo(yDimensionEnum, yValues),
+                new DimensionInfo(zDimensionEnum, zValues)
             };
 
-            PatchTester_WithConstVarVariations.ExecuteTest(
+            ExecuteTest(
                 operatorFactoryDelegate,
                 arr => func(arr[0], arr[1], arr[2]),
                 dimensionInfoList,
                 calculationMethodEnum,
                 mustCompareZeroAndNonZeroOnly);
+        }
+
+        private static void ExecuteTest(
+            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
+            Func<double[], double> funcWithArray,
+            IList<DimensionInfo> dimensionInfoList,
+            CalculationMethodEnum calculationMethodEnum,
+            bool mustCompareZeroAndNonZeroOnly)
+        {
+            (IList<string> logMessages, IList<string> errorMessages) = PatchTester_WithConstVarVariations.ExecuteTest(
+                operatorFactoryDelegate,
+                funcWithArray,
+                dimensionInfoList,
+                calculationMethodEnum,
+                mustCompareZeroAndNonZeroOnly);
+
+            logMessages.ForEach(Console.WriteLine);
+
+            if (errorMessages.Any())
+            {
+                Assert.Fail(string.Join(Environment.NewLine, errorMessages));
+            }
         }
     }
 }

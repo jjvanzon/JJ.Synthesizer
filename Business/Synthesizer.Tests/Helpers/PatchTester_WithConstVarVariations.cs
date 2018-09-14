@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -13,14 +12,15 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     {
         private static readonly double?[] _specialConstsToTest = { null, 0, 1, 2 };
 
-        public static void ExecuteTest(
+        public static (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> func,
             IList<DimensionInfo> dimensionInfoList,
             CalculationMethodEnum calculationMethodEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
-            var failureMessages = new List<string>();
+            var logMessages = new List<string>();
+            var errorMessages = new List<string>();
 
             IList<DimensionEnum> inputDimensionEnums = dimensionInfoList.Select(x => x.DimensionEnum).ToArray();
             IList<double[]> inputPoints = dimensionInfoList.Select(x => x.InputValues).CrossJoin(x => x.ToArray()).ToArray();
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                 if (!string.IsNullOrEmpty(varConstMessage))
                 {
-                    Console.WriteLine(varConstMessage);
+                    logMessages.Add(varConstMessage);
                 }
 
                 // Replace input with constants
@@ -54,27 +54,38 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 }
 
                 // Execute test
-                using (var testExecutor = new PatchTester(calculationMethodEnum, operatorFactoryDelegate, consts, mustCompareZeroAndNonZeroOnly))
+                using (var testExecutor = new PatchTester(
+                    calculationMethodEnum,
+                    operatorFactoryDelegate,
+                    consts,
+                    mustCompareZeroAndNonZeroOnly))
                 {
-                    List<string> failureMessages2 = testExecutor.ExecuteTest(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
+                    (IList<string> logMessages2, IList<string> errorMessages2) = testExecutor.ExecuteTest(
+                        inputDimensionEnums,
+                        inputPointsWithConsts,
+                        expectedOutputValues);
 
-                    if (failureMessages2.Any())
+                    logMessages.AddRange(logMessages2);
+
+                    if (errorMessages2.Any())
                     {
-                        failureMessages.Add("");
-                        failureMessages.Add(TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts));
-                        failureMessages.AddRange(failureMessages2);
+                        errorMessages.Add("");
+                        errorMessages.Add(TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts));
+                        errorMessages.AddRange(errorMessages2);
                     }
                 }
 
-                Console.WriteLine();
+                logMessages.Add("");
             }
 
-            Console.WriteLine(TestMessageFormatter.Note);
+            logMessages.Add(TestMessageFormatter.Note);
 
-            if (failureMessages.Any())
+            if (errorMessages.Any())
             {
-                Assert.Fail(string.Join(Environment.NewLine, failureMessages) + " " + TestMessageFormatter.Note);
+                errorMessages.Add(TestMessageFormatter.Note);
             }
+
+            return (logMessages, errorMessages);
         }
     }
 }

@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public void Dispose() => _context?.Dispose();
 
         /// <summary> Outputs failure messages. </summary>
-        public List<string> ExecuteTest(IList<DimensionEnum> inputDimensionEnums, IList<double[]> inputPoints, IList<double> expectedOutputValues)
+        public (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(IList<DimensionEnum> inputDimensionEnums, IList<double[]> inputPoints, IList<double> expectedOutputValues)
         {
             // Pre-Conditions
             if (inputDimensionEnums == null) throw new ArgumentNullException(nameof(inputDimensionEnums));
@@ -171,7 +171,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
 
             // Check
-            var failureMessages = new List<string>();
+            var logMessages = new List<string>();
+            var errorMessages = new List<string>();
 
             for (var i = 0; i < expectedOutputValues.Count; i++)
             {
@@ -191,16 +192,16 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                         canonicalExpectedOutputValue,
                         canonicalActualOutputValue);
 
-                    Console.WriteLine(failureMessage);
-                    failureMessages.Add(failureMessage);
+                    logMessages.Add(failureMessage);
+                    errorMessages.Add(failureMessage);
                 }
                 else
                 {
-                    Console.WriteLine(TestMessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
+                    logMessages.Add(TestMessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
                 }
             }
 
-            return failureMessages;
+            return (logMessages, errorMessages);
         }
 
         /// <summary> Converts to float, rounds to significant digits and converts NaN to 0 which 'winmm' would trip over. </summary>
