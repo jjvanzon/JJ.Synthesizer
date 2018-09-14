@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Business.SynthesizerPrototype.Tests.Helpers;
 using JJ.Business.SynthesizerPrototype.Tests.Helpers.WithInheritance;
@@ -31,7 +32,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 
 			string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
 
-			Assert.Inconclusive(message);
+			Console.WriteLine(message);
 		}
 
 		[TestMethod]

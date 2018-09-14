@@ -349,7 +349,7 @@ namespace JJ.Business.Synthesizer.Tests
                         value = TestExecutor.CalculateOneValue(calculator, 0.3);
                         value = TestExecutor.CalculateOneValue(calculator, 0.3);
 
-                        Assert.Inconclusive(message);
+                        Console.WriteLine(message);
                     }
                 });
 
@@ -437,7 +437,7 @@ namespace JJ.Business.Synthesizer.Tests
                         //value = calculator.Calculate(0.3);
                         //value = calculator.Calculate(0.3);
 
-                        Assert.Inconclusive(message);
+                        Console.WriteLine(message);
                     }
                 });
 
