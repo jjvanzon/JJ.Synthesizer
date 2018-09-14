@@ -31,7 +31,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class PatchTester : IDisposable
     {
-        private readonly IList<double?> _consts;
         private readonly bool _mustCompareZeroAndNonZeroOnly;
 
         private IContext _context;
@@ -46,8 +45,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             bool mustCompareZeroAndNonZeroOnly)
         {
             if (operatorFactoryDelegate == null) throw new ArgumentNullException(nameof(operatorFactoryDelegate));
+            if (consts == null) throw new ArgumentNullException(nameof(consts));
 
-            _consts = consts ?? throw new ArgumentNullException(nameof(consts));
             _mustCompareZeroAndNonZeroOnly = mustCompareZeroAndNonZeroOnly;
 
             AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(() => _context = PersistenceHelper.CreateContext());
@@ -193,8 +192,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                         canonicalActualOutputValue);
 
                     Console.WriteLine(failureMessage);
-
-                    failureMessages.Add(TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, _consts));
                     failureMessages.Add(failureMessage);
                 }
                 else

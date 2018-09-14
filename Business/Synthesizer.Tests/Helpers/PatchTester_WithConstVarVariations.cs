@@ -58,7 +58,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 {
                     List<string> failureMessages2 = testExecutor.ExecuteTest(inputDimensionEnums, inputPointsWithConsts, expectedOutputValues);
 
-                    failureMessages.AddRange(failureMessages2);
+                    if (failureMessages2.Any())
+                    {
+                        failureMessages.Add("");
+                        failureMessages.Add(TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts));
+                        failureMessages.AddRange(failureMessages2);
+                    }
                 }
 
                 Console.WriteLine();
