@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationMethodEnum calculationMethodEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
-            (IList<string> logMessages, IList<string> errorMessages) = PatchTester_WithConstVarVariations.ExecuteTest(
+            (IList<string> logMessages, IList<string> errorMessages) = PatchTester_MultipleConstVarVariations.ExecuteTest(
                 operatorFactoryDelegate,
                 funcWithArray,
                 dimensionInfoList,

@@ -454,7 +454,6 @@
     <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_OperationIdentityDeduplication.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_Rewriting.cs" />
-    <Compile Include="Visitors\OperatorEntityToCalculatorExecutor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase_WithInletCoalescing.cs" />
     <Compile Include="Visitors\ToCalculatorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />

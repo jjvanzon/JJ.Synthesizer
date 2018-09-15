@@ -29,7 +29,7 @@ using JJ.Framework.Testing.Data;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal class PatchTester : IDisposable
+    internal class PatchTester_SingleConstVarVariation : IDisposable
     {
         private readonly bool _mustCompareZeroAndNonZeroOnly;
 
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private readonly SystemFacade _systemFacade;
         private readonly PatchFacade _patchFacade;
 
-        public PatchTester(
+        public PatchTester_SingleConstVarVariation(
             CalculationMethodEnum calculationMethodEnum,
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             IList<double?> consts,
@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
         }
 
-        ~PatchTester() => Dispose();
+        ~PatchTester_SingleConstVarVariation() => Dispose();
 
         public void Dispose() => _context?.Dispose();
 

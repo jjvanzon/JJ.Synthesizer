@@ -23,12 +23,11 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_Synthesizer_LogN(CalculationMethodEnum calculationMethodEnum)
             => TestExecutor.ExecuteTest(
                 x => x.New(nameof(SystemPatchNames.LogN), x.PatchInlet(DimensionEnum.Number), x.PatchInlet(DimensionEnum.Base)),
-                // Switch number and base so the test output looks better organized.
-                (x, y) => Math.Log(y, x),
-                DimensionEnum.Base,
-                _baseValues,
+                Math.Log,
                 DimensionEnum.Number,
                 _numberValues,
+                DimensionEnum.Base,
+                _baseValues,
                 calculationMethodEnum);
     }
 }

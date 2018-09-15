@@ -26,6 +26,8 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.Validation;
 // ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable ConvertIfStatementToSwitchStatement
+// ReSharper disable InvertIf
 
 namespace JJ.Business.Synthesizer
 {
@@ -329,12 +331,13 @@ namespace JJ.Business.Synthesizer
 			switch (_calculationMethodEnum)
 			{
 				case CalculationMethodEnum.Roslyn:
+
 				{
-					IOperatorDto dto = new OperatorEntityToDtoVisitor(
-							calculatorCache,
-							_repositories.CurveRepository,
-							_repositories.SampleRepository,
-							_repositories.SpeakerSetupRepository).Execute(outlet);
+				    IOperatorDto dto = new OperatorEntityToDtoVisitor(
+				        calculatorCache,
+				        _repositories.CurveRepository,
+				        _repositories.SampleRepository,
+				        _repositories.SpeakerSetupRepository).Execute(outlet);
 
 					dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
 
@@ -364,45 +367,44 @@ namespace JJ.Business.Synthesizer
 			int channelIndex,
 			CalculatorCache calculatorCache)
 		{
-			IPatchCalculator patchCalculator;
-			switch (_calculationMethodEnum)
-			{
-				case CalculationMethodEnum.CalculatorClasses:
-					patchCalculator = new SingleChannelPatchCalculator(
-						outlet,
-						samplingRate,
-						channelCount,
-						channelIndex,
-						calculatorCache,
-						_repositories.CurveRepository,
-						_repositories.SampleRepository,
-						_repositories.SpeakerSetupRepository,
-					    _calculationMethodEnum);
-					break;
+		    if (_calculationMethodEnum == CalculationMethodEnum.HardCoded)
+		    {
+		        return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
+		    }
+		    if (_calculationMethodEnum == CalculationMethodEnum.ExampleGeneratedCode)
+		    {
+		        return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<string, ArrayDto>());
+		    }
 
-				case CalculationMethodEnum.Roslyn:
-					IOperatorDto dto = new OperatorEntityToDtoVisitor(
-						calculatorCache,
-						_repositories.CurveRepository,
-						_repositories.SampleRepository,
-						_repositories.SpeakerSetupRepository).Execute(outlet);
+		    var visitor = new OperatorEntityToDtoVisitor(
+		        calculatorCache,
+		        _repositories.CurveRepository,
+		        _repositories.SampleRepository,
+		        _repositories.SpeakerSetupRepository);
+		    IOperatorDto dto = visitor.Execute(outlet);
 
-					dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
-					patchCalculator = new OperatorDtoCompiler().CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
+		    dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
 
-					break;
+		    if (_calculationMethodEnum == CalculationMethodEnum.CalculatorClasses)
+		    {
+		        IPatchCalculator patchCalculator = new SingleChannelPatchCalculator(
+                    dto,
+		            samplingRate,
+		            channelCount,
+		            channelIndex,
+		            calculatorCache,
+		            _repositories.CurveRepository,
+		            _repositories.SampleRepository);
+		        return patchCalculator;
+		    }
 
-				case CalculationMethodEnum.HardCoded:
-					return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
+            if (_calculationMethodEnum == CalculationMethodEnum.Roslyn)
+		    {
+		        IPatchCalculator patchCalculator = new OperatorDtoCompiler().CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
+		        return patchCalculator;
+		    }
 
-				case CalculationMethodEnum.ExampleGeneratedCode:
-					return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<string, ArrayDto>());
-
-				default:
-					throw new ValueNotSupportedException(_calculationMethodEnum);
-			}
-
-			return patchCalculator;
+		    throw new ValueNotSupportedException(_calculationMethodEnum);
 		}
 
 		public void DeleteOwnedNumberOperators(int id)

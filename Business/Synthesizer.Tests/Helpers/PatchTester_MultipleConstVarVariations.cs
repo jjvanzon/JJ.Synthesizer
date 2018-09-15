@@ -8,7 +8,7 @@ using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal static class PatchTester_WithConstVarVariations
+    internal static class PatchTester_MultipleConstVarVariations
     {
         private static readonly double?[] _specialConstsToTest = { null, 0, 1, 2 };
 
@@ -33,13 +33,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             // Loop through special constants
             foreach (double?[] consts in constsLists)
             {
-                string varConstMessage = TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts);
-
-                if (!string.IsNullOrEmpty(varConstMessage))
-                {
-                    logMessages.Add(varConstMessage);
-                }
-
                 // Replace input with constants
                 IList<double[]> inputPointsWithConsts = inputPoints
                                                         .Select(point => consts.Zip(point, (x, y) => x ?? y).ToArray())
@@ -53,8 +46,16 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     expectedOutputValues = new List<double> { func(null) };
                 }
 
+                string varConstMessage = TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts);
+
+                // HACK: Temporary (2018-09-14) for debugging.
+                if (!string.Equals(varConstMessage, "Testing for (var Base, const 2)."))
+                {
+                    //continue;
+                }
+
                 // Execute test
-                using (var testExecutor = new PatchTester(
+                using (var testExecutor = new PatchTester_SingleConstVarVariation(
                     calculationMethodEnum,
                     operatorFactoryDelegate,
                     consts,
@@ -65,12 +66,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                         inputPointsWithConsts,
                         expectedOutputValues);
 
+                    if (!string.IsNullOrEmpty(varConstMessage)) logMessages.Add(varConstMessage);
                     logMessages.AddRange(logMessages2);
 
                     if (errorMessages2.Any())
                     {
                         errorMessages.Add("");
-                        errorMessages.Add(TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts));
+                        if (!string.IsNullOrEmpty(varConstMessage)) errorMessages.Add(varConstMessage);
                         errorMessages.AddRange(errorMessages2);
                     }
                 }
