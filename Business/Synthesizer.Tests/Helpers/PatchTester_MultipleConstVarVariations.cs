@@ -48,12 +48,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                 string varConstMessage = TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts);
 
-                // HACK: Temporary (2018-09-14) for debugging.
-                if (!string.Equals(varConstMessage, "Testing for (var Base, const 2)."))
-                {
-                    //continue;
-                }
-
                 // Execute test
                 using (var testExecutor = new PatchTester_SingleConstVarVariation(
                     calculationMethodEnum,
