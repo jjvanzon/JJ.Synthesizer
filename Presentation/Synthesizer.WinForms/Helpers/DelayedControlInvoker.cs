@@ -9,15 +9,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
 	internal class DelayedControlInvoker : IDisposable
 	{
-		// I want the next delayed invokation to cancel the previous one.
+		// I want the next delayed invocation to cancel the previous one.
 		//
 		// The System Timer uses the thread pool, so each invoke will not the cancel previous one.
-		// It will basically do its very best to make sure all the invokations go off.
+		// It will basically do its very best to make sure all the invocations go off.
 		// So we need to write logic to specifically prevent that.
 		// 
-		// WinForms Timer is no option. The benefit of the WinForms Timer would be that it automatically cancels previous invokations.
+		// WinForms Timer is no option. The benefit of the WinForms Timer would be that it automatically cancels previous invocations.
 		// But starting WinForms Timer should be done on the UI thread,
-		// requiring you to invoke the UI thread, which I am tryiung to avoid.
+		// requiring you to invoke the UI thread, which I am trying to avoid.
 
 		private static readonly double _delayInMilliseconds =
 			CustomConfigurationManager.GetSection<ConfigurationSection>().DelayedControlInvoker_DelayInMilliseconds;
@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 			_timer.Stop();
 			_control.Invoke(_action);
 
-			// Accept new invokations only after the current one was processed.
+			// Accept new invocations only after the current one was processed.
 			_busy = false;
 		}
 	}

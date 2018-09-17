@@ -44,7 +44,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
         private int _phaseVariableCounter;
         private int _previousPositionVariableCounter;
 
-        public OperatorDtoToCSharpVisitorResult Execute(IOperatorDto dto, int intialIndentLevel)
+        public OperatorDtoToCSharpVisitorResult Execute(IOperatorDto dto, int initialIndentLevel)
         {
             _stack = new Stack<string>();
             _inputVariableInfoDictionary = new Dictionary<string, VariableInputInfo>();
@@ -57,7 +57,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             _phaseVariableCounter = FIRST_VARIABLE_NUMBER;
             _previousPositionVariableCounter = FIRST_VARIABLE_NUMBER;
 
-            _sb = new StringBuilderWithIndentation(TAB_STRING) { IndentLevel = intialIndentLevel };
+            _sb = new StringBuilderWithIndentation(TAB_STRING) { IndentLevel = initialIndentLevel };
 
             Visit_OperatorDto_Polymorphic(dto);
 
@@ -164,12 +164,12 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             string frequency = _stack.Pop();
             string phase = GeneratePhaseVariableName();
             string position = GeneratePositionVariableName(dto.DimensionStackLevel);
-            string prevPosious = GeneratePreviousPositionVariableName();
+            string previousPosition = GeneratePreviousPositionVariableName();
             string output = GenerateOutputName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
-            _sb.AppendLine($"{phase} += ({position} - {prevPosious}) * {frequency};");
-            _sb.AppendLine($"{prevPosious} = {position};");
+            _sb.AppendLine($"{phase} += ({position} - {previousPosition}) * {frequency};");
+            _sb.AppendLine($"{previousPosition} = {position};");
             _sb.AppendLine($"double {output} = SineCalculator.Sin({phase});");
             _sb.AppendLine();
 

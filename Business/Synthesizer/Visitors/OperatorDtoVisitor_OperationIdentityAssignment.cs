@@ -91,8 +91,8 @@ namespace JJ.Business.Synthesizer.Visitors
 					arguments.Add(argument);
 				}
 
-				string concatinatedArguments = string.Join(",", arguments);
-				sb.Append(concatinatedArguments);
+				string concatenatedArguments = string.Join(",", arguments);
+				sb.Append(concatenatedArguments);
 
 				sb.Append(')');
 

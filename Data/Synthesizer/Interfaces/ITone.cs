@@ -15,7 +15,7 @@
 		/// frequency, factor, exponential grade or a fraction of a semitone.
 		/// 
 		/// It is 1-based for semitones. The exponential grade is one that goes from 0 to 1 between
-		/// this octace and the next. But you can freely range from the positive to the negative.
+		/// this octave and the next. But you can freely range from the positive to the negative.
 		/// 
 		/// This number is also a substitute for the ordinal number within an octave.
 		/// You can derive an integer number from it by sorting it and taking the list position.

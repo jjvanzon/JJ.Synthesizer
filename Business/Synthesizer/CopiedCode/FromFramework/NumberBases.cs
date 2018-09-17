@@ -130,7 +130,7 @@ namespace JJ.Framework.Mathematics
 		}
 
 		/// <summary>
-		/// Convers a number to its hexadecimal representation.
+		/// Converts a number to its hexadecimal representation.
 		/// </summary>
 		public static string ToHex(int input) => ToBase(input, 16, _defaultDigitChars);
 

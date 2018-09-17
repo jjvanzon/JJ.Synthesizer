@@ -60,9 +60,28 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\DimensionInfo.cs" />
+    <Compile Include="Helpers\PatchTester_SingleConstVarVariation.cs" />
+    <Compile Include="Helpers\PatchTester_MultipleConstVarVariations.cs" />
+    <Compile Include="Helpers\TestConstants.cs" />
+    <Compile Include="Helpers\TestMessageFormatter.cs" />
+    <Compile Include="Synthesizer_Number_Tests.cs" />
+    <Compile Include="Synthesizer_Logical_Tests.cs" />
+    <Compile Include="Synthesizer_Comparative_Tests.cs" />
+    <Compile Include="Synthesizer_SimpleArithmeticWith1Input_Tests.cs" />
+    <Compile Include="Synthesizer_Power_Tests.cs" />
+    <Compile Include="Synthesizer_SimpleArithmeticWithNInputs_Tests.cs" />
+    <Compile Include="Synthesizer_SimpleArithmeticWith3Inputs_Tests.cs" />
+    <Compile Include="Synthesizer_SimpleArithmeticWith2Inputs_Tests.cs" />
+    <Compile Include="Synthesizer_NthRoot_Tests.cs" />
+    <Compile Include="Synthesizer_RootsAndLogsWith1Input_Tests.cs" />
+    <Compile Include="Synthesizer_LogN_Tests.cs" />
+    <Compile Include="Synthesizer_Constants_Tests.cs" />
+    <Compile Include="Synthesizer_IntegerConversions_Tests.cs" />
+    <Compile Include="Synthesizer_Trigonometry_Tests.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
-    <Compile Include="Helpers\TestHelper.cs" />
+    <Compile Include="Helpers\TestExecutor.cs" />
     <Compile Include="PatchCalculator_Interpolate_Line_Tests.cs" />
     <Compile Include="MiscSynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,10 +90,6 @@
     <ProjectReference Include="..\..\Framework\Business\JJ.Framework.Business.csproj">
       <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
       <Name>JJ.Framework.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
-      <Project>{5d06a212-5459-47f3-8109-e012c5fc9e3a}</Project>
-      <Name>JJ.Framework.Collections</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
       <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
@@ -136,13 +151,19 @@
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
       <Name>JJ.Data.Canonical</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Canonical\JJ.Business.Canonical.csproj">
+      <Project>{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}</Project>
+      <Name>JJ.Business.Canonical</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

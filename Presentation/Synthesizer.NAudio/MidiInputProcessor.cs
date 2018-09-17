@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		/// <summary> Position is left out, because there is still ambiguity between NoteIndex and ListIndex in the system. </summary>
 		public event EventHandler<EventArgs<IList<(DimensionEnum dimensionEnum, string name, int? position, double value)>>> DimensionValuesChanged;
 
-		public event EventHandler<EventArgs<Exception>> ExceptionOnMidiThreadOcurred;
+		public event EventHandler<EventArgs<Exception>> ExceptionOnMidiThreadOccurred;
 
 		private readonly IPatchCalculatorContainer _patchCalculatorContainer;
 		private readonly TimeProvider _timeProvider;
@@ -155,7 +155,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 			catch (Exception ex)
 			{
-				ExceptionOnMidiThreadOcurred(this, new EventArgs<Exception>(ex));
+				ExceptionOnMidiThreadOccurred(this, new EventArgs<Exception>(ex));
 			}
 		}
 

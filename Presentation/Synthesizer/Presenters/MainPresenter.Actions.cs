@@ -92,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Create ViewModel
             MainViewModel = ToViewModelHelper.CreateEmptyMainViewModel();
 
-            // Businesss
+            // Business
             Document document = _repositories.DocumentRepository.TryGetByName(documentName);
             if (document == null)
             {
@@ -114,7 +114,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Create ViewModel
             MainViewModel = ToViewModelHelper.CreateEmptyMainViewModel();
 
-            // Businesss
+            // Business
             Document document = _repositories.DocumentRepository.TryGetByName(documentName);
             string canonicalPatchName = NameHelper.ToCanonical(patchName);
             Patch patch = document?.Patches

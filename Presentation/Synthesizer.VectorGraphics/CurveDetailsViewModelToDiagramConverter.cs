@@ -51,10 +51,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private readonly Line _xAxis;
         private readonly Line _yAxis;
-        private readonly Label _topBoundCoodinateLabel;
-        private readonly Label _bottomBoundCoodinateLabel;
-        private readonly Label _rightBoundCoodinateLabel;
-        private readonly Label _leftBoundCoodinateLabel;
+        private readonly Label _topBoundCoordinateLabel;
+        private readonly Label _bottomBoundCoordinateLabel;
+        private readonly Label _rightBoundCoordinateLabel;
+        private readonly Label _leftBoundCoordinateLabel;
         private readonly Label _waterMarkTitleLabel;
         /// <summary> Key is Node.ID. </summary>
         private readonly Dictionary<int, Point> _pointDictionary = new Dictionary<int, Point>();
@@ -84,10 +84,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             _xAxis = CreateXAxis(Result.Diagram);
             _yAxis = CreateYAxis(Result.Diagram);
-            _topBoundCoodinateLabel = CreateTopBoundCoordinateLabel(Result.Diagram);
-            _bottomBoundCoodinateLabel = CreateBottomBoundCoordinateLabel(Result.Diagram);
-            _rightBoundCoodinateLabel = CreateRightBoundCoordinateLabel(Result.Diagram);
-            _leftBoundCoodinateLabel = CreateLeftBoundCoordinateLabel(Result.Diagram);
+            _topBoundCoordinateLabel = CreateTopBoundCoordinateLabel(Result.Diagram);
+            _bottomBoundCoordinateLabel = CreateBottomBoundCoordinateLabel(Result.Diagram);
+            _rightBoundCoordinateLabel = CreateRightBoundCoordinateLabel(Result.Diagram);
+            _leftBoundCoordinateLabel = CreateLeftBoundCoordinateLabel(Result.Diagram);
             _waterMarkTitleLabel = CreateWaterMarkTitleLabel(Result.Diagram);
         }
 
@@ -144,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             // Set Margin
             // (This is not full-proof, since margin is calculated based on the point's pixel width and scaling without margin,
             //  But then the scaling is changed based on the margin, making the point's scaled width a little off.
-            //  The difference will probably be 'marginal', but it can get noticable when you make the diagram very small.)
+            //  The difference will probably be 'marginal', but it can get noticeable when you make the diagram very small.)
             float marginInPixels = StyleHelper.PointStyleThick.Width / 2;
             float marginX = Result.Diagram.Position.PixelsToWidth(marginInPixels);
             float marginY = Result.Diagram.Position.PixelsToHeight(marginInPixels);
@@ -369,8 +369,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateLeftBoundCoordinateLabel(float minX)
         {
-            _leftBoundCoodinateLabel.Position.Y = _leftBoundCoodinateLabel.Diagram.Background.Position.Height / 2;
-            _leftBoundCoodinateLabel.Text = minX.ToString("0.###");
+            _leftBoundCoordinateLabel.Position.Y = _leftBoundCoordinateLabel.Diagram.Background.Position.Height / 2;
+            _leftBoundCoordinateLabel.Text = minX.ToString("0.###");
         }
 
         private Label CreateRightBoundCoordinateLabel(Diagram diagram)
@@ -390,9 +390,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateRightBoundCoordinateLabel(float maxX)
         {
-            _rightBoundCoodinateLabel.Position.X = _rightBoundCoodinateLabel.Diagram.Background.Position.Width;
-            _rightBoundCoodinateLabel.Position.Y = _rightBoundCoodinateLabel.Diagram.Background.Position.Height / 2;
-            _rightBoundCoodinateLabel.Text = maxX.ToString("0.###");
+            _rightBoundCoordinateLabel.Position.X = _rightBoundCoordinateLabel.Diagram.Background.Position.Width;
+            _rightBoundCoordinateLabel.Position.Y = _rightBoundCoordinateLabel.Diagram.Background.Position.Height / 2;
+            _rightBoundCoordinateLabel.Text = maxX.ToString("0.###");
         }
 
         private Label CreateTopBoundCoordinateLabel(Diagram diagram)
@@ -410,8 +410,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateTopBoundCoordinateLabel(float maxY)
         {
-            _topBoundCoodinateLabel.Position.X = _topBoundCoodinateLabel.Diagram.Background.Position.Width / 2;
-            _topBoundCoodinateLabel.Text = maxY.ToString("0.###");
+            _topBoundCoordinateLabel.Position.X = _topBoundCoordinateLabel.Diagram.Background.Position.Width / 2;
+            _topBoundCoordinateLabel.Text = maxY.ToString("0.###");
         }
 
         private Label CreateBottomBoundCoordinateLabel(Diagram diagram)
@@ -431,9 +431,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateBottomBoundCoordinateLabel(float minY)
         {
-            _bottomBoundCoodinateLabel.Position.X = _bottomBoundCoodinateLabel.Diagram.Background.Position.Width / 2;
-            _bottomBoundCoodinateLabel.Position.Y = _bottomBoundCoodinateLabel.Diagram.Background.Position.Height;
-            _bottomBoundCoodinateLabel.Text = minY.ToString("0.###");
+            _bottomBoundCoordinateLabel.Position.X = _bottomBoundCoordinateLabel.Diagram.Background.Position.Width / 2;
+            _bottomBoundCoordinateLabel.Position.Y = _bottomBoundCoordinateLabel.Diagram.Background.Position.Height;
+            _bottomBoundCoordinateLabel.Text = minY.ToString("0.###");
         }
 
         private Label CreateWaterMarkTitleLabel(Diagram diagram)
@@ -454,7 +454,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private void UpdateWaterMarkTitleLabel(string text)
         {
             _waterMarkTitleLabel.Text = text;
-            // 44 pixels magin from the left is to accomodate a reasonable amount of digits
+            // 44 pixels margin from the left is to accomodate a reasonable amount of digits
             // in the left-bound coordinate label without overlapping the title label.
             _waterMarkTitleLabel.Position.X = _waterMarkTitleLabel.Diagram.Background.Position.PixelsToRelativeX(44);
             _waterMarkTitleLabel.Position.Width = _waterMarkTitleLabel.Diagram.Position.ScaledWidth - _waterMarkTitleLabel.Position.X;

@@ -5,9 +5,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Framework.Mathematics
 {
+    // Do not use [PublicAPI], because this code is statically compiled into places where there is no reference to JetBrains.Annotations.
     public static class MathHelper
     {
         public const double SQRT_2 = 1.4142135623730950;
@@ -66,7 +69,7 @@ namespace JJ.Framework.Mathematics
 
         /// <summary>
         /// Calculates where x is in between x0 and x1 on a logarithmic scale.
-        /// 0 means it is on point x0. 1 means it is on pont x1.
+        /// 0 means it is on point x0. 1 means it is on point x1.
         /// between 0 and 1 means it is somewhere in between.
         /// 0.5 means it is precisely half-way x0 and x1 logarithmically.
         /// Note that it can also be outside the bounds 0 and 1 if it is not in between those numbers.
@@ -88,6 +91,9 @@ namespace JJ.Framework.Mathematics
             double scale = Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(value))) + 1);
             return scale * Math.Round(value / scale, digitCount);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RoundToSignificantDigits(float value, int digitCount) => (float)RoundToSignificantDigits((double)value, digitCount);
 
         /// <summary>
         /// Rounds to multiples of step, with an offset.
@@ -325,7 +331,7 @@ namespace JJ.Framework.Mathematics
             if (sourceList == null) throw new NullException(() => sourceList);
             if (destList == null) throw new NullException(() => destList);
 
-            // TODO: This unncessarily created an intermediate dictionary, but at least it reuses code.
+            // TODO: This unnecessarily created an intermediate dictionary, but at least it reuses code.
             Dictionary<int, int> intDictionary = SpreadIntegers(sourceList.Count, destList.Count);
 
             Dictionary<TSource, TDest> destDictionary = intDictionary.ToDictionary(x => sourceList[x.Key], x => destList[x.Value]);
@@ -334,14 +340,18 @@ namespace JJ.Framework.Mathematics
         }
 
         /// <summary> Equally spreads out a number of points over a span. </summary>
-        public static double[] SpreadDoubles(double valueSpan, int pointCount)
+        public static double[] SpreadDoubles(double valueSpan, int pointCount) => SpreadDoubles(0, valueSpan, pointCount);
+
+        /// <summary> Equally spreads out a number of points over a span. </summary>
+        public static double[] SpreadDoubles(double startValue, double endValue, int pointCount)
         {
-            if (valueSpan <= 0) throw new LessThanOrEqualException(() => valueSpan, 0);
             if (pointCount < 2) throw new LessThanException(() => pointCount, 2);
 
             var values = new double[pointCount];
-            double value = 0;
+            double valueSpan = endValue - startValue;
             double dx = valueSpan / (pointCount - 1);
+
+            double value = startValue;
 
             for (var i = 0; i < pointCount; i++)
             {

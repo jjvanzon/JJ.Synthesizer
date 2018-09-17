@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty

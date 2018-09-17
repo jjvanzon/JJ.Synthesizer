@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 // ReSharper disable LocalizableElement

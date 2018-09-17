@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.StringResources;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.ViewModels;

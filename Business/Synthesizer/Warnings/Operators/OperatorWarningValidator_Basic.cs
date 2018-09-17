@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.StringResources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;

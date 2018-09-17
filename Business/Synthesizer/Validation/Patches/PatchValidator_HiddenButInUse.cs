@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Configuration;

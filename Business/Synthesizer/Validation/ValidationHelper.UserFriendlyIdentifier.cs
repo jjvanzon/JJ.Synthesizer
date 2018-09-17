@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -352,9 +352,9 @@ namespace JJ.Business.Synthesizer.Validation
 				identifierElements.Add(audioFileFormatDisplayName);
 			}
 
-			string indentifier = StringHelper.Join(' ', identifierElements);
+			string identifier = StringHelper.Join(' ', identifierElements);
 
-			return $"'{indentifier}'";
+			return $"'{identifier}'";
 		}
 
 		public static string GetUserFriendlyIdentifier(Scale entity)

@@ -10,7 +10,7 @@ namespace JJ.Framework.Collections
         /// This BinarySearch has not been thoroughly (unit) tested.
         /// It has been used in the development of audio processing,
         /// during which it was debugged, and produced expected audio output.
-        /// The biggest concern is what happens with integer roundoff for certain edge cases.
+        /// The biggest concern is what happens with integer round-off for certain edge cases.
         /// </summary>
         /// <param name="sortedArray"> Not checked for null, for performance. </param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -34,7 +34,7 @@ namespace JJ.Framework.Collections
         /// This BinarySearch has not been thoroughly (unit) tested.
         /// It has been used in the development of audio processing,
         /// during which it was debugged, and produced expected audio output.
-        /// The biggest concern is what happens with integer roundoff for certain edge cases.
+        /// The biggest concern is what happens with integer round-off for certain edge cases.
         /// </summary>
         /// <param name="sortedArray"> Not checked for null, for performance. </param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

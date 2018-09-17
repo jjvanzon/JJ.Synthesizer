@@ -16,7 +16,7 @@ namespace JJ.Data.Synthesizer.NHibernate
 	/// because then retrieving an entity has a large overhead.
 	/// Byte arrays are better managed with separate SQL,
 	/// because then you only retrieve the bytes when you need them.
-	/// But the consequence is that only flushed byte arrays can be retreived.
+	/// But the consequence is that only flushed byte arrays can be retrieved.
 	/// Intermediate flushes not recommended, because they are dangerous, because in memory we often work with data that is not yet valid.
 	/// And also they cost performance if we only rollback the transaction afterwards.
 	/// We want to be able to retrieve non-flushed, uncommitted sample bytes because business logic is so flexibly usable

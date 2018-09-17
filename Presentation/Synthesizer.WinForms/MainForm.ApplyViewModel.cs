@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
@@ -141,7 +141,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			if (mainViewModel.ValidationMessages.Count != 0)
 			{
-				// TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
+				// TODO: Lower priority: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
 				ModalPopupHelper.ShowMessageBox(this, string.Join(Environment.NewLine, mainViewModel.ValidationMessages));
 
 				// Clear them so the next time the message box is not shown (message box is a temporary solution).
@@ -158,7 +158,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			if (mainViewModel.WarningMessages.Count != 0)
 			{
-				// TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
+				// TODO: Lower priority: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
 				IList<string> messages = mainViewModel.WarningMessages;
 				mainViewModel.WarningMessages = new List<string>();
 				ModalPopupHelper.ShowMessageBox(
