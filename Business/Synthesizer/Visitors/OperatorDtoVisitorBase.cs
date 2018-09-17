@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Dto.Operators;
 using JJ.Business.Synthesizer.Helpers;
+// ReSharper disable RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -141,13 +142,11 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected virtual InputDto VisitVarInputDto(InputDto inputDto)
 		{
 			IOperatorDto var2 = Visit_OperatorDto_Polymorphic(inputDto.Var);
-			// ReSharper disable once InvertIf
 			if (var2 != inputDto.Var)
 			{
 				InputDto inputDto2 = InputDtoFactory.TryCreateInputDto(var2);
 				return inputDto2;
 			}
-			// ReSharper disable once RedundantIfElseBlock
 			else
 			{
 				return inputDto;

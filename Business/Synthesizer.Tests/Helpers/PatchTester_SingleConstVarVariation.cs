@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 Patch numberPatch = _systemFacade.GetSystemPatch(OperatorTypeEnum.Number);
                 op.LinkToUnderlyingPatch(numberPatch);
                 new Number_OperatorWrapper(op) { Number = constToReplaceVariable.Value };
-                VoidResult result = _patchFacade.SaveOperator(op);
+                IResult result = _patchFacade.SaveOperator(op);
                 result.Assert();
             }
         }
@@ -101,7 +101,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public void Dispose() => _context?.Dispose();
 
-        /// <summary> Outputs failure messages. </summary>
         public (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(IList<DimensionEnum> inputDimensionEnums, IList<double[]> inputPoints, IList<double> expectedOutputValues)
         {
             // Pre-Conditions

@@ -239,10 +239,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Pre-calculate
                 return new Number_OperatorDto { Number = dto.A / dto.B };
             }
-            else if (dto.A.IsConstZero)
+            else if (dto.B.IsConstZero)
             {
-                // Identity
-                return new Number_OperatorDto { Number = dto.A };
+                // Undefined
+                return new Number_OperatorDto { Number = double.NaN };
             }
             else if (dto.B.IsConstOne)
             {
