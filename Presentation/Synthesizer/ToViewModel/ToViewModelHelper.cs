@@ -226,9 +226,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			if (idAndNames == null) throw new NullException(() => idAndNames);
 
-			string concatinatedUsedIn = string.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
+			string concatenatedUsedIn = string.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
 
-			return concatinatedUsedIn;
+			return concatenatedUsedIn;
 		}
 	}
 }

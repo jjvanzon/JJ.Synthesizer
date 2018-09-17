@@ -231,18 +231,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			var x = new OperatorFactory(patch, _repositories);
 
-			x.PatchOutlet
-			(
-				DimensionEnum.Signal,
-				x.Multiply
-				(
-					x.Sine
-					(
-						x.PatchInlet(DimensionEnum.Frequency)
-					),
-					x.PatchInlet(DimensionEnum.Volume)
-				)
-			);
+		    x.PatchOutlet(
+		        DimensionEnum.Signal,
+		        x.NewWithItemInlets(
+		            nameof(SystemPatchNames.Multiply),
+		            x.New(
+		                nameof(SystemPatchNames.Sine),
+		                x.PatchInlet(DimensionEnum.Frequency)
+		            ),
+		            x.PatchInlet(DimensionEnum.Volume))
+		    );
 
 			// This makes side-effects go off.
 			VoidResult result = patchFacade.SavePatch(patch);

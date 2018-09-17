@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions.Basic;
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer
 				var operatorFactory = new OperatorFactory(intermediateFirstUnmatchedOutlet.Operator.Patch, _repositories);
 
 				// You only need an adder, when there is more than 1 unmatchedOutlet.
-				intermediatePatchOutletInput = operatorFactory.Add(intermediateUnmatchedOutlets);
+				intermediatePatchOutletInput = operatorFactory.NewWithItemInlets(nameof(SystemPatchNames.Add), intermediateUnmatchedOutlets);
 			}
 
 			destPatchOutletWrapper.Input = intermediatePatchOutletInput;
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer
 					return soundOutlets[0];
 
 				default:
-					OperatorWrapper add = operatorFactory.Add(soundOutlets);
+				    OperatorWrapper add = operatorFactory.NewWithItemInlets(nameof(SystemPatchNames.Add), soundOutlets);
 					return add;
 			}
 		}
@@ -307,7 +307,7 @@ namespace JJ.Business.Synthesizer
 				return new Result<Outlet>(ResourceFormatter.PatchHasNoOutlets);
 			}
 
-			Outlet add = operatorFactory.Add(soundOutlets);
+			Outlet add = operatorFactory.NewWithItemInlets(nameof(SystemPatchNames.Add), soundOutlets);
 			Outlet patchOutlet = operatorFactory.PatchOutlet(DimensionEnum.Sound, add);
 
 			return new Result<Outlet>
@@ -384,7 +384,7 @@ namespace JJ.Business.Synthesizer
 		{
 			IList<Outlet> soundOutlets = GetSoundOutletsFromPatchesWithoutSoundInlets(document.Patches, mustIncludeHidden);
 
-			// TODO: Select the first patch with a sound inlet and use autopatch those two together.
+			// TODO: Select the first patch with a sound inlet and use auto-patch those two together.
 
 			Outlet soundOutlet = Randomizer.TryGetRandomItem(soundOutlets);
 

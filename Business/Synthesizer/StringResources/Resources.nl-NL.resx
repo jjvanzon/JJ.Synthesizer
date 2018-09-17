@@ -1,0 +1,1215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="UnderlyingPatchIsCircular" xml:space="preserve">
+    <value>Er is een cirkelverband met de onderliggende schakeling.</value>
+  </data>
+  <data name="OperatorPatchIsNotTheExpectedPatch" xml:space="preserve">
+    <value>De patch van operator '{0}' is ingevuld, maar het is niet de verwachte patch '{1}'.</value>
+  </data>
+  <data name="SampleCount0" xml:space="preserve">
+    <value>Geluidsfragment '{0}' heeft geen data.</value>
+  </data>
+  <data name="NotLoaded" xml:space="preserve">
+    <value>Niet ingeladen</value>
+  </data>
+  <data name="Positions" xml:space="preserve">
+    <value>Posities</value>
+  </data>
+  <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
+    <value>Kan het aantal ingangen niet aanpassen, omdat ingang {0} nog ingevuld is.</value>
+  </data>
+  <data name="CannotChangeOutletCountBecauseOneIsStillFilledIn" xml:space="preserve">
+    <value>Kan het aantal uitgangen niet aanpassen, omdat uitgang {0} in gebruik is.</value>
+  </data>
+  <data name="MismatchWithUnderlyingPatch" xml:space="preserve">
+    <value>Wijkt af van onderliggende schakeling.</value>
+  </data>
+  <data name="MustBePowerOf2" xml:space="preserve">
+    <value>{0} moet een macht van 2 zijn.</value>
+  </data>
+  <data name="OperatorIsInGraphButNotInList" xml:space="preserve">
+    <value>Operator is aanwezig in de graaf, but niet in de platte lijst.</value>
+  </data>
+  <data name="A" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="Absolute" xml:space="preserve">
+    <value>Absoluut</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>+</value>
+  </data>
+  <data name="Alias" xml:space="preserve">
+    <value>Vervangende naam</value>
+  </data>
+  <data name="AllPassFilter" xml:space="preserve">
+    <value>Alles doorlaten filter</value>
+  </data>
+  <data name="Amplifier" xml:space="preserve">
+    <value>Versterkingsfactor</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>En</value>
+  </data>
+  <data name="AttackDuration" xml:space="preserve">
+    <value>Aanslag tijdsduur</value>
+  </data>
+  <data name="AudioFileFormat" xml:space="preserve">
+    <value>Audio bestandsformaat</value>
+  </data>
+  <data name="AudioFileOutput" xml:space="preserve">
+    <value>Geluidsbestand uitvoer</value>
+  </data>
+  <data name="AudioFileOutputList" xml:space="preserve">
+    <value>Geluidsbestand uitvoer lijst</value>
+  </data>
+  <data name="AudioOutput" xml:space="preserve">
+    <value>Geluidsuitvoer</value>
+  </data>
+  <data name="AverageFollower" xml:space="preserve">
+    <value>Gemiddelde volgen</value>
+  </data>
+  <data name="AverageOverDimension" xml:space="preserve">
+    <value>Gemiddelde over dimensie</value>
+  </data>
+  <data name="AverageOverInlets" xml:space="preserve">
+    <value>Gemiddelde over ingangen</value>
+  </data>
+  <data name="B" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Balans</value>
+  </data>
+  <data name="BandPassFilterConstantPeakGain" xml:space="preserve">
+    <value>Band doorlaat filter, constante piek verhoging</value>
+  </data>
+  <data name="BandPassFilterConstantTransitionGain" xml:space="preserve">
+    <value>Band doorlaat filter, constante verhoging in overgang </value>
+  </data>
+  <data name="Base" xml:space="preserve">
+    <value>Basis</value>
+  </data>
+  <data name="BaseFrequency" xml:space="preserve">
+    <value>Basisfrequentie</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Blok</value>
+  </data>
+  <data name="Brightness" xml:space="preserve">
+    <value>Helderheid</value>
+  </data>
+  <data name="BrightnessModulationDepth" xml:space="preserve">
+    <value>Helderheid modulatie diepte</value>
+  </data>
+  <data name="BrightnessModulationSpeed" xml:space="preserve">
+    <value>Helderheid modulatie snelheid</value>
+  </data>
+  <data name="Byte" xml:space="preserve">
+    <value>8-bit</value>
+  </data>
+  <data name="BytesToSkip" xml:space="preserve">
+    <value>Aantal bytes overslaan</value>
+  </data>
+  <data name="Cache" xml:space="preserve">
+    <value>Onthouden</value>
+  </data>
+  <data name="Cent" xml:space="preserve">
+    <value>Cent</value>
+  </data>
+  <data name="CenterFrequency" xml:space="preserve">
+    <value>Middenfrequentie</value>
+  </data>
+  <data name="Cents" xml:space="preserve">
+    <value>Centen</value>
+  </data>
+  <data name="ChangeTrigger" xml:space="preserve">
+    <value>Afgaan bij verandering</value>
+  </data>
+  <data name="Channel" xml:space="preserve">
+    <value>Kanaal</value>
+  </data>
+  <data name="Channels" xml:space="preserve">
+    <value>Kanalen</value>
+  </data>
+  <data name="ClosestOverDimension" xml:space="preserve">
+    <value>Dichtstbijzijnd over dimensie</value>
+  </data>
+  <data name="ClosestOverDimensionExp" xml:space="preserve">
+    <value>Dichtstbijzijnd over dimensie exp</value>
+  </data>
+  <data name="ClosestOverInlets" xml:space="preserve">
+    <value>Dichtstbijzijnd over ingangen</value>
+  </data>
+  <data name="ClosestOverInletsExp" xml:space="preserve">
+    <value>Dichtstbijzijnd over ingangen exp</value>
+  </data>
+  <data name="CollectionRecalculation" xml:space="preserve">
+    <value>Verzameling herberekenen</value>
+  </data>
+  <data name="Condition" xml:space="preserve">
+    <value>Voorwaarde</value>
+  </data>
+  <data name="Continuous" xml:space="preserve">
+    <value>Continu</value>
+  </data>
+  <data name="Cubic" xml:space="preserve">
+    <value>Kubiek</value>
+  </data>
+  <data name="Curve" xml:space="preserve">
+    <value>Curve</value>
+  </data>
+  <data name="CustomDimensionName" xml:space="preserve">
+    <value>Zelfgedefiniëerde dimensienaam</value>
+  </data>
+  <data name="CustomOperator" xml:space="preserve">
+    <value>Zelfgemaakte operator</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="DataKey" xml:space="preserve">
+    <value>Data sleutel</value>
+  </data>
+  <data name="DataKeys" xml:space="preserve">
+    <value>Data sleutels</value>
+  </data>
+  <data name="DBGain" xml:space="preserve">
+    <value>dB verhoging</value>
+  </data>
+  <data name="DecayDuration" xml:space="preserve">
+    <value>Afname tijdsduur</value>
+  </data>
+  <data name="DefaultValue" xml:space="preserve">
+    <value>Standaard waarde</value>
+  </data>
+  <data name="DesiredBufferDuration" xml:space="preserve">
+    <value>Gewenste buffer grootte (sec.)</value>
+  </data>
+  <data name="Difference" xml:space="preserve">
+    <value>Verschil</value>
+  </data>
+  <data name="Dimension" xml:space="preserve">
+    <value>Dimensie</value>
+  </data>
+  <data name="DimensionToOutlets" xml:space="preserve">
+    <value>Dimensie naar uitgangen</value>
+  </data>
+  <data name="Divide" xml:space="preserve">
+    <value>÷</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Documenten</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Tijdsduur</value>
+  </data>
+  <data name="Else" xml:space="preserve">
+    <value>Anders</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>Einde</value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>=</value>
+  </data>
+  <data name="Exponent" xml:space="preserve">
+    <value>Exponent</value>
+  </data>
+  <data name="Exponents" xml:space="preserve">
+    <value>Exponenten</value>
+  </data>
+  <data name="Factor" xml:space="preserve">
+    <value>Factor</value>
+  </data>
+  <data name="Factors" xml:space="preserve">
+    <value>Factoren</value>
+  </data>
+  <data name="FilePath" xml:space="preserve">
+    <value>Bestandspad</value>
+  </data>
+  <data name="Frequencies" xml:space="preserve">
+    <value>Frequenties</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frequentie</value>
+  </data>
+  <data name="FrequencyCount" xml:space="preserve">
+    <value>Aantal frequenties</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Van</value>
+  </data>
+  <data name="GetPosition" xml:space="preserve">
+    <value>Positie opvragen</value>
+  </data>
+  <data name="GreaterThan" xml:space="preserve">
+    <value>&gt;</value>
+  </data>
+  <data name="GreaterThanOrEqual" xml:space="preserve">
+    <value>&gt;=</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Groep</value>
+  </data>
+  <data name="Harmonic" xml:space="preserve">
+    <value>Harmonische</value>
+  </data>
+  <data name="Hermite" xml:space="preserve">
+    <value>Hermite</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>Hoog</value>
+  </data>
+  <data name="HigherDocument" xml:space="preserve">
+    <value>Gebruikend document</value>
+  </data>
+  <data name="HighPassFilter" xml:space="preserve">
+    <value>Hoge tonen doorlaten</value>
+  </data>
+  <data name="HighShelfFilter" xml:space="preserve">
+    <value>Hoge plank filter</value>
+  </data>
+  <data name="Hold" xml:space="preserve">
+    <value>Aanhouden</value>
+  </data>
+  <data name="If" xml:space="preserve">
+    <value>Als</value>
+  </data>
+  <data name="Inlet" xml:space="preserve">
+    <value>Ingang</value>
+  </data>
+  <data name="Inlets" xml:space="preserve">
+    <value>Ingangen</value>
+  </data>
+  <data name="InletsToDimension" xml:space="preserve">
+    <value>Ingangen naar dimensie</value>
+  </data>
+  <data name="Input" xml:space="preserve">
+    <value>Invoer</value>
+  </data>
+  <data name="Int16" xml:space="preserve">
+    <value>16-bit</value>
+  </data>
+  <data name="Intensity" xml:space="preserve">
+    <value>Intensiteit</value>
+  </data>
+  <data name="IntensityModulationDepth" xml:space="preserve">
+    <value>Intensiteit modulatie diepte</value>
+  </data>
+  <data name="IntensityModulationSpeed" xml:space="preserve">
+    <value>Intensiteit modulatie snelheid</value>
+  </data>
+  <data name="Interpolate" xml:space="preserve">
+    <value>Interpoleren</value>
+  </data>
+  <data name="Interpolation" xml:space="preserve">
+    <value>Interpolatie</value>
+  </data>
+  <data name="InterpolationType" xml:space="preserve">
+    <value>Interpolatie soort</value>
+  </data>
+  <data name="IsObsolete" xml:space="preserve">
+    <value>Verouderd</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Links</value>
+  </data>
+  <data name="LessThan" xml:space="preserve">
+    <value>&lt;</value>
+  </data>
+  <data name="LessThanOrEqual" xml:space="preserve">
+    <value>&lt;=</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Lijn</value>
+  </data>
+  <data name="LiteralFrequencies" xml:space="preserve">
+    <value>Letterlijke frequenties</value>
+  </data>
+  <data name="LiteralFrequency" xml:space="preserve">
+    <value>Letterlijke frequentie</value>
+  </data>
+  <data name="Loop" xml:space="preserve">
+    <value>Lus</value>
+  </data>
+  <data name="LoopEndMarker" xml:space="preserve">
+    <value>Lus einde markering</value>
+  </data>
+  <data name="LoopStartMarker" xml:space="preserve">
+    <value>Lus begin markering</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Laag</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>Bibliotheek</value>
+  </data>
+  <data name="Libraries" xml:space="preserve">
+    <value>Bibliotheken</value>
+  </data>
+  <data name="LowPassFilter" xml:space="preserve">
+    <value>Lage tonen doorlaten</value>
+  </data>
+  <data name="LowShelfFilter" xml:space="preserve">
+    <value>Lage plank filter</value>
+  </data>
+  <data name="MaxConcurrentNotes" xml:space="preserve">
+    <value>Aantal gelijktijdige noten</value>
+  </data>
+  <data name="MaxFollower" xml:space="preserve">
+    <value>Max volger</value>
+  </data>
+  <data name="MaxFrequency" xml:space="preserve">
+    <value>Maxfrequentie</value>
+  </data>
+  <data name="MaxOverDimension" xml:space="preserve">
+    <value>Max over dimensie</value>
+  </data>
+  <data name="MaxOverInlets" xml:space="preserve">
+    <value>Max over ingangen</value>
+  </data>
+  <data name="MinFollower" xml:space="preserve">
+    <value>Minimum volger</value>
+  </data>
+  <data name="MinFrequency" xml:space="preserve">
+    <value>Minimum frequentie</value>
+  </data>
+  <data name="MinOverDimension" xml:space="preserve">
+    <value>Minimum over dimensie</value>
+  </data>
+  <data name="MinOverInlets" xml:space="preserve">
+    <value>Minimum over ingangen</value>
+  </data>
+  <data name="Mono" xml:space="preserve">
+    <value>Mono</value>
+  </data>
+  <data name="Multiply" xml:space="preserve">
+    <value>×</value>
+  </data>
+  <data name="MultiplyWithOrigin" xml:space="preserve">
+    <value>× (met oorsprong)</value>
+  </data>
+  <data name="Negative" xml:space="preserve">
+    <value>Negatief</value>
+  </data>
+  <data name="Node" xml:space="preserve">
+    <value>Knooppunt</value>
+  </data>
+  <data name="Nodes" xml:space="preserve">
+    <value>Knooppunten</value>
+  </data>
+  <data name="Noise" xml:space="preserve">
+    <value>Ruis</value>
+  </data>
+  <data name="Not" xml:space="preserve">
+    <value>Niet</value>
+  </data>
+  <data name="NotchFilter" xml:space="preserve">
+    <value>Deuk filter</value>
+  </data>
+  <data name="NoteDuration" xml:space="preserve">
+    <value>Noot tijdsduur</value>
+  </data>
+  <data name="NotEqual" xml:space="preserve">
+    <value>&lt;&gt;</value>
+  </data>
+  <data name="NoteStart" xml:space="preserve">
+    <value>Noot start</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Getal</value>
+  </data>
+  <data name="Octave" xml:space="preserve">
+    <value>Octaaf</value>
+  </data>
+  <data name="Offset" xml:space="preserve">
+    <value>Begin</value>
+  </data>
+  <data name="OneOverX" xml:space="preserve">
+    <value>1/x</value>
+  </data>
+  <data name="Operator" xml:space="preserve">
+    <value>Operator</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Of</value>
+  </data>
+  <data name="Origin" xml:space="preserve">
+    <value>Oorsprong</value>
+  </data>
+  <data name="Outlet" xml:space="preserve">
+    <value>Uitgang</value>
+  </data>
+  <data name="Outlets" xml:space="preserve">
+    <value>Uitgangen</value>
+  </data>
+  <data name="PassThrough" xml:space="preserve">
+    <value>Doorgang</value>
+  </data>
+  <data name="Patch" xml:space="preserve">
+    <value>Schakeling</value>
+  </data>
+  <data name="Patches" xml:space="preserve">
+    <value>Schakelingen</value>
+  </data>
+  <data name="PatchInlet" xml:space="preserve">
+    <value>Ingang</value>
+  </data>
+  <data name="PatchOutlet" xml:space="preserve">
+    <value>Uitgang</value>
+  </data>
+  <data name="PeakingEQFilter" xml:space="preserve">
+    <value>Piekende EQ filter</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>Positie</value>
+  </data>
+  <data name="Power" xml:space="preserve">
+    <value>Macht</value>
+  </data>
+  <data name="Pulse" xml:space="preserve">
+    <value>Impuls</value>
+  </data>
+  <data name="PulseTrigger" xml:space="preserve">
+    <value>Afgaan op impuls</value>
+  </data>
+  <data name="Random" xml:space="preserve">
+    <value>Willekeurig</value>
+  </data>
+  <data name="RangeOverDimension" xml:space="preserve">
+    <value>Reeks over dimensie</value>
+  </data>
+  <data name="RangeOverOutlets" xml:space="preserve">
+    <value>Reeks over uitgangen</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Snelheid</value>
+  </data>
+  <data name="Ratio" xml:space="preserve">
+    <value>Verhouding</value>
+  </data>
+  <data name="Raw" xml:space="preserve">
+    <value>RAW bestand</value>
+  </data>
+  <data name="ReleaseDuration" xml:space="preserve">
+    <value>Loslaat tijdsduur</value>
+  </data>
+  <data name="ReleaseEndMarker" xml:space="preserve">
+    <value>Loslaat einde markering</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Terugzetten</value>
+  </data>
+  <data name="Reverse" xml:space="preserve">
+    <value>Achteruit</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Rechts</value>
+  </data>
+  <data name="Round" xml:space="preserve">
+    <value>Afronden</value>
+  </data>
+  <data name="Sample" xml:space="preserve">
+    <value>Geluidsfragment</value>
+  </data>
+  <data name="SampleCount" xml:space="preserve">
+    <value>Aantal punten</value>
+  </data>
+  <data name="SampleDataType" xml:space="preserve">
+    <value>Sample data type</value>
+  </data>
+  <data name="SampleID" xml:space="preserve">
+    <value>Geluidsfragment ID</value>
+  </data>
+  <data name="Samples" xml:space="preserve">
+    <value>Geluidsfragmenten</value>
+  </data>
+  <data name="SamplingRate" xml:space="preserve">
+    <value>Sampling rate</value>
+  </data>
+  <data name="SawDown" xml:space="preserve">
+    <value>Zaag omlaag</value>
+  </data>
+  <data name="SawUp" xml:space="preserve">
+    <value>Zaag omhoog</value>
+  </data>
+  <data name="Scale" xml:space="preserve">
+    <value>Toonladder</value>
+  </data>
+  <data name="Scaler" xml:space="preserve">
+    <value>Schaler</value>
+  </data>
+  <data name="Scales" xml:space="preserve">
+    <value>Toonladders</value>
+  </data>
+  <data name="ScaleType" xml:space="preserve">
+    <value>Toonladder soort</value>
+  </data>
+  <data name="SemiTone" xml:space="preserve">
+    <value>Halve toon</value>
+  </data>
+  <data name="SemiTones" xml:space="preserve">
+    <value>Halve tonen</value>
+  </data>
+  <data name="SetPosition" xml:space="preserve">
+    <value>Positie instellen</value>
+  </data>
+  <data name="Shift" xml:space="preserve">
+    <value>Schuiven</value>
+  </data>
+  <data name="Signal" xml:space="preserve">
+    <value>Signaal</value>
+  </data>
+  <data name="Sine" xml:space="preserve">
+    <value>Sinus</value>
+  </data>
+  <data name="Single" xml:space="preserve">
+    <value>Enkel</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Sprong</value>
+  </data>
+  <data name="SliceLength" xml:space="preserve">
+    <value>Lengte</value>
+  </data>
+  <data name="SortOverDimension" xml:space="preserve">
+    <value>Sorteren over dimensie</value>
+  </data>
+  <data name="SortOverInlets" xml:space="preserve">
+    <value>Sorteren over ingangen</value>
+  </data>
+  <data name="SourceValueA" xml:space="preserve">
+    <value>Bron waarde A</value>
+  </data>
+  <data name="SourceValueB" xml:space="preserve">
+    <value>Bron waarde B</value>
+  </data>
+  <data name="SpeakerSetup" xml:space="preserve">
+    <value>Luidspreker opstelling</value>
+  </data>
+  <data name="Spectrum" xml:space="preserve">
+    <value>Spectrum</value>
+  </data>
+  <data name="Square" xml:space="preserve">
+    <value>Blok</value>
+  </data>
+  <data name="Squash" xml:space="preserve">
+    <value>Samenpersen</value>
+  </data>
+  <data name="StandardDimension" xml:space="preserve">
+    <value>Standaard dimensie</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Starttijd</value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value>Stap</value>
+  </data>
+  <data name="Stereo" xml:space="preserve">
+    <value>Stereo</value>
+  </data>
+  <data name="Stretch" xml:space="preserve">
+    <value>Uitrekken</value>
+  </data>
+  <data name="Stripe" xml:space="preserve">
+    <value>Strip</value>
+  </data>
+  <data name="Subtract" xml:space="preserve">
+    <value>–</value>
+  </data>
+  <data name="SumFollower" xml:space="preserve">
+    <value>Som volgen</value>
+  </data>
+  <data name="SumOverDimension" xml:space="preserve">
+    <value>Som over dimensie</value>
+  </data>
+  <data name="SustainVolume" xml:space="preserve">
+    <value>Aanhoud volume</value>
+  </data>
+  <data name="TargetValueA" xml:space="preserve">
+    <value>Doel waarde A</value>
+  </data>
+  <data name="TargetValueB" xml:space="preserve">
+    <value>Doel waarde B</value>
+  </data>
+  <data name="Then" xml:space="preserve">
+    <value>Dan</value>
+  </data>
+  <data name="Till" xml:space="preserve">
+    <value>Tot</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Tijd</value>
+  </data>
+  <data name="TimeMultiplier" xml:space="preserve">
+    <value>Tijd factor</value>
+  </data>
+  <data name="TimePower" xml:space="preserve">
+    <value>Tijd exponent</value>
+  </data>
+  <data name="ToggleTrigger" xml:space="preserve">
+    <value>Afgaan bij schakelen</value>
+  </data>
+  <data name="Tone" xml:space="preserve">
+    <value>Toon</value>
+  </data>
+  <data name="ToneCount" xml:space="preserve">
+    <value>Aantal tonen</value>
+  </data>
+  <data name="Tones" xml:space="preserve">
+    <value>Tonen</value>
+  </data>
+  <data name="TransitionFrequency" xml:space="preserve">
+    <value>Overgangsfrequentie</value>
+  </data>
+  <data name="TransitionSlope" xml:space="preserve">
+    <value>Overgangshelling</value>
+  </data>
+  <data name="TremoloDepth" xml:space="preserve">
+    <value>Tremolo diepte</value>
+  </data>
+  <data name="TremoloSpeed" xml:space="preserve">
+    <value>Tremolo snelheid</value>
+  </data>
+  <data name="Triangle" xml:space="preserve">
+    <value>Driehoek</value>
+  </data>
+  <data name="UnderlyingPatch" xml:space="preserve">
+    <value>Onderliggende schakeling</value>
+  </data>
+  <data name="UnderlyingPatchID" xml:space="preserve">
+    <value>Onderliggende schakeling ID</value>
+  </data>
+  <data name="UponReset" xml:space="preserve">
+    <value>Bij terugzetten</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Waarde</value>
+  </data>
+  <data name="VibratoDepth" xml:space="preserve">
+    <value>Vibrato diepte</value>
+  </data>
+  <data name="VibratoSpeed" xml:space="preserve">
+    <value>Vibrato snelheid</value>
+  </data>
+  <data name="Volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="Volumes" xml:space="preserve">
+    <value>Volumes</value>
+  </data>
+  <data name="Wav" xml:space="preserve">
+    <value>WAV bestand</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Breedte</value>
+  </data>
+  <data name="X" xml:space="preserve">
+    <value>x</value>
+  </data>
+  <data name="Y" xml:space="preserve">
+    <value>y</value>
+  </data>
+  <data name="AddToInstrument" xml:space="preserve">
+    <value>Toevoegen aan instrument</value>
+  </data>
+  <data name="Average" xml:space="preserve">
+    <value>Gemiddeld</value>
+  </data>
+  <data name="Closest" xml:space="preserve">
+    <value>Dichtsbijzijnd</value>
+  </data>
+  <data name="ClosestExp" xml:space="preserve">
+    <value>Dichtstbijzijnd exp</value>
+  </data>
+  <data name="Instrument" xml:space="preserve">
+    <value>Instrument</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Afwijkend</value>
+  </data>
+  <data name="CustomDimension" xml:space="preserve">
+    <value>Zelfgedefiniëerde dimensie</value>
+  </data>
+  <data name="DocumentList" xml:space="preserve">
+    <value>Documentenlijst</value>
+  </data>
+  <data name="DocumentName" xml:space="preserve">
+    <value>Document naam</value>
+  </data>
+  <data name="DocumentTree" xml:space="preserve">
+    <value>Document boomstructuur</value>
+  </data>
+  <data name="GetPositionWithPlaceholder" xml:space="preserve">
+    <value>{0} opvragen</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Groep</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Minimum</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Afspelen</value>
+  </data>
+  <data name="Range" xml:space="preserve">
+    <value>Reeks</value>
+  </data>
+  <data name="SetPositionWithPlaceholder" xml:space="preserve">
+    <value>{0} instellen</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sorteren</value>
+  </data>
+  <data name="Standard" xml:space="preserve">
+    <value>Standaard</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Som</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Soort</value>
+  </data>
+  <data name="UsedIn" xml:space="preserve">
+    <value>Gebruikt in</value>
+  </data>
+  <data name="SelectANodeFirst" xml:space="preserve">
+    <value>Selecteer eerst een knooppunt.</value>
+  </data>
+  <data name="SelectAnOperatorFirst" xml:space="preserve">
+    <value>Selecteer eerst een operator.</value>
+  </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Synthesizer</value>
+  </data>
+  <data name="SelectALibraryFirst" xml:space="preserve">
+    <value>Kies eerst een bibliotheek.</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Verbergen</value>
+  </data>
+  <data name="CannotHide_WithName_AndDependentItem" xml:space="preserve">
+    <value>Kan {0} niet verbergen, want het wordt nog gebruikt door het volgende: {1}.</value>
+  </data>
+  <data name="DocumentCannotReferenceItself" xml:space="preserve">
+    <value>Document kan niet naar zichzelf wijzen.</value>
+  </data>
+  <data name="LibraryAlreadyAdded_WithName" xml:space="preserve">
+    <value>Bibliotheek {0} was al toegevoegd.</value>
+  </data>
+  <data name="Aliases" xml:space="preserve">
+    <value>Vervangende namen</value>
+  </data>
+  <data name="AutoPatch" xml:space="preserve">
+    <value>Automatische schakeling</value>
+  </data>
+  <data name="PatchHasNoOutlets" xml:space="preserve">
+    <value>De schakeling heeft geen uitgangen.</value>
+  </data>
+  <data name="SelectedOperatorHasNoOutlets" xml:space="preserve">
+    <value>De geselecteerde operator heeft geen uitgangen.</value>
+  </data>
+  <data name="NoSoundFoundInLibrary" xml:space="preserve">
+    <value>Geen geluid gevonden.</value>
+  </data>
+  <data name="PatchesInLibrary" xml:space="preserve">
+    <value>Schakelingen in bibliotheek</value>
+  </data>
+  <data name="MainVolume" xml:space="preserve">
+    <value>Main Volume</value>
+  </data>
+  <data name="Phase" xml:space="preserve">
+    <value>Fase</value>
+  </data>
+  <data name="PitchBend" xml:space="preserve">
+    <value>Pitch Bend</value>
+  </data>
+  <data name="PreviousPosition" xml:space="preserve">
+    <value>Vorige positie</value>
+  </data>
+  <data name="Sound" xml:space="preserve">
+    <value>Geluid</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="BlobVolume" xml:space="preserve">
+    <value>Blob volume</value>
+  </data>
+  <data name="Decibel" xml:space="preserve">
+    <value>dB</value>
+  </data>
+  <data name="Slope" xml:space="preserve">
+    <value>Afbuiging</value>
+  </data>
+  <data name="Output" xml:space="preserve">
+    <value>Uitvoer</value>
+  </data>
+  <data name="Radians" xml:space="preserve">
+    <value>Radialen</value>
+  </data>
+  <data name="HighestFrequency" xml:space="preserve">
+    <value>Hoogste frequentie</value>
+  </data>
+  <data name="WarnIfEmpty" xml:space="preserve">
+    <value>Waarschuwing indien leeg</value>
+  </data>
+  <data name="Warnings" xml:space="preserve">
+    <value>Waarschuwingen</value>
+  </data>
+  <data name="CircularInputOutputReference" xml:space="preserve">
+    <value>Invoer/uitvoer heeft cirkelverwijzing</value>
+  </data>
+  <data name="NameOrDimensionHidden" xml:space="preserve">
+    <value>Verberg naam/dimensie</value>
+  </data>
+  <data name="HasDimension" xml:space="preserve">
+    <value>Heeft een dimensie</value>
+  </data>
+  <data name="YesNo" xml:space="preserve">
+    <value>Ja/nee</value>
+  </data>
+  <data name="IsRepeating" xml:space="preserve">
+    <value>Herhalend</value>
+  </data>
+  <data name="RepetitionPosition" xml:space="preserve">
+    <value>Herhalingspositie</value>
+  </data>
+  <data name="PatchHasMoreThanOneRepeatingInlet" xml:space="preserve">
+    <value>Schakeling heeft meer dan één herhalende ingang.</value>
+  </data>
+  <data name="PatchHasMoreThanOneRepeatingOutlet" xml:space="preserve">
+    <value>Schakeling heeft meer dan één herhalende uigang.</value>
+  </data>
+  <data name="CannotSetInletCountWithoutRepeatingInlets" xml:space="preserve">
+    <value>Aantal ingangen kan niet worden aangepast als er geen herhalende ingangen zijn.</value>
+  </data>
+  <data name="CannotSetOutletCountWithoutRepeatingOutlets" xml:space="preserve">
+    <value>Aantal uitgangen kan niet worden aangepast als er geen herhalende uitgangen zijn.</value>
+  </data>
+  <data name="RepetitionPositionsNotConsecutive" xml:space="preserve">
+    <value>Herhalingsposities ({0}) zijn niet aaneengesloten.</value>
+  </data>
+  <data name="ObsoleteButStillUsed" xml:space="preserve">
+    <value>Verouderd, maar wordt nog gebruikt.</value>
+  </data>
+  <data name="DivideWithOrigin" xml:space="preserve">
+    <value>÷ (met oorsprong)</value>
+  </data>
+  <data name="FirstRepetitionPosition" xml:space="preserve">
+    <value>Eerste herhalingspositie</value>
+  </data>
+  <data name="Inherit" xml:space="preserve">
+    <value>Overerven</value>
+  </data>
+  <data name="Inherited" xml:space="preserve">
+    <value>Geërft</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
+  <data name="MidiMappingGroup" xml:space="preserve">
+    <value>MIDI indeling groep</value>
+  </data>
+  <data name="MidiMapping" xml:space="preserve">
+    <value>MIDI indeling</value>
+  </data>
+  <data name="MidiControllerCode" xml:space="preserve">
+    <value>MIDI controller code</value>
+  </data>
+  <data name="FromDimensionValue" xml:space="preserve">
+    <value>Van dimensie waarde</value>
+  </data>
+  <data name="IsRelative" xml:space="preserve">
+    <value>Relatief</value>
+  </data>
+  <data name="MaxDimensionValue" xml:space="preserve">
+    <value>Maximale dimensie waarde</value>
+  </data>
+  <data name="MinDimensionValue" xml:space="preserve">
+    <value>Minimale dimensie waarde</value>
+  </data>
+  <data name="TillDimensionValue" xml:space="preserve">
+    <value>Tot dimensie waarde</value>
+  </data>
+  <data name="MidiController" xml:space="preserve">
+    <value>MIDI controller</value>
+  </data>
+  <data name="DimensionValue" xml:space="preserve">
+    <value>Dimensie waarde</value>
+  </data>
+  <data name="MidiNoteNumber" xml:space="preserve">
+    <value>MIDI noot nummer</value>
+  </data>
+  <data name="ToneNumber" xml:space="preserve">
+    <value>Toon nummer</value>
+  </data>
+  <data name="MidiVelocity" xml:space="preserve">
+    <value>MIDI aanslagsnelheid</value>
+  </data>
+  <data name="HasDimensionMinMaxButNoFromOrTill" xml:space="preserve">
+    <value>Er is een mininum of maximum dimensie waarde maar geen dimensie van/tot.</value>
+  </data>
+  <data name="Midi" xml:space="preserve">
+    <value>MIDI</value>
+  </data>
+  <data name="SelectAnElementFirst" xml:space="preserve">
+    <value>Selecteer eerst een onderdeel.</value>
+  </data>
+  <data name="EntityPosition" xml:space="preserve">
+    <value>Object positie</value>
+  </data>
+  <data name="DimensionValues" xml:space="preserve">
+    <value>Dimensie waardes</value>
+  </data>
+  <data name="MinMaxDimensionValues" xml:space="preserve">
+    <value>Min/max dimensie waardes</value>
+  </data>
+  <data name="ToneNumbers" xml:space="preserve">
+    <value>Toon nummers</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>Ordinaal</value>
+  </data>
+  <data name="FromMidiValue" xml:space="preserve">
+    <value>Van MIDI waarde</value>
+  </data>
+  <data name="MidiMappingType" xml:space="preserve">
+    <value>MIDI indeling soort</value>
+  </data>
+  <data name="TillMidiValue" xml:space="preserve">
+    <value>Tot MIDI waarde</value>
+  </data>
+  <data name="MidiValues" xml:space="preserve">
+    <value>MIDI waardes</value>
+  </data>
+  <data name="MidiChannel" xml:space="preserve">
+    <value>MIDI kanaal</value>
+  </data>
+  <data name="NoteNumber" xml:space="preserve">
+    <value>Nootnummer</value>
+  </data>
+  <data name="Velocity" xml:space="preserve">
+    <value>Aanslagsnelheid</value>
+  </data>
+  <data name="Controller" xml:space="preserve">
+    <value>Controller</value>
+  </data>
+  <data name="Synth" xml:space="preserve">
+    <value>Synth</value>
+  </data>
+  <data name="ScaleBaseFrequency" xml:space="preserve">
+    <value>Toonladder basisfrequentie</value>
+  </data>
+  <data name="ToneValue" xml:space="preserve">
+    <value>Toon getal</value>
+  </data>
+  <data name="LagBehind" xml:space="preserve">
+    <value>Achterblijven</value>
+  </data>
+  <data name="LookAhead" xml:space="preserve">
+    <value>Vooruit kijken</value>
+  </data>
+  <data name="FollowingMode" xml:space="preserve">
+    <value>Volgmodus</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Uit</value>
+  </data>
+  <data name="ArcCos" xml:space="preserve">
+    <value>arccos</value>
+  </data>
+  <data name="ArcSin" xml:space="preserve">
+    <value>arcsin</value>
+  </data>
+  <data name="ArcTan" xml:space="preserve">
+    <value>arctan</value>
+  </data>
+  <data name="Ceiling" xml:space="preserve">
+    <value>Afronden naar boven</value>
+  </data>
+  <data name="Cos" xml:space="preserve">
+    <value>cos</value>
+  </data>
+  <data name="CosH" xml:space="preserve">
+    <value>cosh</value>
+  </data>
+  <data name="CubeRoot" xml:space="preserve">
+    <value>³√</value>
+  </data>
+  <data name="Floor" xml:space="preserve">
+    <value>Afronden naar beneden</value>
+  </data>
+  <data name="Ln" xml:space="preserve">
+    <value>ln</value>
+  </data>
+  <data name="LogN" xml:space="preserve">
+    <value>log n</value>
+  </data>
+  <data name="Nand" xml:space="preserve">
+    <value>Nand</value>
+  </data>
+  <data name="NthRoot" xml:space="preserve">
+    <value>ⁿ√</value>
+  </data>
+  <data name="Pi" xml:space="preserve">
+    <value>π</value>
+  </data>
+  <data name="Sign" xml:space="preserve">
+    <value>Teken</value>
+  </data>
+  <data name="Sin" xml:space="preserve">
+    <value>sin</value>
+  </data>
+  <data name="SinH" xml:space="preserve">
+    <value>sinh</value>
+  </data>
+  <data name="SquareRoot" xml:space="preserve">
+    <value>√</value>
+  </data>
+  <data name="Tan" xml:space="preserve">
+    <value>tan</value>
+  </data>
+  <data name="TanH" xml:space="preserve">
+    <value>tanh</value>
+  </data>
+  <data name="Truncate" xml:space="preserve">
+    <value>Gehele deel van getal</value>
+  </data>
+  <data name="TwoPi" xml:space="preserve">
+    <value>2π</value>
+  </data>
+  <data name="Xor" xml:space="preserve">
+    <value>Xor</value>
+  </data>
+  <data name="E" xml:space="preserve">
+    <value>e</value>
+  </data>
+</root>

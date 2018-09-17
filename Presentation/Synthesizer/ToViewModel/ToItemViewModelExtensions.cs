@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		// EntityPosotion
+		// EntityPosition
 
 		public static PositionViewModel ToViewModel(this EntityPosition entityPosition)
 		{

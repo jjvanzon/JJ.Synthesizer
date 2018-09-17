@@ -2,7 +2,7 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 				return ResourceFormatter.GetDisplayName(dimensionWithFallback);
 			}
 
-			// Use List Index (not Position, becuase it does not have to be consecutive).
+			// Use List Index (not Position, because it does not have to be consecutive).
 			int listIndex = WrappedOperator.Inlets.Sort().IndexOf(inlet);
 			string displayName = $"{ResourceFormatter.Inlet} {listIndex + 1}";
 			return displayName;
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 				return ResourceFormatter.GetDisplayName(dimensionWithFallback);
 			}
 
-			// Use List Index (not Position, becuase it does not have to be consecutive).
+			// Use List Index (not Position, because it does not have to be consecutive).
 			int listPosition = WrappedOperator.Outlets.Sort().IndexOf(outlet);
 			string displayName = $"{ResourceFormatter.Outlet} {listPosition + 1}";
 			return displayName;

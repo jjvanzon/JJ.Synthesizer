@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			}
 		}
 
-		/// <summary> Executes SetTiltes, ApplyStyling, PositionControls and AutomaticallyAssignTabIndexes. </summary>
+		/// <summary> Executes SetTitles, ApplyStyling, PositionControls and AutomaticallyAssignTabIndexes. </summary>
 		protected override void OnLoad(EventArgs e)
 		{
 			SetTitles();

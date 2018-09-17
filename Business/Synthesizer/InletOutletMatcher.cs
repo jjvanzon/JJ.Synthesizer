@@ -183,15 +183,15 @@ namespace JJ.Business.Synthesizer
 			// Match Non-Repeating Ones
 			{
 				IList<IInletOrOutlet> sourceNonRepeatingInletsOrOutlets = sourceSortedInletsOrOutlets.Where(x => !x.IsRepeating).ToArray();
-				IList<IInletOrOutlet> destCandicateNonRepeatingInletsOrOutlets = destSortedCandidateInletsOrOutlets.Where(x => !x.IsRepeating).ToList();
+				IList<IInletOrOutlet> destCandidateNonRepeatingInletsOrOutlets = destSortedCandidateInletsOrOutlets.Where(x => !x.IsRepeating).ToList();
 				foreach (IInletOrOutlet sourceNonRepeatingInletOrOutlet in sourceNonRepeatingInletsOrOutlets)
 				{
 					IInletOrOutlet destNonRepeatingInletOrOutlet = TryGetDestInletOrOutlet(
 						sourceNonRepeatingInletOrOutlet,
-						destCandicateNonRepeatingInletsOrOutlets);
+						destCandidateNonRepeatingInletsOrOutlets);
 
 					tuples.Add(new InletOrOutletTuple(sourceNonRepeatingInletOrOutlet, destNonRepeatingInletOrOutlet));
-					destCandicateNonRepeatingInletsOrOutlets.Remove(destNonRepeatingInletOrOutlet);
+					destCandidateNonRepeatingInletsOrOutlets.Remove(destNonRepeatingInletOrOutlet);
 				}
 			}
 
@@ -199,11 +199,11 @@ namespace JJ.Business.Synthesizer
 			{
 				IInletOrOutlet sourceRepeatingInletOrOutlet =
 					sourceSortedInletsOrOutlets.Reverse().FirstOrDefault(x => x.IsRepeating); // Optimized for Repeating Inlet at the end.
-				IList<IInletOrOutlet> destCandicateRepeatingInletsOrOutlets = destSortedCandidateInletsOrOutlets.Where(x => x.IsRepeating).ToList();
+				IList<IInletOrOutlet> destCandidateRepeatingInletsOrOutlets = destSortedCandidateInletsOrOutlets.Where(x => x.IsRepeating).ToList();
 				// ReSharper disable once InvertIf
 				if (sourceRepeatingInletOrOutlet != null)
 				{
-					IInletOrOutlet destRepeatingInletOrOutlet = TryGetDestInletOrOutlet(sourceRepeatingInletOrOutlet, destCandicateRepeatingInletsOrOutlets);
+					IInletOrOutlet destRepeatingInletOrOutlet = TryGetDestInletOrOutlet(sourceRepeatingInletOrOutlet, destCandidateRepeatingInletsOrOutlets);
 
 					if (destRepeatingInletOrOutlet == null)
 					{
@@ -214,9 +214,9 @@ namespace JJ.Business.Synthesizer
 						while (destRepeatingInletOrOutlet != null)
 						{
 							tuples.Add(new InletOrOutletTuple(sourceRepeatingInletOrOutlet, destRepeatingInletOrOutlet));
-							destCandicateRepeatingInletsOrOutlets.Remove(destRepeatingInletOrOutlet);
+							destCandidateRepeatingInletsOrOutlets.Remove(destRepeatingInletOrOutlet);
 
-							destRepeatingInletOrOutlet = TryGetDestInletOrOutlet(sourceRepeatingInletOrOutlet, destCandicateRepeatingInletsOrOutlets);
+							destRepeatingInletOrOutlet = TryGetDestInletOrOutlet(sourceRepeatingInletOrOutlet, destCandidateRepeatingInletsOrOutlets);
 						}
 					}
 				}
@@ -227,14 +227,14 @@ namespace JJ.Business.Synthesizer
 
 		private static IInletOrOutlet TryGetDestInletOrOutlet(
 			IInletOrOutlet sourceInletOrOutlet,
-			IList<IInletOrOutlet> candicateDestInletsOrOutlets)
+			IList<IInletOrOutlet> candidateDestInletsOrOutlets)
 		{
-			if (candicateDestInletsOrOutlets == null) throw new NullException(() => candicateDestInletsOrOutlets);
+			if (candidateDestInletsOrOutlets == null) throw new NullException(() => candidateDestInletsOrOutlets);
 
 			// In case of PatchInlet.Inlet or PatchOutlet.Outlet:
 			// Can't match it by any property, because those are all custom filled in by the user.
 			// You gotta take the first or default!
-			IInletOrOutlet firstDestInletsOrOutlets = candicateDestInletsOrOutlets.Sort().FirstOrDefault();
+			IInletOrOutlet firstDestInletsOrOutlets = candidateDestInletsOrOutlets.Sort().FirstOrDefault();
 			if (firstDestInletsOrOutlets != null)
 			{
 				OperatorTypeEnum destOperatorTypeEnum = firstDestInletsOrOutlets.Operator.GetOperatorTypeEnum();
@@ -253,7 +253,7 @@ namespace JJ.Business.Synthesizer
 			{
 				// Try match by IsRepeating = true
 				{
-					IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(x => x.IsRepeating);
+					IInletOrOutlet destInletOrOutlet = candidateDestInletsOrOutlets.FirstOrDefault(x => x.IsRepeating);
 					return destInletOrOutlet;
 				}
 			}
@@ -263,7 +263,7 @@ namespace JJ.Business.Synthesizer
 			{
 				// Try match by Name and Position
 				{
-					IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+					IInletOrOutlet destInletOrOutlet = candidateDestInletsOrOutlets.FirstOrDefault(
 						x => x.Position == sourceInletOrOutlet.Position &&
 						     NameHelper.AreEqual(x.Name, sourceInletOrOutlet.Name));
 
@@ -275,7 +275,7 @@ namespace JJ.Business.Synthesizer
 
 				// Try match by Name
 				{
-					IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+					IInletOrOutlet destInletOrOutlet = candidateDestInletsOrOutlets.FirstOrDefault(
 						x => NameHelper.AreEqual(x.Name, sourceInletOrOutlet.Name));
 
 					if (destInletOrOutlet != null)
@@ -292,7 +292,7 @@ namespace JJ.Business.Synthesizer
 			{
 				// Try match by Dimension and Position
 				{
-					IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+					IInletOrOutlet destInletOrOutlet = candidateDestInletsOrOutlets.FirstOrDefault(
 						x => x.Position == sourceInletOrOutlet.Position &&
 						     x.GetDimensionEnum() == sourceDimensionEnum);
 
@@ -304,7 +304,7 @@ namespace JJ.Business.Synthesizer
 
 				// Try match by Dimension
 				{
-					IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+					IInletOrOutlet destInletOrOutlet = candidateDestInletsOrOutlets.FirstOrDefault(
 						x => x.GetDimensionEnum() == sourceDimensionEnum);
 
 					if (destInletOrOutlet != null)
@@ -316,7 +316,7 @@ namespace JJ.Business.Synthesizer
 
 			// Try match by Position
 			{
-				IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+				IInletOrOutlet destInletOrOutlet = candidateDestInletsOrOutlets.FirstOrDefault(
 					x => x.Position == sourceInletOrOutlet.Position);
 
 				return destInletOrOutlet;

@@ -15,7 +15,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
 	/// <summary>
-	/// Handles the recursive conversion of viewmodels of operators and their inlets and outlets
+	/// Handles the recursive conversion of view models of operators and their inlets and outlets
 	/// to entities. It delegates to the 'singular' forms of those conversions: the extension methods
 	/// that do not convert anything other than the entity itself without any related entities.
 	/// </summary>

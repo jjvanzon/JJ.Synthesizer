@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Helpers;
@@ -123,7 +124,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			//	  I know: This makes ShowNodeToolTips a really bad property name.)
 			// - We use a ToolTip component for better control over the timers around showing the tooltip.
 			//   TreeView does not offer that control. For instance we want to keep the ToolTip not to auto-hide after x amount of time.
-			// - But then we still need to let TreeView and ToolTip play along toghether,
+			// - But then we still need to let TreeView and ToolTip play along together,
 			//   otherwise they will both be showing tooltips at the same time.
 			string treeViewsOwnToolTipText = _mouseHoverNode?.Text;
 			if (!string.Equals(ViewModel.PatchToolTipText ?? "", treeViewsOwnToolTipText ?? ""))
@@ -647,7 +648,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (viewModel.HasLighterStyle)
 			{
-				treeNode.ForeColor = StyleHelper.LightGray;
+				treeNode.ForeColor = StyleHelper.MediumGray;
+			}
+			else
+			{
+			    treeNode.ForeColor = Color.Black;
 			}
 
 			return treeNode;

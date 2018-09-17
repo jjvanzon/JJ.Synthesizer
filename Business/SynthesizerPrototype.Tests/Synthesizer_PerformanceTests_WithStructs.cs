@@ -32,10 +32,10 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 
 			string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
 
-			Assert.Inconclusive(message);
+		    Console.WriteLine(message);
 		}
 
-		[TestMethod]
+        [TestMethod]
 		public void PerformanceTest_SynthesizerPrototype_WithStructs_WithDto()
 		{
 			var dimensionStack = new DimensionStack();
@@ -55,10 +55,10 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 
 			string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
 
-			Assert.Inconclusive(message);
+		    Console.WriteLine(message);
 		}
 
-		[TestMethod]
+        [TestMethod]
 		public void Debug_SynthesizerPrototype_WithStructs()
 		{
 			var dimensionStack = new DimensionStack();

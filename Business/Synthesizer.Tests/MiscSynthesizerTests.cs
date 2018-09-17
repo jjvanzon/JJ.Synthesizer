@@ -16,6 +16,8 @@ using JJ.Framework.Common;
 using JJ.Framework.Data;
 using JJ.Framework.Testing.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+// ReSharper disable once RedundantUsingDirective
+using static JJ.Business.Synthesizer.Helpers.SystemPatchNames;
 
 // ReSharper disable SuggestVarOrType_SimpleTypes
 // ReSharper disable UnusedVariable
@@ -45,8 +47,8 @@ namespace JJ.Business.Synthesizer.Tests
                         Patch patch = patchFacade.CreatePatch();
                         var x = new OperatorFactory(patch, repositories);
 
-                        var add = x.Add(x.Number(2), x.Number(3));
-                        var subtract = x.Subtract(add, x.Number(1));
+                        var add = x.NewWithItemInlets(nameof(Add), x.Number(2), x.Number(3));
+                        var subtract = x.New(nameof(Subtract), add, x.Number(1));
 
                         IPatchCalculator calculator1 = patchFacade.CreateCalculator(
                             add,
@@ -55,7 +57,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        double value = TestHelper.CalculateOneValue(calculator1);
+                        double value = TestExecutor.CalculateOneValue(calculator1);
                         Assert.AreEqual(5, value, 0.0001);
 
                         IPatchCalculator calculator2 = patchFacade.CreateCalculator(
@@ -65,7 +67,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        value = TestHelper.CalculateOneValue(calculator2);
+                        value = TestExecutor.CalculateOneValue(calculator2);
                         Assert.AreEqual(4, value, 0.0001);
 
                         // Test recursive validator
@@ -86,46 +88,6 @@ namespace JJ.Business.Synthesizer.Tests
                 });
 
         [TestMethod]
-        public void Test_Synthesizer_AddValidator_IsValidTrue() => Assert.Inconclusive("Test method was outcommented");
-
-        [TestMethod]
-        public void Test_Synthesizer_Add()
-            => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
-                () =>
-                {
-                    using (IContext context = PersistenceHelper.CreateContext())
-                    {
-                        RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-
-                        var patchFacade = new PatchFacade(repositories);
-                        Patch patch = patchFacade.CreatePatch();
-
-                        var x = new OperatorFactory(patch, repositories);
-
-                        Number_OperatorWrapper val1 = x.Number(1);
-                        Number_OperatorWrapper val2 = x.Number(2);
-                        Number_OperatorWrapper val3 = x.Number(3);
-                        OperatorWrapper add = x.Add(val1, val2, val3);
-
-                        //IValidator validator = new OperatorValidator_Adder(adder.Operator);
-                        //validator.Verify();
-
-                        IPatchCalculator calculator = patchFacade.CreateCalculator(
-                            add,
-                            DEFAULT_SAMPLING_RATE,
-                            DEFAULT_CHANNEL_COUNT,
-                            DEFAULT_CHANNEL_INDEX,
-                            new CalculatorCache());
-
-                        double value = TestHelper.CalculateOneValue(calculator);
-
-                        //adder.Operator.Inlets[0].Name = "qwer";
-                        //IValidator validator2 = new OperatorValidator_Adder(adder.Operator);
-                        //validator2.Verify();
-                    }
-                });
-
-        [TestMethod]
         public void Test_Synthesizer_ShorterCodeNotation()
             => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
@@ -138,10 +100,12 @@ namespace JJ.Business.Synthesizer.Tests
                         Patch patch = patchFacade.CreatePatch();
                         var x = new OperatorFactory(patch, repositories);
 
-                        var subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
+                        var subtract = x.New(nameof(Subtract), x.NewWithItemInlets(nameof(Add), x.Number(2), x.Number(3)), x.Number(1));
 
-                        var subtract2 = x.Subtract(
-                            x.Add(
+                        var subtract2 = x.New(
+                            nameof(Subtract),
+                            x.NewWithItemInlets(
+                                nameof(Add),
                                 x.Number(2),
                                 x.Number(3)
                             ),
@@ -162,7 +126,6 @@ namespace JJ.Business.Synthesizer.Tests
                         var patchFacade = new PatchFacade(repositories);
                         Patch patch = patchFacade.CreatePatch();
                         var x = new OperatorFactory(patch, repositories);
-
                         var outlet = x.MultiplyWithOrigin(x.Curve(1, DimensionEnum.Time, "", 0, 1, 0.8, null, null, 0.8, 0), x.Sine(x.Number(440)));
 
                         CultureHelper.SetCurrentCultureName("nl-NL");
@@ -218,7 +181,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                         foreach (double time in times)
                         {
-                            values[0] = TestHelper.CalculateOneValue(calculator, time);
+                            values[0] = TestExecutor.CalculateOneValue(calculator, time);
                         }
                     }
                 });
@@ -236,7 +199,7 @@ namespace JJ.Business.Synthesizer.Tests
                         Patch patch = patchFacade.CreatePatch();
                         var x = new OperatorFactory(patch, repositories);
 
-                        Outlet outlet = x.Add(x.Number(1), x.Number(2));
+                        Outlet outlet = x.NewWithItemInlets(nameof(Add), x.Number(1), x.Number(2));
 
                         IPatchCalculator calculator = patchFacade.CreateCalculator(
                             outlet,
@@ -245,7 +208,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        double result = TestHelper.CalculateOneValue(calculator);
+                        double result = TestExecutor.CalculateOneValue(calculator);
                         Assert.AreEqual(3.0, result, 0.0001);
                     }
                 });
@@ -263,7 +226,7 @@ namespace JJ.Business.Synthesizer.Tests
                         Patch patch = patchFacade.CreatePatch();
                         var x = new OperatorFactory(patch, repositories);
 
-                        Outlet outlet = x.Add(null, x.Number(2));
+                        Outlet outlet = x.NewWithItemInlets(nameof(Add), null, x.Number(2));
 
                         IPatchCalculator calculator = patchFacade.CreateCalculator(
                             outlet,
@@ -272,7 +235,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        double result = TestHelper.CalculateOneValue(calculator);
+                        double result = TestExecutor.CalculateOneValue(calculator);
                         Assert.AreEqual(2.0, result, 0.000000001);
                     }
                 });
@@ -290,7 +253,7 @@ namespace JJ.Business.Synthesizer.Tests
                         Patch patch = patchFacade.CreatePatch();
                         var x = new OperatorFactory(patch, repositories);
 
-                        Outlet outlet = x.Add(x.Number(1), x.Add(x.Number(2), null));
+                        Outlet outlet = x.NewWithItemInlets(nameof(Add), x.Number(1), x.NewWithItemInlets(nameof(Add), x.Number(2), null));
 
                         IPatchCalculator calculator = patchFacade.CreateCalculator(
                             outlet,
@@ -299,7 +262,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        double result = TestHelper.CalculateOneValue(calculator);
+                        double result = TestExecutor.CalculateOneValue(calculator);
                         Assert.AreEqual(3.0, result, 0.000000001);
                     }
                 });
@@ -317,7 +280,7 @@ namespace JJ.Business.Synthesizer.Tests
                         Patch patch = patchFacade.CreatePatch();
                         var x = new OperatorFactory(patch, repositories);
 
-                        Outlet outlet = x.Add(x.Add(x.Number(1), x.Number(2)), x.Number(4));
+                        Outlet outlet = x.NewWithItemInlets(nameof(Add), x.NewWithItemInlets(nameof(Add), x.Number(1), x.Number(2)), x.Number(4));
 
                         IPatchCalculator calculator = patchFacade.CreateCalculator(
                             outlet,
@@ -326,7 +289,7 @@ namespace JJ.Business.Synthesizer.Tests
                             DEFAULT_CHANNEL_INDEX,
                             new CalculatorCache());
 
-                        double result = TestHelper.CalculateOneValue(calculator);
+                        double result = TestExecutor.CalculateOneValue(calculator);
                         Assert.AreEqual(7.0, result, 0.000000001);
                     }
                 });
@@ -380,13 +343,13 @@ namespace JJ.Business.Synthesizer.Tests
                         // ReSharper disable once JoinDeclarationAndInitializer
                         double value;
 
-                        value = TestHelper.CalculateOneValue(calculator, 0.2);
-                        value = TestHelper.CalculateOneValue(calculator, 0.2);
+                        value = TestExecutor.CalculateOneValue(calculator, 0.2);
+                        value = TestExecutor.CalculateOneValue(calculator, 0.2);
 
-                        value = TestHelper.CalculateOneValue(calculator, 0.3);
-                        value = TestHelper.CalculateOneValue(calculator, 0.3);
+                        value = TestExecutor.CalculateOneValue(calculator, 0.3);
+                        value = TestExecutor.CalculateOneValue(calculator, 0.3);
 
-                        Assert.Inconclusive(message);
+                        Console.WriteLine(message);
                     }
                 });
 
@@ -474,7 +437,7 @@ namespace JJ.Business.Synthesizer.Tests
                         //value = calculator.Calculate(0.3);
                         //value = calculator.Calculate(0.3);
 
-                        Assert.Inconclusive(message);
+                        Console.WriteLine(message);
                     }
                 });
 
@@ -495,7 +458,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                         const double volume = 1;
                         const double frequency = 1.0;
-                        Outlet sine = x.Multiply(x.Number(volume), x.Sine(x.Number(frequency)));
+                        Outlet sine = x.NewWithItemInlets(nameof(Multiply), x.Number(volume), x.Sine(x.Number(frequency)));
 
                         const double newSamplingRate = 4;
                         Outlet interpolated = x.Interpolate(sine, x.Number(newSamplingRate));
@@ -567,7 +530,7 @@ namespace JJ.Business.Synthesizer.Tests
                             2.00
                         };
 
-                        double[] values = times.Select(time => TestHelper.CalculateOneValue(patchCalculator, time)).ToArray();
+                        double[] values = times.Select(time => TestExecutor.CalculateOneValue(patchCalculator, time)).ToArray();
                     }
                 });
 
@@ -612,7 +575,7 @@ namespace JJ.Business.Synthesizer.Tests
                             2.000
                         };
 
-                        double[] values = times.Select(time => TestHelper.CalculateOneValue(patchCalculator, time)).ToArray();
+                        double[] values = times.Select(time => TestExecutor.CalculateOneValue(patchCalculator, time)).ToArray();
                     }
                 });
 
