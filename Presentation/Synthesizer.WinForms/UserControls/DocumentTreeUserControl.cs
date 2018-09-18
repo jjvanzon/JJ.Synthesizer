@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Helpers;
@@ -27,21 +28,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private static readonly string _separator = Guid.NewGuid().ToString();
 
-		// Button Events
-		public event EventHandler AddToInstrumentRequested;
-		public event EventHandler CloseRequested;
-		public event EventHandler NewRequested;
-		public event EventHandler OpenItemExternallyRequested;
-		public event EventHandler<EventArgs<int>> PatchHovered;
-		public event EventHandler PlayRequested;
-		public event EventHandler RefreshRequested;
-		public event EventHandler DeleteRequested;
-		public event EventHandler RedoRequested;
-		public event EventHandler SaveRequested;
-		public event EventHandler UndoRequested;
-
-		// Show Events
-		public event EventHandler ShowAudioOutputRequested;
+	    // Show Events
+        public event EventHandler ShowAudioOutputRequested;
 		public event EventHandler ShowAudioFileOutputsRequested;
 		public event EventHandler<EventArgs<int>> ShowLibraryRequested;
 		public event EventHandler<EventArgs<int>> ShowPatchRequested;
@@ -66,8 +54,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler ScalesNodeSelected;
 		public event EventHandler<EventArgs<int>> ScaleNodeSelected;
 
-		// TreeNodes
-		private TreeNode _audioFileOutputListTreeNode;
+        // Other Events
+	    public event EventHandler CreateRequested;
+	    public event EventHandler DeleteRequested;
+	    public event EventHandler<EventArgs<int>> PatchHovered;
+
+        // TreeNodes
+        private TreeNode _audioFileOutputListTreeNode;
 		private TreeNode _audioOutputNode;
 		private TreeNode _librariesTreeNode;
 		private HashSet<TreeNode> _libraryMidiMappingGroupTreeNodes;
@@ -89,14 +82,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public DocumentTreeUserControl()
 		{
 			InitializeComponent();
-
-			ApplyStyling();
 			AddInvariantNodes();
 		}
-
-		// Gui
-
-		private void ApplyStyling() => tableLayoutPanel.RowStyles[0].Height = StyleHelper.TitleBarHeight;
 
 	    // Binding
 
@@ -109,12 +96,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void ApplyViewModelToControls()
 		{
-			titleBarUserControl.AddToInstrumentButtonVisible = ViewModel.CanAddToInstrument;
-			titleBarUserControl.NewButtonVisible = ViewModel.CanCreate;
-			titleBarUserControl.ExpandButtonVisible = ViewModel.CanOpenExternally;
-			titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
-			titleBarUserControl.DeleteButtonVisible = ViewModel.CanDelete;
-
 			_libraryMidiTreeNodes = new HashSet<TreeNode>();
 			_libraryMidiMappingGroupTreeNodes = new HashSet<TreeNode>();
 			_libraryPatchTreeNodes = new HashSet<TreeNode>();
@@ -143,7 +124,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			//	  I know: This makes ShowNodeToolTips a really bad property name.)
 			// - We use a ToolTip component for better control over the timers around showing the tooltip.
 			//   TreeView does not offer that control. For instance we want to keep the ToolTip not to auto-hide after x amount of time.
-			// - But then we still need to let TreeView and ToolTip play along toghether,
+			// - But then we still need to let TreeView and ToolTip play along together,
 			//   otherwise they will both be showing tooltips at the same time.
 			string treeViewsOwnToolTipText = _mouseHoverNode?.Text;
 			if (!string.Equals(ViewModel.PatchToolTipText ?? "", treeViewsOwnToolTipText ?? ""))
@@ -667,7 +648,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (viewModel.HasLighterStyle)
 			{
-				treeNode.ForeColor = StyleHelper.LightGray;
+				treeNode.ForeColor = StyleHelper.MediumGray;
+			}
+			else
+			{
+			    treeNode.ForeColor = Color.Black;
 			}
 
 			return treeNode;
@@ -821,33 +806,25 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		// Events
 
-		private void TitleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested(this, EventArgs.Empty);
-		private void TitleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested(this, EventArgs.Empty);
-		private void TitleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested(sender, EventArgs.Empty);
-		private void TitleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternallyRequested(sender, EventArgs.Empty);
-		private void TitleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
-		private void TitleBarUserControl_RefreshClicked(object sender, EventArgs e) => RefreshRequested(sender, EventArgs.Empty);
-		private void TitleBarUserControl_RedoClicked(object sender, EventArgs e) => RedoRequested(sender, EventArgs.Empty);
-		private void TitleBarUserControl_DeleteClicked(object sender, EventArgs e) => DeleteRequested(this, EventArgs.Empty);
-		private void TitleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested(sender, EventArgs.Empty);
-		private void TitleBarUserControl_UndoClicked(object sender, EventArgs e) => UndoRequested(sender, EventArgs.Empty);
 		private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => HandleNodeKeyEnterOrDoubleClick(e.Node);
 
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			// Use ProcessCmdKey,because OnKeyDown produces an annoying Ding sound.
-			// every time you hit enter.
+            // Use ProcessCmdKey,because OnKeyDown produces an annoying Ding sound.
+            // every time you hit enter.
 
-			// ReSharper disable once InvertIf
-			if (keyData == Keys.Enter)
-			{
-				// ReSharper disable once InvertIf
-				if (treeView.SelectedNode != null)
-				{
-					HandleNodeKeyEnterOrDoubleClick(treeView.SelectedNode);
-					return true;
-				}
-			}
+		    if (treeView.SelectedNode != null)
+		    {
+		        switch (keyData) {
+		            case Keys.Enter:
+		                HandleNodeKeyEnterOrDoubleClick(treeView.SelectedNode);
+		                return true;
+
+                    case Keys.Delete:
+                        DeleteRequested(this, EventArgs.Empty);
+                        return true;
+                }
+            }
 
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
@@ -975,30 +952,30 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (_libraryTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
+				var id = (int)node.Tag;
 				ShowLibraryRequested(this, new EventArgs<int>(id));
 			}
 
 			if (_libraryPatchTreeNodes.Contains(node))
 			{
-				NewRequested(this, EventArgs.Empty);
+				CreateRequested(this, EventArgs.Empty);
 			}
 
 			if (_patchTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
+				var id = (int)node.Tag;
 				ShowPatchRequested(this, new EventArgs<int>(id));
 			}
 
 			if (_midiMappingGroupTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
+				var id = (int)node.Tag;
 				ShowMidiMappingGroupRequested(this, new EventArgs<int>(id));
 			}
 
 			if (_scaleTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
+				var id = (int)node.Tag;
 				ShowScaleRequested(this, new EventArgs<int>(id));
 			}
 		}
@@ -1045,5 +1022,5 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		}
 
 		private object GetSimpleTreeNodeKeyIndicator() => new { ViewModel.SelectedNodeType, ViewModel.SelectedItemID };
-	}
+    }
 }

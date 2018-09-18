@@ -2,10 +2,8 @@
 using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
 using JJ.Framework.Drawing;
-using JJ.Framework.Resources;
 using JJ.Framework.VectorGraphics.Enums;
 using JJ.Framework.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics;
@@ -41,7 +39,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			InitializeComponent();
 
 			TitleBarBackColor = SystemColors.Window;
-			TitleLabelVisible = false;
 
 			// Make sure the base's button bar is in front of the diagramControl.
 			diagramControl.SendToBack();
@@ -78,8 +75,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		}
 
 		// Gui
-
-		protected override void SetTitles() => TitleBarText = CommonResourceFormatter.Details_WithName(ResourceFormatter.Curve);
 
 	    protected override void PositionControls()
 		{
@@ -185,7 +180,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void MoveNodeGesture_Moved(object sender, ElementEventArgs e)
 		{
-			// TODO: Lots of code repetition betwen Moved and Moving events.
+			// TODO: Lots of code repetition between Moved and Moving events.
 			if (ViewModel == null) return;
 			if (NodeMoved == null) return;
 			AssertConverter();

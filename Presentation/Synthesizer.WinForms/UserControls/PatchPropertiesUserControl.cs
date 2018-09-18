@@ -1,5 +1,5 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Canonical;
 using JJ.Framework.Common;
 using JJ.Framework.Resources;
@@ -21,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			AddToInstrumentButtonVisible = true;
 			ExpandButtonVisible = true;
+		    CloneButtonVisible = true;
 		}
 
 		// Gui

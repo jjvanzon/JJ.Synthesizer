@@ -133,94 +133,58 @@
   <ItemGroup>
     <Compile Include="AudioOutputFacade.cs" />
     <Compile Include="Calculation\AggregateCalculator.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculatorBase.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Hermite.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Cubic.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Stripe.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculatorFactory.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Hermite.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Cubic.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Stripe_NoRate.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Stripe.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Block.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Block.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Hermite.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Cubic.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Block_NoRate.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Hermite.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Cubic.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Line_NoRate.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Line.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Stripe_NoRate.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Stripe.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Block.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Stripe.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Block.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Line.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Line.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Line.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Hermite.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Cubic.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Stripe.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorFactory.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Hermite.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Cubic.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Stripe_NoRate.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Stripe.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Block.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Block.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Hermite.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Cubic.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Block_NoRate.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Hermite.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Cubic.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Line_NoRate.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Line.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Stripe_NoRate.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Stripe.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Block.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Stripe.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Block.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Line.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Line.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Line.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
-    <Compile Include="Calculation\BiQuadFilterWithoutFields.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Calculation\BiQuadFilterWithoutFields.cs" />
     <Compile Include="Calculation\ICalculatorWithPosition.cs" />
+    <EmbeddedResource Include="EmbeddedResources\NoiseCalculator.cs" />
     <Compile Include="Calculation\NoiseCalculatorHelper.cs" />
+    <Compile Include="Calculation\Operators\Truncate_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Floor_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Ceiling_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Xor_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Sign_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SquareRoot_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\LogN_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\ArcTan_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\ArcCos_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\ArcSin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Ln_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\TanH_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\CosH_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SinH_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Tan_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Cos_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Sin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\HighShelfFilter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_2Point.cs" />
@@ -243,18 +207,27 @@
     <Compile Include="Calculation\Operators\SineWithRate1_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TriangleWithoutFrequency_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorBase.cs" />
-    <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
+    <EmbeddedResource Include="EmbeddedResources\SineCalculator.cs" />
     <Compile Include="Calculation\ToneCalculator.cs" />
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
     <Compile Include="Converters\MidiMappingToDtoConverter.cs" />
     <Compile Include="Converters\ToneToDtoConverter.cs" />
+    <Compile Include="CopiedCode\FromFramework\CollectionExtensions.cs" />
+    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_Ancestors.cs" />
+    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_IEnumerable.cs" />
+    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_IList.cs" />
+    <Compile Include="CopiedCode\FromFramework\NestedEnumerator.cs" />
     <Compile Include="CopiedCode\FromFramework\Randomizer.cs" />
+    <Compile Include="CopiedCode\FromFramework\RedBlackTree.cs" />
+    <Compile Include="CopiedCode\FromFramework\RedBlackTreeColorEnum.cs" />
+    <Compile Include="CopiedCode\FromFramework\RedBlackTreeNode.cs" />
     <Compile Include="Dto\MidiMappingDto.cs" />
-    <Compile Include="Dto\Operators\DoubleToBoolean_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\BooleanToDouble_OperatorDto.cs" />
+    <Compile Include="Dto\Operators\IOperatorDto_WithNumber.cs" />
+    <Compile Include="Dto\Operators\LogN_OperatorDto.cs" />
+    <Compile Include="Dto\Operators\OperatorDto_WithAAndB Classes.cs" />
+    <Compile Include="Dto\Operators\OperatorDto_WithNumber Classes.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithInterpolation_AndFollowingMode.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithInterpolation.cs" />
@@ -274,10 +247,40 @@
     <Compile Include="Dto\Operators\OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_Filter_VarSound.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst.cs" />
-    <Compile Include="Dto\Operators\OperatorDtoBase_WithInput.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_WithSound.cs" />
-    <Compile Include="Dto\Operators\Remainder_OperatorDto.cs" />
     <Compile Include="Dto\ToneDto.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculatorBase.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculatorBase_Block.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculatorBase_Cubic.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculatorBase_Hermite.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculatorBase_Line.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculatorBase_Stripe.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculatorFactory.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_MinPositionZero_Block.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_MinPositionZero_Cubic.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_MinPositionZero_Hermite.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_MinPositionZero_Line.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_MinPositionZero_Stripe.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_MinPositionZero_Stripe_NoRate.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_MinPosition_Block.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_MinPosition_Cubic.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_MinPosition_Hermite.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_MinPosition_Line.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_MinPosition_Stripe.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_RotatePosition_Block.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_RotatePosition_Block_NoRate.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_RotatePosition_Cubic.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_RotatePosition_Hermite.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_RotatePosition_Line.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_RotatePosition_Line_NoRate.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_RotatePosition_Stripe.cs" />
+    <EmbeddedResource Include="EmbeddedResources\ArrayCalculator_RotatePosition_Stripe_NoRate.cs" />
+    <EmbeddedResource Include="EmbeddedResources\BiQuadFilterWithoutFields.cs" />
+    <EmbeddedResource Include="EmbeddedResources\CalculationHelper.cs" />
+    <EmbeddedResource Include="EmbeddedResources\Geometry.cs" />
+    <EmbeddedResource Include="EmbeddedResources\Interpolator.cs" />
+    <EmbeddedResource Include="EmbeddedResources\MathHelper.cs" />
+    <EmbeddedResource Include="EmbeddedResources\PatchCalculatorHelper.cs" />
     <Compile Include="Enums\FollowingModeEnum.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_WithInterpolation_AndFollowingMode.cs" />
     <Compile Include="Enums\EntityTypeEnum.cs" />
@@ -288,9 +291,7 @@
     <Compile Include="Extensions\IInletOrOutletExtensions.cs" />
     <Compile Include="Extensions\SortExtensions.cs" />
     <Compile Include="Helpers\AggregateInfoFactory.cs" />
-    <Compile Include="Helpers\CalculationHelper.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\CurveArrayDtoFactory.cs" />
     <Compile Include="Calculation\Operators\PeakingEQFilter_OperatorCalculator.cs" />
@@ -383,6 +384,7 @@
     <Compile Include="Helpers\InletTuple.cs" />
     <Compile Include="Helpers\SystemPatchNames.cs" />
     <Compile Include="Calculation\MidiMappingCalculator.cs" />
+    <Compile Include="Helpers\PatchCloner.cs" />
     <Compile Include="PatchGrouper.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator2.cs" />
@@ -400,7 +402,7 @@
     <Compile Include="Roslyn\Helpers\VariableCollections.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />
     <Compile Include="MidiMappingFacade.cs" />
-    <Compile Include="SideEffects\MidiMappingGroup_SideEffect_AutoCreate_MidiMaping.cs" />
+    <Compile Include="SideEffects\MidiMappingGroup_SideEffect_AutoCreate_MidiMapping.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_SystemDocumentReference.cs" />
     <Compile Include="SideEffects\Document_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Document_SideEffect_ApplyUnderlyingPatches.cs" />
@@ -452,7 +454,6 @@
     <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_OperationIdentityDeduplication.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_Rewriting.cs" />
-    <Compile Include="Visitors\OperatorEntityToCalculatorExecutor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase_WithInletCoalescing.cs" />
     <Compile Include="Visitors\ToCalculatorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
@@ -482,7 +483,6 @@
     <Compile Include="Dto\Operators\ClosestOverDimensionExp OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\ClosestOverInlets_OperatorDto.cs" />
     <Compile Include="Dto\Operators\ClosestOverDimension OperatorDto Classes.cs" />
-    <Compile Include="Dto\Operators\Subtract_OperatorDto.cs" />
     <Compile Include="Dto\Operators\SumFollower OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\SumOverDimension OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\AverageOverInlets_OperatorDto.cs" />
@@ -496,7 +496,6 @@
     <Compile Include="Dto\Operators\DimensionToOutlets_Outlet_OperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_AggregateOverDimension.cs" />
     <Compile Include="Dto\Operators\RangeOverDimension OperatorDto Classes.cs" />
-    <Compile Include="Dto\Operators\Negative_OperatorDto.cs" />
     <Compile Include="Dto\Operators\If_OperatorDto.cs" />
     <Compile Include="Dto\Operators\AverageFollower_OperatorDto.cs" />
     <Compile Include="Dto\Operators\MaxFollower_OperatorDto.cs" />
@@ -507,21 +506,12 @@
     <Compile Include="Dto\Operators\Round_OperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_AggregateFollower.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_WithNumber.cs" />
-    <Compile Include="Dto\Operators\Not_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\Or_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\And_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\GreaterThanOrEqual_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\LessThanOrEqual_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\GreaterThan_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\LessThan_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\NotEqual_OperatorDto.cs" />
     <Compile Include="Dto\Operators\Random OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\Spectrum_OperatorDto.cs" />
     <Compile Include="Dto\Operators\HighPassFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\LowPassFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\Reset_OperatorDto.cs" />
     <Compile Include="Dto\Operators\Squash OperatorDto Classes.cs" />
-    <Compile Include="Dto\Operators\Equal_OperatorDto.cs" />
     <Compile Include="Dto\Operators\MinFollower_OperatorDto.cs" />
     <Compile Include="Dto\Operators\PulseTrigger_OperatorDto.cs" />
     <Compile Include="Dto\Operators\ToggleTrigger_OperatorDto.cs" />
@@ -531,7 +521,6 @@
     <Compile Include="Dto\Operators\Noise_OperatorDto.cs" />
     <Compile Include="Dto\Operators\SampleWithRate1 OperatorDto Classes.cs" />
     <Compile Include="Dto\Operators\Curve OperatorDto Classes.cs" />
-    <Compile Include="Dto\Operators\Divide_OperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_WithAAndB.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase.cs" />
     <Compile Include="Dto\Operators\Power_OperatorDto.cs" />
@@ -545,28 +534,18 @@
     <Compile Include="Extensions\OperatorExtensions.cs" />
     <Compile Include="Calculation\BiQuadFilter.cs" />
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
-    <Compile Include="CopiedCode\FromFramework\Geometry.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="CopiedCode\FromFramework\Interpolator.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="CopiedCode\FromFramework\MathHelper.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
+    <Compile Include="CopiedCode\FromFramework\Interpolator.cs" />
+    <Compile Include="CopiedCode\FromFramework\MathHelper.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_Stripe.cs" />
     <Compile Include="Calculation\SampleReader.cs" />
     <Compile Include="Calculation\InterpretedCurveCalculator.cs" />
     <Compile Include="Calculation\SampleArrayDtoFactory.cs" />
-    <Compile Include="Calculation\SineCalculator.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Calculation\SineCalculator.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_Block.cs" />
-    <Compile Include="Calculation\NoiseCalculator.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Calculation\NoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_WithCollectionRecalculation.cs" />
@@ -662,12 +641,12 @@
     <Compile Include="Warnings\Operators\Cache_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Spectrum_OperatorWarningValidator.cs" />
     <Compile Include="WavHeaderFacade.cs" />
-    <Compile Include="Resources\Resources.Designer.cs">
+    <Compile Include="StringResources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\ResourceFormatter.cs" />
+    <Compile Include="StringResources\ResourceFormatter.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_GenerateName.cs" />
@@ -756,10 +735,6 @@
       <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
       <Name>JJ.Framework.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
-      <Project>{5d06a212-5459-47f3-8109-e012c5fc9e3a}</Project>
-      <Name>JJ.Framework.Collections</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>
@@ -794,10 +769,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Resources.nl-NL.resx">
+    <EmbeddedResource Include="StringResources\Resources.nl-NL.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Resources.resx">
+    <EmbeddedResource Include="StringResources\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -806,6 +781,7 @@
   <ItemGroup>
     <None Include="Calculation\AudioFileOutputs\AudioFileOutputCalculators.cd" />
     <Compile Include="Validation\ValidationHelper.Unicity.cs" />
+    <None Include="CopyToEmbeddedResources.bat" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -826,7 +802,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(ProjectDir)CopyFrameworkCode.bat"</PreBuildEvent>
+    <PreBuildEvent>call "$(ProjectDir)CopyFrameworkCode.bat"
+call "$(ProjectDir)CopyToEmbeddedResources.bat"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

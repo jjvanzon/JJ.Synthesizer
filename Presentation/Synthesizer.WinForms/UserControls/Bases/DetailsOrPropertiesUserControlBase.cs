@@ -6,6 +6,7 @@ using JJ.Framework.Common;
 using JJ.Framework.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -16,13 +17,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		private readonly TitleBarUserControl _titleBarUserControl;
 
 		public event EventHandler<EventArgs<int>> AddToInstrumentRequested;
+		public event EventHandler<EventArgs<int>> CloneRequested;
 		public event EventHandler<EventArgs<int>> CloseRequested;
+	    public event EventHandler<EventArgs<int>> DeleteRequested;
 		public event EventHandler<EventArgs<int>> ExpandRequested;
 		public event EventHandler<EventArgs<int>> NewRequested;
 		public event EventHandler<EventArgs<int>> LoseFocusRequested;
 		public event EventHandler<EventArgs<int>> SaveRequested;
 		public event EventHandler<EventArgs<int>> PlayRequested;
-		public event EventHandler<EventArgs<int>> DeleteRequested;
 
 		public event EventHandler AddRequested
 		{
@@ -41,12 +43,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			_titleBarUserControl = CreateTitleBarUserControl();
 			Controls.Add(_titleBarUserControl);
 			_titleBarUserControl.AddToInstrumentClicked += _titleBarUserControl_AddToInstrumentClicked;
+			_titleBarUserControl.CloneClicked += _titleBarUserControl_CloneClicked;
 			_titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
 			_titleBarUserControl.ExpandClicked += _titleBarUserControl_ExpandClicked;
 			_titleBarUserControl.NewClicked += _titleBarUserControl_NewClicked;
 			_titleBarUserControl.SaveClicked += _titleBarUserControl_SaveClicked;
 			_titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
-			_titleBarUserControl.DeleteClicked += TitleBarUserControl_DeleteClicked;
+			_titleBarUserControl.DeleteClicked += _titleBarUserControl_DeleteClicked;
 
 			_titleBarUserControl.DeleteButtonVisible = true;
 		}
@@ -61,11 +64,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 				_titleBarUserControl.NewClicked -= _titleBarUserControl_NewClicked;
 				_titleBarUserControl.SaveClicked -= _titleBarUserControl_SaveClicked;
 				_titleBarUserControl.PlayClicked -= _titleBarUserControl_PlayClicked;
-				_titleBarUserControl.DeleteClicked -= TitleBarUserControl_DeleteClicked;
+				_titleBarUserControl.DeleteClicked -= _titleBarUserControl_DeleteClicked;
 			}
 		}
 
-		/// <summary> Executes SetTiltes, ApplyStyling, PositionControls and AutomaticallyAssignTabIndexes. </summary>
+		/// <summary> Executes SetTitles, ApplyStyling, PositionControls and AutomaticallyAssignTabIndexes. </summary>
 		protected override void OnLoad(EventArgs e)
 		{
 			SetTitles();
@@ -100,6 +103,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		{
 			get => _titleBarUserControl.AddToInstrumentButtonVisible;
 			set => _titleBarUserControl.AddToInstrumentButtonVisible = value;
+		}
+
+		[DefaultValue(false)]
+		protected bool CloneButtonVisible
+		{
+			get => _titleBarUserControl.CloneButtonVisible;
+			set => _titleBarUserControl.CloneButtonVisible = value;
 		}
 
 		protected bool CloseButtonVisible
@@ -152,21 +162,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			set => _titleBarUserControl.BackColor = value;
 		}
 
-		protected bool TitleLabelVisible
-		{
-			get => _titleBarUserControl.TitleLabelVisible;
-			set => _titleBarUserControl.TitleLabelVisible = value;
-		}
-
 		protected int TitleBarHeight => _titleBarUserControl.Height;
 
 		protected virtual void PositionControls()
 		{
-			if (TitleLabelVisible)
+            if (!string.IsNullOrEmpty(_titleBarUserControl.Text))
 			{
 				_titleBarUserControl.Width = Width;
+			    _titleBarUserControl.Left = 0;
 			}
-			else
+            else
 			{
 				_titleBarUserControl.Width = _titleBarUserControl.ButtonBarWidth;
 				_titleBarUserControl.Left = Width - _titleBarUserControl.ButtonBarWidth;
@@ -217,10 +222,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 	    // Events
 
 		private void _titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested?.Invoke(sender, new EventArgs<int>(GetID()));
-		private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
+		private void _titleBarUserControl_CloneClicked(object sender, EventArgs e) => CloneRequested?.Invoke(this, new EventArgs<int>(GetID()));
+        private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
 		private void _titleBarUserControl_ExpandClicked(object sender, EventArgs e) => ExpandRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 		private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
-		private void TitleBarUserControl_DeleteClicked(object sender, EventArgs e) => Delete();
+		private void _titleBarUserControl_DeleteClicked(object sender, EventArgs e) => Delete();
 		private void _titleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 		private void _titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 

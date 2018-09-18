@@ -82,7 +82,6 @@
 			this.titleBarUserControl.SaveButtonVisible = false;
 			this.titleBarUserControl.Size = new System.Drawing.Size(623, 32);
 			this.titleBarUserControl.TabIndex = 8;
-			this.titleBarUserControl.TitleLabelVisible = true;
 			this.titleBarUserControl.UndoButtonVisible = false;
 			this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
 			this.titleBarUserControl.AddToInstrumentClicked += new System.EventHandler(this.titleBarUserControl_AddToInstrumentClicked);

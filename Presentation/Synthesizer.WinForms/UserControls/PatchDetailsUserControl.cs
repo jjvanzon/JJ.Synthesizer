@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Drawing;
@@ -45,6 +45,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			InitializeComponent();
 
 			ExpandButtonVisible = true;
+		    CloneButtonVisible = true;
 
 			_textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 		}

@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
@@ -95,9 +95,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Document
 
-		public static bool GetCanAddToInstrument(DocumentTreeNodeTypeEnum selectedNodeType)
+		public static bool GetCanAddToInstrument(DocumentTreeNodeTypeEnum selectedNodeType, bool documentTreeVisible)
 		{
-			switch (selectedNodeType)
+		    if (!documentTreeVisible)
+		    {
+		        return false;
+		    }
+
+		    switch (selectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.LibraryMidiMappingGroup:
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
@@ -112,9 +117,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
-		public static bool GetCanCreate(DocumentTreeNodeTypeEnum selectedNodeType, bool patchDetailsVisible)
+		public static bool GetCanCreate(DocumentTreeNodeTypeEnum selectedNodeType, bool documentTreeVisible, bool patchDetailsVisible)
 		{
-			switch (selectedNodeType)
+		    if (!documentTreeVisible)
+		    {
+		        return false;
+		    }
+
+		    switch (selectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Midi:
 				case DocumentTreeNodeTypeEnum.Libraries:
@@ -131,9 +141,51 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
-		public static bool GetCanPlay(DocumentTreeNodeTypeEnum selectedNodeType)
+	    public static bool GetCanClone(DocumentTreeNodeTypeEnum selectedNodeType, bool documentTreeVisible)
+	    {
+	        if (!documentTreeVisible)
+	        {
+	            return false;
+	        }
+
+	        switch (selectedNodeType)
+	        {
+	            case DocumentTreeNodeTypeEnum.Patch:
+	                return true;
+
+	            default:
+	                return false;
+	        }
+	    }
+
+        public static bool GetCanDelete(DocumentTreeNodeTypeEnum selectedNodeType, bool documentTreeVisible)
+	    {
+	        if (!documentTreeVisible)
+	        {
+	            return false;
+	        }
+
+	        switch (selectedNodeType)
+	        {
+	            case DocumentTreeNodeTypeEnum.MidiMappingGroup:
+	            case DocumentTreeNodeTypeEnum.Library:
+	            case DocumentTreeNodeTypeEnum.Patch:
+	            case DocumentTreeNodeTypeEnum.Scale:
+	                return true;
+
+	            default:
+	                return false;
+	        }
+	    }
+
+        public static bool GetCanPlay(DocumentTreeNodeTypeEnum selectedNodeType, bool documentTreeVisible)
 		{
-			switch (selectedNodeType)
+		    if (!documentTreeVisible)
+		    {
+		        return false;
+		    }
+
+		    switch (selectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.AudioOutput:
 				case DocumentTreeNodeTypeEnum.Libraries:
@@ -149,27 +201,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
-		public static bool GetCanOpenExternally(DocumentTreeNodeTypeEnum selectedNodeType)
+		public static bool GetCanOpenExternally(DocumentTreeNodeTypeEnum selectedNodeType, bool documentTreeVisible)
 		{
-			switch (selectedNodeType)
+		    if (!documentTreeVisible)
+		    {
+		        return false;
+		    }
+
+		    switch (selectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Library:
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
-					return true;
-
-				default:
-					return false;
-			}
-		}
-
-		public static bool GetCanDelete(DocumentTreeNodeTypeEnum selectedNodeType)
-		{
-			switch (selectedNodeType)
-			{
-				case DocumentTreeNodeTypeEnum.MidiMappingGroup:
-				case DocumentTreeNodeTypeEnum.Library:
-				case DocumentTreeNodeTypeEnum.Patch:
-				case DocumentTreeNodeTypeEnum.Scale:
 					return true;
 
 				default:

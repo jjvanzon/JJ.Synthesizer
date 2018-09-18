@@ -26,6 +26,8 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.Validation;
 // ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable ConvertIfStatementToSwitchStatement
+// ReSharper disable InvertIf
 
 namespace JJ.Business.Synthesizer
 {
@@ -36,13 +38,23 @@ namespace JJ.Business.Synthesizer
 	/// </summary>
 	public class PatchFacade
 	{
-		private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
-
+		private readonly CalculationMethodEnum _calculationMethodEnum;
 		private readonly RepositoryWrapper _repositories;
+	    private readonly PatchCloner _patchCloner;
 
-		// Constructors
+        // Constructors
 
-		public PatchFacade(RepositoryWrapper repositories) => _repositories = repositories ?? throw new NullException(() => repositories);
+	    public PatchFacade(RepositoryWrapper repositories)
+            : this(repositories, CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod)
+	    { }
+
+	    internal PatchFacade(RepositoryWrapper repositories, CalculationMethodEnum calculationMethodEnum)
+	    {
+	        _calculationMethodEnum = calculationMethodEnum;
+
+            _repositories = repositories ?? throw new NullException(() => repositories);
+	        _patchCloner = new PatchCloner(repositories);
+	    }
 
 	    // Create
 
@@ -113,6 +125,8 @@ namespace JJ.Business.Synthesizer
 		/// Related operators will also be added to the operator's patch.
 		/// If one of the related operators has a different patch assigned to it,
 		/// a validation message is returned.
+		/// Underlying patch will be reapplied.
+		/// Derived operators will be updated.
 		/// </summary>
 		public VoidResult SaveOperator(Operator op)
 		{
@@ -289,75 +303,18 @@ namespace JJ.Business.Synthesizer
 			return validator.ToResult();
 		}
 
-		// Misc
+        // Misc
 
-		/// <summary> Validates for instance that no operator connections are lost. </summary>
-		public VoidResult SetOperatorInletCount(Operator op, int inletCount)
-		{
-			if (op == null) throw new NullException(() => op);
+	    public Patch ClonePatch(Patch sourcePatch)
+	    {
+	        Patch destPatch = _patchCloner.CloneWithRelatedEntities(sourcePatch);
 
-			IValidator validator = new OperatorValidator_SetInletCount(op, inletCount);
-			if (!validator.IsValid)
-			{
-				return validator.ToResult();
-			}
+	        new Patch_SideEffect_GenerateName(destPatch).Execute();
 
-			IList<Inlet> sortedInlets = op.Inlets.Sort().ToArray();
+	        return destPatch;
+	    }
 
-			// Create additional inlets
-			for (int i = sortedInlets.Count; i < inletCount; i++)
-			{
-				Inlet inlet = CreateInlet(op);
-				// This should be just enough to let Operator_SideEffect_ApplyUnderlyingPatch do the rest of the properties.
-				inlet.IsRepeating = true;
-			}
-
-			// Delete excessive inlets
-			for (int i = sortedInlets.Count - 1; i >= inletCount; i--)
-			{
-				Inlet inlet = sortedInlets[i];
-				DeleteInlet(inlet);
-			}
-
-			new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
-
-			return new VoidResult { Successful = true };
-		}
-
-		/// <summary> Validates for instance that no operator connections are lost. </summary>
-		public VoidResult SetOperatorOutletCount(Operator op, int outletCount)
-		{
-			if (op == null) throw new NullException(() => op);
-
-			IValidator validator = new OperatorValidator_SetOutletCount(op, outletCount);
-			if (!validator.IsValid)
-			{
-				return validator.ToResult();
-			}
-
-			IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
-
-			// Create additional outlets
-			for (int i = sortedOutlets.Count; i < outletCount; i++)
-			{
-				Outlet outlet = CreateOutlet(op);
-				// This should be just enough to let Operator_SideEffect_ApplyUnderlyingPatch do the rest of the properties.
-				outlet.IsRepeating = true;
-			}
-
-			// Delete excessive outlets
-			for (int i = sortedOutlets.Count - 1; i >= outletCount; i--)
-			{
-				Outlet outlet = sortedOutlets[i];
-				DeleteOutlet(outlet);
-			}
-
-			new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
-
-			return new VoidResult { Successful = true };
-		}
-
-		/// <summary>
+	    /// <summary>
 		/// Does work, that is shared for creating multiple calculators, only once.
 		/// In particular in compiled mode, this means it compiles the calculation only once.
 		/// Note that you are still going to have to call it once for each channel, unfortunately,
@@ -374,12 +331,13 @@ namespace JJ.Business.Synthesizer
 			switch (_calculationMethodEnum)
 			{
 				case CalculationMethodEnum.Roslyn:
+
 				{
-					IOperatorDto dto = new OperatorEntityToDtoVisitor(
-							calculatorCache,
-							_repositories.CurveRepository,
-							_repositories.SampleRepository,
-							_repositories.SpeakerSetupRepository).Execute(outlet);
+				    IOperatorDto dto = new OperatorEntityToDtoVisitor(
+				        calculatorCache,
+				        _repositories.CurveRepository,
+				        _repositories.SampleRepository,
+				        _repositories.SpeakerSetupRepository).Execute(outlet);
 
 					dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
 
@@ -409,44 +367,44 @@ namespace JJ.Business.Synthesizer
 			int channelIndex,
 			CalculatorCache calculatorCache)
 		{
-			IPatchCalculator patchCalculator;
-			switch (_calculationMethodEnum)
-			{
-				case CalculationMethodEnum.CalculatorClasses:
-					patchCalculator = new SingleChannelPatchCalculator(
-						outlet,
-						samplingRate,
-						channelCount,
-						channelIndex,
-						calculatorCache,
-						_repositories.CurveRepository,
-						_repositories.SampleRepository,
-						_repositories.SpeakerSetupRepository);
-					break;
+		    if (_calculationMethodEnum == CalculationMethodEnum.HardCoded)
+		    {
+		        return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
+		    }
+		    if (_calculationMethodEnum == CalculationMethodEnum.ExampleGeneratedCode)
+		    {
+		        return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<string, ArrayDto>());
+		    }
 
-				case CalculationMethodEnum.Roslyn:
-					IOperatorDto dto = new OperatorEntityToDtoVisitor(
-						calculatorCache,
-						_repositories.CurveRepository,
-						_repositories.SampleRepository,
-						_repositories.SpeakerSetupRepository).Execute(outlet);
+		    var visitor = new OperatorEntityToDtoVisitor(
+		        calculatorCache,
+		        _repositories.CurveRepository,
+		        _repositories.SampleRepository,
+		        _repositories.SpeakerSetupRepository);
+		    IOperatorDto dto = visitor.Execute(outlet);
 
-					dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
-					patchCalculator = new OperatorDtoCompiler().CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
+		    dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
 
-					break;
+		    if (_calculationMethodEnum == CalculationMethodEnum.CalculatorClasses)
+		    {
+		        IPatchCalculator patchCalculator = new SingleChannelPatchCalculator(
+                    dto,
+		            samplingRate,
+		            channelCount,
+		            channelIndex,
+		            calculatorCache,
+		            _repositories.CurveRepository,
+		            _repositories.SampleRepository);
+		        return patchCalculator;
+		    }
 
-				case CalculationMethodEnum.HardCoded:
-					return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
+            if (_calculationMethodEnum == CalculationMethodEnum.Roslyn)
+		    {
+		        IPatchCalculator patchCalculator = new OperatorDtoCompiler().CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
+		        return patchCalculator;
+		    }
 
-				case CalculationMethodEnum.ExampleGeneratedCode:
-					return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<string, ArrayDto>());
-
-				default:
-					throw new ValueNotSupportedException(_calculationMethodEnum);
-			}
-
-			return patchCalculator;
+		    throw new ValueNotSupportedException(_calculationMethodEnum);
 		}
 
 		public void DeleteOwnedNumberOperators(int id)
@@ -465,5 +423,71 @@ namespace JJ.Business.Synthesizer
 				DeleteOperatorWithRelatedEntities(ownedOperator);
 			}
 		}
-	}
+
+        /// <summary> Validates for instance that no operator connections are lost. </summary>
+        public VoidResult SetOperatorInletCount(Operator op, int inletCount)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IValidator validator = new OperatorValidator_SetInletCount(op, inletCount);
+            if (!validator.IsValid)
+            {
+                return validator.ToResult();
+            }
+
+            IList<Inlet> sortedInlets = op.Inlets.Sort().ToArray();
+
+            // Create additional inlets
+            for (int i = sortedInlets.Count; i < inletCount; i++)
+            {
+                Inlet inlet = CreateInlet(op);
+                // This should be just enough to let Operator_SideEffect_ApplyUnderlyingPatch do the rest of the properties.
+                inlet.IsRepeating = true;
+            }
+
+            // Delete excessive inlets
+            for (int i = sortedInlets.Count - 1; i >= inletCount; i--)
+            {
+                Inlet inlet = sortedInlets[i];
+                DeleteInlet(inlet);
+            }
+
+            new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
+
+            return new VoidResult { Successful = true };
+        }
+
+        /// <summary> Validates for instance that no operator connections are lost. </summary>
+        public VoidResult SetOperatorOutletCount(Operator op, int outletCount)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IValidator validator = new OperatorValidator_SetOutletCount(op, outletCount);
+            if (!validator.IsValid)
+            {
+                return validator.ToResult();
+            }
+
+            IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
+
+            // Create additional outlets
+            for (int i = sortedOutlets.Count; i < outletCount; i++)
+            {
+                Outlet outlet = CreateOutlet(op);
+                // This should be just enough to let Operator_SideEffect_ApplyUnderlyingPatch do the rest of the properties.
+                outlet.IsRepeating = true;
+            }
+
+            // Delete excessive outlets
+            for (int i = sortedOutlets.Count - 1; i >= outletCount; i--)
+            {
+                Outlet outlet = sortedOutlets[i];
+                DeleteOutlet(outlet);
+            }
+
+            new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
+
+            return new VoidResult { Successful = true };
+        }
+    }
 }

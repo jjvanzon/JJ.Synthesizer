@@ -28,43 +28,22 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.labelTitle = new System.Windows.Forms.Label();
-			this.buttonBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.ButtonBarUserControl();
+		    this.diagramControl = new JJ.Framework.WinForms.Controls.DiagramControl();
 			this.SuspendLayout();
+		    // 
+		    // diagramControl
+		    // 
+		    this.diagramControl.Diagram = null;
+		    this.diagramControl.Location = new System.Drawing.Point(142, 32);
+		    this.diagramControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+		    this.diagramControl.Name = "diagramControl";
+		    this.diagramControl.Size = new System.Drawing.Size(53, 20);
+		    this.diagramControl.TabIndex = 1;
 			// 
-			// labelTitle
-			// 
-			this.labelTitle.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
-			this.labelTitle.Location = new System.Drawing.Point(0, 0);
-			this.labelTitle.Margin = new System.Windows.Forms.Padding(0);
-			this.labelTitle.Name = "labelTitle";
-			this.labelTitle.Padding = new System.Windows.Forms.Padding(3);
-			this.labelTitle.Size = new System.Drawing.Size(337, 32);
-			this.labelTitle.TabIndex = 7;
-			this.labelTitle.Text = "Title";
-			this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// buttonBarUserControl
-			// 
-			this.buttonBarUserControl.AddButtonVisible = false;
-			this.buttonBarUserControl.BackColor = System.Drawing.SystemColors.Control;
-			this.buttonBarUserControl.CloseButtonVisible = true;
-			this.buttonBarUserControl.Location = new System.Drawing.Point(313, 0);
-			this.buttonBarUserControl.Margin = new System.Windows.Forms.Padding(0);
-			this.buttonBarUserControl.Name = "buttonBarUserControl";
-			this.buttonBarUserControl.ExpandButtonVisible = false;
-			this.buttonBarUserControl.PlayButtonVisible = false;
-			this.buttonBarUserControl.RefreshButtonVisible = false;
-			this.buttonBarUserControl.DeleteButtonVisible = false;
-			this.buttonBarUserControl.SaveButtonVisible = false;
-			this.buttonBarUserControl.Size = new System.Drawing.Size(24, 32);
-			this.buttonBarUserControl.TabIndex = 20;
-			// 
-			// TitleBarUserControl
-			// 
-			this.BackColor = System.Drawing.SystemColors.Control;
-			this.Controls.Add(this.buttonBarUserControl);
-			this.Controls.Add(this.labelTitle);
+            // TitleBarUserControl
+            // 
+            this.BackColor = System.Drawing.SystemColors.Control;
+		    this.Controls.Add(this.diagramControl);
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "TitleBarUserControl";
 			this.Size = new System.Drawing.Size(337, 32);
@@ -74,8 +53,8 @@
 
 		}
 
-		#endregion
-		private System.Windows.Forms.Label labelTitle;
-		private ButtonBarUserControl buttonBarUserControl;
+        #endregion
+
+	    private Framework.WinForms.Controls.DiagramControl diagramControl;
 	}
 }

@@ -10,7 +10,6 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -73,23 +72,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new DocumentDeletedViewModel
 			{
 				ValidationMessages = new List<string>()
-			};
-
-			return viewModel;
-		}
-
-		// Menu
-
-		public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)
-		{
-			var viewModel = new MenuViewModel
-			{
-				DocumentList = new MenuItemViewModel { Visible = true },
-				DocumentTree = new MenuItemViewModel { Visible = documentIsOpen },
-				DocumentClose = new MenuItemViewModel { Visible = documentIsOpen },
-				DocumentProperties = new MenuItemViewModel { Visible = documentIsOpen },
-				ValidationMessages = new List<string>(),
-				Successful = true
 			};
 
 			return viewModel;
@@ -229,15 +211,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		// UsedIn
+        // TopButtonBar
 
-		public static string FormatUsedInList(IList<IDAndName> idAndNames)
+	    public static TopButtonBarViewModel CreateTopButtonBarViewModel(bool documentIsOpen)
+	    {
+	        TopButtonBarViewModel viewModel = CreateEmptyTopButtonBarViewModel();
+	        viewModel.Visible = documentIsOpen;
+	        return viewModel;
+	    }
+
+        // UsedIn
+
+        public static string FormatUsedInList(IList<IDAndName> idAndNames)
 		{
 			if (idAndNames == null) throw new NullException(() => idAndNames);
 
-			string concatinatedUsedIn = string.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
+			string concatenatedUsedIn = string.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
 
-			return concatinatedUsedIn;
+			return concatenatedUsedIn;
 		}
 	}
 }

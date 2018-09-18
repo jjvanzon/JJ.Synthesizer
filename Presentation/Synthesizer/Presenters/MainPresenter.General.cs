@@ -61,7 +61,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly InstrumentBarPresenter _instrumentBarPresenter;
 		private readonly LibraryPropertiesPresenter _libraryPropertiesPresenter;
 		private readonly LibrarySelectionPopupPresenter _librarySelectionPopupPresenter;
-		private readonly MenuPresenter _menuPresenter;
 		private readonly MidiMappingGroupDetailsPresenter _midiMappingDetailsPresenter;
 		private readonly MidiMappingPropertiesPresenter _midiMappingPropertiesPresenter;
 		private readonly MonitoringBarPresenter _monitoringBarPresenter;
@@ -83,6 +82,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly ScalePropertiesPresenter _scalePropertiesPresenter;
 		private readonly ToneGridEditPresenter _toneGridEditPresenter;
 		private readonly TitleBarPresenter _titleBarPresenter;
+	    private readonly TopButtonBarPresenter _topButtonBarPresenter;
 
 		private readonly AutoPatcher _autoPatcher;
 		private readonly AudioFileOutputFacade _audioFileOutputFacade;
@@ -140,7 +140,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_documentTreePresenter = new DocumentTreePresenter(_documentFacade, _midiMappingFacade, _patchFacade, _scaleFacade, _repositories);
 			_libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
 			_librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
-			_menuPresenter = new MenuPresenter();
 			_midiMappingDetailsPresenter = new MidiMappingGroupDetailsPresenter(midiMappingRepositories, _midiMappingFacade);
 			_midiMappingPropertiesPresenter = new MidiMappingPropertiesPresenter(midiMappingRepositories, _midiMappingFacade);
 			_monitoringBarPresenter = new MonitoringBarPresenter();
@@ -162,6 +161,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, _scaleFacade);
 			_toneGridEditPresenter = new ToneGridEditPresenter(_repositories.ScaleRepository, _scaleFacade);
 			_titleBarPresenter = new TitleBarPresenter();
+		    _topButtonBarPresenter = new TopButtonBarPresenter();
 
 			_dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
 		}

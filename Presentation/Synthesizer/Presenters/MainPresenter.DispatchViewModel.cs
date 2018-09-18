@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions.Basic;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
+// ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -34,7 +33,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{ typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
 				{ typeof(LibraryPropertiesViewModel), DispatchLibraryPropertiesViewModel },
 				{ typeof(LibrarySelectionPopupViewModel), DispatchLibrarySelectionPopupViewModel },
-				{ typeof(MenuViewModel), DispatchMenuViewModel },
 				{ typeof(MidiMappingGroupDetailsViewModel), DispatchMidiMappingGroupDetailsViewModel },
 				{ typeof(MidiMappingPropertiesViewModel), DispatchMidiMappingPropertiesViewModel },
 				{ typeof(MonitoringBarViewModel), DispatchMonitoringBarViewModel },
@@ -54,7 +52,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{ typeof(SampleFileBrowserViewModel), DispatchSampleFileBrowserViewModel },
 				{ typeof(SaveChangesPopupViewModel), DispatchSaveChangesPopupViewModel },
 				{ typeof(ScalePropertiesViewModel), DispatchScalePropertiesViewModel },
-				{ typeof(ToneGridEditViewModel), DispatchToneGridEditViewModel }
+				{ typeof(ToneGridEditViewModel), DispatchToneGridEditViewModel },
+				{ typeof(TopButtonBarViewModel), DispatchTopButtonBarViewModel }
 			};
 
 			return dictionary;
@@ -101,7 +100,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (AudioFileOutputPropertiesViewModel)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.AudioFileOutputPropertiesDictionary;
 			int id = castedViewModel.Entity.ID;
 
@@ -150,7 +148,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (CurveDetailsViewModel)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.CurveDetailsDictionary;
 			dictionary[castedViewModel.Curve.ID] = castedViewModel;
 
@@ -304,7 +301,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (LibraryPropertiesViewModel)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.LibraryPropertiesDictionary;
 			dictionary[castedViewModel.DocumentReferenceID] = castedViewModel;
 
@@ -351,19 +347,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchMenuViewModel(ScreenViewModelBase viewModel)
-		{
-			var castedViewModel = (MenuViewModel)viewModel;
-			MainViewModel.Menu = castedViewModel;
-
-			DispatchViewModelBase(castedViewModel);
-		}
-
 		private void DispatchMidiMappingPropertiesViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (MidiMappingPropertiesViewModel)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.MidiMappingPropertiesDictionary;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -381,7 +368,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (MidiMappingGroupDetailsViewModel)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.MidiMappingGroupDetailsDictionary;
 			dictionary[castedViewModel.MidiMappingGroup.ID] = castedViewModel;
 
@@ -401,8 +387,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (NodePropertiesViewModel)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
-			var dictionary = ViewModelSelector.GetNodePropertiesViewModelDictionary_ByCurveID(MainViewModel.Document, castedViewModel.CurveID);
+			var dictionary = MainViewModel.Document.NodePropertiesDictionary;
 			dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
 			if (castedViewModel.Visible)
@@ -419,7 +404,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (OperatorPropertiesViewModel)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.OperatorPropertiesDictionary;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -437,7 +421,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForCache)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCaches;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -455,7 +438,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForCurve)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCurves;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -473,7 +455,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForInletsToDimension)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForInletsToDimension;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -491,7 +472,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForNumber)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForNumbers;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -509,7 +489,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForPatchInlet)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForPatchInlets;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -527,7 +506,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForPatchOutlet)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForPatchOutlets;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -545,7 +523,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForSample)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForSamples;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -563,7 +540,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_WithInterpolation)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -581,7 +557,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_WithCollectionRecalculation)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithCollectionRecalculation;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -618,7 +593,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			else
 			{
 				// Otherwise dispatch to DocumentViewModel
-				// ReSharper disable once SuggestVarOrType_Elsewhere
 				var dictionary = MainViewModel.Document.PatchDetailsDictionary;
 				dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
@@ -643,7 +617,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (PatchPropertiesViewModel)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.PatchPropertiesDictionary;
 			dictionary[castedViewModel.ID]= castedViewModel;
 
@@ -685,7 +658,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (ScalePropertiesViewModel)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.ScalePropertiesDictionary;
 			dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
@@ -703,7 +675,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (ToneGridEditViewModel)viewModel;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.ToneGridEditDictionary;
 			dictionary[castedViewModel.ScaleID] = castedViewModel;
 
@@ -723,11 +694,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		/// <summary>
-		/// Note that this does not assign the view model to the right MainViewModel property.
-		/// You have to do that yourself.
-		/// </summary>
-		private void DispatchViewModelBase(ScreenViewModelBase castedViewModel)
+	    private void DispatchTopButtonBarViewModel(ScreenViewModelBase viewModel)
+	    {
+	        var castedViewModel = (TopButtonBarViewModel)viewModel;
+
+	        DispatchViewModelBase(castedViewModel);
+	    }
+
+        /// <summary>
+        /// Note that this does not assign the view model to the right MainViewModel property.
+        /// You have to do that yourself.
+        /// </summary>
+        private void DispatchViewModelBase(ScreenViewModelBase castedViewModel)
 		{
 			MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
 			castedViewModel.ValidationMessages.Clear();

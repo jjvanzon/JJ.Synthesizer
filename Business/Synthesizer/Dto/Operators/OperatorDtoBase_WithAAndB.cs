@@ -14,9 +14,8 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 			get => new[] { A, B };
 			set
 			{
-				var array = value.ToArray();
-				A = array[0];
-				B = array[1];
+                A = value.ElementAtOrDefault(0);
+                B = value.ElementAtOrDefault(1);
 			}
 		}
 	}

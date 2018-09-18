@@ -2,7 +2,7 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Aggregates;

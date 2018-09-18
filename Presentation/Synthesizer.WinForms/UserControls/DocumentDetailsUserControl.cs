@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Framework.Common;
 using JJ.Framework.Resources;
 using JJ.Framework.WinForms.Extensions;

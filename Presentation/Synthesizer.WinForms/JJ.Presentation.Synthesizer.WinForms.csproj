@@ -164,6 +164,7 @@
     </Compile>
     <Compile Include="Helpers\DelayedControlInvoker.cs" />
     <Compile Include="Helpers\ModalPopupHelper.cs" />
+    <Compile Include="Helpers\UnderlyingPictureHelper.cs" />
     <Compile Include="MainForm.ApplyViewModel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,11 +186,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\InstrumentBarUserControl.cs">
+    <Compile Include="UserControls\TopBarUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\InstrumentBarUserControl.Designer.cs">
-      <DependentUpon>InstrumentBarUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\TopBarUserControl.Designer.cs">
+      <DependentUpon>TopBarUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CurveDetailsListUserControl.cs">
       <SubType>UserControl</SubType>
@@ -296,12 +297,6 @@
     <Compile Include="UserControls\Partials\LibrarySelectionGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\Partials\ButtonBarUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\Partials\ButtonBarUserControl.Designer.cs">
-      <DependentUpon>ButtonBarUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\MidiMappingGroupDetailsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -395,12 +390,6 @@
     <Compile Include="UserControls\Partials\TitleBarUserControl.Designer.cs">
       <DependentUpon>TitleBarUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Partials\MenuUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\Partials\MenuUserControl.Designer.cs">
-      <DependentUpon>MenuUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\DocumentGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -430,11 +419,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\InstrumentBarUserControl.resx">
-      <DependentUpon>InstrumentBarUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\TopBarUserControl.resx">
+      <DependentUpon>TopBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsListUserControl.resx">
       <DependentUpon>CurveDetailsListUserControl.cs</DependentUpon>
@@ -480,9 +469,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioOutputPropertiesUserControl.resx">
       <DependentUpon>AudioOutputPropertiesUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\ButtonBarUserControl.resx">
-      <DependentUpon>ButtonBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MidiMappingGroupDetailsUserControl.resx">
       <DependentUpon>MidiMappingGroupDetailsUserControl.cs</DependentUpon>
@@ -532,9 +518,6 @@
     <EmbeddedResource Include="UserControls\Partials\TitleBarUserControl.resx">
       <DependentUpon>TitleBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\MenuUserControl.resx">
-      <DependentUpon>MenuUserControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentGridUserControl.resx">
       <DependentUpon>DocumentGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -574,10 +557,6 @@
       <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
       <Name>JJ.Framework.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
-      <Project>{5D06A212-5459-47F3-8109-E012C5FC9E3A}</Project>
-      <Name>JJ.Framework.Collections</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Conversion\JJ.Framework.Conversion.csproj">
       <Project>{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4}</Project>
       <Name>JJ.Framework.Conversion</Name>
@@ -589,6 +568,10 @@
     <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
       <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
       <Name>JJ.Framework.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
+      <Project>{1A8E047C-7893-4918-B415-CE3928E815D8}</Project>
+      <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Resources\JJ.Framework.Resources.csproj">
       <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
@@ -678,17 +661,18 @@
     <None Include="Resources\PlayIcon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\CloneIcon.png" />
+    <Content Include="Resources\TextBoxIcon.png" />
+    <Content Include="Resources\TreeStructureIcon.png" />
     <None Include="Resources\UndoIcon.png" />
     <None Include="Resources\OpenWindowIconThinner.png" />
     <None Include="Resources\PlayIconThinner.png" />
     <None Include="Resources\NewIcon.png" />
     <None Include="Resources\PianoIcon.png" />
-    <None Include="Resources\PianoIconLighter.png" />
-    <None Include="Resources\PianoIconUniform.png" />
-    <None Include="Resources\PianoIconUniformLongerKeys.png" />
     <None Include="Resources\GreaterThanIcon.png" />
     <None Include="Resources\LessThanIcon.png" />
     <None Include="Resources\RedoIcon.png" />
+    <Content Include="Resources\FolderIcon.png" />
     <Content Include="Resources\RefreshIcon.png" />
   </ItemGroup>
   <ItemGroup>

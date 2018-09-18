@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
 	public partial class MainPresenter
 	{
-		public void Undo()
+		private void Undo()
 		{
 			UndoItemViewModelBase undoItemViewModel = MainViewModel.Document.UndoHistory.PopOrDefault();
 
@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void Redo()
+        private void Redo()
 		{
 			UndoItemViewModelBase undoItemViewModel = MainViewModel.Document.RedoFuture.PopOrDefault();
 
@@ -264,11 +264,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				CurveDetailsViewModel curveDetailsViewModel = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, castedViewModel.CurveID);
 				states.Add(curveDetailsViewModel);
 
-				IEnumerable<NodePropertiesViewModel> nodePropertiesViewModels = ViewModelSelector
-				                                                                .GetNodePropertiesViewModelDictionary_ByCurveID(
-					                                                                MainViewModel.Document,
-					                                                                curveDetailsViewModel.Curve.ID)
-				                                                                .Values;
+				IEnumerable<NodePropertiesViewModel> nodePropertiesViewModels = MainViewModel.Document.NodePropertiesDictionary.Select(x => x.Value).Where(x => x.CurveID == curveDetailsViewModel.Curve.ID);
 				states.AddRange(nodePropertiesViewModels);
 			}
 
@@ -277,12 +273,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private IList<ScreenViewModelBase> GetPatchStates(int id)
 		{
-			// NOTE: 'By accident' the GetOperatorStates already includes the PatchDetailsViewModel, but to not apply the uwritter agreement anti-pattern,
+			// NOTE: 'By accident' the GetOperatorStates already includes the PatchDetailsViewModel, but to not apply the unwritten agreement anti-pattern,
 			// it is included here again. When GetOperatorStates changes, this should not break this code. Also it would look like something is wrong if it weren't included here.
 			PatchDetailsViewModel patchDetailsViewModel = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 			PatchPropertiesViewModel patchPropertiesViewModel = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
-			IList<ScreenViewModelBase> states = ViewModelSelector.EnumerateAllOperatorPropertiesViewModels(MainViewModel.Document)
+            IList<ScreenViewModelBase> states = ViewModelSelector.EnumerateAllOperatorPropertiesViewModels(MainViewModel.Document)
+			                                                     .Where(x => x.PatchID == id)
 			                                                     .SelectMany(x => GetOperatorStates(x.ID))
 			                                                     .Concat(patchDetailsViewModel)
 			                                                     .Concat(patchPropertiesViewModel)

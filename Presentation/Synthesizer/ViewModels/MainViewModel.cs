@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
@@ -9,7 +8,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		// General
 
 		public string TitleBar { get; set; }
-		public MenuViewModel Menu { get; set; }
 		public MonitoringBarViewModel MonitoringBar { get; set; }
 
 		public IList<string> ValidationMessages { get; set; }

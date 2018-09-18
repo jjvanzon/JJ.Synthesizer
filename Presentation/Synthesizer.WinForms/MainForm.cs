@@ -21,6 +21,7 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Presentation.Synthesizer.Presenters;
+using JJ.Presentation.Synthesizer.VectorGraphics.Elements;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.Forms;
@@ -31,8 +32,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
 	internal partial class MainForm : Form
 	{
-		private const int MIN_TOP_BAR_HEIGHT = 16;
-
 		private static readonly double _patchPlayDuration = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionDurationInSeconds;
 		private static readonly string _patchPlayOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionOutputFilePath;
 		private static readonly bool _mustHandleMainFormActivated = CustomConfigurationManager.GetSection<ConfigurationSection>().MustHandleMainFormActivated;
@@ -48,19 +47,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private readonly DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
 		private readonly LibrarySelectionPopupForm _librarySelectionPopupForm = new LibrarySelectionPopupForm();
 
-		private readonly DelayedControlInvoker _infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker;
+	    private readonly InstrumentBarElement _instrumentBarElement;
+	    private readonly TopButtonBarElement _topButtonBarElement;
+
+        private readonly DelayedControlInvoker _infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker;
 		private readonly DelayedControlInvoker _infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker;
-		private readonly DelayedControlInvoker _infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker;
+		private readonly DelayedControlInvoker _infrastructureFacade_ExceptionOnMidiThreadOccurred_DelayedInvoker;
 		private readonly DelayedControlInvoker _infrastructureFacade_MidiControllerValueChanged_DelayedInvoker;
 
-		public MainForm()
+        public MainForm()
 		{
 			InitializeComponent();
 
 			_userControls = CreateUserControlsCollection();
 			_infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker = new DelayedControlInvoker(this);
 			_infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker = new DelayedControlInvoker(this);
-			_infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker = new DelayedControlInvoker(this);
+			_infrastructureFacade_ExceptionOnMidiThreadOccurred_DelayedInvoker = new DelayedControlInvoker(this);
 			_infrastructureFacade_MidiControllerValueChanged_DelayedInvoker = new DelayedControlInvoker(this);
 
 			_context = PersistenceHelper.CreateContext();
@@ -76,7 +78,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			curveDetailsListUserControl.SetCurveFacade(new CurveFacade(new CurveRepositories(_repositories)));
 
-			BindEvents();
+		    _instrumentBarElement = topBarUserControl.TopBarElement.InstrumentBarElement;
+		    _topButtonBarElement = topBarUserControl.TopBarElement.TopButtonBarElement;
+
+            topBarUserControl.Location = new System.Drawing.Point(0, 0);
+
+            BindEvents();
 			ApplyStyling();
 			PositionControls();
 		}
@@ -92,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				components?.Dispose();
 				_infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker?.Dispose();
 				_infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker?.Dispose();
-				_infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker?.Dispose();
+				_infrastructureFacade_ExceptionOnMidiThreadOccurred_DelayedInvoker?.Dispose();
 				_infrastructureFacade_MidiControllerValueChanged_DelayedInvoker?.Dispose();
 				_infrastructureFacade?.Dispose();
 				_context?.Dispose();
@@ -224,18 +231,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			var x = new OperatorFactory(patch, _repositories);
 
-			x.PatchOutlet
-			(
-				DimensionEnum.Signal,
-				x.Multiply
-				(
-					x.Sine
-					(
-						x.PatchInlet(DimensionEnum.Frequency)
-					),
-					x.PatchInlet(DimensionEnum.Volume)
-				)
-			);
+		    x.PatchOutlet(
+		        DimensionEnum.Signal,
+		        x.NewWithItemInlets(
+		            nameof(SystemPatchNames.Multiply),
+		            x.New(
+		                nameof(SystemPatchNames.Sine),
+		                x.PatchInlet(DimensionEnum.Frequency)
+		            ),
+		            x.PatchInlet(DimensionEnum.Volume))
+		    );
 
 			// This makes side-effects go off.
 			VoidResult result = patchFacade.SavePatch(patch);
@@ -347,25 +352,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void PositionControls()
 		{
-			instrumentBarUserControl.Width = ClientSize.Width - instrumentBarUserControl.Location.X;
-			instrumentBarUserControl.PositionControls();
+            topBarUserControl.Width = ClientSize.Width;
+		    topBarUserControl.PositionControls();
 
 			monitoringBarUserControl.Width = ClientSize.Width;
 			monitoringBarUserControl.PositionControls();
 			monitoringBarUserControl.Left = 0;
 			monitoringBarUserControl.Top = ClientSize.Height - monitoringBarUserControl.Height;
 
-			int topBarHeight = Math.Max(instrumentBarUserControl.Height, MIN_TOP_BAR_HEIGHT);
-
 			splitContainerCurvesAndTopSide.Left = 0;
-			splitContainerCurvesAndTopSide.Top = topBarHeight;
-			splitContainerCurvesAndTopSide.Height = ClientSize.Height - topBarHeight - monitoringBarUserControl.Height;
+			splitContainerCurvesAndTopSide.Top = topBarUserControl.Height;
+			splitContainerCurvesAndTopSide.Height = ClientSize.Height - topBarUserControl.Height - monitoringBarUserControl.Height;
 			splitContainerCurvesAndTopSide.Width = ClientSize.Width;
-		}
-
-		private void MainForm_Load(object sender, EventArgs e)
-		{
-
 		}
 	}
 }

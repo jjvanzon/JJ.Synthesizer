@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Validation;
@@ -52,8 +52,8 @@ namespace JJ.Business.Synthesizer.Validation
 				return;
 			}
 
-			string concatinatedActualRepetitionPositions = string.Join(", ", actualRepetitionPositions);
-			string message = ResourceFormatter.RepetitionPositionsNotConsecutive(concatinatedActualRepetitionPositions);
+			string concatenatedActualRepetitionPositions = string.Join(", ", actualRepetitionPositions);
+			string message = ResourceFormatter.RepetitionPositionsNotConsecutive(concatenatedActualRepetitionPositions);
 			Messages.Add(message);
 		}
 	}

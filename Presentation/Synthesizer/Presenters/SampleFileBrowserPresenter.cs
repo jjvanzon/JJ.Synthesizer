@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// ToViewModel
 			SampleFileBrowserViewModel viewModel = ToViewModelHelper.CreateEmptySampleFileBrowserViewModel();
 
-			// Non-Persited
+			// Non-Persisted
 			CopyNonPersistedProperties(userInput, viewModel);
 			viewModel.CreatedMainOperatorID = op.ID;
 			viewModel.AutoCreatedNumberOperatorIDs = autoCreatedNumberOperators.Select(x => x.ID).ToList();

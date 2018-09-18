@@ -175,9 +175,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Partial Action
 			DocumentTreeViewModel viewModel = _documentTreePresenter.Refresh(MainViewModel.Document.DocumentTree);
 
-			// Non-Persisted
-			SetCanCreate(viewModel);
-
 			// DispatchViewModel
 			DispatchViewModel(viewModel);
 		}
@@ -211,7 +208,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			PatchPropertiesDictionary_Refresh();
 			ScalePropertiesDictionary_Refresh();
 			ToneGridEditDictionary_Refresh();
-			UnderylingPatchLookup_Refresh();
+			UnderlyingPatchLookup_Refresh();
 
 			// Note that AutoPatchDetails cannot be refreshed.
 		}
@@ -1079,7 +1076,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ToneGridEdit_Refresh(viewModel);
 		}
 
-		private void UnderylingPatchLookup_Refresh()
+        /// <summary> Just refreshes the TopButtonBar partial. Not the Refresh user action, that can be executed from the TopButtonBar. </summary>
+        private void TopButtonBar_RefreshPartial()
+        {
+            TopButtonBarViewModel viewModel = MainViewModel.Document.TopButtonBar;
+            DocumentTreeNodeTypeEnum selectedNodeType = MainViewModel.Document.DocumentTree.SelectedNodeType;
+            bool documentTreeVisible = MainViewModel.Document.DocumentTree.Visible;
+            bool patchDetailsVisible = MainViewModel.Document.VisiblePatchDetails != null;
+
+            _topButtonBarPresenter.Refresh(viewModel, selectedNodeType, documentTreeVisible, patchDetailsVisible);
+        }
+
+		private void UnderlyingPatchLookup_Refresh()
 		{
 			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 			MainViewModel.Document.UnderlyingPatchLookup = document.ToUnderlyingPatchLookupViewModel();
