@@ -101,7 +101,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public void Dispose() => _context?.Dispose();
 
-        public (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(IList<DimensionEnum> inputDimensionEnums, IList<double[]> inputPoints, IList<double> expectedOutputValues)
+        public (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(
+            IList<DimensionEnum> inputDimensionEnums,
+            IList<double[]> inputPoints,
+            IList<double> expectedOutputValues)
         {
             // Pre-Conditions
             if (inputDimensionEnums == null) throw new ArgumentNullException(nameof(inputDimensionEnums));
@@ -196,7 +199,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 }
                 else
                 {
-                    logMessages.Add(TestMessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
+                    logMessages.Add(
+                        TestMessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
                 }
             }
 

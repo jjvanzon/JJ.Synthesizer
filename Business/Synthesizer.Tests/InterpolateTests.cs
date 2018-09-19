@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Data;
+using JJ.Framework.Mathematics;
 using JJ.Framework.Testing.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -20,19 +22,20 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class InterpolateTests
     {
+        //[TestMethod]
+        //public void Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0_WithRoslyn()
+        //    => Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0(CalculationMethodEnum.Roslyn);
+
         [TestMethod]
-        public void Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0()
+        public void Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0_WithCalculatorClasses()
+            => Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0(CalculationMethodEnum.CalculatorClasses);
+
+        private void Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0(CalculationMethodEnum calculationMethodEnum)
             => Test_Interpolate_Base(
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LookAhead,
                 DimensionEnum.Number,
-                new[]
-                {
-                    (0.0, 1.0),
-                    (1.0, -1.0),
-                    (2.0, 2.0),
-                    (3.0, -2.0)
-                },
+                rate: 1.0 / MathHelper.TWO_PI,
                 new[]
                 {
                     (0.00, 1.0),
@@ -52,21 +55,23 @@ namespace JJ.Business.Synthesizer.Tests
 
                     (3.67, -2.0),
                     (4.00, -2.0)
-                });
+                },
+                calculationMethodEnum);
+
+        //[TestMethod]
+        //public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0_WithRoslyn()
+        //    => Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0(CalculationMethodEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0()
+        public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0_WithCalculatorClasses()
+            => Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0(CalculationMethodEnum.CalculatorClasses);
+
+        private void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0(CalculationMethodEnum calculationMethodEnum)
             => Test_Interpolate_Base(
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LagBehind,
                 DimensionEnum.Time,
-                new[]
-                {
-                    (0.0, 1.0),
-                    (1.0, -1.0),
-                    (2.0, 2.0),
-                    (3.0, -2.0)
-                },
+                rate: 1.0 / MathHelper.TWO_PI,
                 new[]
                 {
                     (0.0, 1.0),
@@ -78,21 +83,23 @@ namespace JJ.Business.Synthesizer.Tests
                     (3.0, -2.0),
                     (3.5, -2.0),
                     (4.0, -2.0)
-                });
+                },
+                calculationMethodEnum);
+
+        //[TestMethod]
+        //public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative_WithRoslyn()
+        //    => Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative(CalculationMethodEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative()
+        public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative_WithCalculatorClasses()
+            => Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative(CalculationMethodEnum.CalculatorClasses);
+
+        private void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative(CalculationMethodEnum calculationMethodEnum)
             => Test_Interpolate_Base(
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LagBehind,
                 DimensionEnum.Time,
-                new[]
-                {
-                    (-1.5, 1.0),
-                    (-0.5, -1.0),
-                    (0.5, 2.0),
-                    (1.5, -2.0)
-                },
+                rate: 1.0 / MathHelper.TWO_PI,
                 new[]
                 {
                     (-2.0, 1.0),
@@ -104,21 +111,23 @@ namespace JJ.Business.Synthesizer.Tests
                     (1.0, 0.0),
                     (1.5, -2.0),
                     (2.0, -2.0)
-                });
+                },
+                calculationMethodEnum);
+
+        //[TestMethod]
+        //public void Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive_WithRoslyn()
+        //    => Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive(CalculationMethodEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive()
+        public void Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive_WithCalculatorClasses()
+            => Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive(CalculationMethodEnum.CalculatorClasses);
+
+        private void Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive(CalculationMethodEnum calculationMethodEnum)
             => Test_Interpolate_Base(
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LagBehind,
                 DimensionEnum.Number,
-                new[]
-                {
-                    (-1.5, 1.0),
-                    (-0.5, -1.0),
-                    (0.5, 2.0),
-                    (1.5, -2.0)
-                },
+                rate: 1.0 / MathHelper.TWO_PI,
                 new[]
                 {
                     (3.0, -2.0),
@@ -130,33 +139,83 @@ namespace JJ.Business.Synthesizer.Tests
                     (0.0, 0.0),
                     (0.5, 1.0),
                     (1.0, 1.0)
-                });
+                },
+                calculationMethodEnum);
+
+        //private void Test_Interpolate_Base_Attempt1(
+        //    InterpolationTypeEnum interpolationTypeEnum,
+        //    FollowingModeEnum followingModeEnum,
+        //    DimensionEnum dimensionEnum,
+        //    double rate,
+        //    IList<double> dimensionValues,
+        //    IList<double> expectedOutputValues,
+        //    CalculationMethodEnum calculationMethodEnum)
+        //{
+        //    IList<(double, double)> inputTuples = dimensionValues.Select(x => (x, samplingRate)).ToArray();
+
+        //    //IEnumerable<double> rates = Enumerable.Repeat(rate, inputValues.Count);
+
+        //    TestExecutor.ExecuteTest(
+        //        x => x.Interpolate(
+        //            x.New(nameof(SystemPatchNames.Sin), x.PatchInlet(dimensionEnum)),
+        //            x.PatchInlet(DimensionEnum.Rate),
+        //            interpolationTypeEnum,
+        //            dimensionEnum,
+        //            "",
+        //            followingModeEnum),
+        //        inputTuples,
+        //        expectedOutputValues,
+        //        calculationMethodEnum);
+        //}
+
+        //private void Test_Interpolate_Base_Attempt2(
+        //    InterpolationTypeEnum interpolationTypeEnum,
+        //    FollowingModeEnum followingModeEnum,
+        //    DimensionEnum dimensionEnum,
+        //    double rate,
+        //    IList<(double dimensionValue, double outputValue)> expectedPoints,
+        //    CalculationMethodEnum calculationMethodEnum)
+        //{
+        //    IList<DimensionEnum> inputDimensionEnums = new[] { dimensionEnum, DimensionEnum.Rate };
+        //    IList<(double, double)> inputTuples = expectedPoints.Select(point => (point.dimensionValue, rate)).ToArray();
+        //    IList<double> outputValues = expectedPoints.Select(point => point.outputValue).ToArray();
+
+        //    TestExecutor.ExecuteTest(
+        //        x => x.Interpolate(
+        //            x.New(nameof(SystemPatchNames.Sin), x.PatchInlet(dimensionEnum)),
+        //            x.PatchInlet(DimensionEnum.Rate),
+        //            interpolationTypeEnum,
+        //            dimensionEnum,
+        //            "",
+        //            followingModeEnum),
+        //        inputDimensionEnums,
+        //        inputTuples,
+        //        outputValues,
+        //        calculationMethodEnum);
+        //}
 
         private void Test_Interpolate_Base(
             InterpolationTypeEnum interpolationTypeEnum,
             FollowingModeEnum followingModeEnum,
             DimensionEnum dimensionEnum,
-            IList<(double x, double y)> inputPoints,
-            IList<(double x, double y)> expectedOutputPoints)
-            => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
+            double rate,
+            IList<(double x, double y)> expectedOutputPoints,
+            CalculationMethodEnum calculationMethodEnum)
+            =>
+                AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
                 {
                     using (IContext context = PersistenceHelper.CreateContext())
                     {
                         // Arrange
                         RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-                        var patchFacade = new PatchFacade(repositories);
+                        var patchFacade = new PatchFacade(repositories, calculationMethodEnum);
                         Patch patch = patchFacade.CreatePatch();
                         var o = new OperatorFactory(patch, repositories);
 
-                        var curve = o.Curve(
-                            dimensionEnum,
-                            "",
-                            inputPoints.Select(p => (p.x, p.y, InterpolationTypeEnum.Line)).ToArray());
-
                         var interpolate = o.Interpolate(
-                            curve,
-                            o.Number(1),
+                            o.New(nameof(SystemPatchNames.Sin), o.PatchInlet(dimensionEnum)),
+                            o.PatchInlet(DimensionEnum.Rate),
                             interpolationTypeEnum,
                             dimensionEnum,
                             "",
@@ -164,6 +223,9 @@ namespace JJ.Business.Synthesizer.Tests
 
                         var buffer = new float[1];
                         IPatchCalculator calculator = patchFacade.CreateCalculator(interpolate, 2, 1, 0, new CalculatorCache());
+
+                        // Set Rate
+                        calculator.SetValue(DimensionEnum.Rate, rate);
 
                         // Execute
                         var actualYs = new double[expectedOutputPoints.Count];
