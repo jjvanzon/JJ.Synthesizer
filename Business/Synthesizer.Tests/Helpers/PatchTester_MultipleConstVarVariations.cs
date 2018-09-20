@@ -11,6 +11,31 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     {
         private static readonly double?[] _specialConstsToTest = { null, 0, 1, 2 };
 
+        public static (IList<string>, IList<string>) ExecuteTest(
+            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
+            IList<double> expectedOutputValues,
+            IList<DimensionInfo> dimensionInfoList,
+            CalculationEngineEnum calculationEngineEnum,
+            bool mustCompareZeroAndNonZeroOnly)
+        {
+            // No const-var variations for now. Maybe later.
+            IList<double?> consts = Enumerable.Repeat<double?>(default, dimensionInfoList.Count).ToArray();
+
+            // Execute test
+            using (var testExecutor = new PatchTester_SingleConstVarVariation(
+                calculationEngineEnum,
+                operatorFactoryDelegate,
+                consts,
+                mustCompareZeroAndNonZeroOnly))
+            {
+                // TODO: Why does the PatchTester_SingleConstVarVariation take different types of parametrization?
+                IList<DimensionEnum> inputDimensionEnums = dimensionInfoList.Select(x => x.DimensionEnum).ToArray();
+                IList<double[]> inputPoints = dimensionInfoList.Select(x => x.InputValues).CrossJoin(x => x.ToArray()).ToArray();
+
+                return testExecutor.ExecuteTest(inputDimensionEnums, inputPoints, expectedOutputValues);
+            }
+        }
+
         public static (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> func,
@@ -18,6 +43,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
+            if (dimensionInfoList == null) throw new ArgumentNullException(nameof(dimensionInfoList));
+
             var logMessages = new List<string>();
             var errorMessages = new List<string>();
 

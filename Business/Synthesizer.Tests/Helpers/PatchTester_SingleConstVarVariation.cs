@@ -129,15 +129,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 }
             }
 
-            // Reset Time
             int? timeDimensionIndex = inputDimensionEnums.TryGetIndexOf(x => x == DimensionEnum.Time);
-
-            if (timeDimensionIndex.HasValue)
-            {
-                double firstTimeValue = inputPoints[0][timeDimensionIndex.Value];
-                _calculator.Reset(firstTimeValue);
-            }
-
+            var hasReset = false;
             IList<double> actualOutputValues = new double[expectedOutputValues.Count];
 
             for (var pointIndex = 0; pointIndex < expectedOutputValues.Count; pointIndex++)
@@ -161,6 +154,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     {
                         time = inputValues[timeDimensionIndex.Value];
                     }
+                }
+
+                // Reset upon the first iteration. (Note: Input values must be set before you call Reset.)
+                if (!hasReset)
+                {
+                    _calculator.Reset(time);
+                    hasReset = true;
                 }
 
                 // Calculate Value
