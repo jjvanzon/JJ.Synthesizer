@@ -22,10 +22,6 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class InterpolateTests
     {
-        //[TestMethod]
-        //public void Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0_WithRoslyn()
-        //    => Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0(CalculationMethodEnum.Roslyn);
-
         [TestMethod]
         public void Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0_WithCalculatorClasses()
             => Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0(CalculationMethodEnum.CalculatorClasses);
@@ -58,10 +54,6 @@ namespace JJ.Business.Synthesizer.Tests
                 },
                 calculationMethodEnum);
 
-        //[TestMethod]
-        //public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0_WithRoslyn()
-        //    => Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0(CalculationMethodEnum.Roslyn);
-
         [TestMethod]
         public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0_WithCalculatorClasses()
             => Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0(CalculationMethodEnum.CalculatorClasses);
@@ -85,10 +77,6 @@ namespace JJ.Business.Synthesizer.Tests
                     (4.0, -2.0)
                 },
                 calculationMethodEnum);
-
-        //[TestMethod]
-        //public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative_WithRoslyn()
-        //    => Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative(CalculationMethodEnum.Roslyn);
 
         [TestMethod]
         public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative_WithCalculatorClasses()
@@ -114,10 +102,6 @@ namespace JJ.Business.Synthesizer.Tests
                 },
                 calculationMethodEnum);
 
-        //[TestMethod]
-        //public void Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive_WithRoslyn()
-        //    => Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive(CalculationMethodEnum.Roslyn);
-
         [TestMethod]
         public void Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive_WithCalculatorClasses()
             => Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive(CalculationMethodEnum.CalculatorClasses);
@@ -141,58 +125,6 @@ namespace JJ.Business.Synthesizer.Tests
                     (1.0, 1.0)
                 },
                 calculationMethodEnum);
-
-        //private void Test_Interpolate_Base_Attempt1(
-        //    InterpolationTypeEnum interpolationTypeEnum,
-        //    FollowingModeEnum followingModeEnum,
-        //    DimensionEnum dimensionEnum,
-        //    double rate,
-        //    IList<double> dimensionValues,
-        //    IList<double> expectedOutputValues,
-        //    CalculationMethodEnum calculationMethodEnum)
-        //{
-        //    IList<(double, double)> inputTuples = dimensionValues.Select(x => (x, samplingRate)).ToArray();
-
-        //    //IEnumerable<double> rates = Enumerable.Repeat(rate, inputValues.Count);
-
-        //    TestExecutor.ExecuteTest(
-        //        x => x.Interpolate(
-        //            x.New(nameof(SystemPatchNames.Sin), x.PatchInlet(dimensionEnum)),
-        //            x.PatchInlet(DimensionEnum.Rate),
-        //            interpolationTypeEnum,
-        //            dimensionEnum,
-        //            "",
-        //            followingModeEnum),
-        //        inputTuples,
-        //        expectedOutputValues,
-        //        calculationMethodEnum);
-        //}
-
-        //private void Test_Interpolate_Base_Attempt2(
-        //    InterpolationTypeEnum interpolationTypeEnum,
-        //    FollowingModeEnum followingModeEnum,
-        //    DimensionEnum dimensionEnum,
-        //    double rate,
-        //    IList<(double dimensionValue, double outputValue)> expectedPoints,
-        //    CalculationMethodEnum calculationMethodEnum)
-        //{
-        //    IList<DimensionEnum> inputDimensionEnums = new[] { dimensionEnum, DimensionEnum.Rate };
-        //    IList<(double, double)> inputTuples = expectedPoints.Select(point => (point.dimensionValue, rate)).ToArray();
-        //    IList<double> outputValues = expectedPoints.Select(point => point.outputValue).ToArray();
-
-        //    TestExecutor.ExecuteTest(
-        //        x => x.Interpolate(
-        //            x.New(nameof(SystemPatchNames.Sin), x.PatchInlet(dimensionEnum)),
-        //            x.PatchInlet(DimensionEnum.Rate),
-        //            interpolationTypeEnum,
-        //            dimensionEnum,
-        //            "",
-        //            followingModeEnum),
-        //        inputDimensionEnums,
-        //        inputTuples,
-        //        outputValues,
-        //        calculationMethodEnum);
-        //}
 
         private void Test_Interpolate_Base(
             InterpolationTypeEnum interpolationTypeEnum,
