@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private readonly PatchFacade _patchFacade;
 
         public PatchTester_SingleConstVarVariation(
-            CalculationMethodEnum calculationMethodEnum,
+            CalculationEngineEnum calculationEngineEnum,
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             IList<double?> consts,
             bool mustCompareZeroAndNonZeroOnly)
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(_context);
 
             _systemFacade = new SystemFacade(repositories.DocumentRepository);
-            _patchFacade = new PatchFacade(repositories, calculationMethodEnum);
+            _patchFacade = new PatchFacade(repositories, calculationEngineEnum);
 
             Patch patch = _patchFacade.CreatePatch();
             var operatorFactory = new OperatorFactory(patch, repositories);

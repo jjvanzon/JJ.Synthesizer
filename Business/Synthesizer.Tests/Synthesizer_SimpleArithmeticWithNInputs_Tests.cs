@@ -15,28 +15,28 @@ namespace JJ.Business.Synthesizer.Tests
         // Add
 
         [TestMethod]
-        public void Test_Synthesizer_Add_WithRoslyn() => Test_Synthesizer_Add(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Add_WithRoslyn() => Test_Synthesizer_Add(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Add_WithCalculatorClasses() => Test_Synthesizer_Add(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Add_WithCalculatorClasses() => Test_Synthesizer_Add(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Add(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(nameof(SystemPatchNames.Add), (a, b, c) => a + b + c, calculationMethodEnum);
+        private void Test_Synthesizer_Add(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest(nameof(SystemPatchNames.Add), (a, b, c) => a + b + c, calculationEngineEnum);
 
         // Multiply
 
         [TestMethod]
-        public void Test_Synthesizer_Multiply_WithRoslyn() => Test_Synthesizer_Multiply(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Multiply_WithRoslyn() => Test_Synthesizer_Multiply(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Multiply_WithCalculatorClasses() => Test_Synthesizer_Multiply(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Multiply_WithCalculatorClasses() => Test_Synthesizer_Multiply(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Multiply(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(nameof(SystemPatchNames.Multiply), (a, b, c) => a * b * c, calculationMethodEnum);
+        private void Test_Synthesizer_Multiply(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest(nameof(SystemPatchNames.Multiply), (a, b, c) => a * b * c, calculationEngineEnum);
 
         // Generalized Method
 
-        private void ExecuteTest(string systemPatchName, Func<double, double, double, double> func, CalculationMethodEnum calculationMethodEnum)
+        private void ExecuteTest(string systemPatchName, Func<double, double, double, double> func, CalculationEngineEnum calculationEngineEnum)
             => TestExecutor.ExecuteTest(
                 x => x.NewWithItemInlets(systemPatchName, x.PatchInlet(DimensionEnum.A), x.PatchInlet(DimensionEnum.B), x.PatchInlet(DimensionEnum.Item)),
                 func,
@@ -46,6 +46,6 @@ namespace JJ.Business.Synthesizer.Tests
                 _values,
                 DimensionEnum.Item,
                 _values,
-                calculationMethodEnum);
+                calculationEngineEnum);
     }
 }

@@ -25,27 +25,27 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             double expectedY,
-            CalculationMethodEnum calculationMethodEnum,
+            CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
             => ExecuteTest(
                 operatorFactoryDelegate,
                 _ => expectedY,
                 _emptyDimensionInfoList,
-                calculationMethodEnum,
+                calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
 
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double> func,
             IList<double> xValues,
-            CalculationMethodEnum calculationMethodEnum,
+            CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
             => ExecuteTest(
                 operatorFactoryDelegate,
                 func,
                 TestConstants.DEFAULT_DIMENSION_ENUM,
                 xValues,
-                calculationMethodEnum,
+                calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
 
         public static void ExecuteTest(
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Func<double, double> func,
             DimensionEnum dimensionEnum,
             IList<double> inputValues,
-            CalculationMethodEnum calculationMethodEnum,
+            CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
         {
             var dimensionInfoList = new[] { new DimensionInfo(dimensionEnum, inputValues) };
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 operatorFactoryDelegate,
                 arr => func(arr[0]),
                 dimensionInfoList,
-                calculationMethodEnum,
+                calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
         }
 
@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double> xValues,
             DimensionEnum yDimensionEnum,
             IList<double> yValues,
-            CalculationMethodEnum calculationMethodEnum,
+            CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
         {
             var dimensionInfoList = new[] { new DimensionInfo(xDimensionEnum, xValues), new DimensionInfo(yDimensionEnum, yValues) };
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 operatorFactoryDelegate,
                 arr => func(arr[0], arr[1]),
                 dimensionInfoList,
-                calculationMethodEnum,
+                calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
         }
 
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double> yValues,
             DimensionEnum zDimensionEnum,
             IList<double> zValues,
-            CalculationMethodEnum calculationMethodEnum,
+            CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
         {
             var dimensionInfoList = new[]
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 operatorFactoryDelegate,
                 arr => func(arr[0], arr[1], arr[2]),
                 dimensionInfoList,
-                calculationMethodEnum,
+                calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
         }
 
@@ -116,14 +116,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> funcWithArray,
             IList<DimensionInfo> dimensionInfoList,
-            CalculationMethodEnum calculationMethodEnum,
+            CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
             (IList<string> logMessages, IList<string> errorMessages) = PatchTester_MultipleConstVarVariations.ExecuteTest(
                 operatorFactoryDelegate,
                 funcWithArray,
                 dimensionInfoList,
-                calculationMethodEnum,
+                calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
 
             logMessages.ForEach(Console.WriteLine);

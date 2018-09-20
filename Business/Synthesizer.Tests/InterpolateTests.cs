@@ -24,9 +24,9 @@ namespace JJ.Business.Synthesizer.Tests
     {
         [TestMethod]
         public void Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0_WithCalculatorClasses()
-            => Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0(CalculationMethodEnum.CalculatorClasses);
+            => Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0(CalculationMethodEnum calculationMethodEnum)
+        private void Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0(CalculationEngineEnum calculationEngineEnum)
             => Test_Interpolate_Base(
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LookAhead,
@@ -52,13 +52,13 @@ namespace JJ.Business.Synthesizer.Tests
                     (3.67, -2.0),
                     (4.00, -2.0)
                 },
-                calculationMethodEnum);
+                calculationEngineEnum);
 
         [TestMethod]
         public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0_WithCalculatorClasses()
-            => Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0(CalculationMethodEnum.CalculatorClasses);
+            => Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0(CalculationMethodEnum calculationMethodEnum)
+        private void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPosition0(CalculationEngineEnum calculationEngineEnum)
             => Test_Interpolate_Base(
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LagBehind,
@@ -76,13 +76,13 @@ namespace JJ.Business.Synthesizer.Tests
                     (3.5, -2.0),
                     (4.0, -2.0)
                 },
-                calculationMethodEnum);
+                calculationEngineEnum);
 
         [TestMethod]
         public void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative_WithCalculatorClasses()
-            => Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative(CalculationMethodEnum.CalculatorClasses);
+            => Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative(CalculationMethodEnum calculationMethodEnum)
+        private void Test_Interpolate_Line_LagBehind_DimensionTime_Forward_StartPositionNegative(CalculationEngineEnum calculationEngineEnum)
             => Test_Interpolate_Base(
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LagBehind,
@@ -100,13 +100,13 @@ namespace JJ.Business.Synthesizer.Tests
                     (1.5, -2.0),
                     (2.0, -2.0)
                 },
-                calculationMethodEnum);
+                calculationEngineEnum);
 
         [TestMethod]
         public void Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive_WithCalculatorClasses()
-            => Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive(CalculationMethodEnum.CalculatorClasses);
+            => Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive(CalculationMethodEnum calculationMethodEnum)
+        private void Test_Interpolate_Line_LagBehind_DimensionNotTime_Backward_StartPositionPositive(CalculationEngineEnum calculationEngineEnum)
             => Test_Interpolate_Base(
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LagBehind,
@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Tests
                     (0.5, 1.0),
                     (1.0, 1.0)
                 },
-                calculationMethodEnum);
+                calculationEngineEnum);
 
         private void Test_Interpolate_Base(
             InterpolationTypeEnum interpolationTypeEnum,
@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.Tests
             DimensionEnum dimensionEnum,
             double rate,
             IList<(double x, double y)> expectedOutputPoints,
-            CalculationMethodEnum calculationMethodEnum)
+            CalculationEngineEnum calculationEngineEnum)
             =>
                 AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Tests
                     {
                         // Arrange
                         RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-                        var patchFacade = new PatchFacade(repositories, calculationMethodEnum);
+                        var patchFacade = new PatchFacade(repositories, calculationEngineEnum);
                         Patch patch = patchFacade.CreatePatch();
                         var o = new OperatorFactory(patch, repositories);
 

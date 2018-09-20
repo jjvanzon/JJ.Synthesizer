@@ -15,12 +15,12 @@ namespace JJ.Business.Synthesizer.Tests
         private readonly double[] _exponents = { -1, 0, 2, Math.E, 12 };
 
         [TestMethod]
-        public void Test_Synthesizer_Power_WithRoslyn() => Test_Synthesizer_Power(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Power_WithRoslyn() => Test_Synthesizer_Power(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Power_WithCalculatorClasses() => Test_Synthesizer_Power(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Power_WithCalculatorClasses() => Test_Synthesizer_Power(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Power(CalculationMethodEnum calculationMethodEnum)
+        private void Test_Synthesizer_Power(CalculationEngineEnum calculationEngineEnum)
             => TestExecutor.ExecuteTest(
                 x => x.New(nameof(SystemPatchNames.Power), x.PatchInlet(DimensionEnum.Base), x.PatchInlet(DimensionEnum.Exponent)),
                 Math.Pow,
@@ -28,6 +28,6 @@ namespace JJ.Business.Synthesizer.Tests
                 _bases,
                 DimensionEnum.Exponent,
                 _exponents,
-                calculationMethodEnum);
+                calculationEngineEnum);
     }
 }

@@ -15,44 +15,44 @@ namespace JJ.Business.Synthesizer.Tests
         // SquareRoot
 
         [TestMethod]
-        public void Test_Synthesizer_SquareRoot_WithRoslyn() => Test_Synthesizer_SquareRoot(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_SquareRoot_WithRoslyn() => Test_Synthesizer_SquareRoot(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
         public void Test_Synthesizer_SquareRoot_WithCalculatorClasses() 
-            => Test_Synthesizer_SquareRoot(CalculationMethodEnum.CalculatorClasses);
+            => Test_Synthesizer_SquareRoot(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_SquareRoot(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(nameof(SystemPatchNames.SquareRoot), Math.Sqrt, calculationMethodEnum);
+        private void Test_Synthesizer_SquareRoot(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest(nameof(SystemPatchNames.SquareRoot), Math.Sqrt, calculationEngineEnum);
 
         // CubeRoot
 
         [TestMethod]
-        public void Test_Synthesizer_CubeRoot_WithRoslyn() => Test_Synthesizer_CubeRoot(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_CubeRoot_WithRoslyn() => Test_Synthesizer_CubeRoot(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_CubeRoot_WithCalculatorClasses() => Test_Synthesizer_CubeRoot(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_CubeRoot_WithCalculatorClasses() => Test_Synthesizer_CubeRoot(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_CubeRoot(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(nameof(SystemPatchNames.CubeRoot), x => Math.Pow(x, 1.0 / 3.0), calculationMethodEnum);
+        private void Test_Synthesizer_CubeRoot(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest(nameof(SystemPatchNames.CubeRoot), x => Math.Pow(x, 1.0 / 3.0), calculationEngineEnum);
 
         // Ln
 
         [TestMethod]
-        public void Test_Synthesizer_Ln_WithRoslyn() => Test_Synthesizer_Ln(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Ln_WithRoslyn() => Test_Synthesizer_Ln(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Ln_WithCalculatorClasses() => Test_Synthesizer_Ln(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Ln_WithCalculatorClasses() => Test_Synthesizer_Ln(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Ln(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(nameof(SystemPatchNames.Ln), Math.Log, calculationMethodEnum);
+        private void Test_Synthesizer_Ln(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest(nameof(SystemPatchNames.Ln), Math.Log, calculationEngineEnum);
 
         // Generalized Method
 
-        private void ExecuteTest(string systemPatchName, Func<double, double> func, CalculationMethodEnum calculationMethodEnum)
+        private void ExecuteTest(string systemPatchName, Func<double, double> func, CalculationEngineEnum calculationEngineEnum)
             => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(TestConstants.DEFAULT_DIMENSION_ENUM)),
                 func,
                 _values,
-                calculationMethodEnum);
+                calculationEngineEnum);
     }
 }

@@ -15,12 +15,12 @@ namespace JJ.Business.Synthesizer.Tests
         private static readonly double[] _baseValues = { 1.1, 2, Math.E, 3, 5, 10 };
 
         [TestMethod]
-        public void Test_Synthesizer_LogN_WithRoslyn() => Test_Synthesizer_LogN(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_LogN_WithRoslyn() => Test_Synthesizer_LogN(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_LogN_WithCalculatorClasses() => Test_Synthesizer_LogN(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_LogN_WithCalculatorClasses() => Test_Synthesizer_LogN(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_LogN(CalculationMethodEnum calculationMethodEnum)
+        private void Test_Synthesizer_LogN(CalculationEngineEnum calculationEngineEnum)
             => TestExecutor.ExecuteTest(
                 x => x.New(nameof(SystemPatchNames.LogN), x.PatchInlet(DimensionEnum.Number), x.PatchInlet(DimensionEnum.Base)),
                 Math.Log,
@@ -28,6 +28,6 @@ namespace JJ.Business.Synthesizer.Tests
                 _numberValues,
                 DimensionEnum.Base,
                 _baseValues,
-                calculationMethodEnum);
+                calculationEngineEnum);
     }
 }

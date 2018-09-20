@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> func,
             IList<DimensionInfo> dimensionInfoList,
-            CalculationMethodEnum calculationMethodEnum,
+            CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
             var logMessages = new List<string>();
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                 // Execute test
                 using (var testExecutor = new PatchTester_SingleConstVarVariation(
-                    calculationMethodEnum,
+                    calculationEngineEnum,
                     operatorFactoryDelegate,
                     consts,
                     mustCompareZeroAndNonZeroOnly))
