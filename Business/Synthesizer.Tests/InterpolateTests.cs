@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Tests.Helpers;
@@ -141,7 +140,7 @@ namespace JJ.Business.Synthesizer.Tests
                     {
                         // Arrange
                         RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-                        var patchFacade = new PatchFacade(repositories, calculationEngineEnum);
+                        var patchFacade = new PatchFacade(repositories);
                         Patch patch = patchFacade.CreatePatch();
                         var o = new OperatorFactory(patch, repositories);
 
@@ -154,7 +153,7 @@ namespace JJ.Business.Synthesizer.Tests
                             followingModeEnum);
 
                         var buffer = new float[1];
-                        IPatchCalculator calculator = patchFacade.CreateCalculator(interpolate, 2, 1, 0, new CalculatorCache());
+                        IPatchCalculator calculator = patchFacade.CreateCalculator(interpolate, 2, 1, 0, new CalculatorCache(), calculationEngineEnum);
 
                         // Set Rate
                         calculator.SetValue(DimensionEnum.Rate, rate);

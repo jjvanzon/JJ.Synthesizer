@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Configuration;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

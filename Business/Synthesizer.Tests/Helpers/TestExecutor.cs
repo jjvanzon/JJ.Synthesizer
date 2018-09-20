@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;

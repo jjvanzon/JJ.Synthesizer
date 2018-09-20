@@ -1,5 +1,5 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Configuration;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Mathematics;

@@ -4,7 +4,6 @@ using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -54,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(_context);
 
             _systemFacade = new SystemFacade(repositories.DocumentRepository);
-            _patchFacade = new PatchFacade(repositories, calculationEngineEnum);
+            _patchFacade = new PatchFacade(repositories);
 
             Patch patch = _patchFacade.CreatePatch();
             var operatorFactory = new OperatorFactory(patch, repositories);
@@ -62,7 +61,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             ReplaceVarsWithConstsIfNeeded(patch, consts);
 
-            _calculator = _patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache());
+            _calculator = _patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache(), calculationEngineEnum);
         }
 
         private void ReplaceVarsWithConstsIfNeeded(Patch patch, IList<double?> constsToReplaceVariables)

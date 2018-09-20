@@ -1,7 +1,6 @@
-﻿
-namespace JJ.Business.Synthesizer.Configuration
+﻿namespace JJ.Business.Synthesizer.Enums
 {
-	internal enum CalculationEngineEnum
+	public enum CalculationEngineEnum
 	{
 		// ReSharper disable once UnusedMember.Global
 		Undefined,
