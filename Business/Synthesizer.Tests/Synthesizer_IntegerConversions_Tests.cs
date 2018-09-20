@@ -52,6 +52,7 @@ namespace JJ.Business.Synthesizer.Tests
             => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(TestConstants.DEFAULT_DIMENSION_ENUM)),
                 func,
+                TestConstants.DEFAULT_DIMENSION_ENUM,
                 _xValues,
                 calculationEngineEnum);
     }

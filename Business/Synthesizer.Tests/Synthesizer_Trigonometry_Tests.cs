@@ -120,6 +120,7 @@ namespace JJ.Business.Synthesizer.Tests
             => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(TestConstants.DEFAULT_DIMENSION_ENUM)),
                 func,
+                TestConstants.DEFAULT_DIMENSION_ENUM,
                 _valuesFrom0To2Pi,
                 calculationEngineEnum);
 
@@ -127,6 +128,7 @@ namespace JJ.Business.Synthesizer.Tests
             => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(TestConstants.DEFAULT_DIMENSION_ENUM)),
                 func,
+                TestConstants.DEFAULT_DIMENSION_ENUM,
                 _valuesFromMinus1To1,
                 calculationEngineEnum);
     }
