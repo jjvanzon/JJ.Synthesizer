@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     expectedOutputValues = new List<double> { func(null) };
                 }
 
-                string varConstMessage = TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts);
+                string varConstMessage = MessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts);
 
                 // Create Patch
                 Patch patch = _patchFacade.CreatePatch();

@@ -8,7 +8,7 @@ using JJ.Framework.Exceptions.Comparative;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal static class TestMessageFormatter
+    internal static class MessageFormatter
     {
         public static string GetNote(int? significantDigits, int? decimalDigits, bool mustCompareZeroAndNonZeroOnly)
         {
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             if (decimalDigits.HasValue)
             {
-                sb.Append($"rounded to {decimalDigits} decimal digits, ");
+                sb.Append($"tested for {decimalDigits} decimal digits, ");
             }
 
             if (mustCompareZeroAndNonZeroOnly)

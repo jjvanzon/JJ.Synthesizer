@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                 if (canonicalExpectedOutputValue != canonicalActualOutputValue)
                 {
-                    string failureMessage = TestMessageFormatter.GetOutputValueMessage_NotValid(
+                    string failureMessage = MessageFormatter.GetOutputValueMessage_NotValid(
                         i,
                         inputDimensionEnums,
                         inputValues,
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 else
                 {
                     logMessages.Add(
-                        TestMessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
+                        MessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
                 }
             }
 

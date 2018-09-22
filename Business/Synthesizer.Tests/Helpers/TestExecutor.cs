@@ -227,7 +227,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             int? decimalDigits,
             bool mustCompareZeroAndNonZeroOnly)
         {
-            string note = TestMessageFormatter.GetNote(significantDigits, decimalDigits, mustCompareZeroAndNonZeroOnly);
+            string note = MessageFormatter.GetNote(significantDigits, decimalDigits, mustCompareZeroAndNonZeroOnly);
 
             logMessages.ForEach(Console.WriteLine);
 
