@@ -165,7 +165,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 mustCompareZeroAndNonZeroOnly);
         }
 
-        /// <summary> 3-dimensional cartesian product with expected output values. </summary>
+        /// <summary> 2-dimensional cartesian product with expected output values. </summary>
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             DimensionEnum xDimensionEnum,
