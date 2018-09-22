@@ -66,10 +66,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             var logMessages = new List<string>();
             var errorMessages = new List<string>();
 
-            IList<double?[]> constsLists = CollectionHelper.Repeat(inputDimensionEnums.Count, () => _specialConstsToTest)
-                                                           .CrossJoin(x => x.ToArray())
-                                                           .DefaultIfEmpty(Array.Empty<double?>())
-                                                           .ToArray();
+            IList<double?[]> constsLists =
+                // Repeat a special consts list for each dimension.
+                CollectionHelper.Repeat(inputDimensionEnums.Count, () => _specialConstsToTest)
+                                // Produce all combinations of all special consts for all dimensions.
+                                .CrossJoin(x => x.ToArray()) // (the ToArray is trivial.)
+                                // Make this method work even when there are no input values.
+                                .DefaultIfEmpty(Array.Empty<double?>())
+                                .ToArray();
 
             // Loop through special constants
             foreach (double?[] consts in constsLists)
