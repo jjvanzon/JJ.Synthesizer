@@ -14,12 +14,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static (IList<string>, IList<string>) ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             IList<double> expectedOutputValues,
-            IList<DimensionInfo> dimensionInfoList,
+            IList<DimensionEnum> inputDimensionEnums,
+            IList<double[]> inputPoints,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
             // No const-var variations for now. Maybe later.
-            IList<double?> consts = Enumerable.Repeat<double?>(default, dimensionInfoList.Count).ToArray();
+            IList<double?> consts = new double?[inputDimensionEnums.Count];
 
             // Execute test
             using (var testExecutor = new PatchTester_SingleConstVarVariation(
@@ -28,10 +29,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 consts,
                 mustCompareZeroAndNonZeroOnly))
             {
-                // TODO: Why does the PatchTester_SingleConstVarVariation take different types of parametrization?
-                IList<DimensionEnum> inputDimensionEnums = dimensionInfoList.Select(x => x.DimensionEnum).ToArray();
-                IList<double[]> inputPoints = dimensionInfoList.Select(x => x.InputValues).CrossJoin(x => x.ToArray()).ToArray();
-
                 return testExecutor.ExecuteTest(inputDimensionEnums, inputPoints, expectedOutputValues);
             }
         }
@@ -39,23 +36,21 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> func,
-            IList<DimensionInfo> dimensionInfoList,
+            IList<DimensionEnum> inputDimensionEnums,
+            IList<double[]> inputPoints,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
-            if (dimensionInfoList == null) throw new ArgumentNullException(nameof(dimensionInfoList));
+            if (inputDimensionEnums == null) throw new ArgumentNullException(nameof(inputDimensionEnums));
 
             var logMessages = new List<string>();
             var errorMessages = new List<string>();
 
-            IList<DimensionEnum> inputDimensionEnums = dimensionInfoList.Select(x => x.DimensionEnum).ToArray();
-            IList<double[]> inputPoints = dimensionInfoList.Select(x => x.InputValues).CrossJoin(x => x.ToArray()).ToArray();
-
-            IList<double?[]> constsLists = CollectionHelper.Repeat(dimensionInfoList.Count, () => _specialConstsToTest)
+            IList<double?[]> constsLists = CollectionHelper.Repeat(inputDimensionEnums.Count, () => _specialConstsToTest)
                                                            .CrossJoin(x => x.ToArray())
                                                            .DefaultIfEmpty(Array.Empty<double?>())
                                                            .ToArray();
-
+            
             // Loop through special constants
             foreach (double?[] consts in constsLists)
             {

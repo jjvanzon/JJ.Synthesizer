@@ -60,7 +60,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Helpers\DimensionInfo.cs" />
     <Compile Include="Helpers\PatchTester_SingleConstVarVariation.cs" />
     <Compile Include="Helpers\PatchTester_MultipleConstVarVariations.cs" />
     <Compile Include="Helpers\TestConstants.cs" />

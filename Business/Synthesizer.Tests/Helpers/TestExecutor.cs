@@ -12,8 +12,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal static class TestExecutor
     {
-        private static readonly IList<DimensionInfo> _emptyDimensionInfoList = Array.Empty<DimensionInfo>();
-
         public static double CalculateOneValue(IPatchCalculator patchCalculator, double time = 0.0)
         {
             const int frameCount = 1;
@@ -29,80 +27,69 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double> func,
             DimensionEnum dimensionEnum,
-            IList<double> inputValues,
+            double[] inputValues,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
-        {
-            var dimensionInfoList = new[] { new DimensionInfo(dimensionEnum, inputValues) };
-
-            ExecuteTest(
+            => ExecuteTest(
                 operatorFactoryDelegate,
                 arr => func(arr[0]),
-                dimensionInfoList,
+                new[] { dimensionEnum },
+                new[] { inputValues },
                 calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
-        }
 
         /// <summary> 2-dimensional cartesian product with func. </summary>
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double, double> func,
             DimensionEnum xDimensionEnum,
-            IList<double> xValues,
+            double[] xValues,
             DimensionEnum yDimensionEnum,
-            IList<double> yValues,
+            double[] yValues,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
-        {
-            var dimensionInfoList = new[] { new DimensionInfo(xDimensionEnum, xValues), new DimensionInfo(yDimensionEnum, yValues) };
-
-            ExecuteTest(
+            => ExecuteTest(
                 operatorFactoryDelegate,
                 arr => func(arr[0], arr[1]),
-                dimensionInfoList,
+                new[] { xDimensionEnum, yDimensionEnum },
+                new[] { xValues, yValues },
                 calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
-        }
 
         /// <summary> 3-dimensional cartesian product with func. </summary>
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double, double, double, double> func,
             DimensionEnum xDimensionEnum,
-            IList<double> xValues,
+            double[] xValues,
             DimensionEnum yDimensionEnum,
-            IList<double> yValues,
+            double[] yValues,
             DimensionEnum zDimensionEnum,
-            IList<double> zValues,
+            double[] zValues,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
-        {
-            var dimensionInfoList = new[]
-            {
-                new DimensionInfo(xDimensionEnum, xValues), new DimensionInfo(yDimensionEnum, yValues),
-                new DimensionInfo(zDimensionEnum, zValues)
-            };
-
-            ExecuteTest(
+            => ExecuteTest(
                 operatorFactoryDelegate,
                 arr => func(arr[0], arr[1], arr[2]),
-                dimensionInfoList,
+                new[] { xDimensionEnum, yDimensionEnum, zDimensionEnum },
+                new[] { xValues, yValues, zValues },
                 calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
-        }
 
         /// <summary> N-dimensional with func. </summary>
         private static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> funcWithArray,
-            IList<DimensionInfo> dimensionInfoList,
+            IList<DimensionEnum> inputDimensionEnums,
+            IList<double[]> inputPoints,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
             (IList<string> logMessages, IList<string> errorMessages) = PatchTester_MultipleConstVarVariations.ExecuteTest(
                 operatorFactoryDelegate,
                 funcWithArray,
-                dimensionInfoList,
+                inputDimensionEnums,
+                inputPoints,
                 calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
 
@@ -127,7 +114,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 // TODO: It feels strange that this would delegate to an overload that takes func.
                 // It should delegate to an n-dimension variation of an overload with expected output values.
                 _ => expectedOutputValue,
-                _emptyDimensionInfoList,
+                Array.Empty<DimensionEnum>(),
+                Array.Empty<double[]>(),
                 calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
 
@@ -145,9 +133,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             if (inputDimensionEnums.Count != 2) throw new NotEqualException(() => inputDimensionEnums.Count, 2);
 
             DimensionEnum xDimensionEnum = inputDimensionEnums[0];
-            IList<double> xValues = inputTuples.Select(x => x.Item1).ToArray();
+            double[] xValues = inputTuples.Select(x => x.Item1).ToArray();
             DimensionEnum yDimensionEnum = inputDimensionEnums[1];
-            IList<double> yValues = inputTuples.Select(x => x.Item2).ToArray();
+            double[] yValues = inputTuples.Select(x => x.Item2).ToArray();
 
             // TODO: Calling overload with cartesian product for now. That will change in the future.
 
@@ -169,35 +157,34 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             DimensionEnum xDimensionEnum,
-            IList<double> xValues,
+            double[] xValues,
             DimensionEnum yDimensionEnum,
-            IList<double> yValues,
+            double[] yValues,
             IList<double> expectedOutputValues,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
-        {
-            var dimensionInfoList = new[] { new DimensionInfo(xDimensionEnum, xValues), new DimensionInfo(yDimensionEnum, yValues) };
-
-            ExecuteTest(
+            => ExecuteTest(
                 operatorFactoryDelegate,
                 expectedOutputValues,
-                dimensionInfoList,
+                new[] { xDimensionEnum, yDimensionEnum },
+                new[] { xValues, yValues },
                 calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
-        }
 
         /// <summary> N-dimensional with expected output values. </summary>
         private static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             IList<double> expectedOutputValues,
-            IList<DimensionInfo> dimensionInfoList,
+            IList<DimensionEnum> dimensionEnums,
+            IList<double[]> inputPoints,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
             (IList<string> logMessages, IList<string> errorMessages) = PatchTester_MultipleConstVarVariations.ExecuteTest(
                 operatorFactoryDelegate,
                 expectedOutputValues,
-                dimensionInfoList,
+                dimensionEnums,
+                inputPoints,
                 calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
 
