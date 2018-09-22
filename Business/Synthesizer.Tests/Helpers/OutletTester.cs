@@ -3,56 +3,31 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
-using JJ.Framework.Data;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.Mathematics;
-using JJ.Framework.Testing.Data;
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal class PatchTester_SingleConstVarVariation : IDisposable
+    internal class OutletTester
     {
         private readonly bool _mustCompareZeroAndNonZeroOnly;
-
-        private IContext _context;
         private readonly IPatchCalculator _calculator;
 
-        public PatchTester_SingleConstVarVariation(
+        public OutletTester(
+            Outlet outlet,
+            PatchFacade patchFacade,
             CalculationEngineEnum calculationEngineEnum,
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            IList<double?> consts,
             bool mustCompareZeroAndNonZeroOnly)
         {
-            if (operatorFactoryDelegate == null) throw new ArgumentNullException(nameof(operatorFactoryDelegate));
-            if (consts == null) throw new ArgumentNullException(nameof(consts));
+            if (patchFacade == null) throw new ArgumentNullException(nameof(patchFacade));
 
             _mustCompareZeroAndNonZeroOnly = mustCompareZeroAndNonZeroOnly;
-
-            AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(() => _context = PersistenceHelper.CreateContext());
-
-            RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(_context);
-
-            var systemFacade = new SystemFacade(repositories.DocumentRepository);
-            var patchFacade = new PatchFacade(repositories);
-
-            Patch patch = patchFacade.CreatePatch();
-            var operatorFactory = new OperatorFactory(patch, repositories);
-            Outlet outlet = operatorFactoryDelegate(operatorFactory);
-
-            var varConstReplacer = new PatchVarConstReplacer(systemFacade, patchFacade);
-            varConstReplacer.ReplaceVarsWithConstsIfNeeded(patch, consts);
-
             _calculator = patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache(), calculationEngineEnum);
         }
-
-        ~PatchTester_SingleConstVarVariation() => Dispose();
-
-        public void Dispose() => _context?.Dispose();
 
         public (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(
             IList<DimensionEnum> inputDimensionEnums,

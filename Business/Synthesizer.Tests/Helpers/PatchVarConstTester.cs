@@ -2,17 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
+using JJ.Framework.Data;
+using JJ.Framework.Testing.Data;
+
 // ReSharper disable ParameterTypeCanBeEnumerable.Global
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal static class PatchTester_MultipleConstVarVariations
+    internal class PatchVarConstTester : IDisposable
     {
         private static readonly double?[] _specialConstsToTest = { null, 0, 1, 2 };
 
-        public static (IList<string>, IList<string>) ExecuteTest(
+        private IContext _context;
+        private readonly SystemFacade _systemFacade;
+        private readonly PatchFacade _patchFacade;
+        private readonly RepositoryWrapper _repositories;
+
+        public PatchVarConstTester()
+        {
+            AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(() => _context = PersistenceHelper.CreateContext());
+
+            _repositories = PersistenceHelper.CreateRepositories(_context);
+
+            _systemFacade = new SystemFacade(_repositories.DocumentRepository);
+            _patchFacade = new PatchFacade(_repositories);
+        }
+
+        ~PatchVarConstTester() => Dispose();
+
+        public void Dispose() => _context?.Dispose();
+
+        public (IList<string>, IList<string>) ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             IList<double> expectedOutputValues,
             IList<DimensionEnum> inputDimensionEnums,
@@ -20,21 +43,22 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
-            // No const-var variations for now. Maybe later.
-            IList<double?> consts = new double?[inputDimensionEnums.Count];
+            // Create Patch
+            Patch patch = _patchFacade.CreatePatch();
+            var operatorFactory = new OperatorFactory(patch, _repositories);
+            Outlet outlet = operatorFactoryDelegate(operatorFactory);
 
             // Execute test
-            using (var testExecutor = new PatchTester_SingleConstVarVariation(
+            var testExecutor = new OutletTester(
+                outlet,
+                _patchFacade,
                 calculationEngineEnum,
-                operatorFactoryDelegate,
-                consts,
-                mustCompareZeroAndNonZeroOnly))
-            {
-                return testExecutor.ExecuteTest(inputDimensionEnums, inputPoints, expectedOutputValues);
-            }
+                mustCompareZeroAndNonZeroOnly);
+
+            return testExecutor.ExecuteTest(inputDimensionEnums, inputPoints, expectedOutputValues);
         }
 
-        public static (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(
+        public (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> func,
             IList<DimensionEnum> inputDimensionEnums,
@@ -65,6 +89,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                                                         .ToArray();
 
                 IList<double> expectedOutputValues = inputPointsWithConsts.Select(func).ToArray();
+
                 if (expectedOutputValues.Count == 0)
                 {
                     expectedOutputValues = new List<double> { func(null) };
@@ -72,27 +97,32 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                 string varConstMessage = TestMessageFormatter.TryGetVarConstMessage(inputDimensionEnums, consts);
 
+                // Create Patch
+                Patch patch = _patchFacade.CreatePatch();
+                var operatorFactory = new OperatorFactory(patch, _repositories);
+                Outlet outlet = operatorFactoryDelegate(operatorFactory);
+
+                // Replace Vars with Consts
+                var varConstReplacer = new PatchVarConstReplacer(_systemFacade, _patchFacade);
+                varConstReplacer.ReplaceVarsWithConstsIfNeeded(patch, consts);
+
                 // Execute test
-                using (var testExecutor = new PatchTester_SingleConstVarVariation(
-                    calculationEngineEnum,
-                    operatorFactoryDelegate,
-                    consts,
-                    mustCompareZeroAndNonZeroOnly))
-                {
-                    (IList<string> logMessages2, IList<string> errorMessages2) = testExecutor.ExecuteTest(
+                var outletTester = new OutletTester(outlet, _patchFacade, calculationEngineEnum, mustCompareZeroAndNonZeroOnly);
+
+                (IList<string> logMessages2, IList<string> errorMessages2) =
+                    outletTester.ExecuteTest(
                         inputDimensionEnums,
                         inputPointsWithConsts,
                         expectedOutputValues);
 
-                    if (!string.IsNullOrEmpty(varConstMessage)) logMessages.Add(varConstMessage);
-                    logMessages.AddRange(logMessages2);
+                if (!string.IsNullOrEmpty(varConstMessage)) logMessages.Add(varConstMessage);
+                logMessages.AddRange(logMessages2);
 
-                    if (errorMessages2.Any())
-                    {
-                        errorMessages.Add("");
-                        if (!string.IsNullOrEmpty(varConstMessage)) errorMessages.Add(varConstMessage);
-                        errorMessages.AddRange(errorMessages2);
-                    }
+                if (errorMessages2.Any())
+                {
+                    errorMessages.Add("");
+                    if (!string.IsNullOrEmpty(varConstMessage)) errorMessages.Add(varConstMessage);
+                    errorMessages.AddRange(errorMessages2);
                 }
 
                 logMessages.Add("");

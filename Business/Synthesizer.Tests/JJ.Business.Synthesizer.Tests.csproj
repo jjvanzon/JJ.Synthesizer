@@ -60,8 +60,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Helpers\PatchTester_SingleConstVarVariation.cs" />
-    <Compile Include="Helpers\PatchTester_MultipleConstVarVariations.cs" />
+    <Compile Include="Helpers\OutletTester.cs" />
+    <Compile Include="Helpers\PatchVarConstTester.cs" />
     <Compile Include="Helpers\PatchVarConstReplacer.cs" />
     <Compile Include="Helpers\TestConstants.cs" />
     <Compile Include="Helpers\TestMessageFormatter.cs" />

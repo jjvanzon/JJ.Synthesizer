@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
 
-        /// <summary> N-dimensional with func. </summary>
+        /// <summary> N-dimensional cartesian with func. </summary>
         private static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> funcWithArray,
@@ -85,19 +85,23 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
-            (IList<string> logMessages, IList<string> errorMessages) = PatchTester_MultipleConstVarVariations.ExecuteTest(
-                operatorFactoryDelegate,
-                funcWithArray,
-                inputDimensionEnums,
-                inputPoints,
-                calculationEngineEnum,
-                mustCompareZeroAndNonZeroOnly);
-
-            logMessages.ForEach(Console.WriteLine);
-
-            if (errorMessages.Any())
+            using (var patchTester_MultipleConstVarVariations = new PatchVarConstTester())
             {
-                Assert.Fail(string.Join(Environment.NewLine, errorMessages));
+                (IList<string> logMessages, IList<string> errorMessages) =
+                    patchTester_MultipleConstVarVariations.ExecuteTest(
+                        operatorFactoryDelegate,
+                        funcWithArray,
+                        inputDimensionEnums,
+                        inputPoints,
+                        calculationEngineEnum,
+                        mustCompareZeroAndNonZeroOnly);
+
+                logMessages.ForEach(Console.WriteLine);
+
+                if (errorMessages.Any())
+                {
+                    Assert.Fail(string.Join(Environment.NewLine, errorMessages));
+                }
             }
         }
 
@@ -180,19 +184,23 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
-            (IList<string> logMessages, IList<string> errorMessages) = PatchTester_MultipleConstVarVariations.ExecuteTest(
-                operatorFactoryDelegate,
-                expectedOutputValues,
-                dimensionEnums,
-                inputPoints,
-                calculationEngineEnum,
-                mustCompareZeroAndNonZeroOnly);
-
-            logMessages.ForEach(Console.WriteLine);
-
-            if (errorMessages.Any())
+            using (var patchTester_MultipleConstVarVariations = new PatchVarConstTester())
             {
-                Assert.Fail(string.Join(Environment.NewLine, errorMessages));
+                (IList<string> logMessages, IList<string> errorMessages) =
+                    patchTester_MultipleConstVarVariations.ExecuteTest(
+                        operatorFactoryDelegate,
+                        expectedOutputValues,
+                        dimensionEnums,
+                        inputPoints,
+                        calculationEngineEnum,
+                        mustCompareZeroAndNonZeroOnly);
+
+                logMessages.ForEach(Console.WriteLine);
+
+                if (errorMessages.Any())
+                {
+                    Assert.Fail(string.Join(Environment.NewLine, errorMessages));
+                }
             }
         }
     }
