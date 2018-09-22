@@ -15,11 +15,24 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private static readonly double?[] _specialConstsToTest = { null, 0, 1, 2 };
 
         private readonly RepositoryWrapper _repositories;
+        private readonly CalculationEngineEnum _calculationEngineEnum;
+        private readonly int? _significantDigits;
+        private readonly int? _decimalDigits;
+        private readonly bool _mustCompareZeroAndNonZeroOnly;
         private readonly SystemFacade _systemFacade;
         private readonly PatchFacade _patchFacade;
 
-        public PatchVarConstTester(RepositoryWrapper repositories)
+        public PatchVarConstTester(
+            RepositoryWrapper repositories,
+            CalculationEngineEnum calculationEngineEnum,
+            int? significantDigits,
+            int? decimalDigits,
+            bool mustCompareZeroAndNonZeroOnly)
         {
+            _calculationEngineEnum = calculationEngineEnum;
+            _significantDigits = significantDigits;
+            _decimalDigits = decimalDigits;
+            _mustCompareZeroAndNonZeroOnly = mustCompareZeroAndNonZeroOnly;
             _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
             _systemFacade = new SystemFacade(repositories.DocumentRepository);
             _patchFacade = new PatchFacade(repositories);
@@ -29,9 +42,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> func,
             IList<DimensionEnum> inputDimensionEnums,
-            IList<double[]> inputPoints,
-            CalculationEngineEnum calculationEngineEnum,
-            bool mustCompareZeroAndNonZeroOnly)
+            IList<double[]> inputPoints)
         {
             if (inputDimensionEnums == null) throw new ArgumentNullException(nameof(inputDimensionEnums));
 
@@ -75,7 +86,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 varConstReplacer.ReplaceVarsWithConstsIfNeeded(patch, consts);
 
                 // Execute test
-                var outletTester = new OutletTester(outlet, _patchFacade, calculationEngineEnum, mustCompareZeroAndNonZeroOnly);
+                var outletTester = new OutletTester(
+                    outlet,
+                    _patchFacade,
+                    _calculationEngineEnum,
+                    _significantDigits,
+                    _decimalDigits,
+                    _mustCompareZeroAndNonZeroOnly);
 
                 (IList<string> logMessages2, IList<string> errorMessages2) =
                     outletTester.ExecuteTest(
@@ -94,13 +111,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 }
 
                 logMessages.Add("");
-            }
-
-            logMessages.Add(TestMessageFormatter.Note);
-
-            if (errorMessages.Any())
-            {
-                errorMessages.Add(TestMessageFormatter.Note);
             }
 
             return (logMessages, errorMessages);

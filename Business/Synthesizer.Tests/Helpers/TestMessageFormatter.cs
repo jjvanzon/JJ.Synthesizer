@@ -10,8 +10,37 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal static class TestMessageFormatter
     {
-        public static string Note { get; } =
-            $"(Note: Values are tested for {TestConstants.DEFAULT_SIGNIFICANT_DIGITS} significant digits and NaN is converted to 0.)";
+        public static string GetNote(int? significantDigits, int? decimalDigits, bool mustCompareZeroAndNonZeroOnly)
+        {
+            var sb = new StringBuilder();
+            sb.Append("(Note: ");
+
+            if (significantDigits.HasValue || decimalDigits.HasValue)
+            {
+                sb.Append("Values are ");
+            }
+
+            if (significantDigits.HasValue)
+            {
+                sb.Append($"tested for {significantDigits} significant digits, ");
+            }
+
+            if (decimalDigits.HasValue)
+            {
+                sb.Append($"rounded to {decimalDigits} decimal digits, ");
+            }
+
+            if (mustCompareZeroAndNonZeroOnly)
+            {
+                sb.Append("only compared for 0 and non-0, ");
+            }
+
+            sb.Append("NaN is converted to 0.");
+
+            sb.Append(')');
+
+            return sb.ToString();
+        }
 
         public static string TryGetVarConstMessage(IList<DimensionEnum> inputDimensionEnums, IList<double?> consts)
         {

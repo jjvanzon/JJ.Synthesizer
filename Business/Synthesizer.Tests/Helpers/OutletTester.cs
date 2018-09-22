@@ -15,6 +15,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class OutletTester
     {
+        private readonly int? _decimalDigits;
+        private readonly int? _significantDigits;
         private readonly bool _mustCompareZeroAndNonZeroOnly;
         private readonly IPatchCalculator _calculator;
 
@@ -22,10 +24,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Outlet outlet,
             PatchFacade patchFacade,
             CalculationEngineEnum calculationEngineEnum,
+            int? significantDigits,
+            int? decimalDigits,
             bool mustCompareZeroAndNonZeroOnly)
         {
             if (patchFacade == null) throw new ArgumentNullException(nameof(patchFacade));
 
+            _decimalDigits = decimalDigits;
+            _significantDigits = significantDigits;
             _mustCompareZeroAndNonZeroOnly = mustCompareZeroAndNonZeroOnly;
             _calculator = patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache(), calculationEngineEnum);
         }
@@ -141,7 +147,15 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             var output = (float)input;
 
-            output = MathHelper.RoundToSignificantDigits(output, TestConstants.DEFAULT_SIGNIFICANT_DIGITS);
+            if (_significantDigits.HasValue)
+            {
+                output = MathHelper.RoundToSignificantDigits(output, _significantDigits.Value);
+            }
+
+            if (_decimalDigits.HasValue)
+            {
+                output = (float)Math.Round(output, _decimalDigits.Value);
+            }
 
             // Calculation engine will not output NaN.
             if (float.IsNaN(output))

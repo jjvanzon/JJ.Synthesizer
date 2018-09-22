@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
@@ -25,26 +26,18 @@ namespace JJ.Business.Synthesizer.Tests
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LookAhead,
                 DimensionEnum.Number,
-                rate: 12.0 / MathHelper.TWO_PI,
+                rate: 8.0 / MathHelper.TWO_PI,
                 new[]
                 {
-                    (0.00, 1.0),
-                    (0.33, 1.0),
-
-                    (0.67, -1.0),
-                    (1.00, -1.0),
-                    (1.33, -1.0),
-
-                    (1.67, 2.0),
-                    (2.00, 2.0),
-                    (2.33, 2.0),
-
-                    (2.67, -2.0),
-                    (3.00, -2.0),
-                    (3.33, -2.0),
-
-                    (3.67, -2.0),
-                    (4.00, -2.0)
+                    (Math.PI * 0.00, 0.0),
+                    (Math.PI * 0.25, MathHelper.SQRT_2 / 2.0),
+                    (Math.PI * 0.50, 1.0),
+                    (Math.PI * 0.75, MathHelper.SQRT_2 / 2.0),
+                    (Math.PI * 1.00, 0.0),
+                    (Math.PI * 1.25, -MathHelper.SQRT_2 / 2.0),
+                    (Math.PI * 1.50, -1.0),
+                    (Math.PI * 1.75, -MathHelper.SQRT_2 / 2.0),
+                    (Math.PI * 2.00, 0.0)
                 },
                 calculationEngineEnum);
 
@@ -130,6 +123,7 @@ namespace JJ.Business.Synthesizer.Tests
             IList<(double dimensionValue, double outputValue)> points,
             CalculationEngineEnum calculationEngineEnum)
         {
+            // Transform this method's input into something the TestExecutor wants.
             IList<DimensionEnum> inputDimensionEnums = new[] { dimensionEnum, DimensionEnum.Rate };
             IList<(double, double)> inputTuples = points.Select(point => (point.dimensionValue, rate)).ToArray();
             IList<double> outputValues = points.Select(point => point.outputValue).ToArray();
@@ -145,7 +139,9 @@ namespace JJ.Business.Synthesizer.Tests
                 inputDimensionEnums,
                 inputTuples,
                 outputValues,
-                calculationEngineEnum);
+                calculationEngineEnum,
+                significantDigits: null,
+                decimalDigits: 6);
         }
     }
 }

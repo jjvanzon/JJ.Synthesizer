@@ -31,6 +31,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             DimensionEnum dimensionEnum,
             double[] inputValues,
             CalculationEngineEnum calculationEngineEnum,
+            int? significantDigits = TestConstants.DEFAULT_SIGNIFICANT_DIGITS,
+            int? decimalDigits = null,
             bool mustCompareZeroAndNonZeroOnly = false)
             => ExecuteTest(
                 operatorFactoryDelegate,
@@ -38,6 +40,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 new[] { dimensionEnum },
                 new[] { inputValues },
                 calculationEngineEnum,
+                significantDigits,
+                decimalDigits,
                 mustCompareZeroAndNonZeroOnly);
 
         /// <summary> 2-dimensional cartesian product with func. </summary>
@@ -49,6 +53,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             DimensionEnum yDimensionEnum,
             double[] yValues,
             CalculationEngineEnum calculationEngineEnum,
+            int? significantDigits = TestConstants.DEFAULT_SIGNIFICANT_DIGITS,
+            int? decimalDigits = null,
             bool mustCompareZeroAndNonZeroOnly = false)
             => ExecuteTest(
                 operatorFactoryDelegate,
@@ -56,6 +62,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 new[] { xDimensionEnum, yDimensionEnum },
                 new[] { xValues, yValues },
                 calculationEngineEnum,
+                significantDigits,
+                decimalDigits,
                 mustCompareZeroAndNonZeroOnly);
 
         /// <summary> 3-dimensional cartesian product with func. </summary>
@@ -69,6 +77,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             DimensionEnum zDimensionEnum,
             double[] zValues,
             CalculationEngineEnum calculationEngineEnum,
+            int? significantDigits = TestConstants.DEFAULT_SIGNIFICANT_DIGITS,
+            int? decimalDigits = null,
             bool mustCompareZeroAndNonZeroOnly = false)
             => ExecuteTest(
                 operatorFactoryDelegate,
@@ -76,6 +86,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 new[] { xDimensionEnum, yDimensionEnum, zDimensionEnum },
                 new[] { xValues, yValues, zValues },
                 calculationEngineEnum,
+                significantDigits,
+                decimalDigits,
                 mustCompareZeroAndNonZeroOnly);
 
         /// <summary> N-dimensional cartesian product with func. </summary>
@@ -85,6 +97,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<DimensionEnum> inputDimensionEnums,
             IList<double[]> inputValues,
             CalculationEngineEnum calculationEngineEnum,
+            int? significantDigits,
+            int? decimalDigits,
             bool mustCompareZeroAndNonZeroOnly)
             => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
@@ -98,24 +112,22 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                         IList<double[]> inputPoints = inputValues.CrossJoin(x => x.ToArray()).ToArray();
 
                         // Execute Test
-                        var patchVarConstTester = new PatchVarConstTester(repositories);
+                        var patchVarConstTester = new PatchVarConstTester(
+                            repositories,
+                            calculationEngineEnum,
+                            significantDigits,
+                            decimalDigits,
+                            mustCompareZeroAndNonZeroOnly);
 
                         (IList<string> logMessages, IList<string> errorMessages) =
                             patchVarConstTester.ExecuteTest(
                                 operatorFactoryDelegate,
                                 funcWithArray,
                                 inputDimensionEnums,
-                                inputPoints,
-                                calculationEngineEnum,
-                                mustCompareZeroAndNonZeroOnly);
+                                inputPoints);
 
                         // Log Results
-                        logMessages.ForEach(Console.WriteLine);
-
-                        if (errorMessages.Any())
-                        {
-                            Assert.Fail(string.Join(Environment.NewLine, errorMessages));
-                        }
+                        LogResults(logMessages, errorMessages, significantDigits, decimalDigits, mustCompareZeroAndNonZeroOnly);
                     }
                 });
 
@@ -126,6 +138,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             double expectedOutputValue,
             CalculationEngineEnum calculationEngineEnum,
+            int? significantDigits = TestConstants.DEFAULT_SIGNIFICANT_DIGITS,
+            int? decimalDigits = null,
             bool mustCompareZeroAndNonZeroOnly = false)
             => ExecuteTest(
                 operatorFactoryDelegate,
@@ -133,6 +147,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 Array.Empty<double[]>(),
                 expectedOutputValue.AsArray(),
                 calculationEngineEnum,
+                significantDigits,
+                decimalDigits,
                 mustCompareZeroAndNonZeroOnly);
 
         /// <summary> 2-part tuples with expected output values. </summary>
@@ -142,18 +158,20 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<(double, double)> inputTuples,
             IList<double> expectedOutputValues,
             CalculationEngineEnum calculationEngineEnum,
+            int? significantDigits = TestConstants.DEFAULT_SIGNIFICANT_DIGITS,
+            int? decimalDigits = null,
             bool mustCompareZeroAndNonZeroOnly = false)
         {
             if (inputTuples == null) throw new ArgumentNullException(nameof(inputTuples));
 
-            IList<double[]> inputPoints = inputTuples.Select(x => new[] { x.Item1, x.Item2 }).ToArray();
-
             ExecuteTest(
                 operatorFactoryDelegate,
                 inputDimensionEnums,
-                inputPoints,
+                inputTuples.Select(x => new[] { x.Item1, x.Item2 }).ToArray(),
                 expectedOutputValues,
                 calculationEngineEnum,
+                significantDigits,
+                decimalDigits,
                 mustCompareZeroAndNonZeroOnly);
         }
 
@@ -164,6 +182,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double[]> inputPoints,
             IList<double> expectedOutputValues,
             CalculationEngineEnum calculationEngineEnum,
+            int? significantDigits,
+            int? decimalDigits,
             bool mustCompareZeroAndNonZeroOnly)
             => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
@@ -180,7 +200,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                         Outlet outlet = operatorFactoryDelegate(operatorFactory);
 
                         // Execute Test
-                        var testExecutor = new OutletTester(outlet, patchFacade, calculationEngineEnum, mustCompareZeroAndNonZeroOnly);
+                        var testExecutor = new OutletTester(
+                            outlet,
+                            patchFacade,
+                            calculationEngineEnum,
+                            significantDigits,
+                            decimalDigits,
+                            mustCompareZeroAndNonZeroOnly);
 
                         (IList<string> logMessages, IList<string> errorMessages) = testExecutor.ExecuteTest(
                             inputDimensionEnums,
@@ -188,13 +214,34 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                             expectedOutputValues);
 
                         // Log Results
-                        logMessages.ForEach(Console.WriteLine);
-
-                        if (errorMessages.Any())
-                        {
-                            Assert.Fail(string.Join(Environment.NewLine, errorMessages));
-                        }
+                        LogResults(logMessages, errorMessages, significantDigits, decimalDigits, mustCompareZeroAndNonZeroOnly);
                     }
                 });
+
+        // Helpers
+
+        private static void LogResults(
+            IList<string> logMessages,
+            IList<string> errorMessages,
+            int? significantDigits,
+            int? decimalDigits,
+            bool mustCompareZeroAndNonZeroOnly)
+        {
+            string note = TestMessageFormatter.GetNote(significantDigits, decimalDigits, mustCompareZeroAndNonZeroOnly);
+
+            logMessages.ForEach(Console.WriteLine);
+
+            if (!string.IsNullOrEmpty(logMessages.LastOrDefault()))
+            {
+                Console.WriteLine("");
+            }
+
+            Console.WriteLine(note);
+
+            if (errorMessages.Any())
+            {
+                Assert.Fail(string.Join(Environment.NewLine, errorMessages.Concat(note)));
+            }
+        }
     }
 }
