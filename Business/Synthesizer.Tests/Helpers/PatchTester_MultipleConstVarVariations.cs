@@ -4,6 +4,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
+// ReSharper disable ParameterTypeCanBeEnumerable.Global
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -57,7 +58,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             // Loop through special constants
             foreach (double?[] consts in constsLists)
             {
-
                 // Replace input with constants
                 IList<double[]> inputPointsWithConsts = inputPoints
                                                         .Select(point => consts.Zip(point, (x, y) => x ?? y).ToArray())
@@ -65,7 +65,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                                                         .ToArray();
 
                 IList<double> expectedOutputValues = inputPointsWithConsts.Select(func).ToArray();
-
                 if (expectedOutputValues.Count == 0)
                 {
                     expectedOutputValues = new List<double> { func(null) };

@@ -1,30 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Data;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Testing.Data;
-
-#pragma warning disable IDE0039 // Use local function
-// ReSharper disable ConvertToLocalFunction
-// ReSharper disable UnusedVariable
-// ReSharper disable InvertIf
 // ReSharper disable CompareOfFloatsByEqualityOperator
-// ReSharper disable LocalizableElement
-// ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -34,8 +21,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private IContext _context;
         private readonly IPatchCalculator _calculator;
-        private readonly SystemFacade _systemFacade;
-        private readonly PatchFacade _patchFacade;
 
         public PatchTester_SingleConstVarVariation(
             CalculationEngineEnum calculationEngineEnum,
@@ -52,48 +37,17 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(_context);
 
-            _systemFacade = new SystemFacade(repositories.DocumentRepository);
-            _patchFacade = new PatchFacade(repositories);
+            var systemFacade = new SystemFacade(repositories.DocumentRepository);
+            var patchFacade = new PatchFacade(repositories);
 
-            Patch patch = _patchFacade.CreatePatch();
+            Patch patch = patchFacade.CreatePatch();
             var operatorFactory = new OperatorFactory(patch, repositories);
             Outlet outlet = operatorFactoryDelegate(operatorFactory);
 
-            ReplaceVarsWithConstsIfNeeded(patch, consts);
+            var varConstReplacer = new PatchVarConstReplacer(systemFacade, patchFacade);
+            varConstReplacer.ReplaceVarsWithConstsIfNeeded(patch, consts);
 
-            _calculator = _patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache(), calculationEngineEnum);
-        }
-
-        private void ReplaceVarsWithConstsIfNeeded(Patch patch, IList<double?> constsToReplaceVariables)
-        {
-            IList<Operator> patchInlets = patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                               .Select(x => new PatchInletOrOutlet_OperatorWrapper(x))
-                                               .OrderBy(x => x.Inlet.Position)
-                                               .Select(x => x.WrappedOperator)
-                                               .ToArray();
-
-            if (constsToReplaceVariables.Count > patchInlets.Count)
-            {
-                throw new GreaterThanException(() => constsToReplaceVariables.Count, () => patchInlets.Count);
-            }
-
-            for (var i = 0; i < constsToReplaceVariables.Count; i++)
-            {
-                double? constToReplaceVariable = constsToReplaceVariables[i];
-
-                if (!constToReplaceVariable.HasValue)
-                {
-                    continue;
-                }
-
-                Operator op = patchInlets[i];
-
-                Patch numberPatch = _systemFacade.GetSystemPatch(OperatorTypeEnum.Number);
-                op.LinkToUnderlyingPatch(numberPatch);
-                new Number_OperatorWrapper(op) { Number = constToReplaceVariable.Value };
-                IResult result = _patchFacade.SaveOperator(op);
-                result.Assert();
-            }
+            _calculator = patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache(), calculationEngineEnum);
         }
 
         ~PatchTester_SingleConstVarVariation() => Dispose();
