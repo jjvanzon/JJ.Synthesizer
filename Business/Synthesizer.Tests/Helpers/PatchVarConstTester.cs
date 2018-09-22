@@ -49,12 +49,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Outlet outlet = operatorFactoryDelegate(operatorFactory);
 
             // Execute test
-            var testExecutor = new OutletTester(
-                outlet,
-                _patchFacade,
-                calculationEngineEnum,
-                mustCompareZeroAndNonZeroOnly);
-
+            var testExecutor = new OutletTester(outlet, _patchFacade, calculationEngineEnum, mustCompareZeroAndNonZeroOnly);
             return testExecutor.ExecuteTest(inputDimensionEnums, inputPoints, expectedOutputValues);
         }
 
@@ -62,7 +57,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> func,
             IList<DimensionEnum> inputDimensionEnums,
-            IList<double[]> inputValues,
+            IList<double[]> inputPoints,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
@@ -75,9 +70,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                                                            .CrossJoin(x => x.ToArray())
                                                            .DefaultIfEmpty(Array.Empty<double?>())
                                                            .ToArray();
-
-            // Cross Join
-            IList<double[]> inputPoints = inputValues.CrossJoin(x => x.ToArray()).ToArray();
 
             // Loop through special constants
             foreach (double?[] consts in constsLists)

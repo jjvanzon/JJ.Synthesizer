@@ -8,6 +8,7 @@ using JJ.Framework.Collections;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.Mathematics;
+
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace JJ.Business.Synthesizer.Tests.Helpers

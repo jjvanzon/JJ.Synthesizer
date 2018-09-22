@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
-using JJ.Framework.Exceptions.Comparative;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
@@ -81,14 +80,16 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> funcWithArray,
             IList<DimensionEnum> inputDimensionEnums,
-            IList<double[]> inputPoints,
+            IList<double[]> inputValues,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
-            using (var patchTester_MultipleConstVarVariations = new PatchVarConstTester())
+            IList<double[]> inputPoints = inputValues.CrossJoin(x => x.ToArray()).ToArray();
+
+            using (var patchVarConstTester = new PatchVarConstTester())
             {
                 (IList<string> logMessages, IList<string> errorMessages) =
-                    patchTester_MultipleConstVarVariations.ExecuteTest(
+                    patchVarConstTester.ExecuteTest(
                         operatorFactoryDelegate,
                         funcWithArray,
                         inputDimensionEnums,
@@ -115,11 +116,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             bool mustCompareZeroAndNonZeroOnly = false)
             => ExecuteTest(
                 operatorFactoryDelegate,
-                // TODO: It feels strange that this would delegate to an overload that takes func.
-                // It should delegate to an n-dimension variation of an overload with expected output values.
-                _ => expectedOutputValue,
                 Array.Empty<DimensionEnum>(),
                 Array.Empty<double[]>(),
+                expectedOutputValue.AsArray(),
                 calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
 
@@ -132,62 +131,32 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly = false)
         {
-            if (inputDimensionEnums == null) throw new ArgumentNullException(nameof(inputDimensionEnums));
             if (inputTuples == null) throw new ArgumentNullException(nameof(inputTuples));
-            if (inputDimensionEnums.Count != 2) throw new NotEqualException(() => inputDimensionEnums.Count, 2);
 
-            DimensionEnum xDimensionEnum = inputDimensionEnums[0];
-            double[] xValues = inputTuples.Select(x => x.Item1).ToArray();
-            DimensionEnum yDimensionEnum = inputDimensionEnums[1];
-            double[] yValues = inputTuples.Select(x => x.Item2).ToArray();
-
-            // TODO: Calling overload with cartesian product for now. That will change in the future.
-
-            // Generate more output values because it needs one for each combination in the cartesian product.
-            expectedOutputValues = expectedOutputValues.Repeat(expectedOutputValues.Count).ToArray();
+            IList<double[]> inputPoints = inputTuples.Select(x => new[] { x.Item1, x.Item2 }).ToArray();
 
             ExecuteTest(
                 operatorFactoryDelegate,
-                xDimensionEnum,
-                xValues,
-                yDimensionEnum,
-                yValues,
+                inputDimensionEnums,
+                inputPoints,
                 expectedOutputValues,
                 calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
         }
 
-        /// <summary> 2-dimensional cartesian product with expected output values. </summary>
-        public static void ExecuteTest(
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            DimensionEnum xDimensionEnum,
-            double[] xValues,
-            DimensionEnum yDimensionEnum,
-            double[] yValues,
-            IList<double> expectedOutputValues,
-            CalculationEngineEnum calculationEngineEnum,
-            bool mustCompareZeroAndNonZeroOnly = false)
-            => ExecuteTest(
-                operatorFactoryDelegate,
-                expectedOutputValues,
-                new[] { xDimensionEnum, yDimensionEnum },
-                new[] { xValues, yValues },
-                calculationEngineEnum,
-                mustCompareZeroAndNonZeroOnly);
-
-        /// <summary> N-dimensional with expected output values. </summary>
+        /// <summary> N-dimensional tuples with expected output values. </summary>
         private static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            IList<double> expectedOutputValues,
             IList<DimensionEnum> dimensionEnums,
             IList<double[]> inputPoints,
+            IList<double> expectedOutputValues,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
-            using (var patchTester_MultipleConstVarVariations = new PatchVarConstTester())
+            using (var patchVarConstTester = new PatchVarConstTester())
             {
                 (IList<string> logMessages, IList<string> errorMessages) =
-                    patchTester_MultipleConstVarVariations.ExecuteTest(
+                    patchVarConstTester.ExecuteTest(
                         operatorFactoryDelegate,
                         expectedOutputValues,
                         dimensionEnums,
