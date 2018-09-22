@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> func,
             IList<DimensionEnum> inputDimensionEnums,
-            IList<double[]> inputPoints,
+            IList<double[]> inputValues,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
         {
@@ -50,10 +50,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                                                            .CrossJoin(x => x.ToArray())
                                                            .DefaultIfEmpty(Array.Empty<double?>())
                                                            .ToArray();
-            
+
+            // Cross Join
+            IList<double[]> inputPoints = inputValues.CrossJoin(x => x.ToArray()).ToArray();
+
             // Loop through special constants
             foreach (double?[] consts in constsLists)
             {
+
                 // Replace input with constants
                 IList<double[]> inputPointsWithConsts = inputPoints
                                                         .Select(point => consts.Zip(point, (x, y) => x ?? y).ToArray())
