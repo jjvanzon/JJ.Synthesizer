@@ -5,52 +5,24 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
-using JJ.Framework.Data;
-using JJ.Framework.Testing.Data;
 
 // ReSharper disable ParameterTypeCanBeEnumerable.Global
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal class PatchVarConstTester : IDisposable
+    internal class PatchVarConstTester
     {
         private static readonly double?[] _specialConstsToTest = { null, 0, 1, 2 };
 
-        private IContext _context;
+        private readonly RepositoryWrapper _repositories;
         private readonly SystemFacade _systemFacade;
         private readonly PatchFacade _patchFacade;
-        private readonly RepositoryWrapper _repositories;
 
-        public PatchVarConstTester()
+        public PatchVarConstTester(RepositoryWrapper repositories)
         {
-            AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(() => _context = PersistenceHelper.CreateContext());
-
-            _repositories = PersistenceHelper.CreateRepositories(_context);
-
-            _systemFacade = new SystemFacade(_repositories.DocumentRepository);
-            _patchFacade = new PatchFacade(_repositories);
-        }
-
-        ~PatchVarConstTester() => Dispose();
-
-        public void Dispose() => _context?.Dispose();
-
-        public (IList<string>, IList<string>) ExecuteTest(
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            IList<double> expectedOutputValues,
-            IList<DimensionEnum> inputDimensionEnums,
-            IList<double[]> inputPoints,
-            CalculationEngineEnum calculationEngineEnum,
-            bool mustCompareZeroAndNonZeroOnly)
-        {
-            // Create Patch
-            Patch patch = _patchFacade.CreatePatch();
-            var operatorFactory = new OperatorFactory(patch, _repositories);
-            Outlet outlet = operatorFactoryDelegate(operatorFactory);
-
-            // Execute test
-            var testExecutor = new OutletTester(outlet, _patchFacade, calculationEngineEnum, mustCompareZeroAndNonZeroOnly);
-            return testExecutor.ExecuteTest(inputDimensionEnums, inputPoints, expectedOutputValues);
+            _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
+            _systemFacade = new SystemFacade(repositories.DocumentRepository);
+            _patchFacade = new PatchFacade(repositories);
         }
 
         public (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(

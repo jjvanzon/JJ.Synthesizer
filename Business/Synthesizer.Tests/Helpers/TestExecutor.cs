@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
+using JJ.Framework.Data;
+using JJ.Framework.Testing.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
@@ -75,7 +78,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 calculationEngineEnum,
                 mustCompareZeroAndNonZeroOnly);
 
-        /// <summary> N-dimensional cartesian with func. </summary>
+        /// <summary> N-dimensional cartesian product with func. </summary>
         private static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
             Func<double[], double> funcWithArray,
@@ -83,28 +86,38 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IList<double[]> inputValues,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
-        {
-            IList<double[]> inputPoints = inputValues.CrossJoin(x => x.ToArray()).ToArray();
-
-            using (var patchVarConstTester = new PatchVarConstTester())
-            {
-                (IList<string> logMessages, IList<string> errorMessages) =
-                    patchVarConstTester.ExecuteTest(
-                        operatorFactoryDelegate,
-                        funcWithArray,
-                        inputDimensionEnums,
-                        inputPoints,
-                        calculationEngineEnum,
-                        mustCompareZeroAndNonZeroOnly);
-
-                logMessages.ForEach(Console.WriteLine);
-
-                if (errorMessages.Any())
+            => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
+                () =>
                 {
-                    Assert.Fail(string.Join(Environment.NewLine, errorMessages));
-                }
-            }
-        }
+                    // Infrastructure
+                    using (IContext context = PersistenceHelper.CreateContext())
+                    {
+                        RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
+
+                        // Business
+                        IList<double[]> inputPoints = inputValues.CrossJoin(x => x.ToArray()).ToArray();
+
+                        // Execute Test
+                        var patchVarConstTester = new PatchVarConstTester(repositories);
+
+                        (IList<string> logMessages, IList<string> errorMessages) =
+                            patchVarConstTester.ExecuteTest(
+                                operatorFactoryDelegate,
+                                funcWithArray,
+                                inputDimensionEnums,
+                                inputPoints,
+                                calculationEngineEnum,
+                                mustCompareZeroAndNonZeroOnly);
+
+                        // Log Results
+                        logMessages.ForEach(Console.WriteLine);
+
+                        if (errorMessages.Any())
+                        {
+                            Assert.Fail(string.Join(Environment.NewLine, errorMessages));
+                        }
+                    }
+                });
 
         // With ExpectedOutputValues
 
@@ -147,30 +160,41 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <summary> N-dimensional tuples with expected output values. </summary>
         private static void ExecuteTest(
             Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            IList<DimensionEnum> dimensionEnums,
+            IList<DimensionEnum> inputDimensionEnums,
             IList<double[]> inputPoints,
             IList<double> expectedOutputValues,
             CalculationEngineEnum calculationEngineEnum,
             bool mustCompareZeroAndNonZeroOnly)
-        {
-            using (var patchVarConstTester = new PatchVarConstTester())
-            {
-                (IList<string> logMessages, IList<string> errorMessages) =
-                    patchVarConstTester.ExecuteTest(
-                        operatorFactoryDelegate,
-                        expectedOutputValues,
-                        dimensionEnums,
-                        inputPoints,
-                        calculationEngineEnum,
-                        mustCompareZeroAndNonZeroOnly);
-
-                logMessages.ForEach(Console.WriteLine);
-
-                if (errorMessages.Any())
+            => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
+                () =>
                 {
-                    Assert.Fail(string.Join(Environment.NewLine, errorMessages));
-                }
-            }
-        }
+                    // Infrastructure
+                    using (IContext context = PersistenceHelper.CreateContext())
+                    {
+                        RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
+
+                        // Business
+                        var patchFacade = new PatchFacade(repositories);
+                        Patch patch = patchFacade.CreatePatch();
+                        var operatorFactory = new OperatorFactory(patch, repositories);
+                        Outlet outlet = operatorFactoryDelegate(operatorFactory);
+
+                        // Execute Test
+                        var testExecutor = new OutletTester(outlet, patchFacade, calculationEngineEnum, mustCompareZeroAndNonZeroOnly);
+
+                        (IList<string> logMessages, IList<string> errorMessages) = testExecutor.ExecuteTest(
+                            inputDimensionEnums,
+                            inputPoints,
+                            expectedOutputValues);
+
+                        // Log Results
+                        logMessages.ForEach(Console.WriteLine);
+
+                        if (errorMessages.Any())
+                        {
+                            Assert.Fail(string.Join(Environment.NewLine, errorMessages));
+                        }
+                    }
+                });
     }
 }
