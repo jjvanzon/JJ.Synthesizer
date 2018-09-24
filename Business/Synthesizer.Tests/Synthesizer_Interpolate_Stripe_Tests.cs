@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class Synthesizer_Interpolate_Tests
+    public class Synthesizer_Interpolate_Stripe_Tests
     {
         // Stripe
 

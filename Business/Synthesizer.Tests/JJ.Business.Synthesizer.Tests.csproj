@@ -82,7 +82,7 @@
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\TestExecutor.cs" />
-    <Compile Include="Synthesizer_Interpolate_Tests.cs" />
+    <Compile Include="Synthesizer_Interpolate_Stripe_Tests.cs" />
     <Compile Include="MiscSynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
