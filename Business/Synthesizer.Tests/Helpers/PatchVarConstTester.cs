@@ -19,6 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private readonly int? _significantDigits;
         private readonly int? _decimalDigits;
         private readonly bool _mustCompareZeroAndNonZeroOnly;
+        private readonly bool _mustPlot;
         private readonly SystemFacade _systemFacade;
         private readonly PatchFacade _patchFacade;
 
@@ -27,12 +28,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             int? significantDigits,
             int? decimalDigits,
-            bool mustCompareZeroAndNonZeroOnly)
+            bool mustCompareZeroAndNonZeroOnly,
+            bool mustPlot)
         {
             _calculationEngineEnum = calculationEngineEnum;
             _significantDigits = significantDigits;
             _decimalDigits = decimalDigits;
             _mustCompareZeroAndNonZeroOnly = mustCompareZeroAndNonZeroOnly;
+            _mustPlot = mustPlot;
             _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
             _systemFacade = new SystemFacade(repositories.DocumentRepository);
             _patchFacade = new PatchFacade(repositories);
@@ -92,7 +95,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     _calculationEngineEnum,
                     _significantDigits,
                     _decimalDigits,
-                    _mustCompareZeroAndNonZeroOnly);
+                    _mustCompareZeroAndNonZeroOnly,
+                    _mustPlot);
 
                 (IList<string> logMessages2, IList<string> errorMessages2) =
                     outletTester.ExecuteTest(

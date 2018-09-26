@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
@@ -18,6 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private readonly int? _decimalDigits;
         private readonly int? _significantDigits;
         private readonly bool _mustCompareZeroAndNonZeroOnly;
+        private readonly bool _mustPlot;
         private readonly IPatchCalculator _calculator;
 
         public OutletTester(
@@ -26,13 +28,15 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             int? significantDigits,
             int? decimalDigits,
-            bool mustCompareZeroAndNonZeroOnly)
+            bool mustCompareZeroAndNonZeroOnly,
+            bool mustPlot)
         {
             if (patchFacade == null) throw new ArgumentNullException(nameof(patchFacade));
 
             _decimalDigits = decimalDigits;
             _significantDigits = significantDigits;
             _mustCompareZeroAndNonZeroOnly = mustCompareZeroAndNonZeroOnly;
+            _mustPlot = mustPlot;
             _calculator = patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache(), calculationEngineEnum);
         }
 
@@ -136,6 +140,36 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 {
                     logMessages.Add(
                         MessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
+                }
+            }
+
+            if (_mustPlot)
+            {
+                IList<string> expectedPlotLines = MessageFormatter.TryPlot(inputPoints, expectedOutputValues);
+                if (expectedPlotLines.Any())
+                {
+                    if (errorMessages.Any())
+                    {
+                        logMessages.Add("");
+                        logMessages.Add("Expected");
+                    }
+
+                    logMessages.Add("");
+                    logMessages.AddRange(expectedPlotLines);
+                }
+
+                if (errorMessages.Any())
+                {
+                    IList<string> actualPlotLines = MessageFormatter.TryPlot(inputPoints, actualOutputValues);
+
+                    if (actualPlotLines.Any())
+                    {
+                        logMessages.Add("");
+                        logMessages.Add("Actual");
+
+                        logMessages.Add("");
+                        logMessages.AddRange(actualPlotLines);
+                    }
                 }
             }
 

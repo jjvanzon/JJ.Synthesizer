@@ -33,7 +33,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             int? significantDigits = TestConstants.DEFAULT_SIGNIFICANT_DIGITS,
             int? decimalDigits = null,
-            bool mustCompareZeroAndNonZeroOnly = false)
+            bool mustCompareZeroAndNonZeroOnly = false,
+            bool mustPlot = false)
             => ExecuteTest(
                 operatorFactoryDelegate,
                 arr => func(arr[0]),
@@ -42,7 +43,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 calculationEngineEnum,
                 significantDigits,
                 decimalDigits,
-                mustCompareZeroAndNonZeroOnly);
+                mustCompareZeroAndNonZeroOnly,
+                mustPlot);
 
         /// <summary> 2-dimensional cartesian product with func. </summary>
         public static void ExecuteTest(
@@ -55,7 +57,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             int? significantDigits = TestConstants.DEFAULT_SIGNIFICANT_DIGITS,
             int? decimalDigits = null,
-            bool mustCompareZeroAndNonZeroOnly = false)
+            bool mustCompareZeroAndNonZeroOnly = false,
+            bool mustPlot = false)
             => ExecuteTest(
                 operatorFactoryDelegate,
                 arr => func(arr[0], arr[1]),
@@ -64,7 +67,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 calculationEngineEnum,
                 significantDigits,
                 decimalDigits,
-                mustCompareZeroAndNonZeroOnly);
+                mustCompareZeroAndNonZeroOnly,
+                mustPlot);
 
         /// <summary> 3-dimensional cartesian product with func. </summary>
         public static void ExecuteTest(
@@ -79,7 +83,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             int? significantDigits = TestConstants.DEFAULT_SIGNIFICANT_DIGITS,
             int? decimalDigits = null,
-            bool mustCompareZeroAndNonZeroOnly = false)
+            bool mustCompareZeroAndNonZeroOnly = false,
+            bool mustPlot = false)
             => ExecuteTest(
                 operatorFactoryDelegate,
                 arr => func(arr[0], arr[1], arr[2]),
@@ -88,7 +93,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 calculationEngineEnum,
                 significantDigits,
                 decimalDigits,
-                mustCompareZeroAndNonZeroOnly);
+                mustCompareZeroAndNonZeroOnly,
+                mustPlot);
 
         /// <summary> N-dimensional cartesian product with func. </summary>
         private static void ExecuteTest(
@@ -99,7 +105,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             int? significantDigits,
             int? decimalDigits,
-            bool mustCompareZeroAndNonZeroOnly)
+            bool mustCompareZeroAndNonZeroOnly,
+            bool mustPlot)
             => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
                 {
@@ -117,7 +124,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                             calculationEngineEnum,
                             significantDigits,
                             decimalDigits,
-                            mustCompareZeroAndNonZeroOnly);
+                            mustCompareZeroAndNonZeroOnly,
+                            mustPlot);
 
                         (IList<string> logMessages, IList<string> errorMessages) =
                             patchVarConstTester.ExecuteTest(
@@ -140,7 +148,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             int? significantDigits = TestConstants.DEFAULT_SIGNIFICANT_DIGITS,
             int? decimalDigits = null,
-            bool mustCompareZeroAndNonZeroOnly = false)
+            bool mustCompareZeroAndNonZeroOnly = false,
+            bool mustPlot = false)
             => ExecuteTest(
                 operatorFactoryDelegate,
                 Array.Empty<DimensionEnum>(),
@@ -149,7 +158,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 calculationEngineEnum,
                 significantDigits,
                 decimalDigits,
-                mustCompareZeroAndNonZeroOnly);
+                mustCompareZeroAndNonZeroOnly,
+                mustPlot);
 
         /// <summary> 2-part tuples with expected output values. </summary>
         public static void ExecuteTest(
@@ -160,7 +170,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             int? significantDigits = TestConstants.DEFAULT_SIGNIFICANT_DIGITS,
             int? decimalDigits = null,
-            bool mustCompareZeroAndNonZeroOnly = false)
+            bool mustCompareZeroAndNonZeroOnly = false,
+            bool mustPlot = false)
         {
             if (inputTuples == null) throw new ArgumentNullException(nameof(inputTuples));
 
@@ -172,7 +183,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 calculationEngineEnum,
                 significantDigits,
                 decimalDigits,
-                mustCompareZeroAndNonZeroOnly);
+                mustCompareZeroAndNonZeroOnly,
+                mustPlot);
         }
 
         /// <summary> N-dimensional tuples with expected output values. </summary>
@@ -184,7 +196,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CalculationEngineEnum calculationEngineEnum,
             int? significantDigits,
             int? decimalDigits,
-            bool mustCompareZeroAndNonZeroOnly)
+            bool mustCompareZeroAndNonZeroOnly,
+            bool mustPlot)
             => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
                 {
@@ -206,7 +219,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                             calculationEngineEnum,
                             significantDigits,
                             decimalDigits,
-                            mustCompareZeroAndNonZeroOnly);
+                            mustCompareZeroAndNonZeroOnly,
+                            mustPlot);
 
                         (IList<string> logMessages, IList<string> errorMessages) = testExecutor.ExecuteTest(
                             inputDimensionEnums,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Mathematics;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions.Comparative;
 
@@ -10,6 +11,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal static class MessageFormatter
     {
+        private const int PLOT_COLUMN_COUNT = 25;
+        private const int PLOT_LINE_COUNT = 5;
+
         public static string GetNote(int? significantDigits, int? decimalDigits, bool mustCompareZeroAndNonZeroOnly)
         {
             var sb = new StringBuilder();
@@ -128,6 +132,36 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             string pointDescriptor = $"Point [{i}]: ({concatenatedInputValues})";
             return pointDescriptor;
+        }
+
+        /// <summary>
+        /// Returns a plot in the form of text lines.
+        /// Only does so if there are any input dimensions.
+        /// </summary>
+        /// <param name="inputPoints">Only uses the first dimension</param>
+        public static IList<string> TryPlot(IList<double[]> inputPoints, IList<double> expectedOutputValues)
+        {
+            if (inputPoints == null) throw new ArgumentNullException(nameof(inputPoints));
+            if (expectedOutputValues == null) throw new ArgumentNullException(nameof(expectedOutputValues));
+
+            bool canPlot = GetCanPlot(inputPoints);
+
+            if (!canPlot)
+            {
+                return Array.Empty<string>();
+            }
+
+            IList<(double, double)> tuples = inputPoints.Select(x => x[0]).Zip(expectedOutputValues).ToArray();
+
+            IList<string> plotLines = TextPlotter.Plot(tuples, PLOT_COLUMN_COUNT, PLOT_LINE_COUNT);
+
+            return plotLines;
+        }
+
+        private static bool GetCanPlot(IList<double[]> inputPoints)
+        {
+            bool hasDimensions = inputPoints.Any(x => x.Length >= 1);
+            return hasDimensions;
         }
     }
 }

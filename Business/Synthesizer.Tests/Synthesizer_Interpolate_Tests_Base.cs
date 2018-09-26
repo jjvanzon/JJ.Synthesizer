@@ -33,7 +33,8 @@ namespace JJ.Business.Synthesizer.Tests
                 outputValues,
                 calculationEngineEnum,
                 significantDigits: null,
-                decimalDigits: 6);
+                decimalDigits: 6,
+                mustPlot: true);
         }
     }
 }
