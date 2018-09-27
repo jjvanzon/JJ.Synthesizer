@@ -63,6 +63,7 @@ namespace JJ.Business.Synthesizer.Tests
                 func,
                 TestConstants.DEFAULT_DIMENSION_ENUM,
                 _values,
-                calculationEngineEnum);
+                calculationEngineEnum,
+                new TestOptions(mustPlot: true));
     }
 }
