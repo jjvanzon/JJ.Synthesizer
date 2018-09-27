@@ -16,27 +16,18 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class OutletTester
     {
-        private readonly int? _decimalDigits;
-        private readonly int? _significantDigits;
-        private readonly bool _mustCompareZeroAndNonZeroOnly;
-        private readonly bool _mustPlot;
         private readonly IPatchCalculator _calculator;
+        private readonly TestOptions _testOptions;
 
         public OutletTester(
             Outlet outlet,
             PatchFacade patchFacade,
             CalculationEngineEnum calculationEngineEnum,
-            int? significantDigits,
-            int? decimalDigits,
-            bool mustCompareZeroAndNonZeroOnly,
-            bool mustPlot)
+            TestOptions testOptions)
         {
             if (patchFacade == null) throw new ArgumentNullException(nameof(patchFacade));
 
-            _decimalDigits = decimalDigits;
-            _significantDigits = significantDigits;
-            _mustCompareZeroAndNonZeroOnly = mustCompareZeroAndNonZeroOnly;
-            _mustPlot = mustPlot;
+            _testOptions = testOptions ?? throw new ArgumentNullException(nameof(testOptions));
             _calculator = patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache(), calculationEngineEnum);
         }
 
@@ -143,9 +134,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 }
             }
 
-            if (_mustPlot)
+            if (_testOptions.MustPlot)
             {
-                IList<string> expectedPlotLines = MessageFormatter.TryPlot(inputPoints, expectedOutputValues);
+                IList<string> expectedPlotLines = MessageFormatter.TryPlot(
+                    inputPoints,
+                    expectedOutputValues,
+                    _testOptions.OnlyUseOutputValuesForPlot);
+
                 if (expectedPlotLines.Any())
                 {
                     if (errorMessages.Any())
@@ -160,7 +155,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                 if (errorMessages.Any())
                 {
-                    IList<string> actualPlotLines = MessageFormatter.TryPlot(inputPoints, actualOutputValues);
+                    IList<string> actualPlotLines = MessageFormatter.TryPlot(
+                        inputPoints,
+                        actualOutputValues,
+                        _testOptions.OnlyUseOutputValuesForPlot);
 
                     if (actualPlotLines.Any())
                     {
@@ -181,14 +179,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             var output = (float)input;
 
-            if (_significantDigits.HasValue)
+            if (_testOptions.SignificantDigits.HasValue)
             {
-                output = MathHelper.RoundToSignificantDigits(output, _significantDigits.Value);
+                output = MathHelper.RoundToSignificantDigits(output, _testOptions.SignificantDigits.Value);
             }
 
-            if (_decimalDigits.HasValue)
+            if (_testOptions.DecimalDigits.HasValue)
             {
-                output = (float)Math.Round(output, _decimalDigits.Value);
+                output = (float)Math.Round(output, _testOptions.DecimalDigits.Value);
             }
 
             // Calculation engine will not output NaN.
@@ -197,7 +195,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 output = 0;
             }
 
-            if (_mustCompareZeroAndNonZeroOnly)
+            if (_testOptions.MustCompareZeroAndNonZeroOnly)
             {
                 if (output != 0)
                 {

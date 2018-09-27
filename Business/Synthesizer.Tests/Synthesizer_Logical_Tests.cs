@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests
                 DimensionEnum.B,
                 _values,
                 calculationEngineEnum,
-                mustCompareZeroAndNonZeroOnly: true);
+                new TestOptions(mustCompareZeroAndNonZeroOnly: true));
 
         private void ExecuteTest(string systemPatchName, Func<double, double> func, CalculationEngineEnum calculationEngineEnum)
             => TestExecutor.ExecuteTest(
@@ -88,6 +88,6 @@ namespace JJ.Business.Synthesizer.Tests
                 DimensionEnum.Number,
                 _values,
                 calculationEngineEnum,
-                mustCompareZeroAndNonZeroOnly: true);
+                new TestOptions(mustCompareZeroAndNonZeroOnly: true));
     }
 }

@@ -14,27 +14,29 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private const int MAX_PLOT_COLUMN_COUNT = 40;
         private const int PLOT_LINE_COUNT = 7;
 
-        public static string GetNote(int? significantDigits, int? decimalDigits, bool mustCompareZeroAndNonZeroOnly)
+        public static string GetNote(TestOptions testOptions)
         {
+            if (testOptions == null) throw new ArgumentNullException(nameof(testOptions));
+
             var sb = new StringBuilder();
             sb.Append("(Note: ");
 
-            if (significantDigits.HasValue || decimalDigits.HasValue)
+            if (testOptions.SignificantDigits.HasValue || testOptions.DecimalDigits.HasValue)
             {
                 sb.Append("Values are ");
             }
 
-            if (significantDigits.HasValue)
+            if (testOptions.SignificantDigits.HasValue)
             {
-                sb.Append($"tested for {significantDigits} significant digits, ");
+                sb.Append($"tested for {testOptions.SignificantDigits} significant digits, ");
             }
 
-            if (decimalDigits.HasValue)
+            if (testOptions.DecimalDigits.HasValue)
             {
-                sb.Append($"tested for {decimalDigits} decimal digits, ");
+                sb.Append($"tested for {testOptions.DecimalDigits} decimal digits, ");
             }
 
-            if (mustCompareZeroAndNonZeroOnly)
+            if (testOptions.MustCompareZeroAndNonZeroOnly)
             {
                 sb.Append("only compared for 0 and non-0, ");
             }
@@ -134,26 +136,34 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return pointDescriptor;
         }
 
-        /// <summary>
-        /// Returns a plot in the form of text lines.
-        /// Only does so if there are any input dimensions.
-        /// </summary>
+        public static IList<string> TryPlot(IList<double[]> inputPoints, IList<double> outputValues, bool onlyUseOutputValuesForPlot)
+        {
+            if (onlyUseOutputValuesForPlot)
+            {
+                return TryPlot(outputValues);
+            }
+            else
+            {
+                return TryPlot(inputPoints, outputValues);
+            }
+        }
+
+        /// <summary> Returns a plot in the form of text lines. Only does so if there are any input dimensions. </summary>
         /// <param name="inputPoints">Only uses the first dimension</param>
-        public static IList<string> TryPlot(IList<double[]> inputPoints, IList<double> expectedOutputValues)
+        private static IList<string> TryPlot(IList<double[]> inputPoints, IList<double> outputValues)
         {
             if (inputPoints == null) throw new ArgumentNullException(nameof(inputPoints));
-            if (expectedOutputValues == null) throw new ArgumentNullException(nameof(expectedOutputValues));
+            if (outputValues == null) throw new ArgumentNullException(nameof(outputValues));
 
-            bool canPlot = GetCanPlot(inputPoints);
-
-            if (!canPlot)
+            bool willPlot = WillPlot(inputPoints);
+            if (!willPlot)
             {
                 return Array.Empty<string>();
             }
 
-            IList<(double, double)> tuples = inputPoints.Select(x => x[0]).Zip(expectedOutputValues).ToArray();
+            IList<(double, double)> tuples = inputPoints.Select(x => x[0]).Zip(outputValues).ToArray();
 
-            int plotColumnCount = expectedOutputValues.Count;
+            int plotColumnCount = outputValues.Count;
             if (plotColumnCount > MAX_PLOT_COLUMN_COUNT)
             {
                 plotColumnCount = MAX_PLOT_COLUMN_COUNT;
@@ -164,7 +174,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return plotLines;
         }
 
-        private static bool GetCanPlot(IList<double[]> inputPoints)
+        private static bool WillPlot(IList<double[]> inputPoints)
         {
             bool hasMultiplePoints = inputPoints.Count > 1;
             if (!hasMultiplePoints)
@@ -175,6 +185,34 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             bool hasDimensions = inputPoints.Any(x => x.Length >= 1);
 
             return hasDimensions;
+        }
+
+        /// <summary> Returns a plot in the form of text lines. Only does so if there are any points. </summary>
+        private static IList<string> TryPlot(IList<double> outputValues)
+        {
+            if (outputValues == null) throw new ArgumentNullException(nameof(outputValues));
+
+            bool willPlot = WillPlot(outputValues);
+            if (!willPlot)
+            {
+                return Array.Empty<string>();
+            }
+
+            int plotColumnCount = outputValues.Count;
+            if (plotColumnCount > MAX_PLOT_COLUMN_COUNT)
+            {
+                plotColumnCount = MAX_PLOT_COLUMN_COUNT;
+            }
+
+            IList<string> plotLines = TextPlotter.Plot(outputValues, plotColumnCount, PLOT_LINE_COUNT);
+
+            return plotLines;
+        }
+
+        private static bool WillPlot(IList<double> outputValues)
+        {
+            bool hasMultipleValues = outputValues.Count > 1;
+            return hasMultipleValues;
         }
     }
 }

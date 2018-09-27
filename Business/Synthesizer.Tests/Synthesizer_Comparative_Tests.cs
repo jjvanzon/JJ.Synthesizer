@@ -90,6 +90,6 @@ namespace JJ.Business.Synthesizer.Tests
                 DimensionEnum.B,
                 _values,
                 calculationEngineEnum,
-                mustCompareZeroAndNonZeroOnly: true);
+                new TestOptions(mustCompareZeroAndNonZeroOnly: true));
     }
 }

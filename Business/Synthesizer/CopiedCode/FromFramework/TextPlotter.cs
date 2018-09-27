@@ -12,6 +12,20 @@ namespace JJ.Framework.Mathematics
         private const char EM_SPACE_CHARACTER = (char)8195;
 
         public static IList<string> Plot(
+            IList<double> yValues,
+            int columnCount,
+            int lineCount,
+            char plotChar = BLACK_SQUARE_CHAR,
+            char backgroundChar = EM_SPACE_CHARACTER)
+        {
+            IList<(double x, double y)> tuples = yValues.Select((y, i) => ((double)i, y)).ToArray();
+
+            IList<string> plot = Plot(tuples, columnCount, lineCount, plotChar, backgroundChar);
+
+            return plot;
+        }
+
+        public static IList<string> Plot(
             IList<(double x, double y)> points,
             int columnCount,
             int lineCount,
@@ -41,7 +55,7 @@ namespace JJ.Framework.Mathematics
             foreach ((double x, double y) in points)
             {
                 double columnDouble = MathHelper.ScaleLinearly(x, minX, maxX, 0, columnCount - 1);
-                double lineDouble = MathHelper.ScaleLinearly(y, minY, maxY, 0, lineCount - 1);
+                double lineDouble = MathHelper.ScaleLinearly(y, minY, maxY, lineCount - 1, 0);
 
                 if (DoubleHelper.IsSpecialValue(columnCount) ||
                     DoubleHelper.IsSpecialValue(lineDouble))

@@ -32,9 +32,7 @@ namespace JJ.Business.Synthesizer.Tests
                 inputTuples,
                 outputValues,
                 calculationEngineEnum,
-                significantDigits: null,
-                decimalDigits: 6,
-                mustPlot: true);
+                new TestOptions(significantDigits: null, decimalDigits: 6, mustPlot: true, onlyUseOutputValuesForPlot: true));
         }
     }
 }

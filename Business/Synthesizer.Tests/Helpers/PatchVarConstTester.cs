@@ -16,26 +16,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private readonly RepositoryWrapper _repositories;
         private readonly CalculationEngineEnum _calculationEngineEnum;
-        private readonly int? _significantDigits;
-        private readonly int? _decimalDigits;
-        private readonly bool _mustCompareZeroAndNonZeroOnly;
-        private readonly bool _mustPlot;
+        private readonly TestOptions _testOptions;
         private readonly SystemFacade _systemFacade;
         private readonly PatchFacade _patchFacade;
 
-        public PatchVarConstTester(
-            RepositoryWrapper repositories,
-            CalculationEngineEnum calculationEngineEnum,
-            int? significantDigits,
-            int? decimalDigits,
-            bool mustCompareZeroAndNonZeroOnly,
-            bool mustPlot)
+        public PatchVarConstTester(RepositoryWrapper repositories, CalculationEngineEnum calculationEngineEnum, TestOptions testOptions)
         {
             _calculationEngineEnum = calculationEngineEnum;
-            _significantDigits = significantDigits;
-            _decimalDigits = decimalDigits;
-            _mustCompareZeroAndNonZeroOnly = mustCompareZeroAndNonZeroOnly;
-            _mustPlot = mustPlot;
+            _testOptions = testOptions ?? throw new ArgumentNullException(nameof(testOptions));
             _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
             _systemFacade = new SystemFacade(repositories.DocumentRepository);
             _patchFacade = new PatchFacade(repositories);
@@ -89,14 +77,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 varConstReplacer.ReplaceVarsWithConstsIfNeeded(patch, consts);
 
                 // Execute test
-                var outletTester = new OutletTester(
-                    outlet,
-                    _patchFacade,
-                    _calculationEngineEnum,
-                    _significantDigits,
-                    _decimalDigits,
-                    _mustCompareZeroAndNonZeroOnly,
-                    _mustPlot);
+                var outletTester = new OutletTester(outlet, _patchFacade, _calculationEngineEnum, _testOptions);
 
                 (IList<string> logMessages2, IList<string> errorMessages2) =
                     outletTester.ExecuteTest(
