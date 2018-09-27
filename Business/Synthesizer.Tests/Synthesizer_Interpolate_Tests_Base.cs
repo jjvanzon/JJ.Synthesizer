@@ -13,7 +13,8 @@ namespace JJ.Business.Synthesizer.Tests
             InterpolationTypeEnum interpolationTypeEnum,
             FollowingModeEnum followingModeEnum,
             double rate,
-            IList<(double dimensionValue, double outputValue)> points)
+            IList<(double dimensionValue, double outputValue)> points,
+            int plotLineCount = 7)
         {
             // Transform this method's input into something the TestExecutor wants.
             IList<DimensionEnum> inputDimensionEnums = new[] { TestConstants.DEFAULT_DIMENSION_ENUM, DimensionEnum.Rate };
@@ -32,7 +33,7 @@ namespace JJ.Business.Synthesizer.Tests
                 inputTuples,
                 outputValues,
                 calculationEngineEnum,
-                new TestOptions(significantDigits: null, decimalDigits: 6, mustPlot: true, onlyUseOutputValuesForPlot: true));
+                new TestOptions(significantDigits: null, decimalDigits: 6, mustPlot: true, onlyUseOutputValuesForPlot: true, plotLineCount: plotLineCount));
         }
     }
 }

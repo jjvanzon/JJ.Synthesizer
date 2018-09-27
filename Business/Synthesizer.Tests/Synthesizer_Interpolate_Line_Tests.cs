@@ -125,15 +125,25 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_Synthesizer_Interpolate_Line_LagBehind_Forward(
             CalculationEngineEnum calculationEngineEnum)
         {
-            const double y0 = 0;
-            const double y1 = -MathHelper.SQRT_2 / 2.0;
-            const double y2 = -1;
-            const double y3 = -MathHelper.SQRT_2 / 2.0;
-            const double y4 = 0;
-            const double y5 = MathHelper.SQRT_2 / 2.0;
-            const double y6 = 1;
-            const double y7 = MathHelper.SQRT_2 / 2.0;
-            const double y8 = 0;
+            //double y0 = Math.Sin(Math.PI * -12 / 12);
+            //double y1 = Math.Sin(Math.PI * -10 / 12);
+            //double y2 = Math.Sin(Math.PI * -07 / 12);
+            //double y3 = Math.Sin(Math.PI * -04 / 12);
+            //double y4 = Math.Sin(Math.PI * -01 / 12);
+            //double y5 = Math.Sin(Math.PI * 02 / 12);
+            //double y6 = Math.Sin(Math.PI * 05 / 12);
+            //double y7 = Math.Sin(Math.PI * 08 / 12);
+            //double y8 = Math.Sin(Math.PI * 11 / 12);
+
+            double y0 = Math.Sin(Math.PI * -12 / 12);
+            double y1 = Math.Sin(Math.PI * -09 / 12);
+            double y2 = Math.Sin(Math.PI * -06 / 12);
+            double y3 = Math.Sin(Math.PI * -03 / 12);
+            double y4 = Math.Sin(Math.PI * 00 / 12);
+            double y5 = Math.Sin(Math.PI * 03 / 12);
+            double y6 = Math.Sin(Math.PI * 06 / 12);
+            double y7 = Math.Sin(Math.PI * 09 / 12);
+            double y8 = Math.Sin(Math.PI * 12 / 12);
 
             Test_Synthesizer_Interpolate_Base(
                 calculationEngineEnum,
@@ -167,7 +177,7 @@ namespace JJ.Business.Synthesizer.Tests
                     (Math.PI * 10 / 12, (2 * y7 + y8) / 3),
                     (Math.PI * 11 / 12, (y7 + 2 * y8) / 3),
                     (Math.PI * 12 / 12, y8)
-                });
+                }, plotLineCount: 25);
         }
     }
 }

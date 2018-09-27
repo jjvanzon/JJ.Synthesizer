@@ -139,6 +139,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 IList<string> expectedPlotLines = MessageFormatter.TryPlot(
                     inputPoints,
                     expectedOutputValues,
+                    _testOptions.PlotLineCount,
                     _testOptions.OnlyUseOutputValuesForPlot);
 
                 if (expectedPlotLines.Any())
@@ -158,6 +159,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     IList<string> actualPlotLines = MessageFormatter.TryPlot(
                         inputPoints,
                         actualOutputValues,
+                        _testOptions.PlotLineCount,
                         _testOptions.OnlyUseOutputValuesForPlot);
 
                     if (actualPlotLines.Any())

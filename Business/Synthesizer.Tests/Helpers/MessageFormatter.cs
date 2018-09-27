@@ -12,7 +12,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     internal static class MessageFormatter
     {
         private const int MAX_PLOT_COLUMN_COUNT = 40;
-        private const int PLOT_LINE_COUNT = 7;
 
         public static string GetNote(TestOptions testOptions)
         {
@@ -136,21 +135,21 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return pointDescriptor;
         }
 
-        public static IList<string> TryPlot(IList<double[]> inputPoints, IList<double> outputValues, bool onlyUseOutputValuesForPlot)
+        public static IList<string> TryPlot(IList<double[]> inputPoints, IList<double> outputValues, int plotLineCount, bool onlyUseOutputValuesForPlot)
         {
             if (onlyUseOutputValuesForPlot)
             {
-                return TryPlot(outputValues);
+                return TryPlot(outputValues, plotLineCount);
             }
             else
             {
-                return TryPlot(inputPoints, outputValues);
+                return TryPlot(inputPoints, outputValues, plotLineCount);
             }
         }
 
         /// <summary> Returns a plot in the form of text lines. Only does so if there are any input dimensions. </summary>
         /// <param name="inputPoints">Only uses the first dimension</param>
-        private static IList<string> TryPlot(IList<double[]> inputPoints, IList<double> outputValues)
+        private static IList<string> TryPlot(IList<double[]> inputPoints, IList<double> outputValues, int plotLineCount)
         {
             if (inputPoints == null) throw new ArgumentNullException(nameof(inputPoints));
             if (outputValues == null) throw new ArgumentNullException(nameof(outputValues));
@@ -169,7 +168,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 plotColumnCount = MAX_PLOT_COLUMN_COUNT;
             }
 
-            IList<string> plotLines = TextPlotter.Plot(tuples, plotColumnCount, PLOT_LINE_COUNT);
+            IList<string> plotLines = TextPlotter.Plot(tuples, plotColumnCount, plotLineCount);
 
             return plotLines;
         }
@@ -188,7 +187,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         }
 
         /// <summary> Returns a plot in the form of text lines. Only does so if there are any points. </summary>
-        private static IList<string> TryPlot(IList<double> outputValues)
+        private static IList<string> TryPlot(IList<double> outputValues, int plotLineCount)
         {
             if (outputValues == null) throw new ArgumentNullException(nameof(outputValues));
 
@@ -204,7 +203,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 plotColumnCount = MAX_PLOT_COLUMN_COUNT;
             }
 
-            IList<string> plotLines = TextPlotter.Plot(outputValues, plotColumnCount, PLOT_LINE_COUNT);
+            IList<string> plotLines = TextPlotter.Plot(outputValues, plotColumnCount, plotLineCount);
 
             return plotLines;
         }
