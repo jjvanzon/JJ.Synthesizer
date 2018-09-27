@@ -122,7 +122,8 @@ namespace JJ.Business.Synthesizer.Tests
                 func,
                 TestConstants.DEFAULT_DIMENSION_ENUM,
                 _valuesFrom0To2Pi,
-                calculationEngineEnum);
+                calculationEngineEnum,
+                mustPlot: true);
 
         private void ExecuteTest_FromMinus1To1(string systemPatchName, Func<double, double> func, CalculationEngineEnum calculationEngineEnum)
             => TestExecutor.ExecuteTest(
@@ -130,6 +131,7 @@ namespace JJ.Business.Synthesizer.Tests
                 func,
                 TestConstants.DEFAULT_DIMENSION_ENUM,
                 _valuesFromMinus1To1,
-                calculationEngineEnum);
+                calculationEngineEnum,
+                mustPlot: true);
     }
 }

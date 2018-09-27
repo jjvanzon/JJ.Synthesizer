@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Collections;
+using JJ.Framework.Common;
 
 namespace JJ.Framework.Mathematics
 {
     public static class TextPlotter
     {
         private const char BLACK_SQUARE_CHAR = (char)9632;
-        private const char WHITE_SQUARE_CHAR = (char)9633;
         private const char EM_SPACE_CHARACTER = (char)8195;
-        private const char EM_DASH_CHARACTER = '—';
 
         public static IList<string> Plot(
             IList<(double x, double y)> points,
@@ -32,9 +31,6 @@ namespace JJ.Framework.Mathematics
                 maxY = points.MaxOrDefault(point => point.y);
             }
 
-            //double[] doublesOverColumns = MathHelper.SpreadDoubles(minX, maxX, columnCount);
-            //double[] doublesOverLines = MathHelper.SpreadDoubles(minY, maxY, lineCount);
-
             var charArray = new char[lineCount][];
 
             for (var i = 0; i < lineCount; i++)
@@ -46,6 +42,12 @@ namespace JJ.Framework.Mathematics
             {
                 double columnDouble = MathHelper.ScaleLinearly(x, minX, maxX, 0, columnCount - 1);
                 double lineDouble = MathHelper.ScaleLinearly(y, minY, maxY, 0, lineCount - 1);
+
+                if (DoubleHelper.IsSpecialValue(columnCount) ||
+                    DoubleHelper.IsSpecialValue(lineDouble))
+                {
+                    continue;
+                }
 
                 var columnInteger = (int)Math.Round(columnDouble, MidpointRounding.AwayFromZero);
                 var lineInteger = (int)Math.Round(lineDouble, MidpointRounding.AwayFromZero);

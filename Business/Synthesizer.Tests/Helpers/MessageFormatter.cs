@@ -11,8 +11,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal static class MessageFormatter
     {
-        private const int PLOT_COLUMN_COUNT = 25;
-        private const int PLOT_LINE_COUNT = 5;
+        private const int MAX_PLOT_COLUMN_COUNT = 40;
+        private const int PLOT_LINE_COUNT = 7;
 
         public static string GetNote(int? significantDigits, int? decimalDigits, bool mustCompareZeroAndNonZeroOnly)
         {
@@ -153,14 +153,27 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             IList<(double, double)> tuples = inputPoints.Select(x => x[0]).Zip(expectedOutputValues).ToArray();
 
-            IList<string> plotLines = TextPlotter.Plot(tuples, PLOT_COLUMN_COUNT, PLOT_LINE_COUNT);
+            int plotColumnCount = expectedOutputValues.Count;
+            if (plotColumnCount > MAX_PLOT_COLUMN_COUNT)
+            {
+                plotColumnCount = MAX_PLOT_COLUMN_COUNT;
+            }
+
+            IList<string> plotLines = TextPlotter.Plot(tuples, plotColumnCount, PLOT_LINE_COUNT);
 
             return plotLines;
         }
 
         private static bool GetCanPlot(IList<double[]> inputPoints)
         {
+            bool hasMultiplePoints = inputPoints.Count > 1;
+            if (!hasMultiplePoints)
+            {
+                return false;
+            }
+
             bool hasDimensions = inputPoints.Any(x => x.Length >= 1);
+
             return hasDimensions;
         }
     }
