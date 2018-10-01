@@ -25,37 +25,37 @@ namespace JJ.Business.Synthesizer.Tests
                 slowRate: 4.0 / Math.PI,
                 new[]
                 {
-                    (Math.PI * -12 / 12, Math.Sin(Math.PI * -12 / 12)),
-                    (Math.PI * -11 / 12, Math.Sin(Math.PI * -12 / 12)),
-                    (Math.PI * -10 / 12, Math.Sin(Math.PI * -9 / 12)),
-                    (Math.PI * -09 / 12, Math.Sin(Math.PI * -9 / 12)),
-                    (Math.PI * -08 / 12, Math.Sin(Math.PI * -9 / 12)),
-                    (Math.PI * -07 / 12, Math.Sin(Math.PI * -6 / 12)),
-                    (Math.PI * -06 / 12, Math.Sin(Math.PI * -6 / 12)),
-                    (Math.PI * -05 / 12, Math.Sin(Math.PI * -6 / 12)),
-                    (Math.PI * -04 / 12, Math.Sin(Math.PI * -3 / 12)),
-                    (Math.PI * -03 / 12, Math.Sin(Math.PI * -3 / 12)),
-                    (Math.PI * -02 / 12, Math.Sin(Math.PI * -3 / 12)),
-                    (Math.PI * -01 / 12, Math.Sin(Math.PI * 0 / 12)),
-                    (Math.PI * 00 / 12, Math.Sin(Math.PI * 0 / 12)),
-                    (Math.PI * 01 / 12, Math.Sin(Math.PI * 0 / 12)),
-                    (Math.PI * 02 / 12, Math.Sin(Math.PI * 3 / 12)),
-                    (Math.PI * 03 / 12, Math.Sin(Math.PI * 3 / 12)),
-                    (Math.PI * 04 / 12, Math.Sin(Math.PI * 3 / 12)),
-                    (Math.PI * 05 / 12, Math.Sin(Math.PI * 6 / 12)),
-                    (Math.PI * 06 / 12, Math.Sin(Math.PI * 6 / 12)),
-                    (Math.PI * 07 / 12, Math.Sin(Math.PI * 6 / 12)),
-                    (Math.PI * 08 / 12, Math.Sin(Math.PI * 9 / 12)),
-                    (Math.PI * 09 / 12, Math.Sin(Math.PI * 9 / 12)),
-                    (Math.PI * 10 / 12, Math.Sin(Math.PI * 9 / 12)),
+                    (Math.PI * -09 / 12, Math.Sin(Math.PI * -09 / 12)),
+                    (Math.PI * -08 / 12, Math.Sin(Math.PI * -09 / 12)),
+                    (Math.PI * -07 / 12, Math.Sin(Math.PI * -06 / 12)),
+                    (Math.PI * -06 / 12, Math.Sin(Math.PI * -06 / 12)),
+                    (Math.PI * -05 / 12, Math.Sin(Math.PI * -06 / 12)),
+                    (Math.PI * -04 / 12, Math.Sin(Math.PI * -03 / 12)),
+                    (Math.PI * -03 / 12, Math.Sin(Math.PI * -03 / 12)),
+                    (Math.PI * -02 / 12, Math.Sin(Math.PI * -03 / 12)),
+                    (Math.PI * -01 / 12, Math.Sin(Math.PI * 00 / 12)),
+                    (Math.PI * 00 / 12, Math.Sin(Math.PI * 00 / 12)),
+                    (Math.PI * 01 / 12, Math.Sin(Math.PI * 00 / 12)),
+                    (Math.PI * 02 / 12, Math.Sin(Math.PI * 03 / 12)),
+                    (Math.PI * 03 / 12, Math.Sin(Math.PI * 03 / 12)),
+                    (Math.PI * 04 / 12, Math.Sin(Math.PI * 03 / 12)),
+                    (Math.PI * 05 / 12, Math.Sin(Math.PI * 06 / 12)),
+                    (Math.PI * 06 / 12, Math.Sin(Math.PI * 06 / 12)),
+                    (Math.PI * 07 / 12, Math.Sin(Math.PI * 06 / 12)),
+                    (Math.PI * 08 / 12, Math.Sin(Math.PI * 09 / 12)),
+                    (Math.PI * 09 / 12, Math.Sin(Math.PI * 09 / 12)),
+                    (Math.PI * 10 / 12, Math.Sin(Math.PI * 09 / 12)),
                     (Math.PI * 11 / 12, Math.Sin(Math.PI * 12 / 12)),
-                    (Math.PI * 12 / 12, Math.Sin(Math.PI * 12 / 12))
+                    (Math.PI * 12 / 12, Math.Sin(Math.PI * 12 / 12)),
+                    (Math.PI * 13 / 12, Math.Sin(Math.PI * 12 / 12)),
+                    (Math.PI * 14 / 12, Math.Sin(Math.PI * 15 / 12)),
+                    (Math.PI * 15 / 12, Math.Sin(Math.PI * 15 / 12))
                 });
 
         // LookAhead Backward
 
         [TestMethod]
-        public void Test_Synthesizer_Interpolate_Stripe_LookAhead_Backward_StartPositionPositive()
+        public void Test_Synthesizer_Interpolate_Stripe_LookAhead_Backward()
             => Test_Synthesizer_Interpolate_Stripe_LookAhead_Backward(CalculationEngineEnum.CalculatorClasses);
 
         private void Test_Synthesizer_Interpolate_Stripe_LookAhead_Backward(CalculationEngineEnum calculationEngineEnum)
@@ -66,6 +66,9 @@ namespace JJ.Business.Synthesizer.Tests
                 slowRate: 4.0 / Math.PI,
                 new[]
                 {
+                    (Math.PI * 09 / 12, Math.Sin(Math.PI * 9 / 12)),
+                    (Math.PI * 08 / 12, Math.Sin(Math.PI * 9 / 12)),
+                    (Math.PI * 07 / 12, Math.Sin(Math.PI * 6 / 12)),
                     (Math.PI * 06 / 12, Math.Sin(Math.PI * 6 / 12)),
                     (Math.PI * 05 / 12, Math.Sin(Math.PI * 6 / 12)),
                     (Math.PI * 04 / 12, Math.Sin(Math.PI * 3 / 12)),
@@ -87,10 +90,7 @@ namespace JJ.Business.Synthesizer.Tests
                     (Math.PI * -12 / 12, Math.Sin(Math.PI * -12 / 12)),
                     (Math.PI * -13 / 12, Math.Sin(Math.PI * -12 / 12)),
                     (Math.PI * -14 / 12, Math.Sin(Math.PI * -15 / 12)),
-                    (Math.PI * -15 / 12, Math.Sin(Math.PI * -15 / 12)),
-                    (Math.PI * -16 / 12, Math.Sin(Math.PI * -15 / 12)),
-                    (Math.PI * -17 / 12, Math.Sin(Math.PI * -18 / 12)),
-                    (Math.PI * -18 / 12, Math.Sin(Math.PI * -18 / 12))
+                    (Math.PI * -15 / 12, Math.Sin(Math.PI * -15 / 12))
                 });
 
         // LagBehind Forward
@@ -107,31 +107,31 @@ namespace JJ.Business.Synthesizer.Tests
                 4.0 / Math.PI,
                 new[]
                 {
-                    (Math.PI * -12 / 12, Math.Sin(Math.PI * -12 / 12)),
-                    (Math.PI * -11 / 12, Math.Sin(Math.PI * -12 / 12)),
-                    (Math.PI * -10 / 12, Math.Sin(Math.PI * -10 / 12)),
-                    (Math.PI * -09 / 12, Math.Sin(Math.PI * -10 / 12)),
-                    (Math.PI * -08 / 12, Math.Sin(Math.PI * -10 / 12)),
-                    (Math.PI * -07 / 12, Math.Sin(Math.PI * -07 / 12)),
-                    (Math.PI * -06 / 12, Math.Sin(Math.PI * -07 / 12)),
-                    (Math.PI * -05 / 12, Math.Sin(Math.PI * -07 / 12)),
-                    (Math.PI * -04 / 12, Math.Sin(Math.PI * -04 / 12)),
-                    (Math.PI * -03 / 12, Math.Sin(Math.PI * -04 / 12)),
-                    (Math.PI * -02 / 12, Math.Sin(Math.PI * -04 / 12)),
-                    (Math.PI * -01 / 12, Math.Sin(Math.PI * -01 / 12)),
-                    (Math.PI * 00 / 12, Math.Sin(Math.PI * -01 / 12)),
-                    (Math.PI * 01 / 12, Math.Sin(Math.PI * -01 / 12)),
-                    (Math.PI * 02 / 12, Math.Sin(Math.PI * 02 / 12)),
-                    (Math.PI * 03 / 12, Math.Sin(Math.PI * 02 / 12)),
-                    (Math.PI * 04 / 12, Math.Sin(Math.PI * 02 / 12)),
-                    (Math.PI * 05 / 12, Math.Sin(Math.PI * 05 / 12)),
-                    (Math.PI * 06 / 12, Math.Sin(Math.PI * 05 / 12)),
-                    (Math.PI * 07 / 12, Math.Sin(Math.PI * 05 / 12)),
-                    (Math.PI * 08 / 12, Math.Sin(Math.PI * 08 / 12)),
-                    (Math.PI * 09 / 12, Math.Sin(Math.PI * 08 / 12)),
-                    (Math.PI * 10 / 12, Math.Sin(Math.PI * 08 / 12)),
+                    (Math.PI * -09 / 12, Math.Sin(Math.PI * -9 / 12)),
+                    (Math.PI * -08 / 12, Math.Sin(Math.PI * -9 / 12)),
+                    (Math.PI * -07 / 12, Math.Sin(Math.PI * -7 / 12)),
+                    (Math.PI * -06 / 12, Math.Sin(Math.PI * -7 / 12)),
+                    (Math.PI * -05 / 12, Math.Sin(Math.PI * -7 / 12)),
+                    (Math.PI * -04 / 12, Math.Sin(Math.PI * -4 / 12)),
+                    (Math.PI * -03 / 12, Math.Sin(Math.PI * -4 / 12)),
+                    (Math.PI * -02 / 12, Math.Sin(Math.PI * -4 / 12)),
+                    (Math.PI * -01 / 12, Math.Sin(Math.PI * -1 / 12)),
+                    (Math.PI * 00 / 12, Math.Sin(Math.PI * -1 / 12)),
+                    (Math.PI * 01 / 12, Math.Sin(Math.PI * -1 / 12)),
+                    (Math.PI * 02 / 12, Math.Sin(Math.PI * 2 / 12)),
+                    (Math.PI * 03 / 12, Math.Sin(Math.PI * 2 / 12)),
+                    (Math.PI * 04 / 12, Math.Sin(Math.PI * 2 / 12)),
+                    (Math.PI * 05 / 12, Math.Sin(Math.PI * 5 / 12)),
+                    (Math.PI * 06 / 12, Math.Sin(Math.PI * 5 / 12)),
+                    (Math.PI * 07 / 12, Math.Sin(Math.PI * 5 / 12)),
+                    (Math.PI * 08 / 12, Math.Sin(Math.PI * 8 / 12)),
+                    (Math.PI * 09 / 12, Math.Sin(Math.PI * 8 / 12)),
+                    (Math.PI * 10 / 12, Math.Sin(Math.PI * 8 / 12)),
                     (Math.PI * 11 / 12, Math.Sin(Math.PI * 11 / 12)),
-                    (Math.PI * 12 / 12, Math.Sin(Math.PI * 11 / 12))
+                    (Math.PI * 12 / 12, Math.Sin(Math.PI * 11 / 12)),
+                    (Math.PI * 13 / 12, Math.Sin(Math.PI * 11 / 12)),
+                    (Math.PI * 14 / 12, Math.Sin(Math.PI * 14 / 12)),
+                    (Math.PI * 15 / 12, Math.Sin(Math.PI * 14 / 12))
                 });
 
         // LagBehind Backward
@@ -148,8 +148,11 @@ namespace JJ.Business.Synthesizer.Tests
                 slowRate: 4.0 / Math.PI,
                 new[]
                 {
-                    (Math.PI * 06 / 12, Math.Sin(Math.PI * 06 / 12)),
-                    (Math.PI * 05 / 12, Math.Sin(Math.PI * 06 / 12)),
+                    (Math.PI * 09 / 12, Math.Sin(Math.PI * 09 / 12)),
+                    (Math.PI * 08 / 12, Math.Sin(Math.PI * 09 / 12)),
+                    (Math.PI * 07 / 12, Math.Sin(Math.PI * 07 / 12)),
+                    (Math.PI * 06 / 12, Math.Sin(Math.PI * 07 / 12)),
+                    (Math.PI * 05 / 12, Math.Sin(Math.PI * 07 / 12)),
                     (Math.PI * 04 / 12, Math.Sin(Math.PI * 04 / 12)),
                     (Math.PI * 03 / 12, Math.Sin(Math.PI * 04 / 12)),
                     (Math.PI * 02 / 12, Math.Sin(Math.PI * 04 / 12)),
@@ -169,10 +172,7 @@ namespace JJ.Business.Synthesizer.Tests
                     (Math.PI * -12 / 12, Math.Sin(Math.PI * -11 / 12)),
                     (Math.PI * -13 / 12, Math.Sin(Math.PI * -11 / 12)),
                     (Math.PI * -14 / 12, Math.Sin(Math.PI * -14 / 12)),
-                    (Math.PI * -15 / 12, Math.Sin(Math.PI * -14 / 12)),
-                    (Math.PI * -16 / 12, Math.Sin(Math.PI * -14 / 12)),
-                    (Math.PI * -17 / 12, Math.Sin(Math.PI * -17 / 12)),
-                    (Math.PI * -18 / 12, Math.Sin(Math.PI * -17 / 12))
+                    (Math.PI * -15 / 12, Math.Sin(Math.PI * -14 / 12))
                 });
     }
 }
