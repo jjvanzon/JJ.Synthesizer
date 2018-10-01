@@ -12,13 +12,13 @@ namespace JJ.Business.Synthesizer.Tests
             CalculationEngineEnum calculationEngineEnum,
             InterpolationTypeEnum interpolationTypeEnum,
             FollowingModeEnum followingModeEnum,
-            double rate,
+            double slowRate,
             IList<(double dimensionValue, double outputValue)> points,
             int plotLineCount = 7)
         {
             // Transform this method's input into something the TestExecutor wants.
             IList<DimensionEnum> inputDimensionEnums = new[] { TestConstants.DEFAULT_DIMENSION_ENUM, DimensionEnum.Rate };
-            IList<(double, double)> inputTuples = points.Select(point => (point.dimensionValue, rate)).ToArray();
+            IList<(double, double)> inputTuples = points.Select(point => (point.dimensionValue, slowRate)).ToArray();
             IList<double> outputValues = points.Select(point => point.outputValue).ToArray();
 
             TestExecutor.ExecuteTest(

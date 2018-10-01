@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests
                 calculationEngineEnum,
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LookAhead,
-                rate: 4.0 / Math.PI,
+                slowRate: 4.0 / Math.PI,
                 new[]
                 {
                     (Math.PI * 00 / 12, 0.0),
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Tests
                 calculationEngineEnum,
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LookAhead,
-                rate: 4.0 / Math.PI,
+                slowRate: 4.0 / Math.PI,
                 new[]
                 {
                     (Math.PI * -12 / 12, 0.0),
@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Tests
                 calculationEngineEnum,
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LookAhead,
-                rate: 4.0 / Math.PI,
+                slowRate: 4.0 / Math.PI,
                 new[]
                 {
                     (Math.PI * 06 / 12, 1.0),
@@ -233,7 +233,7 @@ namespace JJ.Business.Synthesizer.Tests
                 calculationEngineEnum,
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LagBehind,
-                rate: 4.0 / Math.PI,
+                slowRate: 4.0 / Math.PI,
                 new[]
                 {
                     (Math.PI * 06 / 12, Math.Sin(Math.PI * 06 / 12)),
@@ -275,7 +275,7 @@ namespace JJ.Business.Synthesizer.Tests
                 calculationEngineEnum,
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LookAhead,
-                rate: 4.0 / Math.PI,
+                slowRate: 4.0 / Math.PI,
                 new[]
                 {
                     (Math.PI * 00 / 12, 0.0),
@@ -317,7 +317,7 @@ namespace JJ.Business.Synthesizer.Tests
                 calculationEngineEnum,
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LookAhead,
-                rate: 4.0 / Math.PI,
+                slowRate: 4.0 / Math.PI,
                 new[]
                 {
                     (Math.PI * -06 / 12, -1.0),
@@ -359,7 +359,7 @@ namespace JJ.Business.Synthesizer.Tests
                 calculationEngineEnum,
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LookAhead,
-                rate: 4.0 / Math.PI,
+                slowRate: 4.0 / Math.PI,
                 new[]
                 {
                     (Math.PI * 06 / 12, 1.0),
@@ -485,7 +485,7 @@ namespace JJ.Business.Synthesizer.Tests
                 calculationEngineEnum,
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LagBehind,
-                rate: 4.0 / Math.PI,
+                slowRate: 4.0 / Math.PI,
                 new[]
                 {
                     (Math.PI * 06 / 12, Math.Sin(Math.PI * 06 / 12)),

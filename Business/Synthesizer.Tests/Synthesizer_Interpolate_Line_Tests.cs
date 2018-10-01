@@ -1,6 +1,5 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Mathematics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // ReSharper disable UnusedVariable
@@ -20,21 +19,21 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_Synthesizer_Interpolate_Line_LookAhead_Forward(CalculationEngineEnum calculationEngineEnum)
         {
-            const double y0 = 0;
-            const double y1 = -MathHelper.SQRT_2 / 2.0;
-            const double y2 = -1;
-            const double y3 = -MathHelper.SQRT_2 / 2.0;
-            const double y4 = 0;
-            const double y5 = MathHelper.SQRT_2 / 2.0;
-            const double y6 = 1;
-            const double y7 = MathHelper.SQRT_2 / 2.0;
-            const double y8 = 0;
+            double y0 = Math.Sin(Math.PI * -12 / 12);
+            double y1 = Math.Sin(Math.PI * -9 / 12);
+            double y2 = Math.Sin(Math.PI * -6 / 12);
+            double y3 = Math.Sin(Math.PI * -3 / 12);
+            double y4 = Math.Sin(Math.PI * -0 / 12);
+            double y5 = Math.Sin(Math.PI * 3 / 12);
+            double y6 = Math.Sin(Math.PI * 6 / 12);
+            double y7 = Math.Sin(Math.PI * 9 / 12);
+            double y8 = Math.Sin(Math.PI * 12 / 12);
 
             Test_Synthesizer_Interpolate_Base(
                 calculationEngineEnum,
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LookAhead,
-                rate: 4.0 / Math.PI,
+                slowRate: 4.0 / Math.PI,
                 new[]
                 {
                     (Math.PI * -12 / 12, y0),
@@ -71,21 +70,21 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_Synthesizer_Interpolate_Line_LookAhead_Backward(CalculationEngineEnum calculationEngineEnum)
         {
-            const double y0 = 0;
-            const double y1 = MathHelper.SQRT_2 / 2.0;
-            const double y2 = 1;
-            const double y3 = MathHelper.SQRT_2 / 2.0;
-            const double y4 = 0;
-            const double y5 = -MathHelper.SQRT_2 / 2.0;
-            const double y6 = -1;
-            const double y7 = -MathHelper.SQRT_2 / 2.0;
-            const double y8 = 0;
+            double y0 = Math.Sin(Math.PI * 12 / 12);
+            double y1 = Math.Sin(Math.PI * 9 / 12);
+            double y2 = Math.Sin(Math.PI * 6 / 12);
+            double y3 = Math.Sin(Math.PI * 3 / 12);
+            double y4 = Math.Sin(Math.PI * 0 / 12);
+            double y5 = Math.Sin(Math.PI * -3 / 12);
+            double y6 = Math.Sin(Math.PI * -6 / 12);
+            double y7 = Math.Sin(Math.PI * -9 / 12);
+            double y8 = Math.Sin(Math.PI * -12 / 12);
 
             Test_Synthesizer_Interpolate_Base(
                 calculationEngineEnum,
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LookAhead,
-                rate: 4.0 / Math.PI,
+                slowRate: 4.0 / Math.PI,
                 new[]
                 {
                     (Math.PI * 12 / 12, y0),
@@ -125,21 +124,21 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_Synthesizer_Interpolate_Line_LagBehind_Forward(
             CalculationEngineEnum calculationEngineEnum)
         {
-            double y0 = Math.Sin(MathHelper.TWO_PI * -12 / 24);
-            double y1 = Math.Sin(MathHelper.TWO_PI * -11 / 24);
-            double y2 = Math.Sin(MathHelper.TWO_PI * -8 / 24);
-            double y3 = Math.Sin(MathHelper.TWO_PI * -5 / 24);
-            double y4 = Math.Sin(MathHelper.TWO_PI * -2 / 24);
-            double y5 = Math.Sin(MathHelper.TWO_PI * 1 / 24);
-            double y6 = Math.Sin(MathHelper.TWO_PI * 4 / 24);
-            double y7 = Math.Sin(MathHelper.TWO_PI * 7 / 24);
-            double y8 = Math.Sin(MathHelper.TWO_PI * 10 / 24);
+            double y0 = Math.Sin(Math.PI * -12 / 12);
+            double y1 = Math.Sin(Math.PI * -11 / 12);
+            double y2 = Math.Sin(Math.PI * -8 / 12);
+            double y3 = Math.Sin(Math.PI * -5 / 12);
+            double y4 = Math.Sin(Math.PI * -2 / 12);
+            double y5 = Math.Sin(Math.PI * 1 / 12);
+            double y6 = Math.Sin(Math.PI * 4 / 12);
+            double y7 = Math.Sin(Math.PI * 7 / 12);
+            double y8 = Math.Sin(Math.PI * 10 / 12);
 
             Test_Synthesizer_Interpolate_Base(
                 calculationEngineEnum,
                 InterpolationTypeEnum.Line,
                 FollowingModeEnum.LagBehind,
-                rate: 4.0 / Math.PI,
+                slowRate: 4.0 / Math.PI,
                 new[]
                 {
                     (Math.PI * -12 / 12, y0),
