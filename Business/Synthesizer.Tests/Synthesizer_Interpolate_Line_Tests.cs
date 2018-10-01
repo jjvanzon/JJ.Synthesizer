@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class Synthesizer_Interpolate_Line_Tests : Synthesizer_Interpolate_Tests_Base
     {
-        // LookAhead
+        // LookAhead Forward
 
         [TestMethod]
         public void Test_Synthesizer_Interpolate_Line_LookAhead_Forward_WithCalculatorClasses()
@@ -64,6 +64,8 @@ namespace JJ.Business.Synthesizer.Tests
                 });
         }
 
+        // LookAhead Backward
+
         [TestMethod]
         public void Test_Synthesizer_Interpolate_Line_LookAhead_Backward_WithCalculatorClasses()
             => Test_Synthesizer_Interpolate_Line_LookAhead_Backward(CalculationEngineEnum.CalculatorClasses);
@@ -115,14 +117,13 @@ namespace JJ.Business.Synthesizer.Tests
                 });
         }
 
-        // LagBehind
+        // LagBehind Forward
 
         [TestMethod]
         public void Test_Synthesizer_Interpolate_Line_LagBehind_Forward_WithCalculatorClasses()
             => Test_Synthesizer_Interpolate_Line_LagBehind_Forward(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Interpolate_Line_LagBehind_Forward(
-            CalculationEngineEnum calculationEngineEnum)
+        private void Test_Synthesizer_Interpolate_Line_LagBehind_Forward(CalculationEngineEnum calculationEngineEnum)
         {
             double y0 = Math.Sin(Math.PI * -12 / 12);
             double y1 = Math.Sin(Math.PI * -11 / 12);

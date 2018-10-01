@@ -17,8 +17,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Interpolate_Stripe_LookAhead_Forward_WithCalculatorClasses()
             => Test_Synthesizer_Interpolate_Stripe_LookAhead_Forward(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Interpolate_Stripe_LookAhead_Forward(
-            CalculationEngineEnum calculationEngineEnum)
+        private void Test_Synthesizer_Interpolate_Stripe_LookAhead_Forward(CalculationEngineEnum calculationEngineEnum)
             => Test_Synthesizer_Interpolate_Base(
                 calculationEngineEnum,
                 InterpolationTypeEnum.Stripe,
@@ -53,56 +52,13 @@ namespace JJ.Business.Synthesizer.Tests
                     (Math.PI * 12 / 12, Math.Sin(Math.PI * 12 / 12))
                 });
 
-        // LagBehind Forward
-
-        [TestMethod]
-        public void Test_Synthesizer_Interpolate_Stripe_LagBehind_Forward_WithCalculatorClasses()
-            => Test_Synthesizer_Interpolate_Stripe_LagBehind_Forward(CalculationEngineEnum.CalculatorClasses);
-
-        private void Test_Synthesizer_Interpolate_Stripe_LagBehind_Forward(
-            CalculationEngineEnum calculationEngineEnum)
-            => Test_Synthesizer_Interpolate_Base(
-                calculationEngineEnum,
-                InterpolationTypeEnum.Stripe,
-                FollowingModeEnum.LagBehind,
-                4.0 / Math.PI,
-                new[]
-                {
-                    (Math.PI * -12 / 12, Math.Sin(Math.PI * -12 / 12)),
-                    (Math.PI * -11 / 12, Math.Sin(Math.PI * -12 / 12)),
-                    (Math.PI * -10 / 12, Math.Sin(Math.PI * -10 / 12)),
-                    (Math.PI * -09 / 12, Math.Sin(Math.PI * -10 / 12)),
-                    (Math.PI * -08 / 12, Math.Sin(Math.PI * -10 / 12)),
-                    (Math.PI * -07 / 12, Math.Sin(Math.PI * -07 / 12)),
-                    (Math.PI * -06 / 12, Math.Sin(Math.PI * -07 / 12)),
-                    (Math.PI * -05 / 12, Math.Sin(Math.PI * -07 / 12)),
-                    (Math.PI * -04 / 12, Math.Sin(Math.PI * -04 / 12)),
-                    (Math.PI * -03 / 12, Math.Sin(Math.PI * -04 / 12)),
-                    (Math.PI * -02 / 12, Math.Sin(Math.PI * -04 / 12)),
-                    (Math.PI * -01 / 12, Math.Sin(Math.PI * -01 / 12)),
-                    (Math.PI * 00 / 12, Math.Sin(Math.PI * -01 / 12)),
-                    (Math.PI * 01 / 12, Math.Sin(Math.PI * -01 / 12)),
-                    (Math.PI * 02 / 12, Math.Sin(Math.PI * 02 / 12)),
-                    (Math.PI * 03 / 12, Math.Sin(Math.PI * 02 / 12)),
-                    (Math.PI * 04 / 12, Math.Sin(Math.PI * 02 / 12)),
-                    (Math.PI * 05 / 12, Math.Sin(Math.PI * 05 / 12)),
-                    (Math.PI * 06 / 12, Math.Sin(Math.PI * 05 / 12)),
-                    (Math.PI * 07 / 12, Math.Sin(Math.PI * 05 / 12)),
-                    (Math.PI * 08 / 12, Math.Sin(Math.PI * 08 / 12)),
-                    (Math.PI * 09 / 12, Math.Sin(Math.PI * 08 / 12)),
-                    (Math.PI * 10 / 12, Math.Sin(Math.PI * 08 / 12)),
-                    (Math.PI * 11 / 12, Math.Sin(Math.PI * 11 / 12)),
-                    (Math.PI * 12 / 12, Math.Sin(Math.PI * 11 / 12))
-                });
-
         // LookAhead Backward
 
         [TestMethod]
         public void Test_Synthesizer_Interpolate_Stripe_LookAhead_Backward_StartPositionPositive()
             => Test_Synthesizer_Interpolate_Stripe_LookAhead_Backward(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Interpolate_Stripe_LookAhead_Backward(
-            CalculationEngineEnum calculationEngineEnum)
+        private void Test_Synthesizer_Interpolate_Stripe_LookAhead_Backward(CalculationEngineEnum calculationEngineEnum)
             => Test_Synthesizer_Interpolate_Base(
                 calculationEngineEnum,
                 InterpolationTypeEnum.Stripe,
@@ -137,14 +93,54 @@ namespace JJ.Business.Synthesizer.Tests
                     (Math.PI * -18 / 12, Math.Sin(Math.PI * -18 / 12))
                 });
 
+        // LagBehind Forward
+
+        [TestMethod]
+        public void Test_Synthesizer_Interpolate_Stripe_LagBehind_Forward_WithCalculatorClasses()
+            => Test_Synthesizer_Interpolate_Stripe_LagBehind_Forward(CalculationEngineEnum.CalculatorClasses);
+
+        private void Test_Synthesizer_Interpolate_Stripe_LagBehind_Forward(CalculationEngineEnum calculationEngineEnum)
+            => Test_Synthesizer_Interpolate_Base(
+                calculationEngineEnum,
+                InterpolationTypeEnum.Stripe,
+                FollowingModeEnum.LagBehind,
+                4.0 / Math.PI,
+                new[]
+                {
+                    (Math.PI * -12 / 12, Math.Sin(Math.PI * -12 / 12)),
+                    (Math.PI * -11 / 12, Math.Sin(Math.PI * -12 / 12)),
+                    (Math.PI * -10 / 12, Math.Sin(Math.PI * -10 / 12)),
+                    (Math.PI * -09 / 12, Math.Sin(Math.PI * -10 / 12)),
+                    (Math.PI * -08 / 12, Math.Sin(Math.PI * -10 / 12)),
+                    (Math.PI * -07 / 12, Math.Sin(Math.PI * -07 / 12)),
+                    (Math.PI * -06 / 12, Math.Sin(Math.PI * -07 / 12)),
+                    (Math.PI * -05 / 12, Math.Sin(Math.PI * -07 / 12)),
+                    (Math.PI * -04 / 12, Math.Sin(Math.PI * -04 / 12)),
+                    (Math.PI * -03 / 12, Math.Sin(Math.PI * -04 / 12)),
+                    (Math.PI * -02 / 12, Math.Sin(Math.PI * -04 / 12)),
+                    (Math.PI * -01 / 12, Math.Sin(Math.PI * -01 / 12)),
+                    (Math.PI * 00 / 12, Math.Sin(Math.PI * -01 / 12)),
+                    (Math.PI * 01 / 12, Math.Sin(Math.PI * -01 / 12)),
+                    (Math.PI * 02 / 12, Math.Sin(Math.PI * 02 / 12)),
+                    (Math.PI * 03 / 12, Math.Sin(Math.PI * 02 / 12)),
+                    (Math.PI * 04 / 12, Math.Sin(Math.PI * 02 / 12)),
+                    (Math.PI * 05 / 12, Math.Sin(Math.PI * 05 / 12)),
+                    (Math.PI * 06 / 12, Math.Sin(Math.PI * 05 / 12)),
+                    (Math.PI * 07 / 12, Math.Sin(Math.PI * 05 / 12)),
+                    (Math.PI * 08 / 12, Math.Sin(Math.PI * 08 / 12)),
+                    (Math.PI * 09 / 12, Math.Sin(Math.PI * 08 / 12)),
+                    (Math.PI * 10 / 12, Math.Sin(Math.PI * 08 / 12)),
+                    (Math.PI * 11 / 12, Math.Sin(Math.PI * 11 / 12)),
+                    (Math.PI * 12 / 12, Math.Sin(Math.PI * 11 / 12))
+                });
+
         // LagBehind Backward
 
         [TestMethod]
         public void Test_Synthesizer_Interpolate_Stripe_LagBehind_Backward_WithCalculatorClasses()
             => Test_Synthesizer_Interpolate_Stripe_LagBehind_Backward(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Interpolate_Stripe_LagBehind_Backward(
-            CalculationEngineEnum calculationEngineEnum)
+        private void Test_Synthesizer_Interpolate_Stripe_LagBehind_Backward(CalculationEngineEnum calculationEngineEnum)
             => Test_Synthesizer_Interpolate_Base(
                 calculationEngineEnum,
                 InterpolationTypeEnum.Stripe,
