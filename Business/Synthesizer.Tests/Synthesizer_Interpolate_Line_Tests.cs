@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_Synthesizer_Interpolate_Line_LagBehind_Forward(CalculationEngineEnum calculationEngineEnum)
         {
             double y0 = Math.Sin(Math.PI * -09 / 12);
-            double y1 = Math.Sin(Math.PI * -08 / 12);
+            double y1 = Math.Sin(Math.PI * -09 / 12);
             double y2 = Math.Sin(Math.PI * -05 / 12);
             double y3 = Math.Sin(Math.PI * -02 / 12);
             double y4 = Math.Sin(Math.PI * 01 / 12);
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_Synthesizer_Interpolate_Line_LagBehind_Backward(CalculationEngineEnum calculationEngineEnum)
         {
             double y0 = Math.Sin(Math.PI * 09 / 12);
-            double y1 = Math.Sin(Math.PI * 09 / 12);
+            double y1 = Math.Sin(Math.PI * 08 / 12);
             double y2 = Math.Sin(Math.PI * 05 / 12);
             double y3 = Math.Sin(Math.PI * 02 / 12);
             double y4 = Math.Sin(Math.PI * -01 / 12);

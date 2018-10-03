@@ -26,10 +26,10 @@
 			double y = _signalCalculator.Calculate();
 			double dx = Dx();
 
-			_xMinus1 = x - dx - dx;
-			_x0 = x - dx;
-			_x1 = x;
-			_x2 = x + dx;
+			_xMinus1 = x - dx;
+			_x0 = x;
+			_x1 = x + dx;
+			_x2 = x + dx + dx;
 
 			_yMinus1 = y;
 			_y0 = y;
