@@ -234,17 +234,17 @@ namespace JJ.Business.Synthesizer.Tests
             const double x8 = Math.PI * -15 / 12;
             const double x9 = Math.PI * -18 / 12;
 
-            double yMinus1 = Math.Sin(Math.PI * 12 / 12);
+            double yMinus1 = Math.Sin(Math.PI * 09 / 12);
             double y0 = Math.Sin(Math.PI * 09 / 12);
-            double y1 = Math.Sin(Math.PI * 06 / 12);
-            double y2 = Math.Sin(Math.PI * 03 / 12);
-            double y3 = Math.Sin(Math.PI * 00 / 12);
-            double y4 = Math.Sin(Math.PI * -03 / 12);
-            double y5 = Math.Sin(Math.PI * -06 / 12);
-            double y6 = Math.Sin(Math.PI * -09 / 12);
-            double y7 = Math.Sin(Math.PI * -12 / 12);
-            double y8 = Math.Sin(Math.PI * -15 / 12);
-            double y9 = Math.Sin(Math.PI * -18 / 12);
+            double y1 = Math.Sin(Math.PI * 09 / 12);
+            double y2 = Math.Sin(Math.PI * 08 / 12);
+            double y3 = Math.Sin(Math.PI * 05 / 12);
+            double y4 = Math.Sin(Math.PI * 02 / 12);
+            double y5 = Math.Sin(Math.PI * -01 / 12);
+            double y6 = Math.Sin(Math.PI * -04 / 12);
+            double y7 = Math.Sin(Math.PI * -07 / 12);
+            double y8 = Math.Sin(Math.PI * -10 / 12);
+            double y9 = Math.Sin(Math.PI * -13 / 12);
 
             Test_Synthesizer_Interpolate_Base(
                 calculationEngineEnum,
