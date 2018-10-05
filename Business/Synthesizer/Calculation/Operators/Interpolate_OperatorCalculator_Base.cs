@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double x = _positionInputCalculator.Calculate();
 
-            // TODO: Performance trouble if  _x0 or _x1 are way off.
+            // TODO: Performance trouble if _x0 or _x1 are way off.
             while (MustShiftForward(x))
 			{
 				ShiftForward();
