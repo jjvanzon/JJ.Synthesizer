@@ -27,7 +27,6 @@ namespace JJ.Business.Synthesizer.Tests
             double y5 = Math.Sin(Math.PI * 06 / 12);
             double y6 = Math.Sin(Math.PI * 09 / 12);
             double y7 = Math.Sin(Math.PI * 12 / 12);
-            double y8 = Math.Sin(Math.PI * 15 / 12);
 
             Test_Synthesizer_Interpolate_Base(
                 calculationEngineEnum,
@@ -59,8 +58,7 @@ namespace JJ.Business.Synthesizer.Tests
                     (Math.PI * 11 / 12, y6),
                     (Math.PI * 12 / 12, y7),
                     (Math.PI * 13 / 12, y7),
-                    (Math.PI * 14 / 12, y7),
-                    (Math.PI * 15 / 12, y8)
+                    (Math.PI * 14 / 12, y7)
                 });
         }
 
@@ -133,7 +131,6 @@ namespace JJ.Business.Synthesizer.Tests
             double y5 = Math.Sin(Math.PI * 06 / 12);
             double y6 = Math.Sin(Math.PI * 09 / 12);
             double y7 = Math.Sin(Math.PI * 12 / 12);
-            double y8 = Math.Sin(Math.PI * 15 / 12);
 
             Test_Synthesizer_Interpolate_Base(
                 calculationEngineEnum,
@@ -165,8 +162,7 @@ namespace JJ.Business.Synthesizer.Tests
                     (Math.PI * 11 / 12, y6),
                     (Math.PI * 12 / 12, y7),
                     (Math.PI * 13 / 12, y7),
-                    (Math.PI * 14 / 12, y7),
-                    (Math.PI * 15 / 12, y8)
+                    (Math.PI * 14 / 12, y7)
                 });
         }
 
