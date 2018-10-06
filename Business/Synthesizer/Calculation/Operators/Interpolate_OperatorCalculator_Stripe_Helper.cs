@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 	internal static class Interpolate_OperatorCalculator_Stripe_Helper
 	{
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ResetNonRecursive(Interpolate_OperatorCalculator_Base_2X1Y calculator)
 		{
 			if (calculator == null) throw new ArgumentNullException(nameof(calculator));

@@ -353,9 +353,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 	    protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto) => Process_InletsToDimension(dto, isStripe: true);
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto) => throw new NotImplementedException();
+		protected override IOperatorDto Visit_Interpolate_OperatorDto_Block_LagBehind(Interpolate_OperatorDto_Block_LagBehind dto) => throw new NotImplementedException();
 
-	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto) => throw new NotImplementedException();
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Block_LookAhead(Interpolate_OperatorDto_Block_LookAhead dto) => throw new NotImplementedException();
+
+        protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto) => throw new NotImplementedException();
 
 	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto) => throw new NotImplementedException();
 

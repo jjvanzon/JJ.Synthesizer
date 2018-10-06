@@ -1,4 +1,6 @@
-﻿namespace JJ.Business.Synthesizer.Calculation.Operators
+﻿using System;
+
+namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal abstract class Interpolate_OperatorCalculator_Base_2Point_LookAhead : Interpolate_OperatorCalculator_Base_2Point
     {
@@ -10,7 +12,7 @@
             OperatorCalculatorBase positionInputCalculator,
             VariableInput_OperatorCalculator positionOutputCalculator)
             : base(signalCalculator, samplingRateCalculator, positionInputCalculator)
-            => _positionOutputCalculator = positionOutputCalculator;
+            => _positionOutputCalculator = positionOutputCalculator ?? throw new ArgumentNullException(nameof(positionOutputCalculator));
 
         protected sealed override void SetNextSample()
         {

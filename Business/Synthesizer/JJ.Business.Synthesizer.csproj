@@ -168,6 +168,9 @@
     <Compile Include="Calculation\ICalculatorWithPosition.cs" />
     <EmbeddedResource Include="EmbeddedResources\NoiseCalculator.cs" />
     <Compile Include="Calculation\NoiseCalculatorHelper.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_2X1Y_LookAhead.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Block_Helper.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Block_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Truncate_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Floor_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Ceiling_OperatorCalculator.cs" />
@@ -360,7 +363,7 @@
     <Compile Include="Calculation\Operators\PulseTrigger_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Random_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Stripe_LagBehind.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Block.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Block_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Round_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
