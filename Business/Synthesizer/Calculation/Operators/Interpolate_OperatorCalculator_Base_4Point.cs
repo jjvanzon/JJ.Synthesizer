@@ -33,12 +33,12 @@
 
 		protected sealed override void ShiftBackward()
 		{
+		    _x2 = _x1;
+		    _x1 = _x0;
 			_x0 = _xMinus1;
-			_x1 = _x0;
-			_x2 = _x1;
-			_y0 = _yMinus1;
-			_y1 = _y0;
-			_y2 = _y1;
+		    _y2 = _y1;
+		    _y1 = _y0;
+            _y0 = _yMinus1;
 		}
 	}
 }

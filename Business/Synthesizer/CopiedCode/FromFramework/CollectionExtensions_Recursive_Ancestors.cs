@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace JJ.Framework.Collections
 {
+    [PublicAPI]
 	public static class CollectionExtensions_Recursive_Ancestors
 	{
 		public static IEnumerable<T> SelfAndAncestors<T>(this T sourceItem, Func<T, T> selector)

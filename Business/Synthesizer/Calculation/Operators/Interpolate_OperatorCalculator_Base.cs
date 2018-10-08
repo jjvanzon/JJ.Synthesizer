@@ -25,14 +25,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double x = _positionInputCalculator.Calculate();
 
-			// TODO: What if _x0 or _x1 are way off? How will it correct itself?
-			if (MustShiftForward(x))
+		    // TODO: Performance trouble if _x0 or _x1 are way off.
+            while (MustShiftForward(x))
 			{
 				ShiftForward();
 				SetNextSample();
 				Precalculate();
 			}
-			else if (MustShiftBackward(x))
+
+			while (MustShiftBackward(x))
 			{
 				ShiftBackward();
 				SetPreviousSample();

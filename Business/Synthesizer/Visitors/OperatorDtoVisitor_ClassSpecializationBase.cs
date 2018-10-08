@@ -318,9 +318,13 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				dto2 = new Interpolate_OperatorDto_ConstSignal();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Block && dto.FollowingModeEnum == FollowingModeEnum.LagBehind)
 			{
-				dto2 = new Interpolate_OperatorDto_Block();
+			    dto2 = new Interpolate_OperatorDto_Block_LagBehind();
+			}
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Block && dto.FollowingModeEnum == FollowingModeEnum.LookAhead)
+			{
+			    dto2 = new Interpolate_OperatorDto_Block_LookAhead();
 			}
 			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe && dto.FollowingModeEnum == FollowingModeEnum.LagBehind)
 			{

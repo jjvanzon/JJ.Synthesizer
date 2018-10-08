@@ -220,7 +220,8 @@ namespace JJ.Business.Synthesizer.Visitors
 		    { typeof(InletsToDimension_OperatorDto_Hermite_LagBehind), x => Visit_InletsToDimension_OperatorDto_Hermite_LagBehind((InletsToDimension_OperatorDto_Hermite_LagBehind)x) },
 		    { typeof(Interpolate_OperatorDto), x => Visit_Interpolate_OperatorDto((Interpolate_OperatorDto)x) },
 		    { typeof(Interpolate_OperatorDto_ConstSignal), x => Visit_Interpolate_OperatorDto_ConstSignal((Interpolate_OperatorDto_ConstSignal)x) },
-		    { typeof(Interpolate_OperatorDto_Block), x => Visit_Interpolate_OperatorDto_Block((Interpolate_OperatorDto_Block)x) },
+		    { typeof(Interpolate_OperatorDto_Block_LagBehind), x => Visit_Interpolate_OperatorDto_Block_LagBehind((Interpolate_OperatorDto_Block_LagBehind)x) },
+		    { typeof(Interpolate_OperatorDto_Block_LookAhead), x => Visit_Interpolate_OperatorDto_Block_LookAhead((Interpolate_OperatorDto_Block_LookAhead)x) },
 		    { typeof(Interpolate_OperatorDto_Cubic_LagBehind), x => Visit_Interpolate_OperatorDto_Cubic_LagBehind((Interpolate_OperatorDto_Cubic_LagBehind)x) },
 		    { typeof(Interpolate_OperatorDto_Cubic_LookAhead), x => Visit_Interpolate_OperatorDto_Cubic_LookAhead((Interpolate_OperatorDto_Cubic_LookAhead)x) },
 		    { typeof(Interpolate_OperatorDto_Hermite_LagBehind), x => Visit_Interpolate_OperatorDto_Hermite_LagBehind((Interpolate_OperatorDto_Hermite_LagBehind)x) },
@@ -401,7 +402,8 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Block_LagBehind(Interpolate_OperatorDto_Block_LagBehind dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Block_LookAhead(Interpolate_OperatorDto_Block_LookAhead dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LookAhead(Interpolate_OperatorDto_Cubic_LookAhead dto) => Visit_OperatorDto_Base(dto);

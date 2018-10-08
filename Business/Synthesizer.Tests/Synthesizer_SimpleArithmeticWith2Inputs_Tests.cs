@@ -1,5 +1,4 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Tests.Helpers;
@@ -15,39 +14,39 @@ namespace JJ.Business.Synthesizer.Tests
         // Divide
 
         [TestMethod]
-        public void Test_Synthesizer_Divide_WithRoslyn() => Test_Synthesizer_Divide(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Divide_WithRoslyn() => Test_Synthesizer_Divide(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Divide_WithCalculatorClasses() => Test_Synthesizer_Divide(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Divide_WithCalculatorClasses() => Test_Synthesizer_Divide(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Divide(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(nameof(SystemPatchNames.Divide), (a, b) => a / b, calculationMethodEnum);
+        private void Test_Synthesizer_Divide(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest(nameof(SystemPatchNames.Divide), (a, b) => a / b, calculationEngineEnum);
 
         // Remainder
 
         [TestMethod]
-        public void Test_Synthesizer_Remainder_WithRoslyn() => Test_Synthesizer_Remainder(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Remainder_WithRoslyn() => Test_Synthesizer_Remainder(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Remainder_WithCalculatorClasses() => Test_Synthesizer_Remainder(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Remainder_WithCalculatorClasses() => Test_Synthesizer_Remainder(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Remainder(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(nameof(SystemPatchNames.Remainder), (a, b) => a % b, calculationMethodEnum);
+        private void Test_Synthesizer_Remainder(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest(nameof(SystemPatchNames.Remainder), (a, b) => a % b, calculationEngineEnum);
 
         // Subtract
 
         [TestMethod]
-        public void Test_Synthesizer_Subtract_WithRoslyn() => Test_Synthesizer_Subtract(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Subtract_WithRoslyn() => Test_Synthesizer_Subtract(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Subtract_WithCalculatorClasses() => Test_Synthesizer_Subtract(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Subtract_WithCalculatorClasses() => Test_Synthesizer_Subtract(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Subtract(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(nameof(SystemPatchNames.Subtract), (a, b) => a - b, calculationMethodEnum);
+        private void Test_Synthesizer_Subtract(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest(nameof(SystemPatchNames.Subtract), (a, b) => a - b, calculationEngineEnum);
 
         // Generalized Method
 
-        private void ExecuteTest(string systemPatchName, Func<double, double, double> func, CalculationMethodEnum calculationMethodEnum)
+        private void ExecuteTest(string systemPatchName, Func<double, double, double> func, CalculationEngineEnum calculationEngineEnum)
             => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(DimensionEnum.A), x.PatchInlet(DimensionEnum.B)),
                 func,
@@ -55,6 +54,6 @@ namespace JJ.Business.Synthesizer.Tests
                 _values,
                 DimensionEnum.B,
                 _values,
-                calculationMethodEnum);
+                calculationEngineEnum);
     }
 }

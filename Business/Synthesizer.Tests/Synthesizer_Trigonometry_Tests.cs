@@ -1,5 +1,5 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Configuration;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Mathematics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,116 +18,120 @@ namespace JJ.Business.Synthesizer.Tests
         // Sin
 
         [TestMethod]
-        public void Test_Synthesizer_Sin_WithRoslyn() => Test_Synthesizer_Sin(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Sin_WithRoslyn() => Test_Synthesizer_Sin(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Sin_WithCalculatorClasses() => Test_Synthesizer_Sin(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Sin_WithCalculatorClasses() => Test_Synthesizer_Sin(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Sin(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest_From0To2Pi(nameof(Sin), Math.Sin, calculationMethodEnum);
+        private void Test_Synthesizer_Sin(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest_From0To2Pi(nameof(Sin), Math.Sin, calculationEngineEnum);
 
         // Cos
 
         [TestMethod]
-        public void Test_Synthesizer_Cos_WithRoslyn() => Test_Synthesizer_Cos(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Cos_WithRoslyn() => Test_Synthesizer_Cos(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Cos_WithCalculatorClasses() => Test_Synthesizer_Cos(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Cos_WithCalculatorClasses() => Test_Synthesizer_Cos(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Cos(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest_From0To2Pi(nameof(Cos), Math.Cos, calculationMethodEnum);
+        private void Test_Synthesizer_Cos(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest_From0To2Pi(nameof(Cos), Math.Cos, calculationEngineEnum);
 
         // Tan
 
         [TestMethod]
-        public void Test_Synthesizer_Tan_WithRoslyn() => Test_Synthesizer_Tan(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_Tan_WithRoslyn() => Test_Synthesizer_Tan(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_Tan_WithCalculatorClasses() => Test_Synthesizer_Tan(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_Tan_WithCalculatorClasses() => Test_Synthesizer_Tan(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_Tan(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest_From0To2Pi(nameof(Tan), Math.Tan, calculationMethodEnum);
+        private void Test_Synthesizer_Tan(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest_From0To2Pi(nameof(Tan), Math.Tan, calculationEngineEnum);
 
         // SinH
 
         [TestMethod]
-        public void Test_Synthesizer_SinH_WithRoslyn() => Test_Synthesizer_SinH(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_SinH_WithRoslyn() => Test_Synthesizer_SinH(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_SinH_WithCalculatorClasses() => Test_Synthesizer_SinH(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_SinH_WithCalculatorClasses() => Test_Synthesizer_SinH(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_SinH(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest_From0To2Pi(nameof(SinH), Math.Sinh, calculationMethodEnum);
+        private void Test_Synthesizer_SinH(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest_From0To2Pi(nameof(SinH), Math.Sinh, calculationEngineEnum);
 
         // CosH
 
         [TestMethod]
-        public void Test_Synthesizer_CosH_WithRoslyn() => Test_Synthesizer_CosH(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_CosH_WithRoslyn() => Test_Synthesizer_CosH(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_CosH_WithCalculatorClasses() => Test_Synthesizer_CosH(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_CosH_WithCalculatorClasses() => Test_Synthesizer_CosH(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_CosH(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest_From0To2Pi(nameof(CosH), Math.Cosh, calculationMethodEnum);
+        private void Test_Synthesizer_CosH(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest_From0To2Pi(nameof(CosH), Math.Cosh, calculationEngineEnum);
 
         // TanH
 
         [TestMethod]
-        public void Test_Synthesizer_TanH_WithRoslyn() => Test_Synthesizer_TanH(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_TanH_WithRoslyn() => Test_Synthesizer_TanH(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_TanH_WithCalculatorClasses() => Test_Synthesizer_TanH(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_TanH_WithCalculatorClasses() => Test_Synthesizer_TanH(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_TanH(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest_From0To2Pi(nameof(TanH), Math.Tanh, calculationMethodEnum);
+        private void Test_Synthesizer_TanH(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest_From0To2Pi(nameof(TanH), Math.Tanh, calculationEngineEnum);
 
         // ArcSin
 
         [TestMethod]
-        public void Test_Synthesizer_ArcSin_WithRoslyn() => Test_Synthesizer_ArcSin(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_ArcSin_WithRoslyn() => Test_Synthesizer_ArcSin(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_ArcSin_WithCalculatorClasses() => Test_Synthesizer_ArcSin(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_ArcSin_WithCalculatorClasses() => Test_Synthesizer_ArcSin(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_ArcSin(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest_FromMinus1To1(nameof(ArcSin), Math.Asin, calculationMethodEnum);
+        private void Test_Synthesizer_ArcSin(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest_FromMinus1To1(nameof(ArcSin), Math.Asin, calculationEngineEnum);
 
         // ArcCos
 
         [TestMethod]
-        public void Test_Synthesizer_ArcCos_WithRoslyn() => Test_Synthesizer_ArcCos(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_ArcCos_WithRoslyn() => Test_Synthesizer_ArcCos(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_ArcCos_WithCalculatorClasses() => Test_Synthesizer_ArcCos(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_ArcCos_WithCalculatorClasses() => Test_Synthesizer_ArcCos(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_ArcCos(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest_FromMinus1To1(nameof(ArcCos), Math.Acos, calculationMethodEnum);
+        private void Test_Synthesizer_ArcCos(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest_FromMinus1To1(nameof(ArcCos), Math.Acos, calculationEngineEnum);
 
         // ArcTan
 
         [TestMethod]
-        public void Test_Synthesizer_ArcTan_WithRoslyn() => Test_Synthesizer_ArcTan(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_ArcTan_WithRoslyn() => Test_Synthesizer_ArcTan(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_ArcTan_WithCalculatorClasses() => Test_Synthesizer_ArcTan(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_ArcTan_WithCalculatorClasses() => Test_Synthesizer_ArcTan(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_ArcTan(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest_From0To2Pi(nameof(ArcTan), Math.Atan, calculationMethodEnum);
+        private void Test_Synthesizer_ArcTan(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest_From0To2Pi(nameof(ArcTan), Math.Atan, calculationEngineEnum);
 
         // Generalized Methods
 
-        private void ExecuteTest_From0To2Pi(string systemPatchName, Func<double, double> func, CalculationMethodEnum calculationMethodEnum)
+        private void ExecuteTest_From0To2Pi(string systemPatchName, Func<double, double> func, CalculationEngineEnum calculationEngineEnum)
             => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(TestConstants.DEFAULT_DIMENSION_ENUM)),
                 func,
+                TestConstants.DEFAULT_DIMENSION_ENUM,
                 _valuesFrom0To2Pi,
-                calculationMethodEnum);
+                calculationEngineEnum,
+                new TestOptions(mustPlot: true));
 
-        private void ExecuteTest_FromMinus1To1(string systemPatchName, Func<double, double> func, CalculationMethodEnum calculationMethodEnum)
+        private void ExecuteTest_FromMinus1To1(string systemPatchName, Func<double, double> func, CalculationEngineEnum calculationEngineEnum)
             => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(TestConstants.DEFAULT_DIMENSION_ENUM)),
                 func,
+                TestConstants.DEFAULT_DIMENSION_ENUM,
                 _valuesFromMinus1To1,
-                calculationMethodEnum);
+                calculationEngineEnum,
+                new TestOptions(mustPlot: true));
     }
 }

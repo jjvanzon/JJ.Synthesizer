@@ -102,7 +102,7 @@ namespace JJ.Framework.Collections
 
             // Set up nested enumerators.
             NestedEnumerator nestedEnumerator = null;
-            foreach (IEnumerable<TItem> collection in collections)
+            foreach (IEnumerable<TItem> collection in collections.Reverse())
             {
                 nestedEnumerator = new NestedEnumerator(collection.Cast<object>(), nestedEnumerator);
             }
@@ -435,6 +435,19 @@ namespace JJ.Framework.Collections
 
             int index = IndexOf(collection, predicate);
             collection.RemoveAt(index);
+        }
+
+        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> collection, int count)
+        {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            for (var i = 0; i < count; i++)
+            {
+                foreach (T item in collection)
+                {
+                    yield return item;
+                }
+            }
         }
 
         /// <param name="keyIndicator">

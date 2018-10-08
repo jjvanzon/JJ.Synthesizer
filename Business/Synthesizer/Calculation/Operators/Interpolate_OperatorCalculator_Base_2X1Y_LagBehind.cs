@@ -1,6 +1,7 @@
 ﻿namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	internal abstract class Interpolate_OperatorCalculator_Base_2X1Y_LagBehind : Interpolate_OperatorCalculator_Base_2X1Y
+	internal abstract class Interpolate_OperatorCalculator_Base_2X1Y_LagBehind 
+	    : Interpolate_OperatorCalculator_Base_2X1Y
 	{
 		protected Interpolate_OperatorCalculator_Base_2X1Y_LagBehind(
 			OperatorCalculatorBase signalCalculator,

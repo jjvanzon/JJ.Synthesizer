@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Dto.Operators;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
@@ -38,20 +39,13 @@ namespace JJ.Business.Synthesizer
 	/// </summary>
 	public class PatchFacade
 	{
-		private readonly CalculationMethodEnum _calculationMethodEnum;
+	    private static readonly CalculationEngineEnum _calculationEngineFromConfig = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationEngine;
+
 		private readonly RepositoryWrapper _repositories;
 	    private readonly PatchCloner _patchCloner;
 
-        // Constructors
-
 	    public PatchFacade(RepositoryWrapper repositories)
-            : this(repositories, CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod)
-	    { }
-
-	    internal PatchFacade(RepositoryWrapper repositories, CalculationMethodEnum calculationMethodEnum)
 	    {
-	        _calculationMethodEnum = calculationMethodEnum;
-
             _repositories = repositories ?? throw new NullException(() => repositories);
 	        _patchCloner = new PatchCloner(repositories);
 	    }
@@ -326,11 +320,17 @@ namespace JJ.Business.Synthesizer
 			int samplingRate,
 			int channelCount,
 			int channelIndex,
-			CalculatorCache calculatorCache)
+			CalculatorCache calculatorCache,
+	        CalculationEngineEnum calculationEngineEnum = default)
 		{
-			switch (_calculationMethodEnum)
+		    if (calculationEngineEnum == default)
+		    {
+		        calculationEngineEnum = _calculationEngineFromConfig;
+		    }
+
+		    switch (calculationEngineEnum)
 			{
-				case CalculationMethodEnum.Roslyn:
+				case CalculationEngineEnum.Roslyn:
 
 				{
 				    IOperatorDto dto = new OperatorEntityToDtoVisitor(
@@ -365,13 +365,19 @@ namespace JJ.Business.Synthesizer
 			int samplingRate,
 			int channelCount,
 			int channelIndex,
-			CalculatorCache calculatorCache)
+			CalculatorCache calculatorCache,
+			CalculationEngineEnum calculationEngineEnum = default)
 		{
-		    if (_calculationMethodEnum == CalculationMethodEnum.HardCoded)
+		    if (calculationEngineEnum == default)
+		    {
+		        calculationEngineEnum = _calculationEngineFromConfig;
+		    }
+
+            if (calculationEngineEnum == CalculationEngineEnum.HardCoded)
 		    {
 		        return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
 		    }
-		    if (_calculationMethodEnum == CalculationMethodEnum.ExampleGeneratedCode)
+		    if (calculationEngineEnum == CalculationEngineEnum.ExampleGeneratedCode)
 		    {
 		        return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<string, ArrayDto>());
 		    }
@@ -385,7 +391,7 @@ namespace JJ.Business.Synthesizer
 
 		    dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
 
-		    if (_calculationMethodEnum == CalculationMethodEnum.CalculatorClasses)
+		    if (calculationEngineEnum == CalculationEngineEnum.CalculatorClasses)
 		    {
 		        IPatchCalculator patchCalculator = new SingleChannelPatchCalculator(
                     dto,
@@ -398,13 +404,13 @@ namespace JJ.Business.Synthesizer
 		        return patchCalculator;
 		    }
 
-            if (_calculationMethodEnum == CalculationMethodEnum.Roslyn)
+            if (calculationEngineEnum == CalculationEngineEnum.Roslyn)
 		    {
 		        IPatchCalculator patchCalculator = new OperatorDtoCompiler().CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
 		        return patchCalculator;
 		    }
 
-		    throw new ValueNotSupportedException(_calculationMethodEnum);
+		    throw new ValueNotSupportedException(calculationEngineEnum);
 		}
 
 		public void DeleteOwnedNumberOperators(int id)

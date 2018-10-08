@@ -8,7 +8,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
-using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {

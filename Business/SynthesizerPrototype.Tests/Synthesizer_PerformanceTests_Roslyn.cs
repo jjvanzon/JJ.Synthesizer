@@ -23,7 +23,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
             var compiler = new OperatorDtoCompiler();
             IPatchCalculator calculator = compiler.CompileToPatchCalculator(dto, framesPerChunk);
 
-            var stopWatch = Stopwatch.StartNew();
+            Stopwatch stopWatch = Stopwatch.StartNew();
 
             for (var i = 0; i < 100; i++)
             {
@@ -44,7 +44,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
             var compiler = new OperatorDtoCompiler();
             IOperatorCalculator calculator = compiler.CompileToOperatorCalculator(dto);
 
-            var stopWatch = Stopwatch.StartNew();
+            Stopwatch stopWatch = Stopwatch.StartNew();
 
             for (var i = 0; i < 500000; i++)
             {

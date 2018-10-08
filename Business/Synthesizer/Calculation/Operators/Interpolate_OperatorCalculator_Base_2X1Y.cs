@@ -12,7 +12,14 @@
 		protected internal double _x1;
 		protected internal double _y0;
 
-		protected sealed override bool MustShiftForward(double x) => x > _x1;
+
+        /// <summary>
+        /// The >= instead of > is on purpose.
+        /// In case of block interpolation it matters that you switch values when you are right on the border between values.
+        /// Note that for backward direction this is not done. You have to choose if righ ton the border it will be value A or B.
+        /// We choose B.
+        /// </summary>
+		protected sealed override bool MustShiftForward(double x) => x >= _x1;
 
 		protected sealed override void ShiftForward() => _x0 = _x1;
 

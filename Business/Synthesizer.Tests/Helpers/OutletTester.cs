@@ -1,107 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Configuration;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Business;
 using JJ.Framework.Collections;
-using JJ.Framework.Data;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.Mathematics;
-using JJ.Framework.Testing.Data;
 
-#pragma warning disable IDE0039 // Use local function
-// ReSharper disable ConvertToLocalFunction
-// ReSharper disable UnusedVariable
-// ReSharper disable InvertIf
 // ReSharper disable CompareOfFloatsByEqualityOperator
-// ReSharper disable LocalizableElement
-// ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal class PatchTester_SingleConstVarVariation : IDisposable
+    internal class OutletTester
     {
-        private readonly bool _mustCompareZeroAndNonZeroOnly;
-
-        private IContext _context;
         private readonly IPatchCalculator _calculator;
-        private readonly SystemFacade _systemFacade;
-        private readonly PatchFacade _patchFacade;
+        private readonly TestOptions _testOptions;
 
-        public PatchTester_SingleConstVarVariation(
-            CalculationMethodEnum calculationMethodEnum,
-            Func<OperatorFactory, Outlet> operatorFactoryDelegate,
-            IList<double?> consts,
-            bool mustCompareZeroAndNonZeroOnly)
+        public OutletTester(
+            Outlet outlet,
+            PatchFacade patchFacade,
+            CalculationEngineEnum calculationEngineEnum,
+            TestOptions testOptions)
         {
-            if (operatorFactoryDelegate == null) throw new ArgumentNullException(nameof(operatorFactoryDelegate));
-            if (consts == null) throw new ArgumentNullException(nameof(consts));
+            if (patchFacade == null) throw new ArgumentNullException(nameof(patchFacade));
 
-            _mustCompareZeroAndNonZeroOnly = mustCompareZeroAndNonZeroOnly;
-
-            AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(() => _context = PersistenceHelper.CreateContext());
-
-            RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(_context);
-
-            _systemFacade = new SystemFacade(repositories.DocumentRepository);
-            _patchFacade = new PatchFacade(repositories, calculationMethodEnum);
-
-            Patch patch = _patchFacade.CreatePatch();
-            var operatorFactory = new OperatorFactory(patch, repositories);
-            Outlet outlet = operatorFactoryDelegate(operatorFactory);
-
-            ReplaceVarsWithConstsIfNeeded(patch, consts);
-
-            _calculator = _patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache());
+            _testOptions = testOptions ?? throw new ArgumentNullException(nameof(testOptions));
+            _calculator = patchFacade.CreateCalculator(outlet, 2, 1, 0, new CalculatorCache(), calculationEngineEnum);
         }
 
-        private void ReplaceVarsWithConstsIfNeeded(Patch patch, IList<double?> constsToReplaceVariables)
-        {
-            IList<Operator> patchInlets = patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                               .Select(x => new PatchInletOrOutlet_OperatorWrapper(x))
-                                               .OrderBy(x => x.Inlet.Position)
-                                               .Select(x => x.WrappedOperator)
-                                               .ToArray();
-
-            if (constsToReplaceVariables.Count > patchInlets.Count)
-            {
-                throw new GreaterThanException(() => constsToReplaceVariables.Count, () => patchInlets.Count);
-            }
-
-            for (var i = 0; i < constsToReplaceVariables.Count; i++)
-            {
-                double? constToReplaceVariable = constsToReplaceVariables[i];
-
-                if (!constToReplaceVariable.HasValue)
-                {
-                    continue;
-                }
-
-                Operator op = patchInlets[i];
-
-                Patch numberPatch = _systemFacade.GetSystemPatch(OperatorTypeEnum.Number);
-                op.LinkToUnderlyingPatch(numberPatch);
-                new Number_OperatorWrapper(op) { Number = constToReplaceVariable.Value };
-                IResult result = _patchFacade.SaveOperator(op);
-                result.Assert();
-            }
-        }
-
-        ~PatchTester_SingleConstVarVariation() => Dispose();
-
-        public void Dispose() => _context?.Dispose();
-
-        public (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(IList<DimensionEnum> inputDimensionEnums, IList<double[]> inputPoints, IList<double> expectedOutputValues)
+        public (IList<string> logMessages, IList<string> errorMessages) ExecuteTest(
+            IList<DimensionEnum> inputDimensionEnums,
+            IList<double[]> inputPoints,
+            IList<double> expectedOutputValues)
         {
             // Pre-Conditions
             if (inputDimensionEnums == null) throw new ArgumentNullException(nameof(inputDimensionEnums));
@@ -127,15 +60,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 }
             }
 
-            // Reset Time
             int? timeDimensionIndex = inputDimensionEnums.TryGetIndexOf(x => x == DimensionEnum.Time);
-
-            if (timeDimensionIndex.HasValue)
-            {
-                double firstTimeValue = inputPoints[0][timeDimensionIndex.Value];
-                _calculator.Reset(firstTimeValue);
-            }
-
+            var hasReset = false;
             IList<double> actualOutputValues = new double[expectedOutputValues.Count];
 
             for (var pointIndex = 0; pointIndex < expectedOutputValues.Count; pointIndex++)
@@ -161,6 +87,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     }
                 }
 
+                // Reset upon the first iteration. (Note: Input values must be set before you call Reset.)
+                if (!hasReset)
+                {
+                    _calculator.Reset(time);
+                    hasReset = true;
+                }
+
                 // Calculate Value
                 var buffer = new float[1];
                 _calculator.Calculate(buffer, buffer.Length, time);
@@ -184,7 +117,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
                 if (canonicalExpectedOutputValue != canonicalActualOutputValue)
                 {
-                    string failureMessage = TestMessageFormatter.GetOutputValueMessage_NotValid(
+                    string failureMessage = MessageFormatter.GetOutputValueMessage_NotValid(
                         i,
                         inputDimensionEnums,
                         inputValues,
@@ -196,7 +129,47 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 }
                 else
                 {
-                    logMessages.Add(TestMessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
+                    logMessages.Add(
+                        MessageFormatter.GetOutputValueMessage(i, inputDimensionEnums, inputValues, canonicalActualOutputValue));
+                }
+            }
+
+            if (_testOptions.MustPlot)
+            {
+                IList<string> expectedPlotLines = MessageFormatter.TryPlot(
+                    inputPoints,
+                    expectedOutputValues,
+                    _testOptions.PlotLineCount,
+                    _testOptions.OnlyUseOutputValuesForPlot);
+
+                if (expectedPlotLines.Any())
+                {
+                    if (errorMessages.Any())
+                    {
+                        logMessages.Add("");
+                        logMessages.Add("Expected");
+                    }
+
+                    logMessages.Add("");
+                    logMessages.AddRange(expectedPlotLines);
+                }
+
+                if (errorMessages.Any())
+                {
+                    IList<string> actualPlotLines = MessageFormatter.TryPlot(
+                        inputPoints,
+                        actualOutputValues,
+                        _testOptions.PlotLineCount,
+                        _testOptions.OnlyUseOutputValuesForPlot);
+
+                    if (actualPlotLines.Any())
+                    {
+                        logMessages.Add("");
+                        logMessages.Add("Actual");
+
+                        logMessages.Add("");
+                        logMessages.AddRange(actualPlotLines);
+                    }
                 }
             }
 
@@ -208,7 +181,15 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             var output = (float)input;
 
-            output = MathHelper.RoundToSignificantDigits(output, TestConstants.DEFAULT_SIGNIFICANT_DIGITS);
+            if (_testOptions.SignificantDigits.HasValue)
+            {
+                output = MathHelper.RoundToSignificantDigits(output, _testOptions.SignificantDigits.Value);
+            }
+
+            if (_testOptions.DecimalDigits.HasValue)
+            {
+                output = (float)Math.Round(output, _testOptions.DecimalDigits.Value);
+            }
 
             // Calculation engine will not output NaN.
             if (float.IsNaN(output))
@@ -216,7 +197,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 output = 0;
             }
 
-            if (_mustCompareZeroAndNonZeroOnly)
+            if (_testOptions.MustCompareZeroAndNonZeroOnly)
             {
                 if (output != 0)
                 {
