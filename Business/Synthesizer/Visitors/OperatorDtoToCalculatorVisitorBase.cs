@@ -321,10 +321,15 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto,
                 () => new InletsToDimension_OperatorCalculator_Stripe(dto.InputsExceptPosition.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
 
-        protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
+        protected override IOperatorDto Visit_Interpolate_OperatorDto_Block_LookAhead(Interpolate_OperatorDto_Block_LookAhead dto)
             => ProcessOperatorDto(
                 dto,
-                () => new Interpolate_OperatorCalculator_Block(_stack.Pop(), _stack.Pop(), _stack.Pop()));
+                () => new Interpolate_OperatorCalculator_Block_LookAhead(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
+
+        protected override IOperatorDto Visit_Interpolate_OperatorDto_Block_LagBehind(Interpolate_OperatorDto_Block_LagBehind dto)
+            => ProcessOperatorDto(
+                dto,
+                () => new Interpolate_OperatorCalculator_Block_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 
         protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto)
             => ProcessOperatorDto(

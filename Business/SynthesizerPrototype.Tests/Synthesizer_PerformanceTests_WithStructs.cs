@@ -82,7 +82,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 		}
 
 		[TestMethod]
-		public void Debug_SynthesizerPrototype_RuntimeGeneric_DoesNotInline_ButEquates_CompileTimeGeneric_WhichDoesInline()
+		public void Debug_SynthesizerPrototype_RunTimeGeneric_DoesNotInline_ButEquates_CompileTimeGeneric_WhichDoesInline()
 		{
 			var dimensionStack = new DimensionStack();
 

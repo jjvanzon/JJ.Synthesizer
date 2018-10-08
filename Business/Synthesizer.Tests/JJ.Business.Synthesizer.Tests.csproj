@@ -60,11 +60,17 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Helpers\DimensionInfo.cs" />
-    <Compile Include="Helpers\PatchTester_SingleConstVarVariation.cs" />
-    <Compile Include="Helpers\PatchTester_MultipleConstVarVariations.cs" />
+    <Compile Include="Helpers\OutletTester.cs" />
+    <Compile Include="Helpers\PatchVarConstTester.cs" />
+    <Compile Include="Helpers\PatchVarConstReplacer.cs" />
     <Compile Include="Helpers\TestConstants.cs" />
-    <Compile Include="Helpers\TestMessageFormatter.cs" />
+    <Compile Include="Helpers\MessageFormatter.cs" />
+    <Compile Include="Helpers\TestOptions.cs" />
+    <Compile Include="Synthesizer_Interpolate_Hermite_Tests.cs" />
+    <Compile Include="Synthesizer_Interpolate_Cubic_Tests.cs" />
+    <Compile Include="Synthesizer_Interpolate_Line_Tests.cs" />
+    <Compile Include="Synthesizer_Interpolate_Block_Tests.cs" />
+    <Compile Include="Synthesizer_Interpolate_Tests_Base.cs" />
     <Compile Include="Synthesizer_Number_Tests.cs" />
     <Compile Include="Synthesizer_Logical_Tests.cs" />
     <Compile Include="Synthesizer_Comparative_Tests.cs" />
@@ -82,7 +88,7 @@
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\TestExecutor.cs" />
-    <Compile Include="PatchCalculator_Interpolate_Line_Tests.cs" />
+    <Compile Include="Synthesizer_Interpolate_Stripe_Tests.cs" />
     <Compile Include="MiscSynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -166,9 +172,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TestResources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

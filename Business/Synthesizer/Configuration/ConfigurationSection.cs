@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Configuration
 		public int CachedNoiseSamplingRate { get; set; }
 
 		[XmlAttribute]
-		public CalculationMethodEnum CalculationMethod { get; set; }
+		public CalculationEngineEnum CalculationEngine { get; set; }
 
 		[XmlAttribute]
 		public int DefaultSamplingRate { get; set; }

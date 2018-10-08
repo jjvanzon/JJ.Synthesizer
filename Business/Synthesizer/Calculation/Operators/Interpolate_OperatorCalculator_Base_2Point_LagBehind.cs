@@ -27,8 +27,8 @@
 
 			double dx = Dx();
 
-			_x0 = x - dx;
-			_x1 = x;
+			_x0 = x;
+			_x1 = x + dx;
 
 			_y0 = y;
 			_y1 = y;

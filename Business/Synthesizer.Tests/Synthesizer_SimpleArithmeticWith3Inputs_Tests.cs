@@ -1,5 +1,4 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Tests.Helpers;
@@ -17,28 +16,28 @@ namespace JJ.Business.Synthesizer.Tests
         // DivideWithOrigin
 
         [TestMethod]
-        public void Test_Synthesizer_DivideWithOrigin_WithRoslyn() => Test_Synthesizer_DivideWithOrigin(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_DivideWithOrigin_WithRoslyn() => Test_Synthesizer_DivideWithOrigin(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_DivideWithOrigin_WithCalculatorClasses() => Test_Synthesizer_DivideWithOrigin(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_DivideWithOrigin_WithCalculatorClasses() => Test_Synthesizer_DivideWithOrigin(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_DivideWithOrigin(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(nameof(SystemPatchNames.DivideWithOrigin), (a, b, o) => (a - o) / b + o, calculationMethodEnum);
+        private void Test_Synthesizer_DivideWithOrigin(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest(nameof(SystemPatchNames.DivideWithOrigin), (a, b, o) => (a - o) / b + o, calculationEngineEnum);
 
         // MultiplyWithOrigin
 
         [TestMethod]
-        public void Test_Synthesizer_MultiplyWithOrigin_WithRoslyn() => Test_Synthesizer_MultiplyWithOrigin(CalculationMethodEnum.Roslyn);
+        public void Test_Synthesizer_MultiplyWithOrigin_WithRoslyn() => Test_Synthesizer_MultiplyWithOrigin(CalculationEngineEnum.Roslyn);
 
         [TestMethod]
-        public void Test_Synthesizer_MultiplyWithOrigin_WithCalculatorClasses() => Test_Synthesizer_MultiplyWithOrigin(CalculationMethodEnum.CalculatorClasses);
+        public void Test_Synthesizer_MultiplyWithOrigin_WithCalculatorClasses() => Test_Synthesizer_MultiplyWithOrigin(CalculationEngineEnum.CalculatorClasses);
 
-        private void Test_Synthesizer_MultiplyWithOrigin(CalculationMethodEnum calculationMethodEnum)
-            => ExecuteTest(nameof(SystemPatchNames.MultiplyWithOrigin), (a, b, o) => (a - o) * b + o, calculationMethodEnum);
+        private void Test_Synthesizer_MultiplyWithOrigin(CalculationEngineEnum calculationEngineEnum)
+            => ExecuteTest(nameof(SystemPatchNames.MultiplyWithOrigin), (a, b, o) => (a - o) * b + o, calculationEngineEnum);
 
         // Generalized Method
 
-        private void ExecuteTest(string systemPatchName, Func<double, double, double, double> func, CalculationMethodEnum calculationMethodEnum)
+        private void ExecuteTest(string systemPatchName, Func<double, double, double, double> func, CalculationEngineEnum calculationEngineEnum)
             => TestExecutor.ExecuteTest(
                 x => x.New(systemPatchName, x.PatchInlet(DimensionEnum.A), x.PatchInlet(DimensionEnum.B), x.PatchInlet(DimensionEnum.Origin)),
                 func,
@@ -48,6 +47,6 @@ namespace JJ.Business.Synthesizer.Tests
                 _bValues,
                 DimensionEnum.Origin,
                 _origins,
-                calculationMethodEnum);
+                calculationEngineEnum);
     }
 }

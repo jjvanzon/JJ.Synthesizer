@@ -29,9 +29,11 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 
 	internal class Interpolate_OperatorDto_ConstSignal : Interpolate_OperatorDto { }
 
-	internal class Interpolate_OperatorDto_Block : Interpolate_OperatorDto { }
+    internal class Interpolate_OperatorDto_Block_LagBehind : Interpolate_OperatorDto { }
 
-	internal class Interpolate_OperatorDto_Cubic_LagBehind : Interpolate_OperatorDto { }
+    internal class Interpolate_OperatorDto_Block_LookAhead : Interpolate_OperatorDto { }
+
+    internal class Interpolate_OperatorDto_Cubic_LagBehind : Interpolate_OperatorDto { }
 
 	internal class Interpolate_OperatorDto_Cubic_LookAhead : Interpolate_OperatorDto { }
 
