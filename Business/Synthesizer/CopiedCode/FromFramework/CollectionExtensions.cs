@@ -33,6 +33,18 @@ namespace JJ.Framework.Collections
             }
         }
 
+        /// <summary>
+        /// For some polymorphism between Lists, Stacks and Queues, there are these Add and Remove extension methods,
+        /// in place of Push, Pop, Enqueue and Dequeue.
+        /// </summary>
+        public static void Add<T>(this Stack<T> stack, T item) => stack.Push(item);
+
+        /// <summary>
+        /// For some polymorphism between Lists, Stacks and Queues, there are these Add and Remove extension methods,
+        /// in place of Push, Pop, Enqueue and Dequeue.
+        /// </summary>
+        public static void Add<T>(this Queue<T> stack, T item) => stack.Enqueue(item);
+
         /// <summary> AddRange is a member of List&lt;T&gt;. Here is an overload for HashSet&lt;T&gt;. </summary>
         public static void AddRange<T>(this HashSet<T> dest, IEnumerable<T> source)
         {
@@ -57,13 +69,22 @@ namespace JJ.Framework.Collections
             }
         }
 
-        /// <summary> Converts a single item to an array. (The names 'ToArray' and 'ToList' conflicted with other overloads.)</summary>
+        /// <summary>
+        /// Converts a single item to an array. Example: int[] myInts = 3.AsArray();
+        /// (The names 'ToArray' and 'ToList' conflicted with other overloads.)
+        /// </summary>
         public static TItem[] AsArray<TItem>(this TItem item) => new[] { item };
 
-        /// <summary> Converts a single item to an enumerable. </summary>
+        /// <summary>
+        /// Converts a single item to an enumerable.
+        /// Example: IEnumerable&lt;int&gt; myEnumerable = 3.AsEnumerable();
+        /// </summary>
         public static IEnumerable<TItem> AsEnumerable<TItem>(this TItem item) => new[] { item };
 
-        /// <summary> Converts a single item to a list. (The names 'ToArray' and 'ToList' conflicted with other overloads.)</summary>
+        /// <summary>
+        /// Converts a single item to a list. Example: List&lt;int&gt; myInts = 3.AsList();
+        /// (The names 'ToArray' and 'ToList' conflicted with other overloads.)
+        /// </summary>
         public static List<TItem> AsList<TItem>(this TItem item) => new List<TItem> { item };
 
         /// <summary> Overload of Concat that takes a single item, e.g. myCollection.Concat(myItem); </summary>
@@ -246,8 +267,8 @@ namespace JJ.Framework.Collections
         /// <summary>
         /// A regular First() will give you an exception if there are no elements in the collection.
         /// But not a very clear exception, like 'Sequence contains no elements.'
-        /// FirstWithClearException() will allow you to do a First, 
-        /// but get a clearer exception message e.g. 'Product not with key { group = "Shoes" } not found.'
+        /// FirstWithClearException() will allow you to do a First,
+        /// but get a clearer exception message e.g. 'Product with key { group = "Shoes" } not found.'
         /// Only really works if you filtered by something.
         /// </summary>
         /// <param name="keyIndicator">
@@ -272,8 +293,8 @@ namespace JJ.Framework.Collections
         /// <summary>
         /// A regular First() will give you an exception if there are no elements in the collection.
         /// But not a very clear exception, like 'Sequence contains no elements.'
-        /// FirstWithClearException() will allow you to do a First, 
-        /// but get a clearer exception message e.g. 'Product not with key { group = "Shoes" } not found.'
+        /// FirstWithClearException() will allow you to do a First,
+        /// but get a clearer exception message e.g. 'Product with key { group = "Shoes" } not found.'
         /// Only really works if you filtered by something.
         /// </summary>
         /// <param name="keyIndicator">
@@ -296,7 +317,10 @@ namespace JJ.Framework.Collections
             return item;
         }
 
-        /// <summary> Not all collection types have the ForEach method. Here you have an overload for IEnumerable&lt;T&gt;. </summary>
+        /// <summary>
+        /// Not all collection types have the ForEach method. Here you have an overload for IEnumerable&lt;T&gt; so you
+        /// can use it for more collection types.
+        /// </summary>
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
@@ -327,6 +351,7 @@ namespace JJ.Framework.Collections
 
         /// <summary>
         /// Returns the list index of the first item that matches the predicate.
+        /// E.g. int index = items.IndexOf(x => x.ID == 3);
         /// Does not check duplicates, because that would make it slower.
         /// (List&lt;T&gt; has FindIndex natively, but other collection types do not.)
         /// </summary>
@@ -453,30 +478,6 @@ namespace JJ.Framework.Collections
         }
 
         /// <summary>
-        /// For some polymorphism between Lists, Stacks and Queues, there are these Add and Remove extension methods,
-        /// in place of Push, Pop, Enqueue and Dequeue.
-        /// </summary>
-        public static void Add<T>(this Stack<T> stack, T item) => stack.Push(item);
-
-        /// <summary>
-        /// For some polymorphism between Lists, Stacks and Queues, there are these Add and Remove extension methods,
-        /// in place of Push, Pop, Enqueue and Dequeue.
-        /// </summary>
-        public static void Remove<T>(this Stack<T> stack) => stack.Pop();
-
-        /// <summary>
-        /// For some polymorphism between Lists, Stacks and Queues, there are these Add and Remove extension methods,
-        /// in place of Push, Pop, Enqueue and Dequeue.
-        /// </summary>
-        public static void Add<T>(this Queue<T> stack, T item) => stack.Enqueue(item);
-
-        /// <summary>
-        /// For some polymorphism between Lists, Stacks and Queues, there are these Add and Remove extension methods,
-        /// in place of Push, Pop, Enqueue and Dequeue.
-        /// </summary>
-        public static void Remove<T>(this Queue<T> stack) => stack.Dequeue();
-
-        /// <summary>
         /// Works similar to Sum, but instead of adding up all the numbers, all the numbers are multiplied.
         /// </summary>
         public static double Product<TSource>(this IEnumerable<TSource> collection, Func<TSource, double> selector)
@@ -592,6 +593,18 @@ namespace JJ.Framework.Collections
         }
 
         /// <summary>
+        /// For some polymorphism between Lists, Stacks and Queues, there are these Add and Remove extension methods,
+        /// in place of Push, Pop, Enqueue and Dequeue.
+        /// </summary>
+        public static void Remove<T>(this Stack<T> stack) => stack.Pop();
+
+        /// <summary>
+        /// For some polymorphism between Lists, Stacks and Queues, there are these Add and Remove extension methods,
+        /// in place of Push, Pop, Enqueue and Dequeue.
+        /// </summary>
+        public static void Remove<T>(this Queue<T> stack) => stack.Dequeue();
+
+        /// <summary>
         /// Removes the first occurrence that matches the predicate.
         /// Throws an exception no item matches the predicate.
         /// Does not check duplicates, which makes it faster if you are sure only one item is in it.
@@ -626,8 +639,8 @@ namespace JJ.Framework.Collections
         /// <summary>
         /// A regular SingleOrDefault() will give you an exception if there are multiple elements in the collection.
         /// But not a very clear exception, like 'The input sequence contains more than one element.'
-        /// SingleOrDefaultWithClearException() will allow you to do a SingleOrDefault, 
-        /// but get a clearer exception message e.g. 'Product not with key { productNumber = 1234 } not unique.'
+        /// SingleOrDefaultWithClearException() will allow you to do a SingleOrDefault,
+        /// but get a clearer exception message e.g. 'Product with key { productNumber = 1234 } not unique.'
         /// Only really works if you filtered by something.
         /// </summary>
         /// <param name="keyIndicator">
@@ -644,8 +657,8 @@ namespace JJ.Framework.Collections
         /// <summary>
         /// A regular SingleOrDefault() will give you an exception if there are multiple elements in the collection.
         /// But not a very clear exception, like 'The input sequence contains more than one element.'
-        /// SingleOrDefaultWithClearException() will allow you to do a SingleOrDefault, 
-        /// but get a clearer exception message e.g. 'Product not with key { productNumber = 1234 } not unique.'
+        /// SingleOrDefaultWithClearException() will allow you to do a SingleOrDefault,
+        /// but get a clearer exception message e.g. 'Product with key { productNumber = 123 } not unique.'
         /// Only really works if you filtered by something.
         /// </summary>
         /// <param name="keyIndicator">
@@ -665,8 +678,8 @@ namespace JJ.Framework.Collections
         /// <summary>
         /// A regular SingleOrDefault() will give you an exception if there are multiple elements in the collection.
         /// But not a very clear exception, like 'The input sequence contains more than one element.'
-        /// SingleOrDefaultWithClearException() will allow you to do a SingleOrDefault, 
-        /// but get a clearer exception message e.g. 'Product not with key { productNumber = 1234 } not unique.'
+        /// SingleOrDefaultWithClearException() will allow you to do a SingleOrDefault,
+        /// but get a clearer exception message e.g. 'Product with key { productNumber = 123 } not unique.'
         /// Only really works if you filtered by something.
         /// </summary>
         /// <param name="keyIndicator">
@@ -691,8 +704,8 @@ namespace JJ.Framework.Collections
         /// <summary>
         /// A regular SingleOrDefault() will give you an exception if there are multiple elements in the collection.
         /// But not a very clear exception, like 'The input sequence contains more than one element.'
-        /// SingleOrDefaultWithClearException() will allow you to do a SingleOrDefault, 
-        /// but get a clearer exception message e.g. 'Product not with key { productNumber = 1234 } not unique.'
+        /// SingleOrDefaultWithClearException() will allow you to do a SingleOrDefault,
+        /// but get a clearer exception message e.g. 'Product with key { productNumber = 123 } not unique.'
         /// Only really works if you filtered by something.
         /// </summary>
         /// <param name="keyIndicator">
@@ -721,8 +734,8 @@ namespace JJ.Framework.Collections
         /// <summary>
         /// A regular Single() will give you an exception if there are no elements or multiple elements in the collection.
         /// But not a very clear exception, like 'The input sequence contains more than one element.'
-        /// SingleWithClearException() will allow you to do a Single, 
-        /// but get a clearer exception message e.g. 'Product not with key { productNumber = 1234 } not unique.'
+        /// SingleWithClearException() will allow you to do a Single,
+        /// but get a clearer exception message e.g. 'Product with key { productNumber = 123 } not unique.'
         /// Only really works if you filtered by something.
         /// </summary>
         /// <param name="keyIndicator">
@@ -739,8 +752,8 @@ namespace JJ.Framework.Collections
         /// <summary>
         /// A regular Single() will give you an exception if there are no elements or multiple elements in the collection.
         /// But not a very clear exception, like 'The input sequence contains more than one element.'
-        /// SingleWithClearException() will allow you to do a Single, 
-        /// but get a clearer exception message e.g. 'Product not with key { productNumber = 1234 } not unique.'
+        /// SingleWithClearException() will allow you to do a Single,
+        /// but get a clearer exception message e.g. 'Product with key { productNumber = 123 } not unique.'
         /// Only really works if you filtered by something.
         /// </summary>
         /// <param name="keyIndicator">
@@ -760,8 +773,8 @@ namespace JJ.Framework.Collections
         /// <summary>
         /// A regular Single() will give you an exception if there are no elements or multiple elements in the collection.
         /// But not a very clear exception, like 'The input sequence contains more than one element.'
-        /// SingleWithClearException() will allow you to do a Single, 
-        /// but get a clearer exception message e.g. 'Product not with key { productNumber = 1234 } not unique.'
+        /// SingleWithClearException() will allow you to do a Single,
+        /// but get a clearer exception message e.g. 'Product with key { productNumber = 123 } not unique.'
         /// Only really works if you filtered by something.
         /// </summary>
         /// <param name="keyIndicator">
@@ -786,8 +799,8 @@ namespace JJ.Framework.Collections
         /// <summary>
         /// A regular Single() will give you an exception if there are no elements or multiple elements in the collection.
         /// But not a very clear exception, like 'The input sequence contains more than one element.'
-        /// SingleWithClearException() will allow you to do a Single, 
-        /// but get a clearer exception message e.g. 'Product not with key { productNumber = 1234 } not unique.'
+        /// SingleWithClearException() will allow you to do a Single,
+        /// but get a clearer exception message e.g. 'Product with key { productNumber = 123 } not unique.'
         /// Only really works if you filtered by something.
         /// </summary>
         /// <param name="keyIndicator">
@@ -844,7 +857,10 @@ namespace JJ.Framework.Collections
             return sourceCollection.ToNonUniqueDictionary(keySelector, x => x);
         }
 
-        /// <summary> GroupBy might allow grouping by a non-unique key, but converting it to a Dictionary might make for a faster lookup. </summary>
+        /// <summary>
+        /// GroupBy might allow grouping by a non-unique key, but converting it to a Dictionary might make for a faster
+        /// lookup.
+        /// </summary>
         public static Dictionary<TKey, IList<TElement>> ToNonUniqueDictionary<TKey, TElement>(
             this IEnumerable<IGrouping<TKey, TElement>> sourceGroups)
         {
