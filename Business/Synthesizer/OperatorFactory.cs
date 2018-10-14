@@ -162,6 +162,7 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
+	    // ReSharper disable once UnusedMember.Local
 	    private OperatorWrapper Curve(
 			double xSpan,
 			DimensionEnum? standardDimension = null,
