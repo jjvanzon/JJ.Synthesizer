@@ -102,7 +102,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Synthesizer.testsettings = Synthesizer.testsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Testing.Data", "Framework\JJ.Framework.Testing.Data\JJ.Framework.Testing.Data.csproj", "{F6E87698-B73B-43F5-AFF2-54C2F219334E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Testing.Data", "Framework\Testing.Data\JJ.Framework.Testing.Data.csproj", "{F6E87698-B73B-43F5-AFF2-54C2F219334E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
