@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class Synthesizer_Trigonometry_Tests
     {
-        private static readonly double[] _valuesFrom0To2Pi = MathHelper.SpreadDoubles(0, MathHelper.TWO_PI, 9);
+        private static readonly double[] _valuesFrom0To2Pi = MathHelper.SpreadDoubles(0, MathHelper.TWO_PI, 35);
         private static readonly double[] _valuesFromMinus1To1 = MathHelper.SpreadDoubles(-1, 1, 9);
 
         // Sin
@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Tests
                 TestConstants.DEFAULT_DIMENSION_ENUM,
                 _valuesFrom0To2Pi,
                 calculationEngineEnum,
-                new TestOptions(mustPlot: true));
+                new TestOptions(mustPlot: true, plotLineCount: 9));
 
         private void ExecuteTest_FromMinus1To1(string systemPatchName, Func<double, double> func, CalculationEngineEnum calculationEngineEnum)
             => TestExecutor.ExecuteTest(
