@@ -87,36 +87,6 @@ namespace JJ.Framework.Collections
         /// </summary>
         public static List<TItem> AsList<TItem>(this TItem item) => new List<TItem> { item };
 
-        /// <summary> Will only return a meaningful result if the collection is sorted. </summary>
-        /// <param name="sortedArray"> Not checked for null, for performance. </param>
-        public static (double valueBefore, double valueAfter) BinarySearchInexact(this IEnumerable<double> sortedCollection, double input)
-            => CollectionHelper.BinarySearchInexact(sortedCollection.ToArray(), input);
-
-        /// <summary> Will only return a meaningful result if the collection is sorted. </summary>
-        /// <param name="sortedArray"> Not checked for null, for performance. </param>
-        public static (double valueBefore, double valueAfter) BinarySearchInexact(this double[] sortedArray, double input)
-            => CollectionHelper.BinarySearchInexact(sortedArray, input);
-
-        /// <summary> Will only return a meaningful result if the collection is sorted. </summary>
-        /// <param name="sortedArray"> Not checked for null, for performance. </param>
-        public static (double valueBefore, double valueAfter) BinarySearchInexact(
-            this IEnumerable<double> sortedCollection,
-            int halfCount,
-            double min,
-            double max,
-            double input)
-            => CollectionHelper.BinarySearchInexact(sortedCollection.ToArray(), halfCount, min, max, input);
-
-        /// <summary> Will only return a meaningful result if the collection is sorted. </summary>
-        /// <param name="sortedArray"> Not checked for null, for performance. </param>
-        public static (double valueBefore, double valueAfter) BinarySearchInexact(
-            this double[] sortedArray,
-            int halfCount,
-            double min,
-            double max,
-            double input)
-            => CollectionHelper.BinarySearchInexact(sortedArray, halfCount, min, max, input);
-
         /// <summary> Overload of Concat that takes a single item, e.g. myCollection.Concat(myItem); </summary>
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, T second) => first.Concat(new[] { second });
 
