@@ -17,6 +17,7 @@ namespace JJ.Framework.Collections
 
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Decimal valueBefore, Decimal valueAfter) BinarySearchInexact(Decimal[] sortedArray, Decimal input)
 			{
 				BinarySearchInexact(sortedArray, input, out Decimal valueBefore, out Decimal valueAfter);
@@ -26,6 +27,7 @@ namespace JJ.Framework.Collections
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Decimal[] sortedArray,
 				Decimal input,
@@ -46,6 +48,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Decimal valueBefore, Decimal valueAfter) BinarySearchInexact(
 				Decimal[] sortedArray,
 				int halfCount,
@@ -63,6 +66,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Decimal[] sortedArray,
 				int halfCount,
@@ -84,17 +88,20 @@ namespace JJ.Framework.Collections
 
 					jump = jump >> 1;
 
-					if (input >= sample)
+					if (input > sample)
 					{
 						valueBefore = sample;
-
 						sampleIndex += jump;
+					}
+					else if (input < sample)
+					{
+						valueAfter = sample;
+						sampleIndex -= jump;
 					}
 					else
 					{
+						valueBefore = sample;
 						valueAfter = sample;
-
-						sampleIndex -= jump;
 					}
 				}
 			}
@@ -103,6 +110,7 @@ namespace JJ.Framework.Collections
 
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Double valueBefore, Double valueAfter) BinarySearchInexact(Double[] sortedArray, Double input)
 			{
 				BinarySearchInexact(sortedArray, input, out Double valueBefore, out Double valueAfter);
@@ -112,6 +120,7 @@ namespace JJ.Framework.Collections
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Double[] sortedArray,
 				Double input,
@@ -132,6 +141,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Double valueBefore, Double valueAfter) BinarySearchInexact(
 				Double[] sortedArray,
 				int halfCount,
@@ -149,6 +159,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Double[] sortedArray,
 				int halfCount,
@@ -170,17 +181,20 @@ namespace JJ.Framework.Collections
 
 					jump = jump >> 1;
 
-					if (input >= sample)
+					if (input > sample)
 					{
 						valueBefore = sample;
-
 						sampleIndex += jump;
+					}
+					else if (input < sample)
+					{
+						valueAfter = sample;
+						sampleIndex -= jump;
 					}
 					else
 					{
+						valueBefore = sample;
 						valueAfter = sample;
-
-						sampleIndex -= jump;
 					}
 				}
 			}
@@ -189,6 +203,7 @@ namespace JJ.Framework.Collections
 
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int16 valueBefore, Int16 valueAfter) BinarySearchInexact(Int16[] sortedArray, Int16 input)
 			{
 				BinarySearchInexact(sortedArray, input, out Int16 valueBefore, out Int16 valueAfter);
@@ -198,6 +213,7 @@ namespace JJ.Framework.Collections
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Int16[] sortedArray,
 				Int16 input,
@@ -218,6 +234,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int16 valueBefore, Int16 valueAfter) BinarySearchInexact(
 				Int16[] sortedArray,
 				int halfCount,
@@ -235,6 +252,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Int16[] sortedArray,
 				int halfCount,
@@ -256,17 +274,20 @@ namespace JJ.Framework.Collections
 
 					jump = jump >> 1;
 
-					if (input >= sample)
+					if (input > sample)
 					{
 						valueBefore = sample;
-
 						sampleIndex += jump;
+					}
+					else if (input < sample)
+					{
+						valueAfter = sample;
+						sampleIndex -= jump;
 					}
 					else
 					{
+						valueBefore = sample;
 						valueAfter = sample;
-
-						sampleIndex -= jump;
 					}
 				}
 			}
@@ -275,6 +296,7 @@ namespace JJ.Framework.Collections
 
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int32 valueBefore, Int32 valueAfter) BinarySearchInexact(Int32[] sortedArray, Int32 input)
 			{
 				BinarySearchInexact(sortedArray, input, out Int32 valueBefore, out Int32 valueAfter);
@@ -284,6 +306,7 @@ namespace JJ.Framework.Collections
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Int32[] sortedArray,
 				Int32 input,
@@ -304,6 +327,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int32 valueBefore, Int32 valueAfter) BinarySearchInexact(
 				Int32[] sortedArray,
 				int halfCount,
@@ -321,6 +345,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Int32[] sortedArray,
 				int halfCount,
@@ -342,17 +367,20 @@ namespace JJ.Framework.Collections
 
 					jump = jump >> 1;
 
-					if (input >= sample)
+					if (input > sample)
 					{
 						valueBefore = sample;
-
 						sampleIndex += jump;
+					}
+					else if (input < sample)
+					{
+						valueAfter = sample;
+						sampleIndex -= jump;
 					}
 					else
 					{
+						valueBefore = sample;
 						valueAfter = sample;
-
-						sampleIndex -= jump;
 					}
 				}
 			}
@@ -361,6 +389,7 @@ namespace JJ.Framework.Collections
 
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int64 valueBefore, Int64 valueAfter) BinarySearchInexact(Int64[] sortedArray, Int64 input)
 			{
 				BinarySearchInexact(sortedArray, input, out Int64 valueBefore, out Int64 valueAfter);
@@ -370,6 +399,7 @@ namespace JJ.Framework.Collections
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Int64[] sortedArray,
 				Int64 input,
@@ -390,6 +420,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int64 valueBefore, Int64 valueAfter) BinarySearchInexact(
 				Int64[] sortedArray,
 				int halfCount,
@@ -407,6 +438,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Int64[] sortedArray,
 				int halfCount,
@@ -428,17 +460,20 @@ namespace JJ.Framework.Collections
 
 					jump = jump >> 1;
 
-					if (input >= sample)
+					if (input > sample)
 					{
 						valueBefore = sample;
-
 						sampleIndex += jump;
+					}
+					else if (input < sample)
+					{
+						valueAfter = sample;
+						sampleIndex -= jump;
 					}
 					else
 					{
+						valueBefore = sample;
 						valueAfter = sample;
-
-						sampleIndex -= jump;
 					}
 				}
 			}
@@ -447,6 +482,7 @@ namespace JJ.Framework.Collections
 
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Single valueBefore, Single valueAfter) BinarySearchInexact(Single[] sortedArray, Single input)
 			{
 				BinarySearchInexact(sortedArray, input, out Single valueBefore, out Single valueAfter);
@@ -456,6 +492,7 @@ namespace JJ.Framework.Collections
 			/// <summary> Searches a sorted collection in an efficient way. Returns the value before and the value after, if a value to search is in between two values in the list. Will only return a meaningful result if the collection is sorted. </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Single[] sortedArray,
 				Single input,
@@ -476,6 +513,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Single valueBefore, Single valueAfter) BinarySearchInexact(
 				Single[] sortedArray,
 				int halfCount,
@@ -493,6 +531,7 @@ namespace JJ.Framework.Collections
 			/// </summary>
 			/// <param name="sortedArray"> Not checked for null, for performance. </param>
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static void BinarySearchInexact(
 				Single[] sortedArray,
 				int halfCount,
@@ -514,17 +553,20 @@ namespace JJ.Framework.Collections
 
 					jump = jump >> 1;
 
-					if (input >= sample)
+					if (input > sample)
 					{
 						valueBefore = sample;
-
 						sampleIndex += jump;
+					}
+					else if (input < sample)
+					{
+						valueAfter = sample;
+						sampleIndex -= jump;
 					}
 					else
 					{
+						valueBefore = sample;
 						valueAfter = sample;
-
-						sampleIndex -= jump;
 					}
 				}
 			}

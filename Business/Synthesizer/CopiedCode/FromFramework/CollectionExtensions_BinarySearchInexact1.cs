@@ -22,6 +22,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Decimal valueBefore, Decimal valueAfter) BinarySearchInexact(this IEnumerable<Decimal> sortedCollection, Decimal input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection.ToArray(), input);
 
@@ -32,6 +33,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Decimal valueBefore, Decimal valueAfter) BinarySearchInexact(this Decimal[] sortedCollection, Decimal input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection, input);
 
@@ -42,6 +44,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Decimal valueBefore, Decimal valueAfter) BinarySearchInexact(
 				this IEnumerable<Decimal> sortedCollection,
 				int halfCount,
@@ -57,6 +60,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Decimal valueBefore, Decimal valueAfter) BinarySearchInexact(
 				this Decimal[] sortedCollection,
 				int halfCount,
@@ -74,6 +78,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Double valueBefore, Double valueAfter) BinarySearchInexact(this IEnumerable<Double> sortedCollection, Double input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection.ToArray(), input);
 
@@ -84,6 +89,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Double valueBefore, Double valueAfter) BinarySearchInexact(this Double[] sortedCollection, Double input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection, input);
 
@@ -94,6 +100,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Double valueBefore, Double valueAfter) BinarySearchInexact(
 				this IEnumerable<Double> sortedCollection,
 				int halfCount,
@@ -109,6 +116,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Double valueBefore, Double valueAfter) BinarySearchInexact(
 				this Double[] sortedCollection,
 				int halfCount,
@@ -126,6 +134,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int16 valueBefore, Int16 valueAfter) BinarySearchInexact(this IEnumerable<Int16> sortedCollection, Int16 input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection.ToArray(), input);
 
@@ -136,6 +145,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int16 valueBefore, Int16 valueAfter) BinarySearchInexact(this Int16[] sortedCollection, Int16 input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection, input);
 
@@ -146,6 +156,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int16 valueBefore, Int16 valueAfter) BinarySearchInexact(
 				this IEnumerable<Int16> sortedCollection,
 				int halfCount,
@@ -161,6 +172,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int16 valueBefore, Int16 valueAfter) BinarySearchInexact(
 				this Int16[] sortedCollection,
 				int halfCount,
@@ -178,6 +190,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int32 valueBefore, Int32 valueAfter) BinarySearchInexact(this IEnumerable<Int32> sortedCollection, Int32 input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection.ToArray(), input);
 
@@ -188,6 +201,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int32 valueBefore, Int32 valueAfter) BinarySearchInexact(this Int32[] sortedCollection, Int32 input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection, input);
 
@@ -198,6 +212,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int32 valueBefore, Int32 valueAfter) BinarySearchInexact(
 				this IEnumerable<Int32> sortedCollection,
 				int halfCount,
@@ -213,6 +228,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int32 valueBefore, Int32 valueAfter) BinarySearchInexact(
 				this Int32[] sortedCollection,
 				int halfCount,
@@ -230,6 +246,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int64 valueBefore, Int64 valueAfter) BinarySearchInexact(this IEnumerable<Int64> sortedCollection, Int64 input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection.ToArray(), input);
 
@@ -240,6 +257,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int64 valueBefore, Int64 valueAfter) BinarySearchInexact(this Int64[] sortedCollection, Int64 input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection, input);
 
@@ -250,6 +268,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int64 valueBefore, Int64 valueAfter) BinarySearchInexact(
 				this IEnumerable<Int64> sortedCollection,
 				int halfCount,
@@ -265,6 +284,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Int64 valueBefore, Int64 valueAfter) BinarySearchInexact(
 				this Int64[] sortedCollection,
 				int halfCount,
@@ -282,6 +302,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Single valueBefore, Single valueAfter) BinarySearchInexact(this IEnumerable<Single> sortedCollection, Single input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection.ToArray(), input);
 
@@ -292,6 +313,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Single valueBefore, Single valueAfter) BinarySearchInexact(this Single[] sortedCollection, Single input)
 				=> CollectionHelper.BinarySearchInexact(sortedCollection, input);
 
@@ -302,6 +324,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Single valueBefore, Single valueAfter) BinarySearchInexact(
 				this IEnumerable<Single> sortedCollection,
 				int halfCount,
@@ -317,6 +340,7 @@ namespace JJ.Framework.Collections
 			/// Will only return a meaningful result if the collection is sorted.
 			/// </summary>
 			/// <param name="sortedCollection"> Not checked for null, for performance. </param>
+			[Obsolete("Consider not using this. It only approximates the correct result.")]
 			public static (Single valueBefore, Single valueAfter) BinarySearchInexact(
 				this Single[] sortedCollection,
 				int halfCount,
