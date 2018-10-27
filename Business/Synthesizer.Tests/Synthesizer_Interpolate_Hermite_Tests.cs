@@ -155,7 +155,6 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_Synthesizer_Interpolate_Hermite_LagBehind_Forward(CalculationEngineEnum calculationEngineEnum)
         {
-            const double xMinus1 = Math.PI * -12 / 12;
             const double x0 = Math.PI * -09 / 12;
             const double x1 = Math.PI * -06 / 12;
             const double x2 = Math.PI * -03 / 12;
@@ -165,7 +164,6 @@ namespace JJ.Business.Synthesizer.Tests
             const double x6 = Math.PI * 09 / 12;
             const double x7 = Math.PI * 12 / 12;
             const double x8 = Math.PI * 15 / 12;
-            const double x9 = Math.PI * 18 / 12;
 
             double yMinus1 = Math.Sin(Math.PI * -09 / 12);
             double y0 = Math.Sin(Math.PI * -09 / 12);
@@ -222,7 +220,6 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_Synthesizer_Interpolate_Hermite_LagBehind_Backward(CalculationEngineEnum calculationEngineEnum)
         {
-            const double xMinus1 = Math.PI * 12 / 12;
             const double x0 = Math.PI * 09 / 12;
             const double x1 = Math.PI * 06 / 12;
             const double x2 = Math.PI * 03 / 12;
@@ -232,7 +229,6 @@ namespace JJ.Business.Synthesizer.Tests
             const double x6 = Math.PI * -09 / 12;
             const double x7 = Math.PI * -12 / 12;
             const double x8 = Math.PI * -15 / 12;
-            const double x9 = Math.PI * -18 / 12;
 
             double yMinus1 = Math.Sin(Math.PI * 09 / 12);
             double y0 = Math.Sin(Math.PI * 09 / 12);

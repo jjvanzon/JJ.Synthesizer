@@ -214,6 +214,8 @@
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
     <EmbeddedResource Include="EmbeddedResources\SineCalculator.cs" />
     <Compile Include="Calculation\ToneCalculator.cs" />
+    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_BinarySearchInexact1.cs" />
+    <Compile Include="CopiedCode\FromFramework\CollectionHelper.BinarySearchInexact1.cs" />
     <Compile Include="CopiedCode\FromFramework\TextPlotter.cs" />
     <Compile Include="Enums\CalculationEngineEnum.cs" />
     <Compile Include="Converters\MidiMappingToDtoConverter.cs" />

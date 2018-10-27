@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 			if (extraTicksBefore < 0) throw new LessThanException(() => extraTicksBefore, 0);
 			if (extraTicksAfter < 0) throw new LessThanException(() => extraTicksAfter, 0);
 
-			// Do not simplify to throw expression as long as run-time compilation uses C#6.
+			// Do not simplify to throw expression as long as run-time compilation uses C# 6.
 			// ReSharper disable once JoinNullCheckWithUsage
 			if (array == null) throw new NullException(() => array);
 

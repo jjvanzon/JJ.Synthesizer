@@ -37,7 +37,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double input = _inputCalculator.Calculate();
 
-
 			CollectionHelper.BinarySearchInexact(
 				_samples,
 				_halfCount,
