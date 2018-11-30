@@ -138,23 +138,23 @@
     <Compile Include="Helpers\VariableInputInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Collections\JJ.Framework.Collections.csproj">
       <Project>{5D06A212-5459-47F3-8109-E012C5FC9E3A}</Project>
       <Name>JJ.Framework.Collections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Common\JJ.Framework.Common.csproj">
       <Project>{44FD9133-5FE7-4824-BD35-27273706D127}</Project>
       <Name>JJ.Framework.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
-      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{FA44ABA2-8E13-402C-A5A0-8D73C74B5181}</Project>
       <Name>JJ.Framework.Exceptions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\IO\JJ.Framework.IO.csproj">
-      <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\IO\JJ.Framework.IO.csproj">
+      <Project>{C600657B-7E29-44B5-83A1-747FAB30D5D0}</Project>
       <Name>JJ.Framework.IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Text\JJ.Framework.Text.csproj">
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Text\JJ.Framework.Text.csproj">
       <Project>{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}</Project>
       <Name>JJ.Framework.Text</Name>
     </ProjectReference>

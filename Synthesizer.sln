@@ -5,43 +5,43 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{72857B67-3003-486C-9BB3-34AF5748BE95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data", "Framework\Data\JJ.Framework.Data.csproj", "{7ADEDDCE-6903-4A58-94F5-D0B39B21330F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data", "..\JJ.Framework\Framework\Data\JJ.Framework.Data.csproj", "{7ADEDDCE-6903-4A58-94F5-D0B39B21330F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.NHibernate", "Framework\Data.NHibernate\JJ.Framework.Data.NHibernate.csproj", "{DB783ED9-FDE6-458F-A094-457B7F4283A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.NHibernate", "..\JJ.Framework\Framework\Data.NHibernate\JJ.Framework.Data.NHibernate.csproj", "{DB783ED9-FDE6-458F-A094-457B7F4283A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Configuration", "Framework\Configuration\JJ.Framework.Configuration.csproj", "{805A8237-05ED-40AE-8D1A-9288373EA5E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Configuration", "..\JJ.Framework\Framework\Configuration\JJ.Framework.Configuration.csproj", "{805A8237-05ED-40AE-8D1A-9288373EA5E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection", "Framework\Reflection\JJ.Framework.Reflection.csproj", "{1A8E047C-7893-4918-B415-CE3928E815D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection", "..\JJ.Framework\Framework\Reflection\JJ.Framework.Reflection.csproj", "{1A8E047C-7893-4918-B415-CE3928E815D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Common", "Framework\Common\JJ.Framework.Common.csproj", "{44FD9133-5FE7-4824-BD35-27273706D127}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Common", "..\JJ.Framework\Framework\Common\JJ.Framework.Common.csproj", "{44FD9133-5FE7-4824-BD35-27273706D127}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.EntityFramework", "Framework\Data.EntityFramework\JJ.Framework.Data.EntityFramework.csproj", "{9676E4C3-1A1F-45B8-8FFD-C398F14002E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.EntityFramework", "..\JJ.Framework\Framework\Data.EntityFramework\JJ.Framework.Data.EntityFramework.csproj", "{9676E4C3-1A1F-45B8-8FFD-C398F14002E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Testing", "Framework\Testing\JJ.Framework.Testing.csproj", "{369D4E9E-4EFF-4699-83B3-C4951EE0A3C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Testing", "..\JJ.Framework\Framework\Testing\JJ.Framework.Testing.csproj", "{369D4E9E-4EFF-4699-83B3-C4951EE0A3C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.IO", "Framework\IO\JJ.Framework.IO.csproj", "{C600657B-7E29-44B5-83A1-747FAB30D5D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.IO", "..\JJ.Framework\Framework\IO\JJ.Framework.IO.csproj", "{C600657B-7E29-44B5-83A1-747FAB30D5D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.WinForms", "Framework\WinForms\JJ.Framework.WinForms.csproj", "{84A66716-C686-4B8E-A092-CFE38CA7DDE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.WinForms", "..\JJ.Framework\Framework\WinForms\JJ.Framework.WinForms.csproj", "{84A66716-C686-4B8E-A092-CFE38CA7DDE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Validation", "Framework\Validation\JJ.Framework.Validation.csproj", "{59DDC853-62AF-4F86-A803-3D4DD491E978}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Validation", "..\JJ.Framework\Framework\Validation\JJ.Framework.Validation.csproj", "{59DDC853-62AF-4F86-A803-3D4DD491E978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Mathematics", "Framework\Mathematics\JJ.Framework.Mathematics.csproj", "{810B90B9-F501-4B91-B019-2AD5AAD63304}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Mathematics", "..\JJ.Framework\Framework\Mathematics\JJ.Framework.Mathematics.csproj", "{810B90B9-F501-4B91-B019-2AD5AAD63304}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Xml", "Framework\Xml\JJ.Framework.Xml.csproj", "{F6EA0941-40FF-4679-A1A6-EACD5C9BA42B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Xml", "..\JJ.Framework\Framework\Xml\JJ.Framework.Xml.csproj", "{F6EA0941-40FF-4679-A1A6-EACD5C9BA42B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Canonical", "Data\Canonical\JJ.Data.Canonical.csproj", "{08EA4A4E-D815-47AE-9277-DA6672D36214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation", "Framework\Presentation\JJ.Framework.Presentation.csproj", "{79B0EAC3-5159-4FC8-B3D8-53315B205444}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation", "..\JJ.Framework\Framework\Presentation\JJ.Framework.Presentation.csproj", "{79B0EAC3-5159-4FC8-B3D8-53315B205444}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgmlReaderDll", "Third Party\SgmlReader\Source Code Adapted\sgmlreaderdll\SgmlReaderDll.csproj", "{499527FF-AE52-450F-B3E3-4AD53E1712AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.PlatformCompatibility", "Framework\PlatformCompatibility\JJ.Framework.PlatformCompatibility.csproj", "{59622A6E-A9AE-438C-A164-05DEA2FCF8CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.PlatformCompatibility", "..\JJ.Framework\Framework\PlatformCompatibility\JJ.Framework.PlatformCompatibility.csproj", "{59622A6E-A9AE-438C-A164-05DEA2FCF8CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Resources", "Framework\Resources\JJ.Framework.Resources.csproj", "{40A53175-8048-4F2D-93CA-383074C0267E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Resources", "..\JJ.Framework\Framework\Resources\JJ.Framework.Resources.csproj", "{40A53175-8048-4F2D-93CA-383074C0267E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Business", "Framework\Business\JJ.Framework.Business.csproj", "{F44D03E8-FEEC-40D4-B866-A87799185B4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Business", "..\JJ.Framework\Framework\Business\JJ.Framework.Business.csproj", "{F44D03E8-FEEC-40D4-B866-A87799185B4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.SqlClient", "Framework\Data.SqlClient\JJ.Framework.Data.SqlClient.csproj", "{CEB85F8E-D429-4510-95A5-47CC3069D412}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.SqlClient", "..\JJ.Framework\Framework\Data.SqlClient\JJ.Framework.Data.SqlClient.csproj", "{CEB85F8E-D429-4510-95A5-47CC3069D412}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer", "Data\Synthesizer\JJ.Data.Synthesizer.csproj", "{BFE8068F-E441-44D2-896D-30FBB67946BF}"
 EndProject
@@ -55,19 +55,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.SqlClie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer", "Presentation\Synthesizer\JJ.Presentation.Synthesizer.csproj", "{919AE8A0-C964-4746-94A9-BC61A2546E78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.VectorGraphics", "Framework\VectorGraphics\JJ.Framework.VectorGraphics.csproj", "{52E03E08-331A-4CA7-8D8F-6F598C94EED4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.VectorGraphics", "..\JJ.Framework\Framework\VectorGraphics\JJ.Framework.VectorGraphics.csproj", "{52E03E08-331A-4CA7-8D8F-6F598C94EED4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Drawing", "Framework\Drawing\JJ.Framework.Drawing.csproj", "{21802A52-F4F7-4366-B61D-06E1FB337B86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Drawing", "..\JJ.Framework\Framework\Drawing\JJ.Framework.Drawing.csproj", "{21802A52-F4F7-4366-B61D-06E1FB337B86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.WinForms.TestForms", "Framework\WinForms.TestForms\JJ.Framework.WinForms.TestForms.csproj", "{1ED07700-D0FE-4397-A6A2-5FAAB025A0D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.WinForms.TestForms", "..\JJ.Framework\Framework\WinForms.TestForms\JJ.Framework.WinForms.TestForms.csproj", "{1ED07700-D0FE-4397-A6A2-5FAAB025A0D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.VectorGraphics.Tests", "Framework\VectorGraphics.Tests\JJ.Framework.VectorGraphics.Tests.csproj", "{AE5758E9-37E7-41FE-844D-A91471DB8FA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.VectorGraphics.Tests", "..\JJ.Framework\Framework\VectorGraphics.Tests\JJ.Framework.VectorGraphics.Tests.csproj", "{AE5758E9-37E7-41FE-844D-A91471DB8FA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.WinForms", "Presentation\Synthesizer.WinForms\JJ.Presentation.Synthesizer.WinForms.csproj", "{5B200A79-0358-438D-8DCE-F3E40E9E88A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.VectorGraphics", "Presentation\Synthesizer.VectorGraphics\JJ.Presentation.Synthesizer.VectorGraphics.csproj", "{DA036CC8-85CC-4A2B-B557-0A222A4486C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Logging", "Framework\Logging\JJ.Framework.Logging.csproj", "{CEEB755D-DE12-4E70-816E-546C429B44B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Logging", "..\JJ.Framework\Framework\Logging\JJ.Framework.Logging.csproj", "{CEEB755D-DE12-4E70-816E-546C429B44B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynthesizerDB", "Database\SynthesizerDB\SynthesizerDB.csproj", "{F9370CA4-AB57-4BC8-BAA5-FDAEA8DB3F3F}"
 EndProject
@@ -79,11 +79,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Canonical", "Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lomont", "Third Party\Lomont\Lomont.csproj", "{CDA729CD-CD5E-4700-8308-B4B916C8EAB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Collections", "Framework\Collections\JJ.Framework.Collections.csproj", "{5D06A212-5459-47F3-8109-E012C5FC9E3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Collections", "..\JJ.Framework\Framework\Collections\JJ.Framework.Collections.csproj", "{5D06A212-5459-47F3-8109-E012C5FC9E3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.SynthesizerPrototype.Tests", "Business\SynthesizerPrototype.Tests\JJ.Business.SynthesizerPrototype.Tests.csproj", "{58794EC8-775B-4EA6-A12C-F330AB03B0F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Exceptions", "Framework\Exceptions\JJ.Framework.Exceptions.csproj", "{FA44ABA2-8E13-402C-A5A0-8D73C74B5181}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Exceptions", "..\JJ.Framework\Framework\Exceptions\JJ.Framework.Exceptions.csproj", "{FA44ABA2-8E13-402C-A5A0-8D73C74B5181}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.SynthesizerPrototype", "Business\SynthesizerPrototype\JJ.Business.SynthesizerPrototype.csproj", "{71694F33-A9C9-4C84-B21A-1F5488784167}"
 EndProject
@@ -93,16 +93,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.SynthesizerProt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.SynthesizerPrototype.WithStructs", "Business\SynthesizerPrototype.WithStructs\JJ.Business.SynthesizerPrototype.WithStructs.csproj", "{06933DCA-EB38-4766-9794-A4EC0F5DA135}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Conversion", "Framework\Conversion\JJ.Framework.Conversion.csproj", "{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Conversion", "..\JJ.Framework\Framework\Conversion\JJ.Framework.Conversion.csproj", "{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Text", "Framework\Text\JJ.Framework.Text.csproj", "{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Text", "..\JJ.Framework\Framework\Text\JJ.Framework.Text.csproj", "{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{81EF089A-2463-4959-B618-770FDDC95030}"
 	ProjectSection(SolutionItems) = preProject
 		Synthesizer.testsettings = Synthesizer.testsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Testing.Data", "Framework\Testing.Data\JJ.Framework.Testing.Data.csproj", "{F6E87698-B73B-43F5-AFF2-54C2F219334E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Testing.Data", "..\JJ.Framework\Framework\Testing.Data\JJ.Framework.Testing.Data.csproj", "{F6E87698-B73B-43F5-AFF2-54C2F219334E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

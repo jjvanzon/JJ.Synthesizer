@@ -96,6 +96,30 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Business\JJ.Framework.Business.csproj">
+      <Project>{F44D03E8-FEEC-40D4-B866-A87799185B4C}</Project>
+      <Name>JJ.Framework.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Data.NHibernate\JJ.Framework.Data.NHibernate.csproj">
+      <Project>{db783ed9-fde6-458f-a094-457b7f4283a0}</Project>
+      <Name>JJ.Framework.Data.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Data\JJ.Framework.Data.csproj">
+      <Project>{7ADEDDCE-6903-4A58-94F5-D0B39B21330F}</Project>
+      <Name>JJ.Framework.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{FA44ABA2-8E13-402C-A5A0-8D73C74B5181}</Project>
+      <Name>JJ.Framework.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Reflection\JJ.Framework.Reflection.csproj">
+      <Project>{1A8E047C-7893-4918-B415-CE3928E815D8}</Project>
+      <Name>JJ.Framework.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\WinForms\JJ.Framework.WinForms.csproj">
+      <Project>{84A66716-C686-4B8E-A092-CFE38CA7DDE0}</Project>
+      <Name>JJ.Framework.WinForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Business\Canonical\JJ.Business.Canonical.csproj">
       <Project>{4dbe5e36-4b54-4e5f-9b4f-5bbf33a3cef1}</Project>
       <Name>JJ.Business.Canonical</Name>
@@ -116,41 +140,17 @@
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Data.Synthesizer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Business\JJ.Framework.Business.csproj">
-      <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
-      <Name>JJ.Framework.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Collections\JJ.Framework.Collections.csproj">
       <Project>{5d06a212-5459-47f3-8109-e012c5fc9e3a}</Project>
       <Name>JJ.Framework.Collections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Configuration\JJ.Framework.Configuration.csproj">
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Configuration\JJ.Framework.Configuration.csproj">
       <Project>{805a8237-05ed-40ae-8d1a-9288373ea5e0}</Project>
       <Name>JJ.Framework.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Data.NHibernate\JJ.Framework.Data.NHibernate.csproj">
-      <Project>{db783ed9-fde6-458f-a094-457b7f4283a0}</Project>
-      <Name>JJ.Framework.Data.NHibernate</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Data\JJ.Framework.Data.csproj">
-      <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
-      <Name>JJ.Framework.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
-      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
-      <Name>JJ.Framework.Exceptions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\WinForms\JJ.Framework.WinForms.csproj">
-      <Project>{84a66716-c686-4b8e-a092-cfe38ca7dde0}</Project>
-      <Name>JJ.Framework.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
-      <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
-      <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
