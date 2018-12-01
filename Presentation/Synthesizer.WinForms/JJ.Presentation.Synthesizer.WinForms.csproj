@@ -609,10 +609,6 @@
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Data\SaveText.NHibernate\JJ.Data.SaveText.NHibernate.csproj">
-      <Project>{48145ed7-5bb1-4ecb-9fb0-0dbd35b80ea9}</Project>
-      <Name>JJ.Data.SaveText.NHibernate</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\JJ.Framework\Framework\Logging\JJ.Framework.Logging.csproj">
       <Project>{ceeb755d-de12-4e70-816e-546c429b44b7}</Project>
       <Name>JJ.Framework.Logging</Name>
