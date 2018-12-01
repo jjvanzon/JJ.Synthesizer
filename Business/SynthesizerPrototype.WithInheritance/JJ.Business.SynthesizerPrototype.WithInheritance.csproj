@@ -106,8 +106,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
-      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{FA44ABA2-8E13-402C-A5A0-8D73C74B5181}</Project>
       <Name>JJ.Framework.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\SynthesizerPrototype\JJ.Business.SynthesizerPrototype.csproj">

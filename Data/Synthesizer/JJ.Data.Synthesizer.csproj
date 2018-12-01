@@ -129,19 +129,19 @@
     <Compile Include="Entities\Tone.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Data\JJ.Framework.Data.csproj">
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Data\JJ.Framework.Data.csproj">
       <Project>{7ADEDDCE-6903-4A58-94F5-D0B39B21330F}</Project>
       <Name>JJ.Framework.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
-      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{FA44ABA2-8E13-402C-A5A0-8D73C74B5181}</Project>
       <Name>JJ.Framework.Exceptions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Logging\JJ.Framework.Logging.csproj">
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Logging\JJ.Framework.Logging.csproj">
       <Project>{CEEB755D-DE12-4E70-816E-546C429B44B7}</Project>
       <Name>JJ.Framework.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
       <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>

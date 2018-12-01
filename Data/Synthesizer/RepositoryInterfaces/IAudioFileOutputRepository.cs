@@ -3,6 +3,8 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-	public interface IAudioFileOutputRepository : IRepository<AudioFileOutput, int>
-	{ }
+    public interface IAudioFileOutputRepository : IRepository<AudioFileOutput, int>
+    {
+        AudioFileOutput TryGet(int iD);
+    }
 }

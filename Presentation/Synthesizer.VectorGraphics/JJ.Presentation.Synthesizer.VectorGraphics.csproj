@@ -94,6 +94,26 @@
     <Compile Include="PatchViewModelToDiagramConverterResult.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Common\JJ.Framework.Common.csproj">
+      <Project>{44FD9133-5FE7-4824-BD35-27273706D127}</Project>
+      <Name>JJ.Framework.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Configuration\JJ.Framework.Configuration.csproj">
+      <Project>{805A8237-05ED-40AE-8D1A-9288373EA5E0}</Project>
+      <Name>JJ.Framework.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{FA44ABA2-8E13-402C-A5A0-8D73C74B5181}</Project>
+      <Name>JJ.Framework.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Resources\JJ.Framework.Resources.csproj">
+      <Project>{40A53175-8048-4F2D-93CA-383074C0267E}</Project>
+      <Name>JJ.Framework.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\VectorGraphics\JJ.Framework.VectorGraphics.csproj">
+      <Project>{52E03E08-331A-4CA7-8D8F-6F598C94EED4}</Project>
+      <Name>JJ.Framework.VectorGraphics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Data\Canonical\JJ.Data.Canonical.csproj">
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
       <Name>JJ.Data.Canonical</Name>
@@ -102,31 +122,11 @@
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
-      <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
-      <Name>JJ.Framework.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Configuration\JJ.Framework.Configuration.csproj">
-      <Project>{805a8237-05ed-40ae-8d1a-9288373ea5e0}</Project>
-      <Name>JJ.Framework.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
-      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
-      <Name>JJ.Framework.Exceptions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Data\JJ.Framework.Data.csproj">
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Resources\JJ.Framework.Resources.csproj">
-      <Project>{40A53175-8048-4F2D-93CA-383074C0267E}</Project>
-      <Name>JJ.Framework.Resources</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\VectorGraphics\JJ.Framework.VectorGraphics.csproj">
-      <Project>{52e03e08-331a-4ca7-8d8f-6f598c94eed4}</Project>
-      <Name>JJ.Framework.VectorGraphics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
+    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
       <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>
