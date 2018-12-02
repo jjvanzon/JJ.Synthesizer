@@ -1,24 +1,26 @@
-# JJ.SaveText
+# JJ Code Base
 
-*Jan-Joost van Zon, 2018-12-02*
+*Jan-Joost van Zon, 2013-09-09*
 
-The *SaveText prototype app* is an experiment in which I proved and refined my favorite software design patterns.
-The idea was to make things compatible with many different platforms. It can run on:
+## Introduction
 
-* Databases
-* XML files
-* Mobile
-* iOS
-* Android
-* Windows Phone
+JJ is the new code base.
+The previous code base I began 3 years ago.
 
-The folder structure is representative of the main layering:
+My ideas about architecture have changed.
 
-* Data
-* Business
-* Presentation
+The old code base is about a specific way of programming, not like mainstream .NET development.
+The way of working is not portable between what I do at home and what I do at the office.
 
-Other folders:
+The new architecture is more agnostic about specific data models, specific programming models, specific API's and specific functionality.
+The first order grouping will be by aspects such as apps, services, framework, validation, security, etcetera,
+unlike the old code base which basically had a first-order grouping by function.
 
-* Database: SaveText prototype app's database initialization and migration
-* Demos: Arbitrary demo code
+I feel that one architecture should accommodate many types of programming and many types of functionality in an orderly fashion.
+
+## Set Up Dev Environment
+
+* The solutions will only build if you clone another repository too: JJ.Framework. ([https://github.com/jjvanzon/JJ.Framework](https://github.com/jjvanzon/JJ.Framework))
+* It must be cloned to a folder 'JJ.Framework' that is right next to your 'JJ' repository clone.
+* First build JJ.Framework.sln or at least NuGet-restore it.
+* Then build one of the solutions in this repository.
