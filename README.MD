@@ -1,4 +1,4 @@
-# JJ Code Base
+# JJ
 
 *Jan-Joost van Zon, 2013-09-09*
 
@@ -13,8 +13,8 @@ The old code base is about a specific way of programming, not like mainstream .N
 The way of working is not portable between what I do at home and what I do at the office.
 
 The new architecture is more agnostic about specific data models, specific programming models, specific API's and specific functionality.
-The first order grouping will be by aspects such as apps, services, framework, validation, security, etcetera,
-unlike the old code base which basically had a first-order grouping by function.
+The first order grouping will be by technicsal aspects such as apps, services, framework, validation, security, etcetera,
+unlike the old code base which basically had a first-order grouping by functionality.
 
 I feel that one architecture should accommodate many types of programming and many types of functionality in an orderly fashion.
 
