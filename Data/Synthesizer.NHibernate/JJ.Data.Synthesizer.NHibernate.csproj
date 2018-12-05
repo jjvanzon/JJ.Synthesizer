@@ -97,7 +97,7 @@
     <Compile Include="Repositories\PatchRepository.cs" />
     <Compile Include="Repositories\SampleRepository.cs" />
     <Compile Include="Repositories\SpeakerSetupChannelRepository.cs" />
-    <Compile Include="SynthesizerContext.cs" />
+    <Compile Include="SynthesizerNHibernateContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\JJ.Framework\Framework\Data.NHibernate\JJ.Framework.Data.NHibernate.csproj">
