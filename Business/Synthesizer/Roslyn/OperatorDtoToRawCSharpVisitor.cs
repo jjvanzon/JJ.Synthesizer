@@ -747,7 +747,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			AppendLine("{");
 			Indent();
 			{
-				for (int i = 0; i < arrayDtos.Count; i++)
+				for (var i = 0; i < arrayDtos.Count; i++)
 				{
 					ArrayDto arrayDto = arrayDtos[i];
 					string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(arrayDto);
@@ -826,7 +826,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			AppendLine("}");
 			AppendLine();
 
-			for (int i = 0; i < dto.Inputs.Count; i++)
+			for (var i = 0; i < dto.Inputs.Count; i++)
 			{
 				string item = GetLiteralFromInputDto(dto.Inputs[i]);
 
@@ -994,7 +994,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			AppendLine();
 
 			// NOTE: i = 1.
-			for (int i = 1; i < itemCount; i++)
+			for (var i = 1; i < itemCount; i++)
 			{
 				string item = items[i];
 				string transformedItem = GetVariableName(nameof(transformedItem));
@@ -1055,7 +1055,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			{
 				int count = dto.InputsExceptPosition.Count - 1;
 
-				for (int i = 0; i < count; i++)
+				for (var i = 0; i < count; i++)
 				{
 					AppendLine($"case {i}:");
 					Indent();
@@ -1396,7 +1396,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			AppendLine($"double {output} = {firstValue};");
 
 			// NOTE: i = 1.
-			for (int i = 1; i < valueCount; i++)
+			for (var i = 1; i < valueCount; i++)
 			{
 				string item = values[i];
 

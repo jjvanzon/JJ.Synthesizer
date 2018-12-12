@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer
 		/// <param name="destInlet">nullable</param>
 		private Inlet ConvertInlet(Inlet sourceInlet, Inlet destInlet, Operator destOperator)
 		{
-			bool isNew = false;
+			var isNew = false;
 			if (destInlet == null)
 			{
 				isNew = true;
@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer
 		/// <param name="destOutlet">nullable</param>
 		private Outlet ConvertOutlet(Outlet sourceOutlet, Outlet destOutlet, Operator destOperator)
 		{
-			bool isNew = false;
+			var isNew = false;
 			if (destOutlet == null)
 			{
 				isNew = true;

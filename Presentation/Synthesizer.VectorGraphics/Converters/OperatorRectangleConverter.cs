@@ -158,7 +158,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				return;
 			}
 
-			int operatorID = (int)destElement.Tag;
+			var operatorID = (int)destElement.Tag;
 
 			_destOperatorRectangleDictionary.Remove(operatorID);
 			_destOperatorRectangleHashSet.Remove(destElement);

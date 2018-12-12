@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		protected double Calculate(double x)
 		{
-			int x0 = (int)x;
+			var x0 = (int)x;
 			int x1 = x0 + 1;
 
 			double y0 = _array[x0];

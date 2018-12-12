@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			var destOutletControlPoints = new List<Point>(count);
 
-			for (int i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				Point sourceOutletPoint = sourceOutletPoints[i];
 				OutletViewModel sourceOutletViewModel = sourceOutletViewModels[i];
@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			if (sourceOutletPoint == null) throw new NullException(() => sourceOutletPoint);
 			if (sourceOutletViewModel == null) throw new NullException(() => sourceOutletViewModel);
 
-			int outletID = (int)sourceOutletPoint.Tag;
+			var outletID = (int)sourceOutletPoint.Tag;
 
 			if (!_destOutletControlPointDictionary.TryGetValue(outletID, out Point destOutletControlPoint))
 			{
@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				return;
 			}
 
-			int outletID = (int)destElement.Tag;
+			var outletID = (int)destElement.Tag;
 
 			_destOutletControlPointDictionary.Remove(outletID);
 			_destOutletControlPointHashSet.Remove(destElement);

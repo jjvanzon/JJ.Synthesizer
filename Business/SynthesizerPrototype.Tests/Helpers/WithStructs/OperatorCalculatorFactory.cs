@@ -243,7 +243,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithStructs
 				>();
 
 			const int count = 8;
-			for (int i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				addCalculator.SetVarCalculator(i, CreateOperatorCalculatorStructure_SinglePartial(dimensionStack));
 			}

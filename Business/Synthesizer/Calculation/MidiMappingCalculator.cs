@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation
 			int count = sourceMidiMappingDtos.Length;
 			var results = new(DimensionEnum dimensionEnum, string canonicalName, int? position, double value)[count];
 
-			for (int i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				MidiMappingDto dto = sourceMidiMappingDtos[i];
 				results[i] = (dto.DimensionEnum, dto.CanonicalName, dto.Position, CalculateDimensionValue(midiControllerValue, dto));
@@ -79,13 +79,13 @@ namespace JJ.Business.Synthesizer.Calculation
 			int midiVelocity,
 			int midiChannel)
 		{
-			int j = 0;
+			var j = 0;
 			var results = new(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[_noteMappingDtoCount];
 
 			{
 				MidiMappingDto[] dtos = _midiNoteNumber_MidiMappingDtos;
 				int dtoCount = dtos.Length;
-				for (int i = 0; i < dtoCount; i++)
+				for (var i = 0; i < dtoCount; i++)
 				{
 					results[j++] = (
 						dtos[i].DimensionEnum,
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Calculation
 			{
 				MidiMappingDto[] dtos = _midiVelocity_MidiMappingDtos;
 				int dtoCount = dtos.Length;
-				for (int i = 0; i < dtoCount; i++)
+				for (var i = 0; i < dtoCount; i++)
 				{
 					results[j++] = (
 						dtos[i].DimensionEnum,
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Calculation
 			{
 				MidiMappingDto[] dtos = _midiChannel_MidiMappingDtos;
 				int dtoCount = dtos.Length;
-				for (int i = 0; i < dtoCount; i++)
+				for (var i = 0; i < dtoCount; i++)
 				{
 					results[j++] = (
 						dtos[i].DimensionEnum,
@@ -209,7 +209,7 @@ namespace JJ.Business.Synthesizer.Calculation
 			int absoluteMidiControllerValue = inputMidiControllerValue;
 
 			int count = midiMappingDtos.Length;
-			for (int i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				MidiMappingDto midiMappingDto = _midiMappingDtos[i];
 

@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double max = _firstOperandCalculator.Calculate();
 
-			for (int i = 0; i < _remainingOperandCalculatorsCount; i++)
+			for (var i = 0; i < _remainingOperandCalculatorsCount; i++)
 			{
 				double value = _remainingOperandCalculators[i].Calculate();
 

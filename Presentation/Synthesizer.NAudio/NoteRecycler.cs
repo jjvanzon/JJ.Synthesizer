@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 				// Update
 				int minCount = Math.Min(noteInfos.Count, _noteInfos.Count);
-				for (int i = 0; i < minCount; i++)
+				for (var i = 0; i < minCount; i++)
 				{
 					noteInfos[i] = _noteInfos[i];
 				}

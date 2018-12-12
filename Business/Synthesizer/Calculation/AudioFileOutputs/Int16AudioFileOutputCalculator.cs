@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 			if (value < short.MinValue) value = short.MinValue;
 			if (value > short.MaxValue) value = short.MaxValue;
 
-			short convertedValue = (short)value;
+			var convertedValue = (short)value;
 			binaryWriter.Write(convertedValue);
 		}
 

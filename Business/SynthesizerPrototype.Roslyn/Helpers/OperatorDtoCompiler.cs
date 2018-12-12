@@ -73,7 +73,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 
 		private Type Compile(string generatedCode)
 		{
-			string generatedCodeFileName = "";
+			var generatedCodeFileName = "";
 			if (_includeSymbols)
 			{
 				generatedCodeFileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".cs";

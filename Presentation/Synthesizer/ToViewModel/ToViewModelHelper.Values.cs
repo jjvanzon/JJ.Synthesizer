@@ -777,7 +777,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			Operator operator1 = entity.Operator;
 
-			float aggregate = 0f;
+			var aggregate = 0f;
 
 			// ReSharper disable once LoopCanBeConvertedToQuery
 			foreach (Inlet connectedInlet in entity.ConnectedInlets)

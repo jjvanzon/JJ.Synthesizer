@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Extensions
 		{
 			double duration = audioFileOutput.Duration;
 			double frameDuration = audioFileOutput.GetFrameDuration();
-			int frameCount = (int)(duration / frameDuration);
+			var frameCount = (int)(duration / frameDuration);
 			return frameCount;
 		}
 

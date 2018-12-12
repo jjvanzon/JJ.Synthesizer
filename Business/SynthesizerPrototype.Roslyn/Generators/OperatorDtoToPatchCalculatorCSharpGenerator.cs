@@ -102,7 +102,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Generators
 						sb.AppendLine("{");
 						sb.Indent();
 						{
-							int i = 0;
+							var i = 0;
 							foreach (string inputVariableName in visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase))
 							{
 								sb.AppendLine($"case {i}:");

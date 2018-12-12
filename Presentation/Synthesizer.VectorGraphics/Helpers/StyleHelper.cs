@@ -329,13 +329,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         {
             var dictionary = new Dictionary<StyleGradeEnum, BackStyle>();
 
-            int gradeCount = (int)EnumHelper.GetValues<StyleGradeEnum>().Max();
+            var gradeCount = (int)EnumHelper.GetValues<StyleGradeEnum>().Max();
 
             const double minBrightness = 0.8;
             const double maxBrightness = 1.075;
             const double deltaBrightness = maxBrightness - minBrightness;
 
-            for (int i = 0; i < gradeCount; i++)
+            for (var i = 0; i < gradeCount; i++)
             {
                 double ratio = (double)i / (gradeCount - 1);
                 double grade = minBrightness + ratio * deltaBrightness;

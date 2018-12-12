@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Random
 		private static double[] CreateSamples()
 		{
 			var samples = new double[SAMPLE_COUNT];
-			for (int i = 0; i < SAMPLE_COUNT; i++)
+			for (var i = 0; i < SAMPLE_COUNT; i++)
 			{
 				double noiseSample = Randomizer.GetDouble();
 				samples[i] = noiseSample;

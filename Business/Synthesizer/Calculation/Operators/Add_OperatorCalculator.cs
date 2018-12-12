@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double sum = _firstItemCalculator.Calculate();
 
-			for (int i = 0; i < _remainingItemCalculatorsCount; i++)
+			for (var i = 0; i < _remainingItemCalculatorsCount; i++)
 			{
 				double value = _remainingItemCalculators[i].Calculate();
 

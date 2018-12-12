@@ -140,8 +140,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int inletID =  (int)e.DroppedOnElement.Tag;
-			int outletID = (int)e.DraggedElement.Tag;
+			var inletID =  (int)e.DroppedOnElement.Tag;
+			var outletID = (int)e.DraggedElement.Tag;
 
 			ChangeInputOutletRequested(this, new ChangeInputOutletEventArgs(
 				ViewModel.Entity.ID,
@@ -167,7 +167,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void DoMoveOperator(ElementEventArgs e)
 		{
-			int operatorID = (int)e.Element.Tag;
+			var operatorID = (int)e.Element.Tag;
 
 			float centerX = e.Element.Position.AbsoluteX + e.Element.Position.Width / 2f;
 			float centerY = e.Element.Position.AbsoluteY + e.Element.Position.Height / 2f;
@@ -190,7 +190,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int operatorID = (int)e.Element.Tag;
+			var operatorID = (int)e.Element.Tag;
 
 			SelectOperatorRequested(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, operatorID));
 
@@ -211,7 +211,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int inletID = (int)e.Element.Tag;
+			var inletID = (int)e.Element.Tag;
 
 			InletViewModel inletViewModel = ViewModel.Entity.OperatorDictionary.Values
 																			   .SelectMany(x => x.Inlets)
@@ -223,7 +223,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int id = (int)e.Element.Tag;
+			var id = (int)e.Element.Tag;
 
 			OutletViewModel outletViewModel = ViewModel.Entity.OperatorDictionary.Values.SelectMany(x => x.Outlets)
 																						.Single(x => x.ID == id);

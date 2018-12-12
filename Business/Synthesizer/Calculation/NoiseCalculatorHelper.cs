@@ -38,10 +38,10 @@ namespace JJ.Business.Synthesizer.Calculation
 				throw new Exception($"sampleCount '{sampleCountDouble}' cannot be cast to non-negative Int32.");
 			}
 
-			int sampleCount = (int)sampleCountDouble;
+			var sampleCount = (int)sampleCountDouble;
 
 			var samples = new double[sampleCount];
-			for (int i = 0; i < sampleCount; i++)
+			for (var i = 0; i < sampleCount; i++)
 			{
 				double noiseSample = Randomizer.GetDouble() * 2.0 - 1.0;
 				samples[i] = noiseSample;

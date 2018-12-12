@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 											.SelectMany(x => x.Inlets)
 											.Select(x => x.Position)
 											.ToHashSet();
-			int suggestedPosition = 0;
+			var suggestedPosition = 0;
 			bool positionExists = positions.Contains(suggestedPosition);
 
 			while (positionExists)

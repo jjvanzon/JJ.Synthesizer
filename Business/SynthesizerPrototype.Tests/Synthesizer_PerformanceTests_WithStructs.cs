@@ -23,7 +23,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 
 			Stopwatch stopWatch = Stopwatch.StartNew();
 
-			for (int i = 0; i < 500000; i++)
+			for (var i = 0; i < 500000; i++)
 			{
 				calculator.Calculate();
 			}
@@ -46,7 +46,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 
 			Stopwatch stopWatch = Stopwatch.StartNew();
 
-			for (int i = 0; i < 500000; i++)
+			for (var i = 0; i < 500000; i++)
 			{
 				calculator.Calculate();
 			}
@@ -67,7 +67,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 			IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
 			IOperatorCalculator calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
-			double t = 0.0;
+			var t = 0.0;
 			const double dt = 1.0 / 500000.0;
 
 			while (t <= 1.0)

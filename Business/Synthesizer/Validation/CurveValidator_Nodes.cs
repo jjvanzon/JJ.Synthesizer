@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation
 
 			For(curve.Nodes.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Nodes)).GreaterThanOrEqual(2);
 
-			int i = 1;
+			var i = 1;
 			foreach (Node node in curve.Nodes)
 			{
 				string messagePrefix = ValidationHelper.GetMessagePrefix(node, i);

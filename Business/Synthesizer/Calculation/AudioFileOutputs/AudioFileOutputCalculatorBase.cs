@@ -84,19 +84,19 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 					int frameCountPerChunk = valueCountPerChunk / channelCount;
 					double chunkDuration = frameDuration * frameCountPerChunk;
 
-					int valueCounter = 0;
+					var valueCounter = 0;
 
 					for (double chunkStartTime = startTime; chunkStartTime <= endTime; chunkStartTime += chunkDuration)
 					{
 						Array.Clear(buffer, 0, buffer.Length);
 
-						for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
+						for (var channelIndex = 0; channelIndex < channelCount; channelIndex++)
 						{
 							_patchCalculators[channelIndex].Calculate(buffer, frameCountPerChunk, chunkStartTime);
 						}
 
 						// Post-process and write values
-						for (int j = 0; j < valueCountPerChunk; j++)
+						for (var j = 0; j < valueCountPerChunk; j++)
 						{
 							if (valueCounter == valueCount)
 							{

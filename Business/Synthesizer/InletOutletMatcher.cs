@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer
 			var tuples = new List<InletOrOutletTuple>();
 
 			int minCount = Math.Min(sourceSortedInletsOrOutlets.Count, destSortedInletsOrOutlets.Count);
-			for (int i = 0; i < minCount; i++)
+			for (var i = 0; i < minCount; i++)
 			{
 				IInletOrOutlet sourceInletOrOutlet = sourceSortedInletsOrOutlets[i];
 				IInletOrOutlet destInletOrOutlet = destSortedInletsOrOutlets[i];

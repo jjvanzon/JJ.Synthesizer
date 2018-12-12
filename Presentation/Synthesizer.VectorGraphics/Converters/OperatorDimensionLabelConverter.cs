@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			if (_destOperatorDimensionLabelHashSet.Contains(destElement))
 			{
-				int operatorID = (int)destElement.Tag;
+				var operatorID = (int)destElement.Tag;
 
 				_destOperatorDimensionLabelDictionary.Remove(operatorID);
 				_destOperatorDimensionLabelHashSet.Remove(destElement);

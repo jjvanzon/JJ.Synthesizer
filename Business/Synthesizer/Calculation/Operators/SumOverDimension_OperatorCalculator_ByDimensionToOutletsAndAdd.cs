@@ -23,12 +23,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				throw new Exception($"{new {till}} cannot be casted to non-negative Int32.");
 			}
-			int tillInt = (int)till;
+			var tillInt = (int)till;
 
 			// HACK in a piece of patch to dimensionToOutlets and add.
 
 			var dimensionToOutletsCalculators = new List<OperatorCalculatorBase>(tillInt);
-			for (int i = 0; i <= tillInt; i++)
+			for (var i = 0; i <= tillInt; i++)
 			{
 				var dimensionToOutletsCalculator = new DimensionToOutlets_OperatorCalculator_WithSignalOutput(signalCalculator, i, positionOutputCalculator);
 				dimensionToOutletsCalculators.Add(dimensionToOutletsCalculator);

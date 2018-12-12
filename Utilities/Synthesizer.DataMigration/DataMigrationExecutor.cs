@@ -105,7 +105,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 			var documentFacade = new DocumentFacade(repositories);
 
 			IResult totalResult = new VoidResult { Successful = true };
-			for (int i = 0; i < rootDocuments.Count; i++)
+			for (var i = 0; i < rootDocuments.Count; i++)
 			{
 				Document document = rootDocuments[i];
 
@@ -429,7 +429,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 
 				IList<Operator> operators = repositories.OperatorRepository.GetManyByUnderlyingPatchID(patchID);
 
-				for (int i = 0; i < operators.Count; i++)
+				for (var i = 0; i < operators.Count; i++)
 				{
 					Operator op = operators[i];
 
@@ -466,7 +466,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 
 				IList<Operator> operators = repositories.OperatorRepository.GetAll();
 
-				for (int i = 0; i < operators.Count; i++)
+				for (var i = 0; i < operators.Count; i++)
 				{
 					Operator op = operators[i];
 
@@ -510,7 +510,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 				Patch systemPatch = documentFacade.GetSystemPatch(nameof(SystemPatchNames.Interpolate));
 				IList<Operator> operators = repositories.OperatorRepository.GetManyByUnderlyingPatchID(systemPatch.ID);
 
-				for (int i = 0; i < operators.Count; i++)
+				for (var i = 0; i < operators.Count; i++)
 				{
 					Operator op = operators[i];
 

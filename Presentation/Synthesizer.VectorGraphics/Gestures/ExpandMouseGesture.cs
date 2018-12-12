@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 	    private void _doubleClickGesture_DoubleClick(object sender, ElementEventArgs e)
 		{
-			int id = (int)e.Element.Tag;
+			var id = (int)e.Element.Tag;
 			ExpandRequested?.Invoke(this, new IDEventArgs(id));
 		}
 	}

@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 
 			HashSet<string> canonicalExistingNamesHashSet = existingNames.Select(NameHelper.ToCanonical).ToHashSet();
 
-			int number = 1;
+			var number = 1;
 			string suggestedName;
 			bool nameExists;
 

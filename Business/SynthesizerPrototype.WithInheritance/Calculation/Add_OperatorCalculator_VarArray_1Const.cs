@@ -24,7 +24,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 		{
 			double sum = _constValue;
 
-			for (int i = 0; i < _varOperandCalculatorsCount; i++)
+			for (var i = 0; i < _varOperandCalculatorsCount; i++)
 			{
 				double value = _varOperandCalculators[i].Calculate();
 

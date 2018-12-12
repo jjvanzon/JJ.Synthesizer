@@ -146,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			if (ViewModel == null) return;
 			AssertConverter();
 
-			int nodeID = (int)e.Element.Tag;
+			var nodeID = (int)e.Element.Tag;
 
 			SelectNodeRequested(this, new NodeEventArgs(ViewModel.Curve.ID, nodeID));
 
@@ -159,7 +159,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			if (NodeMoving == null) return;
 			AssertConverter();
 
-			int nodeID = (int)e.Element.Tag;
+			var nodeID = (int)e.Element.Tag;
 
 			var rectangle = (Rectangle)e.Element;
 
@@ -185,7 +185,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			if (NodeMoved == null) return;
 			AssertConverter();
 
-			int nodeID = (int)e.Element.Tag;
+			var nodeID = (int)e.Element.Tag;
 
 			var rectangle = (Rectangle)e.Element;
 
@@ -239,7 +239,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int nodeID = (int)e.Element.Tag;
+			var nodeID = (int)e.Element.Tag;
 
 			NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
 

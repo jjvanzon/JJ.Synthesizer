@@ -121,7 +121,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int midiMappingID = (int)e.Element.Tag;
+			var midiMappingID = (int)e.Element.Tag;
 
 			MoveMidiMappingRequested(
 				this,
@@ -137,7 +137,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int midiMappingID = (int)e.Element.Tag;
+			var midiMappingID = (int)e.Element.Tag;
 
 			SelectMidiMappingRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, midiMappingID)));
 

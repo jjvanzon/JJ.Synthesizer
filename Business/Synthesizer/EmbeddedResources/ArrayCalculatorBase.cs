@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 			{
 				var array2 = new double[tickCountInt + extraTickCount];
 
-				for (int i = 0; i < extraTicksBefore; i++)
+				for (var i = 0; i < extraTicksBefore; i++)
 				{
 					array2[i] = _valueBefore;
 				}

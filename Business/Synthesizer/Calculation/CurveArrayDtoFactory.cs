@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation
 			var samples = new double[sampleCount];
 		    ICalculatorWithPosition interpretedCurveCalculator = new InterpretedCurveCalculator(curve);
 			double x = minX;
-			for (int i = 0; i < sampleCount; i++)
+			for (var i = 0; i < sampleCount; i++)
 			{
 				double sample = interpretedCurveCalculator.Calculate(x);
 				samples[i] = sample;
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Calculation
 		{
 			double smallestNodeLengthX = CalculationHelper.VERY_HIGH_VALUE;
 
-			for (int i = 0; i < sortedNodes.Count - 1; i++)
+			for (var i = 0; i < sortedNodes.Count - 1; i++)
 			{
 				Node nodeA = sortedNodes[i];
 				Node nodeB = sortedNodes[i + 1];

@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			var destInletControlPoints = new List<Point>(count);
 
-			for (int i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				Point sourceInletPoint = sourceInletPoints[i];
 				InletViewModel sourceInletViewModel = sourceInletViewModels[i];
@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			if (sourceInletPoint == null) throw new NullException(() => sourceInletPoint);
 			if (sourceInletViewModel == null) throw new NullException(() => sourceInletViewModel);
 
-			int inletID = (int)sourceInletPoint.Tag;
+			var inletID = (int)sourceInletPoint.Tag;
 
 			if (!_destInletControlPointDictionary.TryGetValue(inletID, out Point destInletControlPoint))
 			{
@@ -80,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			if (_destInletControlPointHashSet.Contains(destElement))
 			{
-				int inletID = (int)destElement.Tag;
+				var inletID = (int)destElement.Tag;
 
 				_destInletControlPointDictionary.Remove(inletID);
 				_destInletControlPointHashSet.Remove(destElement);

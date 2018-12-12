@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Calculation
 					stream.Position += headerLength;
 					stream.Position += sample.BytesToSkip;
 
-					int i = 0;
+					var i = 0;
 					while (stream.Position < lengthToRead)
 					{
 						double d = readValueDelegate(reader);
@@ -133,15 +133,15 @@ namespace JJ.Business.Synthesizer.Calculation
 
 				// ReSharper disable once SuggestVarOrType_Elsewhere
 				double[][] samples = new double[channelCount][];
-				for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
+				for (var channelIndex = 0; channelIndex < channelCount; channelIndex++)
 				{
 					samples[channelIndex] = new double[frameCount];
 				}
 
-				int valueIndex = 0;
-				for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
+				var valueIndex = 0;
+				for (var frameIndex = 0; frameIndex < frameCount; frameIndex++)
 				{
-					for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
+					for (var channelIndex = 0; channelIndex < channelCount; channelIndex++)
 					{
 						double d = doubles[valueIndex];
 						samples[channelIndex][frameIndex] = d * amplifier;

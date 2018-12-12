@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			if (_destInletPointHashSet.Contains(destElement))
 			{
-				int inletID = (int)destElement.Tag;
+				var inletID = (int)destElement.Tag;
 
 				_destInletPointDictionary.Remove(inletID);
 				_destInletPointHashSet.Remove(destElement);

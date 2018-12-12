@@ -82,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				return;
 			}
 
-			int outletID = (int)destElement.Tag;
+			var outletID = (int)destElement.Tag;
 
 			_destOutletPointDictionary.Remove(outletID);
 			_destOutletPointHashSet.Add(destElement);

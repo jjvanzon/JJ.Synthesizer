@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			double smallestDistance = Geometry.AbsoluteDistance(logInput, Math.Log(firstItem));
 			double closestItem = firstItem;
 
-			for (int i = 0; i < _remainingItemCalculatorsCount; i++)
+			for (var i = 0; i < _remainingItemCalculatorsCount; i++)
 			{
 				OperatorCalculatorBase itemCalculator = _remainingItemCalculators[i];
 				double item = itemCalculator.Calculate();

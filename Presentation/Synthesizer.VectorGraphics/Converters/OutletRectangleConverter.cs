@@ -99,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				return;
 			}
 
-			int outletID = (int)destElement.Tag;
+			var outletID = (int)destElement.Tag;
 
 			_destOutletRectangleDictionary.Remove(outletID);
 			_destOutletRectangleHashSet.Remove(destElement);

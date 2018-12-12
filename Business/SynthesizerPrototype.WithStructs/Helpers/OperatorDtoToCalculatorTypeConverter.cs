@@ -43,7 +43,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
 			}
 
 			var calculatorType_ClosedGenericTypeArguments = new Type[count];
-			for (int i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				IOperatorDto inputOperatorDto = inputOperatorDtos[i];
 

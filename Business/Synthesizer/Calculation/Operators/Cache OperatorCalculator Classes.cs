@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 0.0;
 			}
-			int channelInt = (int)channelDouble;
+			var channelInt = (int)channelDouble;
 
 			double position = _positionCalculator.Calculate();
 

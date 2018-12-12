@@ -261,7 +261,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
 			var arrayCalculators = new ArrayDto[channelCount];
 
-			for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
+			for (var channelIndex = 0; channelIndex < channelCount; channelIndex++)
 			{
 				channelDimensionCalculator._value = channelIndex;
 
@@ -271,7 +271,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
 				dimensionCalculator._value = position;
 
-				for (int i = 0; i < tickCount; i++)
+				for (var i = 0; i < tickCount; i++)
 				{
 					double sample = signalCalculator.Calculate();
 					samples[i] = sample;

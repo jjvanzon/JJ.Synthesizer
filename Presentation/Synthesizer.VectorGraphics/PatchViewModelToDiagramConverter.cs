@@ -182,7 +182,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			// Go recursive and tie operators together with curves.
 
-			for (int i = 0; i < sourceOperatorViewModel1.Inlets.Count; i++)
+			for (var i = 0; i < sourceOperatorViewModel1.Inlets.Count; i++)
 			{
 				InletViewModel inletViewModel = sourceOperatorViewModel1.Inlets[i];
 

@@ -202,7 +202,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				dimensionValues = _midiMappingCalculator.CalculateForMidiNote(noteInfo.MidiNoteNumber, noteInfo.MidiVelocity, noteInfo.MidiChannel);
 
 				int count = dimensionValues.Length;
-				for (int i = 0; i < count; i++)
+				for (var i = 0; i < count; i++)
 				{
 					(DimensionEnum dimensionEnum, string canonicalName, _, double dimensionValue) = dimensionValues[i];
 
@@ -294,7 +294,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private void HandleControlChange(MidiEvent midiEvent)
 		{
 			var midiControlChangeEvent = (ControlChangeEvent)midiEvent;
-			int midiControllerCode = (int)midiControlChangeEvent.Controller;
+			var midiControllerCode = (int)midiControlChangeEvent.Controller;
 			int midiControllerValue = midiControlChangeEvent.ControllerValue;
 			int midiChannel = midiControlChangeEvent.Channel;
 			int absoluteMidiControllerValue;
@@ -351,7 +351,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				dimensionValues = _midiMappingCalculator.CalculateForMidiController(midiControllerCode, absoluteMidiControllerValue);
 
 				int count = dimensionValues.Length;
-				for (int i = 0; i < count; i++)
+				for (var i = 0; i < count; i++)
 				{
 					(DimensionEnum dimensionEnum, string canonicalName, _, double dimensionValue) = dimensionValues[i];
 
@@ -386,7 +386,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			if (value <= 0) value = 0;
 			if (value > _toneDtos.Length - 1) value = _toneDtos.Length - 1;
 
-			int index = (int)value;
+			var index = (int)value;
 
 			ToneDto toneDto = _toneDtos[index];
 

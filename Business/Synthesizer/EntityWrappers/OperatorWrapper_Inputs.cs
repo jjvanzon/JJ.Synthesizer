@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 			}
 
 			int count = inputs.Count;
-			for (int i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				Inlet inlet = inlets[i];
 				Outlet input = inputs[i];

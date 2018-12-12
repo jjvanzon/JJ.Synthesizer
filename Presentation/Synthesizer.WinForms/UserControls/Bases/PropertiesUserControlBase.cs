@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		{
 			base.ApplyStyling();
 
-			for (int i = 0; i < _tableLayoutPanel.RowCount - 1; i++)
+			for (var i = 0; i < _tableLayoutPanel.RowCount - 1; i++)
 			{
 				_tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, ROW_HEIGHT));
 			}

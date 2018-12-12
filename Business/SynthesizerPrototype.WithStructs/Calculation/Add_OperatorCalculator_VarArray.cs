@@ -27,7 +27,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 		{
 			double sum = _firstChildCalculator.Calculate();
 
-			for (int i = 0; i < _remainingChildCalculatorsCount; i++)
+			for (var i = 0; i < _remainingChildCalculatorsCount; i++)
 			{
 				double value = _remainingChildCalculators[i].Calculate();
 

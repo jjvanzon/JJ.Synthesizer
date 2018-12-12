@@ -310,7 +310,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
         private int GetVisibleButtonCount()
         {
-            int count = 0;
+            var count = 0;
             if (AddButtonVisible) count++;
             if (AddToInstrumentButtonVisible) count++;
             if (BrowseButtonVisible) count++;

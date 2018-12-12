@@ -116,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// ReSharper disable once InvertIf
 			if (e.ColumnIndex == PlayColumn.Index)
 			{
-				int toneID = (int)specializedDataGridView.Rows[e.RowIndex].Cells[IDColumn.Name].Value;
+				var toneID = (int)specializedDataGridView.Rows[e.RowIndex].Cells[IDColumn.Name].Value;
 				PlayToneRequested.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID));
 			}
 		}
@@ -173,7 +173,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 
 			DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
-			int id = (int)cell.Value;
+			var id = (int)cell.Value;
 			return id;
 		}
 	}

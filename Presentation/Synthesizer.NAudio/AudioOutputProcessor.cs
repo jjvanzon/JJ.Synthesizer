@@ -100,7 +100,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private int ConvertDurationToMilliseconds(double duration)
 		{
 			if (duration <= 0.0) throw new LessThanOrEqualException(() => duration, 0.0);
-			int milliseconds = (int)Math.Ceiling(duration * 1000.0);
+			var milliseconds = (int)Math.Ceiling(duration * 1000.0);
 			return milliseconds;
 		}
 	}

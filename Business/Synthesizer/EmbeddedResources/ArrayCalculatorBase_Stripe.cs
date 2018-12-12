@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 		{
 			x += 0.5;
 
-			int x0 = (int)x;
+			var x0 = (int)x;
 
 			double value = _array[x0];
 			return value;

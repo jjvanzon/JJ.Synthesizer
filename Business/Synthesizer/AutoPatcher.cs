@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer
 			var intermediateMatchedOutlets = new List<Outlet>();
 			var intermediateMatchedInlets = new List<Inlet>();
 
-			for (int i = 0; i < intermediateDerivedOperators.Count; i++)
+			for (var i = 0; i < intermediateDerivedOperators.Count; i++)
 			{
 				for (int j = i + 1; j < intermediateDerivedOperators.Count; j++)
 				{

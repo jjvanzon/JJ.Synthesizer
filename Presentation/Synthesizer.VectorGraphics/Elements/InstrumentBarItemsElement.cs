@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			// Update
 			int minCount = Math.Min(_itemElements.Count, ViewModels.Count);
-			for (int i = 0; i < minCount; i++)
+			for (var i = 0; i < minCount; i++)
 			{
 				InstrumentItemViewModel patchViewModel = ViewModels[i];
 				InstrumentBarItemElement patchElement = _itemElements[i];

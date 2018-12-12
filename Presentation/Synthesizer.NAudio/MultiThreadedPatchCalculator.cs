@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			// Create PatchCalculators
 			var patchFacade = new PatchFacade(repositories);
 			_patchCalculators = new IPatchCalculator[_channelCount][];
-			for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+			for (var channelIndex = 0; channelIndex < _channelCount; channelIndex++)
 			{
 				_patchCalculators[channelIndex] = patchFacade.CreateCalculators(
 					_maxConcurrentNotes,
@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 			var tasks = new List<Task>(_maxConcurrentNotes * _channelCount);
 
-			for (int noteIndex = 0; noteIndex < maxConcurrentNotes; noteIndex++)
+			for (var noteIndex = 0; noteIndex < maxConcurrentNotes; noteIndex++)
 			{
 				bool noteHasStopped = _noteRecycler.NoteHasStopped(noteIndex, t0);
 				if (noteHasStopped)
@@ -93,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 					continue;
 				}
 
-				for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
+				for (var channelIndex = 0; channelIndex < channelCount; channelIndex++)
 				{
 					// Capture variable in loop iteration,
 					// to prevent delegate from getting a value from a different iteration.
@@ -118,9 +118,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		{
 			base.SetValue(name, value);
 
-			for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+			for (var channelIndex = 0; channelIndex < _channelCount; channelIndex++)
 			{
-				for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
+				for (var noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
 				{
 					IPatchCalculator patchCalculator = _patchCalculators[channelIndex][noteIndex];
 					patchCalculator.SetValue(name, value);
@@ -137,7 +137,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				return;
 			}
 
-			for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+			for (var channelIndex = 0; channelIndex < _channelCount; channelIndex++)
 			{
 				IPatchCalculator patchCalculator = _patchCalculators[channelIndex][noteIndex];
 				patchCalculator.SetValue(name, value);
@@ -148,9 +148,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		{
 			base.SetValue(dimensionEnum, value);
 
-			for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+			for (var channelIndex = 0; channelIndex < _channelCount; channelIndex++)
 			{
-				for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
+				for (var noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
 				{
 					IPatchCalculator patchCalculator = _patchCalculators[channelIndex][noteIndex];
 					patchCalculator.SetValue(dimensionEnum, value);
@@ -167,7 +167,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				return;
 			}
 
-			for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+			for (var channelIndex = 0; channelIndex < _channelCount; channelIndex++)
 			{
 				IPatchCalculator patchCalculator = _patchCalculators[channelIndex][noteIndex];
 				patchCalculator.SetValue(dimensionEnum, value);
@@ -190,10 +190,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			// By cloning the values per note here, we do accomplish setting the right values for the right notes.
 
 			int maxChannelCount = Math.Min(_channelCount, castedSourceCalculator._channelCount);
-			for (int channelIndex = 0; channelIndex < maxChannelCount; channelIndex++)
+			for (var channelIndex = 0; channelIndex < maxChannelCount; channelIndex++)
 			{
 				int maxConcurrentNotes = Math.Min(_maxConcurrentNotes, castedSourceCalculator._maxConcurrentNotes);
-				for (int noteIndex = 0; noteIndex < maxConcurrentNotes; noteIndex++)
+				for (var noteIndex = 0; noteIndex < maxConcurrentNotes; noteIndex++)
 				{
 					IPatchCalculator source = castedSourceCalculator._patchCalculators[channelIndex][noteIndex];
 					IPatchCalculator dest = _patchCalculators[channelIndex][noteIndex];
@@ -209,7 +209,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		{
 			AssertNoteIndex(noteIndex);
 
-			for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+			for (var channelIndex = 0; channelIndex < _channelCount; channelIndex++)
 			{
 				IPatchCalculator patchCalculator = _patchCalculators[channelIndex][noteIndex];
 				patchCalculator.Reset(time);
@@ -218,9 +218,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 		public override void Reset(double time)
 		{
-			for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+			for (var channelIndex = 0; channelIndex < _channelCount; channelIndex++)
 			{
-				for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
+				for (var noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
 				{
 					IPatchCalculator patchCalculator = _patchCalculators[channelIndex][noteIndex];
 					patchCalculator.Reset(time);
@@ -230,9 +230,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 		public override void Reset(double time, string name)
 		{
-			for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+			for (var channelIndex = 0; channelIndex < _channelCount; channelIndex++)
 			{
-				for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
+				for (var noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
 				{
 					IPatchCalculator patchCalculator = _patchCalculators[channelIndex][noteIndex];
 					patchCalculator.Reset(time, name);

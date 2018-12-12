@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Calculation
 			double smallestDistance = Geometry.AbsoluteDistance(input, firstItem);
 			double closestItem = firstItem;
 
-			for (int i = 0; i < remainingItemsCount; i++)
+			for (var i = 0; i < remainingItemsCount; i++)
 			{
 				double item = remainingItems[i];
 
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Calculation
 			double smallestDistance = Geometry.AbsoluteDistance(logInput, Math.Log(firstItem));
 			double closestItem = firstItem;
 
-			for (int i = 0; i < remainingItemsCount; i++)
+			for (var i = 0; i < remainingItemsCount; i++)
 			{
 				double item = remainingItems[i];
 

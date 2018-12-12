@@ -13,7 +13,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers
 
 			IList<IOperatorDto> partialOperatorDtos = new List<IOperatorDto>(partialCount);
 
-			for (int i = 0; i < partialCount; i++)
+			for (var i = 0; i < partialCount; i++)
 			{
 				IOperatorDto partialOperatorDto = CreateOperatorDto_SinglePartial(frequency_OperatorDto);
 				partialOperatorDtos.Add(partialOperatorDto);

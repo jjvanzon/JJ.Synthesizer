@@ -212,7 +212,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			var treeNodesToKeep = new HashSet<TreeNode>();
 
-			bool mustSort = false;
+			var mustSort = false;
 
 			// Groupless
 			foreach (PatchTreeNodeViewModel patchViewModel in viewModel.PatchNodes)
@@ -266,7 +266,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			var treeNodesToKeep = new HashSet<TreeNode>();
 
-			bool mustSort = false;
+			var mustSort = false;
 
 			foreach (PatchTreeNodeViewModel viewModel in viewModels)
 			{
@@ -297,7 +297,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			var treeNodesToKeep = new HashSet<TreeNode>();
 
-			bool mustSort = false;
+			var mustSort = false;
 
 			foreach (IDAndName viewModel in viewModels)
 			{
@@ -347,7 +347,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			var treeNodesToKeep = new HashSet<TreeNode>();
 
-			bool mustSort = false;
+			var mustSort = false;
 
 			foreach (LibraryTreeNodeViewModel viewModel in viewModels)
 			{
@@ -412,7 +412,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			var treeNodesToKeep = new HashSet<TreeNode>();
 
-			bool mustSort = false;
+			var mustSort = false;
 
 			// Library Patches (Groupless)
 			foreach (PatchTreeNodeViewModel patchViewModel in viewModel.PatchNodes)
@@ -577,7 +577,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			var treeNodesToKeep = new HashSet<TreeNode>();
 
-			bool mustSort = false;
+			var mustSort = false;
 
 			foreach (PatchTreeNodeViewModel viewModel in viewModels)
 			{
@@ -662,7 +662,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			var treeNodesToKeep = new HashSet<TreeNode>();
 
-			bool mustSort = false;
+			var mustSort = false;
 
 			foreach (IDAndName viewModel in viewModels)
 			{
@@ -929,7 +929,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				_mouseHoverNode = e.Node;
 
-				int patchID = (int)e.Node.Tag;
+				var patchID = (int)e.Node.Tag;
 				PatchHovered.Invoke(sender, new EventArgs<int>(patchID));
 			}
 		}

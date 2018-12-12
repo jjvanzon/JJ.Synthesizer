@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		[DebuggerHidden]
 		public override void Reset()
 		{
-			for (int i = 0; i < _childOperatorCalculatorsCount; i++)
+			for (var i = 0; i < _childOperatorCalculatorsCount; i++)
 			{
 				OperatorCalculatorBase childOperatorCalculator = _childOperatorCalculators[i];
 				childOperatorCalculator.Reset();

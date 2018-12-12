@@ -346,7 +346,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 					sb.AppendLine("{");
 					sb.Indent();
 					{
-						int i = 0;
+						var i = 0;
 						foreach (string inputVariableName in inputVariableInfos.Select(x => x.VariableNameCamelCase))
 						{
 							sb.AppendLine($"case {i}:");
@@ -541,7 +541,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			foreach (var group in groups)
 			{
-				int i = 0;
+				var i = 0;
 				foreach (InputVariableInfo inputVariableInfo in group)
 				{
 					sb.AppendLine($"if (dimensionEnum == {nameof(DimensionEnum)}.{group.Key} && position == {i})");
@@ -571,7 +571,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			foreach (var group in groups)
 			{
-				int i = 0;
+				var i = 0;
 				foreach (InputVariableInfo inputVariableInfo in group)
 				{
 					sb.AppendLine($"if (String.Equals(canonicalName, \"{group.Key}\") && position == {i})");

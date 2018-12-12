@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 			if (CalculationHelper.CanCastToNonNegativeInt32WithMax(position, _maxIndexDouble))
 			{
-				int positionInt = (int)position;
+				var positionInt = (int)position;
 
 				OperatorCalculatorBase operand = _operandCalculators[positionInt];
 

@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
 			int height = fromMaskedTextBox.Height;
 
-			int x = 0;
+			var x = 0;
 
 			fromMaskedTextBox.Location = new Point(x, 0);
 			fromMaskedTextBox.Size = new Size(textBoxWidth, height);

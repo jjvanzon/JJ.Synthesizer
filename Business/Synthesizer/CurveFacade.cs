@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer
 
 			Curve curve = CreateWithoutNodes();
 
-			for (int i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				(double y, InterpolationTypeEnum interpolationTypeEnum)? tuple = nodeTuples[i];
 				double x = xList[i];
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer
 
 			double[] xList = MathHelper.SpreadDoubles(xSpan, count);
 
-			for (int i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				double? y = yValues[i];
 

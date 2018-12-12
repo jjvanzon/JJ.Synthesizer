@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 			if (_count != 0)
 			{
-				for (int i = 0; i < _samples.Length; i++)
+				for (var i = 0; i < _samples.Length; i++)
 				{
 					_samples[i] = Math.Log(_samples[i]);
 				}

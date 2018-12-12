@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
 			var destToneDtos = new ToneDto[DEST_TONE_COUNT];
 
-			int destToneIndex = 0;
+			var destToneIndex = 0;
 
 			for (int destOctave = LOWEST_DEST_OCTAVE; destOctave <= HIGHEST_DEST_OCTAVE; destOctave++)
 			{

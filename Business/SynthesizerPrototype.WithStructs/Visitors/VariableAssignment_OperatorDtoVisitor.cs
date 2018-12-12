@@ -44,7 +44,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 			var calculator = (IOperatorCalculator_Vars)CreateCalculator(dto);
 
 			int varCount = dto.Vars.Count;
-			for (int i = 0; i < varCount; i++)
+			for (var i = 0; i < varCount; i++)
 			{
 				IOperatorCalculator varOperatorCalculator = _stack.Pop();
 				calculator.SetVarCalculator(i, varOperatorCalculator);
@@ -63,7 +63,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 			calculator.ConstValue = dto.ConstValue;
 
 			int varCount = dto.Vars.Count;
-			for (int i = 0; i < varCount; i++)
+			for (var i = 0; i < varCount; i++)
 			{
 				IOperatorCalculator varOperatorCalculator = _stack.Pop();
 				calculator.SetVarCalculator(i, varOperatorCalculator);

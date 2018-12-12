@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Extensions
 		{
 			IList<IInletOrOutlet> sortedInletsOrOutlets = inletsOrOutlets.Sort().ToArray();
 
-			int i = 0;
+			var i = 0;
 
 			foreach (IInletOrOutlet inletOrOutlet in sortedInletsOrOutlets)
 			{

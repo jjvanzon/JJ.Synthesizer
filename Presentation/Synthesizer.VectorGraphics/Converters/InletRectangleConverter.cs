@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			if (_destInletRectangleHashSet.Contains(destElement))
 			{
-				int inletID = (int)destElement.Tag;
+				var inletID = (int)destElement.Tag;
 
 				_destInletRectangleDictionary.Remove(inletID);
 				_destInletRectangleHashSet.Remove(destElement);

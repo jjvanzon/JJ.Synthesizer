@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			if (position < 0) position = 0;
 			if (position > _maxPosition) position = _maxPosition;
 
-			int i = (int)position;
+			var i = (int)position;
 
 			double frequency = _harmonicVolumes[i];
 
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				return CreateNaNHarmonicVolumes();
 			}
 
-			int frequencyCount = (int)frequencyCountDouble;
+			var frequencyCount = (int)frequencyCountDouble;
 			int frequencyCountTimesTwo = frequencyCount * 2;
 			var harmonicVolumes = new double[frequencyCount];
 
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			double dt = (end - start) / frequencyCountTimesTwo;
 
 			double t = start;
-			for (int i = 0; i < frequencyCountTimesTwo; i++)
+			for (var i = 0; i < frequencyCountTimesTwo; i++)
 			{
 				_positionOutputCalculator._value = t;
 
@@ -118,8 +118,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			// TODO: Not sure which is faster: forward or backward.
 			_lomontFFT.RealFFT(data, forward: true);
 
-			int j = 0;
-			for (int i = 3; i < frequencyCountTimesTwo; i += 2)
+			var j = 0;
+			for (var i = 3; i < frequencyCountTimesTwo; i += 2)
 			{
 				harmonicVolumes[j] = data[i];
 				j++;

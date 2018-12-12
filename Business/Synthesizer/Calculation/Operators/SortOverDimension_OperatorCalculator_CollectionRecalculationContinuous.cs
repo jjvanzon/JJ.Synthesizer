@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				return 0.0;
 			}
 
-			int i = (int)position;
+			var i = (int)position;
 
 			double value = _samples[i];
 			return value;

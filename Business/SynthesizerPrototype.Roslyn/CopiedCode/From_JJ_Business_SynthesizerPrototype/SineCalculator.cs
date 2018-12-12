@@ -22,7 +22,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.CopiedCode.From_JJ_Business_Sy
 			double t = 0;
 			const double step = TWO_PI / SAMPLES_PER_CYCLE_INT;
 
-			for (int i = 0; i < SAMPLES_PER_CYCLE_INT; i++)
+			for (var i = 0; i < SAMPLES_PER_CYCLE_INT; i++)
 			{
 				double sample = Math.Sin(t);
 				samples[i] = sample;
@@ -37,7 +37,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.CopiedCode.From_JJ_Business_Sy
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static double Sin(double positionInCycle)
 		{
-			int i = (int)(positionInCycle * SAMPLES_PER_CYCLE_DOUBLE);
+			var i = (int)(positionInCycle * SAMPLES_PER_CYCLE_DOUBLE);
 
 			i = i % SAMPLES_PER_CYCLE_INT;
 

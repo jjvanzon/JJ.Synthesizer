@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			// Update
 			int count = Math.Min(visibleViewModels.Count, _userControls.Count);
-			for (int i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				CurveDetailsViewModel viewModel = visibleViewModels[i];
 				CurveDetailsUserControl userControl = _userControls[i];
@@ -126,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			if (controlHeight <= 0) controlHeight = 1;
 
 			const int x = 0;
-			int y = 0;
+			var y = 0;
 
 			// ReSharper disable once MoreSpecificForeachVariableTypeAvailable
 			foreach (Control control in _userControls)

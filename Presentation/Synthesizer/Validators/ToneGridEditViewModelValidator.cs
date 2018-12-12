@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.Validators
 		{
 			if (obj == null) throw new NullException(() => obj);
 
-			for (int i = 0; i < obj.Tones.Count; i++)
+			for (var i = 0; i < obj.Tones.Count; i++)
 			{
 				ToneViewModel toneViewModel = obj.Tones[i];
 				string messagePrefix = ValidationHelper.GetMessagePrefix(toneViewModel, i + 1);

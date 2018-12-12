@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Validation
 
 			var sb = new StringBuilder();
 
-			bool anySynthPropertiesFilledIn = false;
+			var anySynthPropertiesFilledIn = false;
 
 			// Use Dimension
 			if (entity.Dimension != null)

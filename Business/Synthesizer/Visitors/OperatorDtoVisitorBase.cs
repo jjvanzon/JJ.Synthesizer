@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Visitors
 			if (list1.Count != list2.Count) return false;
 
 			int count = list1.Count;
-			for (int i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				InputDto item1 = list1[i];
 				InputDto item2 = list2[i];

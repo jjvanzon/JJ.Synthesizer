@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				return 0.0;
 			}
 
-			for (int i = 0; i < _itemCount; i++)
+			for (var i = 0; i < _itemCount; i++)
 			{
 				_items[i] = _itemCalculators[i].Calculate();
 			}

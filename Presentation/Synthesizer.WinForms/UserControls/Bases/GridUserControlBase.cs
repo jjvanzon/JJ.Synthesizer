@@ -364,7 +364,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			string idColumnName = $"{IDPropertyName}Column";
 
 			DataGridViewCell cell = _specializedDataGridView.CurrentRow.Cells[idColumnName];
-			int id = (int)cell.Value;
+			var id = (int)cell.Value;
 			return id;
 		}
 	}

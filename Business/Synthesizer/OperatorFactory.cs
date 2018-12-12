@@ -713,7 +713,7 @@ namespace JJ.Business.Synthesizer
 
 			IList<Inlet> sortedInlets = op.Inlets.Sort().ToArray();
 
-			for (int i = 0; i < operands.Count; i++)
+			for (var i = 0; i < operands.Count; i++)
 			{
 				Inlet inlet = sortedInlets[i];
 				Outlet operand = operands[i];

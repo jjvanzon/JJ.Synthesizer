@@ -295,7 +295,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			var calculatorCache = new CalculatorCache();
 			int channelCount = audioOutput.GetChannelCount();
 			var patchCalculators = new IPatchCalculator[channelCount];
-			for (int i = 0; i < channelCount; i++)
+			for (var i = 0; i < channelCount; i++)
 			{
 				patchCalculators[i] = patchFacade.CreateCalculator(
 					outlet,

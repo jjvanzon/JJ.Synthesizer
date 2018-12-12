@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 		{
 			x += EXTRA_TICKS_BEFORE;
 
-			int x0 = (int)x;
+			var x0 = (int)x;
 			int xMinus1 = x0 - 1; 
 			int x1 = x0 + 1;
 			int x2 = x1 + 1;
