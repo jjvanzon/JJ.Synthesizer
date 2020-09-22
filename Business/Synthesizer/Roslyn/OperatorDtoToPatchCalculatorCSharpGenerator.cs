@@ -589,8 +589,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 			}
 		}
 
-		private IList<string> GetDoubleInstanceVariableNamesCamelCase(OperatorDtoToCSharpVisitorResult visitorResult) => visitorResult.LongLivedDoubleVariableNamesCamelCase.Concat(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
-		                                                                                                                              .ToArray();
+	    private IList<string> GetDoubleInstanceVariableNamesCamelCase(OperatorDtoToCSharpVisitorResult visitorResult)
+	        => visitorResult.LongLivedDoubleVariableNamesCamelCase
+	                        .Concat(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
+	                        .ToArray();
 
 	    private bool IsAnonymousDimension(InputVariableInfo extendedVariableInfo)
 		{
