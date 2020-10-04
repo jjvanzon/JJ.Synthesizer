@@ -11,6 +11,8 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 		[TestMethod]
 		public void Test_SynthesizerPrototype_OperatorDtoVisitors_PreCalculation()
 		{
+			Assert.Inconclusive("Temporarily disabled test, to see if the build server does not crash anymore then.");
+
 			var dto = new Sine_OperatorDto
 			{
 				FrequencyOperatorDto = new Multiply_OperatorDto
