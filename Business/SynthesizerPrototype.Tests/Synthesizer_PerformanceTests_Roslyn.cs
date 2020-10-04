@@ -16,8 +16,6 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         [TestMethod]
         public void PerformanceTest_SynthesizerPrototype_Roslyn_ByChunk()
         {
-	        Assert.Inconclusive("Temporarily disabled test, to see if the build server does not crash anymore then.");
-
             const int framesPerChunk = 5000;
             const double frameDuration = 1.0 / 50000.0;
 
