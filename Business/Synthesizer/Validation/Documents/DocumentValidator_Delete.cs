@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 			foreach (DocumentReference higherDocumentReference in document.HigherDocumentReferences)
 			{
 				string higherDocumentReferenceIdentifier = ResourceFormatter.HigherDocument + " " + ValidationHelper.GetUserFriendlyIdentifier_ForHigherDocumentReference(higherDocumentReference);
-				string message = CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(lowerDocumentIdentifier, higherDocumentReferenceIdentifier);
+				string message = CommonResourceFormatter.CannotDelete_WithName_AndDependency(lowerDocumentIdentifier, higherDocumentReferenceIdentifier);
 				Messages.Add(message);
 			}
 		}

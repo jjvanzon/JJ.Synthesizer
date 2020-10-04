@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 				string higherOperatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier(op, curveRepository);
 
 				Messages.Add(
-					CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(
+					CommonResourceFormatter.CannotDelete_WithName_AndDependency(
 						lowerPatchIdentifier,
 						higherDocumentPrefix + higherPatchPrefix + higherOperatorIdentifier));
 			}

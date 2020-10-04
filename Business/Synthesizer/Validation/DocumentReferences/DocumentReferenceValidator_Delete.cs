@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 				string higherPatchPrefix = ValidationHelper.GetMessagePrefix(higherCustomOperator.Patch);
 				string higherCustomOperatorIdentifier = ValidationHelper.GetUserFriendlyIdentifier(higherCustomOperator, curveRepository);
 
-				string message = CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(
+				string message = CommonResourceFormatter.CannotDelete_WithName_AndDependency(
 					documentReferenceIdentifier,
 					higherPatchPrefix + higherCustomOperatorIdentifier);
 
