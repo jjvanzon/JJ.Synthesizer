@@ -524,12 +524,14 @@
     <EmbeddedResource Include="UserControls\PatchDetailsUserControl.resx">
       <DependentUpon>PatchDetailsUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Config\Dev\App.config">
+    <Content Include="Config\Dev\App.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Config\Prod\App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Prod\App.config">
       <SubType>Designer</SubType>
-    </None>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
