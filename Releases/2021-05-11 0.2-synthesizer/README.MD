@@ -1,0 +1,26 @@
+Synthesizer Release 0.2
+=======================
+
+*2021-05-11*
+
+Introduction
+------------
+
+This synthesizer application may not really be finished. But isolating a relatively stable version was desired, before making more changes.
+
+Database
+--------
+
+- The synthesizer may store things in a database.
+- The database backup might be found in the file "SynthesizerDB.zip".
+- The file might be unzipped and restored in SQL Server with name PROD_SynthesizerDB.
+- The database user name "prod" may be expected with password "prod".
+- If needed, different database name / user name / password might be configured.
+- The app.config in of the Windows application might be changed for that.
+
+Windows Application
+-------------------
+
+- "JJ.Presentation.Synthesizer.WinForms" may contain the Windows application files.
+- It has no installer.
+- It might be unzipped and put somewhere on a computer and then perhaps a shortcut made to it.
