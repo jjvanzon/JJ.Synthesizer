@@ -20,7 +20,27 @@ I feel that one architecture should accommodate many types of programming and ma
 
 ## Set Up Dev Environment
 
-* The solutions will only build if you clone another repository too: JJ.Framework. ([https://github.com/jjvanzon/JJ.Framework](https://github.com/jjvanzon/JJ.Framework))
-* It must be cloned to a folder 'JJ.Framework' that is right next to your 'JJ' repository clone.
-* First build JJ.Framework.sln or at least NuGet-restore it.
-* Then build one of the solutions in this repository.
+- JJ.Framework:
+    - The solutions may only build if you clone another repository too: JJ.Framework. ([https://github.com/jjvanzon/JJ.Framework](https://github.com/jjvanzon/JJ.Framework))
+    - It might be cloned to a folder 'JJ.Framework' that is right next to your 'JJ' repository clone.
+    - First JJ.Framework.sln may be built or at least NuGet-restored.
+    - Then one of the solutions in this repository might build.
+- IIS:
+    - Some web projects might like to run on IIS (Internet Information Services).
+    - They may not load otherwise.
+    - Trying to *reload* a web project:
+    - The Output window in Visual Studio might show an expected web address.
+    - It is suggested to install IIS.
+    - Creating a web site.
+    - That might point its *physical path* to the folder of the csproj that might not load.
+    - Having a *binding* that might use the  the web address previously found in the Visual Studio output as a *host name*.
+    - The file C:\Windows\System32\drivers\etc\hosts might need editing.
+    - Entries like the following might be added:
+        ```
+        127.0.0.1	dev.questionandanswer.jjvanzon.io
+        ::1		    dev.questionandanswer.jjvanzon.io
+        127.0.0.1	dev.savetextappservice.jjvanzon.io
+        ::1		    dev.savetextappservice.jjvanzon.io
+        127.0.0.1	dev.savetext.jjvanzon.io
+        ::1		    dev.savetext.jjvanzon.io
+        ```
