@@ -3,10 +3,18 @@ Synthesizer Release 0.2
 
 *2021-05-11*
 
+
 Introduction
 ------------
 
 This synthesizer application may not really be finished. But isolating a relatively stable version was desired, before making more changes.
+
+
+Prerequisites
+-------------
+
+- *Microsoft SQL Server* may be required which may be downloaded elsewhere.
+
 
 Database
 --------
@@ -17,6 +25,7 @@ Database
 - The database user name "prod" may be expected with password "prod".
 - If needed, different database name / user name / password might be configured.
 - The app.config in of the Windows application may need to be changed in that case.
+
 
 Windows Application
 -------------------
