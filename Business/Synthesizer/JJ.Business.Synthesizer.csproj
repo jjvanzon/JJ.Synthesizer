@@ -46,6 +46,51 @@
     <Reference Include="JetBrains.Annotations, Version=2018.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JetBrains.Annotations.2018.2.1\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
+    <Reference Include="JJ.Framework.Business, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Business.1.7.7810.38981\lib\net461\JJ.Framework.Business.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Collections, Version=1.7.7810.38982, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Collections.1.7.7810.38982\lib\net461\JJ.Framework.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Common, Version=1.7.7810.38980, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Common.1.7.7810.38980\lib\net461\JJ.Framework.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Configuration, Version=1.7.7810.38986, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Configuration.1.7.7810.38986\lib\net461\JJ.Framework.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Conversion, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Conversion.1.7.7810.38981\lib\net461\JJ.Framework.Conversion.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Data, Version=1.7.7810.38982, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Data.1.7.7810.38982\lib\net461\JJ.Framework.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Exceptions, Version=1.7.7810.38982, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Exceptions.1.7.7810.38982\lib\net461\JJ.Framework.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.IO, Version=1.7.7810.38986, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.IO.1.7.7810.38986\lib\net461\JJ.Framework.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Mathematics, Version=1.7.7810.38985, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Mathematics.1.7.7810.38985\lib\net461\JJ.Framework.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.PlatformCompatibility, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.PlatformCompatibility.1.7.7810.38981\lib\net461\JJ.Framework.PlatformCompatibility.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Reflection, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Reflection.1.7.7810.38981\lib\net461\JJ.Framework.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Resources">
+      <HintPath>..\..\packages\JJ.Framework.Resources.1.7.7812.21917\lib\net461\JJ.Framework.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Text, Version=1.7.7810.38980, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Text.1.7.7810.38980\lib\net461\JJ.Framework.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Validation, Version=1.7.7810.38985, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Validation.1.7.7810.38985\lib\net461\JJ.Framework.Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Xml, Version=1.7.7810.38985, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Xml.1.7.7810.38985\lib\net461\JJ.Framework.Xml.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=2.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.2.8.2\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
@@ -214,21 +259,9 @@
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
     <EmbeddedResource Include="EmbeddedResources\SineCalculator.cs" />
     <Compile Include="Calculation\ToneCalculator.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_BinarySearchInexact1.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionHelper.BinarySearchInexact1.cs" />
-    <Compile Include="CopiedCode\FromFramework\TextPlotter.cs" />
     <Compile Include="Enums\CalculationEngineEnum.cs" />
     <Compile Include="Converters\MidiMappingToDtoConverter.cs" />
     <Compile Include="Converters\ToneToDtoConverter.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionExtensions.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_Ancestors.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_IEnumerable.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_IList.cs" />
-    <Compile Include="CopiedCode\FromFramework\NestedEnumerator.cs" />
-    <Compile Include="CopiedCode\FromFramework\Randomizer.cs" />
-    <Compile Include="CopiedCode\FromFramework\RedBlackTree.cs" />
-    <Compile Include="CopiedCode\FromFramework\RedBlackTreeColorEnum.cs" />
-    <Compile Include="CopiedCode\FromFramework\RedBlackTreeNode.cs" />
     <Compile Include="Dto\MidiMappingDto.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithNumber.cs" />
     <Compile Include="Dto\Operators\LogN_OperatorDto.cs" />
@@ -539,10 +572,6 @@
     <Compile Include="Dto\PatchGroupDto.cs" />
     <Compile Include="Extensions\OperatorExtensions.cs" />
     <Compile Include="Calculation\BiQuadFilter.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
-    <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
-    <Compile Include="CopiedCode\FromFramework\Interpolator.cs" />
-    <Compile Include="CopiedCode\FromFramework\MathHelper.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_Stripe.cs" />
@@ -713,50 +742,6 @@
     <Compile Include="Warnings\ScaleWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Business\JJ.Framework.Business.csproj">
-      <Project>{F44D03E8-FEEC-40D4-B866-A87799185B4C}</Project>
-      <Name>JJ.Framework.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Common\JJ.Framework.Common.csproj">
-      <Project>{44FD9133-5FE7-4824-BD35-27273706D127}</Project>
-      <Name>JJ.Framework.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Configuration\JJ.Framework.Configuration.csproj">
-      <Project>{805A8237-05ED-40AE-8D1A-9288373EA5E0}</Project>
-      <Name>JJ.Framework.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Conversion\JJ.Framework.Conversion.csproj">
-      <Project>{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4}</Project>
-      <Name>JJ.Framework.Conversion</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Data\JJ.Framework.Data.csproj">
-      <Project>{7ADEDDCE-6903-4A58-94F5-D0B39B21330F}</Project>
-      <Name>JJ.Framework.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
-      <Project>{FA44ABA2-8E13-402C-A5A0-8D73C74B5181}</Project>
-      <Name>JJ.Framework.Exceptions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\JJ.Framework\Framework\IO\JJ.Framework.IO.csproj">
-      <Project>{C600657B-7E29-44B5-83A1-747FAB30D5D0}</Project>
-      <Name>JJ.Framework.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Reflection\JJ.Framework.Reflection.csproj">
-      <Project>{1A8E047C-7893-4918-B415-CE3928E815D8}</Project>
-      <Name>JJ.Framework.Reflection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Resources\JJ.Framework.Resources.csproj">
-      <Project>{40A53175-8048-4F2D-93CA-383074C0267E}</Project>
-      <Name>JJ.Framework.Resources</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Text\JJ.Framework.Text.csproj">
-      <Project>{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}</Project>
-      <Name>JJ.Framework.Text</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\JJ.Framework\Framework\Validation\JJ.Framework.Validation.csproj">
-      <Project>{59DDC853-62AF-4F86-A803-3D4DD491E978}</Project>
-      <Name>JJ.Framework.Validation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Data\Canonical\JJ.Data.Canonical.csproj">
       <Project>{08EA4A4E-D815-47AE-9277-DA6672D36214}</Project>
       <Name>JJ.Data.Canonical</Name>
@@ -785,6 +770,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Calculation\AudioFileOutputs\AudioFileOutputCalculators.cd" />
     <Compile Include="Validation\ValidationHelper.Unicity.cs" />
     <None Include="CopyToEmbeddedResources.bat" />
@@ -798,9 +784,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Roslyn\README.TXT" />
-    <Content Include="CopiedCode\FromFramework\README.TXT" />
     <Content Include="CopiedCode\FromNAudio\README.TXT" />
-    <None Include="CopyFrameworkCode.bat" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.1\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
@@ -808,8 +792,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>call "$(ProjectDir)CopyFrameworkCode.bat"
-call "$(ProjectDir)CopyToEmbeddedResources.bat"</PreBuildEvent>
+    <PreBuildEvent>call "$(ProjectDir)CopyToEmbeddedResources.bat"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
