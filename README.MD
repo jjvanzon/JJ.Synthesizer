@@ -5,7 +5,7 @@ Larger code base with multiple applications:
 
 - Synthesizer
 - Question & Answer
-- SaveText 
+- SaveText prototype app
 - Some misc demos
 
 
@@ -18,7 +18,7 @@ The way of working was not portable between what I do at home and what I do at t
 
 JJ code base is newer. It started being developed around 2013. Its architecture is more agnostic about specific data models, specific programming models, specific API's and specific functionality. The first order grouping might be by technical aspects such as apps, services, framework, validation, security, etcetera. One architecture might accommodate different types of programming and different types of functionality in an orderly fashion.
 
-I think a first-order grouping by technical aspects instead of by functional aspects may help, because technology can change fast, but functionality may change even faster, so for a main outline of things, technical aspects might be more stable as a subdivision, than functional aspects, which may change more frequently.
+I think a first-order grouping by technical aspects instead of by functional aspects may be of help, because technology can change fast, but functionality may change even faster, so for a main outline of things, technical aspects might be more stable as a subdivision, than functional aspects, which may change more frequently, is my opinion.
 
 
 Setting Up Dev Environment
