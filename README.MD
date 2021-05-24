@@ -1,9 +1,6 @@
 JJ Code Base
 ============
 
-Introduction
-------------
-
 Larger code base with multiple applications:
 
 - Synthesizer
@@ -33,8 +30,8 @@ Setting Up Dev Environment
 - They might be hosted in *Azure DevOps*: https://dev.azure.com/jjvanzon/JJs%20Software/_packaging?_a=feed&feed=JJs-Pre-Release-Package-Feed
 - They may require configuring *NuGet* to connect to an additional package source.
 - The following info might be useful for that:
-- *Name:* JJs-Pre-Release-Package-Feed
-- *Source:* https://pkgs.dev.azure.com/jjvanzon/1de16010-421a-41a5-90f1-86e9513f2c5b/_packaging/JJs-Pre-Release-Package-Feed/nuget/v3/index.json
+- Name: JJs-Pre-Release-Package-Feed
+- Source: https://pkgs.dev.azure.com/jjvanzon/1de16010-421a-41a5-90f1-86e9513f2c5b/_packaging/JJs-Pre-Release-Package-Feed/nuget/v3/index.json
 
 ### Internet Information Services (IIS)
 
