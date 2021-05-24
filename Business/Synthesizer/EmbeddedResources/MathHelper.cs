@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -361,5 +363,57 @@ namespace JJ.Framework.Mathematics
 
             return values;
         }
+
+        /// <inheritdoc cref="FormatWithDecimalCount(object, string, int)" />
+        public static string FormatWithDecimalCount(object value, int decimalCount)
+	        => FormatWithDecimalCount(value, "0", decimalCount);
+
+        /// <summary>
+        /// There may be cases where it is desired that 1 is displayed as "1.0",
+        /// while in another case 1 might be displayed as "1".
+        /// .NET's custom numeric format strings (like "0.0" or "0.#") seem to solve the problem.
+        /// But maybe not in all cases. They may make you choose the amount of trailing zeroes by hard-coding it.
+        /// If you want to fix the amount of trailing digits depending on a variable,
+        /// custom numeric format strings might force you to make a hard-coded choice.
+        /// This method tries to solve that.
+        /// </summary>
+        /// <param name="baseFormatString">
+        /// Default may be "0".
+        /// NOTE: This method may try to construct a derived formatString,
+        /// for instance by addition zeroes (0) or a period (.)
+        /// It might be wise to be aware about cases where that would result in an invalid format string.
+        /// </param>
+        /// <additionalDecimalCount>Between 0 and basically any number.</additionalDecimalCount>
+        public static string FormatWithDecimalCount(object value, string baseFormatString, int additionalDecimalCount)
+		{
+			if (string.IsNullOrWhiteSpace(baseFormatString))
+			{
+				throw new NotNullOrWhiteSpaceException(nameof(baseFormatString));
+			}
+
+            if (additionalDecimalCount < 0)
+            {
+	            throw new LessThanException(() => additionalDecimalCount, 0);
+            }
+
+            var sb = new StringBuilder();
+            sb.Append("{0:");
+            sb.Append(baseFormatString);
+
+            if (!baseFormatString.Contains(".") && additionalDecimalCount != 0)
+            {
+                sb.Append('.');
+            }
+
+            for (int i = 0; i < additionalDecimalCount; i++)
+            {
+				sb.Append('0');
+            }
+
+            sb.Append("}");
+
+            string formattedValue = string.Format(sb.ToString(), value);
+            return formattedValue;
+		}
     }
 }
