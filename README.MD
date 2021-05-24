@@ -17,13 +17,11 @@ Modularization
 
 Circle3 was the previous code base, that started being developed around 2010. It was about a quite specific way of programming, not like mainstream .NET development. It had a first-order grouping by functionality.
 
-The way of working was not portable between what I do at home and what I do at the office. My ideas about architecture have changed.
+The way of working was not portable between what I do at home and what I do at the office. My ideas about software architecture have changed.
 
-JJ code base is newer. It started being developed around 2013.
+JJ code base is newer. It started being developed around 2013. Its architecture is more agnostic about specific data models, specific programming models, specific API's and specific functionality. The first order grouping might be by technical aspects such as apps, services, framework, validation, security, etcetera. One architecture might accommodate different types of programming and different types of functionality in an orderly fashion.
 
-This newer architecture is more agnostic about specific data models, specific programming models, specific API's and specific functionality. The first order grouping might be by technical aspects such as apps, services, framework, validation, security, etcetera. I feel that one architecture should accommodate many types of programming and many types of functionality in an orderly fashion.
-
-I think a first-order grouping by technical aspects instead of functional aspects may help, because technology may change fast, but functionality may change faster, so for a main outline of things, technical aspects might be more stable as a subdivision, than functional aspects, which may change more frequently.
+I think a first-order grouping by technical aspects instead of by functional aspects may help, because technology can change fast, but functionality may change even faster, so for a main outline of things, technical aspects might be more stable as a subdivision, than functional aspects, which may change more frequently.
 
 
 Setting Up Dev Environment
@@ -51,12 +49,12 @@ Setting Up Dev Environment
 - The file C:\Windows\System32\drivers\etc\hosts might need editing.
 - Entries like the following might be added:
     ```
-    127.0.0.1	dev.questionandanswer.jjvanzon.io
-    ::1		    dev.questionandanswer.jjvanzon.io
-    127.0.0.1	dev.savetextappservice.jjvanzon.io
-    ::1		    dev.savetextappservice.jjvanzon.io
-    127.0.0.1	dev.savetext.jjvanzon.io
-    ::1		    dev.savetext.jjvanzon.io
+    127.0.0.1  dev.questionandanswer.jjvanzon.io
+    ::1        dev.questionandanswer.jjvanzon.io
+    127.0.0.1  dev.savetextappservice.jjvanzon.io
+    ::1        dev.savetextappservice.jjvanzon.io
+    127.0.0.1  dev.savetext.jjvanzon.io
+    ::1        dev.savetext.jjvanzon.io
     ```
 
 ### Databases
