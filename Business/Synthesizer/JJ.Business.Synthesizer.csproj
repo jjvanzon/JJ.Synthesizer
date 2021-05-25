@@ -70,6 +70,9 @@
     <Reference Include="JJ.Framework.IO, Version=1.7.7810.38986, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JJ.Framework.IO.1.7.7810.38986\lib\net461\JJ.Framework.IO.dll</HintPath>
     </Reference>
+    <Reference Include="JJ.Framework.Mathematics, Version=1.7.7810.38985, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Mathematics.1.7.7810.38985\lib\net461\JJ.Framework.Mathematics.dll</HintPath>
+    </Reference>
     <Reference Include="JJ.Framework.PlatformCompatibility, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JJ.Framework.PlatformCompatibility.1.7.7810.38981\lib\net461\JJ.Framework.PlatformCompatibility.dll</HintPath>
     </Reference>
@@ -257,21 +260,9 @@
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
     <EmbeddedResource Include="EmbeddedResources\SineCalculator.cs" />
     <Compile Include="Calculation\ToneCalculator.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_BinarySearchInexact1.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionHelper.BinarySearchInexact1.cs" />
-    <Compile Include="CopiedCode\FromFramework\TextPlotter.cs" />
     <Compile Include="Enums\CalculationEngineEnum.cs" />
     <Compile Include="Converters\MidiMappingToDtoConverter.cs" />
     <Compile Include="Converters\ToneToDtoConverter.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionExtensions.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_Ancestors.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_IEnumerable.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionExtensions_Recursive_IList.cs" />
-    <Compile Include="CopiedCode\FromFramework\NestedEnumerator.cs" />
-    <Compile Include="CopiedCode\FromFramework\Randomizer.cs" />
-    <Compile Include="CopiedCode\FromFramework\RedBlackTree.cs" />
-    <Compile Include="CopiedCode\FromFramework\RedBlackTreeColorEnum.cs" />
-    <Compile Include="CopiedCode\FromFramework\RedBlackTreeNode.cs" />
     <Compile Include="Dto\MidiMappingDto.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithNumber.cs" />
     <Compile Include="Dto\Operators\LogN_OperatorDto.cs" />
@@ -582,10 +573,6 @@
     <Compile Include="Dto\PatchGroupDto.cs" />
     <Compile Include="Extensions\OperatorExtensions.cs" />
     <Compile Include="Calculation\BiQuadFilter.cs" />
-    <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
-    <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
-    <Compile Include="CopiedCode\FromFramework\Interpolator.cs" />
-    <Compile Include="CopiedCode\FromFramework\MathHelper.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_Stripe.cs" />
@@ -798,9 +785,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Roslyn\README.TXT" />
-    <Content Include="CopiedCode\FromFramework\README.TXT" />
     <Content Include="CopiedCode\FromNAudio\README.TXT" />
-    <None Include="CopyFrameworkCode.bat" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.1\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
@@ -808,8 +793,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>call "$(ProjectDir)CopyFrameworkCode.bat"
-call "$(ProjectDir)CopyToEmbeddedResources.bat"</PreBuildEvent>
+    <PreBuildEvent>call "$(ProjectDir)CopyToEmbeddedResources.bat"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

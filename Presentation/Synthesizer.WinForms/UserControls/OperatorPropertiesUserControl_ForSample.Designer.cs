@@ -308,7 +308,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// 
 			// filePathControl
 			// 
-			this.filePathControl.BrowseMode = FileBrowseModeEnum.Open;
+			this.filePathControl.FileBrowseMode = FileBrowseModeEnum.OpenFile;
 			this.filePathControl.FilePath = "";
 			this.filePathControl.LabelText = "";
 			this.filePathControl.Location = new System.Drawing.Point(0, 0);
