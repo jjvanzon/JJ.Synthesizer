@@ -68,3 +68,29 @@ Setting Up Dev Environment
 - The folder Database\SaveTextDB may contain a database backup.
 - The file might be restored in SQL Server with name "DEV_SaveTextDB".
 - The database user name "dev" may be expected with password "dev".
+
+#### SynthesizerDB
+
+- Opening the folder Database\SynthesizerDB
+- There may be a file that might allow restoring SynthesizerDB.
+- Maybe sort the files by name.
+- Perhaps look for the a file like "SynthesizerDB.zip".
+- Looking for the one last in the list, might be a good idea. That should be the latest database backup.
+- The file might be unzipped and then restored in SQL Server with name "DEV_SaveTextDB".
+- The database user name "dev" may be expected with password "dev".
+
+-----
+
+- In luck, no manual work may be needed after that.
+- But it is possible that .sql files are listed after the Synthesizer backup file.
+- Those may then be executed one by one, onto the restored SynthesizerDB, to get the database better up-to-date
+
+-----
+
+- Some of the SQL files may indicate "RUN UTILITY".
+- That may indicate that the utility "JJ.Utilities.Synthesizer.DataMigration" might be run.
+- That utility might be found when opening the Synthesizer.sln.
+- It should show a windows that might allow executing a database migration step.
+- The "RUN UTILITY" sql file may hav indicated *which step* to run.
+- In an unfortunate case, it might be needed, to do a git checkout of a commit somewhere in history in order to run the utility. The commit to check out might be the one closest to the date indicated in the file name of the "RUN UTILITY" sql file.
+- Sorry for a possible lack of elegance here.
