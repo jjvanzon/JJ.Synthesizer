@@ -45,6 +45,7 @@ Setting Up Dev Environment
 - Having a *binding* that might use the  the web address previously found in the Visual Studio output as a *host name*.
 - The file C:\Windows\System32\drivers\etc\hosts might need editing.
 - Entries like the following might be added:
+
     ```
     127.0.0.1  dev.questionandanswer.jjvanzon.io
     ::1        dev.questionandanswer.jjvanzon.io
