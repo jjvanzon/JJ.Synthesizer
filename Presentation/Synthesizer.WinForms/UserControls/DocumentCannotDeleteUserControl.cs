@@ -2,7 +2,7 @@
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.StringResources;
 using JJ.Framework.Exceptions.Basic;
-using JJ.Framework.Resources;
+using JJ.Framework.ResourceStrings;
 using JJ.Framework.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;

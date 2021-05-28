@@ -77,8 +77,8 @@
     <Reference Include="JJ.Framework.Reflection, Version=1.7.7817.43032, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JJ.Framework.Reflection.1.7.7817.43032\lib\net461\JJ.Framework.Reflection.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Resources">
-      <HintPath>..\..\packages\JJ.Framework.Resources.1.7.7812.21917\lib\net461\JJ.Framework.Resources.dll</HintPath>
+    <Reference Include="JJ.Framework.ResourceStrings, Version=1.7.7818.38307, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.ResourceStrings.1.7.7818.38307\lib\net461\JJ.Framework.ResourceStrings.dll</HintPath>
     </Reference>
     <Reference Include="JJ.Framework.Text, Version=1.7.7817.43031, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JJ.Framework.Text.1.7.7817.43031\lib\net461\JJ.Framework.Text.dll</HintPath>
