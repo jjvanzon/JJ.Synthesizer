@@ -57,68 +57,68 @@
     <Reference Include="JetBrains.Annotations, Version=2018.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JetBrains.Annotations.2018.2.1\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Business, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Business.1.7.7810.38981\lib\net461\JJ.Framework.Business.dll</HintPath>
+    <Reference Include="JJ.Framework.Business, Version=1.7.7817.43032, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Business.1.7.7817.43032\lib\net461\JJ.Framework.Business.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Collections, Version=1.7.7810.38982, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Collections.1.7.7810.38982\lib\net461\JJ.Framework.Collections.dll</HintPath>
+    <Reference Include="JJ.Framework.Collections, Version=1.7.7817.43032, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Collections.1.7.7817.43032\lib\net461\JJ.Framework.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Common, Version=1.7.7810.38980, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Common.1.7.7810.38980\lib\net461\JJ.Framework.Common.dll</HintPath>
+    <Reference Include="JJ.Framework.Common, Version=1.7.7817.43031, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Common.1.7.7817.43031\lib\net461\JJ.Framework.Common.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Configuration, Version=1.7.7810.38986, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Configuration.1.7.7810.38986\lib\net461\JJ.Framework.Configuration.dll</HintPath>
+    <Reference Include="JJ.Framework.Configuration, Version=1.7.7817.43035, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Configuration.1.7.7817.43035\lib\net461\JJ.Framework.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Conversion, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Conversion.1.7.7810.38981\lib\net461\JJ.Framework.Conversion.dll</HintPath>
+    <Reference Include="JJ.Framework.Conversion, Version=1.7.7817.43032, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Conversion.1.7.7817.43032\lib\net461\JJ.Framework.Conversion.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Data, Version=1.7.7810.38982, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Data.1.7.7810.38982\lib\net461\JJ.Framework.Data.dll</HintPath>
+    <Reference Include="JJ.Framework.Data, Version=1.7.7818.27888, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Data.1.7.7818.27888\lib\net461\JJ.Framework.Data.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Data.NHibernate, Version=1.7.7810.38987, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Data.NHibernate.1.7.7810.38987\lib\net461\JJ.Framework.Data.NHibernate.dll</HintPath>
+    <Reference Include="JJ.Framework.Data.NHibernate, Version=1.7.7817.43035, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Data.NHibernate.1.7.7817.43035\lib\net461\JJ.Framework.Data.NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Data.SqlClient, Version=1.7.7810.38986, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Data.SqlClient.1.7.7810.38986\lib\net461\JJ.Framework.Data.SqlClient.dll</HintPath>
+    <Reference Include="JJ.Framework.Data.SqlClient, Version=1.7.7817.43035, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Data.SqlClient.1.7.7817.43035\lib\net461\JJ.Framework.Data.SqlClient.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Drawing, Version=1.7.7810.38986, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Drawing.1.7.7810.38986\lib\net461\JJ.Framework.Drawing.dll</HintPath>
+    <Reference Include="JJ.Framework.Drawing, Version=1.7.7817.43048, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Drawing.1.7.7817.43048\lib\net461\JJ.Framework.Drawing.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Exceptions, Version=1.7.7810.38982, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Exceptions.1.7.7810.38982\lib\net461\JJ.Framework.Exceptions.dll</HintPath>
+    <Reference Include="JJ.Framework.Exceptions, Version=1.7.7817.43032, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Exceptions.1.7.7817.43032\lib\net461\JJ.Framework.Exceptions.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.IO, Version=1.7.7810.38986, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.IO.1.7.7810.38986\lib\net461\JJ.Framework.IO.dll</HintPath>
+    <Reference Include="JJ.Framework.IO, Version=1.7.7817.43035, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.IO.1.7.7817.43035\lib\net461\JJ.Framework.IO.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Logging, Version=1.7.7810.38985, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Logging.1.7.7810.38985\lib\net461\JJ.Framework.Logging.dll</HintPath>
+    <Reference Include="JJ.Framework.Logging, Version=1.7.7817.43034, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Logging.1.7.7817.43034\lib\net461\JJ.Framework.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Mathematics, Version=1.7.7810.38985, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Mathematics.1.7.7810.38985\lib\net461\JJ.Framework.Mathematics.dll</HintPath>
+    <Reference Include="JJ.Framework.Mathematics, Version=1.7.7817.43034, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Mathematics.1.7.7817.43034\lib\net461\JJ.Framework.Mathematics.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.PlatformCompatibility, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.PlatformCompatibility.1.7.7810.38981\lib\net461\JJ.Framework.PlatformCompatibility.dll</HintPath>
+    <Reference Include="JJ.Framework.PlatformCompatibility, Version=1.7.7817.43032, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.PlatformCompatibility.1.7.7817.43032\lib\net461\JJ.Framework.PlatformCompatibility.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Presentation, Version=1.7.7810.38982, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Presentation.1.7.7810.38982\lib\net461\JJ.Framework.Presentation.dll</HintPath>
+    <Reference Include="JJ.Framework.Presentation, Version=1.7.7817.43034, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Presentation.1.7.7817.43034\lib\net461\JJ.Framework.Presentation.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Reflection, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Reflection.1.7.7810.38981\lib\net461\JJ.Framework.Reflection.dll</HintPath>
+    <Reference Include="JJ.Framework.Reflection, Version=1.7.7817.43032, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Reflection.1.7.7817.43032\lib\net461\JJ.Framework.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="JJ.Framework.Resources">
       <HintPath>..\..\packages\JJ.Framework.Resources.1.7.7812.21917\lib\net461\JJ.Framework.Resources.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Text, Version=1.7.7810.38980, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Text.1.7.7810.38980\lib\net461\JJ.Framework.Text.dll</HintPath>
+    <Reference Include="JJ.Framework.Text, Version=1.7.7817.43031, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Text.1.7.7817.43031\lib\net461\JJ.Framework.Text.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.VectorGraphics, Version=1.7.7810.38985, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.VectorGraphics.1.7.7810.38985\lib\net461\JJ.Framework.VectorGraphics.dll</HintPath>
+    <Reference Include="JJ.Framework.VectorGraphics, Version=1.7.7817.43037, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.VectorGraphics.1.7.7817.43037\lib\net461\JJ.Framework.VectorGraphics.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.WinForms, Version=1.7.7810.38986, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.WinForms.1.7.7810.38986\lib\net461\JJ.Framework.WinForms.dll</HintPath>
+    <Reference Include="JJ.Framework.WinForms, Version=1.7.7817.43048, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.WinForms.1.7.7817.43048\lib\net461\JJ.Framework.WinForms.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Xml, Version=1.7.7810.38985, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JJ.Framework.Xml.1.7.7810.38985\lib\net461\JJ.Framework.Xml.dll</HintPath>
+    <Reference Include="JJ.Framework.Xml, Version=1.7.7817.43035, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Xml.1.7.7817.43035\lib\net461\JJ.Framework.Xml.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=2.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.2.8.2\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
