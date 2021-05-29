@@ -32,403 +32,403 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
-	/// <summary>
-	/// Manages a Patch and its Operators.
-	/// You can supply a patch, Create a new one using the CreatePatch method
-	/// or omit the Patch to only call methods that do not require it.
-	/// </summary>
-	public class PatchFacade
-	{
-	    private static readonly CalculationEngineEnum _calculationEngineFromConfig = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationEngine;
+    /// <summary>
+    /// Manages a Patch and its Operators.
+    /// You can supply a patch, Create a new one using the CreatePatch method
+    /// or omit the Patch to only call methods that do not require it.
+    /// </summary>
+    public class PatchFacade
+    {
+        private static readonly CalculationEngineEnum _calculationEngineFromConfig = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationEngine;
 
-		private readonly RepositoryWrapper _repositories;
-	    private readonly PatchCloner _patchCloner;
+        private readonly RepositoryWrapper _repositories;
+        private readonly PatchCloner _patchCloner;
 
-	    public PatchFacade(RepositoryWrapper repositories)
-	    {
+        public PatchFacade(RepositoryWrapper repositories)
+        {
             _repositories = repositories ?? throw new NullException(() => repositories);
-	        _patchCloner = new PatchCloner(repositories);
-	    }
+            _patchCloner = new PatchCloner(repositories);
+        }
 
-	    // Create
+        // Create
 
-		/// <param name="document">Nullable. Used e.g. to generate a unique name for a Patch.</param>
-		public Patch CreatePatch(Document document = null)
-		{
-			var patch = new Patch { ID = _repositories.IDRepository.GetID() };
-			_repositories.PatchRepository.Insert(patch);
+        /// <param name="document">Nullable. Used e.g. to generate a unique name for a Patch.</param>
+        public Patch CreatePatch(Document document = null)
+        {
+            var patch = new Patch { ID = _repositories.IDRepository.GetID() };
+            _repositories.PatchRepository.Insert(patch);
 
-			patch.LinkTo(document);
+            patch.LinkTo(document);
 
-			new Patch_SideEffect_GenerateName(patch).Execute();
+            new Patch_SideEffect_GenerateName(patch).Execute();
 
-			return patch; 
-		}
+            return patch; 
+        }
 
-		public Inlet CreateInlet(Operator op)
-		{
-			if (op == null) throw new NullException(() => op);
+        public Inlet CreateInlet(Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
 
-			var inlet = new Inlet { ID = _repositories.IDRepository.GetID() };
-			_repositories.InletRepository.Insert(inlet);
+            var inlet = new Inlet { ID = _repositories.IDRepository.GetID() };
+            _repositories.InletRepository.Insert(inlet);
 
-			inlet.LinkTo(op);
+            inlet.LinkTo(op);
 
-			return inlet;
-		}
+            return inlet;
+        }
 
-		public Outlet CreateOutlet(Operator op)
-		{
-			if (op == null) throw new NullException(() => op);
+        public Outlet CreateOutlet(Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
 
-			var outlet = new Outlet { ID = _repositories.IDRepository.GetID() };
-			_repositories.OutletRepository.Insert(outlet);
+            var outlet = new Outlet { ID = _repositories.IDRepository.GetID() };
+            _repositories.OutletRepository.Insert(outlet);
 
-			outlet.LinkTo(op);
+            outlet.LinkTo(op);
 
-			return outlet;
-		}
+            return outlet;
+        }
 
-		// Save
+        // Save
 
-		public VoidResult SavePatch(Patch patch)
-		{
-			if (patch == null) throw new NullException(() => patch);
+        public VoidResult SavePatch(Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
 
-			// TODO: At one time, it said Patch.Operators collection was changed. That is what the ToArray is for. 
-			// I still do not know why the collection was changed, so that must be investigated.
-			// (It was when SaveOperator was called instead of ExecuteSideEffects.)
+            // TODO: At one time, it said Patch.Operators collection was changed. That is what the ToArray is for. 
+            // I still do not know why the collection was changed, so that must be investigated.
+            // (It was when SaveOperator was called instead of ExecuteSideEffects.)
 
-			foreach (Operator op in patch.Operators.ToArray())
-			{
-				new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
-			}
+            foreach (Operator op in patch.Operators.ToArray())
+            {
+                new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
+            }
 
-			VoidResult result = ValidatePatchWithRelatedEntities(patch);
-			if (!result.Successful)
-			{
-				return result;
-			}
+            VoidResult result = ValidatePatchWithRelatedEntities(patch);
+            if (!result.Successful)
+            {
+                return result;
+            }
 
-			new Patch_SideEffect_UpdateDerivedOperators(patch, _repositories).Execute();
+            new Patch_SideEffect_UpdateDerivedOperators(patch, _repositories).Execute();
 
-			return result;
-		}
+            return result;
+        }
 
-		/// <summary>
-		/// Related operators will also be added to the operator's patch.
-		/// If one of the related operators has a different patch assigned to it,
-		/// a validation message is returned.
-		/// Underlying patch will be reapplied.
-		/// Derived operators will be updated.
-		/// </summary>
-		public VoidResult SaveOperator(Operator op)
-		{
-			if (op == null) throw new NullException(() => op);
-			if (op.Patch == null) throw new NullException(() => op.Patch);
+        /// <summary>
+        /// Related operators will also be added to the operator's patch.
+        /// If one of the related operators has a different patch assigned to it,
+        /// a validation message is returned.
+        /// Underlying patch will be reapplied.
+        /// Derived operators will be updated.
+        /// </summary>
+        public VoidResult SaveOperator(Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+            if (op.Patch == null) throw new NullException(() => op.Patch);
 
-			VoidResult result1 = AddToPatchRecursive(op, op.Patch);
-			if (!result1.Successful)
-			{
-				return result1;
-			}
+            VoidResult result1 = AddToPatchRecursive(op, op.Patch);
+            if (!result1.Successful)
+            {
+                return result1;
+            }
 
-			new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
-			new Operator_SideEffect_UpdateDerivedOperators(op, _repositories).Execute();
+            new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
+            new Operator_SideEffect_UpdateDerivedOperators(op, _repositories).Execute();
 
-			// Validate the whole patch, because side-effect can affect the whole patch.
-			VoidResult result2 = ValidatePatchWithRelatedEntities(op.Patch);
+            // Validate the whole patch, because side-effect can affect the whole patch.
+            VoidResult result2 = ValidatePatchWithRelatedEntities(op.Patch);
 
-			return result2;
-		}
+            return result2;
+        }
 
-		/// <summary>
-		/// Adds an operator to the patch.
-		/// Related operators will also be added to the patch.
-		/// If one of the related operators has a different patch assigned to it,
-		/// a validation message is returned.
-		/// </summary>
-		private VoidResult AddToPatchRecursive(Operator op, Patch patch)
-		{
-			if (op == null) throw new NullException(() => op);
+        /// <summary>
+        /// Adds an operator to the patch.
+        /// Related operators will also be added to the patch.
+        /// If one of the related operators has a different patch assigned to it,
+        /// a validation message is returned.
+        /// </summary>
+        private VoidResult AddToPatchRecursive(Operator op, Patch patch)
+        {
+            if (op == null) throw new NullException(() => op);
 
-			IValidator validator = new OperatorValidator_IsOfSamePatchOrPatchIsNull_Recursive(op, patch, _repositories.CurveRepository);
-			if (!validator.IsValid)
-			{
-				return validator.ToResult();
-			}
+            IValidator validator = new OperatorValidator_IsOfSamePatchOrPatchIsNull_Recursive(op, patch, _repositories.CurveRepository);
+            if (!validator.IsValid)
+            {
+                return validator.ToResult();
+            }
 
-			AddToPatchRecursive_WithoutValidation(op, patch);
+            AddToPatchRecursive_WithoutValidation(op, patch);
 
-			return new VoidResult { Successful = true };
-		}
+            return new VoidResult { Successful = true };
+        }
 
-		private void AddToPatchRecursive_WithoutValidation(Operator op, Patch patch)
-		{
-			op.LinkTo(patch);
+        private void AddToPatchRecursive_WithoutValidation(Operator op, Patch patch)
+        {
+            op.LinkTo(patch);
 
-			foreach (Inlet inlet in op.Inlets)
-			{
-				if (inlet.InputOutlet != null)
-				{
-					AddToPatchRecursive_WithoutValidation(inlet.InputOutlet.Operator, patch);
-				}
-			}
-		}
+            foreach (Inlet inlet in op.Inlets)
+            {
+                if (inlet.InputOutlet != null)
+                {
+                    AddToPatchRecursive_WithoutValidation(inlet.InputOutlet.Operator, patch);
+                }
+            }
+        }
 
-		// Delete
+        // Delete
 
-		public VoidResult DeletePatchWithRelatedEntities(int patchID)
-		{
-			Patch patch = _repositories.PatchRepository.Get(patchID);
-			return DeletePatchWithRelatedEntities(patch);
-		}
+        public VoidResult DeletePatchWithRelatedEntities(int patchID)
+        {
+            Patch patch = _repositories.PatchRepository.Get(patchID);
+            return DeletePatchWithRelatedEntities(patch);
+        }
 
-		public VoidResult DeletePatchWithRelatedEntities(Patch patch)
-		{
-			if (patch == null) throw new NullException(() => patch);
+        public VoidResult DeletePatchWithRelatedEntities(Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
 
-			IValidator validator = new PatchValidator_Delete(patch, _repositories.CurveRepository);
-			if (!validator.IsValid)
-			{
-				return validator.ToResult();
-			}
+            IValidator validator = new PatchValidator_Delete(patch, _repositories.CurveRepository);
+            if (!validator.IsValid)
+            {
+                return validator.ToResult();
+            }
 
-			patch.DeleteRelatedEntities(_repositories);
-			patch.UnlinkRelatedEntities();
-			_repositories.PatchRepository.Delete(patch);
+            patch.DeleteRelatedEntities(_repositories);
+            patch.UnlinkRelatedEntities();
+            _repositories.PatchRepository.Delete(patch);
 
-			return new VoidResult { Successful = true };
-		}
+            return new VoidResult { Successful = true };
+        }
 
-		/// <summary>
-		/// Deletes the operator, its inlets and outlets
-		/// and connections to its inlets and outlets.
-		/// Also applies changes to underlying documents to dependent CustomOperators.
-		/// Also cleans up obsolete inlets and outlets from custom operators.
-		/// </summary>
-		public void DeleteOperatorWithRelatedEntities(int id)
-		{
-			Operator op = _repositories.OperatorRepository.Get(id);
-			DeleteOperatorWithRelatedEntities(op);
-		}
+        /// <summary>
+        /// Deletes the operator, its inlets and outlets
+        /// and connections to its inlets and outlets.
+        /// Also applies changes to underlying documents to dependent CustomOperators.
+        /// Also cleans up obsolete inlets and outlets from custom operators.
+        /// </summary>
+        public void DeleteOperatorWithRelatedEntities(int id)
+        {
+            Operator op = _repositories.OperatorRepository.Get(id);
+            DeleteOperatorWithRelatedEntities(op);
+        }
 
-		/// <summary>
-		/// Deletes the operator, its inlets and outlets
-		/// and connections to its inlets and outlets.
-		/// Also applies changes to underlying documents to derived operators.
-		/// Also cleans up obsolete inlets and outlets from operators.
-		/// </summary>
-		public void DeleteOperatorWithRelatedEntities(Operator op)
-		{
-			if (op == null) throw new NullException(() => op);
-			if (op.Patch == null) throw new NullException(() => op.Patch);
+        /// <summary>
+        /// Deletes the operator, its inlets and outlets
+        /// and connections to its inlets and outlets.
+        /// Also applies changes to underlying documents to derived operators.
+        /// Also cleans up obsolete inlets and outlets from operators.
+        /// </summary>
+        public void DeleteOperatorWithRelatedEntities(Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+            if (op.Patch == null) throw new NullException(() => op.Patch);
 
-			// Get this before deleting and unlinking things.
-			IList<Operator> connectedOperators = op.GetConnectedOperators();
-			Patch patch = op.Patch;
+            // Get this before deleting and unlinking things.
+            IList<Operator> connectedOperators = op.GetConnectedOperators();
+            Patch patch = op.Patch;
 
-			op.UnlinkRelatedEntities();
-			op.DeleteRelatedEntities(_repositories);
-			_repositories.OperatorRepository.Delete(op);
+            op.UnlinkRelatedEntities();
+            op.DeleteRelatedEntities(_repositories);
+            _repositories.OperatorRepository.Delete(op);
 
-			// Order-Dependence:
-			// You need to postpone deleting this 1-to-1 related entity till after deleting the Operator, 
-			// or ORM will try to update Operator.EntityPositionID to null and crash.
-			if (op.EntityPosition != null)
-			{
-				_repositories.EntityPositionRepository.Delete(op.EntityPosition);
-			}
+            // Order-Dependence:
+            // You need to postpone deleting this 1-to-1 related entity till after deleting the Operator, 
+            // or ORM will try to update Operator.EntityPositionID to null and crash.
+            if (op.EntityPosition != null)
+            {
+                _repositories.EntityPositionRepository.Delete(op.EntityPosition);
+            }
 
-			new Patch_SideEffect_UpdateDerivedOperators(patch, _repositories).Execute();
+            new Patch_SideEffect_UpdateDerivedOperators(patch, _repositories).Execute();
 
-			// Clean up obsolete inlets and outlets when the last connection to it is gone.
-			foreach (Operator connectedOperator in connectedOperators)
-			{
-				new Operator_SideEffect_ApplyUnderlyingPatch(connectedOperator, _repositories).Execute();
-			}
-		}
+            // Clean up obsolete inlets and outlets when the last connection to it is gone.
+            foreach (Operator connectedOperator in connectedOperators)
+            {
+                new Operator_SideEffect_ApplyUnderlyingPatch(connectedOperator, _repositories).Execute();
+            }
+        }
 
-		public void DeleteInlet(int id)
-		{
-			Inlet entity = _repositories.InletRepository.Get(id);
-			DeleteInlet(entity);
-		}
+        public void DeleteInlet(int id)
+        {
+            Inlet entity = _repositories.InletRepository.Get(id);
+            DeleteInlet(entity);
+        }
 
-		public void DeleteInlet(Inlet entity)
-		{
-			if (entity == null) throw new NullException(() => entity);
+        public void DeleteInlet(Inlet entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
 
-			entity.UnlinkRelatedEntities();
-			_repositories.InletRepository.Delete(entity);
+            entity.UnlinkRelatedEntities();
+            _repositories.InletRepository.Delete(entity);
 
-			// TODO:
-			// In theory, if obsolete outlets were connected to this inlet we delete here,
-			// we could clean up those obsolete outlets. Just like in DeleteOperator.
-		}
+            // TODO:
+            // In theory, if obsolete outlets were connected to this inlet we delete here,
+            // we could clean up those obsolete outlets. Just like in DeleteOperator.
+        }
 
-		public void DeleteOutlet(int id)
-		{
-			Outlet entity = _repositories.OutletRepository.Get(id);
-			DeleteOutlet(entity);
-		}
+        public void DeleteOutlet(int id)
+        {
+            Outlet entity = _repositories.OutletRepository.Get(id);
+            DeleteOutlet(entity);
+        }
 
-		public void DeleteOutlet(Outlet entity)
-		{
-			if (entity == null) throw new NullException(() => entity);
+        public void DeleteOutlet(Outlet entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
 
-			entity.UnlinkRelatedEntities();
-			_repositories.OutletRepository.Delete(entity);
+            entity.UnlinkRelatedEntities();
+            _repositories.OutletRepository.Delete(entity);
 
-			// TODO:
-			// In theory if an outlet is connected to obsolete inlets,
-			// it might be possible to clean up those obsolete inlets here. Just like in DeleteOperator.
-		}
+            // TODO:
+            // In theory if an outlet is connected to obsolete inlets,
+            // it might be possible to clean up those obsolete inlets here. Just like in DeleteOperator.
+        }
 
-		// Validate (Private)
+        // Validate (Private)
 
-		private VoidResult ValidatePatchWithRelatedEntities(Patch patch)
-		{
-			IValidator validator = new PatchValidator_WithRelatedEntities(
-				patch,
-				_repositories.CurveRepository,
-				_repositories.SampleRepository, new HashSet<object>());
+        private VoidResult ValidatePatchWithRelatedEntities(Patch patch)
+        {
+            IValidator validator = new PatchValidator_WithRelatedEntities(
+                patch,
+                _repositories.CurveRepository,
+                _repositories.SampleRepository, new HashSet<object>());
 
-			return validator.ToResult();
-		}
+            return validator.ToResult();
+        }
 
         // Misc
 
-	    public Patch ClonePatch(Patch sourcePatch)
-	    {
-	        Patch destPatch = _patchCloner.CloneWithRelatedEntities(sourcePatch);
+        public Patch ClonePatch(Patch sourcePatch)
+        {
+            Patch destPatch = _patchCloner.CloneWithRelatedEntities(sourcePatch);
 
-	        new Patch_SideEffect_GenerateName(destPatch).Execute();
+            new Patch_SideEffect_GenerateName(destPatch).Execute();
 
-	        return destPatch;
-	    }
+            return destPatch;
+        }
 
-	    /// <summary>
-		/// Does work, that is shared for creating multiple calculators, only once.
-		/// In particular in compiled mode, this means it compiles the calculation only once.
-		/// Note that you are still going to have to call it once for each channel, unfortunately,
-		/// due to the inherent behavior of sample mixing inside the PatchCalculators.
-		/// </summary>
-		public IList<IPatchCalculator> CreateCalculators(
-			int calculatorCount,
-			Outlet outlet,
-			int samplingRate,
-			int channelCount,
-			int channelIndex,
-			CalculatorCache calculatorCache,
-	        CalculationEngineEnum calculationEngineEnum = default)
-		{
-		    if (calculationEngineEnum == default)
-		    {
-		        calculationEngineEnum = _calculationEngineFromConfig;
-		    }
+        /// <summary>
+        /// Does work, that is shared for creating multiple calculators, only once.
+        /// In particular in compiled mode, this means it compiles the calculation only once.
+        /// Note that you are still going to have to call it once for each channel, unfortunately,
+        /// due to the inherent behavior of sample mixing inside the PatchCalculators.
+        /// </summary>
+        public IList<IPatchCalculator> CreateCalculators(
+            int calculatorCount,
+            Outlet outlet,
+            int samplingRate,
+            int channelCount,
+            int channelIndex,
+            CalculatorCache calculatorCache,
+            CalculationEngineEnum calculationEngineEnum = default)
+        {
+            if (calculationEngineEnum == default)
+            {
+                calculationEngineEnum = _calculationEngineFromConfig;
+            }
 
-		    switch (calculationEngineEnum)
-			{
-				case CalculationEngineEnum.Roslyn:
+            switch (calculationEngineEnum)
+            {
+                case CalculationEngineEnum.Roslyn:
 
-				{
-				    IOperatorDto dto = new OperatorEntityToDtoVisitor(
-				        calculatorCache,
-				        _repositories.CurveRepository,
-				        _repositories.SampleRepository,
-				        _repositories.SpeakerSetupRepository).Execute(outlet);
+                {
+                    IOperatorDto dto = new OperatorEntityToDtoVisitor(
+                        calculatorCache,
+                        _repositories.CurveRepository,
+                        _repositories.SampleRepository,
+                        _repositories.SpeakerSetupRepository).Execute(outlet);
 
-					dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
+                    dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
 
-					ActivationInfo activationInfo = new OperatorDtoCompiler().CompileToPatchCalculatorActivationInfo(dto, samplingRate, channelCount, channelIndex);
+                    ActivationInfo activationInfo = new OperatorDtoCompiler().CompileToPatchCalculatorActivationInfo(dto, samplingRate, channelCount, channelIndex);
 
-					IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
-						calculatorCount,
-						() => (IPatchCalculator)Activator.CreateInstance(activationInfo.Type, activationInfo.Args)).ToArray();
+                    IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
+                        calculatorCount,
+                        () => (IPatchCalculator)Activator.CreateInstance(activationInfo.Type, activationInfo.Args)).ToArray();
 
-					return patchCalculators;
-				}
-				default:
-				{
-					IList<IPatchCalculator> patchCalculators =
-						CollectionHelper.Repeat(calculatorCount, () => CreateCalculator(outlet, samplingRate, channelCount, channelIndex, calculatorCache))
-										.ToArray();
+                    return patchCalculators;
+                }
+                default:
+                {
+                    IList<IPatchCalculator> patchCalculators =
+                        CollectionHelper.Repeat(calculatorCount, () => CreateCalculator(outlet, samplingRate, channelCount, channelIndex, calculatorCache))
+                                        .ToArray();
 
-					return patchCalculators;
-				}
-			}
-		}
+                    return patchCalculators;
+                }
+            }
+        }
 
-		public IPatchCalculator CreateCalculator(
-			Outlet outlet,
-			int samplingRate,
-			int channelCount,
-			int channelIndex,
-			CalculatorCache calculatorCache,
-			CalculationEngineEnum calculationEngineEnum = default)
-		{
-		    if (calculationEngineEnum == default)
-		    {
-		        calculationEngineEnum = _calculationEngineFromConfig;
-		    }
+        public IPatchCalculator CreateCalculator(
+            Outlet outlet,
+            int samplingRate,
+            int channelCount,
+            int channelIndex,
+            CalculatorCache calculatorCache,
+            CalculationEngineEnum calculationEngineEnum = default)
+        {
+            if (calculationEngineEnum == default)
+            {
+                calculationEngineEnum = _calculationEngineFromConfig;
+            }
 
             if (calculationEngineEnum == CalculationEngineEnum.HardCoded)
-		    {
-		        return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
-		    }
-		    if (calculationEngineEnum == CalculationEngineEnum.ExampleGeneratedCode)
-		    {
-		        return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<string, ArrayDto>());
-		    }
+            {
+                return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
+            }
+            if (calculationEngineEnum == CalculationEngineEnum.ExampleGeneratedCode)
+            {
+                return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<string, ArrayDto>());
+            }
 
-		    var visitor = new OperatorEntityToDtoVisitor(
-		        calculatorCache,
-		        _repositories.CurveRepository,
-		        _repositories.SampleRepository,
-		        _repositories.SpeakerSetupRepository);
-		    IOperatorDto dto = visitor.Execute(outlet);
+            var visitor = new OperatorEntityToDtoVisitor(
+                calculatorCache,
+                _repositories.CurveRepository,
+                _repositories.SampleRepository,
+                _repositories.SpeakerSetupRepository);
+            IOperatorDto dto = visitor.Execute(outlet);
 
-		    dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
+            dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
 
-		    if (calculationEngineEnum == CalculationEngineEnum.CalculatorClasses)
-		    {
-		        IPatchCalculator patchCalculator = new SingleChannelPatchCalculator(
+            if (calculationEngineEnum == CalculationEngineEnum.CalculatorClasses)
+            {
+                IPatchCalculator patchCalculator = new SingleChannelPatchCalculator(
                     dto,
-		            samplingRate,
-		            channelCount,
-		            channelIndex,
-		            calculatorCache,
-		            _repositories.CurveRepository,
-		            _repositories.SampleRepository);
-		        return patchCalculator;
-		    }
+                    samplingRate,
+                    channelCount,
+                    channelIndex,
+                    calculatorCache,
+                    _repositories.CurveRepository,
+                    _repositories.SampleRepository);
+                return patchCalculator;
+            }
 
             if (calculationEngineEnum == CalculationEngineEnum.Roslyn)
-		    {
-		        IPatchCalculator patchCalculator = new OperatorDtoCompiler().CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
-		        return patchCalculator;
-		    }
+            {
+                IPatchCalculator patchCalculator = new OperatorDtoCompiler().CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
+                return patchCalculator;
+            }
 
-		    throw new ValueNotSupportedException(calculationEngineEnum);
-		}
+            throw new ValueNotSupportedException(calculationEngineEnum);
+        }
 
-		public void DeleteOwnedNumberOperators(int id)
-		{
-			Operator op = _repositories.OperatorRepository.Get(id);
-			DeleteOwnedNumberOperators(op);
-		}
+        public void DeleteOwnedNumberOperators(int id)
+        {
+            Operator op = _repositories.OperatorRepository.Get(id);
+            DeleteOwnedNumberOperators(op);
+        }
 
-		/// <summary> If ownerOperator is the sole referrer to a number operator, the number operator will be deleted. </summary>
-		public void DeleteOwnedNumberOperators(Operator ownerOperator)
-		{
-			if (ownerOperator == null) throw new NullException(() => ownerOperator);
+        /// <summary> If ownerOperator is the sole referrer to a number operator, the number operator will be deleted. </summary>
+        public void DeleteOwnedNumberOperators(Operator ownerOperator)
+        {
+            if (ownerOperator == null) throw new NullException(() => ownerOperator);
 
-			foreach (Operator ownedOperator in ownerOperator.GetOwnedOperators())
-			{
-				DeleteOperatorWithRelatedEntities(ownedOperator);
-			}
-		}
+            foreach (Operator ownedOperator in ownerOperator.GetOwnedOperators())
+            {
+                DeleteOperatorWithRelatedEntities(ownedOperator);
+            }
+        }
 
         /// <summary> Validates for instance that no operator connections are lost. </summary>
         public VoidResult SetOperatorInletCount(Operator op, int inletCount)

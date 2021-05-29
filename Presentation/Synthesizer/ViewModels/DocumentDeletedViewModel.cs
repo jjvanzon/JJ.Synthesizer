@@ -1,6 +1,6 @@
 ﻿namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public class DocumentDeletedViewModel : ScreenViewModelBase
-	{
-	}
+    public class DocumentDeletedViewModel : ScreenViewModelBase
+    {
+    }
 }

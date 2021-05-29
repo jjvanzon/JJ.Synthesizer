@@ -366,7 +366,7 @@ namespace JJ.Framework.Mathematics
 
         /// <inheritdoc cref="FormatWithDecimalCount(object, string, int)" />
         public static string FormatWithDecimalCount(object value, int decimalCount)
-	        => FormatWithDecimalCount(value, "0", decimalCount);
+            => FormatWithDecimalCount(value, "0", decimalCount);
 
         /// <summary>
         /// There may be cases where it is desired that 1 is displayed as "1.0",
@@ -385,15 +385,15 @@ namespace JJ.Framework.Mathematics
         /// </param>
         /// <additionalDecimalCount>Between 0 and basically any number.</additionalDecimalCount>
         public static string FormatWithDecimalCount(object value, string baseFormatString, int additionalDecimalCount)
-		{
-			if (string.IsNullOrWhiteSpace(baseFormatString))
-			{
-				throw new NotNullOrWhiteSpaceException(nameof(baseFormatString));
-			}
+        {
+            if (string.IsNullOrWhiteSpace(baseFormatString))
+            {
+                throw new NotNullOrWhiteSpaceException(nameof(baseFormatString));
+            }
 
             if (additionalDecimalCount < 0)
             {
-	            throw new LessThanException(() => additionalDecimalCount, 0);
+                throw new LessThanException(() => additionalDecimalCount, 0);
             }
 
             var sb = new StringBuilder();
@@ -407,13 +407,13 @@ namespace JJ.Framework.Mathematics
 
             for (int i = 0; i < additionalDecimalCount; i++)
             {
-				sb.Append('0');
+                sb.Append('0');
             }
 
             sb.Append("}");
 
             string formattedValue = string.Format(sb.ToString(), value);
             return formattedValue;
-		}
+        }
     }
 }

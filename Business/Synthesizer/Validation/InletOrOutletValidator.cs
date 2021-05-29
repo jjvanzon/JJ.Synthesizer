@@ -7,29 +7,29 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-	internal class InletOrOutletValidator : VersatileValidator
-	{
-		public InletOrOutletValidator(IInletOrOutlet inletOrOutlet)
-		{
-			if (inletOrOutlet == null) throw new NullException(() => inletOrOutlet);
+    internal class InletOrOutletValidator : VersatileValidator
+    {
+        public InletOrOutletValidator(IInletOrOutlet inletOrOutlet)
+        {
+            if (inletOrOutlet == null) throw new NullException(() => inletOrOutlet);
 
-			ExecuteValidator(new IDValidator(inletOrOutlet.ID));
+            ExecuteValidator(new IDValidator(inletOrOutlet.ID));
 
-			ExecuteValidator(new NameValidator(inletOrOutlet.Name, required: false));
+            ExecuteValidator(new NameValidator(inletOrOutlet.Name, required: false));
 
-			OperatorTypeEnum operatorTypeEnum = inletOrOutlet.Operator.GetOperatorTypeEnum();
+            OperatorTypeEnum operatorTypeEnum = inletOrOutlet.Operator.GetOperatorTypeEnum();
 
-			bool repetitionPositionMustBeNull = !inletOrOutlet.IsRepeating ||
-												operatorTypeEnum == OperatorTypeEnum.PatchInlet ||
-												operatorTypeEnum == OperatorTypeEnum.PatchOutlet;
-			if (repetitionPositionMustBeNull)
-			{
-				For(inletOrOutlet.RepetitionPosition, ResourceFormatter.RepetitionPosition).IsNull();
-			}
-			else
-			{
-				For(inletOrOutlet.RepetitionPosition, ResourceFormatter.RepetitionPosition).NotNull();
-			}
-		}
-	}
+            bool repetitionPositionMustBeNull = !inletOrOutlet.IsRepeating ||
+                                                operatorTypeEnum == OperatorTypeEnum.PatchInlet ||
+                                                operatorTypeEnum == OperatorTypeEnum.PatchOutlet;
+            if (repetitionPositionMustBeNull)
+            {
+                For(inletOrOutlet.RepetitionPosition, ResourceFormatter.RepetitionPosition).IsNull();
+            }
+            else
+            {
+                For(inletOrOutlet.RepetitionPosition, ResourceFormatter.RepetitionPosition).NotNull();
+            }
+        }
+    }
 }

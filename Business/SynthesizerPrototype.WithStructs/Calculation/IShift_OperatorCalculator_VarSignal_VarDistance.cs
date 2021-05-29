@@ -2,10 +2,10 @@
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {
-	internal interface IShift_OperatorCalculator_VarSignal_VarDistance : IOperatorCalculator
-	{
-		IOperatorCalculator SignalCalculator { get; set; }
-		IOperatorCalculator DistanceCalculator { get; set; }
-		DimensionStack DimensionStack { get; set; }
-	}
+    internal interface IShift_OperatorCalculator_VarSignal_VarDistance : IOperatorCalculator
+    {
+        IOperatorCalculator SignalCalculator { get; set; }
+        IOperatorCalculator DistanceCalculator { get; set; }
+        DimensionStack DimensionStack { get; set; }
+    }
 }

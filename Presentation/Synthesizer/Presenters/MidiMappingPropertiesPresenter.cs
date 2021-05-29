@@ -13,46 +13,46 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-	internal class MidiMappingPropertiesPresenter
-		: EntityPresenterWithSaveBase<MidiMapping, MidiMappingPropertiesViewModel>
-	{
-		private readonly MidiMappingRepositories _repositories;
-		private readonly MidiMappingFacade _midiMappingFacade;
+    internal class MidiMappingPropertiesPresenter
+        : EntityPresenterWithSaveBase<MidiMapping, MidiMappingPropertiesViewModel>
+    {
+        private readonly MidiMappingRepositories _repositories;
+        private readonly MidiMappingFacade _midiMappingFacade;
 
-		public MidiMappingPropertiesPresenter(MidiMappingRepositories repositories, MidiMappingFacade midiMappingFacade)
-		{
-			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
-			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
-		}
+        public MidiMappingPropertiesPresenter(MidiMappingRepositories repositories, MidiMappingFacade midiMappingFacade)
+        {
+            _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
+            _midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
+        }
 
-		protected override MidiMapping GetEntity(MidiMappingPropertiesViewModel userInput) => userInput.ToEntity(_repositories);
+        protected override MidiMapping GetEntity(MidiMappingPropertiesViewModel userInput) => userInput.ToEntity(_repositories);
 
-	    protected override MidiMappingPropertiesViewModel ToViewModel(MidiMapping entity) => entity.ToPropertiesViewModel();
+        protected override MidiMappingPropertiesViewModel ToViewModel(MidiMapping entity) => entity.ToPropertiesViewModel();
 
-	    public MidiMappingPropertiesViewModel ChangeMidiMappingType(MidiMappingPropertiesViewModel userInput) => Refresh(userInput);
+        public MidiMappingPropertiesViewModel ChangeMidiMappingType(MidiMappingPropertiesViewModel userInput) => Refresh(userInput);
 
-	    public MidiMappingPropertiesViewModel Delete(MidiMappingPropertiesViewModel userInput) => ExecuteAction(userInput, entity => _midiMappingFacade.DeleteMidiMapping(entity));
+        public MidiMappingPropertiesViewModel Delete(MidiMappingPropertiesViewModel userInput) => ExecuteAction(userInput, entity => _midiMappingFacade.DeleteMidiMapping(entity));
 
-	    protected override IResult Save(MidiMapping entity, MidiMappingPropertiesViewModel userInput)
-		{
-			IValidator validator = new MidiMappingPropertiesViewModel_Validator(userInput);
-			if (!validator.IsValid)
-			{
-				return validator.ToResult();
-			}
+        protected override IResult Save(MidiMapping entity, MidiMappingPropertiesViewModel userInput)
+        {
+            IValidator validator = new MidiMappingPropertiesViewModel_Validator(userInput);
+            if (!validator.IsValid)
+            {
+                return validator.ToResult();
+            }
 
-			return _midiMappingFacade.SaveMidiMapping(entity);
-		}
+            return _midiMappingFacade.SaveMidiMapping(entity);
+        }
 
-		protected override void CopyNonPersistedProperties(MidiMappingPropertiesViewModel sourceViewModel, MidiMappingPropertiesViewModel destViewModel)
-		{
-			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
+        protected override void CopyNonPersistedProperties(MidiMappingPropertiesViewModel sourceViewModel, MidiMappingPropertiesViewModel destViewModel)
+        {
+            base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
-			destViewModel.FromDimensionValue = sourceViewModel.FromDimensionValue;
-			destViewModel.TillDimensionValue = sourceViewModel.TillDimensionValue;
-			destViewModel.MinDimensionValue = sourceViewModel.MinDimensionValue;
-			destViewModel.MaxDimensionValue = sourceViewModel.MaxDimensionValue;
-			destViewModel.Position = sourceViewModel.Position;
-		}
-	}
+            destViewModel.FromDimensionValue = sourceViewModel.FromDimensionValue;
+            destViewModel.TillDimensionValue = sourceViewModel.TillDimensionValue;
+            destViewModel.MinDimensionValue = sourceViewModel.MinDimensionValue;
+            destViewModel.MaxDimensionValue = sourceViewModel.MaxDimensionValue;
+            destViewModel.Position = sourceViewModel.Position;
+        }
+    }
 }

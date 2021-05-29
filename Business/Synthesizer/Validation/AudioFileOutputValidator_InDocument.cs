@@ -5,16 +5,16 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-	internal class AudioFileOutputValidator_InDocument : VersatileValidator
-	{
-		public AudioFileOutputValidator_InDocument(AudioFileOutput entity)
-		{
-			if (entity == null) throw new NullException(() => entity);
+    internal class AudioFileOutputValidator_InDocument : VersatileValidator
+    {
+        public AudioFileOutputValidator_InDocument(AudioFileOutput entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
 
-			For(entity.Document, ResourceFormatter.Document).NotNull();
-			For(entity.FilePath, ResourceFormatter.FilePath).MaxLength(255);
+            For(entity.Document, ResourceFormatter.Document).NotNull();
+            For(entity.FilePath, ResourceFormatter.FilePath).MaxLength(255);
 
-			ExecuteValidator(new NameValidator(entity.Name));
-		}
-	}
+            ExecuteValidator(new NameValidator(entity.Name));
+        }
+    }
 }

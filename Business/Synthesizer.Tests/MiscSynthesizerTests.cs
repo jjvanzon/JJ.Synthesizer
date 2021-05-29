@@ -132,8 +132,8 @@ namespace JJ.Business.Synthesizer.Tests
 
                         //IValidator[] validators = 
                         //{
-                        //	new OperatorValidator_Versatile(outlet.Operator, repositories.DocumentRepository),
-                        //	new OperatorWarningValidator_Versatile(outlet.Operator)
+                        //    new OperatorValidator_Versatile(outlet.Operator, repositories.DocumentRepository),
+                        //    new OperatorWarningValidator_Versatile(outlet.Operator)
                         //};
                         //validators.ForEach(y => y.Verify());
 

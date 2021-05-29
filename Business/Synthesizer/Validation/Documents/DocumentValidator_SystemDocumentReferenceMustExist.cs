@@ -8,26 +8,26 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
-	internal class DocumentValidator_SystemDocumentReferenceMustExist : VersatileValidator
-	{
-		public DocumentValidator_SystemDocumentReferenceMustExist(Document document, IDocumentRepository documentRepository)
-		{
-			if (document == null) throw new NullException(() => document);
+    internal class DocumentValidator_SystemDocumentReferenceMustExist : VersatileValidator
+    {
+        public DocumentValidator_SystemDocumentReferenceMustExist(Document document, IDocumentRepository documentRepository)
+        {
+            if (document == null) throw new NullException(() => document);
 
-			var systemFacade = new SystemFacade(documentRepository);
+            var systemFacade = new SystemFacade(documentRepository);
 
-			if (document.IsSystemDocument())
-			{
-				return;
-			}
+            if (document.IsSystemDocument())
+            {
+                return;
+            }
 
-			bool hasSystemDocumentReference = document.LowerDocumentReferences.Any(x => x.LowerDocument.IsSystemDocument());
-			if (!hasSystemDocumentReference)
-			{
-				string systemDocumentIdentifier = ValidationHelper.GetUserFriendlyIdentifier(systemFacade.GetSystemDocument());
+            bool hasSystemDocumentReference = document.LowerDocumentReferences.Any(x => x.LowerDocument.IsSystemDocument());
+            if (!hasSystemDocumentReference)
+            {
+                string systemDocumentIdentifier = ValidationHelper.GetUserFriendlyIdentifier(systemFacade.GetSystemDocument());
 
-				Messages.AddNotContainsMessage(ResourceFormatter.Libraries, systemDocumentIdentifier);
-			}
-		}
-	}
+                Messages.AddNotContainsMessage(ResourceFormatter.Libraries, systemDocumentIdentifier);
+            }
+        }
+    }
 }

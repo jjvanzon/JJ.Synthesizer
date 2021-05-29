@@ -3,28 +3,28 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.SynthesizerPrototype.Visitors
 {
-	internal class OperatorDtoVisitor_MachineOptimization : OperatorDtoVisitorBase_AfterMathSimplification
-	{
-		public IOperatorDto Execute(IOperatorDto dto) => Visit_OperatorDto_Polymorphic(dto);
+    internal class OperatorDtoVisitor_MachineOptimization : OperatorDtoVisitorBase_AfterMathSimplification
+    {
+        public IOperatorDto Execute(IOperatorDto dto) => Visit_OperatorDto_Polymorphic(dto);
 
-		protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
-		{
-			base.Visit_Number_OperatorDto(dto);
+        protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
+        {
+            base.Visit_Number_OperatorDto(dto);
 
-			double value = dto.Number;
+            double value = dto.Number;
 
-			if (DoubleHelper.IsSpecialValue(value))
-			{
-				return new Number_OperatorDto_NaN();
-			}
+            if (DoubleHelper.IsSpecialValue(value))
+            {
+                return new Number_OperatorDto_NaN();
+            }
 
-			switch (value)
-			{
-				case 1.0: return new Number_OperatorDto_One();
-				case 0.0: return new Number_OperatorDto_Zero();
-			}
+            switch (value)
+            {
+                case 1.0: return new Number_OperatorDto_One();
+                case 0.0: return new Number_OperatorDto_Zero();
+            }
 
-			return dto;
-		}
-	}
+            return dto;
+        }
+    }
 }

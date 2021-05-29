@@ -13,7 +13,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 {
     internal class OperatorDtoToCSharpVisitor : OperatorDtoVisitorBase_AfterMathSimplification
     {
-        private const string TAB_STRING = "	";
+        private const string TAB_STRING = "    ";
         private const int FIRST_VARIABLE_NUMBER = 0;
 
         private const string MULTIPLY_SYMBOL = "*";

@@ -4,18 +4,18 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal class SetPosition_OperatorDto : OperatorDtoBase_PositionTransformation
-	{
-		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetPosition;
+    internal class SetPosition_OperatorDto : OperatorDtoBase_PositionTransformation
+    {
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetPosition;
 
-		public override IReadOnlyList<InputDto> Inputs
-		{
-			get => new[] { Signal, Position };
-			set
-			{
-				Signal = value.ElementAtOrDefault(0);
-				Position = value.ElementAtOrDefault(1);
-			}
-		}
-	}
+        public override IReadOnlyList<InputDto> Inputs
+        {
+            get => new[] { Signal, Position };
+            set
+            {
+                Signal = value.ElementAtOrDefault(0);
+                Position = value.ElementAtOrDefault(1);
+            }
+        }
+    }
 }

@@ -4,12 +4,12 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Data.Synthesizer.NHibernate.Mapping
 {
-	public class MidiMappingTypeMapping : ClassMap<MidiMappingType>
-	{
-		public MidiMappingTypeMapping()
-		{
-			Id(x => x.ID).GeneratedBy.Assigned();
-			Map(x => x.Name);
-		}
-	}
+    public class MidiMappingTypeMapping : ClassMap<MidiMappingType>
+    {
+        public MidiMappingTypeMapping()
+        {
+            Id(x => x.ID).GeneratedBy.Assigned();
+            Map(x => x.Name);
+        }
+    }
 }

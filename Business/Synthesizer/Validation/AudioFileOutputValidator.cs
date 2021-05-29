@@ -9,61 +9,61 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-	internal class AudioFileOutputValidator : VersatileValidator
-	{
-		public AudioFileOutputValidator(AudioFileOutput entity)
-		{
-			if (entity == null) throw new NullException(() => entity);
+    internal class AudioFileOutputValidator : VersatileValidator
+    {
+        public AudioFileOutputValidator(AudioFileOutput entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
 
-			ExecuteValidator(new IDValidator(entity.ID));
+            ExecuteValidator(new IDValidator(entity.ID));
 
-			For(entity.Amplifier, ResourceFormatter.Amplifier)
-				.NotNaN()
-				.NotInfinity();
+            For(entity.Amplifier, ResourceFormatter.Amplifier)
+                .NotNaN()
+                .NotInfinity();
 
-			For(entity.StartTime, ResourceFormatter.StartTime)
-				.NotNaN()
-				.NotInfinity();
+            For(entity.StartTime, ResourceFormatter.StartTime)
+                .NotNaN()
+                .NotInfinity();
 
-			For(entity.TimeMultiplier, ResourceFormatter.TimeMultiplier)
-				.NotNaN()
-				.NotInfinity()
-				.IsNot(0);
+            For(entity.TimeMultiplier, ResourceFormatter.TimeMultiplier)
+                .NotNaN()
+                .NotInfinity()
+                .IsNot(0);
 
-			For(entity.Duration, ResourceFormatter.Duration)
-				.NotNaN()
-				.NotInfinity()
-				.GreaterThan(0);
+            For(entity.Duration, ResourceFormatter.Duration)
+                .NotNaN()
+                .NotInfinity()
+                .GreaterThan(0);
 
-			For(entity.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
-			For(entity.AudioFileFormat, ResourceFormatter.AudioFileFormat).NotNull();
-			For(entity.SampleDataType, ResourceFormatter.SampleDataType).NotNull();
-			For(entity.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
+            For(entity.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
+            For(entity.AudioFileFormat, ResourceFormatter.AudioFileFormat).NotNull();
+            For(entity.SampleDataType, ResourceFormatter.SampleDataType).NotNull();
+            For(entity.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
 
-			TryValidateOutletReference(entity);
-		}
+            TryValidateOutletReference(entity);
+        }
 
-		private void TryValidateOutletReference(AudioFileOutput audioFileOutput)
-		{
-			bool mustValidate = audioFileOutput.Outlet != null &&
-								audioFileOutput.Document != null;
+        private void TryValidateOutletReference(AudioFileOutput audioFileOutput)
+        {
+            bool mustValidate = audioFileOutput.Outlet != null &&
+                                audioFileOutput.Document != null;
 
-			if (!mustValidate)
-			{
-				return;
-			}
+            if (!mustValidate)
+            {
+                return;
+            }
 
-			IEnumerable<Outlet> outletsEnumerable = 
-				audioFileOutput.Document.Patches
-							   .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet))
-							   .SelectMany(x => x.Outlets);
+            IEnumerable<Outlet> outletsEnumerable = 
+                audioFileOutput.Document.Patches
+                               .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet))
+                               .SelectMany(x => x.Outlets);
 
-			bool referenceIsValid = outletsEnumerable.Any(x => x.ID == audioFileOutput.Outlet.ID);
+            bool referenceIsValid = outletsEnumerable.Any(x => x.ID == audioFileOutput.Outlet.ID);
 
-			if (!referenceIsValid)
-			{
-				Messages.AddNotInListMessage(ResourceFormatter.Outlet, audioFileOutput.Outlet.ID);
-			}
-		}
-	}
+            if (!referenceIsValid)
+            {
+                Messages.AddNotInListMessage(ResourceFormatter.Outlet, audioFileOutput.Outlet.ID);
+            }
+        }
+    }
 }

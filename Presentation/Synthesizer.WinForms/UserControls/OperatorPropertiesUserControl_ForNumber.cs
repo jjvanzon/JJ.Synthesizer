@@ -4,48 +4,48 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	internal partial class OperatorPropertiesUserControl_ForNumber 
-		: OperatorPropertiesUserControlBase
-	{
-		public OperatorPropertiesUserControl_ForNumber() => InitializeComponent();
+    internal partial class OperatorPropertiesUserControl_ForNumber 
+        : OperatorPropertiesUserControlBase
+    {
+        public OperatorPropertiesUserControl_ForNumber() => InitializeComponent();
 
-		// Gui
+        // Gui
 
-		protected override void SetTitles()
-		{
-			base.SetTitles();
+        protected override void SetTitles()
+        {
+            base.SetTitles();
 
-			labelNumber.Text = ResourceFormatter.Number;
-		}
+            labelNumber.Text = ResourceFormatter.Number;
+        }
 
-		protected override void AddProperties()
-		{
-			AddProperty(_labelUnderlyingPatch, _comboBoxUnderlyingPatch);
-			AddProperty(labelNumber, textBoxNumber);
-			AddProperty(_labelName, _textBoxName);
-		}
+        protected override void AddProperties()
+        {
+            AddProperty(_labelUnderlyingPatch, _comboBoxUnderlyingPatch);
+            AddProperty(labelNumber, textBoxNumber);
+            AddProperty(_labelName, _textBoxName);
+        }
 
-		// Binding
+        // Binding
 
-		public new OperatorPropertiesViewModel_ForNumber ViewModel
-		{
-			// ReSharper disable once MemberCanBePrivate.Global
-			get => (OperatorPropertiesViewModel_ForNumber)base.ViewModel;
-			set => base.ViewModel = value;
-		}
+        public new OperatorPropertiesViewModel_ForNumber ViewModel
+        {
+            // ReSharper disable once MemberCanBePrivate.Global
+            get => (OperatorPropertiesViewModel_ForNumber)base.ViewModel;
+            set => base.ViewModel = value;
+        }
 
-		protected override void ApplyViewModelToControls()
-		{
-			base.ApplyViewModelToControls();
+        protected override void ApplyViewModelToControls()
+        {
+            base.ApplyViewModelToControls();
 
-			textBoxNumber.Text = ViewModel.Number;
-		}
+            textBoxNumber.Text = ViewModel.Number;
+        }
 
-		protected override void ApplyControlsToViewModel()
-		{
-			base.ApplyControlsToViewModel();
+        protected override void ApplyControlsToViewModel()
+        {
+            base.ApplyControlsToViewModel();
 
-			ViewModel.Number = textBoxNumber.Text;
-		}
-	}
+            ViewModel.Number = textBoxNumber.Text;
+        }
+    }
 }

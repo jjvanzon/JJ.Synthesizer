@@ -1,20 +1,20 @@
 ﻿namespace JJ.Presentation.Synthesizer.WinForms
 {
-	partial class MainForm
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    partial class MainForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.splitContainerTreeAndRightSide = new System.Windows.Forms.SplitContainer();
             this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.splitContainerCenterAndProperties = new System.Windows.Forms.SplitContainer();
@@ -570,39 +570,39 @@
             this.splitContainerCurvesAndTopSide.ResumeLayout(false);
             this.ResumeLayout(false);
 
-		}
+        }
 
-		#endregion
-		private System.Windows.Forms.SplitContainer splitContainerTreeAndRightSide;
-		private UserControls.DocumentGridUserControl documentGridUserControl;
-		private UserControls.DocumentTreeUserControl documentTreeUserControl;
-		private System.Windows.Forms.SplitContainer splitContainerCenterAndProperties;
-		private UserControls.DocumentDetailsUserControl documentDetailsUserControl;
-		private UserControls.DocumentPropertiesUserControl documentPropertiesUserControl;
-		private UserControls.AudioFileOutputGridUserControl audioFileOutputGridUserControl;
-		private UserControls.AudioFileOutputPropertiesUserControl audioFileOutputPropertiesUserControl;
-		private UserControls.PatchDetailsUserControl patchDetailsUserControl;
-		private UserControls.PatchPropertiesUserControl patchPropertiesUserControl;
-		private UserControls.OperatorPropertiesUserControl operatorPropertiesUserControl;
-		private UserControls.OperatorPropertiesUserControl_ForPatchInlet operatorPropertiesUserControl_ForPatchInlet;
-		private UserControls.OperatorPropertiesUserControl_ForPatchOutlet operatorPropertiesUserControl_ForPatchOutlet;
-		private UserControls.OperatorPropertiesUserControl_ForNumber operatorPropertiesUserControl_ForNumber;
-		private UserControls.OperatorPropertiesUserControl_ForSample operatorPropertiesUserControl_ForSample;
-		private UserControls.ToneGridEditUserControl toneGridEditUserControl;
-		private UserControls.ScalePropertiesUserControl scalePropertiesUserControl;
-		private UserControls.OperatorPropertiesUserControl_ForCurve operatorPropertiesUserControl_ForCurve;
-		private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
-		private UserControls.OperatorPropertiesUserControl_WithInterpolation operatorPropertiesUserControl_WithInterpolation;
-		private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
-		private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;
-		private UserControls.OperatorPropertiesUserControl_ForInletsToDimension operatorPropertiesUserControl_ForInletsToDimension;
-		private UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation operatorPropertiesUserControl_WithCollectionRecalculation;
-		private UserControls.LibraryPropertiesUserControl libraryPropertiesUserControl;
-		private System.Windows.Forms.SplitContainer splitContainerCurvesAndTopSide;
-		private UserControls.CurveDetailsListUserControl curveDetailsListUserControl;
-		private UserControls.MidiMappingGroupDetailsUserControl midiMappingDetailsUserControl;
-		private UserControls.MidiMappingPropertiesUserControl midiMappingPropertiesUserControl;
-		private UserControls.MonitoringBarUserControl monitoringBarUserControl;
+        #endregion
+        private System.Windows.Forms.SplitContainer splitContainerTreeAndRightSide;
+        private UserControls.DocumentGridUserControl documentGridUserControl;
+        private UserControls.DocumentTreeUserControl documentTreeUserControl;
+        private System.Windows.Forms.SplitContainer splitContainerCenterAndProperties;
+        private UserControls.DocumentDetailsUserControl documentDetailsUserControl;
+        private UserControls.DocumentPropertiesUserControl documentPropertiesUserControl;
+        private UserControls.AudioFileOutputGridUserControl audioFileOutputGridUserControl;
+        private UserControls.AudioFileOutputPropertiesUserControl audioFileOutputPropertiesUserControl;
+        private UserControls.PatchDetailsUserControl patchDetailsUserControl;
+        private UserControls.PatchPropertiesUserControl patchPropertiesUserControl;
+        private UserControls.OperatorPropertiesUserControl operatorPropertiesUserControl;
+        private UserControls.OperatorPropertiesUserControl_ForPatchInlet operatorPropertiesUserControl_ForPatchInlet;
+        private UserControls.OperatorPropertiesUserControl_ForPatchOutlet operatorPropertiesUserControl_ForPatchOutlet;
+        private UserControls.OperatorPropertiesUserControl_ForNumber operatorPropertiesUserControl_ForNumber;
+        private UserControls.OperatorPropertiesUserControl_ForSample operatorPropertiesUserControl_ForSample;
+        private UserControls.ToneGridEditUserControl toneGridEditUserControl;
+        private UserControls.ScalePropertiesUserControl scalePropertiesUserControl;
+        private UserControls.OperatorPropertiesUserControl_ForCurve operatorPropertiesUserControl_ForCurve;
+        private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
+        private UserControls.OperatorPropertiesUserControl_WithInterpolation operatorPropertiesUserControl_WithInterpolation;
+        private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
+        private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;
+        private UserControls.OperatorPropertiesUserControl_ForInletsToDimension operatorPropertiesUserControl_ForInletsToDimension;
+        private UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation operatorPropertiesUserControl_WithCollectionRecalculation;
+        private UserControls.LibraryPropertiesUserControl libraryPropertiesUserControl;
+        private System.Windows.Forms.SplitContainer splitContainerCurvesAndTopSide;
+        private UserControls.CurveDetailsListUserControl curveDetailsListUserControl;
+        private UserControls.MidiMappingGroupDetailsUserControl midiMappingDetailsUserControl;
+        private UserControls.MidiMappingPropertiesUserControl midiMappingPropertiesUserControl;
+        private UserControls.MonitoringBarUserControl monitoringBarUserControl;
         private UserControls.TopBarUserControl topBarUserControl;
     }
 }

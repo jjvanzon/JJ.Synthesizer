@@ -6,13 +6,13 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-	public class SpeakerSetupChannelRepository : RepositoryBase<SpeakerSetupChannel, int>, ISpeakerSetupChannelRepository
-	{
-		// ReSharper disable once MemberCanBeProtected.Global
-		public SpeakerSetupChannelRepository(IContext context)
-			: base(context)
-		{ }
+    public class SpeakerSetupChannelRepository : RepositoryBase<SpeakerSetupChannel, int>, ISpeakerSetupChannelRepository
+    {
+        // ReSharper disable once MemberCanBeProtected.Global
+        public SpeakerSetupChannelRepository(IContext context)
+            : base(context)
+        { }
 
-		public virtual IList<SpeakerSetupChannel> GetAll() => _context.Query<SpeakerSetupChannel>().ToArray();
-	}
+        public virtual IList<SpeakerSetupChannel> GetAll() => _context.Query<SpeakerSetupChannel>().ToArray();
+    }
 }

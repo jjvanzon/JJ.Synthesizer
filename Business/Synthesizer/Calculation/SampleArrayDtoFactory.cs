@@ -12,47 +12,47 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-	internal static class SampleArrayDtoFactory
-	{
-		// These defaults may become variables in the future.
-		private const double DEFAULT_VALUE_BEFORE = 0.0;
-		private const double DEFAULT_VALUE_AFTER = 0.0;
-		private const bool DEFAULT_IS_ROTATING = false;
+    internal static class SampleArrayDtoFactory
+    {
+        // These defaults may become variables in the future.
+        private const double DEFAULT_VALUE_BEFORE = 0.0;
+        private const double DEFAULT_VALUE_AFTER = 0.0;
+        private const bool DEFAULT_IS_ROTATING = false;
 
-		/// <param name="bytes">nullable</param>
-		public static IList<ArrayDto> CreateArrayDtos(Sample sample, byte[] bytes)
-		{
-			if (sample == null) throw new NullException(() => sample);
+        /// <param name="bytes">nullable</param>
+        public static IList<ArrayDto> CreateArrayDtos(Sample sample, byte[] bytes)
+        {
+            if (sample == null) throw new NullException(() => sample);
 
-			IValidator validator = new SampleValidator(sample, bytes);
-			validator.Assert();
+            IValidator validator = new SampleValidator(sample, bytes);
+            validator.Assert();
 
-			double[][] samples;
+            double[][] samples;
 
-			if (bytes.Length == 0)
-			{
-				samples = new double[0][];
-			}
-			else
-			{
-				samples = SampleReader.ReadSamples(sample, bytes);
-			}
+            if (bytes.Length == 0)
+            {
+                samples = new double[0][];
+            }
+            else
+            {
+                samples = SampleReader.ReadSamples(sample, bytes);
+            }
 
-			InterpolationTypeEnum interpolationTypeEnum = sample.GetInterpolationTypeEnum();
-			double rate = sample.SamplingRate / sample.TimeMultiplier; // TODO: Make extension method.
+            InterpolationTypeEnum interpolationTypeEnum = sample.GetInterpolationTypeEnum();
+            double rate = sample.SamplingRate / sample.TimeMultiplier; // TODO: Make extension method.
 
-			IList<ArrayDto> arrayDtos = samples.Select(
-				x => new ArrayDto
-				{
-					Array = x,
-					InterpolationTypeEnum = interpolationTypeEnum,
-					Rate = rate,
-					ValueBefore = DEFAULT_VALUE_BEFORE,
-					ValueAfter = DEFAULT_VALUE_AFTER,
-					IsRotating = DEFAULT_IS_ROTATING
-				}).ToArray();
+            IList<ArrayDto> arrayDtos = samples.Select(
+                x => new ArrayDto
+                {
+                    Array = x,
+                    InterpolationTypeEnum = interpolationTypeEnum,
+                    Rate = rate,
+                    ValueBefore = DEFAULT_VALUE_BEFORE,
+                    ValueAfter = DEFAULT_VALUE_AFTER,
+                    IsRotating = DEFAULT_IS_ROTATING
+                }).ToArray();
 
-			return arrayDtos;
-		}
-	}
+            return arrayDtos;
+        }
+    }
 }

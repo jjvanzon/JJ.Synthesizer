@@ -5,11 +5,11 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-	[UsedImplicitly]
-	public class ScaleRepository : RepositoryBase<Scale, int>, IScaleRepository
-	{
-		public ScaleRepository(IContext context)
-			: base(context)
-		{ }
-	}
+    [UsedImplicitly]
+    public class ScaleRepository : RepositoryBase<Scale, int>, IScaleRepository
+    {
+        public ScaleRepository(IContext context)
+            : base(context)
+        { }
+    }
 }

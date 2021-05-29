@@ -5,13 +5,13 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-	internal class AudioOutputWarningValidator : VersatileValidator
-	{
-		public AudioOutputWarningValidator(AudioOutput obj)
-		{
-			if (obj == null) throw new NullException(() => obj);
+    internal class AudioOutputWarningValidator : VersatileValidator
+    {
+        public AudioOutputWarningValidator(AudioOutput obj)
+        {
+            if (obj == null) throw new NullException(() => obj);
 
-			For(obj.DesiredBufferDuration, ResourceFormatter.DesiredBufferDuration).LessThan(5);
-		}
-	}
+            For(obj.DesiredBufferDuration, ResourceFormatter.DesiredBufferDuration).LessThan(5);
+        }
+    }
 }

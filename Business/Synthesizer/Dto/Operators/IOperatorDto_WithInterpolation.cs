@@ -2,8 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal interface IOperatorDto_WithInterpolation
-	{
-		InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-	}
+    internal interface IOperatorDto_WithInterpolation
+    {
+        InterpolationTypeEnum InterpolationTypeEnum { get; set; }
+    }
 }

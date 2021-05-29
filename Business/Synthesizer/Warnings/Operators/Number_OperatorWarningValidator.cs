@@ -7,18 +7,18 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-	internal class Number_OperatorWarningValidator : VersatileValidator
-	{
-		public Number_OperatorWarningValidator(Operator op)
-		{
-			if (op == null) throw new NullException(() => op);
+    internal class Number_OperatorWarningValidator : VersatileValidator
+    {
+        public Number_OperatorWarningValidator(Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
 
-			if (DataPropertyParser.DataIsWellFormed(op))
-			{
-				double? number = DataPropertyParser.TryParseDouble(op, nameof(Number_OperatorWrapper.Number));
+            if (DataPropertyParser.DataIsWellFormed(op))
+            {
+                double? number = DataPropertyParser.TryParseDouble(op, nameof(Number_OperatorWrapper.Number));
 
-				For(number, ResourceFormatter.Number).NotZero();
-			}
-		}
-	}
+                For(number, ResourceFormatter.Number).NotZero();
+            }
+        }
+    }
 }

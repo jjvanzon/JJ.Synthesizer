@@ -13,135 +13,135 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	internal partial class MidiMappingGroupDetailsUserControl : DetailsOrPropertiesUserControlBase
-	{
-		public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingID)>> SelectMidiMappingRequested;
-		public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingID, float x, float y)>> MoveMidiMappingRequested;
-		public event EventHandler<EventArgs<int>> ExpandMidiMappingRequested;
+    internal partial class MidiMappingGroupDetailsUserControl : DetailsOrPropertiesUserControlBase
+    {
+        public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingID)>> SelectMidiMappingRequested;
+        public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingID, float x, float y)>> MoveMidiMappingRequested;
+        public event EventHandler<EventArgs<int>> ExpandMidiMappingRequested;
 
-		private readonly MidiMappingGroupDetails_ViewModelToDiagramConverter _converter;
+        private readonly MidiMappingGroupDetails_ViewModelToDiagramConverter _converter;
 
-		// Constructors
+        // Constructors
 
-		public MidiMappingGroupDetailsUserControl()
-		{
-			InitializeComponent();
+        public MidiMappingGroupDetailsUserControl()
+        {
+            InitializeComponent();
 
-			var textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
+            var textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 
-			_converter = new MidiMappingGroupDetails_ViewModelToDiagramConverter(
-				textMeasurer,
-				SystemInformation.DoubleClickTime,
-				SystemInformation.DoubleClickSize.Width);
+            _converter = new MidiMappingGroupDetails_ViewModelToDiagramConverter(
+                textMeasurer,
+                SystemInformation.DoubleClickTime,
+                SystemInformation.DoubleClickSize.Width);
 
-			_converter.Result.DeleteMidiMappingGesture.DeleteSelectionRequested += DeleteMidiMappingGesture_DeleteSelectionRequested;
-			_converter.Result.ExpandMidiMappingKeyboardGesture.ExpandRequested += ExpandMidiMappingKeyboardGesture_ExpandRequested;
-			_converter.Result.ExpandMidiMappingMouseGesture.ExpandRequested += ExpandMidiMappingMouseGesture_ExpandRequested;
-			_converter.Result.SelectMidiMappingGesture.SelectRequested += SelectMidiMappingGesture_SelectRequested;
-			_converter.Result.MoveGesture.Moved += MoveGesture_Moved;
-		}
+            _converter.Result.DeleteMidiMappingGesture.DeleteSelectionRequested += DeleteMidiMappingGesture_DeleteSelectionRequested;
+            _converter.Result.ExpandMidiMappingKeyboardGesture.ExpandRequested += ExpandMidiMappingKeyboardGesture_ExpandRequested;
+            _converter.Result.ExpandMidiMappingMouseGesture.ExpandRequested += ExpandMidiMappingMouseGesture_ExpandRequested;
+            _converter.Result.SelectMidiMappingGesture.SelectRequested += SelectMidiMappingGesture_SelectRequested;
+            _converter.Result.MoveGesture.Moved += MoveGesture_Moved;
+        }
 
-		private void MidiMappingGroupDetailsUserControl_Load(object sender, EventArgs e)
-		{
-			TitleBarBackColor = SystemColors.Window;
+        private void MidiMappingGroupDetailsUserControl_Load(object sender, EventArgs e)
+        {
+            TitleBarBackColor = SystemColors.Window;
 
-			AddToInstrumentButtonVisible = true;
-			PlayButtonVisible = false;
-			NewButtonVisible = true;
+            AddToInstrumentButtonVisible = true;
+            PlayButtonVisible = false;
+            NewButtonVisible = true;
 
-			diagramControl.Left = 0;
-			diagramControl.Top = 0;
-			diagramControl.Diagram = _converter.Result.Diagram;
+            diagramControl.Left = 0;
+            diagramControl.Top = 0;
+            diagramControl.Diagram = _converter.Result.Diagram;
 
-			// Make sure the base's button bar is in front of the diagramControl.
-			diagramControl.SendToBack();
-		}
+            // Make sure the base's button bar is in front of the diagramControl.
+            diagramControl.SendToBack();
+        }
 
-		// Gui
+        // Gui
 
-		protected override void PositionControls()
-		{
-			base.PositionControls();
+        protected override void PositionControls()
+        {
+            base.PositionControls();
 
-			diagramControl.Width = Width;
-			diagramControl.Height = Height;
-		}
+            diagramControl.Width = Width;
+            diagramControl.Height = Height;
+        }
 
-		// Binding
+        // Binding
 
-		public new MidiMappingGroupDetailsViewModel ViewModel
-		{
-			// ReSharper disable once MemberCanBePrivate.Global
-			get => (MidiMappingGroupDetailsViewModel)base.ViewModel;
-			set => base.ViewModel = value;
-		}
+        public new MidiMappingGroupDetailsViewModel ViewModel
+        {
+            // ReSharper disable once MemberCanBePrivate.Global
+            get => (MidiMappingGroupDetailsViewModel)base.ViewModel;
+            set => base.ViewModel = value;
+        }
 
-		protected override int GetID() => ViewModel.MidiMappingGroup.ID;
+        protected override int GetID() => ViewModel.MidiMappingGroup.ID;
 
-		protected override void ApplyViewModelToControls()
-		{
-			_converter.Execute(ViewModel);
+        protected override void ApplyViewModelToControls()
+        {
+            _converter.Execute(ViewModel);
 
-			diagramControl.Refresh();
-		}
+            diagramControl.Refresh();
+        }
 
-		// Events
+        // Events
 
-		private void MidiMappingGroupDetailsUserControl_Resize(object sender, EventArgs e)
-		{
-			if (ViewModel != null)
-			{
-				ApplyViewModelToControls();
-			}
-		}
+        private void MidiMappingGroupDetailsUserControl_Resize(object sender, EventArgs e)
+        {
+            if (ViewModel != null)
+            {
+                ApplyViewModelToControls();
+            }
+        }
 
-		private void MidiMappingGroupDetailsUserControl_Paint(object sender, PaintEventArgs e)
-		{
-			if (ViewModel != null)
-			{
-				ApplyViewModelToControls();
-			}
-		}
+        private void MidiMappingGroupDetailsUserControl_Paint(object sender, PaintEventArgs e)
+        {
+            if (ViewModel != null)
+            {
+                ApplyViewModelToControls();
+            }
+        }
 
-		private void DeleteMidiMappingGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
+        private void DeleteMidiMappingGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
 
-		private void ExpandMidiMappingKeyboardGesture_ExpandRequested(object sender, IDEventArgs e)
-		{
-			if (ViewModel == null) return;
-			ExpandMidiMappingRequested(this, new EventArgs<int>(e.ID));
-		}
+        private void ExpandMidiMappingKeyboardGesture_ExpandRequested(object sender, IDEventArgs e)
+        {
+            if (ViewModel == null) return;
+            ExpandMidiMappingRequested(this, new EventArgs<int>(e.ID));
+        }
 
-		private void ExpandMidiMappingMouseGesture_ExpandRequested(object sender, IDEventArgs e)
-		{
-			if (ViewModel == null) return;
-			ExpandMidiMappingRequested(this, new EventArgs<int>(e.ID));
-		}
+        private void ExpandMidiMappingMouseGesture_ExpandRequested(object sender, IDEventArgs e)
+        {
+            if (ViewModel == null) return;
+            ExpandMidiMappingRequested(this, new EventArgs<int>(e.ID));
+        }
 
-		private void MoveGesture_Moved(object sender, ElementEventArgs e)
-		{
-			if (ViewModel == null) return;
+        private void MoveGesture_Moved(object sender, ElementEventArgs e)
+        {
+            if (ViewModel == null) return;
 
-			int midiMappingID = (int)e.Element.Tag;
+            int midiMappingID = (int)e.Element.Tag;
 
-			MoveMidiMappingRequested(
-				this,
-				new EventArgs<(int, int, float, float)>(
-					(
-					ViewModel.MidiMappingGroup.ID,
-					midiMappingID,
-					e.Element.Position.AbsoluteCenterX,
-					e.Element.Position.AbsoluteCenterY)));
-		}
+            MoveMidiMappingRequested(
+                this,
+                new EventArgs<(int, int, float, float)>(
+                    (
+                    ViewModel.MidiMappingGroup.ID,
+                    midiMappingID,
+                    e.Element.Position.AbsoluteCenterX,
+                    e.Element.Position.AbsoluteCenterY)));
+        }
 
-		private void SelectMidiMappingGesture_SelectRequested(object sender, ElementEventArgs e)
-		{
-			if (ViewModel == null) return;
+        private void SelectMidiMappingGesture_SelectRequested(object sender, ElementEventArgs e)
+        {
+            if (ViewModel == null) return;
 
-			int midiMappingID = (int)e.Element.Tag;
+            int midiMappingID = (int)e.Element.Tag;
 
-			SelectMidiMappingRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, midiMappingID)));
+            SelectMidiMappingRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, midiMappingID)));
 
-			_converter.Result.ExpandMidiMappingKeyboardGesture.SelectedEntityID = midiMappingID;
-		}
-	}
+            _converter.Result.ExpandMidiMappingKeyboardGesture.SelectedEntityID = midiMappingID;
+        }
+    }
 }

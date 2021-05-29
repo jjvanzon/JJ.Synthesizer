@@ -5,29 +5,29 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal class Interpolate_OperatorDto
-		: OperatorDtoBase_PositionReader, IOperatorDto_WithSignal_WithDimension, IOperatorDto_WithInterpolation_AndFollowingMode
-	{
-		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
+    internal class Interpolate_OperatorDto
+        : OperatorDtoBase_PositionReader, IOperatorDto_WithSignal_WithDimension, IOperatorDto_WithInterpolation_AndFollowingMode
+    {
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
 
-		public InputDto Signal { get; set; }
-		public InputDto SamplingRate { get; set; }
-		public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-		public FollowingModeEnum FollowingModeEnum { get; set; }
+        public InputDto Signal { get; set; }
+        public InputDto SamplingRate { get; set; }
+        public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
+        public FollowingModeEnum FollowingModeEnum { get; set; }
 
-		public override IReadOnlyList<InputDto> Inputs
-		{
-			get => new[] { Signal, SamplingRate, Position };
-			set
-			{
-				Signal = value.ElementAtOrDefault(0);
-				SamplingRate = value.ElementAtOrDefault(1);
-				Position = value.ElementAtOrDefault(2);
-			}
-		}
-	}
+        public override IReadOnlyList<InputDto> Inputs
+        {
+            get => new[] { Signal, SamplingRate, Position };
+            set
+            {
+                Signal = value.ElementAtOrDefault(0);
+                SamplingRate = value.ElementAtOrDefault(1);
+                Position = value.ElementAtOrDefault(2);
+            }
+        }
+    }
 
-	internal class Interpolate_OperatorDto_ConstSignal : Interpolate_OperatorDto { }
+    internal class Interpolate_OperatorDto_ConstSignal : Interpolate_OperatorDto { }
 
     internal class Interpolate_OperatorDto_Block_LagBehind : Interpolate_OperatorDto { }
 
@@ -35,17 +35,17 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 
     internal class Interpolate_OperatorDto_Cubic_LagBehind : Interpolate_OperatorDto { }
 
-	internal class Interpolate_OperatorDto_Cubic_LookAhead : Interpolate_OperatorDto { }
+    internal class Interpolate_OperatorDto_Cubic_LookAhead : Interpolate_OperatorDto { }
 
-	internal class Interpolate_OperatorDto_Hermite_LagBehind : Interpolate_OperatorDto { }
+    internal class Interpolate_OperatorDto_Hermite_LagBehind : Interpolate_OperatorDto { }
 
-	internal class Interpolate_OperatorDto_Hermite_LookAhead : Interpolate_OperatorDto { }
+    internal class Interpolate_OperatorDto_Hermite_LookAhead : Interpolate_OperatorDto { }
 
-	internal class Interpolate_OperatorDto_Line_LagBehind : Interpolate_OperatorDto { }
+    internal class Interpolate_OperatorDto_Line_LagBehind : Interpolate_OperatorDto { }
 
-	internal class Interpolate_OperatorDto_Line_LookAhead : Interpolate_OperatorDto { }
+    internal class Interpolate_OperatorDto_Line_LookAhead : Interpolate_OperatorDto { }
 
-	internal class Interpolate_OperatorDto_Stripe_LagBehind : Interpolate_OperatorDto { }
+    internal class Interpolate_OperatorDto_Stripe_LagBehind : Interpolate_OperatorDto { }
 
-	internal class Interpolate_OperatorDto_Stripe_LookAhead : Interpolate_OperatorDto { }
+    internal class Interpolate_OperatorDto_Stripe_LookAhead : Interpolate_OperatorDto { }
 }

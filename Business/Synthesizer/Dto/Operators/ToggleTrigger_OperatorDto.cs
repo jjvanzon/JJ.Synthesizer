@@ -2,8 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal class ToggleTrigger_OperatorDto : OperatorDtoBase_Trigger
-	{
-		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ToggleTrigger;
-	}
+    internal class ToggleTrigger_OperatorDto : OperatorDtoBase_Trigger
+    {
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ToggleTrigger;
+    }
 }

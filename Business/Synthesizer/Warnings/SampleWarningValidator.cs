@@ -9,26 +9,26 @@ using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-	internal class SampleWarningValidator : VersatileValidator
-	{
-		/// <param name="bytes">nullable</param>
-		public SampleWarningValidator(Sample sample, byte[] bytes, HashSet<object> alreadyDone)
-		{
-			if (sample == null) throw new NullException(() => sample);
-			if (alreadyDone == null) throw new AlreadyDoneIsNullException();
+    internal class SampleWarningValidator : VersatileValidator
+    {
+        /// <param name="bytes">nullable</param>
+        public SampleWarningValidator(Sample sample, byte[] bytes, HashSet<object> alreadyDone)
+        {
+            if (sample == null) throw new NullException(() => sample);
+            if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
-			if (!alreadyDone.Add(sample))
-			{
-				return;
-			}
+            if (!alreadyDone.Add(sample))
+            {
+                return;
+            }
 
-			For(sample.Amplifier, ResourceFormatter.Amplifier).NotZero();
+            For(sample.Amplifier, ResourceFormatter.Amplifier).NotZero();
 
 
-			if (bytes?.Length == 0)
-			{
-				Messages.Add(ValidationResourceFormatter.IsZero(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Samples)));
-			}
-		}
-	}
+            if (bytes?.Length == 0)
+            {
+                Messages.Add(ValidationResourceFormatter.IsZero(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Samples)));
+            }
+        }
+    }
 }

@@ -3,6 +3,6 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-	public interface IDimensionRepository : IRepository<Dimension, int>
-	{ }
+    public interface IDimensionRepository : IRepository<Dimension, int>
+    { }
 }

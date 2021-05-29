@@ -6,29 +6,29 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Converters
 {
-	internal class MidiMappingToDtoConverter
-	{
-		public MidiMappingDto Convert(MidiMapping entity)
-		{
-			if (entity == null) throw new ArgumentNullException(nameof(entity));
+    internal class MidiMappingToDtoConverter
+    {
+        public MidiMappingDto Convert(MidiMapping entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			var dto = new MidiMappingDto
-			{
-				IsRelative = entity.IsRelative,
-				MidiMappingTypeEnum = entity.GetMidiMappingTypeEnum(),
-				FromMidiValue = entity.FromMidiValue,
-				TillMidiValue = entity.TillMidiValue,
-				MidiControllerCode = entity.MidiControllerCode,
-				DimensionEnum = entity.GetDimensionEnum(),
-				CanonicalName = NameHelper.ToCanonical(entity.Name),
-				Position = entity.Position,
-				FromDimensionValue = entity.FromDimensionValue,
-				TillDimensionValue = entity.TillDimensionValue,
-				MinDimensionValue = entity.MinDimensionValue,
-				MaxDimensionValue = entity.MaxDimensionValue
-			};
+            var dto = new MidiMappingDto
+            {
+                IsRelative = entity.IsRelative,
+                MidiMappingTypeEnum = entity.GetMidiMappingTypeEnum(),
+                FromMidiValue = entity.FromMidiValue,
+                TillMidiValue = entity.TillMidiValue,
+                MidiControllerCode = entity.MidiControllerCode,
+                DimensionEnum = entity.GetDimensionEnum(),
+                CanonicalName = NameHelper.ToCanonical(entity.Name),
+                Position = entity.Position,
+                FromDimensionValue = entity.FromDimensionValue,
+                TillDimensionValue = entity.TillDimensionValue,
+                MinDimensionValue = entity.MinDimensionValue,
+                MaxDimensionValue = entity.MaxDimensionValue
+            };
 
-			return dto;
-		}
-	}
+            return dto;
+        }
+    }
 }

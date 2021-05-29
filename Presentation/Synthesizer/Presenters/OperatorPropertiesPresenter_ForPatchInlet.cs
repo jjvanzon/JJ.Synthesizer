@@ -10,24 +10,24 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-	internal class OperatorPropertiesPresenter_ForPatchInlet
-		: OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForPatchInlet>
-	{
-		public OperatorPropertiesPresenter_ForPatchInlet(RepositoryWrapper repositories)
-			: base(repositories)
-		{ }
+    internal class OperatorPropertiesPresenter_ForPatchInlet
+        : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForPatchInlet>
+    {
+        public OperatorPropertiesPresenter_ForPatchInlet(RepositoryWrapper repositories)
+            : base(repositories)
+        { }
 
-		protected override OperatorPropertiesViewModel_ForPatchInlet ToViewModel(Operator op) => op.ToPropertiesViewModel_ForPatchInlet();
+        protected override OperatorPropertiesViewModel_ForPatchInlet ToViewModel(Operator op) => op.ToPropertiesViewModel_ForPatchInlet();
 
-	    protected override IResult Save(Operator entity, OperatorPropertiesViewModel_ForPatchInlet userInput)
-		{
-			IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(userInput);
-			if (!validator.IsValid)
-			{
-				return validator.ToResult();
-			}
-			
-			return base.Save(entity, userInput);
-		}
-	}
+        protected override IResult Save(Operator entity, OperatorPropertiesViewModel_ForPatchInlet userInput)
+        {
+            IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(userInput);
+            if (!validator.IsValid)
+            {
+                return validator.ToResult();
+            }
+            
+            return base.Save(entity, userInput);
+        }
+    }
 }

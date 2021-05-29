@@ -11,37 +11,37 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
     public class PictureButtonElement : ElementBase
-	{
-		private readonly MouseDownGesture _mouseDownGesture;
-		private readonly Picture _picture;
+    {
+        private readonly MouseDownGesture _mouseDownGesture;
+        private readonly Picture _picture;
 
-		public event EventHandler<MouseEventArgs> MouseDown
-		{
-			add => _mouseDownGesture.MouseDown += value;
-			remove => _mouseDownGesture.MouseDown -= value;
-		}
+        public event EventHandler<MouseEventArgs> MouseDown
+        {
+            add => _mouseDownGesture.MouseDown += value;
+            remove => _mouseDownGesture.MouseDown -= value;
+        }
 
-		public PictureStyle PictureStyle
-		{
-			// ReSharper disable once UnusedMember.Global
-			get => _picture.Style;
-			set => _picture.Style = value;
-		}
+        public PictureStyle PictureStyle
+        {
+            // ReSharper disable once UnusedMember.Global
+            get => _picture.Style;
+            set => _picture.Style = value;
+        }
 
-		public PictureButtonElement(Element parent, object underlyingPicture, string toolTipText, ToolTipElement toolTipElement)
-			: base(parent)
-		{
-			_mouseDownGesture = new MouseDownGesture();
-			_picture = CreatePicture(underlyingPicture, _mouseDownGesture);
+        public PictureButtonElement(Element parent, object underlyingPicture, string toolTipText, ToolTipElement toolTipElement)
+            : base(parent)
+        {
+            _mouseDownGesture = new MouseDownGesture();
+            _picture = CreatePicture(underlyingPicture, _mouseDownGesture);
 
-			var toolTipGesture = new ToolTipGesture(toolTipElement, toolTipText, preferredSideToShowToolTip: ToolTipPositioningEnum.CenterRight);
-			Gestures.Add(toolTipGesture);
+            var toolTipGesture = new ToolTipGesture(toolTipElement, toolTipText, preferredSideToShowToolTip: ToolTipPositioningEnum.CenterRight);
+            Gestures.Add(toolTipGesture);
 
-			Position.Width = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
-			Position.Height = StyleHelper.SPACING_SMALL + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.SPACING_SMALL;
-		}
+            Position.Width = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
+            Position.Height = StyleHelper.SPACING_SMALL + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.SPACING_SMALL;
+        }
 
-		private Picture CreatePicture(object underlyingPicture, MouseDownGesture mouseDownGesture)
+        private Picture CreatePicture(object underlyingPicture, MouseDownGesture mouseDownGesture)
         {
             var picture = new Picture(this)
             {

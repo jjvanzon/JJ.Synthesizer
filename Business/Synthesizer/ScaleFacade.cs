@@ -19,139 +19,139 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
-	public class ScaleFacade
-	{
-		private readonly ScaleRepositories _repositories;
-		private readonly ToneToDtoConverter _toneToDtoConverter = new ToneToDtoConverter();
-		private readonly ToneCalculator _toneCalculator = new ToneCalculator();
+    public class ScaleFacade
+    {
+        private readonly ScaleRepositories _repositories;
+        private readonly ToneToDtoConverter _toneToDtoConverter = new ToneToDtoConverter();
+        private readonly ToneCalculator _toneCalculator = new ToneCalculator();
 
-		public ScaleFacade(ScaleRepositories repositories) => _repositories = repositories ?? throw new NullException(() => repositories);
+        public ScaleFacade(ScaleRepositories repositories) => _repositories = repositories ?? throw new NullException(() => repositories);
 
-	    // Create
+        // Create
 
-		public Scale Create(Document document, ScaleTypeEnum scaleTypeEnum = default)
-		{
-			if (document == null) throw new NullException(() => document);
+        public Scale Create(Document document, ScaleTypeEnum scaleTypeEnum = default)
+        {
+            if (document == null) throw new NullException(() => document);
 
-			var scale = new Scale { ID = _repositories.IDRepository.GetID() };
-			scale.SetScaleTypeEnum(scaleTypeEnum, _repositories.ScaleTypeRepository);
-			scale.LinkTo(document);
-			_repositories.ScaleRepository.Insert(scale);
+            var scale = new Scale { ID = _repositories.IDRepository.GetID() };
+            scale.SetScaleTypeEnum(scaleTypeEnum, _repositories.ScaleTypeRepository);
+            scale.LinkTo(document);
+            _repositories.ScaleRepository.Insert(scale);
 
-			new Scale_SideEffect_SetDefaults(scale, _repositories.ScaleTypeRepository).Execute();
-			new Scale_SideEffect_GenerateName(scale).Execute();
+            new Scale_SideEffect_SetDefaults(scale, _repositories.ScaleTypeRepository).Execute();
+            new Scale_SideEffect_GenerateName(scale).Execute();
 
-			return scale;
-		}
+            return scale;
+        }
 
-		// Save
+        // Save
 
-		public VoidResult Save(Scale scale)
-		{
-			if (scale == null) throw new NullException(() => scale);
-			if (scale.ID == 0) throw new ZeroException(() => scale.ID);
+        public VoidResult Save(Scale scale)
+        {
+            if (scale == null) throw new NullException(() => scale);
+            if (scale.ID == 0) throw new ZeroException(() => scale.ID);
 
-			VoidResult result = SaveWithoutTones(scale);
+            VoidResult result = SaveWithoutTones(scale);
 
-			IValidator validator = new ScaleValidator_Tones(scale);
+            IValidator validator = new ScaleValidator_Tones(scale);
 
-			result.Combine(validator.ToResult());
+            result.Combine(validator.ToResult());
 
-			return result;
-		}
+            return result;
+        }
 
-		public VoidResult SaveWithoutTones(Scale scale)
-		{
-			if (scale == null) throw new NullException(() => scale);
-			if (scale.ID == 0) throw new ZeroException(() => scale.ID);
+        public VoidResult SaveWithoutTones(Scale scale)
+        {
+            if (scale == null) throw new NullException(() => scale);
+            if (scale.ID == 0) throw new ZeroException(() => scale.ID);
 
-			var validators = new List<IValidator>
-			{
-				new ScaleValidator_Versatile_WithoutTones(scale),
-				new ScaleValidator_UniqueName(scale)
-			};
+            var validators = new List<IValidator>
+            {
+                new ScaleValidator_Versatile_WithoutTones(scale),
+                new ScaleValidator_UniqueName(scale)
+            };
 
-			if (scale.Document != null)
-			{
-				validators.Add(new ScaleValidator_InDocument(scale));
-			}
+            if (scale.Document != null)
+            {
+                validators.Add(new ScaleValidator_InDocument(scale));
+            }
 
-			return validators.ToResult();
-		}
+            return validators.ToResult();
+        }
 
-		// Delete
+        // Delete
 
-		public VoidResult DeleteWithRelatedEntities(int id)
-		{
-			Scale scale = _repositories.ScaleRepository.Get(id);
-			return DeleteWithRelatedEntities(scale);
-		}		
+        public VoidResult DeleteWithRelatedEntities(int id)
+        {
+            Scale scale = _repositories.ScaleRepository.Get(id);
+            return DeleteWithRelatedEntities(scale);
+        }        
 
-		public VoidResult DeleteWithRelatedEntities(Scale scale)
-		{
-			if (scale == null) throw new NullException(() => scale);
+        public VoidResult DeleteWithRelatedEntities(Scale scale)
+        {
+            if (scale == null) throw new NullException(() => scale);
 
-			scale.DeleteRelatedEntities(_repositories.ToneRepository);
-			scale.UnlinkRelatedEntities();
-			_repositories.ScaleRepository.Delete(scale);
+            scale.DeleteRelatedEntities(_repositories.ToneRepository);
+            scale.UnlinkRelatedEntities();
+            _repositories.ScaleRepository.Delete(scale);
 
-			return ResultHelper.Successful;
-		}
+            return ResultHelper.Successful;
+        }
 
-		// Tone Operations
+        // Tone Operations
 
-		public Tone CreateTone(Scale scale)
-		{
-			if (scale == null) throw new NullException(() => scale);
+        public Tone CreateTone(Scale scale)
+        {
+            if (scale == null) throw new NullException(() => scale);
 
-			Tone previousTone = scale.Tones.Sort().LastOrDefault();
+            Tone previousTone = scale.Tones.Sort().LastOrDefault();
 
-			var tone = new Tone { ID = _repositories.IDRepository.GetID() };
-			_repositories.ToneRepository.Insert(tone);
-			tone.LinkTo(scale);
+            var tone = new Tone { ID = _repositories.IDRepository.GetID() };
+            _repositories.ToneRepository.Insert(tone);
+            tone.LinkTo(scale);
 
-			new Tone_SideEffect_SetDefaults_Versatile(tone, previousTone).Execute();
+            new Tone_SideEffect_SetDefaults_Versatile(tone, previousTone).Execute();
 
-			return tone;
-		}
+            return tone;
+        }
 
-		// ReSharper disable once UnusedMember.Global
-		public VoidResult SaveTone(Tone tone)
-		{
-			if (tone == null) throw new NullException(() => tone);
+        // ReSharper disable once UnusedMember.Global
+        public VoidResult SaveTone(Tone tone)
+        {
+            if (tone == null) throw new NullException(() => tone);
 
-			IValidator validator = new ToneValidator(tone);
-			return validator.ToResult();
-		}
+            IValidator validator = new ToneValidator(tone);
+            return validator.ToResult();
+        }
 
-		public void DeleteTone(int id)
-		{
-			Tone tone = _repositories.ToneRepository.Get(id);
-			DeleteTone(tone);
-		}
+        public void DeleteTone(int id)
+        {
+            Tone tone = _repositories.ToneRepository.Get(id);
+            DeleteTone(tone);
+        }
 
-		// ReSharper disable once MemberCanBePrivate.Global
-		public void DeleteTone(Tone tone)
-		{
-			if (tone == null) throw new NullException(() => tone);
+        // ReSharper disable once MemberCanBePrivate.Global
+        public void DeleteTone(Tone tone)
+        {
+            if (tone == null) throw new NullException(() => tone);
 
-			tone.UnlinkScale();
-			_repositories.ToneRepository.Delete(tone);
-		}
+            tone.UnlinkScale();
+            _repositories.ToneRepository.Delete(tone);
+        }
 
-		// Misc
+        // Misc
 
-		public IList<ToneDto> GetToneDtosWithCompleteSetOfOctaves(Scale scale)
-		{
-			IList<Tone> scaleTones = scale.Tones;
-			return GetToneDtosWithCompleteSetOfOctaves(scaleTones);
-		}
+        public IList<ToneDto> GetToneDtosWithCompleteSetOfOctaves(Scale scale)
+        {
+            IList<Tone> scaleTones = scale.Tones;
+            return GetToneDtosWithCompleteSetOfOctaves(scaleTones);
+        }
 
-		private IList<ToneDto> GetToneDtosWithCompleteSetOfOctaves(IList<Tone> tones)
-		{
-			IEnumerable<ToneDto> toneDtos = tones.Select(x => _toneToDtoConverter.Convert(x));
-			IList<ToneDto> toneDtos2 = _toneCalculator.MakeOctavesComplete(toneDtos);
-			return toneDtos2;
-		}
-	}
+        private IList<ToneDto> GetToneDtosWithCompleteSetOfOctaves(IList<Tone> tones)
+        {
+            IEnumerable<ToneDto> toneDtos = tones.Select(x => _toneToDtoConverter.Convert(x));
+            IList<ToneDto> toneDtos2 = _toneCalculator.MakeOctavesComplete(toneDtos);
+            return toneDtos2;
+        }
+    }
 }

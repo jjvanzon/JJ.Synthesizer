@@ -5,23 +5,23 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Converters
 {
-	public class ToneToDtoConverter
-	{
-		public ToneDto Convert(Tone entity)
-		{
-			if (entity == null) throw new ArgumentNullException(nameof(entity));
+    public class ToneToDtoConverter
+    {
+        public ToneDto Convert(Tone entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			var dto = new ToneDto
-			{
-				Value = entity.Value,
-				Octave = entity.Octave,
-				ScaleTypeEnum = entity.GetScaleTypeEnum(),
-				ScaleBaseFrequency = entity.GetScaleBaseFrequency(),
-				Ordinal = entity.GetOrdinal(),
-				Frequency = entity.GetCalculatedFrequency()
-			};
+            var dto = new ToneDto
+            {
+                Value = entity.Value,
+                Octave = entity.Octave,
+                ScaleTypeEnum = entity.GetScaleTypeEnum(),
+                ScaleBaseFrequency = entity.GetScaleBaseFrequency(),
+                Ordinal = entity.GetOrdinal(),
+                Frequency = entity.GetCalculatedFrequency()
+            };
 
-			return dto;
-		}
-	}
+            return dto;
+        }
+    }
 }

@@ -5,15 +5,15 @@ using JJ.Data.Synthesizer.NHibernate.Names;
 
 namespace JJ.Data.Synthesizer.NHibernate.Mapping
 {
-	public class DocumentReferenceMapping : ClassMap<DocumentReference>
-	{
-		public DocumentReferenceMapping()
-		{
-			Id(x => x.ID).GeneratedBy.Assigned();
-			Map(x => x.Alias);
+    public class DocumentReferenceMapping : ClassMap<DocumentReference>
+    {
+        public DocumentReferenceMapping()
+        {
+            Id(x => x.ID).GeneratedBy.Assigned();
+            Map(x => x.Alias);
 
-			References(x => x.LowerDocument, ColumnNames.LowerDocumentID);
-			References(x => x.HigherDocument, ColumnNames.HigherDocumentID);
-		}
-	}
+            References(x => x.LowerDocument, ColumnNames.LowerDocumentID);
+            References(x => x.HigherDocument, ColumnNames.HigherDocumentID);
+        }
+    }
 }

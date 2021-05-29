@@ -7,51 +7,51 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
-	internal partial class LibrarySelectionPopupForm : Form
-	{
-		public event EventHandler CancelRequested;
-		public event EventHandler CloseRequested;
+    internal partial class LibrarySelectionPopupForm : Form
+    {
+        public event EventHandler CancelRequested;
+        public event EventHandler CloseRequested;
 
-		public event EventHandler<EventArgs<int?>> OKRequested
-		{
-			add => librarySelectionPopupUserControl.OKRequested += value;
-			remove => librarySelectionPopupUserControl.OKRequested -= value;
-		}
+        public event EventHandler<EventArgs<int?>> OKRequested
+        {
+            add => librarySelectionPopupUserControl.OKRequested += value;
+            remove => librarySelectionPopupUserControl.OKRequested -= value;
+        }
 
-		public event EventHandler<EventArgs<int>> PlayRequested
-		{
-			add => librarySelectionPopupUserControl.PlayRequested += value;
-			remove => librarySelectionPopupUserControl.PlayRequested -= value;
-		}
+        public event EventHandler<EventArgs<int>> PlayRequested
+        {
+            add => librarySelectionPopupUserControl.PlayRequested += value;
+            remove => librarySelectionPopupUserControl.PlayRequested -= value;
+        }
 
-		public event EventHandler<EventArgs<int>> OpenItemExternallyRequested
-		{
-			add => librarySelectionPopupUserControl.OpenItemExternallyRequested += value;
-			remove => librarySelectionPopupUserControl.OpenItemExternallyRequested -= value;
-		}
+        public event EventHandler<EventArgs<int>> OpenItemExternallyRequested
+        {
+            add => librarySelectionPopupUserControl.OpenItemExternallyRequested += value;
+            remove => librarySelectionPopupUserControl.OpenItemExternallyRequested -= value;
+        }
 
-		public LibrarySelectionPopupForm()
-		{
-			InitializeComponent();
-			SetTitles();
-		}
+        public LibrarySelectionPopupForm()
+        {
+            InitializeComponent();
+            SetTitles();
+        }
 
-		public LibrarySelectionPopupViewModel ViewModel
-		{
-			// ReSharper disable once UnusedMember.Global
-			get => librarySelectionPopupUserControl.ViewModel;
-			set => librarySelectionPopupUserControl.ViewModel = value;
-		}
+        public LibrarySelectionPopupViewModel ViewModel
+        {
+            // ReSharper disable once UnusedMember.Global
+            get => librarySelectionPopupUserControl.ViewModel;
+            set => librarySelectionPopupUserControl.ViewModel = value;
+        }
 
-		private void SetTitles() => Text = ResourceFormatter.ApplicationName;
+        private void SetTitles() => Text = ResourceFormatter.ApplicationName;
 
-		private void LibrarySelectionPopupForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			e.Cancel = true;
+        private void LibrarySelectionPopupForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
 
-			CloseRequested(this, EventArgs.Empty);
-		}
+            CloseRequested(this, EventArgs.Empty);
+        }
 
-		private void librarySelectionPopupUserControl_CancelRequested(object sender, EventArgs e) => CancelRequested.Invoke(this, EventArgs.Empty);
-	}
+        private void librarySelectionPopupUserControl_CancelRequested(object sender, EventArgs e) => CancelRequested.Invoke(this, EventArgs.Empty);
+    }
 }

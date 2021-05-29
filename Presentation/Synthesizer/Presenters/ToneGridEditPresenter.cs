@@ -12,74 +12,74 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-	internal class ToneGridEditPresenter : EntityPresenterWithSaveBase<Scale, ToneGridEditViewModel>
-	{
-		private readonly IScaleRepository _scaleRepository;
-		private readonly ScaleFacade _scaleFacade;
+    internal class ToneGridEditPresenter : EntityPresenterWithSaveBase<Scale, ToneGridEditViewModel>
+    {
+        private readonly IScaleRepository _scaleRepository;
+        private readonly ScaleFacade _scaleFacade;
 
-		public ToneGridEditPresenter(IScaleRepository scaleRepository, ScaleFacade scaleFacade)
-		{
-			_scaleRepository = scaleRepository ?? throw new ArgumentNullException(nameof(scaleRepository));
-			_scaleFacade = scaleFacade ?? throw new ArgumentNullException(nameof(scaleFacade));
-		}
+        public ToneGridEditPresenter(IScaleRepository scaleRepository, ScaleFacade scaleFacade)
+        {
+            _scaleRepository = scaleRepository ?? throw new ArgumentNullException(nameof(scaleRepository));
+            _scaleFacade = scaleFacade ?? throw new ArgumentNullException(nameof(scaleFacade));
+        }
 
-		protected override Scale GetEntity(ToneGridEditViewModel userInput) => _scaleRepository.Get(userInput.ScaleID);
+        protected override Scale GetEntity(ToneGridEditViewModel userInput) => _scaleRepository.Get(userInput.ScaleID);
 
-		protected override ToneGridEditViewModel ToViewModel(Scale entity) => entity.ToToneGridEditViewModel();
+        protected override ToneGridEditViewModel ToViewModel(Scale entity) => entity.ToToneGridEditViewModel();
 
-		protected override IResult Save(Scale scale, ToneGridEditViewModel userInput)
-		{
-			// ViewModel Validator
-			IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
-			if (!viewModelValidator.IsValid)
-			{
-				return viewModelValidator.ToResult();
-			}
+        protected override IResult Save(Scale scale, ToneGridEditViewModel userInput)
+        {
+            // ViewModel Validator
+            IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
+            if (!viewModelValidator.IsValid)
+            {
+                return viewModelValidator.ToResult();
+            }
 
-			// Business
-			VoidResult result = _scaleFacade.Save(scale);
-			return result;
-		}
+            // Business
+            VoidResult result = _scaleFacade.Save(scale);
+            return result;
+        }
 
-		public ToneGridEditViewModel CreateTone(ToneGridEditViewModel userInput)
-		{
-			Tone tone = null;
+        public ToneGridEditViewModel CreateTone(ToneGridEditViewModel userInput)
+        {
+            Tone tone = null;
 
-			return ExecuteAction(
-				userInput,
-				scale =>
-				{
-					// ViewModelValidator
-					IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
-					if (!viewModelValidator.IsValid)
-					{
-						return viewModelValidator.ToResult();
-					}
+            return ExecuteAction(
+                userInput,
+                scale =>
+                {
+                    // ViewModelValidator
+                    IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
+                    if (!viewModelValidator.IsValid)
+                    {
+                        return viewModelValidator.ToResult();
+                    }
 
-					// Business
-					tone = _scaleFacade.CreateTone(scale);
-					return ResultHelper.Successful;
-				},
-				viewModel => viewModel.CreatedToneID = tone.ID);
-		}
+                    // Business
+                    tone = _scaleFacade.CreateTone(scale);
+                    return ResultHelper.Successful;
+                },
+                viewModel => viewModel.CreatedToneID = tone.ID);
+        }
 
-		public ToneGridEditViewModel DeleteTone(ToneGridEditViewModel userInput, int toneID) => ExecuteAction(
-		    userInput,
-		    scale =>
-		    {
-		        // ViewModelValidator
-		        IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
-		        if (!viewModelValidator.IsValid)
-		        {
-		            return viewModelValidator.ToResult();
-		        }
+        public ToneGridEditViewModel DeleteTone(ToneGridEditViewModel userInput, int toneID) => ExecuteAction(
+            userInput,
+            scale =>
+            {
+                // ViewModelValidator
+                IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
+                if (!viewModelValidator.IsValid)
+                {
+                    return viewModelValidator.ToResult();
+                }
 
-		        // Business
-		        _scaleFacade.DeleteTone(toneID);
-		        return ResultHelper.Successful;
-		    });
+                // Business
+                _scaleFacade.DeleteTone(toneID);
+                return ResultHelper.Successful;
+            });
 
-	    // Refreshing upon edit is required to update the Frequency values.
-		public ToneGridEditViewModel Edit(ToneGridEditViewModel userInput) => Refresh(userInput);
-	}
+        // Refreshing upon edit is required to update the Frequency values.
+        public ToneGridEditViewModel Edit(ToneGridEditViewModel userInput) => Refresh(userInput);
+    }
 }

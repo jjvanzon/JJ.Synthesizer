@@ -5,13 +5,13 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Validators
 {
-	internal class OperatorPropertiesViewModel_ForPatchInlet_Validator : VersatileValidator
-	{
-		public OperatorPropertiesViewModel_ForPatchInlet_Validator(OperatorPropertiesViewModel_ForPatchInlet obj)
-		{
-			if (obj == null) throw new NullException(() => obj);
+    internal class OperatorPropertiesViewModel_ForPatchInlet_Validator : VersatileValidator
+    {
+        public OperatorPropertiesViewModel_ForPatchInlet_Validator(OperatorPropertiesViewModel_ForPatchInlet obj)
+        {
+            if (obj == null) throw new NullException(() => obj);
 
-			For(obj.DefaultValue, ResourceFormatter.DefaultValue).IsDouble();
-		}
-	}
+            For(obj.DefaultValue, ResourceFormatter.DefaultValue).IsDouble();
+        }
+    }
 }

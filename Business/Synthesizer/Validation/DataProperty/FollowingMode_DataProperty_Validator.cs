@@ -6,20 +6,20 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
-	internal class FollowingMode_DataProperty_Validator : VersatileValidator
-	{
-		public FollowingMode_DataProperty_Validator(string data) 
-		{ 
-			// ReSharper disable once InvertIf
-			if (DataPropertyParser.DataIsWellFormed(data))
-			{
-				string stringValue = DataPropertyParser.TryGetString(data, nameof(OperatorWrapper_WithInterpolation_AndFollowingMode.FollowingMode));
+    internal class FollowingMode_DataProperty_Validator : VersatileValidator
+    {
+        public FollowingMode_DataProperty_Validator(string data) 
+        { 
+            // ReSharper disable once InvertIf
+            if (DataPropertyParser.DataIsWellFormed(data))
+            {
+                string stringValue = DataPropertyParser.TryGetString(data, nameof(OperatorWrapper_WithInterpolation_AndFollowingMode.FollowingMode));
 
-				For(stringValue, ResourceFormatter.FollowingMode)
-					.NotNullOrEmpty()
-					.IsEnum<FollowingModeEnum>()
-					.IsNot(FollowingModeEnum.Undefined);
-			}
-		}
-	}
+                For(stringValue, ResourceFormatter.FollowingMode)
+                    .NotNullOrEmpty()
+                    .IsEnum<FollowingModeEnum>()
+                    .IsNot(FollowingModeEnum.Undefined);
+            }
+        }
+    }
 }

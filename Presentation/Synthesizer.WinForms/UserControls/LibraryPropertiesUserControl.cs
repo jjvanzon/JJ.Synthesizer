@@ -5,42 +5,42 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	internal partial class LibraryPropertiesUserControl : PropertiesUserControlBase
-	{
-		public LibraryPropertiesUserControl() => InitializeComponent();
+    internal partial class LibraryPropertiesUserControl : PropertiesUserControlBase
+    {
+        public LibraryPropertiesUserControl() => InitializeComponent();
 
-		protected override void AddProperties()
-		{
-			AddProperty(labelNameTitle, labelNameValue);
-			AddProperty(labelAlias, textBoxAlias);
-		}
+        protected override void AddProperties()
+        {
+            AddProperty(labelNameTitle, labelNameValue);
+            AddProperty(labelAlias, textBoxAlias);
+        }
 
-		protected override void SetTitles()
-		{
-			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Library);
-			labelNameTitle.Text = CommonResourceFormatter.Name;
-			labelAlias.Text = ResourceFormatter.Alias;
-		}
+        protected override void SetTitles()
+        {
+            TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Library);
+            labelNameTitle.Text = CommonResourceFormatter.Name;
+            labelAlias.Text = ResourceFormatter.Alias;
+        }
 
-		public new LibraryPropertiesViewModel ViewModel
-		{
-			// ReSharper disable once MemberCanBePrivate.Global
-			get => (LibraryPropertiesViewModel)base.ViewModel;
-			set => base.ViewModel = value;
-		}
+        public new LibraryPropertiesViewModel ViewModel
+        {
+            // ReSharper disable once MemberCanBePrivate.Global
+            get => (LibraryPropertiesViewModel)base.ViewModel;
+            set => base.ViewModel = value;
+        }
 
-		protected override int GetID() => ViewModel.DocumentReferenceID;
+        protected override int GetID() => ViewModel.DocumentReferenceID;
 
-		protected override void ApplyViewModelToControls()
-		{
-			labelNameValue.Text = ViewModel.Name;
-			textBoxAlias.Text = ViewModel.Alias;
-		}
+        protected override void ApplyViewModelToControls()
+        {
+            labelNameValue.Text = ViewModel.Name;
+            textBoxAlias.Text = ViewModel.Alias;
+        }
 
-		protected override void ApplyControlsToViewModel()
-		{
-			ViewModel.Name = labelNameValue.Text;
-			ViewModel.Alias = textBoxAlias.Text;
-		}
-	}
+        protected override void ApplyControlsToViewModel()
+        {
+            ViewModel.Name = labelNameValue.Text;
+            ViewModel.Alias = textBoxAlias.Text;
+        }
+    }
 }

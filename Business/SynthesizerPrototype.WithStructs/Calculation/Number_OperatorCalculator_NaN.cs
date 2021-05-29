@@ -4,12 +4,12 @@ using JJ.Business.SynthesizerPrototype.WithStructs.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {
-	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public struct Number_OperatorCalculator_NaN : IOperatorCalculator
-	{
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public double Calculate() => double.NaN;
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
+    public struct Number_OperatorCalculator_NaN : IOperatorCalculator
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double Calculate() => double.NaN;
 
-		private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
-	}
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+    }
 }

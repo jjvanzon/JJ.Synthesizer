@@ -2,9 +2,9 @@
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {
-	internal interface ISine_OperatorCalculator_VarFrequency : IOperatorCalculator
-	{
-		DimensionStack DimensionStack { get; set; }
-		IOperatorCalculator FrequencyCalculator { get; set; }
-	}
+    internal interface ISine_OperatorCalculator_VarFrequency : IOperatorCalculator
+    {
+        DimensionStack DimensionStack { get; set; }
+        IOperatorCalculator FrequencyCalculator { get; set; }
+    }
 }

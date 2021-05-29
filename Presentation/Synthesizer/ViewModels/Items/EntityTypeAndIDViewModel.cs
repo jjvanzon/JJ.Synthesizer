@@ -4,12 +4,12 @@ using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
-	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	internal class EntityTypeAndIDViewModel
-	{
-		public int EntityID { get; set; }
-		public EntityTypeEnum EntityTypeEnum { get; set; }
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
+    internal class EntityTypeAndIDViewModel
+    {
+        public int EntityID { get; set; }
+        public EntityTypeEnum EntityTypeEnum { get; set; }
 
-		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
-	}
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+    }
 }

@@ -6,13 +6,13 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-	internal class OperatorPropertiesPresenter_ForCurve
-		: OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForCurve>
-	{
-		public OperatorPropertiesPresenter_ForCurve(RepositoryWrapper repositories)
-			: base(repositories)
-		{ }
+    internal class OperatorPropertiesPresenter_ForCurve
+        : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForCurve>
+    {
+        public OperatorPropertiesPresenter_ForCurve(RepositoryWrapper repositories)
+            : base(repositories)
+        { }
 
-		protected override OperatorPropertiesViewModel_ForCurve ToViewModel(Operator entity) => entity.ToPropertiesViewModel_ForCurve();
-	}
+        protected override OperatorPropertiesViewModel_ForCurve ToViewModel(Operator entity) => entity.ToPropertiesViewModel_ForCurve();
+    }
 }

@@ -3,5 +3,5 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-	public interface ICurveRepository : IRepository<Curve, int> { }
+    public interface ICurveRepository : IRepository<Curve, int> { }
 }

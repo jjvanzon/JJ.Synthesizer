@@ -5,11 +5,11 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-	[UsedImplicitly]
-	public class NodeRepository : RepositoryBase<Node, int>, INodeRepository
-	{
-		public NodeRepository(IContext context)
-			: base(context)
-		{ }
-	}
+    [UsedImplicitly]
+    public class NodeRepository : RepositoryBase<Node, int>, INodeRepository
+    {
+        public NodeRepository(IContext context)
+            : base(context)
+        { }
+    }
 }

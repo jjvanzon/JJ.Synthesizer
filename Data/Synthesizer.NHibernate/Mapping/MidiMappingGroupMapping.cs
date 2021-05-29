@@ -5,14 +5,14 @@ using JJ.Data.Synthesizer.NHibernate.Names;
 
 namespace JJ.Data.Synthesizer.NHibernate.Mapping
 {
-	public class MidiMappingGroupMapping : ClassMap<MidiMappingGroup>
-	{
-		public MidiMappingGroupMapping()
-		{
-			Id(x => x.ID).GeneratedBy.Assigned();
-			Map(x => x.Name);
-			References(x => x.Document, ColumnNames.DocumentID);
-			HasMany(x => x.MidiMappings).KeyColumn(ColumnNames.MidiMappingGroupID).Inverse();
-		}
-	}
+    public class MidiMappingGroupMapping : ClassMap<MidiMappingGroup>
+    {
+        public MidiMappingGroupMapping()
+        {
+            Id(x => x.ID).GeneratedBy.Assigned();
+            Map(x => x.Name);
+            References(x => x.Document, ColumnNames.DocumentID);
+            HasMany(x => x.MidiMappings).KeyColumn(ColumnNames.MidiMappingGroupID).Inverse();
+        }
+    }
 }

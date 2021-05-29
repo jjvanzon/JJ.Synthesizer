@@ -234,11 +234,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //// but through the Reset method of IPatchCalculator you cannot be specific about what dimension it is.)
             //foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
             //{
-            //	if ((int)dimensionEnum == DimensionEnum.Time)
-            //	{
-            //		continue;
-            //	}
-            //	_dimensionStackCollection.Set(dimensionEnum, TOP_LEVEL_DIMENSION_STACK_INDEX, 0.0);
+            //    if ((int)dimensionEnum == DimensionEnum.Time)
+            //    {
+            //        continue;
+            //    }
+            //    _dimensionStackCollection.Set(dimensionEnum, TOP_LEVEL_DIMENSION_STACK_INDEX, 0.0);
             //}
 
             _outputOperatorCalculator.Reset();
@@ -255,11 +255,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //// but through the Reset method of IPatchCalculator you cannot be specific about what dimension it is.)
             //foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
             //{
-            //	if ((int)dimensionEnum == DimensionEnum.Time)
-            //	{
-            //		continue;
-            //	}
-            //	_dimensionStackCollection.Set(dimensionEnum, TOP_LEVEL_DIMENSION_STACK_INDEX, 0.0);
+            //    if ((int)dimensionEnum == DimensionEnum.Time)
+            //    {
+            //        continue;
+            //    }
+            //    _dimensionStackCollection.Set(dimensionEnum, TOP_LEVEL_DIMENSION_STACK_INDEX, 0.0);
             //}
 
             // ReSharper disable once InvertIf
@@ -283,11 +283,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //// but through the Reset method of IPatchCalculator you cannot be specific about what dimension it is.)
             //foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
             //{
-            //	if ((int)dimensionEnum == DimensionEnum.Time)
-            //	{
-            //		continue;
-            //	}
-            //	_dimensionStackCollection.Set(dimensionEnum, TOP_LEVEL_DIMENSION_STACK_INDEX, 0.0);
+            //    if ((int)dimensionEnum == DimensionEnum.Time)
+            //    {
+            //        continue;
+            //    }
+            //    _dimensionStackCollection.Set(dimensionEnum, TOP_LEVEL_DIMENSION_STACK_INDEX, 0.0);
             //}
 
             // ReSharper disable once InvertIf

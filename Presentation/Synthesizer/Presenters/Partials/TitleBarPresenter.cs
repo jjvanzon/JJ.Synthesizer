@@ -6,26 +6,26 @@ using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters.Partials
 {
-	internal class TitleBarPresenter
-	{
-		private static readonly string _titleBarExtraText = GetTitleBarExtraText();
+    internal class TitleBarPresenter
+    {
+        private static readonly string _titleBarExtraText = GetTitleBarExtraText();
 
-		public string Show(Document openDocument = null)
-		{
-			var sb = new StringBuilder();
+        public string Show(Document openDocument = null)
+        {
+            var sb = new StringBuilder();
 
-			if (openDocument != null)
-			{
-				sb.Append($"{openDocument.Name} - ");
-			}
+            if (openDocument != null)
+            {
+                sb.Append($"{openDocument.Name} - ");
+            }
 
-			sb.Append(ResourceFormatter.ApplicationName);
+            sb.Append(ResourceFormatter.ApplicationName);
 
-			sb.Append(_titleBarExtraText);
+            sb.Append(_titleBarExtraText);
 
-			return sb.ToString();
-		}
+            return sb.ToString();
+        }
 
-		private static string GetTitleBarExtraText() => CustomConfigurationManager.GetSection<ConfigurationSection>().TitleBarExtraText;
-	}
+        private static string GetTitleBarExtraText() => CustomConfigurationManager.GetSection<ConfigurationSection>().TitleBarExtraText;
+    }
 }

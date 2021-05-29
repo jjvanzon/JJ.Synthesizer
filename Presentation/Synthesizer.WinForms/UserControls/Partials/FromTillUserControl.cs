@@ -7,65 +7,65 @@ using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
-	public partial class FromTillUserControl : UserControl
-	{
-		public FromTillUserControl() => InitializeComponent();
+    public partial class FromTillUserControl : UserControl
+    {
+        public FromTillUserControl() => InitializeComponent();
 
-		public string Mask
-		{
-			get => fromMaskedTextBox.Mask;
-			set
-			{
-				fromMaskedTextBox.Mask = value;
-				tillMaskedTextBox.Mask = value;
-			}
-		}
+        public string Mask
+        {
+            get => fromMaskedTextBox.Mask;
+            set
+            {
+                fromMaskedTextBox.Mask = value;
+                tillMaskedTextBox.Mask = value;
+            }
+        }
 
-		public string From
-		{
-			get => fromMaskedTextBox.Text;
-			set => fromMaskedTextBox.Text = value;
-		}
+        public string From
+        {
+            get => fromMaskedTextBox.Text;
+            set => fromMaskedTextBox.Text = value;
+        }
 
-		public string Till
-		{
-			get => tillMaskedTextBox.Text;
-			set => tillMaskedTextBox.Text = value;
-		}
+        public string Till
+        {
+            get => tillMaskedTextBox.Text;
+            set => tillMaskedTextBox.Text = value;
+        }
 
-		[Obsolete("Use From and Till instead.", true)]
-		public override string Text
-		{
-			get => throw new NotSupportedException("Use From and Till instead.");
-			set => throw new NotSupportedException("Use From and Till instead.");
-		}
+        [Obsolete("Use From and Till instead.", true)]
+        public override string Text
+        {
+            get => throw new NotSupportedException("Use From and Till instead.");
+            set => throw new NotSupportedException("Use From and Till instead.");
+        }
 
-		private void FromTillUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
-		private void FromTillUserControl_Load(object sender, EventArgs e) => PositionControls();
+        private void FromTillUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
+        private void FromTillUserControl_Load(object sender, EventArgs e) => PositionControls();
 
-		private void PositionControls()
-		{
-			int textBoxWidth = (Width - labelDash.Width) / 2;
-			if (textBoxWidth < 1) textBoxWidth = 1;
+        private void PositionControls()
+        {
+            int textBoxWidth = (Width - labelDash.Width) / 2;
+            if (textBoxWidth < 1) textBoxWidth = 1;
 
-			int height = fromMaskedTextBox.Height;
+            int height = fromMaskedTextBox.Height;
 
-			int x = 0;
+            int x = 0;
 
-			fromMaskedTextBox.Location = new Point(x, 0);
-			fromMaskedTextBox.Size = new Size(textBoxWidth, height);
+            fromMaskedTextBox.Location = new Point(x, 0);
+            fromMaskedTextBox.Size = new Size(textBoxWidth, height);
 
-			x += textBoxWidth;
+            x += textBoxWidth;
 
-			labelDash.Location = new Point(x, 0);
-			labelDash.Height = height;
+            labelDash.Location = new Point(x, 0);
+            labelDash.Height = height;
 
-			x += labelDash.Width;
+            x += labelDash.Width;
 
-			tillMaskedTextBox.Location = new Point(x, 0);
-			tillMaskedTextBox.Size = new Size(textBoxWidth, height);
+            tillMaskedTextBox.Location = new Point(x, 0);
+            tillMaskedTextBox.Size = new Size(textBoxWidth, height);
 
-			Height = height;
-		}
-	}
+            Height = height;
+        }
+    }
 }

@@ -5,11 +5,11 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-	[UsedImplicitly]
-	public class EntityPositionRepository : RepositoryBase<EntityPosition, int>, IEntityPositionRepository
-	{
-		public EntityPositionRepository(IContext context)
-			: base(context)
-		{ }
-	}
+    [UsedImplicitly]
+    public class EntityPositionRepository : RepositoryBase<EntityPosition, int>, IEntityPositionRepository
+    {
+        public EntityPositionRepository(IContext context)
+            : base(context)
+        { }
+    }
 }

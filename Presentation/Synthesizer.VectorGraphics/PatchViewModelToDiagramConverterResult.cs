@@ -7,60 +7,60 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
-	public class PatchViewModelToDiagramConverterResult
-	{
-		public Diagram Diagram { get; }
-		public DeleteGesture DeleteOperatorGesture { get; }
-		public DragLineGesture DragLineGesture { get; }
-		public DropLineGesture DropLineGesture { get; }
-		public ExpandKeyboardGesture ExpandOperatorKeyboardGesture { get; }
-		public ExpandMouseGesture ExpandOperatorMouseGesture { get; }
-		public DoubleClickGesture ExpandPatchGesture { get; }
-		public ToolTipGesture InletToolTipGesture { get; }
-		public MoveGesture MoveGesture { get; }
-		public ToolTipGesture OutletToolTipGesture { get; }
-		public SelectGesture SelectOperatorGesture { get; }
-		public ClickGesture SelectPatchGesture { get; }
+    public class PatchViewModelToDiagramConverterResult
+    {
+        public Diagram Diagram { get; }
+        public DeleteGesture DeleteOperatorGesture { get; }
+        public DragLineGesture DragLineGesture { get; }
+        public DropLineGesture DropLineGesture { get; }
+        public ExpandKeyboardGesture ExpandOperatorKeyboardGesture { get; }
+        public ExpandMouseGesture ExpandOperatorMouseGesture { get; }
+        public DoubleClickGesture ExpandPatchGesture { get; }
+        public ToolTipGesture InletToolTipGesture { get; }
+        public MoveGesture MoveGesture { get; }
+        public ToolTipGesture OutletToolTipGesture { get; }
+        public SelectGesture SelectOperatorGesture { get; }
+        public ClickGesture SelectPatchGesture { get; }
 
-		public PatchViewModelToDiagramConverterResult(ITextMeasurer textMeasurer, int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
-		{
-			Diagram = new Diagram();
-			DeleteOperatorGesture = new DeleteGesture();
+        public PatchViewModelToDiagramConverterResult(ITextMeasurer textMeasurer, int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+        {
+            Diagram = new Diagram();
+            DeleteOperatorGesture = new DeleteGesture();
 
-			DragLineGesture = new DragLineGesture(
-				Diagram,
-				StyleHelper.LineStyleDashed,
-				StyleHelper.DRAG_DROP_LINE_ZINDEX);
+            DragLineGesture = new DragLineGesture(
+                Diagram,
+                StyleHelper.LineStyleDashed,
+                StyleHelper.DRAG_DROP_LINE_ZINDEX);
 
-			DropLineGesture = new DropLineGesture(
-				Diagram,
-				new[] { DragLineGesture },
-				StyleHelper.LineStyleDashed,
-				StyleHelper.DRAG_DROP_LINE_ZINDEX);
+            DropLineGesture = new DropLineGesture(
+                Diagram,
+                new[] { DragLineGesture },
+                StyleHelper.LineStyleDashed,
+                StyleHelper.DRAG_DROP_LINE_ZINDEX);
 
-			ExpandOperatorKeyboardGesture = new ExpandKeyboardGesture();
+            ExpandOperatorKeyboardGesture = new ExpandKeyboardGesture();
 
-			ExpandOperatorMouseGesture = new ExpandMouseGesture(
-				doubleClickSpeedInMilliseconds,
-				doubleClickDeltaInPixels);
+            ExpandOperatorMouseGesture = new ExpandMouseGesture(
+                doubleClickSpeedInMilliseconds,
+                doubleClickDeltaInPixels);
 
-			ExpandPatchGesture = new DoubleClickGesture(
-				doubleClickSpeedInMilliseconds,
-				doubleClickDeltaInPixels);
+            ExpandPatchGesture = new DoubleClickGesture(
+                doubleClickSpeedInMilliseconds,
+                doubleClickDeltaInPixels);
 
-			var toolTipElement = new ToolTipElement(
-				Diagram.Background,
-				StyleHelper.ToolTipBackStyle,
-				StyleHelper.ToolTipLineStyle,
-				StyleHelper.ToolTipTextStyle,
-				textMeasurer,
-				zIndex: 2);
+            var toolTipElement = new ToolTipElement(
+                Diagram.Background,
+                StyleHelper.ToolTipBackStyle,
+                StyleHelper.ToolTipLineStyle,
+                StyleHelper.ToolTipTextStyle,
+                textMeasurer,
+                zIndex: 2);
 
-			InletToolTipGesture = new ToolTipGesture(toolTipElement);
-			MoveGesture = new MoveGesture();
-			OutletToolTipGesture = new ToolTipGesture(toolTipElement, preferredSideToShowToolTip: ToolTipPositioningEnum.BottomRight);
-			SelectOperatorGesture = new SelectGesture();
-			SelectPatchGesture = new ClickGesture();
-		}
-	}
+            InletToolTipGesture = new ToolTipGesture(toolTipElement);
+            MoveGesture = new MoveGesture();
+            OutletToolTipGesture = new ToolTipGesture(toolTipElement, preferredSideToShowToolTip: ToolTipPositioningEnum.BottomRight);
+            SelectOperatorGesture = new SelectGesture();
+            SelectPatchGesture = new ClickGesture();
+        }
+    }
 }

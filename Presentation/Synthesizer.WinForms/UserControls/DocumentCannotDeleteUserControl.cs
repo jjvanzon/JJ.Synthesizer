@@ -9,65 +9,65 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	internal partial class DocumentCannotDeleteUserControl : UserControlBase
-	{
-		public event EventHandler CloseRequested;
+    internal partial class DocumentCannotDeleteUserControl : UserControlBase
+    {
+        public event EventHandler CloseRequested;
 
-		public DocumentCannotDeleteUserControl()
-		{
-			InitializeComponent();
+        public DocumentCannotDeleteUserControl()
+        {
+            InitializeComponent();
 
-			SetTitles();
+            SetTitles();
 
-			this.AutomaticallyAssignTabIndexes();
-		}
+            this.AutomaticallyAssignTabIndexes();
+        }
 
-		// Actions
+        // Actions
 
-		public new void Show()
-		{
-			if (ViewModel == null) throw new NullException(() => ViewModel);
+        public new void Show()
+        {
+            if (ViewModel == null) throw new NullException(() => ViewModel);
 
-			ApplyViewModelToControls();
+            ApplyViewModelToControls();
 
-			base.Show();
-		}
+            base.Show();
+        }
 
-		// Gui
+        // Gui
 
-		private void SetTitles()
-		{
-			// ReSharper disable once LocalizableElement
-			labelMessagesTitle.Text = CommonResourceFormatter.Messages + ":";
-			buttonOK.Text = CommonResourceFormatter.OK;
-		}
+        private void SetTitles()
+        {
+            // ReSharper disable once LocalizableElement
+            labelMessagesTitle.Text = CommonResourceFormatter.Messages + ":";
+            buttonOK.Text = CommonResourceFormatter.OK;
+        }
 
-		// Binding
+        // Binding
 
-		public new DocumentCannotDeleteViewModel ViewModel
-		{
-			// ReSharper disable once MemberCanBePrivate.Global
-			get => (DocumentCannotDeleteViewModel)base.ViewModel;
-			set => base.ViewModel = value;
-		}
+        public new DocumentCannotDeleteViewModel ViewModel
+        {
+            // ReSharper disable once MemberCanBePrivate.Global
+            get => (DocumentCannotDeleteViewModel)base.ViewModel;
+            set => base.ViewModel = value;
+        }
 
-		protected override void ApplyViewModelToControls()
-		{
-			if (ViewModel == null)
-			{
-				labelCannotDeleteObject.Text = null;
-				labelMessageList.Text = null;
-				return;
-			}
+        protected override void ApplyViewModelToControls()
+        {
+            if (ViewModel == null)
+            {
+                labelCannotDeleteObject.Text = null;
+                labelMessageList.Text = null;
+                return;
+            }
 
-			labelCannotDeleteObject.Text = CommonResourceFormatter.CannotDelete_WithType_AndName(ResourceFormatter.Document, ViewModel.Document.Name);
+            labelCannotDeleteObject.Text = CommonResourceFormatter.CannotDelete_WithType_AndName(ResourceFormatter.Document, ViewModel.Document.Name);
 
-			string formattedMessages = MessageHelper.FormatMessages(ViewModel.ValidationMessages);
-			labelMessageList.Text = formattedMessages;
-		}
+            string formattedMessages = MessageHelper.FormatMessages(ViewModel.ValidationMessages);
+            labelMessageList.Text = formattedMessages;
+        }
 
-		// Events
+        // Events
 
-		private void buttonOK_Click(object sender, EventArgs e) => CloseRequested?.Invoke(this, EventArgs.Empty);
-	}
+        private void buttonOK_Click(object sender, EventArgs e) => CloseRequested?.Invoke(this, EventArgs.Empty);
+    }
 }

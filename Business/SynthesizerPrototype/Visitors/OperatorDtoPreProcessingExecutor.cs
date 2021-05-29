@@ -3,17 +3,17 @@ using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.SynthesizerPrototype.Visitors
 {
-	public class OperatorDtoPreProcessingExecutor
-	{
-		public IOperatorDto Execute(IOperatorDto dto)
-		{
-			if (dto == null) throw new NullException(() => dto);
+    public class OperatorDtoPreProcessingExecutor
+    {
+        public IOperatorDto Execute(IOperatorDto dto)
+        {
+            if (dto == null) throw new NullException(() => dto);
 
-			dto = new OperatorDtoVisitor_MathSimplification().Execute(dto);
-			dto = new OperatorDtoVisitor_MachineOptimization().Execute(dto);
-			new OperatorDtoVisitor_DimensionStackLevels().Execute(dto);
+            dto = new OperatorDtoVisitor_MathSimplification().Execute(dto);
+            dto = new OperatorDtoVisitor_MachineOptimization().Execute(dto);
+            new OperatorDtoVisitor_DimensionStackLevels().Execute(dto);
 
-			return dto;
-		}
-	}
+            return dto;
+        }
+    }
 }

@@ -4,23 +4,23 @@ using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer
 {
-	public static class WavHeaderFacade
-	{
-		public static WavHeaderStruct CreateWavHeaderStruct(AudioFileInfo audioFileInfo)
-		{
-			WavHeaderStruct wavHeaderStruct = AudioFileInfoToWavHeaderStructConverter.Convert(audioFileInfo);
+    public static class WavHeaderFacade
+    {
+        public static WavHeaderStruct CreateWavHeaderStruct(AudioFileInfo audioFileInfo)
+        {
+            WavHeaderStruct wavHeaderStruct = AudioFileInfoToWavHeaderStructConverter.Convert(audioFileInfo);
 
-			new WavHeaderStructValidator(wavHeaderStruct).Assert();
+            new WavHeaderStructValidator(wavHeaderStruct).Assert();
 
-			return wavHeaderStruct;
-		}
+            return wavHeaderStruct;
+        }
 
-		public static AudioFileInfo GetAudioFileInfoFromWavHeaderStruct(WavHeaderStruct wavHeaderStruct)
-		{
-			new WavHeaderStructValidator(wavHeaderStruct).Assert();
+        public static AudioFileInfo GetAudioFileInfoFromWavHeaderStruct(WavHeaderStruct wavHeaderStruct)
+        {
+            new WavHeaderStructValidator(wavHeaderStruct).Assert();
 
-			AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
-			return audioFileInfo;
-		}
-	}
+            AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
+            return audioFileInfo;
+        }
+    }
 }

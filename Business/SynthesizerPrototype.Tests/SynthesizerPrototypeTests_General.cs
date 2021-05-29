@@ -5,36 +5,36 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.SynthesizerPrototype.Tests
 {
-	[TestClass]
-	public class SynthesizerPrototypeTests_General
-	{
-		[TestMethod]
-		public void Test_SynthesizerPrototype_OperatorDtoVisitors_PreCalculation()
-		{
-			var dto = new Sine_OperatorDto
-			{
-				FrequencyOperatorDto = new Multiply_OperatorDto
-				{
-					AOperatorDto = new Number_OperatorDto { Number = 4 },
-					BOperatorDto = new Add_OperatorDto
-					{
-						Vars = new IOperatorDto[]
-						{
-							new Number_OperatorDto { Number = 100 },
-							new Number_OperatorDto { Number = 10 }
-						}
-					}
-				}
-			};
+    [TestClass]
+    public class SynthesizerPrototypeTests_General
+    {
+        [TestMethod]
+        public void Test_SynthesizerPrototype_OperatorDtoVisitors_PreCalculation()
+        {
+            var dto = new Sine_OperatorDto
+            {
+                FrequencyOperatorDto = new Multiply_OperatorDto
+                {
+                    AOperatorDto = new Number_OperatorDto { Number = 4 },
+                    BOperatorDto = new Add_OperatorDto
+                    {
+                        Vars = new IOperatorDto[]
+                        {
+                            new Number_OperatorDto { Number = 100 },
+                            new Number_OperatorDto { Number = 10 }
+                        }
+                    }
+                }
+            };
 
-			var visitor = new OperatorDtoPreProcessingExecutor();
-			IOperatorDto operatorDtoBase = visitor.Execute(dto);
+            var visitor = new OperatorDtoPreProcessingExecutor();
+            IOperatorDto operatorDtoBase = visitor.Execute(dto);
 
-			AssertHelper.IsOfType<Sine_OperatorDto_ConstFrequency_WithOriginShifting>(() => operatorDtoBase);
+            AssertHelper.IsOfType<Sine_OperatorDto_ConstFrequency_WithOriginShifting>(() => operatorDtoBase);
 
-			var sine_OperatorDto_ConstFrequency_WithOriginShifting = operatorDtoBase as Sine_OperatorDto_ConstFrequency_WithOriginShifting;
+            var sine_OperatorDto_ConstFrequency_WithOriginShifting = operatorDtoBase as Sine_OperatorDto_ConstFrequency_WithOriginShifting;
 
-			AssertHelper.AreEqual(440.0, () => sine_OperatorDto_ConstFrequency_WithOriginShifting.Frequency);
-		}
-	}
+            AssertHelper.AreEqual(440.0, () => sine_OperatorDto_ConstFrequency_WithOriginShifting.Frequency);
+        }
+    }
 }

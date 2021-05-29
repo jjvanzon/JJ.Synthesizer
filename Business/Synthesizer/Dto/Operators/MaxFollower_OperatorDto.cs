@@ -2,8 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal class MaxFollower_OperatorDto : OperatorDtoBase_AggregateFollower
-	{
-		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxFollower;
-	}
+    internal class MaxFollower_OperatorDto : OperatorDtoBase_AggregateFollower
+    {
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxFollower;
+    }
 }

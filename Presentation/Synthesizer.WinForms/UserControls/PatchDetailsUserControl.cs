@@ -20,232 +20,232 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	internal partial class PatchDetailsUserControl : DetailsOrPropertiesUserControlBase
-	{
-		private const bool DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING = false;
+    internal partial class PatchDetailsUserControl : DetailsOrPropertiesUserControlBase
+    {
+        private const bool DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING = false;
 
-		private static readonly bool _mustExecuteOperatorMoveActionWhileDragging = GetMustExecuteOperatorMoveActionWhileDragging();
+        private static readonly bool _mustExecuteOperatorMoveActionWhileDragging = GetMustExecuteOperatorMoveActionWhileDragging();
 
-		public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
-		public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
-		public event EventHandler<PatchAndOperatorEventArgs> SelectOperatorRequested;
-		public event EventHandler<EventArgs<int>> ExpandOperatorRequested;
-		public event EventHandler<EventArgs<int>> ExpandPatchRequested;
-		public event EventHandler<EventArgs<int>> SelectPatchRequested;
+        public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
+        public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
+        public event EventHandler<PatchAndOperatorEventArgs> SelectOperatorRequested;
+        public event EventHandler<EventArgs<int>> ExpandOperatorRequested;
+        public event EventHandler<EventArgs<int>> ExpandPatchRequested;
+        public event EventHandler<EventArgs<int>> SelectPatchRequested;
 
-		private readonly TextMeasurer _textMeasurer;
+        private readonly TextMeasurer _textMeasurer;
 
-		private PatchViewModelToDiagramConverter _converter;
-		private PatchViewModelToDiagramConverterResult _converterResult;
+        private PatchViewModelToDiagramConverter _converter;
+        private PatchViewModelToDiagramConverterResult _converterResult;
 
-		// Constructors
+        // Constructors
 
-		public PatchDetailsUserControl()
-		{
-			InitializeComponent();
+        public PatchDetailsUserControl()
+        {
+            InitializeComponent();
 
-			ExpandButtonVisible = true;
-		    CloneButtonVisible = true;
+            ExpandButtonVisible = true;
+            CloneButtonVisible = true;
 
-			_textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
-		}
+            _textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
+        }
 
-		// Gui
+        // Gui
 
-		protected override void SetTitles() => TitleBarText = CommonResourceFormatter.Details_WithName(ResourceFormatter.Patch);
+        protected override void SetTitles() => TitleBarText = CommonResourceFormatter.Details_WithName(ResourceFormatter.Patch);
 
-		protected override void PositionControls()
-		{
-			base.PositionControls();
+        protected override void PositionControls()
+        {
+            base.PositionControls();
 
-			diagramControl.Left = 0;
-			diagramControl.Top = TitleBarHeight + 1;
-			diagramControl.Width = Width;
-			diagramControl.Height = Height - TitleBarHeight;
-		}
+            diagramControl.Left = 0;
+            diagramControl.Top = TitleBarHeight + 1;
+            diagramControl.Width = Width;
+            diagramControl.Height = Height - TitleBarHeight;
+        }
 
-		// Binding
+        // Binding
 
-		public new PatchDetailsViewModel ViewModel
-		{
-			// ReSharper disable once MemberCanBePrivate.Global
-			get => (PatchDetailsViewModel)base.ViewModel;
-			set => base.ViewModel = value;
-		}
+        public new PatchDetailsViewModel ViewModel
+        {
+            // ReSharper disable once MemberCanBePrivate.Global
+            get => (PatchDetailsViewModel)base.ViewModel;
+            set => base.ViewModel = value;
+        }
 
-		protected override int GetID() => ViewModel.Entity.ID;
+        protected override int GetID() => ViewModel.Entity.ID;
 
-		protected override void ApplyViewModelToControls()
-		{
-			SaveButtonVisible = ViewModel.CanSave;
+        protected override void ApplyViewModelToControls()
+        {
+            SaveButtonVisible = ViewModel.CanSave;
 
-			UnbindVectorGraphicsEvents();
+            UnbindVectorGraphicsEvents();
 
-			if (_converterResult == null)
-			{
-				_converter = new PatchViewModelToDiagramConverter(
-					_textMeasurer,
-					SystemInformation.DoubleClickTime,
-					SystemInformation.DoubleClickSize.Width);
+            if (_converterResult == null)
+            {
+                _converter = new PatchViewModelToDiagramConverter(
+                    _textMeasurer,
+                    SystemInformation.DoubleClickTime,
+                    SystemInformation.DoubleClickSize.Width);
 
-				_converterResult = _converter.Execute(ViewModel.Entity);
-			}
-			else
-			{
-				_converterResult = _converter.Execute(ViewModel.Entity, _converterResult);
-			}
+                _converterResult = _converter.Execute(ViewModel.Entity);
+            }
+            else
+            {
+                _converterResult = _converter.Execute(ViewModel.Entity, _converterResult);
+            }
 
-			BindVectorGraphicsEvents();
+            BindVectorGraphicsEvents();
 
-			diagramControl.Diagram = _converterResult.Diagram;
-		}
+            diagramControl.Diagram = _converterResult.Diagram;
+        }
 
-		private void BindVectorGraphicsEvents()
-		{
-			_converterResult.SelectOperatorGesture.SelectRequested += SelectOperatorGesture_SelectRequested;
-			_converterResult.MoveGesture.Moving += MoveGesture_Moving;
-			_converterResult.MoveGesture.Moved += MoveGesture_Moved;
-			_converterResult.DropLineGesture.Dropped += DropLineGesture_Dropped;
-			_converterResult.DeleteOperatorGesture.DeleteSelectionRequested += DeleteOperatorGesture_DeleteSelectionRequested;
-			_converterResult.ExpandOperatorMouseGesture.ExpandRequested += ExpandMouseGesture_ExpandRequested;
-			_converterResult.ExpandOperatorKeyboardGesture.ExpandRequested += ExpandKeyboardGesture_ExpandRequested;
-			_converterResult.ExpandPatchGesture.DoubleClick += ExpandPatchGesture_DoubleClick;
-			_converterResult.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
-			_converterResult.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
-			_converterResult.SelectPatchGesture.Click += SelectPatchGesture_Click;
-		}
+        private void BindVectorGraphicsEvents()
+        {
+            _converterResult.SelectOperatorGesture.SelectRequested += SelectOperatorGesture_SelectRequested;
+            _converterResult.MoveGesture.Moving += MoveGesture_Moving;
+            _converterResult.MoveGesture.Moved += MoveGesture_Moved;
+            _converterResult.DropLineGesture.Dropped += DropLineGesture_Dropped;
+            _converterResult.DeleteOperatorGesture.DeleteSelectionRequested += DeleteOperatorGesture_DeleteSelectionRequested;
+            _converterResult.ExpandOperatorMouseGesture.ExpandRequested += ExpandMouseGesture_ExpandRequested;
+            _converterResult.ExpandOperatorKeyboardGesture.ExpandRequested += ExpandKeyboardGesture_ExpandRequested;
+            _converterResult.ExpandPatchGesture.DoubleClick += ExpandPatchGesture_DoubleClick;
+            _converterResult.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
+            _converterResult.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
+            _converterResult.SelectPatchGesture.Click += SelectPatchGesture_Click;
+        }
 
-		private void UnbindVectorGraphicsEvents()
-		{
-			// ReSharper disable once InvertIf
-			if (_converterResult != null)
-			{
-				_converterResult.SelectOperatorGesture.SelectRequested -= SelectOperatorGesture_SelectRequested;
-				_converterResult.MoveGesture.Moving -= MoveGesture_Moving;
-				_converterResult.MoveGesture.Moved -= MoveGesture_Moved;
-				_converterResult.DropLineGesture.Dropped -= DropLineGesture_Dropped;
-				_converterResult.DeleteOperatorGesture.DeleteSelectionRequested -= DeleteOperatorGesture_DeleteSelectionRequested;
-				_converterResult.ExpandOperatorMouseGesture.ExpandRequested -= ExpandMouseGesture_ExpandRequested;
-				_converterResult.ExpandOperatorKeyboardGesture.ExpandRequested -= ExpandKeyboardGesture_ExpandRequested;
-				_converterResult.ExpandPatchGesture.DoubleClick -= ExpandPatchGesture_DoubleClick;
-				_converterResult.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
-				_converterResult.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
-				_converterResult.SelectPatchGesture.Click -= SelectPatchGesture_Click;
-			}
-		}
+        private void UnbindVectorGraphicsEvents()
+        {
+            // ReSharper disable once InvertIf
+            if (_converterResult != null)
+            {
+                _converterResult.SelectOperatorGesture.SelectRequested -= SelectOperatorGesture_SelectRequested;
+                _converterResult.MoveGesture.Moving -= MoveGesture_Moving;
+                _converterResult.MoveGesture.Moved -= MoveGesture_Moved;
+                _converterResult.DropLineGesture.Dropped -= DropLineGesture_Dropped;
+                _converterResult.DeleteOperatorGesture.DeleteSelectionRequested -= DeleteOperatorGesture_DeleteSelectionRequested;
+                _converterResult.ExpandOperatorMouseGesture.ExpandRequested -= ExpandMouseGesture_ExpandRequested;
+                _converterResult.ExpandOperatorKeyboardGesture.ExpandRequested -= ExpandKeyboardGesture_ExpandRequested;
+                _converterResult.ExpandPatchGesture.DoubleClick -= ExpandPatchGesture_DoubleClick;
+                _converterResult.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
+                _converterResult.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
+                _converterResult.SelectPatchGesture.Click -= SelectPatchGesture_Click;
+            }
+        }
 
-		// Events
+        // Events
 
-		private void DropLineGesture_Dropped(object sender, DroppedEventArgs e)
-		{
-			if (ViewModel == null) return;
+        private void DropLineGesture_Dropped(object sender, DroppedEventArgs e)
+        {
+            if (ViewModel == null) return;
 
-			int inletID =  (int)e.DroppedOnElement.Tag;
-			int outletID = (int)e.DraggedElement.Tag;
+            int inletID =  (int)e.DroppedOnElement.Tag;
+            int outletID = (int)e.DraggedElement.Tag;
 
-			ChangeInputOutletRequested(this, new ChangeInputOutletEventArgs(
-				ViewModel.Entity.ID,
-				inletID,
-				outletID));
-		}
+            ChangeInputOutletRequested(this, new ChangeInputOutletEventArgs(
+                ViewModel.Entity.ID,
+                inletID,
+                outletID));
+        }
 
-		private void MoveGesture_Moving(object sender, ElementEventArgs e)
-		{
-			if (_mustExecuteOperatorMoveActionWhileDragging)
-			{
-				DoMoveOperator(e);
-			}
-		}
+        private void MoveGesture_Moving(object sender, ElementEventArgs e)
+        {
+            if (_mustExecuteOperatorMoveActionWhileDragging)
+            {
+                DoMoveOperator(e);
+            }
+        }
 
-		private void MoveGesture_Moved(object sender, ElementEventArgs e)
-		{
-			if (!_mustExecuteOperatorMoveActionWhileDragging)
-			{
-				DoMoveOperator(e);
-			}
-		}
+        private void MoveGesture_Moved(object sender, ElementEventArgs e)
+        {
+            if (!_mustExecuteOperatorMoveActionWhileDragging)
+            {
+                DoMoveOperator(e);
+            }
+        }
 
-		private void DoMoveOperator(ElementEventArgs e)
-		{
-			int operatorID = (int)e.Element.Tag;
+        private void DoMoveOperator(ElementEventArgs e)
+        {
+            int operatorID = (int)e.Element.Tag;
 
-			float centerX = e.Element.Position.AbsoluteX + e.Element.Position.Width / 2f;
-			float centerY = e.Element.Position.AbsoluteY + e.Element.Position.Height / 2f;
+            float centerX = e.Element.Position.AbsoluteX + e.Element.Position.Width / 2f;
+            float centerY = e.Element.Position.AbsoluteY + e.Element.Position.Height / 2f;
 
-			MoveOperator(operatorID, centerX, centerY);
-		}
+            MoveOperator(operatorID, centerX, centerY);
+        }
 
-		private void MoveOperator(int operatorID, float centerX, float centerY)
-		{
-			if (ViewModel == null) return;
+        private void MoveOperator(int operatorID, float centerX, float centerY)
+        {
+            if (ViewModel == null) return;
 
-			MoveOperatorRequested(this, new MoveOperatorEventArgs(
-				ViewModel.Entity.ID,
-				operatorID,
-				centerX,
-				centerY));
-		}
+            MoveOperatorRequested(this, new MoveOperatorEventArgs(
+                ViewModel.Entity.ID,
+                operatorID,
+                centerX,
+                centerY));
+        }
 
-		private void SelectOperatorGesture_SelectRequested(object sender, ElementEventArgs e)
-		{
-			if (ViewModel == null) return;
+        private void SelectOperatorGesture_SelectRequested(object sender, ElementEventArgs e)
+        {
+            if (ViewModel == null) return;
 
-			int operatorID = (int)e.Element.Tag;
+            int operatorID = (int)e.Element.Tag;
 
-			SelectOperatorRequested(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, operatorID));
+            SelectOperatorRequested(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, operatorID));
 
-			_converterResult.ExpandOperatorKeyboardGesture.SelectedEntityID = ViewModel.SelectedOperator?.ID;
-		}
+            _converterResult.ExpandOperatorKeyboardGesture.SelectedEntityID = ViewModel.SelectedOperator?.ID;
+        }
 
-		private void DeleteOperatorGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
+        private void DeleteOperatorGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
 
-		private void ExpandMouseGesture_ExpandRequested(object sender, IDEventArgs e) => ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
+        private void ExpandMouseGesture_ExpandRequested(object sender, IDEventArgs e) => ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
 
-	    private void ExpandKeyboardGesture_ExpandRequested(object sender, IDEventArgs e) => ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
+        private void ExpandKeyboardGesture_ExpandRequested(object sender, IDEventArgs e) => ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
 
-	    private void ExpandPatchGesture_DoubleClick(object sender, EventArgs e) => ExpandPatchRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
+        private void ExpandPatchGesture_DoubleClick(object sender, EventArgs e) => ExpandPatchRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
 
-	    // TODO: Lower priority: You might want to use the presenter for the the following 3 things.
+        // TODO: Lower priority: You might want to use the presenter for the the following 3 things.
 
-		private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
-		{
-			if (ViewModel == null) return;
+        private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
+        {
+            if (ViewModel == null) return;
 
-			int inletID = (int)e.Element.Tag;
+            int inletID = (int)e.Element.Tag;
 
-			InletViewModel inletViewModel = ViewModel.Entity.OperatorDictionary.Values
-																			   .SelectMany(x => x.Inlets)
-																			   .Single(x => x.ID == inletID);
-			e.ToolTipText = inletViewModel.Caption;
-		}
+            InletViewModel inletViewModel = ViewModel.Entity.OperatorDictionary.Values
+                                                                               .SelectMany(x => x.Inlets)
+                                                                               .Single(x => x.ID == inletID);
+            e.ToolTipText = inletViewModel.Caption;
+        }
 
-		private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
-		{
-			if (ViewModel == null) return;
+        private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
+        {
+            if (ViewModel == null) return;
 
-			int id = (int)e.Element.Tag;
+            int id = (int)e.Element.Tag;
 
-			OutletViewModel outletViewModel = ViewModel.Entity.OperatorDictionary.Values.SelectMany(x => x.Outlets)
-																						.Single(x => x.ID == id);
-			e.ToolTipText = outletViewModel.Caption;
-		}
+            OutletViewModel outletViewModel = ViewModel.Entity.OperatorDictionary.Values.SelectMany(x => x.Outlets)
+                                                                                        .Single(x => x.ID == id);
+            e.ToolTipText = outletViewModel.Caption;
+        }
 
-		private void SelectPatchGesture_Click(object sender, ElementEventArgs e)
-		{
-			if (ViewModel == null) return;
-			SelectPatchRequested(sender, new EventArgs<int>(ViewModel.Entity.ID));
-		}
+        private void SelectPatchGesture_Click(object sender, ElementEventArgs e)
+        {
+            if (ViewModel == null) return;
+            SelectPatchRequested(sender, new EventArgs<int>(ViewModel.Entity.ID));
+        }
 
-		// Helpers
+        // Helpers
 
-		private static bool GetMustExecuteOperatorMoveActionWhileDragging()
-		{
-			if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-			{
-				return CustomConfigurationManager.GetSection<ConfigurationSection>().ExecuteOperatorMoveActionWhileDragging;
-			}
+        private static bool GetMustExecuteOperatorMoveActionWhileDragging()
+        {
+            if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            {
+                return CustomConfigurationManager.GetSection<ConfigurationSection>().ExecuteOperatorMoveActionWhileDragging;
+            }
 
-			return DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING;
-		}
-	}
+            return DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING;
+        }
+    }
 }

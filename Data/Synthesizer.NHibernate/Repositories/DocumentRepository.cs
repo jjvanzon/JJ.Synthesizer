@@ -74,11 +74,11 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 
             // This partial query would cause duplicate patches to be loaded.
             //var level_4_higherDocumentPatchesQuery = _context.Session.QueryOver(() => higherDocument)
-            //												 .JoinAlias(() => higherDocument.HigherDocumentReferences, () => higherDocumentReference)
-            //												 .JoinAlias(() => higherDocumentReference.LowerDocument, () => document)
-            //												 .Where(() => document.ID == documentID)
-            //												 .Fetch(x => x.Patches).Eager
-            //												 .Future<Document>();
+            //                                                 .JoinAlias(() => higherDocument.HigherDocumentReferences, () => higherDocumentReference)
+            //                                                 .JoinAlias(() => higherDocumentReference.LowerDocument, () => document)
+            //                                                 .Where(() => document.ID == documentID)
+            //                                                 .Fetch(x => x.Patches).Eager
+            //                                                 .Future<Document>();
 
             var level_2_ScalesQuery = _context.Session.QueryOver(() => document)
                                               .Left.JoinAlias(() => document.Scales, () => scale)
@@ -140,12 +140,12 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 
             // Too bad: There is no curve.Operator to link upward to.
             //var level_5_nodesQuery = _context.Session.QueryOver(() => curve)
-            //								 .JoinAlias(() => curve.Operator, () => op)
-            //								 .JoinAlias(() => op.Patch, () => patch)
-            //								 .JoinAlias(() => patch.Document, () => document)
-            //								 .Where(() => document.ID == documentID)
-            //								 .Fetch(x => x.Nodes).Eager
-            //								 .Future<Curve>();
+            //                                 .JoinAlias(() => curve.Operator, () => op)
+            //                                 .JoinAlias(() => op.Patch, () => patch)
+            //                                 .JoinAlias(() => patch.Document, () => document)
+            //                                 .Where(() => document.ID == documentID)
+            //                                 .Fetch(x => x.Nodes).Eager
+            //                                 .Future<Curve>();
 
             var level_4_SampleQuery = _context.Session.QueryOver(() => op)
                                               .JoinAlias(() => op.Patch, () => patch)

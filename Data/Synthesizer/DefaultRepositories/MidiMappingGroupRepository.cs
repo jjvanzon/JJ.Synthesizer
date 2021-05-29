@@ -5,11 +5,11 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-	[UsedImplicitly]
-	public class MidiMappingGroupRepository : RepositoryBase<MidiMappingGroup, int>, IMidiMappingGroupRepository
-	{
-		public MidiMappingGroupRepository(IContext context)
-			: base(context)
-		{ }
-	}
+    [UsedImplicitly]
+    public class MidiMappingGroupRepository : RepositoryBase<MidiMappingGroup, int>, IMidiMappingGroupRepository
+    {
+        public MidiMappingGroupRepository(IContext context)
+            : base(context)
+        { }
+    }
 }

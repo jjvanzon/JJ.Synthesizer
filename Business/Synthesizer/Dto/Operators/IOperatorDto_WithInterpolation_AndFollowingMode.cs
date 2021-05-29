@@ -2,8 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal interface IOperatorDto_WithInterpolation_AndFollowingMode : IOperatorDto_WithInterpolation
-	{
-		FollowingModeEnum FollowingModeEnum { get; set; }
-	}
+    internal interface IOperatorDto_WithInterpolation_AndFollowingMode : IOperatorDto_WithInterpolation
+    {
+        FollowingModeEnum FollowingModeEnum { get; set; }
+    }
 }

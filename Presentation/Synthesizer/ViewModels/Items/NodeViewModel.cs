@@ -4,15 +4,15 @@ using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
-	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public sealed class NodeViewModel
-	{
-		public int ID { get; set; }
-		public double X { get; set; }
-		public double Y { get; set; }
-		public IDAndName Interpolation { get; set; }
-		public string Caption { get; set; }
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
+    public sealed class NodeViewModel
+    {
+        public int ID { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
+        public IDAndName Interpolation { get; set; }
+        public string Caption { get; set; }
 
-		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
-	}
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+    }
 }

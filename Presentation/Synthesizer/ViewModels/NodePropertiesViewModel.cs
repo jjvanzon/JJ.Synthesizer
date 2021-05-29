@@ -6,13 +6,13 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public sealed class NodePropertiesViewModel : ScreenViewModelBase
-	{
-		public int CurveID { get; set; }
-		public NodeViewModel Entity { get; set; }
-		public IList<IDAndName> InterpolationTypeLookup { get; set; }
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
+    public sealed class NodePropertiesViewModel : ScreenViewModelBase
+    {
+        public int CurveID { get; set; }
+        public NodeViewModel Entity { get; set; }
+        public IList<IDAndName> InterpolationTypeLookup { get; set; }
 
-		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
-	}
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+    }
 }

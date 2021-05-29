@@ -5,14 +5,14 @@ using JJ.Data.Synthesizer.NHibernate.Names;
 
 namespace JJ.Data.Synthesizer.NHibernate.Mapping
 {
-	public class SpeakerSetupChannelMapping : ClassMap<SpeakerSetupChannel>
-	{
-		public SpeakerSetupChannelMapping()
-		{
-			Id(x => x.ID).GeneratedBy.Assigned();
-			Map(x => x.IndexNumber);
-			References(x => x.SpeakerSetup, ColumnNames.SpeakerSetupID);
-			References(x => x.Channel, ColumnNames.ChannelID);
-		}
-	}
+    public class SpeakerSetupChannelMapping : ClassMap<SpeakerSetupChannel>
+    {
+        public SpeakerSetupChannelMapping()
+        {
+            Id(x => x.ID).GeneratedBy.Assigned();
+            Map(x => x.IndexNumber);
+            References(x => x.SpeakerSetup, ColumnNames.SpeakerSetupID);
+            References(x => x.Channel, ColumnNames.ChannelID);
+        }
+    }
 }

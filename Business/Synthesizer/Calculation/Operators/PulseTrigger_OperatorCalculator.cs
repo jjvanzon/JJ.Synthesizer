@@ -45,16 +45,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         // Non-Optimized version
         //public override double Calculate()
         //{
-        //	double newTriggerValue = _resetCalculator.Calculate();
+        //    double newTriggerValue = _resetCalculator.Calculate();
 
-        //	if (_previousTriggerValue == 0 && newTriggerValue != 0)
-        //	{
-        //		_calculationCalculator.ResetState();
-        //	}
+        //    if (_previousTriggerValue == 0 && newTriggerValue != 0)
+        //    {
+        //        _calculationCalculator.ResetState();
+        //    }
 
-        //	_previousTriggerValue = newTriggerValue;
+        //    _previousTriggerValue = newTriggerValue;
 
-        //	return _calculationCalculator.Calculate();
+        //    return _calculationCalculator.Calculate();
         //}
     }
 }

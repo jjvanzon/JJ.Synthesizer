@@ -91,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                  .ToArray();
 
             _pictureButtonAdd.MouseDown += _pictureButtonAdd_MouseDown;
-			_pictureButtonAddToInstrument.MouseDown += _pictureButtonAddToInstrument_MouseDown;
+            _pictureButtonAddToInstrument.MouseDown += _pictureButtonAddToInstrument_MouseDown;
             _pictureButtonBrowse.MouseDown += _pictureButtonBrowse_MouseDown;
             _pictureButtonClone.MouseDown += _pictureButtonClone_MouseDown;
             _pictureButtonClose.MouseDown += _pictureButtonClose_MouseDown;

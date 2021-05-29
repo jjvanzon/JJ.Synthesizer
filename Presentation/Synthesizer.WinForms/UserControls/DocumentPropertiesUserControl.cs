@@ -5,38 +5,38 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	internal partial class DocumentPropertiesUserControl : PropertiesUserControlBase
-	{
-		public DocumentPropertiesUserControl()
-		{
-			InitializeComponent();
+    internal partial class DocumentPropertiesUserControl : PropertiesUserControlBase
+    {
+        public DocumentPropertiesUserControl()
+        {
+            InitializeComponent();
 
-			DeleteButtonVisible = false;
-		}
+            DeleteButtonVisible = false;
+        }
 
-		// Gui
+        // Gui
 
-		protected override void AddProperties() => AddProperty(labelName, textBoxName);
+        protected override void AddProperties() => AddProperty(labelName, textBoxName);
 
-		protected override void SetTitles()
-		{
-			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Document);
-			labelName.Text = CommonResourceFormatter.Name;
-		}
+        protected override void SetTitles()
+        {
+            TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Document);
+            labelName.Text = CommonResourceFormatter.Name;
+        }
 
-		// Binding
+        // Binding
 
-		public new DocumentPropertiesViewModel ViewModel
-		{
-			// ReSharper disable once MemberCanBePrivate.Global
-			get => (DocumentPropertiesViewModel)base.ViewModel;
-			set => base.ViewModel = value;
-		}
+        public new DocumentPropertiesViewModel ViewModel
+        {
+            // ReSharper disable once MemberCanBePrivate.Global
+            get => (DocumentPropertiesViewModel)base.ViewModel;
+            set => base.ViewModel = value;
+        }
 
-		protected override int GetID() => ViewModel.Entity.ID;
+        protected override int GetID() => ViewModel.Entity.ID;
 
-		protected override void ApplyViewModelToControls() => textBoxName.Text = ViewModel.Entity.Name;
+        protected override void ApplyViewModelToControls() => textBoxName.Text = ViewModel.Entity.Name;
 
-		protected override void ApplyControlsToViewModel() => ViewModel.Entity.Name = textBoxName.Text;
-	}
+        protected override void ApplyControlsToViewModel() => ViewModel.Entity.Name = textBoxName.Text;
+    }
 }

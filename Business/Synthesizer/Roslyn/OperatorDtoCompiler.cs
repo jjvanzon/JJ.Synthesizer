@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 #if DEBUG
             const OptimizationLevel optimizationLevel = OptimizationLevel.Debug;
 #else
-			const OptimizationLevel optimizationLevel = OptimizationLevel.Release;
+            const OptimizationLevel optimizationLevel = OptimizationLevel.Release;
 #endif
             // ReSharper disable once RedundantArgumentDefaultValue
             return new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: optimizationLevel);

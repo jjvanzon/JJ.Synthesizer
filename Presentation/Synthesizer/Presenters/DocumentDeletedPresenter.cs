@@ -4,22 +4,22 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-	internal class DocumentDeletedPresenter : PresenterBase<DocumentDeletedViewModel>
-	{
-		public DocumentDeletedViewModel Show()
-		{
-			// ToViewModel
-			DocumentDeletedViewModel viewModel = ToViewModelHelper.CreateDocumentDeletedViewModel();
+    internal class DocumentDeletedPresenter : PresenterBase<DocumentDeletedViewModel>
+    {
+        public DocumentDeletedViewModel Show()
+        {
+            // ToViewModel
+            DocumentDeletedViewModel viewModel = ToViewModelHelper.CreateDocumentDeletedViewModel();
 
-			// Non-Persisted
-			viewModel.Visible = true;
+            // Non-Persisted
+            viewModel.Visible = true;
 
-			// Successful
-			viewModel.Successful = true;
+            // Successful
+            viewModel.Successful = true;
 
-			return viewModel;
-		}
+            return viewModel;
+        }
 
-		public void OK(DocumentDeletedViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
-	}
+        public void OK(DocumentDeletedViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
+    }
 }

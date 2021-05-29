@@ -2,9 +2,9 @@
 
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
-	internal class OperatorDtoToPatchCalculatorCSharpGeneratorResult
-	{
-		public string GeneratedCode { get; set; }
-		public IList<ArrayCalculationInfo> ArrayCalculationInfos { get; set; }
-	}
+    internal class OperatorDtoToPatchCalculatorCSharpGeneratorResult
+    {
+        public string GeneratedCode { get; set; }
+        public IList<ArrayCalculationInfo> ArrayCalculationInfos { get; set; }
+    }
 }
