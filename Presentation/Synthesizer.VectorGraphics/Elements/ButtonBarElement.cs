@@ -2,7 +2,7 @@
 using System.Linq;
 using JJ.Business.Synthesizer.StringResources;
 using JJ.Framework.Collections;
-using JJ.Framework.Resources;
+using JJ.Framework.ResourceStrings;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Canonical;
-using JJ.Framework.Resources;
+using JJ.Framework.ResourceStrings;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.Properties;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;

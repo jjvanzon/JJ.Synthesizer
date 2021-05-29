@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.StringResources;
 using JJ.Data.Canonical;
-using JJ.Framework.Resources;
+using JJ.Framework.ResourceStrings;
 using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases

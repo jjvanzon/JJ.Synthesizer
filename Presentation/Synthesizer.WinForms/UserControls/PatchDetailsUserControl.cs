@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.StringResources;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Drawing;
-using JJ.Framework.Resources;
+using JJ.Framework.ResourceStrings;
 using JJ.Framework.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;

@@ -83,6 +83,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\JJ.Framework.Resources.1.7.7817.43034\lib\net461\JJ.Framework.Resources.dll</HintPath>
     </Reference>
+    <Reference Include="JJ.Framework.ResourceStrings, Version=1.7.7818.38307, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.ResourceStrings.1.7.7818.38307\lib\net461\JJ.Framework.ResourceStrings.dll</HintPath>
+    </Reference>
     <Reference Include="JJ.Framework.Text, Version=1.7.7817.43031, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JJ.Framework.Text.1.7.7817.43031\lib\net461\JJ.Framework.Text.dll</HintPath>
     </Reference>

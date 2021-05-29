@@ -1,6 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Configuration;
 using JJ.Framework.Configuration;
-using JJ.Framework.Resources;
+using JJ.Framework.ResourceStrings;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
