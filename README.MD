@@ -27,7 +27,7 @@ Setting Up Dev Environment
 ### JJ.Framework
 
 - Pre-release versions of *JJ.Framework* components may be used.
-- They might be hosted in *Azure DevOps*: https://dev.azure.com/jjvanzon/JJs%20Software/_packaging?_a=feed&feed=JJs-Pre-Release-Package-Feed
+- They might be hosted in *Azure DevOps*: https://dev.azure.com/jjvanzon/JJs-Software/_packaging?_a=feed&feed=JJs-Pre-Release-Package-Feed
 - They may require configuring *NuGet* to connect to an additional package source.
 - The following info might be useful for that:
 - Name: JJs-Pre-Release-Package-Feed
