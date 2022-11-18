@@ -75,13 +75,17 @@ A workaround might be to go back in time, getting old commits, and producing a r
 
 Ticks when letting go of the keyboard key.
 
-The problem seems to be the so called Release Time does not work. Release Time is the time after hitting the note, that the note keeps playing to fade out or something like that. The problem seems to do with a bug in the graph transformations in the code. Transformations around the Time variable seem to be applied in the wrong order, leading to 0 Release Time, so instant stopping of the sound, producing quite an ugly tick. Unfortunately, I was unable to hack my own algorithm anymore, because I was dealing with chronic fatigue and health problems. I am really hoping this 100 code line algorithm is the problem, and can be fixed by a mind able to hack what the issue is. Perhaps making automated tests with expected outcomes around this algorithm, might pinpoint and make debuggable what is going on, and what is wrong and hopefully lead to the solution.
+The problem seems to be the so called Release Time does not work. Release Time is the time after hitting the note, that the note keeps playing to fade out or something like that. The problem seems to do with a bug in the graph transformations in the code. Transformations around the Time variable seem to be applied in the wrong order, leading to 0 Release Time, so instant stopping of the sound, producing quite an ugly tick. Unfortunately, I was unable to hack my own algorithm anymore, because I was dealing with chronic fatigue and health problems. I am really hoping this 100 code line algorithm is the problem, and can be fixed by a mind able to hack what the issue is. Perhaps making automated tests with expected outcomes around this algorithm, might pinpoint (and make debuggable) what is going on, and what is wrong and hopefully: the solution.
 
 ### Bug #2: Note Delays
 
 Delay on the notes after hitting the keyboard.
 
 The delay was not there at one point. And then it just seemed to all of a sudden appear. I am suspecting a subtle threading issue. I think another thread might not read the most current value of something, but a copy of the value for 'performance' purposes. Or perhaps a locking issue having a less subtle effect than anticipated. When I debugged, it seemed to stop at the breakpoint immediately after hitting the note, and when taking a few debugger steps, the sound of the new note seemed generated quite soon / instantly, so I am not sure where the delay is precisely coming from. I think with checking out older commits, until the problem disappears, may pinpoint the problem and which code changes caused it.
+
+#### Hypothesis
+
+Value changes are not being yielded over from the Dictionary to the fields / AH! stack variables, until the next buffer of sound is calculated. Hmm... using stack variables was one of the things that made it quite a lot faster. Darnie. Maybe invalidate the buffer as soon as possible somehow? A new buffer then might be calculated, but at least the existing buffer is not so sparingly used. And MIDI value changes are not so frequent. Hmm... may cause some slow down, but that might be something to see in practice.
 
 Technical Wishlist
 ------------------
