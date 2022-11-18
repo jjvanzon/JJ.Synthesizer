@@ -8,7 +8,7 @@ Introduction
 
 `JJ.Synthesizer` is software for making music.
 
-The purpose is to connect a MIDI keyboard to it, and play while the program generates the sound for the notes you play. It supports certain types of synthesis, like additive, subtractive, ADSR, noise generator, filters, and effect like compression and envelope following.
+The purpose is to connect a MIDI keyboard to it, and play while the program generates the sound for the notes you play. It supports certain types of synthesis, like additive, subtractive, sampling, ADSR, noise generator, filters, and effects like compression and envelope following.
 
 It has been a pet project of mine for a few years between about 2015 and 2018. It has been in the ice box for a few years now, because I had health issues. I am now trying to get it to the public domain.
 
@@ -48,15 +48,15 @@ Setting Up Dev Environment
 
 - Pre-release versions of `JJ.Framework` components may be used.
 - Those are currently hosted in *Azure DevOps*:
-    - https://pkgs.dev.azure.com/jjvanzon/1de16010-421a-41a5-90f1-86e9513f2c5b/_packaging/JJs-Pre-Release-Package-Feed/nuget/v3/index.json
-    - Name: JJs-Pre-Release-Package-Feed
+- https://pkgs.dev.azure.com/jjvanzon/1de16010-421a-41a5-90f1-86e9513f2c5b/_packaging/JJs-Pre-Release-Package-Feed/nuget/v3/index.json
+- Name: JJs-Pre-Release-Package-Feed
 - It might require configuring *NuGet* in your dev environment to connect to this additional package source.
 
 
 Bugs
 ----
 
-When I dropped this project out of my hands, a few bugs remained. Unfortunately I was not able to resolve these bugs yet. More shortcomings might be there, but *these* might unfortunately make it musically unusable:
+When I dropped this project out of my hands, a few bugs remained. Unfortunately I was not able to resolve these bugs yet. More shortcomings might be there, but *these* might make it musically unusable:
 
 - Ticks when letting go of the keyboard key.
 - Delay on the notes after hitting the keyboard.
@@ -75,13 +75,13 @@ A workaround might be to go back in time, getting old commits, and producing a r
 
 Ticks when letting go of the keyboard key.
 
-The problem seems to be the so called Release Time does not work. Release Time is the time after hitting the note, that the note keeps playing to fade out or something like that. The problem seems to do with a bug in the graph transformations in the code. Transformations around the Time variable seem to be applied in the wrong order, leading to 0 Release Time, so instant stopping of the sound, producing quite an ugly tick. Unfortunately, I was unable to hack my own algorithm anymore, because I was dealing with chronic fatigue and health issues. I am really hoping this 100 code line algorithm is the problem, and can be fixed by a mind able to hack what the issue is. Perhaps making automated tests with expected outcomes around this algorithm, might pinpoint and make debuggable what is going on, and what is wrong and hopefully lead to the solution.
+The problem seems to be the so called Release Time does not work. Release Time is the time after hitting the note, that the note keeps playing to fade out or something like that. The problem seems to do with a bug in the graph transformations in the code. Transformations around the Time variable seem to be applied in the wrong order, leading to 0 Release Time, so instant stopping of the sound, producing quite an ugly tick. Unfortunately, I was unable to hack my own algorithm anymore, because I was dealing with chronic fatigue and health problems. I am really hoping this 100 code line algorithm is the problem, and can be fixed by a mind able to hack what the issue is. Perhaps making automated tests with expected outcomes around this algorithm, might pinpoint and make debuggable what is going on, and what is wrong and hopefully lead to the solution.
 
 ### Bug #2: Note Delays
 
 Delay on the notes after hitting the keyboard.
 
-The delay was not there at one point. And then it just seemed to all of a sudden appear. I am suspecting a subtle threading issue. I think another thread might not read the most current value of something, but a copy of the value for 'performance' purposes. Or perhaps a locking issue having a less subtle effect than anticipated. When I debugged, it seemed to stop at the breakpoint immediately after the note, and when taking a few debugger steps, the sound of the new note seemed generated quite soon / instantly, so I am not sure where the delay is precisely coming from. I think with checking out older commits, until the problem disappears, may pinpoint the problem and which code changes caused it.
+The delay was not there at one point. And then it just seemed to all of a sudden appear. I am suspecting a subtle threading issue. I think another thread might not read the most current value of something, but a copy of the value for 'performance' purposes. Or perhaps a locking issue having a less subtle effect than anticipated. When I debugged, it seemed to stop at the breakpoint immediately after hitting the note, and when taking a few debugger steps, the sound of the new note seemed generated quite soon / instantly, so I am not sure where the delay is precisely coming from. I think with checking out older commits, until the problem disappears, may pinpoint the problem and which code changes caused it.
 
 Technical Wishlist
 ------------------
