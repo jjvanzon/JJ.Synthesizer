@@ -6,9 +6,9 @@ JJ.Synthesizer
 Introduction
 ------------
 
-JJ.Synthesizer is software for making music.
+`JJ.Synthesizer` is software for making music.
 
-The purpose is to connect a MIDI keyboard to it, and play while the program generates the sound for the notes you play. It supports certain types of synthesis, like additive, subtractive, ADSR, noise generator, filters, and effect like compression, envelope following...
+The purpose is to connect a MIDI keyboard to it, and play while the program generates the sound for the notes you play. It supports certain types of synthesis, like additive, subtractive, ADSR, noise generator, filters, and effect like compression and envelope following.
 
 It has been a pet project of mine for a few years between about 2015 and 2018. It has been in the ice box for a few years now, because I had health issues. I am now trying to get it to the public domain.
 
@@ -75,7 +75,7 @@ A workaround might be to go back in time, getting old commits, and producing a r
 
 Ticks when letting go of the keyboard key.
 
-The problem seems to be the so called Release Time does not work. Release Time is the time after the note, that the note keeps playing to fade out or something like that. The problem seems to do with a bug in the graph transformations in the code. Transformations around the Time variable seem to be applied in the wrong order, leading to 0 Release Time, so instant stopping of the sound, producing quite an ugly tick. Unfortunately, I was unable to hack my own algorithm anymore, because I was dealing with chronic fatigue and health issues. I am really hoping this 100 code line algorithm is the problem, and can be fixed by a mind able to hack what the issue is. Perhaps making automated tests with expected outcomes around this algorithm, might pinpoint and make debuggable what is going on, and what is wrong and hopefully lead to the solution.
+The problem seems to be the so called Release Time does not work. Release Time is the time after hitting the note, that the note keeps playing to fade out or something like that. The problem seems to do with a bug in the graph transformations in the code. Transformations around the Time variable seem to be applied in the wrong order, leading to 0 Release Time, so instant stopping of the sound, producing quite an ugly tick. Unfortunately, I was unable to hack my own algorithm anymore, because I was dealing with chronic fatigue and health issues. I am really hoping this 100 code line algorithm is the problem, and can be fixed by a mind able to hack what the issue is. Perhaps making automated tests with expected outcomes around this algorithm, might pinpoint and make debuggable what is going on, and what is wrong and hopefully lead to the solution.
 
 ### Bug #2: Note Delays
 
@@ -90,7 +90,7 @@ Technical Wishlist
 
 *There is a good reason for the lack of automated testing, but it is also a bad reason.*
 
-The reasons is that it was supposed to be a hobby project, and to give me some fun out of it. Lots of automated testing was not fun in my view. It may have resulted in a lack of stability and downfall of some forms of synthesis down to unusability. Now the lack of tests is the part not fun about it! Automated testing may both prevent and fix this. Steps have been made, but more would be welcome. It may be a lot of work, and put a lot of other things on hold, but I think it may be the best way to go:
+The reasons is, that it was supposed to be a hobby project, and to give me some fun out of it. Lots of automated testing was not fun in my view. It may have resulted in a lack of stability and downfall of some forms of synthesis down to unusability. Now the lack of tests is the part not fun about it! Automated testing may both prevent and fix this. Steps have been made, but more would be welcome. It may be a lot of work, and put a lot of other things on hold, but I think it may be the best way to go for this project:
 
 More automated testing.
 
@@ -98,5 +98,15 @@ More automated testing.
 Quirks Checking Out Old Commits
 -------------------------------
 
-...
+`JJ.Synthesizer` was once part of a larger code base. It was extracted to become a new Git repository with history in tact. Some quirks when checking out older history items, may have to do with that.
 
+The following may only be relevant when getting older commits from history (from before 2022-11-18).
+
+- Commit messages:
+    - May mention projects not part of the JJ.Synthesizer repo.
+- Corrupted references to JJ.Framework:
+    - JJ.Framework projects are no longer in the same code base.
+    - It may help to try referencing the NuGet version of these depedencies.
+    - Another option may be to clone the JJ.Framework repository (TODO: ADD LINK) and fix the paths pointing to the JJ.Framework projects.
+- References to other non-existent projects:
+    - To fix this, try referencing the NuGet version of these depedencies.
