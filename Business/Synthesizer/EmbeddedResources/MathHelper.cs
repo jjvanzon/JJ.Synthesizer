@@ -9,7 +9,6 @@ using JJ.Framework.Exceptions.Comparative;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable ArrangeRedundantParentheses
 
 namespace JJ.Framework.Mathematics
 {
