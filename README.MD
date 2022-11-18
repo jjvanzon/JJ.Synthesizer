@@ -46,7 +46,7 @@ Setting Up Dev Environment
 
 ### JJ.Framework
 
-- Pre-release versions of *JJ.Framework* components may be used.
+- Pre-release versions of `JJ.Framework` components may be used.
 - Those are currently hosted in *Azure DevOps*:
     - https://pkgs.dev.azure.com/jjvanzon/1de16010-421a-41a5-90f1-86e9513f2c5b/_packaging/JJs-Pre-Release-Package-Feed/nuget/v3/index.json
     - Name: JJs-Pre-Release-Package-Feed
@@ -104,9 +104,9 @@ The following may only be relevant when getting older commits from history (from
 
 - Commit messages:
     - May mention projects not part of the JJ.Synthesizer repo.
-- Corrupted references to JJ.Framework:
-    - JJ.Framework projects are no longer in the same code base.
+- Corrupted references to `JJ.Framework`:
+    - `JJ.Framework` projects are no longer in the same code base.
     - It may help to try referencing the NuGet version of these depedencies.
-    - Another option may be to clone the JJ.Framework repository (TODO: ADD LINK) and fix the paths pointing to the JJ.Framework projects.
+    - Another option may be to clone the [JJ.Framework repository](https://github.com/jjvanzon/JJ.Framework) and fix the paths pointing to the `JJ.Framework` projects.
 - References to other non-existent projects:
     - To fix this, try referencing the NuGet version of these depedencies.
