@@ -3,8 +3,13 @@ JJ.Synthesizer
 
 *2022-11-18, JJ van Zon*
 
+![](Resources/jj-synthesizer-overview.png)
+
+![](Resources/jj-synthesizer-midi-mapping.png)
+
+<h2>Contents</h2>
+
 - [Introduction](#introduction)
-- [Screen Shots](#screen-shots)
 - [Prerequisites](#prerequisites)
 - [Setting Up Dev Environment](#setting-up-dev-environment)
     - [Database](#database)
@@ -12,6 +17,7 @@ JJ.Synthesizer
 - [Bugs](#bugs)
 - [Technical Wishlist](#technical-wishlist)
 - [Quirks Checking Out Old Commits](#quirks-checking-out-old-commits)
+
 
 Introduction
 ------------
@@ -22,12 +28,6 @@ The purpose is to connect a MIDI keyboard to it, and play while the program gene
 
 It has been a pet project of mine for a few years between about 2015 and 2018. It has been in the ice box for a few years now, because I had health issues. I am now trying to get it to the public domain.
 
-Screen Shots
-------------
-
-![](Resources/jj-synthesizer-overview.png)
-
-![](Resources/jj-synthesizer-midi-mapping.png)
 
 Prerequisites
 -------------
