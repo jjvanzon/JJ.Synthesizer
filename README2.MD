@@ -60,6 +60,6 @@ Technical Wishlist
 
 *There is a good reason for the lack of automated testing, but it is also a bad reason.*
 
-The reasons is, that it was supposed to be a hobby project, and to give me some fun out of it. Lots of automated testing was not fun in my view. It may have resulted in a lack of stability and downfall of some forms of synthesis down to unusability. Now the lack of tests is the part not fun about it! Automated testing may both prevent and fix this. Steps have been made, but more would be welcome. It may be a lot of work, and put a lot of other things on hold, but I think it may be the best way to go for this project:
+The reasons is, that it was supposed to be a hobby project, and to give me some fun out of it. Lots of automated testing was not fun in my view. It may have resulted in a lack of stability and downfall of some forms of synthesis down to unusability. Now the lack of tests might be the part not fun about it! Automated testing may both prevent and fix this. Steps have been made, but more would be welcome. It may be a lot of work, and put a lot of other things on hold, but I think it may be the best way to go for this project:
 
 More automated testing.
