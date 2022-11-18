@@ -1,8 +1,6 @@
 JJ.Synthesizer
 ==============
 
-*2022-11-18, JJ van Zon*
-
 ![](Resources/jj-synthesizer-overview.png)
 
 ![](Resources/jj-synthesizer-midi-mapping.png)
@@ -21,6 +19,8 @@ JJ.Synthesizer
 
 Introduction
 ------------
+
+*2022-11-18, JJ van Zon*
 
 `JJ.Synthesizer` is software for making music.
 
