@@ -98,9 +98,7 @@ More automated testing.
 Quirks Checking Out Old Commits
 -------------------------------
 
-`JJ.Synthesizer` was once part of a larger code base. It was extracted to become a new Git repository with history in tact. Some quirks when checking out older history items, may have to do with that.
-
-The following may only be relevant when getting older commits from history (from before 2022-11-18).
+`JJ.Synthesizer` was once part of a larger code base. It was extracted to become a new Git repository with history in tact. Some quirks when checking out older history items, may have to do with that. The following may only be relevant when getting older commits from history (from before 2022-11-18).
 
 - Commit messages:
     - May mention projects not part of the JJ.Synthesizer repo.
