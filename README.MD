@@ -4,6 +4,7 @@ JJ.Synthesizer
 *2022-11-18, JJ van Zon*
 
 - [Introduction](#introduction)
+- [Screen Shots](#screen-shots)
 - [Prerequisites](#prerequisites)
 - [Setting Up Dev Environment](#setting-up-dev-environment)
     - [Database](#database)
@@ -20,6 +21,13 @@ Introduction
 The purpose is to connect a MIDI keyboard to it, and play while the program generates the sound for the notes you play. It supports certain types of synthesis, like additive, subtractive, sampling, ADSR, noise generator, filters, and effects like compression and envelope following.
 
 It has been a pet project of mine for a few years between about 2015 and 2018. It has been in the ice box for a few years now, because I had health issues. I am now trying to get it to the public domain.
+
+Screen Shots
+------------
+
+![](Resources/jj-synthesizer-overview.png)
+
+![](Resources/jj-synthesizer-midi-mapping.png)
 
 Prerequisites
 -------------
@@ -74,7 +82,7 @@ When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remai
 Technical Wishlist
 ------------------
 
-[More Automated Testing](README2.MD#technical-wishlist)
+[More Automated Testing!](README2.MD#technical-wishlist)
 
 
 Quirks Checking Out Old Commits
