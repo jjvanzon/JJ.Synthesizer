@@ -3,8 +3,6 @@ JJ.Synthesizer
 
 *2022-11-18, JJ van Zon*
 
-<h2>Contents</h2>
-
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Setting Up Dev Environment](#setting-up-dev-environment)
