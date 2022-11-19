@@ -25,7 +25,7 @@ Intro
 
 The purpose is to connect a MIDI keyboard to it, and play while the program generates the sound for the notes you play. It supports certain types of synthesis, like additive, subtractive, sampling, ADSR, noise generator, filters, and effects like compression and envelope following.
 
-It has been a pet project of mine for a few years between about 2015 and 2018. It has been in the ice box for a few years now, because of my health issues. It is a bit of a shame the project stranded like that. I am now trying to get it to the public domain at least.
+It has been a pet project of mine for a few years between about 2015 and 2018. It has been in the ice box for a few years now, because of my health issues. I am now trying to get it to the public domain at least.
 
 [Installer](https://github.com/jjvanzon/JJ.Synthesizer/releases/) | Requires SQL Server
 
