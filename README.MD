@@ -3,16 +3,22 @@
 JJ.Synthesizer
 ==============
 
+Demo Video
+----------
+
+[![Demo Video](https://img.youtube.com/vi/keeSetBu9A0/0.jpg)](https://www.youtube.com/watch?v=keeSetBu9A0)
+
+Screen Shots
+------------
+
 ![](Resources/jj-synthesizer-overview.png)
 
 ![](Resources/jj-synthesizer-midi-mapping.png)
 
-Demo Video:
-
-[![Video](https://img.youtube.com/vi/keeSetBu9A0/0.jpg)](https://www.youtube.com/watch?v=keeSetBu9A0)
-
 <h2>Contents</h2>
 
+- [Demo Video](#demo-video)
+- [Screen Shots](#screen-shots)
 - [Intro](#intro)
 - [Bugs](#bugs)
 - [Technical Wishlist](#technical-wishlist)
