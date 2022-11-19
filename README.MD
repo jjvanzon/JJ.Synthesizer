@@ -3,13 +3,7 @@
 JJ.Synthesizer
 ==============
 
-Demo
-----
-
 [![Demo Video](https://img.youtube.com/vi/keeSetBu9A0/0.jpg)](https://www.youtube.com/watch?v=keeSetBu9A0)
-
-Screen Shots
-------------
 
 ![](Resources/jj-synthesizer-overview.png)
 
@@ -17,8 +11,6 @@ Screen Shots
 
 <h2>Contents</h2>
 
-- [Demo](#demo)
-- [Screen Shots](#screen-shots)
 - [Intro](#intro)
 - [Bugs](#bugs)
 - [Technical Wishlist](#technical-wishlist)
