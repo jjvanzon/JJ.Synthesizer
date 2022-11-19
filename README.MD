@@ -19,7 +19,7 @@
 🎞️ Media
 ---------
 
-⏯
+<h3>⏯</h3>
 
 <a href="https://www.youtube.com/watch?v=keeSetBu9A0&start=16" target="_blank" rel="noopener noreferrer"><img src="https://img.youtube.com/vi/keeSetBu9A0/0.jpg" alt="Demo Video"/></a>
 
