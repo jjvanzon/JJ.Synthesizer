@@ -7,8 +7,7 @@ JJ.Synthesizer
 
 ![](Resources/jj-synthesizer-midi-mapping.png)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/keeSetBu9A0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+Video:  
 [![Alt text](https://img.youtube.com/vi/keeSetBu9A0/0.jpg)](https://www.youtube.com/watch?v=keeSetBu9A0)
 
 <h2>Contents</h2>
