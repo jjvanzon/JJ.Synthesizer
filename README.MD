@@ -7,8 +7,7 @@ JJ.Synthesizer
 
 <h2>Contents</h2>
 
-- [Introduction](#introduction)
-- [Prerequisites](#prerequisites)
+- [Intro](#intro)
 - [Setting Up Dev Environment](#setting-up-dev-environment)
     - [Database](#database)
     - [JJ.Framework](#jjframework)
@@ -17,7 +16,7 @@ JJ.Synthesizer
 - [Quirks Checking Out Old Commits](#quirks-checking-out-old-commits)
 
 
-Introduction
+Intro
 ------------
 
 *2022-11-18, JJ van Zon*
@@ -28,11 +27,7 @@ The purpose is to connect a MIDI keyboard to it, and play while the program gene
 
 It has been a pet project of mine for a few years between about 2015 and 2018. It has been in the ice box for a few years now, because I had health issues. I am now trying to get it to the public domain.
 
-
-Prerequisites
--------------
-
-- SQL Server
+[Installer](https://github.com/jjvanzon/JJ.Synthesizer/releases/) | Requires SQL Server
 
 Setting Up Dev Environment
 --------------------------
