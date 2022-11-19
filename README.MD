@@ -10,6 +10,7 @@
 - [🐞 Bugs](#-bugs)
 - [👨‍💻 Technical Wishlist](#-technical-wishlist)
 - [⚙ Dev Env](#-dev-env)
+    - [🖥 Visual Studio](#-visual-studio)
     - [💽 Database](#-database)
     - [📦 JJ.Framework](#-jjframework)
 - [🕘 Checking Out Old Commits](#-checking-out-old-commits)
@@ -47,7 +48,7 @@ When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remai
 
 
 👨‍💻 Technical Wishlist
-------------------
+----------------------
 
 Not entirely proud of the many other little bugs that remained. Solution:  
 [More Automated Testing?](README2.MD#technical-wishlist)
@@ -57,6 +58,10 @@ Not entirely proud of the many other little bugs that remained. Solution:
 -----------
 
 Here you may find some pointers how to set up a developent environment to build and run `JJ.Synthesizer`.
+
+### 🖥 Visual Studio
+
+This project was developed using C# in Visual Studio. You might download that elsewhere.
 
 ### 💽 Database
 
