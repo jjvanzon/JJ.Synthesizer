@@ -3,8 +3,8 @@
 JJ.Synthesizer
 ==============
 
-Demo Video
-----------
+Demo
+----
 
 [![Demo Video](https://img.youtube.com/vi/keeSetBu9A0/0.jpg)](https://www.youtube.com/watch?v=keeSetBu9A0)
 
@@ -17,12 +17,12 @@ Screen Shots
 
 <h2>Contents</h2>
 
-- [Demo Video](#demo-video)
+- [Demo](#demo)
 - [Screen Shots](#screen-shots)
 - [Intro](#intro)
 - [Bugs](#bugs)
 - [Technical Wishlist](#technical-wishlist)
-- [Setting Up Dev Environment](#setting-up-dev-environment)
+- [Set Up Dev Env](#set-up-dev-env)
     - [Database](#database)
     - [JJ.Framework](#jjframework)
 - [Quirks Checking Out Old Commits](#quirks-checking-out-old-commits)
@@ -56,8 +56,8 @@ Not entirely proud of the many other little bugs that remained. Solution:
 [More Automated Testing?](README2.MD#technical-wishlist)
 
 
-Setting Up Dev Environment
---------------------------
+Set Up Dev Env
+--------------
 
 ### Database
 
