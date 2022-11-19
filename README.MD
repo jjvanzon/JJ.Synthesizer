@@ -68,7 +68,7 @@ Setting Up Dev Environment
 Bugs
 ----
 
-When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remained. Unfortunately I was not able to resolve these bugs yet. More shortcomings might be there, but *these* might make it musically unusable:
+When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remained. Unfortunately I was not able to resolve these bugs yet. More shortcomings might be there, but *these* might make it musically as good as unusable:
 
 - [Ticks when letting go of the keyboard key.](README2.MD#bug-1-ticks)
 - [Delay on the notes after hitting the keyboard.](README2.MD#bug-2-note-delays)
@@ -77,6 +77,7 @@ When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remai
 Technical Wishlist
 ------------------
 
+Not entirely proud of the many other little bugs that remained. Solution?
 [More Automated Testing!](README2.MD#technical-wishlist)
 
 
