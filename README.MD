@@ -3,6 +3,18 @@
 🎶 JJ.Synthesizer 🎹
 =====================
 
+<h2>📔 Contents</h2>
+
+- [⏯ Media](#-media)
+- [📢 Intro](#-intro)
+- [🐞 Bugs](#-bugs)
+- [👨‍💻 Technical Wishlist](#-technical-wishlist)
+- [⚙ Dev Env](#-dev-env)
+    - [💽 Database](#-database)
+    - [📦 JJ.Framework](#-jjframework)
+- [🕘 Quirks Checking Out Old Commits](#-quirks-checking-out-old-commits)
+
+
 ⏯ Media
 ---------
 
@@ -11,17 +23,6 @@
 ![](Resources/jj-synthesizer-overview.png)
 
 ![](Resources/jj-synthesizer-midi-mapping.png)
-
-<h2>📑 Contents</h2>
-
-- [⏯ Media](#-media)
-- [📢 Intro](#-intro)
-- [🐞 Bugs](#-bugs)
-- [👨‍💻 Technical Wishlist](#-technical-wishlist)
-- [⚙ Set Up Dev Env](#-set-up-dev-env)
-    - [💽 Database](#-database)
-    - [📦 JJ.Framework](#-jjframework)
-- [🕘 Quirks Checking Out Old Commits](#-quirks-checking-out-old-commits)
 
 
 📢 Intro 
@@ -52,8 +53,10 @@ Not entirely proud of the many other little bugs that remained. Solution:
 [More Automated Testing?](README2.MD#technical-wishlist)
 
 
-⚙ Set Up Dev Env
-------------------
+⚙ Dev Env
+-----------
+
+Here you may find some pointers how to set up a developent environment to build and run `JJ.Synthesizer`.
 
 ### 💽 Database
 
