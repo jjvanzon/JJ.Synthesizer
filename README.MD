@@ -42,8 +42,8 @@ When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remai
 Technical Wishlist
 ------------------
 
-Not entirely proud of the many other little bugs that remained. Solution?
-[More Automated Testing!](README2.MD#technical-wishlist)
+Not entirely proud of the many other little bugs that remained. Solution:  
+[More Automated Testing?](README2.MD#technical-wishlist)
 
 
 Setting Up Dev Environment
