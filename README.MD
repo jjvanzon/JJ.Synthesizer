@@ -23,6 +23,8 @@
 
 <a href="https://www.youtube.com/watch?v=keeSetBu9A0&start=16" target="_blank" rel="noopener noreferrer"><img src="https://img.youtube.com/vi/keeSetBu9A0/0.jpg" alt="Demo Video"/></a>
 
+<h3>🖼</h3>
+
 ![](Resources/jj-synthesizer-overview.png)
 
 ![](Resources/jj-synthesizer-midi-mapping.png)
