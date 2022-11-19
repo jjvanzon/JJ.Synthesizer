@@ -12,7 +12,7 @@
 - [⚙ Dev Env](#-dev-env)
     - [💽 Database](#-database)
     - [📦 JJ.Framework](#-jjframework)
-- [🕘 Checking Out Older Commits](#-checking-out-older-commits)
+- [🕘 Checking Out Old Commits](#-checking-out-old-commits)
 
 
 🎞️ Media
@@ -91,8 +91,8 @@ Here you may find some pointers how to set up a developent environment to build 
 - It might require configuring *NuGet* in your dev environment to connect to this additional package source.
 
 
-🕘 Checking Out Older Commits
-------------------------------
+🕘 Checking Out Old Commits
+----------------------------
 
 `JJ.Synthesizer` was once part of a larger code base. It was extracted to become a new Git repository with history in tact. Some quirks when checking out older history items, may have to do with that. The following may only be relevant when getting older commits from history (from before 2022-11-18).
 
