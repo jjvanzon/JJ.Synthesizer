@@ -7,11 +7,14 @@ JJ.Synthesizer
 
 ![](Resources/jj-synthesizer-midi-mapping.png)
 
-Video:
+Video
+-----
+
 [![Alt text](https://img.youtube.com/vi/keeSetBu9A0/0.jpg)](https://www.youtube.com/watch?v=keeSetBu9A0)
 
 <h2>Contents</h2>
 
+- [Video](#video)
 - [Intro](#intro)
 - [Bugs](#bugs)
 - [Technical Wishlist](#technical-wishlist)
