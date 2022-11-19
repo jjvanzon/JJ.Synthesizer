@@ -5,9 +5,8 @@
 
 <h2>📔 Contents</h2>
 
-- [⏯ Media](#-media)
-    - [🎞️ Video](#️-video)
-    - [🖼 Pictures](#-pictures)
+- [⏯ Video](#-video)
+- [🖼 Pictures](#-pictures)
 - [📢 Intro](#-intro)
 - [🐞 Bugs](#-bugs)
 - [👨‍💻 Technical Wishlist](#-technical-wishlist)
@@ -18,14 +17,14 @@
 - [🕘 Checking Out Old Commits](#-checking-out-old-commits)
 
 
-⏯ Media
+⏯ Video
 ---------
-
-### 🎞️ Video
 
 <a href="https://www.youtube.com/watch?v=keeSetBu9A0&start=16" target="_blank" rel="noopener noreferrer"><img src="https://img.youtube.com/vi/keeSetBu9A0/0.jpg" alt="Demo Video"/></a>
 
-### 🖼 Pictures
+
+🖼 Pictures
+------------
 
 ![](Resources/jj-synthesizer-overview.png)
 
