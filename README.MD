@@ -1,10 +1,10 @@
 *JJ van Zon, 2022*
 
-JJ.Synthesizer
-==============
+🎶 JJ.Synthesizer 🎹
+=====================
 
-Media
------
+⏯ Media
+---------
 
 <a href="https://www.youtube.com/watch?v=keeSetBu9A0&start=16" target="_blank" rel="noopener noreferrer"><img src="https://img.youtube.com/vi/keeSetBu9A0/0.jpg" alt="Demo Video"/></a>
 
@@ -12,20 +12,20 @@ Media
 
 ![](Resources/jj-synthesizer-midi-mapping.png)
 
-<h2>Contents</h2>
+<h2>📑 Contents</h2>
 
-- [Media](#media)
-- [Intro](#intro)
-- [Bugs](#bugs)
-- [Technical Wishlist](#technical-wishlist)
-- [Set Up Dev Env](#set-up-dev-env)
-    - [Database](#database)
-    - [JJ.Framework](#jjframework)
-- [Quirks Checking Out Old Commits](#quirks-checking-out-old-commits)
+- [⏯ Media](#-media)
+- [📢 Intro](#-intro)
+- [🐞 Bugs](#-bugs)
+- [👨‍💻 Technical Wishlist](#-technical-wishlist)
+- [⚙ Set Up Dev Env](#-set-up-dev-env)
+    - [💽 Database](#-database)
+    - [📦 JJ.Framework](#-jjframework)
+- [🕘 Quirks Checking Out Old Commits](#-quirks-checking-out-old-commits)
 
 
-Intro
-------------
+📢 Intro 
+---------
 
 `JJ.Synthesizer` is software for making music.
 
@@ -36,8 +36,8 @@ It has been a pet project of mine for a few years between about 2015 and 2018. I
 [Installer](https://github.com/jjvanzon/JJ.Synthesizer/releases/) | Requires SQL Server
 
 
-Bugs
-----
+🐞 Bugs
+--------
 
 When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remained. Unfortunately I was not able to resolve these bugs yet. More shortcomings might be there, but *these* might make it musically as good as unusable:
 
@@ -45,17 +45,17 @@ When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remai
 - [Delay on the notes after hitting the keyboard.](README2.MD#bug-2-note-delays)
 
 
-Technical Wishlist
+👨‍💻 Technical Wishlist
 ------------------
 
 Not entirely proud of the many other little bugs that remained. Solution:  
 [More Automated Testing?](README2.MD#technical-wishlist)
 
 
-Set Up Dev Env
---------------
+⚙ Set Up Dev Env
+------------------
 
-### Database
+### 💽 Database
 
 - Open the folder Database\SynthesizerDB
 - You might a file there like "SynthesizerDB.zip".
@@ -79,7 +79,7 @@ Set Up Dev Env
 - In an unfortunate case, it might be needed, to do a git checkout of a commit somewhere in history in order to run the utility. The commit to check out might be the one closest to the date indicated in the file name of the "RUN UTILITY" sql file.
 - Sorry for a possible lack of elegance here.
 
-### JJ.Framework
+### 📦 JJ.Framework
 
 - Pre-release versions of `JJ.Framework` components may be used.
 - Those are currently hosted in *Azure DevOps*:
@@ -88,8 +88,8 @@ Set Up Dev Env
 - It might require configuring *NuGet* in your dev environment to connect to this additional package source.
 
 
-Quirks Checking Out Old Commits
--------------------------------
+🕘 Quirks Checking Out Old Commits
+-----------------------------------
 
 `JJ.Synthesizer` was once part of a larger code base. It was extracted to become a new Git repository with history in tact. Some quirks when checking out older history items, may have to do with that. The following may only be relevant when getting older commits from history (from before 2022-11-18).
 
