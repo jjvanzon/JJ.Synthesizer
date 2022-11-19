@@ -5,7 +5,7 @@ JJ.Synthesizer
 
 [![Demo Video](https://img.youtube.com/vi/keeSetBu9A0/0.jpg)](https://www.youtube.com/watch?v=keeSetBu9A0)
 
-<a href="https://www.youtube.com/watch?v=keeSetBu9A0" target="_blank"><img src="https://camo.githubusercontent.com/5f04374c3d1bad0325abfb89c022b6a3867777616ba232a08c3489239c90da21/68747470733a2f2f696d672e796f75747562652e636f6d2f76692f6b656553657442753941302f302e6a7067" alt="Demo Video" data-canonical-src="https://img.youtube.com/vi/keeSetBu9A0/0.jpg"></a>
+<a href="https://www.youtube.com/watch?v=keeSetBu9A0" target="_blank" rel="noopener noreferrer"><img src="https://camo.githubusercontent.com/5f04374c3d1bad0325abfb89c022b6a3867777616ba232a08c3489239c90da21/68747470733a2f2f696d672e796f75747562652e636f6d2f76692f6b656553657442753941302f302e6a7067" alt="Demo Video" data-canonical-src="https://img.youtube.com/vi/keeSetBu9A0/0.jpg"></a>
 
 ![](Resources/jj-synthesizer-overview.png)
 
