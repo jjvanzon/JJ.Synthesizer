@@ -1,3 +1,5 @@
+*2022-11-18, JJ van Zon*
+
 JJ.Synthesizer
 ==============
 
@@ -18,8 +20,6 @@ JJ.Synthesizer
 
 Intro
 ------------
-
-*2022-11-18, JJ van Zon*
 
 `JJ.Synthesizer` is software for making music.
 
