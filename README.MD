@@ -8,11 +8,11 @@ JJ.Synthesizer
 <h2>Contents</h2>
 
 - [Intro](#intro)
+- [Bugs](#bugs)
+- [Technical Wishlist](#technical-wishlist)
 - [Setting Up Dev Environment](#setting-up-dev-environment)
     - [Database](#database)
     - [JJ.Framework](#jjframework)
-- [Bugs](#bugs)
-- [Technical Wishlist](#technical-wishlist)
 - [Quirks Checking Out Old Commits](#quirks-checking-out-old-commits)
 
 
@@ -25,9 +25,26 @@ Intro
 
 The purpose is to connect a MIDI keyboard to it, and play while the program generates the sound for the notes you play. It supports certain types of synthesis, like additive, subtractive, sampling, ADSR, noise generator, filters, and effects like compression and envelope following.
 
-It has been a pet project of mine for a few years between about 2015 and 2018. It has been in the ice box for a few years now, because I had health issues. I am now trying to get it to the public domain.
+It has been a pet project of mine for a few years between about 2015 and 2018. It has been in the ice box for a few years now, because of my health issues. It is a bit of a shame the project stranded like that. I am now trying to get it to the public domain at least.
 
 [Installer](https://github.com/jjvanzon/JJ.Synthesizer/releases/) | Requires SQL Server
+
+
+Bugs
+----
+
+When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remained. Unfortunately I was not able to resolve these bugs yet. More shortcomings might be there, but *these* might make it musically as good as unusable:
+
+- [Ticks when letting go of the keyboard key.](README2.MD#bug-1-ticks)
+- [Delay on the notes after hitting the keyboard.](README2.MD#bug-2-note-delays)
+
+
+Technical Wishlist
+------------------
+
+Not entirely proud of the many other little bugs that remained. Solution?
+[More Automated Testing!](README2.MD#technical-wishlist)
+
 
 Setting Up Dev Environment
 --------------------------
@@ -63,22 +80,6 @@ Setting Up Dev Environment
 - https://pkgs.dev.azure.com/jjvanzon/1de16010-421a-41a5-90f1-86e9513f2c5b/_packaging/JJs-Pre-Release-Package-Feed/nuget/v3/index.json
 - Name: JJs-Pre-Release-Package-Feed
 - It might require configuring *NuGet* in your dev environment to connect to this additional package source.
-
-
-Bugs
-----
-
-When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remained. Unfortunately I was not able to resolve these bugs yet. More shortcomings might be there, but *these* might make it musically as good as unusable:
-
-- [Ticks when letting go of the keyboard key.](README2.MD#bug-1-ticks)
-- [Delay on the notes after hitting the keyboard.](README2.MD#bug-2-note-delays)
-
-
-Technical Wishlist
-------------------
-
-Not entirely proud of the many other little bugs that remained. Solution?
-[More Automated Testing!](README2.MD#technical-wishlist)
 
 
 Quirks Checking Out Old Commits
