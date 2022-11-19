@@ -50,7 +50,7 @@ A workaround might be to go back in time, getting old commits, and producing a r
 
 One hypothesis for the note delays is, that value changes are not being yielded over from the Dictionary to the fields / AH! stack variables, until the next buffer of sound is calculated. Hmm... using stack variables was one of the things that made it quite a lot faster.
 
-Maybe invalidate the buffer as soon as possible somehow? A new buffer then might be calculated, but at least the existing buffer is not so thrifty. And MIDI value changes are not so frequent? A bit iffy all of that. Hmm... may cause some slow down, but that might be something to see in practice.
+Maybe invalidate the buffer as soon as possible somehow? A new buffer then might be calculated, but at least the existing buffer is not held on to so thrifty. And MIDI value changes are not so frequent? A bit iffy all of that. Hmm... may cause some slow down, but that might be something to see in practice.
 
 
 Technical Wishlist
