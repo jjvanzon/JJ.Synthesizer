@@ -1,4 +1,4 @@
-*2022-11-18, JJ van Zon*
+*JJ van Zon, November 2022*
 
 JJ.Synthesizer
 ==============
