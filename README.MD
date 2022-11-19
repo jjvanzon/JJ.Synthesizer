@@ -3,8 +3,6 @@
 JJ.Synthesizer
 ==============
 
-[![Demo Video](https://img.youtube.com/vi/keeSetBu9A0/0.jpg)](https://www.youtube.com/watch?v=keeSetBu9A0)
-
 <a href="https://www.youtube.com/watch?v=keeSetBu9A0" target="_blank" rel="noopener noreferrer"><img src="https://img.youtube.com/vi/keeSetBu9A0/0.jpg" alt="Demo Video"/></a>
 
 ![](Resources/jj-synthesizer-overview.png)
