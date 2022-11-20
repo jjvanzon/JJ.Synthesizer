@@ -1,5 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Resources;
+using JJ.Framework.ResourceStrings;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Windows.Forms;

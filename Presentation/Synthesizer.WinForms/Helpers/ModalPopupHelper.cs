@@ -7,7 +7,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.IO;
-using JJ.Framework.Resources;
+using JJ.Framework.ResourceStrings;
 using JJ.Presentation.Synthesizer.ViewModels;
 // ReSharper disable PossibleNullReferenceException
 
