@@ -48,8 +48,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			_line.PointA.Position.X = _sourceX;
 			_line.PointA.Position.Y = _sourceY;
 
-			_line.PointB.Position.X = e.X;
-			_line.PointB.Position.Y = e.Y;
+			_line.PointB.Position.X = e.XInPixels;
+			_line.PointB.Position.Y = e.YInPixels;
 
 			_line.Visible = true;
 		}

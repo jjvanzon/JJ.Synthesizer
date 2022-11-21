@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             InitializeComponent();
 
             var diagram = new Diagram();
-            diagram.Background.Style.BackStyle.Color = BackColor.ToVectorGrahics();
+            diagram.Background.Style.BackStyle.Color = BackColor.ToVectorGraphics();
 
             ITextMeasurer textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 
@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
                 if (diagramControl.Diagram != null)
                 {
-                    diagramControl.Diagram.Background.Style.BackStyle.Color = value.ToVectorGrahics();
+                    diagramControl.Diagram.Background.Style.BackStyle.Color = value.ToVectorGraphics();
                 }
             }
         }
