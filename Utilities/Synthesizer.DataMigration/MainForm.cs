@@ -11,7 +11,7 @@ using JJ.Framework.WinForms.Forms;
 
 namespace JJ.Utilities.Synthesizer.DataMigration
 {
-	public partial class MainForm : SimpleFileProcessForm
+	public partial class MainForm : SimpleProcessForm
 	{
 		private class MethodTuple
 		{

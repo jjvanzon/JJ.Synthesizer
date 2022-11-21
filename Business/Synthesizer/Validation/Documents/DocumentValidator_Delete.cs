@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;
-using JJ.Framework.Resources;
+using JJ.Framework.ResourceStrings;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 			foreach (DocumentReference higherDocumentReference in document.HigherDocumentReferences)
 			{
 				string higherDocumentReferenceIdentifier = ResourceFormatter.HigherDocument + " " + ValidationHelper.GetUserFriendlyIdentifier_ForHigherDocumentReference(higherDocumentReference);
-				string message = CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(lowerDocumentIdentifier, higherDocumentReferenceIdentifier);
+				string message = CommonResourceFormatter.CannotDelete_WithName_AndDependency(lowerDocumentIdentifier, higherDocumentReferenceIdentifier);
 				Messages.Add(message);
 			}
 		}

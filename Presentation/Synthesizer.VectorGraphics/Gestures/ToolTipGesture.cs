@@ -121,11 +121,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 		private void HideToolTip(Element parentElement)
 		{
-			if (parentElement == null) throw new NullException(() => parentElement);
+            // HACK: Had MouseLeave where sender was Background rectangle once, but e.Element was null.
+            //if (parentElement == null) throw new NullException(() => parentElement);
 
-			_toolTipElement.Visible = false;
+            _toolTipElement.Visible = false;
 
-			parentElement.Gestures.Remove(_mouseLeaveGesture);
+			// HACK: See previous comment.
+			//parentElement.Gestures.Remove(_mouseLeaveGesture);
+            parentElement?.Gestures.Remove(_mouseLeaveGesture);
 
 			_previousElement?.Gestures.Remove(_mouseLeaveGesture);
 			_previousElement = null;
