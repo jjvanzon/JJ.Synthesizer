@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions.Basic;
-using JJ.Framework.Resources;
+using JJ.Framework.ResourceStrings;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 				string higherOperatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier(op, curveRepository);
 
 				Messages.Add(
-					CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(
+					CommonResourceFormatter.CannotDelete_WithName_AndDependency(
 						lowerPatchIdentifier,
 						higherDocumentPrefix + higherPatchPrefix + higherOperatorIdentifier));
 			}
