@@ -6,7 +6,7 @@
 <h2>📔 Contents</h2>
 
 - [⏯ Video](#-video)
-- [🖼 Pictures](#-pictures)
+- [🖼 Screen Shots](#-screen-shots)
 - [📢 Intro](#-intro)
 - [🐞 Bugs](#-bugs)
 - [👨‍💻 Technical Wishlist](#-technical-wishlist)
@@ -23,8 +23,8 @@
 <a href="https://www.youtube.com/watch?v=keeSetBu9A0&start=16" target="_blank" rel="noopener noreferrer"><img src="https://img.youtube.com/vi/keeSetBu9A0/0.jpg" alt="Demo Video"/></a>
 
 
-🖼 Pictures
-------------
+🖼 Screen Shots
+---------------
 
 ![](Resources/jj-synthesizer-overview.png)
 
@@ -72,7 +72,7 @@ This project was developed using C# in Visual Studio. You might download that el
 
 - Open the folder Database\SynthesizerDB
 - You might a file there like "SynthesizerDB.zip".
-- You could looki for the one last in the list sorted by name. That should be the latest database backup.
+- You could look for the one last in the list sorted by name. That should be the latest database backup.
 - The file can be unzipped and then restored in SQL Server with name "DEV_SaveTextDB".
 - The database user name "dev" may be expected with password "dev".
 
