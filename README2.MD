@@ -45,7 +45,7 @@ TFS changeset 2151 was the version from before letting MidiInputProcessor use Mi
 
 ### Bugs in the Main Flow
 
-Bugs in the *main flow* of the application might get some more priority (new document, create patch, add operators, edit curves, play sound, etc.)
+Bugs in the main flow of the application might get some more priority (new document, create patch, add operators, edit curves, play sound, etc.)
 
 ### Workaround
 
