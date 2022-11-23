@@ -57,7 +57,7 @@ One hypothesis for the note delays is, that value changes are not being yielded 
 
 Maybe invalidate the buffer as soon as possible somehow? A new buffer then might be calculated, but at least the existing buffer is not held on to so thrifty. And MIDI value changes are not so frequent? A bit iffy all of that. Hmm... may cause some slow down, but that might be something to see in practice.
 
-In all honesty, I never really understood why there wasn't a delay in first place.
+In all honesty, I never really understood why there wasn't a delay
 
 
 Technical Wishlist
