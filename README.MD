@@ -63,8 +63,7 @@ Not entirely proud of the many other little bugs that remained. Solution:
 🏛 Reference Architecture
 --------------------------
 
-The patterns and practices closely match the following descriptions for structuring software, that I once aimed to describe:  
-[JJ's Reference Architecture](https://github.com/jjvanzon/JJs-Reference-Architecture)
+The patterns and practices closely match the following guidelines for structuring software, that I once aimed to describe: [JJ's Reference Architecture](https://github.com/jjvanzon/JJs-Reference-Architecture)
 
 
 ⚙ Dev Env
