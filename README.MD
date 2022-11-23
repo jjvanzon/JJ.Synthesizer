@@ -54,6 +54,7 @@ When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remai
 - [Ticks when letting go of the keyboard key.](README2.MD#bug-1-ticks)
 - [Delay on the notes after hitting the keyboard.](README2.MD#bug-2-note-delays)
 
+Also bugs in the *main flow* of the application might get priority (new document, create patch, add operators, edit curves, play sound...)
 
 👨‍💻 Technical Wishlist
 ----------------------

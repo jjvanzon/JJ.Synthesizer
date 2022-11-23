@@ -8,6 +8,7 @@ JJ.Synthesizer Details
 - [Bugs](#bugs)
     - [Bug #1: Ticks](#bug-1-ticks)
     - [Bug #2: Note Delays](#bug-2-note-delays)
+    - [Bugs in the Main Flow](#bugs-in-the-main-flow)
     - [Workaround](#workaround)
     - [Hunch](#hunch)
 - [Technical Wishlist](#technical-wishlist)
@@ -41,6 +42,10 @@ The delay was not there at one point. And then it just seemed to all of a sudden
 
 *Remark from 2018-02-03:*  
 TFS changeset 2151 was the version from before letting MidiInputProcessor use MidiMappingCalculator. Tones started to have a delay at some point. Trying to find the point at which the tones didn't have a delay yet to try to find the cause more easily.
+
+### Bugs in the Main Flow
+
+Bugs in the *main flow* of the application might get some more priority (new document, create patch, add operators, edit curves, play sound, etc.)
 
 ### Workaround
 
