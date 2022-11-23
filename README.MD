@@ -10,6 +10,7 @@
 - [📢 Intro](#-intro)
 - [🐞 Bugs](#-bugs)
 - [👨‍💻 Technical Wishlist](#-technical-wishlist)
+- [🏛 Reference Architecture](#-reference-architecture)
 - [⚙ Dev Env](#-dev-env)
     - [🖥 Visual Studio](#-visual-studio)
     - [💽 Database](#-database)
@@ -57,6 +58,13 @@ When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remai
 
 Not entirely proud of the many other little bugs that remained. Solution:  
 [More Automated Testing?](README2.MD#technical-wishlist)
+
+
+🏛 Reference Architecture
+--------------------------
+
+The patterns and practices closely match the following descriptions for structuring software, that I once aimed to describe:  
+[JJ's Reference Architecture](https://github.com/jjvanzon/JJs-Reference-Architecture)
 
 
 ⚙ Dev Env
