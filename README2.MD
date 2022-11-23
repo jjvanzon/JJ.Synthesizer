@@ -40,6 +40,8 @@ Delay on the notes after hitting the keyboard.
 
 The delay was not there at one point. And then it just seemed to all of a sudden appear. I am suspecting a subtle threading issue. I think another thread might not read the most current value of something, but a copy of the value for 'performance' purposes. Or perhaps a locking issue having a less subtle effect than anticipated. When I debugged, it seemed to stop at the breakpoint immediately after hitting the note, and when taking a few debugger steps, the sound of the new note seemed to play quite soon / instantly, so I am not sure where the delay is precisely coming from. I think with checking out older commits, until the problem disappears, may pinpoint the problem and which code changes caused it.
 
+In all honesty, I never really understood why there wasn't a delay at first.
+
 *Remark from 2018-02-03:*  
 TFS changeset 2151 was the version from before letting MidiInputProcessor use MidiMappingCalculator. Tones started to have a delay at some point. Trying to find the point at which the tones didn't have a delay yet to try to find the cause more easily.
 
@@ -56,8 +58,6 @@ A workaround might be to go back in time, getting old commits, and producing a r
 One hypothesis for the note delays is, that value changes are not being yielded over from the Dictionary to the fields / AH! stack variables, until the next buffer of sound is calculated. Hmm... using stack variables was one of the things that made it quite a lot faster.
 
 Maybe invalidate the buffer as soon as possible somehow? A new buffer then might be calculated, but at least the existing buffer is not held on to so thrifty. And MIDI value changes are not so frequent? A bit iffy all of that. Hmm... may cause some slow down, but that might be something to see in practice.
-
-In all honesty, I never really understood why there wasn't a delay.
 
 
 Technical Wishlist
