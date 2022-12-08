@@ -120,7 +120,7 @@ This project was developed using C# in Visual Studio. You might download that el
     - May mention projects not part of the `JJ.Synthesizer` repo.
 - Broken references to `JJ.Framework`:
     - `JJ.Framework` projects are no longer in the same code base.
-    - It may help to try referencing the NuGet version of these depedencies.
+    - It may help to try referencing the NuGet version of these dependencies.
     - Another option may be to clone the [JJ.Framework repository](https://github.com/jjvanzon/JJ.Framework) and fix the paths pointing to the `JJ.Framework` projects.
 - References to other non-existent projects:
-    - To fix this, try referencing the NuGet version of these depedencies.
+    - To fix this, try referencing the NuGet version of these dependencies.
