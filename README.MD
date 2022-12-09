@@ -110,17 +110,24 @@ This project was developed using C# in Visual Studio. You might download that el
 - Name: JJs-Pre-Release-Package-Feed
 - It might require configuring *NuGet* in your dev environment to connect to this additional package source.
 
+### 🧱 JJ.Canonical
+
+- `JJ.Data.Canonical` and `JJ.Business.Canonical` can also be found right next to the `JJ.Framework` packages in `JJs-Pre-Release-Package-Feed`.
+
 
 🕘 Checking Out Old Commits
 ----------------------------
 
-`JJ.Synthesizer` was once part of a larger code base. It was extracted to become a new Git repository with history in tact. Some quirks when checking out older history items, may have to do with that. The following may only be relevant when getting older commits from history (from before 2022-11-18).
+`JJ.Synthesizer` was once part of a larger code base. It was extracted to become a new git repository with history in tact. Some quirks when checking out older history items, may have to do with that. The following may only be relevant when getting older commits from history (from before 2022-11-18).
 
 - Commit messages:
     - May mention projects not part of the `JJ.Synthesizer` repo.
-- Broken references to `JJ.Framework`:
-    - `JJ.Framework` projects are no longer in the same code base.
-    - It may help to try referencing the NuGet version of these dependencies.
-    - Another option may be to clone the [JJ.Framework repository](https://github.com/jjvanzon/JJ.Framework) and fix the paths pointing to the `JJ.Framework` projects.
 - References to other non-existent projects:
     - To fix this, try referencing the NuGet version of these dependencies.
+- Broken project references to `JJ.Framework` / `JJ.Canonical`:
+    - `JJ.Framework` / `JJ.Canonical` projects are no longer in the same code base.
+    - You could try referencing the NuGet version of these dependencies.
+    - But another solution may be to clone the [JJ.Framework](https://github.com/jjvanzon/JJ.Framework) repository and put the `JJ.Framework` folder right next to the `JJ.Synthesizer` folder. This may fix the broken links.
+    - Same for the [JJ.Canonical](https://github.com/jjvanzon/JJ.Canonical) repository.
+    - But sometimes the paths are still incorrect and may need to be modified (with Notepad)?
+    - But then you could use a specific commit from `JJ.Framework` or `JJ.Canonical`'s history.
