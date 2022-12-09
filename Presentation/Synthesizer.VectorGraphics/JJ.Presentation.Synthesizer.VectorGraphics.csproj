@@ -41,6 +41,12 @@
     <Reference Include="JetBrains.Annotations, Version=2018.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JetBrains.Annotations.2018.2.1\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
+    <Reference Include="JJ.Business.Canonical, Version=1.2.8377.38727, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Business.Canonical.1.2.8377.38727\lib\net461\JJ.Business.Canonical.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Data.Canonical, Version=1.2.8377.34780, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Data.Canonical.1.2.8377.34780\lib\net461\JJ.Data.Canonical.dll</HintPath>
+    </Reference>
     <Reference Include="JJ.Framework.Business, Version=1.7.7817.43032, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JJ.Framework.Business.1.7.7817.43032\lib\net461\JJ.Framework.Business.dll</HintPath>
     </Reference>
@@ -76,6 +82,9 @@
     </Reference>
     <Reference Include="JJ.Framework.Text, Version=1.7.7817.43031, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JJ.Framework.Text.1.7.7817.43031\lib\net461\JJ.Framework.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Validation, Version=1.7.7817.43035, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Validation.1.7.7817.43035\lib\net461\JJ.Framework.Validation.dll</HintPath>
     </Reference>
     <Reference Include="JJ.Framework.VectorGraphics, Version=1.7.7817.43037, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JJ.Framework.VectorGraphics.1.7.7817.43037\lib\net461\JJ.Framework.VectorGraphics.dll</HintPath>
@@ -139,10 +148,6 @@
     <Compile Include="PatchViewModelToDiagramConverterResult.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\Canonical\JJ.Data.Canonical.csproj">
-      <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
-      <Name>JJ.Data.Canonical</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Business\Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
