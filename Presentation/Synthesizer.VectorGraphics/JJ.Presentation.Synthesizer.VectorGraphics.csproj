@@ -136,7 +136,7 @@
     <Compile Include="PatchViewModelToDiagramConverterResult.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\Canonical\JJ.Data.Canonical.csproj">
+    <ProjectReference Include="..\..\..\JJ.Canonical\Data\Canonical\JJ.Data.Canonical.csproj">
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
       <Name>JJ.Data.Canonical</Name>
     </ProjectReference>
