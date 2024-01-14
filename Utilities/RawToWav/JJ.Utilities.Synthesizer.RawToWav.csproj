@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F794BD10-9A35-4812-977A-966FE10555DC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>JJ.Utilities.Synthesizer.RawToWav</RootNamespace>
+    <AssemblyName>JJ.Utilities.Synthesizer.RawToWav</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=2018.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.2018.2.1\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Business, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Business.1.7.7810.38981\lib\net461\JJ.Framework.Business.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Collections, Version=1.7.7810.38982, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Collections.1.7.7810.38982\lib\net461\JJ.Framework.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Common, Version=1.7.7810.38980, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Common.1.7.7810.38980\lib\net461\JJ.Framework.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Drawing, Version=1.7.7810.38986, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Drawing.1.7.7810.38986\lib\net461\JJ.Framework.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Exceptions, Version=1.7.7810.38982, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Exceptions.1.7.7810.38982\lib\net461\JJ.Framework.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Logging, Version=1.7.7810.38985, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Logging.1.7.7810.38985\lib\net461\JJ.Framework.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Mathematics, Version=1.7.7810.38985, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Mathematics.1.7.7810.38985\lib\net461\JJ.Framework.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.PlatformCompatibility, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.PlatformCompatibility.1.7.7810.38981\lib\net461\JJ.Framework.PlatformCompatibility.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Presentation, Version=1.7.7810.38982, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Presentation.1.7.7810.38982\lib\net461\JJ.Framework.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Reflection, Version=1.7.7810.38981, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Reflection.1.7.7810.38981\lib\net461\JJ.Framework.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.Text, Version=1.7.7810.38980, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.Text.1.7.7810.38980\lib\net461\JJ.Framework.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.VectorGraphics, Version=1.7.7810.38985, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.VectorGraphics.1.7.7810.38985\lib\net461\JJ.Framework.VectorGraphics.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.Framework.WinForms, Version=1.7.7817.43048, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JJ.Framework.WinForms.1.7.7817.43048\lib\net461\JJ.Framework.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
