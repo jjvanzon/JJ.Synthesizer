@@ -10,7 +10,6 @@ JJ.Synthesizer Details
     - [Bug #2: Note Delays](#bug-2-note-delays)
     - [Bugs in the Main Flow](#bugs-in-the-main-flow)
     - [Workaround](#workaround)
-    - [Hunch](#hunch)
 - [Technical Wishlist](#technical-wishlist)
     - [Automated Testing](#automated-testing)
 
@@ -32,18 +31,39 @@ My health prevented me from bringing the program back into to the light.
 
 Ticks when letting go of the keyboard key.
 
-The problem seems to be the so called Release Time does not work. Release Time is the time after hitting the note, that the note keeps playing to fade out or something like that. The problem seems to do with a bug in the graph transformations in the code. Transformations around the Time variable seem to be applied in the wrong order, leading to 0 Release Time, so instant stopping of the sound, producing quite an ugly tick. Unfortunately, I was unable to hack my own algorithm anymore, because I was dealing with chronic fatigue and health problems. I am really hoping this 100 code line algorithm is the problem (`OperatorDtoVisitor_TransformationsToPositionInputs`), and can be fixed by a mind able to hack what the issue is. Perhaps making automated tests with expected outcomes around this algorithm, might pinpoint (and make debuggable) what is going on, and what is wrong and hopefully: the solution.
+The problem seems to be the so called `Release Time` does not work. `Release Time` is the time after hitting the note, that the note keeps playing to fade out or something like that. The problem seems to do with a bug in the graph transformations in the code. Transformations around the `Time` variable seem to be applied in the wrong order, leading to `0 Release Time`, so instant stopping of the sound, producing quite an ugly tick. Unfortunately, I was unable to hack my own algorithm anymore, because I was dealing with chronic fatigue and health problems. I am really hoping this 100 code line algorithm is the problem (`OperatorDtoVisitor_TransformationsToPositionInputs`), and can be fixed by a mind able to hack the issue.
+
+*Hunch:*
+
+Perhaps making automated tests with expected outcomes around this algorithm, might pinpoint (and make debuggable) what is going on, and what is wrong and hopefully: the solution.
+
+*Another hunch from 2024-01-14:*
+
+Create a graph separately for each position input, instead of in-place graph transformation?
 
 ### Bug #2: Note Delays
 
 Delay on the notes after hitting the keyboard.
 
-The delay was not there at one point. And then it just seemed to all of a sudden appear. I am suspecting a subtle threading issue. I think another thread might not read the most current value of something, but a copy of the value for 'performance' purposes. Or perhaps a locking issue having a less subtle effect than anticipated. When I debugged, it seemed to stop at the breakpoint immediately after hitting the note, and when taking a few debugger steps, the sound of the new note seemed to play quite soon / instantly, so I am not sure where the delay is precisely coming from. I think with checking out older commits, until the problem disappears, may pinpoint the problem and which code changes caused it.
+The delay was not there at one point. And then it just seemed to drop out of the sky. I am suspecting a subtle threading issue. I think another thread might not read the most current value of something, but a copy of the value for 'performance' purposes. Or perhaps a locking issue having a less subtle effect than anticipated. When I debugged, it seemed to stop at the breakpoint immediately after hitting the note, and when taking a few debugger steps, the sound of the new note seemed to play quite soon / instantly, so I am not sure where the delay is coming from precisely.
 
-In all honesty, I never really understood why there wasn't a delay at first.
+In all honesty, I never really understood why the delay wasn't there in the first place.
 
-*Remark from 2018-02-03:*  
+I think checking out older commits, until the problem disappears, may pinpoint the problem and which code changes caused it.
+
+*Remark from 2018-02-03:*
+
 TFS changeset 2151 was the version from before letting MidiInputProcessor use MidiMappingCalculator. Tones started to have a delay at some point. Trying to find the point at which the tones didn't have a delay yet to try to find the cause more easily.
+
+*Hunch:*
+
+One hypothesis for the note delays is, that value changes are not being yielded over from the Dictionary to the fields / AH! stack variables, until the next buffer of sound is calculated. Hmm... using stack variables was one of the things that made it quite a lot faster.
+
+Maybe invalidate the buffer as soon as possible somehow? A new buffer then might be calculated, but at least the existing buffer is not held on to so thrifty. And MIDI value changes are not so frequent? A bit iffy all of that. Hmm... may cause some slow down, but that might be something to see in practice.
+
+*Another hunch from 2024-01-14:*
+
+Unsafe stack writes, to immediately apply value changes?
 
 ### Bugs in the Main Flow
 
@@ -53,11 +73,6 @@ Bugs in the main flow of the application might get some more priority (new docum
 
 A workaround might be to go back in time, getting old commits, and producing a release version of it, without the ticks and delays, but perhaps a slower calculation speed. So that at least there would be this nice intermediate result again.
 
-### Hunch
-
-One hypothesis for the note delays is, that value changes are not being yielded over from the Dictionary to the fields / AH! stack variables, until the next buffer of sound is calculated. Hmm... using stack variables was one of the things that made it quite a lot faster.
-
-Maybe invalidate the buffer as soon as possible somehow? A new buffer then might be calculated, but at least the existing buffer is not held on to so thrifty. And MIDI value changes are not so frequent? A bit iffy all of that. Hmm... may cause some slow down, but that might be something to see in practice.
 
 
 Technical Wishlist
