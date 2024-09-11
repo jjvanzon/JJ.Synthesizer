@@ -15,6 +15,7 @@
     - [🖥 Visual Studio](#-visual-studio)
     - [💽 Database](#-database)
     - [📦 JJ.Framework](#-jjframework)
+    - [🧱 JJ.Canonical](#-jjcanonical)
 - [🕘 Checking Out Old Commits](#-checking-out-old-commits)
 
 
@@ -49,12 +50,13 @@ It supports certain types of synthesis, like additive, subtractive, sampling, AD
 🐞 Bugs
 --------
 
-When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remained. Unfortunately I was not able to resolve these bugs yet. More shortcomings might be there, but *these* might make it musically less unusable:
+When I dropped this project out of my hands, a few [bugs](README2.MD#bugs) remained. Unfortunately I was not able to resolve these bugs yet. More shortcomings might be there, but *these* might make it musically less usable:
 
 - [Ticks when letting go of the keyboard key.](README2.MD#bug-1-ticks)
 - [Delay on the notes after hitting the keyboard.](README2.MD#bug-2-note-delays)
 
 Also [bugs in the main flow](README2.MD#bugs-in-the-main-flow) of the application might get priority.
+
 
 👨‍💻 Technical Wishlist
 ----------------------
@@ -80,35 +82,36 @@ This project was developed using C# in Visual Studio. You might download that el
 
 ### 💽 Database
 
-- Open the folder Database\SynthesizerDB
-- You might a file there like "SynthesizerDB.zip".
-- You could look for the one last in the list sorted by name. That should be the latest database backup.
-- The file can be unzipped and then restored in SQL Server with name "DEV_SaveTextDB".
-- The database user name "dev" may be expected with password "dev".
+- Open the folder `Database\SynthesizerDB`.
+- There you might find the file `SynthesizerDB.zip`.
+- Look for the one last in the list sorted by name. That should be the latest database backup.
+- The file can be unzipped and then restored in SQL Server with name `DEV_SaveTextDB`.
+- The database user name `dev` might be expected with password `dev`.
+- Remove that user from the database, and then add that user again on the server level, giving rights for reading and writing to the database.
 
 -----
 
 - In luck, no manual work after that may be needed.
-- But it is possible that .sql files are listed after the Synthesizer backup file.
-- Those may then be executed one by one, onto the restored SynthesizerDB, to get the database more up-to-date.
+- But it is possible that .sql files are listed after the `Synthesizer` backup file.
+- Those may then be executed one by one, onto the restored `SynthesizerDB`, to get the database more up-to-date.
 
 -----
 
-- Some of the SQL files may indicate "RUN UTILITY".
-- That indicates that the utility "JJ.Utilities.Synthesizer.DataMigration" might be run.
-- That utility would be found when opening the Synthesizer.sln.
+- Some of the SQL files may indicate `RUN UTILITY`.
+- That indicates that the utility `JJ.Utilities.Synthesizer.DataMigration` might be run.
+- That utility would be found when opening the `Synthesizer.sln`.
 - Running it should show a window that allows executing a database migration step.
-- The "RUN UTILITY" sql should have indicated *which step* to run.
-- In an unfortunate case, it might be needed, to do a git checkout of a commit somewhere in history in order to run the utility. The commit to check out might be the one closest to the date indicated in the file name of the "RUN UTILITY" sql file.
+- The `RUN UTILITY` sql should have indicated *which step* to run.
+- In an unfortunate case, it might be needed, to do a git checkout of a commit somewhere in history in order to run the utility. The commit to check out might be the one closest to the date indicated in the file name of the `RUN UTILITY` sql file.
 - Sorry for a possible lack of elegance here.
 
 ### 📦 JJ.Framework
 
 - Pre-release versions of `JJ.Framework` components may be used.
 - Those are currently hosted in *Azure DevOps*:
-- https://pkgs.dev.azure.com/jjvanzon/1de16010-421a-41a5-90f1-86e9513f2c5b/_packaging/JJs-Pre-Release-Package-Feed/nuget/v3/index.json
-- Name: JJs-Pre-Release-Package-Feed
-- It might require configuring *NuGet* in your dev environment to connect to this additional package source.
+- <https://pkgs.dev.azure.com/jjvanzon/1de16010-421a-41a5-90f1-86e9513f2c5b/_packaging/JJs-Pre-Release-Package-Feed/nuget/v3/index.json>
+- Name: `JJs-Pre-Release-Package-Feed`
+- It might require configuring `NuGet` in your dev environment to connect to this additional package source.
 
 ### 🧱 JJ.Canonical
 
