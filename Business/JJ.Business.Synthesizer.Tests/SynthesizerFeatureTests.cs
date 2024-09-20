@@ -98,8 +98,8 @@ namespace JJ.Business.Synthesizer.Tests
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				// Arrange
-				double noteDuration = 4;
-				double totalDuration = 4.6;
+				double noteDuration = 2.5;
+				double totalDuration = 3.6;
 
 				// (2 ^ 1/12 creates a semi-tone steps.)
 				double semiToneStep = Math.Pow(2.0, 1.0 / 12.0);
@@ -143,19 +143,16 @@ namespace JJ.Business.Synthesizer.Tests
 					curve1 = curveFactory.CreateCurve(noteDuration,
 						0.00, 0.80, 1.00, null, null, null, null, null,
 						0.25, null, null, null, null, null, null, null,
-						null, null, null, null, null, null, null, null,
 						0.10, null, null, 0.02, null, null, null, 0.00);
 
 					curve2 = curveFactory.CreateCurve(noteDuration,
 						0.00, 1.00, 0.80, null, null, null, null, null,
 						0.10, null, null, null, null, null, null, null,
-						null, null, null, null, null, null, null, null,
 						0.05, null, null, 0.01, null, null, null, 0.00);
 
 					curve3 = curveFactory.CreateCurve(noteDuration,
 						0.30, 0.00, 0.30, null, null, null, null, null,
 						0.10, null, null, null, null, null, null, null,
-						null, null, null, null, null, null, null, null,
 						0.25, null, null, 0.10, null, null, null, 0.00);
 
 					curve4 = curveFactory.CreateCurve(noteDuration,
@@ -192,7 +189,7 @@ namespace JJ.Business.Synthesizer.Tests
 							(
 								x.Multiply(x.Multiply
 								(
-									x.Value(2),
+									x.Value(3),
 									x.Sample(sample)),
 									x.CurveIn(curve4)
 								),
@@ -202,7 +199,7 @@ namespace JJ.Business.Synthesizer.Tests
 							(
 								x.Multiply(x.Multiply
 								(
-									x.Value(0.33),
+									x.Value(0.66),
 									x.Sample(sample)),
 									x.CurveIn(curve4)
 								),
