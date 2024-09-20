@@ -98,12 +98,19 @@ namespace JJ.Business.Synthesizer.Tests
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				// Arrange
-				double duration = 4;
+				double noteDuration = 4;
+				double totalDuration = 4.6;
 
 				// (2 ^ 1/12 creates a semi-tone steps.)
-				double frequency1 = 440.0 * Math.Pow(2.0, -1.0 / 12.0); 
-				double frequency2 = 440.0 * Math.Pow(2.0, 7.0 / 12.0);
-				double frequency3 = 440.0 * Math.Pow(2.0, 2.0 / 12.0);
+				double semiToneStep = Math.Pow(2.0, 1.0 / 12.0);
+				double frequency1 = 440.0 * Math.Pow(semiToneStep, 0);
+				double volume1 = 0.9;
+				double frequency2 = 440.0 * Math.Pow(semiToneStep, 7);
+				double volume2 = 1.0;
+				double frequency3 = 440.0 * Math.Pow(semiToneStep, 2);
+				double volume3 = 0.5;
+				double frequency4 = 440.0 * Math.Pow(semiToneStep, 4);
+				double volume4 = 0.7;
 
 				Sample sample;
 				{
@@ -133,57 +140,55 @@ namespace JJ.Business.Synthesizer.Tests
 				{
 					var curveFactory = TestHelper.CreateCurveFactory(context);
 
-					curve1 = curveFactory.CreateCurve(duration,
+					curve1 = curveFactory.CreateCurve(noteDuration,
 						0.00, 0.80, 1.00, null, null, null, null, null,
 						0.25, null, null, null, null, null, null, null,
 						null, null, null, null, null, null, null, null,
 						0.10, null, null, 0.02, null, null, null, 0.00);
 
-					curve2 = curveFactory.CreateCurve(duration,
+					curve2 = curveFactory.CreateCurve(noteDuration,
 						0.00, 1.00, 0.80, null, null, null, null, null,
 						0.10, null, null, null, null, null, null, null,
 						null, null, null, null, null, null, null, null,
 						0.05, null, null, 0.01, null, null, null, 0.00);
 
-					curve3 = curveFactory.CreateCurve(duration,
+					curve3 = curveFactory.CreateCurve(noteDuration,
 						0.30, 0.00, 0.30, null, null, null, null, null,
 						0.10, null, null, null, null, null, null, null,
 						null, null, null, null, null, null, null, null,
 						0.25, null, null, 0.10, null, null, null, 0.00);
 
-					curve4 = curveFactory.CreateCurve(duration,
+					curve4 = curveFactory.CreateCurve(noteDuration,
 						1.00, 0.50, 0.20, null, null, null, null, 0.00,
 						null, null, null, null, null, null, null, null,
 						null, null, null, null, null, null, null, null,
 						null, null, null, null, null, null, null, 0.00);
 				}
 
-				Outlet sampleOutlet;
 				Outlet outlet;
 				{
 					var x = TestHelper.CreateOperatorFactory(context);
 
-					Outlet getNote(double freq)
+					Outlet getNote(double frequency)
 					{
-
 						return x.Adder
 						(
 							x.Sine
 							(
 								x.Multiply(x.CurveIn(curve1), x.Value(1)),
-								x.Value(freq)
+								x.Value(frequency)
 							),
 							x.Sine
 							(
 								x.Multiply(x.CurveIn(curve2), x.Value(0.7)),
-								x.Multiply(x.Value(freq), x.Value(2))
+								x.Multiply(x.Value(frequency), x.Value(2))
 							),
 							x.Sine
 							(
 								x.Multiply(x.CurveIn(curve3), x.Value(0.4)),
-								x.Multiply(x.Value(freq), x.Value(5))
+								x.Multiply(x.Value(frequency), x.Value(5))
 							),
-							sampleOutlet = x.TimeDivide
+							x.TimeDivide
 							(
 								x.Multiply(x.Multiply
 								(
@@ -191,7 +196,7 @@ namespace JJ.Business.Synthesizer.Tests
 									x.Sample(sample)),
 									x.CurveIn(curve4)
 								),
-								x.Value(2.0 * freq / 440.0)
+								x.Value(2.0 * frequency / 440.0)
 							),
 							x.TimeDivide
 							(
@@ -201,16 +206,18 @@ namespace JJ.Business.Synthesizer.Tests
 									x.Sample(sample)),
 									x.CurveIn(curve4)
 								),
-								x.Value(7.0 * freq / 440.0)
+								x.Value(7.0 * frequency / 440.0)
 							)
 						);
 					}
 
-					Outlet noteA = getNote(frequency1);
-					Outlet noteE = getNote(frequency2);
-					Outlet noteB = getNote(frequency3);
-
-					outlet = x.Adder(noteA, noteE, noteB);
+					outlet = x.Adder
+					(
+						x.Multiply(x.Value(volume1),getNote(frequency1)),
+						x.Multiply(x.Value(volume2), x.TimeAdd(getNote(frequency2), x.Value(0.2))),
+						x.Multiply(x.Value(volume3), x.TimeAdd(getNote(frequency3), x.Value(0.4))),
+						x.Multiply(x.Value(volume4), x.TimeAdd(getNote(frequency4), x.Value(0.6)))
+					);
 				}
 
 				AudioFileOutput audioFileOutput;
@@ -218,9 +225,8 @@ namespace JJ.Business.Synthesizer.Tests
 					AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
 					audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
 					audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
-					//audioFileOutput.AudioFileOutputChannels[0].Outlet = sampleOutlet;
 					audioFileOutput.FilePath = $"{MethodBase.GetCurrentMethod().Name}.wav";
-					audioFileOutput.Duration = duration;
+					audioFileOutput.Duration = totalDuration;
 					audioFileOutput.Amplifier = Int16.MaxValue / 8;
 				}
 
