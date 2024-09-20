@@ -99,18 +99,18 @@ namespace JJ.Business.Synthesizer.Tests
 				// Arrange
 				double duration = 4;
 				double partialCount = 4;
-				double audioMax = Int16.MaxValue;
 
 				Sample sample;
 				{
 					SampleManager sampleManager = TestHelper.CreateSampleManager(context);
 					Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
 					sample = sampleManager.CreateSample(stream);
-					//sample.Amplifier = 1 / audioMax;
-					double octaveTransposeFactor = 1.0 / 2.0;
-					double intervalTransposeFactor = 4.0 / 5.0;
+					sample.Amplifier = 1.0 / Int16.MaxValue; // Scale values from 16-bit integers to [-1, 1].
+					sample.BytesToSkip = 62; // Skip over header from some other file format, that slipped into the audio data.
+					double octaveFactor = Math.Pow(2, -1);
+					double intervalFactor = 4.0 / 5.0;
 					double finetuneFactor = 0.94;
-					sample.TimeMultiplier = 1.0 / (octaveTransposeFactor * intervalTransposeFactor * finetuneFactor);
+					sample.TimeMultiplier = 1.0 / (octaveFactor * intervalFactor * finetuneFactor);
 				}
 
 				Curve curve1;
@@ -139,14 +139,13 @@ namespace JJ.Business.Synthesizer.Tests
 						0.25, null, null, 0.10, null, null, null, 0.00);
 
 					curve4 = curveFactory.CreateCurve(duration,
-						1.00, 0.10, 1.00, null, null, null, null, null,
+						1.00, 0.50, 0.20, null, null, null, null, 0.00,
 						null, null, null, null, null, null, null, null,
 						null, null, null, null, null, null, null, null,
 						null, null, null, null, null, null, null, 0.00);
 				}
 
 				Outlet outlet;
-				Outlet sampleOutlet;
 				{
 					var x = TestHelper.CreateOperatorFactory(context);
 
@@ -172,8 +171,8 @@ namespace JJ.Business.Synthesizer.Tests
 							//x.Value(noteFrequency / 440.0),
 							x.Multiply(x.Multiply
 							(
-								x.Value(1.0),
-								sampleOutlet = x.Divide(x.Sample(sample), x.Value(audioMax))),
+								x.Value(3.0),
+								x.Sample(sample)),
 								x.CurveIn(curve4)
 							)
 						//)
@@ -188,7 +187,7 @@ namespace JJ.Business.Synthesizer.Tests
 					//audioFileOutput.AudioFileOutputChannels[0].Outlet = sampleOutlet;
 					audioFileOutput.FilePath = $"{MethodBase.GetCurrentMethod().Name}.wav";
 					audioFileOutput.Duration = duration;
-					audioFileOutput.Amplifier = audioMax / partialCount;
+					audioFileOutput.Amplifier = Int16.MaxValue / partialCount;
 				}
 
 				// Verify
