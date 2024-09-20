@@ -51,7 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="SynthesizerFeatureTests.cs" />
+    <Compile Include="SynthesizerTests_SineWithVolumeCurve.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\IOperatorCalculator.cs" />
     <Compile Include="Helpers\EntityFactory.cs" />
@@ -63,6 +63,7 @@
     <Compile Include="SampleTests.cs" />
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SynthesizerTests_Additive.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">

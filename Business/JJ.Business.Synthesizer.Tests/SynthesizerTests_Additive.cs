@@ -1,8 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
-using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Validation;
@@ -25,72 +21,11 @@ namespace JJ.Business.Synthesizer.Tests
 	/// Additional tests written upon retro-actively isolating older synthesizer versions.
 	/// </summary>
 	[TestClass]
-	public class SynthesizerFeatureTests
+	public class SynthesizerTests_Additive
 	{
 		/// <summary>
-		/// Generates a Sine wave with a Volume Curve, testing both Block and Line Interpolation.
-		/// Verifies data using (Warning)Validators and writes the output audio to a file.
-		/// </summary>
-		[TestMethod]
-		public void Test_Synthesizer_Sine_With_Volume_Curve()
-		{
-			using (IContext context = PersistenceHelper.CreateContext())
-			{
-				// Arrange
-				var curveFactory = TestHelper.CreateCurveFactory(context);
-				Curve curve = curveFactory.CreateCurve
-				(
-					new NodeInfo(time: 0.00, value: 0.00, NodeTypeEnum.Line),
-					new NodeInfo(time: 0.05, value: 0.95, NodeTypeEnum.Line),
-					new NodeInfo(time: 0.10, value: 1.00, NodeTypeEnum.Line),
-					new NodeInfo(time: 0.20, value: 0.60, NodeTypeEnum.Line),
-					new NodeInfo(time: 0.80, value: 0.20, NodeTypeEnum.Block),
-					new NodeInfo(time: 1.00, value: 0.00, NodeTypeEnum.Block),
-					new NodeInfo(time: 1.20, value: 0.20, NodeTypeEnum.Block),
-					new NodeInfo(time: 1.40, value: 0.08, NodeTypeEnum.Block),
-					new NodeInfo(time: 1.60, value: 0.30, NodeTypeEnum.Line),
-					new NodeInfo(time: 4.00, value: 0.00, NodeTypeEnum.Line)
-				);
-
-				Outlet outlet;
-				{
-					var x = TestHelper.CreateOperatorFactory(context);
-					outlet = x.Sine(x.CurveIn(curve),x.Value(880));
-				}
-
-				AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
-				AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
-				audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
-				audioFileOutput.FilePath = $"{MethodBase.GetCurrentMethod().Name}.wav";
-				audioFileOutput.Duration = 4;
-				audioFileOutput.Amplifier = 32000;
-
-				// Verify
-				IValidator[] validators =
-				{
-					new CurveValidator(curve),
-					new VersatileOperatorValidator(outlet.Operator),
-					new AudioFileOutputValidator(audioFileOutput),
-					new AudioFileOutputWarningValidator(audioFileOutput),
-					new VersatileOperatorWarningValidator(outlet.Operator)
-				};
-				validators.ForEach(x => x.Verify());
-
-				// Calculate
-				IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
-				var sw = Stopwatch.StartNew();
-				audioFileOutputCalculator.Execute();
-				sw.Stop();
-
-				// Report
-				string filePath = Path.GetFullPath(audioFileOutput.FilePath);
-				Assert.Inconclusive($"{sw.ElapsedMilliseconds}ms{Environment.NewLine}Output file: {filePath}");
-			}
-		}
-
-		/// <summary>
-		/// TODO: Some harmonics. and use high-pitch sample in attack. Use separate curves on each.
-		/// Trigger wav header auto-detect.
+		/// Arpeggio sound with harmonics, a high-pitch sample for attack,
+		/// separate curves for each partial, triggers a wav header auto-detect.
 		/// </summary>
 		[TestMethod]
 		public void Test_Synthesizer_Additive_Sines_And_Samples()
@@ -210,7 +145,7 @@ namespace JJ.Business.Synthesizer.Tests
 
 					outlet = x.Adder
 					(
-						x.Multiply(x.Value(volume1),getNote(frequency1)),
+						x.Multiply(x.Value(volume1), getNote(frequency1)),
 						x.Multiply(x.Value(volume2), x.TimeAdd(getNote(frequency2), x.Value(0.2))),
 						x.Multiply(x.Value(volume3), x.TimeAdd(getNote(frequency3), x.Value(0.4))),
 						x.Multiply(x.Value(volume4), x.TimeAdd(getNote(frequency4), x.Value(0.6)))
