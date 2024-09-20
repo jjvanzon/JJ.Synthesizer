@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Tests
 								x.Sample(sample)),
 								x.CurveIn(curve4)
 							),
-							x.Value(2)
+							x.Value(2.0 * frequency / 440.0)
 						),
 						x.TimeDivide
 						(
@@ -195,7 +195,7 @@ namespace JJ.Business.Synthesizer.Tests
 								x.Sample(sample)),
 								x.CurveIn(curve4)
 							),
-							x.Value(7)
+							x.Value(7.0 * frequency / 440.0)
 						)
 					);
 				}
@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer.Tests
 					//audioFileOutput.AudioFileOutputChannels[0].Outlet = sampleOutlet;
 					audioFileOutput.FilePath = $"{MethodBase.GetCurrentMethod().Name}.wav";
 					audioFileOutput.Duration = duration;
-					audioFileOutput.Amplifier = Int16.MaxValue / Math.Sqrt(partialCount);
+					audioFileOutput.Amplifier = Int16.MaxValue / Math.Sqrt(partialCount) * 1.5;
 				}
 
 				// Verify
