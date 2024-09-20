@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Managers;
@@ -91,18 +92,25 @@ namespace JJ.Business.Synthesizer.Tests
 		/// Trigger wav header auto-detect.
 		/// </summary>
 		[TestMethod]
-		public void Test_Synthesizer_Feature_Additive()
+		public void Test_Synthesizer_Additive()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				// Arrange
 				double duration = 4;
+				double partialCount = 4;
+				double audioMax = Int16.MaxValue;
 
 				Sample sample;
 				{
 					SampleManager sampleManager = TestHelper.CreateSampleManager(context);
 					Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
 					sample = sampleManager.CreateSample(stream);
+					//sample.Amplifier = 1 / audioMax;
+					double octaveTransposeFactor = 1.0 / 2.0;
+					double intervalTransposeFactor = 4.0 / 5.0;
+					double finetuneFactor = 0.94;
+					sample.TimeMultiplier = 1.0 / (octaveTransposeFactor * intervalTransposeFactor * finetuneFactor);
 				}
 
 				Curve curve1;
@@ -131,13 +139,14 @@ namespace JJ.Business.Synthesizer.Tests
 						0.25, null, null, 0.10, null, null, null, 0.00);
 
 					curve4 = curveFactory.CreateCurve(duration,
-						1.00, 0.10, 0.00, null, null, null, null, null,
+						1.00, 0.10, 1.00, null, null, null, null, null,
 						null, null, null, null, null, null, null, null,
 						null, null, null, null, null, null, null, null,
 						null, null, null, null, null, null, null, 0.00);
 				}
 
 				Outlet outlet;
+				Outlet sampleOutlet;
 				{
 					var x = TestHelper.CreateOperatorFactory(context);
 
@@ -159,11 +168,15 @@ namespace JJ.Business.Synthesizer.Tests
 							x.Multiply(x.CurveIn(curve3), x.Value(0.4)), 
 							x.Multiply(x.Value(noteFrequency), x.Value(5))
 						),
-						x.Multiply
-						(
-							x.Sample(sample), 
-							x.Multiply(x.CurveIn(curve4), x.Value(0.0))
-						)
+						//x.TimeMultiply(
+							//x.Value(noteFrequency / 440.0),
+							x.Multiply(x.Multiply
+							(
+								x.Value(1.0),
+								sampleOutlet = x.Divide(x.Sample(sample), x.Value(audioMax))),
+								x.CurveIn(curve4)
+							)
+						//)
 					);
 				}
 
@@ -172,9 +185,10 @@ namespace JJ.Business.Synthesizer.Tests
 					AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
 					audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
 					audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
+					//audioFileOutput.AudioFileOutputChannels[0].Outlet = sampleOutlet;
 					audioFileOutput.FilePath = $"{MethodBase.GetCurrentMethod().Name}.wav";
-					audioFileOutput.Duration = 4;
-					audioFileOutput.Amplifier = short.MaxValue / 4.0;
+					audioFileOutput.Duration = duration;
+					audioFileOutput.Amplifier = audioMax / partialCount;
 				}
 
 				// Verify
