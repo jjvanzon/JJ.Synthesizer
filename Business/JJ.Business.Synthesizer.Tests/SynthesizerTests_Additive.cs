@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				// Arrange
 				double noteDuration = 2.5;
-				double totalDuration = 3.6;
+				double totalDuration = 3.1;
 
 				Sample sample;
 				{
@@ -73,12 +73,12 @@ namespace JJ.Business.Synthesizer.Tests
 				Curve curve3 = curveFactory.CreateCurve(noteDuration,
 					0.30, 0.00, 0.30, null, null, null, null, null,
 					0.10, null, null, null, null, null, null, null,
-					0.25, null, null, 0.10, null, null, null, 0.00);
+					0.15, null, null, 0.05, null, null, null, 0.00);
 
 				Curve curve4 = curveFactory.CreateCurve(noteDuration,
 					1.00, 0.50, 0.20, null, null, null, null, 0.00,
 					null, null, null, null, null, null, null, null,
-					null, null, null, null, null, null, null, 0.00);
+					null, null, null, null, null, null, null, null);
 
 				OperatorFactory x = TestHelper.CreateOperatorFactory(context);
 
