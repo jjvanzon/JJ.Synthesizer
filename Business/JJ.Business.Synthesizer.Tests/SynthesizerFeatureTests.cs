@@ -99,8 +99,11 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				// Arrange
 				double duration = 4;
-				double frequency = 440;
-				double partialCount = 5;
+
+				// (2 ^ 1/12 creates a semi-tone steps.)
+				double frequency1 = 440.0 * Math.Pow(2.0, -1.0 / 12.0); 
+				double frequency2 = 440.0 * Math.Pow(2.0, 7.0 / 12.0);
+				double frequency3 = 440.0 * Math.Pow(2.0, 2.0 / 12.0);
 
 				Sample sample;
 				{
@@ -160,44 +163,54 @@ namespace JJ.Business.Synthesizer.Tests
 				{
 					var x = TestHelper.CreateOperatorFactory(context);
 
-					outlet = x.Adder
-					(
-						x.Sine
+					Outlet getNote(double freq)
+					{
+
+						return x.Adder
 						(
-							x.Multiply(x.CurveIn(curve1), x.Value(1)), 
-							x.Value(frequency)
-						),
-						x.Sine
-						(
-							x.Multiply(x.CurveIn(curve2), x.Value(0.7)), 
-							x.Multiply(x.Value(frequency), x.Value(2))
-						),
-						x.Sine
-						(
-							x.Multiply(x.CurveIn(curve3), x.Value(0.4)), 
-							x.Multiply(x.Value(frequency), x.Value(5))
-						),
-						sampleOutlet = x.TimeDivide
-						(
-							x.Multiply(x.Multiply
+							x.Sine
 							(
-								x.Value(2),
-								x.Sample(sample)),
-								x.CurveIn(curve4)
+								x.Multiply(x.CurveIn(curve1), x.Value(1)),
+								x.Value(freq)
 							),
-							x.Value(2.0 * frequency / 440.0)
-						),
-						x.TimeDivide
-						(
-							x.Multiply(x.Multiply
+							x.Sine
 							(
-								x.Value(0.33),
-								x.Sample(sample)),
-								x.CurveIn(curve4)
+								x.Multiply(x.CurveIn(curve2), x.Value(0.7)),
+								x.Multiply(x.Value(freq), x.Value(2))
 							),
-							x.Value(7.0 * frequency / 440.0)
-						)
-					);
+							x.Sine
+							(
+								x.Multiply(x.CurveIn(curve3), x.Value(0.4)),
+								x.Multiply(x.Value(freq), x.Value(5))
+							),
+							sampleOutlet = x.TimeDivide
+							(
+								x.Multiply(x.Multiply
+								(
+									x.Value(2),
+									x.Sample(sample)),
+									x.CurveIn(curve4)
+								),
+								x.Value(2.0 * freq / 440.0)
+							),
+							x.TimeDivide
+							(
+								x.Multiply(x.Multiply
+								(
+									x.Value(0.33),
+									x.Sample(sample)),
+									x.CurveIn(curve4)
+								),
+								x.Value(7.0 * freq / 440.0)
+							)
+						);
+					}
+
+					Outlet noteA = getNote(frequency1);
+					Outlet noteE = getNote(frequency2);
+					Outlet noteB = getNote(frequency3);
+
+					outlet = x.Adder(noteA, noteE, noteB);
 				}
 
 				AudioFileOutput audioFileOutput;
@@ -208,7 +221,7 @@ namespace JJ.Business.Synthesizer.Tests
 					//audioFileOutput.AudioFileOutputChannels[0].Outlet = sampleOutlet;
 					audioFileOutput.FilePath = $"{MethodBase.GetCurrentMethod().Name}.wav";
 					audioFileOutput.Duration = duration;
-					audioFileOutput.Amplifier = Int16.MaxValue / Math.Sqrt(partialCount) * 1.5;
+					audioFileOutput.Amplifier = Int16.MaxValue / 8;
 				}
 
 				// Verify
