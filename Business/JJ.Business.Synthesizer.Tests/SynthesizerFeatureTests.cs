@@ -104,11 +104,15 @@ namespace JJ.Business.Synthesizer.Tests
 				Sample sample;
 				{
 					SampleManager sampleManager = TestHelper.CreateSampleManager(context);
-					Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
-					sample = sampleManager.CreateSample(stream);
-					sample.Amplifier = 1.0 / Int16.MaxValue; // Scale values from 16-bit integers to [-1, 1].
-					sample.BytesToSkip = 62; // Skip over header from some other file format, that slipped into the audio data.
-					// TODO: Tune it to an A 440Hz.
+					sample = sampleManager.CreateSample(TestHelper.GetViolin16BitMono44100WavStream());
+					
+					// Skip over Header (from some other file format, that slipped into the audio data).
+					sample.BytesToSkip = 62;
+
+					// Normalize amplitudes from 16-bit number to [-1, 1].
+					sample.Amplifier = 1.0 / Int16.MaxValue;
+
+					// Tune to A 440Hz
 					double octaveFactor = Math.Pow(2, -1);
 					double intervalFactor = 4.0 / 5.0;
 					double finetuneFactor = 0.94;
@@ -169,8 +173,7 @@ namespace JJ.Business.Synthesizer.Tests
 							x.Multiply(x.CurveIn(curve3), x.Value(0.4)), 
 							x.Multiply(x.Value(frequency), x.Value(5))
 						),
-						//sampleOutlet =
-						x.TimeDivide
+						sampleOutlet = x.TimeDivide
 						(
 							x.Multiply(x.Multiply
 							(
