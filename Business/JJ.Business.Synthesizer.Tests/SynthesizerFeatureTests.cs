@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
@@ -105,12 +106,15 @@ namespace JJ.Business.Synthesizer.Tests
 				{
 					SampleManager sampleManager = TestHelper.CreateSampleManager(context);
 					sample = sampleManager.CreateSample(TestHelper.GetViolin16BitMono44100WavStream());
-					
+
 					// Skip over Header (from some other file format, that slipped into the audio data).
 					sample.BytesToSkip = 62;
 
-					// Normalize amplitudes from 16-bit number to [-1, 1].
-					sample.Amplifier = 1.0 / Int16.MaxValue;
+					// Skip for Sharper Attack
+					sample.BytesToSkip += 1000;
+
+					// Maximize and Normalize sample values (from 16-bit numbers to [-1, 1]).
+					sample.Amplifier = 1.467 / Int16.MaxValue;
 
 					// Tune to A 440Hz
 					double octaveFactor = Math.Pow(2, -1);
@@ -177,7 +181,7 @@ namespace JJ.Business.Synthesizer.Tests
 						(
 							x.Multiply(x.Multiply
 							(
-								x.Value(3),
+								x.Value(2),
 								x.Sample(sample)),
 								x.CurveIn(curve4)
 							),
@@ -187,7 +191,7 @@ namespace JJ.Business.Synthesizer.Tests
 						(
 							x.Multiply(x.Multiply
 							(
-								x.Value(1),
+								x.Value(0.33),
 								x.Sample(sample)),
 								x.CurveIn(curve4)
 							),
@@ -204,7 +208,7 @@ namespace JJ.Business.Synthesizer.Tests
 					//audioFileOutput.AudioFileOutputChannels[0].Outlet = sampleOutlet;
 					audioFileOutput.FilePath = $"{MethodBase.GetCurrentMethod().Name}.wav";
 					audioFileOutput.Duration = duration;
-					audioFileOutput.Amplifier = Int16.MaxValue / partialCount * 2.5;
+					audioFileOutput.Amplifier = Int16.MaxValue / Math.Sqrt(partialCount);
 				}
 
 				// Verify
