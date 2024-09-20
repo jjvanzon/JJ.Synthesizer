@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer.Tests
 		/// Trigger wav header auto-detect.
 		/// </summary>
 		[TestMethod]
-		public void Test_Synthesizer_Additive()
+		public void Test_Synthesizer_Additive_Sines_And_Samples()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
@@ -170,7 +170,7 @@ namespace JJ.Business.Synthesizer.Tests
 							x.Multiply(x.Value(frequency), x.Value(5))
 						),
 						//sampleOutlet =
-						x.TimeMultiply
+						x.TimeDivide
 						(
 							x.Multiply(x.Multiply
 							(
@@ -180,15 +180,15 @@ namespace JJ.Business.Synthesizer.Tests
 							),
 							x.Value(2)
 						),
-						x.TimeMultiply
+						x.TimeDivide
 						(
 							x.Multiply(x.Multiply
 							(
-								x.Value(2),
+								x.Value(1),
 								x.Sample(sample)),
 								x.CurveIn(curve4)
 							),
-							x.Value(3)
+							x.Value(7)
 						)
 					);
 				}
