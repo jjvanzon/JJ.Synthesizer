@@ -63,9 +63,9 @@ namespace JJ.Business.Synthesizer.Tests
 			_sampleVolumeCurve = CreateSampleVolumeCurve();
 
 			Outlet outlet = CreateMelody();
-			outlet = EntityFactory.CreateEcho(_operatorFactory, outlet, count: 5, denominator: 2, delay: 0.66);
+			outlet = EntityFactory.CreateEcho(_operatorFactory, outlet, count: 5, denominator: 3, delay: 0.66);
 
-			_audioFileOutput = CreateAudioFileOutput();
+			_audioFileOutput = ConfigureAudioFileOutput();
 			_audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
 			// Verify
@@ -127,21 +127,13 @@ namespace JJ.Business.Synthesizer.Tests
 
 		private Outlet CreateMelody()
 		{
-			OperatorFactory x = _operatorFactory;
-
-			double delay2 = 0.2;
-			double delay3 = 0.4;
-			double delay4 = 0.6;
-
-			Outlet outlet = x.Adder
+			return _operatorFactory.Adder
 			(
 				CreateNote(NoteFrequencies.A4, volume: 0.9),
-				x.TimeAdd(CreateNote(NoteFrequencies.E4, volume: 1.0), x.Value(delay2)),
-				x.TimeAdd(CreateNote(NoteFrequencies.B4, volume: 0.5), x.Value(delay3)),
-				x.TimeAdd(CreateNote(NoteFrequencies.CSHARP4, volume: 0.7), x.Value(delay4))
+				CreateNote(NoteFrequencies.E4, volume: 1.0, delay: 0.2),
+				CreateNote(NoteFrequencies.B4, volume: 0.5, delay: 0.4),
+				CreateNote(NoteFrequencies.CSHARP4, volume: 0.7, delay: 0.6)
 			);
-
-			return outlet;
 		}
 
 		private Outlet CreateNote(double noteFrequency, double volume, double delay = 0)
@@ -199,11 +191,11 @@ namespace JJ.Business.Synthesizer.Tests
 			return outlet;
 		}
 
-		private AudioFileOutput CreateAudioFileOutput()
+		private AudioFileOutput ConfigureAudioFileOutput()
 		{
 			AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
 			audioFileOutput.Duration = TOTAL_TIME;
-			audioFileOutput.Amplifier = Int16.MaxValue / 3;
+			audioFileOutput.Amplifier = Int16.MaxValue / 3.5;
 			audioFileOutput.FilePath = $"{nameof(Test_Synthesizer_Additive_Sines_And_Samples)}.wav";
 
 			return audioFileOutput;
