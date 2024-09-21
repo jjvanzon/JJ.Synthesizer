@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests
 	internal class AdditiveTester
 	{
 		private const double NOTE_TIME_WITH_FADE = 2.5;
-		private const double TOTAL_TIME = 5.74; //3.1;
+		private const double TOTAL_TIME = 6.15; //3.1;
 
 		private readonly IContext _context;
 		private readonly SampleManager _sampleManager;
@@ -131,9 +131,10 @@ namespace JJ.Business.Synthesizer.Tests
 			return _operatorFactory.Adder
 			(
 				CreateNote(NoteFrequencies.A4, volume: 0.9),
-				CreateNote(NoteFrequencies.E4, volume: 1.0, delay: 0.2),
+				CreateNote(NoteFrequencies.E5, volume: 1.0, delay: 0.2),
 				CreateNote(NoteFrequencies.B4, volume: 0.5, delay: 0.4),
-				CreateNote(NoteFrequencies.CSHARP4, volume: 0.7, delay: 0.6)
+				CreateNote(NoteFrequencies.CSHARP5, volume: 0.7, delay: 0.6),
+				CreateNote(NoteFrequencies.FSHARP4, volume: 0.4, delay: 1.2)
 			);
 		}
 
@@ -152,32 +153,30 @@ namespace JJ.Business.Synthesizer.Tests
 				CreateSine(noteFrequency, sine1Volume, _sine1VolumeCurve),
 				CreateSine(noteFrequency * 2, sine2Volume, _sine2VolumeCurve),
 				CreateSine(noteFrequency * 5, sine3Volume, _sine3VolumeCurve),
-				x.TimeDivide
-				(
-					x.Multiply(x.Multiply
-					(
-						x.Sample(_sample),
-						x.Value(sample1Volume)),
-						x.CurveIn(_sampleVolumeCurve)
-					),
-					x.Value(2.0 * noteFrequency / 440.0)
-				),
-				x.TimeDivide
-				(
-					x.Multiply(x.Multiply
-					(
-						x.Sample(_sample),
-						x.Value(sample2Volume)),
-						x.CurveIn(_sampleVolumeCurve)
-					),
-					x.Value(7.0 * noteFrequency / 440.0)
-				)
+				CreateSampleOutlet(noteFrequency * 2, sample1Volume, _sampleVolumeCurve),
+				CreateSampleOutlet(noteFrequency * 7, sample2Volume, _sampleVolumeCurve)
 			);
 
 			outlet = x.Multiply(outlet, x.Value(volume));
 			outlet = x.TimeAdd(outlet, x.Value(delay));
 
 			return outlet;
+		}
+
+		private Outlet CreateSampleOutlet(double frequency, double volume, Curve curve)
+		{
+			var x = _operatorFactory;
+
+			return x.TimeDivide
+			(
+				x.Multiply(x.Multiply
+				(
+					x.Sample(_sample),
+					x.Value(volume)),
+					x.CurveIn(curve)
+				),
+				x.Value(frequency / 440.0)
+			);
 		}
 
 		private Sine CreateSine(double frequency, double volume, Curve curve)
