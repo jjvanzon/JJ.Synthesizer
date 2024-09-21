@@ -30,38 +30,115 @@ namespace JJ.Business.Synthesizer.Tests
 			_operatorFactory = TestHelper.CreateOperatorFactory(_context);
 		}
 
+		/// <summary>
+		/// NOTE: Version 0.0.250 does not have time tracking in its oscillator,
+		/// making the FM synthesis behave much different.
+		/// </summary>
 		public void Test_FM_With_Detune_And_Pitch_Modulation()
 		{
 			// Arrange
 			var x = _operatorFactory;
 
+			double noteFreq;
+			double modDepth;
+			double modSpeed;
+
 			// Extreme
 			//Outlet modulator = x.Sine(x.Value(10), x.Value(Frequencies.A4 / 2.0));
 			//Outlet sound = x.Sine(x.Value(1), x.Add(x.Value(Frequencies.A4), modulator));
 
-			// Nice
-			//Outlet modulator = x.Sine(x.Value(5), x.Value(Frequencies.A4 / 2.0));
-			//Outlet sound = x.Sine(x.Value(1), x.Add(x.Value(Frequencies.A4), modulator));
+			// Nice: modulation speed below sound freq, changes sound freq up +/- 5Hz
+			// Outlet modulator = x.Sine(x.Value(modDepth = 5), x.Value(modSpeed = 220));
+			// Outlet sound = x.Sine(x.Value(1.0), x.Add(x.Value(noteFreq = 440), modulator));
 
-			// Classic
-			//Outlet modulator = x.Sine(x.Value(0.005), x.Value(Frequencies.A4 / 2.0));
-			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(Frequencies.A4), modulator));
+			// Nice: modulation speed below sound freq, changes sound freq * [-0.005, 0.005] (why that works?)
+			Outlet modulator = x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 220));
+			Outlet sound = x.Sine(x.Value(1.0), x.Multiply(x.Value(noteFreq = 440), modulator));
 
-			// Variablize
+			// Also nice
+			/*
 			double soundVolume = 1;
 			double noteFrequency = Frequencies.A4;
 			double modulationDepth = 0.005;
-			double modulationSpeed = noteFrequency / 2.0;
-
+			double modulationSpeed = noteFrequency * 2.0;
 			Outlet modulator = x.Sine(x.Value(modulationDepth), x.Value(modulationSpeed));
 			Outlet sound = x.Sine(x.Value(soundVolume), x.Multiply(x.Value(noteFrequency), modulator));
+			*/
 
-			Outlet outlet = sound;
+			// Works a little
+			/*
+			double noteFrequency = Frequencies.A4;
+			double modulationDepth = 0.005;
+			double modulationSpeed = noteFrequency * 2.0;
+			Outlet modulator = x.Add(x.Value(1.0), x.Sine(x.Value(modulationDepth), x.Value(modulationSpeed)));
+			Outlet sound = x.Sine(x.Value(1.0), x.Multiply(x.Value(noteFrequency), modulator));
+			*/
+
+			// From ChatGTP math formula
+			/*
+			double carrFreq = Frequencies.A4;
+			double modFreq = carrFreq / 2.0;
+			Outlet sound = x.Sine(x.Value(1.0), 
+				x.Add(
+					x.Value(carrFreq), 
+					x.Multiply(
+						x.Value(modFreq), 
+						x.Sine(x.Value(1.0), x.Value(modFreq)))));
+			*/
+
+			// ChatGPT (broken)
+			/*
+			double carrFreq = Frequencies.A4;
+			double modDepth = 0.5; // Adjust this for modulation depth
+			double modFreq = carrFreq / 2.0;
+
+			Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modFreq));
+			Outlet sound = x.Sine(x.Value(1.0), x.Multiply(x.Value(carrFreq), x.Add(x.Value(1.0), modulator)));
+			*/
+
+			// ChatGPT 2nd try
+			/*
+			double carrFreq = Frequencies.A4; // Carrier frequency
+			double modDepth = 0.5; // Modulation depth
+			double modFreq = carrFreq / 2.0; // Modulator frequency
+
+			// Create the modulator
+			Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modFreq));
+
+			// Calculate the final sound using the correct FM formula
+			Outlet sound = x.Sine(x.Value(1.0),
+				x.Multiply(
+					x.Value(carrFreq),
+					x.Add(x.Value(1.0), modulator)
+				)
+			);
+			*/
+
+
+			// ChatGPT 2nd try modified
+			/*
+			double carrFreq = Frequencies.A4; // Carrier frequency
+			double modDepth = 0.02; // Modulation depth
+			double modFreq = carrFreq * 2.0; // Modulator frequency
+
+			// Create the modulator
+			Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modFreq));
+
+			// Calculate the final sound using the correct FM formula
+			Outlet sound = x.Sine(x.Value(1.0),
+				x.Multiply(
+					x.Value(carrFreq),
+					x.Add(x.Value(1.0), modulator)
+				)
+			);
+			*/
+
+			// Configure AudioFileOutput
 			_audioFileOutput = ConfigureAudioFileOutput();
-			_audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
-			
+			_audioFileOutput.AudioFileOutputChannels[0].Outlet = sound;
+
 			// Verify
-			AssertEntities(outlet);
+			AssertEntities(sound);
 
 			// Calculate
 			Stopwatch stopWatch = Calculate();
