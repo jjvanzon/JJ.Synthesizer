@@ -144,7 +144,7 @@ namespace JJ.Business.Synthesizer.Tests
 			return outlet;
 		}
 
-		private Outlet CreateNote(double noteFrequency, double volume)
+		private Outlet CreateNote(double noteFrequency, double volume, double delay = 0)
 		{
 			const double sine1Volume = 1.0;
 			const double sine2Volume = 0.7;
@@ -175,8 +175,8 @@ namespace JJ.Business.Synthesizer.Tests
 				(
 					x.Multiply(x.Multiply
 					(
-						x.Value(sample1Volume),
-						x.Sample(_sample)),
+						x.Sample(_sample),
+						x.Value(sample1Volume)),
 						x.CurveIn(_sampleVolumeCurve)
 					),
 					x.Value(2.0 * noteFrequency / 440.0)
@@ -185,8 +185,8 @@ namespace JJ.Business.Synthesizer.Tests
 				(
 					x.Multiply(x.Multiply
 					(
-						x.Value(sample2Volume),
-						x.Sample(_sample)),
+						x.Sample(_sample),
+						x.Value(sample2Volume)),
 						x.CurveIn(_sampleVolumeCurve)
 					),
 					x.Value(7.0 * noteFrequency / 440.0)
@@ -194,6 +194,7 @@ namespace JJ.Business.Synthesizer.Tests
 			);
 
 			outlet = x.Multiply(outlet, x.Value(volume));
+			outlet = x.TimeAdd(outlet, x.Value(delay));
 
 			return outlet;
 		}
