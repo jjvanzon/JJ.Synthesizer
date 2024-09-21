@@ -163,6 +163,17 @@ namespace JJ.Business.Synthesizer.Tests
 			return outlet;
 		}
 
+		private Sine CreateSine(double frequency, double volume, Curve curve)
+		{
+			var x = _operatorFactory;
+
+			return x.Sine
+			(
+				x.Multiply(x.CurveIn(curve), x.Value(volume)),
+				x.Value(frequency)
+			);
+		}
+
 		private Outlet CreateSampleOutlet(double frequency, double volume, Curve curve)
 		{
 			var x = _operatorFactory;
@@ -179,24 +190,12 @@ namespace JJ.Business.Synthesizer.Tests
 			);
 		}
 
-		private Sine CreateSine(double frequency, double volume, Curve curve)
-		{
-			var x = _operatorFactory;
-
-			return x.Sine
-			(
-				x.Multiply(x.CurveIn(curve), x.Value(volume)),
-				x.Value(frequency)
-			);
-		}
-
 		private AudioFileOutput ConfigureAudioFileOutput()
 		{
 			AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
 			audioFileOutput.Duration = TOTAL_TIME;
 			audioFileOutput.Amplifier = Int16.MaxValue / 3.5;
 			audioFileOutput.FilePath = $"{nameof(Test_Synthesizer_Additive_Sines_And_Samples)}.wav";
-
 			return audioFileOutput;
 		}
 
@@ -217,7 +216,7 @@ namespace JJ.Business.Synthesizer.Tests
 		private Stopwatch Calculate()
 		{
 			IAudioFileOutputCalculator audioFileOutputCalculator =
-							AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(_audioFileOutput);
+				AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(_audioFileOutput);
 			var stopWatch = Stopwatch.StartNew();
 			audioFileOutputCalculator.Execute();
 			stopWatch.Stop();
