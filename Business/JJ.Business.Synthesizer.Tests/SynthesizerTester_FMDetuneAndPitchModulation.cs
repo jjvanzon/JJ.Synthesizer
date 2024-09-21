@@ -3,11 +3,11 @@ using System;
 
 namespace JJ.Business.Synthesizer.Tests
 {
-	internal class FMTester
+	internal class SynthesizerTester_FMDetuneAndPitchModulation
 	{
 		private readonly IContext _context;
 
-		public FMTester(IContext context)
+		public SynthesizerTester_FMDetuneAndPitchModulation(IContext context)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
 		}

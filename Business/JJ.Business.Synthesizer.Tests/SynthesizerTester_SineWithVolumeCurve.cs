@@ -19,11 +19,11 @@ using System.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests
 {
-	public class SineWithVolumeCurveTester
+	public class SynthesizerTester_SineWithVolumeCurve
 	{
-		private IContext _context;
+		private readonly IContext _context;
 
-		public SineWithVolumeCurveTester(IContext context)
+		public SynthesizerTester_SineWithVolumeCurve(IContext context)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
 		}

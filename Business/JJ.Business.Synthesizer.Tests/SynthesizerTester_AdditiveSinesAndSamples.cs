@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests
 	/// <summary>
 	/// More tests written upon retro-actively isolating older synthesizer versions.
 	/// </summary>
-	internal class AdditiveTester
+	internal class SynthesizerTester_AdditiveSinesAndSamples
 	{
 		private const double NOTE_TIME_WITH_FADE = 2.5;
 		private const double TOTAL_TIME = 6.15; //3.1;
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests
 		private Curve _sampleVolumeCurve;
 		private AudioFileOutput _audioFileOutput;
 
-		public AdditiveTester(IContext context)
+		public SynthesizerTester_AdditiveSinesAndSamples(IContext context)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
 			_sampleManager = TestHelper.CreateSampleManager(_context);

@@ -8,14 +8,14 @@ namespace JJ.Business.Synthesizer.Tests
 	/// Additional tests written upon retro-actively isolating older synthesizer versions.
 	/// </summary>
 	[TestClass]
-	public class SynthesizerTests2
+	public class SynthesizerAdditionalTests
 	{
 		[TestMethod]
 		public void Test_Synthesizer_Sine_With_Volume_Curve()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				var tester = new SineWithVolumeCurveTester(context);
+				var tester = new SynthesizerTester_SineWithVolumeCurve(context);
 				tester.Test_Synthesizer_Sine_With_Volume_Curve();
 			}
 		}
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				var tester = new AdditiveTester(context);
+				var tester = new SynthesizerTester_AdditiveSinesAndSamples(context);
 				tester.Test_Synthesizer_Additive_Sines_And_Samples();
 			}
 		}
