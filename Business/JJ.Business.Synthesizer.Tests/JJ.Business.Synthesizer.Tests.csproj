@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="SynthesizerHardCodedFMTests.cs" />
     <Compile Include="SynthesizerAdditionalTests.cs" />
     <Compile Include="SynthesizerTester_FMDetuneAndPitchModulation.cs" />
     <Compile Include="Helpers\Frequencies.cs" />
