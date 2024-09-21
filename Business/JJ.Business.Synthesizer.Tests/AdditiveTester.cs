@@ -35,7 +35,6 @@ namespace JJ.Business.Synthesizer.Tests
 		private Curve _sine2VolumeCurve;
 		private Curve _sine3VolumeCurve;
 		private Curve _sampleVolumeCurve;
-		private Outlet _melodyOutlet;
 		private AudioFileOutput _audioFileOutput;
 
 		public AdditiveTester(IContext context)
@@ -77,6 +76,9 @@ namespace JJ.Business.Synthesizer.Tests
 								$"Output file: {Path.GetFullPath(_audioFileOutput.FilePath)}");
 		}
 
+		/// <summary>
+		/// Load a sample, skip some old header's bytes, maximize volume and tune to 440Hz.
+		/// </summary>
 		private Sample ConfigureSample()
 		{
 			Sample sample = _sampleManager.CreateSample(TestHelper.GetViolin16BitMono44100WavStream());
@@ -99,24 +101,41 @@ namespace JJ.Business.Synthesizer.Tests
 			return sample;
 		}
 
+		/// <summary>
+		/// Creates a curve representing the volume modulation for the first sine partial.
+		/// Starts quietly, peaks at a strong volume, and then fades gradually.
+		/// </summary>
 		private Curve CreateSine1VolumeCurve() => _curveFactory.CreateCurve(
 			NOTE_TIME_WITH_FADE,
 			0.00, 0.80, 1.00, null, null, null, null, null,
 			0.25, null, null, null, null, null, null, null,
 			0.10, null, null, 0.02, null, null, null, 0.00);
 
+		/// <summary>
+		/// Creates a curve for volume modulation of the second sine partial.
+		/// Begins with a quick rise, reaches a high peak, and then slightly drops before fading.
+		/// </summary>
 		private Curve CreateSine2VolumeCurve() => _curveFactory.CreateCurve(
 			NOTE_TIME_WITH_FADE,
 			0.00, 1.00, 0.80, null, null, null, null, null,
 			0.10, null, null, null, null, null, null, null,
 			0.05, null, null, 0.01, null, null, null, 0.00);
 
+		/// <summary>
+		/// Constructs a volume curve for the third sine partial.
+		/// Starts at a moderate volume, dips to a very low level, 
+		/// and then has a slight resurgence before fading out.
+		/// </summary>
 		private Curve CreateSine3VolumeCurve() => _curveFactory.CreateCurve(
 			NOTE_TIME_WITH_FADE,
 			0.30, 1.00, 0.30, null, null, null, null, null,
 			0.10, null, null, null, null, null, null, null,
 			0.15, null, null, 0.05, null, null, null, 0.00);
 
+		/// <summary>
+		/// Generates a volume curve for the sample, starting at full volume 
+		/// and quickly diminishing to a lower level.
+		/// </summary>
 		private Curve CreateSampleVolumeCurve() => _curveFactory.CreateCurve(
 			NOTE_TIME_WITH_FADE,
 			1.00, 0.50, 0.20, null, null, null, null, 0.00,
