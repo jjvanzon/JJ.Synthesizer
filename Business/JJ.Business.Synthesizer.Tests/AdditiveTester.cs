@@ -23,8 +23,8 @@ namespace JJ.Business.Synthesizer.Tests
 	/// </summary>
 	internal class AdditiveTester
 	{
-		private const double NOTE_FADE_TIME = 2.5;
-		private const double TOTAL_DURATION = 5.74; //3.1;
+		private const double NOTE_TIME_WITH_FADE = 2.5;
+		private const double TOTAL_TIME = 5.74; //3.1;
 
 		private readonly IContext _context;
 		private readonly SampleManager _sampleManager;
@@ -56,11 +56,11 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_Additive_Sines_And_Samples()
 		{
 			// Arrange
-			_sample = CreateSample();
-			_sine1VolumeCurve = CreateSine1Curve();
-			_sine2VolumeCurve = CreateSine2Curve();
-			_sine3VolumeCurve = CreateSine3Curve();
-			_sampleVolumeCurve = CreateSampleCurve();
+			_sample = ConfigureSample();
+			_sine1VolumeCurve = CreateSine1VolumeCurve();
+			_sine2VolumeCurve = CreateSine2VolumeCurve();
+			_sine3VolumeCurve = CreateSine3VolumeCurve();
+			_sampleVolumeCurve = CreateSampleVolumeCurve();
 
 			Outlet outlet = CreateMelody();
 			outlet = EntityFactory.CreateEcho(_operatorFactory, outlet, count: 5, denominator: 2, delay: 0.66);
@@ -72,18 +72,14 @@ namespace JJ.Business.Synthesizer.Tests
 			AssertEntities(outlet);
 
 			// Calculate
-			IAudioFileOutputCalculator audioFileOutputCalculator =
-				AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(_audioFileOutput);
-			var stopWatch = Stopwatch.StartNew();
-			audioFileOutputCalculator.Execute();
-			stopWatch.Stop();
+			Stopwatch stopWatch = Calculate();
 
 			// Report
 			Assert.Inconclusive($"Calculation time: {stopWatch.ElapsedMilliseconds}ms{Environment.NewLine}" +
 								$"Output file: {Path.GetFullPath(_audioFileOutput.FilePath)}");
 		}
 
-		private Sample CreateSample()
+		private Sample ConfigureSample()
 		{
 			Sample sample = _sampleManager.CreateSample(TestHelper.GetViolin16BitMono44100WavStream());
 
@@ -105,26 +101,26 @@ namespace JJ.Business.Synthesizer.Tests
 			return sample;
 		}
 
-		private Curve CreateSine1Curve() => _curveFactory.CreateCurve(
-			NOTE_FADE_TIME,
+		private Curve CreateSine1VolumeCurve() => _curveFactory.CreateCurve(
+			NOTE_TIME_WITH_FADE,
 			0.00, 0.80, 1.00, null, null, null, null, null,
 			0.25, null, null, null, null, null, null, null,
 			0.10, null, null, 0.02, null, null, null, 0.00);
 
-		private Curve CreateSine2Curve() => _curveFactory.CreateCurve(
-			NOTE_FADE_TIME,
+		private Curve CreateSine2VolumeCurve() => _curveFactory.CreateCurve(
+			NOTE_TIME_WITH_FADE,
 			0.00, 1.00, 0.80, null, null, null, null, null,
 			0.10, null, null, null, null, null, null, null,
 			0.05, null, null, 0.01, null, null, null, 0.00);
 
-		private Curve CreateSine3Curve() => _curveFactory.CreateCurve(
-			NOTE_FADE_TIME,
+		private Curve CreateSine3VolumeCurve() => _curveFactory.CreateCurve(
+			NOTE_TIME_WITH_FADE,
 			0.30, 0.00, 0.30, null, null, null, null, null,
 			0.10, null, null, null, null, null, null, null,
 			0.15, null, null, 0.05, null, null, null, 0.00);
 
-		private Curve CreateSampleCurve() => _curveFactory.CreateCurve(
-			NOTE_FADE_TIME,
+		private Curve CreateSampleVolumeCurve() => _curveFactory.CreateCurve(
+			NOTE_TIME_WITH_FADE,
 			1.00, 0.50, 0.20, null, null, null, null, 0.00,
 			null, null, null, null, null, null, null, null,
 			null, null, null, null, null, null, null, null);
@@ -133,27 +129,22 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			OperatorFactory x = _operatorFactory;
 
-			double note1Volume = 0.9;
-			double note2Volume = 1.0;
-			double note3Volume = 0.5;
-			double note4Volume = 0.7;
-
-			double note2Delay = 0.2;
-			double note3Delay = 0.4;
-			double note4Delay = 0.6;
+			double delay2 = 0.2;
+			double delay3 = 0.4;
+			double delay4 = 0.6;
 
 			Outlet outlet = x.Adder
 			(
-				x.Multiply(x.Value(note1Volume), CreateNote(NoteFrequencies.A4)),
-				x.Multiply(x.Value(note2Volume), x.TimeAdd(CreateNote(NoteFrequencies.E4), x.Value(note2Delay))),
-				x.Multiply(x.Value(note3Volume), x.TimeAdd(CreateNote(NoteFrequencies.B4), x.Value(note3Delay))),
-				x.Multiply(x.Value(note4Volume), x.TimeAdd(CreateNote(NoteFrequencies.CSHARP4), x.Value(note4Delay)))
+				CreateNote(NoteFrequencies.A4, volume: 0.9),
+				x.TimeAdd(CreateNote(NoteFrequencies.E4, volume: 1.0), x.Value(delay2)),
+				x.TimeAdd(CreateNote(NoteFrequencies.B4, volume: 0.5), x.Value(delay3)),
+				x.TimeAdd(CreateNote(NoteFrequencies.CSHARP4, volume: 0.7), x.Value(delay4))
 			);
 
 			return outlet;
 		}
 
-		private Outlet CreateNote(double noteFrequency)
+		private Outlet CreateNote(double noteFrequency, double volume)
 		{
 			const double sine1Volume = 1.0;
 			const double sine2Volume = 0.7;
@@ -163,7 +154,7 @@ namespace JJ.Business.Synthesizer.Tests
 
 			OperatorFactory x = _operatorFactory;
 
-			return x.Adder
+			Outlet outlet = x.Adder
 			(
 				x.Sine
 				(
@@ -201,12 +192,16 @@ namespace JJ.Business.Synthesizer.Tests
 					x.Value(7.0 * noteFrequency / 440.0)
 				)
 			);
+
+			outlet = x.Multiply(outlet, x.Value(volume));
+
+			return outlet;
 		}
 
 		private AudioFileOutput CreateAudioFileOutput()
 		{
 			AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
-			audioFileOutput.Duration = TOTAL_DURATION;
+			audioFileOutput.Duration = TOTAL_TIME;
 			audioFileOutput.Amplifier = Int16.MaxValue / 3;
 			audioFileOutput.FilePath = $"{nameof(Test_Synthesizer_Additive_Sines_And_Samples)}.wav";
 
@@ -225,6 +220,16 @@ namespace JJ.Business.Synthesizer.Tests
 			// Warnings
 			new AudioFileOutputWarningValidator(_audioFileOutput).Verify();
 			new VersatileOperatorWarningValidator(outlet.Operator).Verify();
+		}
+
+		private Stopwatch Calculate()
+		{
+			IAudioFileOutputCalculator audioFileOutputCalculator =
+							AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(_audioFileOutput);
+			var stopWatch = Stopwatch.StartNew();
+			audioFileOutputCalculator.Execute();
+			stopWatch.Stop();
+			return stopWatch;
 		}
 	}
 }
