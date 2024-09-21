@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-	internal static class NoteFrequencies
+	internal static class Frequencies
 	{
 		public static double FSHARP4 = 369.9944227116344;
 		public const double A4 = 440.0;

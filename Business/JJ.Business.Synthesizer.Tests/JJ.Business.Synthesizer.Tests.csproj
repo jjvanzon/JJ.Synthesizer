@@ -52,7 +52,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AdditiveTests.cs" />
-    <Compile Include="Helpers\NoteFrequencies.cs" />
+    <Compile Include="Helpers\Frequencies.cs" />
     <Compile Include="SynthesizerTests_SineWithVolumeCurve.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\IOperatorCalculator.cs" />

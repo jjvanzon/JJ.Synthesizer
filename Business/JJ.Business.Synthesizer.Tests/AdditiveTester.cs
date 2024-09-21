@@ -7,15 +7,12 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
-using JJ.Framework.Common;
 using JJ.Framework.Persistence;
-using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -116,7 +113,7 @@ namespace JJ.Business.Synthesizer.Tests
 
 		private Curve CreateSine3VolumeCurve() => _curveFactory.CreateCurve(
 			NOTE_TIME_WITH_FADE,
-			0.30, 0.00, 0.30, null, null, null, null, null,
+			0.30, 1.00, 0.30, null, null, null, null, null,
 			0.10, null, null, null, null, null, null, null,
 			0.15, null, null, 0.05, null, null, null, 0.00);
 
@@ -130,15 +127,15 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			return _operatorFactory.Adder
 			(
-				CreateNote(NoteFrequencies.A4, volume: 0.9),
-				CreateNote(NoteFrequencies.E5, volume: 1.0, delay: 0.2),
-				CreateNote(NoteFrequencies.B4, volume: 0.5, delay: 0.4),
-				CreateNote(NoteFrequencies.CSHARP5, volume: 0.7, delay: 0.6),
-				CreateNote(NoteFrequencies.FSHARP4, volume: 0.4, delay: 1.2)
+				CreateNote(Frequencies.A4, volume: 0.9),
+				CreateNote(Frequencies.E5, volume: 1.0, delay: 0.2),
+				CreateNote(Frequencies.B4, volume: 0.5, delay: 0.4),
+				CreateNote(Frequencies.CSHARP5, volume: 0.7, delay: 0.6),
+				CreateNote(Frequencies.FSHARP4, volume: 0.4, delay: 1.2)
 			);
 		}
 
-		private Outlet CreateNote(double noteFrequency, double volume, double delay = 0)
+		private Outlet CreateNote(double frequency, double volume, double delay = 0)
 		{
 			const double sine1Volume = 1.0;
 			const double sine2Volume = 0.7;
@@ -150,11 +147,11 @@ namespace JJ.Business.Synthesizer.Tests
 
 			Outlet outlet = x.Adder
 			(
-				CreateSine(noteFrequency, sine1Volume, _sine1VolumeCurve),
-				CreateSine(noteFrequency * 2, sine2Volume, _sine2VolumeCurve),
-				CreateSine(noteFrequency * 5, sine3Volume, _sine3VolumeCurve),
-				CreateSampleOutlet(noteFrequency * 2, sample1Volume, _sampleVolumeCurve),
-				CreateSampleOutlet(noteFrequency * 7, sample2Volume, _sampleVolumeCurve)
+				CreateSine(frequency, sine1Volume, _sine1VolumeCurve),
+				CreateSine(frequency * 2, sine2Volume, _sine2VolumeCurve),
+				CreateSine(frequency * 5, sine3Volume, _sine3VolumeCurve),
+				CreateSampleOutlet(frequency * 2, sample1Volume, _sampleVolumeCurve),
+				CreateSampleOutlet(frequency * 7, sample2Volume, _sampleVolumeCurve)
 			);
 
 			outlet = x.Multiply(outlet, x.Value(volume));
