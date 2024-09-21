@@ -39,99 +39,45 @@ namespace JJ.Business.Synthesizer.Tests
 			// Arrange
 			var x = _operatorFactory;
 
-			double noteFreq;
+			double soundFreq;
 			double modDepth;
 			double modSpeed;
 
-			// Extreme
-			//Outlet modulator = x.Sine(x.Value(10), x.Value(Frequencies.A4 / 2.0));
-			//Outlet sound = x.Sine(x.Value(1), x.Add(x.Value(Frequencies.A4), modulator));
-
-			// Nice: modulation speed below sound freq, changes sound freq up +/- 5Hz
+			// Nice: mod speed below sound freq, changes sound freq up +/- 5Hz
 			// Outlet modulator = x.Sine(x.Value(modDepth = 5), x.Value(modSpeed = 220));
-			// Outlet sound = x.Sine(x.Value(1.0), x.Add(x.Value(noteFreq = 440), modulator));
+			// Outlet sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq = 440), modulator));
 
-			// Nice: modulation speed below sound freq, changes sound freq * [-0.005, 0.005] (why that works?)
-			Outlet modulator = x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 220));
-			Outlet sound = x.Sine(x.Value(1.0), x.Multiply(x.Value(noteFreq = 440), modulator));
+			// Nice: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (why that work?)
+			// Outlet modulator = x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 220));
+			// Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
 
-			// Also nice
-			/*
-			double soundVolume = 1;
-			double noteFrequency = Frequencies.A4;
-			double modulationDepth = 0.005;
-			double modulationSpeed = noteFrequency * 2.0;
-			Outlet modulator = x.Sine(x.Value(modulationDepth), x.Value(modulationSpeed));
-			Outlet sound = x.Sine(x.Value(soundVolume), x.Multiply(x.Value(noteFrequency), modulator));
-			*/
+			// Why it work? mod speed above sound freq, changes sound freq * [-0.005, 0.005]
+			//Outlet modulator = x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880));
+			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
 
-			// Works a little
-			/*
-			double noteFrequency = Frequencies.A4;
-			double modulationDepth = 0.005;
-			double modulationSpeed = noteFrequency * 2.0;
-			Outlet modulator = x.Add(x.Value(1.0), x.Sine(x.Value(modulationDepth), x.Value(modulationSpeed)));
-			Outlet sound = x.Sine(x.Value(1.0), x.Multiply(x.Value(noteFrequency), modulator));
-			*/
+			// Extreme: mod speed below sound freq, changes sound freq up +/- 10Hz
+			//Outlet modulator = x.Sine(x.Value(modDepth = 10), x.Value(modSpeed = 220));
+			//Outlet sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq = 440), modulator));
 
-			// From ChatGTP math formula
-			/*
-			double carrFreq = Frequencies.A4;
-			double modFreq = carrFreq / 2.0;
-			Outlet sound = x.Sine(x.Value(1.0), 
-				x.Add(
-					x.Value(carrFreq), 
-					x.Multiply(
-						x.Value(modFreq), 
-						x.Sine(x.Value(1.0), x.Value(modFreq)))));
-			*/
+			// OK: mod speed above sound freq, changes sound freq * 1 +/- 0.005
+			// Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880)));
+			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
 
-			// ChatGPT (broken)
-			/*
-			double carrFreq = Frequencies.A4;
-			double modDepth = 0.5; // Adjust this for modulation depth
-			double modFreq = carrFreq / 2.0;
+			// Cool: mod speed way below sound freq, changes sound freq * 1 +/- 0.005
+			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 55)));
+			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
 
-			Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modFreq));
-			Outlet sound = x.Sine(x.Value(1.0), x.Multiply(x.Value(carrFreq), x.Add(x.Value(1.0), modulator)));
-			*/
+			// Interesting: noisy beat
+			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.5), x.Value(modSpeed = 55)));
+			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
 
-			// ChatGPT 2nd try
-			/*
-			double carrFreq = Frequencies.A4; // Carrier frequency
-			double modDepth = 0.5; // Modulation depth
-			double modFreq = carrFreq / 2.0; // Modulator frequency
+			// Pretty
+			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880)));
+			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 220), modulator));
 
-			// Create the modulator
-			Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modFreq));
-
-			// Calculate the final sound using the correct FM formula
-			Outlet sound = x.Sine(x.Value(1.0),
-				x.Multiply(
-					x.Value(carrFreq),
-					x.Add(x.Value(1.0), modulator)
-				)
-			);
-			*/
-
-
-			// ChatGPT 2nd try modified
-			/*
-			double carrFreq = Frequencies.A4; // Carrier frequency
-			double modDepth = 0.02; // Modulation depth
-			double modFreq = carrFreq * 2.0; // Modulator frequency
-
-			// Create the modulator
-			Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modFreq));
-
-			// Calculate the final sound using the correct FM formula
-			Outlet sound = x.Sine(x.Value(1.0),
-				x.Multiply(
-					x.Value(carrFreq),
-					x.Add(x.Value(1.0), modulator)
-				)
-			);
-			*/
+			// Cool: Extreme Effect
+			Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.02), x.Value(modSpeed = 10)));
+			Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
 
 			// Configure AudioFileOutput
 			_audioFileOutput = ConfigureAudioFileOutput();
