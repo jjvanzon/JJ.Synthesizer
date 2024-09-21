@@ -16,9 +16,6 @@ using System.IO;
 
 namespace JJ.Business.Synthesizer.Tests
 {
-	/// <summary>
-	/// More tests written upon retro-actively isolating older synthesizer versions.
-	/// </summary>
 	internal class SynthesizerTester_AdditiveSinesAndSamples
 	{
 		private const double NOTE_TIME_WITH_FADE = 2.5;
