@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Tests
 	/// Additional tests written upon retro-actively isolating older synthesizer versions.
 	/// </summary>
 	[TestClass]
-	public class SynthesizerTests_Additive
+	public class AdditiveTester
 	{
 		/// <summary>
 		/// Arpeggio sound with harmonics, a high-pitch sample for attack,
