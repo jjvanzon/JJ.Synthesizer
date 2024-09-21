@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Tests.Helpers;
@@ -148,21 +149,9 @@ namespace JJ.Business.Synthesizer.Tests
 
 			Outlet outlet = x.Adder
 			(
-				x.Sine
-				(
-					x.Multiply(x.CurveIn(_sine1VolumeCurve), x.Value(sine1Volume)),
-					x.Value(noteFrequency)
-				),
-				x.Sine
-				(
-					x.Multiply(x.CurveIn(_sine2VolumeCurve), x.Value(sine2Volume)),
-					x.Multiply(x.Value(noteFrequency), x.Value(2))
-				),
-				x.Sine
-				(
-					x.Multiply(x.CurveIn(_sine3VolumeCurve), x.Value(sine3Volume)),
-					x.Multiply(x.Value(noteFrequency), x.Value(5))
-				),
+				CreateSine(noteFrequency, sine1Volume, _sine1VolumeCurve),
+				CreateSine(noteFrequency * 2, sine2Volume, _sine2VolumeCurve),
+				CreateSine(noteFrequency * 5, sine3Volume, _sine3VolumeCurve),
 				x.TimeDivide
 				(
 					x.Multiply(x.Multiply
@@ -189,6 +178,17 @@ namespace JJ.Business.Synthesizer.Tests
 			outlet = x.TimeAdd(outlet, x.Value(delay));
 
 			return outlet;
+		}
+
+		private Sine CreateSine(double frequency, double volume, Curve curve)
+		{
+			var x = _operatorFactory;
+
+			return x.Sine
+			(
+				x.Multiply(x.CurveIn(curve), x.Value(volume)),
+				x.Value(frequency)
+			);
 		}
 
 		private AudioFileOutput ConfigureAudioFileOutput()
