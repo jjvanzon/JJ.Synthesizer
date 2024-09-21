@@ -26,16 +26,18 @@ namespace JJ.Business.Synthesizer.Tests
 		private const double NOTE_DURATION = 2.5;
 		private const double TOTAL_DURATION = 3.1;
 
-		private const double A4 = 440.0;
-		private const double B4 = 493.88330125612413;
-		private const double CSHARP4 = 554.36526195374415;
-		private const double E4 = 659.25511382573984;
-
 		private readonly IContext _context;
 		private readonly SampleManager _sampleManager;
 		private readonly CurveFactory _curveFactory;
 		private readonly OperatorFactory _operatorFactory;
 		private readonly AudioFileOutputManager _audioFileOutputManager;
+
+		private Sample _sample;
+		private Curve _sine1VolumeCurve;
+		private Curve _sine2VolumeCurve;
+		private Curve _sine3VolumeCurve;
+		private Curve _sampleVolumeCurve;
+		private AudioFileOutput _audioFileOutput;
 
 		public AdditiveTester(IContext context)
 		{
@@ -53,109 +55,41 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_Additive_Sines_And_Samples()
 		{
 			// Arrange
-
-			Sample sample = CreateSample();
-
-			Curve sine1Curve = GetSine1VolumeCurve();
-			Curve sine2Curve = GetSine2VolumeCurve();
-			Curve sine3Curve = GetSine3VolumeCurve();
-			Curve sampleCurve = GetSampleVolumeCurve();
-
-			OperatorFactory x = _operatorFactory;
-
-			Outlet SteelDrum(double noteFrequency)
-			{
-				const double sine1Volume = 1.0;
-				const double sine2Volume = 0.7;
-				const double sine3Volume = 0.4;
-				const double sample1Volume = 3.0;
-				const double sample2Volume = 5.0;
-
-				return x.Adder
-				(
-					x.Sine
-					(
-						x.Multiply(x.CurveIn(sine1Curve), x.Value(sine1Volume)),
-						x.Value(noteFrequency)
-					),
-					x.Sine
-					(
-						x.Multiply(x.CurveIn(sine2Curve), x.Value(sine2Volume)),
-						x.Multiply(x.Value(noteFrequency), x.Value(2))
-					),
-					x.Sine
-					(
-						x.Multiply(x.CurveIn(sine3Curve), x.Value(sine3Volume)),
-						x.Multiply(x.Value(noteFrequency), x.Value(5))
-					),
-					x.TimeDivide
-					(
-						x.Multiply(x.Multiply
-						(
-							x.Value(sample1Volume),
-							x.Sample(sample)),
-							x.CurveIn(sampleCurve)
-						),
-						x.Value(2.0 * noteFrequency / 440.0)
-					),
-					x.TimeDivide
-					(
-						x.Multiply(x.Multiply
-						(
-							x.Value(sample2Volume),
-							x.Sample(sample)),
-							x.CurveIn(sampleCurve)
-						),
-						x.Value(7.0 * noteFrequency / 440.0)
-					)
-				);
-			}
-
-			// Build melody
-			double note1Volume = 0.9;
-			double note2Volume = 1.0;
-			double note3Volume = 0.5;
-			double note4Volume = 0.7;
-
-			double note2Delay = 0.2;
-			double note3Delay = 0.4;
-			double note4Delay = 0.6;
-
-			Outlet outlet = x.Adder
-			(
-				x.Multiply(x.Value(note1Volume), SteelDrum(A4)),
-				x.Multiply(x.Value(note2Volume), x.TimeAdd(SteelDrum(E4), x.Value(note2Delay))),
-				x.Multiply(x.Value(note3Volume), x.TimeAdd(SteelDrum(B4), x.Value(note3Delay))),
-				x.Multiply(x.Value(note4Volume), x.TimeAdd(SteelDrum(CSHARP4), x.Value(note4Delay)))
-			);
-
-			AudioFileOutput audioFileOutput = CreateAudioFileOutput(outlet);
-			audioFileOutput.FilePath = $"{MethodBase.GetCurrentMethod().Name}.wav";
+			_sample = CreateSample();
+			_sine1VolumeCurve = CreateSine1Curve();
+			_sine2VolumeCurve = CreateSine2Curve();
+			_sine3VolumeCurve = CreateSine3Curve();
+			_sampleVolumeCurve = CreateSampleCurve();
+			Outlet outlet = CreateMelody();
+			_audioFileOutput = CreateAudioFileOutput(outlet);
 
 			// Verify
-			IValidator[] validators =
-			{
-				new CurveValidator(sine1Curve),
-				new CurveValidator(sine2Curve),
-				new CurveValidator(sine3Curve),
-				new VersatileOperatorValidator(outlet.Operator),
-				new AudioFileOutputValidator(audioFileOutput),
-				new AudioFileOutputWarningValidator(audioFileOutput),
-				new VersatileOperatorWarningValidator(outlet.Operator)
-			};
-			validators.ForEach(v => v.Verify());
+			AssertEntities(outlet);
 
 			// Calculate
 			IAudioFileOutputCalculator audioFileOutputCalculator =
-				AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
-
+				AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(_audioFileOutput);
 			var stopWatch = Stopwatch.StartNew();
 			audioFileOutputCalculator.Execute();
 			stopWatch.Stop();
 
 			// Report
 			Assert.Inconclusive($"Calculation time: {stopWatch.ElapsedMilliseconds}ms{Environment.NewLine}" +
-								$"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
+								$"Output file: {Path.GetFullPath(_audioFileOutput.FilePath)}");
+		}
+
+		private void AssertEntities(Outlet outlet)
+		{
+			_sampleManager.ValidateSample(_sample).Verify();
+			new CurveValidator(_sine1VolumeCurve).Verify();
+			new CurveValidator(_sine2VolumeCurve).Verify();
+			new CurveValidator(_sine3VolumeCurve).Verify();
+			new VersatileOperatorValidator(outlet.Operator).Verify();
+			_audioFileOutputManager.ValidateAudioFileOutput(_audioFileOutput).Verify();
+
+			// Warnings
+			new AudioFileOutputWarningValidator(_audioFileOutput).Verify();
+			new VersatileOperatorWarningValidator(outlet.Operator).Verify();
 		}
 
 		private Sample CreateSample()
@@ -177,72 +111,105 @@ namespace JJ.Business.Synthesizer.Tests
 			double finetuneFactor = 0.94;
 			sample.TimeMultiplier = 1.0 / (octaveFactor * intervalFactor * finetuneFactor);
 
-			// Validation
-			_sampleManager.ValidateSample(sample).Verify();
-
 			return sample;
 		}
 
+		private Curve CreateSine1Curve() => _curveFactory.CreateCurve(
+			NOTE_DURATION,
+			0.00, 0.80, 1.00, null, null, null, null, null,
+			0.25, null, null, null, null, null, null, null,
+			0.10, null, null, 0.02, null, null, null, 0.00);
 
-		private Curve _sine1VolumeCurve;
+		private Curve CreateSine2Curve() => _curveFactory.CreateCurve(
+			NOTE_DURATION,
+			0.00, 1.00, 0.80, null, null, null, null, null,
+			0.10, null, null, null, null, null, null, null,
+			0.05, null, null, 0.01, null, null, null, 0.00);
 
-		private Curve GetSine1VolumeCurve()
+		private Curve CreateSine3Curve() => _curveFactory.CreateCurve(
+			NOTE_DURATION,
+			0.30, 0.00, 0.30, null, null, null, null, null,
+			0.10, null, null, null, null, null, null, null,
+			0.15, null, null, 0.05, null, null, null, 0.00);
+
+		private Curve CreateSampleCurve() => _curveFactory.CreateCurve(
+			NOTE_DURATION,
+			1.00, 0.50, 0.20, null, null, null, null, 0.00,
+			null, null, null, null, null, null, null, null,
+			null, null, null, null, null, null, null, null);
+
+		private Outlet CreateMelody()
 		{
-			if (_sine1VolumeCurve == null)
-			{
-				_sine1VolumeCurve = _curveFactory.CreateCurve(
-					NOTE_DURATION,
-					0.00, 0.80, 1.00, null, null, null, null, null,
-					0.25, null, null, null, null, null, null, null,
-					0.10, null, null, 0.02, null, null, null, 0.00);
-			}
-			return _sine1VolumeCurve;
+			OperatorFactory x = _operatorFactory;
+
+			double note1Volume = 0.9;
+			double note2Volume = 1.0;
+			double note3Volume = 0.5;
+			double note4Volume = 0.7;
+
+			double note2Delay = 0.2;
+			double note3Delay = 0.4;
+			double note4Delay = 0.6;
+
+			Outlet outlet = x.Adder
+			(
+				x.Multiply(x.Value(note1Volume), CreateNote(NoteFrequencies.A4)),
+				x.Multiply(x.Value(note2Volume), x.TimeAdd(CreateNote(NoteFrequencies.E4), x.Value(note2Delay))),
+				x.Multiply(x.Value(note3Volume), x.TimeAdd(CreateNote(NoteFrequencies.B4), x.Value(note3Delay))),
+				x.Multiply(x.Value(note4Volume), x.TimeAdd(CreateNote(NoteFrequencies.CSHARP4), x.Value(note4Delay)))
+			);
+
+			return outlet;
 		}
 
-		private Curve _sine2VolumeCurve;
-
-		private Curve GetSine2VolumeCurve()
+		private Outlet CreateNote(double noteFrequency)
 		{
-			if (_sine2VolumeCurve == null)
-			{
-				_sine2VolumeCurve = _curveFactory.CreateCurve(
-					NOTE_DURATION,
-					0.00, 1.00, 0.80, null, null, null, null, null,
-					0.10, null, null, null, null, null, null, null,
-					0.05, null, null, 0.01, null, null, null, 0.00);
-			}
-			return _sine2VolumeCurve;
-		}
+			const double sine1Volume = 1.0;
+			const double sine2Volume = 0.7;
+			const double sine3Volume = 0.4;
+			const double sample1Volume = 3.0;
+			const double sample2Volume = 5.0;
 
-		private Curve _sine3VolumeCurve;
+			OperatorFactory x = _operatorFactory;
 
-		private Curve GetSine3VolumeCurve()
-		{
-			if (_sine3VolumeCurve == null)
-			{
-				_sine3VolumeCurve = _curveFactory.CreateCurve(
-					NOTE_DURATION,
-					0.30, 0.00, 0.30, null, null, null, null, null,
-					0.10, null, null, null, null, null, null, null,
-					0.15, null, null, 0.05, null, null, null, 0.00);
-			}
-			return _sine3VolumeCurve;
-		}
-
-
-		private Curve _sampleVolumeCurve;
-
-		private Curve GetSampleVolumeCurve()
-		{
-			if (_sampleVolumeCurve == null)
-			{
-				Curve _sampleVolumeCurve = _curveFactory.CreateCurve(
-					NOTE_DURATION,
-					1.00, 0.50, 0.20, null, null, null, null, 0.00,
-					null, null, null, null, null, null, null, null,
-					null, null, null, null, null, null, null, null);
-			}
-			return _sampleVolumeCurve;
+			return x.Adder
+			(
+				x.Sine
+				(
+					x.Multiply(x.CurveIn(_sine1VolumeCurve), x.Value(sine1Volume)),
+					x.Value(noteFrequency)
+				),
+				x.Sine
+				(
+					x.Multiply(x.CurveIn(_sine2VolumeCurve), x.Value(sine2Volume)),
+					x.Multiply(x.Value(noteFrequency), x.Value(2))
+				),
+				x.Sine
+				(
+					x.Multiply(x.CurveIn(_sine3VolumeCurve), x.Value(sine3Volume)),
+					x.Multiply(x.Value(noteFrequency), x.Value(5))
+				),
+				x.TimeDivide
+				(
+					x.Multiply(x.Multiply
+					(
+						x.Value(sample1Volume),
+						x.Sample(_sample)),
+						x.CurveIn(_sampleVolumeCurve)
+					),
+					x.Value(2.0 * noteFrequency / 440.0)
+				),
+				x.TimeDivide
+				(
+					x.Multiply(x.Multiply
+					(
+						x.Value(sample2Volume),
+						x.Sample(_sample)),
+						x.CurveIn(_sampleVolumeCurve)
+					),
+					x.Value(7.0 * noteFrequency / 440.0)
+				)
+			);
 		}
 
 		private AudioFileOutput CreateAudioFileOutput(Outlet outlet)
@@ -251,6 +218,8 @@ namespace JJ.Business.Synthesizer.Tests
 			audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 			audioFileOutput.Duration = TOTAL_DURATION;
 			audioFileOutput.Amplifier = Int16.MaxValue / 3;
+			audioFileOutput.FilePath = $"{nameof(Test_Synthesizer_Additive_Sines_And_Samples)}.wav";
+
 			return audioFileOutput;
 		}
 	}
