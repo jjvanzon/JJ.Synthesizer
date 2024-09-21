@@ -11,8 +11,8 @@ public class SynthesizerHardCodedFMTests
 		// Audio parameters
 		int sampleRate = 44100;
 		float carrierFrequency = 440f; // Carrier frequency
-		float modulationFrequency = 10f; // Modulation frequency
-		float modulationDepth = 50f; // Modulation depth
+		float modulationFrequency = 880f; // Modulation frequency
+		float modulationDepth = 5f; // Modulation depth
 		int duration = 5; // Duration in seconds
 		string outputFilePath = "FM_Sound.wav"; // Output WAV file path
 
