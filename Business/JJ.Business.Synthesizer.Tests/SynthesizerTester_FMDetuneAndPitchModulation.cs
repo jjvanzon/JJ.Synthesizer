@@ -76,8 +76,18 @@ namespace JJ.Business.Synthesizer.Tests
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 220), modulator));
 
 			// Cool: Extreme Effect
-			Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.02), x.Value(modSpeed = 10)));
+			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.02), x.Value(modSpeed = 10)));
+			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
+
+			// Cool effect
+			Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 20)));
 			Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
+
+			// Cool even more extreme effect (ChatGPT being weird)
+			// Ensure modulator remains above 1
+			//Outlet modulator = x.Add(x.Value(1), x.Multiply(x.Sine(x.Value(modDepth = 0.1), x.Value(modSpeed = 10)), x.Value(0.5)));
+			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
+
 
 			// Configure AudioFileOutput
 			_audioFileOutput = ConfigureAudioFileOutput();
