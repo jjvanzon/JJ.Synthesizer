@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests
 
 		public AdditiveTester(IContext context)
 		{
-			_context = context;
+			_context = context ?? throw new ArgumentNullException(nameof(context));
 			_sampleManager = TestHelper.CreateSampleManager(_context);
 			_curveFactory = TestHelper.CreateCurveFactory(_context);
 			_operatorFactory = TestHelper.CreateOperatorFactory(_context);

@@ -51,9 +51,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AdditiveTests.cs" />
+    <Compile Include="SynthesizerTests2.cs" />
+    <Compile Include="FMTester.cs" />
     <Compile Include="Helpers\Frequencies.cs" />
-    <Compile Include="SynthesizerTests_SineWithVolumeCurve.cs" />
+    <Compile Include="SineWithVolumeCurveTester.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\IOperatorCalculator.cs" />
     <Compile Include="Helpers\EntityFactory.cs" />
