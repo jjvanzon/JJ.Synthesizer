@@ -23,8 +23,8 @@ namespace JJ.Business.Synthesizer.Tests
 	/// </summary>
 	internal class AdditiveTester
 	{
-		private const double NOTE_DURATION = 2.5;
-		private const double TOTAL_DURATION = 3.1;
+		private const double NOTE_FADE_TIME = 2.5;
+		private const double TOTAL_DURATION = 5.74; //3.1;
 
 		private readonly IContext _context;
 		private readonly SampleManager _sampleManager;
@@ -37,6 +37,7 @@ namespace JJ.Business.Synthesizer.Tests
 		private Curve _sine2VolumeCurve;
 		private Curve _sine3VolumeCurve;
 		private Curve _sampleVolumeCurve;
+		private Outlet _melodyOutlet;
 		private AudioFileOutput _audioFileOutput;
 
 		public AdditiveTester(IContext context)
@@ -60,8 +61,12 @@ namespace JJ.Business.Synthesizer.Tests
 			_sine2VolumeCurve = CreateSine2Curve();
 			_sine3VolumeCurve = CreateSine3Curve();
 			_sampleVolumeCurve = CreateSampleCurve();
+
 			Outlet outlet = CreateMelody();
-			_audioFileOutput = CreateAudioFileOutput(outlet);
+			outlet = EntityFactory.CreateEcho(_operatorFactory, outlet, count: 5, denominator: 2, delay: 0.66);
+
+			_audioFileOutput = CreateAudioFileOutput();
+			_audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
 			// Verify
 			AssertEntities(outlet);
@@ -76,20 +81,6 @@ namespace JJ.Business.Synthesizer.Tests
 			// Report
 			Assert.Inconclusive($"Calculation time: {stopWatch.ElapsedMilliseconds}ms{Environment.NewLine}" +
 								$"Output file: {Path.GetFullPath(_audioFileOutput.FilePath)}");
-		}
-
-		private void AssertEntities(Outlet outlet)
-		{
-			_sampleManager.ValidateSample(_sample).Verify();
-			new CurveValidator(_sine1VolumeCurve).Verify();
-			new CurveValidator(_sine2VolumeCurve).Verify();
-			new CurveValidator(_sine3VolumeCurve).Verify();
-			new VersatileOperatorValidator(outlet.Operator).Verify();
-			_audioFileOutputManager.ValidateAudioFileOutput(_audioFileOutput).Verify();
-
-			// Warnings
-			new AudioFileOutputWarningValidator(_audioFileOutput).Verify();
-			new VersatileOperatorWarningValidator(outlet.Operator).Verify();
 		}
 
 		private Sample CreateSample()
@@ -115,25 +106,25 @@ namespace JJ.Business.Synthesizer.Tests
 		}
 
 		private Curve CreateSine1Curve() => _curveFactory.CreateCurve(
-			NOTE_DURATION,
+			NOTE_FADE_TIME,
 			0.00, 0.80, 1.00, null, null, null, null, null,
 			0.25, null, null, null, null, null, null, null,
 			0.10, null, null, 0.02, null, null, null, 0.00);
 
 		private Curve CreateSine2Curve() => _curveFactory.CreateCurve(
-			NOTE_DURATION,
+			NOTE_FADE_TIME,
 			0.00, 1.00, 0.80, null, null, null, null, null,
 			0.10, null, null, null, null, null, null, null,
 			0.05, null, null, 0.01, null, null, null, 0.00);
 
 		private Curve CreateSine3Curve() => _curveFactory.CreateCurve(
-			NOTE_DURATION,
+			NOTE_FADE_TIME,
 			0.30, 0.00, 0.30, null, null, null, null, null,
 			0.10, null, null, null, null, null, null, null,
 			0.15, null, null, 0.05, null, null, null, 0.00);
 
 		private Curve CreateSampleCurve() => _curveFactory.CreateCurve(
-			NOTE_DURATION,
+			NOTE_FADE_TIME,
 			1.00, 0.50, 0.20, null, null, null, null, 0.00,
 			null, null, null, null, null, null, null, null,
 			null, null, null, null, null, null, null, null);
@@ -212,15 +203,28 @@ namespace JJ.Business.Synthesizer.Tests
 			);
 		}
 
-		private AudioFileOutput CreateAudioFileOutput(Outlet outlet)
+		private AudioFileOutput CreateAudioFileOutput()
 		{
 			AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
-			audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 			audioFileOutput.Duration = TOTAL_DURATION;
 			audioFileOutput.Amplifier = Int16.MaxValue / 3;
 			audioFileOutput.FilePath = $"{nameof(Test_Synthesizer_Additive_Sines_And_Samples)}.wav";
 
 			return audioFileOutput;
+		}
+
+		private void AssertEntities(Outlet outlet)
+		{
+			_sampleManager.ValidateSample(_sample).Verify();
+			new CurveValidator(_sine1VolumeCurve).Verify();
+			new CurveValidator(_sine2VolumeCurve).Verify();
+			new CurveValidator(_sine3VolumeCurve).Verify();
+			new VersatileOperatorValidator(outlet.Operator).Verify();
+			_audioFileOutputManager.ValidateAudioFileOutput(_audioFileOutput).Verify();
+
+			// Warnings
+			new AudioFileOutputWarningValidator(_audioFileOutput).Verify();
+			new VersatileOperatorWarningValidator(outlet.Operator).Verify();
 		}
 	}
 }
