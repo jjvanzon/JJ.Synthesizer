@@ -21,14 +21,12 @@ namespace JJ.Business.Synthesizer.Tests
 	/// <summary>
 	/// Additional tests written upon retro-actively isolating older synthesizer versions.
 	/// </summary>
-	[TestClass]
-	public class AdditiveTester
+	internal class AdditiveTester
 	{
 		/// <summary>
 		/// Arpeggio sound with harmonics, a high-pitch sample for attack,
 		/// separate curves for each partial, triggers a wav header auto-detect.
 		/// </summary>
-		[TestMethod]
 		public void Test_Synthesizer_Additive_Sines_And_Samples()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
