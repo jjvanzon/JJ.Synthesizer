@@ -13,11 +13,11 @@ public class SynthesizerTester_FMHardCoded
 	{
 		// Audio parameters
 		int sampleRate = 44100;
-		float carrierFrequency = 440f; // Carrier frequency
-		float modulationFrequency = 880f; // Modulation frequency
-		float modulationDepth = 5f; // Modulation depth
+		float carrierFrequency = 440f;
+		float modulationFrequency = 880f;
+		float modulationDepth = 5f;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
@@ -54,11 +54,11 @@ public class SynthesizerTester_FMHardCoded
 	{
 		// Audio parameters
 		int sampleRate = 44100;
-		float carrierFrequency = 440f; // Carrier frequency
-		float modulationFrequency = 5f; // Modulation frequency
-		float modulationDepth = 0.1f; // Modulation depth
+		float carrierFrequency = 440f; 
+		float modulationFrequency = 5f;
+		float modulationDepth = 0.1f;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
@@ -94,11 +94,11 @@ public class SynthesizerTester_FMHardCoded
 	{
 		// Audio parameters
 		int sampleRate = 44100;
-		double carrierFrequency = 440.0; // Carrier frequency
-		double modulationFrequency = 880.0; // Modulation frequency
-		double modulationDepth = 5.0; // Modulation depth
+		double carrierFrequency = 440.0;
+		double modulationFrequency = 880.0;
+		double modulationDepth = 5.0;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
@@ -134,11 +134,11 @@ public class SynthesizerTester_FMHardCoded
 	{
 		// Audio parameters
 		int sampleRate = 44100;
-		double carrierFrequency = 440f; // Carrier frequency
-		double modulationFrequency = 5f; // Modulation frequency
-		double modulationDepth = 0.1f; // Modulation depth
+		double carrierFrequency = 440f;
+		double modulationFrequency = 5f;
+		double modulationDepth = 0.1f;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
@@ -174,11 +174,11 @@ public class SynthesizerTester_FMHardCoded
 	{
 		// Audio parameters
 		int sampleRate = 44100;
-		float carrierFrequency = 440f; // Carrier frequency
-		float modulationFrequency = 880f; // Modulation frequency
-		float modulationDepth = 5f; // Modulation depth
+		float carrierFrequency = 440f;
+		float modulationFrequency = 880f;
+		float modulationDepth = 5f;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
@@ -190,8 +190,8 @@ public class SynthesizerTester_FMHardCoded
 				// Generate samples
 				int dataStartPosition = (int)fs.Position;
 
-				float carrierPhase = 0f; // Phase of the carrier
-				float modulatorPhase = 0f; // Phase of the modulator
+				float carrierPhase = 0f;
+				float modulatorPhase = 0f;
 				float twoPi = 2 * (float)Math.PI;
 
 				for (int i = 0; i < sampleCount; i++)
@@ -224,11 +224,11 @@ public class SynthesizerTester_FMHardCoded
 	{
 		// Audio parameters
 		int sampleRate = 44100;
-		float carrierFrequency = 440f; // Carrier frequency
-		float modulationFrequency = 10f; // Modulation frequency
-		float modulationDepth = 50f; // Modulation depth
+		float carrierFrequency = 440f;
+		float modulationFrequency = 10f;
+		float modulationDepth = 50f;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
@@ -240,8 +240,8 @@ public class SynthesizerTester_FMHardCoded
 				// Generate samples
 				int dataStartPosition = (int)fs.Position;
 
-				float carrierPhase = 0f; // Phase of the carrier
-				float modulatorPhase = 0f; // Phase of the modulator
+				float carrierPhase = 0f;
+				float modulatorPhase = 0f;
 				float twoPi = 2 * (float)Math.PI;
 
 				for (int i = 0; i < sampleCount; i++)
@@ -274,11 +274,11 @@ public class SynthesizerTester_FMHardCoded
 	{
 		// Audio parameters
 		int sampleRate = 44100;
-		double carrierFrequency = 440.0; // Carrier frequency
-		double modulationFrequency = 880.0; // Modulation frequency
-		double modulationDepth = 5.0; // Modulation depth
+		double carrierFrequency = 440.0;
+		double modulationFrequency = 880.0;
+		double modulationDepth = 5.0;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
@@ -290,8 +290,8 @@ public class SynthesizerTester_FMHardCoded
 				// Generate samples
 				int dataStartPosition = (int)fs.Position;
 
-				double carrierPhase = 0f; // Phase of the carrier
-				double modulatorPhase = 0f; // Phase of the modulator
+				double carrierPhase = 0f;
+				double modulatorPhase = 0f;
 				double twoPi = 2 * Math.PI;
 
 				for (int i = 0; i < sampleCount; i++)
@@ -324,11 +324,11 @@ public class SynthesizerTester_FMHardCoded
 	{
 		// Audio parameters
 		int sampleRate = 44100;
-		double carrierFrequency = 440.0; // Carrier frequency
-		double modulationFrequency = 10.0; // Modulation frequency
-		double modulationDepth = 50.0; // Modulation depth
+		double carrierFrequency = 440.0;
+		double modulationFrequency = 10.0;
+		double modulationDepth = 50.0;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
@@ -340,8 +340,8 @@ public class SynthesizerTester_FMHardCoded
 				// Generate samples
 				int dataStartPosition = (int)fs.Position;
 
-				double carrierPhase = 0f; // Phase of the carrier
-				double modulatorPhase = 0f; // Phase of the modulator
+				double carrierPhase = 0f;
+				double modulatorPhase = 0f;
 				double twoPi = 2 * Math.PI;
 
 				for (int i = 0; i < sampleCount; i++)
