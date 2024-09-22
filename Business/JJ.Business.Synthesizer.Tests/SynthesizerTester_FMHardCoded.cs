@@ -2,6 +2,9 @@
 using System.IO;
 using System;
 using System.Reflection;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Infos;
+using JJ.Framework.IO;
 
 [TestClass]
 public class SynthesizerTester_FMHardCoded
@@ -195,29 +198,26 @@ public class SynthesizerTester_FMHardCoded
 		double modulationFrequency = 5f; // Modulation frequency
 		double modulationDepth = 0.1f; // Modulation depth
 		int duration = 5; // Duration in seconds
+		int sampleCount = sampleRate * duration;
 		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+
+		var audioFileInfo = new AudioFileInfo
+		{
+			SamplingRate = sampleRate,
+			SampleCount = sampleCount,
+			BytesPerValue = sizeof(Int16),
+			ChannelCount = 1
+		};
+		var wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
 				// Write WAV header
-				bw.Write("RIFF".ToCharArray());
-				bw.Write(0); // Placeholder for file size
-				bw.Write("WAVE".ToCharArray());
-				bw.Write("fmt ".ToCharArray());
-				bw.Write(16); // Subchunk1Size
-				bw.Write((short)1); // AudioFormat (PCM)
-				bw.Write((short)1); // NumChannels
-				bw.Write(sampleRate); // SampleRate
-				bw.Write(sampleRate * 2); // ByteRate
-				bw.Write((short)2); // BlockAlign
-				bw.Write((short)16); // BitsPerSample
-				bw.Write("data".ToCharArray());
-				bw.Write(0); // Placeholder for data chunk size
+				bw.WriteStruct(wavHeaderStruct);
 
 				// Generate samples
-				int sampleCount = sampleRate * duration;
 				int dataStartPosition = (int)fs.Position;
 
 				for (int i = 0; i < sampleCount; i++)
