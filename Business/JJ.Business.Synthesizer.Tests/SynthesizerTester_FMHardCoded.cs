@@ -28,8 +28,6 @@ public class SynthesizerTester_FMHardCoded
 				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int dataStartPosition = (int)fs.Position;
-
 				for (int i = 0; i < sampleCount; i++)
 				{
 					// Calculate the modulator and carrier signals
@@ -65,8 +63,6 @@ public class SynthesizerTester_FMHardCoded
 				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int dataStartPosition = (int)fs.Position;
-
 				for (int i = 0; i < sampleCount; i++)
 				{
 					// Calculate the modulator and carrier signals
@@ -102,8 +98,6 @@ public class SynthesizerTester_FMHardCoded
 				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int dataStartPosition = (int)fs.Position;
-
 				for (int i = 0; i < sampleCount; i++)
 				{
 					// Calculate the modulator and carrier signals
@@ -139,8 +133,6 @@ public class SynthesizerTester_FMHardCoded
 				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int dataStartPosition = (int)fs.Position;
-
 				for (int i = 0; i < sampleCount; i++)
 				{
 					// Calculate the modulator and carrier signals
@@ -176,8 +168,6 @@ public class SynthesizerTester_FMHardCoded
 				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int dataStartPosition = (int)fs.Position;
-
 				float carrierPhase = 0f;
 				float modulatorPhase = 0f;
 				float twoPi = 2 * (float)Math.PI;
@@ -223,8 +213,6 @@ public class SynthesizerTester_FMHardCoded
 				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int dataStartPosition = (int)fs.Position;
-
 				float carrierPhase = 0f;
 				float modulatorPhase = 0f;
 				float twoPi = 2 * (float)Math.PI;
@@ -270,8 +258,6 @@ public class SynthesizerTester_FMHardCoded
 				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int dataStartPosition = (int)fs.Position;
-
 				double carrierPhase = 0f;
 				double modulatorPhase = 0f;
 				double twoPi = 2 * Math.PI;
@@ -317,8 +303,6 @@ public class SynthesizerTester_FMHardCoded
 				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int dataStartPosition = (int)fs.Position;
-
 				double carrierPhase = 0f;
 				double modulatorPhase = 0f;
 				double twoPi = 2 * Math.PI;
