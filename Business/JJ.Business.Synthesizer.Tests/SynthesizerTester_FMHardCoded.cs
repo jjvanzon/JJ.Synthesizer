@@ -7,7 +7,7 @@ using System.Reflection;
 public class SynthesizerTester_FMHardCoded
 {
 	[TestMethod]
-	public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_32BitFloat_HardFlute()
+	public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_32BitFloat_HardFlute_IsNoise()
 	{
 		// Audio parameters
 		int sampleRate = 44100;
@@ -127,7 +127,7 @@ public class SynthesizerTester_FMHardCoded
 	}
 
 	[TestMethod]
-	public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_64BitDouble_HardFlute()
+	public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_64BitDouble_HardFlute_IsNoise()
 	{
 		// Audio parameters
 		int sampleRate = 44100;
