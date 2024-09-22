@@ -205,8 +205,7 @@ public class SynthesizerTester_FMHardCoded
 			using (var bw = new BinaryWriter(fs))
 			{
 				// Write WAV header
-				//WavHeaderWishes.WriteWavHeader(bw, SampleDataTypeEnum.Int16, SpeakerSetupEnum.Mono, sampleRate, sampleCount);
-				bw.WriteWavHeader(SampleDataTypeEnum.Int16, SpeakerSetupEnum.Mono, sampleRate, sampleCount);
+				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
 				int dataStartPosition = (int)fs.Position;
