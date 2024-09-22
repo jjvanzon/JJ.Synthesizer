@@ -46,7 +46,7 @@ public class SynthesizerTester_FMHardCoded
 					float modulator = (float)Math.Sin(2 * Math.PI * modulationFrequency * i / sampleRate);
 					float modulatedFrequency = carrierFrequency + modulationDepth * carrierFrequency * modulator;
 					float sample = (float)Math.Sin(2 * Math.PI * modulatedFrequency * i / sampleRate);
-					short scaledSample = (short)(sample * short.MaxValue); // Scale to 16-bit range
+					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
 					bw.Write(scaledSample);
 				}
@@ -106,7 +106,7 @@ public class SynthesizerTester_FMHardCoded
 					float modulator = (float)Math.Sin(2 * Math.PI * modulationFrequency * i / sampleRate);
 					float modulatedFrequency = carrierFrequency + modulationDepth * carrierFrequency * modulator;
 					float sample = (float)Math.Sin(2 * Math.PI * modulatedFrequency * i / sampleRate);
-					short scaledSample = (short)(sample * short.MaxValue); // Scale to 16-bit range
+					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
 					bw.Write(scaledSample);
 				}
@@ -166,7 +166,7 @@ public class SynthesizerTester_FMHardCoded
 					double modulator = (double)Math.Sin(2 * Math.PI * modulationFrequency * i / sampleRate);
 					double modulatedFrequency = carrierFrequency + modulationDepth * carrierFrequency * modulator;
 					double sample = (double)Math.Sin(2 * Math.PI * modulatedFrequency * i / sampleRate);
-					short scaledSample = (short)(sample * short.MaxValue); // Scale to 16-bit range
+					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
 					bw.Write(scaledSample);
 				}
@@ -226,7 +226,7 @@ public class SynthesizerTester_FMHardCoded
 					double modulator = (double)Math.Sin(2 * Math.PI * modulationFrequency * i / sampleRate);
 					double modulatedFrequency = carrierFrequency + modulationDepth * carrierFrequency * modulator;
 					double sample = (double)Math.Sin(2 * Math.PI * modulatedFrequency * i / sampleRate);
-					short scaledSample = (short)(sample * short.MaxValue); // Scale to 16-bit range
+					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
 					bw.Write(scaledSample);
 				}
@@ -296,7 +296,7 @@ public class SynthesizerTester_FMHardCoded
 
 					// Generate sample
 					float sample = (float)Math.Sin(carrierPhase + (modulator * modulationDepth));
-					short scaledSample = (short)(sample * short.MaxValue); // Scale to 16-bit range
+					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
 					bw.Write(scaledSample);
 				}
@@ -366,7 +366,7 @@ public class SynthesizerTester_FMHardCoded
 
 					// Generate sample
 					float sample = (float)Math.Sin(carrierPhase + (modulator * modulationDepth));
-					short scaledSample = (short)(sample * short.MaxValue); // Scale to 16-bit range
+					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
 					bw.Write(scaledSample);
 				}
