@@ -4,7 +4,7 @@ using System;
 using System.Reflection;
 
 [TestClass]
-public class SynthesizerHardCodedFMTests
+public class SynthesizerTester_FMHardCoded
 {
 	[TestMethod]
 	public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_32BitFloat_HardFlute()

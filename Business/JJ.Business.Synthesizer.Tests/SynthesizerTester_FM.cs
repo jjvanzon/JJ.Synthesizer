@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests
 		/// NOTE: Version 0.0.250 does not have time tracking in its oscillator,
 		/// making the FM synthesis behave much different.
 		/// </summary>
-		public void Test_FM()
+		public void Test_Synthesizer_FM()
 		{
 			// Arrange
 			var x = _operatorFactory;
@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Tests
 			AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
 			audioFileOutput.Duration = TOTAL_TIME;
 			audioFileOutput.Amplifier = Int16.MaxValue / 3.5;
-			audioFileOutput.FilePath = $"{nameof(Test_FM)}.wav";
+			audioFileOutput.FilePath = $"{nameof(Test_Synthesizer_FM)}.wav";
 			return audioFileOutput;
 		}
 

@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				var tester = new SynthesizerTester_FM(context);
-				tester.Test_FM();
+				tester.Test_Synthesizer_FM();
 			}
 		}
 	}
