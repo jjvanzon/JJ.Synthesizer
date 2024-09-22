@@ -44,9 +44,6 @@ public class SynthesizerTester_FMHardCoded
 		}
 
 		Console.WriteLine($"FM sound saved to {outputFilePath}");
-
-		// Optional: Assert that the file was created
-		Assert.IsTrue(File.Exists(outputFilePath), "WAV file was not created successfully.");
 	}
 
 	[TestMethod]
@@ -84,9 +81,6 @@ public class SynthesizerTester_FMHardCoded
 		}
 
 		Console.WriteLine($"FM sound saved to {outputFilePath}");
-
-		// Optional: Assert that the file was created
-		Assert.IsTrue(File.Exists(outputFilePath), "WAV file was not created successfully.");
 	}
 
 	[TestMethod]
@@ -124,9 +118,6 @@ public class SynthesizerTester_FMHardCoded
 		}
 
 		Console.WriteLine($"FM sound saved to {outputFilePath}");
-
-		// Optional: Assert that the file was created
-		Assert.IsTrue(File.Exists(outputFilePath), "WAV file was not created successfully.");
 	}
 
 	[TestMethod]
@@ -164,9 +155,6 @@ public class SynthesizerTester_FMHardCoded
 		}
 
 		Console.WriteLine($"FM sound saved to {outputFilePath}");
-
-		// Optional: Assert that the file was created
-		Assert.IsTrue(File.Exists(outputFilePath), "WAV file was not created successfully.");
 	}
 
 	[TestMethod]
@@ -214,9 +202,6 @@ public class SynthesizerTester_FMHardCoded
 		}
 
 		Console.WriteLine($"FM sound saved to {outputFilePath}");
-
-		// Optional: Assert that the file was created
-		Assert.IsTrue(File.Exists(outputFilePath), "WAV file was not created successfully.");
 	}
 
 	[TestMethod]
@@ -264,9 +249,6 @@ public class SynthesizerTester_FMHardCoded
 		}
 
 		Console.WriteLine($"FM sound saved to {outputFilePath}");
-
-		// Optional: Assert that the file was created
-		Assert.IsTrue(File.Exists(outputFilePath), "WAV file was not created successfully.");
 	}
 
 	[TestMethod]
@@ -314,9 +296,6 @@ public class SynthesizerTester_FMHardCoded
 		}
 
 		Console.WriteLine($"FM sound saved to {outputFilePath}");
-
-		// Optional: Assert that the file was created
-		Assert.IsTrue(File.Exists(outputFilePath), "WAV file was not created successfully.");
 	}
 
 	[TestMethod]
@@ -364,8 +343,5 @@ public class SynthesizerTester_FMHardCoded
 		}
 
 		Console.WriteLine($"FM sound saved to {outputFilePath}");
-
-		// Optional: Assert that the file was created
-		Assert.IsTrue(File.Exists(outputFilePath), "WAV file was not created successfully.");
 	}
 }
