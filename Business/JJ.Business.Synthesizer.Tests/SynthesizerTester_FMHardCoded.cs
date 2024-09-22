@@ -3,8 +3,7 @@ using System.IO;
 using System;
 using System.Reflection;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Business.Synthesizer.Infos;
-using JJ.Framework.IO;
+using JJ.Business.Synthesizer.Enums;
 
 [TestClass]
 public class SynthesizerTester_FMHardCoded
@@ -201,21 +200,13 @@ public class SynthesizerTester_FMHardCoded
 		int sampleCount = sampleRate * duration;
 		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
 
-		var audioFileInfo = new AudioFileInfo
-		{
-			SamplingRate = sampleRate,
-			SampleCount = sampleCount,
-			BytesPerValue = sizeof(Int16),
-			ChannelCount = 1
-		};
-		var wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);
-
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
 				// Write WAV header
-				bw.WriteStruct(wavHeaderStruct);
+				WavHeaderWishes.WriteWavHeader(bw, SampleDataTypeEnum.Int16, SpeakerSetupEnum.Mono, sampleRate, sampleCount);
+				//bw.WriteWavHeader(SampleDataTypeEnum.Int16, SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
 				int dataStartPosition = (int)fs.Position;

@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\WavHeaderWishes.cs" />
     <Compile Include="SynthesizerTester_FMHardCoded.cs" />
     <Compile Include="SynthesizerAdditionalTests.cs" />
     <Compile Include="SynthesizerTester_FM.cs" />
