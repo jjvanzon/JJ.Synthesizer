@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="SynthesizerHardCodedFMTests.cs" />
     <Compile Include="SynthesizerAdditionalTests.cs" />
-    <Compile Include="SynthesizerTester_FMDetuneAndPitchModulation.cs" />
+    <Compile Include="SynthesizerTester_FM.cs" />
     <Compile Include="Helpers\Frequencies.cs" />
     <Compile Include="SynthesizerTester_SineWithVolumeCurve.cs" />
     <Compile Include="CurveTests.cs" />

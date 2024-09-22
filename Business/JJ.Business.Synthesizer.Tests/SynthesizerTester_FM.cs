@@ -13,7 +13,7 @@ using System.IO;
 
 namespace JJ.Business.Synthesizer.Tests
 {
-	internal class SynthesizerTester_FMDetuneAndPitchModulation
+	internal class SynthesizerTester_FM
 	{
 		private const double TOTAL_TIME = 3;
 
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests
 
 		private AudioFileOutput _audioFileOutput;
 
-		public SynthesizerTester_FMDetuneAndPitchModulation(IContext context)
+		public SynthesizerTester_FM(IContext context)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
 			_audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(_context);
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests
 		/// NOTE: Version 0.0.250 does not have time tracking in its oscillator,
 		/// making the FM synthesis behave much different.
 		/// </summary>
-		public void Test_FM_With_Detune_And_Pitch_Modulation()
+		public void Test_FM()
 		{
 			// Arrange
 			var x = _operatorFactory;
@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Tests
 			AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
 			audioFileOutput.Duration = TOTAL_TIME;
 			audioFileOutput.Amplifier = Int16.MaxValue / 3.5;
-			audioFileOutput.FilePath = $"{nameof(Test_FM_With_Detune_And_Pitch_Modulation)}.wav";
+			audioFileOutput.FilePath = $"{nameof(Test_FM)}.wav";
 			return audioFileOutput;
 		}
 

@@ -31,12 +31,12 @@ namespace JJ.Business.Synthesizer.Tests
 		}
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_With_Detune_And_Pitch_Modulation()
+		public void Test_Synthesizer_FM()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				var tester = new SynthesizerTester_FMDetuneAndPitchModulation(context);
-				tester.Test_FM_With_Detune_And_Pitch_Modulation();
+				var tester = new SynthesizerTester_FM(context);
+				tester.Test_FM();
 			}
 		}
 	}
