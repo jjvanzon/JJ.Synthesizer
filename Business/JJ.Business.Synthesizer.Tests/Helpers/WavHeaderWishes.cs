@@ -7,10 +7,18 @@ using JJ.Framework.IO;
 
 namespace JJ.Business.Synthesizer.Managers
 {
+	/// <summary> I wish these things were in JJ.Synthesizer </summary>
 	public static class WavHeaderWishes
 	{
-		/// <summary> I wish this was in the WavHeaderManager. </summary>
 		public static void WriteWavHeader(
+			this BinaryWriter bw,
+			SampleDataTypeEnum sampleDataTypeEnum,
+			SpeakerSetupEnum speakerSetupEnum,
+			int samplingRate,
+			int sampleCount) 
+			=> WriteHeader(bw, sampleDataTypeEnum, speakerSetupEnum, samplingRate, sampleCount);
+
+		public static void WriteHeader(
 			BinaryWriter bw,
 			SampleDataTypeEnum sampleDataTypeEnum,
 			SpeakerSetupEnum speakerSetupEnum,
@@ -30,8 +38,7 @@ namespace JJ.Business.Synthesizer.Managers
 			bw.WriteStruct(wavHeaderStruct);
 		}
 
-		/// <summary> I wish this extension existed in JJ.Synthesizer. </summary>
-		private static int GetChannelCount(this SpeakerSetupEnum speakerSetupEnum)
+		public static int GetChannelCount(this SpeakerSetupEnum speakerSetupEnum)
 		{
 			switch (speakerSetupEnum)
 			{
@@ -40,6 +47,5 @@ namespace JJ.Business.Synthesizer.Managers
 				default: throw new ValueNotSupportedException(speakerSetupEnum);
 			};
 		}
-
 	}
 }
