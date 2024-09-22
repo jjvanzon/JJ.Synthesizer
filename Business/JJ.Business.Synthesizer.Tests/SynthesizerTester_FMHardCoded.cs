@@ -40,13 +40,6 @@ public class SynthesizerTester_FMHardCoded
 
 					bw.Write(scaledSample);
 				}
-
-				// Update sizes in the header
-				long fileSize = fs.Length - 8; // Exclude RIFF header
-				fs.Seek(4, SeekOrigin.Begin);
-				bw.Write((int)fileSize);
-				fs.Seek(dataStartPosition - 4, SeekOrigin.Begin);
-				bw.Write((int)(fs.Length - dataStartPosition - 8)); // Size of data chunk
 			}
 		}
 
@@ -87,13 +80,6 @@ public class SynthesizerTester_FMHardCoded
 
 					bw.Write(scaledSample);
 				}
-
-				// Update sizes in the header
-				long fileSize = fs.Length - 8; // Exclude RIFF header
-				fs.Seek(4, SeekOrigin.Begin);
-				bw.Write((int)fileSize);
-				fs.Seek(dataStartPosition - 4, SeekOrigin.Begin);
-				bw.Write((int)(fs.Length - dataStartPosition - 8)); // Size of data chunk
 			}
 		}
 
@@ -134,13 +120,6 @@ public class SynthesizerTester_FMHardCoded
 
 					bw.Write(scaledSample);
 				}
-
-				// Update sizes in the header
-				long fileSize = fs.Length - 8; // Exclude RIFF header
-				fs.Seek(4, SeekOrigin.Begin);
-				bw.Write((int)fileSize);
-				fs.Seek(dataStartPosition - 4, SeekOrigin.Begin);
-				bw.Write((int)(fs.Length - dataStartPosition - 8)); // Size of data chunk
 			}
 		}
 
@@ -181,13 +160,6 @@ public class SynthesizerTester_FMHardCoded
 
 					bw.Write(scaledSample);
 				}
-
-				// Update sizes in the header
-				long fileSize = fs.Length - 8; // Exclude RIFF header
-				fs.Seek(4, SeekOrigin.Begin);
-				bw.Write((int)fileSize);
-				fs.Seek(dataStartPosition - 4, SeekOrigin.Begin);
-				bw.Write((int)(fs.Length - dataStartPosition - 8)); // Size of data chunk
 			}
 		}
 
@@ -238,13 +210,6 @@ public class SynthesizerTester_FMHardCoded
 
 					bw.Write(scaledSample);
 				}
-
-				// Update sizes in the header
-				long fileSize = fs.Length - 8; // Exclude RIFF header
-				fs.Seek(4, SeekOrigin.Begin);
-				bw.Write((int)fileSize);
-				fs.Seek(dataStartPosition - 4, SeekOrigin.Begin);
-				bw.Write((int)(fs.Length - dataStartPosition - 8)); // Size of data chunk
 			}
 		}
 
@@ -295,13 +260,6 @@ public class SynthesizerTester_FMHardCoded
 
 					bw.Write(scaledSample);
 				}
-
-				// Update sizes in the header
-				long fileSize = fs.Length - 8; // Exclude RIFF header
-				fs.Seek(4, SeekOrigin.Begin);
-				bw.Write((int)fileSize);
-				fs.Seek(dataStartPosition - 4, SeekOrigin.Begin);
-				bw.Write((int)(fs.Length - dataStartPosition - 8)); // Size of data chunk
 			}
 		}
 
@@ -352,13 +310,6 @@ public class SynthesizerTester_FMHardCoded
 
 					bw.Write(scaledSample);
 				}
-
-				// Update sizes in the header
-				long fileSize = fs.Length - 8; // Exclude RIFF header
-				fs.Seek(4, SeekOrigin.Begin);
-				bw.Write((int)fileSize);
-				fs.Seek(dataStartPosition - 4, SeekOrigin.Begin);
-				bw.Write((int)(fs.Length - dataStartPosition - 8)); // Size of data chunk
 			}
 		}
 
@@ -409,13 +360,6 @@ public class SynthesizerTester_FMHardCoded
 
 					bw.Write(scaledSample);
 				}
-
-				// Update sizes in the header
-				long fileSize = fs.Length - 8; // Exclude RIFF header
-				fs.Seek(4, SeekOrigin.Begin);
-				bw.Write((int)fileSize);
-				fs.Seek(dataStartPosition - 4, SeekOrigin.Begin);
-				bw.Write((int)(fs.Length - dataStartPosition - 8)); // Size of data chunk
 			}
 		}
 
