@@ -18,28 +18,16 @@ public class SynthesizerTester_FMHardCoded
 		float modulationDepth = 5f; // Modulation depth
 		int duration = 5; // Duration in seconds
 		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
 				// Write WAV header
-				bw.Write("RIFF".ToCharArray());
-				bw.Write(0); // Placeholder for file size
-				bw.Write("WAVE".ToCharArray());
-				bw.Write("fmt ".ToCharArray());
-				bw.Write(16); // Subchunk1Size
-				bw.Write((short)1); // AudioFormat (PCM)
-				bw.Write((short)1); // NumChannels
-				bw.Write(sampleRate); // SampleRate
-				bw.Write(sampleRate * 2); // ByteRate
-				bw.Write((short)2); // BlockAlign
-				bw.Write((short)16); // BitsPerSample
-				bw.Write("data".ToCharArray());
-				bw.Write(0); // Placeholder for data chunk size
+				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int sampleCount = sampleRate * duration;
 				int dataStartPosition = (int)fs.Position;
 
 				for (int i = 0; i < sampleCount; i++)
@@ -78,28 +66,15 @@ public class SynthesizerTester_FMHardCoded
 		float modulationDepth = 0.1f; // Modulation depth
 		int duration = 5; // Duration in seconds
 		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
-				// Write WAV header
-				bw.Write("RIFF".ToCharArray());
-				bw.Write(0); // Placeholder for file size
-				bw.Write("WAVE".ToCharArray());
-				bw.Write("fmt ".ToCharArray());
-				bw.Write(16); // Subchunk1Size
-				bw.Write((short)1); // AudioFormat (PCM)
-				bw.Write((short)1); // NumChannels
-				bw.Write(sampleRate); // SampleRate
-				bw.Write(sampleRate * 2); // ByteRate
-				bw.Write((short)2); // BlockAlign
-				bw.Write((short)16); // BitsPerSample
-				bw.Write("data".ToCharArray());
-				bw.Write(0); // Placeholder for data chunk size
+				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int sampleCount = sampleRate * duration;
 				int dataStartPosition = (int)fs.Position;
 
 				for (int i = 0; i < sampleCount; i++)
@@ -138,28 +113,15 @@ public class SynthesizerTester_FMHardCoded
 		double modulationDepth = 5.0; // Modulation depth
 		int duration = 5; // Duration in seconds
 		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
-				// Write WAV header
-				bw.Write("RIFF".ToCharArray());
-				bw.Write(0); // Placeholder for file size
-				bw.Write("WAVE".ToCharArray());
-				bw.Write("fmt ".ToCharArray());
-				bw.Write(16); // Subchunk1Size
-				bw.Write((short)1); // AudioFormat (PCM)
-				bw.Write((short)1); // NumChannels
-				bw.Write(sampleRate); // SampleRate
-				bw.Write(sampleRate * 2); // ByteRate
-				bw.Write((short)2); // BlockAlign
-				bw.Write((short)16); // BitsPerSample
-				bw.Write("data".ToCharArray());
-				bw.Write(0); // Placeholder for data chunk size
+				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int sampleCount = sampleRate * duration;
 				int dataStartPosition = (int)fs.Position;
 
 				for (int i = 0; i < sampleCount; i++)
@@ -197,14 +159,13 @@ public class SynthesizerTester_FMHardCoded
 		double modulationFrequency = 5f; // Modulation frequency
 		double modulationDepth = 0.1f; // Modulation depth
 		int duration = 5; // Duration in seconds
-		int sampleCount = sampleRate * duration;
 		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
-				// Write WAV header
 				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
@@ -246,28 +207,15 @@ public class SynthesizerTester_FMHardCoded
 		float modulationDepth = 5f; // Modulation depth
 		int duration = 5; // Duration in seconds
 		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
-				// Write WAV header
-				bw.Write("RIFF".ToCharArray());
-				bw.Write(0); // Placeholder for file size
-				bw.Write("WAVE".ToCharArray());
-				bw.Write("fmt ".ToCharArray());
-				bw.Write(16); // Subchunk1Size
-				bw.Write((short)1); // AudioFormat (PCM)
-				bw.Write((short)1); // NumChannels
-				bw.Write(sampleRate); // SampleRate
-				bw.Write(sampleRate * 2); // ByteRate
-				bw.Write((short)2); // BlockAlign
-				bw.Write((short)16); // BitsPerSample
-				bw.Write("data".ToCharArray());
-				bw.Write(0); // Placeholder for data chunk size
+				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int sampleCount = sampleRate * duration;
 				int dataStartPosition = (int)fs.Position;
 
 				float carrierPhase = 0f; // Phase of the carrier
@@ -316,28 +264,15 @@ public class SynthesizerTester_FMHardCoded
 		float modulationDepth = 50f; // Modulation depth
 		int duration = 5; // Duration in seconds
 		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
-				// Write WAV header
-				bw.Write("RIFF".ToCharArray());
-				bw.Write(0); // Placeholder for file size
-				bw.Write("WAVE".ToCharArray());
-				bw.Write("fmt ".ToCharArray());
-				bw.Write(16); // Subchunk1Size
-				bw.Write((short)1); // AudioFormat (PCM)
-				bw.Write((short)1); // NumChannels
-				bw.Write(sampleRate); // SampleRate
-				bw.Write(sampleRate * 2); // ByteRate
-				bw.Write((short)2); // BlockAlign
-				bw.Write((short)16); // BitsPerSample
-				bw.Write("data".ToCharArray());
-				bw.Write(0); // Placeholder for data chunk size
+				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int sampleCount = sampleRate * duration;
 				int dataStartPosition = (int)fs.Position;
 
 				float carrierPhase = 0f; // Phase of the carrier
@@ -386,28 +321,15 @@ public class SynthesizerTester_FMHardCoded
 		double modulationDepth = 5.0; // Modulation depth
 		int duration = 5; // Duration in seconds
 		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
-				// Write WAV header
-				bw.Write("RIFF".ToCharArray());
-				bw.Write(0); // Placeholder for file size
-				bw.Write("WAVE".ToCharArray());
-				bw.Write("fmt ".ToCharArray());
-				bw.Write(16); // Subchunk1Size
-				bw.Write((short)1); // AudioFormat (PCM)
-				bw.Write((short)1); // NumChannels
-				bw.Write(sampleRate); // SampleRate
-				bw.Write(sampleRate * 2); // ByteRate
-				bw.Write((short)2); // BlockAlign
-				bw.Write((short)16); // BitsPerSample
-				bw.Write("data".ToCharArray());
-				bw.Write(0); // Placeholder for data chunk size
+				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int sampleCount = sampleRate * duration;
 				int dataStartPosition = (int)fs.Position;
 
 				double carrierPhase = 0f; // Phase of the carrier
@@ -456,28 +378,15 @@ public class SynthesizerTester_FMHardCoded
 		double modulationDepth = 50.0; // Modulation depth
 		int duration = 5; // Duration in seconds
 		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav"; // Output WAV file path
+		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFilePath, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
-				// Write WAV header
-				bw.Write("RIFF".ToCharArray());
-				bw.Write(0); // Placeholder for file size
-				bw.Write("WAVE".ToCharArray());
-				bw.Write("fmt ".ToCharArray());
-				bw.Write(16); // Subchunk1Size
-				bw.Write((short)1); // AudioFormat (PCM)
-				bw.Write((short)1); // NumChannels
-				bw.Write(sampleRate); // SampleRate
-				bw.Write(sampleRate * 2); // ByteRate
-				bw.Write((short)2); // BlockAlign
-				bw.Write((short)16); // BitsPerSample
-				bw.Write("data".ToCharArray());
-				bw.Write(0); // Placeholder for data chunk size
+				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
-				int sampleCount = sampleRate * duration;
 				int dataStartPosition = (int)fs.Position;
 
 				double carrierPhase = 0f; // Phase of the carrier
