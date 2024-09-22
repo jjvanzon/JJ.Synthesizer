@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Managers
 {
-    internal static class WavHeaderManager
+    public static class WavHeaderManager
     {
         public static WavHeaderStruct CreateWavHeaderStruct(AudioFileInfo audioFileInfo)
         {

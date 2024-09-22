@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Infos
 {
-    internal class AudioFileInfo
+    public class AudioFileInfo
     {
         public int BytesPerValue { get; set; }
         public int ChannelCount { get; set; }

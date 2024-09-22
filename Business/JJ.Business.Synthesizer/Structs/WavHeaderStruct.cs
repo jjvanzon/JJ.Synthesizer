@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Structs
 {
-    internal struct WavHeaderStruct
+    public struct WavHeaderStruct
     {
         // This page describes it pretty well:
         // http://www-mmsp.ece.mcgill.ca/documents/AudioFormats/WAVE/WAVE.html
