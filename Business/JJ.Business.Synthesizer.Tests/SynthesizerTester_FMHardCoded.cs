@@ -28,11 +28,11 @@ public class SynthesizerTester_FMHardCoded
 		string outputFileName = $"{callerMemberName}.wav";
 		int sampleCount = sampleRate * duration;
 
-		using (var fs = new FileStream(outputFileName, FileMode.Create))
+		using (var fileStream = new FileStream(outputFileName, FileMode.Create, FileAccess.Write, FileShare.Read))
 		{
-			using (var bw = new BinaryWriter(fs))
+			using (var writer = new BinaryWriter(fileStream))
 			{
-				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
+				writer.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
 				for (int i = 0; i < sampleCount; i++)
@@ -43,7 +43,7 @@ public class SynthesizerTester_FMHardCoded
 					float sample = (float)Math.Sin(2 * Math.PI * modulatedFrequency * i / sampleRate);
 					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
-					bw.Write(scaledSample);
+					writer.Write(scaledSample);
 				}
 			}
 		}
@@ -57,7 +57,7 @@ public class SynthesizerTester_FMHardCoded
 
 	[TestMethod]
 	public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_64BitDouble_WapWap()
-		=> Test_FM_HardCoded_NoPhaseTracking_64BitDouble(carrierFrequency: 440f, modulationFrequency: 5f, modulationDepth: 0.1f);
+		=> Test_FM_HardCoded_NoPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 5.0, modulationDepth: 0.1);
 
 	private void Test_FM_HardCoded_NoPhaseTracking_64BitDouble(
 		double carrierFrequency,
@@ -71,11 +71,11 @@ public class SynthesizerTester_FMHardCoded
 		string outputFileName = $"{callerMemberName}.wav";
 		int sampleCount = sampleRate * duration;
 
-		using (var fs = new FileStream(outputFileName, FileMode.Create))
+		using (var fileStream = new FileStream(outputFileName, FileMode.Create, FileAccess.Write, FileShare.Read))
 		{
-			using (var bw = new BinaryWriter(fs))
+			using (var writer = new BinaryWriter(fileStream))
 			{
-				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
+				writer.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
 				for (int i = 0; i < sampleCount; i++)
@@ -86,7 +86,7 @@ public class SynthesizerTester_FMHardCoded
 					double sample = (double)Math.Sin(2 * Math.PI * modulatedFrequency * i / sampleRate);
 					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
-					bw.Write(scaledSample);
+					writer.Write(scaledSample);
 				}
 			}
 		}
@@ -114,11 +114,11 @@ public class SynthesizerTester_FMHardCoded
 		string outputFileName = $"{callerMemberName}.wav";
 		int sampleCount = sampleRate * duration;
 
-		using (var fs = new FileStream(outputFileName, FileMode.Create))
+		using (var fileStream = new FileStream(outputFileName, FileMode.Create, FileAccess.Write, FileShare.Read))
 		{
-			using (var bw = new BinaryWriter(fs))
+			using (var writer = new BinaryWriter(fileStream))
 			{
-				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
+				writer.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
 				float carrierPhase = 0f;
@@ -139,7 +139,7 @@ public class SynthesizerTester_FMHardCoded
 					float sample = (float)Math.Sin(carrierPhase + (modulator * modulationDepth));
 					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
-					bw.Write(scaledSample);
+					writer.Write(scaledSample);
 				}
 			}
 		}
@@ -167,11 +167,11 @@ public class SynthesizerTester_FMHardCoded
 		string outputFileName = $"{callerMemberName}.wav";
 		int sampleCount = sampleRate * duration;
 
-		using (var fs = new FileStream(outputFileName, FileMode.Create))
+		using (var fileStream = new FileStream(outputFileName, FileMode.Create, FileAccess.Write, FileShare.Read))
 		{
-			using (var bw = new BinaryWriter(fs))
+			using (var writer = new BinaryWriter(fileStream))
 			{
-				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
+				writer.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
 
 				// Generate samples
 				double carrierPhase = 0f;
@@ -192,7 +192,7 @@ public class SynthesizerTester_FMHardCoded
 					double sample = Math.Sin(carrierPhase + (modulator * modulationDepth));
 					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
-					bw.Write(scaledSample);
+					writer.Write(scaledSample);
 				}
 			}
 		}
