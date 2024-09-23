@@ -49,6 +49,8 @@ namespace JJ.Business.Synthesizer.Tests
 			//Outlet modulator = x.Sine(x.Value(modDepth = 5), x.Value(modSpeed = 220));
 			//Outlet sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq = 440), modulator));
 
+			// Flutes
+
 			// Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (why that work?)
 			//Outlet modulator = x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 220));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
@@ -57,37 +59,43 @@ namespace JJ.Business.Synthesizer.Tests
 			//Outlet modulator = x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
 
-			// Fat Metallic Sweep: mod speed below sound freq, changes sound freq up +/- 10Hz
-			//Outlet modulator = x.Sine(x.Value(modDepth = 10), x.Value(modSpeed = 220));
-			//Outlet sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq = 440), modulator));
-
 			// Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005
 			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880)));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
-
-			// Deep Metallic Sweep: mod speed way below sound freq, changes sound freq * 1 +/- 0.005
-			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 55)));
-			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
-
-			// Beating Noise (further down)
-			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.5), x.Value(modSpeed = 55)));
-			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
 
 			// Yet another flute
 			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880)));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 220), modulator));
 
-			// Fantasy effect
+			// Ripple Effects
+
+			// Fat Metallic Ripple: mod speed below sound freq, changes sound freq up +/- 10Hz
+			//Outlet modulator = x.Sine(x.Value(modDepth = 10), x.Value(modSpeed = 220));
+			//Outlet sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq = 440), modulator));
+
+			// Deep Metallic Ripple: mod speed way below sound freq, changes sound freq * 1 +/- 0.005
+			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 55)));
+			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
+
+			// Fantasy Ripple Effect
 			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.02), x.Value(modSpeed = 10)));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
 
-			// Clean ripple
+			// Clean Ripple
 			Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 20)));
 			Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
 
-			// Extreme ripple: Ensure modulator remains above 1 (ChatGPT being weird)
+			// Extreme Ripple: Ensure modulator remains above 1 (ChatGPT being weird)
 			//Outlet modulator = x.Add(x.Value(1), x.Multiply(x.Sine(x.Value(modDepth = 0.1), x.Value(modSpeed = 10)), x.Value(0.5)));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
+
+			// Noise
+
+			// Beating Noise (further down)
+			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.5), x.Value(modSpeed = 55)));
+			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
+
+			// TODO: Slowly sweeping timbre
 
 			// Configure AudioFileOutput
 			_audioFileOutput = ConfigureAudioFileOutput();
