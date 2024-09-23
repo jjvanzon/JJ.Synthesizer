@@ -11,6 +11,8 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
+#pragma warning disable CS0219 // Variable is assigned but its value is never used
+
 namespace JJ.Business.Synthesizer.Tests
 {
 	internal class SynthesizerTester_FM
@@ -32,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests
 
 		/// <summary>
 		/// NOTE: Version 0.0.250 does not have time tracking in its oscillator,
-		/// making the FM synthesis behave much different.
+		/// making the FM synthesis behave differently.
 		/// </summary>
 		public void Test_Synthesizer_FM()
 		{
@@ -43,51 +45,49 @@ namespace JJ.Business.Synthesizer.Tests
 			double modDepth;
 			double modSpeed;
 
-			// Nice: mod speed below sound freq, changes sound freq up +/- 5Hz
-			// Outlet modulator = x.Sine(x.Value(modDepth = 5), x.Value(modSpeed = 220));
-			// Outlet sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq = 440), modulator));
+			// Tuba at first: mod speed below sound freq, changes sound freq up +/- 5Hz
+			//Outlet modulator = x.Sine(x.Value(modDepth = 5), x.Value(modSpeed = 220));
+			//Outlet sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq = 440), modulator));
 
-			// Nice: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (why that work?)
-			// Outlet modulator = x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 220));
-			// Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
+			// Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (why that work?)
+			//Outlet modulator = x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 220));
+			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
 
-			// Why it work? mod speed above sound freq, changes sound freq * [-0.005, 0.005]
+			// High hard flute: Why it work? mod speed above sound freq, changes sound freq * [-0.005, 0.005]
 			//Outlet modulator = x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
 
-			// Extreme: mod speed below sound freq, changes sound freq up +/- 10Hz
+			// Fat Metallic Sweep: mod speed below sound freq, changes sound freq up +/- 10Hz
 			//Outlet modulator = x.Sine(x.Value(modDepth = 10), x.Value(modSpeed = 220));
 			//Outlet sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq = 440), modulator));
 
-			// OK: mod speed above sound freq, changes sound freq * 1 +/- 0.005
-			// Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880)));
+			// Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005
+			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880)));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
 
-			// Cool: mod speed way below sound freq, changes sound freq * 1 +/- 0.005
+			// Deep Metallic Sweep: mod speed way below sound freq, changes sound freq * 1 +/- 0.005
 			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 55)));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
 
-			// Interesting: noisy beat
+			// Beating Noise (further down)
 			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.5), x.Value(modSpeed = 55)));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
 
-			// Pretty
+			// Yet another flute
 			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880)));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 220), modulator));
 
-			// Cool: Extreme Effect
+			// Fantasy effect
 			//Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.02), x.Value(modSpeed = 10)));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
 
-			// Cool effect
+			// Clean ripple
 			Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 20)));
 			Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
 
-			// Cool even more extreme effect (ChatGPT being weird)
-			// Ensure modulator remains above 1
+			// Extreme ripple: Ensure modulator remains above 1 (ChatGPT being weird)
 			//Outlet modulator = x.Add(x.Value(1), x.Multiply(x.Sine(x.Value(modDepth = 0.1), x.Value(modSpeed = 10)), x.Value(0.5)));
 			//Outlet sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
-
 
 			// Configure AudioFileOutput
 			_audioFileOutput = ConfigureAudioFileOutput();
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
 			audioFileOutput.Duration = TOTAL_TIME;
-			audioFileOutput.Amplifier = Int16.MaxValue / 3.5;
+			audioFileOutput.Amplifier = Int16.MaxValue;
 			audioFileOutput.FilePath = $"{nameof(Test_Synthesizer_FM)}.wav";
 			return audioFileOutput;
 		}
