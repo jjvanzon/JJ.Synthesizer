@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System;
-using System.Reflection;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Enums;
 using System.Runtime.CompilerServices;
@@ -146,7 +145,6 @@ public class SynthesizerTester_FMHardCoded
 		}
 
 		Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
-
 	}
 
 	[TestMethod]
