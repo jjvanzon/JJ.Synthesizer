@@ -11,13 +11,13 @@ public class SynthesizerTester_FMHardCoded
 {
 	[TestMethod]
 	public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_32BitFloat_HardFlute_IsNoise()
-		=> Test_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 880f, modulationDepth: 5f);
+		=> Test_FM_HardCoded_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 880f, modulationDepth: 5f);
 
 	[TestMethod]
 	public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_32BitFloat_WapWap() 
-		=> Test_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 5f, modulationDepth: 0.1f);
+		=> Test_FM_HardCoded_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 5f, modulationDepth: 0.1f);
 
-	private void Test_NoPhaseTracking_32BitFloat(
+	private void Test_FM_HardCoded_NoPhaseTracking_32BitFloat(
 		float carrierFrequency, 
 		float modulationFrequency, 
 		float modulationDepth,
@@ -54,13 +54,13 @@ public class SynthesizerTester_FMHardCoded
 
 	[TestMethod]
 	public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_64BitDouble_HardFlute_IsNoise()
-		=> Test_NoPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 880.0, modulationDepth: 5.0);
+		=> Test_FM_HardCoded_NoPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 880.0, modulationDepth: 5.0);
 
 	[TestMethod]
 	public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_64BitDouble_WapWap()
-		=> Test_NoPhaseTracking_64BitDouble(carrierFrequency: 440f, modulationFrequency: 5f, modulationDepth: 0.1f);
+		=> Test_FM_HardCoded_NoPhaseTracking_64BitDouble(carrierFrequency: 440f, modulationFrequency: 5f, modulationDepth: 0.1f);
 
-	private void Test_NoPhaseTracking_64BitDouble(
+	private void Test_FM_HardCoded_NoPhaseTracking_64BitDouble(
 		double carrierFrequency,
 		double modulationFrequency,
 		double modulationDepth,
@@ -93,7 +93,6 @@ public class SynthesizerTester_FMHardCoded
 		}
 
 		Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
-
 	}
 
 	[TestMethod]
@@ -152,60 +151,22 @@ public class SynthesizerTester_FMHardCoded
 
 	[TestMethod]
 	public void Test_Synthesizer_FM_HardCoded_WithPhaseTracking_64BitDouble_HardFlute()
-	{
-		// Audio parameters
-		int sampleRate = 44100;
-		double carrierFrequency = 440.0;
-		double modulationFrequency = 880.0;
-		double modulationDepth = 5.0;
-		int duration = 5; // Duration in seconds
-		string outputFileName = MethodBase.GetCurrentMethod().Name + ".wav";
-		int sampleCount = sampleRate * duration;
-
-		using (var fs = new FileStream(outputFileName, FileMode.Create))
-		{
-			using (var bw = new BinaryWriter(fs))
-			{
-				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
-
-				// Generate samples
-				double carrierPhase = 0f;
-				double modulatorPhase = 0f;
-				double twoPi = 2 * Math.PI;
-
-				for (int i = 0; i < sampleCount; i++)
-				{
-					// Update phases
-					carrierPhase += twoPi * carrierFrequency / sampleRate;
-					modulatorPhase += twoPi * modulationFrequency / sampleRate;
-
-					// Calculate the modulator and carrier signals
-					double modulator = Math.Sin(modulatorPhase);
-					double modulatedFrequency = carrierFrequency + modulationDepth * modulator; // Adjust frequency with modulation depth
-
-					// Generate sample
-					double sample = Math.Sin(carrierPhase + (modulator * modulationDepth));
-					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
-
-					bw.Write(scaledSample);
-				}
-			}
-		}
-
-		Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
-
-	}
+		=> Test_FM_HardCoded_WithPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 880.0, modulationDepth: 5.0);
 
 	[TestMethod]
 	public void Test_Synthesizer_FM_HardCoded_WithPhaseTracking_64BitDouble_WapWap()
+		=> Test_FM_HardCoded_WithPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 10.0, modulationDepth: 50.0);
+
+	private void Test_FM_HardCoded_WithPhaseTracking_64BitDouble(
+		double carrierFrequency,
+		double modulationFrequency,
+		double modulationDepth,
+		[CallerMemberName] string callerMemberName = null)
 	{
 		// Audio parameters
 		int sampleRate = 44100;
-		double carrierFrequency = 440.0;
-		double modulationFrequency = 10.0;
-		double modulationDepth = 50.0;
 		int duration = 5; // Duration in seconds
-		string outputFileName = MethodBase.GetCurrentMethod().Name + ".wav";
+		string outputFileName = $"{callerMemberName}.wav";
 		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFileName, FileMode.Create))
@@ -239,6 +200,5 @@ public class SynthesizerTester_FMHardCoded
 		}
 
 		Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
-
 	}
 }
