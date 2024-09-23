@@ -98,60 +98,22 @@ public class SynthesizerTester_FMHardCoded
 
 	[TestMethod]
 	public void Test_Synthesizer_FM_HardCoded_WithPhaseTracking_32BitFloat_HardFlute()
-	{
-		// Audio parameters
-		int sampleRate = 44100;
-		float carrierFrequency = 440f;
-		float modulationFrequency = 880f;
-		float modulationDepth = 5f;
-		int duration = 5; // Duration in seconds
-		string outputFileName = MethodBase.GetCurrentMethod().Name + ".wav";
-		int sampleCount = sampleRate * duration;
-
-		using (var fs = new FileStream(outputFileName, FileMode.Create))
-		{
-			using (var bw = new BinaryWriter(fs))
-			{
-				bw.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
-
-				// Generate samples
-				float carrierPhase = 0f;
-				float modulatorPhase = 0f;
-				float twoPi = 2 * (float)Math.PI;
-
-				for (int i = 0; i < sampleCount; i++)
-				{
-					// Update phases
-					carrierPhase += twoPi * carrierFrequency / sampleRate;
-					modulatorPhase += twoPi * modulationFrequency / sampleRate;
-
-					// Calculate the modulator and carrier signals
-					float modulator = (float)Math.Sin(modulatorPhase);
-					float modulatedFrequency = carrierFrequency + modulationDepth * modulator; // Adjust frequency with modulation depth
-
-					// Generate sample
-					float sample = (float)Math.Sin(carrierPhase + (modulator * modulationDepth));
-					short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
-
-					bw.Write(scaledSample);
-				}
-			}
-		}
-
-		Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
-
-	}
+		=> Test_FM_HardCoded_WithPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 880f, modulationDepth: 5f);
 
 	[TestMethod]
 	public void Test_Synthesizer_FM_HardCoded_WithPhaseTracking_32BitFloat_WapWap()
+		=> Test_FM_HardCoded_WithPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 10f, modulationDepth: 50f);
+
+	private void Test_FM_HardCoded_WithPhaseTracking_32BitFloat(
+		float carrierFrequency,
+		float modulationFrequency,
+		float modulationDepth,
+		[CallerMemberName] string callerMemberName = null)
 	{
 		// Audio parameters
 		int sampleRate = 44100;
-		float carrierFrequency = 440f;
-		float modulationFrequency = 10f;
-		float modulationDepth = 50f;
 		int duration = 5; // Duration in seconds
-		string outputFileName = MethodBase.GetCurrentMethod().Name + ".wav";
+		string outputFileName = $"{callerMemberName}.wav";
 		int sampleCount = sampleRate * duration;
 
 		using (var fs = new FileStream(outputFileName, FileMode.Create))
