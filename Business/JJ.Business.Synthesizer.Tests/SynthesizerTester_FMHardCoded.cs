@@ -26,10 +26,10 @@ public class SynthesizerTester_FMHardCoded
 		// Audio parameters
 		int sampleRate = 44100;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = $"{callerMemberName}.wav";
+		string outputFileName = $"{callerMemberName}.wav";
 		int sampleCount = sampleRate * duration;
 
-		using (var fs = new FileStream(outputFilePath, FileMode.Create))
+		using (var fs = new FileStream(outputFileName, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
@@ -49,7 +49,7 @@ public class SynthesizerTester_FMHardCoded
 			}
 		}
 
-		Console.WriteLine($"FM sound saved to {outputFilePath}");
+		Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
 	}
 
 	[TestMethod]
@@ -69,10 +69,10 @@ public class SynthesizerTester_FMHardCoded
 		// Audio parameters
 		int sampleRate = 44100;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = $"{callerMemberName}.wav";
+		string outputFileName = $"{callerMemberName}.wav";
 		int sampleCount = sampleRate * duration;
 
-		using (var fs = new FileStream(outputFilePath, FileMode.Create))
+		using (var fs = new FileStream(outputFileName, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
@@ -92,7 +92,8 @@ public class SynthesizerTester_FMHardCoded
 			}
 		}
 
-		Console.WriteLine($"FM sound saved to {outputFilePath}");
+		Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+
 	}
 
 	[TestMethod]
@@ -104,10 +105,10 @@ public class SynthesizerTester_FMHardCoded
 		float modulationFrequency = 880f;
 		float modulationDepth = 5f;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
+		string outputFileName = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
-		using (var fs = new FileStream(outputFilePath, FileMode.Create))
+		using (var fs = new FileStream(outputFileName, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
@@ -137,7 +138,8 @@ public class SynthesizerTester_FMHardCoded
 			}
 		}
 
-		Console.WriteLine($"FM sound saved to {outputFilePath}");
+		Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+
 	}
 
 	[TestMethod]
@@ -149,10 +151,10 @@ public class SynthesizerTester_FMHardCoded
 		float modulationFrequency = 10f;
 		float modulationDepth = 50f;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
+		string outputFileName = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
-		using (var fs = new FileStream(outputFilePath, FileMode.Create))
+		using (var fs = new FileStream(outputFileName, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
@@ -182,7 +184,8 @@ public class SynthesizerTester_FMHardCoded
 			}
 		}
 
-		Console.WriteLine($"FM sound saved to {outputFilePath}");
+		Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+
 	}
 
 	[TestMethod]
@@ -194,10 +197,10 @@ public class SynthesizerTester_FMHardCoded
 		double modulationFrequency = 880.0;
 		double modulationDepth = 5.0;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
+		string outputFileName = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
-		using (var fs = new FileStream(outputFilePath, FileMode.Create))
+		using (var fs = new FileStream(outputFileName, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
@@ -227,7 +230,8 @@ public class SynthesizerTester_FMHardCoded
 			}
 		}
 
-		Console.WriteLine($"FM sound saved to {outputFilePath}");
+		Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+
 	}
 
 	[TestMethod]
@@ -239,10 +243,10 @@ public class SynthesizerTester_FMHardCoded
 		double modulationFrequency = 10.0;
 		double modulationDepth = 50.0;
 		int duration = 5; // Duration in seconds
-		string outputFilePath = MethodBase.GetCurrentMethod().Name + ".wav";
+		string outputFileName = MethodBase.GetCurrentMethod().Name + ".wav";
 		int sampleCount = sampleRate * duration;
 
-		using (var fs = new FileStream(outputFilePath, FileMode.Create))
+		using (var fs = new FileStream(outputFileName, FileMode.Create))
 		{
 			using (var bw = new BinaryWriter(fs))
 			{
@@ -272,6 +276,7 @@ public class SynthesizerTester_FMHardCoded
 			}
 		}
 
-		Console.WriteLine($"FM sound saved to {outputFilePath}");
+		Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+
 	}
 }
