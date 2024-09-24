@@ -47,76 +47,109 @@ namespace JJ.Business.Synthesizer.Tests
 
 			Outlet sound;
 
-			// Tuba at first: mod speed below sound freq, changes sound freq up +/- 5Hz
+			// Tuba at first: mod speed below sound freq, changes sound freq to +/- 5Hz
 			{
-				Outlet modulator = x.Sine(x.Value(modDepth = 5), x.Value(modSpeed = 220));
-				sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq = 440), modulator));
+				soundFreq = 440;
+				modSpeed = 220;
+				modDepth = 5;
+				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
+				sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq), modulator));
 			}
 
 			// Flutes
 
 			// Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (why that work?)
 			{
-				Outlet modulator = x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 220));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
+				soundFreq = 440;
+				modSpeed = 220;
+				modDepth = 0.005;
+				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
+				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
-			// High hard flute: Why it work? mod speed above sound freq, changes sound freq * [-0.005, 0.005]
+			// High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005]
 			{
-				Outlet modulator = x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
+				soundFreq = 440;
+				modSpeed = 880;
+				modDepth = 0.005;
+				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
+				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005
 			{
-				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 440), modulator));
+				soundFreq = 440;
+				modSpeed = 880;
+				modDepth = 0.005;
+				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
+				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Yet another flute
 			{
-				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 880)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 220), modulator));
+				soundFreq = 220;
+				modSpeed = 880;
+				modDepth = 0.005;
+				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
+				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Ripple Effects
 
 			// Fat Metallic Ripple: mod speed below sound freq, changes sound freq up +/- 10Hz
 			{
-				Outlet modulator = x.Sine(x.Value(modDepth = 10), x.Value(modSpeed = 220));
-				sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq = 440), modulator));
+				soundFreq = 440;
+				modSpeed = 220;
+				modDepth = 10;
+				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
+				sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq), modulator));
 			}
 
 			// Deep Metallic Ripple: mod speed way below sound freq, changes sound freq * 1 +/- 0.005
 			{
-				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 55)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
+				soundFreq = 880;
+				modSpeed = 55;
+				modDepth = 0.005;
+				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
+				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Fantasy Ripple Effect
 			{
-				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.02), x.Value(modSpeed = 10)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
+				soundFreq = 880;
+				modSpeed = 10;
+				modDepth = 0.02;
+				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
+				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Clean Ripple
 			{
-				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.005), x.Value(modSpeed = 20)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
+				soundFreq = 880;
+				modSpeed = 20;
+				modDepth = 0.005;
+				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
+				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Extreme Ripple: Ensure modulator remains above 1 (ChatGPT being weird)
 			{
-				Outlet modulator = x.Add(x.Value(1), x.Multiply(x.Sine(x.Value(modDepth = 0.1), x.Value(modSpeed = 10)), x.Value(0.5)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
+				soundFreq = 880;
+				modSpeed = 10;
+				modDepth = 0.1;
+				Outlet modulator = x.Add(x.Value(1), x.Multiply(x.Sine(x.Value(modDepth), x.Value(modSpeed)), x.Value(0.5)));
+				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Noise
 
 			// Beating Noise (further down)
 			{
-				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth = 0.5), x.Value(modSpeed = 55)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq = 880), modulator));
+				soundFreq = 880;
+				modSpeed = 55;
+				modDepth = 0.5;
+				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
+				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// TODO: Slowly sweeping timbre
