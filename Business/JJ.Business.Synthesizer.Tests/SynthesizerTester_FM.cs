@@ -52,6 +52,7 @@ namespace JJ.Business.Synthesizer.Tests
 				soundFreq = 440;
 				modSpeed = 220;
 				modDepth = 5;
+				// FM with Addition
 				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
 				sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq), modulator));
 			}
@@ -63,7 +64,8 @@ namespace JJ.Business.Synthesizer.Tests
 				soundFreq = 440;
 				modSpeed = 220;
 				modDepth = 0.005;
-				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
+				// FM with Multiplication
+				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed)); 
 				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
@@ -72,7 +74,8 @@ namespace JJ.Business.Synthesizer.Tests
 				soundFreq = 440;
 				modSpeed = 880;
 				modDepth = 0.005;
-				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
+				// FM with Multiplication
+				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed)); 
 				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
@@ -81,26 +84,29 @@ namespace JJ.Business.Synthesizer.Tests
 				soundFreq = 440;
 				modSpeed = 880;
 				modDepth = 0.005;
+				// FM modulate around 1
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
 				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
-			// Yet another flute
+			// Yet another flute (same?): mod speed above sound freq, changes sound freq * 1 +/- 0.005
 			{
 				soundFreq = 220;
 				modSpeed = 880;
 				modDepth = 0.005;
+				// FM modulate around 1
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
 				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Ripple Effects
 
-			// Fat Metallic Ripple: mod speed below sound freq, changes sound freq up +/- 10Hz
+			// Fat Metallic Ripple: mod speed below sound freq, changes sound freq +/- 10Hz
 			{
 				soundFreq = 440;
 				modSpeed = 220;
 				modDepth = 10;
+				// FM with Addition
 				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
 				sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq), modulator));
 			}
@@ -110,24 +116,27 @@ namespace JJ.Business.Synthesizer.Tests
 				soundFreq = 880;
 				modSpeed = 55;
 				modDepth = 0.005;
+				// FM modulate around 1
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
 				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
-			// Fantasy Ripple Effect
+			// Fantasy Ripple Effect: mod speed way below sound freq, changes sound freq * 1 +/- 0.02
 			{
 				soundFreq = 880;
 				modSpeed = 10;
 				modDepth = 0.02;
+				// FM modulate around 1
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
 				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
-			// Clean Ripple
+			// Clean Ripple: mod speed way below sound freq, changes sound freq * 1 +/- 0.005
 			{
 				soundFreq = 880;
 				modSpeed = 20;
 				modDepth = 0.005;
+				// FM modulate around 1
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
 				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
@@ -136,18 +145,23 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				soundFreq = 880;
 				modSpeed = 10;
-				modDepth = 0.1;
-				Outlet modulator = x.Add(x.Value(1), x.Multiply(x.Sine(x.Value(modDepth), x.Value(modSpeed)), x.Value(0.5)));
+				// FM modulate around 1
+				//modDepth = 0.1;
+				//Outlet modulator = x.Add(x.Value(1), x.Multiply(x.Sine(x.Value(modDepth), x.Value(modSpeed)), x.Value(0.5)));
+				// Same?
+				modDepth = 0.05;
+				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
 				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Noise
 
-			// Beating Noise (further down)
+			// Beating Noise (further along the sound): mod speed much below sound freq, changes sound freq * [0.5, 1.5]
 			{
 				soundFreq = 880;
 				modSpeed = 55;
 				modDepth = 0.5;
+				// FM modulate around 1
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
 				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
