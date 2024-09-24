@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Tests
 				modDepth = 5;
 				// FM with Addition
 				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
-				sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq), modulator));
+				x.Sine(x.Value(1), x.Add(x.Value(soundFreq), modulator));
 			}
 
 			// Flutes
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Tests
 				modDepth = 0.005;
 				// FM with Multiplication
 				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed)); 
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
+				x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005]
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Tests
 				modDepth = 0.005;
 				// FM with Multiplication
 				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed)); 
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
+				x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Tests
 				modDepth = 0.005;
 				// FM modulate around 1
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
+				x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Yet another flute (same?): mod speed above sound freq, changes sound freq * 1 +/- 0.005
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Tests
 				modDepth = 10;
 				// FM with Addition
 				Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
-				sound = x.Sine(x.Value(1), x.Add(x.Value(soundFreq), modulator));
+				x.Sine(x.Value(1), x.Add(x.Value(soundFreq), modulator));
 			}
 
 			// Deep Metallic Ripple: mod speed way below sound freq, changes sound freq * 1 +/- 0.005
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Tests
 				modDepth = 0.005;
 				// FM modulate around 1
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
+				x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Fantasy Ripple Effect: mod speed way below sound freq, changes sound freq * 1 +/- 0.02
@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Tests
 				modDepth = 0.02;
 				// FM modulate around 1
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
+				x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Clean Ripple: mod speed way below sound freq, changes sound freq * 1 +/- 0.005
@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer.Tests
 				modDepth = 0.005;
 				// FM modulate around 1
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
+				x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Extreme Ripple: Ensure modulator remains above 1 (ChatGPT being weird)
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Tests
 				// Same?
 				modDepth = 0.05;
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
+				x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// Noise
@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Tests
 				modDepth = 0.5;
 				// FM modulate around 1
 				Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
-				sound = x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
+				x.Sine(x.Value(1), x.Multiply(x.Value(soundFreq), modulator));
 			}
 
 			// TODO: Slowly sweeping timbre
