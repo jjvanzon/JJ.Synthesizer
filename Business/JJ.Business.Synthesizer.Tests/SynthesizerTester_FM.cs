@@ -128,8 +128,8 @@ namespace JJ.Business.Synthesizer.Tests
 			var outlet = FMInHertz(soundFreq: freq * 2, modSpeed: freq, modDepth: 5);
 
 			// Stretch Volume Curve
-			//double stretch = Frequencies.A1 / freq * 0.8;
-			double stretch = Math.Pow(Frequencies.A1 / freq, 1.5) * 0.8;
+			const double durationA1 = 0.8;
+			double stretch = durationA1 * Math.Pow(Frequencies.A1 / freq, 1.5);
 			var curveOutlet = x.TimeMultiply(x.CurveIn(TubaCurve), x.Value(stretch));
 
 			// Apply Volume Curve
@@ -149,8 +149,8 @@ namespace JJ.Business.Synthesizer.Tests
 		// Flutes
 
 		/// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-		private Outlet CreateFlute_HardModulated()
-			=> FMAround0(soundFreq: 440, modSpeed: 220, modDepth: 0.005);
+		private Outlet CreateFlute_HardModulated(double freq = Frequencies.A3)
+			=> FMAround0(soundFreq: freq * 2, modSpeed: freq, modDepth: 0.005);
 
 		/// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
 		private Outlet CreateFlute_HardHigh()
