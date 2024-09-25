@@ -12,6 +12,8 @@ using JJ.Business.Synthesizer.Warnings;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+// ReSharper disable LocalizableElement
+// ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -49,11 +51,11 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Run_Tuba_Test();
+				new SynthesizerTests_FM(context).Test_Tuba();
 			}
 		}
 
-		private void Run_Tuba_Test()
+		private void Test_Tuba()
 		{
 			Outlet melody = _operatorFactory.Adder
 			(
@@ -72,11 +74,11 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Run_Test_Flute_HardModulated();
+				new SynthesizerTests_FM(context).Test_Flute_HardModulated();
 			}
 		}
 
-		private void Run_Test_Flute_HardModulated()
+		private void Test_Flute_HardModulated()
 			=> WrapUp_Test(FluteNote_HardModulated());
 
 		[TestMethod]
@@ -84,11 +86,11 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Run_Test_Flute_HardHigh();
+				new SynthesizerTests_FM(context).Test_Flute_HardHigh();
 			}
 		}
 
-		private void Run_Test_Flute_HardHigh()
+		private void Test_Flute_HardHigh()
 			=> WrapUp_Test(FluteNote_HardHigh());
 
 		[TestMethod]
@@ -96,11 +98,11 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Run_Test_Flute_AnotherOne();
+				new SynthesizerTests_FM(context).Test_Flute_AnotherOne();
 			}
 		}
 
-		private void Run_Test_Flute_AnotherOne()
+		private void Test_Flute_AnotherOne()
 			=> WrapUp_Test(FluteNote_AnotherOne());
 
 		[TestMethod]
@@ -108,73 +110,73 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Run_Test_Flute_YetAnotherOne();
+				new SynthesizerTests_FM(context).Test_Flute_YetAnotherOne();
 			}
 		}
 
-		private void Run_Test_Flute_YetAnotherOne()
+		private void Test_Flute_YetAnotherOne()
 			=> WrapUp_Test(FluteNote_YetAnotherOne());
 
 		// FM Ripple Effects
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_Ripple_FatMetallic()
+		public void Test_Synthesizer_FM_RippleNote_DeepMetallic()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Run_Test_Ripple_FatMetallic();
+				new SynthesizerTests_FM(context).Test_RippleNote_DeepMetallic();
 			}
 		}
 
-		private void Run_Test_Ripple_FatMetallic()
-			=> WrapUp_Test(RippleNote_FatMetallic());
-
-		[TestMethod]
-		public void Test_Synthesizer_FM_Ripple_DeepMetallic()
-		{
-			using (IContext context = PersistenceHelper.CreateContext())
-			{
-				new SynthesizerTests_FM(context).Run_Test_Ripple_DeepMetallic();
-			}
-		}
-
-		private void Run_Test_Ripple_DeepMetallic()
+		private void Test_RippleNote_DeepMetallic()
 			=> WrapUp_Test(RippleNote_DeepMetallic());
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_Ripple_FantasyEffect()
+		public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Run_Test_Ripple_FantasyEffect();
+				new SynthesizerTests_FM(context).Test_RippleNote_SharpMetallic();
 			}
 		}
 
-		private void Run_Test_Ripple_FantasyEffect()
-			=> WrapUp_Test(RippleSound_FantasyEffect());
+		private void Test_RippleNote_SharpMetallic()
+			=> WrapUp_Test(RippleNote_SharpMetallic());
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_Ripple_Clean()
+		public void Test_Synthesizer_FM_RippleSound_Clean()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Run_Test_Ripple_Clean();
+				new SynthesizerTests_FM(context).Test_RippleSound_Clean();
 			}
 		}
 
-		private void Run_Test_Ripple_Clean()
+		private void Test_RippleSound_Clean()
 			=> WrapUp_Test(RippleSound_Clean());
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_Ripple_CoolDouble()
+		public void Test_Synthesizer_FM_RippleSound_FantasyEffect()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Run_Test_Ripple_CoolDouble();
+				new SynthesizerTests_FM(context).Test_RippleSound_FantasyEffect();
 			}
 		}
 
-		private void Run_Test_Ripple_CoolDouble()
+		private void Test_RippleSound_FantasyEffect()
+			=> WrapUp_Test(RippleSound_FantasyEffect());
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_RippleSound_CoolDouble()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Test_RippleSound_CoolDouble();
+			}
+		}
+
+		private void Test_RippleSound_CoolDouble()
 			=> WrapUp_Test(RippleSound_CoolDouble());
 
 		// FM Noise Tests
@@ -184,12 +186,12 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Run_Test_Noise_Beating();
+				new SynthesizerTests_FM(context).Test_FM_Noise_Beating();
 			}
 		}
 
-		private void Run_Test_Noise_Beating()
-			=> WrapUp_Test(FM_Noise_Beating());
+		private void Test_FM_Noise_Beating()
+			=> WrapUp_Test(Create_FM_Noise_Beating());
 
 		// Generic Method
 
@@ -273,25 +275,25 @@ namespace JJ.Business.Synthesizer.Tests
 
 		// Ripple Effects
 
+		/// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
+		private Outlet RippleNote_DeepMetallic(double freq = Frequencies.A1)
+			=> FMAroundFreq(soundFreq: freq * 16, modSpeed: freq, modDepth: 0.005);
+
 		/// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
-		private Outlet RippleNote_FatMetallic()
-			=> FMInHertz(soundFreq: 440, modSpeed: 220, modDepth: 10);
+		private Outlet RippleNote_SharpMetallic(double freq = Frequencies.A3)
+			=> FMInHertz(soundFreq: freq, modSpeed: freq / 2, modDepth: 10);
 
 		/// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-		private Outlet RippleNote_DeepMetallic()
-			=> FMAroundFreq(soundFreq: 880, modSpeed: 55, modDepth: 0.005);
+		private Outlet RippleSound_Clean(double freq = Frequencies.A5)
+			=> FMAroundFreq(soundFreq: freq, modSpeed: 20, modDepth: 0.005);
 
 		/// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
-		private Outlet RippleSound_FantasyEffect()
-			=> FMAroundFreq(soundFreq: 880, modSpeed: 10, modDepth: 0.02);
-
-		/// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-		private Outlet RippleSound_Clean()
-			=> FMAroundFreq(soundFreq: 880, modSpeed: 20, modDepth: 0.005);
+		private Outlet RippleSound_FantasyEffect(double freq = Frequencies.A5)
+			=> FMAroundFreq(soundFreq: freq, modSpeed: 10, modDepth: 0.02);
 
 		/// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.05 </summary>
-		private Outlet RippleSound_CoolDouble()
-			=> FMAroundFreq(soundFreq: 880, modSpeed: 10, modDepth: 0.05);
+		private Outlet RippleSound_CoolDouble(double freq = Frequencies.A5)
+			=> FMAroundFreq(soundFreq: freq, modSpeed: 10, modDepth: 0.05);
 
 		// Noise
 
@@ -299,7 +301,7 @@ namespace JJ.Business.Synthesizer.Tests
 		/// Beating audible further along the sound.
 		/// Mod speed much below sound freq, changes sound freq drastically * [0.5, 1.5]
 		/// </summary>
-		private Outlet FM_Noise_Beating()
+		private Outlet Create_FM_Noise_Beating()
 			=> FMAroundFreq(soundFreq: 880, modSpeed: 55, modDepth: 0.5);
 
 		// Algorithms
