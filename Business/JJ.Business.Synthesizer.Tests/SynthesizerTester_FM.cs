@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests
 	/// </summary>
 	internal class SynthesizerTester_FM
 	{
-		private const double TOTAL_TIME = 3.0;
+		private const double DEFAULT_TOTAL_TIME = 3.0;
 		private const double DEFAULT_AMPLITUDE = 1.0;
 
 		private readonly IContext _context;
@@ -80,7 +80,11 @@ namespace JJ.Business.Synthesizer.Tests
 
 		// Generic Method
 
-		public void RunTest(Outlet outlet, double totalTime = TOTAL_TIME, [CallerMemberName] string callerMemberName = null)
+		/// <summary>
+		/// Runs a test for FM synthesis and outputs the result to a file.
+		/// Also, the entity data will be verified.
+		/// </summary>
+		public void RunTest(Outlet outlet, double totalTime = DEFAULT_TOTAL_TIME, [CallerMemberName] string callerMemberName = null)
 		{
 			// Configure AudioFileOutput
 			AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet, totalTime);
