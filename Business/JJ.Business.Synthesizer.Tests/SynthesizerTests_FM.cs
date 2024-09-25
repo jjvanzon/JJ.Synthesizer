@@ -11,11 +11,7 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
-
-// ReSharper disable LocalizableElement
-// ReSharper disable BuiltInTypeReferenceStyleForMemberAccess
-
-#pragma warning disable CS0219 // Variable is assigned but its value is never used
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -23,7 +19,8 @@ namespace JJ.Business.Synthesizer.Tests
 	/// NOTE: Version 0.0.250 does not have time tracking in its oscillator,
 	/// making the FM synthesis behave differently.
 	/// </summary>
-	internal class SynthesizerTester_FM
+	[TestClass]
+	public class SynthesizerTests_FM
 	{
 		private const double DEFAULT_TOTAL_TIME = 3.0;
 		private const double DEFAULT_AMPLITUDE = 1.0;
@@ -33,7 +30,11 @@ namespace JJ.Business.Synthesizer.Tests
 		private readonly OperatorFactory _operatorFactory;
 		private readonly AudioFileOutputManager _audioFileOutputManager;
 
-		public SynthesizerTester_FM(IContext context)
+		/// <summary> Constructor for test runner. </summary>
+		public SynthesizerTests_FM() { }
+
+		/// <summary> Constructor allowing each test to run in its own instance. </summary>
+		public SynthesizerTests_FM(IContext context)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
 			_curveFactory = TestHelper.CreateCurveFactory(context);
@@ -43,49 +44,152 @@ namespace JJ.Business.Synthesizer.Tests
 
 		// Tests
 
+		[TestMethod]
 		public void Test_Synthesizer_FM_Tuba()
 		{
-			//Outlet tuba = CreateTuba(Frequencies.A1);
-
-			Outlet melody = _operatorFactory.Adder
-			(
-				Tuba(Frequencies.A1,       volume: 1.0),
-				Tuba(Frequencies.E2,       volume: 1.0, delay: 1.2),
-				Tuba(Frequencies.F1_Sharp, volume: 0.7, delay: 2.4)
-			);
-
-			Test_Synthesizer_FM(melody, totalTime: 2.4 + 2.0);
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Run_Tuba_Test();
+			}
 		}
 
+		private void Run_Tuba_Test()
+		{
+			Outlet melody = _operatorFactory.Adder
+			(
+				TubaNote(Frequencies.A1,       volume: 1.0),
+				TubaNote(Frequencies.E2,       volume: 1.0, delay: 1.2),
+				TubaNote(Frequencies.F1_Sharp, volume: 0.7, delay: 2.4)
+			);
+
+			WrapUp_Test(melody, totalTime: 2.4 + 2.0);
+		}
+
+		// Flute Tests
+
+		[TestMethod]
 		public void Test_Synthesizer_FM_Flute_HardModulated()
-			=> Test_Synthesizer_FM(CreateFlute_HardModulated());
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Run_Test_Flute_HardModulated();
+			}
+		}
 
+		private void Run_Test_Flute_HardModulated()
+			=> WrapUp_Test(FluteNote_HardModulated());
+
+		[TestMethod]
 		public void Test_Synthesizer_FM_Flute_HardHigh()
-			=> Test_Synthesizer_FM(CreateFlute_HardHigh());
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Run_Test_Flute_HardHigh();
+			}
+		}
 
+		private void Run_Test_Flute_HardHigh()
+			=> WrapUp_Test(FluteNote_HardHigh());
+
+		[TestMethod]
 		public void Test_Synthesizer_FM_Flute_AnotherOne()
-			=> Test_Synthesizer_FM(CreateFlute_AnotherOne());
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Run_Test_Flute_AnotherOne();
+			}
+		}
 
+		private void Run_Test_Flute_AnotherOne()
+			=> WrapUp_Test(FluteNote_AnotherOne());
+
+		[TestMethod]
 		public void Test_Synthesizer_FM_Flute_YetAnotherOne()
-			=> Test_Synthesizer_FM(CreateFlute_YetAnotherOne());
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Run_Test_Flute_YetAnotherOne();
+			}
+		}
 
+		private void Run_Test_Flute_YetAnotherOne()
+			=> WrapUp_Test(FluteNote_YetAnotherOne());
+
+		// FM Ripple Effects
+
+		[TestMethod]
 		public void Test_Synthesizer_FM_Ripple_FatMetallic()
-			=> Test_Synthesizer_FM(CreateRipple_FatMetallic());
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Run_Test_Ripple_FatMetallic();
+			}
+		}
 
+		private void Run_Test_Ripple_FatMetallic()
+			=> WrapUp_Test(RippleNote_FatMetallic());
+
+		[TestMethod]
 		public void Test_Synthesizer_FM_Ripple_DeepMetallic()
-			=> Test_Synthesizer_FM(CreateRipple_DeepMetallic());
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Run_Test_Ripple_DeepMetallic();
+			}
+		}
 
+		private void Run_Test_Ripple_DeepMetallic()
+			=> WrapUp_Test(RippleNote_DeepMetallic());
+
+		[TestMethod]
 		public void Test_Synthesizer_FM_Ripple_FantasyEffect()
-			=> Test_Synthesizer_FM(CreateRipple_FantasyEffect());
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Run_Test_Ripple_FantasyEffect();
+			}
+		}
 
+		private void Run_Test_Ripple_FantasyEffect()
+			=> WrapUp_Test(RippleSound_FantasyEffect());
+
+		[TestMethod]
 		public void Test_Synthesizer_FM_Ripple_Clean()
-			=> Test_Synthesizer_FM(CreateRipple_Clean());
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Run_Test_Ripple_Clean();
+			}
+		}
 
+		private void Run_Test_Ripple_Clean()
+			=> WrapUp_Test(RippleSound_Clean());
+
+		[TestMethod]
 		public void Test_Synthesizer_FM_Ripple_CoolDouble()
-			=> Test_Synthesizer_FM(CreateRipple_CoolDouble());
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Run_Test_Ripple_CoolDouble();
+			}
+		}
 
+		private void Run_Test_Ripple_CoolDouble()
+			=> WrapUp_Test(RippleSound_CoolDouble());
+
+		// FM Noise Tests
+
+		[TestMethod]
 		public void Test_Synthesizer_FM_Noise_Beating()
-			=> Test_Synthesizer_FM(CreateNoise_Beating());
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Run_Test_Noise_Beating();
+			}
+		}
+
+		private void Run_Test_Noise_Beating()
+			=> WrapUp_Test(FM_Noise_Beating());
 
 		// Generic Method
 
@@ -93,8 +197,8 @@ namespace JJ.Business.Synthesizer.Tests
 		/// Runs a test for FM synthesis and outputs the result to a file.
 		/// Also, the entity data will be verified.
 		/// </summary>
-		private void Test_Synthesizer_FM(
-			Outlet outlet, 
+		private void WrapUp_Test(
+			Outlet outlet,
 			double totalTime = DEFAULT_TOTAL_TIME,
 			[CallerMemberName] string callerMemberName = null)
 		{
@@ -119,23 +223,26 @@ namespace JJ.Business.Synthesizer.Tests
 
 		// Tuba
 
-		/// <summary> Tuba at beginning: mod speed below sound freq, changes sound freq to +/- 5Hz </summary>
-		private Outlet Tuba(double freq = Frequencies.A1, double volume = 1, double delay = 0)
+		/// <summary>
+		/// Sounds like Tuba at beginning.
+		/// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
+		/// Volume curve is applied.
+		/// Higher notes are shorter, lower notes are much longer.
+		/// </summary>
+		private Outlet TubaNote(double freq = Frequencies.A1, double volume = 1, double delay = 0)
 		{
 			var x = _operatorFactory;
 
 			// FM Algorithm
 			var outlet = FMInHertz(soundFreq: freq * 2, modSpeed: freq, modDepth: 5);
 
-			// Stretch Volume Curve
+			// Stretch Volume Curve (longer when lower)
 			const double durationA1 = 0.8;
 			double stretch = durationA1 * Math.Pow(Frequencies.A1 / freq, 1.5);
 			var curveOutlet = x.TimeMultiply(x.CurveIn(TubaCurve), x.Value(stretch));
 
 			// Apply Volume Curve
 			outlet = x.Multiply(outlet, curveOutlet);
-
-			// Longer when Lower
 
 			// Note Volume
 			outlet = x.Multiply(outlet, x.Value(volume));
@@ -149,41 +256,41 @@ namespace JJ.Business.Synthesizer.Tests
 		// Flutes
 
 		/// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-		private Outlet CreateFlute_HardModulated(double freq = Frequencies.A3)
+		private Outlet FluteNote_HardModulated(double freq = Frequencies.A3)
 			=> FMAround0(soundFreq: freq * 2, modSpeed: freq, modDepth: 0.005);
 
 		/// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-		private Outlet CreateFlute_HardHigh()
-			=> FMAround0(soundFreq: 440, modSpeed: 880, modDepth: 0.005);
+		private Outlet FluteNote_HardHigh(double freq = Frequencies.A4)
+			=> FMAround0(soundFreq: freq, modSpeed: freq * 2, modDepth: 0.005);
 
 		/// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-		private Outlet CreateFlute_AnotherOne()
-			=> FMAroundFreq(soundFreq: 440, modSpeed: 880, modDepth: 0.005);
+		private Outlet FluteNote_AnotherOne(double freq = Frequencies.A4)
+			=> FMAroundFreq(soundFreq: freq, modSpeed: freq * 2, modDepth: 0.005);
 
 		/// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-		private Outlet CreateFlute_YetAnotherOne()
-			=> FMAroundFreq(soundFreq: 220, modSpeed: 880, modDepth: 0.005);
+		private Outlet FluteNote_YetAnotherOne(double freq = Frequencies.A3)
+			=> FMAroundFreq(soundFreq: freq, modSpeed: freq * 4, modDepth: 0.005);
 
 		// Ripple Effects
 
 		/// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
-		private Outlet CreateRipple_FatMetallic()
+		private Outlet RippleNote_FatMetallic()
 			=> FMInHertz(soundFreq: 440, modSpeed: 220, modDepth: 10);
 
 		/// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-		private Outlet CreateRipple_DeepMetallic()
+		private Outlet RippleNote_DeepMetallic()
 			=> FMAroundFreq(soundFreq: 880, modSpeed: 55, modDepth: 0.005);
 
 		/// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
-		private Outlet CreateRipple_FantasyEffect()
+		private Outlet RippleSound_FantasyEffect()
 			=> FMAroundFreq(soundFreq: 880, modSpeed: 10, modDepth: 0.02);
 
 		/// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-		private Outlet CreateRipple_Clean()
+		private Outlet RippleSound_Clean()
 			=> FMAroundFreq(soundFreq: 880, modSpeed: 20, modDepth: 0.005);
 
 		/// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.05 </summary>
-		private Outlet CreateRipple_CoolDouble()
+		private Outlet RippleSound_CoolDouble()
 			=> FMAroundFreq(soundFreq: 880, modSpeed: 10, modDepth: 0.05);
 
 		// Noise
@@ -192,7 +299,7 @@ namespace JJ.Business.Synthesizer.Tests
 		/// Beating audible further along the sound.
 		/// Mod speed much below sound freq, changes sound freq drastically * [0.5, 1.5]
 		/// </summary>
-		private Outlet CreateNoise_Beating()
+		private Outlet FM_Noise_Beating()
 			=> FMAroundFreq(soundFreq: 880, modSpeed: 55, modDepth: 0.5);
 
 		// Algorithms
@@ -203,7 +310,7 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			OperatorFactory x = _operatorFactory;
 
-			Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
+			Outlet modulator = x.Sine(x.Value(modDepth),      x.Value(modSpeed));
 			Outlet sound = x.Sine(x.Value(DEFAULT_AMPLITUDE), x.Add(x.Value(soundFreq), modulator));
 			return sound;
 		}
@@ -213,7 +320,7 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			OperatorFactory x = _operatorFactory;
 
-			Outlet modulator = x.Sine(x.Value(modDepth), x.Value(modSpeed));
+			Outlet modulator = x.Sine(x.Value(modDepth),      x.Value(modSpeed));
 			Outlet sound = x.Sine(x.Value(DEFAULT_AMPLITUDE), x.Multiply(x.Value(soundFreq), modulator));
 			return sound;
 		}
