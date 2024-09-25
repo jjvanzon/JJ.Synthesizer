@@ -12,6 +12,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+
 // ReSharper disable LocalizableElement
 // ReSharper disable BuiltInTypeReferenceStyleForMemberAccess
 
@@ -19,6 +22,10 @@ using System.IO;
 
 namespace JJ.Business.Synthesizer.Tests
 {
+	/// <summary>
+	/// NOTE: Version 0.0.250 does not have time tracking in its oscillator,
+	/// making the FM synthesis behave differently.
+	/// </summary>
 	internal class SynthesizerTester_FM
 	{
 		private const double TOTAL_TIME = 3.0;
@@ -28,7 +35,6 @@ namespace JJ.Business.Synthesizer.Tests
 		private readonly AudioFileOutputManager _audioFileOutputManager;
 		private readonly OperatorFactory _operatorFactory;
 
-		private AudioFileOutput _audioFileOutput;
 
 		public SynthesizerTester_FM(IContext context)
 		{
@@ -39,22 +45,39 @@ namespace JJ.Business.Synthesizer.Tests
 
 		public void Test_Synthesizer_FM_Tuba()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			Test_Synthesizer_FM(CreateTuba());
+		}
+
+		public void Test_Synthesizer_FM(Outlet outlet, [CallerMemberName] string callerMemberName = null)
+		{
+			// Configure AudioFileOutput
+			AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet);
+
+			// Verify
+			AssertEntities(audioFileOutput, outlet);
+
+			// Calculate
+			Stopwatch stopWatch = Calculate(audioFileOutput);
+
+			// Report
+			Assert.Inconclusive($"Calculation time: {stopWatch.ElapsedMilliseconds}ms{Environment.NewLine}" +
+								$"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
 		}
 
 		/// <summary>
-		/// NOTE: Version 0.0.250 does not have time tracking in its oscillator,
-		/// making the FM synthesis behave differently.
+		/// Tuba at beginning: mod speed below sound freq, changes sound freq to +/- 5Hz
 		/// </summary>
-		public void Test_Synthesizer_FM()
+		private Outlet CreateTuba()
 		{
-			// Arrange
+			var outlet = FMInHertz(soundFreq: 440, modSpeed: 220, modDepth: 5);
+			return outlet;
+		}
 
+		private List<Outlet> CreateSoundOutlets()
+		{
 			var soundOutlets = new List<Outlet>
 			{
-				// Tuba at beginning: mod speed below sound freq, changes sound freq to +/- 5Hz
-				FMInHertz(soundFreq: 440, modSpeed: 220, modDepth: 5),
-
 				// Flutes
 
 				// Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005]
@@ -91,23 +114,11 @@ namespace JJ.Business.Synthesizer.Tests
 
 				// Beating Noise (further along the sound): mod speed much below sound freq, changes sound freq * [0.5, 1.5]
 				FMAroundFreq(soundFreq: 880, modSpeed: 55, modDepth: 0.5)
+
+				// TODO: Slowly sweeping timbre
+
 			};
-
-			// TODO: Slowly sweeping timbre
-
-			// Configure AudioFileOutput
-			_audioFileOutput = ConfigureAudioFileOutput();
-			_audioFileOutput.AudioFileOutputChannels[0].Outlet = soundOutlets[0];
-
-			// Verify
-			AssertEntities(soundOutlets);
-
-			// Calculate
-			Stopwatch stopWatch = Calculate();
-
-			// Report
-			Assert.Inconclusive($"Calculation time: {stopWatch.ElapsedMilliseconds}ms{Environment.NewLine}" +
-								$"Output file: {Path.GetFullPath(_audioFileOutput.FilePath)}");
+			return soundOutlets;
 		}
 
 		/// <summary>
@@ -147,35 +158,26 @@ namespace JJ.Business.Synthesizer.Tests
 			return sound;
 		}
 
-		private AudioFileOutput ConfigureAudioFileOutput()
+		private AudioFileOutput ConfigureAudioFileOutput(string fileName, Outlet outlet)
 		{
 			AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
 			audioFileOutput.Duration = TOTAL_TIME;
 			audioFileOutput.Amplifier = Int16.MaxValue;
-			audioFileOutput.FilePath = $"{nameof(Test_Synthesizer_FM)}.wav";
+			audioFileOutput.FilePath = fileName;
+			audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 			return audioFileOutput;
 		}
 
-		private void AssertEntities(IList<Outlet> outlets)
+		private void AssertEntities(AudioFileOutput audioFileOutput, Outlet outlet)
 		{
-			Console.WriteLine($"Validating {nameof(AudioFileOutput)}.");
-
-			_audioFileOutputManager.ValidateAudioFileOutput(_audioFileOutput).Verify();
-
-			for (var i = 0; i < outlets.Count; i++)
-			{
-				Outlet outlet = outlets[i];
-
-				Console.WriteLine($"Validating {nameof(outlet)} {i + 1}.");
-
-				new VersatileOperatorValidator(outlet.Operator).Verify();
-				new VersatileOperatorWarningValidator(outlet.Operator).Verify();
-			}
+			_audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
+			new VersatileOperatorValidator(outlet.Operator).Verify();
+			new VersatileOperatorWarningValidator(outlet.Operator).Verify();
 		}
 
-		private Stopwatch Calculate()
+		private Stopwatch Calculate(AudioFileOutput audioFileOutput)
 		{
-			var calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(_audioFileOutput);
+			var calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
 			var stopWatch = Stopwatch.StartNew();
 			calculator.Execute();
 			stopWatch.Stop();

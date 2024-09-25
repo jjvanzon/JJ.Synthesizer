@@ -31,12 +31,12 @@ namespace JJ.Business.Synthesizer.Tests
 		}
 
 		[TestMethod]
-		public void Test_Synthesizer_FM()
+		public void Test_Synthesizer_FM_Tuba()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				var tester = new SynthesizerTester_FM(context);
-				tester.Test_Synthesizer_FM();
+				tester.Test_Synthesizer_FM_Tuba();
 			}
 		}
 	}
