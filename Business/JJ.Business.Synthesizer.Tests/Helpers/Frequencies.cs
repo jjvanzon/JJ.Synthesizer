@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 	{
 		public static double SemiToneFactor { get; } = Math.Pow(2.0, 1.0 / 12.0);
 
-		public const  double A0 = A4 / 16.0;
+		public const  double A0 = 27.5;
 		public static double A0_Sharp { get; } = A0 * Math.Pow(SemiToneFactor, 1.0);
 		public static double B0       { get; } = A0 * Math.Pow(SemiToneFactor, 2.0);
 		public static double C1       { get; } = A0 * Math.Pow(SemiToneFactor, 3.0);
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 		public static double G1       { get; } = A0 * Math.Pow(SemiToneFactor, 10.0);
 		public static double G1_Sharp { get; } = A0 * Math.Pow(SemiToneFactor, 11.0);
 
-		public const  double A1 = A4 / 8.0;
+		public const  double A1 = 55;
 		public static double A1_Sharp { get; } = A1 * Math.Pow(SemiToneFactor, 1.0);
 		public static double B1       { get; } = A1 * Math.Pow(SemiToneFactor, 2.0);
 		public static double C2       { get; } = A1 * Math.Pow(SemiToneFactor, 3.0);
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 		public static double G2       { get; } = A1 * Math.Pow(SemiToneFactor, 10.0);
 		public static double G2_Sharp { get; } = A1 * Math.Pow(SemiToneFactor, 11.0);
 
-		public const  double A2 = A4 / 4.0;
+		public const  double A2 = 110;
 		public static double A2_Sharp { get; } = A2 * Math.Pow(SemiToneFactor, 1.0);
 		public static double B2       { get; } = A2 * Math.Pow(SemiToneFactor, 2.0);
 		public static double C3       { get; } = A2 * Math.Pow(SemiToneFactor, 3.0);
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 		public static double G3       { get; } = A2 * Math.Pow(SemiToneFactor, 10.0);
 		public static double G3_Sharp { get; } = A2 * Math.Pow(SemiToneFactor, 11.0);
 
-		public const  double A3 = A4 / 2.0;
+		public const  double A3 = 220;
 		public static double A3_Sharp { get; } = A3 * Math.Pow(SemiToneFactor, 1.0);
 		public static double B3       { get; } = A3 * Math.Pow(SemiToneFactor, 2.0);
 		public static double C4       { get; } = A3 * Math.Pow(SemiToneFactor, 3.0);
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 		public static double G4       { get; } = A3 * Math.Pow(SemiToneFactor, 10.0);
 		public static double G4_Sharp { get; } = A3 * Math.Pow(SemiToneFactor, 11.0);
 
-		public const  double A4 = 440.0;
+		public const  double A4 = 440;
 		public static double A4_Sharp { get; } = A4 * Math.Pow(SemiToneFactor, 1.0);
 		public static double B4       { get; } = A4 * Math.Pow(SemiToneFactor, 2.0);
 		public static double C5       { get; } = A4 * Math.Pow(SemiToneFactor, 3.0);
@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 		public static double G5       { get; } = A4 * Math.Pow(SemiToneFactor, 10.0);
 		public static double G5_Sharp { get; } = A4 * Math.Pow(SemiToneFactor, 11.0);
 
-		public const  double A5 = A4 * 2.0;
+		public const  double A5 = 880;
 		public static double A5_Sharp { get; } = A5 * Math.Pow(SemiToneFactor, 1.0);
 		public static double B5       { get; } = A5 * Math.Pow(SemiToneFactor, 2.0);
 		public static double C6       { get; } = A5 * Math.Pow(SemiToneFactor, 3.0);
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 		public static double G6       { get; } = A5 * Math.Pow(SemiToneFactor, 10.0);
 		public static double G6_Sharp { get; } = A5 * Math.Pow(SemiToneFactor, 11.0);
 
-		public const  double A6 = A4 * 4.0;
+		public const  double A6 = 1760;
 		public static double A6_Sharp { get; } = A6 * Math.Pow(SemiToneFactor, 1.0);
 		public static double B6       { get; } = A6 * Math.Pow(SemiToneFactor, 2.0);
 		public static double C7       { get; } = A6 * Math.Pow(SemiToneFactor, 3.0);
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 		public static double G7       { get; } = A6 * Math.Pow(SemiToneFactor, 10.0);
 		public static double G7_Sharp { get; } = A6 * Math.Pow(SemiToneFactor, 11.0);
 
-		public const  double A7 = A4 * 8.0;
+		public const  double A7 = 3520;
 		public static double A7_Sharp { get; } = A7 * Math.Pow(SemiToneFactor, 1.0);
 		public static double B7       { get; } = A7 * Math.Pow(SemiToneFactor, 2.0);
 		public static double C8       { get; } = A7 * Math.Pow(SemiToneFactor, 3.0);
@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 		public static double G8       { get; } = A7 * Math.Pow(SemiToneFactor, 10.0);
 		public static double G8_Sharp { get; } = A7 * Math.Pow(SemiToneFactor, 11.0);
 
-		public const  double A8 = A4 * 16.0;
+		public const  double A8 = 7040;
 		public static double A8_Sharp { get; } = A8 * Math.Pow(SemiToneFactor, 1.0);
 		public static double B8       { get; } = A8 * Math.Pow(SemiToneFactor, 2.0);
 		public static double C9       { get; } = A8 * Math.Pow(SemiToneFactor, 3.0);
