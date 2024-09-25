@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Tests
 	/// Additional tests written upon retro-actively isolating older synthesizer versions.
 	/// </summary>
 	[TestClass]
-	public class SynthesizerAdditionalTests
+	public class SynthesizerIntegrationTests
 	{
 		// Sines & Curves
 
