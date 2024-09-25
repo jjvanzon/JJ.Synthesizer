@@ -10,6 +10,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Infos;
 
 // ReSharper disable LocalizableElement
 // ReSharper disable BuiltInTypeReferenceStyleForMemberAccess
@@ -28,58 +29,61 @@ namespace JJ.Business.Synthesizer.Tests
 		private const double DEFAULT_AMPLITUDE = 1.0;
 
 		private readonly IContext _context;
-		private readonly AudioFileOutputManager _audioFileOutputManager;
+		private readonly CurveFactory _curveFactory;
 		private readonly OperatorFactory _operatorFactory;
+		private readonly AudioFileOutputManager _audioFileOutputManager;
 
+		private Curve _tubaCurve;
 
 		public SynthesizerTester_FM(IContext context)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
-			_audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(_context);
+			_curveFactory = TestHelper.CreateCurveFactory(context);
 			_operatorFactory = TestHelper.CreateOperatorFactory(_context);
+			_audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(_context);
 		}
 
 		// Tests
 
 		public void Test_Synthesizer_FM_Tuba() 
-			=> TestOutlet(CreateTuba());
+			=> RunTest(CreateTuba(freq: 55), totalTime: 0.7);
 
 		public void Test_Synthesizer_FM_Flute_HardModulated() 
-			=> TestOutlet(CreateFlute_HardModulated());
+			=> RunTest(CreateFlute_HardModulated());
 
 		public void Test_Synthesizer_FM_Flute_HardHigh() 
-			=> TestOutlet(CreateFlute_HardHigh());
+			=> RunTest(CreateFlute_HardHigh());
 
 		public void Test_Synthesizer_FM_Flute_AnotherOne()
-			=> TestOutlet(CreateFlute_AnotherOne());
+			=> RunTest(CreateFlute_AnotherOne());
 
 		public void Test_Synthesizer_FM_Flute_YetAnotherOne()
-			=> TestOutlet(CreateFlute_YetAnotherOne());
+			=> RunTest(CreateFlute_YetAnotherOne());
 		
 		public void Test_Synthesizer_FM_Ripple_FatMetallic()
-			=> TestOutlet(CreateRipple_FatMetallic());
+			=> RunTest(CreateRipple_FatMetallic());
 
 		public void Test_Synthesizer_FM_Ripple_DeepMetallic()
-			=> TestOutlet(CreateRipple_DeepMetallic());
+			=> RunTest(CreateRipple_DeepMetallic());
 		
 		public void Test_Synthesizer_FM_Ripple_FantasyEffect()
-			=> TestOutlet(CreateRipple_FantasyEffect());
+			=> RunTest(CreateRipple_FantasyEffect());
 
 		public void Test_Synthesizer_FM_Ripple_Clean()
-			=> TestOutlet(CreateRipple_Clean());
+			=> RunTest(CreateRipple_Clean());
 
 		public void Test_Synthesizer_FM_Ripple_CoolDouble()
-			=> TestOutlet(CreateRipple_CoolDouble());
+			=> RunTest(CreateRipple_CoolDouble());
 
 		public void Test_Synthesizer_FM_Noise_Beating()
-			=> TestOutlet(CreateNoise_Beating());
+			=> RunTest(CreateNoise_Beating());
 
 		// Generic Method
 
-		public void TestOutlet(Outlet outlet, [CallerMemberName] string callerMemberName = null)
+		public void RunTest(Outlet outlet, double totalTime = TOTAL_TIME, [CallerMemberName] string callerMemberName = null)
 		{
 			// Configure AudioFileOutput
-			AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet);
+			AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet, totalTime);
 
 			// Verify
 			AssertEntities(audioFileOutput, outlet);
@@ -97,8 +101,18 @@ namespace JJ.Business.Synthesizer.Tests
 		// Tuba
 
 		/// <summary> Tuba at beginning: mod speed below sound freq, changes sound freq to +/- 5Hz </summary>
-		private Outlet CreateTuba() 
-			=> FMInHertz(soundFreq: 440, modSpeed: 220, modDepth: 5);
+		private Outlet CreateTuba(double freq = 220)
+		{
+			var x = _operatorFactory;
+
+			// FM Algorithm
+			var outlet = FMInHertz(soundFreq: freq * 2, modSpeed: freq, modDepth: 5);
+
+			// Volume Curve
+			outlet = x.Multiply(outlet, x.CurveIn(GetTubaCurve()));
+
+			return outlet;
+		}
 
 		// Flutes
 
@@ -184,10 +198,24 @@ namespace JJ.Business.Synthesizer.Tests
 
 		// Steps
 
-		private AudioFileOutput ConfigureAudioFileOutput(string fileName, Outlet outlet)
+		private Curve GetTubaCurve()
+		{
+			if (_tubaCurve == null)
+			{
+				_tubaCurve = _curveFactory.CreateCurve
+				(
+					new NodeInfo(time: 0.00, value: 1),
+					new NodeInfo(time: 0.65, value: 1),
+					new NodeInfo(time: 0.70, value: 0)
+				);
+			}
+			return _tubaCurve;
+		}
+
+		private AudioFileOutput ConfigureAudioFileOutput(string fileName, Outlet outlet, double totalTime)
 		{
 			AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
-			audioFileOutput.Duration = TOTAL_TIME;
+			audioFileOutput.Duration = totalTime;
 			audioFileOutput.Amplifier = Int16.MaxValue;
 			audioFileOutput.FilePath = fileName;
 			audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
@@ -209,6 +237,5 @@ namespace JJ.Business.Synthesizer.Tests
 			stopWatch.Stop();
 			return stopWatch;
 		}
-
 	}
 }
