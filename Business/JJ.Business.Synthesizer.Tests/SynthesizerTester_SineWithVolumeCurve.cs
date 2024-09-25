@@ -11,11 +11,11 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+// ReSharper disable LocalizableElement
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Tests
 
 			// Report
 			string filePath = Path.GetFullPath(audioFileOutput.FilePath);
-			Assert.Inconclusive($"{sw.ElapsedMilliseconds}ms{Environment.NewLine}Output file: {filePath}");
+			Console.WriteLine($"{sw.ElapsedMilliseconds}ms{Environment.NewLine}Output file: {filePath}");
 		}
 	}
 }

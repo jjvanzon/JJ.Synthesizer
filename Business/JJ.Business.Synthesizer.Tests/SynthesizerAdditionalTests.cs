@@ -10,6 +10,8 @@ namespace JJ.Business.Synthesizer.Tests
 	[TestClass]
 	public class SynthesizerAdditionalTests
 	{
+		// Sines & Curves
+
 		[TestMethod]
 		public void Test_Synthesizer_Sine_With_Volume_Curve()
 		{
@@ -19,6 +21,8 @@ namespace JJ.Business.Synthesizer.Tests
 				tester.Test_Synthesizer_Sine_With_Volume_Curve();
 			}
 		}
+
+		// Additive
 
 		[TestMethod]
 		public void Test_Synthesizer_Additive_Sines_And_Samples()
@@ -30,13 +34,111 @@ namespace JJ.Business.Synthesizer.Tests
 			}
 		}
 
+		// FM Tuba
+
 		[TestMethod]
 		public void Test_Synthesizer_FM_Tuba()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				var tester = new SynthesizerTester_FM(context);
-				tester.Test_Synthesizer_FM_Tuba();
+				new SynthesizerTester_FM(context).Test_Synthesizer_FM_Tuba();
+			}
+		}
+
+		// FM Flutes
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_Flute_HardModulated()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTester_FM(context).Test_Synthesizer_FM_Flute_HardModulated();
+			}
+		}
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_Flute_HardHigh()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTester_FM(context).Test_Synthesizer_FM_Flute_HardHigh();
+			}
+		}
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_Flute_AnotherOne()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTester_FM(context).Test_Synthesizer_FM_Flute_AnotherOne();
+			}
+		}
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_Flute_YetAnotherOne()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTester_FM(context).Test_Synthesizer_FM_Flute_YetAnotherOne();
+			}
+		}
+
+
+		// FM Ripple Effects
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_Ripple_FatMetallic()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTester_FM(context).Test_Synthesizer_FM_Ripple_FatMetallic();
+			}
+		}
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_Ripple_DeepMetallic()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTester_FM(context).Test_Synthesizer_FM_Ripple_DeepMetallic();
+			}
+		}
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_Ripple_FantasyEffect()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTester_FM(context).Test_Synthesizer_FM_Ripple_FantasyEffect();
+			}
+		}
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_Ripple_Clean()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTester_FM(context).Test_Synthesizer_FM_Ripple_Clean();
+			}
+		}
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_Ripple_CoolDouble()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTester_FM(context).Test_Synthesizer_FM_Ripple_CoolDouble();
+			}
+		}
+
+		// FM Noise
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_Noise_Beating()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTester_FM(context).Test_Synthesizer_FM_Noise_Beating();
 			}
 		}
 	}
