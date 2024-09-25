@@ -1,16 +1,16 @@
-﻿using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Factories;
+using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Infos;
 
 // ReSharper disable LocalizableElement
 // ReSharper disable BuiltInTypeReferenceStyleForMemberAccess
@@ -33,8 +33,6 @@ namespace JJ.Business.Synthesizer.Tests
 		private readonly OperatorFactory _operatorFactory;
 		private readonly AudioFileOutputManager _audioFileOutputManager;
 
-		private Curve _tubaCurve;
-
 		public SynthesizerTester_FM(IContext context)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
@@ -45,13 +43,24 @@ namespace JJ.Business.Synthesizer.Tests
 
 		// Tests
 
-		public void Test_Synthesizer_FM_Tuba() 
-			=> RunTest(CreateTuba(freq: 55), totalTime: 0.7);
+		public void Test_Synthesizer_FM_Tuba()
+		{
+			//Outlet tuba = CreateTuba(Frequencies.A1);
 
-		public void Test_Synthesizer_FM_Flute_HardModulated() 
+			Outlet melody = _operatorFactory.Adder
+			(
+				Tuba(Frequencies.A1,       volume: 1.0),
+				Tuba(Frequencies.E2,       volume: 1.0, delay: 1.2),
+				Tuba(Frequencies.F1_Sharp, volume: 0.7, delay: 2.4)
+			);
+
+			RunTest(melody, totalTime: 2.4 + 2.0);
+		}
+
+		public void Test_Synthesizer_FM_Flute_HardModulated()
 			=> RunTest(CreateFlute_HardModulated());
 
-		public void Test_Synthesizer_FM_Flute_HardHigh() 
+		public void Test_Synthesizer_FM_Flute_HardHigh()
 			=> RunTest(CreateFlute_HardHigh());
 
 		public void Test_Synthesizer_FM_Flute_AnotherOne()
@@ -59,13 +68,13 @@ namespace JJ.Business.Synthesizer.Tests
 
 		public void Test_Synthesizer_FM_Flute_YetAnotherOne()
 			=> RunTest(CreateFlute_YetAnotherOne());
-		
+
 		public void Test_Synthesizer_FM_Ripple_FatMetallic()
 			=> RunTest(CreateRipple_FatMetallic());
 
 		public void Test_Synthesizer_FM_Ripple_DeepMetallic()
 			=> RunTest(CreateRipple_DeepMetallic());
-		
+
 		public void Test_Synthesizer_FM_Ripple_FantasyEffect()
 			=> RunTest(CreateRipple_FantasyEffect());
 
@@ -97,7 +106,7 @@ namespace JJ.Business.Synthesizer.Tests
 
 			// Report
 			Console.WriteLine($"Calculation time: {stopWatch.ElapsedMilliseconds}ms{Environment.NewLine}" +
-					  		  $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
+			                  $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
 		}
 
 		// Create Instruments
@@ -105,15 +114,27 @@ namespace JJ.Business.Synthesizer.Tests
 		// Tuba
 
 		/// <summary> Tuba at beginning: mod speed below sound freq, changes sound freq to +/- 5Hz </summary>
-		private Outlet CreateTuba(double freq = 220)
+		private Outlet Tuba(double freq = Frequencies.A1, double volume = 1, double delay = 0)
 		{
 			var x = _operatorFactory;
 
 			// FM Algorithm
 			var outlet = FMInHertz(soundFreq: freq * 2, modSpeed: freq, modDepth: 5);
 
-			// Volume Curve
-			outlet = x.Multiply(outlet, x.CurveIn(GetTubaCurve()));
+			// Stretch Volume Curve
+			double stretch = Frequencies.A1 / freq * 0.8;
+			var curveOutlet = x.TimeMultiply(x.CurveIn(TubaCurve), x.Value(stretch));
+
+			// Apply Volume Curve
+			outlet = x.Multiply(outlet, curveOutlet);
+
+			// Longer when Lower
+
+			// Note Volume
+			outlet = x.Multiply(outlet, x.Value(volume));
+
+			// Note Start
+			outlet = x.TimeAdd(outlet, x.Value(delay));
 
 			return outlet;
 		}
@@ -129,11 +150,11 @@ namespace JJ.Business.Synthesizer.Tests
 			=> FMAround0(soundFreq: 440, modSpeed: 880, modDepth: 0.005);
 
 		/// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-		private Outlet CreateFlute_AnotherOne() 
+		private Outlet CreateFlute_AnotherOne()
 			=> FMAroundFreq(soundFreq: 440, modSpeed: 880, modDepth: 0.005);
 
 		/// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-		private Outlet CreateFlute_YetAnotherOne() 
+		private Outlet CreateFlute_YetAnotherOne()
 			=> FMAroundFreq(soundFreq: 220, modSpeed: 880, modDepth: 0.005);
 
 		// Ripple Effects
@@ -202,25 +223,30 @@ namespace JJ.Business.Synthesizer.Tests
 
 		// Steps
 
-		private Curve GetTubaCurve()
+		private Curve _tubaCurve;
+
+		private Curve TubaCurve
 		{
-			if (_tubaCurve == null)
+			get
 			{
-				_tubaCurve = _curveFactory.CreateCurve
-				(
-					new NodeInfo(time: 0.00, value: 1),
-					new NodeInfo(time: 0.65, value: 1),
-					new NodeInfo(time: 0.70, value: 0)
-				);
+				if (_tubaCurve == null)
+				{
+					_tubaCurve = _curveFactory.CreateCurve
+					(
+						new NodeInfo(time: 0.00, value: 1),
+						new NodeInfo(time: 0.93, value: 1),
+						new NodeInfo(time: 1.00, value: 0)
+					);
+				}
+				return _tubaCurve;
 			}
-			return _tubaCurve;
 		}
 
 		private AudioFileOutput ConfigureAudioFileOutput(string fileName, Outlet outlet, double totalTime)
 		{
 			AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
 			audioFileOutput.Duration = totalTime;
-			audioFileOutput.Amplifier = Int16.MaxValue;
+			audioFileOutput.Amplifier = Int16.MaxValue / 3.5;
 			audioFileOutput.FilePath = fileName;
 			audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 			return audioFileOutput;
