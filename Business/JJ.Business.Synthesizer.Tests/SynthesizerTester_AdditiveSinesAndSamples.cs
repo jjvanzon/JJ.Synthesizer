@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
 using System.IO;
+// ReSharper disable LocalizableElement
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -69,8 +70,8 @@ namespace JJ.Business.Synthesizer.Tests
 			Stopwatch stopWatch = Calculate();
 
 			// Report
-			Assert.Inconclusive($"Calculation time: {stopWatch.ElapsedMilliseconds}ms{Environment.NewLine}" +
-								$"Output file: {Path.GetFullPath(_audioFileOutput.FilePath)}");
+			Console.WriteLine($"Calculation time: {stopWatch.ElapsedMilliseconds}ms{Environment.NewLine}" +
+							  $"Output file: {Path.GetFullPath(_audioFileOutput.FilePath)}");
 		}
 
 		/// <summary>
@@ -146,8 +147,8 @@ namespace JJ.Business.Synthesizer.Tests
 				CreateNote(Frequencies.A4, volume: 0.9),
 				CreateNote(Frequencies.E5, volume: 1.0, delay: 0.2),
 				CreateNote(Frequencies.B4, volume: 0.5, delay: 0.4),
-				CreateNote(Frequencies.CSHARP5, volume: 0.7, delay: 0.6),
-				CreateNote(Frequencies.FSHARP4, volume: 0.4, delay: 1.2)
+				CreateNote(Frequencies.C5_Sharp, volume: 0.7, delay: 0.6),
+				CreateNote(Frequencies.F4_Sharp, volume: 0.4, delay: 1.2)
 			);
 		}
 
