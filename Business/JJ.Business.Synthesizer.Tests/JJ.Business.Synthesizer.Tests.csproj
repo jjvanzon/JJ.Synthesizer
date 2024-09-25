@@ -52,8 +52,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Helpers\WavHeaderWishes.cs" />
-    <Compile Include="SynthesizerTester_FMHardCoded.cs" />
-    <Compile Include="SynthesizerIntegrationTests.cs" />
+    <Compile Include="SynthesizerTests_FMHardCoded.cs" />
+    <Compile Include="SynthesizerTests_Additive.cs" />
     <Compile Include="SynthesizerTests_FM.cs" />
     <Compile Include="Helpers\Frequencies.cs" />
     <Compile Include="SynthesizerTester_SineWithVolumeCurve.cs" />

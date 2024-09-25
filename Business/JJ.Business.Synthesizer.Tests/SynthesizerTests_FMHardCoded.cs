@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
 	[TestClass]
-	public class SynthesizerTester_FMHardCoded
+	public class SynthesizerTests_FMHardCoded
 	{
 		[TestMethod]
 		public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_32BitFloat_HardFlute_IsNoise()
