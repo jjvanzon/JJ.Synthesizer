@@ -54,38 +54,38 @@ namespace JJ.Business.Synthesizer.Tests
 				Tuba(Frequencies.F1_Sharp, volume: 0.7, delay: 2.4)
 			);
 
-			RunTest(melody, totalTime: 2.4 + 2.0);
+			Test_Synthesizer_FM(melody, totalTime: 2.4 + 2.0);
 		}
 
 		public void Test_Synthesizer_FM_Flute_HardModulated()
-			=> RunTest(CreateFlute_HardModulated());
+			=> Test_Synthesizer_FM(CreateFlute_HardModulated());
 
 		public void Test_Synthesizer_FM_Flute_HardHigh()
-			=> RunTest(CreateFlute_HardHigh());
+			=> Test_Synthesizer_FM(CreateFlute_HardHigh());
 
 		public void Test_Synthesizer_FM_Flute_AnotherOne()
-			=> RunTest(CreateFlute_AnotherOne());
+			=> Test_Synthesizer_FM(CreateFlute_AnotherOne());
 
 		public void Test_Synthesizer_FM_Flute_YetAnotherOne()
-			=> RunTest(CreateFlute_YetAnotherOne());
+			=> Test_Synthesizer_FM(CreateFlute_YetAnotherOne());
 
 		public void Test_Synthesizer_FM_Ripple_FatMetallic()
-			=> RunTest(CreateRipple_FatMetallic());
+			=> Test_Synthesizer_FM(CreateRipple_FatMetallic());
 
 		public void Test_Synthesizer_FM_Ripple_DeepMetallic()
-			=> RunTest(CreateRipple_DeepMetallic());
+			=> Test_Synthesizer_FM(CreateRipple_DeepMetallic());
 
 		public void Test_Synthesizer_FM_Ripple_FantasyEffect()
-			=> RunTest(CreateRipple_FantasyEffect());
+			=> Test_Synthesizer_FM(CreateRipple_FantasyEffect());
 
 		public void Test_Synthesizer_FM_Ripple_Clean()
-			=> RunTest(CreateRipple_Clean());
+			=> Test_Synthesizer_FM(CreateRipple_Clean());
 
 		public void Test_Synthesizer_FM_Ripple_CoolDouble()
-			=> RunTest(CreateRipple_CoolDouble());
+			=> Test_Synthesizer_FM(CreateRipple_CoolDouble());
 
 		public void Test_Synthesizer_FM_Noise_Beating()
-			=> RunTest(CreateNoise_Beating());
+			=> Test_Synthesizer_FM(CreateNoise_Beating());
 
 		// Generic Method
 
@@ -93,8 +93,14 @@ namespace JJ.Business.Synthesizer.Tests
 		/// Runs a test for FM synthesis and outputs the result to a file.
 		/// Also, the entity data will be verified.
 		/// </summary>
-		public void RunTest(Outlet outlet, double totalTime = DEFAULT_TOTAL_TIME, [CallerMemberName] string callerMemberName = null)
+		private void Test_Synthesizer_FM(
+			Outlet outlet, 
+			double totalTime = DEFAULT_TOTAL_TIME,
+			[CallerMemberName] string callerMemberName = null)
 		{
+			// Add Echo (for fun)
+			outlet = EntityFactory.CreateEcho(_operatorFactory, outlet, count: 10, denominator: 4, delay: 0.33);
+
 			// Configure AudioFileOutput
 			AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet, totalTime);
 
@@ -246,7 +252,7 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
 			audioFileOutput.Duration = totalTime;
-			audioFileOutput.Amplifier = Int16.MaxValue / 3.5;
+			audioFileOutput.Amplifier = Int16.MaxValue / 2.0;
 			audioFileOutput.FilePath = fileName;
 			audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 			return audioFileOutput;
