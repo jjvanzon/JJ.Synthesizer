@@ -128,7 +128,8 @@ namespace JJ.Business.Synthesizer.Tests
 			var outlet = FMInHertz(soundFreq: freq * 2, modSpeed: freq, modDepth: 5);
 
 			// Stretch Volume Curve
-			double stretch = Frequencies.A1 / freq * 0.8;
+			//double stretch = Frequencies.A1 / freq * 0.8;
+			double stretch = Math.Pow(Frequencies.A1 / freq, 1.5) * 0.8;
 			var curveOutlet = x.TimeMultiply(x.CurveIn(TubaCurve), x.Value(stretch));
 
 			// Apply Volume Curve
