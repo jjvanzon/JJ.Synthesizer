@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RunSettings>
   <RunConfiguration>
-    <MaxCpuCount>0</MaxCpuCount> <!-- Use all available logical processors -->
+    <!-- Use all available logical processors -->
+    <!--<MaxCpuCount>0</MaxCpuCount>-->
+    <MaxCpuCount>64</MaxCpuCount>
   </RunConfiguration>
 </RunSettings>
