@@ -89,13 +89,13 @@ namespace JJ.Business.Synthesizer.Tests
                 
                 Flute1(Frequencies.A4, bar * 1 + beat * 0.0, volume: 0.8, duration: 1.4),
                 Flute3(Frequencies.B4, bar * 1 + beat * 1.5, volume: 0.5, duration: 0.8),
-                Flute1(Frequencies.G4, bar * 1 + beat * 3.0, volume: 0.6, duration: 0.7),
+                Flute1(Frequencies.G4, bar * 1 + beat * 3.0, volume: 0.6, duration: 0.6),
                 
                 Flute2(Frequencies.A4, bar * 2 + beat * 0.0, volume: 0.9, duration: 1.2),
                 Flute1(Frequencies.E5, bar * 2 + beat * 1.5, volume: 1.2, duration: 1.5)
             );
 
-            WrapUp_Test(melody, bar * 4, volume: 0.3);
+            WrapUp_Test(melody, totalTime: bar * 3, volume: 0.3);
         }
 
         [TestMethod]
@@ -457,8 +457,7 @@ namespace JJ.Business.Synthesizer.Tests
                         new NodeInfo(time: 0.05, value: 0.8),
                         new NodeInfo(time: 0.10, value: 1.0),
                         new NodeInfo(time: 0.90, value: 0.7),
-                        new NodeInfo(time: 1.00, value: 0.0)//,
-                        //new NodeInfo(time: 2.00, value: 0.0)
+                        new NodeInfo(time: 1.00, value: 0.0)
                     );
                 }
                 return _fluteCurve;
