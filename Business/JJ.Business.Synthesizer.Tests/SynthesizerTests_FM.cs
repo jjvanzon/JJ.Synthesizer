@@ -70,32 +70,32 @@ namespace JJ.Business.Synthesizer.Tests
         // Flute Tests
 
         [TestMethod]
-        public void Test_Synthesizer_FM_FluteMelody()
+        public void Test_Synthesizer_FM_Flute()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_FluteMelody();
+                new SynthesizerTests_FM(context).Test_FM_Flute();
         }
-
-        private void Test_FM_FluteMelody()
+        
+        private void Test_FM_Flute()
         {
-            double beat = 0.6;
-            double measure = beat * 4;
+            const double beat = 0.6;
+            const double bar = beat * 4;
 
             Outlet melody = _operatorFactory.Adder
             (
-                Flute1(Frequencies.E4, delay: measure * 0 + beat * 0.0),
-                Flute1(Frequencies.F4, delay: measure * 0 + beat * 1.5),
-                Flute2(Frequencies.G4, delay: measure * 0 + beat * 3.0, volume: 0.7, duration: 0.7),
-                 
-                Flute1(Frequencies.A4, delay: measure * 1 + beat * 0.0),
-                Flute3(Frequencies.B4, delay: measure * 1 + beat * 1.5, volume: 0.5, duration: 0.6),
-                Flute1(Frequencies.G4, delay: measure * 1 + beat * 3.0),
+                Flute1(Frequencies.E4, bar * 0 + beat * 0.0, volume: 0.8, duration: 1.2),
+                Flute2(Frequencies.F4, bar * 0 + beat * 1.5, volume: 0.6, duration: 1.3),
+                Flute1(Frequencies.G4, bar * 0 + beat * 3.0, volume: 0.6, duration: 0.6),
                 
-                Flute2(Frequencies.A4, delay: measure * 2 + beat * 0.0,              duration: 1.2),
-                Flute1(Frequencies.E5, delay: measure * 2 + beat * 1.5, volume: 1.2, duration: 1.5)
+                Flute1(Frequencies.A4, bar * 1 + beat * 0.0, volume: 0.8, duration: 1.4),
+                Flute3(Frequencies.B4, bar * 1 + beat * 1.5, volume: 0.5, duration: 0.8),
+                Flute1(Frequencies.G4, bar * 1 + beat * 3.0, volume: 0.6, duration: 0.7),
+                
+                Flute2(Frequencies.A4, bar * 2 + beat * 0.0, volume: 0.9, duration: 1.2),
+                Flute1(Frequencies.E5, bar * 2 + beat * 1.5, volume: 1.2, duration: 1.5)
             );
 
-            WrapUp_Test(melody, measure * 4, volume: 0.3);
+            WrapUp_Test(melody, bar * 4, volume: 0.3);
         }
 
         [TestMethod]
@@ -292,9 +292,9 @@ namespace JJ.Business.Synthesizer.Tests
             // Volume Curve
             outlet = x.Multiply(outlet, StretchCurve(FluteCurve, duration));
 
-
             // Apply Volume and Delay
-            outlet = StrikeNote(outlet, delay, volume);
+            double normalizer = 0.85;
+            outlet = StrikeNote(outlet, delay, volume * normalizer);
 
             return outlet;
         }
@@ -311,7 +311,8 @@ namespace JJ.Business.Synthesizer.Tests
             outlet = x.Multiply(outlet, StretchCurve(FluteCurve, duration));
 
             // Apply Volume and Delay
-            outlet = StrikeNote(outlet, delay, volume);
+            double normalizer = 0.80;
+            outlet = StrikeNote(outlet, delay, volume * normalizer);
 
             return outlet;
         }
@@ -328,7 +329,8 @@ namespace JJ.Business.Synthesizer.Tests
             outlet = x.Multiply(outlet, StretchCurve(FluteCurve, duration));
 
             // Apply Volume and Delay
-            outlet = StrikeNote(outlet, delay, volume);
+            double normalizer = 0.70;
+            outlet = StrikeNote(outlet, delay, volume * normalizer);
 
             return outlet;
         }
@@ -454,9 +456,9 @@ namespace JJ.Business.Synthesizer.Tests
                         new NodeInfo(time: 0.00, value: 0.0),
                         new NodeInfo(time: 0.05, value: 0.8),
                         new NodeInfo(time: 0.10, value: 1.0),
-                        new NodeInfo(time: 0.95, value: 0.7),
-                        new NodeInfo(time: 1.00, value: 0.0),
-                        new NodeInfo(time: 2.00, value: 0.0)
+                        new NodeInfo(time: 0.90, value: 0.7),
+                        new NodeInfo(time: 1.00, value: 0.0)//,
+                        //new NodeInfo(time: 2.00, value: 0.0)
                     );
                 }
                 return _fluteCurve;
