@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Flute1(Frequencies.E5, delay: measure * 2 + beat * 1.5, volume: 1.2, duration: 1.5)
             );
 
-            WrapUp_Test(melody, measure * 3, volume: 0.3);
+            WrapUp_Test(melody, measure * 4, volume: 0.3);
         }
 
         [TestMethod]
@@ -406,7 +406,6 @@ namespace JJ.Business.Synthesizer.Tests
             if (volume != 1.0) outlet = x.Multiply(outlet, x.Value(volume));
             return outlet;
         }
-
         
         private Outlet StretchCurve(Curve curve, double duration)
         {
@@ -415,7 +414,7 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet outlet = x.CurveIn(curve);
             if (duration != 1)
             {
-                outlet = x.TimeDivide(outlet, x.Value(duration));
+                outlet = x.TimeMultiply(outlet, x.Value(duration));
             }
 
             return outlet;
