@@ -70,52 +70,52 @@ namespace JJ.Business.Synthesizer.Tests
 		// Flute Tests
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_Flute_HardModulated()
+		public void Test_Synthesizer_FM_Flute4()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Test_FM_Flute_HardModulated();
+				new SynthesizerTests_FM(context).Test_FM_Flute4();
 			}
 		}
 
-		private void Test_FM_Flute_HardModulated()
-			=> WrapUp_Test(FluteNote_HardModulated(Frequencies.A4));
+		private void Test_FM_Flute4()
+			=> WrapUp_Test(FluteNote4(Frequencies.A4));
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_Flute_HardHigh()
+		public void Test_Synthesizer_FM_Flute1()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Test_FM_Flute_HardHigh();
+				new SynthesizerTests_FM(context).Test_FM_Flute1();
 			}
 		}
 
-		private void Test_FM_Flute_HardHigh()
-			=> WrapUp_Test(FluteNote_HardHigh(Frequencies.A4));
+		private void Test_FM_Flute1()
+			=> WrapUp_Test(FluteNote1(Frequencies.A4));
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_Flute_AnotherOne()
+		public void Test_Synthesizer_FM_Flute2()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Test_FM_Flute_AnotherOne();
+				new SynthesizerTests_FM(context).Test_FM_Flute2();
 			}
 		}
 
-		private void Test_FM_Flute_AnotherOne()
-			=> WrapUp_Test(FluteNote_AnotherOne(Frequencies.A4));
+		private void Test_FM_Flute2()
+			=> WrapUp_Test(FluteNote2(Frequencies.A4));
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_Flute_YetAnotherOne()
+		public void Test_Synthesizer_FM_Flute3()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				new SynthesizerTests_FM(context).Test_FM_Flute_YetAnotherOne();
+				new SynthesizerTests_FM(context).Test_FM_Flute3();
 			}
 		}
 
-		private void Test_FM_Flute_YetAnotherOne()
-			=> WrapUp_Test(FluteNote_YetAnotherOne(Frequencies.A4));
+		private void Test_FM_Flute3()
+			=> WrapUp_Test(FluteNote3(Frequencies.A4));
 
 		// FM Ripple Effects
 
@@ -258,19 +258,19 @@ namespace JJ.Business.Synthesizer.Tests
 		// Flutes
 
 		/// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-		private Outlet FluteNote_HardModulated(double freq = Frequencies.A3)
+		private Outlet FluteNote4(double freq = Frequencies.A4)
 			=> FMAround0(soundFreq: freq * 2, modSpeed: freq, modDepth: 0.005);
 
 		/// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-		private Outlet FluteNote_HardHigh(double freq = Frequencies.A4)
+		private Outlet FluteNote1(double freq = Frequencies.A4)
 			=> FMAround0(soundFreq: freq / 2, modSpeed: freq, modDepth: 0.005);
 
 		/// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-		private Outlet FluteNote_AnotherOne(double freq = Frequencies.A4)
+		private Outlet FluteNote2(double freq = Frequencies.A4)
 			=> FMAroundFreq(soundFreq: freq, modSpeed: freq * 2, modDepth: 0.005);
 
 		/// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-		private Outlet FluteNote_YetAnotherOne(double freq = Frequencies.A3)
+		private Outlet FluteNote3(double freq = Frequencies.A4)
 			=> FMAroundFreq(soundFreq: freq, modSpeed: freq * 4, modDepth: 0.005);
 
 		// Ripple Effects
