@@ -50,9 +50,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_FM_Tuba()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-			{
 				new SynthesizerTests_FM(context).Test_FM_Tuba();
-			}
 		}
 
 		private void Test_FM_Tuba()
@@ -73,9 +71,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_FM_Flute1()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-			{
 				new SynthesizerTests_FM(context).Test_FM_Flute1();
-			}
 		}
 
 		private void Test_FM_Flute1()
@@ -85,9 +81,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_FM_Flute2()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-			{
 				new SynthesizerTests_FM(context).Test_FM_Flute2();
-			}
 		}
 
 		private void Test_FM_Flute2()
@@ -97,9 +91,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_FM_Flute3()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-			{
 				new SynthesizerTests_FM(context).Test_FM_Flute3();
-			}
 		}
 
 		private void Test_FM_Flute3()
@@ -109,9 +101,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_FM_Flute4()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-			{
 				new SynthesizerTests_FM(context).Test_FM_Flute4();
-			}
 		}
 
 		private void Test_FM_Flute4()
@@ -123,9 +113,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_FM_RippleNote_DeepMetallic()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-			{
 				new SynthesizerTests_FM(context).Test_FM_RippleNote_DeepMetallic();
-			}
 		}
 
 		private void Test_FM_RippleNote_DeepMetallic()
@@ -135,9 +123,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-			{
 				new SynthesizerTests_FM(context).Test_FM_RippleNote_SharpMetallic();
-			}
 		}
 
 		private void Test_FM_RippleNote_SharpMetallic()
@@ -147,9 +133,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_FM_RippleSound_Clean()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-			{
 				new SynthesizerTests_FM(context).Test_FM_RippleSound_Clean();
-			}
 		}
 
 		private void Test_FM_RippleSound_Clean()
@@ -159,9 +143,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_FM_RippleSound_FantasyEffect()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-			{
 				new SynthesizerTests_FM(context).Test_FM_RippleSound_FantasyEffect();
-			}
 		}
 
 		private void Test_FM_RippleSound_FantasyEffect()
@@ -171,9 +153,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_FM_RippleSound_CoolDouble()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-			{
 				new SynthesizerTests_FM(context).Test_FM_RippleSound_CoolDouble();
-			}
 		}
 
 		private void Test_FM_RippleSound_CoolDouble()
@@ -185,9 +165,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_FM_Noise_Beating()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-			{
 				new SynthesizerTests_FM(context).Test_FM_Noise_Beating();
-			}
 		}
 
 		private void Test_FM_Noise_Beating()
