@@ -83,15 +83,15 @@ namespace JJ.Business.Synthesizer.Tests
 
             Outlet melody = _operatorFactory.Adder
             (
-                Flute4(Frequencies.E4, delay: measure * 0 + beat * 0.0),
+                Flute1(Frequencies.E4, delay: measure * 0 + beat * 0.0),
                 Flute2(Frequencies.F4, delay: measure * 0 + beat * 1.5),
-                Flute1(Frequencies.G4, delay: measure * 0 + beat * 3.0),
+                Flute3(Frequencies.G4, delay: measure * 0 + beat * 3.0),
                  
-                Flute2(Frequencies.A5, delay: measure * 1 + beat * 0.0),
-                Flute1(Frequencies.B4, delay: measure * 1 + beat * 1.5),
+                Flute4(Frequencies.A4, delay: measure * 1 + beat * 0.0),
+                Flute3(Frequencies.B4, delay: measure * 1 + beat * 1.5),
                 Flute2(Frequencies.G4, delay: measure * 1 + beat * 3.0),
                 
-                Flute4(Frequencies.A5, delay: measure * 2 + beat * 0.0),
+                Flute4(Frequencies.A4, delay: measure * 2 + beat * 0.0),
                 Flute1(Frequencies.E5, delay: measure * 2 + beat * 1.5)
             );
 
@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer.Tests
             var x = _operatorFactory;
 
             // FM Algorithm
-            Outlet outlet = FMAround0(soundFreq: freq / 2, modSpeed: freq, modDepth: 0.005 * freq / Frequencies.A4);
+            Outlet outlet = FMAround0(soundFreq: freq / 2, modSpeed: freq, modDepth: 0.005);//* freq / Frequencies.A4);
 
             // Volume Curve
             outlet = x.Multiply(outlet, x.CurveIn(FluteCurve));
@@ -287,7 +287,7 @@ namespace JJ.Business.Synthesizer.Tests
             var x = _operatorFactory;
 
             // FM Algorithm
-            Outlet outlet = FMAroundFreq(soundFreq: freq, modSpeed: freq * 2, modDepth: 0.005 * freq / Frequencies.A4);
+            Outlet outlet = FMAroundFreq(soundFreq: freq, modSpeed: freq * 2, modDepth: 0.005);// * freq / Frequencies.A4);
             
             // Volume Curve
             outlet = x.Multiply(outlet, x.CurveIn(FluteCurve));
@@ -304,7 +304,7 @@ namespace JJ.Business.Synthesizer.Tests
             var x = _operatorFactory;
 
             // FM Algorithm
-            Outlet outlet = FMAroundFreq(soundFreq: freq, modSpeed: freq * 4, modDepth: 0.005 * freq / Frequencies.A4);
+            Outlet outlet = FMAroundFreq(soundFreq: freq, modSpeed: freq * 4, modDepth: 0.005);// * freq / Frequencies.A4);
 
             // Volume Curve
             outlet = x.Multiply(outlet, x.CurveIn(FluteCurve));
@@ -321,7 +321,7 @@ namespace JJ.Business.Synthesizer.Tests
             var x = _operatorFactory;
            
             // FM Algorithm
-            Outlet outlet = FMAround0(soundFreq: freq * 2, modSpeed: freq, modDepth: 0.005 * freq / Frequencies.A4);
+            Outlet outlet = FMAround0(soundFreq: freq * 2, modSpeed: freq, modDepth: 0.005);// * freq / Frequencies.A4);
             
             // Volume Curve
             outlet = x.Multiply(outlet, x.CurveIn(FluteCurve));
@@ -441,8 +441,8 @@ namespace JJ.Business.Synthesizer.Tests
                         new NodeInfo(time: 0.05, value: 0.8),
                         new NodeInfo(time: 0.10, value: 1.0),
                         new NodeInfo(time: 0.95, value: 0.7),
-                        new NodeInfo(time: 1.00, value: 0.0)
-
+                        new NodeInfo(time: 1.00, value: 0.0),
+                        new NodeInfo(time: 2.00, value: 0.0)
                     );
                 }
                 return _fluteCurve;
