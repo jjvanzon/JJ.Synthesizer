@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests
             _audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(_context);
         }
 
-        // Tests
+        // Tube Tests
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba()
@@ -55,7 +55,17 @@ namespace JJ.Business.Synthesizer.Tests
                 new SynthesizerTests_FM(context).Test_FM_Tuba();
         }
 
-        private void Test_FM_Tuba()
+        private void Test_FM_Tuba() 
+            => WrapUp_Test(Tuba(Frequencies.E2), totalTime: 2.4 + 2.0);
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_Tuba_Melody()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Tuba_Melody();
+        }
+
+        private void Test_FM_Tuba_Melody()
         {
             Outlet melody = _operatorFactory.Adder
             (
@@ -104,7 +114,6 @@ namespace JJ.Business.Synthesizer.Tests
             //WrapUp_Test(melody, totalTime: bar * 2 + beat * 3.5 + 2.0, volume: 0.54);
             WrapUp_Test(melody, totalTime: bar * 4 + 2.0, volume: 0.2);
         }
-
         
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Variation2()
@@ -185,6 +194,35 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_RippleNote_DeepMetallic()
             => WrapUp_Test(RippleNote_DeepMetallic(Frequencies.A2, duration: DEFAULT_TOTAL_TIME));
+
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Melody()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_RippleNote_DeepMetallic_Melody();
+        }
+                
+        private void Test_FM_RippleNote_DeepMetallic_Melody()
+        {
+            var x = _operatorFactory;
+
+            const double beat = 0.6;
+            const double bar = beat * 4;
+
+            Outlet melody = x.Adder
+            (
+                RippleNote_DeepMetallic(Frequencies.A2, bar * 0, duration: bar + beat),
+                RippleNote_DeepMetallic(Frequencies.F2, bar * 1, duration: bar + beat),
+                RippleNote_DeepMetallic(Frequencies.A1, bar * 2, duration: bar + beat * 2)
+            );
+
+            // Add even more Echo
+            melody = EntityFactory.CreateEcho(x, melody, count: 6, denominator: 2, delay: 0.5);
+
+
+            WrapUp_Test(melody, totalTime: bar * 3 + beat * 2 + 2.0, volume: 0.5);
+        }
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
