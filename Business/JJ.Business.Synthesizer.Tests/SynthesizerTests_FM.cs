@@ -70,18 +70,6 @@ namespace JJ.Business.Synthesizer.Tests
 		// Flute Tests
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_Flute4()
-		{
-			using (IContext context = PersistenceHelper.CreateContext())
-			{
-				new SynthesizerTests_FM(context).Test_FM_Flute4();
-			}
-		}
-
-		private void Test_FM_Flute4()
-			=> WrapUp_Test(FluteNote4(Frequencies.A4));
-
-		[TestMethod]
 		public void Test_Synthesizer_FM_Flute1()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
@@ -116,6 +104,18 @@ namespace JJ.Business.Synthesizer.Tests
 
 		private void Test_FM_Flute3()
 			=> WrapUp_Test(FluteNote3(Frequencies.A4));
+
+		[TestMethod]
+		public void Test_Synthesizer_FM_Flute4()
+		{
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				new SynthesizerTests_FM(context).Test_FM_Flute4();
+			}
+		}
+
+		private void Test_FM_Flute4()
+			=> WrapUp_Test(FluteNote4(Frequencies.A4));
 
 		// FM Ripple Effects
 
@@ -257,10 +257,6 @@ namespace JJ.Business.Synthesizer.Tests
 
 		// Flutes
 
-		/// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-		private Outlet FluteNote4(double freq = Frequencies.A4)
-			=> FMAround0(soundFreq: freq * 2, modSpeed: freq, modDepth: 0.005);
-
 		/// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
 		private Outlet FluteNote1(double freq = Frequencies.A4)
 			=> FMAround0(soundFreq: freq / 2, modSpeed: freq, modDepth: 0.005);
@@ -272,6 +268,10 @@ namespace JJ.Business.Synthesizer.Tests
 		/// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
 		private Outlet FluteNote3(double freq = Frequencies.A4)
 			=> FMAroundFreq(soundFreq: freq, modSpeed: freq * 4, modDepth: 0.005);
+
+		/// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
+		private Outlet FluteNote4(double freq = Frequencies.A4)
+			=> FMAround0(soundFreq: freq * 2, modSpeed: freq, modDepth: 0.005);
 
 		// Ripple Effects
 
