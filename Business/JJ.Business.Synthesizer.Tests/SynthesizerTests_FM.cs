@@ -84,18 +84,18 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet melody = _operatorFactory.Adder
             (
                 Flute1(Frequencies.E4, bar * 0 + beat * 0.0, volume: 0.8, duration: 1.2),
-                Flute2(Frequencies.F4, bar * 0 + beat * 1.5, volume: 0.6, duration: 1.3),
+                Flute2(Frequencies.F4, bar * 0 + beat * 1.5, volume: 0.7, duration: 1.3),
                 Flute1(Frequencies.G4, bar * 0 + beat * 3.0, volume: 0.6, duration: 0.6),
                 
                 Flute1(Frequencies.A4, bar * 1 + beat * 0.0, volume: 0.8, duration: 1.4),
                 Flute3(Frequencies.B4, bar * 1 + beat * 1.5, volume: 0.5, duration: 0.8),
-                Flute1(Frequencies.G4, bar * 1 + beat * 3.0, volume: 0.6, duration: 0.6),
+                Flute1(Frequencies.G4, bar * 1 + beat * 3.0, volume: 0.55, duration: 0.6),
                 
-                Flute2(Frequencies.A4, bar * 2 + beat * 0.0, volume: 0.9, duration: 1.2),
+                Flute2(Frequencies.A4, bar * 2 + beat * 0.0, volume: 0.8, duration: 1.2),
                 Flute1(Frequencies.E5, bar * 2 + beat * 1.5, volume: 1.2, duration: 1.5)
             );
 
-            WrapUp_Test(melody, totalTime: bar * 3, volume: 0.3);
+            WrapUp_Test(melody, totalTime: bar * 2 + beat * 3.5 + 2.0, volume: 0.5);
         }
 
         [TestMethod]
@@ -215,7 +215,7 @@ namespace JJ.Business.Synthesizer.Tests
             [CallerMemberName] string callerMemberName = null)
         {
             // Add Echo (for fun)
-            outlet = EntityFactory.CreateEcho(_operatorFactory, outlet, count: 10, denominator: 4, delay: 0.33);
+            outlet = EntityFactory.CreateEcho(_operatorFactory, outlet, count: 6, denominator: 4, delay: 0.33);
 
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet, totalTime, volume);
