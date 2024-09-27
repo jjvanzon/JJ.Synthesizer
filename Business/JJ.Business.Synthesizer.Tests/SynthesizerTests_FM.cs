@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Tests
     public class SynthesizerTests_FM
     {
         private const double DEFAULT_TOTAL_TIME = 3.0;
+        private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_AMPLITUDE = 1.0;
 
         private readonly IContext _context;
@@ -69,6 +70,35 @@ namespace JJ.Business.Synthesizer.Tests
         // Flute Tests
 
         [TestMethod]
+        public void Test_Synthesizer_FM_FluteMelody()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_FluteMelody();
+        }
+
+        private void Test_FM_FluteMelody()
+        {
+            double beat = 0.6;
+            double measure = beat * 4;
+
+            Outlet melody = _operatorFactory.Adder
+            (
+                Flute4(Frequencies.E4, delay: measure * 0 + beat * 0.0),
+                Flute2(Frequencies.F4, delay: measure * 0 + beat * 1.5),
+                Flute1(Frequencies.G4, delay: measure * 0 + beat * 3.0),
+                 
+                Flute2(Frequencies.A5, delay: measure * 1 + beat * 0.0),
+                Flute1(Frequencies.B4, delay: measure * 1 + beat * 1.5),
+                Flute2(Frequencies.G4, delay: measure * 1 + beat * 3.0),
+                
+                Flute4(Frequencies.A5, delay: measure * 2 + beat * 0.0),
+                Flute1(Frequencies.E5, delay: measure * 2 + beat * 1.5)
+            );
+
+            WrapUp_Test(melody, measure * 3, volume: 0.3);
+        }
+
+        [TestMethod]
         public void Test_Synthesizer_FM_Flute1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -76,7 +106,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute1()
-            => WrapUp_Test(FluteNote1(freq: Frequencies.A4));
+            => WrapUp_Test(Flute1(freq: Frequencies.A4));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute2()
@@ -86,7 +116,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute2()
-            => WrapUp_Test(FluteNote2(freq: Frequencies.A4));
+            => WrapUp_Test(Flute2(freq: Frequencies.A4));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute3()
@@ -96,7 +126,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute3()
-            => WrapUp_Test(FluteNote3(Frequencies.A4));
+            => WrapUp_Test(Flute3(Frequencies.A4));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute4()
@@ -106,7 +136,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute4()
-            => WrapUp_Test(FluteNote4(Frequencies.A4));
+            => WrapUp_Test(Flute4(Frequencies.A4));
 
         // FM Ripple Effects
 
@@ -118,7 +148,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_DeepMetallic()
-            => WrapUp_Test(RippleNote_DeepMetallic(Frequencies.A4));
+            => WrapUp_Test(RippleNote_DeepMetallic(Frequencies.A2));
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
@@ -128,7 +158,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_SharpMetallic()
-            => WrapUp_Test(RippleNote_SharpMetallic(Frequencies.A4));
+            => WrapUp_Test(RippleNote_SharpMetallic(Frequencies.E2));
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_Clean()
@@ -181,13 +211,14 @@ namespace JJ.Business.Synthesizer.Tests
         private void WrapUp_Test(
             Outlet outlet,
             double totalTime = DEFAULT_TOTAL_TIME,
+            double volume = DEFAULT_TOTAL_VOLUME,
             [CallerMemberName] string callerMemberName = null)
         {
             // Add Echo (for fun)
             outlet = EntityFactory.CreateEcho(_operatorFactory, outlet, count: 10, denominator: 4, delay: 0.33);
 
             // Configure AudioFileOutput
-            AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet, totalTime);
+            AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet, totalTime, volume);
 
             // Verify
             AssertEntities(audioFileOutput, outlet);
@@ -234,20 +265,72 @@ namespace JJ.Business.Synthesizer.Tests
         // Flutes
 
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-        private Outlet FluteNote1(double freq = Frequencies.A4, double delay = 0, double volume = 1)
-            => StrikeNote(FMAround0(soundFreq: freq / 2, modSpeed: freq, modDepth: 0.005), delay, volume);
+        private Outlet Flute1(double freq = Frequencies.A4, double delay = 0, double volume = 1)
+        {
+            var x = _operatorFactory;
+
+            // FM Algorithm
+            Outlet outlet = FMAround0(soundFreq: freq / 2, modSpeed: freq, modDepth: 0.005 * freq / Frequencies.A4);
+
+            // Volume Curve
+            outlet = x.Multiply(outlet, x.CurveIn(FluteCurve));
+
+            // Apply Volume and Delay
+            outlet = StrikeNote(outlet, delay, volume);
+            
+            return outlet;
+        }
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-        private Outlet FluteNote2(double freq = Frequencies.A4, double delay = 0, double volume = 1)
-            => StrikeNote(FMAroundFreq(soundFreq: freq, modSpeed: freq * 2, modDepth: 0.005), delay, volume);
+        private Outlet Flute2(double freq = Frequencies.A4, double delay = 0, double volume = 1)
+        {
+            var x = _operatorFactory;
+
+            // FM Algorithm
+            Outlet outlet = FMAroundFreq(soundFreq: freq, modSpeed: freq * 2, modDepth: 0.005 * freq / Frequencies.A4);
+            
+            // Volume Curve
+            outlet = x.Multiply(outlet, x.CurveIn(FluteCurve));
+
+            // Apply Volume and Delay
+            outlet = StrikeNote(outlet, delay, volume);
+
+            return outlet;
+        }
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-        private Outlet FluteNote3(double freq = Frequencies.A4, double delay = 0, double volume = 1)
-            => StrikeNote(FMAroundFreq(soundFreq: freq, modSpeed: freq * 4, modDepth: 0.005), delay, volume);
+        private Outlet Flute3(double freq = Frequencies.A4, double delay = 0, double volume = 1)
+        {
+            var x = _operatorFactory;
+
+            // FM Algorithm
+            Outlet outlet = FMAroundFreq(soundFreq: freq, modSpeed: freq * 4, modDepth: 0.005 * freq / Frequencies.A4);
+
+            // Volume Curve
+            outlet = x.Multiply(outlet, x.CurveIn(FluteCurve));
+
+            // Apply Volume and Delay
+            outlet = StrikeNote(outlet, delay, volume);
+
+            return outlet;
+        }
 
         /// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-        private Outlet FluteNote4(double freq = Frequencies.A4, double delay = 0, double volume = 1)
-            => StrikeNote(FMAround0(soundFreq: freq * 2, modSpeed: freq, modDepth: 0.005), delay, volume);
+        private Outlet Flute4(double freq = Frequencies.A4, double delay = 0, double volume = 1)
+        {
+            var x = _operatorFactory;
+           
+            // FM Algorithm
+            Outlet outlet = FMAround0(soundFreq: freq * 2, modSpeed: freq, modDepth: 0.005 * freq / Frequencies.A4);
+            
+            // Volume Curve
+            outlet = x.Multiply(outlet, x.CurveIn(FluteCurve));
+
+            // Apply Volume and Delay
+            outlet = StrikeNote(outlet, delay, volume);
+
+            return outlet;
+        }
 
         // Ripple Effects
 
@@ -316,8 +399,10 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet StrikeNote(Outlet outlet, double delay = 0.0, double volume = 1.0)
         {
             OperatorFactory x = _operatorFactory;
-            outlet = x.Multiply(outlet, x.Value(volume)); // Note Volume
-            outlet = x.TimeAdd(outlet, x.Value(delay)); // Note Start
+            // Note Start
+            if (delay != 0.0) outlet = x.TimeAdd(outlet, x.Value(delay));
+            // Note Volume
+            if (volume != 1.0) outlet = x.Multiply(outlet, x.Value(volume));
             return outlet;
         }
 
@@ -342,11 +427,33 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        private AudioFileOutput ConfigureAudioFileOutput(string fileName, Outlet outlet, double totalTime)
+        private Curve _fluteCurve;
+
+        private Curve FluteCurve
+        {
+            get
+            {
+                if (_fluteCurve == null)
+                {
+                    _fluteCurve = _curveFactory.CreateCurve
+                    (
+                        new NodeInfo(time: 0.00, value: 0.0),
+                        new NodeInfo(time: 0.05, value: 0.8),
+                        new NodeInfo(time: 0.10, value: 1.0),
+                        new NodeInfo(time: 0.95, value: 0.7),
+                        new NodeInfo(time: 1.00, value: 0.0)
+
+                    );
+                }
+                return _fluteCurve;
+            }
+        }
+
+        private AudioFileOutput ConfigureAudioFileOutput(string fileName, Outlet outlet, double totalTime, double volume)
         {
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
             audioFileOutput.Duration = totalTime;
-            audioFileOutput.Amplifier = short.MaxValue / 2.0;
+            audioFileOutput.Amplifier = short.MaxValue * volume;
             audioFileOutput.FilePath = fileName;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
             return audioFileOutput;
