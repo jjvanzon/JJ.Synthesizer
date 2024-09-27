@@ -95,24 +95,20 @@ namespace JJ.Business.Synthesizer.Tests
 
             Outlet melody = x.Adder
             (
-                RippleNote_DeepMetallic(Frequencies.A2, bar * 0, duration: bar + beat),
-                                 Flute1(Frequencies.E4, bar * 0 + beat * 0.0, volume: 0.80, duration: 1.2),
-                                 Flute2(Frequencies.F4_Sharp, bar * 0 + beat * 1.5, volume: 0.70, duration: 1.3),
-                                 Flute1(Frequencies.G4_Sharp, bar * 0 + beat * 3.0, volume: 0.60, duration: 0.6),
-
-                RippleNote_DeepMetallic(Frequencies.F2, bar * 1, duration: bar + beat),
-                                 Flute1(Frequencies.A4, bar * 1 + beat * 0.0, volume: 0.80, duration: 1.4),
-                                 Flute3(Frequencies.B4, bar * 1 + beat * 1.5, volume: 0.50, duration: 0.8),
-                                 Flute1(Frequencies.G4, bar * 1 + beat * 3.0, volume: 0.55, duration: 0.6),
-
-                RippleNote_DeepMetallic(Frequencies.A1, bar * 2, duration: beat * 3.5),
-                      RippleSound_Clean(Frequencies.A4, bar * 2, volume: 0.50, duration: bar + beat * 3),
-                                 Flute2(Frequencies.A4, bar * 2 + beat * 0.0, volume: 0.80, duration: 1.2),
-                                 Flute1(Frequencies.E5, bar * 2 + beat * 1.5, volume: 1.20, duration: 1.5)
+                            Flute1(Frequencies.E4, bar * 0 + beat * 0.0, volume: 0.80, duration: 1.2),
+                            Flute2(Frequencies.F4_Sharp, bar * 0 + beat * 1.5, volume: 0.70, duration: 1.3),
+                            Flute1(Frequencies.G4_Sharp, bar * 0 + beat * 3.0, volume: 0.60, duration: 0.6),
+                 
+                            Flute1(Frequencies.A4, bar * 1 + beat * 0.0, volume: 0.80, duration: 1.4),
+                            Flute3(Frequencies.B4, bar * 1 + beat * 1.5, volume: 0.50, duration: 0.8),
+                            Flute1(Frequencies.G4, bar * 1 + beat * 3.0, volume: 0.55, duration: 0.6),
+                 
+                 RippleSound_Clean(Frequencies.A4, bar * 2, volume: 0.50, duration: bar * 2),
+                            Flute2(Frequencies.A4, bar * 2 + beat * 0.0, volume: 0.80, duration: 1.2),
+                            Flute1(Frequencies.E5, bar * 2 + beat * 1.5, volume: 1.20, duration: 1.5)
             );
 
-            //WrapUp_Test(melody, totalTime: bar * 2 + beat * 3.5 + 2.0, volume: 0.54);
-            WrapUp_Test(melody, totalTime: bar * 4 + 2.0, volume: 0.2);
+            WrapUp_Test(melody, totalTime: bar * 4 + 2.0, volume: 0.54);
         }
         
         [TestMethod]
@@ -207,21 +203,17 @@ namespace JJ.Business.Synthesizer.Tests
         {
             var x = _operatorFactory;
 
-            const double beat = 0.6;
-            const double bar = beat * 4;
-
             Outlet melody = x.Adder
             (
-                RippleNote_DeepMetallic(Frequencies.A2, bar * 0, duration: bar + beat),
-                RippleNote_DeepMetallic(Frequencies.F2, bar * 1, duration: bar + beat),
-                RippleNote_DeepMetallic(Frequencies.A1, bar * 2, duration: bar + beat * 2)
+                RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0, duration: 3.0),
+                RippleNote_DeepMetallic(Frequencies.F2, delay: 2.4, duration: 3.0),
+                RippleNote_DeepMetallic(Frequencies.A1, delay: 4.8, duration: 3.6)
             );
 
             // Add even more Echo
             melody = EntityFactory.CreateEcho(x, melody, count: 6, denominator: 2, delay: 0.5);
 
-
-            WrapUp_Test(melody, totalTime: bar * 3 + beat * 2 + 2.0, volume: 0.5);
+            WrapUp_Test(melody, totalTime: 4.8 + 3.6 + 3.0, volume: 0.5);
         }
 
         [TestMethod]
@@ -571,10 +563,11 @@ namespace JJ.Business.Synthesizer.Tests
                 {
                     _rippleCurve = _curveFactory.CreateCurve
                     (
-                        new NodeInfo(time: 0.00, value: 0.75),
-                        new NodeInfo(time: 0.05, value: 0.5),
-                        new NodeInfo(time: 0.25, value: 1.0),
-                        new NodeInfo(time: 1.00, value: 0.0)
+                        new NodeInfo(time: 0.00, value: 0.00),
+                        new NodeInfo(time: 0.01, value: 0.75),
+                        new NodeInfo(time: 0.05, value: 0.50),
+                        new NodeInfo(time: 0.25, value: 1.00),
+                        new NodeInfo(time: 1.00, value: 0.00)
                     );
                 }
                 return _rippleCurve;
