@@ -87,8 +87,8 @@ namespace JJ.Business.Synthesizer.Tests
             (
                 RippleNote_DeepMetallic(Frequencies.A2, bar * 0, duration: bar + beat),
                                  Flute1(Frequencies.E4, bar * 0 + beat * 0.0, volume: 0.80, duration: 1.2),
-                                 Flute2(Frequencies.F4, bar * 0 + beat * 1.5, volume: 0.70, duration: 1.3),
-                                 Flute1(Frequencies.G4, bar * 0 + beat * 3.0, volume: 0.60, duration: 0.6),
+                                 Flute2(Frequencies.F4_Sharp, bar * 0 + beat * 1.5, volume: 0.70, duration: 1.3),
+                                 Flute1(Frequencies.G4_Sharp, bar * 0 + beat * 3.0, volume: 0.60, duration: 0.6),
 
                 RippleNote_DeepMetallic(Frequencies.F2, bar * 1, duration: bar + beat),
                                  Flute1(Frequencies.A4, bar * 1 + beat * 0.0, volume: 0.80, duration: 1.4),
