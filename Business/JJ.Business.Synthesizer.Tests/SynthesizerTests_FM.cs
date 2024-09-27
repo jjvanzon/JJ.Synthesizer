@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Flute1(Frequencies.E5, bar * 2 + beat * 1.5, volume: 1.20, duration: 1.5)
             );
 
-            WrapUp_Test(melody, totalTime: bar * 2 + beat * 3.5 + 2.0, volume: 0.5);
+            WrapUp_Test(melody, totalTime: bar * 2 + beat * 3.5 + 2.0, volume: 0.54);
         }
 
         
@@ -121,10 +121,10 @@ namespace JJ.Business.Synthesizer.Tests
                 Flute3(Frequencies.B4, bar * 1 + beat * 1.5, volume: 1.0 / 0.80),
                 Flute2(Frequencies.G4, bar * 1 + beat * 3.0, volume: 1.0 / 0.85),
                 
-                Flute4(Frequencies.A4, bar * 2 + beat * 0.0, volume: 1.3 / 0.70, duration: 1.66)
+                Flute4(Frequencies.A4, bar * 2 + beat * 0.0, volume: 1.2 / 0.70, duration: 1.66)
             );
 
-            WrapUp_Test(melody, bar * 2 + beat * 3.5 + 2.0, volume: 0.5);
+            WrapUp_Test(melody, bar * 2 + 1.66 + 2.0, volume: 0.47);
         }
 
         [TestMethod]
