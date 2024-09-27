@@ -59,9 +59,9 @@ namespace JJ.Business.Synthesizer.Tests
         {
             Outlet melody = _operatorFactory.Adder
             (
-                TubaNote(Frequencies.A1),
-                TubaNote(Frequencies.E2,       delay: 1.2),
-                TubaNote(Frequencies.F1_Sharp, delay: 2.4, volume: 0.7)
+                Tuba(Frequencies.A1),
+                Tuba(Frequencies.E2,       delay: 1.2),
+                Tuba(Frequencies.F1_Sharp, delay: 2.4, volume: 0.7)
             );
 
             WrapUp_Test(melody, totalTime: 2.4 + 2.0);
@@ -78,24 +78,31 @@ namespace JJ.Business.Synthesizer.Tests
         
         private void Test_FM_Flute_Variation1()
         {
+            var x = _operatorFactory;
+
             const double beat = 0.6;
             const double bar = beat * 4;
 
-            Outlet melody = _operatorFactory.Adder
+            Outlet melody = x.Adder
             (
-                Flute1(Frequencies.E4, bar * 0 + beat * 0.0, volume: 0.80, duration: 1.2),
-                Flute2(Frequencies.F4, bar * 0 + beat * 1.5, volume: 0.70, duration: 1.3),
-                Flute1(Frequencies.G4, bar * 0 + beat * 3.0, volume: 0.60, duration: 0.6),
-                
-                Flute1(Frequencies.A4, bar * 1 + beat * 0.0, volume: 0.80, duration: 1.4),
-                Flute3(Frequencies.B4, bar * 1 + beat * 1.5, volume: 0.50, duration: 0.8),
-                Flute1(Frequencies.G4, bar * 1 + beat * 3.0, volume: 0.55, duration: 0.6),
-                
-                Flute2(Frequencies.A4, bar * 2 + beat * 0.0, volume: 0.80, duration: 1.2),
-                Flute1(Frequencies.E5, bar * 2 + beat * 1.5, volume: 1.20, duration: 1.5)
+                RippleNote_DeepMetallic(Frequencies.A2, bar * 0, duration: bar + beat),
+                                 Flute1(Frequencies.E4, bar * 0 + beat * 0.0, volume: 0.80, duration: 1.2),
+                                 Flute2(Frequencies.F4, bar * 0 + beat * 1.5, volume: 0.70, duration: 1.3),
+                                 Flute1(Frequencies.G4, bar * 0 + beat * 3.0, volume: 0.60, duration: 0.6),
+
+                RippleNote_DeepMetallic(Frequencies.F2, bar * 1, duration: bar + beat),
+                                 Flute1(Frequencies.A4, bar * 1 + beat * 0.0, volume: 0.80, duration: 1.4),
+                                 Flute3(Frequencies.B4, bar * 1 + beat * 1.5, volume: 0.50, duration: 0.8),
+                                 Flute1(Frequencies.G4, bar * 1 + beat * 3.0, volume: 0.55, duration: 0.6),
+
+                RippleNote_DeepMetallic(Frequencies.A1, bar * 2, duration: beat * 3.5),
+                      RippleSound_Clean(Frequencies.A4, bar * 2, volume: 0.50, duration: bar + beat * 3),
+                                 Flute2(Frequencies.A4, bar * 2 + beat * 0.0, volume: 0.80, duration: 1.2),
+                                 Flute1(Frequencies.E5, bar * 2 + beat * 1.5, volume: 1.20, duration: 1.5)
             );
 
-            WrapUp_Test(melody, totalTime: bar * 2 + beat * 3.5 + 2.0, volume: 0.54);
+            //WrapUp_Test(melody, totalTime: bar * 2 + beat * 3.5 + 2.0, volume: 0.54);
+            WrapUp_Test(melody, totalTime: bar * 4 + 2.0, volume: 0.2);
         }
 
         
@@ -177,7 +184,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_DeepMetallic()
-            => WrapUp_Test(RippleNote_DeepMetallic(Frequencies.A2));
+            => WrapUp_Test(RippleNote_DeepMetallic(Frequencies.A2, duration: DEFAULT_TOTAL_TIME));
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
@@ -197,7 +204,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_Clean()
-            => WrapUp_Test(RippleSound_Clean(Frequencies.A4));
+            => WrapUp_Test(RippleSound_Clean(duration: DEFAULT_TOTAL_TIME));
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_FantasyEffect()
@@ -270,7 +277,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Volume curve is applied.
         /// Higher notes are shorter, lower notes are much longer.
         /// </summary>
-        private Outlet TubaNote(double freq = Frequencies.A1, double delay = 0, double volume = 1)
+        private Outlet Tuba(double freq = Frequencies.A1, double delay = 0, double volume = 1)
         {
             var x = _operatorFactory;
 
@@ -282,10 +289,10 @@ namespace JJ.Business.Synthesizer.Tests
             double stretch = durationA1 * Math.Pow(Frequencies.A1 / freq, 1.5);
             var curveOutlet = x.TimeMultiply(x.CurveIn(TubaCurve), x.Value(stretch));
 
-            // Apply Volume Curve
+            // Apply Curve
             outlet = x.Multiply(outlet, curveOutlet);
 
-            // Apply Volume and Delay
+            // Volume and Delay
             outlet = StrikeNote(outlet, delay, volume);
 
             return outlet;
@@ -301,10 +308,10 @@ namespace JJ.Business.Synthesizer.Tests
             // FM Algorithm
             Outlet outlet = FMAround0(soundFreq: freq / 2, modSpeed: freq, modDepth: 0.005);
 
-            // Volume Curve
+            // Curve
             outlet = x.Multiply(outlet, StretchCurve(FluteCurve, duration));
 
-            // Apply Volume and Delay
+            // Volume and Delay
             outlet = StrikeNote(outlet, delay, volume);
             
             return outlet;
@@ -318,10 +325,10 @@ namespace JJ.Business.Synthesizer.Tests
             // FM Algorithm
             Outlet outlet = FMAroundFreq(soundFreq: freq, modSpeed: freq * 2, modDepth: 0.005);
             
-            // Volume Curve
+            // Curve
             outlet = x.Multiply(outlet, StretchCurve(FluteCurve, duration));
 
-            // Apply Volume and Delay
+            // Volume and Delay
             double normalizer = 0.85;
             outlet = StrikeNote(outlet, delay, volume * normalizer);
 
@@ -336,10 +343,10 @@ namespace JJ.Business.Synthesizer.Tests
             // FM Algorithm
             Outlet outlet = FMAroundFreq(soundFreq: freq, modSpeed: freq * 4, modDepth: 0.005);
 
-            // Volume Curve
+            // Curve
             outlet = x.Multiply(outlet, StretchCurve(FluteCurve, duration));
 
-            // Apply Volume and Delay
+            // Volume and Delay
             double normalizer = 0.80;
             outlet = StrikeNote(outlet, delay, volume * normalizer);
 
@@ -367,16 +374,42 @@ namespace JJ.Business.Synthesizer.Tests
         // Ripple Effects
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-        private Outlet RippleNote_DeepMetallic(double freq = Frequencies.A1)
-            => FMAroundFreq(soundFreq: freq * 8, modSpeed: freq / 2, modDepth: 0.005);
+        private Outlet RippleNote_DeepMetallic(double freq = Frequencies.A1, double delay = 0, double volume = 1, double duration = 1)
+        {
+            var x = _operatorFactory;
+
+            // FM algorithm
+            Outlet outlet = FMAroundFreq(soundFreq: freq * 8, modSpeed: freq / 2, modDepth: 0.005);
+
+            // Curve
+            outlet = x.Multiply(outlet, StretchCurve(RippleCurve, duration));
+
+            // Volume and Delay
+            outlet = StrikeNote(outlet, delay, volume);
+
+            return outlet;
+        }
 
         /// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
         private Outlet RippleNote_SharpMetallic(double freq = Frequencies.A3)
             => FMInHertz(soundFreq: freq, modSpeed: freq / 2, modDepth: 10);
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-        private Outlet RippleSound_Clean(double freq = Frequencies.A5)
-            => FMAroundFreq(soundFreq: freq, modSpeed: 20, modDepth: 0.005);
+        private Outlet RippleSound_Clean(double freq = Frequencies.A4, double delay = 0, double volume = 1, double duration = 1)
+        {
+            var x = _operatorFactory;
+
+            // FM algorithm
+            Outlet outlet = FMAroundFreq(soundFreq: freq, modSpeed: 20, modDepth: 0.005);
+
+            // Curve
+            outlet = x.Multiply(outlet, StretchCurve(RippleCurve, duration));
+
+            // Volume and Delay
+            outlet = StrikeNote(outlet, delay, volume);
+
+            return outlet;
+        }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
         private Outlet RippleSound_FantasyEffect(double freq = Frequencies.A5)
@@ -454,7 +487,6 @@ namespace JJ.Business.Synthesizer.Tests
         // Curves
 
         private Curve _tubaCurve;
-
         private Curve TubaCurve
         {
             get
@@ -473,7 +505,6 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private Curve _fluteCurve;
-
         private Curve FluteCurve
         {
             get
@@ -490,6 +521,25 @@ namespace JJ.Business.Synthesizer.Tests
                     );
                 }
                 return _fluteCurve;
+            }
+        }
+
+        private Curve _rippleCurve;
+        private Curve RippleCurve
+        {
+            get
+            {
+                if (_rippleCurve == null)
+                {
+                    _rippleCurve = _curveFactory.CreateCurve
+                    (
+                        new NodeInfo(time: 0.00, value: 0.75),
+                        new NodeInfo(time: 0.05, value: 0.5),
+                        new NodeInfo(time: 0.25, value: 1.0),
+                        new NodeInfo(time: 1.00, value: 0.0)
+                    );
+                }
+                return _rippleCurve;
             }
         }
 

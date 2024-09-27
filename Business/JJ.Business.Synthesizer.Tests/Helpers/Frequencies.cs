@@ -8,6 +8,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 	{
 		public static double SemiToneFactor { get; } = Math.Pow(2.0, 1.0 / 12.0);
 
+		public const  double A_Minus1 = 13.75;
+		public static double A_Minus1_Sharp { get; } = A_Minus1 * Math.Pow(SemiToneFactor, 1.0);
+		public static double B_Minus1       { get; } = A_Minus1 * Math.Pow(SemiToneFactor, 2.0);
+		public static double C0             { get; } = A_Minus1 * Math.Pow(SemiToneFactor, 3.0);
+		public static double C0_Sharp       { get; } = A_Minus1 * Math.Pow(SemiToneFactor, 4.0);
+		public static double D0             { get; } = A_Minus1 * Math.Pow(SemiToneFactor, 5.0);
+		public static double D0_Sharp       { get; } = A_Minus1 * Math.Pow(SemiToneFactor, 6.0);
+		public static double E0             { get; } = A_Minus1 * Math.Pow(SemiToneFactor, 7.0);
+		public static double F0             { get; } = A_Minus1 * Math.Pow(SemiToneFactor, 8.0);
+		public static double F0_Sharp       { get; } = A_Minus1 * Math.Pow(SemiToneFactor, 9.0);
+		public static double G0             { get; } = A_Minus1 * Math.Pow(SemiToneFactor, 10.0);
+		public static double G0_Sharp       { get; } = A_Minus1 * Math.Pow(SemiToneFactor, 11.0);
+
 		public const  double A0 = 27.5;
 		public static double A0_Sharp { get; } = A0 * Math.Pow(SemiToneFactor, 1.0);
 		public static double B0       { get; } = A0 * Math.Pow(SemiToneFactor, 2.0);
