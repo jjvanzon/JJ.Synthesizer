@@ -70,13 +70,13 @@ namespace JJ.Business.Synthesizer.Tests
         // Flute Tests
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Flute()
+        public void Test_Synthesizer_FM_Flute_Variation1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Flute();
+                new SynthesizerTests_FM(context).Test_FM_Flute_Variation1();
         }
         
-        private void Test_FM_Flute()
+        private void Test_FM_Flute_Variation1()
         {
             const double beat = 0.6;
             const double bar = beat * 4;
@@ -96,6 +96,35 @@ namespace JJ.Business.Synthesizer.Tests
             );
 
             WrapUp_Test(melody, totalTime: bar * 2 + beat * 3.5 + 2.0, volume: 0.5);
+        }
+
+        
+        [TestMethod]
+        public void Test_Synthesizer_FM_Flute_Variation2()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Flute_Variation2();
+        }
+
+        private void Test_FM_Flute_Variation2()
+        {
+            double beat = 0.6;
+            double bar = beat * 4;
+
+            Outlet melody = _operatorFactory.Adder
+            (
+                Flute1(Frequencies.E4, bar * 0 + beat * 0.0),
+                Flute2(Frequencies.F4, bar * 0 + beat * 1.5),
+                Flute3(Frequencies.G4, bar * 0 + beat * 3.0),
+                 
+                Flute4(Frequencies.A4, bar * 1 + beat * 0.0),
+                Flute3(Frequencies.B4, bar * 1 + beat * 1.5),
+                Flute2(Frequencies.G4, bar * 1 + beat * 3.0),
+                
+                Flute4(Frequencies.A4, bar * 2 + beat * 0.0)
+            );
+
+            WrapUp_Test(melody, bar * 2 + beat * 3.5 + 2.0, volume: 0.5);
         }
 
         [TestMethod]
