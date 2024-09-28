@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
@@ -31,8 +30,8 @@ namespace JJ.Business.Synthesizer.Tests
         private const double DEFAULT_TOTAL_TIME = 3.0;
         private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_AMPLITUDE = 1.0;
-        private const double BEAT = 0.6;
-        private const double BAR = 2.4;
+        private const double BEAT = 0.4;
+        private const double BAR = 1.6;
 
         private readonly IContext _context;
         private readonly CurveFactory _curveFactory;
@@ -61,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition() 
-            => WrapUp_Test(MildEcho(Composition()), duration: 19.2, volume: 0.27);
+            => WrapUp_Test(DeepEcho(Composition()), duration: 19.2, volume: 0.20);
 
         // Flute Tests
 
@@ -317,23 +316,31 @@ namespace JJ.Business.Synthesizer.Tests
         {
             var x = _operatorFactory;
 
+            double fluteVolume = 1.1;
+            double padVolume = 0.4;
+            double tubaVolume = 1.0;
+            double rippleBassVolume = 0.3;
+
             var pattern1 = x.Adder
             (
-                FluteMelody1(),
-                TubaMelody2(),
-                RippleMelody2_DeepMetallic()
+                x.Multiply(x.Value(fluteVolume), FluteMelody1()),
+                x.Multiply(x.Value(tubaVolume), TubaMelody2()),
+                x.Multiply(x.Value(rippleBassVolume), RippleMelody2_DeepMetallic())
             );
 
             var pattern2 = x.Adder
             (
-                FluteMelody2(),
-                TubaMelody3(),
-                RippleMelody1_DeepMetallic()
+                x.Multiply(x.Value(fluteVolume), FluteMelody2()),
+                x.Multiply(x.Value(tubaVolume), TubaMelody3()),
+                x.Multiply(x.Value(rippleBassVolume), RippleMelody1_DeepMetallic())
             );
 
-            var composition = x.Adder(
+            var composition = x.Adder
+            (
                 pattern1,
-                x.TimeAdd(pattern2, x.Value(BAR * 4)));
+                x.TimeAdd(pattern2, x.Value(BAR * 4)),
+                x.Multiply(x.Value(padVolume), PadChordProgression())
+            );
 
             return composition;
         }
@@ -342,15 +349,15 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet FluteMelody1() => _operatorFactory.Adder
         (
-            Flute1(Frequencies.E4,       BAR * 0 + BEAT * 0.0, volume: 0.80, duration: 1.2),
-            Flute2(Frequencies.F4_Sharp, BAR * 0 + BEAT * 1.5, volume: 0.70, duration: 1.3),
-            Flute1(Frequencies.G4_Sharp, BAR * 0 + BEAT * 3.0, volume: 0.60, duration: 0.6),
-            Flute1(Frequencies.A4,       BAR * 1 + BEAT * 0.0, volume: 0.80, duration: 1.4),
-            Flute3(Frequencies.B4,       BAR * 1 + BEAT * 1.5, volume: 0.50, duration: 0.6),
-            Flute1(Frequencies.A4,       BAR * 1 + BEAT * 3.0, volume: 0.55, duration: 1.0),
+            Flute1(Frequencies.E4, BAR * 0 + BEAT * 0.0, volume: 0.80, duration: 1.2),
+            Flute2(Frequencies.F4, BAR * 0 + BEAT * 1.5, volume: 0.70, duration: 1.3),
+            Flute1(Frequencies.G4, BAR * 0 + BEAT * 3.0, volume: 0.60, duration: 0.6),
+            Flute1(Frequencies.A4, BAR * 1 + BEAT * 0.0, volume: 0.80, duration: 1.4),
+            Flute3(Frequencies.B4, BAR * 1 + BEAT * 1.5, volume: 0.50, duration: 0.6),
+            Flute1(Frequencies.A4, BAR * 1 + BEAT * 3.0, volume: 0.55, duration: 1.0),
             //RippleSound_Clean(Frequencies.A4, BAR * 2, volume: 0.50, duration: BAR * 2),
-            Flute2(Frequencies.G4,       BAR * 2 + BEAT * 0.0, volume: 1.00, duration: 1.2),
-            Flute1(Frequencies.E5,       BAR * 2 + BEAT * 1.5, volume: 0.80, duration: 1.5)
+            Flute2(Frequencies.G4, BAR * 2 + BEAT * 0.0, volume: 1.00, duration: 1.2),
+            Flute1(Frequencies.E5, BAR * 2 + BEAT * 1.5, volume: 0.80, duration: 1.5)
         );
 
         private Outlet FluteMelody2() => _operatorFactory.Adder
