@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition() 
-            => WrapUp_Test(Composition(), duration: BAR * 9, volume: 0.1);
+            => WrapUp_Test(MildEcho(Composition()), duration: 19.2, volume: 0.27);
 
         // Flute Tests
 
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
         
         private void Test_FM_Flute_Melody1() 
-            => WrapUp_Test(FluteMelody1(), duration: 10.8, volume: 0.42);
+            => WrapUp_Test(MildEcho(FluteMelody1()), duration: 10.8, volume: 0.42);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Melody2()
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute_Melody2() 
-            => WrapUp_Test(FluteMelody2(), 8.46, volume: 0.47);
+            => WrapUp_Test(MildEcho(FluteMelody2()), 8.46, volume: 0.47);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute1()
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute1()
-            => WrapUp_Test(Flute1(freq: Frequencies.A4));
+            => WrapUp_Test(MildEcho(Flute1()));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute2()
@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute2()
-            => WrapUp_Test(Flute2(freq: Frequencies.A4));
+            => WrapUp_Test(MildEcho(Flute2()));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute3()
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute3()
-            => WrapUp_Test(Flute3(Frequencies.A4));
+            => WrapUp_Test(MildEcho(Flute3()));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute4()
@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute4()
-            => WrapUp_Test(Flute4(Frequencies.A4));
+            => WrapUp_Test(MildEcho(Flute4()));
         
         // Tube Tests
 
@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba() 
-            => WrapUp_Test(Tuba(Frequencies.E2));
+            => WrapUp_Test(MildEcho(Tuba(Frequencies.E2)));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody1()
@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody1() 
-            => WrapUp_Test(TubaMelody1(), duration: 4.4);
+            => WrapUp_Test(MildEcho(TubaMelody1()), duration: 4.4);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody2()
@@ -152,9 +152,19 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody2()
-            => WrapUp_Test(TubaMelody2(), duration: 11.6, volume: 0.75);
+            => WrapUp_Test(MildEcho(TubaMelody2()), duration: 11.6, volume: 0.75);
 
-        // FM Ripple Effects
+        [TestMethod]
+        public void Test_Synthesizer_FM_Tuba_Melody3()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Tuba_Melody3();
+        }
+
+        private void Test_FM_Tuba_Melody3()
+            => WrapUp_Test(MildEcho(TubaMelody3()), duration: 8, volume: 0.75);
+
+        // Ripple Effect Tests
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_DeepMetallic()
@@ -164,7 +174,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_DeepMetallic()
-            => WrapUp_Test(RippleNote_DeepMetallic(Frequencies.A2, duration: DEFAULT_TOTAL_TIME));
+            => WrapUp_Test(DeepEcho(RippleNote_DeepMetallic(DEFAULT_TOTAL_TIME)));
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Melody1()
@@ -174,7 +184,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_DeepMetallic_Melody1() 
-            => WrapUp_Test(RippleMelody1_DeepMetallic(), duration: 11.4, volume: 0.5);
+            => WrapUp_Test(DeepEcho(RippleMelody1_DeepMetallic()), duration: 11.4, volume: 0.5);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Melody2()
@@ -184,7 +194,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
         
         private void Test_FM_RippleNote_DeepMetallic_Melody2() 
-            => WrapUp_Test(RippleMelody2_DeepMetallic(), duration: 14.3, volume: 0.5);
+            => WrapUp_Test(DeepEcho(RippleMelody2_DeepMetallic()), duration: 14.3, volume: 0.5);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
@@ -194,7 +204,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_SharpMetallic()
-            => WrapUp_Test(RippleNote_SharpMetallic(Frequencies.E2));
+            => WrapUp_Test(MildEcho(RippleNote_SharpMetallic()));
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_Clean()
@@ -204,7 +214,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_Clean()
-            => WrapUp_Test(RippleSound_Clean(duration: DEFAULT_TOTAL_TIME));
+            => WrapUp_Test(MildEcho(RippleSound_Clean(duration: DEFAULT_TOTAL_TIME)));
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_FantasyEffect()
@@ -214,7 +224,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_FantasyEffect()
-            => WrapUp_Test(RippleSound_FantasyEffect(Frequencies.A4));
+            => WrapUp_Test(MildEcho(RippleSound_FantasyEffect()));
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_CoolDouble()
@@ -224,7 +234,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_CoolDouble()
-            => WrapUp_Test(RippleSound_CoolDouble(Frequencies.A4));
+            => WrapUp_Test(MildEcho(RippleSound_CoolDouble()));
 
         // FM Noise Tests
 
@@ -236,7 +246,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Noise_Beating()
-            => WrapUp_Test(Create_FM_Noise_Beating(Frequencies.A4));
+            => WrapUp_Test(MildEcho(Create_FM_Noise_Beating()));
 
         // Generic Method
 
@@ -250,9 +260,6 @@ namespace JJ.Business.Synthesizer.Tests
             double volume = DEFAULT_TOTAL_VOLUME,
             [CallerMemberName] string callerMemberName = null)
         {
-            // Add Echo (for fun)
-            outlet = EntityFactory.CreateEcho(_operatorFactory, outlet, count: 6, denominator: 4, delay: 0.33);
-
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet, duration, volume);
 
@@ -271,23 +278,25 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet Composition()
         {
-            var pattern1 = _operatorFactory.Adder
+            var x = _operatorFactory;
+
+            var pattern1 = x.Adder
             (
                 FluteMelody1(),
                 TubaMelody2(),
                 RippleMelody2_DeepMetallic()
             );
 
-            var pattern2 = _operatorFactory.Adder
+            var pattern2 = x.Adder
             (
                 FluteMelody2(),
-                TubaMelody1(),
+                TubaMelody3(),
                 RippleMelody1_DeepMetallic()
             );
 
-            var composition = _operatorFactory.Adder(
+            var composition = x.Adder(
                 pattern1,
-                _operatorFactory.TimeAdd(pattern2, _operatorFactory.Value(BAR * 4)));
+                x.TimeAdd(pattern2, x.Value(BAR * 4)));
 
             return composition;
         }
@@ -337,36 +346,29 @@ namespace JJ.Business.Synthesizer.Tests
             Tuba(Frequencies.D3, BEAT * 14)
         );
 
-        private Outlet RippleMelody1_DeepMetallic()
-        {
-            Outlet melody = _operatorFactory.Adder
-            (
-                RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0, duration: 3.0),
-                RippleNote_DeepMetallic(Frequencies.F2, delay: 2.4, duration: 3.0),
-                RippleNote_DeepMetallic(Frequencies.A1, delay: 4.8, duration: 3.6)
-            );
+        private Outlet TubaMelody3() => _operatorFactory.Adder
+        (
+            Tuba(Frequencies.A2, BEAT * 0),
+            Tuba(Frequencies.E3, BEAT * 2),
+            Tuba(Frequencies.F2, BEAT * 4),
+            Tuba(Frequencies.C3, BEAT * 6),
+            Tuba(Frequencies.A1, BEAT * 8)
+        );
 
-            // Add even more Echo
-            melody = EntityFactory.CreateEcho(_operatorFactory, melody, count: 6, denominator: 2, delay: 0.5);
+        private Outlet RippleMelody1_DeepMetallic() => _operatorFactory.Adder
+        (
+            RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0, duration: 3.0),
+            RippleNote_DeepMetallic(Frequencies.F2, delay: 2.4, duration: 3.0),
+            RippleNote_DeepMetallic(Frequencies.A1, delay: 4.8, duration: 3.6)
+        );
 
-            return melody;
-        }
-
-        private Outlet RippleMelody2_DeepMetallic()
-        {
-            Outlet melody = _operatorFactory.Adder
-            (
-                RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0,     duration: 3.0),
-                RippleNote_DeepMetallic(Frequencies.F2, delay: BAR,     duration: 3.0),
-                RippleNote_DeepMetallic(Frequencies.C2, delay: BAR * 2, duration: 3.0),
-                RippleNote_DeepMetallic(Frequencies.G2, delay: BAR * 3, duration: 3.6, volume: 0.7)
-            );
-
-            // Add even more Echo
-            melody = EntityFactory.CreateEcho(_operatorFactory, melody, count: 6, denominator: 2, delay: 0.5);
-
-            return melody;
-        }
+        private Outlet RippleMelody2_DeepMetallic() => _operatorFactory.Adder
+        (
+            RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0,     duration: 3.0),
+            RippleNote_DeepMetallic(Frequencies.F2, delay: BAR,     duration: 3.0),
+            RippleNote_DeepMetallic(Frequencies.C2, delay: BAR * 2, duration: 3.0),
+            RippleNote_DeepMetallic(Frequencies.G2, delay: BAR * 3, duration: 3.6, volume: 0.7)
+        );
 
         // Instruments
 
@@ -576,6 +578,12 @@ namespace JJ.Business.Synthesizer.Tests
 
             return outlet;
         }
+        
+        private Outlet MildEcho(Outlet outlet)
+            => EntityFactory.CreateEcho(_operatorFactory, outlet, count: 6, denominator: 4, delay: 0.33);
+
+        private Outlet DeepEcho(Outlet melody)
+            => EntityFactory.CreateEcho(_operatorFactory, melody, count: 6, denominator: 2, delay: 0.5);
 
         // Curves
 
