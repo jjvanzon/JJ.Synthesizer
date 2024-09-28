@@ -59,13 +59,13 @@ namespace JJ.Business.Synthesizer.Tests
             => WrapUp_Test(Tuba(Frequencies.E2), totalTime: 2.4 + 2.0);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Tuba_Melody()
+        public void Test_Synthesizer_FM_Tuba_Variation1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Tuba_Melody();
+                new SynthesizerTests_FM(context).Test_FM_Tuba_Variation1();
         }
 
-        private void Test_FM_Tuba_Melody()
+        private void Test_FM_Tuba_Variation1()
         {
             Outlet melody = _operatorFactory.Adder
             (
@@ -75,6 +75,32 @@ namespace JJ.Business.Synthesizer.Tests
             );
 
             WrapUp_Test(melody, totalTime: 2.4 + 2.0);
+        }
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_Tuba_Variation2()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Tuba_Variation2();
+        }
+
+        private void Test_FM_Tuba_Variation2()
+        {
+            var beat = 0.6;
+
+            Outlet melody = _operatorFactory.Adder
+            (
+                Tuba(Frequencies.A1),
+                Tuba(Frequencies.E2, delay: beat * 02),
+                Tuba(Frequencies.F1, delay: beat * 04, volume: 0.7),
+                Tuba(Frequencies.C2, delay: beat * 06, volume: 0.7),
+                Tuba(Frequencies.C1, delay: beat * 08),
+                Tuba(Frequencies.C2, delay: beat * 10),
+                Tuba(Frequencies.G1, delay: beat * 12, volume: 0.7),
+                Tuba(Frequencies.B2, delay: beat * 14, volume: 0.7)
+            );
+
+            WrapUp_Test(melody, totalTime: beat * 16 + 2.0, volume: 0.25);
         }
 
         // Flute Tests
@@ -233,7 +259,7 @@ namespace JJ.Business.Synthesizer.Tests
                 RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0    , duration: 3.0),
                 RippleNote_DeepMetallic(Frequencies.F2, delay: bar    , duration: 3.0),
                 RippleNote_DeepMetallic(Frequencies.C2, delay: bar * 2, duration: 3.0),
-                RippleNote_DeepMetallic(Frequencies.G2, delay: bar * 3, duration: 3.6)
+                RippleNote_DeepMetallic(Frequencies.G2, delay: bar * 3, duration: 3.6, volume: 0.7)
             );
 
             // Add even more Echo
