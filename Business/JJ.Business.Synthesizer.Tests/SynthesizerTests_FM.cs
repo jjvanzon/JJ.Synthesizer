@@ -48,6 +48,18 @@ namespace JJ.Business.Synthesizer.Tests
             _audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(_context);
         }
 
+        // Composition Test
+        
+        [TestMethod]
+        public void Test_Synthesizer_FM_Composition()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Composition();
+        }
+
+        private void Test_FM_Composition() 
+            => WrapUp_Test(Composition(), duration: BAR * 9, volume: 0.1);
+
         // Tube Tests
 
         [TestMethod]
@@ -255,6 +267,31 @@ namespace JJ.Business.Synthesizer.Tests
                               $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
         }
 
+        // Composition
+
+        private Outlet Composition()
+        {
+            var pattern1 = _operatorFactory.Adder
+            (
+                FluteMelody1(),
+                TubaMelody2(),
+                RippleMelody2_DeepMetallic()
+            );
+
+            var pattern2 = _operatorFactory.Adder
+            (
+                FluteMelody2(),
+                TubaMelody1(),
+                RippleMelody1_DeepMetallic()
+            );
+
+            var composition = _operatorFactory.Adder(
+                pattern1,
+                _operatorFactory.TimeAdd(pattern2, _operatorFactory.Value(BAR * 4)));
+
+            return composition;
+        }
+
         // Melodies
                                         
         private Outlet TubaMelody1() => _operatorFactory.Adder
@@ -333,8 +370,6 @@ namespace JJ.Business.Synthesizer.Tests
 
         // Instruments
 
-        // Tuba
-
         /// <summary>
         /// Sounds like Tuba at beginning.
         /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
@@ -361,8 +396,6 @@ namespace JJ.Business.Synthesizer.Tests
 
             return outlet;
         }
-
-        // Flutes
 
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         private Outlet Flute1(double freq = Frequencies.A4, double delay = 0, double volume = 1, double duration = 1)
@@ -435,8 +468,6 @@ namespace JJ.Business.Synthesizer.Tests
             return outlet;
         }
 
-        // Ripple Effects
-
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
         private Outlet RippleNote_DeepMetallic(double freq = Frequencies.A1, double delay = 0, double volume = 1, double duration = 1)
         {
@@ -482,8 +513,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.05 </summary>
         private Outlet RippleSound_CoolDouble(double freq = Frequencies.A5)
             => FMAroundFreq(soundFreq: freq, modSpeed: 10, modDepth: 0.05);
-
-        // Noise
 
         /// <summary>
         /// Beating audible further along the sound.
