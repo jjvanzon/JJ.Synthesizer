@@ -333,7 +333,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet Composition()
         {
             double fluteVolume = 1.1;
-            double padVolume = 0.5;
+            double padVolume = 0.3;
             double tubaVolume = 0.7;
             double rippleBassVolume = 0.7;
 
@@ -366,14 +366,14 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet FluteMelody1() => x.Adder
         (
-            Flute1(Frequencies.E4, BAR * 0 + BEAT * 0.0, volume: 0.80, duration: 1.2),
-            Flute2(Frequencies.F4, BAR * 0 + BEAT * 1.5, volume: 0.70, duration: 1.3),
-            Flute1(Frequencies.G4, BAR * 0 + BEAT * 3.0, volume: 0.60, duration: 0.6),
-            Flute1(Frequencies.A4, BAR * 1 + BEAT * 0.0, volume: 0.80, duration: 1.4),
-            Flute3(Frequencies.B4, BAR * 1 + BEAT * 1.5, volume: 0.50, duration: 0.6),
-            Flute1(Frequencies.A4, BAR * 1 + BEAT * 3.0, volume: 0.55, duration: 1.0),
-            Flute2(Frequencies.G4, BAR * 2 + BEAT * 0.0, volume: 1.00, duration: 1.2),
-            Flute1(Frequencies.E5, BAR * 2 + BEAT * 1.5, volume: 0.80, duration: 1.5)
+            Flute1(Frequencies.E4, BAR * 0 + BEAT * 0.0, volume: 0.80, duration: 1.2 * 0.9),
+            Flute2(Frequencies.F4, BAR * 0 + BEAT * 1.5, volume: 0.70, duration: 1.3 * 0.9),
+            Flute1(Frequencies.G4, BAR * 0 + BEAT * 3.0, volume: 0.60, duration: 0.6 * 0.9),
+            Flute1(Frequencies.A4, BAR * 1 + BEAT * 0.0, volume: 0.80, duration: 1.4 * 0.9),
+            Flute3(Frequencies.B4, BAR * 1 + BEAT * 1.5, volume: 0.50, duration: 0.6 * 0.9),
+            Flute1(Frequencies.A4, BAR * 1 + BEAT * 3.0, volume: 0.55, duration: 1.0 * 0.9),
+            Flute2(Frequencies.C4, BAR * 2 + BEAT * 0.0, volume: 1.00, duration: 1.2 * 0.9),
+            Flute1(Frequencies.G4, BAR * 2 + BEAT * 1.5, volume: 0.80, duration: 1.5 * 0.9)
         );
 
         private Outlet FluteMelody2() => x.Adder
