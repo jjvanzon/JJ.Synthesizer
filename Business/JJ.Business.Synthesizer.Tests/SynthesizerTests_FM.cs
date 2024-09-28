@@ -133,7 +133,19 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => WrapUp_Test(MildEcho(Pad(duration: 1.5)), duration: 1.5 + MILD_ECHO_DURATION);
+            => WrapUp_Test(MildEcho(Pad(duration: 1.5)), duration: 1.5 + MILD_ECHO_TIME);
+
+        // ElectricShock Tests
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_ElectricShock()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_ElectricShock();
+        }
+
+        private void Test_FM_ElectricShock()
+            => WrapUp_Test(MildEcho(ElectricShock(duration: 1.5)), duration: 1.5 + MILD_ECHO_TIME);
 
         // Tube Tests
 
@@ -461,13 +473,41 @@ namespace JJ.Business.Synthesizer.Tests
             var x = _operatorFactory;
 
             // FM Algorithm
-            Outlet outlet = FMAroundFreq(freq, freq * 1.5, StretchCurve(PadModCurve, duration));
-            
+            Outlet modCurve = StretchCurve(LineDownCurve, duration * 1.1);
+
+            Outlet outlet = x.Add
+            (
+                FMAroundFreq(freq, freq * 1.5, x.Multiply(x.Value(0.002), modCurve)),
+                FMAroundFreq(freq, freq * 2.0, x.Multiply(x.Value(0.002), modCurve))
+            );
+
             // Volume Curve
-            outlet = x.Multiply(outlet, StretchCurve(PadCurve, duration));
+            outlet = x.Multiply(outlet, StretchCurve(DampedBlockCurve, duration));
 
             // Apply Volume and Delay
-            outlet = StrikeNote(outlet, delay, volume);
+            double normalizer = 0.6;
+            outlet = StrikeNote(outlet, delay, volume * normalizer);
+
+            return outlet;
+        }
+        
+        private Outlet ElectricShock(double freq = Frequencies.A4, double delay = 0, double volume = 1, double duration = 1)
+        {
+            var x = _operatorFactory;
+
+            // FM Algorithm
+            Outlet outlet = x.Add
+            (
+                FMAroundFreq(freq, freq * 1.5, x.Multiply(x.Value(0.02), StretchCurve(LineDownCurve, duration))),
+                FMAroundFreq(freq, freq * 2.0, x.Multiply(x.Value(0.02), StretchCurve(LineDownCurve, duration)))
+            );
+
+            // Volume Curve
+            outlet = x.Multiply(outlet, StretchCurve(DampedBlockCurve, duration));
+
+            // Apply Volume and Delay
+            double normalizer = 0.6;
+            outlet = StrikeNote(outlet, delay, volume * normalizer);
 
             return outlet;
         }
@@ -613,7 +653,7 @@ namespace JJ.Business.Synthesizer.Tests
             return outlet;
         }
 
-        private const double MILD_ECHO_DURATION = 0.33 * 5;
+        private const double MILD_ECHO_TIME = 0.33 * 5;
 
         private Outlet MildEcho(Outlet outlet)
             => EntityFactory.CreateEcho(_operatorFactory, outlet, count: 6, denominator: 4, delay: 0.33);
@@ -683,14 +723,14 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        private Curve _padCurve;
-        private Curve PadCurve
+        private Curve _dampedBlockCurve;
+        private Curve DampedBlockCurve
         {
             get
             {
-                if (_padCurve == null)
+                if (_dampedBlockCurve == null)
                 {
-                    _padCurve = _curveFactory.CreateCurve
+                    _dampedBlockCurve = _curveFactory.CreateCurve
                     (
                         new NodeInfo(time: 0.00, value: 0),
                         new NodeInfo(time: 0.01, value: 1),
@@ -698,24 +738,24 @@ namespace JJ.Business.Synthesizer.Tests
                         new NodeInfo(time: 1.00, value: 0)
                     );
                 }
-                return _padCurve;
+                return _dampedBlockCurve;
             }
         }
 
-        private Curve _padModCurve;
-        private Curve PadModCurve
+        private Curve _lineDownCurve;
+        private Curve LineDownCurve
         {
             get
             {
-                if (_padModCurve == null)
+                if (_lineDownCurve == null)
                 {
-                    _padModCurve = _curveFactory.CreateCurve
+                    _lineDownCurve = _curveFactory.CreateCurve
                     (
-                        new NodeInfo(time: 0, value: 0.002),
+                        new NodeInfo(time: 0, value: 1),
                         new NodeInfo(time: 1, value: 0)
                     );
                 }
-                return _padModCurve;
+                return _lineDownCurve;
             }
         }
 
