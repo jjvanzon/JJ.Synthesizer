@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class SynthesizerTests_FM
     {
-        private const double DEFAULT_TOTAL_TIME = 3.0;
+        private const double DEFAULT_TOTAL_TIME = 1.0 + DEEP_ECHO_TIME;
         private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_AMPLITUDE = 1.0;
         private const double BEAT = 0.45;
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition() 
-            => WrapUp_Test(DeepEcho(Composition()), duration: 19.2, volume: 0.20);
+            => WrapUp_Test(DeepEcho(Composition()), duration: BAR * 8 + DEEP_ECHO_TIME, volume: 0.20);
 
         // Flute Tests
 
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
         
         private void Test_FM_Flute_Melody1() 
-            => WrapUp_Test(MildEcho(FluteMelody1()), duration: 10.8, volume: 0.6);
+            => WrapUp_Test(MildEcho(FluteMelody1()), duration: BAR * 4 + MILD_ECHO_TIME, volume: 0.6);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Melody2()
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute_Melody2() 
-            => WrapUp_Test(MildEcho(FluteMelody2()), 8.46, volume: 0.47);
+            => WrapUp_Test(MildEcho(FluteMelody2()), BAR * 2.5 + MILD_ECHO_TIME, volume: 0.45);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute1()
@@ -144,7 +144,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad_ChordProgression()
-            => WrapUp_Test(MildEcho(PadChordProgression()), duration: BAR * 8 + MILD_ECHO_TIME, volume: 0.3);
+            => WrapUp_Test(MildEcho(PadChordProgression()), duration: BAR * 8 + MILD_ECHO_TIME, volume: 0.28);
 
         // ElectricShock Tests
 
@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody1() 
-            => WrapUp_Test(MildEcho(TubaMelody1()), duration: 4.4);
+            => WrapUp_Test(MildEcho(TubaMelody1()), duration: BAR * 1.5 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody2()
@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody2()
-            => WrapUp_Test(MildEcho(TubaMelody2()), duration: 11.6, volume: 0.75);
+            => WrapUp_Test(MildEcho(TubaMelody2()), duration: BAR * 4 + MILD_ECHO_TIME, volume: 0.6);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody3()
@@ -198,7 +198,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody3()
-            => WrapUp_Test(MildEcho(TubaMelody3()), duration: 8, volume: 0.75);
+            => WrapUp_Test(MildEcho(TubaMelody3()), duration:  BAR * 2.5 + MILD_ECHO_TIME, volume: 0.75);
 
         // Ripple Effect Tests
 
@@ -210,8 +210,8 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_DeepMetallic()
-            => WrapUp_Test(DeepEcho(RippleNote_DeepMetallic(DEFAULT_TOTAL_TIME)));
-
+            => WrapUp_Test(DeepEcho(RippleNote_DeepMetallic(duration: 3.0)), duration: 3.0 + DEEP_ECHO_TIME);
+        
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Melody1()
         {
@@ -220,7 +220,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_DeepMetallic_Melody1() 
-            => WrapUp_Test(DeepEcho(RippleMelody1_DeepMetallic()), duration: 11.4, volume: 0.5);
+            => WrapUp_Test(DeepEcho(RippleMelody1_DeepMetallic()), duration: BAR * 4.0 + DEEP_ECHO_TIME, volume: 0.5);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Melody2()
@@ -230,7 +230,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
         
         private void Test_FM_RippleNote_DeepMetallic_Melody2() 
-            => WrapUp_Test(DeepEcho(RippleMelody2_DeepMetallic()), duration: 14.3, volume: 0.5);
+            => WrapUp_Test(DeepEcho(RippleMelody2_DeepMetallic()), duration: BAR * 5 + DEEP_ECHO_TIME, volume: 0.5);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
@@ -250,7 +250,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_Clean()
-            => WrapUp_Test(MildEcho(RippleSound_Clean(duration: DEFAULT_TOTAL_TIME)));
+            => WrapUp_Test(DeepEcho(RippleSound_Clean(duration: 3.0)), duration: 3.0 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_FantasyEffect()
@@ -260,7 +260,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_FantasyEffect()
-            => WrapUp_Test(MildEcho(RippleSound_FantasyEffect()));
+            => WrapUp_Test(MildEcho(RippleSound_FantasyEffect()), duration: 3);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_CoolDouble()
@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_CoolDouble()
-            => WrapUp_Test(MildEcho(RippleSound_CoolDouble()));
+            => WrapUp_Test(MildEcho(RippleSound_CoolDouble()), duration: 3);
 
         // FM Noise Tests
 
@@ -282,7 +282,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Noise_Beating()
-            => WrapUp_Test(MildEcho(Create_FM_Noise_Beating()));
+            => WrapUp_Test(MildEcho(Create_FM_Noise_Beating()), duration: 3);
 
         // Generic Method
 
@@ -631,7 +631,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Beating audible further along the sound.
         /// Mod speed much below sound freq, changes sound freq drastically * [0.5, 1.5]
         /// </summary>
-        private Outlet Create_FM_Noise_Beating(double pitch = Frequencies.A5)
+        private Outlet Create_FM_Noise_Beating(double pitch = Frequencies.A4)
             => FMAroundFreq(soundFreq: pitch, modSpeed: 55, modDepth: 0.5);
 
         // Algorithms
