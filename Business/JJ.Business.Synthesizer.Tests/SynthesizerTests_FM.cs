@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => WrapUp_Test(MildEcho(Pad(duration: DEFAULT_TOTAL_TIME)));
+            => WrapUp_Test(MildEcho(Pad(duration: 1.5)), duration: 1.5 + MILD_ECHO_DURATION);
 
         // Tube Tests
 
@@ -461,8 +461,8 @@ namespace JJ.Business.Synthesizer.Tests
             var x = _operatorFactory;
 
             // FM Algorithm
-            Outlet outlet = FMAroundFreq(freq, freq * 1.5, x.CurveIn(PadModCurve));
-                        
+            Outlet outlet = FMAroundFreq(freq, freq * 1.5, StretchCurve(PadModCurve, duration));
+            
             // Volume Curve
             outlet = x.Multiply(outlet, StretchCurve(PadCurve, duration));
 
@@ -612,9 +612,13 @@ namespace JJ.Business.Synthesizer.Tests
 
             return outlet;
         }
-        
+
+        private const double MILD_ECHO_DURATION = 0.33 * 5;
+
         private Outlet MildEcho(Outlet outlet)
             => EntityFactory.CreateEcho(_operatorFactory, outlet, count: 6, denominator: 4, delay: 0.33);
+
+        private const double DEEP_ECHO_DURATION = 0.5 * 5;
 
         private Outlet DeepEcho(Outlet melody)
             => EntityFactory.CreateEcho(_operatorFactory, melody, count: 6, denominator: 2, delay: 0.5);
@@ -688,8 +692,10 @@ namespace JJ.Business.Synthesizer.Tests
                 {
                     _padCurve = _curveFactory.CreateCurve
                     (
-                        new NodeInfo(time: 0, value: 1, NodeTypeEnum.Block),
-                        new NodeInfo(time: 1, value: 0, NodeTypeEnum.Block)
+                        new NodeInfo(time: 0.00, value: 0),
+                        new NodeInfo(time: 0.01, value: 1),
+                        new NodeInfo(time: 0.99, value: 1),
+                        new NodeInfo(time: 1.00, value: 0)
                     );
                 }
                 return _padCurve;
