@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
         
         private void Test_FM_Flute_Melody1() 
-            => WrapUp_Test(MildEcho(FluteMelody1()), duration: 10.8, volume: 0.42);
+            => WrapUp_Test(MildEcho(FluteMelody1()), duration: 10.8, volume: 0.6);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Melody2()
@@ -309,11 +309,11 @@ namespace JJ.Business.Synthesizer.Tests
             Flute2(Frequencies.F4_Sharp, BAR * 0 + BEAT * 1.5, volume: 0.70, duration: 1.3),
             Flute1(Frequencies.G4_Sharp, BAR * 0 + BEAT * 3.0, volume: 0.60, duration: 0.6),
             Flute1(Frequencies.A4,       BAR * 1 + BEAT * 0.0, volume: 0.80, duration: 1.4),
-            Flute3(Frequencies.B4,       BAR * 1 + BEAT * 1.5, volume: 0.50, duration: 0.8),
-            Flute1(Frequencies.G4,       BAR * 1 + BEAT * 3.0, volume: 0.55, duration: 0.6),
+            Flute3(Frequencies.B4,       BAR * 1 + BEAT * 1.5, volume: 0.50, duration: 0.6),
+            Flute1(Frequencies.A4,       BAR * 1 + BEAT * 3.0, volume: 0.55, duration: 1.0),
             //RippleSound_Clean(Frequencies.A4, BAR * 2, volume: 0.50, duration: BAR * 2),
-            Flute2(Frequencies.A4,       BAR * 2 + BEAT * 0.0, volume: 0.80, duration: 1.2),
-            Flute1(Frequencies.E5,       BAR * 2 + BEAT * 1.5, volume: 1.20, duration: 1.5)
+            Flute2(Frequencies.G4,       BAR * 2 + BEAT * 0.0, volume: 1.00, duration: 1.2),
+            Flute1(Frequencies.E5,       BAR * 2 + BEAT * 1.5, volume: 0.80, duration: 1.5)
         );
 
         private Outlet FluteMelody2() => _operatorFactory.Adder
