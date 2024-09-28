@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody2()
-            => WrapUp_Test(MildEcho(TubaMelody2()), duration: BAR * 4 + MILD_ECHO_TIME, volume: 0.6);
+            => WrapUp_Test(MildEcho(TubaMelody2()), duration: BAR * 4 + MILD_ECHO_TIME, volume: 0.5);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody3()
@@ -339,6 +339,7 @@ namespace JJ.Business.Synthesizer.Tests
             (
                 pattern1,
                 x.TimeAdd(pattern2, x.Value(BAR * 4)),
+                RippleSound_Clean(Frequencies.A4, delay: BAR * 2, volume: 0.50, duration: BAR * 2),
                 x.Multiply(x.Value(padVolume), PadChordProgression())
             );
 
@@ -355,7 +356,6 @@ namespace JJ.Business.Synthesizer.Tests
             Flute1(Frequencies.A4, BAR * 1 + BEAT * 0.0, volume: 0.80, duration: 1.4),
             Flute3(Frequencies.B4, BAR * 1 + BEAT * 1.5, volume: 0.50, duration: 0.6),
             Flute1(Frequencies.A4, BAR * 1 + BEAT * 3.0, volume: 0.55, duration: 1.0),
-            //RippleSound_Clean(Frequencies.A4, BAR * 2, volume: 0.50, duration: BAR * 2),
             Flute2(Frequencies.G4, BAR * 2 + BEAT * 0.0, volume: 1.00, duration: 1.2),
             Flute1(Frequencies.E5, BAR * 2 + BEAT * 1.5, volume: 0.80, duration: 1.5)
         );
@@ -420,17 +420,18 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet RippleMelody1_DeepMetallic() => _operatorFactory.Adder
         (
-            RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0, duration: 3.0),
-            RippleNote_DeepMetallic(Frequencies.F2, delay: BAR, duration: 3.0),
-            RippleNote_DeepMetallic(Frequencies.A1, delay: BAR * 2, duration: 3.6)
+            RippleNote_DeepMetallic(Frequencies.A1, delay: 0.0, duration: BAR + BEAT),
+            RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0, duration: BAR + BEAT)
+            //RippleNote_DeepMetallic(Frequencies.F2, delay: BAR, duration: BAR + BEAT),
+            //RippleNote_DeepMetallic(Frequencies.A1, delay: BAR * 2, duration: BAR + BEAT * 2)
         );
 
         private Outlet RippleMelody2_DeepMetallic() => _operatorFactory.Adder
         (
-            RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0,     duration: 3.0),
-            RippleNote_DeepMetallic(Frequencies.F2, delay: BAR,     duration: 3.0),
-            RippleNote_DeepMetallic(Frequencies.C2, delay: BAR * 2, duration: 3.0),
-            RippleNote_DeepMetallic(Frequencies.G2, delay: BAR * 3, duration: 3.6, volume: 0.7)
+            //RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0,     duration: BAR + BEAT),
+            //RippleNote_DeepMetallic(Frequencies.F2, delay: BAR,     duration: BAR + BEAT),
+            //RippleNote_DeepMetallic(Frequencies.C2, delay: BAR * 2, duration: BAR + BEAT)
+            RippleNote_DeepMetallic(Frequencies.G2, delay: BAR * 3, duration: BAR + BEAT * 2, volume: 0.7)
         );
 
         // Instruments
@@ -813,8 +814,9 @@ namespace JJ.Business.Synthesizer.Tests
             (4.0, Frequencies.F4, Frequencies.A4, Frequencies.D5),
             (5.0, Frequencies.A4, Frequencies.D5, Frequencies.F5),
             (6.0, Frequencies.A4, Frequencies.C5, Frequencies.E5),
-            (7.0, Frequencies.C5, Frequencies.E5, Frequencies.A5),
-            (8.0, Frequencies.C5, Frequencies.E5, Frequencies.A5)
+            (7.0, Frequencies.A4, Frequencies.C5, Frequencies.E5),
+            //(7.0, Frequencies.C5, Frequencies.E5, Frequencies.A5),
+            //(8.0, Frequencies.C5, Frequencies.E5, Frequencies.A5)
         };
 
         private Curve _padPitchCurve1;
