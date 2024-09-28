@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
@@ -133,7 +135,17 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => WrapUp_Test(MildEcho(Pad(Frequencies.A5, duration: 1.5)), duration: 1.5 + MILD_ECHO_TIME);
+            => WrapUp_Test(MildEcho(Pad(Frequencies.A4, duration: 1.5)), duration: 1.5 + MILD_ECHO_TIME);
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_Pad_ChordProgression()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Pad_ChordProgression();
+        }
+
+        private void Test_FM_Pad_ChordProgression()
+            => WrapUp_Test(MildEcho(PadChordProgression()), duration: BAR * 8 + MILD_ECHO_TIME, volume: 0.3);
 
         // ElectricShock Tests
 
@@ -351,7 +363,19 @@ namespace JJ.Business.Synthesizer.Tests
             Flute2(Frequencies.G4, BAR * 1 + BEAT * 3.0, volume: 1.0 / 0.85),
             Flute4(Frequencies.A4, BAR * 2 + BEAT * 0.0, volume: 1.2 / 0.70, duration: 1.66)
         );
-                                        
+        
+        private Outlet PadChordProgression()
+        {
+            var x = _operatorFactory;
+
+            return x.Adder
+            (
+                x.Sine(x.Value(DEFAULT_AMPLITUDE), StretchCurve(PadPitchCurve1, BAR)),
+                x.Sine(x.Value(DEFAULT_AMPLITUDE), StretchCurve(PadPitchCurve2, BAR)),
+                x.Sine(x.Value(DEFAULT_AMPLITUDE), StretchCurve(PadPitchCurve3, BAR))
+            );
+        }
+
         private Outlet TubaMelody1() => _operatorFactory.Adder
         (
             Tuba(Frequencies.A1),
@@ -477,8 +501,8 @@ namespace JJ.Business.Synthesizer.Tests
 
             Outlet outlet = x.Add
             (
-                FMAroundFreq(freq, freq * 2, x.Multiply(x.Value(0.003), curveDown)),
-                FMAroundFreq(freq, freq * 3, x.Multiply(x.Value(0.002), curveDown))
+                FMAroundFreq(freq, freq * 2, x.Multiply(x.Value(0.004), curveDown)),
+                FMAroundFreq(freq, freq * 3, x.Multiply(x.Value(0.003), curveDown))
             );
 
             // Volume Curve
@@ -512,7 +536,6 @@ namespace JJ.Business.Synthesizer.Tests
 
             return outlet;
         }
-
 
         /// <summary>
         /// Sounds like Tuba at beginning.
@@ -757,6 +780,61 @@ namespace JJ.Business.Synthesizer.Tests
                     );
                 }
                 return _lineDownCurve;
+            }
+        }
+
+        private static (double time, double frequency1, double frequency2, double frequency3)[] _padFrequencies = 
+        {
+            (0.0, Frequencies.A4, Frequencies.C5, Frequencies.E5),
+            (1.0, Frequencies.A4, Frequencies.C5, Frequencies.F5),
+            (2.0, Frequencies.G4, Frequencies.C5, Frequencies.E5),
+            (3.0, Frequencies.G4, Frequencies.B4, Frequencies.D5),
+            (4.0, Frequencies.F4, Frequencies.A4, Frequencies.D5),
+            (5.0, Frequencies.A4, Frequencies.D5, Frequencies.F5),
+            (6.0, Frequencies.A4, Frequencies.C5, Frequencies.E5),
+            (7.0, Frequencies.C5, Frequencies.E5, Frequencies.A5)
+        };
+
+        private Curve _padPitchCurve1;
+        private Curve PadPitchCurve1
+        {
+            get
+            {
+                if (_padPitchCurve1 == null)
+                {
+                    _padPitchCurve1 = _curveFactory.CreateCurve(
+                        _padFrequencies.Select(x => new NodeInfo(x.time, x.frequency1, NodeTypeEnum.Block)).ToArray());
+                }
+                return _padPitchCurve1;
+            }
+        }
+
+        private Curve _padPitchCurve2;
+        private Curve PadPitchCurve2
+        {
+            get
+            {
+                if (_padPitchCurve2 == null)
+                {
+                    _padPitchCurve2 = _curveFactory.CreateCurve(
+                        _padFrequencies.Select(x => new NodeInfo(x.time, x.frequency2, NodeTypeEnum.Block)).ToArray());
+                }
+                return _padPitchCurve2;
+            }
+        }
+
+        private Curve _padPitchCurve3;
+        private Curve PadPitchCurve3
+        {
+            get
+            {
+                if (_padPitchCurve3 == null)
+                {
+                    _padPitchCurve3 = _curveFactory.CreateCurve(
+                        _padFrequencies.Select(x => new NodeInfo(x.time, x.frequency3, NodeTypeEnum.Block)).ToArray());
+                }
+
+                return _padPitchCurve3;
             }
         }
 
