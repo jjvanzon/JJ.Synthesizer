@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => WrapUp_Test(MildEcho(Pad(duration: 1.5)), duration: 1.5 + MILD_ECHO_TIME);
+            => WrapUp_Test(MildEcho(Pad(Frequencies.A5, duration: 1.5)), duration: 1.5 + MILD_ECHO_TIME);
 
         // ElectricShock Tests
 
@@ -477,8 +477,8 @@ namespace JJ.Business.Synthesizer.Tests
 
             Outlet outlet = x.Add
             (
-                FMAroundFreq(freq, freq * 1.5, x.Multiply(x.Value(0.003), curveDown)),
-                FMAroundFreq(freq, freq * 2.0, x.Multiply(x.Value(0.002), curveDown))
+                FMAroundFreq(freq, freq * 2, x.Multiply(x.Value(0.003), curveDown)),
+                FMAroundFreq(freq, freq * 3, x.Multiply(x.Value(0.002), curveDown))
             );
 
             // Volume Curve
