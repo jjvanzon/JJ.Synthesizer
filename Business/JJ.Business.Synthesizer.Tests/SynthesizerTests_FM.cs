@@ -374,6 +374,13 @@ namespace JJ.Business.Synthesizer.Tests
                 x.Sine(x.Value(DEFAULT_AMPLITUDE), StretchCurve(PadPitchCurve2, BAR)),
                 x.Sine(x.Value(DEFAULT_AMPLITUDE), StretchCurve(PadPitchCurve3, BAR))
             );
+
+            return x.Adder
+            (
+                Pad(StretchCurve(PadPitchCurve1, BAR), BAR * 8),
+                Pad(StretchCurve(PadPitchCurve2, BAR), BAR * 8),
+                Pad(StretchCurve(PadPitchCurve3, BAR), BAR * 8)
+            );
         }
 
         private Outlet TubaMelody1() => _operatorFactory.Adder
@@ -491,8 +498,11 @@ namespace JJ.Business.Synthesizer.Tests
 
             return outlet;
         }
-        
-        private Outlet Pad(double freq = Frequencies.A4, double delay = 0, double volume = 1, double duration = 1)
+
+        private Outlet Pad(double freq = Frequencies.A4, double duration = 1)
+            => Pad((Outlet)_operatorFactory.Value(freq), duration);
+
+        private Outlet Pad(Outlet freq, double duration = 1)
         {
             var x = _operatorFactory;
 
@@ -501,17 +511,17 @@ namespace JJ.Business.Synthesizer.Tests
 
             Outlet outlet = x.Add
             (
-                FMAroundFreq(freq, freq * 2, x.Multiply(x.Value(0.004), curveDown)),
-                FMAroundFreq(freq, freq * 3, x.Multiply(x.Value(0.003), curveDown))
+                FMAroundFreq(freq, x.Multiply(freq, x.Value(2)), x.Multiply(x.Value(0.004), curveDown)),
+                FMAroundFreq(freq, x.Multiply(freq, x.Value(3)), x.Multiply(x.Value(0.003), curveDown))
             );
 
             // Volume Curve
             Outlet volumeCurve = StretchCurve(DampedBlockCurve, duration);
             outlet = x.Multiply(outlet, volumeCurve);
 
-            // Apply Volume and Delay
+            // Normalize Volume
             double normalizer = 0.6;
-            outlet = StrikeNote(outlet, delay, volume * normalizer);
+            outlet = x.Multiply(outlet, x.Value(normalizer));
 
             return outlet;
         }
@@ -646,11 +656,15 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> FM with multiplication around 1. </summary>
         private Outlet FMAroundFreq(double soundFreq, double modSpeed, Outlet modDepth)
+            => FMAroundFreq((Outlet)_operatorFactory.Value(soundFreq), (Outlet)_operatorFactory.Value(modSpeed), modDepth);
+
+        /// <summary> FM with multiplication around 1. </summary>
+        private Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             OperatorFactory x = _operatorFactory;
 
-            Outlet modulator = x.Add(x.Value(1), x.Sine(modDepth, x.Value(modSpeed)));
-            Outlet sound = x.Sine(x.Value(DEFAULT_AMPLITUDE), x.Multiply(x.Value(soundFreq), modulator));
+            Outlet modulator = x.Add(x.Value(1), x.Sine(modDepth, modSpeed));
+            Outlet sound = x.Sine(x.Value(DEFAULT_AMPLITUDE), x.Multiply(soundFreq, modulator));
             return sound;
         }
 
@@ -792,7 +806,8 @@ namespace JJ.Business.Synthesizer.Tests
             (4.0, Frequencies.F4, Frequencies.A4, Frequencies.D5),
             (5.0, Frequencies.A4, Frequencies.D5, Frequencies.F5),
             (6.0, Frequencies.A4, Frequencies.C5, Frequencies.E5),
-            (7.0, Frequencies.C5, Frequencies.E5, Frequencies.A5)
+            (7.0, Frequencies.C5, Frequencies.E5, Frequencies.A5),
+            (8.0, Frequencies.C5, Frequencies.E5, Frequencies.A5)
         };
 
         private Curve _padPitchCurve1;
