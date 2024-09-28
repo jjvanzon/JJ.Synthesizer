@@ -2,7 +2,7 @@
 <RunSettings>
   <RunConfiguration>
     <!-- Use all available logical processors -->
-    <!--<MaxCpuCount>0</MaxCpuCount>-->
-    <MaxCpuCount>64</MaxCpuCount>
+    <MaxCpuCount>0</MaxCpuCount>
+    <!--<MaxCpuCount>64</MaxCpuCount>-->
   </RunConfiguration>
 </RunSettings>
