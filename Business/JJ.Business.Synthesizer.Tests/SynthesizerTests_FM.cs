@@ -28,6 +28,8 @@ namespace JJ.Business.Synthesizer.Tests
         private const double DEFAULT_TOTAL_TIME = 3.0;
         private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_AMPLITUDE = 1.0;
+        private const double BEAT = 0.6;
+        private const double BAR = 2.4;
 
         private readonly IContext _context;
         private readonly CurveFactory _curveFactory;
@@ -56,114 +58,49 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba() 
-            => WrapUp_Test(Tuba(Frequencies.E2), totalTime: 2.4 + 2.0);
+            => WrapUp_Test(Tuba(Frequencies.E2));
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Tuba_Variation1()
+        public void Test_Synthesizer_FM_Tuba_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Tuba_Variation1();
+                new SynthesizerTests_FM(context).Test_FM_Tuba_Melody1();
         }
 
-        private void Test_FM_Tuba_Variation1()
-        {
-            Outlet melody = _operatorFactory.Adder
-            (
-                Tuba(Frequencies.A1),
-                Tuba(Frequencies.E2,       delay: 1.2),
-                Tuba(Frequencies.F1_Sharp, delay: 2.4, volume: 0.7)
-            );
-
-            WrapUp_Test(melody, totalTime: 2.4 + 2.0);
-        }
+        private void Test_FM_Tuba_Melody1() 
+            => WrapUp_Test(TubaMelody1(), duration: 4.4);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Tuba_Variation2()
+        public void Test_Synthesizer_FM_Tuba_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Tuba_Variation2();
+                new SynthesizerTests_FM(context).Test_FM_Tuba_Melody2();
         }
 
-        private void Test_FM_Tuba_Variation2()
-        {
-            var beat = 0.6;
-
-            Outlet melody = _operatorFactory.Adder
-            (
-                Tuba(Frequencies.A2, beat * 00),
-                Tuba(Frequencies.E3, beat * 02),
-                Tuba(Frequencies.F2, beat * 04),
-                Tuba(Frequencies.C3, beat * 06),
-                Tuba(Frequencies.C2, beat * 08),
-                Tuba(Frequencies.G2, beat * 10),
-                Tuba(Frequencies.G1, beat * 12),
-                Tuba(Frequencies.D3, beat * 14)
-            );
-
-            WrapUp_Test(melody, totalTime: beat * 16 + 2.0, volume: 0.75);
-        }
+        private void Test_FM_Tuba_Melody2()
+            => WrapUp_Test(TubaMelody2(), duration: 11.6, volume: 0.75);
 
         // Flute Tests
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Flute_Variation1()
+        public void Test_Synthesizer_FM_Flute_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Flute_Variation1();
+                new SynthesizerTests_FM(context).Test_FM_Flute_Melody1();
         }
         
-        private void Test_FM_Flute_Variation1()
-        {
-            var x = _operatorFactory;
+        private void Test_FM_Flute_Melody1() 
+            => WrapUp_Test(FluteMelody1(), duration: 10.8, volume: 0.42);
 
-            const double beat = 0.6;
-            const double bar = beat * 4;
-
-            Outlet melody = x.Adder
-            (
-                            Flute1(Frequencies.E4, bar * 0 + beat * 0.0, volume: 0.80, duration: 1.2),
-                            Flute2(Frequencies.F4_Sharp, bar * 0 + beat * 1.5, volume: 0.70, duration: 1.3),
-                            Flute1(Frequencies.G4_Sharp, bar * 0 + beat * 3.0, volume: 0.60, duration: 0.6),
-                 
-                            Flute1(Frequencies.A4, bar * 1 + beat * 0.0, volume: 0.80, duration: 1.4),
-                            Flute3(Frequencies.B4, bar * 1 + beat * 1.5, volume: 0.50, duration: 0.8),
-                            Flute1(Frequencies.G4, bar * 1 + beat * 3.0, volume: 0.55, duration: 0.6),
-                 
-                 //RippleSound_Clean(Frequencies.A4, bar * 2, volume: 0.50, duration: bar * 2),
-                            Flute2(Frequencies.A4, bar * 2 + beat * 0.0, volume: 0.80, duration: 1.2),
-                            Flute1(Frequencies.E5, bar * 2 + beat * 1.5, volume: 1.20, duration: 1.5)
-            );
-
-            WrapUp_Test(melody, totalTime: 10.8, volume: 0.42);
-        }
-        
         [TestMethod]
-        public void Test_Synthesizer_FM_Flute_Variation2()
+        public void Test_Synthesizer_FM_Flute_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Flute_Variation2();
+                new SynthesizerTests_FM(context).Test_FM_Flute_Melody2();
         }
 
-        private void Test_FM_Flute_Variation2()
-        {
-            double beat = 0.6;
-            double bar = beat * 4;
-
-            Outlet melody = _operatorFactory.Adder
-            (
-                Flute1(Frequencies.E4, bar * 0 + beat * 0.0, volume: 1.0),
-                Flute2(Frequencies.F4, bar * 0 + beat * 1.5, volume: 1.0 / 0.85),
-                Flute3(Frequencies.G4, bar * 0 + beat * 3.0, volume: 1.0 / 0.80),
-                 
-                Flute4(Frequencies.A4, bar * 1 + beat * 0.0, volume: 1.0 / 0.70),
-                Flute3(Frequencies.B4, bar * 1 + beat * 1.5, volume: 1.0 / 0.80),
-                Flute2(Frequencies.G4, bar * 1 + beat * 3.0, volume: 1.0 / 0.85),
-                
-                Flute4(Frequencies.A4, bar * 2 + beat * 0.0, volume: 1.2 / 0.70, duration: 1.66)
-            );
-
-            WrapUp_Test(melody, bar * 2 + 1.66 + 2.0, volume: 0.47);
-        }
+        private void Test_FM_Flute_Melody2() 
+            => WrapUp_Test(FluteMelody2(), 8.46, volume: 0.47);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute1()
@@ -218,55 +155,24 @@ namespace JJ.Business.Synthesizer.Tests
             => WrapUp_Test(RippleNote_DeepMetallic(Frequencies.A2, duration: DEFAULT_TOTAL_TIME));
 
         [TestMethod]
-        public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Variation1()
+        public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_RippleNote_DeepMetallic_Variation1();
-        }
-                
-        private void Test_FM_RippleNote_DeepMetallic_Variation1()
-        {
-            var x = _operatorFactory;
-
-            Outlet melody = x.Adder
-            (
-                RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0, duration: 3.0),
-                RippleNote_DeepMetallic(Frequencies.F2, delay: 2.4, duration: 3.0),
-                RippleNote_DeepMetallic(Frequencies.A1, delay: 4.8, duration: 3.6)
-            );
-
-            // Add even more Echo
-            melody = EntityFactory.CreateEcho(x, melody, count: 6, denominator: 2, delay: 0.5);
-
-            WrapUp_Test(melody, totalTime: 4.8 + 3.6 + 3.0, volume: 0.5);
+                new SynthesizerTests_FM(context).Test_FM_RippleNote_DeepMetallic_Melody1();
         }
 
+        private void Test_FM_RippleNote_DeepMetallic_Melody1() 
+            => WrapUp_Test(RippleMelody1_DeepMetallic(), duration: 11.4, volume: 0.5);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Variation2()
+        public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_RippleNote_DeepMetallic_Variation2();
+                new SynthesizerTests_FM(context).Test_FM_RippleNote_DeepMetallic_Melody2();
         }
         
-        private void Test_FM_RippleNote_DeepMetallic_Variation2()
-        {
-            var x = _operatorFactory;
-            double bar = 2.4;
-
-            Outlet melody = x.Adder
-            (
-                RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0    , duration: 3.0),
-                RippleNote_DeepMetallic(Frequencies.F2, delay: bar    , duration: 3.0),
-                RippleNote_DeepMetallic(Frequencies.C2, delay: bar * 2, duration: 3.0),
-                RippleNote_DeepMetallic(Frequencies.G2, delay: bar * 3, duration: 3.6, volume: 0.7)
-            );
-
-            // Add even more Echo
-            melody = EntityFactory.CreateEcho(x, melody, count: 6, denominator: 2, delay: 0.5);
-
-            WrapUp_Test(melody, totalTime: bar * 3 + 3.6 + 3.0 + 0.5, volume: 0.5);
-        }
+        private void Test_FM_RippleNote_DeepMetallic_Melody2() 
+            => WrapUp_Test(RippleMelody2_DeepMetallic(), duration: 14.3, volume: 0.5);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
@@ -328,7 +234,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         private void WrapUp_Test(
             Outlet outlet,
-            double totalTime = DEFAULT_TOTAL_TIME,
+            double duration = DEFAULT_TOTAL_TIME,
             double volume = DEFAULT_TOTAL_VOLUME,
             [CallerMemberName] string callerMemberName = null)
         {
@@ -336,7 +242,7 @@ namespace JJ.Business.Synthesizer.Tests
             outlet = EntityFactory.CreateEcho(_operatorFactory, outlet, count: 6, denominator: 4, delay: 0.33);
 
             // Configure AudioFileOutput
-            AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet, totalTime, volume);
+            AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet, duration, volume);
 
             // Verify
             AssertEntities(audioFileOutput, outlet);
@@ -347,6 +253,82 @@ namespace JJ.Business.Synthesizer.Tests
             // Report
             Console.WriteLine($"Calculation time: {stopWatch.ElapsedMilliseconds}ms{Environment.NewLine}" +
                               $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
+        }
+
+        // Melodies
+                                        
+        private Outlet TubaMelody1() => _operatorFactory.Adder
+        (
+            Tuba(Frequencies.A1),
+            Tuba(Frequencies.E2,       BEAT * 2),
+            Tuba(Frequencies.F1_Sharp, BEAT * 4, volume: 0.7)
+        );
+
+        private Outlet TubaMelody2() => _operatorFactory.Adder
+        (
+            Tuba(Frequencies.A2, BEAT * 00),
+            Tuba(Frequencies.E3, BEAT * 02),
+            Tuba(Frequencies.F2, BEAT * 04),
+            Tuba(Frequencies.C3, BEAT * 06),
+            Tuba(Frequencies.C2, BEAT * 08),
+            Tuba(Frequencies.G2, BEAT * 10),
+            Tuba(Frequencies.G1, BEAT * 12),
+            Tuba(Frequencies.D3, BEAT * 14)
+        );
+
+        private Outlet FluteMelody1() => _operatorFactory.Adder
+        (
+            Flute1(Frequencies.E4,       BAR * 0 + BEAT * 0.0, volume: 0.80, duration: 1.2),
+            Flute2(Frequencies.F4_Sharp, BAR * 0 + BEAT * 1.5, volume: 0.70, duration: 1.3),
+            Flute1(Frequencies.G4_Sharp, BAR * 0 + BEAT * 3.0, volume: 0.60, duration: 0.6),
+            Flute1(Frequencies.A4,       BAR * 1 + BEAT * 0.0, volume: 0.80, duration: 1.4),
+            Flute3(Frequencies.B4,       BAR * 1 + BEAT * 1.5, volume: 0.50, duration: 0.8),
+            Flute1(Frequencies.G4,       BAR * 1 + BEAT * 3.0, volume: 0.55, duration: 0.6),
+            //RippleSound_Clean(Frequencies.A4, BAR * 2, volume: 0.50, duration: BAR * 2),
+            Flute2(Frequencies.A4,       BAR * 2 + BEAT * 0.0, volume: 0.80, duration: 1.2),
+            Flute1(Frequencies.E5,       BAR * 2 + BEAT * 1.5, volume: 1.20, duration: 1.5)
+        );
+
+        private Outlet FluteMelody2() => _operatorFactory.Adder
+        (
+            Flute1(Frequencies.E4, BAR * 0 + BEAT * 0.0, volume: 1.0),
+            Flute2(Frequencies.F4, BAR * 0 + BEAT * 1.5, volume: 1.0 / 0.85),
+            Flute3(Frequencies.G4, BAR * 0 + BEAT * 3.0, volume: 1.0 / 0.80),
+            Flute4(Frequencies.A4, BAR * 1 + BEAT * 0.0, volume: 1.0 / 0.70),
+            Flute3(Frequencies.B4, BAR * 1 + BEAT * 1.5, volume: 1.0 / 0.80),
+            Flute2(Frequencies.G4, BAR * 1 + BEAT * 3.0, volume: 1.0 / 0.85),
+            Flute4(Frequencies.A4, BAR * 2 + BEAT * 0.0, volume: 1.2 / 0.70, duration: 1.66)
+        );
+
+        private Outlet RippleMelody1_DeepMetallic()
+        {
+            Outlet melody = _operatorFactory.Adder
+            (
+                RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0, duration: 3.0),
+                RippleNote_DeepMetallic(Frequencies.F2, delay: 2.4, duration: 3.0),
+                RippleNote_DeepMetallic(Frequencies.A1, delay: 4.8, duration: 3.6)
+            );
+
+            // Add even more Echo
+            melody = EntityFactory.CreateEcho(_operatorFactory, melody, count: 6, denominator: 2, delay: 0.5);
+
+            return melody;
+        }
+
+        private Outlet RippleMelody2_DeepMetallic()
+        {
+            Outlet melody = _operatorFactory.Adder
+            (
+                RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0,     duration: 3.0),
+                RippleNote_DeepMetallic(Frequencies.F2, delay: BAR,     duration: 3.0),
+                RippleNote_DeepMetallic(Frequencies.C2, delay: BAR * 2, duration: 3.0),
+                RippleNote_DeepMetallic(Frequencies.G2, delay: BAR * 3, duration: 3.6, volume: 0.7)
+            );
+
+            // Add even more Echo
+            melody = EntityFactory.CreateEcho(_operatorFactory, melody, count: 6, denominator: 2, delay: 0.5);
+
+            return melody;
         }
 
         // Instruments
