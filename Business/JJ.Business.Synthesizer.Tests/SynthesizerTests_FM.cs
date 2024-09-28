@@ -30,8 +30,8 @@ namespace JJ.Business.Synthesizer.Tests
         private const double DEFAULT_TOTAL_TIME = 3.0;
         private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_AMPLITUDE = 1.0;
-        private const double BEAT = 0.4;
-        private const double BAR = 1.6;
+        private const double BEAT = 0.45;
+        private const double BAR = 1.8;
 
         private readonly IContext _context;
         private readonly CurveFactory _curveFactory;
@@ -421,8 +421,8 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet RippleMelody1_DeepMetallic() => _operatorFactory.Adder
         (
             RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0, duration: 3.0),
-            RippleNote_DeepMetallic(Frequencies.F2, delay: 2.4, duration: 3.0),
-            RippleNote_DeepMetallic(Frequencies.A1, delay: 4.8, duration: 3.6)
+            RippleNote_DeepMetallic(Frequencies.F2, delay: BAR, duration: 3.0),
+            RippleNote_DeepMetallic(Frequencies.A1, delay: BAR * 2, duration: 3.6)
         );
 
         private Outlet RippleMelody2_DeepMetallic() => _operatorFactory.Adder
