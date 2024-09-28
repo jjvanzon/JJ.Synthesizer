@@ -191,15 +191,14 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_FM_RippleNote_DeepMetallic()
             => WrapUp_Test(RippleNote_DeepMetallic(Frequencies.A2, duration: DEFAULT_TOTAL_TIME));
 
-
         [TestMethod]
-        public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Melody()
+        public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Variation1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_RippleNote_DeepMetallic_Melody();
+                new SynthesizerTests_FM(context).Test_FM_RippleNote_DeepMetallic_Variation1();
         }
                 
-        private void Test_FM_RippleNote_DeepMetallic_Melody()
+        private void Test_FM_RippleNote_DeepMetallic_Variation1()
         {
             var x = _operatorFactory;
 
@@ -214,6 +213,33 @@ namespace JJ.Business.Synthesizer.Tests
             melody = EntityFactory.CreateEcho(x, melody, count: 6, denominator: 2, delay: 0.5);
 
             WrapUp_Test(melody, totalTime: 4.8 + 3.6 + 3.0, volume: 0.5);
+        }
+
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_RippleNote_DeepMetallic_Variation2()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_RippleNote_DeepMetallic_Variation2();
+        }
+        
+        private void Test_FM_RippleNote_DeepMetallic_Variation2()
+        {
+            var x = _operatorFactory;
+            double bar = 2.4;
+
+            Outlet melody = x.Adder
+            (
+                RippleNote_DeepMetallic(Frequencies.A2, delay: 0.0    , duration: 3.0),
+                RippleNote_DeepMetallic(Frequencies.F2, delay: bar    , duration: 3.0),
+                RippleNote_DeepMetallic(Frequencies.C2, delay: bar * 2, duration: 3.0),
+                RippleNote_DeepMetallic(Frequencies.G2, delay: bar * 3, duration: 3.6)
+            );
+
+            // Add even more Echo
+            melody = EntityFactory.CreateEcho(x, melody, count: 6, denominator: 2, delay: 0.5);
+
+            WrapUp_Test(melody, totalTime: bar * 3 + 3.6 + 3.0 + 0.5, volume: 0.5);
         }
 
         [TestMethod]
