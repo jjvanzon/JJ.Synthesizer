@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => WrapUp_Test(MildEcho(Pad(DEFAULT_TOTAL_TIME)));
+            => WrapUp_Test(MildEcho(Pad(duration: DEFAULT_TOTAL_TIME)));
 
         // Tube Tests
 
