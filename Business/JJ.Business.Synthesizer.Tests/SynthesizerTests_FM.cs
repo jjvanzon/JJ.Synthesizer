@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Tests
                             Flute1(Frequencies.E5, bar * 2 + beat * 1.5, volume: 1.20, duration: 1.5)
             );
 
-            WrapUp_Test(melody, totalTime: 10.8, volume: 0.4);
+            WrapUp_Test(melody, totalTime: 10.8, volume: 0.42);
         }
         
         [TestMethod]
