@@ -60,38 +60,6 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_FM_Composition() 
             => WrapUp_Test(Composition(), duration: BAR * 9, volume: 0.1);
 
-        // Tube Tests
-
-        [TestMethod]
-        public void Test_Synthesizer_FM_Tuba()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Tuba();
-        }
-
-        private void Test_FM_Tuba() 
-            => WrapUp_Test(Tuba(Frequencies.E2));
-
-        [TestMethod]
-        public void Test_Synthesizer_FM_Tuba_Melody1()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Tuba_Melody1();
-        }
-
-        private void Test_FM_Tuba_Melody1() 
-            => WrapUp_Test(TubaMelody1(), duration: 4.4);
-
-        [TestMethod]
-        public void Test_Synthesizer_FM_Tuba_Melody2()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Tuba_Melody2();
-        }
-
-        private void Test_FM_Tuba_Melody2()
-            => WrapUp_Test(TubaMelody2(), duration: 11.6, volume: 0.75);
-
         // Flute Tests
 
         [TestMethod]
@@ -153,6 +121,38 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_Flute4()
             => WrapUp_Test(Flute4(Frequencies.A4));
+        
+        // Tube Tests
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_Tuba()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Tuba();
+        }
+
+        private void Test_FM_Tuba() 
+            => WrapUp_Test(Tuba(Frequencies.E2));
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_Tuba_Melody1()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Tuba_Melody1();
+        }
+
+        private void Test_FM_Tuba_Melody1() 
+            => WrapUp_Test(TubaMelody1(), duration: 4.4);
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_Tuba_Melody2()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Tuba_Melody2();
+        }
+
+        private void Test_FM_Tuba_Melody2()
+            => WrapUp_Test(TubaMelody2(), duration: 11.6, volume: 0.75);
 
         // FM Ripple Effects
 
@@ -293,25 +293,6 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         // Melodies
-                                        
-        private Outlet TubaMelody1() => _operatorFactory.Adder
-        (
-            Tuba(Frequencies.A1),
-            Tuba(Frequencies.E2,       BEAT * 2),
-            Tuba(Frequencies.F1_Sharp, BEAT * 4, volume: 0.7)
-        );
-
-        private Outlet TubaMelody2() => _operatorFactory.Adder
-        (
-            Tuba(Frequencies.A2, BEAT * 00),
-            Tuba(Frequencies.E3, BEAT * 02),
-            Tuba(Frequencies.F2, BEAT * 04),
-            Tuba(Frequencies.C3, BEAT * 06),
-            Tuba(Frequencies.C2, BEAT * 08),
-            Tuba(Frequencies.G2, BEAT * 10),
-            Tuba(Frequencies.G1, BEAT * 12),
-            Tuba(Frequencies.D3, BEAT * 14)
-        );
 
         private Outlet FluteMelody1() => _operatorFactory.Adder
         (
@@ -335,6 +316,25 @@ namespace JJ.Business.Synthesizer.Tests
             Flute3(Frequencies.B4, BAR * 1 + BEAT * 1.5, volume: 1.0 / 0.80),
             Flute2(Frequencies.G4, BAR * 1 + BEAT * 3.0, volume: 1.0 / 0.85),
             Flute4(Frequencies.A4, BAR * 2 + BEAT * 0.0, volume: 1.2 / 0.70, duration: 1.66)
+        );
+                                        
+        private Outlet TubaMelody1() => _operatorFactory.Adder
+        (
+            Tuba(Frequencies.A1),
+            Tuba(Frequencies.E2,       BEAT * 2),
+            Tuba(Frequencies.F1_Sharp, BEAT * 4, volume: 0.7)
+        );
+
+        private Outlet TubaMelody2() => _operatorFactory.Adder
+        (
+            Tuba(Frequencies.A2, BEAT * 00),
+            Tuba(Frequencies.E3, BEAT * 02),
+            Tuba(Frequencies.F2, BEAT * 04),
+            Tuba(Frequencies.C3, BEAT * 06),
+            Tuba(Frequencies.C2, BEAT * 08),
+            Tuba(Frequencies.G2, BEAT * 10),
+            Tuba(Frequencies.G1, BEAT * 12),
+            Tuba(Frequencies.D3, BEAT * 14)
         );
 
         private Outlet RippleMelody1_DeepMetallic()
@@ -369,33 +369,6 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         // Instruments
-
-        /// <summary>
-        /// Sounds like Tuba at beginning.
-        /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
-        /// Volume curve is applied.
-        /// Higher notes are shorter, lower notes are much longer.
-        /// </summary>
-        private Outlet Tuba(double freq = Frequencies.A1, double delay = 0, double volume = 1)
-        {
-            var x = _operatorFactory;
-
-            // FM Algorithm
-            var outlet = FMInHertz(soundFreq: freq * 2, modSpeed: freq, modDepth: 5);
-
-            // Stretch Volume Curve (longer when lower)
-            const double durationA1 = 0.8;
-            double stretch = durationA1 * Math.Pow(Frequencies.A1 / freq, 1.5);
-            var curveOutlet = x.TimeMultiply(x.CurveIn(TubaCurve), x.Value(stretch));
-
-            // Apply Curve
-            outlet = x.Multiply(outlet, curveOutlet);
-
-            // Volume and Delay
-            outlet = StrikeNote(outlet, delay, volume);
-
-            return outlet;
-        }
 
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         private Outlet Flute1(double freq = Frequencies.A4, double delay = 0, double volume = 1, double duration = 1)
@@ -464,6 +437,33 @@ namespace JJ.Business.Synthesizer.Tests
             // Apply Volume and Delay
             double normalizer = 0.70;
             outlet = StrikeNote(outlet, delay, volume * normalizer);
+
+            return outlet;
+        }
+        
+        /// <summary>
+        /// Sounds like Tuba at beginning.
+        /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
+        /// Volume curve is applied.
+        /// Higher notes are shorter, lower notes are much longer.
+        /// </summary>
+        private Outlet Tuba(double freq = Frequencies.A1, double delay = 0, double volume = 1)
+        {
+            var x = _operatorFactory;
+
+            // FM Algorithm
+            var outlet = FMInHertz(soundFreq: freq * 2, modSpeed: freq, modDepth: 5);
+
+            // Stretch Volume Curve (longer when lower)
+            const double durationA1 = 0.8;
+            double stretch = durationA1 * Math.Pow(Frequencies.A1 / freq, 1.5);
+            var curveOutlet = x.TimeMultiply(x.CurveIn(TubaCurve), x.Value(stretch));
+
+            // Apply Curve
+            outlet = x.Multiply(outlet, curveOutlet);
+
+            // Volume and Delay
+            outlet = StrikeNote(outlet, delay, volume);
 
             return outlet;
         }
@@ -579,24 +579,6 @@ namespace JJ.Business.Synthesizer.Tests
 
         // Curves
 
-        private Curve _tubaCurve;
-        private Curve TubaCurve
-        {
-            get
-            {
-                if (_tubaCurve == null)
-                {
-                    _tubaCurve = _curveFactory.CreateCurve
-                    (
-                        new NodeInfo(time: 0.00, value: 1),
-                        new NodeInfo(time: 0.93, value: 1),
-                        new NodeInfo(time: 1.00, value: 0)
-                    );
-                }
-                return _tubaCurve;
-            }
-        }
-
         private Curve _fluteCurve;
         private Curve FluteCurve
         {
@@ -614,6 +596,24 @@ namespace JJ.Business.Synthesizer.Tests
                     );
                 }
                 return _fluteCurve;
+            }
+        }
+
+        private Curve _tubaCurve;
+        private Curve TubaCurve
+        {
+            get
+            {
+                if (_tubaCurve == null)
+                {
+                    _tubaCurve = _curveFactory.CreateCurve
+                    (
+                        new NodeInfo(time: 0.00, value: 1),
+                        new NodeInfo(time: 0.93, value: 1),
+                        new NodeInfo(time: 1.00, value: 0)
+                    );
+                }
+                return _tubaCurve;
             }
         }
 
