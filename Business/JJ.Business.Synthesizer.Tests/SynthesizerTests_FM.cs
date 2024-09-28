@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition() 
-            => WrapUp_Test(MildEcho(Composition()), duration: BAR * 8 + MILD_ECHO_TIME, volume: 0.20);
+            => WrapUp_Test(MildEcho(Composition()), duration: BAR * 8 + BEAT + DEEP_ECHO_TIME, volume: 0.20);
 
         // Low Modulation Test
 
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad_ChordProgression()
-            => WrapUp_Test(MildEcho(PadChordProgression()), duration: BAR * 8 + MILD_ECHO_TIME, volume: 0.28);
+            => WrapUp_Test(MildEcho(PadChordProgression()), duration: BAR * 8 + MILD_ECHO_TIME, volume: 0.22);
 
         // ElectricShock Tests
 
@@ -248,7 +248,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Ripple_DeepMetallic_Melody2() 
-            => WrapUp_Test(DeepEcho(RippleMelody2_DeepMetallic()), duration: BAR * 4.0 + DEEP_ECHO_TIME, volume: 0.5);
+            => WrapUp_Test(DeepEcho(RippleMelody2_DeepMetallic()), duration: BAR * 4.0 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
@@ -341,8 +341,8 @@ namespace JJ.Business.Synthesizer.Tests
             (
                 x.Multiply(x.Value(fluteVolume), FluteMelody1()),
                 x.Multiply(x.Value(padVolume), PadChordProgression()),
-                x.Multiply(x.Value(tubaVolume), TubaMelody1()),
-                x.Multiply(x.Value(rippleBassVolume), RippleMelody1_DeepMetallic())
+                x.Multiply(x.Value(tubaVolume), TubaMelody1())
+                //x.Multiply(x.Value(rippleBassVolume), RippleMelody1_DeepMetallic())
             );
 
             var pattern2 = x.Adder
@@ -447,7 +447,7 @@ namespace JJ.Business.Synthesizer.Tests
             RippleNote_DeepMetallic(Frequencies.A2, delay: BAR * 0, duration: BAR * 2);
 
         private Outlet RippleMelody2_DeepMetallic() =>
-            RippleNote_DeepMetallic(Frequencies.A1, delay: BAR * 2 + BEAT * 2, duration: BAR * 1.5);
+            DeepEcho(RippleNote_DeepMetallic(Frequencies.A1, delay: BAR * 2.5, duration: BAR * 1.5));
 
         // Instruments
 
@@ -458,7 +458,7 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet outlet = FMAroundFreq(
                 soundFreq: freq, 
                 modSpeed: x.Multiply(freq, x.Value(2.0)), 
-                modDepth: x.Multiply(curveDown, x.Value(0.00001)));
+                modDepth: x.Multiply(curveDown, x.Value(0.00005)));
 
             // Volume and Delay
             outlet = StrikeNote(outlet, delay, volume);
