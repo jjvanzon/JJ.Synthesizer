@@ -121,7 +121,19 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_Flute4()
             => WrapUp_Test(MildEcho(Flute4()));
-        
+
+        // Pad Tests
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_Pad()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Pad();
+        }
+
+        private void Test_FM_Pad()
+            => WrapUp_Test(MildEcho(Pad()));
+
         // Tube Tests
 
         [TestMethod]
@@ -443,6 +455,15 @@ namespace JJ.Business.Synthesizer.Tests
             return outlet;
         }
         
+        private Outlet Pad(double freq = Frequencies.A4, double delay = 0, double volume = 1, double duration = 1)
+        {
+            var x = _operatorFactory;
+
+            return FMAroundFreq(soundFreq: freq, modSpeed: freq * 1.5, modDepth: x.CurveIn(PadModCurve));
+            //FMAroundFreq(freq, freq * 2.0, x.CurveIn(PadModCurve));
+        }
+
+
         /// <summary>
         /// Sounds like Tuba at beginning.
         /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
@@ -548,10 +569,14 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> FM with multiplication around 1. </summary>
         private Outlet FMAroundFreq(double soundFreq, double modSpeed, double modDepth)
+            => FMAroundFreq(soundFreq, modSpeed, (Outlet)_operatorFactory.Value(modDepth));
+
+        /// <summary> FM with multiplication around 1. </summary>
+        private Outlet FMAroundFreq(double soundFreq, double modSpeed, Outlet modDepth)
         {
             OperatorFactory x = _operatorFactory;
 
-            Outlet modulator = x.Add(x.Value(1), x.Sine(x.Value(modDepth), x.Value(modSpeed)));
+            Outlet modulator = x.Add(x.Value(1), x.Sine(modDepth, x.Value(modSpeed)));
             Outlet sound = x.Sine(x.Value(DEFAULT_AMPLITUDE), x.Multiply(x.Value(soundFreq), modulator));
             return sound;
         }
@@ -642,6 +667,23 @@ namespace JJ.Business.Synthesizer.Tests
                     );
                 }
                 return _rippleCurve;
+            }
+        }
+
+        private Curve _padModCurve;
+        private Curve PadModCurve
+        {
+            get
+            {
+                if (_padModCurve == null)
+                {
+                    _padModCurve = _curveFactory.CreateCurve
+                    (
+                        new NodeInfo(time: 0.00, value: 0.002),
+                        new NodeInfo(time: 1.00, value: 0.00)
+                    );
+                }
+                return _padModCurve;
             }
         }
 
