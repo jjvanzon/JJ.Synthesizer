@@ -473,16 +473,17 @@ namespace JJ.Business.Synthesizer.Tests
             var x = _operatorFactory;
 
             // FM Algorithm
-            Outlet modCurve = StretchCurve(LineDownCurve, duration * 1.1);
+            Outlet curveDown = StretchCurve(LineDownCurve, duration * 1.1);
 
             Outlet outlet = x.Add
             (
-                FMAroundFreq(freq, freq * 1.5, x.Multiply(x.Value(0.002), modCurve)),
-                FMAroundFreq(freq, freq * 2.0, x.Multiply(x.Value(0.002), modCurve))
+                FMAroundFreq(freq, freq * 1.5, x.Multiply(x.Value(0.003), curveDown)),
+                FMAroundFreq(freq, freq * 2.0, x.Multiply(x.Value(0.002), curveDown))
             );
 
             // Volume Curve
-            outlet = x.Multiply(outlet, StretchCurve(DampedBlockCurve, duration));
+            Outlet volumeCurve = StretchCurve(DampedBlockCurve, duration);
+            outlet = x.Multiply(outlet, volumeCurve);
 
             // Apply Volume and Delay
             double normalizer = 0.6;
@@ -658,7 +659,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet MildEcho(Outlet outlet)
             => EntityFactory.CreateEcho(_operatorFactory, outlet, count: 6, denominator: 4, delay: 0.33);
 
-        private const double DEEP_ECHO_DURATION = 0.5 * 5;
+        private const double DEEP_ECHO_TIME = 0.5 * 5;
 
         private Outlet DeepEcho(Outlet melody)
             => EntityFactory.CreateEcho(_operatorFactory, melody, count: 6, denominator: 2, delay: 0.5);
