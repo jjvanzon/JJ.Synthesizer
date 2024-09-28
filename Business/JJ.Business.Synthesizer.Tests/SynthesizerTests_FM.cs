@@ -94,13 +94,13 @@ namespace JJ.Business.Synthesizer.Tests
                 Tuba(Frequencies.E2, delay: beat * 02),
                 Tuba(Frequencies.F1, delay: beat * 04, volume: 0.7),
                 Tuba(Frequencies.C2, delay: beat * 06, volume: 0.7),
-                Tuba(Frequencies.C1, delay: beat * 08),
-                Tuba(Frequencies.C2, delay: beat * 10),
-                Tuba(Frequencies.G1, delay: beat * 12, volume: 0.7),
+                //Tuba(Frequencies.C1, delay: beat * 08),
+                Tuba(Frequencies.G2, delay: beat * 10),
+                //Tuba(Frequencies.G1, delay: beat * 12, volume: 0.7),
                 Tuba(Frequencies.B2, delay: beat * 14, volume: 0.7)
             );
 
-            WrapUp_Test(melody, totalTime: beat * 16 + 2.0, volume: 0.25);
+            WrapUp_Test(melody, totalTime: beat * 16 + 2.0, volume: 0.75);
         }
 
         // Flute Tests
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Tests
                             Flute3(Frequencies.B4, bar * 1 + beat * 1.5, volume: 0.50, duration: 0.8),
                             Flute1(Frequencies.G4, bar * 1 + beat * 3.0, volume: 0.55, duration: 0.6),
                  
-                 RippleSound_Clean(Frequencies.A4, bar * 2, volume: 0.50, duration: bar * 2),
+                 //RippleSound_Clean(Frequencies.A4, bar * 2, volume: 0.50, duration: bar * 2),
                             Flute2(Frequencies.A4, bar * 2 + beat * 0.0, volume: 0.80, duration: 1.2),
                             Flute1(Frequencies.E5, bar * 2 + beat * 1.5, volume: 1.20, duration: 1.5)
             );
@@ -349,7 +349,7 @@ namespace JJ.Business.Synthesizer.Tests
                               $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
         }
 
-        // Instrument Patches
+        // Instruments
 
         // Tuba
 
