@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Managers;
@@ -132,7 +133,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => WrapUp_Test(MildEcho(Pad()));
+            => WrapUp_Test(MildEcho(Pad(DEFAULT_TOTAL_TIME)));
 
         // Tube Tests
 
@@ -459,8 +460,16 @@ namespace JJ.Business.Synthesizer.Tests
         {
             var x = _operatorFactory;
 
-            return FMAroundFreq(soundFreq: freq, modSpeed: freq * 1.5, modDepth: x.CurveIn(PadModCurve));
-            //FMAroundFreq(freq, freq * 2.0, x.CurveIn(PadModCurve));
+            // FM Algorithm
+            Outlet outlet = FMAroundFreq(freq, freq * 1.5, x.CurveIn(PadModCurve));
+                        
+            // Volume Curve
+            outlet = x.Multiply(outlet, StretchCurve(PadCurve, duration));
+
+            // Apply Volume and Delay
+            outlet = StrikeNote(outlet, delay, volume);
+
+            return outlet;
         }
 
 
@@ -670,6 +679,23 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
+        private Curve _padCurve;
+        private Curve PadCurve
+        {
+            get
+            {
+                if (_padCurve == null)
+                {
+                    _padCurve = _curveFactory.CreateCurve
+                    (
+                        new NodeInfo(time: 0, value: 1, NodeTypeEnum.Block),
+                        new NodeInfo(time: 1, value: 0, NodeTypeEnum.Block)
+                    );
+                }
+                return _padCurve;
+            }
+        }
+
         private Curve _padModCurve;
         private Curve PadModCurve
         {
@@ -679,8 +705,8 @@ namespace JJ.Business.Synthesizer.Tests
                 {
                     _padModCurve = _curveFactory.CreateCurve
                     (
-                        new NodeInfo(time: 0.00, value: 0.002),
-                        new NodeInfo(time: 1.00, value: 0.00)
+                        new NodeInfo(time: 0, value: 0.002),
+                        new NodeInfo(time: 1, value: 0)
                     );
                 }
                 return _padModCurve;
