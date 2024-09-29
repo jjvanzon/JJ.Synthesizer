@@ -223,34 +223,34 @@ namespace JJ.Business.Synthesizer.Tests
         // Ripple Effect Tests
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Ripple_DeepMetallic_Note()
+        public void Test_Synthesizer_FM_RippleBass()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Ripple_DeepMetallic_Note();
+                new SynthesizerTests_FM(context).Test_FM_RippleBass();
         }
 
-        private void Test_FM_Ripple_DeepMetallic_Note()
-            => WrapUp_Test(DeepEcho(RippleNote_DeepMetallic(duration: 3.0)), duration: 3.0 + DEEP_ECHO_TIME);
+        private void Test_FM_RippleBass()
+            => WrapUp_Test(DeepEcho(RippleBass(duration: 3.0)), duration: 3.0 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Ripple_DeepMetallic_Melody1()
+        public void Test_Synthesizer_FM_RippleBass_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Ripple_DeepMetallic_Melody1();
+                new SynthesizerTests_FM(context).Test_FM_RippleBass_Melody1();
         }
         
-        private void Test_FM_Ripple_DeepMetallic_Melody1() 
-            => WrapUp_Test(DeepEcho(RippleMelody1_DeepMetallic()), duration: BAR * 5 + DEEP_ECHO_TIME, volume: 0.3);
+        private void Test_FM_RippleBass_Melody1() 
+            => WrapUp_Test(DeepEcho(RippleBassMelody1()), duration: BAR * 5 + DEEP_ECHO_TIME, volume: 0.3);
         
         [TestMethod]
-        public void Test_Synthesizer_FM_Ripple_DeepMetallic_Melody2()
+        public void Test_Synthesizer_FM_RippleBass_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Ripple_DeepMetallic_Melody2();
+                new SynthesizerTests_FM(context).Test_FM_RippleBass_Melody2();
         }
 
-        private void Test_FM_Ripple_DeepMetallic_Melody2() 
-            => WrapUp_Test(DeepEcho(RippleMelody2_DeepMetallic()), duration: BAR * 4.0 + DEEP_ECHO_TIME, volume: 0.3);
+        private void Test_FM_RippleBass_Melody2() 
+            => WrapUp_Test(DeepEcho(RippleBassMelody2()), duration: BAR * 4.0 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
@@ -344,14 +344,14 @@ namespace JJ.Business.Synthesizer.Tests
                 x.Multiply(x.Value(fluteVolume), FluteMelody1()),
                 x.Multiply(x.Value(padVolume), PadChordProgression()),
                 x.Multiply(x.Value(tubaVolume), TubaMelody1())
-                //x.Multiply(x.Value(rippleBassVolume), RippleMelody1_DeepMetallic())
+                //x.Multiply(x.Value(rippleBassVolume), RippleBassMelody1())
             );
 
             var pattern2 = x.Adder
             (
                 x.Multiply(x.Value(fluteVolume), FluteMelody2()),
                 x.Multiply(x.Value(tubaVolume), TubaMelody2()),
-                x.Multiply(x.Value(rippleBassVolume), RippleMelody2_DeepMetallic())
+                x.Multiply(x.Value(rippleBassVolume), RippleBassMelody2())
             );
 
             var composition = x.Adder
@@ -445,11 +445,11 @@ namespace JJ.Business.Synthesizer.Tests
             Tuba(Frequencies.F1_Sharp, BEAT * 4, volume: 0.7)
         );
 
-        private Outlet RippleMelody1_DeepMetallic() =>
-            RippleNote_DeepMetallic(Frequencies.A2, delay: BAR * 0, duration: BAR * 2);
+        private Outlet RippleBassMelody1() =>
+            RippleBass(Frequencies.A2, delay: BAR * 0, duration: BAR * 2);
 
-        private Outlet RippleMelody2_DeepMetallic() =>
-            DeepEcho(RippleNote_DeepMetallic(Frequencies.A1, delay: BAR * 2.5, duration: BAR * 1.5));
+        private Outlet RippleBassMelody2() =>
+            DeepEcho(RippleBass(Frequencies.A1, delay: BAR * 2.5, duration: BAR * 1.5));
 
         // Instruments
 
@@ -653,11 +653,11 @@ namespace JJ.Business.Synthesizer.Tests
             return outlet;
         }
 
-        private Outlet RippleNote_DeepMetallic(double freq = Frequencies.A1, double delay = 0, double volume = 1, double duration = 1)
-            => RippleNote_DeepMetallic((Outlet)x.Value(freq), x.Value(delay), x.Value(volume), x.Value(duration));
+        private Outlet RippleBass(double freq = Frequencies.A1, double delay = 0, double volume = 1, double duration = 1)
+            => RippleBass((Outlet)x.Value(freq), x.Value(delay), x.Value(volume), x.Value(duration));
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-        private Outlet RippleNote_DeepMetallic(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        private Outlet RippleBass(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? x.Value(Frequencies.A1);
 
