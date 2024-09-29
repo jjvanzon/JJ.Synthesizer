@@ -119,6 +119,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\SynthesizerFacade.cs" />
     <Compile Include="Helpers\WavHeaderWishes.cs" />
     <Compile Include="SynthesizerTests_FM_HardCoded.cs" />
     <Compile Include="SynthesizerTests_Additive.cs" />
