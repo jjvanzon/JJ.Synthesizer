@@ -4,7 +4,7 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal abstract class SynthesizerFacade : OperatorFactory
+    public abstract class SynthesizerFacade : OperatorFactory
     {
         protected SynthesizerFacade()
             : this(PersistenceHelper.CreateContext())

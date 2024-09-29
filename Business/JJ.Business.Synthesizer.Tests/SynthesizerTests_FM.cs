@@ -35,24 +35,20 @@ namespace JJ.Business.Synthesizer.Tests
         private const double BEAT = 0.4;
         private const double BAR = 1.6;
 
-        private readonly IContext _context;
         private readonly CurveFactory _curveFactory;
         private readonly AudioFileOutputManager _audioFileOutputManager;
-        private readonly OperatorFactory _operatorFactory;
 
         #region Shorthand for syntactic sugar
 
-        /// <summary> x for syntactic sugar. </summary>
-        private readonly OperatorFactory x;
-
         /// <summary>
-        /// Shorthand for OperatorFactor.Value(123) or  x.Value(123). Allows using _[123] instead.
+        /// Shorthand for OperatorFactor.Value(123), x.Value(123) or Value(123). Allows using _[123] instead.
         /// Literal numbers need to be wrapped inside a Value Operator so they can always be substituted by
         /// a whole formula / graph / calculation / curve over time.
         /// </summary>
         private ValueIndexer _ { get; }
 
-        private Outlet t(double bar, double beat) => x.Value(bar * BAR + beat * BEAT);
+        private Outlet t(double bar, double beat) => Value(bar * BAR + beat * BEAT);
+        private Outlet t(double beat) => Value(beat * BEAT);
 
         #endregion
 
@@ -64,13 +60,10 @@ namespace JJ.Business.Synthesizer.Tests
             : base(context)
         {
             _curveFactory = TestHelper.CreateCurveFactory(context);
-            _audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(_context);
-
-            _operatorFactory = TestHelper.CreateOperatorFactory(_context);
+            _audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
 
             // Shorthand for syntactic sugar.
-            x = _operatorFactory;
-            _ = new ValueIndexer(_operatorFactory);
+            _ = new ValueIndexer(this);
         }
 
         // Composition Test
@@ -358,25 +351,25 @@ namespace JJ.Business.Synthesizer.Tests
             double tubaVolume = 0.7;
             double rippleBassVolume = 0.7;
 
-            var pattern1 = x.Adder
+            var pattern1 = Adder
             (
-                x.Multiply(_[fluteVolume], FluteMelody1(portato: 1.1)),
-                x.Multiply(_[padVolume]  , PadChords()),
-                x.Multiply(_[tubaVolume] , TubaMelody1())
-                //x.Multiply(_[rippleBassVolume], RippleBassMelody1())
+                Multiply(_[fluteVolume], FluteMelody1(portato: 1.1)),
+                Multiply(_[padVolume]  , PadChords()),
+                Multiply(_[tubaVolume] , TubaMelody1())
+                //Multiply(_[rippleBassVolume], RippleBassMelody1())
             );
 
-            var pattern2 = x.Adder
+            var pattern2 = Adder
             (
-                x.Multiply(_[fluteVolume]     , FluteMelody2()),
-                x.Multiply(_[tubaVolume]      , TubaMelody2()),
-                x.Multiply(_[rippleBassVolume], RippleBassMelody2())
+                Multiply(_[fluteVolume]     , FluteMelody2()),
+                Multiply(_[tubaVolume]      , TubaMelody2()),
+                Multiply(_[rippleBassVolume], RippleBassMelody2())
             );
 
-            var composition = x.Adder
+            var composition = Adder
             (
                 pattern1,
-                x.TimeAdd(pattern2, _[BAR * 4])
+                TimeAdd(pattern2, _[BAR * 4])
                 //RippleSound_Clean(Frequencies.A4, delay: BAR * 2, volume: 0.50, duration: BAR * 2),
             );
 
@@ -387,7 +380,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet FluteMelody1(double portato = 1.3636)
         {
-            return x.Adder
+            return Adder
             (
                 Flute1(_[Frequencies.E4], t(bar: 0, beat: 0.0), volume: _[0.80], duration: _[2.00 * BEAT * portato]),
                 Flute2(_[Frequencies.F4], t(bar: 0, beat: 1.5), volume: _[0.70], duration: _[2.17 * BEAT * portato]),
@@ -400,7 +393,7 @@ namespace JJ.Business.Synthesizer.Tests
             );
         }
 
-        private Outlet FluteMelody2() => x.Adder
+        private Outlet FluteMelody2() => Adder
         (
             Flute1(_[Frequencies.E4], t(bar: 0, beat: 0.0), volume: _[1.00]),
             Flute2(_[Frequencies.F4], t(bar: 0, beat: 1.5), volume: _[1.15]),
@@ -415,16 +408,16 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet PadChords()
         {
             /*
-            return x.Adder
+            return Adder
             (
-                x.Sine(_[DEFAULT_AMPLITUDE], StretchCurve(PadPitchCurve1, BAR)),
-                x.Sine(_[DEFAULT_AMPLITUDE], StretchCurve(PadPitchCurve2, BAR)),
-                x.Sine(_[DEFAULT_AMPLITUDE], StretchCurve(PadPitchCurve3, BAR))
+                Sine(_[DEFAULT_AMPLITUDE], StretchCurve(PadPitchCurve1, BAR)),
+                Sine(_[DEFAULT_AMPLITUDE], StretchCurve(PadPitchCurve2, BAR)),
+                Sine(_[DEFAULT_AMPLITUDE], StretchCurve(PadPitchCurve3, BAR))
             );
             */
 
             /*
-            return x.Adder
+            return Adder
             (
                 Pad(StretchCurve(PadPitchCurve1, BAR), duration: BAR * 8),
                 Pad(StretchCurve(PadPitchCurve2, BAR), duration: BAR * 8),
@@ -432,7 +425,7 @@ namespace JJ.Business.Synthesizer.Tests
             );
             */
 
-            return x.Adder
+            return Adder
             (
                 LowModulation(StretchCurve(PadPitchCurve1, _[BAR]), duration: _[BAR * 8]),
                 LowModulation(StretchCurve(PadPitchCurve2, _[BAR]), duration: _[BAR * 8]),
@@ -440,7 +433,7 @@ namespace JJ.Business.Synthesizer.Tests
             );
         }
 
-        private Outlet TubaMelody1() => x.Adder
+        private Outlet TubaMelody1() => Adder
         (
             Tuba(_[Frequencies.A2], _[BEAT * 00]),
             Tuba(_[Frequencies.E3], _[BEAT * 02]),
@@ -452,7 +445,7 @@ namespace JJ.Business.Synthesizer.Tests
             Tuba(_[Frequencies.D3], _[BEAT * 14])
         );
 
-        private Outlet TubaMelody2() => x.Adder
+        private Outlet TubaMelody2() => Adder
         (
             Tuba(_[Frequencies.A2], _[BEAT * 0]),
             Tuba(_[Frequencies.E3], _[BEAT * 2]),
@@ -461,7 +454,7 @@ namespace JJ.Business.Synthesizer.Tests
             Tuba(_[Frequencies.A1], _[BEAT * 8])
         );
         
-        private Outlet TubaMelody3() => x.Adder
+        private Outlet TubaMelody3() => Adder
         (
             Tuba(_[Frequencies.A1]),
             Tuba(_[Frequencies.E2],       _[BEAT * 2]),
@@ -481,11 +474,11 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[Frequencies.A4];
 
             // FM Algorithm
-            Outlet curveDown = StretchCurve(LineDownCurve, x.Multiply(duration, _[1.1]));
+            Outlet curveDown = StretchCurve(LineDownCurve, Multiply(duration, _[1.1]));
             Outlet outlet = FMAroundFreq(
                 soundFreq: freq, 
-                modSpeed: x.Multiply(freq, _[2.0]), 
-                modDepth: x.Multiply(curveDown, _[0.00005]));
+                modSpeed: Multiply(freq, _[2.0]), 
+                modDepth: Multiply(curveDown, _[0.00005]));
 
             // Volume and Delay
             outlet = StrikeNote(outlet, delay, volume);
@@ -499,10 +492,10 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[Frequencies.A4];
 
             // FM Algorithm
-            Outlet outlet = FMAround0(x.Divide(freq, _[2]), freq, _[0.005]);
+            Outlet outlet = FMAround0(Divide(freq, _[2]), freq, _[0.005]);
 
             // Curve
-            outlet = x.Multiply(outlet, StretchCurve(FluteCurve, duration));
+            outlet = Multiply(outlet, StretchCurve(FluteCurve, duration));
 
             // Volume and Delay
             outlet = StrikeNote(outlet, delay, volume);
@@ -517,13 +510,13 @@ namespace JJ.Business.Synthesizer.Tests
             volume = volume ?? _[1];
 
             // FM Algorithm
-            Outlet outlet = FMAroundFreq(freq, x.Multiply(freq, _[2]), _[0.005]);
+            Outlet outlet = FMAroundFreq(freq, Multiply(freq, _[2]), _[0.005]);
             
             // Curve
-            outlet = x.Multiply(outlet, StretchCurve(FluteCurve, duration));
+            outlet = Multiply(outlet, StretchCurve(FluteCurve, duration));
 
             // Equalize Volume
-            Outlet equalizedVolume = x.Multiply(volume, _[0.85]);
+            Outlet equalizedVolume = Multiply(volume, _[0.85]);
 
             // Volume and Delay
             outlet = StrikeNote(outlet, delay, equalizedVolume);
@@ -538,13 +531,13 @@ namespace JJ.Business.Synthesizer.Tests
             volume = volume ?? _[1];
 
             // FM Algorithm
-            Outlet outlet = FMAroundFreq(freq, x.Multiply(freq, _[4]), _[0.005]);
+            Outlet outlet = FMAroundFreq(freq, Multiply(freq, _[4]), _[0.005]);
 
             // Curve
-            outlet = x.Multiply(outlet, StretchCurve(FluteCurve, duration));
+            outlet = Multiply(outlet, StretchCurve(FluteCurve, duration));
 
             // Equalize Volume
-            var equalizedVolume = x.Multiply(volume, _[0.8]);
+            var equalizedVolume = Multiply(volume, _[0.8]);
 
             // Volume and Delay
             outlet = StrikeNote(outlet, delay, equalizedVolume);
@@ -559,13 +552,13 @@ namespace JJ.Business.Synthesizer.Tests
             volume = volume ?? _[1];
 
             // FM Algorithm
-            Outlet outlet = FMAround0(x.Multiply(freq, _[2]), freq, _[0.005]);
+            Outlet outlet = FMAround0(Multiply(freq, _[2]), freq, _[0.005]);
             
             // Volume Curve
-            outlet = x.Multiply(outlet, StretchCurve(FluteCurve, duration));
+            outlet = Multiply(outlet, StretchCurve(FluteCurve, duration));
 
             // Equalize Volume
-            var equalizedVolume = x.Multiply(volume, _[0.70]);
+            var equalizedVolume = Multiply(volume, _[0.70]);
 
             // Apply Volume and Delay
             outlet = StrikeNote(outlet, delay, equalizedVolume);
@@ -580,19 +573,19 @@ namespace JJ.Business.Synthesizer.Tests
             duration = duration ?? _[1];
 
             // FM Algorithm
-            Outlet curveDown = StretchCurve(LineDownCurve, x.Multiply(duration, _[1.1]));
+            Outlet curveDown = StretchCurve(LineDownCurve, Multiply(duration, _[1.1]));
 
-            Outlet outlet = x.Add
+            Outlet outlet = Add
             (
-                FMAroundFreq(freq, x.Multiply(freq, _[2]), x.Multiply(_[0.004], curveDown)),
-                FMAroundFreq(freq, x.Multiply(freq, _[3]), x.Multiply(_[0.003], curveDown))
+                FMAroundFreq(freq, Multiply(freq, _[2]), Multiply(_[0.004], curveDown)),
+                FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.003], curveDown))
             );
 
             // Volume Curve
-            outlet = x.Multiply(outlet, StretchCurve(DampedBlockCurve, duration));
+            outlet = Multiply(outlet, StretchCurve(DampedBlockCurve, duration));
 
             // Equalize Loudness
-            var equalizedVolume = x.Multiply(volume, _[0.6]);
+            var equalizedVolume = Multiply(volume, _[0.6]);
 
             // Apply Volume and Delay
             outlet = StrikeNote(outlet, delay, equalizedVolume);
@@ -606,17 +599,17 @@ namespace JJ.Business.Synthesizer.Tests
             volume = volume ?? _[1];
 
             // FM Algorithm
-            Outlet outlet = x.Add
+            Outlet outlet = Add
             (
-                FMAroundFreq(freq, x.Multiply(freq, _[1.5]), x.Multiply(_[0.02], StretchCurve(LineDownCurve, duration))),
-                FMAroundFreq(freq, x.Multiply(freq, _[2.0]), x.Multiply(_[0.02], StretchCurve(LineDownCurve, duration)))
+                FMAroundFreq(freq, Multiply(freq, _[1.5]), Multiply(_[0.02], StretchCurve(LineDownCurve, duration))),
+                FMAroundFreq(freq, Multiply(freq, _[2.0]), Multiply(_[0.02], StretchCurve(LineDownCurve, duration)))
             );
             
             // Volume Curve
-            outlet = x.Multiply(outlet, StretchCurve(DampedBlockCurve, duration));
+            outlet = Multiply(outlet, StretchCurve(DampedBlockCurve, duration));
 
             // Equalize Loudness
-            var equalizedVolume = x.Multiply(volume, _[0.6]);
+            var equalizedVolume = Multiply(volume, _[0.6]);
 
             // Apply Volume and Delay
             outlet = StrikeNote(outlet, delay, equalizedVolume);
@@ -635,17 +628,17 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[Frequencies.A1];
 
             // FM Algorithm
-            var outlet = FMInHertz(x.Multiply(freq, _[2]), freq, _[5]);
+            var outlet = FMInHertz(Multiply(freq, _[2]), freq, _[5]);
 
             // Stretch Volume Curve (longer when lower)
             const double durationOfA1 = 0.8;
             var freqOfA1 = _[Frequencies.A1];
-            var stretch = x.Multiply(_[durationOfA1], x.Power(x.Divide(freqOfA1, freq), _[1.5]));
+            var stretch = Multiply(_[durationOfA1], Power(Divide(freqOfA1, freq), _[1.5]));
 
-            var curveOutlet = x.TimeMultiply(x.CurveIn(TubaCurve), stretch);
+            var curveOutlet = TimeMultiply(CurveIn(TubaCurve), stretch);
 
             // Apply Curve
-            outlet = x.Multiply(outlet, curveOutlet);
+            outlet = Multiply(outlet, curveOutlet);
 
             // Volume and Delay
             outlet = StrikeNote(outlet, delay, volume);
@@ -660,12 +653,12 @@ namespace JJ.Business.Synthesizer.Tests
 
             // FM algorithm
             Outlet outlet = FMAroundFreq(
-                soundFreq: x.Multiply(freq, _[8]), 
-                modSpeed: x.Divide(freq, _[2]), 
+                soundFreq: Multiply(freq, _[8]), 
+                modSpeed: Divide(freq, _[2]), 
                 modDepth: _[0.005]);
 
             // Curve
-            outlet = x.Multiply(outlet, StretchCurve(RippleCurve, duration));
+            outlet = Multiply(outlet, StretchCurve(RippleCurve, duration));
 
             // Volume and Delay
             outlet = StrikeNote(outlet, delay, volume);
@@ -677,7 +670,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet RippleNote_SharpMetallic(Outlet freq = null)
         {
             freq = freq ?? _[Frequencies.A3];
-            return FMInHertz(freq, x.Divide(freq, _[2]), modDepth: _[10]);
+            return FMInHertz(freq, Divide(freq, _[2]), modDepth: _[10]);
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
@@ -689,7 +682,7 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet outlet = FMAroundFreq(freq, _[20], _[0.005]);
 
             // Curve
-            outlet = x.Multiply(outlet, StretchCurve(RippleCurve, duration));
+            outlet = Multiply(outlet, StretchCurve(RippleCurve, duration));
 
             // Volume and Delay
             outlet = StrikeNote(outlet, delay, volume);
@@ -718,45 +711,45 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="modDepth">In Hz</param>
         private Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
-            Outlet modulator = x.Sine(modDepth, modSpeed);
-            Outlet sound = x.Sine(_[DEFAULT_AMPLITUDE], x.Add(soundFreq, modulator));
+            Outlet modulator = Sine(modDepth, modSpeed);
+            Outlet sound = Sine(_[DEFAULT_AMPLITUDE], Add(soundFreq, modulator));
             return sound;
         }
 
         /// <summary> FM with (faulty) multiplication around 0. </summary>
         private Outlet FMAround0(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
-            Outlet modulator = x.Sine(modDepth, modSpeed);
-            Outlet sound = x.Sine(_[DEFAULT_AMPLITUDE], x.Multiply(soundFreq, modulator));
+            Outlet modulator = Sine(modDepth, modSpeed);
+            Outlet sound = Sine(_[DEFAULT_AMPLITUDE], Multiply(soundFreq, modulator));
             return sound;
         }
 
         /// <summary> FM with multiplication around 1. </summary>
         private Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
-            Outlet modulator = x.Add(_[1], x.Sine(modDepth, modSpeed));
-            Outlet sound = x.Sine(_[DEFAULT_AMPLITUDE], x.Multiply(soundFreq, modulator));
+            Outlet modulator = Add(_[1], Sine(modDepth, modSpeed));
+            Outlet sound = Sine(_[DEFAULT_AMPLITUDE], Multiply(soundFreq, modulator));
             return sound;
         }
 
         private Outlet StrikeNote(Outlet sound, Outlet delay = null, Outlet volume = null)
         {
             // Note Start
-            if (delay != null) sound = x.TimeAdd(sound, delay);
+            if (delay != null) sound = TimeAdd(sound, delay);
 
             // Note Volume
-            if (volume != null) sound = x.Multiply(sound, volume);
+            if (volume != null) sound = Multiply(sound, volume);
 
             return sound;
         }
         
         private Outlet StretchCurve(Curve curve, Outlet duration = null)
         {
-            Outlet outlet = x.CurveIn(curve);
+            Outlet outlet = CurveIn(curve);
 
             if (duration?.Operator.AsValueOperator?.Value != 1)
             {
-                outlet = x.TimeMultiply(outlet, duration);
+                outlet = TimeMultiply(outlet, duration);
             }
 
             return outlet;
@@ -765,12 +758,12 @@ namespace JJ.Business.Synthesizer.Tests
         private const double MILD_ECHO_TIME = 0.33 * 5;
 
         private Outlet MildEcho(Outlet outlet)
-            => EntityFactory.CreateEcho(x, outlet, count: 6, denominator: 4, delay: 0.33);
+            => EntityFactory.CreateEcho(this, outlet, count: 6, denominator: 4, delay: 0.33);
 
         private const double DEEP_ECHO_TIME = 0.5 * 5;
 
         private Outlet DeepEcho(Outlet melody)
-            => EntityFactory.CreateEcho(x, melody, count: 6, denominator: 2, delay: 0.5);
+            => EntityFactory.CreateEcho(this, melody, count: 6, denominator: 2, delay: 0.5);
 
         // Curves
 
