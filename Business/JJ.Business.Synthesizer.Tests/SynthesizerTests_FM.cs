@@ -3,9 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Xml.Schema;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
@@ -19,6 +17,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // ReSharper disable LocalizableElement
 // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+// ReSharper disable once InconsistentNaming
+// ReSharper disable ParameterHidesMember
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -40,7 +40,6 @@ namespace JJ.Business.Synthesizer.Tests
         private readonly AudioFileOutputManager _audioFileOutputManager;
         
         /// <summary> x for syntactic sugar. </summary>
-        // ReSharper disable once InconsistentNaming
         private readonly OperatorFactory x;
 
         /// <summary> Constructor for test runner. </summary>
@@ -102,7 +101,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute_Melody2() 
-            => WrapUp_Test(MildEcho(FluteMelody2()), BAR * 2.5 + MILD_ECHO_TIME, volume: 0.45);
+            => WrapUp_Test(MildEcho(FluteMelody2()), BAR * 2.5 + MILD_ECHO_TIME, volume: 0.4);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute1()
@@ -154,7 +153,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => WrapUp_Test(MildEcho(Pad(Frequencies.A4, duration: 1.5)), duration: 1.5 + MILD_ECHO_TIME);
+            => WrapUp_Test(MildEcho(Pad(duration: 1.5)), duration: 1.5 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Pad_ChordProgression()
@@ -166,16 +165,16 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_FM_Pad_ChordProgression()
             => WrapUp_Test(MildEcho(PadChordProgression()), duration: BAR * 8 + MILD_ECHO_TIME, volume: 0.22);
 
-        // ElectricShock Tests
+        // Electric Note Tests
 
         [TestMethod]
-        public void Test_Synthesizer_FM_ElectricShock()
+        public void Test_Synthesizer_FM_ElectricNote()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_ElectricShock();
+                new SynthesizerTests_FM(context).Test_FM_ElectricNote();
         }
 
-        private void Test_FM_ElectricShock()
+        private void Test_FM_ElectricNote()
             => WrapUp_Test(MildEcho(ElectricNote(duration: 1.5)), duration: 1.5 + MILD_ECHO_TIME);
 
         // Tube Tests
@@ -366,27 +365,34 @@ namespace JJ.Business.Synthesizer.Tests
 
         // Melodies
 
-        private Outlet FluteMelody1() => x.Adder
-        (
-            Flute1(Frequencies.E4, BAR * 0 + BEAT * 0.0, volume: 0.80, duration: 1.2 * 0.9),
-            Flute2(Frequencies.F4, BAR * 0 + BEAT * 1.5, volume: 0.70, duration: 1.3 * 0.9),
-            Flute1(Frequencies.G4, BAR * 0 + BEAT * 3.0, volume: 0.60, duration: 0.6 * 0.9),
-            Flute1(Frequencies.A4, BAR * 1 + BEAT * 0.0, volume: 0.80, duration: 1.4 * 0.9),
-            Flute3(Frequencies.B4, BAR * 1 + BEAT * 1.5, volume: 0.50, duration: 0.6 * 0.9),
-            Flute1(Frequencies.A4, BAR * 1 + BEAT * 3.0, volume: 0.55, duration: 1.0 * 0.9),
-            Flute2(Frequencies.C4, BAR * 2 + BEAT * 0.0, volume: 1.00, duration: 1.2 * 0.9),
-            Flute1(Frequencies.G4, BAR * 2 + BEAT * 1.5, volume: 0.80, duration: 1.5 * 0.9)
-        );
+        private Outlet FluteMelody1()
+        {
+            double originalBeat = 0.6;
+            double beatFactor = BEAT / originalBeat; // E.g. 0.4 / 0.6 = 0.66
+            double portato = 0.9 / 0.66; // 1.3636..
+
+            return x.Adder
+            (
+                Flute1(Frequencies.E4, BAR * 0 + BEAT * 0.0, volume: 0.80, duration: 1.2 * beatFactor * portato),
+                Flute2(Frequencies.F4, BAR * 0 + BEAT * 1.5, volume: 0.70, duration: 1.3 * beatFactor * portato),
+                Flute1(Frequencies.G4, BAR * 0 + BEAT * 3.0, volume: 0.60, duration: 0.6 * beatFactor * portato),
+                Flute1(Frequencies.A4, BAR * 1 + BEAT * 0.0, volume: 0.80, duration: 1.4 * beatFactor * portato),
+                Flute3(Frequencies.B4, BAR * 1 + BEAT * 1.5, volume: 0.50, duration: 0.6 * beatFactor * portato),
+                Flute1(Frequencies.A4, BAR * 1 + BEAT * 3.0, volume: 0.55, duration: 1.0 * beatFactor * portato),
+                Flute2(Frequencies.C4, BAR * 2 + BEAT * 0.0, volume: 1.00, duration: 1.2 * beatFactor * portato),
+                Flute1(Frequencies.G4, BAR * 2 + BEAT * 1.5, volume: 0.80, duration: 1.5 * beatFactor * portato)
+            );
+        }
 
         private Outlet FluteMelody2() => x.Adder
         (
             Flute1(Frequencies.E4, BAR * 0 + BEAT * 0.0, volume: 1.0),
-            Flute2(Frequencies.F4, BAR * 0 + BEAT * 1.5, volume: 1.0 / 0.85),
-            Flute3(Frequencies.G4, BAR * 0 + BEAT * 3.0, volume: 1.0 / 0.80),
-            Flute4(Frequencies.A4, BAR * 1 + BEAT * 0.0, volume: 1.0 / 0.70),
-            Flute3(Frequencies.B4, BAR * 1 + BEAT * 1.5, volume: 1.0 / 0.80),
-            Flute2(Frequencies.G4, BAR * 1 + BEAT * 3.0, volume: 1.0 / 0.85),
-            Flute4(Frequencies.A4, BAR * 2 + BEAT * 0.0, volume: 1.2 / 0.70, duration: 1.66)
+            Flute2(Frequencies.F4, BAR * 0 + BEAT * 1.5, volume: 1.15),
+            Flute3(Frequencies.G4, BAR * 0 + BEAT * 3.0, volume: 1.25),
+            Flute4(Frequencies.A4, BAR * 1 + BEAT * 0.0, volume: 1.40),
+            Flute3(Frequencies.B4, BAR * 1 + BEAT * 1.5, volume: 1.25),
+            Flute2(Frequencies.G4, BAR * 1 + BEAT * 3.0, volume: 1.15),
+            Flute4(Frequencies.A4, BAR * 2 + BEAT * 0.0, volume: 1.70, duration: 1.66)
         );
         
         private Outlet PadChordProgression()
