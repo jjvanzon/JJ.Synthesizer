@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Factories;
+﻿using System;
+using JJ.Business.Synthesizer.Factories;
 using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
@@ -6,7 +7,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     public class ValueIndexer
     {
         private readonly OperatorFactory _operatorFactory;
-        public ValueIndexer(OperatorFactory operatorFactory) => _operatorFactory = operatorFactory;
+
+        public ValueIndexer(OperatorFactory operatorFactory)
+        {
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
+            _operatorFactory = operatorFactory;
+        }
 
         public Outlet this[double value] => _operatorFactory.Value(value);
     }
