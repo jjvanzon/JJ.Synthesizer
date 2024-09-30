@@ -182,7 +182,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody1()
-            => WrapUp_Test(MildEcho(TubaMelody1), duration: BAR * 4 + MILD_ECHO_TIME, volume: 0.5);
+            => WrapUp_Test(MildEcho(TubaMelody1), duration: BAR * 4 + MILD_ECHO_TIME, volume: 0.45);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody2()
@@ -244,7 +244,14 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_SharpMetallic()
-            => WrapUp_Test(MildEcho(RippleNote_SharpMetallic(_[Notes.A3])));
+            => WrapUp_Test
+            (
+                DeepEcho
+                (
+                    RippleNote_SharpMetallic(_[Notes.E3], duration: _[2.2])
+                ),
+                duration: 2.2 + DEEP_ECHO_TIME  
+            );
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_Clean()
@@ -476,7 +483,6 @@ namespace JJ.Business.Synthesizer.Tests
             duration = duration ?? _[1];
 
             var modCurve = StretchCurve(LineDownCurve, Multiply(duration, _[1.1]));
-
             var fmSignal = Add
             (
                 FMAroundFreq(freq, Multiply(freq, _[2]), Multiply(_[0.004], modCurve)),
@@ -496,23 +502,19 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[Notes.A4];
             volume = volume ?? _[1];
 
-            // FM Algorithm
-            Outlet outlet = Add
+            var modDepth = Multiply(_[0.02], StretchCurve(LineDownCurve, duration));
+            var fmSignal = Add
             (
-                FMAroundFreq(freq, Multiply(freq, _[1.5]), Multiply(_[0.02], StretchCurve(LineDownCurve, duration))),
-                FMAroundFreq(freq, Multiply(freq, _[2.0]), Multiply(_[0.02], StretchCurve(LineDownCurve, duration)))
+                FMAroundFreq(freq, Multiply(freq, _[1.5]), modDepth),
+                FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth)
             );
             
-            // Volume Curve
-            outlet = Multiply(outlet, StretchCurve(DampedBlockCurve, duration));
+            var envelope = StretchCurve(DampedBlockCurve, duration);
+            var modulatedSound = Multiply(fmSignal, envelope);
+            var adjustedVolume = Multiply(volume, _[0.6]);
+            var note = StrikeNote(modulatedSound, delay, adjustedVolume);
 
-            // Equalize Loudness
-            var equalizedVolume = Multiply(volume, _[0.6]);
-
-            // Apply Volume and Delay
-            outlet = StrikeNote(outlet, delay, equalizedVolume);
-
-            return outlet;
+            return note;
         }
         
         private Outlet EvolvingOrgan(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
@@ -538,23 +540,19 @@ namespace JJ.Business.Synthesizer.Tests
         {
             freq = freq ?? _[Notes.A1];
 
-            // FM Algorithm
-            var outlet = FMInHertz(Multiply(freq, _[2]), freq, _[5]);
+            var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, _[5]);
 
-            // Stretch Volume Curve (longer when lower)
-            const double durationOfA1 = 0.8;
-            var freqOfA1 = _[Notes.A1];
-            var stretch = Multiply(_[durationOfA1], Power(Divide(freqOfA1, freq), _[1.5]));
+            // Exaggerate Duration when Lower
+            var durationOfA1 = 0.8;
+            var baseFrequency = _[Notes.A1];
+            var frequencyRatio = Divide(baseFrequency, freq);
+            var duration = Multiply(_[durationOfA1], Power(frequencyRatio, _[1.5]));
 
-            var curveOutlet = TimeMultiply(CurveIn(TubaCurve), stretch);
+            var envelope = TimeMultiply(CurveIn(TubaCurve), duration);
+            var sound = Multiply(fmSignal, envelope);
+            var note = StrikeNote(sound, delay, volume);
 
-            // Apply Curve
-            outlet = Multiply(outlet, curveOutlet);
-
-            // Volume and Delay
-            outlet = StrikeNote(outlet, delay, volume);
-
-            return outlet;
+            return note;
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
@@ -562,26 +560,24 @@ namespace JJ.Business.Synthesizer.Tests
         {
             freq = freq ?? _[Notes.A1];
 
-            // FM algorithm
-            Outlet outlet = FMAroundFreq(
-                soundFreq: Multiply(freq, _[8]), 
-                modSpeed: Divide(freq, _[2]), 
-                modDepth: _[0.005]);
-
-            // Curve
-            outlet = Multiply(outlet, StretchCurve(RippleCurve, duration));
-
-            // Volume and Delay
-            outlet = StrikeNote(outlet, delay, volume);
-
-            return outlet;
+            var fmSignal = FMAroundFreq(Multiply(freq, _[8]), Divide(freq, _[2]), _[0.005]);
+            var envelope = StretchCurve(RippleCurve, duration);
+            var sound = Multiply(fmSignal, envelope);
+            var note = StrikeNote(sound, delay, volume);
+            
+            return note;
         }
 
         /// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
-        private Outlet RippleNote_SharpMetallic(Outlet freq = null)
+        private Outlet RippleNote_SharpMetallic(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A3];
-            return FMInHertz(freq, Divide(freq, _[2]), modDepth: _[10]);
+            var fmSignal = FMInHertz(freq, Divide(freq, _[2]), modDepth: _[10]);
+            var envelope = StretchCurve(RippleCurve, duration);
+            var sound = Multiply(fmSignal, envelope);
+            var note = StrikeNote(sound, delay, volume);
+
+            return note;
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
@@ -589,16 +585,12 @@ namespace JJ.Business.Synthesizer.Tests
         {
             freq = freq ?? _[Notes.A4];
 
-            // FM algorithm
-            Outlet outlet = FMAroundFreq(freq, _[20], _[0.005]);
+            var fmSignal = FMAroundFreq(freq, _[20], _[0.005]);
+            var envelope = StretchCurve(RippleCurve, duration);
+            var sound = Multiply(fmSignal, envelope);
+            var note = StrikeNote(sound, delay, volume);
 
-            // Curve
-            outlet = Multiply(outlet, StretchCurve(RippleCurve, duration));
-
-            // Volume and Delay
-            outlet = StrikeNote(outlet, delay, volume);
-
-            return outlet;
+            return note;
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
