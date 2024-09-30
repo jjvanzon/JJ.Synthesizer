@@ -1,30 +1,66 @@
-﻿using System;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Persistence;
-using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     public class SynthesizerSugarBase : OperatorFactory
     {
+        /// <summary>
+        /// Shorthand for OperatorFactor.Value(123), x.Value(123) or Value(123). Allows using _[123] instead.
+        /// Literal numbers need to be wrapped inside a Value Operator so they can always be substituted by
+        /// a whole formula / graph / calculation / curve over time.
+        /// </summary>
+        /// <returns>
+        /// ValueOperatorWrapper also usable as Outlet or double.
+        /// </returns>
         public class ValueIndexer
         {
             private readonly OperatorFactory _parent;
-            public ValueIndexer(OperatorFactory parent) => _parent = parent;
-            public Outlet this[double value] => _parent.Value(value);
+            
+            /// <inheritdoc cref="ValueIndexer"/>>
+            internal ValueIndexer(OperatorFactory parent) => _parent = parent;
+            
+            /// <inheritdoc cref="ValueIndexer"/>>
+            public ValueOperatorWrapper this[double value] => _parent.Value(value);
         }
 
+        /// <summary> Returns the time in seconds for a bar, or duration of a number of bars. </summary>
+        /// <returns> ValueOperatorWrapper also usable as Outlet or double. </returns>
         public class BarIndexer
         {
             private readonly SynthesizerSugarBase _parent;
             private readonly double _barLength;
 
-            public BarIndexer(SynthesizerSugarBase parent, double barLength) 
-            { _parent = parent; _barLength = barLength; }
+            /// <inheritdoc cref="BarIndexer"/>>
+            internal BarIndexer(SynthesizerSugarBase parent, double barLength)
+            {
+                _parent = parent; _barLength = barLength;
+            }
+            
+            /// <inheritdoc cref="BarIndexer"/>>
+            public ValueOperatorWrapper this[double count] 
+                => _parent.Value(count * _barLength);
+        }
 
-            public Outlet this[double count] => _parent.Value(count * _barLength);
+        /// <summary> Returns the duration in seconds for a number of beats. </summary>
+        /// <returns> ValueOperatorWrapper also usable as Outlet or double. </returns>
+        public class BeatIndexer
+        {
+            private readonly SynthesizerSugarBase _parent;
+            private readonly double _beatLength;
+
+            /// <inheritdoc cref="BeatIndexer"/>>
+            internal BeatIndexer(SynthesizerSugarBase parent, double beatLength)
+            {
+                _parent = parent; _beatLength = beatLength;
+            }
+
+            /// <inheritdoc cref="BeatIndexer"/>>
+            public ValueOperatorWrapper this[double count] 
+                => _parent.Value(count * _beatLength);
         }
 
         private const double DEFAULT_BAR_LENGTH = 4;
@@ -50,14 +86,16 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             _ = new ValueIndexer(this);
             Bar = new BarIndexer(this, barLength);
+            Beat = new BeatIndexer(this, beatLength);
         }
 
-        /// <summary>
-        /// Shorthand for OperatorFactor.Value(123), x.Value(123) or Value(123). Allows using _[123] instead.
-        /// Literal numbers need to be wrapped inside a Value Operator so they can always be substituted by
-        /// a whole formula / graph / calculation / curve over time.
-        /// </summary>
+        /// <inheritdoc cref="ValueIndexer"/>>
         protected readonly ValueIndexer _;
+
+        /// <inheritdoc cref="BarIndexer"/>
         protected BarIndexer Bar { get; }
+
+        /// <inheritdoc cref="BeatIndexer"/>
+        protected BeatIndexer Beat { get; }
     }
 }

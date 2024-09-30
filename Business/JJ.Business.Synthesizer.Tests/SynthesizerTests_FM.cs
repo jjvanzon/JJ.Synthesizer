@@ -35,8 +35,6 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Shorthand for Syntactic Sugar
         private Outlet t(double bar, double beat) => Value(bar * BAR + beat * BEAT);
-        //private Outlet Bar(double count) => Value(count * BAR);
-        private Outlet Beat(double count) => Value(count * BEAT);
         #endregion
 
         /// <summary> Constructor for test runner. </summary>
@@ -57,7 +55,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition() 
-            => WrapUp_Test(MildEcho(Composition()), duration: BAR * 8 + BEAT + DEEP_ECHO_TIME, volume: 0.20);
+            => WrapUp_Test(MildEcho(Composition()), duration: Bar[8] + BEAT + DEEP_ECHO_TIME, volume: 0.20);
 
         // Low Modulation Test
 
@@ -411,30 +409,30 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet TubaMelody1 => Adder
         (
-            Tuba(_[Frequencies.A2], Beat(00)),
-            Tuba(_[Frequencies.E3], Beat(02)),
-            Tuba(_[Frequencies.F2], Beat(04)),
-            Tuba(_[Frequencies.C3], Beat(06)),
-            Tuba(_[Frequencies.C2], Beat(08)),
-            Tuba(_[Frequencies.G2], Beat(10)),
-            Tuba(_[Frequencies.G1], Beat(12)),
-            Tuba(_[Frequencies.D3], Beat(14))
+            Tuba(_[Frequencies.A2], Beat[00]),
+            Tuba(_[Frequencies.E3], Beat[02]),
+            Tuba(_[Frequencies.F2], Beat[04]),
+            Tuba(_[Frequencies.C3], Beat[06]),
+            Tuba(_[Frequencies.C2], Beat[08]),
+            Tuba(_[Frequencies.G2], Beat[10]),
+            Tuba(_[Frequencies.G1], Beat[12]),
+            Tuba(_[Frequencies.D3], Beat[14])
         );
 
         private Outlet TubaMelody2 => Adder
         (
-            Tuba(_[Frequencies.A2], Beat(0)),
-            Tuba(_[Frequencies.E3], Beat(2)),
-            Tuba(_[Frequencies.F2], Beat(4)),
-            Tuba(_[Frequencies.C3], Beat(6)),
-            Tuba(_[Frequencies.A1], Beat(8))
+            Tuba(_[Frequencies.A2], Beat[0]),
+            Tuba(_[Frequencies.E3], Beat[2]),
+            Tuba(_[Frequencies.F2], Beat[4]),
+            Tuba(_[Frequencies.C3], Beat[6]),
+            Tuba(_[Frequencies.A1], Beat[8])
         );
         
         private Outlet TubaMelody3 => Adder
         (
             Tuba(_[Frequencies.A1]),
-            Tuba(_[Frequencies.E2],       Beat(2)),
-            Tuba(_[Frequencies.F1_Sharp], Beat(4), volume: _[0.7])
+            Tuba(_[Frequencies.E2],       Beat[2]),
+            Tuba(_[Frequencies.F1_Sharp], Beat[4], volume: _[0.7])
         );
 
         private Outlet RippleBassMelody1 =>
