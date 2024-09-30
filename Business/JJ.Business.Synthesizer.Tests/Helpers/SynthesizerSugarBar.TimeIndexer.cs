@@ -18,7 +18,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             internal TimeIndexer(SynthesizerSugarBase parent, double barLength, double beatLength)
             {
-                _parent = parent; _barLength = barLength; _beatLength = beatLength;
+                _parent = parent; 
+                _barLength = barLength;
+                _beatLength = beatLength;
             }
 
             /// <inheritdoc cref="TimeIndexer" />

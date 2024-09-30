@@ -14,9 +14,6 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // ReSharper disable LocalizableElement
-// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
-// ReSharper disable once InconsistentNaming
-// ReSharper disable ParameterHidesMember
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -53,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_FM_Composition() 
             => WrapUp_Test(MildEcho(Composition()), duration: Bar[8] + BEAT + DEEP_ECHO_TIME, volume: 0.20);
 
-        // Low Modulation Test
+        // Evolving Organ Test
 
         [TestMethod]
         public void Test_Synthesizer_FM_EvolvingOrgan()

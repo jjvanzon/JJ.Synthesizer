@@ -1,6 +1,7 @@
 ﻿using System;
 
 // ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

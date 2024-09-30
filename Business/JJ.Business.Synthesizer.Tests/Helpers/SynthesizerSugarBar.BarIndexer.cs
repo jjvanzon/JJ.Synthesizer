@@ -1,7 +1,4 @@
-﻿using System;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Factories;
-using JJ.Persistence.Synthesizer;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -17,7 +14,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             /// <inheritdoc cref="BarIndexer"/>
             internal BarIndexer(SynthesizerSugarBase parent, double barLength)
             {
-                _parent = parent; _barLength = barLength;
+                _parent = parent; 
+                _barLength = barLength;
             }
             
             /// <inheritdoc cref="BarIndexer"/>

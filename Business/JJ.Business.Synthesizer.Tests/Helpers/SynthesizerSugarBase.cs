@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Factories;
+﻿using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;

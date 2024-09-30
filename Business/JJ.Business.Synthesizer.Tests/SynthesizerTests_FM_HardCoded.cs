@@ -2,8 +2,9 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+// ReSharper disable LocalizableElement
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -83,9 +84,9 @@ namespace JJ.Business.Synthesizer.Tests
 					for (int i = 0; i < sampleCount; i++)
 					{
 						// Calculate the modulator and carrier signals
-						double modulator = (double)Math.Sin(2 * Math.PI * modulationFrequency * i / sampleRate);
+						double modulator = Math.Sin(2 * Math.PI * modulationFrequency * i / sampleRate);
 						double modulatedFrequency = carrierFrequency + modulationDepth * carrierFrequency * modulator;
-						double sample = (double)Math.Sin(2 * Math.PI * modulatedFrequency * i / sampleRate);
+						double sample = Math.Sin(2 * Math.PI * modulatedFrequency * i / sampleRate);
 						short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
 						writer.Write(scaledSample);
@@ -135,10 +136,9 @@ namespace JJ.Business.Synthesizer.Tests
 
 						// Calculate the modulator and carrier signals
 						float modulator = (float)Math.Sin(modulatorPhase);
-						float modulatedFrequency = carrierFrequency + modulationDepth * modulator; // Adjust frequency with modulation depth
-
-						// Generate sample
-						float sample = (float)Math.Sin(carrierPhase + (modulator * modulationDepth));
+						
+                        // Generate sample
+						float sample = (float)Math.Sin(carrierPhase + modulator * modulationDepth);
 						short scaledSample = (short)(sample * 32000); // Scale to 16-bit range
 
 						writer.Write(scaledSample);
@@ -188,7 +188,6 @@ namespace JJ.Business.Synthesizer.Tests
 
 						// Calculate the modulator and carrier signals
 						double modulator = Math.Sin(modulatorPhase);
-						double modulatedFrequency = carrierFrequency + modulationDepth * modulator; // Adjust frequency with modulation depth
 
 						// Generate sample
 						double sample = Math.Sin(carrierPhase + (modulator * modulationDepth));

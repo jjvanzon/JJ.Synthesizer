@@ -1,7 +1,4 @@
-﻿using System;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Factories;
-using JJ.Persistence.Synthesizer;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -17,7 +14,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             /// <inheritdoc cref="BeatIndexer"/>
             internal BeatIndexer(SynthesizerSugarBase parent, double beatLength)
             {
-                _parent = parent; _beatLength = beatLength;
+                _parent = parent; 
+                _beatLength = beatLength;
             }
 
             /// <inheritdoc cref="BeatIndexer"/>

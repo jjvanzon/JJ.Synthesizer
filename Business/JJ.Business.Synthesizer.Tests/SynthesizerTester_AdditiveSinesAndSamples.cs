@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
 using System.IO;

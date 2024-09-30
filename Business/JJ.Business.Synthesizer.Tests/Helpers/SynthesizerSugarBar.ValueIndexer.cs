@@ -1,7 +1,5 @@
-﻿using System;
-using JJ.Business.Synthesizer.EntityWrappers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
-using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -20,8 +18,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             private readonly OperatorFactory _parent;
             
             /// <inheritdoc cref="ValueIndexer"/>
-            internal ValueIndexer(OperatorFactory parent) => _parent = parent;
-            
+            internal ValueIndexer(OperatorFactory parent)
+            {
+                _parent = parent;
+            }
+
             /// <inheritdoc cref="ValueIndexer"/>
             public ValueOperatorWrapper this[double value] => _parent.Value(value);
         }

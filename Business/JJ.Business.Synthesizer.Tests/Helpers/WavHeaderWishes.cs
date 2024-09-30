@@ -1,12 +1,13 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using System.IO;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
-using System.IO;
 using JJ.Framework.IO;
-using System;
 
-namespace JJ.Business.Synthesizer.Managers
+namespace JJ.Business.Synthesizer.Tests.Helpers
 {
 	/// <summary> I wish these things were in JJ.Synthesizer </summary>
 	public static class WavHeaderWishes
