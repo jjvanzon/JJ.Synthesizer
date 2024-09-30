@@ -476,19 +476,13 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[Notes.A4];
             volume = volume ?? _[1];
 
-            // FM Algorithm
-            Outlet outlet = FMAroundFreq(freq, Multiply(freq, _[2]), _[0.005]);
-            
-            // Curve
-            outlet = Multiply(outlet, StretchCurve(FluteCurve, duration));
+            var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2]), _[0.005]);
+            var envelope = StretchCurve(FluteCurve, duration);
+            var modulatedSound = Multiply(fmSignal, envelope);
+            var adjustedVolume = Multiply(volume, _[0.85]);
+            var note = StrikeNote(modulatedSound, delay, adjustedVolume);
 
-            // Equalize Volume
-            Outlet equalizedVolume = Multiply(volume, _[0.85]);
-
-            // Volume and Delay
-            outlet = StrikeNote(outlet, delay, equalizedVolume);
-
-            return outlet;
+            return note;
         }
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
