@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Factories;
+﻿using System;
+using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
@@ -8,21 +9,27 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     public class SynthesizerSugarBase : OperatorFactory
     {
+        public class ValueIndexer
+        {
+            private readonly OperatorFactory _parent;
+            public ValueIndexer(OperatorFactory parent) => _parent = parent;
+            public Outlet this[double value] => _parent.Value(value);
+        }
+
         public class BarIndexer
         {
-            private readonly OperatorFactory _this;
+            private readonly SynthesizerSugarBase _parent;
             private readonly double _barLength;
 
-            public BarIndexer(OperatorFactory @this, double barLength) 
-            { _this = @this; _barLength = barLength; }
+            public BarIndexer(SynthesizerSugarBase parent, double barLength) 
+            { _parent = parent; _barLength = barLength; }
 
-            public Outlet this[double count] => _this.Value(count * _barLength);
+            public Outlet this[double count] => _parent.Value(count * _barLength);
         }
 
         private const double DEFAULT_BAR_LENGTH = 4;
         private const double DEFAULT_BEAT_LENGTH = 1;
 
-        protected BarIndexer Bar { get; }   
         protected readonly CurveFactory CurveFactory;
         protected readonly AudioFileOutputManager AudioFileOutputManager;
 
@@ -41,18 +48,16 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             CurveFactory = TestHelper.CreateCurveFactory(context);
             AudioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
 
-            // Shorthand for Syntactic Sugar
             _ = new ValueIndexer(this);
             Bar = new BarIndexer(this, barLength);
         }
 
-        #region Shorthand for Syntactic Sugar
         /// <summary>
         /// Shorthand for OperatorFactor.Value(123), x.Value(123) or Value(123). Allows using _[123] instead.
         /// Literal numbers need to be wrapped inside a Value Operator so they can always be substituted by
         /// a whole formula / graph / calculation / curve over time.
         /// </summary>
         protected readonly ValueIndexer _;
-        #endregion
+        protected BarIndexer Bar { get; }
     }
 }
