@@ -439,18 +439,14 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet EvolvingOrgan(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
+            duration = duration ?? _[1.0];
 
-            // FM Algorithm
-            Outlet curveDown = StretchCurve(LineDownCurve, Multiply(duration, _[1.1]));
-            Outlet outlet = FMAroundFreq(
-                soundFreq: freq, 
-                modSpeed: Multiply(freq, _[2.0]), 
-                modDepth: Multiply(curveDown, _[0.00005]));
-
-            // Volume and Delay
-            outlet = StrikeNote(outlet, delay, volume);
+            var modCurve = StretchCurve(LineDownCurve, Multiply(duration, _[1.1]));
+            var modDepth = Multiply(modCurve, _[0.00005]);
+            var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth);
+            var note = StrikeNote(fmSignal, delay, volume);
             
-            return outlet;
+            return note;
         }
 
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
@@ -458,16 +454,12 @@ namespace JJ.Business.Synthesizer.Tests
         {
             freq = freq ?? _[Notes.A4];
 
-            // FM Algorithm
-            Outlet outlet = FMAround0(Divide(freq, _[2]), freq, _[0.005]);
-
-            // Curve
-            outlet = Multiply(outlet, StretchCurve(FluteCurve, duration));
-
-            // Volume and Delay
-            outlet = StrikeNote(outlet, delay, volume);
-            
-            return outlet;
+            var fmSignal = FMAround0(Divide(freq, _[2]), freq, _[0.005]);
+            var envelope = StretchCurve(FluteCurve, duration);
+            var modulatedSound = Multiply(fmSignal, envelope);
+            var note = StrikeNote(modulatedSound, delay, volume);
+    
+            return note;
         }
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
@@ -491,19 +483,13 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[Notes.A4];
             volume = volume ?? _[1];
 
-            // FM Algorithm
-            Outlet outlet = FMAroundFreq(freq, Multiply(freq, _[4]), _[0.005]);
+            var fmSignal = FMAroundFreq(freq, Multiply(freq, _[4]), _[0.005]);
+            var envelope = StretchCurve(FluteCurve, duration);
+            var sound = Multiply(fmSignal, envelope);
+            var adjustedVolume = Multiply(volume, _[0.8]);
+            var note = StrikeNote(sound, delay, adjustedVolume);
 
-            // Curve
-            outlet = Multiply(outlet, StretchCurve(FluteCurve, duration));
-
-            // Equalize Volume
-            var equalizedVolume = Multiply(volume, _[0.8]);
-
-            // Volume and Delay
-            outlet = StrikeNote(outlet, delay, equalizedVolume);
-
-            return outlet;
+            return note;
         }
 
         /// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
@@ -512,19 +498,13 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[Notes.A4];
             volume = volume ?? _[1];
 
-            // FM Algorithm
-            Outlet outlet = FMAround0(Multiply(freq, _[2]), freq, _[0.005]);
-            
-            // Volume Curve
-            outlet = Multiply(outlet, StretchCurve(FluteCurve, duration));
+            var fmSignal = FMAround0(Multiply(freq, _[2]), freq, _[0.005]);
+            var envelope = StretchCurve(FluteCurve, duration);
+            var sound = Multiply(fmSignal, envelope);
+            var adjustedVolume = Multiply(volume, _[0.70]);
+            var note = StrikeNote(sound, delay, adjustedVolume);
 
-            // Equalize Volume
-            var equalizedVolume = Multiply(volume, _[0.70]);
-
-            // Apply Volume and Delay
-            outlet = StrikeNote(outlet, delay, equalizedVolume);
-
-            return outlet;
+            return note;
         }
 
         private Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
@@ -533,25 +513,20 @@ namespace JJ.Business.Synthesizer.Tests
             volume = volume ?? _[1];
             duration = duration ?? _[1];
 
-            // FM Algorithm
-            Outlet curveDown = StretchCurve(LineDownCurve, Multiply(duration, _[1.1]));
+            var modCurve = StretchCurve(LineDownCurve, Multiply(duration, _[1.1]));
 
-            Outlet outlet = Add
+            var fmSignal = Add
             (
-                FMAroundFreq(freq, Multiply(freq, _[2]), Multiply(_[0.004], curveDown)),
-                FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.003], curveDown))
+                FMAroundFreq(freq, Multiply(freq, _[2]), Multiply(_[0.004], modCurve)),
+                FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.003], modCurve))
             );
 
-            // Volume Curve
-            outlet = Multiply(outlet, StretchCurve(DampedBlockCurve, duration));
+            var envelope = StretchCurve(DampedBlockCurve, duration);
+            var modulatedSound = Multiply(fmSignal, envelope);
+            var adjustedVolume = Multiply(volume, _[0.6]);
+            var note = StrikeNote(modulatedSound, delay, adjustedVolume);
 
-            // Equalize Loudness
-            var equalizedVolume = Multiply(volume, _[0.6]);
-
-            // Apply Volume and Delay
-            outlet = StrikeNote(outlet, delay, equalizedVolume);
-
-            return outlet;
+            return note;
         }
 
         private Outlet ElectricNote(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
