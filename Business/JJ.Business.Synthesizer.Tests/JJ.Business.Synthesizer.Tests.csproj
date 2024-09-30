@@ -119,8 +119,10 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\SynthesizerSugarBar.BeatIndexer.cs" />
+    <Compile Include="Helpers\SynthesizerSugarBar.TimeIndexer.cs" />
     <Compile Include="Helpers\SynthesizerSugarBase.cs" />
-    <Compile Include="Helpers\~BarIndexer.cs" />
+    <Compile Include="Helpers\SynthesizerSugarBar.BarIndexer.cs" />
     <Compile Include="Helpers\WavHeaderWishes.cs" />
     <Compile Include="SynthesizerTests_FM_HardCoded.cs" />
     <Compile Include="SynthesizerTests_Additive.cs" />
@@ -139,7 +141,7 @@
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynthesizerTester_AdditiveSinesAndSamples.cs" />
-    <Compile Include="Helpers\~ValueIndexer.cs" />
+    <Compile Include="Helpers\SynthesizerSugarBar.ValueIndexer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
