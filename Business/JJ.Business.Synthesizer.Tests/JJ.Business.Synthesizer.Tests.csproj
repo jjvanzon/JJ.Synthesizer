@@ -127,7 +127,7 @@
     <Compile Include="SynthesizerTests_FM_HardCoded.cs" />
     <Compile Include="SynthesizerTests_Additive.cs" />
     <Compile Include="SynthesizerTests_FM.cs" />
-    <Compile Include="Helpers\Frequencies.cs" />
+    <Compile Include="Helpers\Notes.cs" />
     <Compile Include="SynthesizerTester_SineWithVolumeCurve.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\IOperatorCalculator.cs" />

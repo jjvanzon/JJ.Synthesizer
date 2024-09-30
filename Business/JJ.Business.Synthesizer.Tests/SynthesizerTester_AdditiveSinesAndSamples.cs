@@ -143,11 +143,11 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			return _operatorFactory.Adder
 			(
-				CreateNote(Frequencies.A4, volume: 0.9),
-				CreateNote(Frequencies.E5, volume: 1.0, delay: 0.2),
-				CreateNote(Frequencies.B4, volume: 0.5, delay: 0.4),
-				CreateNote(Frequencies.C5_Sharp, volume: 0.7, delay: 0.6),
-				CreateNote(Frequencies.F4_Sharp, volume: 0.4, delay: 1.2)
+				CreateNote(Notes.A4, volume: 0.9),
+				CreateNote(Notes.E5, volume: 1.0, delay: 0.2),
+				CreateNote(Notes.B4, volume: 0.5, delay: 0.4),
+				CreateNote(Notes.C5_Sharp, volume: 0.7, delay: 0.6),
+				CreateNote(Notes.F4_Sharp, volume: 0.4, delay: 1.2)
 			);
 		}
 
