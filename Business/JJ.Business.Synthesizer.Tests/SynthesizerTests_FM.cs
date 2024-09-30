@@ -50,22 +50,6 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_FM_Composition() 
             => WrapUp_Test(MildEcho(Composition()), duration: Bar[8] + BEAT + DEEP_ECHO_TIME, volume: 0.20);
 
-        // Evolving Organ Test
-
-        [TestMethod]
-        public void Test_Synthesizer_FM_EvolvingOrgan()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_EvolvingOrgan();
-        }
-
-        private void Test_FM_EvolvingOrgan() =>
-            WrapUp_Test(duration: BAR * 8 + MILD_ECHO_TIME,
-                outlet: MildEcho(
-                    EvolvingOrgan(_[Notes.A4], 
-                        duration: _[BAR * 8 + MILD_ECHO_TIME]))
-            );
-
         // Flute Tests
 
         [TestMethod]
@@ -94,6 +78,7 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateContext())
                 new SynthesizerTests_FM(context).Test_FM_Flute1();
         }
+        
         private void Test_FM_Flute1()
             => WrapUp_Test(MildEcho(Flute1(_[Notes.A4])));
 
@@ -139,16 +124,6 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_FM_Pad()
             => WrapUp_Test(MildEcho(Pad(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
 
-        [TestMethod]
-        public void Test_Synthesizer_FM_Pad_Chords()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Pad_Chords();
-        }
-
-        private void Test_FM_Pad_Chords()
-            => WrapUp_Test(MildEcho(PadChords), duration: BAR * 8 + MILD_ECHO_TIME, volume: 0.22);
-
         // Electric Note Tests
 
         [TestMethod]
@@ -160,6 +135,32 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_ElectricNote()
             => WrapUp_Test(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
+
+        // Evolving Organ Test
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_EvolvingOrgan()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_EvolvingOrgan();
+        }
+
+        private void Test_FM_EvolvingOrgan() =>
+            WrapUp_Test(duration: BAR * 8 + MILD_ECHO_TIME,
+                outlet: MildEcho(
+                    EvolvingOrgan(_[Notes.A4], 
+                        duration: _[BAR * 8 + MILD_ECHO_TIME]))
+            );
+        
+        [TestMethod]
+        public void Test_Synthesizer_FM_EvolvingOrgan_Chords()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_EvolvingOrgan_Chords();
+        }
+
+        private void Test_FM_EvolvingOrgan_Chords()
+            => WrapUp_Test(MildEcho(EvolvingOrganChords), duration: BAR * 8 + MILD_ECHO_TIME, volume: 0.22);
 
         // Tube Tests
 
@@ -287,32 +288,6 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_FM_Noise_Beating()
             => WrapUp_Test(MildEcho(Create_FM_Noise_Beating(_[Notes.A4])), duration: 3);
 
-        // Generic Method
-
-        /// <summary>
-        /// Runs a test for FM synthesis and outputs the result to a file.
-        /// Also, the entity data will be verified.
-        /// </summary>
-        private void WrapUp_Test(
-            Outlet outlet,
-            double duration = DEFAULT_TOTAL_TIME,
-            double volume = DEFAULT_TOTAL_VOLUME,
-            [CallerMemberName] string callerMemberName = null)
-        {
-            // Configure AudioFileOutput
-            AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet, duration, volume);
-
-            // Verify
-            AssertEntities(audioFileOutput, outlet);
-
-            // Calculate
-            Stopwatch stopWatch = Calculate(audioFileOutput);
-
-            // Report
-            Console.WriteLine($"Calculation time: {stopWatch.ElapsedMilliseconds}ms{Environment.NewLine}" +
-                              $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
-        }
-
         // Composition
 
         private Outlet Composition()
@@ -325,7 +300,7 @@ namespace JJ.Business.Synthesizer.Tests
             var pattern1 = Adder
             (
                 Multiply(_[fluteVolume], FluteMelody1(portato: 1.1)),
-                Multiply(_[padVolume]  , PadChords),
+                Multiply(_[padVolume]  , EvolvingOrganChords),
                 Multiply(_[tubaVolume] , TubaMelody1)
                 //Multiply(_[rippleBassVolume], RippleBassMelody1())
             );
@@ -376,7 +351,7 @@ namespace JJ.Business.Synthesizer.Tests
             Flute4(_[Notes.A4], t[bar: 2, beat: 0.0], volume: _[1.70], duration: _[1.66])
         );
 
-        private Outlet PadChords =>
+        private Outlet EvolvingOrganChords =>
             /*
             Adder
             (
@@ -435,19 +410,6 @@ namespace JJ.Business.Synthesizer.Tests
             DeepEcho(RippleBass(_[Notes.A1], delay: Bar[2.5], duration: Bar[1.5]));
 
         // Instruments
-
-        private Outlet EvolvingOrgan(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
-        {
-            freq = freq ?? _[Notes.A4];
-            duration = duration ?? _[1.0];
-
-            var modCurve = StretchCurve(LineDownCurve, Multiply(duration, _[1.1]));
-            var modDepth = Multiply(modCurve, _[0.00005]);
-            var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth);
-            var note = StrikeNote(fmSignal, delay, volume);
-            
-            return note;
-        }
 
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         private Outlet Flute1(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
@@ -551,6 +513,19 @@ namespace JJ.Business.Synthesizer.Tests
             outlet = StrikeNote(outlet, delay, equalizedVolume);
 
             return outlet;
+        }
+        
+        private Outlet EvolvingOrgan(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        {
+            freq = freq ?? _[Notes.A4];
+            duration = duration ?? _[1.0];
+
+            var modCurve = StretchCurve(LineDownCurve, Multiply(duration, _[1.1]));
+            var modDepth = Multiply(modCurve, _[0.00005]);
+            var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth);
+            var note = StrikeNote(fmSignal, delay, volume);
+            
+            return note;
         }
 
         /// <summary>
@@ -854,6 +829,30 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         // Steps
+
+        /// <summary>
+        /// Runs a test for FM synthesis and outputs the result to a file.
+        /// Also, the entity data will be verified.
+        /// </summary>
+        private void WrapUp_Test(
+            Outlet outlet,
+            double duration = DEFAULT_TOTAL_TIME,
+            double volume = DEFAULT_TOTAL_VOLUME,
+            [CallerMemberName] string callerMemberName = null)
+        {
+            // Configure AudioFileOutput
+            AudioFileOutput audioFileOutput = ConfigureAudioFileOutput($"{callerMemberName}.wav", outlet, duration, volume);
+
+            // Verify
+            AssertEntities(audioFileOutput, outlet);
+
+            // Calculate
+            Stopwatch stopWatch = Calculate(audioFileOutput);
+
+            // Report
+            Console.WriteLine($"Calculation time: {stopWatch.ElapsedMilliseconds}ms{Environment.NewLine}" +
+                              $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
+        }
 
         private AudioFileOutput ConfigureAudioFileOutput(string fileName, Outlet outlet, double totalTime, double volume)
         {
