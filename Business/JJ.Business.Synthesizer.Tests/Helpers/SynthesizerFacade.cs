@@ -20,10 +20,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             private readonly OperatorFactory _parent;
             
-            /// <inheritdoc cref="ValueIndexer"/>>
+            /// <inheritdoc cref="ValueIndexer"/>
             internal ValueIndexer(OperatorFactory parent) => _parent = parent;
             
-            /// <inheritdoc cref="ValueIndexer"/>>
+            /// <inheritdoc cref="ValueIndexer"/>
             public ValueOperatorWrapper this[double value] => _parent.Value(value);
         }
 
@@ -34,13 +34,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             private readonly SynthesizerSugarBase _parent;
             private readonly double _barLength;
 
-            /// <inheritdoc cref="BarIndexer"/>>
+            /// <inheritdoc cref="BarIndexer"/>
             internal BarIndexer(SynthesizerSugarBase parent, double barLength)
             {
                 _parent = parent; _barLength = barLength;
             }
             
-            /// <inheritdoc cref="BarIndexer"/>>
+            /// <inheritdoc cref="BarIndexer"/>
             public ValueOperatorWrapper this[double count] 
                 => _parent.Value(count * _barLength);
         }
@@ -52,15 +52,37 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             private readonly SynthesizerSugarBase _parent;
             private readonly double _beatLength;
 
-            /// <inheritdoc cref="BeatIndexer"/>>
+            /// <inheritdoc cref="BeatIndexer"/>
             internal BeatIndexer(SynthesizerSugarBase parent, double beatLength)
             {
                 _parent = parent; _beatLength = beatLength;
             }
 
-            /// <inheritdoc cref="BeatIndexer"/>>
+            /// <inheritdoc cref="BeatIndexer"/>
             public ValueOperatorWrapper this[double count] 
                 => _parent.Value(count * _beatLength);
+        }
+
+        /// <summary>
+        /// TimeIndexer provides shorthand for specifying bar and beat in a musical sense.
+        /// Access by bar and beat to get time-based Value.
+        /// Example usage: t[bar: 2, beat: 1.5] will return Value for the time.
+        /// </summary>
+        /// <returns> ValueOperatorWrapper also usable as Outlet or double. </returns>
+        public class TimeIndexer
+        {
+            private readonly SynthesizerSugarBase _parent;
+            private readonly double _barLength;
+            private readonly double _beatLength;
+
+            internal TimeIndexer(SynthesizerSugarBase parent, double barLength, double beatLength)
+            {
+                _parent = parent; _barLength = barLength; _beatLength = beatLength;
+            }
+
+            /// <inheritdoc cref="TimeIndexer" />
+            public ValueOperatorWrapper this[double bar, double beat]
+                => _parent.Value(bar * _barLength + beat * _beatLength);
         }
 
         private const double DEFAULT_BAR_LENGTH = 4;
@@ -87,9 +109,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             _ = new ValueIndexer(this);
             Bar = new BarIndexer(this, barLength);
             Beat = new BeatIndexer(this, beatLength);
+            t = new TimeIndexer(this, barLength, beatLength);
         }
 
-        /// <inheritdoc cref="ValueIndexer"/>>
+        /// <inheritdoc cref="ValueIndexer"/>
         protected readonly ValueIndexer _;
 
         /// <inheritdoc cref="BarIndexer"/>
@@ -97,5 +120,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         /// <inheritdoc cref="BeatIndexer"/>
         protected BeatIndexer Beat { get; }
+        
+        #region Shorthand for Syntactic Sugar
+        //private Outlet t(double bar, double beat) => Value(bar * BAR + beat * BEAT);
+        #endregion
+        
+        // Adding an instance of TimeIndexer to SynthesizerSugarBase
+        public TimeIndexer t { get; }
     }
 }

@@ -33,10 +33,6 @@ namespace JJ.Business.Synthesizer.Tests
         private const double BEAT = 0.4;
         private const double BAR = 1.6;
 
-        #region Shorthand for Syntactic Sugar
-        private Outlet t(double bar, double beat) => Value(bar * BAR + beat * BEAT);
-        #endregion
-
         /// <summary> Constructor for test runner. </summary>
         public SynthesizerTests_FM() { }
 
@@ -360,27 +356,27 @@ namespace JJ.Business.Synthesizer.Tests
         {
             return Adder
             (
-                Flute1(_[Frequencies.E4], t(bar: 0, beat: 0.0), volume: _[0.80], duration: _[2.00 * BEAT * portato]),
-                Flute2(_[Frequencies.F4], t(bar: 0, beat: 1.5), volume: _[0.70], duration: _[2.17 * BEAT * portato]),
-                Flute1(_[Frequencies.G4], t(bar: 0, beat: 3.0), volume: _[0.60], duration: _[1.00 * BEAT * portato]),
-                Flute1(_[Frequencies.A4], t(bar: 1, beat: 0.0), volume: _[0.80], duration: _[2.33 * BEAT * portato]),
-                Flute3(_[Frequencies.B4], t(bar: 1, beat: 1.5), volume: _[0.50], duration: _[1.00 * BEAT * portato]),
-                Flute1(_[Frequencies.A4], t(bar: 1, beat: 3.0), volume: _[0.55], duration: _[1.67 * BEAT * portato]),
-                Flute2(_[Frequencies.C4], t(bar: 2, beat: 0.0), volume: _[1.00], duration: _[2.00 * BEAT * portato]),
-                Flute1(_[Frequencies.G4], t(bar: 2, beat: 1.5), volume: _[0.80], duration: _[2.50 * BEAT * portato])
+                Flute1(_[Frequencies.E4], t[bar: 0, beat: 0.0], volume: _[0.80], duration: _[Beat[2.00] * portato]),
+                Flute2(_[Frequencies.F4], t[bar: 0, beat: 1.5], volume: _[0.70], duration: _[Beat[2.17] * portato]),
+                Flute1(_[Frequencies.G4], t[bar: 0, beat: 3.0], volume: _[0.60], duration: _[Beat[1.00] * portato]),
+                Flute1(_[Frequencies.A4], t[bar: 1, beat: 0.0], volume: _[0.80], duration: _[Beat[2.33] * portato]),
+                Flute3(_[Frequencies.B4], t[bar: 1, beat: 1.5], volume: _[0.50], duration: _[Beat[1.00] * portato]),
+                Flute1(_[Frequencies.A4], t[bar: 1, beat: 3.0], volume: _[0.55], duration: _[Beat[1.67] * portato]),
+                Flute2(_[Frequencies.C4], t[bar: 2, beat: 0.0], volume: _[1.00], duration: _[Beat[2.00] * portato]),
+                Flute1(_[Frequencies.G4], t[bar: 2, beat: 1.5], volume: _[0.80], duration: _[Beat[2.50] * portato])
             );
         }
 
         private Outlet FluteMelody2 => Adder
         (
-            Flute1(_[Frequencies.E4], t(bar: 0, beat: 0.0), volume: _[1.00]),
-            Flute2(_[Frequencies.F4], t(bar: 0, beat: 1.5), volume: _[1.15]),
-            Flute2(_[Frequencies.F4], t(bar: 0, beat: 1.5), volume: _[1.15]),
-            Flute3(_[Frequencies.G4], t(bar: 0, beat: 3.0), volume: _[1.25]),
-            Flute4(_[Frequencies.A4], t(bar: 1, beat: 0.0), volume: _[1.40]),
-            Flute3(_[Frequencies.B4], t(bar: 1, beat: 1.5), volume: _[1.25]),
-            Flute2(_[Frequencies.G4], t(bar: 1, beat: 3.0), volume: _[1.15]),
-            Flute4(_[Frequencies.A4], t(bar: 2, beat: 0.0), volume: _[1.70], duration: _[1.66])
+            Flute1(_[Frequencies.E4], t[bar: 0, beat: 0.0], volume: _[1.00]),
+            Flute2(_[Frequencies.F4], t[bar: 0, beat: 1.5], volume: _[1.15]),
+            Flute2(_[Frequencies.F4], t[bar: 0, beat: 1.5], volume: _[1.15]),
+            Flute3(_[Frequencies.G4], t[bar: 0, beat: 3.0], volume: _[1.25]),
+            Flute4(_[Frequencies.A4], t[bar: 1, beat: 0.0], volume: _[1.40]),
+            Flute3(_[Frequencies.B4], t[bar: 1, beat: 1.5], volume: _[1.25]),
+            Flute2(_[Frequencies.G4], t[bar: 1, beat: 3.0], volume: _[1.15]),
+            Flute4(_[Frequencies.A4], t[bar: 2, beat: 0.0], volume: _[1.70], duration: _[1.66])
         );
 
         private Outlet PadChords =>
