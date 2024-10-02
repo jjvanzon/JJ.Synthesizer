@@ -18,7 +18,8 @@ namespace JJ.Business.Synthesizer.Tests
     public class SynthesizerTests_FM : SynthesizerSugarBase
     {
         /// <summary> Constructor for test runner. </summary>
-        public SynthesizerTests_FM() { }
+        public SynthesizerTests_FM()
+        { }
 
         /// <summary> Constructor allowing each test to run in its own instance. </summary>
         public SynthesizerTests_FM(IContext context)
@@ -26,6 +27,7 @@ namespace JJ.Business.Synthesizer.Tests
         { }
 
         #region Tests
+
         // Composition Test
 
         [TestMethod]
@@ -133,7 +135,7 @@ namespace JJ.Business.Synthesizer.Tests
                 new SynthesizerTests_FM(context).Test_FM_EvolvingOrgan();
         }
 
-        private void Test_FM_EvolvingOrgan() 
+        private void Test_FM_EvolvingOrgan()
             => CreateAudioFile(MildEcho(EvolvingOrgan(duration: Bar[8])), duration: Bar[8] + MILD_ECHO_TIME);
 
         [TestMethod]
@@ -271,9 +273,11 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_Noise_Beating()
             => CreateAudioFile(MildEcho(Create_FM_Noise_Beating(_[Notes.A4])), duration: 3);
+
         #endregion
 
         #region Composition
+
         private Outlet Composition()
         {
             double fluteVolume = 1.1;
@@ -283,16 +287,16 @@ namespace JJ.Business.Synthesizer.Tests
 
             var pattern1 = Adder
             (
-                Multiply(_[fluteVolume] , FluteMelody1(portato: 1.1)),
+                Multiply(_[fluteVolume], FluteMelody1(portato: 1.1)),
                 Multiply(_[chordsVolume], EvolvingOrganChords),
-                Multiply(_[tubaVolume]  , TubaMelody1)
+                Multiply(_[tubaVolume], TubaMelody1)
                 //Multiply(_[rippleBassVolume], RippleBassMelody1())
             );
 
             var pattern2 = Adder
             (
-                Multiply(_[fluteVolume]     , FluteMelody2),
-                Multiply(_[tubaVolume]      , TubaMelody2),
+                Multiply(_[fluteVolume], FluteMelody2),
+                Multiply(_[tubaVolume], TubaMelody2),
                 Multiply(_[rippleBassVolume], RippleBassMelody2)
             );
 
@@ -305,9 +309,11 @@ namespace JJ.Business.Synthesizer.Tests
 
             return composition;
         }
+
         #endregion
 
         #region Melodies
+
         private Outlet FluteMelody1(double portato = 1.3636)
         {
             return Adder
@@ -366,7 +372,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet TubaMelody3 => Adder
         (
             Tuba(_[Notes.A1]),
-            Tuba(_[Notes.E2],       Beat[2]),
+            Tuba(_[Notes.E2], Beat[2]),
             Tuba(_[Notes.F1_Sharp], Beat[4], volume: _[0.7])
         );
 
@@ -375,9 +381,11 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet RippleBassMelody2 =>
             DeepEcho(RippleBass(_[Notes.A1], delay: Bar[2.5], duration: Bar[1.5]));
+
         #endregion
 
         #region Instruments
+
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         private Outlet Flute1(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
@@ -587,9 +595,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         private Outlet Create_FM_Noise_Beating(Outlet pitch = null)
             => FMAroundFreq(pitch ?? _[Notes.A4], _[55], _[0.5]);
+
         #endregion
 
         #region Algorithms
+
         /// <summary> FM sound synthesis modulating with addition. Modulates sound freq to +/- a number of Hz. </summary>
         /// <param name="modDepth">In Hz</param>
         private Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
@@ -634,9 +644,11 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet DeepEcho(Outlet melody)
             => EntityFactory.CreateEcho(this, melody, count: 6, denominator: 2, delay: 0.5);
+
         #endregion
 
         #region Curves
+
         private Curve FluteCurve => CurveFactory.CreateCurve
         (
             new NodeInfo(time: 0.00, value: 0.0),
@@ -703,6 +715,7 @@ namespace JJ.Business.Synthesizer.Tests
             _padFrequencies.Select(x => new NodeInfo(x.time,
                                                      x.frequency3,
                                                      NodeTypeEnum.Block)).ToArray());
+
         #endregion
     }
 }
