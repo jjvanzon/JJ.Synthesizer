@@ -17,9 +17,6 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class SynthesizerTests_FM : SynthesizerSugarBase
     {
-        private const double DEFAULT_AMPLITUDE = 1.0;
-
-
         /// <summary> Constructor for test runner. </summary>
         public SynthesizerTests_FM() { }
 
@@ -39,12 +36,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition()
-            => CreateAudioFile
-            (
-                MildEcho(Composition()),
-                duration: t[bar: 8, beat: 1] + DEEP_ECHO_TIME,
-                volume: 0.20
-            );
+            => CreateAudioFile(MildEcho(Composition()), volume: 0.20, duration: t[bar: 8, beat: 1] + DEEP_ECHO_TIME);
 
         // Flute Tests
 
@@ -56,15 +48,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute_Melody1()
-            => CreateAudioFile
-            (
-                MildEcho
-                (
-                    FluteMelody1(portato: 1)
-                ),
-                duration: Bar[4] + MILD_ECHO_TIME,
-                volume: 0.6
-            );
+            => CreateAudioFile(MildEcho(FluteMelody1(portato: 1)), volume: 0.6, duration: Bar[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Melody2()
@@ -74,12 +58,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute_Melody2()
-            => CreateAudioFile
-            (
-                MildEcho(FluteMelody2),
-                duration: Bar[2.5] + MILD_ECHO_TIME,
-                volume: 0.3
-            );
+            => CreateAudioFile(MildEcho(FluteMelody2), volume: 0.3, duration: Bar[2.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute1()
@@ -131,14 +110,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => CreateAudioFile
-            (
-                duration: 1.5 + MILD_ECHO_TIME,
-                outlet: MildEcho
-                (
-                    Pad(duration: _[1.5])
-                )
-            );
+            => CreateAudioFile(MildEcho(Pad(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
 
         // Electric Note Tests
 
@@ -150,14 +122,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_ElectricNote()
-            => CreateAudioFile
-            (
-                duration: 1.5 + MILD_ECHO_TIME,
-                outlet: MildEcho
-                (
-                    ElectricNote(duration: _[1.5])
-                )
-            );
+            => CreateAudioFile(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
 
         // Evolving Organ Test
 
@@ -168,15 +133,8 @@ namespace JJ.Business.Synthesizer.Tests
                 new SynthesizerTests_FM(context).Test_FM_EvolvingOrgan();
         }
 
-        private void Test_FM_EvolvingOrgan() =>
-            CreateAudioFile
-            (
-                duration: Bar[8] + MILD_ECHO_TIME,
-                outlet: MildEcho
-                (
-                    EvolvingOrgan(duration: Bar[8])
-                )
-            );
+        private void Test_FM_EvolvingOrgan() 
+            => CreateAudioFile(MildEcho(EvolvingOrgan(duration: Bar[8])), duration: Bar[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_EvolvingOrgan_Chords()
@@ -186,12 +144,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_EvolvingOrgan_Chords()
-            => CreateAudioFile
-            (
-                MildEcho(EvolvingOrganChords),
-                duration: Bar[8] + MILD_ECHO_TIME,
-                volume: 0.22
-            );
+            => CreateAudioFile(MildEcho(EvolvingOrganChords), volume: 0.22, duration: Bar[8] + MILD_ECHO_TIME);
 
         // Tube Tests
 
@@ -213,12 +166,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody1()
-            => CreateAudioFile
-            (
-                MildEcho(TubaMelody1),
-                duration: Bar[4] + MILD_ECHO_TIME,
-                volume: 0.45
-            );
+            => CreateAudioFile(MildEcho(TubaMelody1), volume: 0.45, duration: Bar[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody2()
@@ -228,12 +176,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody2()
-            => CreateAudioFile
-            (
-                MildEcho(TubaMelody2),
-                duration: Bar[2.5] + MILD_ECHO_TIME,
-                volume: 0.75
-            );
+            => CreateAudioFile(MildEcho(TubaMelody2), volume: 0.75, duration: Bar[2.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody3()
@@ -243,11 +186,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody3()
-            => CreateAudioFile
-            (
-                MildEcho(TubaMelody3),
-                duration: Bar[1.5] + MILD_ECHO_TIME
-            );
+            => CreateAudioFile(MildEcho(TubaMelody3), duration: Bar[1.5] + MILD_ECHO_TIME);
 
         // Ripple Effect Tests
 
@@ -259,14 +198,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass()
-            => CreateAudioFile
-            (
-                duration: 3 + DEEP_ECHO_TIME,
-                outlet: DeepEcho
-                (
-                    RippleBass(duration: _[3])
-                )
-            );
+            => CreateAudioFile(DeepEcho(RippleBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleBass_Melody1()
@@ -276,12 +208,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass_Melody1()
-            => CreateAudioFile
-            (
-                DeepEcho(RippleBassMelody1),
-                duration: Bar[5] + DEEP_ECHO_TIME,
-                volume: 0.3
-            );
+            => CreateAudioFile(DeepEcho(RippleBassMelody1), volume: 0.3, duration: Bar[5] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleBass_Melody2()
@@ -291,12 +218,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass_Melody2()
-            => CreateAudioFile
-            (
-                DeepEcho(RippleBassMelody2),
-                Bar[4] + DEEP_ECHO_TIME,
-                volume: 0.3
-            );
+            => CreateAudioFile(DeepEcho(RippleBassMelody2), volume: 0.3, duration: Bar[4] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
@@ -306,14 +228,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_SharpMetallic()
-            => CreateAudioFile
-            (
-                duration: 2.2 + DEEP_ECHO_TIME,
-                outlet: DeepEcho
-                (
-                    RippleNote_SharpMetallic(duration: _[2.2])
-                )
-            );
+            => CreateAudioFile(DeepEcho(RippleNote_SharpMetallic(duration: _[2.2])), duration: 2.2 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_Clean()
@@ -323,14 +238,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_Clean()
-            => CreateAudioFile
-            (
-                duration: 3 + DEEP_ECHO_TIME,
-                outlet: DeepEcho
-                (
-                    RippleSound_Clean(duration: _[3])
-                )
-            );
+            => CreateAudioFile(outlet: DeepEcho(RippleSound_Clean(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_FantasyEffect()
@@ -340,14 +248,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_FantasyEffect()
-            => CreateAudioFile
-            (
-                duration: 3 + DEEP_ECHO_TIME,
-                outlet: DeepEcho
-                (
-                    RippleSound_FantasyEffect(duration: _[3])
-                )
-            );
+            => CreateAudioFile(DeepEcho(RippleSound_FantasyEffect(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_CoolDouble()
@@ -357,14 +258,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_CoolDouble()
-            => CreateAudioFile
-            (
-                duration: 3 + DEEP_ECHO_TIME,
-                outlet: DeepEcho
-                (
-                    RippleSound_CoolDouble(duration: _[3])
-                )
-            );
+            => CreateAudioFile(DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         // FM Noise Tests
 
@@ -383,15 +277,15 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet Composition()
         {
             double fluteVolume = 1.1;
-            double padVolume = 0.3;
+            double chordsVolume = 0.3;
             double tubaVolume = 0.7;
             double rippleBassVolume = 0.7;
 
             var pattern1 = Adder
             (
-                Multiply(_[fluteVolume], FluteMelody1(portato: 1.1)),
-                Multiply(_[padVolume]  , EvolvingOrganChords),
-                Multiply(_[tubaVolume] , TubaMelody1)
+                Multiply(_[fluteVolume] , FluteMelody1(portato: 1.1)),
+                Multiply(_[chordsVolume], EvolvingOrganChords),
+                Multiply(_[tubaVolume]  , TubaMelody1)
                 //Multiply(_[rippleBassVolume], RippleBassMelody1())
             );
 
@@ -441,29 +335,12 @@ namespace JJ.Business.Synthesizer.Tests
             Flute4(_[Notes.A4], t[bar: 2, beat: 0.0], volume: _[1.70], duration: _[1.66])
         );
 
-        private Outlet EvolvingOrganChords =>
-            /*
-            Adder
-            (
-                Sine(_[DEFAULT_AMPLITUDE], StretchCurve(PadPitchCurve1, BAR)),
-                Sine(_[DEFAULT_AMPLITUDE], StretchCurve(PadPitchCurve2, BAR)),
-                Sine(_[DEFAULT_AMPLITUDE], StretchCurve(PadPitchCurve3, BAR))
-            );
-            */
-            /*
-            Adder
-            (
-                Pad(StretchCurve(PadPitchCurve1, BAR), duration: BAR * 8),
-                Pad(StretchCurve(PadPitchCurve2, BAR), duration: BAR * 8),
-                Pad(StretchCurve(PadPitchCurve3, BAR), duration: BAR * 8)
-            );
-            */
-            Adder
-            (
-                EvolvingOrgan(StretchCurve(PadPitchCurve1, Bar[1]), duration: Bar[8]),
-                EvolvingOrgan(StretchCurve(PadPitchCurve2, Bar[1]), duration: Bar[8]),
-                EvolvingOrgan(StretchCurve(PadPitchCurve3, Bar[1]), duration: Bar[8])
-            );
+        private Outlet EvolvingOrganChords => Adder
+        (
+            EvolvingOrgan(StretchCurve(PadPitchCurve1, Bar[1]), duration: Bar[8]),
+            EvolvingOrgan(StretchCurve(PadPitchCurve2, Bar[1]), duration: Bar[8]),
+            EvolvingOrgan(StretchCurve(PadPitchCurve3, Bar[1]), duration: Bar[8])
+        );
 
         private Outlet TubaMelody1 => Adder
         (
@@ -717,49 +594,36 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="modDepth">In Hz</param>
         private Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
-            Outlet modulator = Sine(modDepth, modSpeed);
-            Outlet sound = Sine(_[DEFAULT_AMPLITUDE], Add(soundFreq, modulator));
+            var modulator = Sine(modDepth, modSpeed);
+            var sound = Sine(_[1], Add(soundFreq, modulator));
             return sound;
         }
 
         /// <summary> FM with (faulty) multiplication around 0. </summary>
         private Outlet FMAround0(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
-            Outlet modulator = Sine(modDepth, modSpeed);
-            Outlet sound = Sine(_[DEFAULT_AMPLITUDE], Multiply(soundFreq, modulator));
+            var modulator = Sine(modDepth, modSpeed);
+            var sound = Sine(_[1], Multiply(soundFreq, modulator));
             return sound;
         }
 
         /// <summary> FM with multiplication around 1. </summary>
         private Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
-            Outlet modulator = Add(_[1], Sine(modDepth, modSpeed));
-            Outlet sound = Sine(_[DEFAULT_AMPLITUDE], Multiply(soundFreq, modulator));
+            var modulator = Add(_[1], Sine(modDepth, modSpeed));
+            var sound = Sine(_[1], Multiply(soundFreq, modulator));
             return sound;
         }
 
         private Outlet StrikeNote(Outlet sound, Outlet delay = null, Outlet volume = null)
         {
-            // Note Start
             if (delay != null) sound = TimeAdd(sound, delay);
-
-            // Note Volume
             if (volume != null) sound = Multiply(sound, volume);
-
             return sound;
         }
 
         private Outlet StretchCurve(Curve curve, Outlet duration = null)
-        {
-            Outlet outlet = CurveIn(curve);
-
-            if (duration?.Operator.AsValueOperator?.Value != 1)
-            {
-                outlet = TimeMultiply(outlet, duration);
-            }
-
-            return outlet;
-        }
+            => TimeMultiply(CurveIn(curve), duration);
 
         private const double MILD_ECHO_TIME = 0.33 * 5;
 
