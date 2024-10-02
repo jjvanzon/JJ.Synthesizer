@@ -36,8 +36,10 @@ namespace JJ.Business.Synthesizer.Tests
             : base(context, beat: 0.4, bar: 4 * 0.4)
         { }
 
+        #region Tests
+
         // Composition Test
-        
+
         [TestMethod]
         public void Test_Synthesizer_FM_Composition()
         {
@@ -385,7 +387,9 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_FM_Noise_Beating()
             => WrapUp_Test(MildEcho(Create_FM_Noise_Beating(_[Notes.A4])), duration: 3);
 
-        // Composition
+        #endregion
+
+        #region Composition
 
         private Outlet Composition()
         {
@@ -419,7 +423,9 @@ namespace JJ.Business.Synthesizer.Tests
             return composition;
         }
 
-        // Melodies
+        #endregion
+
+        #region Melodies
 
         private Outlet FluteMelody1(double portato = 1.3636)
         {
@@ -506,7 +512,9 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet RippleBassMelody2 =>
             DeepEcho(RippleBass(_[Notes.A1], delay: Bar[2.5], duration: Bar[1.5]));
 
-        // Instruments
+        #endregion
+
+        #region Instruments
 
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         private Outlet Flute1(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
@@ -718,7 +726,9 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet Create_FM_Noise_Beating(Outlet pitch = null)
             => FMAroundFreq(pitch ?? _[Notes.A4], _[55], _[0.5]);
 
-        // Algorithms
+        #endregion
+
+        #region Algorithms
 
         /// <summary> FM sound synthesis modulating with addition. Modulates sound freq to +/- a number of Hz. </summary>
         /// <param name="modDepth">In Hz</param>
@@ -778,7 +788,9 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet DeepEcho(Outlet melody)
             => EntityFactory.CreateEcho(this, melody, count: 6, denominator: 2, delay: 0.5);
 
-        // Curves
+        #endregion
+
+        #region Curves
 
         private Curve _fluteCurve;
         private Curve FluteCurve
@@ -929,6 +941,8 @@ namespace JJ.Business.Synthesizer.Tests
                 return _padPitchCurve3;
             }
         }
+
+        #endregion
 
         // Steps
 
