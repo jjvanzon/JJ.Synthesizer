@@ -499,8 +499,7 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[Notes.A4];
             duration = duration ?? _[1.0];
 
-            var modCurve = StretchCurve(LineDownCurve, Multiply(duration, _[1.1]));
-            var modDepth = Multiply(modCurve, _[0.00005]);
+            var modDepth = Multiply(_[0.0001], StretchCurve(ModTamingCurve, Multiply(duration, _[1.1])));
             var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth);
             var note = StrikeNote(fmSignal, delay, volume);
 
@@ -594,7 +593,7 @@ namespace JJ.Business.Synthesizer.Tests
             return sound;
         }
 
-        /// <summary> Shapes a ripple effect giving it a volume envelope and a delay, volume and duration. </summary>
+        /// <summary> Shapes a ripple effect sound giving it a volume envelope and a delay, volume and duration. </summary>
         /// <param name="duration">The duration of the sound in seconds (default is 2.5).</param>
         /// <param name="fmSignal">A ripple sound to be shaped</param>
         /// <inheritdoc cref="DefaultDoc" />
@@ -708,6 +707,17 @@ namespace JJ.Business.Synthesizer.Tests
         (
             new NodeInfo(time: 0, value: 1),
             new NodeInfo(time: 1, value: 0)
+        );
+
+        /// <summary>
+        /// A curve that can be applied to the modulator depth to tame the modulation.
+        /// In this version of FM synthesis, the modulation depth accumulates over time without such taming.
+        /// This is because of a lack of time tracking in the oscillators in this version.
+        /// </summary>
+        private Curve ModTamingCurve => CurveFactory.CreateCurve
+        (
+            timeSpan: 1,
+            0.3, 1.0, 0.3, 0.0
         );
 
         private static readonly (double time, double frequency1, double frequency2, double frequency3)[]
