@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace JJ.Business.Synthesizer.Tests
         private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_AMPLITUDE = 1.0;
 
+        private string NewLine => Environment.NewLine;
+
         /// <summary> Constructor for test runner. </summary>
         public SynthesizerTests_FM() { }
 
@@ -37,7 +40,6 @@ namespace JJ.Business.Synthesizer.Tests
         { }
 
         #region Tests
-
         // Composition Test
 
         [TestMethod]
@@ -386,11 +388,9 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_Noise_Beating()
             => WriteAudioFile(MildEcho(Create_FM_Noise_Beating(_[Notes.A4])), duration: 3);
-
         #endregion
 
         #region Composition
-
         private Outlet Composition()
         {
             double fluteVolume = 1.1;
@@ -422,11 +422,9 @@ namespace JJ.Business.Synthesizer.Tests
 
             return composition;
         }
-
         #endregion
 
         #region Melodies
-
         private Outlet FluteMelody1(double portato = 1.3636)
         {
             return Adder
@@ -511,11 +509,9 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet RippleBassMelody2 =>
             DeepEcho(RippleBass(_[Notes.A1], delay: Bar[2.5], duration: Bar[1.5]));
-
         #endregion
 
         #region Instruments
-
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         private Outlet Flute1(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
@@ -725,11 +721,9 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         private Outlet Create_FM_Noise_Beating(Outlet pitch = null)
             => FMAroundFreq(pitch ?? _[Notes.A4], _[55], _[0.5]);
-
         #endregion
 
         #region Algorithms
-
         /// <summary> FM sound synthesis modulating with addition. Modulates sound freq to +/- a number of Hz. </summary>
         /// <param name="modDepth">In Hz</param>
         private Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
@@ -787,11 +781,9 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet DeepEcho(Outlet melody)
             => EntityFactory.CreateEcho(this, melody, count: 6, denominator: 2, delay: 0.5);
-
         #endregion
 
         #region Curves
-
         private Curve FluteCurve => CurveFactory.CreateCurve
         (
             new NodeInfo(time: 0.00, value: 0.0),
@@ -858,11 +850,9 @@ namespace JJ.Business.Synthesizer.Tests
             _padFrequencies.Select(x => new NodeInfo(x.time,
                                                      x.frequency3,
                                                      NodeTypeEnum.Block)).ToArray());
-
         #endregion
 
-        #region Steps
-
+        #region Processing
         /// <summary>
         /// Wraps up a test for FM synthesis and outputs the result to a file.
         /// Also, the entity data will be verified.
@@ -874,12 +864,15 @@ namespace JJ.Business.Synthesizer.Tests
             string fileName = null,
             [CallerMemberName] string callerMemberName = null)
         {
-            // Resolve defaults
-            fileName = string.IsNullOrWhiteSpace(fileName) ?  $"{callerMemberName}.wav" : fileName;
+            // Validate Parameters
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            fileName = string.IsNullOrWhiteSpace(fileName) ? $"{callerMemberName}.wav" : fileName;
 
-            // Assert Input
+            // Validate Data
             new RecursiveOperatorValidator(outlet.Operator).Verify();
-            //new RecursiveOperatorWarningValidator(outlet.Operator).Verify();
+            
+            var warningValidator = new RecursiveOperatorWarningValidator(outlet.Operator);
+            IList<string> warnings = warningValidator.ValidationMessages.Select(x => x.Text).ToArray();
 
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = AudioFileOutputManager.CreateAudioFileOutput();
@@ -898,8 +891,11 @@ namespace JJ.Business.Synthesizer.Tests
             stopWatch.Stop();
 
             // Report
-            Console.WriteLine($"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s{Environment.NewLine}" +
-                              $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
+            var calculationTimeText = $"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s{NewLine}";
+            var outputFileText = $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}";
+            string warningText = warnings.Count == 0 ? "" : $"{NewLine}{NewLine}Warnings:{NewLine}" +
+                                                            $"{string.Join(NewLine, warnings.Select(x => $"- {x}"))}";
+            Console.WriteLine(calculationTimeText + outputFileText + warningText);
         }
         #endregion
     }
