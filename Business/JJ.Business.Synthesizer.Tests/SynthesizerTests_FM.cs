@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Tests.Helpers;
@@ -387,6 +389,7 @@ namespace JJ.Business.Synthesizer.Tests
         #region Instruments
 
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet Flute1(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
@@ -400,6 +403,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet Flute2(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
@@ -415,6 +419,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet Flute3(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
@@ -430,6 +435,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet Flute4(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
@@ -444,6 +450,7 @@ namespace JJ.Business.Synthesizer.Tests
             return note;
         }
 
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
@@ -465,6 +472,7 @@ namespace JJ.Business.Synthesizer.Tests
             return note;
         }
 
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet ElectricNote(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
@@ -485,6 +493,7 @@ namespace JJ.Business.Synthesizer.Tests
             return note;
         }
 
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet EvolvingOrgan(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
@@ -504,6 +513,8 @@ namespace JJ.Business.Synthesizer.Tests
         /// Volume curve is applied.
         /// Higher notes are shorter, lower notes are much longer.
         /// </summary>
+        /// <inheritdoc cref="DefaultDoc" />
+        /// <param name="freq">The base frequency of the sound in Hz (default A1/55Hz).</param>
         private Outlet Tuba(Outlet freq = null, Outlet delay = null, Outlet volume = null)
         {
             freq = freq ?? _[Notes.A1];
@@ -524,19 +535,21 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
+        /// <param name="freq">The base frequency of the sound in Hz (default A1/55Hz).</param>
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet RippleBass(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A1];
 
             var fmSignal = FMAroundFreq(Multiply(freq, _[8]), Divide(freq, _[2]), _[0.005]);
-            var envelope = StretchCurve(RippleCurve, duration);
-            var sound = Multiply(fmSignal, envelope);
-            var note = StrikeNote(sound, delay, volume);
+            var note = ShapeRippleSound(fmSignal, delay, volume, duration);
 
             return note;
         }
 
         /// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
+        /// <param name="freq">The base frequency of the sound in Hz (default A3/220Hz).</param>
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet RippleNote_SharpMetallic(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A3];
@@ -549,7 +562,6 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet RippleSound_Clean(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
-            duration = duration ?? _[2.5];
 
             var fmSignal = FMAroundFreq(freq, _[20], _[0.005]);
             var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
@@ -558,10 +570,11 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
+        /// <param name="duration">The duration of the sound in seconds (default is 2.5).</param>
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet RippleSound_FantasyEffect(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A5];
-            duration = duration ?? _[2.5];
 
             var fmSignal = FMAroundFreq(freq, _[10], _[0.02]);
             var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
@@ -570,10 +583,10 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.05 </summary>
+        /// <inheritdoc cref="ShapeRippleSound" />
         private Outlet RippleSound_CoolDouble(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A5];
-            duration = duration ?? _[2.5];
 
             var fmSignal = FMAroundFreq(freq, _[10], _[0.05]);
             var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
@@ -581,8 +594,13 @@ namespace JJ.Business.Synthesizer.Tests
             return sound;
         }
 
+        /// <summary> Shapes a ripple effect giving it a volume envelope and a delay, volume and duration. </summary>
+        /// <param name="duration">The duration of the sound in seconds (default is 2.5).</param>
+        /// <param name="fmSignal">A ripple sound to be shaped</param>
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet ShapeRippleSound(Outlet fmSignal, Outlet delay, Outlet volume, Outlet duration)
         {
+            duration = duration ?? _[2.5];
             var envelope = StretchCurve(RippleCurve, duration);
             var sound = Multiply(fmSignal, envelope);
             var strike = StrikeNote(sound, delay, volume);
@@ -602,6 +620,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> FM sound synthesis modulating with addition. Modulates sound freq to +/- a number of Hz. </summary>
         /// <param name="modDepth">In Hz</param>
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Sine(modDepth, modSpeed);
@@ -610,6 +629,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> FM with (faulty) multiplication around 0. </summary>
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet FMAround0(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Sine(modDepth, modSpeed);
@@ -618,6 +638,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> FM with multiplication around 1. </summary>
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Add(_[1], Sine(modDepth, modSpeed));
@@ -625,6 +646,7 @@ namespace JJ.Business.Synthesizer.Tests
             return sound;
         }
 
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet StrikeNote(Outlet sound, Outlet delay = null, Outlet volume = null)
         {
             if (delay != null) sound = TimeAdd(sound, delay);
@@ -632,7 +654,7 @@ namespace JJ.Business.Synthesizer.Tests
             return sound;
         }
 
-        private Outlet StretchCurve(Curve curve, Outlet duration = null)
+        private Outlet StretchCurve(Curve curve, Outlet duration)
             => TimeMultiply(CurveIn(curve), duration);
 
         private const double MILD_ECHO_TIME = 0.33 * 5;
@@ -715,6 +737,24 @@ namespace JJ.Business.Synthesizer.Tests
             _padFrequencies.Select(x => new NodeInfo(x.time,
                                                      x.frequency3,
                                                      NodeTypeEnum.Block)).ToArray());
+
+        #endregion
+
+        #region Helpers
+
+        /// <param name="freq">The base frequency of the sound in Hz (default is A4/440Hz).</param>
+        /// <param name="delay">The time delay in seconds before the sound starts (default is 0).</param>
+        /// <param name="volume">The volume of the sound (default is 1).</param>
+        /// <param name="duration">The duration of the sound in seconds (default is 1).</param>
+        /// <param name="soundFreq">The base frequency in Hz for the carrier signal for the FM synthesis.</param> 
+        /// <param name="modSpeed">The speed of the modulator in Hz. Determines much of the timbre.</param>
+        /// <param name="modDepth">The depth of the modulator. The higher the value, the more harmonic complexity.</param>
+        /// <param name="sound">The sound to be shaped.</param>
+        /// <returns>An Outlet representing the synthesized sound.</returns>
+        [UsedImplicitly] private Outlet DefaultDoc(
+            Outlet freq, Outlet delay, Outlet volume, Outlet duration,
+            Outlet soundFreq, Outlet modSpeed, Outlet modDepth,
+            Outlet sound) => throw new NotSupportedException();
 
         #endregion
     }
