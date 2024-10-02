@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+﻿using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Business.Synthesizer.Warnings;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,11 +17,8 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class SynthesizerTests_FM : SynthesizerSugarBase
     {
-        private const double DEFAULT_TOTAL_TIME = 1.0 + DEEP_ECHO_TIME;
-        private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_AMPLITUDE = 1.0;
 
-        private string NewLine => Environment.NewLine;
 
         /// <summary> Constructor for test runner. </summary>
         public SynthesizerTests_FM() { }
@@ -50,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 MildEcho(Composition()),
                 duration: t[bar: 8, beat: 1] + DEEP_ECHO_TIME,
@@ -67,7 +56,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute_Melody1()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 MildEcho
                 (
@@ -85,7 +74,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute_Melody2()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 MildEcho(FluteMelody2),
                 duration: Bar[2.5] + MILD_ECHO_TIME,
@@ -100,7 +89,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute1()
-            => WriteAudioFile(MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME);
+            => CreateAudioFile(MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute2()
@@ -110,7 +99,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute2()
-            => WriteAudioFile(MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME);
+            => CreateAudioFile(MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute3()
@@ -120,7 +109,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute3()
-            => WriteAudioFile(MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME);
+            => CreateAudioFile(MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute4()
@@ -130,7 +119,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute4()
-            => WriteAudioFile(MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
+            => CreateAudioFile(MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
 
         // Pad Tests
 
@@ -142,7 +131,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 duration: 1.5 + MILD_ECHO_TIME,
                 outlet: MildEcho
@@ -161,7 +150,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_ElectricNote()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 duration: 1.5 + MILD_ECHO_TIME,
                 outlet: MildEcho
@@ -180,7 +169,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_EvolvingOrgan() =>
-            WriteAudioFile
+            CreateAudioFile
             (
                 duration: Bar[8] + MILD_ECHO_TIME,
                 outlet: MildEcho
@@ -197,7 +186,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_EvolvingOrgan_Chords()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 MildEcho(EvolvingOrganChords),
                 duration: Bar[8] + MILD_ECHO_TIME,
@@ -214,7 +203,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba()
-            => WriteAudioFile(MildEcho(Tuba(_[Notes.E2])));
+            => CreateAudioFile(MildEcho(Tuba(_[Notes.E2])));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody1()
@@ -224,7 +213,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody1()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 MildEcho(TubaMelody1),
                 duration: Bar[4] + MILD_ECHO_TIME,
@@ -239,7 +228,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody2()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 MildEcho(TubaMelody2),
                 duration: Bar[2.5] + MILD_ECHO_TIME,
@@ -254,7 +243,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody3()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 MildEcho(TubaMelody3),
                 duration: Bar[1.5] + MILD_ECHO_TIME
@@ -270,7 +259,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 duration: 3 + DEEP_ECHO_TIME,
                 outlet: DeepEcho
@@ -287,7 +276,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass_Melody1()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 DeepEcho(RippleBassMelody1),
                 duration: Bar[5] + DEEP_ECHO_TIME,
@@ -302,7 +291,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass_Melody2()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 DeepEcho(RippleBassMelody2),
                 Bar[4] + DEEP_ECHO_TIME,
@@ -317,7 +306,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_SharpMetallic()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 duration: 2.2 + DEEP_ECHO_TIME,
                 outlet: DeepEcho
@@ -334,7 +323,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_Clean()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 duration: 3 + DEEP_ECHO_TIME,
                 outlet: DeepEcho
@@ -351,7 +340,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_FantasyEffect()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 duration: 3 + DEEP_ECHO_TIME,
                 outlet: DeepEcho
@@ -368,7 +357,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_CoolDouble()
-            => WriteAudioFile
+            => CreateAudioFile
             (
                 duration: 3 + DEEP_ECHO_TIME,
                 outlet: DeepEcho
@@ -387,7 +376,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Noise_Beating()
-            => WriteAudioFile(MildEcho(Create_FM_Noise_Beating(_[Notes.A4])), duration: 3);
+            => CreateAudioFile(MildEcho(Create_FM_Noise_Beating(_[Notes.A4])), duration: 3);
         #endregion
 
         #region Composition
@@ -850,53 +839,6 @@ namespace JJ.Business.Synthesizer.Tests
             _padFrequencies.Select(x => new NodeInfo(x.time,
                                                      x.frequency3,
                                                      NodeTypeEnum.Block)).ToArray());
-        #endregion
-
-        #region Processing
-        /// <summary>
-        /// Wraps up a test for FM synthesis and outputs the result to a file.
-        /// Also, the entity data will be verified.
-        /// </summary>
-        private void WriteAudioFile(
-            Outlet outlet,
-            double duration = DEFAULT_TOTAL_TIME,
-            double volume = DEFAULT_TOTAL_VOLUME,
-            string fileName = null,
-            [CallerMemberName] string callerMemberName = null)
-        {
-            // Validate Parameters
-            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            fileName = string.IsNullOrWhiteSpace(fileName) ? $"{callerMemberName}.wav" : fileName;
-
-            // Validate Data
-            new RecursiveOperatorValidator(outlet.Operator).Verify();
-            
-            var warningValidator = new RecursiveOperatorWarningValidator(outlet.Operator);
-            IList<string> warnings = warningValidator.ValidationMessages.Select(x => x.Text).ToArray();
-
-            // Configure AudioFileOutput
-            AudioFileOutput audioFileOutput = AudioFileOutputManager.CreateAudioFileOutput();
-            audioFileOutput.Duration = duration;
-            audioFileOutput.Amplifier = short.MaxValue * volume;
-            audioFileOutput.FilePath = fileName;
-            audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
-
-            // Assert AudioFileOutput
-            AudioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
-
-            // Calculate
-            var calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
-            var stopWatch = Stopwatch.StartNew();
-            calculator.Execute();
-            stopWatch.Stop();
-
-            // Report
-            var calculationTimeText = $"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s{NewLine}";
-            var outputFileText = $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}";
-            string warningText = warnings.Count == 0 ? "" : $"{NewLine}{NewLine}Warnings:{NewLine}" +
-                                                            $"{string.Join(NewLine, warnings.Select(x => $"- {x}"))}";
-            Console.WriteLine(calculationTimeText + outputFileText + warningText);
-        }
         #endregion
     }
 }
