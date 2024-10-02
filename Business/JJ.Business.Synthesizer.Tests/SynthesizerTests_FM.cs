@@ -793,98 +793,48 @@ namespace JJ.Business.Synthesizer.Tests
         #region Curves
 
         private Curve _fluteCurve;
-        private Curve FluteCurve
-        {
-            get
-            {
-                if (_fluteCurve == null)
-                {
-                    _fluteCurve = CurveFactory.CreateCurve
-                    (
-                        new NodeInfo(time: 0.00, value: 0.0),
-                        new NodeInfo(time: 0.05, value: 0.8),
-                        new NodeInfo(time: 0.10, value: 1.0),
-                        new NodeInfo(time: 0.90, value: 0.7),
-                        new NodeInfo(time: 1.00, value: 0.0)
-                    );
-                }
-                return _fluteCurve;
-            }
-        }
+        private Curve FluteCurve => _fluteCurve ?? (_fluteCurve = CurveFactory.CreateCurve
+        (
+            new NodeInfo(time: 0.00, value: 0.0),
+            new NodeInfo(time: 0.05, value: 0.8),
+            new NodeInfo(time: 0.10, value: 1.0),
+            new NodeInfo(time: 0.90, value: 0.7),
+            new NodeInfo(time: 1.00, value: 0.0)
+        ));
 
         private Curve _tubaCurve;
-        private Curve TubaCurve
-        {
-            get
-            {
-                if (_tubaCurve == null)
-                {
-                    _tubaCurve = CurveFactory.CreateCurve
-                    (
-                        new NodeInfo(time: 0.00, value: 1),
-                        new NodeInfo(time: 0.93, value: 1),
-                        new NodeInfo(time: 1.00, value: 0)
-                    );
-                }
-                return _tubaCurve;
-            }
-        }
+        private Curve TubaCurve => _tubaCurve ?? (_tubaCurve = CurveFactory.CreateCurve
+        (
+            new NodeInfo(time: 0.00, value: 1),
+            new NodeInfo(time: 0.93, value: 1),
+            new NodeInfo(time: 1.00, value: 0)
+        ));
 
         private Curve _rippleCurve;
-        private Curve RippleCurve
-        {
-            get
-            {
-                if (_rippleCurve == null)
-                {
-                    _rippleCurve = CurveFactory.CreateCurve
-                    (
-                        new NodeInfo(time: 0.00, value: 0.00),
-                        new NodeInfo(time: 0.01, value: 0.75),
-                        new NodeInfo(time: 0.05, value: 0.50),
-                        new NodeInfo(time: 0.25, value: 1.00),
-                        new NodeInfo(time: 1.00, value: 0.00)
-                    );
-                }
-                return _rippleCurve;
-            }
-        }
+        private Curve RippleCurve => _rippleCurve ?? (_rippleCurve = CurveFactory.CreateCurve
+        (
+            new NodeInfo(time: 0.00, value: 0.00),
+            new NodeInfo(time: 0.01, value: 0.75),
+            new NodeInfo(time: 0.05, value: 0.50),
+            new NodeInfo(time: 0.25, value: 1.00),
+            new NodeInfo(time: 1.00, value: 0.00)
+        ));
 
         private Curve _dampedBlockCurve;
-        private Curve DampedBlockCurve
-        {
-            get
-            {
-                if (_dampedBlockCurve == null)
-                {
-                    _dampedBlockCurve = CurveFactory.CreateCurve
-                    (
-                        new NodeInfo(time: 0.00, value: 0),
-                        new NodeInfo(time: 0.01, value: 1),
-                        new NodeInfo(time: 0.99, value: 1),
-                        new NodeInfo(time: 1.00, value: 0)
-                    );
-                }
-                return _dampedBlockCurve;
-            }
-        }
+        private Curve DampedBlockCurve => _dampedBlockCurve ?? (_dampedBlockCurve = CurveFactory.CreateCurve
+        (
+            new NodeInfo(time: 0.00, value: 0),
+            new NodeInfo(time: 0.01, value: 1),
+            new NodeInfo(time: 0.99, value: 1),
+            new NodeInfo(time: 1.00, value: 0)
+        ));
 
         private Curve _lineDownCurve;
-        private Curve LineDownCurve
-        {
-            get
-            {
-                if (_lineDownCurve == null)
-                {
-                    _lineDownCurve = CurveFactory.CreateCurve
-                    (
-                        new NodeInfo(time: 0, value: 1),
-                        new NodeInfo(time: 1, value: 0)
-                    );
-                }
-                return _lineDownCurve;
-            }
-        }
+        private Curve LineDownCurve => _lineDownCurve ?? (_lineDownCurve = CurveFactory.CreateCurve
+        (
+            new NodeInfo(time: 0, value: 1),
+            new NodeInfo(time: 1, value: 0)
+        ));
 
         private static readonly (double time, double frequency1, double frequency2, double frequency3)[] 
             _padFrequencies = 
