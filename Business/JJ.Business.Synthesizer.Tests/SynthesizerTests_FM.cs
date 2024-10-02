@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> Constructor allowing each test to run in its own instance. </summary>
         public SynthesizerTests_FM(IContext context)
-            : base(context, beat: 0.55, bar: 4 * 0.55)
+            : base(context, beat: 0.45, bar: 4 * 0.45)
         { }
 
         #region Tests
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition()
-            => CreateAudioFile(DeepEcho(Composition), volume: 0.20, duration: t[bar: 8, beat: 1] + DEEP_ECHO_TIME);
+            => CreateAudioFile(DeepEcho(Composition()), volume: 0.20, duration: t[bar: 8, beat: 1] + DEEP_ECHO_TIME);
 
         // Flute Tests
 
@@ -320,73 +320,69 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Composition
 
-        private Outlet Composition
+        private Outlet Composition()
         {
-            get
-            {
-                double fluteVolume = 1.1;
-                double chordsVolume = 0.3;
-                double tubaVolume = 0.7;
-                double hornVolume = 0.7;
-                double rippleBassVolume = 0.7;
+            double fluteVolume = 1.2;
+            double chordsVolume = 0.4;
+            double tubaVolume = 0.8;
+            double hornVolume = 0.6;
+            double rippleBassVolume = 0.7;
 
-                var pattern1 = Adder
-                (
-                    Multiply(_[fluteVolume], FluteMelody1(portato: 1.1)),
-                    Multiply(_[chordsVolume], PadChords),
-                    Multiply(_[tubaVolume], TubaMelody1),
-                    Multiply(_[hornVolume], HornMelody1)
-                    //Multiply(_[rippleBassVolume], RippleBassMelody1())
-                );
+            var pattern1 = Adder
+            (
+                Multiply(_[fluteVolume], FluteMelody1(portato: 1)),
+                Multiply(_[chordsVolume], PadChords),
+                Multiply(_[tubaVolume], TubaMelody1),
+                Multiply(_[hornVolume], HornMelody1)
+            //Multiply(_[rippleBassVolume], RippleBassMelody1())
+            );
 
-                var pattern2 = Adder
-                (
-                    Multiply(_[fluteVolume], FluteMelody2),
-                    Multiply(_[tubaVolume], TubaMelody2),
-                    Multiply(_[hornVolume], HornMelody2)
-                    //Multiply(_[rippleBassVolume], RippleBassMelody2)
-                );
+            var pattern2 = Adder
+            (
+                Multiply(_[fluteVolume], FluteMelody2),
+                Multiply(_[tubaVolume], TubaMelody2),
+                Multiply(_[hornVolume], HornMelody2),
+                Multiply(_[rippleBassVolume], RippleBassMelody2)
+            );
 
-                var composition = Adder
-                (
-                    pattern1,
-                    TimeAdd(pattern2, Bar[4])
-                    //RippleSound_Clean(_[Frequencies.A4], delay: Bar(2), volume: _[0.50], duration: Bar(2))
-                );
+            var composition = Adder
+            (
+                pattern1,
+                TimeAdd(pattern2, Bar[4])
+            //RippleSound_Clean(_[Frequencies.A4], delay: Bar(2), volume: _[0.50], duration: Bar(2))
+            );
 
-                return composition;
-            }
+            return composition;
         }
 
         #endregion
 
         #region Melodies
 
-        private Outlet FluteMelody1(double portato = 1.3636)
+        private Outlet FluteMelody1(double portato = 1.0)
         {
             return Adder
             (
                 Flute1(_[Notes.E4], t[bar: 0, beat: 0.0], volume: _[0.80], duration: _[Beat[2.00] * portato]),
-                Flute2(_[Notes.F4], t[bar: 0, beat: 1.5], volume: _[0.70], duration: _[Beat[2.17] * portato]),
+                Flute1(_[Notes.F4], t[bar: 0, beat: 1.5], volume: _[0.70], duration: _[Beat[2.17] * portato]),
                 Flute1(_[Notes.G4], t[bar: 0, beat: 3.0], volume: _[0.60], duration: _[Beat[1.00] * portato]),
                 Flute1(_[Notes.A4], t[bar: 1, beat: 0.0], volume: _[0.80], duration: _[Beat[2.33] * portato]),
-                Flute3(_[Notes.B4], t[bar: 1, beat: 1.5], volume: _[0.50], duration: _[Beat[1.00] * portato]),
-                Flute1(_[Notes.A4], t[bar: 1, beat: 3.0], volume: _[0.55], duration: _[Beat[1.67] * portato]),
-                Flute2(_[Notes.C4], t[bar: 2, beat: 0.0], volume: _[1.00], duration: _[Beat[2.00] * portato]),
+                Flute2(_[Notes.B4], t[bar: 1, beat: 1.5], volume: _[0.50], duration: _[Beat[1.00] * portato]),
+                Flute1(_[Notes.A3], t[bar: 1, beat: 3.0], volume: _[0.55], duration: _[Beat[1.67] * portato]),
+                Flute3(_[Notes.G3], t[bar: 2, beat: 0.0], volume: _[1.00], duration: _[Beat[2.00] * portato]),
                 Flute1(_[Notes.G4], t[bar: 2, beat: 1.5], volume: _[0.80], duration: _[Beat[2.50] * portato])
             );
         }
 
         private Outlet FluteMelody2 => Adder
         (
-            Flute1(_[Notes.E4], t[bar: 0, beat: 0.0], volume: _[1.00]),
-            Flute2(_[Notes.F4], t[bar: 0, beat: 1.5], volume: _[1.15]),
-            Flute2(_[Notes.F4], t[bar: 0, beat: 1.5], volume: _[1.15]),
-            Flute3(_[Notes.G4], t[bar: 0, beat: 3.0], volume: _[1.25]),
-            Flute4(_[Notes.A4], t[bar: 1, beat: 0.0], volume: _[1.40]),
-            Flute3(_[Notes.B4], t[bar: 1, beat: 1.5], volume: _[1.25]),
-            Flute2(_[Notes.G4], t[bar: 1, beat: 3.0], volume: _[1.15]),
-            Flute4(_[Notes.A4], t[bar: 2, beat: 0.0], volume: _[1.70], duration: _[1.66])
+            Flute1(_[Notes.E4], t[bar: 0, beat: 0.0], volume: _[1.00 / 1.60]),
+            Flute2(_[Notes.F4], t[bar: 0, beat: 1.5], volume: _[1.15 / 1.60]),
+            Flute1(_[Notes.G4], t[bar: 0, beat: 3.0], volume: _[1.25 / 1.60]),
+            Flute2(_[Notes.A4], t[bar: 1, beat: 0.0], volume: _[1.40 / 1.60]),
+            Flute3(_[Notes.B4], t[bar: 1, beat: 1.5], volume: _[1.25 / 1.60]),
+            Flute2(_[Notes.G4], t[bar: 1, beat: 3.0], volume: _[1.15 / 1.60]),
+            Flute4(_[Notes.A4], t[bar: 2, beat: 0.0], volume: _[1.70 / 1.60], duration: _[1.66])
         );
 
         private Outlet EvolvingOrganChords => Multiply
@@ -407,50 +403,50 @@ namespace JJ.Business.Synthesizer.Tests
             (
                 Pad(StretchCurve(ChordPitchCurve1, Bar[1]), duration: Bar[8]),
                 Pad(StretchCurve(ChordPitchCurve2, Bar[1]), duration: Bar[8]),
-                Pad(StretchCurve(ChordPitchCurve3, Bar[1]), duration: Bar[8])
+                Pad(Divide(StretchCurve(ChordPitchCurve3, Bar[1]), _[2]), duration: Bar[8])
             )
         );
         
         private Outlet HornMelody1 => Adder
         (
-            Horn(_[Notes.A2], Beat[00], duration: Beat[2]),
-            Horn(_[Notes.E3], Beat[02]),
-            Horn(_[Notes.F2], Beat[04], duration: Beat[3]),
-            Horn(_[Notes.C3], Beat[06]),
-            Horn(_[Notes.C2], Beat[08], duration: Beat[3]),
-            Horn(_[Notes.G2], Beat[10]),
-            Horn(_[Notes.G1], Beat[12], duration: Beat[4])//,
+            //Horn(_[Notes.A2], Beat[00], duration: Beat[2]),
+            //Horn(_[Notes.E3], Beat[02]),
+            //Horn(_[Notes.F2], Beat[04], duration: Beat[3]),
+            //Horn(_[Notes.C3], Beat[06]),
+            Horn(_[Notes.C2], Beat[08], duration: Beat[3], volume: _[0.7]),
+            //Horn(_[Notes.G2], Beat[10]),
+            Horn(_[Notes.G1], Beat[12], duration: Beat[4], volume: _[0.5])//,
             //Horn(_[Notes.D3], Beat[14])
         );
         
         private Outlet HornMelody2 => Adder
         (
-            Horn(_[Notes.A2], Beat[0], duration: Beat[3]),
+            Horn(_[Notes.A2], Beat[0], duration: Beat[3], volume: _[0.75]),
             //Horn(_[Notes.E3], Beat[2]),
-            Horn(_[Notes.F2], Beat[4], duration: Beat[3]),
+            Horn(_[Notes.F2], Beat[4], duration: Beat[3], volume: _[0.85]),
             //Horn(_[Notes.C3], Beat[6]),
-            Horn(_[Notes.A1], Beat[8], duration: Beat[5])
+            Horn(_[Notes.A1], Beat[8], duration: Beat[5], volume: _[1.0])
         );
 
         private Outlet TubaMelody1 => Adder
         (
-            //Tuba(_[Notes.A2], Beat[00]),
-            Tuba(_[Notes.E3], Beat[02]),
-            //Tuba(_[Notes.F2], Beat[04]),
-            Tuba(_[Notes.C3], Beat[06]),
-            //Tuba(_[Notes.C2], Beat[08]),
-            Tuba(_[Notes.G2], Beat[10]),
-            //Tuba(_[Notes.G1], Beat[12]),
-            Tuba(_[Notes.B3], Beat[14])
+            //Tuba(_[Notes.A3], Beat[00]),
+            //Tuba(_[Notes.E4], Beat[02]),
+            //Tuba(_[Notes.F3], Beat[04]),
+            //Tuba(_[Notes.C4], Beat[06]),
+            //Tuba(_[Notes.C3], Beat[08]),
+            //Tuba(_[Notes.G3], Beat[10]),
+            //Tuba(_[Notes.G2], Beat[12]),
+            //Tuba(_[Notes.B3], Beat[14])
         );
 
         private Outlet TubaMelody2 => Adder
         (
             //Tuba(_[Notes.A2], Beat[0]),
-            Tuba(_[Notes.E3], Beat[2]),
+            Tuba(_[Notes.E4], Beat[2]),
             //Tuba(_[Notes.F2], Beat[4]),
-            Tuba(_[Notes.C3], Beat[6]),
-            Tuba(_[Notes.A1], Beat[8])
+            Tuba(_[Notes.C4], Beat[6])//,
+            //Tuba(_[Notes.A3], Beat[8])
         );
 
         private Outlet TubaMelody3 => Adder
@@ -464,7 +460,7 @@ namespace JJ.Business.Synthesizer.Tests
             DeepEcho(RippleBass(_[Notes.A2], delay: Bar[0], duration: Bar[2]));
 
         private Outlet RippleBassMelody2 =>
-            DeepEcho(RippleBass(_[Notes.A1], delay: Bar[2.5], duration: Bar[1.5]));
+            DeepEcho(RippleBass(_[Notes.A1], delay: Bar[2.5], duration: Bar[1]));
 
         #endregion
 
@@ -587,10 +583,10 @@ namespace JJ.Business.Synthesizer.Tests
             var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, _[5]);
 
             // Exaggerate Duration when Lower
-            var durationOfA1 = 0.8;
+            var durationForBaseFreq = 0.8;
             var baseFrequency = _[Notes.A1];
             var frequencyRatio = Divide(baseFrequency, freq);
-            var duration = Multiply(_[durationOfA1], Power(frequencyRatio, _[1.5]));
+            var duration = Multiply(_[durationForBaseFreq], Power(frequencyRatio, _[1.5]));
 
             var envelope = TimeMultiply(CurveIn(TubaCurve), duration);
             var sound = Multiply(fmSignal, envelope);
@@ -879,14 +875,14 @@ namespace JJ.Business.Synthesizer.Tests
                                                      NodeTypeEnum.Block)).ToArray());
 
         private Curve ChordVolumeCurve => CurveFactory.CreateCurve(
-            new NodeInfo(0.0, 0.0), new NodeInfo(0.1, 1.0), new NodeInfo(0.9, 1.0), 
-            new NodeInfo(1.0, 0.0), new NodeInfo(1.1, 1.0), new NodeInfo(1.9, 1.0), 
-            new NodeInfo(2.0, 0.0), new NodeInfo(2.1, 1.0), new NodeInfo(2.9, 1.0), 
-            new NodeInfo(3.0, 0.0), new NodeInfo(3.1, 1.0), new NodeInfo(3.9, 1.0), 
-            new NodeInfo(4.0, 0.0), new NodeInfo(4.1, 1.0), new NodeInfo(4.9, 1.0), 
-            new NodeInfo(5.0, 0.0), new NodeInfo(5.1, 1.0), new NodeInfo(5.9, 1.0), 
-            new NodeInfo(6.0, 0.0), new NodeInfo(6.1, 1.0), new NodeInfo(6.9, 1.0), 
-            new NodeInfo(7.0, 0.0), new NodeInfo(7.1, 1.0), new NodeInfo(7.9, 1.0), 
+            new NodeInfo(0.0, 0.0), new NodeInfo(0.05, 0.0), new NodeInfo(0.98, 1.0), 
+            new NodeInfo(1.0, 0.0), new NodeInfo(1.05, 0.6), new NodeInfo(1.98, 1.0), 
+            new NodeInfo(2.0, 0.0), new NodeInfo(2.05, 0.8), new NodeInfo(2.98, 1.0), 
+            new NodeInfo(3.0, 0.0), new NodeInfo(3.05, 0.6), new NodeInfo(3.80, 1.0), 
+            new NodeInfo(4.0, 0.0), new NodeInfo(4.05, 0.9), new NodeInfo(4.98, 1.0), 
+            new NodeInfo(5.0, 0.0), new NodeInfo(5.05, 0.8), new NodeInfo(5.92, 1.0), 
+            new NodeInfo(6.0, 0.0), new NodeInfo(6.05, 1.0), new NodeInfo(6.98, 1.0), 
+            new NodeInfo(7.0, 0.0), new NodeInfo(7.05, 0.8), new NodeInfo(7.98, 1.0), 
             new NodeInfo(8.0, 0.0));
 
         #endregion
