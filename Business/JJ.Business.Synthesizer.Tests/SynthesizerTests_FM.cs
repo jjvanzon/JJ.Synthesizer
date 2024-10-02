@@ -101,14 +101,14 @@ namespace JJ.Business.Synthesizer.Tests
             => CreateAudioFile(MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
         
         [TestMethod]
-        public void Test_Synthesizer_FM_EvolvingOrgan()
+        public void Test_Synthesizer_FM_Organ()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_EvolvingOrgan();
+                new SynthesizerTests_FM(context).Test_FM_Organ();
         }
 
-        private void Test_FM_EvolvingOrgan()
-            => CreateAudioFile(MildEcho(EvolvingOrgan(duration: Bar[8])), duration: Bar[8] + MILD_ECHO_TIME);
+        private void Test_FM_Organ()
+            => CreateAudioFile(MildEcho(Organ(duration: Bar[8])), duration: Bar[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Pad()
@@ -211,14 +211,14 @@ namespace JJ.Business.Synthesizer.Tests
             => CreateAudioFile(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_EvolvingOrgan_Chords()
+        public void Test_Synthesizer_FM_Organ_Chords()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_EvolvingOrgan_Chords();
+                new SynthesizerTests_FM(context).Test_FM_Organ_Chords();
         }
 
-        private void Test_FM_EvolvingOrgan_Chords()
-            => CreateAudioFile(MildEcho(EvolvingOrganChords), volume: 0.22, duration: Bar[8] + MILD_ECHO_TIME);
+        private void Test_FM_Organ_Chords()
+            => CreateAudioFile(MildEcho(OrganChords), volume: 0.22, duration: Bar[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleBass()
@@ -317,8 +317,8 @@ namespace JJ.Business.Synthesizer.Tests
                 Multiply(_[fluteVolume], FluteMelody1),
                 Multiply(_[chordsVolume], PadChords),
                 Multiply(_[tromboneVolume], TromboneMelody1),
-                Multiply(_[hornVolume], HornMelody1)
-            //Multiply(_[rippleBassVolume], RippleBassMelody1())
+                Multiply(_[hornVolume], HornMelody1),
+                Multiply(_[rippleBassVolume], RippleBassMelody1)
             );
 
             var pattern2 = Adder
@@ -366,14 +366,14 @@ namespace JJ.Business.Synthesizer.Tests
             Flute4(_[Notes.A4], t[bar: 2, beat: 0.0], volume: _[1.00], duration: _[1.66])
         );
 
-        private Outlet EvolvingOrganChords => Multiply
+        private Outlet OrganChords => Multiply
         (
             StretchCurve(ChordVolumeCurve, Bar[1]),
             Adder
             (
-                EvolvingOrgan(StretchCurve(ChordPitchCurve1, Bar[1]), duration: Bar[8]),
-                EvolvingOrgan(StretchCurve(ChordPitchCurve2, Bar[1]), duration: Bar[8]),
-                EvolvingOrgan(StretchCurve(ChordPitchCurve3, Bar[1]), duration: Bar[8])
+                Organ(StretchCurve(ChordPitchCurve1, Bar[1]), duration: Bar[8]),
+                Organ(StretchCurve(ChordPitchCurve2, Bar[1]), duration: Bar[8]),
+                Organ(StretchCurve(ChordPitchCurve3, Bar[1]), duration: Bar[8])
             )
         );
 
@@ -437,8 +437,8 @@ namespace JJ.Business.Synthesizer.Tests
             Trombone(_[Notes.F1_Sharp], Beat[4], volume: _[0.7])
         );
 
-        private Outlet RippleBassMelody1 =>
-            RippleBass(_[Notes.A2], delay: Bar[0], duration: Bar[2]);
+        private Outlet RippleBassMelody1 => _[0];
+            //RippleBass(_[Notes.A2], delay: Bar[0], duration: Bar[2]);
 
         private Outlet RippleBassMelody2 =>
             RippleBass(_[Notes.A1], delay: Bar[2.5], duration: Bar[0.8]);
@@ -510,7 +510,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="DefaultDoc" />
-        private Outlet EvolvingOrgan(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        private Outlet Organ(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
             duration = duration ?? _[1.0];
@@ -869,7 +869,7 @@ namespace JJ.Business.Synthesizer.Tests
             new NodeInfo(4.0, 0.0), new NodeInfo(4.05, 0.9), new NodeInfo(4.98, 0.9), 
             new NodeInfo(5.0, 0.0), new NodeInfo(5.05, 0.8), new NodeInfo(5.92, 0.8), 
             new NodeInfo(6.0, 0.0), new NodeInfo(6.05, 1.0), new NodeInfo(6.98, 1.0), 
-            new NodeInfo(7.0, 0.0), new NodeInfo(7.05, 0.6), new NodeInfo(7.98, 0.6), 
+            new NodeInfo(7.0, 0.0), new NodeInfo(7.05, 0.6), new NodeInfo(7.78, 0.2), 
             new NodeInfo(8.0, 0.0));
 
         private Curve PadVolumeEvenOutCurve => CurveFactory.CreateCurve(
