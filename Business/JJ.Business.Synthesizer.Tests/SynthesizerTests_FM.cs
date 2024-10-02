@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => CreateAudioFile(MildEcho(Pad()), duration: 1.5 + MILD_ECHO_TIME);
+            => CreateAudioFile(MildEcho(Pad()), duration: Bar[8] + MILD_ECHO_TIME, volume: 0.2);
         
         [TestMethod]
         public void Test_Synthesizer_FM_Pad_Chords()
@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad_Chords()
-            => CreateAudioFile(MildEcho(PadChords), volume: 0.1, duration: Bar[8] + MILD_ECHO_TIME);
+            => CreateAudioFile(MildEcho(PadChords), volume: 0.15, duration: Bar[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Trombone()
@@ -307,7 +307,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet Composition()
         {
             double fluteVolume = 1.2;
-            double chordsVolume = 0.4;
+            double chordsVolume = 0.5;
             double tromboneVolume = 0.7;
             double hornVolume = 0.6;
             double rippleBassVolume = 0.7;
@@ -350,7 +350,7 @@ namespace JJ.Business.Synthesizer.Tests
             Flute1(_[Notes.G4], t[bar: 0, beat: 3.0], volume: _[0.60], duration: Beat[1.00]),
             Flute1(_[Notes.A4], t[bar: 1, beat: 0.0], volume: _[0.80], duration: Beat[2.33]),
             Flute2(_[Notes.B4], t[bar: 1, beat: 1.5], volume: _[0.50], duration: Beat[1.00]),
-            Flute2(_[Notes.A3], t[bar: 1, beat: 3.0], volume: _[0.50], duration: Beat[1.67]),
+            //Flute2(_[Notes.A3], t[bar: 1, beat: 3.0], volume: _[0.50], duration: Beat[1.67]),
             Flute3(_[Notes.G3], t[bar: 2, beat: 0.0], volume: _[1.00], duration: Beat[2.00]),
             Flute1(_[Notes.G4], t[bar: 2, beat: 1.5], volume: _[0.80], duration: Beat[2.50])
         );
@@ -384,7 +384,7 @@ namespace JJ.Business.Synthesizer.Tests
             (
                 Pad(StretchCurve(ChordPitchCurve1, Bar[1])),
                 Pad(StretchCurve(ChordPitchCurve2, Bar[1])),
-                Pad(Divide(StretchCurve(ChordPitchCurve3, Bar[1]), _[2]))
+                Pad(StretchCurve(ChordPitchCurve3, Bar[1]))
             )
         );
         
@@ -515,9 +515,14 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[Notes.A4];
             duration = duration ?? _[1.0];
 
-            var modDepth = Multiply(_[0.0001], StretchCurve(ModTamingCurve, Multiply(duration, _[1.1])));
+            var modCurve = StretchCurve(ModTamingCurve, duration);
+            var modDepth = Multiply(_[0.0001], modCurve);
             var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth);
-            var note = StrikeNote(fmSignal, delay, volume);
+            
+            var volumeEvenOutCurve = StretchCurve(PadVolumeEvenOutCurve, duration);
+            var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
+
+            var note = StrikeNote(soundWithEvenVolume, delay, volume);
 
             return note;
         }
@@ -526,11 +531,10 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null)
         {
             freq = freq ?? _[Notes.A4];
-            volume = volume ?? _[1];
 
             // Tame modulation
             var modCurveLength = Bar[8];
-            Outlet modCurve = StretchCurve(ModTamingCurveRepeated8Times, modCurveLength);
+            var modCurve = StretchCurve(ModTamingCurve8Times, modCurveLength);
             modCurve = Multiply(modCurve, StretchCurve(ModTamingCurve, modCurveLength));
             modCurve = Multiply(modCurve, StretchCurve(LineDownCurve, modCurveLength));
 
@@ -540,8 +544,10 @@ namespace JJ.Business.Synthesizer.Tests
                 FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.00015], modCurve))
             );
 
-            var adjustedVolume = Multiply(volume, _[0.6]);
-            var note = StrikeNote(fmSignal, delay, adjustedVolume);
+            var volumeEvenOutCurve = StretchCurve(PadVolumeEvenOutCurve, modCurveLength);
+            var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
+
+            var note = StrikeNote(soundWithEvenVolume, delay, volume);
 
             return note;
         }
@@ -813,7 +819,7 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         /// <inheritdoc cref="ModTamingCurve"/>
-        private Curve ModTamingCurveRepeated8Times => CurveFactory.CreateCurve
+        private Curve ModTamingCurve8Times => CurveFactory.CreateCurve
         (
             timeSpan: 1,
             0.3, 1.0, 0.3, 0.0,
@@ -829,42 +835,50 @@ namespace JJ.Business.Synthesizer.Tests
         private static readonly (double time, double frequency1, double frequency2, double frequency3)[]
             _chordFrequencies =
             {
-                (0.0, Notes.A4, Notes.C5, Notes.E5),
-                (1.0, Notes.A4, Notes.C5, Notes.F5),
-                (2.0, Notes.G4, Notes.C5, Notes.E5),
-                (3.0, Notes.G4, Notes.B4, Notes.D5),
-                (4.0, Notes.F4, Notes.A4, Notes.D5),
-                (5.0, Notes.A4, Notes.D5, Notes.F5),
-                (6.0, Notes.A4, Notes.C5, Notes.E5),
-                (7.0, Notes.A4, Notes.C5, Notes.E5),
+                (0.0, Notes.E4, Notes.A4, Notes.C5),
+                (1.0, Notes.F4, Notes.A4, Notes.C5),
+                (2.0, Notes.E4, Notes.G4, Notes.C5),
+                (3.0, Notes.D4, Notes.G4, Notes.B4),
+                (4.0, Notes.D4, Notes.F4, Notes.A4),
+                (5.0, Notes.F4, Notes.A4, Notes.D5),
+                (6.0, Notes.E4, Notes.A4, Notes.C5),
+                (7.0, Notes.E4, Notes.A5, Notes.E5),
+                (8.0, Notes.E4, Notes.A5, Notes.E5)
             };
 
         private Curve ChordPitchCurve1 => CurveFactory.CreateCurve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
-                                                     x.frequency1,
-                                                     NodeTypeEnum.Block)).ToArray());
+                                                       x.frequency1,
+                                                       NodeTypeEnum.Block)).ToArray());
 
         private Curve ChordPitchCurve2 => CurveFactory.CreateCurve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
-                                                     x.frequency2,
-                                                     NodeTypeEnum.Block)).ToArray());
+                                                       x.frequency2,
+                                                       NodeTypeEnum.Block)).ToArray());
 
         private Curve ChordPitchCurve3 => CurveFactory.CreateCurve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
-                                                     x.frequency3,
-                                                     NodeTypeEnum.Block)).ToArray());
+                                                       x.frequency3,
+                                                       NodeTypeEnum.Block)).ToArray());
 
         private Curve ChordVolumeCurve => CurveFactory.CreateCurve(
-            new NodeInfo(0.0, 0.0), new NodeInfo(0.05, 0.0), new NodeInfo(0.98, 1.0), 
-            new NodeInfo(1.0, 0.0), new NodeInfo(1.05, 0.6), new NodeInfo(1.98, 1.0), 
-            new NodeInfo(2.0, 0.0), new NodeInfo(2.05, 0.8), new NodeInfo(2.98, 1.0), 
-            new NodeInfo(3.0, 0.0), new NodeInfo(3.05, 0.6), new NodeInfo(3.80, 1.0), 
-            new NodeInfo(4.0, 0.0), new NodeInfo(4.05, 0.9), new NodeInfo(4.98, 1.0), 
-            new NodeInfo(5.0, 0.0), new NodeInfo(5.05, 0.8), new NodeInfo(5.92, 1.0), 
+            new NodeInfo(0.0, 0.0), new NodeInfo(0.05, 0.0), new NodeInfo(0.98, 0.5), 
+            new NodeInfo(1.0, 0.0), new NodeInfo(1.05, 0.6), new NodeInfo(1.98, 0.6), 
+            new NodeInfo(2.0, 0.0), new NodeInfo(2.05, 0.8), new NodeInfo(2.98, 0.8), 
+            new NodeInfo(3.0, 0.0), new NodeInfo(3.05, 0.6), new NodeInfo(3.80, 0.6), 
+            new NodeInfo(4.0, 0.0), new NodeInfo(4.05, 0.9), new NodeInfo(4.98, 0.9), 
+            new NodeInfo(5.0, 0.0), new NodeInfo(5.05, 0.8), new NodeInfo(5.92, 0.8), 
             new NodeInfo(6.0, 0.0), new NodeInfo(6.05, 1.0), new NodeInfo(6.98, 1.0), 
-            new NodeInfo(7.0, 0.0), new NodeInfo(7.05, 0.8), new NodeInfo(7.98, 1.0), 
+            new NodeInfo(7.0, 0.0), new NodeInfo(7.05, 0.6), new NodeInfo(7.98, 0.6), 
             new NodeInfo(8.0, 0.0));
 
+        private Curve PadVolumeEvenOutCurve => CurveFactory.CreateCurve(
+            new NodeInfo(0.00, 1.0),
+            new NodeInfo(0.33, 0.6),
+            new NodeInfo(0.50, 0.6),
+            new NodeInfo(0.75, 0.8),
+            new NodeInfo(1.00, 1.0));
+        
         #endregion
 
         #region Helpers
