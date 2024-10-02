@@ -7,17 +7,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     public partial class SynthesizerSugarBase : OperatorFactory
     {
-        private const double DEFAULT_BAR_LENGTH = 4;
-        private const double DEFAULT_BEAT_LENGTH = 1;
-
         protected readonly CurveFactory CurveFactory;
         protected readonly AudioFileOutputManager AudioFileOutputManager;
 
         protected SynthesizerSugarBase()
-            : this(PersistenceHelper.CreateContext(), DEFAULT_BAR_LENGTH, DEFAULT_BEAT_LENGTH)
+            : this(PersistenceHelper.CreateContext(), beat: 1, bar: 4)
         { }
 
-        protected SynthesizerSugarBase(IContext context, double barLength, double beatLength)
+        protected SynthesizerSugarBase(IContext context, double beat, double bar)
             : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
                 PersistenceHelper.CreateRepository<IInletRepository>(context),
                 PersistenceHelper.CreateRepository<IOutletRepository>(context),
@@ -29,9 +26,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             AudioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
 
             _ = new ValueIndexer(this);
-            Bar = new BarIndexer(this, barLength);
-            Beat = new BeatIndexer(this, beatLength);
-            t = new TimeIndexer(this, barLength, beatLength);
+            Bar = new BarIndexer(this, bar);
+            Beat = new BeatIndexer(this, beat);
+            t = new TimeIndexer(this, bar, beat);
         }
 
         /// <inheritdoc cref="ValueIndexer"/>

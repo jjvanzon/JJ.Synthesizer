@@ -27,15 +27,13 @@ namespace JJ.Business.Synthesizer.Tests
         private const double DEFAULT_TOTAL_TIME = 1.0 + DEEP_ECHO_TIME;
         private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_AMPLITUDE = 1.0;
-        private const double BEAT = 0.4;
-        private const double BAR = 1.6;
 
         /// <summary> Constructor for test runner. </summary>
         public SynthesizerTests_FM() { }
 
         /// <summary> Constructor allowing each test to run in its own instance. </summary>
         public SynthesizerTests_FM(IContext context)
-            : base(context, BAR, BEAT)
+            : base(context, beat: 0.4, bar: 4 * 0.4)
         { }
 
         // Composition Test
@@ -47,8 +45,13 @@ namespace JJ.Business.Synthesizer.Tests
                 new SynthesizerTests_FM(context).Test_FM_Composition();
         }
 
-        private void Test_FM_Composition() 
-            => WrapUp_Test(MildEcho(Composition()), duration: Bar[8] + BEAT + DEEP_ECHO_TIME, volume: 0.20);
+        private void Test_FM_Composition()
+            => WrapUp_Test
+            (
+                MildEcho(Composition()),
+                duration: t[bar: 8, beat: 1] + DEEP_ECHO_TIME,
+                volume: 0.20
+            );
 
         // Flute Tests
 
@@ -58,9 +61,17 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateContext())
                 new SynthesizerTests_FM(context).Test_FM_Flute_Melody1();
         }
-        
-        private void Test_FM_Flute_Melody1() 
-            => WrapUp_Test(MildEcho(FluteMelody1(portato: 1)), duration: BAR * 4 + MILD_ECHO_TIME, volume: 0.6);
+
+        private void Test_FM_Flute_Melody1()
+            => WrapUp_Test
+            (
+                MildEcho
+                (
+                    FluteMelody1(portato: 1)
+                ),
+                duration: Bar[4] + MILD_ECHO_TIME,
+                volume: 0.6
+            );
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Melody2()
@@ -69,8 +80,13 @@ namespace JJ.Business.Synthesizer.Tests
                 new SynthesizerTests_FM(context).Test_FM_Flute_Melody2();
         }
 
-        private void Test_FM_Flute_Melody2() 
-            => WrapUp_Test(MildEcho(FluteMelody2), BAR * 2.5 + MILD_ECHO_TIME, volume: 0.3);
+        private void Test_FM_Flute_Melody2()
+            => WrapUp_Test
+            (
+                MildEcho(FluteMelody2),
+                duration: Bar[2.5] + MILD_ECHO_TIME,
+                volume: 0.3
+            );
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute1()
@@ -80,7 +96,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
         
         private void Test_FM_Flute1()
-            => WrapUp_Test(MildEcho(Flute1(_[Notes.A4])));
+            => WrapUp_Test(MildEcho(Flute1()));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute2()
@@ -100,7 +116,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute3()
-            => WrapUp_Test(MildEcho(Flute3(_[Notes.A4])));
+            => WrapUp_Test(MildEcho(Flute3()));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute4()
@@ -110,7 +126,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute4()
-            => WrapUp_Test(MildEcho(Flute4(_[Notes.A4])));
+            => WrapUp_Test(MildEcho(Flute4()));
 
         // Pad Tests
 
@@ -122,7 +138,14 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => WrapUp_Test(MildEcho(Pad(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
+            => WrapUp_Test
+            (
+                duration: 1.5 + MILD_ECHO_TIME,
+                outlet: MildEcho
+                (
+                    Pad(duration: _[1.5])
+                )
+            );
 
         // Electric Note Tests
 
@@ -134,7 +157,14 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_ElectricNote()
-            => WrapUp_Test(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
+            => WrapUp_Test
+            (
+                duration: 1.5 + MILD_ECHO_TIME,
+                outlet: MildEcho
+                (
+                    ElectricNote(duration: _[1.5])
+                )
+            );
 
         // Evolving Organ Test
 
@@ -146,10 +176,13 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_EvolvingOrgan() =>
-            WrapUp_Test(duration: BAR * 8 + MILD_ECHO_TIME,
-                outlet: MildEcho(
-                    EvolvingOrgan(_[Notes.A4], 
-                        duration: _[BAR * 8 + MILD_ECHO_TIME]))
+            WrapUp_Test
+            (
+                duration: Bar[8] + MILD_ECHO_TIME,
+                outlet: MildEcho
+                (
+                    EvolvingOrgan(duration: Bar[8])
+                )
             );
         
         [TestMethod]
@@ -160,7 +193,12 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_EvolvingOrgan_Chords()
-            => WrapUp_Test(MildEcho(EvolvingOrganChords), duration: BAR * 8 + MILD_ECHO_TIME, volume: 0.22);
+            => WrapUp_Test
+            (
+                MildEcho(EvolvingOrganChords),
+                duration: Bar[8] + MILD_ECHO_TIME, 
+                volume: 0.22
+            );
 
         // Tube Tests
 
@@ -182,7 +220,12 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody1()
-            => WrapUp_Test(MildEcho(TubaMelody1), duration: BAR * 4 + MILD_ECHO_TIME, volume: 0.45);
+            => WrapUp_Test
+            (
+                MildEcho(TubaMelody1),
+                duration: Bar[4] + MILD_ECHO_TIME,
+                volume: 0.45
+            );
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody2()
@@ -192,7 +235,12 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Tuba_Melody2()
-            => WrapUp_Test(MildEcho(TubaMelody2), duration:  BAR * 2.5 + MILD_ECHO_TIME, volume: 0.75);
+            => WrapUp_Test
+            (
+                MildEcho(TubaMelody2),
+                duration: Bar[2.5] + MILD_ECHO_TIME,
+                volume: 0.75
+            );
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody3()
@@ -201,8 +249,12 @@ namespace JJ.Business.Synthesizer.Tests
                 new SynthesizerTests_FM(context).Test_FM_Tuba_Melody3();
         }
 
-        private void Test_FM_Tuba_Melody3() 
-            => WrapUp_Test(MildEcho(TubaMelody3), duration: BAR * 1.5 + MILD_ECHO_TIME);
+        private void Test_FM_Tuba_Melody3()
+            => WrapUp_Test
+            (
+                MildEcho(TubaMelody3),
+                duration: Bar[1.5] + MILD_ECHO_TIME
+            );
 
         // Ripple Effect Tests
 
@@ -214,7 +266,14 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass()
-            => WrapUp_Test(DeepEcho(RippleBass(duration: _[3])), duration: 3.0 + DEEP_ECHO_TIME);
+            => WrapUp_Test
+            (
+                duration: 3 + DEEP_ECHO_TIME,
+                outlet: DeepEcho
+                (
+                    RippleBass(duration: _[3])
+                )
+            );
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleBass_Melody1()
@@ -222,9 +281,14 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateContext())
                 new SynthesizerTests_FM(context).Test_FM_RippleBass_Melody1();
         }
-        
-        private void Test_FM_RippleBass_Melody1() 
-            => WrapUp_Test(DeepEcho(RippleBassMelody1), duration: BAR * 5 + DEEP_ECHO_TIME, volume: 0.3);
+
+        private void Test_FM_RippleBass_Melody1()
+            => WrapUp_Test
+            (
+                DeepEcho(RippleBassMelody1),
+                duration: Bar[5] + DEEP_ECHO_TIME,
+                volume: 0.3
+            );
         
         [TestMethod]
         public void Test_Synthesizer_FM_RippleBass_Melody2()
@@ -233,8 +297,13 @@ namespace JJ.Business.Synthesizer.Tests
                 new SynthesizerTests_FM(context).Test_FM_RippleBass_Melody2();
         }
 
-        private void Test_FM_RippleBass_Melody2() 
-            => WrapUp_Test(DeepEcho(RippleBassMelody2), duration: BAR * 4.0 + DEEP_ECHO_TIME, volume: 0.3);
+        private void Test_FM_RippleBass_Melody2()
+            => WrapUp_Test
+            (
+                DeepEcho(RippleBassMelody2),
+                Bar[4] + DEEP_ECHO_TIME,
+                volume: 0.3
+            );
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
@@ -246,11 +315,11 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_FM_RippleNote_SharpMetallic()
             => WrapUp_Test
             (
-                DeepEcho
+                duration: 2.2 + DEEP_ECHO_TIME,
+                outlet: DeepEcho
                 (
-                    RippleNote_SharpMetallic(_[Notes.E3], duration: _[2.2])
-                ),
-                duration: 2.2 + DEEP_ECHO_TIME  
+                    RippleNote_SharpMetallic(duration: _[2.2])
+                )
             );
 
         [TestMethod]
@@ -263,11 +332,11 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_FM_RippleSound_Clean()
             => WrapUp_Test
             (
-                DeepEcho
+                duration: 3 + DEEP_ECHO_TIME,
+                outlet: DeepEcho
                 (
                     RippleSound_Clean(duration: _[3])
-                ),
-                duration: 3 + DEEP_ECHO_TIME
+                )
             );
 
         [TestMethod]
@@ -278,7 +347,14 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_FantasyEffect()
-            => WrapUp_Test(MildEcho(RippleSound_FantasyEffect(_[Notes.A5])), duration: 3);
+            => WrapUp_Test
+            (
+                duration: 3 + DEEP_ECHO_TIME,
+                outlet: DeepEcho
+                (
+                    RippleSound_FantasyEffect(duration: _[3])
+                )
+            );
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_CoolDouble()
@@ -288,7 +364,14 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_CoolDouble()
-            => WrapUp_Test(MildEcho(RippleSound_CoolDouble(_[Notes.A5])), duration: 3);
+            => WrapUp_Test
+            (
+                duration: 3 + DEEP_ECHO_TIME,
+                outlet: DeepEcho
+                (
+                    RippleSound_CoolDouble(duration: _[3])
+                )
+            );
 
         // FM Noise Tests
 
