@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition()
-            => CreateAudioFile(MildEcho(Composition()), volume: 0.20, duration: t[bar: 8, beat: 1] + DEEP_ECHO_TIME);
+            => CreateAudioFile(MildEcho(Composition), volume: 0.20, duration: t[bar: 8, beat: 1] + DEEP_ECHO_TIME);
 
         // Flute Tests
 
@@ -103,6 +103,18 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_Flute4()
             => CreateAudioFile(MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
+        
+        // Evolving Organ Test
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_EvolvingOrgan()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_EvolvingOrgan();
+        }
+
+        private void Test_FM_EvolvingOrgan()
+            => CreateAudioFile(MildEcho(EvolvingOrgan(duration: Bar[8])), duration: Bar[8] + MILD_ECHO_TIME);
 
         // Pad Tests
 
@@ -115,6 +127,16 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_Pad()
             => CreateAudioFile(MildEcho(Pad(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
+        
+        [TestMethod]
+        public void Test_Synthesizer_FM_Pad_Chords()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Pad_Chords();
+        }
+
+        private void Test_FM_Pad_Chords()
+            => CreateAudioFile(MildEcho(PadChords), volume: 0.1, duration: Bar[8] + MILD_ECHO_TIME);
 
         // Electric Note Tests
 
@@ -127,18 +149,6 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_ElectricNote()
             => CreateAudioFile(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
-
-        // Evolving Organ Test
-
-        [TestMethod]
-        public void Test_Synthesizer_FM_EvolvingOrgan()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_EvolvingOrgan();
-        }
-
-        private void Test_FM_EvolvingOrgan()
-            => CreateAudioFile(MildEcho(EvolvingOrgan(duration: Bar[8])), duration: Bar[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_EvolvingOrgan_Chords()
@@ -280,36 +290,39 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Composition
 
-        private Outlet Composition()
+        private Outlet Composition
         {
-            double fluteVolume = 1.1;
-            double chordsVolume = 0.3;
-            double tubaVolume = 0.7;
-            double rippleBassVolume = 0.7;
+            get
+            {
+                double fluteVolume = 1.1;
+                double chordsVolume = 0.3;
+                double tubaVolume = 0.7;
+                double rippleBassVolume = 0.7;
 
-            var pattern1 = Adder
-            (
-                Multiply(_[fluteVolume], FluteMelody1(portato: 1.1)),
-                Multiply(_[chordsVolume], EvolvingOrganChords),
-                Multiply(_[tubaVolume], TubaMelody1)
-                //Multiply(_[rippleBassVolume], RippleBassMelody1())
-            );
+                var pattern1 = Adder
+                (
+                    Multiply(_[fluteVolume], FluteMelody1(portato: 1.1)),
+                    Multiply(_[chordsVolume], PadChords)
+                    //Multiply(_[tubaVolume], TubaMelody1)
+                    //Multiply(_[rippleBassVolume], RippleBassMelody1())
+                );
 
-            var pattern2 = Adder
-            (
-                Multiply(_[fluteVolume], FluteMelody2),
-                Multiply(_[tubaVolume], TubaMelody2),
-                Multiply(_[rippleBassVolume], RippleBassMelody2)
-            );
+                var pattern2 = Adder
+                (
+                    Multiply(_[fluteVolume], FluteMelody2)
+                    //Multiply(_[tubaVolume], TubaMelody2)
+                    //Multiply(_[rippleBassVolume], RippleBassMelody2)
+                );
 
-            var composition = Adder
-            (
-                pattern1,
-                TimeAdd(pattern2, Bar[4])
-                //RippleSound_Clean(_[Frequencies.A4], delay: Bar(2), volume: _[0.50], duration: Bar(2))
-            );
+                var composition = Adder
+                (
+                    pattern1,
+                    TimeAdd(pattern2, Bar[4])
+                    //RippleSound_Clean(_[Frequencies.A4], delay: Bar(2), volume: _[0.50], duration: Bar(2))
+                );
 
-            return composition;
+                return composition;
+            }
         }
 
         #endregion
@@ -348,6 +361,13 @@ namespace JJ.Business.Synthesizer.Tests
             EvolvingOrgan(StretchCurve(PadPitchCurve1, Bar[1]), duration: Bar[8]),
             EvolvingOrgan(StretchCurve(PadPitchCurve2, Bar[1]), duration: Bar[8]),
             EvolvingOrgan(StretchCurve(PadPitchCurve3, Bar[1]), duration: Bar[8])
+        );
+
+        private Outlet PadChords => Adder
+        (
+            Pad(StretchCurve(PadPitchCurve1, Bar[1]), duration: Bar[8]),
+            Pad(StretchCurve(PadPitchCurve2, Bar[1]), duration: Bar[8]),
+            Pad(StretchCurve(PadPitchCurve3, Bar[1]), duration: Bar[8])
         );
 
         private Outlet TubaMelody1 => Adder
@@ -457,11 +477,15 @@ namespace JJ.Business.Synthesizer.Tests
             volume = volume ?? _[1];
             duration = duration ?? _[1];
 
-            var modCurve = StretchCurve(LineDownCurve, Multiply(duration, _[1.1]));
+            var modCurveLength = Bar[8];
+            Outlet modCurve = StretchCurve(ModTamingCurveRepeated8Times, modCurveLength);
+            modCurve = Multiply(modCurve, StretchCurve(ModTamingCurve, modCurveLength));
+            modCurve = Multiply(modCurve, StretchCurve(ModTamingCurve, modCurveLength));
+
             var fmSignal = Add
             (
-                FMAroundFreq(freq, Multiply(freq, _[2]), Multiply(_[0.004], modCurve)),
-                FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.003], modCurve))
+                FMAroundFreq(freq, Multiply(freq, _[2]), Multiply(_[0.000500], modCurve)),
+                FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.000375], modCurve))
             );
 
             var envelope = StretchCurve(DampedBlockCurve, duration);
@@ -717,6 +741,19 @@ namespace JJ.Business.Synthesizer.Tests
         private Curve ModTamingCurve => CurveFactory.CreateCurve
         (
             timeSpan: 1,
+            0.3, 1.0, 0.3, 0.0
+        );
+
+        private Curve ModTamingCurveRepeated8Times => CurveFactory.CreateCurve
+        (
+            timeSpan: 1,
+            0.3, 1.0, 0.3, 0.0,
+            0.3, 1.0, 0.3, 0.0,
+            0.3, 1.0, 0.3, 0.0,
+            0.3, 1.0, 0.3, 0.0,
+            0.3, 1.0, 0.3, 0.0,
+            0.3, 1.0, 0.3, 0.0,
+            0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0
         );
 
