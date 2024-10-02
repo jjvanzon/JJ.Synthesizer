@@ -138,29 +138,7 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_FM_Pad_Chords()
             => CreateAudioFile(MildEcho(PadChords), volume: 0.1, duration: Bar[8] + MILD_ECHO_TIME);
 
-        // Electric Note Tests
-
-        [TestMethod]
-        public void Test_Synthesizer_FM_ElectricNote()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_ElectricNote();
-        }
-
-        private void Test_FM_ElectricNote()
-            => CreateAudioFile(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
-
-        [TestMethod]
-        public void Test_Synthesizer_FM_EvolvingOrgan_Chords()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_EvolvingOrgan_Chords();
-        }
-
-        private void Test_FM_EvolvingOrgan_Chords()
-            => CreateAudioFile(MildEcho(EvolvingOrganChords), volume: 0.22, duration: Bar[8] + MILD_ECHO_TIME);
-
-        // Tube Tests
+        // Tuba Tests
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba()
@@ -171,6 +149,16 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_Tuba()
             => CreateAudioFile(MildEcho(Tuba(_[Notes.E2])));
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_Horn()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Horn();
+        }
+
+        private void Test_FM_Horn()
+            => CreateAudioFile(MildEcho(Horn(duration: _[1])), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Tuba_Melody1()
@@ -201,6 +189,48 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_Tuba_Melody3()
             => CreateAudioFile(MildEcho(TubaMelody3), duration: Bar[1.5] + MILD_ECHO_TIME);
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_Horn_Melody1()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Horn_Melody1();
+        }
+
+        private void Test_FM_Horn_Melody1()
+            => CreateAudioFile(MildEcho(HornMelody1), volume: 0.2, duration: Bar[4] + MILD_ECHO_TIME);
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_Horn_Melody2()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_Horn_Melody2();
+        }
+
+        private void Test_FM_Horn_Melody2()
+            => CreateAudioFile(MildEcho(HornMelody2), volume: 0.2, duration: Bar[2.5] + MILD_ECHO_TIME);
+
+        // Electric Note Tests
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_ElectricNote()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_ElectricNote();
+        }
+
+        private void Test_FM_ElectricNote()
+            => CreateAudioFile(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
+
+        [TestMethod]
+        public void Test_Synthesizer_FM_EvolvingOrgan_Chords()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_FM(context).Test_FM_EvolvingOrgan_Chords();
+        }
+
+        private void Test_FM_EvolvingOrgan_Chords()
+            => CreateAudioFile(MildEcho(EvolvingOrganChords), volume: 0.22, duration: Bar[8] + MILD_ECHO_TIME);
 
         // Ripple Effect Tests
 
@@ -297,20 +327,21 @@ namespace JJ.Business.Synthesizer.Tests
                 double fluteVolume = 1.1;
                 double chordsVolume = 0.3;
                 double tubaVolume = 0.7;
+                double hornVolume = 0.7;
                 double rippleBassVolume = 0.7;
 
                 var pattern1 = Adder
                 (
                     Multiply(_[fluteVolume], FluteMelody1(portato: 1.1)),
-                    Multiply(_[chordsVolume], PadChords)
-                    //Multiply(_[tubaVolume], TubaMelody1)
+                    Multiply(_[chordsVolume], PadChords),
+                    Multiply(_[hornVolume], HornMelody1)
                     //Multiply(_[rippleBassVolume], RippleBassMelody1())
                 );
 
                 var pattern2 = Adder
                 (
-                    Multiply(_[fluteVolume], FluteMelody2)
-                    //Multiply(_[tubaVolume], TubaMelody2)
+                    Multiply(_[fluteVolume], FluteMelody2),
+                    Multiply(_[hornVolume], HornMelody2)
                     //Multiply(_[rippleBassVolume], RippleBassMelody2)
                 );
 
@@ -368,6 +399,27 @@ namespace JJ.Business.Synthesizer.Tests
             Pad(StretchCurve(PadPitchCurve1, Bar[1]), duration: Bar[8]),
             Pad(StretchCurve(PadPitchCurve2, Bar[1]), duration: Bar[8]),
             Pad(StretchCurve(PadPitchCurve3, Bar[1]), duration: Bar[8])
+        );
+        
+        private Outlet HornMelody1 => Adder
+        (
+            Horn(_[Notes.A2], Beat[00]),
+            Horn(_[Notes.E3], Beat[02]),
+            Horn(_[Notes.F2], Beat[04]),
+            Horn(_[Notes.C3], Beat[06]),
+            Horn(_[Notes.C2], Beat[08]),
+            Horn(_[Notes.G2], Beat[10]),
+            Horn(_[Notes.G1], Beat[12])//,
+            //Horn(_[Notes.D3], Beat[14])
+        );
+        
+        private Outlet HornMelody2 => Adder
+        (
+            Horn(_[Notes.A2], Beat[0]),
+            //Horn(_[Notes.E3], Beat[2]),
+            Horn(_[Notes.F2], Beat[4]),
+            //Horn(_[Notes.C3], Beat[6]),
+            Horn(_[Notes.A1], Beat[8])
         );
 
         private Outlet TubaMelody1 => Adder
@@ -471,6 +523,19 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="DefaultDoc" />
+        private Outlet EvolvingOrgan(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        {
+            freq = freq ?? _[Notes.A4];
+            duration = duration ?? _[1.0];
+
+            var modDepth = Multiply(_[0.0001], StretchCurve(ModTamingCurve, Multiply(duration, _[1.1])));
+            var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth);
+            var note = StrikeNote(fmSignal, delay, volume);
+
+            return note;
+        }
+        
+        /// <inheritdoc cref="DefaultDoc" />
         private Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
@@ -480,18 +545,67 @@ namespace JJ.Business.Synthesizer.Tests
             var modCurveLength = Bar[8];
             Outlet modCurve = StretchCurve(ModTamingCurveRepeated8Times, modCurveLength);
             modCurve = Multiply(modCurve, StretchCurve(ModTamingCurve, modCurveLength));
-            modCurve = Multiply(modCurve, StretchCurve(ModTamingCurve, modCurveLength));
+            modCurve = Multiply(modCurve, StretchCurve(LineDownCurve, modCurveLength));
 
             var fmSignal = Add
             (
-                FMAroundFreq(freq, Multiply(freq, _[2]), Multiply(_[0.000500], modCurve)),
-                FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.000375], modCurve))
+                FMAroundFreq(freq, Multiply(freq, _[2]), Multiply(_[0.0004], modCurve)),
+                FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.0003], modCurve))
             );
 
             var envelope = StretchCurve(DampedBlockCurve, duration);
             var modulatedSound = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(volume, _[0.6]);
             var note = StrikeNote(modulatedSound, delay, adjustedVolume);
+
+            return note;
+        }
+
+        /// <summary>
+        /// Sounds like Tuba at beginning.
+        /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
+        /// Volume curve is applied.
+        /// Higher notes are shorter, lower notes are much longer.
+        /// </summary>
+        /// <param name="freq">The base frequency of the sound in Hz (default A1/55Hz).</param>
+        /// <inheritdoc cref="DefaultDoc" />
+        private Outlet Tuba(Outlet freq = null, Outlet delay = null, Outlet volume = null)
+        {
+            freq = freq ?? _[Notes.A1];
+
+            var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, _[5]);
+
+            // Exaggerate Duration when Lower
+            var durationOfA1 = 0.8;
+            var baseFrequency = _[Notes.A1];
+            var frequencyRatio = Divide(baseFrequency, freq);
+            var duration = Multiply(_[durationOfA1], Power(frequencyRatio, _[1.5]));
+
+            var envelope = TimeMultiply(CurveIn(TubaCurve), duration);
+            var sound = Multiply(fmSignal, envelope);
+            var note = StrikeNote(sound, delay, volume);
+
+            return note;
+        }
+                
+        /// <summary>
+        /// Sounds like Horn.
+        /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
+        /// Volume curve is applied.
+        /// FM modulator is attempted to be tamed with curves.
+        /// </summary>
+        /// <param name="freq">The base frequency of the sound in Hz (default A2/110Hz).</param>
+        /// <inheritdoc cref="DefaultDoc" />
+        private Outlet Horn(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        {
+            freq = freq ?? _[Notes.A2];
+
+            var tamedMod = Multiply(_[5], StretchCurve(ModTamingCurve2, duration));
+
+            var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, tamedMod);
+            var envelope = TimeMultiply(CurveIn(TubaCurve), duration);
+            var sound = Multiply(fmSignal, envelope);
+            var note = StrikeNote(sound, delay, volume);
 
             return note;
         }
@@ -513,46 +627,6 @@ namespace JJ.Business.Synthesizer.Tests
             var modulatedSound = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(volume, _[0.6]);
             var note = StrikeNote(modulatedSound, delay, adjustedVolume);
-
-            return note;
-        }
-
-        /// <inheritdoc cref="DefaultDoc" />
-        private Outlet EvolvingOrgan(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
-        {
-            freq = freq ?? _[Notes.A4];
-            duration = duration ?? _[1.0];
-
-            var modDepth = Multiply(_[0.0001], StretchCurve(ModTamingCurve, Multiply(duration, _[1.1])));
-            var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth);
-            var note = StrikeNote(fmSignal, delay, volume);
-
-            return note;
-        }
-
-        /// <summary>
-        /// Sounds like Tuba at beginning.
-        /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
-        /// Volume curve is applied.
-        /// Higher notes are shorter, lower notes are much longer.
-        /// </summary>
-        /// <inheritdoc cref="DefaultDoc" />
-        /// <param name="freq">The base frequency of the sound in Hz (default A1/55Hz).</param>
-        private Outlet Tuba(Outlet freq = null, Outlet delay = null, Outlet volume = null)
-        {
-            freq = freq ?? _[Notes.A1];
-
-            var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, _[5]);
-
-            // Exaggerate Duration when Lower
-            var durationOfA1 = 0.8;
-            var baseFrequency = _[Notes.A1];
-            var frequencyRatio = Divide(baseFrequency, freq);
-            var duration = Multiply(_[durationOfA1], Power(frequencyRatio, _[1.5]));
-
-            var envelope = TimeMultiply(CurveIn(TubaCurve), duration);
-            var sound = Multiply(fmSignal, envelope);
-            var note = StrikeNote(sound, delay, volume);
 
             return note;
         }
@@ -744,6 +818,14 @@ namespace JJ.Business.Synthesizer.Tests
             0.3, 1.0, 0.3, 0.0
         );
 
+        /// <inheritdoc cref="ModTamingCurve"/>
+        private Curve ModTamingCurve2 => CurveFactory.CreateCurve
+        (
+            timeSpan: 1,
+            1.0, 0.5, 0.2, 0.0
+        );
+
+        /// <inheritdoc cref="ModTamingCurve"/>
         private Curve ModTamingCurveRepeated8Times => CurveFactory.CreateCurve
         (
             timeSpan: 1,
@@ -797,7 +879,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="modSpeed">The speed of the modulator in Hz. Determines much of the timbre.</param>
         /// <param name="modDepth">The depth of the modulator. The higher the value, the more harmonic complexity.</param>
         /// <param name="sound">The sound to be shaped.</param>
-        /// <returns>An Outlet representing the synthesized sound.</returns>
+        /// <returns>An Outlet representing the sound.</returns>
         [UsedImplicitly] private Outlet DefaultDoc(
             Outlet freq, Outlet delay, Outlet volume, Outlet duration,
             Outlet soundFreq, Outlet modSpeed, Outlet modDepth,
