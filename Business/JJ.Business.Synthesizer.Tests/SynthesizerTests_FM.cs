@@ -261,7 +261,14 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_Clean()
-            => WrapUp_Test(DeepEcho(RippleSound_Clean(duration: _[3])), duration: 3.0 + DEEP_ECHO_TIME);
+            => WrapUp_Test
+            (
+                DeepEcho
+                (
+                    RippleSound_Clean(duration: _[3])
+                ),
+                duration: 3 + DEEP_ECHO_TIME
+            );
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_FantasyEffect()
@@ -572,34 +579,54 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet RippleNote_SharpMetallic(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A3];
-            var fmSignal = FMInHertz(freq, Divide(freq, _[2]), modDepth: _[10]);
-            var envelope = StretchCurve(RippleCurve, duration);
-            var sound = Multiply(fmSignal, envelope);
-            var note = StrikeNote(sound, delay, volume);
-
-            return note;
+            var fmSignal = FMInHertz(freq, Divide(freq, _[2]), _[10]);
+            var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
+            return sound;
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
         private Outlet RippleSound_Clean(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
+            duration = duration ?? _[2.5];
 
             var fmSignal = FMAroundFreq(freq, _[20], _[0.005]);
-            var envelope = StretchCurve(RippleCurve, duration);
-            var sound = Multiply(fmSignal, envelope);
-            var note = StrikeNote(sound, delay, volume);
+            var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
 
-            return note;
+            return sound;
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
-        private Outlet RippleSound_FantasyEffect(Outlet freq = null)
-            => FMAroundFreq(freq ?? _[Notes.A5], _[10], _[0.02]);
+        private Outlet RippleSound_FantasyEffect(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        {
+            freq = freq ?? _[Notes.A5];
+            duration = duration ?? _[2.5];
+
+            var fmSignal = FMAroundFreq(freq, _[10], _[0.02]);
+            var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
+
+            return sound;
+        }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.05 </summary>
-        private Outlet RippleSound_CoolDouble(Outlet freq = null)
-            => FMAroundFreq(freq ?? _[Notes.A5], _[10], _[0.05]);
+        private Outlet RippleSound_CoolDouble(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        {
+            freq = freq ?? _[Notes.A5];
+            duration = duration ?? _[2.5];
+
+            var fmSignal = FMAroundFreq(freq, _[10], _[0.05]);
+            var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
+
+            return sound;
+        }
+
+        private Outlet ShapeRippleSound(Outlet fmSignal, Outlet delay, Outlet volume, Outlet duration)
+        {
+            var envelope = StretchCurve(RippleCurve, duration);
+            var sound = Multiply(fmSignal, envelope);
+            var strike = StrikeNote(sound, delay, volume);
+            return strike;
+        }
 
         /// <summary>
         /// Beating audible further along the sound.
