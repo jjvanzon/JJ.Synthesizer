@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
         
         private void Test_FM_Flute1()
-            => WrapUp_Test(MildEcho(Flute1()));
+            => WrapUp_Test(MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute2()
@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute2()
-            => WrapUp_Test(MildEcho(Flute2()));
+            => WrapUp_Test(MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute3()
@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute3()
-            => WrapUp_Test(MildEcho(Flute3()));
+            => WrapUp_Test(MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute4()
@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute4()
-            => WrapUp_Test(MildEcho(Flute4()));
+            => WrapUp_Test(MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
 
         // Pad Tests
 
