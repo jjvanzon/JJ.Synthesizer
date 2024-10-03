@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Tests
     public class SynthesizerTests_FM : SynthesizerSugarBase
     {
         /// <summary> Constructor for test runner. </summary>
+        [UsedImplicitly]
         public SynthesizerTests_FM()
         { }
 
@@ -99,7 +100,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_Flute4()
             => CreateAudioFile(MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
-        
+
         [TestMethod]
         public void Test_Synthesizer_FM_Organ()
         {
@@ -119,7 +120,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_FM_Pad()
             => CreateAudioFile(MildEcho(Pad()), duration: Bar[8] + MILD_ECHO_TIME, volume: 0.2);
-        
+
         [TestMethod]
         public void Test_Synthesizer_FM_Pad_Chords()
         {
@@ -333,7 +334,7 @@ namespace JJ.Business.Synthesizer.Tests
             (
                 pattern1,
                 TimeAdd(pattern2, Bar[4])
-            //RippleSound_Clean(_[Frequencies.A4], delay: Bar(2), volume: _[0.50], duration: Bar(2))
+                //RippleSound_Clean(_[Frequencies.A4], delay: Bar(2), volume: _[0.50], duration: Bar(2))
             );
 
             return composition;
@@ -354,7 +355,7 @@ namespace JJ.Business.Synthesizer.Tests
             Flute3(_[Notes.G3], t[bar: 2, beat: 0.0], volume: _[1.00], duration: Beat[2.00]),
             Flute1(_[Notes.G4], t[bar: 2, beat: 1.5], volume: _[0.80], duration: Beat[2.50])
         );
-        
+
         private Outlet FluteMelody2 => Adder
         (
             Flute1(_[Notes.E4], t[bar: 0, beat: 0.0], volume: _[0.59], duration: Beat[1.8]),
@@ -387,7 +388,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Pad(StretchCurve(ChordPitchCurve3, Bar[1]))
             )
         );
-        
+
         private Outlet HornMelody1 => Adder
         (
             //Horn(_[Notes.A2], Beat[00], duration: Beat[2]),
@@ -396,10 +397,10 @@ namespace JJ.Business.Synthesizer.Tests
             //Horn(_[Notes.C3], Beat[06]),
             Horn(_[Notes.C2], Beat[08], duration: Beat[3], volume: _[0.7]),
             //Horn(_[Notes.G2], Beat[10]),
-            Horn(_[Notes.G1], Beat[12], duration: Beat[4], volume: _[0.5])//,
+            Horn(_[Notes.G1], Beat[12], duration: Beat[4], volume: _[0.5]) //,
             //Horn(_[Notes.D3], Beat[14])
         );
-        
+
         private Outlet HornMelody2 => Adder
         (
             Horn(_[Notes.A2], Beat[0], duration: Beat[3], volume: _[0.75]),
@@ -426,7 +427,7 @@ namespace JJ.Business.Synthesizer.Tests
             //Trombone(_[Notes.A2], Beat[0]),
             Trombone(_[Notes.E4], Beat[2], durationFactor: _[1.4]),
             //Trombone(_[Notes.F2], Beat[4]),
-            Trombone(_[Notes.C4], Beat[6], durationFactor: _[1.4])//,
+            Trombone(_[Notes.C4], Beat[6], durationFactor: _[1.4]) //,
             //Trombone(_[Notes.A3], Beat[8])
         );
 
@@ -438,7 +439,7 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         private Outlet RippleBassMelody1 => _[0];
-            //RippleBass(_[Notes.A2], delay: Bar[0], duration: Bar[2]);
+        //RippleBass(_[Notes.A2], delay: Bar[0], duration: Bar[2]);
 
         private Outlet RippleBassMelody2 =>
             RippleBass(_[Notes.A1], delay: Bar[2.5], duration: Bar[0.8]);
@@ -518,15 +519,15 @@ namespace JJ.Business.Synthesizer.Tests
             var modCurve = StretchCurve(ModTamingCurve, duration);
             var modDepth = Multiply(_[0.0001], modCurve);
             var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth);
-            
-            var volumeEvenOutCurve = StretchCurve(PadVolumeEvenOutCurve, duration);
+
+            var volumeEvenOutCurve = StretchCurve(EvenOutCurve, duration);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
 
             var note = StrikeNote(soundWithEvenVolume, delay, volume);
 
             return note;
         }
-        
+
         /// <inheritdoc cref="DefaultDoc" />
         private Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null)
         {
@@ -544,7 +545,7 @@ namespace JJ.Business.Synthesizer.Tests
                 FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.00015], modCurve))
             );
 
-            var volumeEvenOutCurve = StretchCurve(PadVolumeEvenOutCurve, modCurveLength);
+            var volumeEvenOutCurve = StretchCurve(EvenOutCurve, modCurveLength);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
 
             var note = StrikeNote(soundWithEvenVolume, delay, volume);
@@ -558,8 +559,8 @@ namespace JJ.Business.Synthesizer.Tests
         /// Volume curve is applied.
         /// Higher notes are shorter, lower notes are much longer.
         /// </summary>
-        /// <param name="freq">The base frequency of the sound in Hz (default A1/55Hz).</param>
-        /// <param name="durationFactor">Duration varies with pitch, but can be multiplied by this factor (default is 1).</param>
+        /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
+        /// <param name="durationFactor"> Duration varies with pitch, but can be multiplied by this factor (default is 1). </param>
         /// <inheritdoc cref="DefaultDoc" />
         private Outlet Trombone(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet durationFactor = null)
         {
@@ -580,14 +581,14 @@ namespace JJ.Business.Synthesizer.Tests
 
             return note;
         }
-                
+
         /// <summary>
         /// Sounds like Horn.
         /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
         /// Volume curve is applied.
         /// FM modulator is attempted to be tamed with curves.
         /// </summary>
-        /// <param name="freq">The base frequency of the sound in Hz (default A2/110Hz).</param>
+        /// <param name="freq"> The base frequency of the sound in Hz (default A2/110Hz). </param>
         /// <inheritdoc cref="DefaultDoc" />
         private Outlet Horn(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
@@ -625,7 +626,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-        /// <param name="freq">The base frequency of the sound in Hz (default A1/55Hz).</param>
+        /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
         /// <inheritdoc cref="DefaultDoc" />
         private Outlet RippleBass(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
@@ -638,7 +639,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
-        /// <param name="freq">The base frequency of the sound in Hz (default A3/220Hz).</param>
+        /// <param name="freq"> The base frequency of the sound in Hz (default A3/220Hz). </param>
         /// <inheritdoc cref="DefaultDoc" />
         private Outlet RippleNote_SharpMetallic(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
@@ -660,7 +661,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
-        /// <param name="duration">The duration of the sound in seconds (default is 2.5).</param>
+        /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="DefaultDoc" />
         private Outlet RippleSound_FantasyEffect(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
@@ -685,8 +686,8 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Shapes a ripple effect sound giving it a volume envelope and a delay, volume and duration. </summary>
-        /// <param name="duration">The duration of the sound in seconds (default is 2.5).</param>
-        /// <param name="fmSignal">A ripple sound to be shaped</param>
+        /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
+        /// <param name="fmSignal"> A ripple sound to be shaped </param>
         /// <inheritdoc cref="DefaultDoc" />
         private Outlet ShapeRippleSound(Outlet fmSignal, Outlet delay, Outlet volume, Outlet duration)
         {
@@ -709,7 +710,7 @@ namespace JJ.Business.Synthesizer.Tests
         #region Algorithms
 
         /// <summary> FM sound synthesis modulating with addition. Modulates sound freq to +/- a number of Hz. </summary>
-        /// <param name="modDepth">In Hz</param>
+        /// <param name="modDepth"> In Hz </param>
         /// <inheritdoc cref="DefaultDoc" />
         private Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
@@ -754,6 +755,9 @@ namespace JJ.Business.Synthesizer.Tests
 
         private const double DEEP_ECHO_TIME = 0.5 * 5;
 
+        /// <summary> Applies a deep echo effect to the specified sound. </summary>
+        /// <param name="melody"> The original sound to which the echo effect will be applied. </param>
+        /// <returns> An <see cref="Outlet" /> representing the sound with the deep echo effect applied. </returns>
         private Outlet DeepEcho(Outlet melody)
             => EntityFactory.CreateEcho(this, melody, count: 6, denominator: 2, delay: 0.5);
 
@@ -811,14 +815,14 @@ namespace JJ.Business.Synthesizer.Tests
             0.3, 1.0, 0.3, 0.0
         );
 
-        /// <inheritdoc cref="ModTamingCurve"/>
+        /// <inheritdoc cref="ModTamingCurve" />
         private Curve ModTamingCurve2 => CurveFactory.CreateCurve
         (
             timeSpan: 1,
             1.0, 0.5, 0.2, 0.0
         );
 
-        /// <inheritdoc cref="ModTamingCurve"/>
+        /// <inheritdoc cref="ModTamingCurve" />
         private Curve ModTamingCurve8Times => CurveFactory.CreateCurve
         (
             timeSpan: 1,
@@ -831,6 +835,25 @@ namespace JJ.Business.Synthesizer.Tests
             0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0
         );
+
+        /// <summary> When harmonics thicken near the center, this curve can even out the volume over time. </summary>
+        private Curve EvenOutCurve => CurveFactory.CreateCurve(
+            new NodeInfo(0.00, 1.0),
+            new NodeInfo(0.33, 0.6),
+            new NodeInfo(0.50, 0.6),
+            new NodeInfo(0.75, 0.8),
+            new NodeInfo(1.00, 1.0));
+
+        private Curve ChordVolumeCurve => CurveFactory.CreateCurve(
+            new NodeInfo(0.0, 0.0), new NodeInfo(0.05, 0.0), new NodeInfo(0.98, 0.5),
+            new NodeInfo(1.0, 0.0), new NodeInfo(1.05, 0.6), new NodeInfo(1.98, 0.6),
+            new NodeInfo(2.0, 0.0), new NodeInfo(2.05, 0.8), new NodeInfo(2.98, 0.8),
+            new NodeInfo(3.0, 0.0), new NodeInfo(3.05, 0.6), new NodeInfo(3.80, 0.6),
+            new NodeInfo(4.0, 0.0), new NodeInfo(4.05, 0.9), new NodeInfo(4.98, 0.9),
+            new NodeInfo(5.0, 0.0), new NodeInfo(5.05, 0.8), new NodeInfo(5.92, 0.8),
+            new NodeInfo(6.0, 0.0), new NodeInfo(6.05, 1.0), new NodeInfo(6.98, 1.0),
+            new NodeInfo(7.0, 0.0), new NodeInfo(7.05, 0.6), new NodeInfo(7.78, 0.2),
+            new NodeInfo(8.0, 0.0));
 
         private static readonly (double time, double frequency1, double frequency2, double frequency3)[]
             _chordFrequencies =
@@ -861,38 +884,21 @@ namespace JJ.Business.Synthesizer.Tests
                                                        x.frequency3,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        private Curve ChordVolumeCurve => CurveFactory.CreateCurve(
-            new NodeInfo(0.0, 0.0), new NodeInfo(0.05, 0.0), new NodeInfo(0.98, 0.5), 
-            new NodeInfo(1.0, 0.0), new NodeInfo(1.05, 0.6), new NodeInfo(1.98, 0.6), 
-            new NodeInfo(2.0, 0.0), new NodeInfo(2.05, 0.8), new NodeInfo(2.98, 0.8), 
-            new NodeInfo(3.0, 0.0), new NodeInfo(3.05, 0.6), new NodeInfo(3.80, 0.6), 
-            new NodeInfo(4.0, 0.0), new NodeInfo(4.05, 0.9), new NodeInfo(4.98, 0.9), 
-            new NodeInfo(5.0, 0.0), new NodeInfo(5.05, 0.8), new NodeInfo(5.92, 0.8), 
-            new NodeInfo(6.0, 0.0), new NodeInfo(6.05, 1.0), new NodeInfo(6.98, 1.0), 
-            new NodeInfo(7.0, 0.0), new NodeInfo(7.05, 0.6), new NodeInfo(7.78, 0.2), 
-            new NodeInfo(8.0, 0.0));
-
-        private Curve PadVolumeEvenOutCurve => CurveFactory.CreateCurve(
-            new NodeInfo(0.00, 1.0),
-            new NodeInfo(0.33, 0.6),
-            new NodeInfo(0.50, 0.6),
-            new NodeInfo(0.75, 0.8),
-            new NodeInfo(1.00, 1.0));
-        
         #endregion
 
         #region Helpers
 
-        /// <param name="freq">The base frequency of the sound in Hz (default is A4/440Hz).</param>
-        /// <param name="delay">The time delay in seconds before the sound starts (default is 0).</param>
-        /// <param name="volume">The volume of the sound (default is 1).</param>
-        /// <param name="duration">The duration of the sound in seconds (default is 1).</param>
-        /// <param name="soundFreq">The base frequency in Hz for the carrier signal for the FM synthesis.</param> 
-        /// <param name="modSpeed">The speed of the modulator in Hz. Determines much of the timbre.</param>
-        /// <param name="modDepth">The depth of the modulator. The higher the value, the more harmonic complexity.</param>
-        /// <param name="sound">The sound to be shaped.</param>
-        /// <returns>An Outlet representing the sound.</returns>
-        [UsedImplicitly] private Outlet DefaultDoc(
+        /// <param name="freq"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
+        /// <param name="delay"> The time delay in seconds before the sound starts (default is 0). </param>
+        /// <param name="volume"> The volume of the sound (default is 1). </param>
+        /// <param name="duration"> The duration of the sound in seconds (default is 1). </param>
+        /// <param name="soundFreq"> The base frequency in Hz for the carrier signal for the FM synthesis. </param>
+        /// <param name="modSpeed"> The speed of the modulator in Hz. Determines much of the timbre. </param>
+        /// <param name="modDepth"> The depth of the modulator. The higher the value, the more harmonic complexity. </param>
+        /// <param name="sound"> The sound to be shaped. </param>
+        /// <returns> An Outlet representing the sound. </returns>
+        [UsedImplicitly]
+        private Outlet DefaultDoc(
             Outlet freq, Outlet delay, Outlet volume, Outlet duration,
             Outlet soundFreq, Outlet modSpeed, Outlet modDepth,
             Outlet sound) => throw new NotSupportedException();
