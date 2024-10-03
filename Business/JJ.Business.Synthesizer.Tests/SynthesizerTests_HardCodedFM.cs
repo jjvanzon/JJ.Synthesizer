@@ -9,17 +9,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
 	[TestClass]
-	public class SynthesizerTests_FM_HardCoded
+	public class SynthesizerTests_HardCodedFM
 	{
 		[TestMethod]
-		public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_32BitFloat_HardFlute_IsNoise()
-			=> Test_FM_HardCoded_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 880f, modulationDepth: 5f);
+		public void Test_Synthesizer_HardCodedFM_NoPhaseTracking_32BitFloat_HardFlute_IsNoise()
+			=> Test_HardCodedFM_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 880f, modulationDepth: 5f);
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_32BitFloat_WapWap() 
-			=> Test_FM_HardCoded_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 5f, modulationDepth: 0.1f);
+		public void Test_Synthesizer_HardCodedFM_NoPhaseTracking_32BitFloat_WapWap() 
+			=> Test_HardCodedFM_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 5f, modulationDepth: 0.1f);
 
-		private void Test_FM_HardCoded_NoPhaseTracking_32BitFloat(
+		private void Test_HardCodedFM_NoPhaseTracking_32BitFloat(
 			float carrierFrequency, 
 			float modulationFrequency, 
 			float modulationDepth,
@@ -55,14 +55,14 @@ namespace JJ.Business.Synthesizer.Tests
 		}
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_64BitDouble_HardFlute_IsNoise()
-			=> Test_FM_HardCoded_NoPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 880.0, modulationDepth: 5.0);
+		public void Test_Synthesizer_HardCodedFM_NoPhaseTracking_64BitDouble_HardFlute_IsNoise()
+			=> Test_HardCodedFM_NoPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 880.0, modulationDepth: 5.0);
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_HardCoded_NoPhaseTracking_64BitDouble_WapWap()
-			=> Test_FM_HardCoded_NoPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 5.0, modulationDepth: 0.1);
+		public void Test_Synthesizer_HardCodedFM_NoPhaseTracking_64BitDouble_WapWap()
+			=> Test_HardCodedFM_NoPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 5.0, modulationDepth: 0.1);
 
-		private void Test_FM_HardCoded_NoPhaseTracking_64BitDouble(
+		private void Test_HardCodedFM_NoPhaseTracking_64BitDouble(
 			double carrierFrequency,
 			double modulationFrequency,
 			double modulationDepth,
@@ -98,14 +98,14 @@ namespace JJ.Business.Synthesizer.Tests
 		}
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_HardCoded_WithPhaseTracking_32BitFloat_HardFlute()
-			=> Test_FM_HardCoded_WithPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 880f, modulationDepth: 5f);
+		public void Test_Synthesizer_HardCodedFM_WithPhaseTracking_32BitFloat_HardFlute()
+			=> Test_HardCodedFM_WithPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 880f, modulationDepth: 5f);
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_HardCoded_WithPhaseTracking_32BitFloat_WapWap()
-			=> Test_FM_HardCoded_WithPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 10f, modulationDepth: 50f);
+		public void Test_Synthesizer_HardCodedFM_WithPhaseTracking_32BitFloat_WapWap()
+			=> Test_HardCodedFM_WithPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 10f, modulationDepth: 50f);
 
-		private void Test_FM_HardCoded_WithPhaseTracking_32BitFloat(
+		private void Test_HardCodedFM_WithPhaseTracking_32BitFloat(
 			float carrierFrequency,
 			float modulationFrequency,
 			float modulationDepth,
@@ -150,14 +150,14 @@ namespace JJ.Business.Synthesizer.Tests
 		}
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_HardCoded_WithPhaseTracking_64BitDouble_HardFlute()
-			=> Test_FM_HardCoded_WithPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 880.0, modulationDepth: 5.0);
+		public void Test_Synthesizer_HardCodedFM_WithPhaseTracking_64BitDouble_HardFlute()
+			=> Test_HardCodedFM_WithPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 880.0, modulationDepth: 5.0);
 
 		[TestMethod]
-		public void Test_Synthesizer_FM_HardCoded_WithPhaseTracking_64BitDouble_WapWap()
-			=> Test_FM_HardCoded_WithPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 10.0, modulationDepth: 50.0);
+		public void Test_Synthesizer_HardCodedFM_WithPhaseTracking_64BitDouble_WapWap()
+			=> Test_HardCodedFM_WithPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 10.0, modulationDepth: 50.0);
 
-		private void Test_FM_HardCoded_WithPhaseTracking_64BitDouble(
+		private void Test_HardCodedFM_WithPhaseTracking_64BitDouble(
 			double carrierFrequency,
 			double modulationFrequency,
 			double modulationDepth,
