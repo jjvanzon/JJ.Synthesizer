@@ -1,17 +1,19 @@
-﻿using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
+using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System;
-using System.Linq;
+
+// ReSharper disable AssignmentInsteadOfDiscard
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -21,23 +23,29 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private const double DEFAULT_TOTAL_TIME = 3.0;
         private string NewLine => Environment.NewLine;
 
-        protected readonly CurveFactory CurveFactory;
-        protected readonly AudioFileOutputManager AudioFileOutputManager;
+        protected CurveFactory CurveFactory { get; }
+        protected AudioFileOutputManager AudioFileOutputManager { get; }
+        protected SampleManager SampleManager { get; }
 
         protected SynthesizerSugarBase()
-            : this(PersistenceHelper.CreateContext(), beat: 1, bar: 4)
+            : this(PersistenceHelper.CreateContext())
+        { }
+
+        protected SynthesizerSugarBase(IContext context)
+            : this(context, beat: 1, bar: 4)
         { }
 
         protected SynthesizerSugarBase(IContext context, double beat, double bar)
             : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
-                PersistenceHelper.CreateRepository<IInletRepository>(context),
-                PersistenceHelper.CreateRepository<IOutletRepository>(context),
-                PersistenceHelper.CreateRepository<ICurveInRepository>(context),
-                PersistenceHelper.CreateRepository<IValueOperatorRepository>(context),
-                PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context))
+                   PersistenceHelper.CreateRepository<IInletRepository>(context),
+                   PersistenceHelper.CreateRepository<IOutletRepository>(context),
+                   PersistenceHelper.CreateRepository<ICurveInRepository>(context),
+                   PersistenceHelper.CreateRepository<IValueOperatorRepository>(context),
+                   PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context))
         {
             CurveFactory = TestHelper.CreateCurveFactory(context);
             AudioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
+            SampleManager = TestHelper.CreateSampleManager(context);
 
             _ = new ValueIndexer(this);
             Bar = new BarIndexer(this, bar);
@@ -45,24 +53,24 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             t = new TimeIndexer(this, bar, beat);
         }
 
-        /// <inheritdoc cref="ValueIndexer"/>
+        /// <inheritdoc cref="ValueIndexer" />
         protected readonly ValueIndexer _;
 
-        /// <inheritdoc cref="BarIndexer"/>
+        /// <inheritdoc cref="BarIndexer" />
         protected BarIndexer Bar { get; }
 
-        /// <inheritdoc cref="BeatIndexer"/>
+        /// <inheritdoc cref="BeatIndexer" />
         protected BeatIndexer Beat { get; }
-        
+
         // ReSharper disable once InconsistentNaming
-        /// <inheritdoc cref="TimeIndexer"/>
+        /// <inheritdoc cref="TimeIndexer" />
         protected TimeIndexer t { get; }
 
         /// <summary>
         /// Wraps up a test for FM synthesis and outputs the result to a file.
         /// Also, the entity data will be verified.
         /// </summary>
-        protected void CreateAudioFile(
+        protected void WriteToAudioFile(
             Outlet outlet,
             double duration = DEFAULT_TOTAL_TIME,
             double volume = DEFAULT_TOTAL_VOLUME,
@@ -75,9 +83,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             // Validate Data
             new RecursiveOperatorValidator(outlet.Operator).Verify();
-            
-            var warningValidator = new RecursiveOperatorWarningValidator(outlet.Operator);
-            IList<string> warnings = warningValidator.ValidationMessages.Select(x => x.Text).ToArray();
+            var warnings = new RecursiveOperatorWarningValidator(outlet.Operator).ValidationMessages.Select(x => x.Text).ToList();
 
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = AudioFileOutputManager.CreateAudioFileOutput();
@@ -86,8 +92,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             audioFileOutput.FilePath = fileName;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-            // Assert AudioFileOutput
+            // Validate AudioFileOutput
             AudioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
+            warnings.AddRange(new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text));
 
             // Calculate
             var calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);

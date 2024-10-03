@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition()
-            => CreateAudioFile(DeepEcho(Composition()), volume: 0.20, duration: t[bar: 8, beat: 1] + DEEP_ECHO_TIME);
+            => WriteToAudioFile(DeepEcho(Composition()), volume: 0.20, duration: t[bar: 8, beat: 1] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Melody1()
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute_Melody1()
-            => CreateAudioFile(MildEcho(FluteMelody1), volume: 0.6, duration: Bar[4] + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(FluteMelody1), volume: 0.6, duration: Bar[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Melody2()
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute_Melody2()
-            => CreateAudioFile(MildEcho(FluteMelody2), volume: 0.3, duration: Bar[2.5] + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(FluteMelody2), volume: 0.3, duration: Bar[2.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute1()
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute1()
-            => CreateAudioFile(MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute2()
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute2()
-            => CreateAudioFile(MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute3()
@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute3()
-            => CreateAudioFile(MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute4()
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute4()
-            => CreateAudioFile(MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Organ()
@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Organ()
-            => CreateAudioFile(MildEcho(Organ(duration: Bar[8])), duration: Bar[8] + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(Organ(duration: Bar[8])), duration: Bar[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Pad()
@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => CreateAudioFile(MildEcho(Pad()), duration: Bar[8] + MILD_ECHO_TIME, volume: 0.2);
+            => WriteToAudioFile(MildEcho(Pad()), duration: Bar[8] + MILD_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Pad_Chords()
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad_Chords()
-            => CreateAudioFile(MildEcho(PadChords), volume: 0.15, duration: Bar[8] + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(PadChords), volume: 0.15, duration: Bar[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Trombone()
@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Trombone()
-            => CreateAudioFile(MildEcho(Trombone(_[Notes.E2])));
+            => WriteToAudioFile(MildEcho(Trombone(_[Notes.E2])));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Horn()
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Horn()
-            => CreateAudioFile(MildEcho(Horn(duration: _[1])), duration: 1 + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(Horn(duration: _[1])), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Trombone_Melody1()
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Trombone_Melody1()
-            => CreateAudioFile(MildEcho(TromboneMelody1), volume: 0.45, duration: Bar[4] + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(TromboneMelody1), volume: 0.45, duration: Bar[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Trombone_Melody2()
@@ -169,7 +169,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Trombone_Melody2()
-            => CreateAudioFile(MildEcho(TromboneMelody2), volume: 0.75, duration: Bar[3.5] + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(TromboneMelody2), volume: 0.75, duration: Bar[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Trombone_Melody3()
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Trombone_Melody3()
-            => CreateAudioFile(MildEcho(TromboneMelody3), duration: Bar[1.5] + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(TromboneMelody3), duration: Bar[1.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Horn_Melody1()
@@ -189,7 +189,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Horn_Melody1()
-            => CreateAudioFile(MildEcho(HornMelody1), volume: 0.2, duration: Bar[4] + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(HornMelody1), volume: 0.2, duration: Bar[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Horn_Melody2()
@@ -199,7 +199,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Horn_Melody2()
-            => CreateAudioFile(MildEcho(HornMelody2), volume: 0.2, duration: Bar[3.5] + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(HornMelody2), volume: 0.2, duration: Bar[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_ElectricNote()
@@ -209,7 +209,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_ElectricNote()
-            => CreateAudioFile(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Organ_Chords()
@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Organ_Chords()
-            => CreateAudioFile(MildEcho(OrganChords), volume: 0.22, duration: Bar[8] + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(OrganChords), volume: 0.22, duration: Bar[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleBass()
@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass()
-            => CreateAudioFile(DeepEcho(RippleBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
+            => WriteToAudioFile(DeepEcho(RippleBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleBass_Melody1()
@@ -239,7 +239,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass_Melody1()
-            => CreateAudioFile(DeepEcho(RippleBassMelody1), volume: 0.3, duration: Bar[5] + DEEP_ECHO_TIME);
+            => WriteToAudioFile(DeepEcho(RippleBassMelody1), volume: 0.3, duration: Bar[5] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleBass_Melody2()
@@ -249,7 +249,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass_Melody2()
-            => CreateAudioFile(DeepEcho(RippleBassMelody2), volume: 0.3, duration: Bar[4] + DEEP_ECHO_TIME);
+            => WriteToAudioFile(DeepEcho(RippleBassMelody2), volume: 0.3, duration: Bar[4] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
@@ -259,7 +259,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleNote_SharpMetallic()
-            => CreateAudioFile(DeepEcho(RippleNote_SharpMetallic(duration: _[2.2])), duration: 2.2 + DEEP_ECHO_TIME);
+            => WriteToAudioFile(DeepEcho(RippleNote_SharpMetallic(duration: _[2.2])), duration: 2.2 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_Clean()
@@ -269,7 +269,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_Clean()
-            => CreateAudioFile(outlet: DeepEcho(RippleSound_Clean(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
+            => WriteToAudioFile(outlet: DeepEcho(RippleSound_Clean(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_FantasyEffect()
@@ -279,7 +279,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_FantasyEffect()
-            => CreateAudioFile(DeepEcho(RippleSound_FantasyEffect(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
+            => WriteToAudioFile(DeepEcho(RippleSound_FantasyEffect(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleSound_CoolDouble()
@@ -289,7 +289,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleSound_CoolDouble()
-            => CreateAudioFile(DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
+            => WriteToAudioFile(DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Noise_Beating()
@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Noise_Beating()
-            => CreateAudioFile(MildEcho(Create_FM_Noise_Beating(_[Notes.A4])), duration: 3);
+            => WriteToAudioFile(MildEcho(Create_FM_Noise_Beating(_[Notes.A4])), duration: 3);
 
         #endregion
 
