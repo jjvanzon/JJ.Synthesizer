@@ -826,14 +826,17 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         /// <summary> When harmonics thicken near the center, this curve can even out the volume over time. </summary>
-        private Curve EvenOutCurve => CurveFactory.CreateCurve(
+        private Curve EvenOutCurve => CurveFactory.CreateCurve
+        (
             (time: 0.00, value: 1.0),
             (time: 0.33, value: 0.6),
             (time: 0.50, value: 0.6),
             (time: 0.75, value: 0.8),
-            (time: 1.00, value: 1.0));
+            (time: 1.00, value: 1.0)
+        );
 
-        private Curve ChordVolumeCurve => CurveFactory.CreateCurve(
+        private Curve ChordVolumeCurve => CurveFactory.CreateCurve
+        (
             (0.0, 0.0), (0.05, 0.0), (0.98, 0.5),
             (1.0, 0.0), (1.05, 0.6), (1.98, 0.6),
             (2.0, 0.0), (2.05, 0.8), (2.98, 0.8),
@@ -842,7 +845,8 @@ namespace JJ.Business.Synthesizer.Tests
             (5.0, 0.0), (5.05, 0.8), (5.92, 0.8),
             (6.0, 0.0), (6.05, 1.0), (6.98, 1.0),
             (7.0, 0.0), (7.05, 0.6), (7.78, 0.2),
-            (8.0, 0.0));
+            (8.0, 0.0)
+        );
 
         private static readonly (double time, double frequency1, double frequency2, double frequency3)[]
             _chordFrequencies =
