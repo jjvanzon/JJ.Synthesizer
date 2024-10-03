@@ -5,9 +5,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     public partial class SynthesizerSugarBase
     {
         /// <summary>
-        /// TimeIndexer provides shorthand for specifying bar and beat in a musical sense.
+        /// This TimeIndexer provides shorthand for specifying bar and beat in a musical sense.
         /// Access by bar and beat to get time-based value.
-        /// Example usage: t[bar: 2, beat: 1.5] will return value for the time.
+        /// Example usage: t[bar: 2, beat: 1.5] will return the number of seconds.
+        /// The numbers are 0-based for now, so the first bar is bar 0, the first beat is beat 0.
         /// </summary>
         /// <returns> ValueOperatorWrapper also usable as Outlet or double. </returns>
         public class TimeIndexer

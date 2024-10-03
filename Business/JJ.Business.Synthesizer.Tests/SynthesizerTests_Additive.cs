@@ -26,11 +26,11 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> Constructor allowing each test to run in its own instance. </summary>
         public SynthesizerTests_Additive(IContext context)
-            : base(context)
+            : base(context, beat: 0.4, bar: 1.6)
         { }
 
         #region Tests
-
+                
         [TestMethod]
         public void Test_Synthesizer_Additive_Sine_And_Curve()
         {
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             WriteToAudioFile(outlet, volume: 1, duration: 4);
         }
-        
+
         [TestMethod]
         public void Test_Synthesizer_Additive_Sines_And_Samples()
         {
@@ -77,22 +77,17 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         public void Test_Additive_Sines_And_Samples()
         {
-            AssertEntities();
-            
-            WriteToAudioFile(
-                AddEcho(Melody),
-                volume: 0.3,
-                duration: 1.2 + DEFAULT_NOTE_DURATION + ECHO_TIME);
-        }
-
-        /// <summary> Asserts the Sample and Curve entities because WriteToAudioFile won't. </summary>
-        private void AssertEntities()
-        {
+            /// Assert the entities that WriteToAudioFile won't.
             SampleManager.ValidateSample(GetSample()).Verify();
             new CurveValidator(SinePartialCurve1).Verify();
             new CurveValidator(SinePartialCurve2).Verify();
             new CurveValidator(SinePartialCurve3).Verify();
             new CurveValidator(SamplePartialCurve).Verify();
+            
+            WriteToAudioFile(
+                AddEcho(Melody),
+                volume: 0.3,
+                duration: 1.2 + DEFAULT_NOTE_DURATION + ECHO_TIME);
         }
 
         #endregion
@@ -101,16 +96,16 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet Melody => Adder
         (
-            Xylophone(_[Notes.A4],       volume: _[0.9]),
-            Xylophone(_[Notes.E5],       volume: _[1.0], delay: _[0.2]),
-            Xylophone(_[Notes.B4],       volume: _[0.5], delay: _[0.4]),
-            Xylophone(_[Notes.C5_Sharp], volume: _[0.7], delay: _[0.6]),
-            Xylophone(_[Notes.F4_Sharp], volume: _[0.4], delay: _[1.2])
+            Xylophone(_[Notes.A4],       delay: t[bar:0, beat:0.0], volume: _[0.9]),
+            Xylophone(_[Notes.E5],       delay: t[bar:0, beat:0.5], volume: _[1.0]),
+            Xylophone(_[Notes.B4],       delay: t[bar:0, beat:1.0], volume: _[0.5]),
+            Xylophone(_[Notes.C5_Sharp], delay: t[bar:0, beat:1.5], volume: _[0.7]),
+            Xylophone(_[Notes.F4_Sharp], delay: t[bar:0, beat:3.0], volume: _[0.4])
         );
 
         /// <param name="duration">The duration of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="DocComments.Default"/>
-        private Outlet Xylophone(Outlet frequency, Outlet volume, Outlet delay = null, Outlet duration = null)
+        private Outlet Xylophone(Outlet frequency = null, Outlet volume = null, Outlet delay = null, Outlet duration = null)
         {
             frequency = frequency ?? _[Notes.A4];
             duration = duration ?? _[DEFAULT_NOTE_DURATION];
