@@ -1,6 +1,6 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 
-namespace JJ.Business.Synthesizer.Tests.Helpers
+namespace JJ.Business.Synthesizer.Tests.Extensions
 {
     public partial class SynthesizerSugarBase
     {

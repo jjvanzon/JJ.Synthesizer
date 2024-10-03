@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Tests.Extensions;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
@@ -315,18 +315,18 @@ namespace JJ.Business.Synthesizer.Tests
 
             var pattern1 = Adder
             (
-                Multiply(_[fluteVolume], FluteMelody1),
-                Multiply(_[chordsVolume], PadChords),
-                Multiply(_[tromboneVolume], TromboneMelody1),
-                Multiply(_[hornVolume], HornMelody1),
+                Multiply(_[fluteVolume]     , FluteMelody1),
+                Multiply(_[chordsVolume]    , PadChords),
+                Multiply(_[tromboneVolume]  , TromboneMelody1),
+                Multiply(_[hornVolume]      , HornMelody1),
                 Multiply(_[rippleBassVolume], RippleBassMelody1)
             );
 
             var pattern2 = Adder
             (
-                Multiply(_[fluteVolume], FluteMelody2),
-                Multiply(_[tromboneVolume], TromboneMelody2),
-                Multiply(_[hornVolume], HornMelody2),
+                Multiply(_[fluteVolume]     , FluteMelody2),
+                Multiply(_[tromboneVolume]  , TromboneMelody2),
+                Multiply(_[hornVolume]      , HornMelody2),
                 Multiply(_[rippleBassVolume], RippleBassMelody2)
             );
 
@@ -351,8 +351,8 @@ namespace JJ.Business.Synthesizer.Tests
             Flute1(_[Notes.G4], t[bar: 0, beat: 3.0], volume: _[0.60], duration: Beat[1.00]),
             Flute1(_[Notes.A4], t[bar: 1, beat: 0.0], volume: _[0.80], duration: Beat[2.33]),
             Flute2(_[Notes.B4], t[bar: 1, beat: 1.5], volume: _[0.50], duration: Beat[1.00]),
-            //Flute2(_[Notes.A3], t[bar: 1, beat: 3.0], volume: _[0.50], duration: Beat[1.67]),
-            Flute3(_[Notes.G3], t[bar: 2, beat: 0.0], volume: _[1.00], duration: Beat[2.00]),
+            Flute1(_[Notes.A3], t[bar: 1, beat: 3.0], volume: _[0.50], duration: Beat[1.67]),
+            Flute3(_[Notes.G3], t[bar: 2, beat: 0.0], volume: _[0.85], duration: Beat[2.00]),
             Flute1(_[Notes.G4], t[bar: 2, beat: 1.5], volume: _[0.80], duration: Beat[2.50])
         );
 
@@ -756,41 +756,41 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Curve FluteCurve => CurveFactory.CreateCurve
         (
-            new NodeInfo(time: 0.00, value: 0.0),
-            new NodeInfo(time: 0.05, value: 0.8),
-            new NodeInfo(time: 0.10, value: 1.0),
-            new NodeInfo(time: 0.90, value: 0.7),
-            new NodeInfo(time: 1.00, value: 0.0)
+            (time: 0.00, value: 0.0),
+            (time: 0.05, value: 0.8),
+            (time: 0.10, value: 1.0),
+            (time: 0.90, value: 0.7),
+            (time: 1.00, value: 0.0)
         );
 
         private Curve TromboneCurve => CurveFactory.CreateCurve
         (
-            new NodeInfo(time: 0.00, value: 1),
-            new NodeInfo(time: 0.93, value: 1),
-            new NodeInfo(time: 1.00, value: 0)
+            (time: 0.00, value: 1),
+            (time: 0.93, value: 1),
+            (time: 1.00, value: 0)
         );
 
         private Curve RippleCurve => CurveFactory.CreateCurve
         (
-            new NodeInfo(time: 0.00, value: 0.00),
-            new NodeInfo(time: 0.01, value: 0.75),
-            new NodeInfo(time: 0.05, value: 0.50),
-            new NodeInfo(time: 0.25, value: 1.00),
-            new NodeInfo(time: 1.00, value: 0.00)
+            (time: 0.00, value: 0.00),
+            (time: 0.01, value: 0.75),
+            (time: 0.05, value: 0.50),
+            (time: 0.25, value: 1.00),
+            (time: 1.00, value: 0.00)
         );
 
         private Curve DampedBlockCurve => CurveFactory.CreateCurve
         (
-            new NodeInfo(time: 0.00, value: 0),
-            new NodeInfo(time: 0.01, value: 1),
-            new NodeInfo(time: 0.99, value: 1),
-            new NodeInfo(time: 1.00, value: 0)
+            (time: 0.00, value: 0),
+            (time: 0.01, value: 1),
+            (time: 0.99, value: 1),
+            (time: 1.00, value: 0)
         );
 
         private Curve LineDownCurve => CurveFactory.CreateCurve
         (
-            new NodeInfo(time: 0, value: 1),
-            new NodeInfo(time: 1, value: 0)
+            (time: 0, value: 1),
+            (time: 1, value: 0)
         );
 
         /// <summary>
@@ -827,22 +827,22 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> When harmonics thicken near the center, this curve can even out the volume over time. </summary>
         private Curve EvenOutCurve => CurveFactory.CreateCurve(
-            new NodeInfo(0.00, 1.0),
-            new NodeInfo(0.33, 0.6),
-            new NodeInfo(0.50, 0.6),
-            new NodeInfo(0.75, 0.8),
-            new NodeInfo(1.00, 1.0));
+            (time: 0.00, value: 1.0),
+            (time: 0.33, value: 0.6),
+            (time: 0.50, value: 0.6),
+            (time: 0.75, value: 0.8),
+            (time: 1.00, value: 1.0));
 
         private Curve ChordVolumeCurve => CurveFactory.CreateCurve(
-            new NodeInfo(0.0, 0.0), new NodeInfo(0.05, 0.0), new NodeInfo(0.98, 0.5),
-            new NodeInfo(1.0, 0.0), new NodeInfo(1.05, 0.6), new NodeInfo(1.98, 0.6),
-            new NodeInfo(2.0, 0.0), new NodeInfo(2.05, 0.8), new NodeInfo(2.98, 0.8),
-            new NodeInfo(3.0, 0.0), new NodeInfo(3.05, 0.6), new NodeInfo(3.80, 0.6),
-            new NodeInfo(4.0, 0.0), new NodeInfo(4.05, 0.9), new NodeInfo(4.98, 0.9),
-            new NodeInfo(5.0, 0.0), new NodeInfo(5.05, 0.8), new NodeInfo(5.92, 0.8),
-            new NodeInfo(6.0, 0.0), new NodeInfo(6.05, 1.0), new NodeInfo(6.98, 1.0),
-            new NodeInfo(7.0, 0.0), new NodeInfo(7.05, 0.6), new NodeInfo(7.78, 0.2),
-            new NodeInfo(8.0, 0.0));
+            (0.0, 0.0), (0.05, 0.0), (0.98, 0.5),
+            (1.0, 0.0), (1.05, 0.6), (1.98, 0.6),
+            (2.0, 0.0), (2.05, 0.8), (2.98, 0.8),
+            (3.0, 0.0), (3.05, 0.6), (3.80, 0.6),
+            (4.0, 0.0), (4.05, 0.9), (4.98, 0.9),
+            (5.0, 0.0), (5.05, 0.8), (5.92, 0.8),
+            (6.0, 0.0), (6.05, 1.0), (6.98, 1.0),
+            (7.0, 0.0), (7.05, 0.6), (7.78, 0.2),
+            (8.0, 0.0));
 
         private static readonly (double time, double frequency1, double frequency2, double frequency3)[]
             _chordFrequencies =

@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
@@ -15,7 +16,7 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 // ReSharper disable AssignmentInsteadOfDiscard
 
-namespace JJ.Business.Synthesizer.Tests.Helpers
+namespace JJ.Business.Synthesizer.Tests.Extensions
 {
     public partial class SynthesizerSugarBase : OperatorFactory
     {

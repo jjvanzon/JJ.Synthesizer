@@ -1,5 +1,6 @@
 ﻿using System;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Tests.Extensions;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Framework.Persistence;
