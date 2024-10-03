@@ -23,19 +23,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private const double DEFAULT_TOTAL_TIME = 3.0;
         private string NewLine => Environment.NewLine;
 
-        protected CurveFactory CurveFactory { get; }
-        protected AudioFileOutputManager AudioFileOutputManager { get; }
-        protected SampleManager SampleManager { get; }
+        public CurveFactory CurveFactory { get; }
+        public AudioFileOutputManager AudioFileOutputManager { get; }
+        public SampleManager SampleManager { get; }
 
-        protected SynthesizerSugarBase()
+        public SynthesizerSugarBase()
             : this(PersistenceHelper.CreateContext())
         { }
 
-        protected SynthesizerSugarBase(IContext context)
+        public SynthesizerSugarBase(IContext context)
             : this(context, beat: 1, bar: 4)
         { }
 
-        protected SynthesizerSugarBase(IContext context, double beat, double bar)
+        public SynthesizerSugarBase(IContext context, double beat, double bar)
             : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
                    PersistenceHelper.CreateRepository<IInletRepository>(context),
                    PersistenceHelper.CreateRepository<IOutletRepository>(context),
@@ -54,23 +54,35 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         }
 
         /// <inheritdoc cref="ValueIndexer" />
-        protected readonly ValueIndexer _;
+        public readonly ValueIndexer _;
 
         /// <inheritdoc cref="BarIndexer" />
-        protected BarIndexer Bar { get; }
+        public BarIndexer Bar { get; }
 
         /// <inheritdoc cref="BeatIndexer" />
-        protected BeatIndexer Beat { get; }
+        public BeatIndexer Beat { get; }
 
         // ReSharper disable once InconsistentNaming
         /// <inheritdoc cref="TimeIndexer" />
-        protected TimeIndexer t { get; }
+        public TimeIndexer t { get; }
+        
+        /// <inheritdoc cref="DocComments.Default" />
+        public Outlet StrikeNote(Outlet sound, Outlet delay = null, Outlet volume = null)
+        {
+            if (delay != null) sound = TimeAdd(sound, delay);
+            if (volume != null) sound = Multiply(sound, volume);
+            return sound;
+        }
+
+        /// <inheritdoc cref="DocComments.Default" />
+        public Outlet StretchCurve(Curve curve, Outlet duration)
+            => TimeMultiply(CurveIn(curve), duration);
 
         /// <summary>
         /// Wraps up a test for FM synthesis and outputs the result to a file.
         /// Also, the entity data will be verified.
         /// </summary>
-        protected void WriteToAudioFile(
+        public void WriteToAudioFile(
             Outlet outlet,
             double duration = DEFAULT_TOTAL_TIME,
             double volume = DEFAULT_TOTAL_VOLUME,

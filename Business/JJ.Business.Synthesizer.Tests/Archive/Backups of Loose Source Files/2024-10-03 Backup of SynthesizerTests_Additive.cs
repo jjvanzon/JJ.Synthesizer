@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_Additive_Sine_And_Curve()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTester_SineWithVolumeCurve(context).Test_Synthesizer_Sine_With_Volume_Curve();
+                new SynthesizerTester_Additive(context).Test_Additive_Sine_And_Curve();
 		}
 
 		[TestMethod]
