@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests
 		public void Test_Synthesizer_Additive_Sines_And_Samples()
 		{
 			using (IContext context = PersistenceHelper.CreateContext()) 
-                new SynthesizerTester_AdditiveSinesAndSamples(context).Test_Synthesizer_Additive_Sines_And_Samples();
+                new SynthesizerTester_Additive(context).Test_Synthesizer_Additive_Sines_And_Samples();
 		}
 	}
 }

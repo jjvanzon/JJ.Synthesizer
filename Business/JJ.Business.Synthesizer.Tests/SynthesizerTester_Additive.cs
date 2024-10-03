@@ -10,7 +10,7 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests
 {
-    internal class SynthesizerTester_AdditiveSinesAndSamples : SynthesizerSugarBase
+    internal class SynthesizerTester_Additive : SynthesizerSugarBase
     {
         private const double NOTE_TIME_WITH_FADE = 2.5;
         private const double TOTAL_TIME = 6.15; //3.1;
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Curve _sine3Envelope;
         private Curve _sampleEnvelope;
 
-        public SynthesizerTester_AdditiveSinesAndSamples(IContext context)
+        public SynthesizerTester_Additive(IContext context)
             : base(context)
         { }
 
