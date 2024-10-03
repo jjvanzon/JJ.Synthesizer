@@ -1,9 +1,8 @@
 ﻿using System;
-using JJ.Business.Synthesizer.EntityWrappers;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Validation.Entities;
-using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,19 +17,19 @@ namespace JJ.Business.Synthesizer.Tests
     /// </summary>
     public class SynthesizerTests_Additive : SynthesizerSugarBase
     {
-        private const double TOTAL_TIME = 6.15; //3.1;
+        const double DEFAULT_NOTE_DURATION = 2.5;
 
-        private Sample _sample;
-        private Curve _sine1Curve;
-        private Curve _sine2Curve;
-        private Curve _sine3Curve;
-        private Curve _sampleCurve;
+        /// <summary> Constructor for test runner. </summary>
+        [UsedImplicitly]
+        public SynthesizerTests_Additive()
+        { }
 
+        /// <summary> Constructor allowing each test to run in its own instance. </summary>
         public SynthesizerTests_Additive(IContext context)
             : base(context)
         { }
 
-        // Tests
+        #region Tests
 
         [TestMethod]
         public void Test_Synthesizer_Additive_Sine_And_Curve()
@@ -53,16 +52,16 @@ namespace JJ.Business.Synthesizer.Tests
                 new NodeInfo(time: 0.20, value: 0.60),
                 new NodeInfo(time: 0.80, value: 0.20),
                 new NodeInfo(time: 1.00, value: 0.00),
-                new NodeInfo(time: 1.20, value: 0.20),
+                new NodeInfo(time: 1.20, value: 0.50),
                 new NodeInfo(time: 1.40, value: 0.08),
-                new NodeInfo(time: 1.60, value: 0.30),
+                new NodeInfo(time: 1.60, value: 0.70),
                 new NodeInfo(time: 4.00, value: 0.00)
             );
             new CurveValidator(curve).Verify();
 
-            Outlet outlet = Sine(CurveIn(curve), _[880]);
+            Outlet outlet = Sine(CurveIn(curve), _[Notes.G5]);
 
-            WriteToAudioFile(outlet, duration: 4);
+            WriteToAudioFile(outlet, volume: 1, duration: 4);
         }
         
         [TestMethod]
@@ -78,69 +77,61 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         public void Test_Additive_Sines_And_Samples()
         {
-            // Create entities
-            _sample = ConfigureSample();
-            _sine1Curve = CreateSine1Envelope();
-            _sine2Curve = CreateSine2VolumeCurve();
-            _sine3Curve = CreateSine3VolumeCurve();
-            _sampleCurve = CreateSampleVolumeCurve();
+            AssertEntities();
             
-            Outlet melody = Melody;
-            melody = AddEcho(melody);
-
-            // Assert entities
-            AssertEntities(_sample, _sine1Curve, _sine2Curve, _sine3Curve, _sampleCurve);
-
-            // Calculate
-            WriteToAudioFile(melody, duration: TOTAL_TIME, volume: 1 / 3.5);
+            WriteToAudioFile(
+                AddEcho(Melody),
+                volume: 0.3,
+                duration: 1.2 + DEFAULT_NOTE_DURATION + ECHO_TIME);
         }
 
-        /// <summary> Asserts the entities that WriteToAudioFile won't. </summary>
-        private void AssertEntities(Sample sample, params Curve[] curves)
+        /// <summary> Asserts the Sample and Curve entities because WriteToAudioFile won't. </summary>
+        private void AssertEntities()
         {
-            SampleManager.ValidateSample(sample).Verify();
-            curves.ForEach(x => new CurveValidator(x).Verify());
+            SampleManager.ValidateSample(GetSample()).Verify();
+            new CurveValidator(SinePartialCurve1).Verify();
+            new CurveValidator(SinePartialCurve2).Verify();
+            new CurveValidator(SinePartialCurve3).Verify();
+            new CurveValidator(SamplePartialCurve).Verify();
         }
 
-        // Patches
+        #endregion
+        
+        #region Patches
 
         private Outlet Melody => Adder
         (
-            Xylophone(_[Notes.A4], volume: _[0.9]),
-            Xylophone(_[Notes.E5], volume: _[1.0], delay: _[0.2]),
-            Xylophone(_[Notes.B4], volume: _[0.5], delay: _[0.4]),
+            Xylophone(_[Notes.A4],       volume: _[0.9]),
+            Xylophone(_[Notes.E5],       volume: _[1.0], delay: _[0.2]),
+            Xylophone(_[Notes.B4],       volume: _[0.5], delay: _[0.4]),
             Xylophone(_[Notes.C5_Sharp], volume: _[0.7], delay: _[0.6]),
             Xylophone(_[Notes.F4_Sharp], volume: _[0.4], delay: _[1.2])
         );
 
         /// <param name="duration">The duration of the sound in seconds (default is 2.5). </param>
-        /// <returns></returns>
         /// <inheritdoc cref="DocComments.Default"/>
-        private Outlet Xylophone(Outlet freq, Outlet volume, Outlet delay = null, Outlet duration = null)
+        private Outlet Xylophone(Outlet frequency, Outlet volume, Outlet delay = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A4];
-            delay = delay ?? _[0];
-            duration = duration ?? _[2.5];
+            frequency = frequency ?? _[Notes.A4];
+            duration = duration ?? _[DEFAULT_NOTE_DURATION];
 
-            Outlet outlet = Adder
+            var sound = Adder
             (
-                CreateSine(                 freq,        volume: _[1.0], StretchCurve(_sine1Curve,  duration)),
-                CreateSine(        Multiply(freq, _[2]), volume: _[0.7], StretchCurve(_sine2Curve,  duration)),
-                CreateSine(        Multiply(freq, _[5]), volume: _[0.4], StretchCurve(_sine3Curve,  duration)),
-                CreateSampleOutlet(Multiply(freq, _[2]), volume: _[3.0], StretchCurve(_sampleCurve, duration)),
-                CreateSampleOutlet(Multiply(freq, _[7]), volume: _[5.0], StretchCurve(_sampleCurve, duration))
+                SinePartial(           frequency,        volume: _[1.0], StretchCurve(SinePartialCurve1,  duration)),
+                SinePartial(  Multiply(frequency, _[2]), volume: _[0.7], StretchCurve(SinePartialCurve2,  duration)),
+                SinePartial(  Multiply(frequency, _[5]), volume: _[0.4], StretchCurve(SinePartialCurve3,  duration)),
+                SamplePartial(Multiply(frequency, _[2]), volume: _[3.0], StretchCurve(SamplePartialCurve, duration)),
+                SamplePartial(Multiply(frequency, _[7]), volume: _[5.0], StretchCurve(SamplePartialCurve, duration))
             );
 
-            StrikeNote(delay, volume);
-            
-            return outlet;
+            return StrikeNote(sound, delay, volume);
         }
 
-        private Sine CreateSine(Outlet frequency, Outlet volume, Outlet curve) =>
-            Sine(Multiply(volume, curve), frequency);
+        private Outlet SinePartial(Outlet frequency, Outlet volume, Outlet curve)
+            => Sine(Multiply(volume, curve), frequency);
 
-        private Outlet CreateSampleOutlet(Outlet frequency, Outlet volume, Outlet curve) =>
-            TimeDivide
+        private Outlet SamplePartial(Outlet frequency, Outlet volume, Outlet curve)
+            => TimeDivide
             (
                 Multiply(Multiply(Sample(_sample), curve), volume),
                 Divide(frequency, _[440])
@@ -151,75 +142,93 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="DocComments.Default"/>
         private Outlet AddEcho(Outlet sound)
             => EntityFactory.CreateEcho(this, sound, count: 5, denominator: 3, delay: 0.66);
-
-        // Samples
         
+        #endregion
+        
+        #region Samples
+
+        private Sample _sample;
+
         /// <summary>
         /// Load a sample, skip some old header's bytes, maximize volume and tune to 440Hz.
         /// </summary>
-        private Sample ConfigureSample()
+        private Sample GetSample()
         {
-            Sample sample = SampleManager.CreateSample(TestHelper.GetViolin16BitMono44100WavStream());
+            if (_sample != null) return _sample;
+            
+            _sample = SampleManager.CreateSample(TestHelper.GetViolin16BitMono44100WavStream());
 
             // Skip over Header (from some other file format, that slipped into the audio data).
-            sample.BytesToSkip = 62;
+            _sample.BytesToSkip = 62;
 
             // Skip for Sharper Attack
-            sample.BytesToSkip += 1000;
+            _sample.BytesToSkip += 1000;
 
             // Maximize and Normalize sample values (from 16-bit numbers to [-1, 1]).
-            sample.Amplifier = 1.467 / short.MaxValue;
+            _sample.Amplifier = 1.467 / short.MaxValue;
 
             // Tune to A 440Hz
             double octaveFactor = Math.Pow(2, -1);
             double intervalFactor = 4.0 / 5.0;
             double fineTuneFactor = 0.94;
-            sample.TimeMultiplier = 1.0 / (octaveFactor * intervalFactor * fineTuneFactor);
+            _sample.TimeMultiplier = 1.0 / (octaveFactor * intervalFactor * fineTuneFactor);
 
-            return sample;
+            return _sample;
         }
         
-        // Curves
+        #endregion
+
+        #region Curves
         
         /// <summary>
         /// Creates a curve representing the volume modulation for the first sine partial.
         /// Starts quietly, peaks at a strong volume, and then fades gradually.
         /// </summary>
-        private Curve CreateSine1Envelope() => CurveFactory.CreateCurve(
+        private Curve SinePartialCurve1 => CurveFactory.CreateCurve
+        (
             timeSpan: 1,
             0.00, 0.80, 1.00, null, null, null, null, null,
             0.25, null, null, null, null, null, null, null,
-            0.10, null, null, 0.02, null, null, null, 0.00);
+            0.10, null, null, 0.02, null, null, null, 0.00
+        );
 
         /// <summary>
         /// Creates a curve for volume modulation of the second sine partial.
         /// Begins with a quick rise, reaches a high peak, and then slightly drops before fading.
         /// </summary>
-        private Curve CreateSine2VolumeCurve() => CurveFactory.CreateCurve(
+        private Curve SinePartialCurve2 => CurveFactory.CreateCurve
+        (
             timeSpan: 1,
             0.00, 1.00, 0.80, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
-            0.05, null, null, 0.01, null, null, null, 0.00);
+            0.05, null, null, 0.01, null, null, null, 0.00
+        );
 
         /// <summary>
         /// Constructs a volume curve for the third sine partial.
         /// Starts at a moderate volume, dips to a very low level,
         /// and then has a slight resurgence before fading out.
         /// </summary>
-        private Curve CreateSine3VolumeCurve() => CurveFactory.CreateCurve(
+        private Curve SinePartialCurve3 => CurveFactory.CreateCurve
+        (
             timeSpan: 1,
             0.30, 1.00, 0.30, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
-            0.15, null, null, 0.05, null, null, null, 0.00);
+            0.15, null, null, 0.05, null, null, null, 0.00
+        );
 
         /// <summary>
         /// Generates a volume curve for the sample, starting at full volume
         /// and quickly diminishing to a lower level.
         /// </summary>
-        private Curve CreateSampleVolumeCurve() => CurveFactory.CreateCurve(
+        private Curve SamplePartialCurve => CurveFactory.CreateCurve
+        (
             timeSpan: 1,
             1.00, 0.50, 0.20, null, null, null, null, 0.00,
             null, null, null, null, null, null, null, null,
-            null, null, null, null, null, null, null, null);
+            null, null, null, null, null, null, null, null
+        );
+        
+        #endregion
     }
 }
