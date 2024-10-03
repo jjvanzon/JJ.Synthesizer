@@ -1,6 +1,5 @@
 ﻿using System;
 using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Framework.Persistence;
@@ -15,79 +14,68 @@ namespace JJ.Business.Synthesizer.Tests
     /// <summary>
     /// Additional tests written upon retro-actively isolating older synthesizer versions.
     /// </summary>
-    public class SynthesizerTests_Additive : SynthesizerSugarBase
+    public class SynthesizerTests_Additive_Sines_Samples : SynthesizerSugarBase
     {
         const double DEFAULT_NOTE_DURATION = 2.5;
 
         /// <summary> Constructor for test runner. </summary>
         [UsedImplicitly]
-        public SynthesizerTests_Additive()
+        public SynthesizerTests_Additive_Sines_Samples()
         { }
 
         /// <summary> Constructor allowing each test to run in its own instance. </summary>
-        public SynthesizerTests_Additive(IContext context)
+        public SynthesizerTests_Additive_Sines_Samples(IContext context)
             : base(context, beat: 0.4, bar: 1.6)
         { }
 
         #region Tests
-                
-        [TestMethod]
-        public void Test_Synthesizer_Additive_Sine_And_Curve()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Additive(context).Test_Additive_Sine_And_Curve();
-        }
-        
-        /// <summary>
-        /// Generates a Sine wave with a Volume Curve, testing both Block and Line Interpolation.
-        /// Verifies data using (Warning)Validators and writes the output audio to a file.
-        /// </summary>
-        public void Test_Additive_Sine_And_Curve()
-        {
-            Curve curve = CurveFactory.CreateCurve
-            (
-                new NodeInfo(time: 0.00, value: 0.00),
-                new NodeInfo(time: 0.05, value: 0.95),
-                new NodeInfo(time: 0.10, value: 1.00),
-                new NodeInfo(time: 0.20, value: 0.60),
-                new NodeInfo(time: 0.80, value: 0.20),
-                new NodeInfo(time: 1.00, value: 0.00),
-                new NodeInfo(time: 1.20, value: 0.50),
-                new NodeInfo(time: 1.40, value: 0.08),
-                new NodeInfo(time: 1.60, value: 0.70),
-                new NodeInfo(time: 4.00, value: 0.00)
-            );
-            new CurveValidator(curve).Verify();
-
-            Outlet outlet = Sine(CurveIn(curve), _[Notes.G5]);
-
-            WriteToAudioFile(outlet, volume: 1, duration: 4);
-        }
 
         [TestMethod]
-        public void Test_Synthesizer_Additive_Sines_And_Samples()
+        public void Test_Synthesizer_Additive_Sines_Samples_Metallophone_Melody()
         {
             using (IContext context = PersistenceHelper.CreateContext()) 
-                new SynthesizerTests_Additive(context).Test_Additive_Sines_And_Samples();
+                new SynthesizerTests_Additive_Sines_Samples(context).Test_Additive_Sines_Samples_Metallophone_Melody();
         }
 
         /// <summary>
         /// Arpeggio sound with harmonics, a high-pitch sample for attack,
         /// separate curves for each partial, triggers a wav header auto-detect.
         /// </summary>
-        public void Test_Additive_Sines_And_Samples()
+        public void Test_Additive_Sines_Samples_Metallophone_Melody()
         {
-            /// Assert the entities that WriteToAudioFile won't.
+            AssertEntities();
+
+            WriteToAudioFile(
+                AddEcho(Melody),
+                volume: 0.3,
+                duration: 1.2 + DEFAULT_NOTE_DURATION + ECHO_TIME);
+        }
+
+        [TestMethod]
+        public void Test_Synthesizer_Additive_Sines_Samples_Metallophone_Note()
+        {
+            using (IContext context = PersistenceHelper.CreateContext()) 
+                new SynthesizerTests_Additive_Sines_Samples(context).Test_Additive_Sines_Samples_Metallophone_Note();
+        }
+        
+        public void Test_Additive_Sines_Samples_Metallophone_Note()
+        {
+            AssertEntities();
+
+            WriteToAudioFile(
+                AddEcho(Metallophone(_[Notes.F4_Sharp])),
+                duration: DEFAULT_NOTE_DURATION + ECHO_TIME,
+                volume: 0.5);
+        }
+        
+        /// <summary> Assert the entities that WriteToAudioFile won't. </summary>
+        private void AssertEntities()
+        {
             SampleManager.ValidateSample(GetSample()).Verify();
             new CurveValidator(SinePartialCurve1).Verify();
             new CurveValidator(SinePartialCurve2).Verify();
             new CurveValidator(SinePartialCurve3).Verify();
             new CurveValidator(SamplePartialCurve).Verify();
-            
-            WriteToAudioFile(
-                AddEcho(Melody),
-                volume: 0.3,
-                duration: 1.2 + DEFAULT_NOTE_DURATION + ECHO_TIME);
         }
 
         #endregion
@@ -96,16 +84,16 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet Melody => Adder
         (
-            Xylophone(_[Notes.A4],       delay: t[bar:0, beat:0.0], volume: _[0.9]),
-            Xylophone(_[Notes.E5],       delay: t[bar:0, beat:0.5], volume: _[1.0]),
-            Xylophone(_[Notes.B4],       delay: t[bar:0, beat:1.0], volume: _[0.5]),
-            Xylophone(_[Notes.C5_Sharp], delay: t[bar:0, beat:1.5], volume: _[0.7]),
-            Xylophone(_[Notes.F4_Sharp], delay: t[bar:0, beat:3.0], volume: _[0.4])
+            Metallophone(_[Notes.A4],       delay: t[bar:0, beat:0.0], volume: _[0.9]),
+            Metallophone(_[Notes.E5],       delay: t[bar:0, beat:0.5], volume: _[1.0]),
+            Metallophone(_[Notes.B4],       delay: t[bar:0, beat:1.0], volume: _[0.5]),
+            Metallophone(_[Notes.C5_Sharp], delay: t[bar:0, beat:1.5], volume: _[0.7]),
+            Metallophone(_[Notes.F4_Sharp], delay: t[bar:0, beat:3.0], volume: _[0.4])
         );
 
         /// <param name="duration">The duration of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="DocComments.Default"/>
-        private Outlet Xylophone(Outlet frequency = null, Outlet volume = null, Outlet delay = null, Outlet duration = null)
+        private Outlet Metallophone(Outlet frequency = null, Outlet volume = null, Outlet delay = null, Outlet duration = null)
         {
             frequency = frequency ?? _[Notes.A4];
             duration = duration ?? _[DEFAULT_NOTE_DURATION];
