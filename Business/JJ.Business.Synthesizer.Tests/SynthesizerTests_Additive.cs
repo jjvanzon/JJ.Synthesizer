@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Tests
     /// <summary>
     /// Additional tests written upon retro-actively isolating older synthesizer versions.
     /// </summary>
-    public class SynthesizerTester_Additive : SynthesizerSugarBase
+    public class SynthesizerTests_Additive : SynthesizerSugarBase
     {
         private const double TOTAL_TIME = 6.15; //3.1;
 
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Curve _sine3Curve;
         private Curve _sampleCurve;
 
-        public SynthesizerTester_Additive(IContext context)
+        public SynthesizerTests_Additive(IContext context)
             : base(context)
         { }
 
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Additive_Sine_And_Curve()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTester_Additive(context).Test_Additive_Sine_And_Curve();
+                new SynthesizerTests_Additive(context).Test_Additive_Sine_And_Curve();
         }
         
         /// <summary>
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Additive_Sines_And_Samples()
         {
             using (IContext context = PersistenceHelper.CreateContext()) 
-                new SynthesizerTester_Additive(context).Test_Additive_Sines_And_Samples();
+                new SynthesizerTests_Additive(context).Test_Additive_Sines_And_Samples();
         }
 
         /// <summary>

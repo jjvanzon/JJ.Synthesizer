@@ -142,7 +142,7 @@
     <Compile Include="SampleTests.cs" />
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SynthesizerTester_Additive.cs" />
+    <Compile Include="SynthesizerTests_Additive.cs" />
     <Compile Include="Helpers\SynthesizerSugarBar.ValueIndexer.cs" />
   </ItemGroup>
   <ItemGroup>
