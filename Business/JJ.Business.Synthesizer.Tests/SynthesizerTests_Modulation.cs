@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
@@ -23,14 +22,14 @@ namespace JJ.Business.Synthesizer.Tests
         #region Tests
 
         [TestMethod]
-        public void Test_Synthesizer_Modulation_ShortBurstChord()
+        public void Test_Synthesizer_Modulation_JitterBurstChord()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Additive(context).Test_Modulation_ShortBurstChord();
+                new SynthesizerTests_Additive(context).Test_Modulation_JitterBurstChord();
         }
 
-        private void Test_Modulation_ShortBurstChord()
-            => SaveWav(MildEcho(ShortBurstChord()),
+        private void Test_Modulation_JitterBurstChord()
+            => SaveWav(MildEcho(JitterBurstChord()),
                                 volume: 0.30,
                                 duration: t[bar: 9, beat: 2] + MILD_ECHO_TIME);
 
@@ -50,21 +49,21 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Composition
 
-        private Outlet ShortBurstChord()
+        private Outlet JitterBurstChord()
         {
             var vibratoDepth = _[0.005];
             var tremoloDepth = _[0.25];
 
-            var melody = Adder
+            var chord = Adder
             (
-                Multiply(_[0.80], ShortBurst(_[Notes.A4], vibratoDepth, tremoloDepth)),
-                Multiply(_[0.70], ShortBurst(_[Notes.B4], vibratoDepth, tremoloDepth)),
-                Multiply(_[0.85], ShortBurst(_[Notes.C5], vibratoDepth, tremoloDepth)),
-                Multiply(_[0.75], ShortBurst(_[Notes.D5], vibratoDepth, tremoloDepth)),
-                Multiply(_[0.90], ShortBurst(_[Notes.E5], vibratoDepth, tremoloDepth))
+                Multiply(_[0.80], JitterBurst(_[Notes.A4], vibratoDepth, tremoloDepth)),
+                Multiply(_[0.70], JitterBurst(_[Notes.B4], vibratoDepth, tremoloDepth)),
+                Multiply(_[0.85], JitterBurst(_[Notes.C5], vibratoDepth, tremoloDepth)),
+                Multiply(_[0.75], JitterBurst(_[Notes.D5], vibratoDepth, tremoloDepth)),
+                Multiply(_[0.90], JitterBurst(_[Notes.E5], vibratoDepth, tremoloDepth))
             );
 
-            return melody;
+            return chord;
         }
 
         private Outlet LongNotesComposition_DoesNotWork()
@@ -89,38 +88,30 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Instruments
 
-        private Outlet ShortBurst(Outlet freq, Outlet vibratoDepth, Outlet tremoloDepth)
+        private Outlet JitterBurst(Outlet freq, Outlet tremoloDepth1, Outlet tremoloDepth2)
         {
-            // Base additive synthesis with harmonic content
-            var semiSaw = Adder
-            (
-                Sine(_[1], freq),
-                Sine(_[0.5], Multiply(freq, _[2])),
-                Sine(_[0.3], Multiply(freq, _[3])),
-                Sine(_[0.2], Multiply(freq, _[4]))
-            );
-            SaveWav(semiSaw, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(semiSaw)}.wav");
-
-            // Apply vibrato by modulating frequency over time using an oscillator
-            var vibrato = Sine(Add(_[1], vibratoDepth), _[5.5]); // 5.5 Hz vibrato
-            SaveWav(vibrato, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(vibrato)}.wav");
-
-            var soundWithVibrato = Multiply(semiSaw, vibrato);
-            SaveWav(soundWithVibrato, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(soundWithVibrato)} .wav");
-
-            // Apply tremolo by modulating amplitude over time using an oscillator
-            var tremolo = Sine(Add(_[1], tremoloDepth), _[4]); // 4 Hz tremolo
-            SaveWav(tremolo, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(tremolo)}.wav");
-
-            var soundWithTremolo = Multiply(soundWithVibrato, tremolo);
-            SaveWav(soundWithTremolo, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(soundWithTremolo)}.wav");
-
-            // Stretch and apply modulation over time
-            var noteWithEnvelope = Multiply(soundWithTremolo, CurveIn(VolumeCurve));
-            SaveWav(noteWithEnvelope, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(noteWithEnvelope)}.wav");
-
-            return noteWithEnvelope;
+            var waveForm = SemiSaw(freq);
+            var jittered = Jitter(waveForm, tremoloDepth1, tremoloDepth2);
+            var sound = Multiply(jittered, CurveIn(VolumeCurve));
+            return sound;
         }
+
+        private Outlet Jitter(Outlet sound, Outlet tremoloDepth1, Outlet tremoloDepth2)
+        {
+            var tremolo1 = Sine(Add(_[1], tremoloDepth1), _[5.5]); // 5.5 Hz tremolo
+            var soundWithTremolo1 = Multiply(sound, tremolo1);
+            var tremolo2 = Sine(Add(_[1], tremoloDepth2), _[4]); // 4 Hz tremolo
+            var soundWithTremolo2 = Multiply(soundWithTremolo1, tremolo2);
+            return soundWithTremolo2;
+        }
+
+        private Outlet SemiSaw(Outlet freq) => Adder
+        (
+            Sine(_[1.0], freq),
+            Sine(_[0.5], Multiply(freq, _[2])),
+            Sine(_[0.3], Multiply(freq, _[3])),
+            Sine(_[0.2], Multiply(freq, _[4]))
+        );
 
         private Outlet LongModulatedNote(
             Outlet freq, Outlet detuneDepth, Outlet vibratoDepth, Outlet tremoloDepth)
