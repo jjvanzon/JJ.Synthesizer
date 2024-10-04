@@ -1,9 +1,11 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 // ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Business.Synthesizer.Tests
@@ -21,6 +23,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Tests
 
+        /// <inheritdoc cref="JitterDocs" />
         [TestMethod]
         public void Test_Synthesizer_Modulation_JitterBurstChord()
         {
@@ -28,10 +31,9 @@ namespace JJ.Business.Synthesizer.Tests
                 new SynthesizerTests_Additive(context).Test_Modulation_JitterBurstChord();
         }
 
+        /// <inheritdoc cref="JitterDocs" />
         private void Test_Modulation_JitterBurstChord()
-            => SaveWav(MildEcho(JitterBurstChord()),
-                                volume: 0.30,
-                                duration: t[bar: 9, beat: 2] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(JitterBurstChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_Modulation_LongNoteComposition_DoesNotWork()
@@ -42,29 +44,22 @@ namespace JJ.Business.Synthesizer.Tests
 
         private void Test_Modulation_LongNoteComposition_DoesNotWork()
             => SaveWav(MildEcho(LongNotesComposition_DoesNotWork()),
-                                volume: 0.30,
-                                duration: t[bar: 9, beat: 2] + MILD_ECHO_TIME);
+                       volume: 0.30,
+                       duration: t[bar: 9, beat: 2] + MILD_ECHO_TIME);
 
         #endregion
 
         #region Composition
 
-        private Outlet JitterBurstChord()
-        {
-            var vibratoDepth = _[0.005];
-            var tremoloDepth = _[0.25];
-
-            var chord = Adder
-            (
-                Multiply(_[0.80], JitterBurst(_[Notes.A4], vibratoDepth, tremoloDepth)),
-                Multiply(_[0.70], JitterBurst(_[Notes.B4], vibratoDepth, tremoloDepth)),
-                Multiply(_[0.85], JitterBurst(_[Notes.C5], vibratoDepth, tremoloDepth)),
-                Multiply(_[0.75], JitterBurst(_[Notes.D5], vibratoDepth, tremoloDepth)),
-                Multiply(_[0.90], JitterBurst(_[Notes.E5], vibratoDepth, tremoloDepth))
-            );
-
-            return chord;
-        }
+        /// <inheritdoc cref="JitterDocs" />
+        private Outlet JitterBurstChord => Adder
+        (
+            Multiply(_[0.80], JitterNote(_[Notes.A4])),
+            Multiply(_[0.70], JitterNote(_[Notes.B4])),
+            Multiply(_[0.85], JitterNote(_[Notes.C5])),
+            Multiply(_[0.75], JitterNote(_[Notes.D5])),
+            Multiply(_[0.90], JitterNote(_[Notes.E5]))
+        );
 
         private Outlet LongNotesComposition_DoesNotWork()
         {
@@ -88,33 +83,16 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Instruments
 
-        private Outlet JitterBurst(Outlet freq, Outlet tremoloDepth1, Outlet tremoloDepth2)
+        /// <inheritdoc cref="JitterDocs" />
+        private Outlet JitterNote(Outlet freq, Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
         {
             var waveForm = SemiSaw(freq);
-            var jittered = Jitter(waveForm, tremoloDepth1, tremoloDepth2);
+            var jittered = Jitter(waveForm, depthAdjust1, depthAdjust2);
             var sound = Multiply(jittered, CurveIn(VolumeCurve));
             return sound;
         }
 
-        private Outlet Jitter(Outlet sound, Outlet tremoloDepth1, Outlet tremoloDepth2)
-        {
-            var tremolo1 = Sine(Add(_[1], tremoloDepth1), _[5.5]); // 5.5 Hz tremolo
-            var soundWithTremolo1 = Multiply(sound, tremolo1);
-            var tremolo2 = Sine(Add(_[1], tremoloDepth2), _[4]); // 4 Hz tremolo
-            var soundWithTremolo2 = Multiply(soundWithTremolo1, tremolo2);
-            return soundWithTremolo2;
-        }
-
-        private Outlet SemiSaw(Outlet freq) => Adder
-        (
-            Sine(_[1.0], freq),
-            Sine(_[0.5], Multiply(freq, _[2])),
-            Sine(_[0.3], Multiply(freq, _[3])),
-            Sine(_[0.2], Multiply(freq, _[4]))
-        );
-
-        private Outlet LongModulatedNote(
-            Outlet freq, Outlet detuneDepth, Outlet vibratoDepth, Outlet tremoloDepth)
+        private Outlet LongModulatedNote(Outlet freq, Outlet detuneDepth, Outlet vibratoDepth, Outlet tremoloDepth)
         {
             // Base additive synthesis with harmonic content
             var harmonicContent = Adder
@@ -147,14 +125,46 @@ namespace JJ.Business.Synthesizer.Tests
 
             return noteWithEnvelope;
         }
+
         #endregion
 
         #region Algorithms
 
+        /// <inheritdoc cref="JitterDocs" />
+        private Outlet Jitter(Outlet sound, Outlet depthAdjust1, Outlet depthAdjust2)
+        {
+            depthAdjust1 = depthAdjust1 ?? _[0.005];
+            depthAdjust2 = depthAdjust2 ?? _[0.250];
+
+            var tremolo1 = Sine(Add(_[1], depthAdjust1), _[5.5]); // 5.5 Hz tremolo
+            var soundWithTremolo1 = Multiply(sound, tremolo1);
+            var tremolo2 = Sine(Add(_[1], depthAdjust2), _[4]); // 4 Hz tremolo
+            var soundWithTremolo2 = Multiply(soundWithTremolo1, tremolo2);
+            return soundWithTremolo2;
+        }
+
+        /// <summary>
+        /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
+        /// </summary>
+        /// <param name="freq"> The base frequency for the waveform. </param>
+        /// <returns> An <see cref="Outlet" /> representing the semi-sawtooth waveform. </returns>
+        private Outlet SemiSaw(Outlet freq) => Adder
+        (
+            Sine(_[1.0], freq),
+            Sine(_[0.5], Multiply(freq, _[2])),
+            Sine(_[0.3], Multiply(freq, _[3])),
+            Sine(_[0.2], Multiply(freq, _[4]))
+        );
+
         private const double MILD_ECHO_TIME = 0.33 * 5;
 
-        private Outlet MildEcho(Outlet outlet)
-            => EntityFactory.CreateEcho(this, outlet, count: 6, denominator: 4, delay: 0.33);
+        /// <summary>
+        /// Applies a mild echo effect to the given sound.
+        /// </summary>
+        /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
+        /// <returns> An <see cref="Outlet" /> representing the sound with the applied echo effect. </returns>
+        private Outlet MildEcho(Outlet sound)
+            => EntityFactory.CreateEcho(this, sound, count: 6, denominator: 4, delay: 0.33);
 
         #endregion
 
@@ -166,6 +176,22 @@ namespace JJ.Business.Synthesizer.Tests
             "                     ",
             "           o         ",
             "o                   o");
+
+        #endregion
+
+        #region Docs
+
+        /// <summary>
+        /// Applies a jitter effect to notes, with adjustable depths. Basically with an extreme double tremolo effect.
+        /// </summary>
+        /// <param name="sound"> The sound to apply the jitter effect to. </param>
+        /// <param name="freq"> The frequency of the note. </param>
+        /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
+        /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
+        /// <returns> An <see cref="Outlet" /> representing the jittered note. </returns>
+        [UsedImplicitly]
+        private Outlet JitterDocs(Outlet freq, Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
+            => throw new NotSupportedException();
 
         #endregion
     }

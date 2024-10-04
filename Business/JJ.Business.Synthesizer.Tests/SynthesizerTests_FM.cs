@@ -189,7 +189,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Horn_Melody1()
-            => SaveWav(MildEcho(HornMelody1), volume: 0.2, duration: Bar[4] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(HornMelody1), volume: 0.6, duration: Bar[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Horn_Melody2()
@@ -199,7 +199,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Horn_Melody2()
-            => SaveWav(MildEcho(HornMelody2), volume: 0.2, duration: Bar[3.5] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(HornMelody2), volume: 0.6, duration: Bar[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_ElectricNote()
