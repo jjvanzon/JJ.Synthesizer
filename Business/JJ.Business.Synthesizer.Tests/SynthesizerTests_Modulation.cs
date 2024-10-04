@@ -36,16 +36,16 @@ namespace JJ.Business.Synthesizer.Tests
             => SaveWav(MildEcho(JitterBurstChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_Modulation_LongNoteComposition_DoesNotWork()
+        public void Test_Synthesizer_Modulation_LongNoteJingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Additive(context).Test_Modulation_LongNoteComposition_DoesNotWork();
+                new SynthesizerTests_Additive(context).Test_Modulation_LongNoteJingle();
         }
 
-        private void Test_Modulation_LongNoteComposition_DoesNotWork()
-            => SaveWav(MildEcho(LongNotesComposition_DoesNotWork()),
-                       volume: 0.30,
-                       duration: t[bar: 9, beat: 2] + MILD_ECHO_TIME);
+        private void Test_Modulation_LongNoteJingle()
+            => SaveWav(MildEcho(LongNotesJingle()),
+                       volume: 0.20,
+                       duration: 5 + MILD_ECHO_TIME);
 
         #endregion
 
@@ -61,19 +61,22 @@ namespace JJ.Business.Synthesizer.Tests
             Multiply(_[0.90], JitterNote(_[Notes.E5]))
         );
 
-        private Outlet LongNotesComposition_DoesNotWork()
+        private Outlet LongNotesJingle()
         {
-            var detuneDepth = _[0.02];
             var vibratoDepth = _[0.005];
             var tremoloDepth = _[0.25];
+            //var harmonicDetuneDepth = _[0.02];
+            //var harmonicDetuneDepth = _[0.1];
+            var harmonicDetuneDepth = _[0.05];
+
 
             var melody = Adder
             (
-                Multiply(_[0.80], LongModulatedNote(_[Notes.A4], detuneDepth, vibratoDepth, tremoloDepth)),
-                Multiply(_[0.70], LongModulatedNote(_[Notes.B4], detuneDepth, vibratoDepth, tremoloDepth)),
-                Multiply(_[0.85], LongModulatedNote(_[Notes.C5], detuneDepth, vibratoDepth, tremoloDepth)),
-                Multiply(_[0.75], LongModulatedNote(_[Notes.D5], detuneDepth, vibratoDepth, tremoloDepth)),
-                Multiply(_[0.90], LongModulatedNote(_[Notes.E5], detuneDepth, vibratoDepth, tremoloDepth))
+                Multiply(_[0.80], LongModulatedNote(_[Notes.A3], _[5], vibratoDepth, tremoloDepth, harmonicDetuneDepth))//,
+                //Multiply(_[0.70], LongModulatedNote(_[Notes.B4], _[3], vibratoDepth, tremoloDepth, harmonicDetuneDepth)),
+                //Multiply(_[0.85], LongModulatedNote(_[Notes.C5], _[3], vibratoDepth, tremoloDepth, harmonicDetuneDepth)),
+                //Multiply(_[0.75], LongModulatedNote(_[Notes.D5], _[3], vibratoDepth, tremoloDepth, harmonicDetuneDepth)),
+                //Multiply(_[0.90], LongModulatedNote(_[Notes.E5], _[3], vibratoDepth, tremoloDepth, harmonicDetuneDepth))
             );
 
             return melody;
@@ -88,60 +91,45 @@ namespace JJ.Business.Synthesizer.Tests
         {
             var waveForm = SemiSaw(freq);
             var jittered = Jitter(waveForm, depthAdjust1, depthAdjust2);
-            var sound = Multiply(jittered, CurveIn(VolumeCurve));
+            var sound = Multiply(jittered, CurveIn(VolumeCurve1));
             return sound;
         }
 
-        private Outlet LongModulatedNote(Outlet freq, Outlet detuneDepth, Outlet vibratoDepth, Outlet tremoloDepth)
+        private Outlet LongModulatedNote(
+            Outlet freq, Outlet duration, Outlet vibratoDepth = null,
+            Outlet tremoloDepth = null, Outlet harmonicDetuneDepth = null)
         {
-            // Base additive synthesis with harmonic content
-            var harmonicContent = Adder
-            (
-                Sine(_[1], freq),
-                Sine(_[0.5], Multiply(freq, _[2])),
-                Sine(_[0.3], Multiply(freq, _[3])),
-                Sine(_[0.2], Multiply(freq, _[4]))
-            );
+            vibratoDepth = vibratoDepth ?? _[0.005];
+            tremoloDepth = tremoloDepth ?? _[0.25];
 
-            // Apply detune by modulating frequencies slightly
-            var detunedContent = Adder
-            (
-                Sine(_[1], Multiply(freq, Add(_[1], detuneDepth))),
-                Sine(_[1], Multiply(freq, Add(_[2], detuneDepth))),
-                Sine(_[1], Multiply(freq, Add(_[3], detuneDepth))),
-                Sine(_[1], Multiply(freq, Add(_[4], detuneDepth)))
-            );
+            // Base additive synthesis waveform
+            var semiSaw = SemiSaw(freq);
 
-            // Apply vibrato by modulating frequency over time using an oscillator
-            var vibrato = Sine(Add(_[1], vibratoDepth), _[5.5]); // 5.5 Hz vibrato
-            var soundWithVibrato = Multiply(harmonicContent, vibrato);
+            // Apply detune by modulating harmonic frequencies slightly
+            var detunedHarmonics = DetunedHarmonics(freq, harmonicDetuneDepth);
+
+            // Mix them together
+            Outlet sound = Add(semiSaw, detunedHarmonics);
+            
+            /*
+            // Apply vibrato by speeding up and slowing down and oscillator over time.
+            var vibratoOscillator = Sine(Add(_[1], vibratoDepth), _[5.5]); // 5.5 Hz vibrato
+            sound = TimeMultiply(sound, vibratoOscillator);
 
             // Apply tremolo by modulating amplitude over time using an oscillator
-            var tremolo = Sine(Add(_[1], tremoloDepth), _[4]); // 4 Hz tremolo
-            var soundWithTremolo = Multiply(soundWithVibrato, tremolo);
+            var tremoloOscillator = Substract(_[1], Sine(tremoloDepth, _[4])); // 4 Hz tremolo
+            sound = Multiply(sound, tremoloOscillator);
+            */
+            
+            // Apply volume curve
+            sound = Multiply(sound, StretchCurve(VolumeCurve2, duration));
 
-            // Stretch and apply modulation over time
-            var noteWithEnvelope = Multiply(soundWithTremolo, CurveIn(VolumeCurve));
-
-            return noteWithEnvelope;
+            return sound;
         }
 
         #endregion
 
-        #region Algorithms
-
-        /// <inheritdoc cref="JitterDocs" />
-        private Outlet Jitter(Outlet sound, Outlet depthAdjust1, Outlet depthAdjust2)
-        {
-            depthAdjust1 = depthAdjust1 ?? _[0.005];
-            depthAdjust2 = depthAdjust2 ?? _[0.250];
-
-            var tremolo1 = Sine(Add(_[1], depthAdjust1), _[5.5]); // 5.5 Hz tremolo
-            var soundWithTremolo1 = Multiply(sound, tremolo1);
-            var tremolo2 = Sine(Add(_[1], depthAdjust2), _[4]); // 4 Hz tremolo
-            var soundWithTremolo2 = Multiply(soundWithTremolo1, tremolo2);
-            return soundWithTremolo2;
-        }
+        #region WaveForms
 
         /// <summary>
         /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
@@ -155,6 +143,44 @@ namespace JJ.Business.Synthesizer.Tests
             Sine(_[0.3], Multiply(freq, _[3])),
             Sine(_[0.2], Multiply(freq, _[4]))
         );
+
+        /// <summary> Generates a detuned harmonic sound by altering the frequencies slightly. </summary>
+        /// <param name="freq"> The base frequency for the harmonics. </param>
+        /// <param name="harmonicDetuneDepth">
+        /// The depth of the detuning applied to the harmonics.
+        /// If not provided, a default value is used.
+        /// </param>
+        /// <returns> An <see cref="Outlet" /> instance representing the sound with the detuned harmonics. </returns>
+        private Outlet DetunedHarmonics(Outlet freq, Outlet harmonicDetuneDepth = null)
+        {
+            harmonicDetuneDepth = harmonicDetuneDepth ?? _[0.02];
+
+            var sound = Adder
+            (
+                Sine(_[1], Multiply(freq, Add(_[1], harmonicDetuneDepth))),
+                Sine(_[1], Multiply(freq, Add(_[2], harmonicDetuneDepth))),
+                Sine(_[1], Multiply(freq, Add(_[3], harmonicDetuneDepth))),
+                Sine(_[1], Multiply(freq, Add(_[4], harmonicDetuneDepth)))
+            );
+            return sound;
+        }
+
+        #endregion
+
+        #region Effects
+
+        /// <inheritdoc cref="JitterDocs" />
+        private Outlet Jitter(Outlet sound, Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
+        {
+            depthAdjust1 = depthAdjust1 ?? _[0.005];
+            depthAdjust2 = depthAdjust2 ?? _[0.250];
+
+            var tremolo1 = Sine(Add(_[1], depthAdjust1), _[5.5]); // 5.5 Hz tremolo
+            var soundWithTremolo1 = Multiply(sound, tremolo1);
+            var tremolo2 = Sine(Add(_[1], depthAdjust2), _[4]); // 4 Hz tremolo
+            var soundWithTremolo2 = Multiply(soundWithTremolo1, tremolo2);
+            return soundWithTremolo2;
+        }
 
         private const double MILD_ECHO_TIME = 0.33 * 5;
 
@@ -170,11 +196,18 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Curves
 
-        private Curve VolumeCurve => CurveFactory.CreateCurve(
+        private Curve VolumeCurve1 => CurveFactory.CreateCurve(
             "   o                 ",
             " o   o               ",
             "                     ",
             "           o         ",
+            "o                   o");
+
+        private Curve VolumeCurve2 => CurveFactory.CreateCurve(
+            "            o        ",
+            " o                   ",
+            "                     ",
+            "    o                ",
             "o                   o");
 
         #endregion
