@@ -28,7 +28,9 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_Additive_ModulatedComposition()
-            => WriteToAudioFile(MildEcho(ModulatedComposition()), volume: 0.30, duration: t[bar: 9, beat: 2] + MILD_ECHO_TIME);
+            => WriteToAudioFile(MildEcho(ModulatedComposition()), 
+                                volume: 0.30, 
+                                duration: t[bar: 9, beat: 2] + MILD_ECHO_TIME);
 
         #endregion
 
@@ -36,17 +38,17 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet ModulatedComposition()
         {
-            double detuneAmount = 0.02;
-            double vibratoAmount = 0.005;
-            double tremoloAmount = 0.25;
+            var detuneDepth = _[0.02];
+            var vibratoDepth = _[0.005];
+            var tremoloDepth = _[0.25];
 
             var melody = Adder
             (
-                Multiply(_[0.8], LongModulatedNote(_[Notes.A4], detuneAmount, vibratoAmount, tremoloAmount)),
-                Multiply(_[0.7], LongModulatedNote(_[Notes.B4], detuneAmount, vibratoAmount, tremoloAmount)),
-                Multiply(_[0.85], LongModulatedNote(_[Notes.C5], detuneAmount, vibratoAmount, tremoloAmount)),
-                Multiply(_[0.75], LongModulatedNote(_[Notes.D5], detuneAmount, vibratoAmount, tremoloAmount)),
-                Multiply(_[0.9], LongModulatedNote(_[Notes.E5], detuneAmount, vibratoAmount, tremoloAmount))
+                Multiply(_[0.80], LongModulatedNote(_[Notes.A4], detuneDepth, vibratoDepth, tremoloDepth)),
+                Multiply(_[0.70], LongModulatedNote(_[Notes.B4], detuneDepth, vibratoDepth, tremoloDepth)),
+                Multiply(_[0.85], LongModulatedNote(_[Notes.C5], detuneDepth, vibratoDepth, tremoloDepth)),
+                Multiply(_[0.75], LongModulatedNote(_[Notes.D5], detuneDepth, vibratoDepth, tremoloDepth)),
+                Multiply(_[0.90], LongModulatedNote(_[Notes.E5], detuneDepth, vibratoDepth, tremoloDepth))
             );
 
             return melody;
@@ -56,46 +58,44 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Instruments
 
-        private Outlet LongModulatedNote(Outlet freq, double detuneAmount, double vibratoAmount, double tremoloAmount)
+        private Outlet LongModulatedNote(
+            Outlet freq, Outlet detuneDepth, Outlet vibratoDepth, Outlet tremoloDepth)
         {
             // Base additive synthesis with harmonic content
             var harmonicContent = Adder
             (
-                Sine(freq),
-                Sine(Multiply(freq, _[2]), _[0.5]),
-                Sine(Multiply(freq, _[3]), _[0.3]),
-                Sine(Multiply(freq, _[4]), _[0.2])
+                Sine(_[1], freq),
+                Sine(_[0.5], Multiply(freq, _[2])),
+                Sine(_[0.3], Multiply(freq, _[3])),
+                Sine(_[0.2], Multiply(freq, _[4]))
             );
 
             // Apply detune by modulating frequencies slightly
             var detunedContent = Adder
             (
-                Sine(Multiply(freq, Add(_[1], _[detuneAmount]))),
-                Sine(Multiply(freq, Add(_[2], _[detuneAmount]))),
-                Sine(Multiply(freq, Add(_[3], _[detuneAmount]))),
-                Sine(Multiply(freq, Add(_[4], _[detuneAmount])))
+                Sine(_[1], Multiply(freq, Add(_[1], detuneDepth))),
+                Sine(_[1], Multiply(freq, Add(_[2], detuneDepth))),
+                Sine(_[1], Multiply(freq, Add(_[3], detuneDepth))),
+                Sine(_[1], Multiply(freq, Add(_[4], detuneDepth)))
             );
 
             // Apply vibrato by modulating frequency over time using an oscillator
-            var vibrato = Sine(Multiply(_[vibratoAmount], Sine(_[5.5]))); // 5.5 Hz vibrato
-            var vibratoSignal = Multiply(harmonicContent, vibrato);
+            var vibrato = Sine(Add(_[1], vibratoDepth), _[5.5]); // 5.5 Hz vibrato
+            var soundWithVibrato = Multiply(harmonicContent, vibrato);
 
             // Apply tremolo by modulating amplitude over time using an oscillator
-            var tremolo = Sine(Multiply(_[tremoloAmount], Sine(_[4]))); // 4 Hz tremolo
-            var tremoloSignal = Multiply(vibratoSignal, tremolo);
+            var tremolo = Sine(Add(_[1], tremoloDepth), _[4]); // 4 Hz tremolo
+            var soundWithTremolo = Multiply(soundWithVibrato, tremolo);
 
             // Stretch and apply modulation over time
-            var modulatedNote = StretchCurve(ModulationCurve, tremoloSignal);
+            var noteWithEnvelope = Multiply(soundWithTremolo, CurveIn(ModulationCurve));
 
-            return modulatedNote;
+            return noteWithEnvelope;
         }
 
         #endregion
 
         #region Algorithms
-
-        private Outlet StretchCurve(Curve curve, Outlet signal)
-            => Multiply(signal, CurveIn(curve));
 
         private const double MILD_ECHO_TIME = 0.33 * 5;
 
@@ -107,7 +107,6 @@ namespace JJ.Business.Synthesizer.Tests
         #region Curves
 
         private Curve ModulationCurve => CurveFactory.CreateCurve(
-            start: 0, end: 1, min: 0, max: 1,
             "   o                 ",
             " o   o               ",
             "                     ",
