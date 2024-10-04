@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 
-namespace JJ.Business.Synthesizer.Tests.Extensions
+namespace JJ.Business.Synthesizer.Tests.Wishes
 {
     public partial class SynthesizerSugarBase
     {

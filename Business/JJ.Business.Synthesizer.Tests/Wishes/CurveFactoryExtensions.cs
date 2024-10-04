@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 
-namespace JJ.Business.Synthesizer.Tests.Extensions
+namespace JJ.Business.Synthesizer.Tests.Wishes
 {
     public static class CurveFactoryExtensions
     {

@@ -2,8 +2,8 @@
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Tests.Extensions;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -351,7 +351,7 @@ namespace JJ.Business.Synthesizer.Tests
             Flute1(_[Notes.G4], t[bar: 1, beat: 4.0], volume: _[0.60], duration: Beat[1.00]),
             Flute1(_[Notes.A4], t[bar: 2, beat: 1.0], volume: _[0.80], duration: Beat[2.33]),
             Flute2(_[Notes.B4], t[bar: 2, beat: 2.5], volume: _[0.50], duration: Beat[1.00]),
-            Flute1(_[Notes.A3], t[bar: 2, beat: 4.0], volume: _[0.50], duration: Beat[1.67]),
+            Flute1(_[Notes.A3], t[bar: 2, beat: 4.0], volume: _[0.50], duration: Beat[1.67]), // Appears delayed because of destructive interference?
             Flute3(_[Notes.G3], t[bar: 3, beat: 1.0], volume: _[0.85], duration: Beat[2.00]),
             Flute1(_[Notes.G4], t[bar: 3, beat: 2.5], volume: _[0.80], duration: Beat[2.50])
         );

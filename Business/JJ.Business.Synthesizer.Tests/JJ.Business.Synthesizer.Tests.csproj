@@ -122,16 +122,16 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Extensions\CurveFactoryExtensions.cs" />
+    <Compile Include="Wishes\CurveFactoryExtensions.cs" />
     <Compile Include="Helpers\DocComments.cs" />
-    <Compile Include="Extensions\SynthesizerSugarBar.BeatIndexer.cs" />
-    <Compile Include="Extensions\SynthesizerSugarBar.TimeIndexer.cs" />
-    <Compile Include="Extensions\SynthesizerSugarBase.cs" />
-    <Compile Include="Extensions\SynthesizerSugarBar.BarIndexer.cs" />
-    <Compile Include="Extensions\WavHeaderWishes.cs" />
+    <Compile Include="Wishes\SynthesizerSugarBar.BeatIndexer.cs" />
+    <Compile Include="Wishes\SynthesizerSugarBar.TimeIndexer.cs" />
+    <Compile Include="Wishes\SynthesizerSugarBase.cs" />
+    <Compile Include="Wishes\SynthesizerSugarBar.BarIndexer.cs" />
+    <Compile Include="Wishes\WavHeaderWishes.cs" />
     <Compile Include="SynthesizerTests_HardCodedFM.cs" />
     <Compile Include="SynthesizerTests_FM.cs" />
-    <Compile Include="Extensions\Notes.cs" />
+    <Compile Include="Wishes\Notes.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\IOperatorCalculator.cs" />
     <Compile Include="Helpers\EntityFactory.cs" />
@@ -144,7 +144,7 @@
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynthesizerTests_Additive_Sines_Samples.cs" />
-    <Compile Include="Extensions\SynthesizerSugarBar.ValueIndexer.cs" />
+    <Compile Include="Wishes\SynthesizerSugarBar.ValueIndexer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">

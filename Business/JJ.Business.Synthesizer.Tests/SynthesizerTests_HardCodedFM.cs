@@ -2,8 +2,8 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Tests.Extensions;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Business.Synthesizer.Tests.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 // ReSharper disable LocalizableElement
 

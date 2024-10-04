@@ -3,7 +3,7 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
 
-namespace JJ.Business.Synthesizer.Tests.Extensions
+namespace JJ.Business.Synthesizer.Tests.Wishes
 {
 	internal static class Notes
 	{

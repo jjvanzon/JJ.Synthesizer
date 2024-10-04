@@ -16,7 +16,7 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 // ReSharper disable AssignmentInsteadOfDiscard
 
-namespace JJ.Business.Synthesizer.Tests.Extensions
+namespace JJ.Business.Synthesizer.Tests.Wishes
 {
     public partial class SynthesizerSugarBase : OperatorFactory
     {
