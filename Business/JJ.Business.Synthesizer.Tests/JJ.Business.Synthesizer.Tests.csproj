@@ -122,6 +122,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="SynthesizerTests_Modulation.cs" />
     <Compile Include="Wishes\CurveWishes.cs" />
     <Compile Include="Helpers\DocComments.cs" />
     <Compile Include="Wishes\SynthesizerSugarBase.BeatIndexer.cs" />
