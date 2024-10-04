@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             Curve curve = AsciiCurve;
             Outlet outlet = CurveIn(curve);
-            WriteToAudioFile(outlet, duration: 4, volume: 1);
+            SaveWav(outlet, duration: 4, volume: 1);
         }
         
         private Curve AsciiCurve => CurveFactory.CreateCurve(

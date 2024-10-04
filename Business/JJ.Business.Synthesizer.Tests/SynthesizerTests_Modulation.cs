@@ -1,9 +1,11 @@
-﻿using JetBrains.Annotations;
+﻿using System.Reflection;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+// ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -28,7 +30,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_Modulation_ShortBurstChord()
-            => WriteToAudioFile(MildEcho(ShortBurstChord()),
+            => SaveWav(MildEcho(ShortBurstChord()),
                                 volume: 0.30,
                                 duration: t[bar: 9, beat: 2] + MILD_ECHO_TIME);
 
@@ -40,7 +42,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_Modulation_LongNoteComposition_DoesNotWork()
-            => WriteToAudioFile(MildEcho(LongNotesComposition_DoesNotWork()),
+            => SaveWav(MildEcho(LongNotesComposition_DoesNotWork()),
                                 volume: 0.30,
                                 duration: t[bar: 9, beat: 2] + MILD_ECHO_TIME);
 
@@ -90,24 +92,32 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet ShortBurst(Outlet freq, Outlet vibratoDepth, Outlet tremoloDepth)
         {
             // Base additive synthesis with harmonic content
-            var harmonicContent = Adder
+            var semiSaw = Adder
             (
                 Sine(_[1], freq),
                 Sine(_[0.5], Multiply(freq, _[2])),
                 Sine(_[0.3], Multiply(freq, _[3])),
                 Sine(_[0.2], Multiply(freq, _[4]))
             );
+            SaveWav(semiSaw, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(semiSaw)}.wav");
 
             // Apply vibrato by modulating frequency over time using an oscillator
             var vibrato = Sine(Add(_[1], vibratoDepth), _[5.5]); // 5.5 Hz vibrato
-            var soundWithVibrato = Multiply(harmonicContent, vibrato);
+            SaveWav(vibrato, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(vibrato)}.wav");
+
+            var soundWithVibrato = Multiply(semiSaw, vibrato);
+            SaveWav(soundWithVibrato, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(soundWithVibrato)} .wav");
 
             // Apply tremolo by modulating amplitude over time using an oscillator
             var tremolo = Sine(Add(_[1], tremoloDepth), _[4]); // 4 Hz tremolo
+            SaveWav(tremolo, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(tremolo)}.wav");
+
             var soundWithTremolo = Multiply(soundWithVibrato, tremolo);
+            SaveWav(soundWithTremolo, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(soundWithTremolo)}.wav");
 
             // Stretch and apply modulation over time
             var noteWithEnvelope = Multiply(soundWithTremolo, CurveIn(VolumeCurve));
+            SaveWav(noteWithEnvelope, fileName: $"{MethodBase.GetCurrentMethod().Name}_{nameof(noteWithEnvelope)}.wav");
 
             return noteWithEnvelope;
         }

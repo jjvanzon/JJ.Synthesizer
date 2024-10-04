@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// Wraps up a test for FM synthesis and outputs the result to a file.
         /// Also, the entity data will be verified.
         /// </summary>
-        public void WriteToAudioFile(
+        public void SaveWav(
             Outlet outlet,
             double duration = DEFAULT_TOTAL_TIME,
             double volume = DEFAULT_TOTAL_VOLUME,
