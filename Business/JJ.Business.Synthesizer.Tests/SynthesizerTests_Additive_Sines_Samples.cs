@@ -85,11 +85,11 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet Melody => Adder
         (
-            Metallophone(_[Notes.A4],       delay: t[bar:0, beat:0.0], volume: _[0.9]),
-            Metallophone(_[Notes.E5],       delay: t[bar:0, beat:0.5], volume: _[1.0]),
-            Metallophone(_[Notes.B4],       delay: t[bar:0, beat:1.0], volume: _[0.5]),
-            Metallophone(_[Notes.C5_Sharp], delay: t[bar:0, beat:1.5], volume: _[0.7]),
-            Metallophone(_[Notes.F4_Sharp], delay: t[bar:0, beat:3.0], volume: _[0.4])
+            Metallophone(_[Notes.A4],       delay: t[bar:1, beat:1.0], volume: _[0.9]),
+            Metallophone(_[Notes.E5],       delay: t[bar:1, beat:1.5], volume: _[1.0]),
+            Metallophone(_[Notes.B4],       delay: t[bar:1, beat:2.0], volume: _[0.5]),
+            Metallophone(_[Notes.C5_Sharp], delay: t[bar:1, beat:2.5], volume: _[0.7]),
+            Metallophone(_[Notes.F4_Sharp], delay: t[bar:1, beat:4.0], volume: _[0.4])
         );
 
         /// <param name="duration">The duration of the sound in seconds (default is 2.5). </param>

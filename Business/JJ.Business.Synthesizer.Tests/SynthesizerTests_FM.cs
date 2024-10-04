@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition()
-            => WriteToAudioFile(DeepEcho(Composition()), volume: 0.20, duration: t[bar: 8, beat: 1] + DEEP_ECHO_TIME);
+            => WriteToAudioFile(DeepEcho(Composition()), volume: 0.20, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Melody1()
@@ -346,25 +346,25 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet FluteMelody1 => Adder
         (
-            Flute1(_[Notes.E4], t[bar: 0, beat: 0.0], volume: _[0.80], duration: Beat[2.00]),
-            Flute1(_[Notes.F4], t[bar: 0, beat: 1.5], volume: _[0.70], duration: Beat[2.17]),
-            Flute1(_[Notes.G4], t[bar: 0, beat: 3.0], volume: _[0.60], duration: Beat[1.00]),
-            Flute1(_[Notes.A4], t[bar: 1, beat: 0.0], volume: _[0.80], duration: Beat[2.33]),
-            Flute2(_[Notes.B4], t[bar: 1, beat: 1.5], volume: _[0.50], duration: Beat[1.00]),
-            Flute1(_[Notes.A3], t[bar: 1, beat: 3.0], volume: _[0.50], duration: Beat[1.67]),
-            Flute3(_[Notes.G3], t[bar: 2, beat: 0.0], volume: _[0.85], duration: Beat[2.00]),
-            Flute1(_[Notes.G4], t[bar: 2, beat: 1.5], volume: _[0.80], duration: Beat[2.50])
+            Flute1(_[Notes.E4], t[bar: 1, beat: 1.0], volume: _[0.80], duration: Beat[2.00]),
+            Flute1(_[Notes.F4], t[bar: 1, beat: 2.5], volume: _[0.70], duration: Beat[2.17]),
+            Flute1(_[Notes.G4], t[bar: 1, beat: 4.0], volume: _[0.60], duration: Beat[1.00]),
+            Flute1(_[Notes.A4], t[bar: 2, beat: 1.0], volume: _[0.80], duration: Beat[2.33]),
+            Flute2(_[Notes.B4], t[bar: 2, beat: 2.5], volume: _[0.50], duration: Beat[1.00]),
+            Flute1(_[Notes.A3], t[bar: 2, beat: 4.0], volume: _[0.50], duration: Beat[1.67]),
+            Flute3(_[Notes.G3], t[bar: 3, beat: 1.0], volume: _[0.85], duration: Beat[2.00]),
+            Flute1(_[Notes.G4], t[bar: 3, beat: 2.5], volume: _[0.80], duration: Beat[2.50])
         );
 
         private Outlet FluteMelody2 => Adder
         (
-            Flute1(_[Notes.E4], t[bar: 0, beat: 0.0], volume: _[0.59], duration: Beat[1.8]),
-            Flute2(_[Notes.F4], t[bar: 0, beat: 1.5], volume: _[0.68], duration: Beat[1.0]),
-            Flute1(_[Notes.G4], t[bar: 0, beat: 3.0], volume: _[0.74], duration: Beat[0.6]),
-            Flute2(_[Notes.A4], t[bar: 1, beat: 0.0], volume: _[0.82], duration: Beat[2.0]),
-            Flute3(_[Notes.B4], t[bar: 1, beat: 1.5], volume: _[0.74], duration: Beat[1.0]),
-            Flute2(_[Notes.G4], t[bar: 1, beat: 3.0], volume: _[0.90], duration: Beat[0.4]),
-            Flute4(_[Notes.A4], t[bar: 2, beat: 0.0], volume: _[1.00], duration: _[1.66])
+            Flute1(_[Notes.E4], t[bar: 1, beat: 1.0], volume: _[0.59], duration: Beat[1.8]),
+            Flute2(_[Notes.F4], t[bar: 1, beat: 2.5], volume: _[0.68], duration: Beat[1.0]),
+            Flute1(_[Notes.G4], t[bar: 1, beat: 4.0], volume: _[0.74], duration: Beat[0.6]),
+            Flute2(_[Notes.A4], t[bar: 2, beat: 1.0], volume: _[0.82], duration: Beat[2.0]),
+            Flute3(_[Notes.B4], t[bar: 2, beat: 2.5], volume: _[0.74], duration: Beat[1.0]),
+            Flute2(_[Notes.G4], t[bar: 2, beat: 4.0], volume: _[0.90], duration: Beat[0.4]),
+            Flute4(_[Notes.A4], t[bar: 3, beat: 1.0], volume: _[1.00], duration: _[1.66])
         );
 
         private Outlet OrganChords => Multiply
