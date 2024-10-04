@@ -21,22 +21,51 @@ namespace JJ.Business.Synthesizer.Tests
         #region Tests
 
         [TestMethod]
-        public void Test_Synthesizer_Additive_ModulatedComposition()
+        public void Test_Synthesizer_Modulation_ShortBurstChord()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Additive(context).Test_Additive_ModulatedComposition();
+                new SynthesizerTests_Additive(context).Test_Modulation_ShortBurstChord();
         }
 
-        private void Test_Additive_ModulatedComposition()
-            => WriteToAudioFile(MildEcho(ModulatedComposition()), 
-                                volume: 0.30, 
+        private void Test_Modulation_ShortBurstChord()
+            => WriteToAudioFile(MildEcho(ShortBurstChord()),
+                                volume: 0.30,
+                                duration: t[bar: 9, beat: 2] + MILD_ECHO_TIME);
+
+        [TestMethod]
+        public void Test_Synthesizer_Modulation_LongNoteComposition_DoesNotWork()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_Additive(context).Test_Modulation_LongNoteComposition_DoesNotWork();
+        }
+
+        private void Test_Modulation_LongNoteComposition_DoesNotWork()
+            => WriteToAudioFile(MildEcho(LongNotesComposition_DoesNotWork()),
+                                volume: 0.30,
                                 duration: t[bar: 9, beat: 2] + MILD_ECHO_TIME);
 
         #endregion
 
         #region Composition
 
-        private Outlet ModulatedComposition()
+        private Outlet ShortBurstChord()
+        {
+            var vibratoDepth = _[0.005];
+            var tremoloDepth = _[0.25];
+
+            var melody = Adder
+            (
+                Multiply(_[0.80], ShortBurst(_[Notes.A4], vibratoDepth, tremoloDepth)),
+                Multiply(_[0.70], ShortBurst(_[Notes.B4], vibratoDepth, tremoloDepth)),
+                Multiply(_[0.85], ShortBurst(_[Notes.C5], vibratoDepth, tremoloDepth)),
+                Multiply(_[0.75], ShortBurst(_[Notes.D5], vibratoDepth, tremoloDepth)),
+                Multiply(_[0.90], ShortBurst(_[Notes.E5], vibratoDepth, tremoloDepth))
+            );
+
+            return melody;
+        }
+
+        private Outlet LongNotesComposition_DoesNotWork()
         {
             var detuneDepth = _[0.02];
             var vibratoDepth = _[0.005];
@@ -57,6 +86,31 @@ namespace JJ.Business.Synthesizer.Tests
         #endregion
 
         #region Instruments
+
+        private Outlet ShortBurst(Outlet freq, Outlet vibratoDepth, Outlet tremoloDepth)
+        {
+            // Base additive synthesis with harmonic content
+            var harmonicContent = Adder
+            (
+                Sine(_[1], freq),
+                Sine(_[0.5], Multiply(freq, _[2])),
+                Sine(_[0.3], Multiply(freq, _[3])),
+                Sine(_[0.2], Multiply(freq, _[4]))
+            );
+
+            // Apply vibrato by modulating frequency over time using an oscillator
+            var vibrato = Sine(Add(_[1], vibratoDepth), _[5.5]); // 5.5 Hz vibrato
+            var soundWithVibrato = Multiply(harmonicContent, vibrato);
+
+            // Apply tremolo by modulating amplitude over time using an oscillator
+            var tremolo = Sine(Add(_[1], tremoloDepth), _[4]); // 4 Hz tremolo
+            var soundWithTremolo = Multiply(soundWithVibrato, tremolo);
+
+            // Stretch and apply modulation over time
+            var noteWithEnvelope = Multiply(soundWithTremolo, CurveIn(VolumeCurve));
+
+            return noteWithEnvelope;
+        }
 
         private Outlet LongModulatedNote(
             Outlet freq, Outlet detuneDepth, Outlet vibratoDepth, Outlet tremoloDepth)
@@ -88,11 +142,10 @@ namespace JJ.Business.Synthesizer.Tests
             var soundWithTremolo = Multiply(soundWithVibrato, tremolo);
 
             // Stretch and apply modulation over time
-            var noteWithEnvelope = Multiply(soundWithTremolo, CurveIn(ModulationCurve));
+            var noteWithEnvelope = Multiply(soundWithTremolo, CurveIn(VolumeCurve));
 
             return noteWithEnvelope;
         }
-
         #endregion
 
         #region Algorithms
@@ -106,7 +159,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Curves
 
-        private Curve ModulationCurve => CurveFactory.CreateCurve(
+        private Curve VolumeCurve => CurveFactory.CreateCurve(
             "   o                 ",
             " o   o               ",
             "                     ",
