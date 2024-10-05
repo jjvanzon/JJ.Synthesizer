@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="JitterDocs" />
         private void Test_Modulation_JitterBurstChord()
-            => SaveWav(Echo(JitterBurstChord), volume: 0.30, duration: 1 + ECHO_TIME);
+            => SaveWav(MildEcho(JitterBurstChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_Modulation_DetuneJingle()
@@ -43,9 +43,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_Modulation_DetuneJingle()
-            => SaveWav(Echo(DetuneJingle()),
-                       volume: 0.05,
-                       duration: 13 + ECHO_TIME);
+            => SaveWav(DeepEcho(DetuneJingle()), volume: 0.05, duration: 13 + DEEP_ECHO_TIME);
 
         #endregion
 
@@ -88,7 +86,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet DetunedNote4(Outlet delay) =>
             DetunedNote(
                 _[Notes.D5], delay, volume: _[0.75], duration: _[3],
-                vibratoDepth: _[0.005], tremoloDepth: _[0.25], Multiply(CurveIn(DetuneCurve2), _[0.08]));
+                vibratoDepth: _[0.005], tremoloDepth: _[0.25], Multiply(CurveIn(DetuneCurve2), _[0.03]));
 
         private Outlet DetunedNote5(Outlet delay) =>
             DetunedNote(
@@ -119,8 +117,8 @@ namespace JJ.Business.Synthesizer.Tests
             var semiSaw = SemiSaw(freq);
 
             // Apply detune by modulating harmonic frequencies slightly
-            var timeStretchedDetune = TimeMultiply(detuneDepth, duration);
-            var detunedHarmonics = DetunedHarmonics(freq, timeStretchedDetune);
+            var stretchedDetune = TimeMultiply(detuneDepth, duration);
+            var detunedHarmonics = DetunedHarmonics(freq, stretchedDetune);
 
             // Mix them together
             Outlet sound = Add(semiSaw, detunedHarmonics);
@@ -150,11 +148,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region WaveForms
 
-        /// <summary>
-        /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
-        /// </summary>
-        /// <param name="freq"> The base frequency for the waveform. </param>
-        /// <returns> An <see cref="Outlet" /> representing the semi-sawtooth waveform. </returns>
+        /// <inheritdoc cref="SemiSawDocs"/>
         private Outlet SemiSaw(Outlet freq) => Adder
         (
             Sine(_[1.0], freq),
@@ -163,13 +157,7 @@ namespace JJ.Business.Synthesizer.Tests
             Sine(_[0.2], Multiply(freq, _[4]))
         );
 
-        /// <summary> Generates a detuned harmonic sound by altering the frequencies slightly. </summary>
-        /// <param name="freq"> The base frequency for the harmonics. </param>
-        /// <param name="harmonicDetuneDepth">
-        /// The depth of the detuning applied to the harmonics.
-        /// If not provided, a default value is used.
-        /// </param>
-        /// <returns> An <see cref="Outlet" /> instance representing the sound with the detuned harmonics. </returns>
+        /// <inheritdoc cref="DetunedHarmonicsDocs"/>
         private Outlet DetunedHarmonics(Outlet freq, Outlet harmonicDetuneDepth = null)
         {
             harmonicDetuneDepth = harmonicDetuneDepth ?? _[0.02];
@@ -202,15 +190,20 @@ namespace JJ.Business.Synthesizer.Tests
             return sound;
         }
 
-        private const double ECHO_TIME = 0.33 * 5;
+        private const double MILD_ECHO_TIME = 0.33 * 5;
 
-        /// <summary>
-        /// Applies a mild echo effect to the given sound.
-        /// </summary>
-        /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
-        /// <returns> An <see cref="Outlet" /> representing the sound with the applied echo effect. </returns>
-        private Outlet Echo(Outlet sound)
-            => EntityFactory.CreateEcho(this, sound, count: 6, denominator: 4, delay: 0.33);
+        /// <inheritdoc cref="EchoDocs"/>
+        private Outlet MildEcho(Outlet sound) =>
+            EntityFactory.CreateEcho(this, sound, count: 6, denominator: 4, delay: 0.33);
+
+
+        private const double DEEP_ECHO_TIME = 0.5 * 5;
+
+        /// <summary> Applies a deep echo effect to the specified sound. </summary>
+        /// <param name="melody"> The original sound to which the echo effect will be applied. </param>
+        /// <returns> An <see cref="Outlet" /> representing the sound with the deep echo effect applied. </returns>
+        private Outlet DeepEcho(Outlet melody)
+            => EntityFactory.CreateEcho(this, melody, count: 6, denominator: 2, delay: 0.5);
 
         #endregion
 
@@ -224,15 +217,14 @@ namespace JJ.Business.Synthesizer.Tests
             "o                   o");
 
         private Curve VolumeCurve => CurveFactory.CreateCurve(
-            "            o        ",
-            " o                   ",
-            "                     ",
-            "    o                ",
-            "o                   o");
+            "            o                  ",
+            " o     o        o              ",
+            "                               ",
+            "    o                o         ",
+            "o                             o");
 
         private Curve DetuneCurve1 => CurveFactory.CreateCurve(
             "            o        ",
-            "                     ",
             "                     ",
             "                     ",
             "o                   o");
@@ -241,12 +233,10 @@ namespace JJ.Business.Synthesizer.Tests
             "     o               ",
             "                     ",
             "                     ",
-            "                     ",
             "o                   o");
 
         private Curve DetuneCurve3 => CurveFactory.CreateCurve(
             "          o          ",
-            "                     ",
             "                     ",
             "                     ",
             "o                   o");
@@ -266,6 +256,33 @@ namespace JJ.Business.Synthesizer.Tests
         [UsedImplicitly]
         private Outlet JitterDocs(Outlet freq, Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
             => throw new NotSupportedException();
+
+        /// <summary>
+        /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
+        /// </summary>
+        /// <param name="freq"> The base frequency for the waveform. </param>
+        /// <returns> An <see cref="Outlet" /> representing the semi-sawtooth waveform. </returns>
+        [UsedImplicitly]
+        private Outlet SemiSawDocs(Outlet freq) => throw new NotSupportedException();
+
+        /// <summary> Generates a detuned harmonic sound by altering the frequencies slightly. </summary>
+        /// <param name="freq"> The base frequency for the harmonics. </param>
+        /// <param name="harmonicDetuneDepth">
+        /// The depth of the detuning applied to the harmonics.
+        /// If not provided, a default value is used.
+        /// </param>
+        /// <returns> An <see cref="Outlet" /> instance representing the sound with the detuned harmonics. </returns>
+        [UsedImplicitly]
+        private Outlet DetunedHarmonicsDocs(Outlet freq, Outlet harmonicDetuneDepth = null) 
+            => throw new NotSupportedException();
+
+        /// <summary>
+        /// Applies a mild echo effect to the given sound.
+        /// </summary>
+        /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
+        /// <returns> An <see cref="Outlet" /> representing the sound with the applied echo effect. </returns>
+        [UsedImplicitly]
+        private Outlet EchoDocs(Outlet sound) => throw new NotSupportedException();
 
         #endregion
     }
