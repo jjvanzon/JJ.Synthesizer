@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_Modulation_DetuneJingle()
-            => SaveWav(DeepEcho(DetuneJingle()), volume: 0.05, duration: 13 + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(DetuneJingle()), volume: 0.04, duration: 13 + DEEP_ECHO_TIME);
 
         #endregion
 
@@ -70,12 +70,12 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet DetunedNote1(Outlet delay) =>
             DetunedNote(
-                _[Notes.A3], delay, volume: _[0.80], duration: _[5],
-                vibratoDepth: _[0.005], tremoloDepth: _[0.25], Multiply(CurveIn(DetuneCurve1), _[0.05]));
+                _[Notes.A3], delay, volume: _[0.80], duration: _[6],
+                vibratoDepth: _[0.005], tremoloDepth: _[0.25], Multiply(CurveIn(DetuneCurve1), _[0.03]));
 
         private Outlet DetunedNote2(Outlet delay) =>
             DetunedNote(
-                _[Notes.B4], delay, volume: _[0.70], duration: _[3],
+                _[Notes.B4], delay, volume: _[0.70], duration: _[2],
                 vibratoDepth: _[0.005], tremoloDepth: _[0.25], Multiply(CurveIn(DetuneCurve2), _[0.10]));
 
         private Outlet DetunedNote3(Outlet delay) =>
@@ -217,11 +217,11 @@ namespace JJ.Business.Synthesizer.Tests
             "o                   o");
 
         private Curve VolumeCurve => CurveFactory.CreateCurve(
-            "            o                  ",
-            " o     o        o              ",
-            "                               ",
-            "    o                o         ",
-            "o                             o");
+            "             o                           ",
+            "  o      o       o                       ",
+            "                                         ",
+            "      o                o                 ",
+            "o                                       o");
 
         private Curve DetuneCurve1 => CurveFactory.CreateCurve(
             "            o        ",
