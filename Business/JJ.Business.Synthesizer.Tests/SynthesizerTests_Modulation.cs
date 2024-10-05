@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Tests
         { }
 
         public SynthesizerTests_Additive(IContext context)
-            : base(context, beat: 0.45, bar: 4 * 0.45)
+            : base(context, beat: 0.5, bar: 2.0)
         { }
 
         #region Tests
@@ -33,19 +33,19 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="JitterDocs" />
         private void Test_Modulation_JitterBurstChord()
-            => SaveWav(MildEcho(JitterBurstChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
+            => SaveWav(Echo(JitterBurstChord), volume: 0.30, duration: 1 + ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_Modulation_LongNoteJingle()
+        public void Test_Synthesizer_Modulation_DetuneJingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Additive(context).Test_Modulation_LongNoteJingle();
+                new SynthesizerTests_Additive(context).Test_Modulation_DetuneJingle();
         }
 
-        private void Test_Modulation_LongNoteJingle()
-            => SaveWav(MildEcho(LongNotesJingle()),
-                       volume: 0.20,
-                       duration: 5 + MILD_ECHO_TIME);
+        private void Test_Modulation_DetuneJingle()
+            => SaveWav(Echo(DetuneJingle()),
+                       volume: 0.05,
+                       duration: 13 + ECHO_TIME);
 
         #endregion
 
@@ -61,26 +61,39 @@ namespace JJ.Business.Synthesizer.Tests
             Multiply(_[0.90], JitterNote(_[Notes.E5]))
         );
 
-        private Outlet LongNotesJingle()
-        {
-            var vibratoDepth = _[0.005];
-            var tremoloDepth = _[0.25];
-            //var harmonicDetuneDepth = _[0.02];
-            //var harmonicDetuneDepth = _[0.1];
-            var harmonicDetuneDepth = _[0.05];
+        private Outlet DetuneJingle() => Adder
+        (
+            DetunedNote1(_[0]),
+            DetunedNote2(_[2]),
+            DetunedNote3(_[4]),
+            DetunedNote4(_[6]),
+            DetunedNote5(_[8])
+        );
 
+        private Outlet DetunedNote1(Outlet delay) =>
+            DetunedNote(
+                _[Notes.A3], delay, volume: _[0.80], duration: _[5],
+                vibratoDepth: _[0.005], tremoloDepth: _[0.25], Multiply(CurveIn(DetuneCurve1), _[0.05]));
 
-            var melody = Adder
-            (
-                Multiply(_[0.80], LongModulatedNote(_[Notes.A3], _[5], vibratoDepth, tremoloDepth, harmonicDetuneDepth))//,
-                //Multiply(_[0.70], LongModulatedNote(_[Notes.B4], _[3], vibratoDepth, tremoloDepth, harmonicDetuneDepth)),
-                //Multiply(_[0.85], LongModulatedNote(_[Notes.C5], _[3], vibratoDepth, tremoloDepth, harmonicDetuneDepth)),
-                //Multiply(_[0.75], LongModulatedNote(_[Notes.D5], _[3], vibratoDepth, tremoloDepth, harmonicDetuneDepth)),
-                //Multiply(_[0.90], LongModulatedNote(_[Notes.E5], _[3], vibratoDepth, tremoloDepth, harmonicDetuneDepth))
-            );
+        private Outlet DetunedNote2(Outlet delay) =>
+            DetunedNote(
+                _[Notes.B4], delay, volume: _[0.70], duration: _[3],
+                vibratoDepth: _[0.005], tremoloDepth: _[0.25], Multiply(CurveIn(DetuneCurve2), _[0.10]));
 
-            return melody;
-        }
+        private Outlet DetunedNote3(Outlet delay) =>
+            DetunedNote(
+                _[Notes.C5], delay, volume: _[0.85], duration: _[3],
+                vibratoDepth: _[0.005], tremoloDepth: _[0.25], Multiply(CurveIn(DetuneCurve3), _[0.02]));
+
+        private Outlet DetunedNote4(Outlet delay) =>
+            DetunedNote(
+                _[Notes.D5], delay, volume: _[0.75], duration: _[3],
+                vibratoDepth: _[0.005], tremoloDepth: _[0.25], Multiply(CurveIn(DetuneCurve2), _[0.08]));
+
+        private Outlet DetunedNote5(Outlet delay) =>
+            DetunedNote(
+                _[Notes.E5], delay, volume: _[0.90], duration: _[5],
+                vibratoDepth: _[0.005], tremoloDepth: _[0.25], Multiply(CurveIn(DetuneCurve1), _[0.001]));
 
         #endregion
 
@@ -91,13 +104,13 @@ namespace JJ.Business.Synthesizer.Tests
         {
             var waveForm = SemiSaw(freq);
             var jittered = Jitter(waveForm, depthAdjust1, depthAdjust2);
-            var sound = Multiply(jittered, CurveIn(VolumeCurve1));
+            var sound = Multiply(jittered, CurveIn(JitterNoteVolumeCurve));
             return sound;
         }
 
-        private Outlet LongModulatedNote(
-            Outlet freq, Outlet duration, Outlet vibratoDepth = null,
-            Outlet tremoloDepth = null, Outlet harmonicDetuneDepth = null)
+        private Outlet DetunedNote(
+            Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null,
+            Outlet vibratoDepth = null, Outlet tremoloDepth = null, Outlet detuneDepth = null)
         {
             vibratoDepth = vibratoDepth ?? _[0.005];
             tremoloDepth = tremoloDepth ?? _[0.25];
@@ -106,7 +119,8 @@ namespace JJ.Business.Synthesizer.Tests
             var semiSaw = SemiSaw(freq);
 
             // Apply detune by modulating harmonic frequencies slightly
-            var detunedHarmonics = DetunedHarmonics(freq, harmonicDetuneDepth);
+            var timeStretchedDetune = TimeMultiply(detuneDepth, duration);
+            var detunedHarmonics = DetunedHarmonics(freq, timeStretchedDetune);
 
             // Mix them together
             Outlet sound = Add(semiSaw, detunedHarmonics);
@@ -115,16 +129,21 @@ namespace JJ.Business.Synthesizer.Tests
             // Apply vibrato by speeding up and slowing down and oscillator over time.
             var vibratoOscillator = Sine(Add(_[1], vibratoDepth), _[5.5]); // 5.5 Hz vibrato
             sound = TimeMultiply(sound, vibratoOscillator);
-
+            */
+            
             // Apply tremolo by modulating amplitude over time using an oscillator
+            /*
             var tremoloOscillator = Substract(_[1], Sine(tremoloDepth, _[4])); // 4 Hz tremolo
             sound = Multiply(sound, tremoloOscillator);
             */
             
             // Apply volume curve
-            sound = Multiply(sound, StretchCurve(VolumeCurve2, duration));
+            sound = Multiply(sound, StretchCurve(VolumeCurve, duration));
 
-            return sound;
+            // Apply velocity and delay
+            var note = StrikeNote(sound, delay, volume);
+
+            return note;
         }
 
         #endregion
@@ -175,39 +194,61 @@ namespace JJ.Business.Synthesizer.Tests
             depthAdjust1 = depthAdjust1 ?? _[0.005];
             depthAdjust2 = depthAdjust2 ?? _[0.250];
 
-            var tremolo1 = Sine(Add(_[1], depthAdjust1), _[5.5]); // 5.5 Hz tremolo
-            var soundWithTremolo1 = Multiply(sound, tremolo1);
-            var tremolo2 = Sine(Add(_[1], depthAdjust2), _[4]); // 4 Hz tremolo
-            var soundWithTremolo2 = Multiply(soundWithTremolo1, tremolo2);
-            return soundWithTremolo2;
+            var tremoloOscillator1 = Sine(Add(_[1], depthAdjust1), _[5.5]); // 5.5 Hz tremolo
+            sound = Multiply(sound, tremoloOscillator1);
+            var tremoloOscillator2 = Sine(Add(_[1], depthAdjust2), _[4]); // 4 Hz tremolo
+            sound = Multiply(sound, tremoloOscillator2);
+            
+            return sound;
         }
 
-        private const double MILD_ECHO_TIME = 0.33 * 5;
+        private const double ECHO_TIME = 0.33 * 5;
 
         /// <summary>
         /// Applies a mild echo effect to the given sound.
         /// </summary>
         /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the applied echo effect. </returns>
-        private Outlet MildEcho(Outlet sound)
+        private Outlet Echo(Outlet sound)
             => EntityFactory.CreateEcho(this, sound, count: 6, denominator: 4, delay: 0.33);
 
         #endregion
 
         #region Curves
 
-        private Curve VolumeCurve1 => CurveFactory.CreateCurve(
+        private Curve JitterNoteVolumeCurve => CurveFactory.CreateCurve(
             "   o                 ",
             " o   o               ",
             "                     ",
             "           o         ",
             "o                   o");
 
-        private Curve VolumeCurve2 => CurveFactory.CreateCurve(
+        private Curve VolumeCurve => CurveFactory.CreateCurve(
             "            o        ",
             " o                   ",
             "                     ",
             "    o                ",
+            "o                   o");
+
+        private Curve DetuneCurve1 => CurveFactory.CreateCurve(
+            "            o        ",
+            "                     ",
+            "                     ",
+            "                     ",
+            "o                   o");
+
+        private Curve DetuneCurve2 => CurveFactory.CreateCurve(
+            "     o               ",
+            "                     ",
+            "                     ",
+            "                     ",
+            "o                   o");
+
+        private Curve DetuneCurve3 => CurveFactory.CreateCurve(
+            "          o          ",
+            "                     ",
+            "                     ",
+            "                     ",
             "o                   o");
 
         #endregion
