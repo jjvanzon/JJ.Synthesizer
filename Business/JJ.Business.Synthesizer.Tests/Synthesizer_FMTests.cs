@@ -754,7 +754,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Curves
 
-        private Curve FluteCurve => CurveFactory.CreateCurve
+        private Curve FluteCurve => Curves.Create
         (
             (time: 0.00, value: 0.0),
             (time: 0.05, value: 0.8),
@@ -763,14 +763,14 @@ namespace JJ.Business.Synthesizer.Tests
             (time: 1.00, value: 0.0)
         );
 
-        private Curve TromboneCurve => CurveFactory.CreateCurve
+        private Curve TromboneCurve => Curves.Create
         (
             (time: 0.00, value: 1),
             (time: 0.93, value: 1),
             (time: 1.00, value: 0)
         );
 
-        private Curve RippleCurve => CurveFactory.CreateCurve
+        private Curve RippleCurve => Curves.Create
         (
             (time: 0.00, value: 0.00),
             (time: 0.01, value: 0.75),
@@ -779,7 +779,7 @@ namespace JJ.Business.Synthesizer.Tests
             (time: 1.00, value: 0.00)
         );
 
-        private Curve DampedBlockCurve => CurveFactory.CreateCurve
+        private Curve DampedBlockCurve => Curves.Create
         (
             (time: 0.00, value: 0),
             (time: 0.01, value: 1),
@@ -787,7 +787,7 @@ namespace JJ.Business.Synthesizer.Tests
             (time: 1.00, value: 0)
         );
 
-        private Curve LineDownCurve => CurveFactory.CreateCurve
+        private Curve LineDownCurve => Curves.Create
         (
             (time: 0, value: 1),
             (time: 1, value: 0)
@@ -798,21 +798,21 @@ namespace JJ.Business.Synthesizer.Tests
         /// In this version of FM synthesis, the modulation depth accumulates over time without such taming.
         /// This is because of a lack of time tracking in the oscillators in this version.
         /// </summary>
-        private Curve ModTamingCurve => CurveFactory.CreateCurve
+        private Curve ModTamingCurve => Curves.CreateCurve
         (
             timeSpan: 1,
             0.3, 1.0, 0.3, 0.0
         );
 
         /// <inheritdoc cref="ModTamingCurve" />
-        private Curve ModTamingCurve2 => CurveFactory.CreateCurve
+        private Curve ModTamingCurve2 => Curves.CreateCurve
         (
             timeSpan: 1,
             1.0, 0.5, 0.2, 0.0
         );
 
         /// <inheritdoc cref="ModTamingCurve" />
-        private Curve ModTamingCurve8Times => CurveFactory.CreateCurve
+        private Curve ModTamingCurve8Times => Curves.CreateCurve
         (
             timeSpan: 1,
             0.3, 1.0, 0.3, 0.0,
@@ -826,7 +826,7 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         /// <summary> When harmonics thicken near the center, this curve can even out the volume over time. </summary>
-        private Curve EvenOutCurve => CurveFactory.CreateCurve
+        private Curve EvenOutCurve => Curves.Create
         (
             (time: 0.00, value: 1.0),
             (time: 0.33, value: 0.6),
@@ -835,7 +835,7 @@ namespace JJ.Business.Synthesizer.Tests
             (time: 1.00, value: 1.0)
         );
 
-        private Curve ChordVolumeCurve => CurveFactory.CreateCurve
+        private Curve ChordVolumeCurve => Curves.Create
         (
             (0.0, 0.0), (0.05, 0.0), (0.98, 0.5),
             (1.0, 0.0), (1.05, 0.6), (1.98, 0.6),
@@ -862,17 +862,17 @@ namespace JJ.Business.Synthesizer.Tests
                 (8.0, Notes.E4, Notes.A5, Notes.E5)
             };
 
-        private Curve ChordPitchCurve1 => CurveFactory.CreateCurve(
+        private Curve ChordPitchCurve1 => Curves.CreateCurve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.frequency1,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        private Curve ChordPitchCurve2 => CurveFactory.CreateCurve(
+        private Curve ChordPitchCurve2 => Curves.CreateCurve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.frequency2,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        private Curve ChordPitchCurve3 => CurveFactory.CreateCurve(
+        private Curve ChordPitchCurve3 => Curves.CreateCurve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.frequency3,
                                                        NodeTypeEnum.Block)).ToArray());

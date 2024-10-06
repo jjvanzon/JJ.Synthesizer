@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <summary> Assert the entities that WriteToAudioFile won't. </summary>
         private void AssertEntities()
         {
-            SampleManager.ValidateSample(GetSample()).Verify();
+            Samples.ValidateSample(GetSample()).Verify();
             new CurveValidator(SinePartialCurve1).Verify();
             new CurveValidator(SinePartialCurve2).Verify();
             new CurveValidator(SinePartialCurve3).Verify();
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             if (_sample != null) return _sample;
             
-            _sample = SampleManager.CreateSample(TestHelper.GetViolin16BitMono44100WavStream());
+            _sample = Samples.CreateSample(TestHelper.GetViolin16BitMono44100WavStream());
 
             // Skip over Header (from some other file format, that slipped into the audio data).
             _sample.BytesToSkip = 62;
@@ -168,7 +168,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Creates a curve representing the volume modulation for the first sine partial.
         /// Starts quietly, peaks at a strong volume, and then fades gradually.
         /// </summary>
-        private Curve SinePartialCurve1 => CurveFactory.CreateCurve
+        private Curve SinePartialCurve1 => Curves.CreateCurve
         (
             timeSpan: 1,
             0.00, 0.80, 1.00, null, null, null, null, null,
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Creates a curve for volume modulation of the second sine partial.
         /// Begins with a quick rise, reaches a high peak, and then slightly drops before fading.
         /// </summary>
-        private Curve SinePartialCurve2 => CurveFactory.CreateCurve
+        private Curve SinePartialCurve2 => Curves.CreateCurve
         (
             timeSpan: 1,
             0.00, 1.00, 0.80, null, null, null, null, null,
@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Starts at a moderate volume, dips to a very low level,
         /// and then has a slight resurgence before fading out.
         /// </summary>
-        private Curve SinePartialCurve3 => CurveFactory.CreateCurve
+        private Curve SinePartialCurve3 => Curves.CreateCurve
         (
             timeSpan: 1,
             0.30, 1.00, 0.30, null, null, null, null, null,
@@ -205,7 +205,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Generates a volume curve for the sample, starting at full volume
         /// and quickly diminishing to a lower level.
         /// </summary>
-        private Curve SamplePartialCurve => CurveFactory.CreateCurve
+        private Curve SamplePartialCurve => Curves.CreateCurve
         (
             timeSpan: 1,
             1.00, 0.50, 0.20, null, null, null, null, 0.00,

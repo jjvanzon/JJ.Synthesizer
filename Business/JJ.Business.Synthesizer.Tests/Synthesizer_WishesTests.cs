@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests
             SaveWav(outlet, duration: 4, volume: 1);
         }
 
-        private Curve CreateAsciiCurve_OneStringPerLine() => CurveFactory.CreateCurve(
+        private Curve CreateAsciiCurve_OneStringPerLine() => Curves.Create(
             start: 1, end: 3, min: -1, max: 0.5,
             "   o                 ",
             " o   o               ",
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Tests
             "           o         ",
             "o                   o");
 
-        private Curve CreateAsciiCurve_VerboseStrings() => CurveFactory.CreateCurve(
+        private Curve CreateAsciiCurve_VerboseStrings() => Curves.Create(
             start: 1, end: 3, min: -1, max: 0.5, @"
 
                o                 

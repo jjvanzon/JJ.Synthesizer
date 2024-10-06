@@ -23,11 +23,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_TOTAL_TIME = 3.0;
         private string NewLine => Environment.NewLine;
+        private readonly AudioFileOutputManager _audioFileOutputs;
 
-        public CurveFactory CurveFactory { get; }
-        public AudioFileOutputManager AudioFileOutputManager { get; }
-        public SampleManager SampleManager { get; }
-
+        public CurveFactory Curves { get; }
+        public SampleManager Samples { get; }
+        
         public SynthesizerSugarBase()
             : this(PersistenceHelper.CreateContext())
         { }
@@ -44,9 +44,9 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                    PersistenceHelper.CreateRepository<IValueOperatorRepository>(context),
                    PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context))
         {
-            CurveFactory = TestHelper.CreateCurveFactory(context);
-            AudioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
-            SampleManager = TestHelper.CreateSampleManager(context);
+            _audioFileOutputs = TestHelper.CreateAudioFileOutputManager(context);
+            Curves = TestHelper.CreateCurveFactory(context);
+            Samples = TestHelper.CreateSampleManager(context);
 
             _ = new ValueIndexer(this);
             Bar = new BarIndexer(this, bar);
@@ -107,14 +107,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             var warnings = new RecursiveOperatorWarningValidator(outlet.Operator).ValidationMessages.Select(x => x.Text).ToList();
 
             // Configure AudioFileOutput
-            AudioFileOutput audioFileOutput = AudioFileOutputManager.CreateAudioFileOutput();
+            AudioFileOutput audioFileOutput = _audioFileOutputs.CreateAudioFileOutput();
             audioFileOutput.Duration = duration;
             audioFileOutput.Amplifier = short.MaxValue * volume;
             audioFileOutput.FilePath = fileName;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
             // Validate AudioFileOutput
-            AudioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
+            _audioFileOutputs.ValidateAudioFileOutput(audioFileOutput).Verify();
             warnings.AddRange(new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text));
 
             // Calculate

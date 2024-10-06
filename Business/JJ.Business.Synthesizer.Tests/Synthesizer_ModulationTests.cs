@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         public Synthesizer_ModulationTests(IContext context)
             : base(context, beat: 0.5, bar: 2)
-        { }
+            => CreateCurves();
 
         #region Tests
 
@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="DetunicaDocs"/>>
         private Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
-            delay, freq, volume, duration, 
+            delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
 
         /// <inheritdoc cref="DetunicaDocs"/>>
@@ -267,7 +267,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             var tremoloWave1 = Sine(Add(_[1], depthAdjust1), _[5.5]); // 5.5 Hz tremolo
             sound = Multiply(sound, tremoloWave1);
-            
+
             var tremoloWave2 = Sine(Add(_[1], depthAdjust2), _[4]); // 4 Hz tremolo
             sound = Multiply(sound, tremoloWave2);
 
@@ -277,7 +277,7 @@ namespace JJ.Business.Synthesizer.Tests
         private const double MILD_ECHO_TIME = 0.33 * 5;
 
         /// <inheritdoc cref="MildEchoDocs" />
-        private Outlet MildEcho(Outlet sound) 
+        private Outlet MildEcho(Outlet sound)
             => EntityFactory.CreateEcho(this, sound, count: 6, denominator: 4, delay: 0.33);
 
         private const double DEEP_ECHO_TIME = 0.5 * 5;
@@ -290,42 +290,51 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Curves
 
-        private Curve VibraphaseVolumeCurve => CurveFactory.CreateCurve(@"
+        private Curve VibraphaseVolumeCurve { get; set; }
+        private Curve DetunicaVolumeCurve { get; set; }
+        private Curve DetuneCurve1 { get; set; }
+        private Curve DetuneCurve2 { get; set; }
+        private Curve DetuneCurve3 { get; set; }
 
-                o                   
-              o   o                 
-                                    
-                        o           
-             o                   o  ");
+        private void CreateCurves()
+        {
+            VibraphaseVolumeCurve = Curves.Create(@"
 
-        private Curve DetunicaVolumeCurve => CurveFactory.CreateCurve(@"
+               o                   
+             o   o                 
+                                   
+                       o           
+            o                   o  ");
 
-                          o                             
-               o      o       o                         
-                                                        
-                   o                o                   
-             o                                       o  ");
+            DetunicaVolumeCurve = Curves.Create(@"
 
-        private Curve DetuneCurve1 => CurveFactory.CreateCurve(@"
+                         o                             
+              o      o       o                         
+                                                       
+                  o                o                   
+            o                                       o  ");
 
-                         o          
-                                    
-                                    
-             o                   o  ");
+            DetuneCurve1 = Curves.Create(@"
 
-        private Curve DetuneCurve2 => CurveFactory.CreateCurve(@"
-
-                  o                 
-                                    
-                                    
-             o                   o  ");
-
-        private Curve DetuneCurve3 => CurveFactory.CreateCurve(@"
-
-                       o            
+                        o          
                                     
                                     
-             o                   o  ");
+            o                   o  ");
+
+            DetuneCurve2 = Curves.Create(@"
+
+                 o                 
+                                    
+                                    
+            o                   o  ");
+
+            DetuneCurve3 = Curves.Create(@"
+
+                      o            
+                                    
+                                    
+            o                   o  ");
+        }
 
         #endregion
 
