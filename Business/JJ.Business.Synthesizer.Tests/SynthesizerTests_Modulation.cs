@@ -52,11 +52,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="JitterDocs" />
         private Outlet JitterBurstChord => Adder
         (
-            Multiply(_[0.80], JitterNote(_[Notes.A4])),
-            Multiply(_[0.70], JitterNote(_[Notes.B4])),
-            Multiply(_[0.85], JitterNote(_[Notes.C5])),
-            Multiply(_[0.75], JitterNote(_[Notes.D5])),
-            Multiply(_[0.90], JitterNote(_[Notes.E5]))
+            JitterNote(freq: _[Notes.A4], volume: _[0.80]),
+            JitterNote(freq: _[Notes.B4], volume: _[0.70]),
+            JitterNote(freq: _[Notes.C5], volume: _[0.85]),
+            JitterNote(freq: _[Notes.D5], volume: _[0.75]),
+            JitterNote(freq: _[Notes.E5], volume: _[0.90])
         );
 
         private Outlet DetuneJingle => Adder
@@ -93,12 +93,15 @@ namespace JJ.Business.Synthesizer.Tests
         #region Instruments
 
         /// <inheritdoc cref="JitterDocs" />
-        private Outlet JitterNote(Outlet freq, Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
+        private Outlet JitterNote(
+            Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
+            Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
         {
             var waveForm = SemiSaw(freq);
             var jittered = Jitter(waveForm, depthAdjust1, depthAdjust2);
-            var sound = Multiply(jittered, CurveIn(JitterNoteVolumeCurve));
-            return sound;
+            var sound = Multiply(jittered, StretchCurve(JitterNoteVolumeCurve, duration));
+            var note = StrikeNote(sound, delay, volume);
+            return note;
         }
 
         private Outlet DetunedNote(
@@ -248,8 +251,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
         /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
         /// <returns> An <see cref="Outlet" /> representing the jittered note. </returns>
+        /// <inheritdoc cref="SynthesizerSugarBase.StrikeNote" />
         [UsedImplicitly]
-        private Outlet JitterDocs(Outlet freq, Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
+        private Outlet JitterDocs(
+            Outlet freq = null, Outlet volume = null, Outlet delay = null, Outlet duration = null,
+            Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
             => throw new NotSupportedException();
 
         /// <summary>
