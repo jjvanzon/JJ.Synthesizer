@@ -342,6 +342,8 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Docs
 
+        // ReSharper disable UnusedMember.Local
+
         /// <summary>
         /// Applies a jitter effect to notes, with adjustable depths.
         /// Basically with an extreme double tremolo effect, that goes into the negative.
@@ -352,7 +354,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
         /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
         /// <inheritdoc cref="DocComments.Default" />
-        [UsedImplicitly]
         Outlet VibraphaseDocs() => throw new NotSupportedException();
 
         /// <summary>
@@ -366,7 +367,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// creating a subtle dissonance and eerie quality.
         /// </param>
         /// <inheritdoc cref="DocComments.Default" />
-        [UsedImplicitly]
         Outlet DetunicaDocs() => throw new NotSupportedException();
 
         /// <summary>
@@ -374,7 +374,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         /// <returns> An <see cref="Outlet" /> representing the semi-sawtooth waveform. </returns>
         /// <inheritdoc cref="DocComments.Default" />
-        [UsedImplicitly]
         Outlet SemiSawDocs() => throw new NotSupportedException();
 
         /// <summary> Generates a detuned harmonic sound by altering the frequencies slightly. </summary>
@@ -383,7 +382,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// If not provided, a default value is used.
         /// </param>
         /// <inheritdoc cref="DocComments.Default" />
-        [UsedImplicitly]
         Outlet DetunedHarmonicsDocs() => throw new NotSupportedException();
 
         /// <summary>
@@ -391,13 +389,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the applied echo effect. </returns>
-        [UsedImplicitly]
         Outlet MildEchoDocs() => throw new NotSupportedException();
 
         /// <summary> Applies a deep echo effect to the specified sound. </summary>
         /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the deep echo effect applied. </returns>
-        [UsedImplicitly]
         Outlet DeepEchoDocs() => throw new NotSupportedException();
 
         #endregion
