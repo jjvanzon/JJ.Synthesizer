@@ -11,13 +11,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class SynthesizerTests_Additive : SynthesizerSugarBase
+    public class SynthesizerTests_Modulation : SynthesizerSugarBase
     {
         [UsedImplicitly]
-        public SynthesizerTests_Additive()
+        public SynthesizerTests_Modulation()
         { }
 
-        public SynthesizerTests_Additive(IContext context)
+        public SynthesizerTests_Modulation(IContext context)
             : base(context, beat: 0.5, bar: 2)
         { }
 
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Modulation_JitterBurstChord()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Additive(context).Test_Modulation_JitterBurstChord();
+                new SynthesizerTests_Modulation(context).Test_Modulation_JitterBurstChord();
         }
 
         /// <inheritdoc cref="JitterDocs" />
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Modulation_DetuneJingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Additive(context).Test_Modulation_DetuneJingle();
+                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneJingle();
         }
 
         private void Test_Modulation_DetuneJingle()
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Modulation_DetuneNote1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Additive(context).Test_Modulation_DetuneNote1();
+                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneNote1();
         }
 
         private void Test_Modulation_DetuneNote1()
