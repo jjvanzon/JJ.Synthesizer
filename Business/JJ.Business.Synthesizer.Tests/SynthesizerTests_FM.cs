@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Composition()
-            => SaveWav(DeepEcho(Composition()), volume: 0.20, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(Composition()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Melody1()
