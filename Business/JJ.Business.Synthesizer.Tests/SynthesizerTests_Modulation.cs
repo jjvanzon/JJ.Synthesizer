@@ -23,134 +23,134 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Tests
 
-        /// <inheritdoc cref="JitterDocs" />
+        /// <inheritdoc cref="VibraphaseDocs" />
         [TestMethod]
-        public void Test_Synthesizer_Modulation_JitterBurstChord()
+        public void Test_Synthesizer_Modulation_Vibraphase_Chord()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_JitterBurstChord();
+                new SynthesizerTests_Modulation(context).Test_Modulation_Vibraphase_Chord();
         }
 
-        /// <inheritdoc cref="JitterDocs" />
-        private void Test_Modulation_JitterBurstChord()
-            => SaveWav(MildEcho(JitterBurstChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
+        /// <inheritdoc cref="VibraphaseDocs" />
+        private void Test_Modulation_Vibraphase_Chord()
+            => SaveWav(MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
-        /// <inheritdoc cref="JitterDocs" />
+        /// <inheritdoc cref="VibraphaseDocs" />
         [TestMethod]
-        public void Test_Synthesizer_Modulation_JitterNote()
+        public void Test_Synthesizer_Modulation_Vibraphase()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_JitterNote();
+                new SynthesizerTests_Modulation(context).Test_Modulation_Vibraphase();
         }
 
-        /// <inheritdoc cref="JitterDocs" />
-        private void Test_Modulation_JitterNote()
-            => SaveWav(MildEcho(JitterNote(freq: _[Notes.E5])), duration: 1 + MILD_ECHO_TIME);
+        /// <inheritdoc cref="VibraphaseDocs" />
+        private void Test_Modulation_Vibraphase()
+            => SaveWav(MildEcho(Vibraphase(freq: _[Notes.E5])), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_Modulation_DetuneJingle()
+        public void Test_Synthesizer_Modulation_Detunica_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneJingle();
+                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica_Jingle();
         }
 
-        private void Test_Modulation_DetuneJingle()
-            => SaveWav(DeepEcho(DetuneJingle), volume: 0.04, duration: 13 + DEEP_ECHO_TIME);
+        private void Test_Modulation_Detunica_Jingle()
+            => SaveWav(DeepEcho(DetunicaJingle), volume: 0.04, duration: 13 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_Modulation_DetuneNote1()
+        public void Test_Synthesizer_Modulation_Detunica1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneNote1();
+                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica1();
         }
-
-        private void Test_Modulation_DetuneNote1()
-            => SaveWav(DeepEcho(DetunedNote1(freq: _[Notes.A3])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+        
+        private void Test_Modulation_Detunica1()
+            => SaveWav(DeepEcho(Detunica1(freq: _[Notes.A3])), 1 + DEEP_ECHO_TIME, volume: 0.1);
 
         [TestMethod]
-        public void Test_Synthesizer_Modulation_DetuneNote2()
+        public void Test_Synthesizer_Modulation_Detunica2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneNote2();
+                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica2();
         }
 
-        private void Test_Modulation_DetuneNote2()
-            => SaveWav(DeepEcho(DetunedNote2(freq: _[Notes.B4])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+        private void Test_Modulation_Detunica2()
+            => SaveWav(DeepEcho(Detunica2(freq: _[Notes.B4])), 1 + DEEP_ECHO_TIME, volume: 0.1);
 
         [TestMethod]
-        public void Test_Synthesizer_Modulation_DetuneNote3()
+        public void Test_Synthesizer_Modulation_Detunica3()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneNote3();
+                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica3();
         }
 
-        private void Test_Modulation_DetuneNote3()
-            => SaveWav(DeepEcho(DetunedNote3(freq: _[Notes.C5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+        private void Test_Modulation_Detunica3()
+            => SaveWav(DeepEcho(Detunica3(freq: _[Notes.C5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
 
         [TestMethod]
-        public void Test_Synthesizer_Modulation_DetuneNote4()
+        public void Test_Synthesizer_Modulation_Detunica4()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneNote4();
+                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica4();
         }
 
-        private void Test_Modulation_DetuneNote4()
-            => SaveWav(DeepEcho(DetunedNote4(freq: _[Notes.D5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+        private void Test_Modulation_Detunica4()
+            => SaveWav(DeepEcho(Detunica4(freq: _[Notes.D5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
 
         [TestMethod]
-        public void Test_Synthesizer_Modulation_DetuneNote5()
+        public void Test_Synthesizer_Modulation_Detunica5()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneNote5();
+                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica5();
         }
 
-        private void Test_Modulation_DetuneNote5()
-            => SaveWav(DeepEcho(DetunedNote5(freq: _[Notes.E5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+        private void Test_Modulation_Detunica5()
+            => SaveWav(DeepEcho(Detunica5(freq: _[Notes.E5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
 
         #endregion
 
         #region Jingles
 
-        /// <inheritdoc cref="JitterDocs" />
-        private Outlet JitterBurstChord => Adder
+        /// <inheritdoc cref="VibraphaseDocs" />
+        private Outlet VibraphaseChord => Adder
         (
-            JitterNote(freq: _[Notes.A4], volume: _[0.80]),
-            JitterNote(freq: _[Notes.B4], volume: _[0.70]),
-            JitterNote(freq: _[Notes.C5], volume: _[0.85]),
-            JitterNote(freq: _[Notes.D5], volume: _[0.75]),
-            JitterNote(freq: _[Notes.E5], volume: _[0.90])
+            Vibraphase(freq: _[Notes.A4], volume: _[0.80]),
+            Vibraphase(freq: _[Notes.B4], volume: _[0.70]),
+            Vibraphase(freq: _[Notes.C5], volume: _[0.85]),
+            Vibraphase(freq: _[Notes.D5], volume: _[0.75]),
+            Vibraphase(freq: _[Notes.E5], volume: _[0.90])
         );
 
-        private Outlet DetuneJingle => Adder
+        private Outlet DetunicaJingle => Adder
         (
-            DetunedNote1(Bar[1], _[Notes.A3], _[0.80], duration: _[6]),
-            DetunedNote2(Bar[2], _[Notes.B4], _[0.70], duration: _[2]),
-            DetunedNote3(Bar[3], _[Notes.C5], _[0.85], duration: _[3]),
-            DetunedNote4(Bar[4], _[Notes.D5], _[0.75], duration: _[3]),
-            DetunedNote5(Bar[5], _[Notes.E5], _[0.90], duration: _[5])
+            Detunica1(Bar[1], _[Notes.A3], _[0.80], duration: _[6]),
+            Detunica2(Bar[2], _[Notes.B4], _[0.70], duration: _[2]),
+            Detunica3(Bar[3], _[Notes.C5], _[0.85], duration: _[3]),
+            Detunica4(Bar[4], _[Notes.D5], _[0.75], duration: _[3]),
+            Detunica5(Bar[5], _[Notes.E5], _[0.90], duration: _[5])
         );
 
-        /// <inheritdoc cref="DetunedNote" />
-        private Outlet DetunedNote1(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => DetunedNote(
+        /// <inheritdoc cref="Detunica" />
+        private Outlet Detunica1(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.03]));
 
-        /// <inheritdoc cref="DetunedNote" />
-        private Outlet DetunedNote2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => DetunedNote(
+        /// <inheritdoc cref="Detunica" />
+        private Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
             delay, freq, volume, duration, 
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
 
-        /// <inheritdoc cref="DetunedNote" />
-        private Outlet DetunedNote3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => DetunedNote(
+        /// <inheritdoc cref="Detunica" />
+        private Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.02]));
 
-        /// <inheritdoc cref="DetunedNote" />
-        private Outlet DetunedNote4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => DetunedNote(
+        /// <inheritdoc cref="Detunica" />
+        private Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.03]));
 
-        private Outlet DetunedNote5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => DetunedNote(
+        private Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.001]));
 
@@ -158,20 +158,20 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Instruments
 
-        /// <inheritdoc cref="JitterDocs" />
-        private Outlet JitterNote(
+        /// <inheritdoc cref="VibraphaseDocs" />
+        private Outlet Vibraphase(
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
         {
             var waveForm = SemiSaw(freq);
             var jittered = Jitter(waveForm, depthAdjust1, depthAdjust2);
-            var sound = Multiply(jittered, StretchCurve(JitterNoteVolumeCurve, duration));
+            var sound = Multiply(jittered, StretchCurve(VibraphaseVolumeCurve, duration));
             var note = StrikeNote(sound, delay, volume);
             return note;
         }
 
         /// <inheritdoc cref="DocComments.Default" />
-        private Outlet DetunedNote(
+        private Outlet Detunica(
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet vibratoDepth = null, Outlet tremoloDepth = null, Outlet detuneDepth = null)
         {
@@ -202,7 +202,7 @@ namespace JJ.Business.Synthesizer.Tests
             */
 
             // Apply volume curve
-            sound = Multiply(sound, StretchCurve(VolumeCurve, duration));
+            sound = Multiply(sound, StretchCurve(DetunicaVolumeCurve, duration));
 
             // Apply velocity and delay
             var note = StrikeNote(sound, delay, volume);
@@ -248,7 +248,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Effects
 
-        /// <inheritdoc cref="JitterDocs" />
+        /// <inheritdoc cref="VibraphaseDocs" />
         private Outlet Jitter(Outlet sound, Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
         {
             depthAdjust1 = depthAdjust1 ?? _[0.005];
@@ -264,7 +264,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         private const double MILD_ECHO_TIME = 0.33 * 5;
 
-        /// <inheritdoc cref="EchoDocs" />
+        /// <inheritdoc cref="MildEchoDocs" />
         private Outlet MildEcho(Outlet sound) =>
             EntityFactory.CreateEcho(this, sound, count: 6, denominator: 4, delay: 0.33);
 
@@ -280,14 +280,14 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Curves
 
-        private Curve JitterNoteVolumeCurve => CurveFactory.CreateCurve(
+        private Curve VibraphaseVolumeCurve => CurveFactory.CreateCurve(
             "   o                 ",
             " o   o               ",
             "                     ",
             "           o         ",
             "o                   o");
 
-        private Curve VolumeCurve => CurveFactory.CreateCurve(
+        private Curve DetunicaVolumeCurve => CurveFactory.CreateCurve(
             "             o                           ",
             "  o      o       o                       ",
             "                                         ",
@@ -317,14 +317,15 @@ namespace JJ.Business.Synthesizer.Tests
         #region Docs
 
         /// <summary>
-        /// Applies a jitter effect to notes, with adjustable depths. Basically with an extreme double tremolo effect.
+        /// Applies a jitter effect to notes, with adjustable depths.
+        /// Basically with an extreme double tremolo effect, that goes into the negative.
         /// </summary>
         /// <param name="sound"> The sound to apply the jitter effect to. </param>
         /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
         /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
         /// <inheritdoc cref="DocComments.Default" />
         [UsedImplicitly]
-        private Outlet JitterDocs(
+        private Outlet VibraphaseDocs(
             Outlet sound, Outlet freq, Outlet volume, Outlet delay, Outlet duration,
             Outlet depthAdjust1, Outlet depthAdjust2)
             => throw new NotSupportedException();
@@ -353,7 +354,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the applied echo effect. </returns>
         [UsedImplicitly]
-        private Outlet EchoDocs(Outlet sound) => throw new NotSupportedException();
+        private Outlet MildEchoDocs(Outlet sound) => throw new NotSupportedException();
 
         #endregion
     }
