@@ -57,50 +57,25 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             if (lines == null) throw new NullException(() => lines);
             if (lines.Count == 0) throw new Exception($"{lines} collection empty.");
 
-            // Prep Data: Split into unique lines and determine the window where there are characters.
-            
-            var trimmedLines = lines;
-            // Replace nulls
-            trimmedLines = trimmedLines.Select(x => x ?? "").ToList();
-            // Split strings with enters in it.
-            trimmedLines = trimmedLines.SelectMany(x => x.Split(Environment.NewLine, StringSplitOptions.None)).ToList();
-            // Trim off leading empty lines
-            int lineFirstIndex = trimmedLines.TakeWhile(string.IsNullOrWhiteSpace).Count(); // Index of first non-empty line
-            trimmedLines = trimmedLines.Skip(lineFirstIndex).ToList();
-            // Trim off trailing empty lines
-            int trailingEmptyLineCount = trimmedLines.Reverse().TakeWhile(string.IsNullOrWhiteSpace).Count(); // Index of last non-empty line
-            int lineLastIndex = trimmedLines.Count - 1 - trailingEmptyLineCount;
-            trimmedLines = trimmedLines.Take(lineLastIndex + 1).ToList();
-            // Determine first non-empty character in any line
-            int firstCharIndex = trimmedLines.Min(x => x.TakeWhile(char.IsWhiteSpace).Count());
-            // Trim off block of empty space at the beginning
-            trimmedLines = trimmedLines.Select(x => x.Substring(firstCharIndex)).ToList();
-            // Determine last non-empty character in any line
-            //int lastCharIndex = trimmedLines.Max(x => x.Reverse().TakeWhile(char.IsWhiteSpace).Count());
-            // Trim off block of empty space at the end
-            //trimmedLines = trimmedLines.Select(x => x.Substring(0, x.Length - (x.Length - lastCharIndex - 1))).ToList();
-            //trimmedLines = trimmedLines.Select(x => x.FromTill(firstCharIndex, lastCharIndex)).ToList();
-            trimmedLines = trimmedLines.Select(x => x.TrimEnd()).ToList();
+            lines = TrimAsciiCurve(lines);
 
             // Helper variables
             double timeSpan = end - start;
             double valueSpan = max - min;
-            double characterSpan = trimmedLines.Max(x => x.Length) - 1; // -1 to get the space between centers of characters.
-            double lineSpan = trimmedLines.Count - 1; // -1 because it's the space between centers of characters.
-            //double charSpan = lastCharIndex - firstCharIndex; // The space between centers of characters.
-            //double lineSpan = trimmedLines.Count - 1; // -1 because it's the space between centers of characters.
+            double characterSpan = lines.Max(x => x.Length) - 1; // -1 to get the space between centers of characters.
+            double lineSpan = lines.Count - 1; // -1 because it's the space between centers of characters.
 
             // Background character is the most used character
-            char backgroundChar = trimmedLines.SelectMany(x => x)
+            char backgroundChar = lines.SelectMany(x => x)
                                               .GroupBy(x => x)
                                               .OrderByDescending(x => x.Count())
                                               .Select(x => x.Key)
                                               .FirstOrDefault();
 
             IList<NodeInfo> nodes = new List<NodeInfo>();
-            for (int lineIndex = 0; lineIndex < trimmedLines.Count; lineIndex++)
+            for (int lineIndex = 0; lineIndex < lines.Count; lineIndex++)
             {
-                var line = trimmedLines[lineIndex];
+                var line = lines[lineIndex];
 
                 for (int charIndex = 0; charIndex < line.Length; charIndex++)
                 {
@@ -125,6 +100,42 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return curveFactory.CreateCurve(nodes);
         }
 
+        /// <summary>
+        /// Prep Data: Split into unique lines and determine the window where there are characters.
+        /// White space is trimmed off of the top, bottom, left and right, leaving only the block of characters that contains data.
+        /// </summary>
+        private static IList<string> TrimAsciiCurve(IList<string> lines)
+        {
+            var lines2 = lines;
+            
+            // Replace nulls
+            lines2 = lines2.Select(x => x ?? "").ToList();
+            
+            // Split strings with enters in it.
+            lines2 = lines2.SelectMany(x => x.Split(Environment.NewLine, StringSplitOptions.None)).ToList();
+            
+            // Trim off leading empty lines
+            int lineFirstIndex = lines2.TakeWhile(string.IsNullOrWhiteSpace).Count(); // Index of first non-empty line
+            lines2 = lines2.Skip(lineFirstIndex).ToList();
+            
+            // Trim off trailing empty lines
+            int trailingEmptyLineCount = lines2.Reverse().TakeWhile(string.IsNullOrWhiteSpace).Count(); // Index of last non-empty line
+            int lineLastIndex = lines2.Count - 1 - trailingEmptyLineCount;
+            lines2 = lines2.Take(lineLastIndex + 1).ToList();
+            
+            // Determine start of block of characters:
+            // Find first non-empty character in any line
+            int firstCharIndex = lines2.Min(x => x.TakeWhile(char.IsWhiteSpace).Count());
+            
+            // Trim off block of empty space at the beginning
+            lines2 = lines2.Select(x => x.Substring(firstCharIndex)).ToList();
+            
+            // Trim off empty space at the end
+            lines2 = lines2.Select(x => x.TrimEnd()).ToList();
+            
+            return lines2;
+        }
+
         #region Docs
 
         /// <summary>
@@ -147,6 +158,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// a block of space with time on the horizontal axis and values on the vertical axis. The background character is usually
         /// just a space character, but any other background character is possible and automatically recognized. Any character
         /// other than the background character is seen as a data point. That way you can creatively choose your own characters.
+        /// White space is trimmed off of the top, bottom, left and right, leaving only the block of characters that contains data.
         /// </summary>
         private static Curve CreateCurveFromAsciiDoc(this CurveFactory curveFactory,
             double start = 0, double end = 1, double min = 0, double max = 1,

@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet outlet = CurveIn(curve);
             SaveWav(outlet, duration: 4, volume: 1);
         }
+        
         [TestMethod]
         public void Test_Synthesizer_CurveWishes_AsciiCurves_VerboseStrings()
         {
