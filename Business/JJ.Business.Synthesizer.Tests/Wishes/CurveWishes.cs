@@ -67,15 +67,15 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             // Background character is the most used character
             char backgroundChar = lines.SelectMany(x => x)
-                                              .GroupBy(x => x)
-                                              .OrderByDescending(x => x.Count())
-                                              .Select(x => x.Key)
-                                              .FirstOrDefault();
+                                       .GroupBy(x => x)
+                                       .OrderByDescending(x => x.Count())
+                                       .Select(x => x.Key)
+                                       .FirstOrDefault();
 
             IList<NodeInfo> nodes = new List<NodeInfo>();
             for (int lineIndex = 0; lineIndex < lines.Count; lineIndex++)
             {
-                var line = lines[lineIndex];
+                string line = lines[lineIndex];
 
                 for (int charIndex = 0; charIndex < line.Length; charIndex++)
                 {
@@ -149,8 +149,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// </param>
         /// <returns> A <see cref="Curve" /> object populated with the specified nodes. </returns>
         [UsedImplicitly]
-        private static Curve CreateCurveWithTuplesDoc(this CurveFactory curveFactory, object nodeTuples)
-            => throw new NotSupportedException();
+        private static Curve CreateCurveWithTuplesDoc() => throw new NotSupportedException();
 
 
         /// <summary>
@@ -160,9 +159,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// other than the background character is seen as a data point. That way you can creatively choose your own characters.
         /// White space is trimmed off of the top, bottom, left and right, leaving only the block of characters that contains data.
         /// </summary>
-        private static Curve CreateCurveFromAsciiDoc(this CurveFactory curveFactory,
-            double start = 0, double end = 1, double min = 0, double max = 1,
-            params string[] lines) => throw new NotSupportedException();
+        [UsedImplicitly]
+        private static Curve CreateCurveFromAsciiDoc() => throw new NotSupportedException();
 
         #endregion
     }

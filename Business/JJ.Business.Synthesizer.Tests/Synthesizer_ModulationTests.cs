@@ -6,8 +6,6 @@ using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-// ReSharper disable PossibleNullReferenceException
-
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
@@ -267,11 +265,11 @@ namespace JJ.Business.Synthesizer.Tests
             depthAdjust1 = depthAdjust1 ?? _[0.005];
             depthAdjust2 = depthAdjust2 ?? _[0.250];
 
-            var tremoloOscillator1 = Sine(Add(_[1], depthAdjust1), _[5.5]); // 5.5 Hz tremolo
-            sound = Multiply(sound, tremoloOscillator1);
+            var tremoloWave1 = Sine(Add(_[1], depthAdjust1), _[5.5]); // 5.5 Hz tremolo
+            sound = Multiply(sound, tremoloWave1);
             
-            var tremoloOscillator2 = Sine(Add(_[1], depthAdjust2), _[4]); // 4 Hz tremolo
-            sound = Multiply(sound, tremoloOscillator2);
+            var tremoloWave2 = Sine(Add(_[1], depthAdjust2), _[4]); // 4 Hz tremolo
+            sound = Multiply(sound, tremoloWave2);
 
             return sound;
         }
