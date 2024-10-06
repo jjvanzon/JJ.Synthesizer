@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
+using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 
@@ -28,46 +30,82 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return curve;
         }
 
+        // ASCII Curves
+        
         /// <inheritdoc cref="CreateCurveFromAsciiDoc" />
         public static Curve CreateCurve(this CurveFactory curveFactory, IList<string> lines)
-            => curveFactory.CreateCurve(lines.ToArray());
+            => curveFactory.CreateCurve(0, 1, 0, 1, lines?.ToList());
 
         /// <inheritdoc cref="CreateCurveFromAsciiDoc" />
         public static Curve CreateCurve(this CurveFactory curveFactory, params string[] lines)
-            => curveFactory.CreateCurve(0, 1, 0, 1, lines);
+            => curveFactory.CreateCurve(0, 1, 0, 1, lines?.ToList());
 
         /// <inheritdoc cref="CreateCurveFromAsciiDoc" />
         public static Curve CreateCurve(
             this CurveFactory curveFactory,
             double start = 0, double end = 1, double min = 0, double max = 1,
             params string[] lines)
+            => curveFactory.CreateCurve(start, end, min, max, lines?.ToList());
+        
+        /// <inheritdoc cref="CreateCurveFromAsciiDoc" />
+        public static Curve CreateCurve(
+            this CurveFactory curveFactory,
+            double start = 0, double end = 1, double min = 0, double max = 1,
+            IList<string> lines = null)
         {
             if (curveFactory == null) throw new NullException(() => curveFactory);
             if (lines == null) throw new NullException(() => lines);
-            if (lines.Length == 0) throw new Exception($"{lines} collection empty.");
-            if (lines.Any(x => x.Length == 0)) throw new Exception($"There are empty {lines}.");
+            if (lines.Count == 0) throw new Exception($"{lines} collection empty.");
+
+            // Prep Data: Split into unique lines and determine the window where there are characters.
+            
+            var trimmedLines = lines;
+            // Replace nulls
+            trimmedLines = trimmedLines.Select(x => x ?? "").ToList();
+            // Split strings with enters in it.
+            trimmedLines = trimmedLines.SelectMany(x => x.Split(Environment.NewLine, StringSplitOptions.None)).ToList();
+            // Trim off leading empty lines
+            int lineFirstIndex = trimmedLines.TakeWhile(string.IsNullOrWhiteSpace).Count(); // Index of first non-empty line
+            trimmedLines = trimmedLines.Skip(lineFirstIndex).ToList();
+            // Trim off trailing empty lines
+            int trailingEmptyLineCount = trimmedLines.Reverse().TakeWhile(string.IsNullOrWhiteSpace).Count(); // Index of last non-empty line
+            int lineLastIndex = trimmedLines.Count - 1 - trailingEmptyLineCount;
+            trimmedLines = trimmedLines.Take(lineLastIndex + 1).ToList();
+            // Determine first non-empty character in any line
+            int firstCharIndex = trimmedLines.Min(x => x.TakeWhile(char.IsWhiteSpace).Count());
+            // Trim off block of empty space at the beginning
+            trimmedLines = trimmedLines.Select(x => x.Substring(firstCharIndex)).ToList();
+            // Determine last non-empty character in any line
+            //int lastCharIndex = trimmedLines.Max(x => x.Reverse().TakeWhile(char.IsWhiteSpace).Count());
+            // Trim off block of empty space at the end
+            //trimmedLines = trimmedLines.Select(x => x.Substring(0, x.Length - (x.Length - lastCharIndex - 1))).ToList();
+            //trimmedLines = trimmedLines.Select(x => x.FromTill(firstCharIndex, lastCharIndex)).ToList();
+            trimmedLines = trimmedLines.Select(x => x.TrimEnd()).ToList();
 
             // Helper variables
             double timeSpan = end - start;
             double valueSpan = max - min;
-            double characterSpan = lines.Max(x => x.Length) - 1;
-            double lineSpan = lines.Length - 1;
+            double characterSpan = trimmedLines.Max(x => x.Length) - 1; // -1 to get the space between centers of characters.
+            double lineSpan = trimmedLines.Count - 1; // -1 because it's the space between centers of characters.
+            //double charSpan = lastCharIndex - firstCharIndex; // The space between centers of characters.
+            //double lineSpan = trimmedLines.Count - 1; // -1 because it's the space between centers of characters.
 
             // Background character is the most used character
-            char backgroundChar = lines.SelectMany(x => x)
-                                       .GroupBy(x => x)
-                                       .OrderByDescending(x => x.Count())
-                                       .Select(x => x.Key)
-                                       .FirstOrDefault();
+            char backgroundChar = trimmedLines.SelectMany(x => x)
+                                              .GroupBy(x => x)
+                                              .OrderByDescending(x => x.Count())
+                                              .Select(x => x.Key)
+                                              .FirstOrDefault();
 
-            var nodes = new List<NodeInfo>();
-            for (int lineIndex = 0; lineIndex < lines.Length; lineIndex++)
+            IList<NodeInfo> nodes = new List<NodeInfo>();
+            for (int lineIndex = 0; lineIndex < trimmedLines.Count; lineIndex++)
             {
-                var line = lines[lineIndex];
+                var line = trimmedLines[lineIndex];
 
                 for (int charIndex = 0; charIndex < line.Length; charIndex++)
                 {
-                    if (line[charIndex] == backgroundChar) continue;
+                    char chr = line[charIndex];
+                    if (chr == backgroundChar) continue;
 
                     // Note that values rise from bottom to top, 
                     // which is the opposite of how text lines are usually numbered.
@@ -81,7 +119,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 }
             }
 
-            return curveFactory.CreateCurve(nodes.OrderBy(x => x.Time).ToArray());
+            // Sort by time
+            nodes = nodes.OrderBy(x => x.Time).ToArray();
+            
+            return curveFactory.CreateCurve(nodes);
         }
 
         #region Docs
