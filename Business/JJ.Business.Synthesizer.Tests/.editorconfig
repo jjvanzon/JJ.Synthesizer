@@ -1,2 +1,6 @@
 [*.cs]
-dotnet_style_require_accessibility_modifiers = omit_if_default:suggestion
+dotnet_style_require_accessibility_modifiers = omit_if_default:none
+resharper_private_accessibility_modifier_style = do_not_change
+
+# IDE0052: Remove unread private members
+dotnet_diagnostic.IDE0052.severity = none
