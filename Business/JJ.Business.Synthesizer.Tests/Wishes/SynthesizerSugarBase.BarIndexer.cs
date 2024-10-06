@@ -4,8 +4,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 {
     public partial class SynthesizerSugarBase
     {
-        /// <summary> Returns the time in seconds for a bar, or duration of a number of bars. </summary>
-        /// <returns> ValueOperatorWrapper also usable as Outlet or double. </returns>
+        /// <summary>
+        /// Returns duration of a number of bars (start counting at 1).<br/>
+        /// Can also return the time of the start of a bar (start counting from 0).
+        /// </summary>
+        /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
         public class BarIndexer
         {
             private readonly SynthesizerSugarBase _parent;
