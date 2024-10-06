@@ -17,15 +17,15 @@ namespace JJ.Business.Synthesizer.Tests
     /// making the FM synthesis behave differently.
     /// </summary>
     [TestClass]
-    public class SynthesizerTests_FM : SynthesizerSugarBase
+    public class Synthesizer_FMTests : SynthesizerSugarBase
     {
         /// <summary> Constructor for test runner. </summary>
         [UsedImplicitly]
-        public SynthesizerTests_FM()
+        public Synthesizer_FMTests()
         { }
 
         /// <summary> Constructor allowing each test to run in its own instance. </summary>
-        public SynthesizerTests_FM(IContext context)
+        public Synthesizer_FMTests(IContext context)
             : base(context, beat: 0.45, bar: 4 * 0.45)
         { }
 
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Composition()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Composition();
+                new Synthesizer_FMTests(context).Test_FM_Composition();
         }
 
         private void Test_FM_Composition()
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Flute_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Flute_Melody1();
+                new Synthesizer_FMTests(context).Test_FM_Flute_Melody1();
         }
 
         private void Test_FM_Flute_Melody1()
@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Flute_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Flute_Melody2();
+                new Synthesizer_FMTests(context).Test_FM_Flute_Melody2();
         }
 
         private void Test_FM_Flute_Melody2()
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Flute1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Flute1();
+                new Synthesizer_FMTests(context).Test_FM_Flute1();
         }
 
         private void Test_FM_Flute1()
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Flute2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Flute2();
+                new Synthesizer_FMTests(context).Test_FM_Flute2();
         }
 
         private void Test_FM_Flute2()
@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Flute3()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Flute3();
+                new Synthesizer_FMTests(context).Test_FM_Flute3();
         }
 
         private void Test_FM_Flute3()
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Flute4()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Flute4();
+                new Synthesizer_FMTests(context).Test_FM_Flute4();
         }
 
         private void Test_FM_Flute4()
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Organ()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Organ();
+                new Synthesizer_FMTests(context).Test_FM_Organ();
         }
 
         private void Test_FM_Organ()
@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Pad()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Pad();
+                new Synthesizer_FMTests(context).Test_FM_Pad();
         }
 
         private void Test_FM_Pad()
@@ -125,7 +125,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Pad_Chords()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Pad_Chords();
+                new Synthesizer_FMTests(context).Test_FM_Pad_Chords();
         }
 
         private void Test_FM_Pad_Chords()
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Trombone()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Trombone();
+                new Synthesizer_FMTests(context).Test_FM_Trombone();
         }
 
         private void Test_FM_Trombone()
@@ -145,7 +145,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Horn()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Horn();
+                new Synthesizer_FMTests(context).Test_FM_Horn();
         }
 
         private void Test_FM_Horn()
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Trombone_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Trombone_Melody1();
+                new Synthesizer_FMTests(context).Test_FM_Trombone_Melody1();
         }
 
         private void Test_FM_Trombone_Melody1()
@@ -165,7 +165,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Trombone_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Trombone_Melody2();
+                new Synthesizer_FMTests(context).Test_FM_Trombone_Melody2();
         }
 
         private void Test_FM_Trombone_Melody2()
@@ -175,7 +175,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Trombone_Melody3()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Trombone_Melody3();
+                new Synthesizer_FMTests(context).Test_FM_Trombone_Melody3();
         }
 
         private void Test_FM_Trombone_Melody3()
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Horn_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Horn_Melody1();
+                new Synthesizer_FMTests(context).Test_FM_Horn_Melody1();
         }
 
         private void Test_FM_Horn_Melody1()
@@ -195,7 +195,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Horn_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Horn_Melody2();
+                new Synthesizer_FMTests(context).Test_FM_Horn_Melody2();
         }
 
         private void Test_FM_Horn_Melody2()
@@ -205,7 +205,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_ElectricNote()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_ElectricNote();
+                new Synthesizer_FMTests(context).Test_FM_ElectricNote();
         }
 
         private void Test_FM_ElectricNote()
@@ -215,7 +215,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Organ_Chords()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Organ_Chords();
+                new Synthesizer_FMTests(context).Test_FM_Organ_Chords();
         }
 
         private void Test_FM_Organ_Chords()
@@ -225,7 +225,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_RippleBass()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_RippleBass();
+                new Synthesizer_FMTests(context).Test_FM_RippleBass();
         }
 
         private void Test_FM_RippleBass()
@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_RippleBass_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_RippleBass_Melody1();
+                new Synthesizer_FMTests(context).Test_FM_RippleBass_Melody1();
         }
 
         private void Test_FM_RippleBass_Melody1()
@@ -245,7 +245,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_RippleBass_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_RippleBass_Melody2();
+                new Synthesizer_FMTests(context).Test_FM_RippleBass_Melody2();
         }
 
         private void Test_FM_RippleBass_Melody2()
@@ -255,7 +255,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_RippleNote_SharpMetallic();
+                new Synthesizer_FMTests(context).Test_FM_RippleNote_SharpMetallic();
         }
 
         private void Test_FM_RippleNote_SharpMetallic()
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_RippleSound_Clean()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_RippleSound_Clean();
+                new Synthesizer_FMTests(context).Test_FM_RippleSound_Clean();
         }
 
         private void Test_FM_RippleSound_Clean()
@@ -275,7 +275,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_RippleSound_FantasyEffect()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_RippleSound_FantasyEffect();
+                new Synthesizer_FMTests(context).Test_FM_RippleSound_FantasyEffect();
         }
 
         private void Test_FM_RippleSound_FantasyEffect()
@@ -285,7 +285,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_RippleSound_CoolDouble()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_RippleSound_CoolDouble();
+                new Synthesizer_FMTests(context).Test_FM_RippleSound_CoolDouble();
         }
 
         private void Test_FM_RippleSound_CoolDouble()
@@ -295,7 +295,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_FM_Noise_Beating()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_FM(context).Test_FM_Noise_Beating();
+                new Synthesizer_FMTests(context).Test_FM_Noise_Beating();
         }
 
         private void Test_FM_Noise_Beating()

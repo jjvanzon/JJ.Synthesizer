@@ -11,13 +11,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class SynthesizerTests_Modulation : SynthesizerSugarBase
+    public class Synthesizer_ModulationTests : SynthesizerSugarBase
     {
         [UsedImplicitly]
-        public SynthesizerTests_Modulation()
+        public Synthesizer_ModulationTests()
         { }
 
-        public SynthesizerTests_Modulation(IContext context)
+        public Synthesizer_ModulationTests(IContext context)
             : base(context, beat: 0.5, bar: 2)
         { }
 
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Modulation_Vibraphase_Chord()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_Vibraphase_Chord();
+                new Synthesizer_ModulationTests(context).Test_Modulation_Vibraphase_Chord();
         }
 
         /// <inheritdoc cref="VibraphaseDocs" />
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Modulation_Vibraphase()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_Vibraphase();
+                new Synthesizer_ModulationTests(context).Test_Modulation_Vibraphase();
         }
 
         /// <inheritdoc cref="VibraphaseDocs" />
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Modulation_Detunica_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica_Jingle();
+                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica_Jingle();
         }
 
         private void Test_Modulation_Detunica_Jingle()
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Modulation_Detunica1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica1();
+                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica1();
         }
         
         private void Test_Modulation_Detunica1()
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Modulation_Detunica2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica2();
+                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica2();
         }
 
         private void Test_Modulation_Detunica2()
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Modulation_Detunica3()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica3();
+                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica3();
         }
 
         private void Test_Modulation_Detunica3()
@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Modulation_Detunica4()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica4();
+                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica4();
         }
 
         private void Test_Modulation_Detunica4()
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Modulation_Detunica5()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new SynthesizerTests_Modulation(context).Test_Modulation_Detunica5();
+                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica5();
         }
 
         private void Test_Modulation_Detunica5()

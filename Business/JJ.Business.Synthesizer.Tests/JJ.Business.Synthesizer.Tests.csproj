@@ -122,8 +122,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="SynthesizerTests_Wishes.cs" />
-    <Compile Include="SynthesizerTests_Modulation.cs" />
+    <Compile Include="Synthesizer_WishesTests.cs" />
+    <Compile Include="Synthesizer_ModulationTests.cs" />
     <Compile Include="Wishes\CurveWishes.cs" />
     <Compile Include="Helpers\DocComments.cs" />
     <Compile Include="Wishes\SynthesizerSugarBase.BarsIndexer.cs" />
@@ -133,8 +133,8 @@
     <Compile Include="Wishes\SynthesizerSugarBase.cs" />
     <Compile Include="Wishes\SynthesizerSugarBase.BarIndexer.cs" />
     <Compile Include="Wishes\WavHeaderWishes.cs" />
-    <Compile Include="SynthesizerTests_HardCodedFM.cs" />
-    <Compile Include="SynthesizerTests_FM.cs" />
+    <Compile Include="Synthesizer_HardCodedFMTests.cs" />
+    <Compile Include="Synthesizer_FMTests.cs" />
     <Compile Include="Wishes\Notes.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\IOperatorCalculator.cs" />
@@ -147,7 +147,7 @@
     <Compile Include="SampleTests.cs" />
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SynthesizerTests_Additive.cs" />
+    <Compile Include="Synthesizer_AdditiveTests.cs" />
     <Compile Include="Wishes\SynthesizerSugarBase.ValueIndexer.cs" />
   </ItemGroup>
   <ItemGroup>

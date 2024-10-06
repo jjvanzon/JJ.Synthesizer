@@ -15,17 +15,17 @@ namespace JJ.Business.Synthesizer.Tests
     /// <summary>
     /// Additional tests written upon retro-actively isolating older synthesizer versions.
     /// </summary>
-    public class SynthesizerTests_Additive : SynthesizerSugarBase
+    public class Synthesizer_AdditiveTests : SynthesizerSugarBase
     {
         const double DEFAULT_NOTE_DURATION = 2.5;
 
         /// <summary> Constructor for test runner. </summary>
         [UsedImplicitly]
-        public SynthesizerTests_Additive()
+        public Synthesizer_AdditiveTests()
         { }
 
         /// <summary> Constructor allowing each test to run in its own instance. </summary>
-        public SynthesizerTests_Additive(IContext context)
+        public Synthesizer_AdditiveTests(IContext context)
             : base(context, beat: 0.4, bar: 1.6)
         { }
 
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Additive_Sines_Samples_Metallophone_Melody()
         {
             using (IContext context = PersistenceHelper.CreateContext()) 
-                new SynthesizerTests_Additive(context).Test_Additive_Sines_Samples_Metallophone_Melody();
+                new Synthesizer_AdditiveTests(context).Test_Additive_Sines_Samples_Metallophone_Melody();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_Additive_Sines_Samples_Metallophone_Note()
         {
             using (IContext context = PersistenceHelper.CreateContext()) 
-                new SynthesizerTests_Additive(context).Test_Additive_Sines_Samples_Metallophone_Note();
+                new Synthesizer_AdditiveTests(context).Test_Additive_Sines_Samples_Metallophone_Note();
         }
         
         public void Test_Additive_Sines_Samples_Metallophone_Note()
