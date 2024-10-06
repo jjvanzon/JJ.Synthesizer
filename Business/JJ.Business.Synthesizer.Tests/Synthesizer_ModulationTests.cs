@@ -280,37 +280,42 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Curves
 
-        private Curve VibraphaseVolumeCurve => CurveFactory.CreateCurve(
-            "   o                 ",
-            " o   o               ",
-            "                     ",
-            "           o         ",
-            "o                   o");
+        private Curve VibraphaseVolumeCurve => CurveFactory.CreateCurve(@"
 
-        private Curve DetunicaVolumeCurve => CurveFactory.CreateCurve(
-            "             o                           ",
-            "  o      o       o                       ",
-            "                                         ",
-            "      o                o                 ",
-            "o                                       o");
+                o                   
+              o   o                 
+                                    
+                        o           
+             o                   o  ");
 
-        private Curve DetuneCurve1 => CurveFactory.CreateCurve(
-            "            o        ",
-            "                     ",
-            "                     ",
-            "o                   o");
+        private Curve DetunicaVolumeCurve => CurveFactory.CreateCurve(@"
 
-        private Curve DetuneCurve2 => CurveFactory.CreateCurve(
-            "     o               ",
-            "                     ",
-            "                     ",
-            "o                   o");
+                          o                             
+               o      o       o                         
+                                                        
+                   o                o                   
+             o                                       o  ");
 
-        private Curve DetuneCurve3 => CurveFactory.CreateCurve(
-            "          o          ",
-            "                     ",
-            "                     ",
-            "o                   o");
+        private Curve DetuneCurve1 => CurveFactory.CreateCurve(@"
+
+                         o          
+                                    
+                                    
+             o                   o  ");
+
+        private Curve DetuneCurve2 => CurveFactory.CreateCurve(@"
+
+                  o                 
+                                    
+                                    
+             o                   o  ");
+
+        private Curve DetuneCurve3 => CurveFactory.CreateCurve(@"
+
+                       o            
+                                    
+                                    
+             o                   o  ");
 
         #endregion
 
