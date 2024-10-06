@@ -50,7 +50,9 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             _ = new ValueIndexer(this);
             Bar = new BarIndexer(this, bar);
+            Bars = new BarsIndexer(this, bar);
             Beat = new BeatIndexer(this, beat);
+            Beats = new BeatsIndexer(this, beat);
             t = new TimeIndexer(this, bar, beat);
         }
 
@@ -60,8 +62,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <inheritdoc cref="BarIndexer" />
         public BarIndexer Bar { get; }
 
+        /// <inheritdoc cref="BarsIndexer" />
+        public BarsIndexer Bars { get; }
+
         /// <inheritdoc cref="BeatIndexer" />
         public BeatIndexer Beat { get; }
+
+        /// <inheritdoc cref="BeatsIndexer" />
+        public BeatsIndexer Beats { get; }
 
         // ReSharper disable once InconsistentNaming
         /// <inheritdoc cref="TimeIndexer" />

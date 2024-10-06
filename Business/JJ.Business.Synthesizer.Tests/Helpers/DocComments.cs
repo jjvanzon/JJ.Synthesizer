@@ -9,6 +9,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <param name="freq"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
         /// <param name="frequency"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
         /// <param name="delay"> The time delay in seconds before the sound starts (default is 0). </param>
+        /// <param name="vol"> The volume of the sound (default is 1). </param>
         /// <param name="volume"> The volume of the sound (default is 1). </param>
         /// <param name="duration"> The duration of the sound in seconds (default is 1). </param>
         /// <param name="soundFreq"> The base frequency in Hz for the carrier signal for the FM synthesis. </param>

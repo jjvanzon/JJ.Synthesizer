@@ -45,6 +45,18 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_Modulation_DetuneJingle()
             => SaveWav(DeepEcho(DetuneJingle), volume: 0.04, duration: 13 + DEEP_ECHO_TIME);
 
+
+
+        [TestMethod]
+        public void Test_Synthesizer_Modulation_DetuneNote1()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_Additive(context).Test_Modulation_DetuneNote1();
+        }
+
+        private void Test_Modulation_DetuneNote1()
+            => SaveWav(DeepEcho(DetunedNote1()), volume: 0.04, duration: Bar[5] + 5 + DEEP_ECHO_TIME);
+
         #endregion
 
         #region Composition
@@ -61,30 +73,34 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet DetuneJingle => Adder
         (
-            DetunedNote1(Bar[0], _[Notes.A3], _[0.80], duration: _[6]),
-            DetunedNote2(Bar[1], _[Notes.B4], _[0.70], duration: _[2]),
-            DetunedNote3(Bar[2], _[Notes.C5], _[0.85], duration: _[3]),
-            DetunedNote4(Bar[3], _[Notes.D5], _[0.75], duration: _[3]),
-            DetunedNote5(Bar[4], _[Notes.E5], _[0.90], duration: _[5])
+            DetunedNote1(Bar[1], _[Notes.A3], _[0.80], duration: _[6]),
+            DetunedNote2(Bar[2], _[Notes.B4], _[0.70], duration: _[2]),
+            DetunedNote3(Bar[3], _[Notes.C5], _[0.85], duration: _[3]),
+            DetunedNote4(Bar[4], _[Notes.D5], _[0.75], duration: _[3]),
+            DetunedNote5(Bar[5], _[Notes.E5], _[0.90], duration: _[5])
         );
 
-        private Outlet DetunedNote1(Outlet delay, Outlet freq, Outlet volume, Outlet duration) => DetunedNote(
+        /// <inheritdoc cref="DetunedNote" />
+        private Outlet DetunedNote1(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => DetunedNote(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.03]));
 
-        private Outlet DetunedNote2(Outlet delay, Outlet freq, Outlet volume, Outlet duration) => DetunedNote(
+        /// <inheritdoc cref="DetunedNote" />
+        private Outlet DetunedNote2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => DetunedNote(
             delay, freq, volume, duration, 
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
 
-        private Outlet DetunedNote3(Outlet delay, Outlet freq, Outlet volume, Outlet duration) => DetunedNote(
+        /// <inheritdoc cref="DetunedNote" />
+        private Outlet DetunedNote3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => DetunedNote(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.02]));
 
-        private Outlet DetunedNote4(Outlet delay, Outlet freq, Outlet volume, Outlet duration) => DetunedNote(
+        /// <inheritdoc cref="DetunedNote" />
+        private Outlet DetunedNote4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => DetunedNote(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.03]));
 
-        private Outlet DetunedNote5(Outlet delay, Outlet freq, Outlet volume, Outlet duration) => DetunedNote(
+        private Outlet DetunedNote5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => DetunedNote(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.001]));
 
@@ -104,6 +120,7 @@ namespace JJ.Business.Synthesizer.Tests
             return note;
         }
 
+        /// <inheritdoc cref="DocComments.Default" />
         private Outlet DetunedNote(
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet vibratoDepth = null, Outlet tremoloDepth = null, Outlet detuneDepth = null)
@@ -147,13 +164,18 @@ namespace JJ.Business.Synthesizer.Tests
         #region WaveForms
 
         /// <inheritdoc cref="SemiSawDocs" />
-        private Outlet SemiSaw(Outlet freq) => Adder
-        (
-            Sine(_[1.0], freq),
-            Sine(_[0.5], Multiply(freq, _[2])),
-            Sine(_[0.3], Multiply(freq, _[3])),
-            Sine(_[0.2], Multiply(freq, _[4]))
-        );
+        private Outlet SemiSaw(Outlet freq)
+        {
+            freq = freq ?? _[440];
+
+            return Adder
+            (
+                Sine(_[1.0], freq),
+                Sine(_[0.5], Multiply(freq, _[2])),
+                Sine(_[0.3], Multiply(freq, _[3])),
+                Sine(_[0.2], Multiply(freq, _[4]))
+            );
+        }
 
         /// <inheritdoc cref="DetunedHarmonicsDocs" />
         private Outlet DetunedHarmonics(Outlet freq, Outlet harmonicDetuneDepth = null)
@@ -247,32 +269,29 @@ namespace JJ.Business.Synthesizer.Tests
         /// Applies a jitter effect to notes, with adjustable depths. Basically with an extreme double tremolo effect.
         /// </summary>
         /// <param name="sound"> The sound to apply the jitter effect to. </param>
-        /// <param name="freq"> The frequency of the note. </param>
         /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
         /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
-        /// <returns> An <see cref="Outlet" /> representing the jittered note. </returns>
-        /// <inheritdoc cref="SynthesizerSugarBase.StrikeNote" />
+        /// <inheritdoc cref="DocComments.Default" />
         [UsedImplicitly]
         private Outlet JitterDocs(
-            Outlet freq = null, Outlet volume = null, Outlet delay = null, Outlet duration = null,
-            Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
+            Outlet sound, Outlet freq, Outlet volume, Outlet delay, Outlet duration,
+            Outlet depthAdjust1, Outlet depthAdjust2)
             => throw new NotSupportedException();
 
         /// <summary>
         /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
         /// </summary>
-        /// <param name="freq"> The base frequency for the waveform. </param>
         /// <returns> An <see cref="Outlet" /> representing the semi-sawtooth waveform. </returns>
+        /// <inheritdoc cref="DocComments.Default" />
         [UsedImplicitly]
         private Outlet SemiSawDocs(Outlet freq) => throw new NotSupportedException();
 
         /// <summary> Generates a detuned harmonic sound by altering the frequencies slightly. </summary>
-        /// <param name="freq"> The base frequency for the harmonics. </param>
         /// <param name="harmonicDetuneDepth">
         /// The depth of the detuning applied to the harmonics.
         /// If not provided, a default value is used.
         /// </param>
-        /// <returns> An <see cref="Outlet" /> instance representing the sound with the detuned harmonics. </returns>
+        /// <inheritdoc cref="DocComments.Default" />
         [UsedImplicitly]
         private Outlet DetunedHarmonicsDocs(Outlet freq, Outlet harmonicDetuneDepth = null)
             => throw new NotSupportedException();
