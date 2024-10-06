@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="VibraphaseDocs" />
-        private void Test_Modulation_Vibraphase_Chord()
+        void Test_Modulation_Vibraphase_Chord()
             => SaveWav(MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
         /// <inheritdoc cref="VibraphaseDocs" />
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="VibraphaseDocs" />
-        private void Test_Modulation_Vibraphase()
+        void Test_Modulation_Vibraphase()
             => SaveWav(MildEcho(Vibraphase(freq: _[Notes.E5])), duration: 1 + MILD_ECHO_TIME);
 
         /// <inheritdoc cref="DetunicaDocs" />
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private void Test_Modulation_Detunica_Jingle()
+        void Test_Modulation_Detunica_Jingle()
             => SaveWav(DeepEcho(DetunicaJingle), volume: 0.04, duration: 13 + DEEP_ECHO_TIME);
 
         /// <inheritdoc cref="DetunicaDocs" />
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private void Test_Modulation_Detunica1()
+        void Test_Modulation_Detunica1()
             => SaveWav(DeepEcho(Detunica1(freq: _[Notes.A3])), 1 + DEEP_ECHO_TIME, volume: 0.1);
 
         /// <inheritdoc cref="DetunicaDocs" />
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private void Test_Modulation_Detunica2()
+        void Test_Modulation_Detunica2()
             => SaveWav(DeepEcho(Detunica2(freq: _[Notes.B4])), 1 + DEEP_ECHO_TIME, volume: 0.1);
 
         /// <inheritdoc cref="DetunicaDocs" />
@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private void Test_Modulation_Detunica3()
+        void Test_Modulation_Detunica3()
             => SaveWav(DeepEcho(Detunica3(freq: _[Notes.C5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
 
         /// <inheritdoc cref="DetunicaDocs" />
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private void Test_Modulation_Detunica4()
+        void Test_Modulation_Detunica4()
             => SaveWav(DeepEcho(Detunica4(freq: _[Notes.D5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
 
         /// <inheritdoc cref="DetunicaDocs" />
@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private void Test_Modulation_Detunica5()
+        void Test_Modulation_Detunica5()
             => SaveWav(DeepEcho(Detunica5(freq: _[Notes.E5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
 
         #endregion
@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Tests
         #region Jingles
 
         /// <inheritdoc cref="VibraphaseDocs" />
-        private Outlet VibraphaseChord => Adder
+        Outlet VibraphaseChord => Adder
         (
             Vibraphase(freq: _[Notes.A4], volume: _[0.80]),
             Vibraphase(freq: _[Notes.B4], volume: _[0.70]),
@@ -134,7 +134,7 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private Outlet DetunicaJingle => Adder
+        Outlet DetunicaJingle => Adder
         (
             Detunica1(Bar[1], _[Notes.A3], _[0.80], duration: _[6]),
             Detunica2(Bar[2], _[Notes.B4], _[0.70], duration: _[2]),
@@ -144,27 +144,27 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private Outlet Detunica1(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
+        Outlet Detunica1(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.03]));
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
+        Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
+        Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.02]));
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
+        Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.03]));
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
+        Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
             delay, freq, volume, duration,
             vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.001]));
 
@@ -173,7 +173,7 @@ namespace JJ.Business.Synthesizer.Tests
         #region Instruments
 
         /// <inheritdoc cref="VibraphaseDocs" />
-        private Outlet Vibraphase(
+        Outlet Vibraphase(
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
         {
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="DetunicaDocs" />
-        private Outlet Detunica(
+        Outlet Detunica(
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet vibratoDepth = null, Outlet tremoloDepth = null, Outlet detuneDepth = null)
         {
@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer.Tests
         #region WaveForms
 
         /// <inheritdoc cref="SemiSawDocs" />
-        private Outlet SemiSaw(Outlet freq)
+        Outlet SemiSaw(Outlet freq)
         {
             freq = freq ?? _[440];
 
@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="DetunedHarmonicsDocs" />
-        private Outlet DetunedHarmonics(Outlet freq, Outlet detuneDepth = null)
+        Outlet DetunedHarmonics(Outlet freq, Outlet detuneDepth = null)
         {
             freq = freq ?? _[440];
             detuneDepth = detuneDepth ?? _[0.02];
@@ -262,7 +262,7 @@ namespace JJ.Business.Synthesizer.Tests
         #region Effects
 
         /// <inheritdoc cref="VibraphaseDocs" />
-        private Outlet Jitter(Outlet sound, Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
+        Outlet Jitter(Outlet sound, Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
         {
             depthAdjust1 = depthAdjust1 ?? _[0.005];
             depthAdjust2 = depthAdjust2 ?? _[0.250];
@@ -276,29 +276,29 @@ namespace JJ.Business.Synthesizer.Tests
             return sound;
         }
 
-        private const double MILD_ECHO_TIME = 0.33 * 5;
+        const double MILD_ECHO_TIME = 0.33 * 5;
 
         /// <inheritdoc cref="MildEchoDocs" />
-        private Outlet MildEcho(Outlet sound)
+        Outlet MildEcho(Outlet sound)
             => EntityFactory.CreateEcho(this, sound, count: 6, denominator: 4, delay: 0.33);
 
-        private const double DEEP_ECHO_TIME = 0.5 * 5;
+        const double DEEP_ECHO_TIME = 0.5 * 5;
 
         /// <inheritdoc cref="DeepEchoDocs" />
-        private Outlet DeepEcho(Outlet melody)
+        Outlet DeepEcho(Outlet melody)
             => EntityFactory.CreateEcho(this, melody, count: 6, denominator: 2, delay: 0.5);
 
         #endregion
 
         #region Curves
 
-        private Curve VibraphaseVolumeCurve { get; set; }
-        private Curve DetunicaVolumeCurve { get; set; }
-        private Curve DetuneCurve1 { get; set; }
-        private Curve DetuneCurve2 { get; set; }
-        private Curve DetuneCurve3 { get; set; }
+        Curve VibraphaseVolumeCurve { get; set; }
+        Curve DetunicaVolumeCurve { get; set; }
+        Curve DetuneCurve1 { get; set; }
+        Curve DetuneCurve2 { get; set; }
+        Curve DetuneCurve3 { get; set; }
 
-        private void CreateCurves()
+        void CreateCurves()
         {
             VibraphaseVolumeCurve = Curves.Create(@"
 
@@ -353,7 +353,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
         /// <inheritdoc cref="DocComments.Default" />
         [UsedImplicitly]
-        private Outlet VibraphaseDocs() => throw new NotSupportedException();
+        Outlet VibraphaseDocs() => throw new NotSupportedException();
 
         /// <summary>
         /// A detuned note characterized by a rich and slightly eerie sound due to the detuned harmonics.
@@ -367,7 +367,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// </param>
         /// <inheritdoc cref="DocComments.Default" />
         [UsedImplicitly]
-        private Outlet DetunicaDocs() => throw new NotSupportedException();
+        Outlet DetunicaDocs() => throw new NotSupportedException();
 
         /// <summary>
         /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
@@ -375,7 +375,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <returns> An <see cref="Outlet" /> representing the semi-sawtooth waveform. </returns>
         /// <inheritdoc cref="DocComments.Default" />
         [UsedImplicitly]
-        private Outlet SemiSawDocs() => throw new NotSupportedException();
+        Outlet SemiSawDocs() => throw new NotSupportedException();
 
         /// <summary> Generates a detuned harmonic sound by altering the frequencies slightly. </summary>
         /// <param name="detuneDepth">
@@ -384,7 +384,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// </param>
         /// <inheritdoc cref="DocComments.Default" />
         [UsedImplicitly]
-        private Outlet DetunedHarmonicsDocs() => throw new NotSupportedException();
+        Outlet DetunedHarmonicsDocs() => throw new NotSupportedException();
 
         /// <summary>
         /// Applies a mild echo effect to the given sound.
@@ -392,13 +392,13 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the applied echo effect. </returns>
         [UsedImplicitly]
-        private Outlet MildEchoDocs() => throw new NotSupportedException();
+        Outlet MildEchoDocs() => throw new NotSupportedException();
 
         /// <summary> Applies a deep echo effect to the specified sound. </summary>
         /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the deep echo effect applied. </returns>
         [UsedImplicitly]
-        private Outlet DeepEchoDocs() => throw new NotSupportedException();
+        Outlet DeepEchoDocs() => throw new NotSupportedException();
 
         #endregion
     }
