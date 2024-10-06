@@ -35,6 +35,18 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_Modulation_JitterBurstChord()
             => SaveWav(MildEcho(JitterBurstChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
+        /// <inheritdoc cref="JitterDocs" />
+        [TestMethod]
+        public void Test_Synthesizer_Modulation_JitterNote()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_Modulation(context).Test_Modulation_JitterNote();
+        }
+
+        /// <inheritdoc cref="JitterDocs" />
+        private void Test_Modulation_JitterNote()
+            => SaveWav(MildEcho(JitterNote(freq: _[Notes.E5])), duration: 1 + MILD_ECHO_TIME);
+
         [TestMethod]
         public void Test_Synthesizer_Modulation_DetuneJingle()
         {
@@ -45,8 +57,6 @@ namespace JJ.Business.Synthesizer.Tests
         private void Test_Modulation_DetuneJingle()
             => SaveWav(DeepEcho(DetuneJingle), volume: 0.04, duration: 13 + DEEP_ECHO_TIME);
 
-
-
         [TestMethod]
         public void Test_Synthesizer_Modulation_DetuneNote1()
         {
@@ -55,11 +65,51 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_Modulation_DetuneNote1()
-            => SaveWav(DeepEcho(DetunedNote1()), volume: 0.04, duration: Bar[5] + 5 + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(DetunedNote1(freq: _[Notes.A3])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+
+        [TestMethod]
+        public void Test_Synthesizer_Modulation_DetuneNote2()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneNote2();
+        }
+
+        private void Test_Modulation_DetuneNote2()
+            => SaveWav(DeepEcho(DetunedNote2(freq: _[Notes.B4])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+
+        [TestMethod]
+        public void Test_Synthesizer_Modulation_DetuneNote3()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneNote3();
+        }
+
+        private void Test_Modulation_DetuneNote3()
+            => SaveWav(DeepEcho(DetunedNote3(freq: _[Notes.C5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+
+        [TestMethod]
+        public void Test_Synthesizer_Modulation_DetuneNote4()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneNote4();
+        }
+
+        private void Test_Modulation_DetuneNote4()
+            => SaveWav(DeepEcho(DetunedNote4(freq: _[Notes.D5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+
+        [TestMethod]
+        public void Test_Synthesizer_Modulation_DetuneNote5()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new SynthesizerTests_Modulation(context).Test_Modulation_DetuneNote5();
+        }
+
+        private void Test_Modulation_DetuneNote5()
+            => SaveWav(DeepEcho(DetunedNote5(freq: _[Notes.E5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
 
         #endregion
 
-        #region Composition
+        #region Jingles
 
         /// <inheritdoc cref="JitterDocs" />
         private Outlet JitterBurstChord => Adder
@@ -125,6 +175,7 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet vibratoDepth = null, Outlet tremoloDepth = null, Outlet detuneDepth = null)
         {
+            duration = duration ?? _[1];
             vibratoDepth = vibratoDepth ?? _[0.005];
             tremoloDepth = tremoloDepth ?? _[0.25];
 
@@ -180,6 +231,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="DetunedHarmonicsDocs" />
         private Outlet DetunedHarmonics(Outlet freq, Outlet harmonicDetuneDepth = null)
         {
+            freq = freq ?? _[440];
             harmonicDetuneDepth = harmonicDetuneDepth ?? _[0.02];
 
             var sound = Adder
@@ -215,7 +267,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="EchoDocs" />
         private Outlet MildEcho(Outlet sound) =>
             EntityFactory.CreateEcho(this, sound, count: 6, denominator: 4, delay: 0.33);
-
 
         private const double DEEP_ECHO_TIME = 0.5 * 5;
 
