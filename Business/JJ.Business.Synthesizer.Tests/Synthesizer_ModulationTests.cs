@@ -230,28 +230,37 @@ namespace JJ.Business.Synthesizer.Tests
             duration = duration ?? _[1];
 
             var modulatedPitch = VibratoOverPitch(freq, vibratoSpeed, vibratoDepth);
+            //SaveWav(modulatedPitch);
 
             // Base additive synthesis waveform
             var baseHarmonics = BaseHarmonics(modulatedPitch);
+            //SaveWav(baseHarmonics);
 
             // Apply detune by modulating harmonic frequencies slightly
             var stretchedDetuneInput = TimeMultiply(detuneDepth, duration);
+            //SaveWav(stretchedDetuneInput);
+
             var detunedHarmonics = DetunedHarmonics(modulatedPitch, stretchedDetuneInput);
+            //SaveWav(detunedHarmonics);
 
             // Mix them together
             Outlet sound = Add(baseHarmonics, detunedHarmonics);
+            //SaveWav(sound);
 
             sound = Tremolo(sound, tremoloSpeed, tremoloDepth);
+            //SaveWav(sound);
 
             // Apply volume curve
             switch (envelopeVariation)
             {
                 case 1: 
                     sound = Multiply(sound, StretchCurve(DetunicaPatchyVolumeCurve, duration)); 
+                    //SaveWav(sound);
                     break;
                 
                 case 2: 
                     sound = Multiply(sound, StretchCurve(DetunicaEvenVolumeCurve, duration)); 
+                    //SaveWav(sound);
                     break;
                 
                 default: 
@@ -260,6 +269,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             // Apply velocity and delay
             var note = StrikeNote(sound, delay, volume);
+            //SaveWav(sound);
 
             return note;
         }
@@ -346,8 +356,9 @@ namespace JJ.Business.Synthesizer.Tests
             tremoloSpeed = tremoloSpeed ?? _[8];
             tremoloDepth = tremoloDepth ?? _[0.33];
 
-            var wave = Add(Sine(tremoloDepth, tremoloSpeed), _[1]);
-            sound = Multiply(sound, wave);
+            var modulator = Add(Sine(tremoloDepth, tremoloSpeed), _[1]);
+            sound = Multiply(sound, modulator);
+            
             return sound;
         }
 
@@ -450,7 +461,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="vibratoDepth"> Reserved for vibrato effect (frequency modulation) but not yet implemented. </param>
         /// <param name="detuneDepth">
         /// The detune depth, adjusting the harmonic frequencies relative to the base frequency,
-        /// creating a subtle dissonance and eerie quality.
+        /// creating a subtle dissonance and eerie quality.<br/><br/>
+        /// 
+        /// If the detune depth is low, this may cause a slow tremolo-like effect
+        /// due to periodic constructive/destructive interference,
+        /// the effect of which can be quite extreme.<br /><br />
+        /// 
+        /// Increasing the detune depth may help lessen that effect.
+        /// A different volume envelope might also help.
         /// </param>
         /// <param name="envelopeVariation">
         /// 1 is the default and a more patchy volume envelope.<br/>
