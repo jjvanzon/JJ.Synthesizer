@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests
         { }
 
         Synthesizer_ModulationTests(IContext context)
-            : base(context, beat: 0.45, bar: 1.8)
+            : base(context, beat: 0.5, bar: 2.0)
         {
             CreateCurves();
         }
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Tests
         void Test_Modulation_Tremolo()
             => SaveWav(
                 Tremolo(Sine(volume: _[1], _[Notes.A4]), tremoloSpeed: _[4], tremoloDepth: _[0.5]),
-                volume: 0.30, duration: 1);
+                volume: 0.30, duration: 3);
 
         #endregion
 
@@ -158,11 +158,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
         (
-            Detunica1(bar[1], _[Notes.A3], _[1.00], duration: bars[3.0]),
-            Detunica2(bar[2], _[Notes.B4], _[0.70], duration: bars[1.0]),
-            Detunica3(bar[3], _[Notes.C5], _[0.85], duration: bars[1.5]),
-            Detunica4(bar[4], _[Notes.D5], _[0.75], duration: bars[1.5]),
-            Detunica5(bar[5], _[Notes.E5], _[0.90], duration: bars[2.5])
+            Detunica1(bar[1], _[Notes.A3], _[1.00], duration: bars[2.75]),
+            Detunica2(bar[2], _[Notes.B4], _[0.70], duration: bars[1.25]),
+            Detunica3(bar[3], _[Notes.C5], _[0.85], duration: bars[1.75]),
+            Detunica4(bar[4], _[Notes.D5], _[0.75], duration: bars[2.00]),
+            Detunica5(bar[5], _[Notes.E5], _[0.90], duration: bars[2.50])
         );
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -177,31 +177,31 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration, 
-                tremoloSpeed: _[12], tremoloDepth: _[0.10],
-                vibratoSpeed: _[6.5], vibratoDepth: _[0.0002],
+                tremoloSpeed: _[12.0], tremoloDepth: _[0.10],
+                vibratoSpeed: _[06.5], vibratoDepth: _[0.0002],
                 detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
-                delay, freq, volume, duration, 
-                tremoloSpeed: _[30], tremoloDepth: _[0.10],
-                vibratoSpeed: _[22], vibratoDepth: _[0.0005],
-                detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.02]));
+                delay, freq, volume, duration,
+                tremoloSpeed: _[12], tremoloDepth: _[0.20],
+                vibratoSpeed: _[08], vibratoDepth: _[0.0003],
+                detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.05]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
-                delay, freq, volume, duration, 
-                tremoloSpeed: _[10], tremoloDepth: _[0.33],
-                vibratoSpeed: _[8], vibratoDepth: _[0.0002],
-                detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.03]));
+                delay, freq, volume, duration,
+                tremoloSpeed: _[30.0], tremoloDepth: _[0.10],
+                vibratoSpeed: _[05.5], vibratoDepth: _[0.0005],
+                detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.02]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration, 
-                tremoloSpeed: _[3], tremoloDepth: _[0.25],
+                tremoloSpeed: _[3.0], tremoloDepth: _[0.25],
                 vibratoSpeed: _[5.5], vibratoDepth: _[0.00005],
                 detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.001]));
 
@@ -289,9 +289,9 @@ namespace JJ.Business.Synthesizer.Tests
             return Adder
             (
                 Sine(_[1], Multiply(freq, Add(_[1], detuneDepth))),
-                Sine(_[1], Multiply(freq, Add(_[2], detuneDepth))),
-                Sine(_[1], Multiply(freq, Add(_[3], detuneDepth))),
-                Sine(_[1], Multiply(freq, Add(_[4], detuneDepth)))
+                Sine(_[0.8], Multiply(freq, Add(_[2], detuneDepth))),
+                Sine(_[0.6], Multiply(freq, Add(_[3], detuneDepth))),
+                Sine(_[0.4], Multiply(freq, Add(_[4], detuneDepth)))
             );
         }
 
