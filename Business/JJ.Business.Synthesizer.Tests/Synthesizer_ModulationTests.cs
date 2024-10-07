@@ -158,10 +158,10 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
         (
-            Detunica1(bar[1], _[Notes.A2], _[1.00], duration: bars[3.50]),
+            Detunica1(bar[1], _[Notes.E2], _[1.10], duration: bars[2.50]),
             Detunica2(bar[2], _[Notes.B4], _[0.60], duration: bars[1.25]),
             Detunica3(bar[3], _[Notes.C5], _[0.85], duration: bars[1.75]),
-            Detunica4(bar[4], _[Notes.D5], _[0.70], duration: bars[2.00]),
+            Detunica4(bar[4], _[Notes.D5], _[0.65], duration: bars[2.00]),
             Detunica5(bar[5], _[Notes.E5], _[0.90], duration: bars[2.50])
         );
 
@@ -179,13 +179,13 @@ namespace JJ.Business.Synthesizer.Tests
                 delay, freq, volume, duration, 
                 tremoloSpeed: _[12.0], tremoloDepth: _[0.10],
                 vibratoSpeed: _[10.0], vibratoDepth: _[0.0002],
-                detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.05]));
+                detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration,
-                tremoloSpeed: _[20.0], tremoloDepth: _[0.06],
+                tremoloSpeed: _[15.0], tremoloDepth: _[0.06],
                 vibratoSpeed: _[05.5], vibratoDepth: _[0.0005],
                 detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.002]));
 
@@ -193,8 +193,8 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration,
-                tremoloSpeed: _[12], tremoloDepth: _[0.08],
-                vibratoSpeed: _[08], vibratoDepth: _[0.0003],
+                tremoloSpeed: _[10], tremoloDepth: _[0.08],
+                vibratoSpeed: _[07], vibratoDepth: _[0.0003],
                 detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.003]));
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -230,14 +230,14 @@ namespace JJ.Business.Synthesizer.Tests
             var vibratoPitch = VibratoOverPitch(freq, vibratoSpeed, vibratoDepth);
 
             // Base additive synthesis waveform
-            var semiSaw = BaseFrequencies(vibratoPitch);
+            var baseHarmonics = BaseHarmonics(vibratoPitch);
 
             // Apply detune by modulating harmonic frequencies slightly
             var stretchedDetune = TimeMultiply(detuneDepth, duration);
             var detunedHarmonics = DetunedHarmonics(vibratoPitch, stretchedDetune);
 
             // Mix them together
-            Outlet sound = Add(semiSaw, detunedHarmonics);
+            Outlet sound = Add(baseHarmonics, detunedHarmonics);
 
             sound = Tremolo(sound, tremoloSpeed, tremoloDepth);
 
@@ -281,17 +281,17 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="_semisawdocs" />
-        Outlet BaseFrequencies(Outlet freq)
+        Outlet BaseHarmonics(Outlet freq)
         {
             freq = freq ?? _[440];
 
             return Adder
             (
                 Sine(_[1.00], freq),
-                Sine(_[0.40], Multiply(freq, _[2])),
-                Sine(_[0.25], Multiply(freq, _[5])),
-                Sine(_[0.10], Multiply(freq, _[7])),
-                Sine(_[0.05], Multiply(freq, _[9]))
+                Sine(_[0.30], Multiply(freq, _[2])),
+                Sine(_[0.15], Multiply(freq, _[5])),
+                Sine(_[0.08], Multiply(freq, _[7])),
+                Sine(_[0.10], Multiply(freq, _[9]))
             );
         }
 
@@ -303,10 +303,10 @@ namespace JJ.Business.Synthesizer.Tests
 
             return Adder
             (
-                Sine(_[1.00], Multiply(freq, Add(_[1], detuneDepth))),
-                Sine(_[0.40], Multiply(freq, Add(_[2], detuneDepth))),
-                Sine(_[0.25], Multiply(freq, Add(_[5], detuneDepth))),
-                Sine(_[0.10], Multiply(freq, Add(_[7], detuneDepth))),
+                Sine(_[0.50], Multiply(freq, Add(_[1], detuneDepth))),
+                Sine(_[0.15], Multiply(freq, Add(_[2], detuneDepth))),
+                Sine(_[0.07], Multiply(freq, Add(_[5], detuneDepth))),
+                Sine(_[0.08], Multiply(freq, Add(_[7], detuneDepth))),
                 Sine(_[0.05], Multiply(freq, Add(_[9], detuneDepth)))
             );
         }
