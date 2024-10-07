@@ -19,26 +19,12 @@ namespace JJ.Business.Synthesizer.Tests
         { }
 
         Synthesizer_ModulationTests(IContext context)
-            : base(context, beat: 0.4, bar: 1.6)
+            : base(context, beat: 0.45, bar: 1.8)
         {
             CreateCurves();
         }
 
         #region Tests
-
-        /// <inheritdoc cref="_tremolodocs" />
-        [TestMethod]
-        public void Test_Synthesizer_Modulation_Tremolo()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Tremolo();
-        }
-
-        /// <inheritdoc cref="_tremolodocs" />
-        void Test_Modulation_Tremolo()
-            => SaveWav(
-                MildEcho(Tremolo(Sine(volume: _[1], _[Notes.A4]), tremoloSpeed: _[4], tremoloDepth: _[0.5])), 
-                volume: 0.30, duration: 1);
 
         /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
@@ -74,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica_Jingle()
-            => SaveWav(DeepEcho(DetunicaJingle), volume: 0.04, duration: bars[4] + bars[2.5] + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(DetunicaJingle), volume: 0.08, duration: bars[4] + bars[2.5] + DEEP_ECHO_TIME);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -86,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica1()
-            => SaveWav(DeepEcho(Detunica1(freq: _[Notes.A3])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+            => SaveWav(DeepEcho(Detunica1(freq: _[Notes.A3], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.1);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -98,7 +84,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica2()
-            => SaveWav(DeepEcho(Detunica2(freq: _[Notes.B4])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+            => SaveWav(DeepEcho(Detunica2(freq: _[Notes.B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.1);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -110,7 +96,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica3()
-            => SaveWav(DeepEcho(Detunica3(freq: _[Notes.C5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+            => SaveWav(DeepEcho(Detunica3(freq: _[Notes.C5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.1);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -122,7 +108,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica4()
-            => SaveWav(DeepEcho(Detunica4(freq: _[Notes.D5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+            => SaveWav(DeepEcho(Detunica4(freq: _[Notes.D5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.1);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -134,7 +120,35 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica5()
-            => SaveWav(DeepEcho(Detunica5(freq: _[Notes.E5])), 1 + DEEP_ECHO_TIME, volume: 0.1);
+            => SaveWav(DeepEcho(Detunica5(freq: _[Notes.E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.1);
+
+        /// <inheritdoc cref="_tremolodocs" />
+        [TestMethod]
+        public void Test_Synthesizer_Modulation_Tremolo()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new Synthesizer_ModulationTests(context).Test_Modulation_Tremolo();
+        }
+
+        /// <inheritdoc cref="_tremolodocs" />
+        void Test_Modulation_Tremolo()
+            => SaveWav(
+                Tremolo(Sine(volume: _[1], _[Notes.A4]), tremoloSpeed: _[4], tremoloDepth: _[0.5]),
+                volume: 0.30, duration: 1);
+
+        /// <inheritdoc cref="_vibratodocs" />
+        [TestMethod]
+        public void Test_Synthesizer_Modulation_Vibrato()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new Synthesizer_ModulationTests(context).Test_Modulation_Vibrato();
+        }
+
+        /// <inheritdoc cref="_vibratodocs" />
+        void Test_Modulation_Vibrato()
+            => SaveWav(
+                Sine(volume: _[1], VibratoOverPitch(_[Notes.A4])),
+                volume: 0.9, duration: 3);
 
         #endregion
 
@@ -153,7 +167,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
         (
-            Detunica1(bar[1], _[Notes.A3], _[0.80], duration: bars[3.0]),
+            Detunica1(bar[1], _[Notes.A3], _[1.00], duration: bars[3.0]),
             Detunica2(bar[2], _[Notes.B4], _[0.70], duration: bars[1.0]),
             Detunica3(bar[3], _[Notes.C5], _[0.85], duration: bars[1.5]),
             Detunica4(bar[4], _[Notes.D5], _[0.75], duration: bars[1.5]),
@@ -163,32 +177,42 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica1(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
-                delay, freq, volume, duration, tremoloSpeed: _[4], tremoloDepth: _[0.50],
-                vibratoDepth: _[0.005], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.03]));
+                delay, freq, volume, duration, 
+                tremoloSpeed: _[4.0], tremoloDepth: _[0.05],
+                vibratoSpeed: _[5.5], vibratoDepth: _[0.0001],
+                detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.03]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
-                delay, freq, volume, duration, tremoloSpeed: _[12], tremoloDepth: _[0.10],
-                vibratoDepth: _[0.005], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
+                delay, freq, volume, duration, 
+                tremoloSpeed: _[12], tremoloDepth: _[0.10],
+                vibratoSpeed: _[6.5], vibratoDepth: _[0.0002],
+                detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
-                delay, freq, volume, duration, tremoloSpeed: _[30], tremoloDepth: _[0.10],
-                vibratoDepth: _[0.005], detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.02]));
+                delay, freq, volume, duration, 
+                tremoloSpeed: _[30], tremoloDepth: _[0.10],
+                vibratoSpeed: _[22], vibratoDepth: _[0.0005],
+                detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.02]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
-                delay, freq, volume, duration, tremoloSpeed: _[10], tremoloDepth: _[0.33],
-                vibratoDepth: _[0.005], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.03]));
+                delay, freq, volume, duration, 
+                tremoloSpeed: _[10], tremoloDepth: _[0.33],
+                vibratoSpeed: _[8], vibratoDepth: _[0.0002],
+                detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.03]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
-                delay, freq, volume, duration, tremoloSpeed: _[3], tremoloDepth: _[0.25],
-                vibratoDepth: _[0.005], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.001]));
+                delay, freq, volume, duration, 
+                tremoloSpeed: _[3], tremoloDepth: _[0.25],
+                vibratoSpeed: _[5.5], vibratoDepth: _[0.00005],
+                detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.001]));
 
         #endregion
 
@@ -209,29 +233,22 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica(
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
-            Outlet vibratoDepth = null, Outlet tremoloSpeed = null, Outlet tremoloDepth = null, 
+            Outlet vibratoSpeed = null, Outlet vibratoDepth = null, Outlet tremoloSpeed = null, Outlet tremoloDepth = null, 
             Outlet detuneDepth = null)
         {
             duration = duration ?? _[1];
-            //vibratoDepth = vibratoDepth ?? _[0.005];
-            tremoloDepth = tremoloDepth ?? _[0.25];
-            tremoloSpeed = tremoloSpeed ?? _[4];
+
+            var vibratoPitch = VibratoOverPitch(freq, vibratoSpeed, vibratoDepth);
 
             // Base additive synthesis waveform
-            var semiSaw = SemiSaw(freq);
+            var semiSaw = SemiSaw(vibratoPitch);
 
             // Apply detune by modulating harmonic frequencies slightly
             var stretchedDetune = TimeMultiply(detuneDepth, duration);
-            var detunedHarmonics = DetunedHarmonics(freq, stretchedDetune);
+            var detunedHarmonics = DetunedHarmonics(vibratoPitch, stretchedDetune);
 
             // Mix them together
             Outlet sound = Add(semiSaw, detunedHarmonics);
-
-            /*
-            // Apply vibrato by speeding up and slowing down and oscillator over time.
-            var vibratoWave = Sine(Add(_[1], vibratoDepth), _[5.5]); // 5.5 Hz vibrato
-            sound = TimeMultiply(sound, vibratoWave);
-            */
 
             sound = Tremolo(sound, tremoloSpeed, tremoloDepth);
 
@@ -284,9 +301,23 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_tremolodocs" />
         Outlet Tremolo(Outlet sound, Outlet tremoloSpeed, Outlet tremoloDepth)
         {
+            tremoloSpeed = tremoloSpeed ?? _[8];
+            tremoloDepth = tremoloDepth ?? _[0.33];
+
             var wave = Add(Sine(tremoloDepth, tremoloSpeed), _[1]);
             sound = Multiply(sound, wave);
             return sound;
+        }
+
+        /// <inheritdoc cref="_vibratodocs" />
+        Outlet VibratoOverPitch(Outlet freq, Outlet vibratoSpeed = null, Outlet vibratoDepth = null)
+        {
+            vibratoSpeed = vibratoSpeed ?? _[5.5];
+            vibratoDepth = vibratoDepth ?? _[0.0005];
+
+            var vibratoPitch = Multiply(freq, Add(_[1], Sine(vibratoDepth, vibratoSpeed)));
+            
+            return vibratoPitch;
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -382,7 +413,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// It produces a haunting and spacious tone with subtle shifts in pitch.
         /// </summary>
         /// <param name="vibratoDepth"> Reserved for vibrato effect (frequency modulation) but not yet implemented. </param>
-        /// <param name="tremoloDepth"> Reserved for tremolo effect (amplitude modulation) but not yet implemented. </param>
         /// <param name="detuneDepth">
         /// The detune depth, adjusting the harmonic frequencies relative to the base frequency,
         /// creating a subtle dissonance and eerie quality.
@@ -408,7 +438,16 @@ namespace JJ.Business.Synthesizer.Tests
         /// <summary> Apply tremolo by modulating amplitude over time using an oscillator. </summary>
         /// <inheritdoc cref="DocComments.Default" />
         object _tremolodocs;
-    
+
+        /// <summary>
+        /// Applies vibrato modulation to a given frequency by modulating it with a sine wave.<br/>
+        /// NOTE: Due to the lack of phase tracking, the vibrato depth tends to accumulate over time.
+        /// </summary>
+        /// <param name="freq">The base frequency to which vibrato will be applied.</param>
+        /// <returns>An <see cref="Outlet"/> object representing the frequency modulated with vibrato.</returns>
+        /// <inheritdoc cref="DocComments.Default"/>
+        object _vibratodocs;
+        
         /// <summary>
         /// Applies an echo effect to the given sound.
         /// </summary>
