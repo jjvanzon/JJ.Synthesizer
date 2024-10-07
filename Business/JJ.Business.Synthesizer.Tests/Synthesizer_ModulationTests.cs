@@ -188,7 +188,8 @@ namespace JJ.Business.Synthesizer.Tests
                 delay, freq, volume, duration,
                 tremoloSpeed: _[15.0], tremoloDepth: _[0.06],
                 vibratoSpeed: _[05.5], vibratoDepth: _[0.0005],
-                detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.002]));
+                detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.002]),
+                envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
@@ -196,7 +197,7 @@ namespace JJ.Business.Synthesizer.Tests
                 delay, freq, volume, duration,
                 tremoloSpeed: _[10], tremoloDepth: _[0.08],
                 vibratoSpeed: _[07], vibratoDepth: _[0.0003],
-                detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.003]));
+                detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.003]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
