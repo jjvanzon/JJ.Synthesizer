@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests
         { }
 
         Synthesizer_ModulationTests(IContext context)
-            : base(context, beat: 0.5, bar: 2.0)
+            : base(context, beat: 0.45, bar: 1.8)
         {
             CreateCurves();
         }
@@ -159,9 +159,9 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet DetunicaJingle => Adder
         (
             Detunica1(bar[1], _[Notes.A3], _[1.00], duration: bars[2.75]),
-            Detunica2(bar[2], _[Notes.B4], _[0.70], duration: bars[1.25]),
+            Detunica2(bar[2], _[Notes.B4], _[0.60], duration: bars[1.25]),
             Detunica3(bar[3], _[Notes.C5], _[0.85], duration: bars[1.75]),
-            Detunica4(bar[4], _[Notes.D5], _[0.75], duration: bars[2.00]),
+            Detunica4(bar[4], _[Notes.D5], _[0.70], duration: bars[2.00]),
             Detunica5(bar[5], _[Notes.E5], _[0.90], duration: bars[2.50])
         );
 
@@ -178,8 +178,8 @@ namespace JJ.Business.Synthesizer.Tests
             => Detunica(
                 delay, freq, volume, duration, 
                 tremoloSpeed: _[12.0], tremoloDepth: _[0.10],
-                vibratoSpeed: _[06.5], vibratoDepth: _[0.0002],
-                detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
+                vibratoSpeed: _[10.0], vibratoDepth: _[0.0002],
+                detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.05]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
@@ -187,15 +187,15 @@ namespace JJ.Business.Synthesizer.Tests
                 delay, freq, volume, duration,
                 tremoloSpeed: _[12], tremoloDepth: _[0.20],
                 vibratoSpeed: _[08], vibratoDepth: _[0.0003],
-                detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.05]));
+                detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.003]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration,
-                tremoloSpeed: _[30.0], tremoloDepth: _[0.10],
+                tremoloSpeed: _[20.0], tremoloDepth: _[0.10],
                 vibratoSpeed: _[05.5], vibratoDepth: _[0.0005],
-                detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.02]));
+                detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.002]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
@@ -230,7 +230,7 @@ namespace JJ.Business.Synthesizer.Tests
             var vibratoPitch = VibratoOverPitch(freq, vibratoSpeed, vibratoDepth);
 
             // Base additive synthesis waveform
-            var semiSaw = SemiSaw(vibratoPitch);
+            var semiSaw = BaseFrequencies(vibratoPitch);
 
             // Apply detune by modulating harmonic frequencies slightly
             var stretchedDetune = TimeMultiply(detuneDepth, duration);
@@ -280,6 +280,21 @@ namespace JJ.Business.Synthesizer.Tests
             );
         }
 
+        /// <inheritdoc cref="_semisawdocs" />
+        Outlet BaseFrequencies(Outlet freq)
+        {
+            freq = freq ?? _[440];
+
+            return Adder
+            (
+                Sine(_[1.00], freq),
+                Sine(_[0.40], Multiply(freq, _[2])),
+                Sine(_[0.25], Multiply(freq, _[5])),
+                Sine(_[0.10], Multiply(freq, _[7])),
+                Sine(_[0.05], Multiply(freq, _[9]))
+            );
+        }
+
         /// <inheritdoc cref="_detunedharmonicsdocs" />
         Outlet DetunedHarmonics(Outlet freq, Outlet detuneDepth = null)
         {
@@ -288,10 +303,11 @@ namespace JJ.Business.Synthesizer.Tests
 
             return Adder
             (
-                Sine(_[1], Multiply(freq, Add(_[1], detuneDepth))),
-                Sine(_[0.8], Multiply(freq, Add(_[2], detuneDepth))),
-                Sine(_[0.6], Multiply(freq, Add(_[3], detuneDepth))),
-                Sine(_[0.4], Multiply(freq, Add(_[4], detuneDepth)))
+                Sine(_[1.00], Multiply(freq, Add(_[1], detuneDepth))),
+                Sine(_[0.40], Multiply(freq, Add(_[2], detuneDepth))),
+                Sine(_[0.25], Multiply(freq, Add(_[5], detuneDepth))),
+                Sine(_[0.10], Multiply(freq, Add(_[7], detuneDepth))),
+                Sine(_[0.05], Multiply(freq, Add(_[9], detuneDepth)))
             );
         }
 
@@ -361,10 +377,10 @@ namespace JJ.Business.Synthesizer.Tests
         void CreateCurves()
         {
             DetunicaVolumeCurve = Curves.Create(@"
-                         o                             
-              o      o       o                         
-                                                       
-                  o                o                   
+                          o                             
+              o      o         o                         
+                  o                                     
+                                      o                   
             o                                       o ");
 
             DetuneCurve1 = Curves.Create(@"
@@ -399,7 +415,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary>
         /// A detuned note characterized by a rich and slightly eerie sound due to the detuned harmonics.
-        /// It produces a haunting and spacious tone with subtle shifts in pitch.
+        /// It produces a haunting tone with subtle shifts in pitch.
         /// </summary>
         /// <param name="vibratoDepth"> Reserved for vibrato effect (frequency modulation) but not yet implemented. </param>
         /// <param name="detuneDepth">
