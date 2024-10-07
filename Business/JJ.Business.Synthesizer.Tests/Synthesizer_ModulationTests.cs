@@ -325,11 +325,14 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[440];
             detuneDepth = detuneDepth ?? _[0.02];
 
-            Outlet detune1(Outlet f, int h) => Multiply(             f, Add(_[h] , detuneDepth));
-            Outlet detune2(Outlet f, int h) => Add(Multiply(         f,     _[h]), detuneDepth);
-            Outlet detune3(Outlet f, int h) => Add(Multiply(Multiply(f,     _[h]), detuneDepth), detuneDepth);
-
-            Func<Outlet, int, Outlet> detune = detune1;
+            Outlet detuneA(Outlet f, int h) => Multiply(             f, Add(_[h] , detuneDepth)); // Erratic
+            Outlet detuneB(Outlet f, int h) => Add(Multiply(         f,     _[h]), detuneDepth); // Better already
+            Outlet detuneC(Outlet f, int h) => Add(Multiply(Multiply(f,     _[h]), detuneDepth), detuneDepth); // Slightly cleaner
+            Outlet detuneD(Outlet f, int h) => Multiply(Add(Multiply(f,     _[h]), detuneDepth), detuneDepth); // Almost too clean
+            Outlet detuneE(Outlet f, int h) => Multiply(Multiply(    f,     _[h]), detuneDepth); // Simple multiply
+            // TODO: 1 + detuneDepth should make for a better multiplication
+            
+            Func<Outlet, int, Outlet> detune = detuneD;
 
             return Adder
             (
