@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute_Melody1()
-            => SaveWav(MildEcho(FluteMelody1), volume: 0.6, duration: Bars[4] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(FluteMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Melody2()
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Flute_Melody2()
-            => SaveWav(MildEcho(FluteMelody2), volume: 0.3, duration: Bars[2.5] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(FluteMelody2), volume: 0.3, duration: bars[2.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute1()
@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Organ()
-            => SaveWav(MildEcho(Organ(duration: Bars[8])), duration: Bars[8] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(Organ(duration: bars[8])), duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Pad()
@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad()
-            => SaveWav(MildEcho(Pad()), duration: Bars[8] + MILD_ECHO_TIME, volume: 0.2);
+            => SaveWav(MildEcho(Pad()), duration: bars[8] + MILD_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Pad_Chords()
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Pad_Chords()
-            => SaveWav(MildEcho(PadChords), volume: 0.15, duration: Bars[8] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(PadChords), volume: 0.15, duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Trombone()
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Trombone_Melody1()
-            => SaveWav(MildEcho(TromboneMelody1), volume: 0.45, duration: Bars[4] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(TromboneMelody1), volume: 0.45, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Trombone_Melody2()
@@ -169,7 +169,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Trombone_Melody2()
-            => SaveWav(MildEcho(TromboneMelody2), volume: 0.75, duration: Bars[3.5] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(TromboneMelody2), volume: 0.75, duration: bars[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Trombone_Melody3()
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Trombone_Melody3()
-            => SaveWav(MildEcho(TromboneMelody3), duration: Bars[1.5] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(TromboneMelody3), duration: bars[1.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Horn_Melody1()
@@ -189,7 +189,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Horn_Melody1()
-            => SaveWav(MildEcho(HornMelody1), volume: 0.6, duration: Bars[4] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(HornMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Horn_Melody2()
@@ -199,7 +199,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Horn_Melody2()
-            => SaveWav(MildEcho(HornMelody2), volume: 0.6, duration: Bars[3.5] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(HornMelody2), volume: 0.6, duration: bars[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_ElectricNote()
@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Organ_Chords()
-            => SaveWav(MildEcho(OrganChords), volume: 0.22, duration: Bars[8] + MILD_ECHO_TIME);
+            => SaveWav(MildEcho(OrganChords), volume: 0.22, duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleBass()
@@ -239,7 +239,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass_Melody1()
-            => SaveWav(DeepEcho(RippleBassMelody1), volume: 0.3, duration: Bars[5] + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(RippleBassMelody1), volume: 0.3, duration: bars[5] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleBass_Melody2()
@@ -249,7 +249,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_RippleBass_Melody2()
-            => SaveWav(DeepEcho(RippleBassMelody2), volume: 0.3, duration: Bars[4] + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(RippleBassMelody2), volume: 0.3, duration: bars[4] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
@@ -333,7 +333,7 @@ namespace JJ.Business.Synthesizer.Tests
             var composition = Adder
             (
                 pattern1,
-                TimeAdd(pattern2, Bar[5])
+                TimeAdd(pattern2, bar[5])
                 //RippleSound_Clean(_[Frequencies.A4], delay: Bar[3], volume: _[0.50], duration: Bar(2))
             );
 
@@ -346,46 +346,46 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet FluteMelody1 => Adder
         (
-            Flute1(_[Notes.E4], t[bar: 1, beat: 1.0], volume: _[0.80], duration: Beats[2.00]),
-            Flute1(_[Notes.F4], t[bar: 1, beat: 2.5], volume: _[0.70], duration: Beats[2.17]),
-            Flute1(_[Notes.G4], t[bar: 1, beat: 4.0], volume: _[0.60], duration: Beats[1.00]),
-            Flute1(_[Notes.A4], t[bar: 2, beat: 1.0], volume: _[0.80], duration: Beats[2.33]),
-            Flute2(_[Notes.B4], t[bar: 2, beat: 2.5], volume: _[0.50], duration: Beats[1.00]),
-            Flute1(_[Notes.A3], t[bar: 2, beat: 4.0], volume: _[0.50], duration: Beats[1.67]), // Appears delayed because of destructive interference?
-            Flute3(_[Notes.G3], t[bar: 3, beat: 1.0], volume: _[0.85], duration: Beats[2.00]),
-            Flute1(_[Notes.G4], t[bar: 3, beat: 2.5], volume: _[0.80], duration: Beats[2.50])
+            Flute1(_[Notes.E4], t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
+            Flute1(_[Notes.F4], t[bar: 1, beat: 2.5], volume: _[0.70], beats[2.17]),
+            Flute1(_[Notes.G4], t[bar: 1, beat: 4.0], volume: _[0.60], beats[1.00]),
+            Flute1(_[Notes.A4], t[bar: 2, beat: 1.0], volume: _[0.80], beats[2.33]),
+            Flute2(_[Notes.B4], t[bar: 2, beat: 2.5], volume: _[0.50], beats[1.00]),
+            Flute1(_[Notes.A3], t[bar: 2, beat: 4.0], volume: _[0.50], beats[1.67]), // Appears delayed because of destructive interference?
+            Flute3(_[Notes.G3], t[bar: 3, beat: 1.0], volume: _[0.85], beats[2.00]),
+            Flute1(_[Notes.G4], t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
         );
 
         private Outlet FluteMelody2 => Adder
         (
-            Flute1(_[Notes.E4], t[bar: 1, beat: 1.0], volume: _[0.59], duration: Beats[1.8]),
-            Flute2(_[Notes.F4], t[bar: 1, beat: 2.5], volume: _[0.68], duration: Beats[1.0]),
-            Flute1(_[Notes.G4], t[bar: 1, beat: 4.0], volume: _[0.74], duration: Beats[0.6]),
-            Flute2(_[Notes.A4], t[bar: 2, beat: 1.0], volume: _[0.82], duration: Beats[2.0]),
-            Flute3(_[Notes.B4], t[bar: 2, beat: 2.5], volume: _[0.74], duration: Beats[1.0]),
-            Flute2(_[Notes.G4], t[bar: 2, beat: 4.0], volume: _[0.90], duration: Beats[0.4]),
-            Flute4(_[Notes.A4], t[bar: 3, beat: 1.0], volume: _[1.00], duration: _[1.66])
+            Flute1(_[Notes.E4], t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
+            Flute2(_[Notes.F4], t[bar: 1, beat: 2.5], volume: _[0.68], beats[1.0]),
+            Flute1(_[Notes.G4], t[bar: 1, beat: 4.0], volume: _[0.74], beats[0.6]),
+            Flute2(_[Notes.A4], t[bar: 2, beat: 1.0], volume: _[0.82], beats[2.0]),
+            Flute3(_[Notes.B4], t[bar: 2, beat: 2.5], volume: _[0.74], beats[1.0]),
+            Flute2(_[Notes.G4], t[bar: 2, beat: 4.0], volume: _[0.90], beats[0.4]),
+            Flute4(_[Notes.A4], t[bar: 3, beat: 1.0], volume: _[1.00], _[1.66])
         );
 
         private Outlet OrganChords => Multiply
         (
-            StretchCurve(ChordVolumeCurve, Bars[1]),
+            StretchCurve(ChordVolumeCurve, bars[1]),
             Adder
             (
-                Organ(StretchCurve(ChordPitchCurve1, Bars[1]), duration: Bars[8]),
-                Organ(StretchCurve(ChordPitchCurve2, Bars[1]), duration: Bars[8]),
-                Organ(StretchCurve(ChordPitchCurve3, Bars[1]), duration: Bars[8])
+                Organ(StretchCurve(ChordPitchCurve1, bars[1]), duration: bars[8]),
+                Organ(StretchCurve(ChordPitchCurve2, bars[1]), duration: bars[8]),
+                Organ(StretchCurve(ChordPitchCurve3, bars[1]), duration: bars[8])
             )
         );
 
         private Outlet PadChords => Multiply
         (
-            StretchCurve(ChordVolumeCurve, Bars[1]),
+            StretchCurve(ChordVolumeCurve, bars[1]),
             Adder
             (
-                Pad(StretchCurve(ChordPitchCurve1, Bars[1])),
-                Pad(StretchCurve(ChordPitchCurve2, Bars[1])),
-                Pad(StretchCurve(ChordPitchCurve3, Bars[1]))
+                Pad(StretchCurve(ChordPitchCurve1, bars[1])),
+                Pad(StretchCurve(ChordPitchCurve2, bars[1])),
+                Pad(StretchCurve(ChordPitchCurve3, bars[1]))
             )
         );
 
@@ -395,19 +395,19 @@ namespace JJ.Business.Synthesizer.Tests
             //Horn(_[Notes.E3], Beat[02]),
             //Horn(_[Notes.F2], Beat[05], duration: Beats[3]),
             //Horn(_[Notes.C3], Beat[07]),
-            Horn(_[Notes.C2], Beat[09], duration: Beats[3], volume: _[0.7]),
+            Horn(_[Notes.C2], beat[09], duration: beats[3], volume: _[0.7]),
             //Horn(_[Notes.G2], Beat[11]),
-            Horn(_[Notes.G1], Beat[13], duration: Beats[4], volume: _[0.5]) //,
+            Horn(_[Notes.G1], beat[13], duration: beats[4], volume: _[0.5]) //,
             //Horn(_[Notes.D3], Beat[15])
         );
 
         private Outlet HornMelody2 => Adder
         (
-            Horn(_[Notes.A2], Beat[1], duration: Beat[3], volume: _[0.75]),
+            Horn(_[Notes.A2], beat[1], duration: beat[3], volume: _[0.75]),
             //Horn(_[Notes.E3], Beat[3]),
-            Horn(_[Notes.F2], Beat[5], duration: Beat[3], volume: _[0.85]),
+            Horn(_[Notes.F2], beat[5], duration: beat[3], volume: _[0.85]),
             //Horn(_[Notes.C3], Beat[7]),
-            Horn(_[Notes.A1], Beat[9], duration: Beat[5], volume: _[1.0])
+            Horn(_[Notes.A1], beat[9], duration: beat[5], volume: _[1.0])
         );
 
         private Outlet TromboneMelody1 => Adder
@@ -425,24 +425,24 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet TromboneMelody2 => Adder
         (
             //Trombone(_[Notes.A2], Beat[1]),
-            Trombone(_[Notes.E4], Beat[3], durationFactor: _[1.4]),
+            Trombone(_[Notes.E4], beat[3], durationFactor: _[1.4]),
             //Trombone(_[Notes.F2], Beat[5]),
-            Trombone(_[Notes.C4], Beat[7], durationFactor: _[1.4]) //,
+            Trombone(_[Notes.C4], beat[7], durationFactor: _[1.4]) //,
             //Trombone(_[Notes.A3], Beat[9])
         );
 
         private Outlet TromboneMelody3 => Adder
         (
-            Trombone(_[Notes.A1]      , Beat[1]),
-            Trombone(_[Notes.E2]      , Beat[3]),
-            Trombone(_[Notes.F1_Sharp], Beat[5], volume: _[0.7])
+            Trombone(_[Notes.A1]      , beat[1]),
+            Trombone(_[Notes.E2]      , beat[3]),
+            Trombone(_[Notes.F1_Sharp], beat[5], volume: _[0.7])
         );
 
         private Outlet RippleBassMelody1 => _[0];
         //RippleBass(_[Notes.A2], delay: Bar[1], duration: Bars[2]);
 
         private Outlet RippleBassMelody2 =>
-            RippleBass(_[Notes.A1], delay: Bar[3.5], duration: Bars[0.8]);
+            RippleBass(_[Notes.A1], delay: bar[3.5], duration: bars[0.8]);
 
         #endregion
 
@@ -534,7 +534,7 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[Notes.A4];
 
             // Tame modulation
-            var modCurveLength = Bars[8];
+            var modCurveLength = bars[8];
             var modCurve = StretchCurve(ModTamingCurve8Times, modCurveLength);
             modCurve = Multiply(modCurve, StretchCurve(ModTamingCurve, modCurveLength));
             modCurve = Multiply(modCurve, StretchCurve(LineDownCurve, modCurveLength));

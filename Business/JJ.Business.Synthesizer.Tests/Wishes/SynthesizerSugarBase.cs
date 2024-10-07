@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         private readonly AudioFileOutputManager _audioFileOutputs;
 
         public CurveFactory Curves { get; }
+        
         public SampleManager Samples { get; }
         
         public SynthesizerSugarBase()
@@ -49,31 +50,34 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             Samples = TestHelper.CreateSampleManager(context);
 
             _ = new ValueIndexer(this);
-            Bar = new BarIndexer(this, bar);
-            Bars = new BarsIndexer(this, bar);
-            Beat = new BeatIndexer(this, beat);
-            Beats = new BeatsIndexer(this, beat);
+            this.bar = new BarIndexer(this, bar);
+            bars = new BarsIndexer(this, bar);
+            this.beat = new BeatIndexer(this, beat);
+            beats = new BeatsIndexer(this, beat);
             t = new TimeIndexer(this, bar, beat);
         }
 
         /// <inheritdoc cref="ValueIndexer" />
         public readonly ValueIndexer _;
 
+        // ReSharper disable InconsistentNaming
+
         /// <inheritdoc cref="BarIndexer" />
-        public BarIndexer Bar { get; }
+        public BarIndexer bar { get; }
 
         /// <inheritdoc cref="BarsIndexer" />
-        public BarsIndexer Bars { get; }
+        public BarsIndexer bars { get; }
 
         /// <inheritdoc cref="BeatIndexer" />
-        public BeatIndexer Beat { get; }
+        public BeatIndexer beat { get; }
 
         /// <inheritdoc cref="BeatsIndexer" />
-        public BeatsIndexer Beats { get; }
+        public BeatsIndexer beats { get; }
 
-        // ReSharper disable once InconsistentNaming
         /// <inheritdoc cref="TimeIndexer" />
         public TimeIndexer t { get; }
+        
+        // ReSharper restore InconsistentNaming
         
         /// <inheritdoc cref="DocComments.Default" />
         public Outlet StrikeNote(Outlet sound, Outlet delay = null, Outlet volume = null)

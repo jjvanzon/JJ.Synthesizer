@@ -16,11 +16,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <param name="modSpeed"> The speed of the modulator in Hz. Determines much of the timbre. </param>
         /// <param name="modDepth"> The depth of the modulator. The higher the value, the more harmonic complexity. </param>
         /// <param name="sound"> The sound to be shaped. </param>
+        /// <param name="tremoloSpeed">The speed at which the volume goes up and down periodically.</param>
+        /// <param name="tremoloDepth">How much the volume decreases and increases periodically.</param>
         /// <returns> An Outlet representing the output sound. </returns>
         [UsedImplicitly]
-        public static Outlet Default(
-            Outlet freq, Outlet delay, Outlet volume, Outlet duration,
-            Outlet soundFreq, Outlet modSpeed, Outlet modDepth,
-            Outlet sound) => throw new NotSupportedException();
+        public static object Default { get;set; }
     }
 }
