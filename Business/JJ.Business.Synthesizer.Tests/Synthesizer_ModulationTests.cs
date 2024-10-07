@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica_Jingle()
-            => SaveWav(DeepEcho(DetunicaJingle), volume: 0.32, duration: bars[4] + bars[2.5] + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(DetunicaJingle), volume: 0.32, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica1()
-            => SaveWav(DeepEcho(Detunica1(freq: _[Notes.E2], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.45);
+            => SaveWav(DeepEcho(Detunica1(freq: _[Notes.E2], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica2()
-            => SaveWav(DeepEcho(Detunica2(freq: _[Notes.B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.45);
+            => SaveWav(DeepEcho(Detunica2(freq: _[Notes.B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.35);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica3()
-            => SaveWav(DeepEcho(Detunica3(freq: _[Notes.C5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.45);
+            => SaveWav(DeepEcho(Detunica3(freq: _[Notes.C5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica4()
-            => SaveWav(DeepEcho(Detunica4(freq: _[Notes.D5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.45);
+            => SaveWav(DeepEcho(Detunica4(freq: _[Notes.D5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica5()
-            => SaveWav(DeepEcho(Detunica5(freq: _[Notes.E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.45);
+            => SaveWav(DeepEcho(Detunica5(freq: _[Notes.E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -158,11 +158,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
         (
-            Detunica1(bar[1], _[Notes.E2], _[1.10], duration: bars[2.50]),
-            Detunica2(bar[2], _[Notes.B4], _[0.60], duration: bars[1.25]),
-            Detunica3(bar[3], _[Notes.C5], _[0.85], duration: bars[1.75]),
-            Detunica4(bar[4], _[Notes.D5], _[0.65], duration: bars[2.00]),
-            Detunica5(bar[5], _[Notes.E5], _[0.90], duration: bars[2.50])
+            Detunica1(bar[1], _[Notes.E2], _[1.10], duration: bars[4.00]),
+            Detunica2(bar[2], _[Notes.B4], _[0.60], duration: bars[1.50]),
+            Detunica3(bar[3], _[Notes.C5], _[0.85], duration: bars[2.00]),
+            Detunica4(bar[4], _[Notes.D5], _[0.65], duration: bars[2.50]),
+            Detunica5(bar[5], _[Notes.E5], _[0.90], duration: bars[3.00])
         );
 
         /// <inheritdoc cref="_detunicadocs" />

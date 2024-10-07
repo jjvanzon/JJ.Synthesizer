@@ -122,6 +122,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             int lineLastIndex = lines2.Count - 1 - trailingEmptyLineCount;
             lines2 = lines2.Take(lineLastIndex + 1).ToList();
             
+            // Make all the lines equally long
+            int maxLineLength = lines2.Max(x => x.Length);
+            lines2 = lines2.Select(x => x.PadRight(maxLineLength, ' ')).ToList();
+            
             // Determine start of block of characters:
             // Find first non-empty character in any line
             int firstCharIndex = lines2.Min(x => x.TakeWhile(char.IsWhiteSpace).Count());
