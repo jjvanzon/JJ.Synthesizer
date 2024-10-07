@@ -325,13 +325,19 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[440];
             detuneDepth = detuneDepth ?? _[0.02];
 
+            Outlet detune1(Outlet f, int h) => Multiply(             f, Add(_[h] , detuneDepth));
+            Outlet detune2(Outlet f, int h) => Add(Multiply(         f,     _[h]), detuneDepth);
+            Outlet detune3(Outlet f, int h) => Add(Multiply(Multiply(f,     _[h]), detuneDepth), detuneDepth);
+
+            Func<Outlet, int, Outlet> detune = detune1;
+
             return Adder
             (
-                Sine(_[0.50], Multiply(freq, Add(_[1], detuneDepth))),
-                Sine(_[0.15], Multiply(freq, Add(_[2], detuneDepth))),
-                Sine(_[0.07], Multiply(freq, Add(_[5], detuneDepth))),
-                Sine(_[0.08], Multiply(freq, Add(_[7], detuneDepth))),
-                Sine(_[0.05], Multiply(freq, Add(_[9], detuneDepth)))
+                Sine(_[0.50], detune(freq, 1)),
+                Sine(_[0.15], detune(freq, 2)),
+                Sine(_[0.07], detune(freq, 5)),
+                Sine(_[0.08], detune(freq, 7)),
+                Sine(_[0.05], detune(freq, 9))
             );
         }
 
@@ -464,11 +470,13 @@ namespace JJ.Business.Synthesizer.Tests
         /// creating a subtle dissonance and eerie quality.<br/><br/>
         /// 
         /// If the detune depth is low, this may cause a slow tremolo-like effect
-        /// due to periodic constructive/destructive interference,
-        /// the effect of which can be quite extreme.<br /><br />
+        /// due to periodic constructive/destructive interference <br /><br />
         /// 
-        /// Increasing the detune depth may help lessen that effect.
-        /// A different volume envelope might also help.
+        /// This effect of which can be quite drastic. Possible mitigations:<br /><br />
+        /// 1) Increase the detune depth
+        /// 2) Lower amplitude for the detuned partials
+        /// 3) Different volume envelope
+        /// 4) A different detune function
         /// </param>
         /// <param name="envelopeVariation">
         /// 1 is the default and a more patchy volume envelope.<br/>
