@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet DetunicaJingle => Adder
         (
             Detunica1(bar[1], _[Notes.E2], _[1.10], duration: bars[4.00]),
-            Detunica2(bar[2], _[Notes.B4], _[0.60], duration: bars[1.50]),
+            Detunica2(bar[2], _[Notes.B4], _[0.35], duration: bars[1.50]),
             Detunica3(bar[3], _[Notes.C5], _[0.85], duration: bars[2.00]),
             Detunica4(bar[4], _[Notes.D5], _[0.65], duration: bars[2.50]),
             Detunica5(bar[5], _[Notes.E5], _[0.90], duration: bars[3.00])
@@ -169,17 +169,18 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet Detunica1(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration, 
-                tremoloSpeed: _[4.0], tremoloDepth: _[0.02],
+                tremoloSpeed: _[3.0], tremoloDepth: _[0.04],
                 vibratoSpeed: _[5.5], vibratoDepth: _[0.0001],
-                detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.0015]));
+                detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.0015]),
+                envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
-            => Detunica(
+            => MildEcho(Detunica(
                 delay, freq, volume, duration, 
                 tremoloSpeed: _[12.0], tremoloDepth: _[0.10],
                 vibratoSpeed: _[10.0], vibratoDepth: _[0.0002],
-                detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
+                detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10])));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
@@ -223,18 +224,18 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet Detunica(
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet vibratoSpeed = null, Outlet vibratoDepth = null, Outlet tremoloSpeed = null, Outlet tremoloDepth = null, 
-            Outlet detuneDepth = null)
+            Outlet detuneDepth = null, int envelopeVariation = 1)
         {
             duration = duration ?? _[1];
 
-            var vibratoPitch = VibratoOverPitch(freq, vibratoSpeed, vibratoDepth);
+            var modulatedPitch = VibratoOverPitch(freq, vibratoSpeed, vibratoDepth);
 
             // Base additive synthesis waveform
-            var baseHarmonics = BaseHarmonics(vibratoPitch);
+            var baseHarmonics = BaseHarmonics(modulatedPitch);
 
             // Apply detune by modulating harmonic frequencies slightly
-            var stretchedDetune = TimeMultiply(detuneDepth, duration);
-            var detunedHarmonics = DetunedHarmonics(vibratoPitch, stretchedDetune);
+            var stretchedDetuneInput = TimeMultiply(detuneDepth, duration);
+            var detunedHarmonics = DetunedHarmonics(modulatedPitch, stretchedDetuneInput);
 
             // Mix them together
             Outlet sound = Add(baseHarmonics, detunedHarmonics);
@@ -242,7 +243,19 @@ namespace JJ.Business.Synthesizer.Tests
             sound = Tremolo(sound, tremoloSpeed, tremoloDepth);
 
             // Apply volume curve
-            sound = Multiply(sound, StretchCurve(DetunicaVolumeCurve, duration));
+            switch (envelopeVariation)
+            {
+                case 1: 
+                    sound = Multiply(sound, StretchCurve(DetunicaPatchyVolumeCurve, duration)); 
+                    break;
+                
+                case 2: 
+                    sound = Multiply(sound, StretchCurve(DetunicaEvenVolumeCurve, duration)); 
+                    break;
+                
+                default: 
+                    throw new Exception($"{envelopeVariation} value '{envelopeVariation}' not supported.");
+            }
 
             // Apply velocity and delay
             var note = StrikeNote(sound, delay, volume);
@@ -368,7 +381,8 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Curves
 
-        Curve DetunicaVolumeCurve;
+        Curve DetunicaPatchyVolumeCurve;
+        Curve DetunicaEvenVolumeCurve;
         Curve DetuneCurve1;
         Curve DetuneCurve2;
         Curve DetuneCurve3;
@@ -376,7 +390,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         void CreateCurves()
         {
-            DetunicaVolumeCurve = Curves.Create(@"
+            DetunicaPatchyVolumeCurve = Curves.Create(@"
                              o                             
                         
                                   o                         
@@ -384,6 +398,17 @@ namespace JJ.Business.Synthesizer.Tests
                     o                                     
 
                                          o                   
+
+            o                                       o ");
+
+            DetunicaEvenVolumeCurve = Curves.Create(@"
+                                o                             
+                        
+                                                            
+                         
+                                                          
+                                        
+                       o                 o                     
 
             o                                       o ");
 
@@ -425,6 +450,10 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="detuneDepth">
         /// The detune depth, adjusting the harmonic frequencies relative to the base frequency,
         /// creating a subtle dissonance and eerie quality.
+        /// </param>
+        /// <param name="envelopeVariation">
+        /// 1 is the default and a more patchy volume envelope.<br/>
+        /// 2 gives the newer with a move even fade in and out.
         /// </param>
         /// <inheritdoc cref="DocComments.Default" />
         object _detunicadocs;
