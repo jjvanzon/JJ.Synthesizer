@@ -325,14 +325,25 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[440];
             detuneDepth = detuneDepth ?? _[0.02];
 
-            Outlet detuneA(Outlet f, int h) => Multiply(             f, Add(_[h] , detuneDepth)); // Erratic
-            Outlet detuneB(Outlet f, int h) => Add(Multiply(         f,     _[h]), detuneDepth); // Better already
-            Outlet detuneC(Outlet f, int h) => Add(Multiply(Multiply(f,     _[h]), detuneDepth), detuneDepth); // Slightly cleaner
-            Outlet detuneD(Outlet f, int h) => Multiply(Add(Multiply(f,     _[h]), detuneDepth), detuneDepth); // Almost too clean
-            Outlet detuneE(Outlet f, int h) => Multiply(Multiply(    f,     _[h]), detuneDepth); // Simple multiply
-            // TODO: 1 + detuneDepth should make for a better multiplication
-            
-            Func<Outlet, int, Outlet> detune = detuneD;
+            // Erratic (add to harmonic number)
+            Outlet detuneA(Outlet f, int h) => Multiply(             f, Add(_[h] , detuneDepth));
+            // Better already (add Hz)
+            Outlet detuneB(Outlet f, int h) => Add(Multiply(         f,     _[h]), detuneDepth);
+            // Slightly cleaner (multiply and add)
+            Outlet detuneC(Outlet f, int h) => Add(Multiply(Multiply(f,     _[h]), detuneDepth), detuneDepth);
+            // Almost too clean (add then multiply
+            Outlet detuneD(Outlet f, int h) => Multiply(Add(Multiply(f,     _[h]), detuneDepth), detuneDepth);
+            // (just multiply)
+            Outlet detuneE(Outlet f, int h) => Multiply(Multiply(    f,     _[h]), detuneDepth); 
+            // 1 + detuneDepth as a factor
+            // (multiply and add)
+            Outlet detuneF(Outlet f, int h) => Add(Multiply(Multiply(f,     _[h]), Add(_[1], detuneDepth)),          detuneDepth);
+            // (add then multiply)
+            Outlet detuneG(Outlet f, int h) => Multiply(Add(Multiply(f,     _[h]),           detuneDepth), Add(_[1], detuneDepth)); 
+            // (just multiply)
+            Outlet detuneH(Outlet f, int h) => Multiply(Multiply(    f,     _[h]), Add(_[1], detuneDepth)); 
+
+            Func<Outlet, int, Outlet> detune = detuneE;
 
             return Adder
             (
