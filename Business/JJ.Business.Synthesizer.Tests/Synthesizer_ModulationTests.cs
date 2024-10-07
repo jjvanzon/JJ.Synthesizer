@@ -161,29 +161,34 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         /// <inheritdoc cref="_detunicadocs" />
-        Outlet Detunica1(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
-            delay, freq, volume, duration,
-            vibratoDepth: _[0.005], tremoloDepth: _[0.40], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.03]));
+        Outlet Detunica1(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
+            => Detunica(
+                delay, freq, volume, duration, tremoloSpeed: _[4], tremoloDepth: _[0.50],
+                vibratoDepth: _[0.005], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.03]));
 
         /// <inheritdoc cref="_detunicadocs" />
-        Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
-            delay, freq, volume, duration,
-            vibratoDepth: _[0.005], tremoloDepth: _[0.90], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
+        Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
+            => Detunica(
+                delay, freq, volume, duration, tremoloSpeed: _[12], tremoloDepth: _[0.10],
+                vibratoDepth: _[0.005], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.10]));
 
         /// <inheritdoc cref="_detunicadocs" />
-        Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
-            delay, freq, volume, duration,
-            vibratoDepth: _[0.005], tremoloDepth: _[0.80], detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.02]));
+        Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
+            => Detunica(
+                delay, freq, volume, duration, tremoloSpeed: _[30], tremoloDepth: _[0.10],
+                vibratoDepth: _[0.005], detuneDepth: Multiply(CurveIn(DetuneCurve3), _[0.02]));
 
         /// <inheritdoc cref="_detunicadocs" />
-        Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
-            delay, freq, volume, duration,
-            vibratoDepth: _[0.005], tremoloDepth: _[0.33], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.03]));
+        Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
+            => Detunica(
+                delay, freq, volume, duration, tremoloSpeed: _[10], tremoloDepth: _[0.33],
+                vibratoDepth: _[0.005], detuneDepth: Multiply(CurveIn(DetuneCurve2), _[0.03]));
 
         /// <inheritdoc cref="_detunicadocs" />
-        Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) => Detunica(
-            delay, freq, volume, duration,
-            vibratoDepth: _[0.005], tremoloDepth: _[0.25], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.001]));
+        Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
+            => Detunica(
+                delay, freq, volume, duration, tremoloSpeed: _[3], tremoloDepth: _[0.25],
+                vibratoDepth: _[0.005], detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.001]));
 
         #endregion
 
@@ -204,11 +209,13 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica(
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
-            Outlet vibratoDepth = null, Outlet tremoloDepth = null, Outlet detuneDepth = null)
+            Outlet vibratoDepth = null, Outlet tremoloSpeed = null, Outlet tremoloDepth = null, 
+            Outlet detuneDepth = null)
         {
             duration = duration ?? _[1];
-            vibratoDepth = vibratoDepth ?? _[0.005];
+            //vibratoDepth = vibratoDepth ?? _[0.005];
             tremoloDepth = tremoloDepth ?? _[0.25];
+            tremoloSpeed = tremoloSpeed ?? _[4];
 
             // Base additive synthesis waveform
             var semiSaw = SemiSaw(freq);
@@ -226,7 +233,7 @@ namespace JJ.Business.Synthesizer.Tests
             sound = TimeMultiply(sound, vibratoWave);
             */
 
-            sound = Tremolo(sound, _[4], tremoloDepth); // 4 Hz tremolo
+            sound = Tremolo(sound, tremoloSpeed, tremoloDepth);
 
             // Apply volume curve
             sound = Multiply(sound, StretchCurve(DetunicaVolumeCurve, duration));
@@ -326,32 +333,32 @@ namespace JJ.Business.Synthesizer.Tests
              o   o                 
                                     
                        o           
-            o                   o  ");
+            o                   o ");
 
             DetunicaVolumeCurve = Curves.Create(@"
                          o                             
               o      o       o                         
                                                        
                   o                o                   
-            o                                       o  ");
+            o                                       o ");
 
             DetuneCurve1 = Curves.Create(@"
                         o          
                                     
                                     
-            o                   o  ");
+            o                   o ");
 
             DetuneCurve2 = Curves.Create(@"
                  o                 
                                     
                                     
-            o                   o  ");
+            o                   o ");
 
             DetuneCurve3 = Curves.Create(@"
                       o            
                                     
                                     
-            o                   o  ");
+            o                   o ");
         }
 
         #endregion
