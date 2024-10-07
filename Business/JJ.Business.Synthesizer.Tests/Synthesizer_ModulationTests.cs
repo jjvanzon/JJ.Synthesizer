@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica2()
-            => SaveWav(DeepEcho(Detunica2(freq: _[Notes.B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.35);
+            => SaveWav(DeepEcho(Detunica2(freq: _[Notes.B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -402,13 +402,13 @@ namespace JJ.Business.Synthesizer.Tests
             o                                       o ");
 
             DetunicaEvenVolumeCurve = Curves.Create(@"
-                                o                             
-                        
+                              o                             
+                       
                                                             
                          
                                                           
                                         
-                       o                 o                     
+                     o                   o                     
 
             o                                       o ");
 
