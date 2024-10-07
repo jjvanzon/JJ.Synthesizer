@@ -26,30 +26,6 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Tests
 
-        /// <inheritdoc cref="_vibraphasedocs" />
-        [TestMethod]
-        public void Test_Synthesizer_Modulation_Vibraphase_Chord()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Vibraphase_Chord();
-        }
-
-        /// <inheritdoc cref="_vibraphasedocs" />
-        void Test_Modulation_Vibraphase_Chord()
-            => SaveWav(MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
-
-        /// <inheritdoc cref="_vibraphasedocs" />
-        [TestMethod]
-        public void Test_Synthesizer_Modulation_Vibraphase()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Vibraphase();
-        }
-
-        /// <inheritdoc cref="_vibraphasedocs" />
-        void Test_Modulation_Vibraphase()
-            => SaveWav(MildEcho(Vibraphase(freq: _[Notes.E5])), duration: 1 + MILD_ECHO_TIME);
-
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
         public void Test_Synthesizer_Modulation_Detunica_Jingle()
@@ -122,19 +98,30 @@ namespace JJ.Business.Synthesizer.Tests
         void Test_Modulation_Detunica5()
             => SaveWav(DeepEcho(Detunica5(freq: _[Notes.E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.1);
 
-        /// <inheritdoc cref="_tremolodocs" />
+
+        /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
-        public void Test_Synthesizer_Modulation_Tremolo()
+        public void Test_Synthesizer_Modulation_Vibraphase_Chord()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Tremolo();
+                new Synthesizer_ModulationTests(context).Test_Modulation_Vibraphase_Chord();
         }
 
-        /// <inheritdoc cref="_tremolodocs" />
-        void Test_Modulation_Tremolo()
-            => SaveWav(
-                Tremolo(Sine(volume: _[1], _[Notes.A4]), tremoloSpeed: _[4], tremoloDepth: _[0.5]),
-                volume: 0.30, duration: 1);
+        /// <inheritdoc cref="_vibraphasedocs" />
+        void Test_Modulation_Vibraphase_Chord()
+            => SaveWav(MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
+
+        /// <inheritdoc cref="_vibraphasedocs" />
+        [TestMethod]
+        public void Test_Synthesizer_Modulation_Vibraphase()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new Synthesizer_ModulationTests(context).Test_Modulation_Vibraphase();
+        }
+
+        /// <inheritdoc cref="_vibraphasedocs" />
+        void Test_Modulation_Vibraphase()
+            => SaveWav(MildEcho(Vibraphase(freq: _[Notes.E5])), duration: 1 + MILD_ECHO_TIME);
 
         /// <inheritdoc cref="_vibratodocs" />
         [TestMethod]
@@ -150,19 +137,23 @@ namespace JJ.Business.Synthesizer.Tests
                 Sine(volume: _[1], VibratoOverPitch(_[Notes.A4])),
                 volume: 0.9, duration: 3);
 
+        /// <inheritdoc cref="_tremolodocs" />
+        [TestMethod]
+        public void Test_Synthesizer_Modulation_Tremolo()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new Synthesizer_ModulationTests(context).Test_Modulation_Tremolo();
+        }
+
+        /// <inheritdoc cref="_tremolodocs" />
+        void Test_Modulation_Tremolo()
+            => SaveWav(
+                Tremolo(Sine(volume: _[1], _[Notes.A4]), tremoloSpeed: _[4], tremoloDepth: _[0.5]),
+                volume: 0.30, duration: 1);
+
         #endregion
 
         #region Jingles
-
-        /// <inheritdoc cref="_vibraphasedocs" />
-        Outlet VibraphaseChord => Adder
-        (
-            Vibraphase(freq: _[Notes.A4], volume: _[0.80]),
-            Vibraphase(freq: _[Notes.B4], volume: _[0.70]),
-            Vibraphase(freq: _[Notes.C5], volume: _[0.85]),
-            Vibraphase(freq: _[Notes.D5], volume: _[0.75]),
-            Vibraphase(freq: _[Notes.E5], volume: _[0.90])
-        );
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
@@ -214,21 +205,19 @@ namespace JJ.Business.Synthesizer.Tests
                 vibratoSpeed: _[5.5], vibratoDepth: _[0.00005],
                 detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.001]));
 
+        /// <inheritdoc cref="_vibraphasedocs" />
+        Outlet VibraphaseChord => Adder
+        (
+            Vibraphase(freq: _[Notes.A4], volume: _[0.80]),
+            Vibraphase(freq: _[Notes.B4], volume: _[0.70]),
+            Vibraphase(freq: _[Notes.C5], volume: _[0.85]),
+            Vibraphase(freq: _[Notes.D5], volume: _[0.75]),
+            Vibraphase(freq: _[Notes.E5], volume: _[0.90])
+        );
+
         #endregion
 
         #region Instruments
-
-        /// <inheritdoc cref="_vibraphasedocs" />
-        Outlet Vibraphase(
-            Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
-            Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
-        {
-            var saw = SemiSaw(freq);
-            var jittered = Jitter(saw, depthAdjust1, depthAdjust2);
-            var enveloped = Multiply(jittered, StretchCurve(VibraphaseVolumeCurve, duration));
-            var note = StrikeNote(enveloped, delay, volume);
-            return note;
-        }
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica(
@@ -258,6 +247,18 @@ namespace JJ.Business.Synthesizer.Tests
             // Apply velocity and delay
             var note = StrikeNote(sound, delay, volume);
 
+            return note;
+        }
+
+        /// <inheritdoc cref="_vibraphasedocs" />
+        Outlet Vibraphase(
+            Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
+            Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
+        {
+            var saw = SemiSaw(freq);
+            var jittered = Jitter(saw, depthAdjust1, depthAdjust2);
+            var enveloped = Multiply(jittered, StretchCurve(VibraphaseVolumeCurve, duration));
+            var note = StrikeNote(enveloped, delay, volume);
             return note;
         }
 
@@ -298,6 +299,17 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Effects
 
+        /// <inheritdoc cref="_vibratodocs" />
+        Outlet VibratoOverPitch(Outlet freq, Outlet vibratoSpeed = null, Outlet vibratoDepth = null)
+        {
+            vibratoSpeed = vibratoSpeed ?? _[5.5];
+            vibratoDepth = vibratoDepth ?? _[0.0005];
+
+            var vibratoPitch = Multiply(freq, Add(_[1], Sine(vibratoDepth, vibratoSpeed)));
+
+            return vibratoPitch;
+        }
+
         /// <inheritdoc cref="_tremolodocs" />
         Outlet Tremolo(Outlet sound, Outlet tremoloSpeed, Outlet tremoloDepth)
         {
@@ -307,17 +319,6 @@ namespace JJ.Business.Synthesizer.Tests
             var wave = Add(Sine(tremoloDepth, tremoloSpeed), _[1]);
             sound = Multiply(sound, wave);
             return sound;
-        }
-
-        /// <inheritdoc cref="_vibratodocs" />
-        Outlet VibratoOverPitch(Outlet freq, Outlet vibratoSpeed = null, Outlet vibratoDepth = null)
-        {
-            vibratoSpeed = vibratoSpeed ?? _[5.5];
-            vibratoDepth = vibratoDepth ?? _[0.0005];
-
-            var vibratoPitch = Multiply(freq, Add(_[1], Sine(vibratoDepth, vibratoSpeed)));
-            
-            return vibratoPitch;
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -351,21 +352,14 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Curves
 
-        Curve VibraphaseVolumeCurve;
         Curve DetunicaVolumeCurve;
         Curve DetuneCurve1;
         Curve DetuneCurve2;
         Curve DetuneCurve3;
+        Curve VibraphaseVolumeCurve;
 
         void CreateCurves()
         {
-            VibraphaseVolumeCurve = Curves.Create(@"
-               o                   
-             o   o                 
-                                    
-                       o           
-            o                   o ");
-
             DetunicaVolumeCurve = Curves.Create(@"
                          o                             
               o      o       o                         
@@ -390,23 +384,18 @@ namespace JJ.Business.Synthesizer.Tests
                                     
                                     
             o                   o ");
+
+            VibraphaseVolumeCurve = Curves.Create(@"
+               o                   
+             o   o                 
+                                    
+                       o           
+            o                   o ");
         }
 
         #endregion
 
         #region Docs
-
-        /// <summary bl>
-        /// Applies a jitter effect to notes, with adjustable depths.
-        /// Basically with an extreme double tremolo effect, that goes into the negative.
-        /// That can also cause a phasing effect due to constructive and destructive interference
-        /// when playing multiple notes at the same time.
-        /// </summary>
-        /// <param name="sound"> The sound to apply the jitter effect to. </param>
-        /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
-        /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
-        /// <inheritdoc cref="DocComments.Default" />
-        object _vibraphasedocs;
 
         /// <summary>
         /// A detuned note characterized by a rich and slightly eerie sound due to the detuned harmonics.
@@ -419,6 +408,18 @@ namespace JJ.Business.Synthesizer.Tests
         /// </param>
         /// <inheritdoc cref="DocComments.Default" />
         object _detunicadocs;
+
+        /// <summary>
+        /// Applies a jitter effect to notes, with adjustable depths.
+        /// Basically with an extreme double tremolo effect, that goes into the negative.
+        /// That can also cause a phasing effect due to constructive and destructive interference
+        /// when playing multiple notes at the same time.
+        /// </summary>
+        /// <param name="sound"> The sound to apply the jitter effect to. </param>
+        /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
+        /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
+        /// <inheritdoc cref="DocComments.Default" />
+        object _vibraphasedocs;
 
         /// <summary>
         /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
@@ -435,10 +436,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="DocComments.Default" />
         object _detunedharmonicsdocs;
 
-        /// <summary> Apply tremolo by modulating amplitude over time using an oscillator. </summary>
-        /// <inheritdoc cref="DocComments.Default" />
-        object _tremolodocs;
-
         /// <summary>
         /// Applies vibrato modulation to a given frequency by modulating it with a sine wave.<br/>
         /// NOTE: Due to the lack of phase tracking, the vibrato depth tends to accumulate over time.
@@ -447,7 +444,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// <returns>An <see cref="Outlet"/> object representing the frequency modulated with vibrato.</returns>
         /// <inheritdoc cref="DocComments.Default"/>
         object _vibratodocs;
-        
+
+        /// <summary> Apply tremolo by modulating amplitude over time using an oscillator. </summary>
+        /// <inheritdoc cref="DocComments.Default" />
+        object _tremolodocs;
+
         /// <summary>
         /// Applies an echo effect to the given sound.
         /// </summary>
