@@ -3,6 +3,7 @@
 
 using System;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
@@ -325,27 +326,27 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[440];
             detuneDepth = detuneDepth ?? _[0.02];
 
-            // Erratic (add to harmonic number)
+            // ✨ Erratic (add to harmonic number) 
             Outlet detuneA(Outlet f, int h) => Multiply(             f, Add(_[h] , detuneDepth));
-            // Better already (add Hz)
+            // ✨ Better already (add Hz) 
             Outlet detuneB(Outlet f, int h) => Add(Multiply(         f,     _[h]), detuneDepth);
-            // Slightly cleaner (multiply and add)
+            // 🗑️ Slightly cleaner (multiply and add) > DETUNE MINIMAL?
             Outlet detuneC(Outlet f, int h) => Add(Multiply(Multiply(f,     _[h]), detuneDepth), detuneDepth);
-            // Almost too clean (add then multiply
+            // 🗑️ Almost too clean (add then multiply) > DETUNE MINIMAL?
             Outlet detuneD(Outlet f, int h) => Multiply(Add(Multiply(f,     _[h]), detuneDepth), detuneDepth);
-            // (just multiply)
-            Outlet detuneE(Outlet f, int h) => Multiply(Multiply(    f,     _[h]), detuneDepth); 
-            // 1 + detuneDepth as a factor
-            // (multiply and add)
+            // 🗑️ (just multiply) > DETUNE MINIMAL?
+            Outlet detuneE(Outlet f, int h) => Multiply(Multiply(    f,     _[h]), detuneDepth);
+            // 🗑️ Pretty (factor 1 + detuneDepth, multiply and add)
             Outlet detuneF(Outlet f, int h) => Add(Multiply(Multiply(f,     _[h]), Add(_[1], detuneDepth)),          detuneDepth);
-            // (add then multiply)
-            Outlet detuneG(Outlet f, int h) => Multiply(Add(Multiply(f,     _[h]),           detuneDepth), Add(_[1], detuneDepth)); 
-            // (just multiply)
-            Outlet detuneH(Outlet f, int h) => Multiply(Multiply(    f,     _[h]), Add(_[1], detuneDepth)); 
+            // ✨ Prettier? (factor 1 + detuneDepth, add then multiply)
+            Outlet detuneG(Outlet f, int h) => Multiply(Add(Multiply(f,     _[h]),           detuneDepth), Add(_[1], detuneDepth));
+            // 🗑️ Boringest (factor 1 + detuneDepth, just multiply)
+            Outlet detuneH(Outlet f, int h) => Multiply(Multiply(    f,     _[h]), Add(_[1], detuneDepth));
+            // TODO: Add to harmonic and then multiply
+            
+            Func<Outlet, int, Outlet> detune = detuneH;
 
-            Func<Outlet, int, Outlet> detune = detuneE;
-
-            return Adder
+            var sound = Adder
             (
                 Sine(_[0.50], detune(freq, 1)),
                 Sine(_[0.15], detune(freq, 2)),
@@ -353,6 +354,9 @@ namespace JJ.Business.Synthesizer.Tests
                 Sine(_[0.08], detune(freq, 7)),
                 Sine(_[0.05], detune(freq, 9))
             );
+            SaveWav(sound);
+            
+            return sound;
         }
 
         #endregion
