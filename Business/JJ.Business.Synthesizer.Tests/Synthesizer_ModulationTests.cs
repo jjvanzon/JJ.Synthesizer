@@ -158,7 +158,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
         (
-            Detunica1(bar[1], _[Notes.E1], _[1.00], duration: bars[6.5]),
+            Detunica1(bar[1], _[Notes.E1], _[1.00], duration: bars[5.5]),
             Detunica1(bar[1], _[Notes.E2], _[0.85], duration: bars[6.0]),
             Detunica2(bar[2], _[Notes.B4], _[0.70], duration: bars[1.5]),
             Detunica3(bar[3], _[Notes.C5], _[0.85], duration: bars[2.0]),
@@ -172,19 +172,19 @@ namespace JJ.Business.Synthesizer.Tests
                 delay, freq, volume, duration,
                 vibratoSpeed: _[5.5], vibratoDepth: _[0.0001],
                 tremoloSpeed: _[3.0], tremoloDepth: _[0.04], 
-                detuneDepth: Multiply(_[0.015], CurveIn(DetuneCurve1)), 
+                detuneRate: Multiply(_[0.015], CurveIn(DetuneCurve1)), 
                 envelopeVariation: 2,
                 churn: false, interference: false, chorus: true);
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
-            => //MildEcho(
+            => MildEcho(
                 Detunica(
                     delay, freq, volume, duration,
                     vibratoSpeed: _[10.0], vibratoDepth: _[0.0002],
                     tremoloSpeed: _[12.0], tremoloDepth: _[0.10],
-                    detuneDepth: Multiply(_[0.11], CurveIn(DetuneCurve2)),
-                    churn: true, interference: false, chorus: false);//);
+                    detuneRate: Multiply(_[0.11], CurveIn(DetuneCurve2)),
+                    churn: true, interference: false, chorus: false));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Tests
                 delay, freq, volume, duration,
                 vibratoSpeed: _[05.5], vibratoDepth: _[0.0005],
                 tremoloSpeed: _[15.0], tremoloDepth: _[0.06], 
-                detuneDepth: Multiply(_[0.002], CurveIn(DetuneCurve1)),
+                detuneRate: Multiply(_[0.002], CurveIn(DetuneCurve1)),
                 envelopeVariation: 2,
                 churn: false, interference: true, chorus: true);
 
@@ -202,8 +202,8 @@ namespace JJ.Business.Synthesizer.Tests
                 delay, freq, volume, duration,
                 vibratoSpeed: _[07], vibratoDepth: _[0.0003],
                 tremoloSpeed: _[10], tremoloDepth: _[0.08],
-                detuneDepth: Multiply(_[0.003], CurveIn(DetuneCurve3)),
-                churn: true, interference: false, chorus: false);
+                detuneRate: Multiply(_[0.003], CurveIn(DetuneCurve3)),
+                churn: false, interference: true, chorus: false);
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Tests
                 delay, freq, volume, duration,
                 vibratoSpeed: _[5.5], vibratoDepth: _[0.00005],
                 tremoloSpeed: _[3.0], tremoloDepth: _[0.25], 
-                detuneDepth: Multiply(CurveIn(DetuneCurve1), _[0.001]),
+                detuneRate: Multiply(CurveIn(DetuneCurve1), _[0.001]),
                 churn: true, interference: true, chorus: true);
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet Detunica(
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet vibratoSpeed = null, Outlet vibratoDepth = null, Outlet tremoloSpeed = null, Outlet tremoloDepth = null,
-            Outlet detuneDepth = null, bool churn = false, bool interference = true, bool chorus = true, int envelopeVariation = 1)
+            Outlet detuneRate = null, bool churn = false, bool interference = true, bool chorus = true, int envelopeVariation = 1)
         {
             duration = duration ?? _[1];
 
@@ -242,7 +242,7 @@ namespace JJ.Business.Synthesizer.Tests
             var baseHarmonics = BaseHarmonics(modulatedPitch);
 
             // Apply detune by modulating harmonic frequencies slightly
-            var stretchedDetuneInput = TimeMultiply(detuneDepth, duration);
+            var stretchedDetuneInput = TimeMultiply(detuneRate, duration);
 
             var detunedHarmonics = DetunedHarmonics(modulatedPitch, stretchedDetuneInput, churn, interference, chorus);
 
@@ -318,18 +318,18 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="_detunedocs" />
-        Outlet DetunedHarmonics(Outlet freq, Outlet detuneDepth = null, 
+        Outlet DetunedHarmonics(Outlet freq, Outlet detuneRate = null, 
                                 bool churn = false, bool interference = true, bool chorus = true)
         {
             freq = freq ?? _[440];
 
             var sound = Adder
             (
-                Sine(_[0.50], DetuneFreq(freq, _[1], detuneDepth, churn, interference, chorus)),
-                Sine(_[0.15], DetuneFreq(freq, _[2], detuneDepth, churn, interference, chorus)),
-                Sine(_[0.07], DetuneFreq(freq, _[5], detuneDepth, churn, interference, chorus)),
-                Sine(_[0.08], DetuneFreq(freq, _[7], detuneDepth, churn, interference, chorus)),
-                Sine(_[0.05], DetuneFreq(freq, _[9], detuneDepth, churn, interference, chorus))
+                Sine(_[0.50], DetuneFreq(freq, _[1], detuneRate, churn, interference, chorus)),
+                Sine(_[0.15], DetuneFreq(freq, _[2], detuneRate, churn, interference, chorus)),
+                Sine(_[0.07], DetuneFreq(freq, _[5], detuneRate, churn, interference, chorus)),
+                Sine(_[0.08], DetuneFreq(freq, _[7], detuneRate, churn, interference, chorus)),
+                Sine(_[0.05], DetuneFreq(freq, _[9], detuneRate, churn, interference, chorus))
             );
             //SaveWav(sound);
             
@@ -341,29 +341,29 @@ namespace JJ.Business.Synthesizer.Tests
         #region Effects
 
         /// <inheritdoc cref="_detunedocs" />
-        Outlet DetuneFreq(Outlet freq, Outlet harmonic, Outlet detuneDepth, 
+        Outlet DetuneFreq(Outlet freq, Outlet harmonic, Outlet detuneRate, 
                           bool churn = false, bool interfere = true, bool chorus = true)
         {
-            detuneDepth = detuneDepth ?? _[0.02];
+            detuneRate = detuneRate ?? _[0.02];
 
             // Add to harmonic number = churn / heavy interference
             Outlet detunedHarmonic = harmonic;
             if (churn)
             {
-                detunedHarmonic = Add(harmonic, detuneDepth);
+                detunedHarmonic = Add(harmonic, detuneRate);
             }
             Outlet detunedFreq = Multiply(freq, detunedHarmonic);
 
             // Add Hz = light interference
             if (interfere)
             {
-                detunedFreq = Add(detunedFreq, detuneDepth);
+                detunedFreq = Add(detunedFreq, detuneRate);
             }
             
             // Multiply by 1 + depth = chorus
             if (chorus)
             {
-                detunedFreq = Multiply(detunedFreq, Add(_[1], detuneDepth));
+                detunedFreq = Multiply(detunedFreq, Add(_[1], detuneRate));
             }
 
             return detunedFreq;
@@ -489,7 +489,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// It produces a haunting tone with subtle shifts in pitch.
         /// </summary>
         /// <param name="vibratoDepth"> Reserved for vibrato effect (frequency modulation) but not yet implemented. </param>
-        /// <param name="detuneDepth">
+        /// <param name="detuneRate">
         /// The detune depth, adjusting the harmonic frequencies relative to the base frequency,
         /// creating a subtle dissonance and eerie quality.<br/><br/>
         /// 
@@ -529,7 +529,7 @@ namespace JJ.Business.Synthesizer.Tests
         object _semisawdocs;
 
         /// <summary> Generates a detuned harmonic sound by altering the frequencies slightly. </summary>
-        /// <param name="detuneDepth">
+        /// <param name="detuneRate">
         /// The depth of the detuning applied to the harmonics.
         /// If not provided, a default value is used.
         /// </param>
