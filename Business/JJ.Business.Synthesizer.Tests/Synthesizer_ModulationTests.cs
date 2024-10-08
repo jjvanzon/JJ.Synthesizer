@@ -158,11 +158,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
         (
-            Detunica1(bar[1], _[Notes.E1], _[1.00], duration: bars[5.5]),
-            Detunica1(bar[1], _[Notes.E2], _[0.85], duration: bars[6.0]),
+            Detunica1(bar[1], _[Notes.E1], _[1.00], duration: bars[5.0]),
+            Detunica1(bar[1], _[Notes.E2], _[0.85], duration: bars[5.5]),
             Detunica2(bar[2], _[Notes.B4], _[0.70], duration: bars[1.5]),
             Detunica3(bar[3], _[Notes.C5], _[0.85], duration: bars[2.0]),
-            Detunica4(bar[4], _[Notes.D5], _[0.60], duration: bars[2.5]),
+            Detunica4(bar[4], _[Notes.D5], _[0.50], duration: bars[2.5]),
             Detunica5(bar[5], _[Notes.E5], _[0.90], duration: bars[3.0])
         );
 
