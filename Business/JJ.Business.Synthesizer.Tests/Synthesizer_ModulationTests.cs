@@ -3,6 +3,7 @@
 
 using System;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
@@ -36,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica_Jingle()
-            => SaveWav(DeepEcho(DetunicaJingle), volume: 0.20, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(DetunicaJingle), volume: 0.12, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -48,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica1()
-            => SaveWav(DeepEcho(Detunica1(freq: _[Notes.E2], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
+            => SaveWav(DeepEcho(Detunica1(freq: _[Notes.E2], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -60,7 +61,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica2()
-            => SaveWav(DeepEcho(Detunica2(freq: _[Notes.B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
+            => SaveWav(DeepEcho(Detunica2(freq: _[Notes.B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -84,7 +85,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica4()
-            => SaveWav(DeepEcho(Detunica4(freq: _[Notes.D5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
+            => SaveWav(DeepEcho(Detunica4(freq: _[Notes.D5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -96,7 +97,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica5()
-            => SaveWav(DeepEcho(Detunica5(freq: _[Notes.E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
+            => SaveWav(DeepEcho(Detunica5(freq: _[Notes.E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -158,12 +159,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
         (
-            Detunica1(bar[1], _[Notes.E1], _[1.00], duration: bars[5.0]),
-            Detunica1(bar[1], _[Notes.E2], _[0.85], duration: bars[5.5]),
-            Detunica2(bar[2], _[Notes.B4], _[0.70], duration: bars[1.5]),
-            Detunica3(bar[3], _[Notes.C5], _[0.85], duration: bars[2.0]),
-            Detunica4(bar[4], _[Notes.D5], _[0.50], duration: bars[2.5]),
-            Detunica5(bar[5], _[Notes.E5], _[0.90], duration: bars[3.0])
+            Detunica1(bar[1], _[Notes.E0], _[1.00], duration: bars[5.0]),
+            Detunica1(bar[1], _[Notes.E1], _[0.80], duration: bars[5.0]),
+            Detunica1(bar[1], _[Notes.E2], _[0.70], duration: bars[5.0]),
+            
+            Detunica2(bar[2], _[Notes.B4], _[0.85], duration: bars[1.5]),
+            Detunica3(bar[3], _[Notes.C5], _[0.65], duration: bars[2.0]),
+            Detunica4(bar[4], _[Notes.D5], _[0.40], duration: bars[2.5]),
+            Detunica5(bar[5], _[Notes.E5], _[0.85], duration: bars[3.0])
         );
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -171,10 +174,10 @@ namespace JJ.Business.Synthesizer.Tests
             => Detunica(
                 delay, freq, volume, duration,
                 vibratoSpeed: _[5.5], vibratoDepth: _[0.0001],
-                tremoloSpeed: _[3.0], tremoloDepth: _[0.04], 
-                detuneRate: Multiply(_[0.015], CurveIn(DetuneCurve1)), 
-                envelopeVariation: 2,
-                churn: false, interference: false, chorus: true);
+                tremoloSpeed: _[3.0], tremoloDepth: _[0.04],
+                detuneDepth: _[0.8],
+                chorusRate: Multiply(_[0.015], CurveIn(DetuneCurve1)),
+                envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
@@ -183,36 +186,37 @@ namespace JJ.Business.Synthesizer.Tests
                     delay, freq, volume, duration,
                     vibratoSpeed: _[10.0], vibratoDepth: _[0.0002],
                     tremoloSpeed: _[12.0], tremoloDepth: _[0.10],
-                    detuneRate: Multiply(_[0.11], CurveIn(DetuneCurve2)),
-                    churn: true, interference: false, chorus: false));
+                    detuneDepth: _[1.0],
+                    churnRate: Multiply(_[0.10], CurveIn(DetuneCurve2))));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration,
                 vibratoSpeed: _[05.5], vibratoDepth: _[0.0005],
-                tremoloSpeed: _[15.0], tremoloDepth: _[0.06], 
-                detuneRate: Multiply(_[0.002], CurveIn(DetuneCurve1)),
-                envelopeVariation: 2,
-                churn: false, interference: true, chorus: true);
+                tremoloSpeed: _[15.0], tremoloDepth: _[0.06],
+                detuneDepth: _[0.35],
+                churnRate: Multiply(_[0.02], CurveIn(DetuneCurve1)),
+                //chorusRate: Multiply(_[0.004], CurveIn(DetuneCurve1)),
+                envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration,
-                vibratoSpeed: _[07], vibratoDepth: _[0.0003],
+                vibratoSpeed: _[05], vibratoDepth: _[0.0003],
                 tremoloSpeed: _[10], tremoloDepth: _[0.08],
-                detuneRate: Multiply(_[0.003], CurveIn(DetuneCurve3)),
-                churn: false, interference: true, chorus: false);
+                detuneDepth: _[0.6],
+                interferenceRate: Multiply(_[0.003], CurveIn(DetuneCurve3)));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration,
                 vibratoSpeed: _[5.5], vibratoDepth: _[0.00005],
-                tremoloSpeed: _[3.0], tremoloDepth: _[0.25], 
-                detuneRate: Multiply(CurveIn(DetuneCurve1), _[0.001]),
-                churn: true, interference: true, chorus: true);
+                tremoloSpeed: _[3.0], tremoloDepth: _[0.25],
+                detuneDepth: _[0.8],
+                churnRate:  Multiply(_[0.001], CurveIn(DetuneCurve1)));
 
         /// <inheritdoc cref="_vibraphasedocs" />
         Outlet VibraphaseChord => Adder
@@ -232,7 +236,8 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet Detunica(
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet vibratoSpeed = null, Outlet vibratoDepth = null, Outlet tremoloSpeed = null, Outlet tremoloDepth = null,
-            Outlet detuneRate = null, bool churn = false, bool interference = true, bool chorus = true, int envelopeVariation = 1)
+            Outlet detuneDepth = null, Outlet churnRate = null, Outlet interferenceRate = null, Outlet chorusRate = null,
+            int envelopeVariation = 1)
         {
             duration = duration ?? _[1];
 
@@ -242,12 +247,10 @@ namespace JJ.Business.Synthesizer.Tests
             var baseHarmonics = BaseHarmonics(modulatedPitch);
 
             // Apply detune by modulating harmonic frequencies slightly
-            var stretchedDetuneInput = TimeMultiply(detuneRate, duration);
-
-            var detunedHarmonics = DetunedHarmonics(modulatedPitch, stretchedDetuneInput, churn, interference, chorus);
-
+            var detunedHarmonics = DetunedHarmonics(modulatedPitch, duration, churnRate, interferenceRate, chorusRate);
+            
             // Mix them together
-            Outlet sound = Add(baseHarmonics, detunedHarmonics);
+            Outlet sound = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
 
             sound = Tremolo(sound, tremoloSpeed, tremoloDepth);
 
@@ -318,22 +321,20 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="_detunedocs" />
-        Outlet DetunedHarmonics(Outlet freq, Outlet detuneRate = null, 
-                                bool churn = false, bool interference = true, bool chorus = true)
+        Outlet DetunedHarmonics(
+            Outlet freq, Outlet duration,
+            Outlet churnRate = null, Outlet interferenceRate = null, Outlet chorusRate = null)
         {
             freq = freq ?? _[440];
 
-            var sound = Adder
+            return Adder
             (
-                Sine(_[0.50], DetuneFreq(freq, _[1], detuneRate, churn, interference, chorus)),
-                Sine(_[0.15], DetuneFreq(freq, _[2], detuneRate, churn, interference, chorus)),
-                Sine(_[0.07], DetuneFreq(freq, _[5], detuneRate, churn, interference, chorus)),
-                Sine(_[0.08], DetuneFreq(freq, _[7], detuneRate, churn, interference, chorus)),
-                Sine(_[0.05], DetuneFreq(freq, _[9], detuneRate, churn, interference, chorus))
+                Sine(_[1.00], DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate)),
+                Sine(_[0.30], DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate)),
+                Sine(_[0.15], DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate)),
+                Sine(_[0.08], DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate)),
+                Sine(_[0.10], DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate))
             );
-            //SaveWav(sound);
-            
-            return sound;
         }
 
         #endregion
@@ -341,29 +342,29 @@ namespace JJ.Business.Synthesizer.Tests
         #region Effects
 
         /// <inheritdoc cref="_detunedocs" />
-        Outlet DetuneFreq(Outlet freq, Outlet harmonic, Outlet detuneRate, 
-                          bool churn = false, bool interfere = true, bool chorus = true)
+        Outlet DetuneFreq(
+            Outlet freq, Outlet harmonic, Outlet duration,
+            Outlet churnRate = null, Outlet interfereRate = null, Outlet chorusRate = null)
         {
-            detuneRate = detuneRate ?? _[0.02];
-
+            Outlet detunedFreq = freq;
+            
             // Add to harmonic number = churn / heavy interference
-            Outlet detunedHarmonic = harmonic;
-            if (churn)
+            if (churnRate != null)
             {
-                detunedHarmonic = Add(harmonic, detuneRate);
+                Outlet detunedHarmonic = Add(harmonic, TimeMultiply(churnRate, duration));
+                detunedFreq = Multiply(detunedFreq, detunedHarmonic);
             }
-            Outlet detunedFreq = Multiply(freq, detunedHarmonic);
 
             // Add Hz = light interference
-            if (interfere)
+            if (interfereRate != null)
             {
-                detunedFreq = Add(detunedFreq, detuneRate);
+                detunedFreq = Add(detunedFreq, TimeMultiply(interfereRate, duration));
             }
             
             // Multiply by 1 + depth = chorus
-            if (chorus)
+            if (chorusRate != null)
             {
-                detunedFreq = Multiply(detunedFreq, Add(_[1], detuneRate));
+                detunedFreq = Multiply(detunedFreq, Add(_[1], TimeMultiply(chorusRate, duration)));
             }
 
             return detunedFreq;
@@ -447,10 +448,10 @@ namespace JJ.Business.Synthesizer.Tests
                               o                             
                        
                                                             
-                                            o
+              o                             o
                                                           
                                         
-              o                          
+                                         
                
             o                                       o ");
 
