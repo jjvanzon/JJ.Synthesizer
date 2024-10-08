@@ -16,13 +16,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <param name="modSpeed"> The speed of the modulator in Hz. Determines much of the timbre. </param>
         /// <param name="modDepth"> The depth of the modulator. The higher the value, the more harmonic complexity. </param>
         /// <param name="sound"> The sound to be shaped. </param>
-        /// <param name="tremoloSpeed">The speed in Hz at which the volume goes up and down. Default is 8 Hz.</param>
+        /// <param name="tremoloSpeed">The speed in Hz at which the volume goes up and down. A typical value can be 8 Hz.</param>
         /// <param name="tremoloDepth">
         /// The factor by which the volume decreases and increases periodically.
-        /// The default is a factor of 0.33 of the volume.
+        /// A good default might be a factor of 0.33 of the volume.
         /// </param>
-        /// <param name="vibratoSpeed">The speed of the vibrato modulation. If not provided, a default value of 5.5 is used.</param>
-        /// <param name="vibratoDepth">The depth of the vibrato modulation. If not provided, a default value of 0.0005 is used.</param>
+        /// <param name="vibratoSpeed">The speed of the vibrato modulation. A typical value might be 5.5.</param>
+        /// <param name="vibratoDepth">The depth of the vibrato modulation. Typical values might include 0.0005.</param>
         /// <returns> An Outlet representing the output sound. </returns>
         [UsedImplicitly]
         public static object Default { get;set; }

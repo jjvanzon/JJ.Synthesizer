@@ -165,7 +165,7 @@ namespace JJ.Business.Synthesizer.Tests
             
             Detunica2(bar[2], _[Notes.B4], _[0.85], duration: bars[1.5]),
             Detunica3(bar[3], _[Notes.C5], _[0.65], duration: bars[2.0]),
-            Detunica4(bar[4], _[Notes.D5], _[0.45], duration: bars[2.5]),
+            Detunica4(bar[4], _[Notes.D5], _[0.55], duration: bars[2.5]),
             Detunica5(bar[5], _[Notes.E5], _[0.85], duration: bars[3.0])
         );
 
@@ -176,7 +176,7 @@ namespace JJ.Business.Synthesizer.Tests
                 vibratoSpeed: _[5.5], vibratoDepth: _[0.00010],
                 tremoloSpeed: _[3.0], tremoloDepth: _[0.04],
                 detuneDepth: _[0.8],
-                chorusRate: Multiply(_[0.015], CurveIn(DetuneCurve1)),
+                chorusRate: Multiply(_[0.03], CurveIn(DetuneCurve1)),
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -196,8 +196,8 @@ namespace JJ.Business.Synthesizer.Tests
                 tremoloSpeed: _[15.0], tremoloDepth: _[0.06],
                 detuneDepth: _[0.35],
                 churnRate: Multiply(_[0.02], CurveIn(DetuneCurve1)),
-                chorusRate: Multiply(_[0.01], CurveIn(DetuneCurve1)),
-                envelopeVariation: 2);
+                chorusRate: Multiply(_[0.01], CurveIn(DetuneCurve1)));
+                //envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
@@ -489,7 +489,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// A detuned note characterized by a rich and slightly eerie sound due to the detuned harmonics.
         /// It produces a haunting tone with subtle shifts in pitch.
         /// </summary>
-        /// <param name="vibratoDepth"> Reserved for vibrato effect (frequency modulation) but not yet implemented. </param>
         /// <param name="detuneRate">
         /// The detune depth, adjusting the harmonic frequencies relative to the base frequency,
         /// creating a subtle dissonance and eerie quality.<br/><br/>
