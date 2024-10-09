@@ -164,8 +164,8 @@ namespace JJ.Business.Synthesizer.Tests
             Detunica1(bar[1], _[Notes.E2], _[0.70], duration: bars[5.0]),
             
             Detunica2(bar[2], _[Notes.B4], _[0.85], duration: bars[1.5]),
-            Detunica3(bar[3], _[Notes.C5], _[0.75], duration: bars[1.8]),
-            Detunica4(bar[4], _[Notes.D5], _[0.85], duration: bars[2.5]),
+            Detunica3(bar[3], _[Notes.C5], _[0.75], duration: bars[1.6]),
+            Detunica4(bar[4], _[Notes.D5], _[0.90], duration: bars[1.5]),
             Detunica5(bar[5], _[Notes.E5], _[1.00], duration: bars[3.0])
         );
 
@@ -192,11 +192,11 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration,
-                vibratoSpeed: _[05.5], vibratoDepth: _[0.00020],
+                vibratoSpeed: _[05.5], vibratoDepth: _[0.00015],
                 tremoloSpeed: _[14.0], tremoloDepth: _[0.06],
                 detuneDepth: _[0.35],
                 churnRate: Multiply(_[0.015], CurveIn(DetuneCurve1)),
-                chorusRate: Multiply(_[0.01], CurveIn(DetuneCurve1)));
+                chorusRate: Multiply(_[0.005], CurveIn(DetuneCurve1)));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
