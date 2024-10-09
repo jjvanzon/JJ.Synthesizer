@@ -192,10 +192,10 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration,
-                vibratoSpeed: _[05.5], vibratoDepth: _[0.00020], // TODO: Remove?
-                tremoloSpeed: _[15.0], tremoloDepth: _[0.06],
+                vibratoSpeed: _[05.5], vibratoDepth: _[0.00020],
+                tremoloSpeed: _[14.0], tremoloDepth: _[0.06],
                 detuneDepth: _[0.35],
-                churnRate: Multiply(_[0.02], CurveIn(DetuneCurve1)),
+                churnRate: Multiply(_[0.015], CurveIn(DetuneCurve1)),
                 chorusRate: Multiply(_[0.01], CurveIn(DetuneCurve1)));
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -203,7 +203,6 @@ namespace JJ.Business.Synthesizer.Tests
             => Detunica(
                 delay, freq, volume, duration,
                 vibratoSpeed: _[5], vibratoDepth: _[0.00040],
-                //tremoloSpeed: _[8], tremoloDepth: _[0.33], // TODO: Remove?
                 detuneDepth: _[0.6],
                 interferenceRate: Multiply(_[0.003], CurveIn(DetuneCurve3)),
                 chorusRate: Multiply(_[0.1], CurveIn(DetuneCurve3)));
