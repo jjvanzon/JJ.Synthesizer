@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
             => Detunica(
                 delay, freq, volume, duration,
-                //vibratoSpeed: _[05.5], vibratoDepth: _[0.00050], // TODO: Remove?
+                vibratoSpeed: _[05.5], vibratoDepth: _[0.00020], // TODO: Remove?
                 tremoloSpeed: _[15.0], tremoloDepth: _[0.06],
                 detuneDepth: _[0.35],
                 churnRate: Multiply(_[0.02], CurveIn(DetuneCurve1)),
@@ -215,7 +215,8 @@ namespace JJ.Business.Synthesizer.Tests
                 vibratoSpeed: _[5.5], vibratoDepth: _[0.00005],
                 tremoloSpeed: _[3.0], tremoloDepth: _[0.25],
                 detuneDepth: _[0.8],
-                churnRate:  Multiply(_[0.001], CurveIn(DetuneCurve1)));
+                churnRate:  Multiply(_[0.001], CurveIn(DetuneCurve1)),
+                chorusRate: _[0.001]);
 
         /// <inheritdoc cref="_vibraphasedocs" />
         Outlet VibraphaseChord => Adder
@@ -370,18 +371,14 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="_vibratodocs" />
-        Outlet VibratoOverPitch(Outlet freq, Outlet vibratoSpeed = null, Outlet vibratoDepth = null)
-        {
-            var vibratoPitch = Multiply(freq, Add(_[1], Sine(vibratoDepth, vibratoSpeed)));
-            return vibratoPitch;
-        }
+        Outlet VibratoOverPitch(Outlet freq, Outlet vibratoSpeed = null, Outlet vibratoDepth = null) 
+            => Multiply(freq, Add(_[1], Sine(vibratoDepth, vibratoSpeed)));
 
         /// <inheritdoc cref="_tremolodocs" />
         Outlet Tremolo(Outlet sound, Outlet tremoloSpeed, Outlet tremoloDepth)
         {
             var modulator = Add(Sine(tremoloDepth, tremoloSpeed), _[1]);
-            sound = Multiply(sound, modulator);
-            return sound;
+            return Multiply(sound, modulator);
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
