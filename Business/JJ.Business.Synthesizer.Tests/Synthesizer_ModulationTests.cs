@@ -27,8 +27,8 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Tests
 
-        /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
+        /// <inheritdoc cref="_detunicadocs" />
         public void Test_Synthesizer_Modulation_Detunica_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Test_Modulation_Detunica_Jingle()
-            => SaveWav(DeepEcho(DetunicaJingle), volume: 0.17, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(DetunicaJingle), volume: 0.14, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -51,8 +51,8 @@ namespace JJ.Business.Synthesizer.Tests
         void Test_Modulation_Detunica1()
             => SaveWav(DeepEcho(Detunica1(freq: _[Notes.E2], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
-        /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
+        /// <inheritdoc cref="_detunicadocs" />
         public void Test_Synthesizer_Modulation_Detunica2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -63,8 +63,8 @@ namespace JJ.Business.Synthesizer.Tests
         void Test_Modulation_Detunica2()
             => SaveWav(DeepEcho(Detunica2(freq: _[Notes.B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
 
-        /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
+        /// <inheritdoc cref="_detunicadocs" />
         public void Test_Synthesizer_Modulation_Detunica3()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -75,8 +75,8 @@ namespace JJ.Business.Synthesizer.Tests
         void Test_Modulation_Detunica3()
             => SaveWav(DeepEcho(Detunica3(freq: _[Notes.C5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
-        /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
+        /// <inheritdoc cref="_detunicadocs" />
         public void Test_Synthesizer_Modulation_Detunica4()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -87,8 +87,8 @@ namespace JJ.Business.Synthesizer.Tests
         void Test_Modulation_Detunica4()
             => SaveWav(DeepEcho(Detunica4(freq: _[Notes.D5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
 
-        /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
+        /// <inheritdoc cref="_detunicadocs" />
         public void Test_Synthesizer_Modulation_Detunica5()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -99,9 +99,8 @@ namespace JJ.Business.Synthesizer.Tests
         void Test_Modulation_Detunica5()
             => SaveWav(DeepEcho(Detunica5(freq: _[Notes.E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
-
-        /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
+        /// <inheritdoc cref="_vibraphasedocs" />
         public void Test_Synthesizer_Modulation_Vibraphase_Chord()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -112,8 +111,8 @@ namespace JJ.Business.Synthesizer.Tests
         void Test_Modulation_Vibraphase_Chord()
             => SaveWav(MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
-        /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
+        /// <inheritdoc cref="_vibraphasedocs" />
         public void Test_Synthesizer_Modulation_Vibraphase()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -124,8 +123,8 @@ namespace JJ.Business.Synthesizer.Tests
         void Test_Modulation_Vibraphase()
             => SaveWav(MildEcho(Vibraphase(freq: _[Notes.E5])), duration: 1 + MILD_ECHO_TIME);
 
-        /// <inheritdoc cref="_vibratodocs" />
         [TestMethod]
+        /// <inheritdoc cref="_vibratodocs" />
         public void Test_Synthesizer_Modulation_Vibrato()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -138,8 +137,8 @@ namespace JJ.Business.Synthesizer.Tests
                 Sine(volume: _[1], VibratoOverPitch(_[Notes.A4])),
                 volume: 0.9, duration: 3);
 
-        /// <inheritdoc cref="_tremolodocs" />
         [TestMethod]
+        /// <inheritdoc cref="_tremolodocs" />
         public void Test_Synthesizer_Modulation_Tremolo()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -189,23 +188,24 @@ namespace JJ.Business.Synthesizer.Tests
                 churnRate: Multiply(_[0.10], CurveIn(DetuneCurve2))));
 
         /// <inheritdoc cref="_detunicadocs" />
-        Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
+        Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
             => Detunica(
                 delay, freq, volume, duration,
-                vibratoSpeed: _[05.5], vibratoDepth: _[0.00015],
-                tremoloSpeed: _[14.0], tremoloDepth: _[0.06],
-                detuneDepth: _[0.35],
-                churnRate: Multiply(_[0.015], CurveIn(DetuneCurve1)),
-                chorusRate: Multiply(_[0.005], CurveIn(DetuneCurve1)));
+                vibratoSpeed: _[05.5], vibratoDepth: _[0.0005],
+                tremoloSpeed: _[15.0], tremoloDepth: _[0.06],
+                detuneDepth: _[0.5],
+                interferenceRate: Multiply(_[0.002], CurveIn(DetuneCurve1)),
+                chorusRate: Multiply(_[0.002], CurveIn(DetuneCurve1)),
+                envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
-        Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
+        Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
             => Detunica(
                 delay, freq, volume, duration,
-                vibratoSpeed: _[5], vibratoDepth: _[0.00040],
-                detuneDepth: _[0.6],
-                interferenceRate: Multiply(_[0.003], CurveIn(DetuneCurve3)),
-                chorusRate: Multiply(_[0.1], CurveIn(DetuneCurve3)));
+                vibratoSpeed: _[07], vibratoDepth: _[0.0003],
+                tremoloSpeed: _[10], tremoloDepth: _[0.08],
+                detuneDepth: _[0.5],
+                interferenceRate: Multiply(_[0.003], CurveIn(DetuneCurve3)));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
@@ -240,18 +240,26 @@ namespace JJ.Business.Synthesizer.Tests
         {
             duration = duration ?? _[1];
 
-            var modulatedPitch = VibratoOverPitch(freq, vibratoSpeed, vibratoDepth);
+            if (vibratoSpeed != null && 
+                vibratoDepth != null)
+            {
+                freq = VibratoOverPitch(freq, vibratoSpeed, vibratoDepth);
+            }
 
             // Base additive synthesis waveform
-            var baseHarmonics = BaseHarmonics(modulatedPitch);
+            var baseHarmonics = BaseHarmonics(freq);
 
             // Apply detune by modulating harmonic frequencies slightly
-            var detunedHarmonics = DetunedHarmonics(modulatedPitch, duration, churnRate, interferenceRate, chorusRate);
+            var detunedHarmonics = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
             
             // Mix them together
             Outlet sound = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
 
-            sound = Tremolo(sound, tremoloSpeed, tremoloDepth);
+            if (tremoloSpeed != null && 
+                tremoloDepth != null)
+            {
+                sound = Tremolo(sound, tremoloSpeed, tremoloDepth);
+            }
 
             // Apply volume curve
             switch (envelopeVariation)
