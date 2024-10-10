@@ -14,7 +14,7 @@ using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 // ReSharper disable LocalizableElement
-
+// ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable AssignmentInsteadOfDiscard
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
@@ -33,11 +33,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             : this(PersistenceHelper.CreateContext())
         { }
 
-        public SynthSugarBase(IContext context)
-            : this(context, beat: 1, bar: 4)
-        { }
-
-        public SynthSugarBase(IContext context, double beat, double bar)
+        public SynthSugarBase(IContext context, double beat = 1, double bar = 4)
             : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
                    PersistenceHelper.CreateRepository<IInletRepository>(context),
                    PersistenceHelper.CreateRepository<IOutletRepository>(context),
@@ -50,34 +46,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             Samples = TestHelper.CreateSampleManager(context);
 
             _ = new ValueIndexer(this);
-            this.bar = new BarIndexer(this, bar);
-            bars = new BarsIndexer(this, bar);
-            this.beat = new BeatIndexer(this, beat);
-            beats = new BeatsIndexer(this, beat);
-            t = new TimeIndexer(this, bar, beat);
+            
+            InitializeNoteWishes(beat, bar);
         }
 
         /// <inheritdoc cref="ValueIndexer" />
         public readonly ValueIndexer _;
-
-        // ReSharper disable InconsistentNaming
-
-        /// <inheritdoc cref="BarIndexer" />
-        public BarIndexer bar { get; }
-
-        /// <inheritdoc cref="BarsIndexer" />
-        public BarsIndexer bars { get; }
-
-        /// <inheritdoc cref="BeatIndexer" />
-        public BeatIndexer beat { get; }
-
-        /// <inheritdoc cref="BeatsIndexer" />
-        public BeatsIndexer beats { get; }
-
-        /// <inheritdoc cref="TimeIndexer" />
-        public TimeIndexer t { get; }
-        
-        // ReSharper restore InconsistentNaming
         
         /// <inheritdoc cref="docs._default" />
         public Outlet StrikeNote(Outlet sound, Outlet delay = null, Outlet volume = null)
@@ -87,18 +61,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return sound;
         }
 
-        /*
-        /// <inheritdoc cref="docs._default" />
-        public Outlet StretchCurve(Curve curve, Outlet duration)
-            => TimeMultiply(CurveIn(curve), duration);
-        */
-        
-        /*
-        /// <inheritdoc cref="docs._default" />
-        public Outlet StretchCurve(CurveInWrapper curveIn, Outlet duration)
-            => TimeMultiply(curveIn, duration);
-        */
-        
         /// <inheritdoc cref="docs._default" />
         public Outlet Stretch(Outlet signal, Outlet duration)
             => TimeMultiply(signal, duration ?? _[1]);
