@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Infos;
+// ReSharper disable MemberCanBeProtected.Global
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {

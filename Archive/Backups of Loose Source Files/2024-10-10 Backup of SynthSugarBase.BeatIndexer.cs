@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             /// <inheritdoc cref="BeatIndexer"/>
             internal BeatIndexer(SynthSugarBase parent, double beatLength)
             {
-                _parent = parent; 
+                _parent = parent;
                 _beatLength = beatLength;
             }
 

@@ -127,13 +127,8 @@
     <Compile Include="Wishes\CurveWishes.CurveFactoryExtensions.cs" />
     <Compile Include="Helpers\docs.cs" />
     <Compile Include="Wishes\NoteWishes.SynthSugarBase.cs" />
-    <Compile Include="Wishes\SynthSugarBase.BarsIndexer.cs" />
-    <Compile Include="Wishes\SynthSugarBase.BeatsIndexer.cs" />
-    <Compile Include="Wishes\SynthSugarBase.BeatIndexer.cs" />
     <Compile Include="Wishes\CurveWishes.SynthSugarBase.cs" />
-    <Compile Include="Wishes\SynthSugarBase.TimeIndexer.cs" />
     <Compile Include="Wishes\SynthSugarBase.cs" />
-    <Compile Include="Wishes\SynthSugarBase.BarIndexer.cs" />
     <Compile Include="Wishes\WavHeaderWishes.cs" />
     <Compile Include="Synthesizer_HardCodedFMTests.cs" />
     <Compile Include="Synthesizer_FMTests.cs" />

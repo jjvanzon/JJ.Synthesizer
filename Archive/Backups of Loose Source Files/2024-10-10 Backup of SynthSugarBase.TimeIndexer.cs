@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             internal TimeIndexer(SynthSugarBase parent, double barLength, double beatLength)
             {
-                _parent = parent; 
+                _parent = parent;
                 _barLength = barLength;
                 _beatLength = beatLength;
             }

@@ -10,13 +10,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
         public class BarIndexer
         {
-            private readonly SynthSugarBase _parent;
+            private reacdonly SynthSugarBase _parent;
             private readonly double _barLength;
 
             /// <inheritdoc cref="BarIndexer"/>
             internal BarIndexer(SynthSugarBase parent, double barLength)
             {
-                _parent = parent; 
+                _parent = parent;
                 _barLength = barLength;
             }
 

@@ -16,12 +16,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             /// <inheritdoc cref="BarsIndexer"/>
             internal BarsIndexer(SynthSugarBase parent, double barLength)
             {
-                _parent = parent; 
+                _parent = parent;
                 _barLength = barLength;
             }
 
             /// <inheritdoc cref="BarsIndexer"/>
-            public ValueOperatorWrapper this[double count] 
+            public ValueOperatorWrapper this[double count]
                 => _parent.Value(count * _barLength);
         }
     }

@@ -5,7 +5,7 @@
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-	internal static class Notes
+	public static class Notes
 	{
 		public static double SemiToneFactor { get; } = Math.Pow(2.0, 1.0 / 12.0);
 
