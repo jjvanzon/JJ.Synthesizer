@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Factories;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
@@ -15,12 +16,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         public static Curve Create(this CurveFactory curveFactory, IList<NodeInfo> nodeInfos)
             => curveFactory.CreateCurve(nodeInfos.ToArray());
 
-        /// <inheritdoc cref="CreateCurveWithTuplesDoc" />
+        /// <inheritdoc cref="docs.createcurvewithtuples" />
         public static Curve Create(this CurveFactory curveFactory, params (double time, double value)[] nodeTuples)
             => curveFactory.Create((IList<(double x, double y)>)nodeTuples);
 
-        /// <inheritdoc cref="CreateCurveWithTuplesDoc" />
-        public static Curve Create([NotNull] this CurveFactory curveFactory, [NotNull] IList<(double time, double value)> nodeTuples)
+        /// <inheritdoc cref="docs.createcurvewithtuples" />
+        public static Curve Create(this CurveFactory curveFactory, IList<(double time, double value)> nodeTuples)
         {
             if (curveFactory == null) throw new NullException(() => curveFactory);
             if (nodeTuples == null) throw new NullException(() => nodeTuples);
@@ -30,23 +31,23 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         }
 
         // ASCII Curves
-        
-        /// <inheritdoc cref="CreateCurveFromAsciiDoc" />
+
+        /// <inheritdoc cref="docs.createcurvefromstrings" />
         public static Curve Create(this CurveFactory curveFactory, IList<string> lines)
             => curveFactory.Create(0, 1, 0, 1, lines?.ToList());
 
-        /// <inheritdoc cref="CreateCurveFromAsciiDoc" />
+        /// <inheritdoc cref="docs.createcurvefromstrings" />
         public static Curve Create(this CurveFactory curveFactory, params string[] lines)
             => curveFactory.Create(0, 1, 0, 1, lines?.ToList());
 
-        /// <inheritdoc cref="CreateCurveFromAsciiDoc" />
+        /// <inheritdoc cref="docs.createcurvefromstrings" />
         public static Curve Create(
             this CurveFactory curveFactory,
             double start = 0, double end = 1, double min = 0, double max = 1,
             params string[] lines)
             => curveFactory.Create(start, end, min, max, lines?.ToList());
-        
-        /// <inheritdoc cref="CreateCurveFromAsciiDoc" />
+
+        /// <inheritdoc cref="docs.createcurvefromstrings" />
         public static Curve Create(
             this CurveFactory curveFactory,
             double start = 0, double end = 1, double min = 0, double max = 1,
@@ -138,33 +139,5 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             
             return lines2;
         }
-
-        #region Docs
-
-        /// <summary>
-        /// Shorthand that takes tuples like (0, 0), (0.1, 0.2), (0.2, 1.0)
-        /// and creates a curve from them.
-        /// </summary>
-        /// <param name="curveFactory"> The factory used to create the <see cref="Curve" />. </param>
-        /// <param name="nodeTuples">
-        /// A list of tuples representing the nodes,
-        /// where each tuple contains the x and y coordinates of a node.
-        /// </param>
-        /// <returns> A <see cref="Curve" /> object populated with the specified nodes. </returns>
-        [UsedImplicitly]
-        private static Curve CreateCurveWithTuplesDoc() => throw new NotSupportedException();
-
-
-        /// <summary>
-        /// Create a Curve from a list of strings, that 'ASCII-encode' the curve. Putting the strings under each other, they create
-        /// a block of space with time on the horizontal axis and values on the vertical axis. The background character is usually
-        /// just a space character, but any other background character is possible and automatically recognized. Any character
-        /// other than the background character is seen as a data point. That way you can creatively choose your own characters.
-        /// White space is trimmed off of the top, bottom, left and right, leaving only the block of characters that contains data.
-        /// </summary>
-        [UsedImplicitly]
-        private static Curve CreateCurveFromAsciiDoc() => throw new NotSupportedException();
-
-        #endregion
     }
 }

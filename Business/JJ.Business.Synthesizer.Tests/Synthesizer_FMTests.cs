@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Tests.Helpers;
@@ -369,23 +370,23 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet OrganChords => Multiply
         (
-            StretchCurve(ChordVolumeCurve, bars[1]),
+            Stretch(ChordVolumeCurve, bars[1]),
             Adder
             (
-                Organ(StretchCurve(ChordPitchCurve1, bars[1]), duration: bars[8]),
-                Organ(StretchCurve(ChordPitchCurve2, bars[1]), duration: bars[8]),
-                Organ(StretchCurve(ChordPitchCurve3, bars[1]), duration: bars[8])
+                Organ(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
+                Organ(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
+                Organ(Stretch(ChordPitchCurve3, bars[1]), duration: bars[8])
             )
         );
 
         private Outlet PadChords => Multiply
         (
-            StretchCurve(ChordVolumeCurve, bars[1]),
+            Stretch(ChordVolumeCurve, bars[1]),
             Adder
             (
-                Pad(StretchCurve(ChordPitchCurve1, bars[1])),
-                Pad(StretchCurve(ChordPitchCurve2, bars[1])),
-                Pad(StretchCurve(ChordPitchCurve3, bars[1]))
+                Pad(Stretch(ChordPitchCurve1, bars[1])),
+                Pad(Stretch(ChordPitchCurve2, bars[1])),
+                Pad(Stretch(ChordPitchCurve3, bars[1]))
             )
         );
 
@@ -449,13 +450,13 @@ namespace JJ.Business.Synthesizer.Tests
         #region Instruments
 
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet Flute1(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
 
             var fmSignal = FMAround0(Divide(freq, _[2]), freq, _[0.005]);
-            var envelope = StretchCurve(FluteCurve, duration);
+            var envelope = Stretch(FluteCurve, duration);
             var modulatedSound = Multiply(fmSignal, envelope);
             var note = StrikeNote(modulatedSound, delay, volume);
 
@@ -463,14 +464,14 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet Flute2(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
             volume = volume ?? _[1];
 
             var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2]), _[0.005]);
-            var envelope = StretchCurve(FluteCurve, duration);
+            var envelope = Stretch(FluteCurve, duration);
             var modulatedSound = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(volume, _[0.85]);
             var note = StrikeNote(modulatedSound, delay, adjustedVolume);
@@ -479,14 +480,14 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet Flute3(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
             volume = volume ?? _[1];
 
             var fmSignal = FMAroundFreq(freq, Multiply(freq, _[4]), _[0.005]);
-            var envelope = StretchCurve(FluteCurve, duration);
+            var envelope = Stretch(FluteCurve, duration);
             var sound = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(volume, _[0.8]);
             var note = StrikeNote(sound, delay, adjustedVolume);
@@ -495,14 +496,14 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet Flute4(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
             volume = volume ?? _[1];
 
             var fmSignal = FMAround0(Multiply(freq, _[2]), freq, _[0.005]);
-            var envelope = StretchCurve(FluteCurve, duration);
+            var envelope = Stretch(FluteCurve, duration);
             var sound = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(volume, _[0.70]);
             var note = StrikeNote(sound, delay, adjustedVolume);
@@ -510,17 +511,17 @@ namespace JJ.Business.Synthesizer.Tests
             return note;
         }
 
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet Organ(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
             duration = duration ?? _[1.0];
 
-            var modCurve = StretchCurve(ModTamingCurve, duration);
+            var modCurve = Stretch(ModTamingCurve, duration);
             var modDepth = Multiply(_[0.0001], modCurve);
             var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth);
 
-            var volumeEvenOutCurve = StretchCurve(EvenOutCurve, duration);
+            var volumeEvenOutCurve = Stretch(EvenOutCurve, duration);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
 
             var note = StrikeNote(soundWithEvenVolume, delay, volume);
@@ -528,16 +529,16 @@ namespace JJ.Business.Synthesizer.Tests
             return note;
         }
 
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null)
         {
             freq = freq ?? _[Notes.A4];
 
             // Tame modulation
             var modCurveLength = bars[8];
-            var modCurve = StretchCurve(ModTamingCurve8Times, modCurveLength);
-            modCurve = Multiply(modCurve, StretchCurve(ModTamingCurve, modCurveLength));
-            modCurve = Multiply(modCurve, StretchCurve(LineDownCurve, modCurveLength));
+            var modCurve = Stretch(ModTamingCurve8Times, modCurveLength);
+            modCurve = Multiply(modCurve, Stretch(ModTamingCurve, modCurveLength));
+            modCurve = Multiply(modCurve, Stretch(LineDownCurve, modCurveLength));
 
             var fmSignal = Add
             (
@@ -545,7 +546,7 @@ namespace JJ.Business.Synthesizer.Tests
                 FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.00015], modCurve))
             );
 
-            var volumeEvenOutCurve = StretchCurve(EvenOutCurve, modCurveLength);
+            var volumeEvenOutCurve = Stretch(EvenOutCurve, modCurveLength);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
 
             var note = StrikeNote(soundWithEvenVolume, delay, volume);
@@ -561,7 +562,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
         /// <param name="durationFactor"> Duration varies with pitch, but can be multiplied by this factor (default is 1). </param>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet Trombone(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet durationFactor = null)
         {
             freq = freq ?? _[Notes.A1];
@@ -575,7 +576,7 @@ namespace JJ.Business.Synthesizer.Tests
             var ratio = Divide(baseNote, freq);
             var transformedDuration = Multiply(baseNoteDuration, Power(ratio, _[1.5]));
 
-            var envelope = TimeMultiply(CurveIn(TromboneCurve), transformedDuration);
+            var envelope = Stretch(TromboneCurve, transformedDuration);
             var sound = Multiply(fmSignal, envelope);
             var note = StrikeNote(sound, delay, volume);
 
@@ -589,35 +590,35 @@ namespace JJ.Business.Synthesizer.Tests
         /// FM modulator is attempted to be tamed with curves.
         /// </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A2/110Hz). </param>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet Horn(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A2];
 
-            var tamedMod = Multiply(_[5], StretchCurve(ModTamingCurve2, duration));
+            var tamedMod = Multiply(_[5], Stretch(ModTamingCurve2, duration));
 
             var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, tamedMod);
-            var envelope = TimeMultiply(CurveIn(TromboneCurve), duration);
+            var envelope = Stretch(TromboneCurve, duration);
             var sound = Multiply(fmSignal, envelope);
             var note = StrikeNote(sound, delay, volume);
 
             return note;
         }
 
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet ElectricNote(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A4];
             volume = volume ?? _[1];
 
-            var modDepth = Multiply(_[0.02], StretchCurve(LineDownCurve, duration));
+            var modDepth = Multiply(_[0.02], Stretch(LineDownCurve, duration));
             var fmSignal = Add
             (
                 FMAroundFreq(freq, Multiply(freq, _[1.5]), modDepth),
                 FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth)
             );
 
-            var envelope = StretchCurve(DampedBlockCurve, duration);
+            var envelope = Stretch(DampedBlockCurve, duration);
             var modulatedSound = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(volume, _[0.6]);
             var note = StrikeNote(modulatedSound, delay, adjustedVolume);
@@ -627,7 +628,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet RippleBass(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A1];
@@ -640,7 +641,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A3/220Hz). </param>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet RippleNote_SharpMetallic(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A3];
@@ -662,7 +663,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet RippleSound_FantasyEffect(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[Notes.A5];
@@ -688,11 +689,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// <summary> Shapes a ripple effect sound giving it a volume envelope and a delay, volume and duration. </summary>
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <param name="fmSignal"> A ripple sound to be shaped </param>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet ShapeRippleSound(Outlet fmSignal, Outlet delay, Outlet volume, Outlet duration)
         {
             duration = duration ?? _[2.5];
-            var envelope = StretchCurve(RippleCurve, duration);
+            var envelope = Stretch(RippleCurve, duration);
             var sound = Multiply(fmSignal, envelope);
             var strike = StrikeNote(sound, delay, volume);
             return strike;
@@ -711,7 +712,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> FM sound synthesis modulating with addition. Modulates sound freq to +/- a number of Hz. </summary>
         /// <param name="modDepth"> In Hz </param>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Sine(modDepth, modSpeed);
@@ -720,7 +721,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> FM with (faulty) multiplication around 0. </summary>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet FMAround0(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Sine(modDepth, modSpeed);
@@ -729,7 +730,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> FM with multiplication around 1. </summary>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         private Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Add(_[1], Sine(modDepth, modSpeed));
@@ -754,8 +755,9 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Curves
 
-        private Curve FluteCurve => Curves.Create
+        private CurveInWrapper FluteCurve => CurveIn
         (
+            "FluteCurve",
             (time: 0.00, value: 0.0),
             (time: 0.05, value: 0.8),
             (time: 0.10, value: 1.0),
@@ -763,15 +765,17 @@ namespace JJ.Business.Synthesizer.Tests
             (time: 1.00, value: 0.0)
         );
 
-        private Curve TromboneCurve => Curves.Create
+        private CurveInWrapper TromboneCurve => CurveIn
         (
+            "TromboneCurve",
             (time: 0.00, value: 1),
             (time: 0.93, value: 1),
             (time: 1.00, value: 0)
         );
 
-        private Curve RippleCurve => Curves.Create
+        private CurveInWrapper RippleCurve => CurveIn
         (
+            "RippleCurve",
             (time: 0.00, value: 0.00),
             (time: 0.01, value: 0.75),
             (time: 0.05, value: 0.50),
@@ -779,16 +783,18 @@ namespace JJ.Business.Synthesizer.Tests
             (time: 1.00, value: 0.00)
         );
 
-        private Curve DampedBlockCurve => Curves.Create
+        private CurveInWrapper DampedBlockCurve => CurveIn
         (
+            "DampedBlockCurve",
             (time: 0.00, value: 0),
             (time: 0.01, value: 1),
             (time: 0.99, value: 1),
             (time: 1.00, value: 0)
         );
 
-        private Curve LineDownCurve => Curves.Create
+        private CurveInWrapper LineDownCurve => CurveIn
         (
+            "LineDownCurve",
             (time: 0, value: 1),
             (time: 1, value: 0)
         );
@@ -798,22 +804,25 @@ namespace JJ.Business.Synthesizer.Tests
         /// In this version of FM synthesis, the modulation depth accumulates over time without such taming.
         /// This is because of a lack of time tracking in the oscillators in this version.
         /// </summary>
-        private Curve ModTamingCurve => Curves.CreateCurve
+        private CurveInWrapper ModTamingCurve => CurveIn
         (
+            "ModTamingCurve",
             timeSpan: 1,
             0.3, 1.0, 0.3, 0.0
         );
 
         /// <inheritdoc cref="ModTamingCurve" />
-        private Curve ModTamingCurve2 => Curves.CreateCurve
+        private CurveInWrapper ModTamingCurve2 => CurveIn
         (
+            "ModTamingCurve2",
             timeSpan: 1,
             1.0, 0.5, 0.2, 0.0
         );
 
         /// <inheritdoc cref="ModTamingCurve" />
-        private Curve ModTamingCurve8Times => Curves.CreateCurve
+        private CurveInWrapper ModTamingCurve8Times => CurveIn
         (
+            "ModTamingCurve8Times",
             timeSpan: 1,
             0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0,
@@ -826,8 +835,9 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         /// <summary> When harmonics thicken near the center, this curve can even out the volume over time. </summary>
-        private Curve EvenOutCurve => Curves.Create
+        private CurveInWrapper EvenOutCurve => CurveIn
         (
+            "EvenOutCurve",
             (time: 0.00, value: 1.0),
             (time: 0.33, value: 0.6),
             (time: 0.50, value: 0.6),
@@ -835,8 +845,9 @@ namespace JJ.Business.Synthesizer.Tests
             (time: 1.00, value: 1.0)
         );
 
-        private Curve ChordVolumeCurve => Curves.Create
+        private CurveInWrapper ChordVolumeCurve => CurveIn
         (
+            "ChordVolumeCurve",
             (0.0, 0.0), (0.05, 0.0), (0.98, 0.5),
             (1.0, 0.0), (1.05, 0.6), (1.98, 0.6),
             (2.0, 0.0), (2.05, 0.8), (2.98, 0.8),
@@ -862,21 +873,23 @@ namespace JJ.Business.Synthesizer.Tests
                 (8.0, Notes.E4, Notes.A5, Notes.E5)
             };
 
-        private Curve ChordPitchCurve1 => Curves.CreateCurve(
+        CurveInWrapper ChordPitchCurve1 => CurveIn(
+            "ChordPitchCurve1",
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.frequency1,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        private Curve ChordPitchCurve2 => Curves.CreateCurve(
+        private CurveInWrapper ChordPitchCurve2 => CurveIn(
+            "ChordPitchCurve2",
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.frequency2,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        private Curve ChordPitchCurve3 => Curves.CreateCurve(
+        private CurveInWrapper ChordPitchCurve3 => CurveIn(
+            "ChordPitchCurve3",
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.frequency3,
                                                        NodeTypeEnum.Block)).ToArray());
-
         #endregion
     }
 }

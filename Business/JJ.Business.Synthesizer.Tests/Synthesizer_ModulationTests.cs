@@ -175,7 +175,7 @@ namespace JJ.Business.Synthesizer.Tests
                 vibratoSpeed: _[5.5], vibratoDepth: _[0.00010],
                 tremoloSpeed: _[3.0], tremoloDepth: _[0.04],
                 detuneDepth: _[0.8],
-                chorusRate: Multiply(_[0.03], CurveIn(DetuneCurve1)),
+                chorusRate: Multiply(_[0.03], DetuneCurve1),
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Tests
                 vibratoSpeed: _[10.0], vibratoDepth: _[0.00020],
                 tremoloSpeed: _[12.0], tremoloDepth: _[0.10],
                 detuneDepth: _[1.0],
-                churnRate: Multiply(_[0.10], CurveIn(DetuneCurve2))));
+                churnRate: Multiply(_[0.10], DetuneCurve2)));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
@@ -194,8 +194,8 @@ namespace JJ.Business.Synthesizer.Tests
                 vibratoSpeed: _[05.5], vibratoDepth: _[0.0005],
                 tremoloSpeed: _[15.0], tremoloDepth: _[0.06],
                 detuneDepth: _[0.5],
-                interferenceRate: Multiply(_[0.002], CurveIn(DetuneCurve1)),
-                chorusRate: Multiply(_[0.002], CurveIn(DetuneCurve1)),
+                interferenceRate: Multiply(_[0.002], DetuneCurve1),
+                chorusRate: Multiply(_[0.002], DetuneCurve1),
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -205,7 +205,7 @@ namespace JJ.Business.Synthesizer.Tests
                 vibratoSpeed: _[07], vibratoDepth: _[0.0003],
                 tremoloSpeed: _[10], tremoloDepth: _[0.08],
                 detuneDepth: _[0.5],
-                interferenceRate: Multiply(_[0.003], CurveIn(DetuneCurve3)));
+                interferenceRate: Multiply(_[0.003], DetuneCurve3));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null) 
@@ -214,7 +214,7 @@ namespace JJ.Business.Synthesizer.Tests
                 vibratoSpeed: _[5.5], vibratoDepth: _[0.00005],
                 tremoloSpeed: _[3.0], tremoloDepth: _[0.25],
                 detuneDepth: _[0.8],
-                churnRate:  Multiply(_[0.001], CurveIn(DetuneCurve1)),
+                churnRate:  Multiply(_[0.001], DetuneCurve1),
                 chorusRate: _[0.001]);
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -265,11 +265,11 @@ namespace JJ.Business.Synthesizer.Tests
             switch (envelopeVariation)
             {
                 case 1: 
-                    sound = Multiply(sound, StretchCurve(DetunicaPatchyVolumeCurve, duration)); 
+                    sound = Multiply(sound, Stretch(DetunicaPatchyVolumeCurve, duration)); 
                     break;
                 
                 case 2: 
-                    sound = Multiply(sound, StretchCurve(DetunicaEvenVolumeCurve, duration)); 
+                    sound = Multiply(sound, Stretch(DetunicaEvenVolumeCurve, duration)); 
                     break;
                 
                 default: 
@@ -289,7 +289,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             var saw = SemiSaw(freq);
             var jittered = Jitter(saw, depthAdjust1, depthAdjust2);
-            var enveloped = Multiply(jittered, StretchCurve(VibraphaseVolumeCurve, duration));
+            var enveloped = Multiply(jittered, Stretch(VibraphaseVolumeCurve, duration));
             var note = StrikeNote(enveloped, delay, volume);
             return note;
         }
@@ -358,20 +358,20 @@ namespace JJ.Business.Synthesizer.Tests
             // Add to harmonic number = churn / heavy interference
             if (churnRate != null)
             {
-                Outlet detunedHarmonic = Add(harmonic, TimeMultiply(churnRate, duration));
+                Outlet detunedHarmonic = Add(harmonic, Stretch(churnRate, duration));
                 detunedFreq = Multiply(detunedFreq, detunedHarmonic);
             }
 
             // Add Hz = light interference
             if (interfereRate != null)
             {
-                detunedFreq = Add(detunedFreq, TimeMultiply(interfereRate, duration));
+                detunedFreq = Add(detunedFreq, Stretch(interfereRate, duration));
             }
             
             // Multiply by 1 + depth = chorus
             if (chorusRate != null)
             {
-                detunedFreq = Multiply(detunedFreq, Add(_[1], TimeMultiply(chorusRate, duration)));
+                detunedFreq = Multiply(detunedFreq, Add(_[1], Stretch(chorusRate, duration)));
             }
 
             return detunedFreq;
@@ -419,16 +419,16 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Curves
 
-        Curve DetunicaPatchyVolumeCurve;
-        Curve DetunicaEvenVolumeCurve;
-        Curve DetuneCurve1;
-        Curve DetuneCurve2;
-        Curve DetuneCurve3;
-        Curve VibraphaseVolumeCurve;
+        CurveInWrapper DetunicaPatchyVolumeCurve;
+        CurveInWrapper DetunicaEvenVolumeCurve;
+        CurveInWrapper DetuneCurve1;
+        CurveInWrapper DetuneCurve2;
+        CurveInWrapper DetuneCurve3;
+        CurveInWrapper VibraphaseVolumeCurve;
 
         void CreateCurves()
         {
-            DetunicaPatchyVolumeCurve = Curves.Create(@"
+            DetunicaPatchyVolumeCurve = CurveIn("DetunicaPatchyVolumeCurve", @"
                              o                             
                         
                                   o                         
@@ -439,7 +439,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             o                                       o ");
 
-            DetunicaEvenVolumeCurve = Curves.Create(@"
+            DetunicaEvenVolumeCurve = CurveIn("DetunicaEvenVolumeCurve", @"
                               o                             
                        
                                                             
@@ -450,25 +450,25 @@ namespace JJ.Business.Synthesizer.Tests
                
             o                                       o ");
 
-            DetuneCurve1 = Curves.Create(@"
+            DetuneCurve1 = CurveIn("DetuneCurve1", @"
                         o          
                                     
                                     
             o                   o ");
 
-            DetuneCurve2 = Curves.Create(@"
+            DetuneCurve2 = CurveIn("DetuneCurve2", @"
                  o                 
                                     
                                     
             o                   o ");
 
-            DetuneCurve3 = Curves.Create(@"
+            DetuneCurve3 = CurveIn("DetuneCurve3", @"
                       o            
                                     
                                     
             o                   o ");
 
-            VibraphaseVolumeCurve = Curves.Create(@"
+            VibraphaseVolumeCurve = CurveIn("VibraphaseVolumeCurve", @"
                o                   
              o   o                 
                                     
@@ -501,7 +501,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// 1 is the default and a more patchy volume envelope.<br/>
         /// 2 gives the newer with a move even fade in and out.
         /// </param>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         object _detunicadocs;
 
         /// <summary>
@@ -513,14 +513,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="sound"> The sound to apply the jitter effect to. </param>
         /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
         /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         object _vibraphasedocs;
 
         /// <summary>
         /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
         /// </summary>
         /// <returns> An <see cref="Outlet" /> representing the semi-sawtooth waveform. </returns>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         object _semisawdocs;
 
         /// <summary> Generates a detuned harmonic sound by altering the frequencies slightly. </summary>
@@ -528,7 +528,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// The depth of the detuning applied to the harmonics.
         /// If not provided, a default value is used.
         /// </param>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         object _detunedocs;
 
         /// <summary>
@@ -537,11 +537,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         /// <param name="freq">The base frequency to which vibrato will be applied.</param>
         /// <returns>An <see cref="Outlet"/> object representing the frequency modulated with vibrato.</returns>
-        /// <inheritdoc cref="DocComments.Default"/>
+        /// <inheritdoc cref="docs._default"/>
         object _vibratodocs;
 
         /// <summary> Apply tremolo by modulating amplitude over time using an oscillator. </summary>
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         object _tremolodocs;
 
         /// <summary>

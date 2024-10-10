@@ -1,10 +1,13 @@
-﻿using System;
+﻿// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
+#pragma warning disable CS0649 // Field never assigned
+
 using JetBrains.Annotations;
 using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal class DocComments
+    internal class docs
     {
         /// <param name="freq"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
         /// <param name="frequency"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
@@ -24,7 +27,30 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <param name="vibratoSpeed">The speed of the vibrato modulation. A typical value might be 5.5.</param>
         /// <param name="vibratoDepth">The depth of the vibrato modulation. Typical values might include 0.0005.</param>
         /// <returns> An Outlet representing the output sound. </returns>
+        [UsedImplicitly] 
+        public static object _default;
+
+        /// <summary>
+        /// Create a Curve from a list of strings, that 'ASCII-encode' the curve. Putting the strings under each other, they create
+        /// a block of space with time on the horizontal axis and values on the vertical axis. The background character is usually
+        /// just a space character, but any other background character is possible and automatically recognized. Any character
+        /// other than the background character is seen as a data point. That way you can creatively choose your own characters.
+        /// White space is trimmed off of the top, bottom, left and right, leaving only the block of characters that contains data.
+        /// </summary>
         [UsedImplicitly]
-        public static object Default { get;set; }
+        public static object createcurvefromstrings;
+
+        /// <summary>
+        /// Shorthand that takes tuples like (0, 0), (0.1, 0.2), (0.2, 1.0)
+        /// and creates a curve from them.
+        /// </summary>
+        /// <param name="curveFactory"> The factory used to create the <see cref="Curve" />. </param>
+        /// <param name="nodeTuples">
+        /// A list of tuples representing the nodes,
+        /// where each tuple contains the x and y coordinates of a node.
+        /// </param>
+        /// <returns> A <see cref="Curve" /> object populated with the specified nodes. </returns>
+        [UsedImplicitly]
+        public static object createcurvewithtuples;
     }
 }

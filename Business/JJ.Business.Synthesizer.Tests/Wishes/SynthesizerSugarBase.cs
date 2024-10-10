@@ -23,10 +23,9 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_TOTAL_TIME = 3.0;
         private string NewLine => Environment.NewLine;
-        private readonly AudioFileOutputManager _audioFileOutputs;
-
-        public CurveFactory Curves { get; }
         
+        private readonly AudioFileOutputManager _audioFileOutputManager;
+       
         public SampleManager Samples { get; }
         
         public SynthesizerSugarBase()
@@ -45,8 +44,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                    PersistenceHelper.CreateRepository<IValueOperatorRepository>(context),
                    PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context))
         {
-            _audioFileOutputs = TestHelper.CreateAudioFileOutputManager(context);
-            Curves = TestHelper.CreateCurveFactory(context);
+            _audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
+            _curveFactory = TestHelper.CreateCurveFactory(context);
             Samples = TestHelper.CreateSampleManager(context);
 
             _ = new ValueIndexer(this);
@@ -79,7 +78,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         
         // ReSharper restore InconsistentNaming
         
-        /// <inheritdoc cref="DocComments.Default" />
+        /// <inheritdoc cref="docs._default" />
         public Outlet StrikeNote(Outlet sound, Outlet delay = null, Outlet volume = null)
         {
             if (delay != null) sound = TimeAdd(sound, delay);
@@ -87,13 +86,25 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return sound;
         }
 
-        /// <inheritdoc cref="DocComments.Default" />
+        /*
+        /// <inheritdoc cref="docs._default" />
         public Outlet StretchCurve(Curve curve, Outlet duration)
             => TimeMultiply(CurveIn(curve), duration);
+        */
+        
+        /*
+        /// <inheritdoc cref="docs._default" />
+        public Outlet StretchCurve(CurveInWrapper curveIn, Outlet duration)
+            => TimeMultiply(curveIn, duration);
+        */
+        
+        /// <inheritdoc cref="docs._default" />
+        public Outlet Stretch(Outlet signal, Outlet duration)
+            => TimeMultiply(signal, duration);
 
         /// <summary>
-        /// Wraps up a test for FM synthesis and outputs the result to a file.
-        /// Also, the entity data will be verified.
+        /// Wraps up a test and outputs the result to a file.
+        /// Also, the entity data tied to the outlet will be verified.
         /// </summary>
         public void SaveWav(
             Outlet outlet,
@@ -111,14 +122,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             var warnings = new RecursiveOperatorWarningValidator(outlet.Operator).ValidationMessages.Select(x => x.Text).ToList();
 
             // Configure AudioFileOutput
-            AudioFileOutput audioFileOutput = _audioFileOutputs.CreateAudioFileOutput();
+            AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
             audioFileOutput.Duration = duration;
             audioFileOutput.Amplifier = short.MaxValue * volume;
             audioFileOutput.FilePath = fileName;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
             // Validate AudioFileOutput
-            _audioFileOutputs.ValidateAudioFileOutput(audioFileOutput).Verify();
+            _audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
             warnings.AddRange(new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text));
 
             // Calculate
@@ -132,6 +143,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             var outputFileText = $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}";
             string warningText = warnings.Count == 0 ? "" : $"{NewLine}{NewLine}Warnings:{NewLine}" +
                                                             $"{string.Join(NewLine, warnings.Select(x => $"- {x}"))}";
+            
             Console.WriteLine(calculationTimeText + outputFileText + warningText);
         }
     }

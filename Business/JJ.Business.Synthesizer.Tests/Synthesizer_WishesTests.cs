@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Tests.Wishes;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -10,20 +11,19 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_CurveWishes_AsciiCurves_OneStringPerLine()
         {
-            Curve curve = CreateAsciiCurve_OneStringPerLine();
-            Outlet outlet = CurveIn(curve);
-            SaveWav(outlet, duration: 4, volume: 1);
+            CurveInWrapper curve = CreateAsciiCurve_OneStringPerLine();
+            SaveWav(curve, duration: 4, volume: 1);
         }
         
         [TestMethod]
         public void Test_Synthesizer_CurveWishes_AsciiCurves_VerboseStrings()
         {
-            Curve curve = CreateAsciiCurve_VerboseStrings();
-            Outlet outlet = CurveIn(curve);
-            SaveWav(outlet, duration: 4, volume: 1);
+            CurveInWrapper curve = CreateAsciiCurve_VerboseStrings();
+            SaveWav(curve, duration: 4, volume: 1);
         }
 
-        private Curve CreateAsciiCurve_OneStringPerLine() => Curves.Create(
+        private CurveInWrapper CreateAsciiCurve_OneStringPerLine() => CurveIn(
+            "CreateAsciiCurve_OneStringPerLine",
             start: 1, end: 3, min: -1, max: 0.5,
             "   o                 ",
             " o   o               ",
@@ -31,7 +31,8 @@ namespace JJ.Business.Synthesizer.Tests
             "           o         ",
             "o                   o");
 
-        private Curve CreateAsciiCurve_VerboseStrings() => Curves.Create(
+        private CurveInWrapper CreateAsciiCurve_VerboseStrings() => CurveIn(
+            "CreateAsciiCurve_VerboseStrings",
             start: 1, end: 3, min: -1, max: 0.5, @"
 
                o                 
@@ -43,7 +44,7 @@ namespace JJ.Business.Synthesizer.Tests
             ");
 
         /*
-        private Curve AsciiCurve_WithArt => CurveFactory.CreateCurve(
+        private CurveInWrapper AsciiCurve_WithArt => CurveFactory.CreateCurve(
             x:(1,3), y:(-1,0.5), @"
 
               ____________ DETUNICA VOLUME ____________
