@@ -129,7 +129,7 @@
     <Compile Include="Wishes\SynthesizerSugarBase.BarsIndexer.cs" />
     <Compile Include="Wishes\SynthesizerSugarBase.BeatsIndexer.cs" />
     <Compile Include="Wishes\SynthesizerSugarBase.BeatIndexer.cs" />
-    <Compile Include="Wishes\SynthesizerSugarBase.Curves.cs" />
+    <Compile Include="Wishes\CurveWishes.SynthesizerSugarBase.cs" />
     <Compile Include="Wishes\SynthesizerSugarBase.TimeIndexer.cs" />
     <Compile Include="Wishes\SynthesizerSugarBase.cs" />
     <Compile Include="Wishes\SynthesizerSugarBase.BarIndexer.cs" />
