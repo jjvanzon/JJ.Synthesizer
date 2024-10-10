@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using JetBrains.Annotations;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Tests.Helpers;
@@ -8,6 +7,7 @@ using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
 
 // ReSharper disable LocalizableElement
 
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Trombone()
-            => SaveWav(MildEcho(Trombone(_[Notes.E2])));
+            => SaveWav(MildEcho(Trombone(_[E2])));
 
         [TestMethod]
         public void Test_Synthesizer_FM_Horn()
@@ -300,7 +300,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Noise_Beating()
-            => SaveWav(MildEcho(Create_FM_Noise_Beating(_[Notes.A4])), duration: 5);
+            => SaveWav(MildEcho(Create_FM_Noise_Beating(_[A4])), duration: 5);
 
         #endregion
 
@@ -347,25 +347,25 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet FluteMelody1 => Adder
         (
-            Flute1(_[Notes.E4], t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
-            Flute1(_[Notes.F4], t[bar: 1, beat: 2.5], volume: _[0.70], beats[2.17]),
-            Flute1(_[Notes.G4], t[bar: 1, beat: 4.0], volume: _[0.60], beats[1.00]),
-            Flute1(_[Notes.A4], t[bar: 2, beat: 1.0], volume: _[0.80], beats[2.33]),
-            Flute2(_[Notes.B4], t[bar: 2, beat: 2.5], volume: _[0.50], beats[1.00]),
-            Flute1(_[Notes.A3], t[bar: 2, beat: 4.0], volume: _[0.50], beats[1.67]), // Appears delayed because of destructive interference?
-            Flute3(_[Notes.G3], t[bar: 3, beat: 1.0], volume: _[0.85], beats[2.00]),
-            Flute1(_[Notes.G4], t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
+            Flute1(_[E4], t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
+            Flute1(_[F4], t[bar: 1, beat: 2.5], volume: _[0.70], beats[2.17]),
+            Flute1(_[G4], t[bar: 1, beat: 4.0], volume: _[0.60], beats[1.00]),
+            Flute1(_[A4], t[bar: 2, beat: 1.0], volume: _[0.80], beats[2.33]),
+            Flute2(_[B4], t[bar: 2, beat: 2.5], volume: _[0.50], beats[1.00]),
+            Flute2(_[A3], t[bar: 2, beat: 4.0], volume: _[0.50], beats[1.67]), // Flute1 would appear delayed because of destructive interference?
+            Flute3(_[G3], t[bar: 3, beat: 1.0], volume: _[0.85], beats[2.00]),
+            Flute1(_[G4], t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
         );
 
         private Outlet FluteMelody2 => Adder
         (
-            Flute1(_[Notes.E4], t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
-            Flute2(_[Notes.F4], t[bar: 1, beat: 2.5], volume: _[0.68], beats[1.0]),
-            Flute1(_[Notes.G4], t[bar: 1, beat: 4.0], volume: _[0.74], beats[0.6]),
-            Flute2(_[Notes.A4], t[bar: 2, beat: 1.0], volume: _[0.82], beats[2.0]),
-            Flute3(_[Notes.B4], t[bar: 2, beat: 2.5], volume: _[0.74], beats[1.0]),
-            Flute2(_[Notes.G4], t[bar: 2, beat: 4.0], volume: _[0.90], beats[0.4]),
-            Flute4(_[Notes.A4], t[bar: 3, beat: 1.0], volume: _[1.00], _[1.66])
+            Flute1(_[E4], t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
+            Flute2(_[F4], t[bar: 1, beat: 2.5], volume: _[0.68], beats[1.0]),
+            Flute1(_[G4], t[bar: 1, beat: 4.0], volume: _[0.74], beats[0.6]),
+            Flute2(_[A4], t[bar: 2, beat: 1.0], volume: _[0.82], beats[2.0]),
+            Flute3(_[B4], t[bar: 2, beat: 2.5], volume: _[0.74], beats[1.0]),
+            Flute2(_[G4], t[bar: 2, beat: 4.0], volume: _[0.90], beats[0.4]),
+            Flute4(_[A4], t[bar: 3, beat: 1.0], volume: _[1.00], _[1.66])
         );
 
         private Outlet OrganChords
@@ -426,19 +426,19 @@ namespace JJ.Business.Synthesizer.Tests
             //Horn(_[Notes.E3], Beat[02]),
             //Horn(_[Notes.F2], Beat[05], duration: Beats[3]),
             //Horn(_[Notes.C3], Beat[07]),
-            Horn(_[Notes.C2], beat[09], duration: beats[3], volume: _[0.7]),
+            Horn(_[C2], beat[09], duration: beats[3], volume: _[0.7]),
             //Horn(_[Notes.G2], Beat[11]),
-            Horn(_[Notes.G1], beat[13], duration: beats[4], volume: _[0.5]) //,
+            Horn(_[G1], beat[13], duration: beats[4], volume: _[0.5]) //,
             //Horn(_[Notes.D3], Beat[15])
         );
 
         private Outlet HornMelody2 => Adder
         (
-            Horn(_[Notes.A2], beat[1], duration: beat[3], volume: _[0.75]),
+            Horn(_[A2], beat[1], duration: beat[3], volume: _[0.75]),
             //Horn(_[Notes.E3], Beat[3]),
-            Horn(_[Notes.F2], beat[5], duration: beat[3], volume: _[0.85]),
+            Horn(_[F2], beat[5], duration: beat[3], volume: _[0.85]),
             //Horn(_[Notes.C3], Beat[7]),
-            Horn(_[Notes.A1], beat[9], duration: beat[5], volume: _[1.0])
+            Horn(_[A1], beat[9], duration: beat[5], volume: _[1.0])
         );
 
         private Outlet TromboneMelody1 => Adder
@@ -456,24 +456,24 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet TromboneMelody2 => Adder
         (
             //Trombone(_[Notes.A2], Beat[1]),
-            Trombone(_[Notes.E4], beat[3], durationFactor: _[1.4]),
+            Trombone(_[E4], beat[3], durationFactor: _[1.4]),
             //Trombone(_[Notes.F2], Beat[5]),
-            Trombone(_[Notes.C4], beat[7], durationFactor: _[1.4]) //,
+            Trombone(_[C4], beat[7], durationFactor: _[1.4]) //,
             //Trombone(_[Notes.A3], Beat[9])
         );
 
         private Outlet TromboneMelody3 => Adder
         (
-            Trombone(_[Notes.A1]      , beat[1]),
-            Trombone(_[Notes.E2]      , beat[3]),
-            Trombone(_[Notes.F1_Sharp], beat[5], volume: _[0.7])
+            Trombone(_[A1]      , beat[1]),
+            Trombone(_[E2]      , beat[3]),
+            Trombone(_[F1_Sharp], beat[5], volume: _[0.7])
         );
 
         private Outlet RippleBassMelody1 => _[0];
         //RippleBass(_[Notes.A2], delay: Bar[1], duration: Bars[2]);
 
         private Outlet RippleBassMelody2 =>
-            RippleBass(_[Notes.A1], delay: bar[3.5], duration: bars[0.8]);
+            RippleBass(_[A1], delay: bar[3.5], duration: bars[0.8]);
 
         #endregion
 
@@ -483,7 +483,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Flute1(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A4];
+            freq = freq ?? _[A4];
 
             var fmSignal = FMAround0(Divide(freq, _[2]), freq, _[0.005]);
             var envelope = Stretch(FluteCurve, duration);
@@ -497,7 +497,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Flute2(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A4];
+            freq = freq ?? _[A4];
             volume = volume ?? _[1];
 
             var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2]), _[0.005]);
@@ -513,7 +513,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Flute3(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A4];
+            freq = freq ?? _[A4];
             volume = volume ?? _[1];
 
             var fmSignal = FMAroundFreq(freq, Multiply(freq, _[4]), _[0.005]);
@@ -529,7 +529,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Flute4(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A4];
+            freq = freq ?? _[A4];
             volume = volume ?? _[1];
 
             var fmSignal = FMAround0(Multiply(freq, _[2]), freq, _[0.005]);
@@ -544,7 +544,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Organ(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A4];
+            freq = freq ?? _[A4];
             duration = duration ?? _[1.0];
 
             var modCurve = Stretch(ModTamingCurve, duration);
@@ -562,7 +562,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null)
         {
-            freq = freq ?? _[Notes.A4];
+            freq = freq ?? _[A4];
 
             // Tame modulation
             var modCurveLength = bars[8];
@@ -595,18 +595,18 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Trombone(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet durationFactor = null)
         {
-            freq = freq ?? _[Notes.A1];
+            freq = freq ?? _[A1];
             durationFactor = durationFactor ?? _[1];
 
             var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, _[5]);
 
             // Exaggerate Duration when Lower
-            var baseNote = _[Notes.A1];
+            var baseNote = _[A1];
             var baseNoteDuration = Multiply(_[0.8], durationFactor);
             var ratio = Divide(baseNote, freq);
             var transformedDuration = Multiply(baseNoteDuration, Power(ratio, _[1.5]));
 
-            var envelope = Stretch(TromboneCurve, transformedDuration);
+            var envelope = Stretch(BrassCurve, transformedDuration);
             var sound = Multiply(fmSignal, envelope);
             var note = StrikeNote(sound, delay, volume);
 
@@ -623,12 +623,12 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Horn(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A2];
+            freq = freq ?? _[A2];
 
             var tamedMod = Multiply(_[5], Stretch(ModTamingCurve2, duration));
 
             var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, tamedMod);
-            var envelope = Stretch(TromboneCurve, duration);
+            var envelope = Stretch(BrassCurve, duration);
             var sound = Multiply(fmSignal, envelope);
             var note = StrikeNote(sound, delay, volume);
 
@@ -638,7 +638,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet ElectricNote(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A4];
+            freq = freq ?? _[A4];
             volume = volume ?? _[1];
 
             var modDepth = Multiply(_[0.02], Stretch(LineDownCurve, duration));
@@ -661,7 +661,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet RippleBass(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A1];
+            freq = freq ?? _[A1];
 
             var fmSignal = FMAroundFreq(Multiply(freq, _[8]), Divide(freq, _[2]), _[0.005]);
             var note = ShapeRippleSound(fmSignal, delay, volume, duration);
@@ -674,7 +674,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet RippleNote_SharpMetallic(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A3];
+            freq = freq ?? _[A3];
             var fmSignal = FMInHertz(freq, Divide(freq, _[2]), _[10]);
             var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
             return sound;
@@ -683,7 +683,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
         private Outlet RippleSound_Clean(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A4];
+            freq = freq ?? _[A4];
 
             var fmSignal = FMAroundFreq(freq, _[20], _[0.005]);
             var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
@@ -696,7 +696,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet RippleSound_FantasyEffect(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A5];
+            freq = freq ?? _[A5];
 
             var fmSignal = FMAroundFreq(freq, _[10], _[0.02]);
             var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
@@ -708,7 +708,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="ShapeRippleSound" />
         private Outlet RippleSound_CoolDouble(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[Notes.A5];
+            freq = freq ?? _[A5];
 
             var fmSignal = FMAroundFreq(freq, _[10], _[0.05]);
             var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
@@ -734,7 +734,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Mod speed much below sound freq, changes sound freq drastically * [0.5, 1.5]
         /// </summary>
         private Outlet Create_FM_Noise_Beating(Outlet pitch = null)
-            => FMAroundFreq(pitch ?? _[Notes.A4], _[55], _[0.5]);
+            => FMAroundFreq(pitch ?? _[A4], _[55], _[0.5]);
 
         #endregion
 
@@ -794,7 +794,7 @@ namespace JJ.Business.Synthesizer.Tests
             (time: 1.00, value: 0.0)
         );
 
-        Outlet TromboneCurve => CurveIn
+        Outlet BrassCurve => CurveIn
         (
             (time: 0.00, value: 1),
             (time: 0.93, value: 1),
@@ -879,15 +879,15 @@ namespace JJ.Business.Synthesizer.Tests
         private static readonly (double time, double frequency1, double frequency2, double frequency3)[]
             _chordFrequencies =
             {
-                (0.0, Notes.E4, Notes.A4, Notes.C5),
-                (1.0, Notes.F4, Notes.A4, Notes.C5),
-                (2.0, Notes.E4, Notes.G4, Notes.C5),
-                (3.0, Notes.D4, Notes.G4, Notes.B4),
-                (4.0, Notes.D4, Notes.F4, Notes.A4),
-                (5.0, Notes.F4, Notes.A4, Notes.D5),
-                (6.0, Notes.E4, Notes.A4, Notes.C5),
-                (7.0, Notes.E4, Notes.A5, Notes.E5),
-                (8.0, Notes.E4, Notes.A5, Notes.E5)
+                (0.0, E4, A4, C5),
+                (1.0, F4, A4, C5),
+                (2.0, E4, G4, C5),
+                (3.0, D4, G4, B4),
+                (4.0, D4, F4, A4),
+                (5.0, F4, A4, D5),
+                (6.0, E4, A4, C5),
+                (7.0, E4, A5, E5),
+                (8.0, E4, A5, E5)
             };
 
         Outlet ChordPitchCurve1 => CurveIn(
