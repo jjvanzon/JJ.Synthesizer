@@ -1,4 +1,6 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Framework.Persistence;
+
 // ReSharper disable InconsistentNaming
 // ReSharper disable MemberCanBeProtected.Global
 
@@ -6,29 +8,30 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 {
     public partial class SynthSugarBase
     {
-        private void InitializeNoteWishes(double beatLength, double barLength)
+        public SynthSugarBase(IContext context, double beat = 1, double bar = 4)
+            : this(context)
         {
-            bar = new BarIndexer(this, barLength);
-            bars = new BarsIndexer(this, barLength);
-            beat = new BeatIndexer(this, beatLength);
-            beats = new BeatsIndexer(this, beatLength);
-            t = new TimeIndexer(this, barLength, beatLength);
+            this.bar = new BarIndexer(this, bar);
+            bars = new BarsIndexer(this, bar);
+            this.beat = new BeatIndexer(this, beat);
+            beats = new BeatsIndexer(this, beat);
+            t = new TimeIndexer(this, bar, beat);
         }
 
         /// <inheritdoc cref="BarIndexer" />
-        public BarIndexer bar { get; private set; }
+        public BarIndexer bar { get; }
 
         /// <inheritdoc cref="BarsIndexer" />
-        public BarsIndexer bars { get; private set; }
+        public BarsIndexer bars { get; }
 
         /// <inheritdoc cref="BeatIndexer" />
-        public BeatIndexer beat { get; private set; }
+        public BeatIndexer beat { get; }
 
         /// <inheritdoc cref="BeatsIndexer" />
-        public BeatsIndexer beats { get; private set; }
+        public BeatsIndexer beats { get; }
 
         /// <inheritdoc cref="TimeIndexer" />
-        public TimeIndexer t { get; private set; }
+        public TimeIndexer t { get; }
 
         /// <summary>
         /// Returns the time in seconds of the start of a bar.
@@ -39,21 +42,20 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             private readonly SynthSugarBase _parent;
             private readonly double _barLength;
 
-            /// <inheritdoc cref="BarIndexer"/>
+            /// <inheritdoc cref="BarIndexer" />
             internal BarIndexer(SynthSugarBase parent, double barLength)
             {
                 _parent = parent;
                 _barLength = barLength;
             }
 
-            /// <inheritdoc cref="BarIndexer"/>
+            /// <inheritdoc cref="BarIndexer" />
             public ValueOperatorWrapper this[double count]
                 => _parent.Value((count - 1) * _barLength);
-
         }
-        
+
         /// <summary>
-        /// Returns duration of a number of bars in seconds.<br/>
+        /// Returns duration of a number of bars in seconds.<br />
         /// </summary>
         /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
         public class BarsIndexer
@@ -61,14 +63,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             private readonly SynthSugarBase _parent;
             private readonly double _barLength;
 
-            /// <inheritdoc cref="BarsIndexer"/>
+            /// <inheritdoc cref="BarsIndexer" />
             internal BarsIndexer(SynthSugarBase parent, double barLength)
             {
                 _parent = parent;
                 _barLength = barLength;
             }
 
-            /// <inheritdoc cref="BarsIndexer"/>
+            /// <inheritdoc cref="BarsIndexer" />
             public ValueOperatorWrapper this[double count]
                 => _parent.Value(count * _barLength);
         }
@@ -82,18 +84,18 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             private readonly SynthSugarBase _parent;
             private readonly double _beatLength;
 
-            /// <inheritdoc cref="BeatIndexer"/>
+            /// <inheritdoc cref="BeatIndexer" />
             internal BeatIndexer(SynthSugarBase parent, double beatLength)
             {
                 _parent = parent;
                 _beatLength = beatLength;
             }
 
-            /// <inheritdoc cref="BeatIndexer"/>
+            /// <inheritdoc cref="BeatIndexer" />
             public ValueOperatorWrapper this[double count]
                 => _parent.Value((count - 1) * _beatLength);
         }
-        
+
         /// <summary>
         /// Returns duration of a number of beats in seconds.
         /// </summary>
@@ -103,14 +105,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             private readonly SynthSugarBase _parent;
             private readonly double _beatLength;
 
-            /// <inheritdoc cref="BeatsIndexer"/>
+            /// <inheritdoc cref="BeatsIndexer" />
             internal BeatsIndexer(SynthSugarBase parent, double beatLength)
             {
                 _parent = parent;
                 _beatLength = beatLength;
             }
 
-            /// <inheritdoc cref="BeatsIndexer"/>
+            /// <inheritdoc cref="BeatsIndexer" />
             public ValueOperatorWrapper this[double count]
                 => _parent.Value(count * _beatLength);
         }

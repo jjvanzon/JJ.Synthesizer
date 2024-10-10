@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
-using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Validation;
@@ -16,10 +15,11 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 // ReSharper disable LocalizableElement
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable AssignmentInsteadOfDiscard
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public partial class SynthSugarBase : OperatorFactory
+    public partial class SynthSugarBase
     {
         private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_TOTAL_TIME = 3.0;
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             : this(PersistenceHelper.CreateContext())
         { }
 
-        public SynthSugarBase(IContext context, double beat = 1, double bar = 4)
+        public SynthSugarBase(IContext context)
             : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
                    PersistenceHelper.CreateRepository<IInletRepository>(context),
                    PersistenceHelper.CreateRepository<IOutletRepository>(context),
@@ -42,28 +42,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                    PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context))
         {
             _audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
-            _curveFactory = TestHelper.CreateCurveFactory(context);
             Samples = TestHelper.CreateSampleManager(context);
 
-            _ = new ValueIndexer(this);
-            
-            InitializeNoteWishes(beat, bar);
+            InitializeCurveWishes(context);
+            InitializeOperatorWishes();
         }
-
-        /// <inheritdoc cref="ValueIndexer" />
-        public readonly ValueIndexer _;
-        
-        /// <inheritdoc cref="docs._default" />
-        public Outlet StrikeNote(Outlet sound, Outlet delay = null, Outlet volume = null)
-        {
-            if (delay != null) sound = TimeAdd(sound, delay);
-            if (volume != null) sound = Multiply(sound, volume);
-            return sound;
-        }
-
-        /// <inheritdoc cref="docs._default" />
-        public Outlet Stretch(Outlet signal, Outlet duration)
-            => TimeMultiply(signal, duration ?? _[1]);
 
         /// <summary>
         /// Wraps up a test and outputs the result to a file.

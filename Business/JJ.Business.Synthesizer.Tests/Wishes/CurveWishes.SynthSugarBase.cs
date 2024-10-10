@@ -1,10 +1,12 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Factories;
-using JJ.Business.Synthesizer.Tests.Helpers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Framework.Persistence;
+
 // ReSharper disable MemberCanBeProtected.Global
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
@@ -13,8 +15,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
     {
         // This file adds overloads to the OperatorFactory methods,
         // that create a curve, wraps it into an operator, and caches it.
-        
-        private readonly CurveFactory _curveFactory;
+
+        private CurveFactory _curveFactory;
+
+        private void InitializeCurveWishes(IContext context)
+        {
+            _curveFactory = TestHelper.CreateCurveFactory(context);
+        }
 
         // Overloads with CurveFactory
 
@@ -64,12 +71,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.Create(lines)));
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
-        public CurveInWrapper CurveIn(string key, params string[] lines) 
+        public CurveInWrapper CurveIn(string key, params string[] lines)
             => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.Create(lines)));
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
         public CurveInWrapper CurveIn(
-            string key, double start = 0, double end = 1, double min = 0, double max = 1, 
+            string key, double start = 0, double end = 1, double min = 0, double max = 1,
             params string[] lines)
             => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.Create(start, end, min, max, lines)));
 
@@ -86,23 +93,18 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         // Curve Caching
 
         private readonly object _curveInDictionaryLock = new object();
+
         private readonly Dictionary<string, CurveInWrapper> _curveInDictionary =
-                     new Dictionary<string, CurveInWrapper>();
+            new Dictionary<string, CurveInWrapper>();
 
         /// <inheritdoc cref="docs.createcurve" />
         private CurveInWrapper GetOrCreateCurveIn(string key, Func<CurveInWrapper> func)
         {
-            if (string.IsNullOrEmpty(key))
-            {
-                return func();
-            }
-            
+            if (string.IsNullOrEmpty(key)) return func();
+
             lock (_curveInDictionaryLock)
             {
-                if (_curveInDictionary.TryGetValue(key, out CurveInWrapper curveIn))
-                {
-                    return curveIn;
-                }
+                if (_curveInDictionary.TryGetValue(key, out CurveInWrapper curveIn)) return curveIn;
 
                 curveIn = func();
                 _curveInDictionary[key] = curveIn;
