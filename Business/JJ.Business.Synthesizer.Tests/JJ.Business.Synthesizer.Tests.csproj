@@ -126,13 +126,13 @@
     <Compile Include="Synthesizer_ModulationTests.cs" />
     <Compile Include="Wishes\CurveWishes.CurveFactoryExtensions.cs" />
     <Compile Include="Helpers\docs.cs" />
-    <Compile Include="Wishes\SynthesizerSugarBase.BarsIndexer.cs" />
-    <Compile Include="Wishes\SynthesizerSugarBase.BeatsIndexer.cs" />
-    <Compile Include="Wishes\SynthesizerSugarBase.BeatIndexer.cs" />
-    <Compile Include="Wishes\CurveWishes.SynthesizerSugarBase.cs" />
-    <Compile Include="Wishes\SynthesizerSugarBase.TimeIndexer.cs" />
-    <Compile Include="Wishes\SynthesizerSugarBase.cs" />
-    <Compile Include="Wishes\SynthesizerSugarBase.BarIndexer.cs" />
+    <Compile Include="Wishes\SynthSugarBase.BarsIndexer.cs" />
+    <Compile Include="Wishes\SynthSugarBase.BeatsIndexer.cs" />
+    <Compile Include="Wishes\SynthSugarBase.BeatIndexer.cs" />
+    <Compile Include="Wishes\CurveWishes.SynthSugarBase.cs" />
+    <Compile Include="Wishes\SynthSugarBase.TimeIndexer.cs" />
+    <Compile Include="Wishes\SynthSugarBase.cs" />
+    <Compile Include="Wishes\SynthSugarBase.BarIndexer.cs" />
     <Compile Include="Wishes\WavHeaderWishes.cs" />
     <Compile Include="Synthesizer_HardCodedFMTests.cs" />
     <Compile Include="Synthesizer_FMTests.cs" />
@@ -149,7 +149,7 @@
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Synthesizer_AdditiveTests.cs" />
-    <Compile Include="Wishes\SynthesizerSugarBase.ValueIndexer.cs" />
+    <Compile Include="Wishes\SynthSugarBase.ValueIndexer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">

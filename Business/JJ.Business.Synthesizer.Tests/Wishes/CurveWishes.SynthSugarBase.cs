@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Infos;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public partial class SynthesizerSugarBase
+    public partial class SynthSugarBase
     {
         // This file adds overloads to the OperatorFactory methods,
         // that create a curve, wraps it into an operator, and caches it.

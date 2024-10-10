@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public partial class SynthesizerSugarBase
+    public partial class SynthSugarBase
     {
         /// <summary>
         /// Returns the start time of a beat in seconds.
@@ -10,11 +10,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
         public class BeatIndexer
         {
-            private readonly SynthesizerSugarBase _parent;
+            private readonly SynthSugarBase _parent;
             private readonly double _beatLength;
 
             /// <inheritdoc cref="BeatIndexer"/>
-            internal BeatIndexer(SynthesizerSugarBase parent, double beatLength)
+            internal BeatIndexer(SynthSugarBase parent, double beatLength)
             {
                 _parent = parent; 
                 _beatLength = beatLength;

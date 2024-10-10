@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public partial class SynthesizerSugarBase
+    public partial class SynthSugarBase
     {
         /// <summary>
         /// Returns the time in seconds of the start of a bar.
@@ -10,11 +10,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
         public class BarIndexer
         {
-            private readonly SynthesizerSugarBase _parent;
+            private readonly SynthSugarBase _parent;
             private readonly double _barLength;
 
             /// <inheritdoc cref="BarIndexer"/>
-            internal BarIndexer(SynthesizerSugarBase parent, double barLength)
+            internal BarIndexer(SynthSugarBase parent, double barLength)
             {
                 _parent = parent; 
                 _barLength = barLength;

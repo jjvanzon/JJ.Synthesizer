@@ -19,7 +19,7 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public partial class SynthesizerSugarBase : OperatorFactory
+    public partial class SynthSugarBase : OperatorFactory
     {
         private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_TOTAL_TIME = 3.0;
@@ -29,15 +29,15 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
        
         public SampleManager Samples { get; }
         
-        public SynthesizerSugarBase()
+        public SynthSugarBase()
             : this(PersistenceHelper.CreateContext())
         { }
 
-        public SynthesizerSugarBase(IContext context)
+        public SynthSugarBase(IContext context)
             : this(context, beat: 1, bar: 4)
         { }
 
-        public SynthesizerSugarBase(IContext context, double beat, double bar)
+        public SynthSugarBase(IContext context, double beat, double bar)
             : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
                    PersistenceHelper.CreateRepository<IInletRepository>(context),
                    PersistenceHelper.CreateRepository<IOutletRepository>(context),

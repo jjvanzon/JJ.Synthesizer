@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public partial class SynthesizerSugarBase
+    public partial class SynthSugarBase
     {
         /// <summary>
         /// This TimeIndexer provides shorthand for specifying bar and beat in a musical sense.
@@ -13,11 +13,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <returns> ValueOperatorWrapper also usable as Outlet or double. </returns>
         public class TimeIndexer
         {
-            private readonly SynthesizerSugarBase _parent;
+            private readonly SynthSugarBase _parent;
             private readonly double _barLength;
             private readonly double _beatLength;
 
-            internal TimeIndexer(SynthesizerSugarBase parent, double barLength, double beatLength)
+            internal TimeIndexer(SynthSugarBase parent, double barLength, double beatLength)
             {
                 _parent = parent; 
                 _barLength = barLength;
