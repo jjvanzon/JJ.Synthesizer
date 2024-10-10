@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.Create(lines)));
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
-        public CurveInWrapper CurveIn([CallerMemberName] string key = null, params string[] lines) 
+        public CurveInWrapper CurveIn(string key, params string[] lines) 
             => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.Create(lines)));
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
@@ -74,15 +74,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
         public CurveInWrapper CurveIn(
-            string key, double start = 0, double end = 1, double min = 0, double max = 1, 
-            IList<string> lines = null)
-            => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.Create(start, end, min, max, lines)));
-
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
-        public CurveInWrapper CurveIn(
             double start = 0, double end = 1, double min = 0, double max = 1,
             IList<string> lines = null, [CallerMemberName] string key = null)
             => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.Create(start, end, min, max, lines)));
+
+        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        public CurveInWrapper CurveIn(string text, [CallerMemberName] string key = null)
+            => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.Create(text)));
 
         // Curve Caching
 
@@ -90,8 +88,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         private readonly Dictionary<string, CurveInWrapper> _curveInDictionary =
                      new Dictionary<string, CurveInWrapper>();
 
+        /// <inheritdoc cref="docs.createcurve" />
         private CurveInWrapper GetOrCreateCurveIn(string key, Func<CurveInWrapper> func)
         {
+            if (string.IsNullOrEmpty(key))
+            {
+                return func();
+            }
+            
             lock (_curveInDictionaryLock)
             {
                 if (_curveInDictionary.TryGetValue(key, out CurveInWrapper curveIn))

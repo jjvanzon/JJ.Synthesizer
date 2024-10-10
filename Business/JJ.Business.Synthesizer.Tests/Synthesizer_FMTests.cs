@@ -755,8 +755,9 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Curves
 
-        private CurveInWrapper FluteCurve => CurveIn
+        Outlet FluteCurve => CurveIn
         (
+        
             "FluteCurve",
             (time: 0.00, value: 0.0),
             (time: 0.05, value: 0.8),
@@ -765,7 +766,7 @@ namespace JJ.Business.Synthesizer.Tests
             (time: 1.00, value: 0.0)
         );
 
-        private CurveInWrapper TromboneCurve => CurveIn
+        Outlet TromboneCurve => CurveIn
         (
             "TromboneCurve",
             (time: 0.00, value: 1),

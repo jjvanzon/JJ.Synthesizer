@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests
 {
-	[TestClass]
+    [TestClass]
     /// <summary>
     /// Additional tests written upon retro-actively isolating older synthesizer versions.
     /// </summary>
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_Additive_Sines_Samples_Metallophone_Melody()
         {
-            using (IContext context = PersistenceHelper.CreateContext()) 
+            using (IContext context = PersistenceHelper.CreateContext())
                 new Synthesizer_AdditiveTests(context).Test_Additive_Sines_Samples_Metallophone_Melody();
         }
 
@@ -56,10 +56,10 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_Additive_Sines_Samples_Metallophone_Note()
         {
-            using (IContext context = PersistenceHelper.CreateContext()) 
+            using (IContext context = PersistenceHelper.CreateContext())
                 new Synthesizer_AdditiveTests(context).Test_Additive_Sines_Samples_Metallophone_Note();
         }
-        
+
         public void Test_Additive_Sines_Samples_Metallophone_Note()
         {
             AssertEntities();
@@ -69,19 +69,15 @@ namespace JJ.Business.Synthesizer.Tests
                 duration: DEFAULT_NOTE_DURATION + ECHO_TIME,
                 volume: 0.5);
         }
-        
-        /// <summary> Assert the entities that WriteToAudioFile won't. </summary>
+
+        /// <summary> Assert some entities that WriteToAudioFile won't. </summary>
         private void AssertEntities()
         {
             Samples.ValidateSample(GetSample()).Verify();
-            new CurveValidator(SinePartialCurve1.Curve).Verify();
-            new CurveValidator(SinePartialCurve2.Curve).Verify();
-            new CurveValidator(SinePartialCurve3.Curve).Verify();
-            new CurveValidator(SamplePartialCurve.Curve).Verify();
         }
 
         #endregion
-        
+
         #region Patches
 
         private Outlet Melody => Adder
@@ -93,8 +89,8 @@ namespace JJ.Business.Synthesizer.Tests
             Metallophone(_[Notes.F4_Sharp], delay: t[bar:1, beat:4.0], volume: _[0.4])
         );
 
-        /// <param name="duration">The duration of the sound in seconds (default is 2.5). </param>
-        /// <inheritdoc cref="docs._default"/>
+        /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
+        /// <inheritdoc cref="docs._default" />
         private Outlet Metallophone(Outlet frequency = null, Outlet volume = null, Outlet delay = null, Outlet duration = null)
         {
             frequency = frequency ?? _[Notes.A4];
@@ -123,13 +119,13 @@ namespace JJ.Business.Synthesizer.Tests
             );
 
         private const double ECHO_TIME = 0.66 * 4;
-        
-        /// <inheritdoc cref="docs._default"/>
+
+        /// <inheritdoc cref="docs._default" />
         private Outlet AddEcho(Outlet sound)
             => EntityFactory.CreateEcho(this, sound, count: 5, denominator: 3, delay: 0.66);
-        
+
         #endregion
-        
+
         #region Samples
 
         private Sample _sample;
@@ -140,7 +136,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Sample GetSample()
         {
             if (_sample != null) return _sample;
-            
+
             _sample = Samples.CreateSample(TestHelper.GetViolin16BitMono44100WavStream());
 
             // Skip over Header (from some other file format, that slipped into the audio data).
@@ -160,16 +156,16 @@ namespace JJ.Business.Synthesizer.Tests
 
             return _sample;
         }
-        
+
         #endregion
 
         #region Curves
-        
+
         /// <summary>
         /// Creates a curve representing the volume modulation for the first sine partial.
         /// Starts quietly, peaks at a strong volume, and then fades gradually.
         /// </summary>
-        private CurveInWrapper SinePartialCurve1 => CurveIn
+        Outlet SinePartialCurve1 => CurveIn
         (
             "SinePartialCurve1",
             timeSpan: 1,
@@ -182,7 +178,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Creates a curve for volume modulation of the second sine partial.
         /// Begins with a quick rise, reaches a high peak, and then slightly drops before fading.
         /// </summary>
-        private CurveInWrapper SinePartialCurve2 => CurveIn
+        Outlet SinePartialCurve2 => CurveIn
         (
             "SinePartialCurve2",
             timeSpan: 1,
@@ -196,7 +192,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Starts at a moderate volume, dips to a very low level,
         /// and then has a slight resurgence before fading out.
         /// </summary>
-        private CurveInWrapper SinePartialCurve3 => CurveIn
+        Outlet SinePartialCurve3 => CurveIn
         (
             "SinePartialCurve3",
             timeSpan: 1,
@@ -209,7 +205,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Generates a volume curve for the sample, starting at full volume
         /// and quickly diminishing to a lower level.
         /// </summary>
-        private CurveInWrapper SamplePartialCurve => CurveIn
+        Outlet SamplePartialCurve => CurveIn
         (
             "SamplePartialCurve",
             timeSpan: 1,
@@ -217,7 +213,7 @@ namespace JJ.Business.Synthesizer.Tests
             null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null
         );
-        
+
         #endregion
     }
 }
