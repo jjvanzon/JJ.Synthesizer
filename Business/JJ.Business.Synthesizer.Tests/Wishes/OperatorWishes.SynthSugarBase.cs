@@ -9,13 +9,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 {
     public partial class SynthSugarBase : OperatorFactory
     {
-        /// <inheritdoc cref="ValueIndexer" />
-        public ValueIndexer _;
-
 		private void InitializeOperatorWishes()
-        {
-            _ = new ValueIndexer(this);
-        }
+            => _ = new ValueIndexer(this);
 
         public Outlet StrikeNote(Outlet sound, Outlet delay = null, Outlet volume = null)
         {
@@ -27,7 +22,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <inheritdoc cref="docs._default" />
         public Outlet Stretch(Outlet signal, Outlet duration)
             => TimeMultiply(signal, duration ?? _[1]);
-        
+
+        /// <inheritdoc cref="ValueIndexer" />
+        public ValueIndexer _;
+
         /// <summary>
         /// Shorthand for OperatorFactor.Value(123), x.Value(123) or Value(123). Allows using _[123] instead.
         /// Literal numbers need to be wrapped inside a Value Operator so they can always be substituted by
@@ -42,9 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             /// <inheritdoc cref="ValueIndexer"/>
             internal ValueIndexer(OperatorFactory parent)
-            {
-                _parent = parent;
-            }
+                => _parent = parent;
 
             /// <inheritdoc cref="ValueIndexer"/>
             public ValueOperatorWrapper this[double value] => _parent.Value(value);

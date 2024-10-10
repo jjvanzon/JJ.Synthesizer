@@ -11,7 +11,6 @@ using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 // ReSharper disable LocalizableElement
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable AssignmentInsteadOfDiscard
@@ -21,32 +20,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 {
     public partial class SynthSugarBase
     {
+        private void InitializeAudioFileOutputWishes(IContext context)
+            => _audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
+
+        private AudioFileOutputManager _audioFileOutputManager;
+
         private const double DEFAULT_TOTAL_VOLUME = 0.5;
         private const double DEFAULT_TOTAL_TIME = 3.0;
         private string NewLine => Environment.NewLine;
-        
-        private readonly AudioFileOutputManager _audioFileOutputManager;
-       
-        public SampleManager Samples { get; }
-        
-        public SynthSugarBase()
-            : this(PersistenceHelper.CreateContext())
-        { }
-
-        public SynthSugarBase(IContext context)
-            : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
-                   PersistenceHelper.CreateRepository<IInletRepository>(context),
-                   PersistenceHelper.CreateRepository<IOutletRepository>(context),
-                   PersistenceHelper.CreateRepository<ICurveInRepository>(context),
-                   PersistenceHelper.CreateRepository<IValueOperatorRepository>(context),
-                   PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context))
-        {
-            _audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
-            Samples = TestHelper.CreateSampleManager(context);
-
-            InitializeCurveWishes(context);
-            InitializeOperatorWishes();
-        }
 
         /// <summary>
         /// Wraps up a test and outputs the result to a file.
@@ -74,13 +55,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             audioFileOutput.FilePath = fileName;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-            // Lower sampling rate for NCrunch
-            int samplingRateForCodeCoverage = 1000;
-            if (Environment.GetEnvironmentVariable("NCrunch") != null)
-            {
-                Console.WriteLine($"Setting samplingrate to {samplingRateForCodeCoverage} to improve NCrunch code coverage performance.");
-                audioFileOutput.SamplingRate = samplingRateForCodeCoverage;
-            }
+            OptimizeForCodeCoverage(audioFileOutput);
 
             // Validate AudioFileOutput
             _audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
@@ -99,6 +74,17 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                                                             $"{string.Join(NewLine, warnings.Select(x => $"- {x}"))}";
             
             Console.WriteLine(calculationTimeText + outputFileText + warningText);
+        }
+
+        private void OptimizeForCodeCoverage(AudioFileOutput audioFileOutput)
+        {
+            // Lower sampling rate for NCrunch
+            int samplingRateForCodeCoverage = 1000;
+            if (Environment.GetEnvironmentVariable("NCrunch") != null)
+            {
+                Console.WriteLine($"Setting samplingrate to {samplingRateForCodeCoverage} to improve NCrunch code coverage performance.");
+                audioFileOutput.SamplingRate = samplingRateForCodeCoverage;
+            }
         }
     }
 }
