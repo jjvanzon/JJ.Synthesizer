@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
+﻿using System.Security.Cryptography.X509Certificates;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -22,14 +23,18 @@ namespace JJ.Business.Synthesizer.Tests
             SaveWav(curve, duration: 4, volume: 1);
         }
 
-        private CurveInWrapper CreateAsciiCurve_OneStringPerLine() => CurveIn(
-            "CreateAsciiCurve_OneStringPerLine",
+        private CurveInWrapper CreateAsciiCurve_OneStringPerLine() => CurveIn
+        (
             start: 1, end: 3, min: -1, max: 0.5,
-            "   o                 ",
-            " o   o               ",
-            "                     ",
-            "           o         ",
-            "o                   o");
+            lines: new[]
+            {
+                "   o                 ",
+                " o   o               ",
+                "                     ",
+                "           o         ",
+                "o                   o"
+            }
+        );
 
         private CurveInWrapper CreateAsciiCurve_VerboseStrings() => CurveIn(
             "CreateAsciiCurve_VerboseStrings",

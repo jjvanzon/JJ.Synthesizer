@@ -41,13 +41,18 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static object createcurvefromstrings;
 
         /// <summary>
-        /// Shorthand that takes tuples like (0, 0), (0.1, 0.2), (0.2, 1.0)
-        /// and creates a curve from them.
+        /// Create a <see cref="Curve" /> from a list of tuples like (0, 0), (0.1, 0.2), (0.2, 1.0).<br/>
+        /// NOTE: If you get the wrong <see cref="Curve" /> back, see <paramref name="key"/> parameter for info about caching.
         /// </summary>
         /// <param name="curveFactory"> The factory used to create the <see cref="Curve" />. </param>
         /// <param name="nodeTuples">
         /// A list of tuples representing the nodes,
         /// where each tuple contains the x and y coordinates of a node.
+        /// </param>
+        /// <param name="key">
+        /// The cache key for the curve.
+        /// Using the same key for two different curves won't work.
+        /// If you don't specify a key yourself, the calling member's name will be used.
         /// </param>
         /// <returns> A <see cref="Curve" /> object populated with the specified nodes. </returns>
         [UsedImplicitly]

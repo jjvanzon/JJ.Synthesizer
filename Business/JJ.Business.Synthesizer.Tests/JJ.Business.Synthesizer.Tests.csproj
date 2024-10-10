@@ -124,7 +124,7 @@
   <ItemGroup>
     <Compile Include="Synthesizer_WishesTests.cs" />
     <Compile Include="Synthesizer_ModulationTests.cs" />
-    <Compile Include="Wishes\CurveWishes.cs" />
+    <Compile Include="Wishes\CurveWishes.CurveFactoryExtensions.cs" />
     <Compile Include="Helpers\docs.cs" />
     <Compile Include="Wishes\SynthesizerSugarBase.BarsIndexer.cs" />
     <Compile Include="Wishes\SynthesizerSugarBase.BeatsIndexer.cs" />
