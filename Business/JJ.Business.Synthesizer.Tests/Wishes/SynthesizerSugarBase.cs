@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+// ReSharper disable LocalizableElement
 
 // ReSharper disable AssignmentInsteadOfDiscard
 
@@ -127,6 +128,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             audioFileOutput.Amplifier = short.MaxValue * volume;
             audioFileOutput.FilePath = fileName;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
+
+            // Lower sampling rate for NCrunch
+            int samplingRateForCodeCoverage = 1000;
+            if (Environment.GetEnvironmentVariable("NCrunch") != null)
+            {
+                Console.WriteLine($"Setting samplingrate to {samplingRateForCodeCoverage} to improve NCrunch code coverage performance.");
+                audioFileOutput.SamplingRate = samplingRateForCodeCoverage;
+            }
 
             // Validate AudioFileOutput
             _audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
