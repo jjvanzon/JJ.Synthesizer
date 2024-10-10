@@ -1,7 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using JJ.Business.Synthesizer.EntityWrappers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Tests.Wishes;
-using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests
@@ -10,12 +8,18 @@ namespace JJ.Business.Synthesizer.Tests
     public class Synthesizer_WishesTests : SynthSugarBase
     {
         [TestMethod]
-        public void Test_Synthesizer_CurveWishes_AsciiCurves_OneStringPerLine()
+        public void Test_Synthesizer_CurveWishes_AsciiCurves_OneStringPerLine_WithRange()
         {
-            CurveInWrapper curve = CreateAsciiCurve_OneStringPerLine();
+            CurveInWrapper curve = CreateAsciiCurve_OneStringPerLine_WithRange();
             SaveWav(curve, duration: 4, volume: 1);
         }
-        
+        [TestMethod]
+        public void Test_Synthesizer_CurveWishes_AsciiCurves_OneStringPerLine_WithoutRange()
+        {
+            CurveInWrapper curve = CreateAsciiCurve_OneStringPerLine_WithoutRange();
+            SaveWav(curve, duration: 4, volume: 1);
+        }
+
         [TestMethod]
         public void Test_Synthesizer_CurveWishes_AsciiCurves_VerboseStrings()
         {
@@ -23,22 +27,27 @@ namespace JJ.Business.Synthesizer.Tests
             SaveWav(curve, duration: 4, volume: 1);
         }
 
-        private CurveInWrapper CreateAsciiCurve_OneStringPerLine() => CurveIn
+        private CurveInWrapper CreateAsciiCurve_OneStringPerLine_WithoutRange() => CurveIn
         (
-            start: 1, end: 3, min: -1, max: 0.5,
-            lines: new[]
-            {
-                "   o                 ",
-                " o   o               ",
-                "                     ",
-                "           o         ",
-                "o                   o"
-            }
+            "   o                 ",
+            " o   o               ",
+            "                     ",
+            "           o         ",
+            "o                   o"
+        );
+
+        private CurveInWrapper CreateAsciiCurve_OneStringPerLine_WithRange() => CurveIn
+        (
+            x: (start: 1, end: 3), y: (min: -1, max: 0.5),
+            "   o                 ",
+            " o   o               ",
+            "                     ",
+            "           o         ",
+            "o                   o"
         );
 
         private CurveInWrapper CreateAsciiCurve_VerboseStrings() => CurveIn(
-            "CreateAsciiCurve_VerboseStrings",
-            start: 1, end: 3, min: -1, max: 0.5, @"
+            x: (start: 1, end: 3), y: (min: -1, max: 0.5), @"
 
                o                 
              o   o                           

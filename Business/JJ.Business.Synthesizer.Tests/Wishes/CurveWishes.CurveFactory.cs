@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Infos;
@@ -13,15 +12,15 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 {
     public static class CurveFactoryExtensions
     {
-        public static Curve Create(this CurveFactory curveFactory, IList<NodeInfo> nodeInfos)
+        public static Curve CreateCurve(this CurveFactory curveFactory, IList<NodeInfo> nodeInfos)
             => curveFactory.CreateCurve(nodeInfos.ToArray());
 
         /// <inheritdoc cref="docs.createcurvewithtuples" />
-        public static Curve Create(this CurveFactory curveFactory, params (double time, double value)[] nodeTuples)
-            => curveFactory.Create((IList<(double x, double y)>)nodeTuples);
+        public static Curve CreateCurve(this CurveFactory curveFactory, params (double time, double value)[] nodeTuples)
+            => curveFactory.CreateCurve((IList<(double x, double y)>)nodeTuples);
 
         /// <inheritdoc cref="docs.createcurvewithtuples" />
-        public static Curve Create(this CurveFactory curveFactory, IList<(double time, double value)> nodeTuples)
+        public static Curve CreateCurve(this CurveFactory curveFactory, IList<(double time, double value)> nodeTuples)
         {
             if (curveFactory == null) throw new NullException(() => curveFactory);
             if (nodeTuples == null) throw new NullException(() => nodeTuples);
@@ -33,22 +32,22 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         // ASCII Curves
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
-        public static Curve Create(this CurveFactory curveFactory, IList<string> lines)
-            => curveFactory.Create(0, 1, 0, 1, lines?.ToList());
+        public static Curve CreateCurve(this CurveFactory curveFactory, IList<string> lines)
+            => curveFactory.CreateCurve(0, 1, 0, 1, lines?.ToList());
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
-        public static Curve Create(this CurveFactory curveFactory, params string[] lines)
-            => curveFactory.Create(0, 1, 0, 1, lines?.ToList());
+        public static Curve CreateCurve(this CurveFactory curveFactory, params string[] lines)
+            => curveFactory.CreateCurve(0, 1, 0, 1, lines?.ToList());
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
-        public static Curve Create(
+        public static Curve CreateCurve(
             this CurveFactory curveFactory,
             double start = 0, double end = 1, double min = 0, double max = 1,
             params string[] lines)
-            => curveFactory.Create(start, end, min, max, lines?.ToList());
+            => curveFactory.CreateCurve(start, end, min, max, lines?.ToList());
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
-        public static Curve Create(
+        public static Curve CreateCurve(
             this CurveFactory curveFactory,
             double start = 0, double end = 1, double min = 0, double max = 1,
             IList<string> lines = null)
@@ -97,7 +96,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             // Sort by time
             nodes = nodes.OrderBy(x => x.Time).ToArray();
             
-            return curveFactory.Create(nodes);
+            return curveFactory.CreateCurve(nodes);
         }
 
         /// <summary>

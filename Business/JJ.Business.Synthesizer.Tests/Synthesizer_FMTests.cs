@@ -368,16 +368,46 @@ namespace JJ.Business.Synthesizer.Tests
             Flute4(_[Notes.A4], t[bar: 3, beat: 1.0], volume: _[1.00], _[1.66])
         );
 
-        private Outlet OrganChords => Multiply
-        (
-            Stretch(ChordVolumeCurve, bars[1]),
-            Adder
-            (
-                Organ(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
-                Organ(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
-                Organ(Stretch(ChordPitchCurve3, bars[1]), duration: bars[8])
-            )
-        );
+        private Outlet OrganChords
+        {
+            get
+            {
+                var envelope = Stretch(ChordVolumeCurve, bars[1]);
+                SaveWav(envelope, duration: 12, fileName: "envelope.wav");
+                
+                var pitchCurve1 = Stretch(ChordPitchCurve1, bars[1]);
+                SaveWav(pitchCurve1, duration: 12, fileName: "pitchCurve1.wav");
+                
+                var pitchCurve2 = Stretch(ChordPitchCurve2, bars[1]);
+                SaveWav(pitchCurve2, duration: 12, fileName: "pitchCurve2.wav");
+
+                var pitchCurve3 = Stretch(ChordPitchCurve3, bars[1]);
+                SaveWav(pitchCurve3, duration: 12, fileName: "pitchCurve3.wav");
+
+                var organVoice1 = Organ(pitchCurve1, duration: bars[8]);
+                SaveWav(organVoice1, duration: 12, fileName: "organVoice1.wav");
+
+                var organVoice2 = Organ(pitchCurve2, duration: bars[8]);
+                SaveWav(organVoice2, duration: 12, fileName: "organVoice2.wav");
+
+                var organVoice3 = Organ(pitchCurve3, duration: bars[8]);
+                SaveWav(organVoice3, duration: 12, fileName: "organVoice3.wav");
+
+                var organChords = Multiply
+                (
+                    envelope,
+                    Adder
+                    (
+                        organVoice1,
+                        organVoice2,
+                        organVoice3
+                    )
+                );
+                SaveWav(organChords, duration: 12, fileName: "organChords.wav");
+                
+                return organChords;
+            }
+        }
 
         private Outlet PadChords => Multiply
         (
@@ -757,8 +787,6 @@ namespace JJ.Business.Synthesizer.Tests
 
         Outlet FluteCurve => CurveIn
         (
-        
-            "FluteCurve",
             (time: 0.00, value: 0.0),
             (time: 0.05, value: 0.8),
             (time: 0.10, value: 1.0),
@@ -768,15 +796,13 @@ namespace JJ.Business.Synthesizer.Tests
 
         Outlet TromboneCurve => CurveIn
         (
-            "TromboneCurve",
             (time: 0.00, value: 1),
             (time: 0.93, value: 1),
             (time: 1.00, value: 0)
         );
 
-        private CurveInWrapper RippleCurve => CurveIn
+        Outlet RippleCurve => CurveIn
         (
-            "RippleCurve",
             (time: 0.00, value: 0.00),
             (time: 0.01, value: 0.75),
             (time: 0.05, value: 0.50),
@@ -784,18 +810,16 @@ namespace JJ.Business.Synthesizer.Tests
             (time: 1.00, value: 0.00)
         );
 
-        private CurveInWrapper DampedBlockCurve => CurveIn
+        Outlet DampedBlockCurve => CurveIn
         (
-            "DampedBlockCurve",
             (time: 0.00, value: 0),
             (time: 0.01, value: 1),
             (time: 0.99, value: 1),
             (time: 1.00, value: 0)
         );
 
-        private CurveInWrapper LineDownCurve => CurveIn
+        Outlet LineDownCurve => CurveIn
         (
-            "LineDownCurve",
             (time: 0, value: 1),
             (time: 1, value: 0)
         );
@@ -805,26 +829,20 @@ namespace JJ.Business.Synthesizer.Tests
         /// In this version of FM synthesis, the modulation depth accumulates over time without such taming.
         /// This is because of a lack of time tracking in the oscillators in this version.
         /// </summary>
-        private CurveInWrapper ModTamingCurve => CurveIn
+        Outlet ModTamingCurve => CurveIn
         (
-            "ModTamingCurve",
-            timeSpan: 1,
             0.3, 1.0, 0.3, 0.0
         );
 
         /// <inheritdoc cref="ModTamingCurve" />
-        private CurveInWrapper ModTamingCurve2 => CurveIn
+        Outlet ModTamingCurve2 => CurveIn
         (
-            "ModTamingCurve2",
-            timeSpan: 1,
             1.0, 0.5, 0.2, 0.0
         );
 
         /// <inheritdoc cref="ModTamingCurve" />
-        private CurveInWrapper ModTamingCurve8Times => CurveIn
+        Outlet ModTamingCurve8Times => CurveIn
         (
-            "ModTamingCurve8Times",
-            timeSpan: 1,
             0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0,
@@ -836,9 +854,8 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         /// <summary> When harmonics thicken near the center, this curve can even out the volume over time. </summary>
-        private CurveInWrapper EvenOutCurve => CurveIn
+        Outlet EvenOutCurve => CurveIn
         (
-            "EvenOutCurve",
             (time: 0.00, value: 1.0),
             (time: 0.33, value: 0.6),
             (time: 0.50, value: 0.6),
@@ -846,9 +863,8 @@ namespace JJ.Business.Synthesizer.Tests
             (time: 1.00, value: 1.0)
         );
 
-        private CurveInWrapper ChordVolumeCurve => CurveIn
+        Outlet ChordVolumeCurve => CurveIn
         (
-            "ChordVolumeCurve",
             (0.0, 0.0), (0.05, 0.0), (0.98, 0.5),
             (1.0, 0.0), (1.05, 0.6), (1.98, 0.6),
             (2.0, 0.0), (2.05, 0.8), (2.98, 0.8),
@@ -874,20 +890,17 @@ namespace JJ.Business.Synthesizer.Tests
                 (8.0, Notes.E4, Notes.A5, Notes.E5)
             };
 
-        CurveInWrapper ChordPitchCurve1 => CurveIn(
-            "ChordPitchCurve1",
+        Outlet ChordPitchCurve1 => CurveIn(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.frequency1,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        private CurveInWrapper ChordPitchCurve2 => CurveIn(
-            "ChordPitchCurve2",
+        Outlet ChordPitchCurve2 => CurveIn(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.frequency2,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        private CurveInWrapper ChordPitchCurve3 => CurveIn(
-            "ChordPitchCurve3",
+        Outlet ChordPitchCurve3 => CurveIn(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.frequency3,
                                                        NodeTypeEnum.Block)).ToArray());

@@ -36,18 +36,21 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// just a space character, but any other background character is possible and automatically recognized. Any character
         /// other than the background character is seen as a data point. That way you can creatively choose your own characters.
         /// White space is trimmed off of the top, bottom, left and right, leaving only the block of characters that contains data.<br/>
-        /// NOTE: If you get the wrong <see cref="Curve" /> back, see <paramref name="key"/> parameter for info about caching.
+        /// NOTE: If you get the wrong curve back, see <paramref name="key"/> parameter for info about caching.
         /// </summary>
         /// <inheritdoc cref="createcurve" />
         public static object createcurvefromstrings;
 
         /// <summary>
-        /// Create a <see cref="Curve" /> from a list of tuples like (0, 0), (0.1, 0.2), (0.2, 1.0).<br/>
-        /// NOTE: If you get the wrong <see cref="Curve" /> back, see <paramref name="key"/> parameter for info about caching.
+        /// Create a curve from a list of tuples like (0, 0), (0.1, 0.2), (0.2, 1.0).<br/>
+        /// NOTE: If you get the wrong curve back, see <paramref name="key"/> parameter for info about caching.
         /// </summary>
         /// <inheritdoc cref="createcurve" />
         public static object createcurvewithtuples;
 
+        /// <summary>
+        /// NOTE: If you get the wrong curve back, see <paramref name="key"/> parameter for info about caching.
+        /// </summary>
         /// <param name="curveFactory"> The factory used to create the <see cref="Curve" />. </param>
         /// <param name="nodeTuples">
         /// A list of tuples representing the nodes,
@@ -57,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// The cache key for the curve.
         /// Using the same key for two different curves won't work.
         /// If you don't specify a key yourself, the calling member's name may be used.
-        /// If no key at all can be resolved, the curve won't be cached.
+        /// If no key at all can be resolved, an exception is thrown.
         /// </param>
         /// <returns> A curve populated with the specified data. </returns>
         public static object createcurve;

@@ -167,8 +167,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         Outlet SinePartialCurve1 => CurveIn
         (
-            "SinePartialCurve1",
-            timeSpan: 1,
             0.00, 0.80, 1.00, null, null, null, null, null,
             0.25, null, null, null, null, null, null, null,
             0.10, null, null, 0.02, null, null, null, 0.00
@@ -180,8 +178,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         Outlet SinePartialCurve2 => CurveIn
         (
-            "SinePartialCurve2",
-            timeSpan: 1,
             0.00, 1.00, 0.80, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.05, null, null, 0.01, null, null, null, 0.00
@@ -194,8 +190,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         Outlet SinePartialCurve3 => CurveIn
         (
-            "SinePartialCurve3",
-            timeSpan: 1,
             0.30, 1.00, 0.30, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.15, null, null, 0.05, null, null, null, 0.00
@@ -207,8 +201,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         Outlet SamplePartialCurve => CurveIn
         (
-            "SamplePartialCurve",
-            timeSpan: 1,
             1.00, 0.50, 0.20, null, null, null, null, 0.00,
             null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null
