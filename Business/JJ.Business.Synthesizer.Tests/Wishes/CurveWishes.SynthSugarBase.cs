@@ -7,9 +7,12 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Framework.Common;
 using JJ.Framework.Persistence;
+using JJ.Persistence.Synthesizer;
 
 // ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable LocalizableElement
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
@@ -27,66 +30,66 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         // Overloads with NodeInfo
         
-        public CurveInWrapper CurveIn(string key, IList<NodeInfo> nodeInfos)
-            => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(nodeInfos)));
+        public CurveInWrapper CurveIn(string name, IList<NodeInfo> nodeInfos)
+            => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(nodeInfos)));
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(IList<NodeInfo> nodeInfos)
         {
-            string key = new StackFrame(1).GetMethod().Name;
-            return GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(nodeInfos)));
+            string name = new StackFrame(1).GetMethod().Name.CutLeft("get_");
+            return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(nodeInfos)));
         }
 
-        public CurveInWrapper CurveIn(string key, params NodeInfo[] nodeInfos)
-            => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(nodeInfos)));
+        public CurveInWrapper CurveIn(string name, params NodeInfo[] nodeInfos)
+            => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(nodeInfos)));
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(params NodeInfo[] nodeInfos)
         {
-            string key = new StackFrame(1).GetMethod().Name;
-            return GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(nodeInfos)));
+            string name = new StackFrame(1).GetMethod().Name.CutLeft("get_");
+            return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(nodeInfos)));
         }
 
         // Overloads with doubles
 
         /// <inheritdoc cref="CurveFactory.CreateCurve(double, double?[])" />
         /// <inheritdoc cref="docs.createcurve" />
-        public CurveInWrapper CurveIn(string key, params double?[] values)
-            => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values)));
+        public CurveInWrapper CurveIn(string name, params double?[] values)
+            => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values)));
 
         /// <inheritdoc cref="CurveFactory.CreateCurve(double, double?[])" />
         /// <inheritdoc cref="docs.createcurve" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(params double?[] values)
         {
-            string key = new StackFrame(1).GetMethod().Name;
-            return GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values)));
+            string name = new StackFrame(1).GetMethod().Name.CutLeft("get_");
+            return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values)));
         }
 
         // Overload with Tuples
 
         /// <inheritdoc cref="docs.createcurvewithtuples" />
-        public CurveInWrapper CurveIn(string key, IList<(double time, double value)> nodeTuples)
-            => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(nodeTuples)));
+        public CurveInWrapper CurveIn(string name, IList<(double time, double value)> nodeTuples)
+            => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(nodeTuples)));
 
         /// <inheritdoc cref="docs.createcurvewithtuples" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(IList<(double time, double value)> nodeTuples)
         {
-            string key = new StackFrame(1).GetMethod().Name;
-            return GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(nodeTuples)));
+            string name = new StackFrame(1).GetMethod().Name.CutLeft("get_");
+            return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(nodeTuples)));
         }
 
         /// <inheritdoc cref="docs.createcurvewithtuples" />
-        public CurveInWrapper CurveIn(string key, params (double time, double value)[] nodeTuples)
-            => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(nodeTuples)));
+        public CurveInWrapper CurveIn(string name, params (double time, double value)[] nodeTuples)
+            => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(nodeTuples)));
 
         /// <inheritdoc cref="docs.createcurvewithtuples" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper  CurveIn(params (double time, double value)[] nodeTuples)
         {
-            string key = new StackFrame(1).GetMethod().Name;
-            return GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(nodeTuples)));
+            string name = new StackFrame(1).GetMethod().Name.CutLeft("get_");
+            return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(nodeTuples)));
         }
 
         // Overload with Strings
@@ -95,43 +98,43 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(string text)
         {
-            string key = new StackFrame(1).GetMethod().Name;
-            return GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(text)));
+            string name = new StackFrame(1).GetMethod().Name.CutLeft("get_");
+            return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(text)));
         }
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
-        public CurveInWrapper CurveIn(string key, IList<string> lines)
-            => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(lines)));
+        public CurveInWrapper CurveIn(string name, IList<string> lines)
+            => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(lines)));
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(IList<string> lines)
         {
-            string key = new StackFrame(1).GetMethod().Name;
-            return GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(lines)));
+            string name = new StackFrame(1).GetMethod().Name.CutLeft("get_");
+            return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(lines)));
         }
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(string requiredFirstLine, params string[] remainingLines)
         {
-            string key = new StackFrame(1).GetMethod().Name;
+            string name = new StackFrame(1).GetMethod().Name.CutLeft("get_");
             string[] combinedLines = new[] { requiredFirstLine }.Concat(remainingLines).ToArray();
-            return GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(combinedLines)));
+            return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(combinedLines)));
         }
 
         // Overload with String and Ranges
         
         /// <inheritdoc cref="docs.createcurvefromstrings" />
         public CurveInWrapper CurveIn(
-            string key, 
+            string name, 
             (double start, double end) x,
             (double min, double max) y,
             string requiredFirstLine,
             params string[] remainingLines)
         {
             string[] combinedLines = new[] { requiredFirstLine }.Concat(remainingLines).ToArray();
-            return GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, combinedLines)));
+            return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, combinedLines)));
         }
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
@@ -142,18 +145,18 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             string line1, // Enforces at least 1 line
             params string[] remainingLines)
         {
-            string key = new StackFrame(1).GetMethod().Name;
+            string name = new StackFrame(1).GetMethod().Name.CutLeft("get_");
             string[] combinedLines = new[] { line1 }.Concat(remainingLines).ToArray();
-            return GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, combinedLines)));
+            return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, combinedLines)));
         }
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
         public CurveInWrapper CurveIn(
-            string key,
+            string name,
             (double start, double end) x,
             (double min, double max) y,
             IList<string> lines) 
-            => GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, lines)));
+            => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, lines)));
 
         /// <inheritdoc cref="docs.createcurvefromstrings" />
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -162,11 +165,25 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             (double min, double max) y,
             IList<string> lines)
         {
-            string key = new StackFrame(1).GetMethod().Name;
-            return GetOrCreateCurveIn(key, () => CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, lines)));
+            string name = new StackFrame(1).GetMethod().Name.CutLeft("get_");
+            return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, lines)));
         }
 
         // Curve Caching
+
+        public CurveInWrapper GetCurve(string name)
+        {
+            lock (_curveLock)
+            {
+                if (_curveInDictionary.TryGetValue(name, out CurveInWrapper curveInWrapper))
+                {
+                    return curveInWrapper;
+                    
+                }
+                
+                throw new Exception($"{nameof(Curve)} with {nameof(name)} '{name}' not found.");
+            }
+        }
 
         private readonly object _curveLock = new object();
 
@@ -174,26 +191,39 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             new Dictionary<string, CurveInWrapper>();
 
         /// <inheritdoc cref="docs.createcurve" />
-        private CurveInWrapper GetOrCreateCurveIn(string key, Func<CurveInWrapper> func)
+        private CurveInWrapper GetOrCreateCurveIn(string name, Func<CurveInWrapper> func)
         {
-            if (string.IsNullOrEmpty(key))
+            if (string.IsNullOrEmpty(name))
             {
                 throw new Exception(
-                    $"Cache {nameof(key)} could not be resolved from context. " +
-                    $"Consider explicitly specifying the {nameof(key)} parameter.");
+                    "Cache key could not be resolved from context. " +
+                    "Consider explicitly specifying the name parameter.");
             }
 
             lock (_curveLock)
             {
-                if (_curveInDictionary.TryGetValue(key, out CurveInWrapper curveIn)) return curveIn;
-
-                // ReSharper disable once LocalizableElement
-                //Console.WriteLine($"Adding curve '{key}' to dictionary.");
+                if (_curveInDictionary.TryGetValue(name, out CurveInWrapper curveInWrapper))
+                {
+                    Console.WriteLine($"Curve {name} reused");
+                    
+                    return curveInWrapper;
+                }
                 
-                curveIn = func();
-                _curveInDictionary[key] = curveIn;
 
-                return curveIn;
+                curveInWrapper = func();
+
+                // Assign names
+                {
+                    Outlet outlet = curveInWrapper;
+                    outlet.Operator.Name = name;
+                    curveInWrapper.Curve.Name = name;
+                }
+
+                _curveInDictionary[name] = curveInWrapper;
+
+                Console.WriteLine($"Curve {name} cached");
+
+                return curveInWrapper;
             }
         }
     }
