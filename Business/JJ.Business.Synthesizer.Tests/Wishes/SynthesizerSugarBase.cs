@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         
         /// <inheritdoc cref="docs._default" />
         public Outlet Stretch(Outlet signal, Outlet duration)
-            => TimeMultiply(signal, duration);
+            => TimeMultiply(signal, duration ?? _[1]);
 
         /// <summary>
         /// Wraps up a test and outputs the result to a file.

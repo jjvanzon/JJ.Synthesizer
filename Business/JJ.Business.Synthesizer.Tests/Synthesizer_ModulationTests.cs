@@ -378,8 +378,13 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="_vibratodocs" />
-        Outlet VibratoOverPitch(Outlet freq, Outlet vibratoSpeed = null, Outlet vibratoDepth = null) 
-            => Multiply(freq, Add(_[1], Sine(vibratoDepth, vibratoSpeed)));
+        Outlet VibratoOverPitch(Outlet freq, Outlet vibratoSpeed = null, Outlet vibratoDepth = null)
+        {
+            vibratoSpeed = vibratoSpeed ?? _[5.5];
+            vibratoDepth = vibratoDepth ?? _[0.0005];
+
+            return Multiply(freq, Add(_[1], Sine(vibratoDepth, vibratoSpeed)));
+        }
 
         /// <inheritdoc cref="_tremolodocs" />
         Outlet Tremolo(Outlet sound, Outlet tremoloSpeed, Outlet tremoloDepth)
