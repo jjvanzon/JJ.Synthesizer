@@ -4,3 +4,6 @@ obj
 packages
 *.user
 .vscode
+*.ncrunchsolution
+*.ncrunchproject
+/.NCrunch_Synthesizer
