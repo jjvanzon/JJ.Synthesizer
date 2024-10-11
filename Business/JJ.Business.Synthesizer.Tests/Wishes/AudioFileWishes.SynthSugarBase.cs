@@ -11,10 +11,6 @@ using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
-// ReSharper disable LocalizableElement
-// ReSharper disable MemberCanBeProtected.Global
-// ReSharper disable AssignmentInsteadOfDiscard
-// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
@@ -55,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             audioFileOutput.FilePath = fileName;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-            OptimizeForCodeCoverage(audioFileOutput);
+            OptimizeForTooling(audioFileOutput);
 
             // Validate AudioFileOutput
             _audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
@@ -76,14 +72,25 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             Console.WriteLine(calculationTimeText + outputFileText + warningText);
         }
 
-        private void OptimizeForCodeCoverage(AudioFileOutput audioFileOutput)
+        /// <summary>
+        /// Optimizes the given <see cref="AudioFileOutput"/> for tooling environments such as NCrunch and Azure Pipelines.
+        /// It can do this by lowering the audio sampling rate for instance.
+        /// </summary>
+        /// <param name="audioFileOutput">The <see cref="AudioFileOutput"/> to be optimized.</param>
+        private void OptimizeForTooling(AudioFileOutput audioFileOutput)
         {
-            // Lower sampling rate for NCrunch
-            int samplingRateForCodeCoverage = 1000;
             if (Environment.GetEnvironmentVariable("NCrunch") != null)
             {
-                Console.WriteLine($"Setting samplingrate to {samplingRateForCodeCoverage} to improve NCrunch code coverage performance.");
-                audioFileOutput.SamplingRate = samplingRateForCodeCoverage;
+                audioFileOutput.SamplingRate = 1000;
+                Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " +
+                                  "to improve NCrunch code coverage performance.");
+            }
+
+            if (Environment.GetEnvironmentVariable("TF_BUILD") == "True")
+            {
+                audioFileOutput.SamplingRate = 11025;
+                Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " + 
+                                  "to improve Azure Pipelines test performance.");
             }
         }
     }
