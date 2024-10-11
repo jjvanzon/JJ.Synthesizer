@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             {
                 if (_curveInDictionary.TryGetValue(name, out CurveInWrapper curveInWrapper))
                 {
-                    Console.WriteLine($"Curve {name} reused");
+                    //Console.WriteLine($"Curve {name} reused");
                     
                     return curveInWrapper;
                 }
@@ -221,7 +221,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
                 _curveInDictionary[name] = curveInWrapper;
 
-                Console.WriteLine($"Curve {name} cached");
+                //Console.WriteLine($"Curve {name} cached");
 
                 return curveInWrapper;
             }
