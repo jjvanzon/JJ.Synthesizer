@@ -122,6 +122,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Synthesizer_OperatorWishesTests.cs" />
     <Compile Include="Synthesizer_CurveWishesTests.cs" />
     <Compile Include="Synthesizer_ModulationTests.cs" />
     <Compile Include="Wishes\AudioFileWishes.WavHeaderExtensions.cs" />
