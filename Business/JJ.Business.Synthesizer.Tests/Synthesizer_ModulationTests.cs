@@ -36,6 +36,19 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
+        public void Test_Synthesizer_Modulation_DetunicaBass()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new Synthesizer_ModulationTests(context).Test_Modulation_DetunicaBass();
+        }
+
+        /// <inheritdoc cref="_detunicadocs" />
+        void Test_Modulation_DetunicaBass()
+            => SaveWav(DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.2);
+
+
+        /// <inheritdoc cref="_detunicadocs" />
+        [TestMethod]
         public void Test_Synthesizer_Modulation_Detunica1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -153,26 +166,31 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
         (
-            Detunica1(bar[1], _[E0], _[1.00], duration: bars[5.0]),
-            Detunica1(bar[1], _[E1], _[0.80], duration: bars[5.0]),
-            Detunica1(bar[1], _[E2], _[0.70], duration: bars[5.0]),
-            Detunica1(bar[1], _[E3], _[0.40], duration: bars[5.0]),
-            Detunica1(bar[1], _[E4], _[0.30], duration: bars[5.0]),
-
+            DetunicaBass(bar[1], duration: bars[5.0]),
             Detunica2(bar[2], _[B4], _[0.85], duration: bars[1.5]),
             Detunica3(bar[3], _[C5], _[0.75], duration: bars[1.6]),
             Detunica4(bar[4], _[D5], _[0.90], duration: bars[1.5]),
             Detunica5(bar[5], _[E5], _[1.00], duration: bars[3.0])
         );
 
+        Outlet DetunicaBass(Outlet delay = null, Outlet duration = null) =>
+            Adder(
+                Detunica1(delay, _[E0], _[1.00], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
+                Detunica1(delay, _[E1], _[0.80], duration, detuneDepth: _[0.8], chorusRate: _[0.038]),
+                Detunica1(delay, _[E2], _[0.30], duration, detuneDepth: _[0.4], chorusRate: _[0.034]),
+                Detunica1(delay, _[E3], _[0.10], duration, detuneDepth: _[0.2], chorusRate: _[0.030]));
+                //Detunica1(delay, _[E4], _[0.10], duration, detuneDepth: _[0.1], chorusRate: _[0.010]));
+
         /// <inheritdoc cref="_detunicadocs" />
-        Outlet Detunica1(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
+        Outlet Detunica1(
+            Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null, 
+            Outlet detuneDepth = null, Outlet chorusRate = null)
             => Detunica(
                 delay, freq, volume, duration,
-                vibrato: (_[5.5], _[0.00010]),
-                tremolo: (_[3.0], _[0.04]),
-                detuneDepth: _[0.8],
-                chorusRate: Multiply(_[0.03], DetuneCurve1),
+                vibrato: (_[3.0], _[0.00010]),
+                tremolo: (_[1.0], _[0.03]),
+                detuneDepth: detuneDepth ?? _[0.8],
+                chorusRate: Multiply(chorusRate ?? _[0.03], DetuneCurve1),
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -238,24 +256,11 @@ namespace JJ.Business.Synthesizer.Tests
         {
             duration = duration ?? _[1];
 
-            if (vibrato != default)
-            {
-                freq = VibratoOverPitch(freq, vibrato);
-            }
-
-            // Base additive synthesis waveform
+            if (vibrato != default) freq = VibratoOverPitch(freq, vibrato);
             var baseHarmonics = BaseHarmonics(freq);
-
-            // Apply detune by modulating harmonic frequencies slightly
             var detunedHarmonics = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
-
-            // Mix them together
             Outlet sound = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
-
-            if (tremolo != default)
-            {
-                sound = Tremolo(sound, tremolo);
-            }
+            if (tremolo != default) sound = Tremolo(sound, tremolo);
 
             // Apply volume curve
             switch (envelopeVariation)
@@ -461,7 +466,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// A detuned note characterized by a rich and slightly eerie sound due to the detuned harmonics.
         /// It produces a haunting tone with subtle shifts in pitch.
         /// </summary>
-        /// <param name="detuneRate">
+        /// <param name="detuneDepth">
         /// The detune depth, adjusting the harmonic frequencies relative to the base frequency,
         /// creating a subtle dissonance and eerie quality.<br /><br />
         /// If the detune depth is low, this may cause a slow _tremolo-like effect
