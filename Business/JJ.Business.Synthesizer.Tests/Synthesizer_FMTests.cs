@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void Test_FM_Jingle()
-            => SaveWav(DeepEcho(Composition()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(Jingle()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void Test_Synthesizer_FM_Flute_Melody1()
@@ -304,9 +304,9 @@ namespace JJ.Business.Synthesizer.Tests
 
         #endregion
 
-        #region Composition
+        #region Jingle
 
-        private Outlet Composition()
+        private Outlet Jingle()
         {
             double fluteVolume = 1.2;
             double chordsVolume = 0.5;
@@ -368,55 +368,26 @@ namespace JJ.Business.Synthesizer.Tests
             Flute4(_[A4], t[bar: 3, beat: 1.0], volume: _[1.00], _[1.66])
         );
 
-        private Outlet OrganChords
-        {
-            get
-            {
-                var envelope = Stretch(ChordVolumeCurve, bars[1]);
-                SaveWav(envelope, duration: 12, fileName: "envelope.wav");
-                
-                var pitchCurve1 = Stretch(ChordPitchCurve1, bars[1]);
-                SaveWav(pitchCurve1, duration: 12, fileName: "pitchCurve1.wav");
-                
-                var pitchCurve2 = Stretch(ChordPitchCurve2, bars[1]);
-                SaveWav(pitchCurve2, duration: 12, fileName: "pitchCurve2.wav");
-
-                var pitchCurve3 = Stretch(ChordPitchCurve3, bars[1]);
-                SaveWav(pitchCurve3, duration: 12, fileName: "pitchCurve3.wav");
-
-                var organVoice1 = Organ(pitchCurve1, duration: bars[8]);
-                SaveWav(organVoice1, duration: 12, fileName: "organVoice1.wav");
-
-                var organVoice2 = Organ(pitchCurve2, duration: bars[8]);
-                SaveWav(organVoice2, duration: 12, fileName: "organVoice2.wav");
-
-                var organVoice3 = Organ(pitchCurve3, duration: bars[8]);
-                SaveWav(organVoice3, duration: 12, fileName: "organVoice3.wav");
-
-                var organChords = Multiply
+        Outlet OrganChords =>
+            Multiply
+            (
+                Stretch(ChordVolumeCurve, bars[1]),
+                Adder
                 (
-                    envelope,
-                    Adder
-                    (
-                        organVoice1,
-                        organVoice2,
-                        organVoice3
-                    )
-                );
-                SaveWav(organChords, duration: 12, fileName: "organChords.wav");
-                
-                return organChords;
-            }
-        }
+                    Organ(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
+                    Organ(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
+                    Organ(Stretch(ChordPitchCurve3, bars[1]), duration: bars[8])
+                )
+            );
 
         private Outlet PadChords => Multiply
         (
             Stretch(ChordVolumeCurve, bars[1]),
             Adder
             (
-                Pad(Stretch(ChordPitchCurve1, bars[1])),
-                Pad(Stretch(ChordPitchCurve2, bars[1])),
-                Pad(Stretch(ChordPitchCurve3, bars[1]))
+                Pad(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
+                Pad(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
+                Pad(Stretch(ChordPitchCurve3, bars[1]), duration: bars[8])
             )
         );
 
@@ -545,7 +516,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet Organ(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[A4];
-            duration = duration ?? _[1.0];
+            duration = duration ?? _[1];
 
             var modCurve = Stretch(ModTamingCurve, duration);
             var modDepth = Multiply(_[0.0001], modCurve);
@@ -560,15 +531,15 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="docs._default" />
-        private Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null)
+        private Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? _[A4];
+            duration = duration ?? beats[1];
 
             // Tame modulation
-            var modCurveLength = bars[8];
-            var modCurve = Stretch(ModTamingCurve8Times, modCurveLength);
-            modCurve = Multiply(modCurve, Stretch(ModTamingCurve, modCurveLength));
-            modCurve = Multiply(modCurve, Stretch(LineDownCurve, modCurveLength));
+            var modCurve = Stretch(ModTamingCurve8Times, duration);
+            modCurve = Multiply(modCurve, Stretch(ModTamingCurve, duration));
+            modCurve = Multiply(modCurve, Stretch(LineDownCurve, duration));
 
             var fmSignal = Add
             (
@@ -576,7 +547,7 @@ namespace JJ.Business.Synthesizer.Tests
                 FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.00015], modCurve))
             );
 
-            var volumeEvenOutCurve = Stretch(EvenOutCurve, modCurveLength);
+            var volumeEvenOutCurve = Stretch(EvenOutCurve, duration);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
 
             var note = StrikeNote(soundWithEvenVolume, delay, volume);
