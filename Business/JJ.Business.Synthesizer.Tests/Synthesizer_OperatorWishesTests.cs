@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -23,16 +24,15 @@ namespace JJ.Business.Synthesizer.Tests
             : base(context)
         { }
 
-
         [TestMethod]
-        public void Test_Synthesizer_OperatorWishes_Panning_WithDoubles_AssertSimpleValues()
+        public void Test_Synthesizer_OperatorWishes_Panning_WithDoublePanning_ConstantValues()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_WithDoubles_AssertSimpleValues();
+                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_WithDoublePanning_ConstantValues();
         }
 
         [TestMethod]
-        public void Test_OperatorWishes_Panning_WithDoubles_AssertSimpleValues()
+        public void Test_OperatorWishes_Panning_WithDoublePanning_ConstantValues()
         {
             // Arrange
             var input = (left: _[0.8], right: _[0.6]);
@@ -49,6 +49,39 @@ namespace JJ.Business.Synthesizer.Tests
             double expectedRight = 0.6 * panning;      // 0.6 * 0.5 = 0.3
             AssertHelper.AreEqual(expectedLeft, () => outputLeftValue);
             AssertHelper.AreEqual(expectedRight, () => outputRightValue);
+        }
+
+
+        [TestMethod]
+        public void Test_Synthesizer_OperatorWishes_Panning_WithDoublePanning_SineWave()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_WithDoublePanning_SineWave();
+        }
+
+        [TestMethod]
+        public void Test_OperatorWishes_Panning_WithDoublePanning_SineWave()
+        {
+            // Arrange
+            var sine = Sine(pitch: _[1]);
+            var stereoInput = (sine, sine);
+            double panning = 0.25;
+
+            // Act
+            var pannedSine = Panning(stereoInput, panning);
+            var calculator = new OperatorCalculator(default);
+            double maxValueLeft = calculator.CalculateValue(pannedSine.left, time: 0.25);
+            double minValueLeft = calculator.CalculateValue(pannedSine.left, time: 0.75);
+            double maxValueRight = calculator.CalculateValue(pannedSine.right, time: 0.25);
+            double minValueRight = calculator.CalculateValue(pannedSine.right, time: 0.75);
+            
+            // TODO: SaveWav stereo signal support.
+
+            // Assert
+            AssertHelper.AreEqual(0.75, () => maxValueLeft);
+            AssertHelper.AreEqual(-0.75, () => minValueLeft);
+            AssertHelper.AreEqual(0.25, () => maxValueRight);
+            AssertHelper.AreEqual(-0.25, () => minValueRight);
         }
 
         [TestMethod]

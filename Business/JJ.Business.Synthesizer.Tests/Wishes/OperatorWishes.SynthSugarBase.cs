@@ -17,16 +17,19 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         private void InitializeOperatorWishes()
             => _ = new ValueIndexer(this);
 
+        /// <inheritdoc cref="docs._default" />
+        public Outlet Stretch(Outlet signal, Outlet timeFactor)
+            => TimeMultiply(signal, timeFactor ?? _[1]);
+        
+        /// <inheritdoc cref="_sinedocs"/>
+        public Outlet Sine(Outlet pitch) => Sine(_[1], pitch);
+
         public Outlet StrikeNote(Outlet sound, Outlet delay = null, Outlet volume = null)
         {
             if (delay != null) sound = TimeAdd(sound, delay);
             if (volume != null) sound = Multiply(sound, volume);
             return sound;
         }
-
-        /// <inheritdoc cref="docs._default" />
-        public Outlet Stretch(Outlet signal, Outlet timeFactor)
-            => TimeMultiply(signal, timeFactor ?? _[1]);
 
         /// <inheritdoc cref="docs._vibrato" />
         public Outlet VibratoOverPitch(Outlet freq, (Outlet speed, Outlet depth) vibrato = default)
@@ -176,9 +179,18 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         #region Docs
 
-        #pragma warning disable CS0169 // Field is never used
+#pragma warning disable CS0169 // Field is never used
 
         // ReSharper disable IdentifierTypo
+
+        /// <summary>
+        /// Generates a sine wave signal with the specified pitch.<br/>
+        /// Simpler variation on the one in the original OperatorFactory
+        /// with pitch as the first and only parameter.
+        /// </summary>
+        /// <param name="pitch">The frequency in Hz of the sine wave.</param>
+        /// <returns>An <see cref="Outlet"/> representing the sine wave signal.</returns>
+        object _sinedocs;
 
         /// <summary>
         /// Applies panning to a stereo signal by adjusting the left and right
