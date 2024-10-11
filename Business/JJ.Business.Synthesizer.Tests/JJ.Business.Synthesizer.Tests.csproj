@@ -124,13 +124,13 @@
   <ItemGroup>
     <Compile Include="Synthesizer_WishesTests.cs" />
     <Compile Include="Synthesizer_ModulationTests.cs" />
-    <Compile Include="Wishes\AudioFileWishes.WavHeaderWishes.cs" />
+    <Compile Include="Wishes\AudioFileWishes.WavHeaderExtensions.cs" />
     <Compile Include="Wishes\CurveWishes.CurveFactory.cs" />
     <Compile Include="Helpers\docs.cs" />
     <Compile Include="Wishes\NoteWishes.TimeIndexers.cs" />
     <Compile Include="Wishes\CurveWishes.SynthSugarBase.cs" />
     <Compile Include="Wishes\AudioFileWishes.SynthSugarBase.cs" />
-    <Compile Include="Wishes\AudioFileWishes.Conversions.cs" />
+    <Compile Include="Wishes\AudioFileWishes.Conversion.cs" />
     <Compile Include="Synthesizer_HardCodedFMTests.cs" />
     <Compile Include="Synthesizer_FMTests.cs" />
     <Compile Include="Wishes\NoteWishes.Notes.cs" />

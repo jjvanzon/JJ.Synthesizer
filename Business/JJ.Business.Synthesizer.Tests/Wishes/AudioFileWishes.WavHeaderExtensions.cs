@@ -7,8 +7,7 @@ using JJ.Framework.IO;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    /// <summary> I wish these things were in JJ.Synthesizer </summary>
-    public static class WavHeaderWishes
+    public static class WavHeaderExtensions
     {
         // WriteWavHeader
 

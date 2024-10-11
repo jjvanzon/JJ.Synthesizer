@@ -101,7 +101,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         /// <summary>
         /// Prep Data: Split into unique lines and determine the window where there are characters.
-        /// White space is trimmed off of the top, bottom, left and right, leaving only the block of characters that contains data.
+        /// White space is trimmed off of the top, bottom, left and right,
+        /// leaving only the block of characters that contains data.
         /// </summary>
         private static IList<string> TrimAsciiCurve(IList<string> lines)
         {
