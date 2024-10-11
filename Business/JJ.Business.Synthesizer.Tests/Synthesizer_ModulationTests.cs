@@ -176,10 +176,10 @@ namespace JJ.Business.Synthesizer.Tests
         Outlet DetunicaBass(Outlet delay = null, Outlet duration = null) =>
             Adder(
                 Detunica1(delay, _[E0], _[1.00], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
-                Detunica1(delay, _[E1], _[0.80], duration, detuneDepth: _[0.8], chorusRate: _[0.038]),
-                Detunica1(delay, _[E2], _[0.30], duration, detuneDepth: _[0.4], chorusRate: _[0.034]),
-                Detunica1(delay, _[E3], _[0.10], duration, detuneDepth: _[0.2], chorusRate: _[0.030]));
-                //Detunica1(delay, _[E4], _[0.10], duration, detuneDepth: _[0.1], chorusRate: _[0.010]));
+                Detunica2(delay, _[E1], _[0.80], duration/*, detuneDepth: _[0.8], chorusRate: _[0.038]*/),
+                Detunica3(delay, _[E2], _[0.30], duration/*, detuneDepth: _[0.4], chorusRate: _[0.034]*/),
+                Detunica4(delay, _[E3], _[0.10], duration/*, detuneDepth: _[0.2], chorusRate: _[0.030]*/),
+                Detunica5(delay, _[E4], _[0.05], duration/*, detuneDepth: _[0.1], chorusRate: _[0.010]*/));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica1(
@@ -410,51 +410,51 @@ namespace JJ.Business.Synthesizer.Tests
         #region Curves
 
         Outlet DetunicaPatchyVolumeCurve => CurveIn(@"
-                             o                             
-                        
-                                  o                         
-                o       o
-                    o                                     
+                         o                             
+                    
+                              o                         
+            o       o
+                o                                     
 
-                                         o                   
+                                     o                   
 
-            o                                       o ");
+        o                                       o ");
 
         Outlet DetunicaEvenVolumeCurve => CurveIn(@"
-                              o                             
-                       
-                                                            
-              o                             o
-                                                          
-                                        
-                                         
-               
-            o                                       o ");
+                          o                             
+                   
+                                                        
+          o                             o
+                                                      
+                                    
+                                     
+           
+        o                                       o ");
 
         Outlet DetuneCurve1 => CurveIn(@"
-                        o          
-                                    
-                                    
-            o                   o ");
+                    o          
+                                
+                                
+        o                   o");
 
         Outlet DetuneCurve2 => CurveIn(@"
-                 o                 
-                                    
-                                    
-            o                   o ");
+             o                 
+                                
+                                
+        o                   o ");
 
         Outlet DetuneCurve3 => CurveIn(@"
-                      o            
-                                    
-                                    
-            o                   o ");
+                  o            
+                                
+                                
+        o                   o ");
 
         Outlet VibraphaseVolumeCurve => CurveIn(@"
-               o                   
-             o   o                 
-                                    
-                       o           
-            o                   o ");
+           o                   
+         o   o                 
+                                
+                   o           
+        o                   o ");
 
         #endregion
 
