@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Tests
             AssertEntities();
 
             SaveWav(
-                AddEcho(Melody),
+                AddEcho(MetallophoneJingle),
                 volume: 0.3,
                 duration: 1.2 + DEFAULT_NOTE_DURATION + ECHO_TIME);
         }
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Patches
 
-        Outlet Melody => Adder
+        Outlet MetallophoneJingle => Adder
         (
             Metallophone(_[A4],       delay: t[bar:1, beat:1.0], volume: _[0.9]),
             Metallophone(_[E5],       delay: t[bar:1, beat:1.5], volume: _[1.0]),
