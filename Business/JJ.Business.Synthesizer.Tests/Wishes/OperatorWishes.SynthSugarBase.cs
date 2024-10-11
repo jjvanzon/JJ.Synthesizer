@@ -104,18 +104,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             return Panning(channels, zeroToOne);
         }
-
-
-        /// <summary>
-        /// If the frequency is the referenceFrequency,
-        /// then the new panning is the referencePanning.
-        /// Calculates the new panning by extrapolating.
-        /// </summary>
-        /// <param name="actualFrequency"> </param>
-        /// <param name="centerFrequency"> </param>
-        /// <param name="referenceFrequency"> </param>
-        /// <param name="referencePanning"> </param>
-        /// <returns> </returns>
+        
+        /// <inheritdoc cref="_pitchpandocs"/>
         public Outlet PitchPan(
             Outlet actualFrequency, Outlet centerFrequency,
             Outlet referenceFrequency, Outlet referencePanning)
@@ -133,11 +123,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             Outlet factor = Multiply(actualInterval, referenceInterval);
 
-            Outlet newPanningDeviation = Multiply(Substract(referencePanning, centerPanning), factor);
+            //Outlet newPanningDeviation = Multiply(Substract(referencePanning, centerPanning), factor);
             // AI's correction:
-            //Outlet newPanningDeviation = Multiply(Substract(referencePanning, centerPanning), Substract(factor, _[1]));
+            Outlet newPanningDeviation = Multiply(Substract(referencePanning, centerPanning), Substract(factor, _[1]));
             Outlet newPanning = Add(centerPanning, newPanningDeviation);
-
 
             return newPanning;
         }
@@ -158,15 +147,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             private readonly OperatorFactory _parent;
 
             /// <inheritdoc cref="ValueIndexer" />
-            internal ValueIndexer(OperatorFactory parent)
-            {
-                _parent = parent;
-            }
+            internal ValueIndexer(OperatorFactory parent) => _parent = parent;
 
             /// <inheritdoc cref="ValueIndexer" />
             public ValueOperatorWrapper this[double value] => _parent.Value(value);
         }
-
 
         #region Docs
 
@@ -208,6 +193,32 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// after applying the panbrello effect.
         /// </returns>
         object _panbrellodocs;
+
+        /// <summary>
+        /// Returns a panning based on the pitch,
+        /// to spread different notes across a stereo field.
+        /// (In other words: If the frequency is the referenceFrequency,
+        /// then the panning is the referencePanning.
+        /// Calculates the new panning for the supplied frequency by extrapolating.)
+        /// </summary>
+        /// <param name="actualFrequency">
+        /// The frequency for which to calculate a panning value.
+        /// </param>
+        /// <param name="centerFrequency">
+        /// The center frequency used as a reference point.
+        /// Defaults to A4 if not provided.
+        /// </param>
+        /// <param name="referenceFrequency">
+        /// The reference frequency to assign a specific panning value to.
+        /// Defaults to E4 if not provided.
+        /// </param>
+        /// <param name="referencePanning">
+        /// Panning value that the reference pitch would get.
+        /// Defaults to 0.6 if not provided.
+        /// </param>
+        /// <returns>The adjusted panning value based on the pitch.</returns>
+        object _pitchpandocs;
+
         #endregion
     }
 }
