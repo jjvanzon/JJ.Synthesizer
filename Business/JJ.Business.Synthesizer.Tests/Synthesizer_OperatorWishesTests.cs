@@ -32,18 +32,24 @@ namespace JJ.Business.Synthesizer.Tests
         void Test_OperatorWishes_PitchPan_UsingOperators()
         {
             // Arrange
-            Outlet centerFrequency = _[A4];
-            Outlet referenceFrequency = _[A5];
-            Outlet referencePanning = _[1];
+            double centerFrequency = A4;
+            double referenceFrequency = A5;
+            double referencePanning = 1;
+            Console.WriteLine($"Input: {new { centerFrequency, referenceFrequency, referencePanning }}");
+            
+            Outlet e4 = _[E4];
+            Outlet g4 = _[G4];
 
             // Act
-            Outlet panningOpE4 = PitchPan(_[E4], centerFrequency, referenceFrequency, referencePanning);
-            Outlet panningOpG4 = PitchPan(_[G4], centerFrequency, referenceFrequency, referencePanning);
+            Outlet panningOpE4 = PitchPan(e4, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
+            Outlet panningOpG4 = PitchPan(g4, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
 
             var calculator = new OperatorCalculator(default);
             
             double panningValueE4 = calculator.CalculateValue(panningOpE4, default);
             double panningValueG4 = calculator.CalculateValue(panningOpG4, default);
+            
+            Console.WriteLine($"Output: {new { panningValueE4, panningValueG4 }}");
 
             // Assert
             Assert.IsNotNull(panningOpE4);
@@ -78,7 +84,6 @@ namespace JJ.Business.Synthesizer.Tests
             Console.WriteLine($"Output: {new { panningValueE4, panningValueG4 }}");
 
             // Assert
-
             Assert.IsTrue(panningValueE4 > 0.5);
             Assert.IsTrue(panningValueE4 < 1.0);
             Assert.IsTrue(panningValueG4 > 0.5);
