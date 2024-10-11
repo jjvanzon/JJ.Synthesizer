@@ -115,41 +115,62 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             referenceFrequency = referenceFrequency ?? _[E4];
             referencePanning = referencePanning ?? _[0.6];
 
-            Outlet centerPanning = _[0.5];
+            var centerPanning = _[0.5];
 
             // Calculate intervals relative to the center frequency
-            Outlet referenceInterval = Divide(referenceFrequency, centerFrequency);
-            Outlet actualInterval = Divide(actualFrequency, centerFrequency);
+            var referenceInterval = Divide(referenceFrequency, centerFrequency);
+            var actualInterval = Divide(actualFrequency, centerFrequency);
 
-            Outlet factor = Multiply(actualInterval, referenceInterval);
+            var factor = Multiply(actualInterval, referenceInterval);
 
-            //Outlet newPanningDeviation = Multiply(Substract(referencePanning, centerPanning), factor);
+            // Calculate panning deviation
+            //var newPanningDeviation = Multiply(Substract(referencePanning, centerPanning), factor);
             // AI's correction:
-            Outlet newPanningDeviation = Multiply(Substract(referencePanning, centerPanning), Substract(factor, _[1]));
-            Outlet newPanning = Add(centerPanning, newPanningDeviation);
+            var newPanningDeviation = Multiply(Substract(referencePanning, centerPanning), Substract(factor, _[1]));
+            var newPanning = Add(centerPanning, newPanningDeviation);
 
             return newPanning;
         }
 
-        /// <inheritdoc cref="ValueIndexer" />
+        /// <inheritdoc cref="_pitchpandocs"/>
+        public double PitchPan(
+            double actualFrequency, double centerFrequency,
+            double referenceFrequency, double referencePanning)
+        {
+            // Defaults
+            if (centerFrequency == default) centerFrequency = A4;
+            if (referenceFrequency == default) referenceFrequency = E4;
+            if (referencePanning == default) referencePanning = 0.6;
+
+            double centerPanning = 0.5;
+
+            // Calculate intervals relative to the center frequency
+            double referenceInterval = referenceFrequency / centerFrequency;
+            double actualInterval = actualFrequency / centerFrequency;
+
+            double factor = actualInterval * referenceInterval;
+
+            // Calculate panning deviation
+            //double newPanningDeviation = (referencePanning - centerPanning) * factor;
+            // AI's correction:
+            double newPanningDeviation = (referencePanning - centerPanning) * (factor - 1);
+            double newPanning = centerPanning + newPanningDeviation;
+
+            return newPanning;
+        }
+
+        /// <inheritdoc cref="_valueindexerdocs" />
         public ValueIndexer _;
 
-        /// <summary>
-        /// Shorthand for OperatorFactor.Value(123), x.Value(123) or Value(123). Allows using _[123] instead.
-        /// Literal numbers need to be wrapped inside a Value Operator so they can always be substituted by
-        /// a whole formula / graph / calculation / curve over time.
-        /// </summary>
-        /// <returns>
-        /// ValueOperatorWrapper also usable as Outlet or double.
-        /// </returns>
+        /// <inheritdoc cref="_valueindexerdocs" />
         public class ValueIndexer
         {
             private readonly OperatorFactory _parent;
 
-            /// <inheritdoc cref="ValueIndexer" />
+            /// <inheritdoc cref="_valueindexerdocs" />
             internal ValueIndexer(OperatorFactory parent) => _parent = parent;
 
-            /// <inheritdoc cref="ValueIndexer" />
+            /// <inheritdoc cref="_valueindexerdocs" />
             public ValueOperatorWrapper this[double value] => _parent.Value(value);
         }
 
@@ -218,6 +239,16 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// </param>
         /// <returns>The adjusted panning value based on the pitch.</returns>
         object _pitchpandocs;
+
+        /// <summary>
+        /// Shorthand for OperatorFactor.Value(123), x.Value(123) or Value(123). Allows using _[123] instead.
+        /// Literal numbers need to be wrapped inside a Value Operator so they can always be substituted by
+        /// a whole formula / graph / calculation / curve over time.
+        /// </summary>
+        /// <returns>
+        /// ValueOperatorWrapper also usable as Outlet or double.
+        /// </returns>
+        object _valueindexerdocs;
 
         #endregion
     }
