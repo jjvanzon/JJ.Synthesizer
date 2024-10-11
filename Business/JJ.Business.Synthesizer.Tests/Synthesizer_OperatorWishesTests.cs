@@ -1,6 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
@@ -21,6 +22,34 @@ namespace JJ.Business.Synthesizer.Tests
         Synthesizer_OperatorWishesTests(IContext context)
             : base(context)
         { }
+
+
+        [TestMethod]
+        public void Test_Synthesizer_OperatorWishes_Panning_WithDoubles_AssertSimpleValues()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_WithDoubles_AssertSimpleValues();
+        }
+
+        [TestMethod]
+        public void Test_OperatorWishes_Panning_WithDoubles_AssertSimpleValues()
+        {
+            // Arrange
+            var input = (left: _[0.8], right: _[0.6]);
+            double panning = 0.5;
+
+            // Act
+            var output = Panning(input, panning);
+            var calculator = new OperatorCalculator(default);
+            double outputLeftValue = calculator.CalculateValue(output.left, time: 0);
+            double outputRightValue = calculator.CalculateValue(output.right, time: 0);
+
+            // Assert
+            double expectedLeft = 0.8 * (1 - panning); // 0.8 * 0.5 = 0.4
+            double expectedRight = 0.6 * panning;      // 0.6 * 0.5 = 0.3
+            AssertHelper.AreEqual(expectedLeft, () => outputLeftValue);
+            AssertHelper.AreEqual(expectedRight, () => outputRightValue);
+        }
 
         [TestMethod]
         public void Test_Synthesizer_OperatorWishes_PitchPan_UsingOperators()
@@ -46,8 +75,8 @@ namespace JJ.Business.Synthesizer.Tests
 
             var calculator = new OperatorCalculator(default);
             
-            double panningValueE4 = calculator.CalculateValue(panningOpE4, default);
-            double panningValueG4 = calculator.CalculateValue(panningOpG4, default);
+            double panningValueE4 = calculator.CalculateValue(panningOpE4, time: 0);
+            double panningValueG4 = calculator.CalculateValue(panningOpG4, time: 0);
             
             Console.WriteLine($"Output: {new { panningValueE4, panningValueG4 }}");
 
