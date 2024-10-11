@@ -15,11 +15,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         public static Curve CreateCurve(this CurveFactory curveFactory, IList<NodeInfo> nodeInfos)
             => curveFactory.CreateCurve(nodeInfos.ToArray());
 
-        /// <inheritdoc cref="docs.createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         public static Curve CreateCurve(this CurveFactory curveFactory, params (double time, double value)[] nodeTuples)
             => curveFactory.CreateCurve((IList<(double x, double y)>)nodeTuples);
 
-        /// <inheritdoc cref="docs.createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         public static Curve CreateCurve(this CurveFactory curveFactory, IList<(double time, double value)> nodeTuples)
         {
             if (curveFactory == null) throw new NullException(() => curveFactory);
@@ -31,22 +31,22 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         // ASCII Curves
 
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         public static Curve CreateCurve(this CurveFactory curveFactory, IList<string> lines)
             => curveFactory.CreateCurve(0, 1, 0, 1, lines?.ToList());
 
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         public static Curve CreateCurve(this CurveFactory curveFactory, params string[] lines)
             => curveFactory.CreateCurve(0, 1, 0, 1, lines?.ToList());
 
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         public static Curve CreateCurve(
             this CurveFactory curveFactory,
             double start = 0, double end = 1, double min = 0, double max = 1,
             params string[] lines)
             => curveFactory.CreateCurve(start, end, min, max, lines?.ToList());
 
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         public static Curve CreateCurve(
             this CurveFactory curveFactory,
             double start = 0, double end = 1, double min = 0, double max = 1,

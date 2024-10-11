@@ -2,6 +2,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Persistence.Synthesizer;
+
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable AssignmentInsteadOfDiscard
 
@@ -22,6 +23,23 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <inheritdoc cref="docs._default" />
         public Outlet Stretch(Outlet signal, Outlet duration)
             => TimeMultiply(signal, duration ?? _[1]);
+
+
+        /// <inheritdoc cref="docs._vibrato" />
+        public Outlet VibratoOverPitch(Outlet freq, Outlet vibratoSpeed = null, Outlet vibratoDepth = null)
+        {
+            vibratoSpeed = vibratoSpeed ?? _[5.5];
+            vibratoDepth = vibratoDepth ?? _[0.0005];
+
+            return Multiply(freq, Add(_[1], Sine(vibratoDepth, vibratoSpeed)));
+        }
+
+        /// <inheritdoc cref="docs._tremolo" />
+        public Outlet Tremolo(Outlet sound, Outlet tremoloSpeed, Outlet tremoloDepth)
+        {
+            var modulator = Add(Sine(tremoloDepth, tremoloSpeed), _[1]);
+            return Multiply(sound, modulator);
+        }
 
         /// <inheritdoc cref="ValueIndexer" />
         public ValueIndexer _;
@@ -45,6 +63,5 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             /// <inheritdoc cref="ValueIndexer"/>
             public ValueOperatorWrapper this[double value] => _parent.Value(value);
         }
-
-	}
+    }
 }

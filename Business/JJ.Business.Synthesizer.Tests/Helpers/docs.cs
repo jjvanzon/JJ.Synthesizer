@@ -1,10 +1,8 @@
 ﻿// ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
-#pragma warning disable CS0649 // Field never assigned
 
 using JetBrains.Annotations;
 using JJ.Persistence.Synthesizer;
-using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -28,7 +26,23 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <param name="vibratoSpeed">The speed of the vibrato modulation. A typical value might be 5.5.</param>
         /// <param name="vibratoDepth">The depth of the vibrato modulation. Typical values might include 0.0005.</param>
         /// <returns> An Outlet representing the output sound. </returns>
-        public static object _default;
+        [UsedImplicitly]
+        public object _default;
+
+        /// <summary>
+        /// Applies vibrato modulation to a given frequency by modulating it with a sine wave.<br />
+        /// NOTE: Due to the lack of phase tracking, the vibrato depth tends to accumulate over time.
+        /// </summary>
+        /// <param name="freq"> The base frequency to which vibrato will be applied. </param>
+        /// <returns> An <see cref="Outlet" /> object representing the frequency modulated with vibrato. </returns>
+        /// <inheritdoc cref="_default" />
+        [UsedImplicitly]
+        public object _vibrato;
+
+        /// <summary> Apply _tremolo by modulating amplitude over time using an oscillator. </summary>
+        /// <inheritdoc cref="_default" />
+        [UsedImplicitly]
+        public object _tremolo;
 
         /// <summary>
         /// Create a Curve from a list of strings, that 'ASCII-encode' the curve. Putting the strings under each other, they create
@@ -38,15 +52,17 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// White space is trimmed off of the top, bottom, left and right, leaving only the block of characters that contains data.<br/>
         /// NOTE: If you get the wrong curve back, see <paramref name="key"/> parameter for info about caching.
         /// </summary>
-        /// <inheritdoc cref="createcurve" />
-        public static object createcurvefromstrings;
+        /// <inheritdoc cref="_createcurve" />
+        [UsedImplicitly]
+        public static object _createcurvefromstrings;
 
         /// <summary>
         /// Create a curve from a list of tuples like (0, 0), (0.1, 0.2), (0.2, 1.0).<br/>
         /// NOTE: If you get the wrong curve back, see <paramref name="key"/> parameter for info about caching.
         /// </summary>
-        /// <inheritdoc cref="createcurve" />
-        public static object createcurvewithtuples;
+        /// <inheritdoc cref="_createcurve" />
+        [UsedImplicitly]
+        public object _createcurvewithtuples;
 
         /// <summary>
         /// NOTE: If you get the wrong curve back, see <paramref name="key"/> parameter for info about caching.
@@ -63,6 +79,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// If no key at all can be resolved, an exception is thrown.
         /// </param>
         /// <returns> A curve populated with the specified data. </returns>
-        public static object createcurve;
+        [UsedImplicitly]
+        public object _createcurve;
     }
 }

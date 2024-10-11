@@ -53,12 +53,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         // Overloads with doubles
 
         /// <inheritdoc cref="CurveFactory.CreateCurve(double, double?[])" />
-        /// <inheritdoc cref="docs.createcurve" />
+        /// <inheritdoc cref="docs._createcurve" />
         public CurveInWrapper CurveIn(string name, params double?[] values)
             => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values)));
 
         /// <inheritdoc cref="CurveFactory.CreateCurve(double, double?[])" />
-        /// <inheritdoc cref="docs.createcurve" />
+        /// <inheritdoc cref="docs._createcurve" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(params double?[] values)
         {
@@ -68,11 +68,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         // Overload with Tuples
 
-        /// <inheritdoc cref="docs.createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         public CurveInWrapper CurveIn(string name, IList<(double time, double value)> nodeTuples)
             => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(nodeTuples)));
 
-        /// <inheritdoc cref="docs.createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(IList<(double time, double value)> nodeTuples)
         {
@@ -80,11 +80,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(nodeTuples)));
         }
 
-        /// <inheritdoc cref="docs.createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         public CurveInWrapper CurveIn(string name, params (double time, double value)[] nodeTuples)
             => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(nodeTuples)));
 
-        /// <inheritdoc cref="docs.createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper  CurveIn(params (double time, double value)[] nodeTuples)
         {
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         // Overload with Strings
 
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(string text)
         {
@@ -102,11 +102,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(text)));
         }
 
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         public CurveInWrapper CurveIn(string name, IList<string> lines)
             => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(lines)));
 
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(IList<string> lines)
         {
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(lines)));
         }
 
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(string requiredFirstLine, params string[] remainingLines)
         {
@@ -125,7 +125,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         // Overload with String and Ranges
         
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         public CurveInWrapper CurveIn(
             string name, 
             (double start, double end) x,
@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, combinedLines)));
         }
 
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(
             (double start, double end) x, 
@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, combinedLines)));
         }
 
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         public CurveInWrapper CurveIn(
             string name,
             (double start, double end) x,
@@ -158,7 +158,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             IList<string> lines) 
             => GetOrCreateCurveIn(name, () => CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, lines)));
 
-        /// <inheritdoc cref="docs.createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstrings" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CurveInWrapper CurveIn(
             (double start, double end) x, 
@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         private readonly Dictionary<string, CurveInWrapper> _curveInDictionary =
             new Dictionary<string, CurveInWrapper>();
 
-        /// <inheritdoc cref="docs.createcurve" />
+        /// <inheritdoc cref="docs._createcurve" />
         private CurveInWrapper GetOrCreateCurveIn(string name, Func<CurveInWrapper> func)
         {
             if (string.IsNullOrEmpty(name))

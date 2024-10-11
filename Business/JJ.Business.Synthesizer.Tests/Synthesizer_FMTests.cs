@@ -422,44 +422,44 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet HornMelody1 => Adder
         (
-            //Horn(_[Notes.A2], Beat[01], duration: Beats[2]),
-            //Horn(_[Notes.E3], Beat[02]),
-            //Horn(_[Notes.F2], Beat[05], duration: Beats[3]),
-            //Horn(_[Notes.C3], Beat[07]),
+            //Horn(_[A2], Beat[01], duration: Beats[2]),
+            //Horn(_[E3], Beat[02]),
+            //Horn(_[F2], Beat[05], duration: Beats[3]),
+            //Horn(_[C3], Beat[07]),
             Horn(_[C2], beat[09], duration: beats[3], volume: _[0.7]),
-            //Horn(_[Notes.G2], Beat[11]),
+            //Horn(_[G2], Beat[11]),
             Horn(_[G1], beat[13], duration: beats[4], volume: _[0.5]) //,
-            //Horn(_[Notes.D3], Beat[15])
+            //Horn(_[D3], Beat[15])
         );
 
         private Outlet HornMelody2 => Adder
         (
             Horn(_[A2], beat[1], duration: beat[3], volume: _[0.75]),
-            //Horn(_[Notes.E3], Beat[3]),
+            //Horn(_[E3], Beat[3]),
             Horn(_[F2], beat[5], duration: beat[3], volume: _[0.85]),
-            //Horn(_[Notes.C3], Beat[7]),
+            //Horn(_[C3], Beat[7]),
             Horn(_[A1], beat[9], duration: beat[5], volume: _[1.0])
         );
 
         private Outlet TromboneMelody1 => Adder
         (
-            //Trombone(_[Notes.A3], Beat[00]),
-            //Trombone(_[Notes.E4], Beat[02]),
-            //Trombone(_[Notes.F3], Beat[04]),
-            //Trombone(_[Notes.C4], Beat[06]),
-            //Trombone(_[Notes.C3], Beat[08]),
-            //Trombone(_[Notes.G3], Beat[10]),
-            //Trombone(_[Notes.G2], Beat[12]),
-            //Trombone(_[Notes.B3], Beat[14])
+            //Trombone(_[A3], Beat[00]),
+            //Trombone(_[E4], Beat[02]),
+            //Trombone(_[F3], Beat[04]),
+            //Trombone(_[C4], Beat[06]),
+            //Trombone(_[C3], Beat[08]),
+            //Trombone(_[G3], Beat[10]),
+            //Trombone(_[G2], Beat[12]),
+            //Trombone(_[B3], Beat[14])
         );
 
         private Outlet TromboneMelody2 => Adder
         (
-            //Trombone(_[Notes.A2], Beat[1]),
+            //Trombone(_[A2], Beat[1]),
             Trombone(_[E4], beat[3], durationFactor: _[1.4]),
-            //Trombone(_[Notes.F2], Beat[5]),
+            //Trombone(_[F2], Beat[5]),
             Trombone(_[C4], beat[7], durationFactor: _[1.4]) //,
-            //Trombone(_[Notes.A3], Beat[9])
+            //Trombone(_[A3], Beat[9])
         );
 
         private Outlet TromboneMelody3 => Adder
@@ -470,7 +470,7 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         private Outlet RippleBassMelody1 => _[0];
-        //RippleBass(_[Notes.A2], delay: Bar[1], duration: Bars[2]);
+        //RippleBass(_[A2], delay: Bar[1], duration: Bars[2]);
 
         private Outlet RippleBassMelody2 =>
             RippleBass(_[A1], delay: bar[3.5], duration: bars[0.8]);
