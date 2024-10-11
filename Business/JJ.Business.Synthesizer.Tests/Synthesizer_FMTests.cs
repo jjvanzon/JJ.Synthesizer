@@ -33,13 +33,13 @@ namespace JJ.Business.Synthesizer.Tests
         #region Tests
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Composition()
+        public void Test_Synthesizer_FM_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Composition();
+                new Synthesizer_FMTests(context).Test_FM_Jingle();
         }
 
-        private void Test_FM_Composition()
+        private void Test_FM_Jingle()
             => SaveWav(DeepEcho(Composition()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
 
         [TestMethod]

@@ -32,17 +32,17 @@ namespace JJ.Business.Synthesizer.Tests
         #region Tests
 
         [TestMethod]
-        public void Test_Synthesizer_Additive_Sines_Samples_Metallophone_Melody()
+        public void Test_Synthesizer_Additive_Sines_Samples_Metallophone_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_AdditiveTests(context).Test_Additive_Sines_Samples_Metallophone_Melody();
+                new Synthesizer_AdditiveTests(context).Test_Additive_Sines_Samples_Metallophone_Jingle();
         }
 
         /// <summary>
         /// Arpeggio sound with harmonics, a high-pitch sample for attack,
         /// separate curves for each partial, triggers a wav header auto-detect.
         /// </summary>
-        public void Test_Additive_Sines_Samples_Metallophone_Melody()
+        void Test_Additive_Sines_Samples_Metallophone_Jingle()
         {
             AssertEntities();
 
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Tests
                 new Synthesizer_AdditiveTests(context).Test_Additive_Sines_Samples_Metallophone_Note();
         }
 
-        public void Test_Additive_Sines_Samples_Metallophone_Note()
+        void Test_Additive_Sines_Samples_Metallophone_Note()
         {
             AssertEntities();
 
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Assert some entities that WriteToAudioFile won't. </summary>
-        private void AssertEntities()
+        void AssertEntities()
         {
             Samples.ValidateSample(GetSample()).Verify();
         }
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Patches
 
-        private Outlet Melody => Adder
+        Outlet Melody => Adder
         (
             Metallophone(_[A4],       delay: t[bar:1, beat:1.0], volume: _[0.9]),
             Metallophone(_[E5],       delay: t[bar:1, beat:1.5], volume: _[1.0]),
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="docs._default" />
-        private Outlet Metallophone(Outlet frequency = null, Outlet volume = null, Outlet delay = null, Outlet duration = null)
+        Outlet Metallophone(Outlet frequency = null, Outlet volume = null, Outlet delay = null, Outlet duration = null)
         {
             frequency = frequency ?? _[A4];
             duration = duration ?? _[DEFAULT_NOTE_DURATION];
@@ -107,32 +107,32 @@ namespace JJ.Business.Synthesizer.Tests
             return StrikeNote(sound, delay, volume);
         }
 
-        private Outlet SinePartial(Outlet frequency, Outlet volume, Outlet curve)
+        Outlet SinePartial(Outlet frequency, Outlet volume, Outlet curve)
             => Sine(Multiply(volume, curve), frequency);
 
-        private Outlet SamplePartial(Outlet frequency, Outlet volume, Outlet curve)
+        Outlet SamplePartial(Outlet frequency, Outlet volume, Outlet curve)
             => TimeDivide
             (
                 Multiply(Multiply(Sample(_sample), curve), volume),
                 Divide(frequency, _[440])
             );
 
-        private const double ECHO_TIME = 0.66 * 4;
+        const double ECHO_TIME = 0.66 * 4;
 
         /// <inheritdoc cref="docs._default" />
-        private Outlet AddEcho(Outlet sound)
+        Outlet AddEcho(Outlet sound)
             => EntityFactory.CreateEcho(this, sound, count: 5, denominator: 3, delay: 0.66);
 
         #endregion
 
         #region Samples
 
-        private Sample _sample;
+        Sample _sample;
 
         /// <summary>
         /// Load a sample, skip some old header's bytes, maximize volume and tune to 440Hz.
         /// </summary>
-        private Sample GetSample()
+        Sample GetSample()
         {
             if (_sample != null) return _sample;
 
