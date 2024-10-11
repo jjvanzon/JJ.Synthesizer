@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
@@ -42,6 +43,25 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             var modulator = Add(Sine(tremolo.depth, tremolo.speed), _[1]);
             
             return Multiply(sound, modulator);
+        }
+
+        public (Outlet left, Outlet right) Panning((Outlet left, Outlet right) channels, Outlet panning)
+        {
+            var leftPan = Multiply(channels.left, Substract(_[1], panning));
+            var rightPan = Multiply(channels.right, panning);
+            return (leftPan, rightPan);
+        }
+
+        public (Outlet left, Outlet right) Panbrello(
+            (Outlet left, Outlet right) channels,
+            (Outlet speed, Outlet depth) panbrello)
+        {
+            panbrello.speed = panbrello.speed ?? _[3];
+            panbrello.depth = panbrello.depth ?? _[0.33];
+
+            var modulator = Add(_[1], Sine(panbrello.depth, panbrello.speed));
+
+            return Panning(channels, modulator);
         }
 
         /// <inheritdoc cref="ValueIndexer" />
