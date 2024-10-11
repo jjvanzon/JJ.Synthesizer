@@ -21,23 +21,26 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         }
 
         /// <inheritdoc cref="docs._default" />
-        public Outlet Stretch(Outlet signal, Outlet duration)
-            => TimeMultiply(signal, duration ?? _[1]);
-
+        public Outlet Stretch(Outlet signal, Outlet timeFactor)
+            => TimeMultiply(signal, timeFactor ?? _[1]);
 
         /// <inheritdoc cref="docs._vibrato" />
-        public Outlet VibratoOverPitch(Outlet freq, Outlet vibratoSpeed = null, Outlet vibratoDepth = null)
+        public Outlet VibratoOverPitch(Outlet freq, (Outlet speed, Outlet depth) vibrato = default)
         {
-            vibratoSpeed = vibratoSpeed ?? _[5.5];
-            vibratoDepth = vibratoDepth ?? _[0.0005];
+            vibrato.speed = vibrato.speed ?? _[5.5];
+            vibrato.depth = vibrato.depth ?? _[0.0005];
 
-            return Multiply(freq, Add(_[1], Sine(vibratoDepth, vibratoSpeed)));
+            return Multiply(freq, Add(_[1], Sine(vibrato.depth, vibrato.speed)));
         }
 
         /// <inheritdoc cref="docs._tremolo" />
-        public Outlet Tremolo(Outlet sound, Outlet tremoloSpeed, Outlet tremoloDepth)
+        public Outlet Tremolo(Outlet sound, (Outlet speed, Outlet depth) tremolo = default)
         {
-            var modulator = Add(Sine(tremoloDepth, tremoloSpeed), _[1]);
+            tremolo.speed = tremolo.speed ?? _[8];
+            tremolo.depth = tremolo.depth ?? _[0.33];
+
+            var modulator = Add(Sine(tremolo.depth, tremolo.speed), _[1]);
+            
             return Multiply(sound, modulator);
         }
 
