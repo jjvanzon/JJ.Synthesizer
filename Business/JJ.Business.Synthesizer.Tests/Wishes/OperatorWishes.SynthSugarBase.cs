@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         #region Docs
 
-#pragma warning disable CS0169 // Field is never used
+        #pragma warning disable CS0169 // Field is never used
 
         // ReSharper disable IdentifierTypo
 

@@ -3,6 +3,7 @@ dotnet_style_require_accessibility_modifiers = omit_if_default:none
 resharper_private_accessibility_modifier_style = do_not_change
 resharper_localizable_element_highlighting = none
 resharper_member_can_be_private_global_highlighting = none
+resharper_member_can_be_protected_global_highlighting = none
 
 # IDE0052: Remove unread private members
 dotnet_diagnostic.IDE0052.severity = none

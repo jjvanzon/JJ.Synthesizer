@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Tests
             double maxValueRight = calculator.CalculateValue(pannedSine.right, time: 0.25);
             double minValueRight = calculator.CalculateValue(pannedSine.right, time: 0.75);
             
-            // TODO: SaveWav stereo signal support.
+            SaveWav(pannedSine);
 
             // Assert
             AssertHelper.AreEqual(0.75, () => maxValueLeft);
