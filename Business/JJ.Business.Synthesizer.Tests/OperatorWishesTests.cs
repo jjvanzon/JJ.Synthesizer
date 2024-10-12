@@ -1,6 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
@@ -72,8 +73,8 @@ namespace JJ.Business.Synthesizer.Tests
             // Act
             var output = Panning(input, panning);
             var calculator = new OperatorCalculator(default);
-            double outputLeftValue = calculator.CalculateValue(output.left, time: 0);
-            double outputRightValue = calculator.CalculateValue(output.right, time: 0);
+            double outputLeftValue = calculator.CalculateValue(output.Left, time: 0);
+            double outputRightValue = calculator.CalculateValue(output.Right, time: 0);
 
             // Assert
             double expectedLeft = 0.8 * (1 - panning); // 0.8 * 0.5 = 0.4
@@ -99,8 +100,8 @@ namespace JJ.Business.Synthesizer.Tests
             // Act
             var output = Panning(input, panningOutlet);
             var calculator = new OperatorCalculator(default);
-            double outputLeftValue = calculator.CalculateValue(output.left, time: 0);
-            double outputRightValue = calculator.CalculateValue(output.right, time: 0);
+            double outputLeftValue = calculator.CalculateValue(output.Left, time: 0);
+            double outputRightValue = calculator.CalculateValue(output.Right, time: 0);
 
             // Assert
             double expectedLeft = 0.8 * (1 - panning); // 0.8 * 0.5 = 0.4
@@ -126,13 +127,13 @@ namespace JJ.Business.Synthesizer.Tests
             // Act
             var pannedSine = Panning(stereoInput, panning);
             var calculator = new OperatorCalculator(default);
-            double maxValueLeft = calculator.CalculateValue(pannedSine.left, time: 0.25);
-            double minValueLeft = calculator.CalculateValue(pannedSine.left, time: 0.75);
-            double maxValueRight = calculator.CalculateValue(pannedSine.right, time: 0.25);
-            double minValueRight = calculator.CalculateValue(pannedSine.right, time: 0.75);
+            double maxValueLeft = calculator.CalculateValue(pannedSine.Left, time: 0.25);
+            double minValueLeft = calculator.CalculateValue(pannedSine.Left, time: 0.75);
+            double maxValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.25);
+            double minValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.75);
 
-            SaveWav(pannedSine.left, duration:1, volume:1, fileName: $"{GetCurrentMethod().Name}.left.wav");
-            SaveWav(pannedSine.right, duration:1, volume:1, fileName: $"{GetCurrentMethod().Name}.right.wav");
+            SaveWav(pannedSine.Left, duration:1, volume:1, fileName: $"{GetCurrentMethod().Name}.left.wav");
+            SaveWav(pannedSine.Right, duration:1, volume:1, fileName: $"{GetCurrentMethod().Name}.right.wav");
 
             // Assert
             AssertHelper.AreEqual(0.75, () => maxValueLeft);
@@ -167,8 +168,27 @@ namespace JJ.Business.Synthesizer.Tests
             // Act
             var pannedSine = Panning(stereoInput, panningOutlet);
 
-            SaveWav(pannedSine.left, duration: 1, volume: 1, fileName: $"{GetCurrentMethod().Name}.left.wav");
-            SaveWav(pannedSine.right, duration: 1, volume: 1, fileName: $"{GetCurrentMethod().Name}.right.wav");
+            SaveWav(pannedSine.Left, duration: 1, volume: 1, fileName: $"{GetCurrentMethod().Name}.Left.wav");
+            SaveWav(pannedSine.Right, duration: 1, volume: 1, fileName: $"{GetCurrentMethod().Name}.Right.wav");
+        }
+
+        // Panbrello Tests
+
+        [TestMethod]
+        public void Test_Panbrello()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new OperatorWishesTests(context).RunTest_Panbrello();
+        }
+
+        void RunTest_Panbrello()
+        {
+            var sound = Sine(_[A4]);
+            var signal = (sound, sound);
+            var panbrello = Panbrello(signal, (speed: _[1.0], depth: _[0.5]));
+            
+            SaveWav(panbrello.Left, volume: 1, fileName: $"{nameof(RunTest_Panbrello)}.Left.wav");
+            SaveWav(panbrello.Right, volume: 1, fileName: $"{nameof(RunTest_Panbrello)}.Right.wav");
         }
 
         // PitchPan Tests

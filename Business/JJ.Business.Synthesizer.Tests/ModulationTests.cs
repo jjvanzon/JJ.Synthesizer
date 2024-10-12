@@ -27,11 +27,11 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Detunica_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).RunTest_Detunica_Jingle();
+                new ModulationTests(context).Detunica_Jingle_RunTest();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void RunTest_Detunica_Jingle()
+        void Detunica_Jingle_RunTest()
             => SaveWav(DeepEcho(DetunicaJingle), volume: 0.14, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -39,24 +39,23 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_DetunicaBass()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).RunTest_DetunicaBass();
+                new ModulationTests(context).DetunicaBass_RunTest();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void RunTest_DetunicaBass()
+        void DetunicaBass_RunTest()
             => SaveWav(DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.2);
-
-
+        
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
         public void Test_Detunica1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).RunTest_Detunica1();
+                new ModulationTests(context).Detunica1_RunTest();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void RunTest_Detunica1()
+        void Detunica1_RunTest()
             => SaveWav(DeepEcho(Detunica1(freq: _[E2], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
@@ -64,11 +63,11 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Detunica2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).RunTest_Detunica2();
+                new ModulationTests(context).Detunica2_RunTest();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void RunTest_Detunica2()
+        void Detunica2_RunTest()
             => SaveWav(DeepEcho(Detunica2(freq: _[B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
@@ -76,11 +75,11 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Detunica3()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).RunTest_Detunica3();
+                new ModulationTests(context).Detunica3_RunTest();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void RunTest_Detunica3()
+        void Detunica3_RunTest()
             => SaveWav(DeepEcho(Detunica3(freq: _[C5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
         [TestMethod]
@@ -88,11 +87,11 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Detunica4()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).RunTest_Detunica4();
+                new ModulationTests(context).Detunica4_RunTest();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void RunTest_Detunica4()
+        void Detunica4_RunTest()
             => SaveWav(DeepEcho(Detunica4(freq: _[D5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
 
         [TestMethod]
@@ -100,11 +99,11 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Detunica5()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).RunTest_Detunica5();
+                new ModulationTests(context).Detunica5_RunTest();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void RunTest_Detunica5()
+        void Detunica5_RunTest()
             => SaveWav(DeepEcho(Detunica5(freq: _[E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
@@ -112,11 +111,11 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Vibraphase_Chord()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).RunTest_Vibraphase_Chord();
+                new ModulationTests(context).Vibraphase_Chord_RunTest();
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
-        void RunTest_Vibraphase_Chord()
+        void Vibraphase_Chord_RunTest()
             => SaveWav(MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
@@ -124,11 +123,11 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Vibraphase()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).RunTest_Vibraphase();
+                new ModulationTests(context).Vibraphase_RunTest();
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
-        void RunTest_Vibraphase()
+        void Vibraphase_RunTest()
             => SaveWav(MildEcho(Vibraphase(freq: _[E5])), duration: 1 + MILD_ECHO_TIME);
 
         #endregion
@@ -148,8 +147,8 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
         (
-            DetunicaBass(bar[1], duration: bars[5.0]),
-            Detunica2(bar[2], _[B4], _[0.85], duration: bars[1.5]),
+            DetunicaBass(bar[1], duration: bars[5.25]),
+            Detunica2(bar[2], _[B4], _[0.70], duration: bars[1.5]),
             Detunica3(bar[3], _[C5], _[0.75], duration: bars[1.6]),
             Detunica4(bar[4], _[D5], _[0.90], duration: bars[1.5]),
             Detunica5(bar[5], _[E5], _[1.00], duration: bars[3.0])

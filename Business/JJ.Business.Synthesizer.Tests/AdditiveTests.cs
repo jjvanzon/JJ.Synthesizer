@@ -35,14 +35,14 @@ namespace JJ.Business.Synthesizer.Tests
         public void Sines_Samples_Metallophone_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AdditiveTests(context).RunTest_Sines_Samples_Metallophone_Jingle();
+                new AdditiveTests(context).Sines_Samples_Metallophone_Jingle_RunTest();
         }
 
         /// <summary>
         /// Arpeggio sound with harmonics, a high-pitch sample for attack,
         /// separate curves for each partial, triggers a wav header auto-detect.
         /// </summary>
-        void RunTest_Sines_Samples_Metallophone_Jingle()
+        void Sines_Samples_Metallophone_Jingle_RunTest()
         {
             AssertEntities();
 
@@ -56,10 +56,10 @@ namespace JJ.Business.Synthesizer.Tests
         public void Sines_Samples_Metallophone_Note()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AdditiveTests(context).RunTest_Sines_Samples_Metallophone_Note();
+                new AdditiveTests(context).Sines_Samples_Metallophone_Note_RunTest();
         }
 
-        void RunTest_Sines_Samples_Metallophone_Note()
+        void Sines_Samples_Metallophone_Note_RunTest()
         {
             AssertEntities();
 
