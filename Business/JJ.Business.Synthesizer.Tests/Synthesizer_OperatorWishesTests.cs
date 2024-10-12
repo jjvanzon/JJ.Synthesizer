@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Net;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static System.Reflection.MethodBase;
 using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
+// ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -24,15 +24,17 @@ namespace JJ.Business.Synthesizer.Tests
             : base(context)
         { }
 
+        // Panning Tests
+        
         [TestMethod]
-        public void Test_Synthesizer_OperatorWishes_Panning_WithDoublePanning_ConstantValues()
+        public void Test_Synthesizer_OperatorWishes_Panning_ConstantSignal_ConstantPanningAsDouble()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_WithDoublePanning_ConstantValues();
+                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_ConstantSignal_WithDoublePanning();
         }
 
         [TestMethod]
-        public void Test_OperatorWishes_Panning_WithDoublePanning_ConstantValues()
+        public void Test_OperatorWishes_Panning_ConstantSignal_WithDoublePanning()
         {
             // Arrange
             var input = (left: _[0.8], right: _[0.6]);
@@ -51,16 +53,43 @@ namespace JJ.Business.Synthesizer.Tests
             AssertHelper.AreEqual(expectedRight, () => outputRightValue);
         }
 
-
         [TestMethod]
-        public void Test_Synthesizer_OperatorWishes_Panning_WithDoublePanning_SineWave()
+        public void Test_Synthesizer_OperatorWishes_Panning_ConstantSignal_ConstantPanningAsOperator()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_WithDoublePanning_SineWave();
+                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_ConstantSignal_WithDoublePanning();
         }
 
         [TestMethod]
-        public void Test_OperatorWishes_Panning_WithDoublePanning_SineWave()
+        public void Test_OperatorWishes_Panning_ConstantSignal_ConstantPanningAsOperator()
+        {
+            // Arrange
+            var input = (left: _[0.8], right: _[0.6]);
+            double panning = 0.5;
+            Outlet panningOutlet = _[panning];
+
+            // Act
+            var output = Panning(input, panningOutlet);
+            var calculator = new OperatorCalculator(default);
+            double outputLeftValue = calculator.CalculateValue(output.left, time: 0);
+            double outputRightValue = calculator.CalculateValue(output.right, time: 0);
+
+            // Assert
+            double expectedLeft = 0.8 * (1 - panning); // 0.8 * 0.5 = 0.4
+            double expectedRight = 0.6 * panning;      // 0.6 * 0.5 = 0.3
+            AssertHelper.AreEqual(expectedLeft, () => outputLeftValue);
+            AssertHelper.AreEqual(expectedRight, () => outputRightValue);
+        }
+
+        [TestMethod]
+        public void Test_Synthesizer_OperatorWishes_Panning_SineWaveSignal_ConstantPanningAsDouble()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_SineWaveSignal_ConstantPanningAsDouble();
+        }
+
+        [TestMethod]
+        public void Test_OperatorWishes_Panning_SineWaveSignal_ConstantPanningAsDouble()
         {
             // Arrange
             var sine = Sine(pitch: _[1]);
@@ -74,8 +103,9 @@ namespace JJ.Business.Synthesizer.Tests
             double minValueLeft = calculator.CalculateValue(pannedSine.left, time: 0.75);
             double maxValueRight = calculator.CalculateValue(pannedSine.right, time: 0.25);
             double minValueRight = calculator.CalculateValue(pannedSine.right, time: 0.75);
-            
-            SaveWav(pannedSine);
+
+            SaveWav(pannedSine.left, duration:1, volume:1, fileName: $"{GetCurrentMethod().Name}.left.wav");
+            SaveWav(pannedSine.right, duration:1, volume:1, fileName: $"{GetCurrentMethod().Name}.right.wav");
 
             // Assert
             AssertHelper.AreEqual(0.75, () => maxValueLeft);
@@ -85,12 +115,45 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
+        public void Test_Synthesizer_OperatorWishes_Panning_SineWaveSignal_DynamicPanning()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_SineWaveSignal_DynamicPanning();
+        }
+
+        [TestMethod]
+        public void Test_OperatorWishes_Panning_SineWaveSignal_DynamicPanning()
+        {
+            // Arrange
+            var sine = Sine(_[A4]);
+            var stereoInput = (sine, sine);
+            Outlet panningOutlet = CurveIn(@"
+                                            *
+                                        *
+                                    *
+                                *
+                            *
+                        *
+                    *
+                *
+            *");
+
+            // Act
+            var pannedSine = Panning(stereoInput, panningOutlet);
+
+            SaveWav(pannedSine.left, duration: 1, volume: 1, fileName: $"{GetCurrentMethod().Name}.left.wav");
+            SaveWav(pannedSine.right, duration: 1, volume: 1, fileName: $"{GetCurrentMethod().Name}.right.wav");
+        }
+
+        // PitchPan Tests
+
+        [TestMethod]
         public void Test_Synthesizer_OperatorWishes_PitchPan_UsingOperators()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_PitchPan_UsingOperators();
         }
-
+        
         void Test_OperatorWishes_PitchPan_UsingOperators()
         {
             // Arrange
