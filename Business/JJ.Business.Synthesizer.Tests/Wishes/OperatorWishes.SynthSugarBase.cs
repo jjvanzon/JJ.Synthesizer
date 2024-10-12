@@ -97,13 +97,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             (Outlet left, Outlet right) channels,
             (double speed, double depth) panbrello = default)
         {
-            if (panbrello.speed == default) panbrello.speed = 3;
-            if (panbrello.depth == default) panbrello.depth = 0.33;
+            if (panbrello.speed == default) panbrello.speed = 1;
+            if (panbrello.depth == default) panbrello.depth = 1;
 
             // 0.5 is in the middle. 0 is left, 1 is right.
-            var sine = Math.Sin(panbrello.speed * TWO_PI) * panbrello.depth; // [-1,+1]
-            var halfSine = 0.5 * sine; // [-0.5,+0.5]
-            var zeroToOne = 0.5 + halfSine; // [0,1]
+            var halfSine = Multiply(Sine(_[panbrello.speed]), _[panbrello.depth / 2]); // [-0.5,+0.5]
+            var zeroToOne = Add(_[0.5], halfSine); // [0,1]
 
             return Panning(channels, zeroToOne);
         }
