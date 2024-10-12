@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica_Jingle_RunTest()
-            => SaveWav(DeepEcho(DetunicaJingle), volume: 0.14, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(DetunicaJingle), volume: 0.29, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Tests
                 var (note2L, note2R) = Panning  ((note2, note2), 0.3);
                 var (note3L, note3R) = Panning  ((note3, note3), 0.7);
                 var (note4L, note4R) = Panning  ((note4, note4), 0.2);
-                var (note5L, note5R) = Panning  ((note5, note5), 0.5);
+                var (note5L, note5R) = Panning  ((note5, note5), 0.48);
 
                 return
                 (
@@ -401,7 +401,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_echodocs" />
         (Outlet Left, Outlet Right) DeepEcho((Outlet Left, Outlet Right) melody)
             => (EntityFactory.CreateEcho(this, melody.Left, count: 6, denominator: 2.2, delay: 0.5),
-                EntityFactory.CreateEcho(this, melody.Right, count: 6, denominator: 2, delay: 0.52));
+                EntityFactory.CreateEcho(this, melody.Right, count: 6, denominator: 2, delay: 0.55));
 
         #endregion
 
