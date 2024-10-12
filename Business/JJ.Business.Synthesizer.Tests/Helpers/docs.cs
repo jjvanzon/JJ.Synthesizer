@@ -1,8 +1,11 @@
-﻿// ReSharper disable InconsistentNaming
-// ReSharper disable IdentifierTypo
-
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using JJ.Persistence.Synthesizer;
+
+#pragma warning disable CS0649
+#pragma warning disable CS0169 // Field is never used
+
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

@@ -437,6 +437,10 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Docs
 
+        #pragma warning disable CS0649
+        #pragma warning disable IDE0044
+        #pragma warning disable CS0169 // Field is never used
+
         // ReSharper disable InconsistentNaming
 
         /// <summary>
