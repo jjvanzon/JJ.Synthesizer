@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Tests
         #region Tests
 
         [TestMethod]
-        [Ignore]
+        [TestCategory("Long")]
         public void FM_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -271,7 +271,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_RippleSound_Clean_RunTest()
-            => SaveWav(outlet: DeepEcho(RippleSound_Clean(duration: _[4])), duration: 4 + DEEP_ECHO_TIME);
+            => SaveWav(DeepEcho(RippleSound_Clean(duration: _[4])), duration: 4 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void FM_RippleSound_FantasyEffect()
