@@ -118,17 +118,18 @@ namespace JJ.Business.Synthesizer.Tests
         void Panning_SineWaveSignal_ConstantPanningAsDouble_RunTest()
         {
             // Arrange
-            var sine = Sine(pitch: _[1]);
+            var freq = A4;
+            var sine = Sine(_[freq]);
             var stereoInput = (sine, sine);
             double panning = 0.25;
 
             // Act
             var pannedSine = Panning(stereoInput, panning);
             var calculator = new OperatorCalculator(default);
-            double maxValueLeft = calculator.CalculateValue(pannedSine.Left, time: 0.25);
-            double minValueLeft = calculator.CalculateValue(pannedSine.Left, time: 0.75);
-            double maxValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.25);
-            double minValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.75);
+            double maxValueLeft = calculator.CalculateValue(pannedSine.Left, time: 0.25 / freq);
+            double minValueLeft = calculator.CalculateValue(pannedSine.Left, time: 0.75 / freq);
+            double maxValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.25 / freq);
+            double minValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.75 / freq);
 
             SaveWav(pannedSine, duration: 1, volume: 1);
 
