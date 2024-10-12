@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,7 @@ using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
+using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
@@ -29,48 +31,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         
         /// <inheritdoc cref="_savewavdocs"/>
         public void SaveWav(
-            Outlet outlet,
+            Outlet monoChannel,
             double duration = DEFAULT_TOTAL_TIME,
             double volume = DEFAULT_TOTAL_VOLUME,
             string fileName = null,
             [CallerMemberName] string callerMemberName = null)
-        {
-            // Validate Parameters
-            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            fileName = string.IsNullOrWhiteSpace(fileName) ? $"{callerMemberName}.wav" : fileName;
-
-            // Validate Data
-            new RecursiveOperatorValidator(outlet.Operator).Verify();
-            var warnings = new RecursiveOperatorWarningValidator(outlet.Operator).ValidationMessages.Select(x => x.Text).ToList();
-
-            // Configure AudioFileOutput
-            AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
-            audioFileOutput.Duration = duration;
-            audioFileOutput.Amplifier = short.MaxValue * volume;
-            audioFileOutput.FilePath = fileName;
-            audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
-
-            OptimizeForTooling(audioFileOutput);
-
-            // Validate AudioFileOutput
-            _audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
-            warnings.AddRange(new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text));
-
-            // Calculate
-            var calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
-            var stopWatch = Stopwatch.StartNew();
-            calculator.Execute();
-            stopWatch.Stop();
-
-            // Report
-            var calculationTimeText = $"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s{NewLine}";
-            var outputFileText = $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}";
-            string warningText = warnings.Count == 0 ? "" : $"{NewLine}{NewLine}Warnings:{NewLine}" +
-                                                            $"{string.Join(NewLine, warnings.Select(x => $"- {x}"))}";
-            
-            Console.WriteLine(calculationTimeText + outputFileText + warningText);
-        }
-
+            => SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
+        
         /// <inheritdoc cref="_savewavdocs"/>
         public void SaveWav(
             (Outlet left, Outlet right) channels,
@@ -78,29 +45,45 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             double volume = DEFAULT_TOTAL_VOLUME,
             string fileName = null,
             [CallerMemberName] string callerMemberName = null)
+            => SaveWav(new[] { channels.left, channels.right }, duration, volume, fileName, callerMemberName);
+        
+        /// <inheritdoc cref="_savewavdocs"/>
+        private void SaveWav(
+            IList<Outlet> channels,
+            double duration = DEFAULT_TOTAL_TIME,
+            double volume = DEFAULT_TOTAL_VOLUME,
+            string fileName = null,
+            string callerMemberName = null)
         {
             Console.WriteLine();
 
             // Validate Parameters
-            if (channels.left == null) throw new NullException(() => channels.left);
-            if (channels.right == null) throw new NullException(() => channels.right);
+            if (channels == null) throw new NullException(() => channels);
+            if (channels.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channels));
+            if (channels.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channels));
             fileName = string.IsNullOrWhiteSpace(fileName) ? $"{callerMemberName}.wav" : fileName;
 
-            // Validate Data
-            new RecursiveOperatorValidator(channels.left.Operator).Verify();
-            new RecursiveOperatorValidator(channels.right.Operator).Verify();
-            var warnings = 
-                new RecursiveOperatorWarningValidator(channels.left.Operator).ValidationMessages.Union(
-                new RecursiveOperatorWarningValidator(channels.right.Operator).ValidationMessages).Select(x => x.Text).ToList();
+            // Validate Input Data
+            var warnings = new List<string>();
+            foreach (Outlet channel in channels)
+            {
+                new RecursiveOperatorValidator(channel.Operator).Verify();
+                new RecursiveOperatorValidator(channel.Operator).Verify();
+                IValidator warningValidator = new RecursiveOperatorWarningValidator(channel.Operator);
+                warnings.AddRange(warningValidator.ValidationMessages.Select(x => x.Text));
+            }
 
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
-            _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, SpeakerSetupEnum.Stereo);
+            _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channels.Count);
             audioFileOutput.Duration = duration;
             audioFileOutput.Amplifier = short.MaxValue * volume;
             audioFileOutput.FilePath = fileName;
-            audioFileOutput.AudioFileOutputChannels[0].Outlet = channels.left;
-            audioFileOutput.AudioFileOutputChannels[1].Outlet = channels.right;
+
+            for (int i = 0; i < channels.Count; i++)
+            {
+                audioFileOutput.AudioFileOutputChannels[i].Outlet = channels[i];
+            }
 
             OptimizeForTooling(audioFileOutput);
 
