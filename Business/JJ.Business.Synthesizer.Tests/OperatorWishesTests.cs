@@ -24,10 +24,40 @@ namespace JJ.Business.Synthesizer.Tests
             : base(context)
         { }
 
-        // Panning Tests
-        
+        // Vibrato/Tremolo Tests
+
         [TestMethod]
-        public void Panning_ConstantSignal_ConstantPanningAsDouble()
+        /// <inheritdoc cref="docs._vibrato" />
+        public void Test_Vibrato()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new OperatorWishesTests(context).RunTest_Vibrato();
+        }
+
+        /// <inheritdoc cref="docs._vibrato" />
+        void RunTest_Vibrato()
+            => SaveWav(
+                Sine(VibratoOverPitch(_[A4])),
+                volume: 0.9, duration: 3);
+
+        [TestMethod]
+        /// <inheritdoc cref="docs._tremolo" />
+        public void Test_Tremolo()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new OperatorWishesTests(context).RunTest_Tremolo();
+        }
+
+        /// <inheritdoc cref="docs._tremolo" />
+        void RunTest_Tremolo()
+            => SaveWav(
+                Tremolo(Sine(_[A4]), tremolo: (_[4], _[0.5])),
+                volume: 0.30, duration: 3);
+
+        // Panning Tests
+
+        [TestMethod]
+        public void Test_Panning_ConstantSignal_ConstantPanningAsDouble()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new OperatorWishesTests(context).RunTest_Panning_ConstantSignal_ConstPanningAsDouble();
@@ -53,7 +83,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Panning_ConstantSignal_ConstantPanningAsOperator()
+        public void Test_Panning_ConstantSignal_ConstantPanningAsOperator()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new OperatorWishesTests(context).RunTest_Panning_ConstantSignal_ConstantPanningAsOperator();
@@ -80,7 +110,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Panning_SineWaveSignal_ConstantPanningAsDouble()
+        public void Test_Panning_SineWaveSignal_ConstantPanningAsDouble()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new OperatorWishesTests(context).RunTest_Panning_SineWaveSignal_ConstantPanningAsDouble();
@@ -112,7 +142,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Panning_SineWaveSignal_DynamicPanning()
+        public void Test_Panning_SineWaveSignal_DynamicPanning()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new OperatorWishesTests(context).RunTest_Panning_SineWaveSignal_DynamicPanning();
@@ -144,7 +174,7 @@ namespace JJ.Business.Synthesizer.Tests
         // PitchPan Tests
 
         [TestMethod]
-        public void PitchPan_UsingOperators()
+        public void Test_PitchPan_UsingOperators()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new OperatorWishesTests(context).RunTest_PitchPan_UsingOperators();
@@ -185,7 +215,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void PitchPan_UsingDoubles()
+        public void Test_PitchPan_UsingDoubles()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new OperatorWishesTests(context).RunTest_PitchPan_UsingDoubles();

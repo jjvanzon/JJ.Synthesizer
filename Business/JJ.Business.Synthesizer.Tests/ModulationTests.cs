@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Detunica_Jingle()
+        public void Test_Detunica_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new ModulationTests(context).RunTest_Detunica_Jingle();
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
-        public void DetunicaBass()
+        public void Test_DetunicaBass()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new ModulationTests(context).RunTest_DetunicaBass();
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
-        public void Detunica1()
+        public void Test_Detunica1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new ModulationTests(context).RunTest_Detunica1();
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Detunica2()
+        public void Test_Detunica2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new ModulationTests(context).RunTest_Detunica2();
@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Detunica3()
+        public void Test_Detunica3()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new ModulationTests(context).RunTest_Detunica3();
@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Detunica4()
+        public void Test_Detunica4()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new ModulationTests(context).RunTest_Detunica4();
@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Detunica5()
+        public void Test_Detunica5()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new ModulationTests(context).RunTest_Detunica5();
@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
-        public void Vibraphase_Chord()
+        public void Test_Vibraphase_Chord()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new ModulationTests(context).RunTest_Vibraphase_Chord();
@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
-        public void Vibraphase()
+        public void Test_Vibraphase()
         {
             using (IContext context = PersistenceHelper.CreateContext())
                 new ModulationTests(context).RunTest_Vibraphase();
@@ -131,37 +131,19 @@ namespace JJ.Business.Synthesizer.Tests
         void RunTest_Vibraphase()
             => SaveWav(MildEcho(Vibraphase(freq: _[E5])), duration: 1 + MILD_ECHO_TIME);
 
-        [TestMethod]
-        /// <inheritdoc cref="docs._vibrato" />
-        public void Vibrato()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).RunTest_Vibrato();
-        }
-
-        /// <inheritdoc cref="docs._vibrato" />
-        void RunTest_Vibrato()
-            => SaveWav(
-                Sine(volume: _[1], VibratoOverPitch(_[A4])),
-                volume: 0.9, duration: 3);
-
-        [TestMethod]
-        /// <inheritdoc cref="docs._tremolo" />
-        public void Tremolo()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).RunTest_Tremolo();
-        }
-
-        /// <inheritdoc cref="docs._tremolo" />
-        void RunTest_Tremolo()
-            => SaveWav(
-                Tremolo(Sine(volume: _[1], _[A4]), tremolo: (_[4], _[0.5])),
-                volume: 0.30, duration: 3);
-
         #endregion
 
         #region Jingles
+
+        /// <inheritdoc cref="_vibraphasedocs" />
+        Outlet VibraphaseChord => Adder
+        (
+            Vibraphase(freq: _[A4], volume: _[0.80]),
+            Vibraphase(freq: _[B4], volume: _[0.70]),
+            Vibraphase(freq: _[C5], volume: _[0.85]),
+            Vibraphase(freq: _[D5], volume: _[0.75]),
+            Vibraphase(freq: _[E5], volume: _[0.90])
+        );
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
@@ -173,13 +155,17 @@ namespace JJ.Business.Synthesizer.Tests
             Detunica5(bar[5], _[E5], _[1.00], duration: bars[3.0])
         );
 
+        #endregion
+        
+        #region Notes
+
         Outlet DetunicaBass(Outlet delay = null, Outlet duration = null) =>
             Adder(
-                Detunica1(delay, _[E0], _[1.00], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
+                Detunica1(delay, _[E0], _[0.60], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
                 Detunica2(delay, _[E1], _[0.80], duration/*, detuneDepth: _[0.8], chorusRate: _[0.038]*/),
-                Detunica3(delay, _[E2], _[0.30], duration/*, detuneDepth: _[0.4], chorusRate: _[0.034]*/),
-                Detunica4(delay, _[E3], _[0.10], duration/*, detuneDepth: _[0.2], chorusRate: _[0.030]*/),
-                Detunica5(delay, _[E4], _[0.05], duration/*, detuneDepth: _[0.1], chorusRate: _[0.010]*/));
+                Detunica3(delay, _[E2], _[1.00], duration/*, detuneDepth: _[0.4], chorusRate: _[0.034]*/),
+                Detunica4(delay, _[E3], _[0.015], duration/*, detuneDepth: _[0.2], chorusRate: _[0.030]*/),
+                Detunica5(delay, _[E4], _[0.001], duration/*, detuneDepth: _[0.1], chorusRate: _[0.010]*/));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica1(
@@ -232,16 +218,6 @@ namespace JJ.Business.Synthesizer.Tests
                 detuneDepth: _[0.8],
                 churnRate: Multiply(_[0.001], DetuneCurve1),
                 chorusRate: _[0.001]);
-
-        /// <inheritdoc cref="_vibraphasedocs" />
-        Outlet VibraphaseChord => Adder
-        (
-            Vibraphase(freq: _[A4], volume: _[0.80]),
-            Vibraphase(freq: _[B4], volume: _[0.70]),
-            Vibraphase(freq: _[C5], volume: _[0.85]),
-            Vibraphase(freq: _[D5], volume: _[0.75]),
-            Vibraphase(freq: _[E5], volume: _[0.90])
-        );
 
         #endregion
 
