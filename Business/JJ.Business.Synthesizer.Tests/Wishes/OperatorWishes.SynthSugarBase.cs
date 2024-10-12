@@ -79,10 +79,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <inheritdoc cref="_panbrellodocs"/>
         public (Outlet Left, Outlet Right) Panbrello(
             (Outlet left, Outlet right) channels,
-            (Outlet speed, Outlet depth) panbrello = default)
+            (Outlet speed, Outlet depth) panbrello)
         {
             panbrello.speed = panbrello.speed ?? _[1];
-            panbrello.depth = panbrello.depth ?? _[0.33];
+            panbrello.depth = panbrello.depth ?? _[1];
 
             // 0.5 is in the middle. 0 is left, 1 is right.
             var sine = Sine(panbrello.depth, panbrello.speed); // [-1,+1]
@@ -92,9 +92,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return Panning(channels, zeroToOne);
         }
 
-        /*
         /// <inheritdoc cref="_panbrellodocs"/>
-        public (Outlet left, Outlet right) Panbrello(
+        public (Outlet Left, Outlet Right) Panbrello(
             (Outlet left, Outlet right) channels,
             (double speed, double depth) panbrello = default)
         {
@@ -108,7 +107,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             return Panning(channels, zeroToOne);
         }
-        */
         
         /// <inheritdoc cref="_pitchpandocs"/>
         public Outlet PitchPan(
@@ -221,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// </param>
         /// <param name="panbrello">
         /// A tuple containing the speed and depth of the panbrello effect.
-        /// If not provided, speed will default to 1 (once per second) and depth to 0.33.
+        /// If not provided, they will default to 1.
         /// </param>
         /// <returns>
         /// A tuple containing the adjusted left and right channels

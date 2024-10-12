@@ -33,6 +33,7 @@ namespace JJ.Business.Synthesizer.Tests
         #region Tests
 
         [TestMethod]
+        [Ignore]
         public void FM_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())

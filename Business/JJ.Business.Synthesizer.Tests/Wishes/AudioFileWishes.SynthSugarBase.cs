@@ -79,6 +79,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             string fileName = null,
             [CallerMemberName] string callerMemberName = null)
         {
+            Console.WriteLine();
+
             // Validate Parameters
             if (channels.left == null) throw new NullException(() => channels.left);
             if (channels.right == null) throw new NullException(() => channels.right);

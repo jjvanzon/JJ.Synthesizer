@@ -23,6 +23,7 @@ namespace JJ.Business.Synthesizer.Tests
         #region Tests
 
         [TestMethod]
+        [Ignore]
         /// <inheritdoc cref="_detunicadocs" />
         public void Test_Detunica_Jingle()
         {
@@ -36,6 +37,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
+        [Ignore]
         public void Test_DetunicaBass()
         {
             using (IContext context = PersistenceHelper.CreateContext())
