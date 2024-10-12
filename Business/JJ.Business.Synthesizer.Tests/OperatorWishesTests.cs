@@ -14,27 +14,26 @@ using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class Synthesizer_OperatorWishesTests : SynthSugarBase
+    public class OperatorWishesTests : SynthSugarBase
     {
         [UsedImplicitly]
-        public Synthesizer_OperatorWishesTests()
+        public OperatorWishesTests()
         { }
 
-        Synthesizer_OperatorWishesTests(IContext context)
+        OperatorWishesTests(IContext context)
             : base(context)
         { }
 
         // Panning Tests
         
         [TestMethod]
-        public void Test_Synthesizer_OperatorWishes_Panning_ConstantSignal_ConstantPanningAsDouble()
+        public void Panning_ConstantSignal_ConstantPanningAsDouble()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_ConstantSignal_WithDoublePanning();
+                new OperatorWishesTests(context).RunTest_Panning_ConstantSignal_ConstPanningAsDouble();
         }
 
-        [TestMethod]
-        public void Test_OperatorWishes_Panning_ConstantSignal_WithDoublePanning()
+        void RunTest_Panning_ConstantSignal_ConstPanningAsDouble()
         {
             // Arrange
             var input = (left: _[0.8], right: _[0.6]);
@@ -54,14 +53,13 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_OperatorWishes_Panning_ConstantSignal_ConstantPanningAsOperator()
+        public void Panning_ConstantSignal_ConstantPanningAsOperator()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_ConstantSignal_WithDoublePanning();
+                new OperatorWishesTests(context).RunTest_Panning_ConstantSignal_ConstantPanningAsOperator();
         }
 
-        [TestMethod]
-        public void Test_OperatorWishes_Panning_ConstantSignal_ConstantPanningAsOperator()
+        void RunTest_Panning_ConstantSignal_ConstantPanningAsOperator()
         {
             // Arrange
             var input = (left: _[0.8], right: _[0.6]);
@@ -82,14 +80,13 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_OperatorWishes_Panning_SineWaveSignal_ConstantPanningAsDouble()
+        public void Panning_SineWaveSignal_ConstantPanningAsDouble()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_SineWaveSignal_ConstantPanningAsDouble();
+                new OperatorWishesTests(context).RunTest_Panning_SineWaveSignal_ConstantPanningAsDouble();
         }
 
-        [TestMethod]
-        public void Test_OperatorWishes_Panning_SineWaveSignal_ConstantPanningAsDouble()
+        void RunTest_Panning_SineWaveSignal_ConstantPanningAsDouble()
         {
             // Arrange
             var sine = Sine(pitch: _[1]);
@@ -115,14 +112,13 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_OperatorWishes_Panning_SineWaveSignal_DynamicPanning()
+        public void Panning_SineWaveSignal_DynamicPanning()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_Panning_SineWaveSignal_DynamicPanning();
+                new OperatorWishesTests(context).RunTest_Panning_SineWaveSignal_DynamicPanning();
         }
 
-        [TestMethod]
-        public void Test_OperatorWishes_Panning_SineWaveSignal_DynamicPanning()
+        void RunTest_Panning_SineWaveSignal_DynamicPanning()
         {
             // Arrange
             var sine = Sine(_[A4]);
@@ -148,13 +144,13 @@ namespace JJ.Business.Synthesizer.Tests
         // PitchPan Tests
 
         [TestMethod]
-        public void Test_Synthesizer_OperatorWishes_PitchPan_UsingOperators()
+        public void PitchPan_UsingOperators()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_PitchPan_UsingOperators();
+                new OperatorWishesTests(context).RunTest_PitchPan_UsingOperators();
         }
         
-        void Test_OperatorWishes_PitchPan_UsingOperators()
+        void RunTest_PitchPan_UsingOperators()
         {
             // Arrange
             double centerFrequency = A4;
@@ -189,13 +185,13 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_OperatorWishes_PitchPan_UsingDoubles()
+        public void PitchPan_UsingDoubles()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_OperatorWishesTests(context).Test_OperatorWishes_PitchPan_UsingDoubles();
+                new OperatorWishesTests(context).RunTest_PitchPan_UsingDoubles();
         }
 
-        void Test_OperatorWishes_PitchPan_UsingDoubles()
+        void RunTest_PitchPan_UsingDoubles()
         {
             // Arrange
             double centerFrequency = A4;

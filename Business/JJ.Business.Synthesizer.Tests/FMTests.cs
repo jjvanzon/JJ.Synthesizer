@@ -18,288 +18,288 @@ namespace JJ.Business.Synthesizer.Tests
     /// making the FM synthesis behave differently.
     /// </summary>
     [TestClass]
-    public class Synthesizer_FMTests : SynthSugarBase
+    public class FMTests : SynthSugarBase
     {
         /// <summary> Constructor for test runner. </summary>
         [UsedImplicitly]
-        public Synthesizer_FMTests()
+        public FMTests()
         { }
 
         /// <summary> Constructor allowing each test to run in its own instance. </summary>
-        public Synthesizer_FMTests(IContext context)
+        public FMTests(IContext context)
             : base(context, beat: 0.45, bar: 4 * 0.45)
         { }
 
         #region Tests
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Jingle()
+        public void FM_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Jingle();
+                new FMTests(context).RunTest_FM_Jingle();
         }
 
-        private void Test_FM_Jingle()
+        private void RunTest_FM_Jingle()
             => SaveWav(DeepEcho(Jingle()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Flute_Melody1()
+        public void FM_Flute_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Flute_Melody1();
+                new FMTests(context).RunTest_FM_Flute_Melody1();
         }
 
-        private void Test_FM_Flute_Melody1()
+        private void RunTest_FM_Flute_Melody1()
             => SaveWav(MildEcho(FluteMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Flute_Melody2()
+        public void FM_Flute_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Flute_Melody2();
+                new FMTests(context).RunTest_FM_Flute_Melody2();
         }
 
-        private void Test_FM_Flute_Melody2()
+        private void RunTest_FM_Flute_Melody2()
             => SaveWav(MildEcho(FluteMelody2), volume: 0.3, duration: bars[2.5] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Flute1()
+        public void FM_Flute1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Flute1();
+                new FMTests(context).RunTest_FM_Flute1();
         }
 
-        private void Test_FM_Flute1()
+        private void RunTest_FM_Flute1()
             => SaveWav(MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Flute2()
+        public void FM_Flute2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Flute2();
+                new FMTests(context).RunTest_FM_Flute2();
         }
 
-        private void Test_FM_Flute2()
+        private void RunTest_FM_Flute2()
             => SaveWav(MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Flute3()
+        public void FM_Flute3()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Flute3();
+                new FMTests(context).RunTest_FM_Flute3();
         }
 
-        private void Test_FM_Flute3()
+        private void RunTest_FM_Flute3()
             => SaveWav(MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Flute4()
+        public void FM_Flute4()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Flute4();
+                new FMTests(context).RunTest_FM_Flute4();
         }
 
-        private void Test_FM_Flute4()
+        private void RunTest_FM_Flute4()
             => SaveWav(MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Organ()
+        public void FM_Organ()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Organ();
+                new FMTests(context).RunTest_FM_Organ();
         }
 
-        private void Test_FM_Organ()
+        private void RunTest_FM_Organ()
             => SaveWav(MildEcho(Organ(duration: bars[8])), duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Pad()
+        public void FM_Pad()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Pad();
+                new FMTests(context).RunTest_FM_Pad();
         }
 
-        private void Test_FM_Pad()
+        private void RunTest_FM_Pad()
             => SaveWav(MildEcho(Pad()), duration: bars[8] + MILD_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Pad_Chords()
+        public void FM_Pad_Chords()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Pad_Chords();
+                new FMTests(context).RunTest_FM_Pad_Chords();
         }
 
-        private void Test_FM_Pad_Chords()
+        private void RunTest_FM_Pad_Chords()
             => SaveWav(MildEcho(PadChords), volume: 0.15, duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Trombone()
+        public void FM_Trombone()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Trombone();
+                new FMTests(context).RunTest_FM_Trombone();
         }
 
-        private void Test_FM_Trombone()
+        private void RunTest_FM_Trombone()
             => SaveWav(MildEcho(Trombone(_[E2])));
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Horn()
+        public void FM_Horn()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Horn();
+                new FMTests(context).RunTest_FM_Horn();
         }
 
-        private void Test_FM_Horn()
+        private void RunTest_FM_Horn()
             => SaveWav(MildEcho(Horn(duration: _[1])), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Trombone_Melody1()
+        public void FM_Trombone_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Trombone_Melody1();
+                new FMTests(context).RunTest_FM_Trombone_Melody1();
         }
 
-        private void Test_FM_Trombone_Melody1()
+        private void RunTest_FM_Trombone_Melody1()
             => SaveWav(MildEcho(TromboneMelody1), volume: 0.45, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Trombone_Melody2()
+        public void FM_Trombone_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Trombone_Melody2();
+                new FMTests(context).RunTest_FM_Trombone_Melody2();
         }
 
-        private void Test_FM_Trombone_Melody2()
+        private void RunTest_FM_Trombone_Melody2()
             => SaveWav(MildEcho(TromboneMelody2), volume: 0.75, duration: bars[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Trombone_Melody3()
+        public void FM_Trombone_Melody3()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Trombone_Melody3();
+                new FMTests(context).RunTest_FM_Trombone_Melody3();
         }
 
-        private void Test_FM_Trombone_Melody3()
+        private void RunTest_FM_Trombone_Melody3()
             => SaveWav(MildEcho(TromboneMelody3), duration: bars[1.5] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Horn_Melody1()
+        public void FM_Horn_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Horn_Melody1();
+                new FMTests(context).RunTest_FM_Horn_Melody1();
         }
 
-        private void Test_FM_Horn_Melody1()
+        private void RunTest_FM_Horn_Melody1()
             => SaveWav(MildEcho(HornMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Horn_Melody2()
+        public void FM_Horn_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Horn_Melody2();
+                new FMTests(context).RunTest_FM_Horn_Melody2();
         }
 
-        private void Test_FM_Horn_Melody2()
+        private void RunTest_FM_Horn_Melody2()
             => SaveWav(MildEcho(HornMelody2), volume: 0.6, duration: bars[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_ElectricNote()
+        public void FM_ElectricNote()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_ElectricNote();
+                new FMTests(context).RunTest_FM_ElectricNote();
         }
 
-        private void Test_FM_ElectricNote()
+        private void RunTest_FM_ElectricNote()
             => SaveWav(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Organ_Chords()
+        public void FM_Organ_Chords()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Organ_Chords();
+                new FMTests(context).RunTest_FM_Organ_Chords();
         }
 
-        private void Test_FM_Organ_Chords()
+        private void RunTest_FM_Organ_Chords()
             => SaveWav(MildEcho(OrganChords), volume: 0.22, duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_RippleBass()
+        public void FM_RippleBass()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_RippleBass();
+                new FMTests(context).RunTest_FM_RippleBass();
         }
 
-        private void Test_FM_RippleBass()
+        private void RunTest_FM_RippleBass()
             => SaveWav(DeepEcho(RippleBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_RippleBass_Melody1()
+        public void FM_RippleBass_Melody1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_RippleBass_Melody1();
+                new FMTests(context).RunTest_FM_RippleBass_Melody1();
         }
 
-        private void Test_FM_RippleBass_Melody1()
+        private void RunTest_FM_RippleBass_Melody1()
             => SaveWav(DeepEcho(RippleBassMelody1), volume: 0.3, duration: bars[5] + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_RippleBass_Melody2()
+        public void FM_RippleBass_Melody2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_RippleBass_Melody2();
+                new FMTests(context).RunTest_FM_RippleBass_Melody2();
         }
 
-        private void Test_FM_RippleBass_Melody2()
+        private void RunTest_FM_RippleBass_Melody2()
             => SaveWav(DeepEcho(RippleBassMelody2), volume: 0.3, duration: bars[4] + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_RippleNote_SharpMetallic()
+        public void FM_RippleNote_SharpMetallic()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_RippleNote_SharpMetallic();
+                new FMTests(context).RunTest_FM_RippleNote_SharpMetallic();
         }
 
-        private void Test_FM_RippleNote_SharpMetallic()
+        private void RunTest_FM_RippleNote_SharpMetallic()
             => SaveWav(DeepEcho(RippleNote_SharpMetallic(duration: _[2.2])), duration: 2.2 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_RippleSound_Clean()
+        public void FM_RippleSound_Clean()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_RippleSound_Clean();
+                new FMTests(context).RunTest_FM_RippleSound_Clean();
         }
 
-        private void Test_FM_RippleSound_Clean()
+        private void RunTest_FM_RippleSound_Clean()
             => SaveWav(outlet: DeepEcho(RippleSound_Clean(duration: _[4])), duration: 4 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_RippleSound_FantasyEffect()
+        public void FM_RippleSound_FantasyEffect()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_RippleSound_FantasyEffect();
+                new FMTests(context).RunTest_FM_RippleSound_FantasyEffect();
         }
 
-        private void Test_FM_RippleSound_FantasyEffect()
+        private void RunTest_FM_RippleSound_FantasyEffect()
             => SaveWav(DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_RippleSound_CoolDouble()
+        public void FM_RippleSound_CoolDouble()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_RippleSound_CoolDouble();
+                new FMTests(context).RunTest_FM_RippleSound_CoolDouble();
         }
 
-        private void Test_FM_RippleSound_CoolDouble()
+        private void RunTest_FM_RippleSound_CoolDouble()
             => SaveWav(DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void Test_Synthesizer_FM_Noise_Beating()
+        public void FM_Noise_Beating()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_FMTests(context).Test_FM_Noise_Beating();
+                new FMTests(context).RunTest_FM_Noise_Beating();
         }
 
-        private void Test_FM_Noise_Beating()
+        private void RunTest_FM_Noise_Beating()
             => SaveWav(MildEcho(Create_FM_Noise_Beating(_[A4])), duration: 5);
 
         #endregion

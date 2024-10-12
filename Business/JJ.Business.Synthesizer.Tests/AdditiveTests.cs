@@ -15,34 +15,34 @@ namespace JJ.Business.Synthesizer.Tests
     /// <summary>
     /// Additional tests written upon retro-actively isolating older synthesizer versions.
     /// </summary>
-    public class Synthesizer_AdditiveTests : SynthSugarBase
+    public class AdditiveTests : SynthSugarBase
     {
         const double DEFAULT_NOTE_DURATION = 2.5;
 
         /// <summary> Constructor for test runner. </summary>
         [UsedImplicitly]
-        public Synthesizer_AdditiveTests()
+        public AdditiveTests()
         { }
 
         /// <summary> Constructor allowing each test to run in its own instance. </summary>
-        public Synthesizer_AdditiveTests(IContext context)
+        public AdditiveTests(IContext context)
             : base(context, beat: 0.4, bar: 1.6)
         { }
 
         #region Tests
 
         [TestMethod]
-        public void Test_Synthesizer_Additive_Sines_Samples_Metallophone_Jingle()
+        public void Sines_Samples_Metallophone_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_AdditiveTests(context).Test_Additive_Sines_Samples_Metallophone_Jingle();
+                new AdditiveTests(context).RunTest_Sines_Samples_Metallophone_Jingle();
         }
 
         /// <summary>
         /// Arpeggio sound with harmonics, a high-pitch sample for attack,
         /// separate curves for each partial, triggers a wav header auto-detect.
         /// </summary>
-        void Test_Additive_Sines_Samples_Metallophone_Jingle()
+        void RunTest_Sines_Samples_Metallophone_Jingle()
         {
             AssertEntities();
 
@@ -53,13 +53,13 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_Additive_Sines_Samples_Metallophone_Note()
+        public void Sines_Samples_Metallophone_Note()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_AdditiveTests(context).Test_Additive_Sines_Samples_Metallophone_Note();
+                new AdditiveTests(context).RunTest_Sines_Samples_Metallophone_Note();
         }
 
-        void Test_Additive_Sines_Samples_Metallophone_Note()
+        void RunTest_Sines_Samples_Metallophone_Note()
         {
             AssertEntities();
 

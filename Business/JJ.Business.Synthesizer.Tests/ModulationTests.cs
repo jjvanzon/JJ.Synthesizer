@@ -10,13 +10,13 @@ using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class Synthesizer_ModulationTests : SynthSugarBase
+    public class ModulationTests : SynthSugarBase
     {
         [UsedImplicitly]
-        public Synthesizer_ModulationTests()
+        public ModulationTests()
         { }
 
-        Synthesizer_ModulationTests(IContext context)
+        ModulationTests(IContext context)
             : base(context, beat: 0.55, bar: 2.2)
         { }
 
@@ -24,137 +24,137 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Synthesizer_Modulation_Detunica_Jingle()
+        public void Detunica_Jingle()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica_Jingle();
+                new ModulationTests(context).RunTest_Detunica_Jingle();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void Test_Modulation_Detunica_Jingle()
+        void RunTest_Detunica_Jingle()
             => SaveWav(DeepEcho(DetunicaJingle), volume: 0.14, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
-        public void Test_Synthesizer_Modulation_DetunicaBass()
+        public void DetunicaBass()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_DetunicaBass();
+                new ModulationTests(context).RunTest_DetunicaBass();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void Test_Modulation_DetunicaBass()
+        void RunTest_DetunicaBass()
             => SaveWav(DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.2);
 
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
-        public void Test_Synthesizer_Modulation_Detunica1()
+        public void Detunica1()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica1();
+                new ModulationTests(context).RunTest_Detunica1();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void Test_Modulation_Detunica1()
+        void RunTest_Detunica1()
             => SaveWav(DeepEcho(Detunica1(freq: _[E2], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Synthesizer_Modulation_Detunica2()
+        public void Detunica2()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica2();
+                new ModulationTests(context).RunTest_Detunica2();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void Test_Modulation_Detunica2()
+        void RunTest_Detunica2()
             => SaveWav(DeepEcho(Detunica2(freq: _[B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Synthesizer_Modulation_Detunica3()
+        public void Detunica3()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica3();
+                new ModulationTests(context).RunTest_Detunica3();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void Test_Modulation_Detunica3()
+        void RunTest_Detunica3()
             => SaveWav(DeepEcho(Detunica3(freq: _[C5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Synthesizer_Modulation_Detunica4()
+        public void Detunica4()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica4();
+                new ModulationTests(context).RunTest_Detunica4();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void Test_Modulation_Detunica4()
+        void RunTest_Detunica4()
             => SaveWav(DeepEcho(Detunica4(freq: _[D5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Synthesizer_Modulation_Detunica5()
+        public void Detunica5()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Detunica5();
+                new ModulationTests(context).RunTest_Detunica5();
         }
 
         /// <inheritdoc cref="_detunicadocs" />
-        void Test_Modulation_Detunica5()
+        void RunTest_Detunica5()
             => SaveWav(DeepEcho(Detunica5(freq: _[E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
-        public void Test_Synthesizer_Modulation_Vibraphase_Chord()
+        public void Vibraphase_Chord()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Vibraphase_Chord();
+                new ModulationTests(context).RunTest_Vibraphase_Chord();
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
-        void Test_Modulation_Vibraphase_Chord()
+        void RunTest_Vibraphase_Chord()
             => SaveWav(MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
-        public void Test_Synthesizer_Modulation_Vibraphase()
+        public void Vibraphase()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Vibraphase();
+                new ModulationTests(context).RunTest_Vibraphase();
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
-        void Test_Modulation_Vibraphase()
+        void RunTest_Vibraphase()
             => SaveWav(MildEcho(Vibraphase(freq: _[E5])), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         /// <inheritdoc cref="docs._vibrato" />
-        public void Test_Synthesizer_Modulation_Vibrato()
+        public void Vibrato()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Vibrato();
+                new ModulationTests(context).RunTest_Vibrato();
         }
 
         /// <inheritdoc cref="docs._vibrato" />
-        void Test_Modulation_Vibrato()
+        void RunTest_Vibrato()
             => SaveWav(
                 Sine(volume: _[1], VibratoOverPitch(_[A4])),
                 volume: 0.9, duration: 3);
 
         [TestMethod]
         /// <inheritdoc cref="docs._tremolo" />
-        public void Test_Synthesizer_Modulation_Tremolo()
+        public void Tremolo()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new Synthesizer_ModulationTests(context).Test_Modulation_Tremolo();
+                new ModulationTests(context).RunTest_Tremolo();
         }
 
         /// <inheritdoc cref="docs._tremolo" />
-        void Test_Modulation_Tremolo()
+        void RunTest_Tremolo()
             => SaveWav(
                 Tremolo(Sine(volume: _[1], _[A4]), tremolo: (_[4], _[0.5])),
                 volume: 0.30, duration: 3);
