@@ -6,6 +6,7 @@ using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
+#pragma warning disable CS8123 // The tuple element name is ignored because a different name or no name is specified by the assignment target.
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -147,14 +148,29 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         /// <inheritdoc cref="_detunicadocs" />
-        Outlet DetunicaJingle => Adder
-        (
-            DetunicaBass(bar[1], duration: bars[5.25]),
-            Detunica2(bar[2], _[B4], _[0.70], duration: bars[1.5]),
-            Detunica3(bar[3], _[C5], _[0.75], duration: bars[1.6]),
-            Detunica4(bar[4], _[D5], _[0.90], duration: bars[1.5]),
-            Detunica5(bar[5], _[E5], _[1.00], duration: bars[3.0])
-        );
+        (Outlet Left, Outlet Right) DetunicaJingle
+        {
+            get
+            {
+                var note1 = DetunicaBass(bar[1],                 bars[5.25]);
+                var note2 = Detunica2   (bar[2], _[B4], _[0.70], bars[1.50]);
+                var note3 = Detunica3   (bar[3], _[C5], _[0.75], bars[1.60]);
+                var note4 = Detunica4   (bar[4], _[D5], _[0.90], bars[1.50]);
+                var note5 = Detunica5   (bar[5], _[E5], _[1.00], bars[3.00]);
+                
+                var (note1L, note1R) = Panbrello((note1, note1), (s:2,d:0.2));
+                var (note2L, note2R) = Panning  ((note2, note2), 0.3);
+                var (note3L, note3R) = Panning  ((note3, note3), 0.7);
+                var (note4L, note4R) = Panning  ((note4, note4), 0.2);
+                var (note5L, note5R) = Panning  ((note5, note5), 0.5);
+
+                return
+                (
+                    Adder(note1L, note2L, note3L, note4L, note5L),
+                    Adder(note1R, note2R, note3R, note4R, note5R)
+                );
+            }
+        }
 
         #endregion
         
@@ -381,6 +397,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_echodocs" />
         Outlet DeepEcho(Outlet melody)
             => EntityFactory.CreateEcho(this, melody, count: 6, denominator: 2, delay: 0.5);
+
+        /// <inheritdoc cref="_echodocs" />
+        (Outlet Left, Outlet Right) DeepEcho((Outlet Left, Outlet Right) melody)
+            => (EntityFactory.CreateEcho(this, melody.Left, count: 6, denominator: 2.2, delay: 0.5),
+                EntityFactory.CreateEcho(this, melody.Right, count: 6, denominator: 2, delay: 0.52));
 
         #endregion
 
