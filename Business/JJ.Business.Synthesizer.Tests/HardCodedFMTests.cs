@@ -12,14 +12,14 @@ namespace JJ.Business.Synthesizer.Tests
 	public class HardCodedFMTests
 	{
 		[TestMethod]
-		public void NoPhaseTracking_32BitFloat_HardFlute_IsNoise()
-			=> RunTest_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 880f, modulationDepth: 5f);
+		public void HardCodedFM_NoPhaseTracking_32BitFloat_HardFlute_IsNoise()
+			=> RunTest_HardCodedFM_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 880f, modulationDepth: 5f);
 
 		[TestMethod]
-		public void NoPhaseTracking_32BitFloat_WapWap() 
-			=> RunTest_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 5f, modulationDepth: 0.1f);
+		public void HardCodedFM_NoPhaseTracking_32BitFloat_WapWap() 
+			=> RunTest_HardCodedFM_NoPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 5f, modulationDepth: 0.1f);
 
-		void RunTest_NoPhaseTracking_32BitFloat(
+		void RunTest_HardCodedFM_NoPhaseTracking_32BitFloat(
 			float carrierFrequency, 
 			float modulationFrequency, 
 			float modulationDepth,
@@ -55,14 +55,14 @@ namespace JJ.Business.Synthesizer.Tests
 		}
 
 		[TestMethod]
-		public void NoPhaseTracking_64BitDouble_HardFlute_IsNoise()
-			=> RunTest_NoPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 880.0, modulationDepth: 5.0);
+		public void HardCodedFM_NoPhaseTracking_64BitDouble_HardFlute_IsNoise()
+			=> RunTest_HardCodedFM_NoPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 880.0, modulationDepth: 5.0);
 
 		[TestMethod]
-		public void NoPhaseTracking_64BitDouble_WapWap()
-			=> RunTest_NoPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 5.0, modulationDepth: 0.1);
+		public void HardCodedFM_NoPhaseTracking_64BitDouble_WapWap()
+			=> RunTest_HardCodedFM_NoPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 5.0, modulationDepth: 0.1);
 
-		void RunTest_NoPhaseTracking_64BitDouble(
+		void RunTest_HardCodedFM_NoPhaseTracking_64BitDouble(
 			double carrierFrequency,
 			double modulationFrequency,
 			double modulationDepth,
@@ -98,14 +98,14 @@ namespace JJ.Business.Synthesizer.Tests
 		}
 
 		[TestMethod]
-		public void WithPhaseTracking_32BitFloat_HardFlute()
-			=> RunTest_WithPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 880f, modulationDepth: 5f);
+		public void HardCodedFM_WithPhaseTracking_32BitFloat_HardFlute()
+			=> RunTest_HardCodedFM_WithPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 880f, modulationDepth: 5f);
 
 		[TestMethod]
-		public void WithPhaseTracking_32BitFloat_WapWap()
-			=> RunTest_WithPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 10f, modulationDepth: 50f);
+		public void HardCodedFM_WithPhaseTracking_32BitFloat_WapWap()
+			=> RunTest_HardCodedFM_WithPhaseTracking_32BitFloat(carrierFrequency: 440f, modulationFrequency: 10f, modulationDepth: 50f);
 
-		void RunTest_WithPhaseTracking_32BitFloat(
+		void RunTest_HardCodedFM_WithPhaseTracking_32BitFloat(
 			float carrierFrequency,
 			float modulationFrequency,
 			float modulationDepth,
@@ -150,14 +150,14 @@ namespace JJ.Business.Synthesizer.Tests
 		}
 
 		[TestMethod]
-		public void WithPhaseTracking_64BitDouble_HardFlute()
-			=> RunTest_WithPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 880.0, modulationDepth: 5.0);
+		public void HardCodedFM_WithPhaseTracking_64BitDouble_HardFlute()
+			=> RunTest_HardCodedFM_WithPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 880.0, modulationDepth: 5.0);
 
 		[TestMethod]
-		public void WithPhaseTracking_64BitDouble_WapWap()
-			=> RunTest_WithPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 10.0, modulationDepth: 50.0);
+		public void HardCodedFM_WithPhaseTracking_64BitDouble_WapWap()
+			=> RunTest_HardCodedFM_WithPhaseTracking_64BitDouble(carrierFrequency: 440.0, modulationFrequency: 10.0, modulationDepth: 50.0);
 
-		void RunTest_WithPhaseTracking_64BitDouble(
+		void RunTest_HardCodedFM_WithPhaseTracking_64BitDouble(
 			double carrierFrequency,
 			double modulationFrequency,
 			double modulationDepth,
