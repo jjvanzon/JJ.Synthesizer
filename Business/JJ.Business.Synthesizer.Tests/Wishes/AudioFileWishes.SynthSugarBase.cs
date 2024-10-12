@@ -99,7 +99,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             audioFileOutput.Duration = duration;
             audioFileOutput.Amplifier = short.MaxValue * volume;
             audioFileOutput.FilePath = fileName;
-            // BUG: audioFileOutput.AudioFileOutputChannels collection empty.
             audioFileOutput.AudioFileOutputChannels[0].Outlet = channels.left;
             audioFileOutput.AudioFileOutputChannels[1].Outlet = channels.right;
 

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Reflection;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static System.Reflection.MethodBase;
 using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
 // ReSharper disable PossibleNullReferenceException
 
@@ -62,10 +59,10 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Panning_ConstantSignal_ConstantPanningAsDouble()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panning_ConstantSignal_ConstPanningAsDouble_RunTest();
+                new OperatorWishesTests(context).Panning_ConstantSignal_ConstantPanningAsDouble_RunTest();
         }
 
-        void Panning_ConstantSignal_ConstPanningAsDouble_RunTest()
+        void Panning_ConstantSignal_ConstantPanningAsDouble_RunTest()
         {
             // Arrange
             var input = (left: _[0.8], right: _[0.6]);
@@ -133,8 +130,7 @@ namespace JJ.Business.Synthesizer.Tests
             double maxValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.25);
             double minValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.75);
 
-            SaveWav(pannedSine.Left, duration:1, volume:1, fileName: $"{GetCurrentMethod().Name}.left.wav");
-            SaveWav(pannedSine.Right, duration:1, volume:1, fileName: $"{GetCurrentMethod().Name}.right.wav");
+            SaveWav(pannedSine, duration: 1, volume: 1);
 
             // Assert
             AssertHelper.AreEqual(0.75, () => maxValueLeft);
@@ -169,8 +165,7 @@ namespace JJ.Business.Synthesizer.Tests
             // Act
             var pannedSine = Panning(stereoInput, panningOutlet);
 
-            SaveWav(pannedSine.Left, duration: 1, volume: 1, fileName: $"{GetCurrentMethod().Name}.Left.wav");
-            SaveWav(pannedSine.Right, duration: 1, volume: 1, fileName: $"{GetCurrentMethod().Name}.Right.wav");
+            SaveWav(pannedSine, duration: 1, volume: 1);
         }
 
         // Panbrello Tests
@@ -188,8 +183,7 @@ namespace JJ.Business.Synthesizer.Tests
             var signal = (sound, sound);
             var panbrello = Panbrello(signal);
 
-            SaveWav(panbrello.Left, volume: 1, fileName: $"{GetCurrentMethod().Name}.Left.wav");
-            SaveWav(panbrello.Right, volume: 1, fileName: $"{GetCurrentMethod().Name}.Right.wav");
+            SaveWav(panbrello, volume: 1);
         }
 
         [TestMethod]
@@ -205,8 +199,7 @@ namespace JJ.Business.Synthesizer.Tests
             var signal = (sound, sound);
             var panbrello = Panbrello(signal, (speed: 2.0, depth: 0.75));
 
-            SaveWav(panbrello.Left, volume: 1, fileName: $"{GetCurrentMethod().Name}.Left.wav");
-            SaveWav(panbrello.Right, volume: 1, fileName: $"{GetCurrentMethod().Name}.Right.wav");
+            SaveWav(panbrello, volume: 1);
         }
 
         [TestMethod]
@@ -239,8 +232,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             var panbrello = Panbrello(signal, (speed, depth));
 
-            SaveWav(panbrello.Left, volume: 1, fileName: $"{GetCurrentMethod().Name}.Left.wav");
-            SaveWav(panbrello.Right, volume: 1, fileName: $"{GetCurrentMethod().Name}.Right.wav");
+            SaveWav(panbrello, volume: 1);
         }
 
         // PitchPan Tests
