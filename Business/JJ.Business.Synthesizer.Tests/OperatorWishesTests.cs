@@ -12,8 +12,6 @@ using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
 
 // ReSharper disable JoinDeclarationAndInitializer
 
-// ReSharper disable PossibleNullReferenceException
-
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
@@ -77,15 +75,17 @@ namespace JJ.Business.Synthesizer.Tests
             }
 
             double panning = 0.5;
+            Outlet panned;
 
             // Act
-            var panned     = Panning(signal(), panning);
             var calculator = new OperatorCalculator(default);
 
             Channel = Left;
+            panned  = Panning(signal(), panning);
             double outputLeftValue = calculator.CalculateValue(panned, time: 0);
 
             Channel = Right;
+            panned  = Panning(signal(), panning);
             double outputRightValue = calculator.CalculateValue(panned, time: 0);
 
             // Assert
@@ -122,15 +122,15 @@ namespace JJ.Business.Synthesizer.Tests
 
             // Act
 
-            Outlet outlet;
+            Outlet panned;
 
             Channel = Left;
-            outlet  = Panning(TestSignal(), panningOutlet);
-            double leftValue = calculator.CalculateValue(outlet, time: 0);
+            panned  = Panning(TestSignal(), panningOutlet);
+            double leftValue = calculator.CalculateValue(panned, time: 0);
 
             Channel = Right;
-            outlet  = Panning(TestSignal(), panningOutlet);
-            double rightValue = calculator.CalculateValue(outlet, time: 0);
+            panned  = Panning(TestSignal(), panningOutlet);
+            double rightValue = calculator.CalculateValue(panned, time: 0);
 
             // Assert
             double expectedLeftValue  = 0.8 * (1 - panningValue); // 0.8 * 0.5 = 0.4
@@ -156,19 +156,19 @@ namespace JJ.Business.Synthesizer.Tests
 
             // Act
 
-            Outlet pannedSine;
+            Outlet panned;
 
             Channel    = Left;
-            pannedSine = Panning(sine, panning);
-            double maxValueLeft = calculator.CalculateValue(pannedSine, time: 0.25 / freq);
-            double minValueLeft = calculator.CalculateValue(pannedSine, time: 0.75 / freq);
+            panned = Panning(sine, panning);
+            double maxValueLeft = calculator.CalculateValue(panned, time: 0.25 / freq);
+            double minValueLeft = calculator.CalculateValue(panned, time: 0.75 / freq);
 
             Channel    = Right;
-            pannedSine = Panning(sine, panning);
-            double maxValueRight = calculator.CalculateValue(pannedSine, time: 0.25 / freq);
-            double minValueRight = calculator.CalculateValue(pannedSine, time: 0.75 / freq);
+            panned = Panning(sine, panning);
+            double maxValueRight = calculator.CalculateValue(panned, time: 0.25 / freq);
+            double minValueRight = calculator.CalculateValue(panned, time: 0.75 / freq);
 
-            SaveWav(() => pannedSine, duration: 1, volume: 1);
+            SaveWav(() => panned, duration: 1, volume: 1);
 
             // Assert
             AssertHelper.AreEqual(0.75,  () => maxValueLeft);
@@ -196,9 +196,9 @@ namespace JJ.Business.Synthesizer.Tests
                 *
             *");
 
-            var pannedSine = Panning(sine, panning);
+            var panned = Panning(sine, panning);
 
-            SaveWav(() => pannedSine, duration: 1, volume: 1);
+            SaveWav(() => panned, duration: 1, volume: 1);
         }
 
         // Panbrello Tests
