@@ -1,8 +1,11 @@
 using System;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
 
 // ReSharper disable MemberCanBeProtected.Global
@@ -12,10 +15,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 {
     public partial class SynthSugarBase : OperatorFactory
     {
-        private const double TWO_PI = Math.PI * 2;
+        public const double TWO_PI = Math.PI * 2;
             
         private void InitializeOperatorWishes()
             => _ = new ValueIndexer(this);
+
+        public ChannelEnum Channel { get; set; }
 
         /// <inheritdoc cref="docs._default" />
         public Outlet Stretch(Outlet signal, Outlet timeFactor)
@@ -56,10 +61,31 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             (Outlet left, Outlet right) channels,
             Outlet panning)
         {
-            // TODO: Might go into the negative. Should be clamped to 0-1.
-            var leftPan = Multiply(channels.left, Substract(_[1], panning));
-            var rightPan = Multiply(channels.right, panning);
+            Channel = Left;
+            Outlet leftPan = Panning(channels.left, panning);
+            Channel = Right;
+            Outlet rightPan = Panning(channels.right, panning);
             return (leftPan, rightPan);
+        }
+
+        /// <inheritdoc cref="_panningdocs" />
+        public Outlet Panning(Outlet signal, Outlet panning)
+        {
+            switch (Channel)
+            {
+                case ChannelEnum.Single: 
+                    return signal;
+                
+                case Left:
+                    return Multiply(signal, Substract(_[1], panning));
+                
+                case Right: 
+                    return Multiply(signal, panning);
+                
+                default: 
+                    throw new ValueNotSupportedException(Channel);
+            }
+            // TODO: Might go into the negative. Should be clamped to 0-1.
         }
 
         /// <inheritdoc cref="_panningdocs" />
