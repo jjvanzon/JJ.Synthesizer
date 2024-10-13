@@ -122,6 +122,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\ConfigurationHelper.cs" />
+    <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="OperatorWishesTests.cs" />
     <Compile Include="CurveWishesTests.cs" />
     <Compile Include="ModulationTests.cs" />

@@ -25,15 +25,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         private AudioFileOutputManager _audioFileOutputManager;
 
-        private const double DEFAULT_TOTAL_VOLUME = 0.5;
-        private const double DEFAULT_TOTAL_TIME = 3.0;
         private string NewLine => Environment.NewLine;
         
         /// <inheritdoc cref="_savewavdocs"/>
         public void SaveWav(
             Outlet monoChannel,
-            double duration = DEFAULT_TOTAL_TIME,
-            double volume = DEFAULT_TOTAL_VOLUME,
+            double? duration = default,
+            double? volume = default,
             string fileName = null,
             [CallerMemberName] string callerMemberName = null)
             => SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
@@ -41,8 +39,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <inheritdoc cref="_savewavdocs"/>
         public void SaveWav(
             (Outlet left, Outlet right) channels,
-            double duration = DEFAULT_TOTAL_TIME,
-            double volume = DEFAULT_TOTAL_VOLUME,
+            double? duration = default,
+            double? volume = default,
             string fileName = null,
             [CallerMemberName] string callerMemberName = null)
             => SaveWav(new[] { channels.left, channels.right }, duration, volume, fileName, callerMemberName);
@@ -50,8 +48,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <inheritdoc cref="_savewavdocs"/>
         private void SaveWav(
             IList<Outlet> channels,
-            double duration = DEFAULT_TOTAL_TIME,
-            double volume = DEFAULT_TOTAL_VOLUME,
+            double? duration = default,
+            double? volume = default,
             string fileName = null,
             string callerMemberName = null)
         {
@@ -61,7 +59,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             if (channels == null) throw new NullException(() => channels);
             if (channels.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channels));
             if (channels.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channels));
+            
             fileName = string.IsNullOrWhiteSpace(fileName) ? $"{callerMemberName}.wav" : fileName;
+            duration = duration ?? ConfigurationHelper.DefaultOutputDuration;
+            volume = volume ?? ConfigurationHelper.DefaultOutputVolume;
 
             // Validate Input Data
             var warnings = new List<string>();
@@ -76,8 +77,9 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
             _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channels.Count);
-            audioFileOutput.Duration = duration;
-            audioFileOutput.Amplifier = short.MaxValue * volume;
+            audioFileOutput.Duration = duration.Value;
+            audioFileOutput.SamplingRate = ConfigurationHelper.DefaultSamplingRate;
+            audioFileOutput.Amplifier = short.MaxValue * volume.Value;
             audioFileOutput.FilePath = fileName;
 
             for (int i = 0; i < channels.Count; i++)
@@ -115,14 +117,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         {
             if (Environment.GetEnvironmentVariable("NCrunch") != null)
             {
-                audioFileOutput.SamplingRate = 1000;
+                audioFileOutput.SamplingRate = ConfigurationHelper.NCrunchSamplingRate;
                 Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " +
                                   "to improve NCrunch code coverage performance.");
             }
 
             if (Environment.GetEnvironmentVariable("TF_BUILD") == "True")
             {
-                audioFileOutput.SamplingRate = 11025;
+                audioFileOutput.SamplingRate = ConfigurationHelper.AzurePipelinesSamplingRate;
                 Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " + 
                                   "to improve Azure Pipelines test performance.");
             }
@@ -135,6 +137,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         /// <summary>
         /// Outputs audio to a file. Also, the entity data tied to the outlet will be verified.
+        /// If parameters are not provided, defaults will be employed.
+        /// Some of these defaults you can set in the configuration file.
         /// </summary>
         object _savewavdocs;
 
