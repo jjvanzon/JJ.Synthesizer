@@ -42,28 +42,20 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             switch (speakerSetupEnum)
             {
                 case SpeakerSetupEnum.Mono: 
-                    Channel = Mono; var monoOutlet = func();
-                    SaveMono(monoOutlet, duration, volume, fileName, callerMemberName); break;
+                    Channel = Mono; var monoChannel = func();
+                    SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
+                    break;
                 
                 case SpeakerSetupEnum.Stereo:
                     Channel = Left ; var leftOutlet  = func();
                     Channel = Right; var rightOutlet = func();
-                    SaveWav((leftOutlet, rightOutlet), duration, volume, fileName, callerMemberName);
+                    SaveWav(new[] { leftOutlet, rightOutlet }, duration, volume, fileName, callerMemberName);
                     break;
                 
                 default:
                     throw new ValueNotSupportedException(speakerSetupEnum);
             }
         }
-
-        /// <inheritdoc cref="_savewavdocs"/>
-        public void SaveWav(
-            (Outlet left, Outlet right) stereoChannels,
-            double duration = default,
-            double volume = default,
-            string fileName = default,
-            [CallerMemberName] string callerMemberName = null)
-            => SaveWav(new[] { stereoChannels.left, stereoChannels.right }, duration, volume, fileName, callerMemberName);
 
         /// <inheritdoc cref="_savewavdocs"/>
         public void SaveMono(
@@ -75,7 +67,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             => SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
 
         /// <inheritdoc cref="_savewavdocs"/>
-        public void SaveWav(
+        private void SaveWav(
             IList<Outlet> channels,
             double duration = default,
             double volume = default,
@@ -169,12 +161,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <summary>
         /// Outputs audio to a WAV file.<br/>
         /// A single <see cref="Outlet">Outlet</see> will result in Mono audio.<br/>
-        /// For Stereo use:<br/>
-        /// - A func returning an <see cref="Outlet">Outlet</see> e.g. () => myOutlet.
-        ///   (Reason: Func needs to execute twice for the 2 channels.)<br/>
-        /// - A tuple of two <see cref="Outlet">Outlets</see>. e.g. (myLeftOutlet, myRightOutlet).<br/>
-        /// - A collection with 2 <see cref="Outlet">Outlets</see>.
-        ///   e.g. new <see cref="Outlet">Outlet</see>[] { myLeftOutlet, myRightOutlet }.<br/>
+        /// For Stereo use a func returning an <see cref="Outlet">Outlet</see> e.g. () => myOutlet.
+        /// (Reason: Func needs to execute twice for the 2 channels.)<br/>
         /// If parameters are not provided, defaults will be employed.
         /// Some of these defaults you can set in the configuration file.
         /// Also, the entity data tied to the outlet will be verified.

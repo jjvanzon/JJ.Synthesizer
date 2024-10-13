@@ -7,7 +7,10 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
+
+// ReSharper disable JoinDeclarationAndInitializer
 
 // ReSharper disable PossibleNullReferenceException
 
@@ -66,18 +69,28 @@ namespace JJ.Business.Synthesizer.Tests
         void Panning_ConstantSignal_ConstantPanningAsDouble_RunTest()
         {
             // Arrange
-            var    input   = (left: _[0.8], right: _[0.6]);
+            Outlet signal()
+            {
+                if (Channel == Left) return _[0.8];
+                if (Channel == Right) return _[0.6];
+                return default;
+            }
+
             double panning = 0.5;
 
             // Act
-            var    output           = Panning(input, panning);
-            var    calculator       = new OperatorCalculator(default);
-            double outputLeftValue  = calculator.CalculateValue(output.Left,  time: 0);
-            double outputRightValue = calculator.CalculateValue(output.Right, time: 0);
+            var panned     = Panning(signal(), panning);
+            var calculator = new OperatorCalculator(default);
+
+            Channel = Left;
+            double outputLeftValue = calculator.CalculateValue(panned, time: 0);
+
+            Channel = Right;
+            double outputRightValue = calculator.CalculateValue(panned, time: 0);
 
             // Assert
             double expectedLeft  = 0.8 * (1 - panning); // 0.8 * 0.5 = 0.4
-            double expectedRight = 0.6 * panning;       // 0.6 * 0.5 = 0.3
+            double expectedRight = 0.6 * panning; // 0.6 * 0.5 = 0.3
             AssertHelper.AreEqual(expectedLeft,  () => outputLeftValue);
             AssertHelper.AreEqual(expectedRight, () => outputRightValue);
         }
@@ -92,21 +105,38 @@ namespace JJ.Business.Synthesizer.Tests
         void Panning_ConstantSignal_ConstantPanningAsOperator_RunTest()
         {
             // Arrange
-            var    input         = (left: _[0.8], right: _[0.6]);
-            double panning       = 0.5;
-            Outlet panningOutlet = _[panning];
+            Outlet TestSignal()
+            {
+                switch (Channel)
+                {
+                    case Left:  return _[0.8];
+                    case Right: return _[0.6];
+                    default:    return default;
+                }
+            }
+
+            double panningValue  = 0.5;
+            Outlet panningOutlet = _[panningValue];
+
+            var calculator = new OperatorCalculator(default);
 
             // Act
-            var    output           = Panning(input, panningOutlet);
-            var    calculator       = new OperatorCalculator(default);
-            double outputLeftValue  = calculator.CalculateValue(output.Left,  time: 0);
-            double outputRightValue = calculator.CalculateValue(output.Right, time: 0);
+
+            Outlet outlet;
+
+            Channel = Left;
+            outlet  = Panning(TestSignal(), panningOutlet);
+            double leftValue = calculator.CalculateValue(outlet, time: 0);
+
+            Channel = Right;
+            outlet  = Panning(TestSignal(), panningOutlet);
+            double rightValue = calculator.CalculateValue(outlet, time: 0);
 
             // Assert
-            double expectedLeft  = 0.8 * (1 - panning); // 0.8 * 0.5 = 0.4
-            double expectedRight = 0.6 * panning; // 0.6 * 0.5 = 0.3
-            AssertHelper.AreEqual(expectedLeft,  () => outputLeftValue);
-            AssertHelper.AreEqual(expectedRight, () => outputRightValue);
+            double expectedLeftValue  = 0.8 * (1 - panningValue); // 0.8 * 0.5 = 0.4
+            double expectedRightValue = 0.6 * panningValue; // 0.6 * 0.5 = 0.3
+            AssertHelper.AreEqual(expectedLeftValue,  () => leftValue);
+            AssertHelper.AreEqual(expectedRightValue, () => rightValue);
         }
 
         [TestMethod]
@@ -119,20 +149,26 @@ namespace JJ.Business.Synthesizer.Tests
         void Panning_SineWaveSignal_ConstantPanningAsDouble_RunTest()
         {
             // Arrange
-            var    freq        = A4;
-            var    sine        = Sine(_[freq]);
-            var    stereoInput = (sine, sine);
-            double panning     = 0.25;
+            var    freq       = A4;
+            var    sine       = Sine(_[freq]);
+            double panning    = 0.25;
+            var    calculator = new OperatorCalculator(default);
 
             // Act
-            var    pannedSine    = Panning(stereoInput, panning);
-            var    calculator    = new OperatorCalculator(default);
-            double maxValueLeft  = calculator.CalculateValue(pannedSine.Left,  time: 0.25 / freq);
-            double minValueLeft  = calculator.CalculateValue(pannedSine.Left,  time: 0.75 / freq);
-            double maxValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.25 / freq);
-            double minValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.75 / freq);
 
-            SaveWav(pannedSine, duration: 1, volume: 1);
+            Outlet pannedSine;
+
+            Channel    = Left;
+            pannedSine = Panning(sine, panning);
+            double maxValueLeft = calculator.CalculateValue(pannedSine, time: 0.25 / freq);
+            double minValueLeft = calculator.CalculateValue(pannedSine, time: 0.75 / freq);
+
+            Channel    = Right;
+            pannedSine = Panning(sine, panning);
+            double maxValueRight = calculator.CalculateValue(pannedSine, time: 0.25 / freq);
+            double minValueRight = calculator.CalculateValue(pannedSine, time: 0.75 / freq);
+
+            SaveWav(() => pannedSine, duration: 1, volume: 1);
 
             // Assert
             AssertHelper.AreEqual(0.75,  () => maxValueLeft);
@@ -150,12 +186,8 @@ namespace JJ.Business.Synthesizer.Tests
 
         void Panning_SineWaveSignal_DynamicPanning_RunTest()
         {
-            // Arrange
-            var sine        = Sine(_[A4]);
-            var stereoInput = (sine, sine);
-            Outlet panningOutlet = CurveIn(@"
-                                            *
-                                        *
+            var sine = Sine(_[A4]);
+            var panning = CurveIn(@"
                                     *
                                 *
                             *
@@ -164,10 +196,9 @@ namespace JJ.Business.Synthesizer.Tests
                 *
             *");
 
-            // Act
-            var pannedSine = Panning(stereoInput, panningOutlet);
+            var pannedSine = Panning(sine, panning);
 
-            SaveWav(pannedSine, duration: 1, volume: 1);
+            SaveWav(() => pannedSine, duration: 1, volume: 1);
         }
 
         // Panbrello Tests
@@ -182,10 +213,9 @@ namespace JJ.Business.Synthesizer.Tests
         void Panbrello_RunTest_DefaultSpeedAndDepth()
         {
             var sound     = Sine(_[A4]);
-            var signal    = (sound, sound);
-            var panbrello = Panbrello(signal);
+            var panbrello = Panbrello(sound);
 
-            SaveWav(panbrello, volume: 1);
+            SaveWav(() => panbrello, volume: 1);
         }
 
         [TestMethod]
@@ -198,10 +228,9 @@ namespace JJ.Business.Synthesizer.Tests
         void Panbrello_RunTest_ConstSpeedAndDepth()
         {
             var sound     = Sine(_[A4]);
-            var signal    = (sound, sound);
-            var panbrello = Panbrello(signal, (speed: 2.0, depth: 0.75));
+            var panbrello = Panbrello(sound, (speed: 2.0, depth: 0.75));
 
-            SaveWav(panbrello, volume: 1);
+            SaveWav(() => panbrello, volume: 1);
         }
 
         [TestMethod]
@@ -213,28 +242,27 @@ namespace JJ.Business.Synthesizer.Tests
 
         void Panbrello_RunTest_DynamicSpeedAndDepth()
         {
-            var sound  = Sine(_[A4]);
-            var signal = (sound, sound);
+            var sound = Sine(_[A4]);
 
             var speed = CurveIn(
                 "Speed", x: (0, 3), y: (0, 8), @"
-                            * *
+                                * *
+                            *
                         *
                     *
-                *
-            *                            ");
+                *                              ");
 
             var depth = CurveIn(
                 "Depth", x: (0, 3), y: (0, 1), @"
-            *
                 *
                     *
                         *
-                            * *          ");
+                            *
+                                * *            ");
 
-            var panbrello = Panbrello(signal, (speed, depth));
+            var panbrello = Panbrello(sound, (speed, depth));
 
-            SaveWav(panbrello, volume: 1);
+            SaveWav(() => panbrello, volume: 1);
         }
 
         // PitchPan Tests
