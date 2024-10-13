@@ -34,6 +34,15 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// vibrato.speed: The speed of the vibrato modulation. A typical value might be 5.5.<br />
         /// vibrato.depth: The depth of the vibrato modulation. Typical values might include 0.0005.
         /// </param>
+        /// <param name="panning">
+        /// An <see cref="Outlet" /> or <see cref="System.Double" />
+        /// representing the panning value,
+        /// where 0 is fully left, 1 is fully right, and 0.5 is centered.
+        /// </param>
+        /// <param name="panbrello">
+        /// A tuple containing the speed and depth of the panbrello effect.
+        /// If not provided, they will default to 1.
+        /// </param>
         /// <returns> An Outlet representing the output sound. </returns>
         public object _default;
 
@@ -100,6 +109,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// </summary>
         /// <param name="pitch"> The frequency in Hz of the sine wave. </param>
         /// <returns> An <see cref="Outlet" /> representing the sine wave signal. </returns>
+        /// <inheritdoc cref="_default" />
         public object _sine;
         
         /// <summary>
@@ -107,35 +117,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// channel volumes based on the specified panning value.
         /// TODO: A variable panning might go into the negative. Should be clamped to 0-1.
         /// </summary>
-        /// <param name="panning">
-        /// An <see cref="Outlet" /> or <see cref="System.Double" />
-        /// representing the panning value,
-        /// where 0 is fully left, 1 is fully right, and 0.5 is centered.
-        /// </param>
-        /// <param name="channels">
-        /// A tuple containing the left and right channels of the stereo signal.
-        /// </param>
-        /// <returns>
-        /// A tuple containing the adjusted left and right channels
-        /// after applying the panning.
-        /// </returns>
+        /// <inheritdoc cref="_default" />
         public object _panning;
 
         /// <summary>
         /// Applies a panbrello effect to a stereo signal by modulating the panning
         /// with a sine wave based on the specified speed and depth.
         /// </summary>
-        /// <param name="channels">
-        /// A tuple containing the left and right channels of the stereo signal.
-        /// </param>
-        /// <param name="panbrello">
-        /// A tuple containing the speed and depth of the panbrello effect.
-        /// If not provided, they will default to 1.
-        /// </param>
-        /// <returns>
-        /// A tuple containing the adjusted left and right channels
-        /// after applying the panbrello effect.
-        /// </returns>
+        /// <inheritdoc cref="_default" />
         public object _panbrello;
         
         /// <summary>
@@ -161,6 +150,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// Defaults to 0.6 if not provided.
         /// </param>
         /// <returns> The adjusted panning value based on the pitch. </returns>
+        /// <inheritdoc cref="_default" />
         public object _pitchpan;
  
         /// <summary>
