@@ -11,10 +11,13 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
+using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Enums.ChannelEnum;
+using ConfigurationHelper = JJ.Business.Synthesizer.Tests.Helpers.ConfigurationHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
@@ -26,31 +29,57 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         private AudioFileOutputManager _audioFileOutputManager;
 
         private string NewLine => Environment.NewLine;
-        
+
+        /// <inheritdoc cref="_savewavdocs"/>
+        public void SaveWav(
+            Func<Outlet> func,
+            double duration = default,
+            double volume = default,
+            string fileName = default,
+            SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Stereo,
+            [CallerMemberName] string callerMemberName = null)
+        {
+            switch (speakerSetupEnum)
+            {
+                case SpeakerSetupEnum.Mono: 
+                    Channel = Mono; var monoOutlet = func();
+                    SaveWav(monoOutlet, duration, volume, fileName, callerMemberName); break;
+                
+                case SpeakerSetupEnum.Stereo:
+                    Channel = Left; var  leftOutlet = func();
+                    Channel = Right; var rightOutlet = func();
+                    SaveWav((leftOutlet, rightOutlet), duration, volume, fileName, callerMemberName);
+                    break;
+                
+                default:
+                    throw new ValueNotSupportedException(speakerSetupEnum);
+            }
+        }
+
         /// <inheritdoc cref="_savewavdocs"/>
         public void SaveWav(
             Outlet monoChannel,
-            double? duration = default,
-            double? volume = default,
-            string fileName = null,
+            double duration = default,
+            double volume = default,
+            string fileName = default,
             [CallerMemberName] string callerMemberName = null)
             => SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
-        
+
         /// <inheritdoc cref="_savewavdocs"/>
         public void SaveWav(
-            (Outlet left, Outlet right) channels,
-            double? duration = default,
-            double? volume = default,
-            string fileName = null,
+            (Outlet left, Outlet right) stereoChannels,
+            double duration = default,
+            double volume = default,
+            string fileName = default,
             [CallerMemberName] string callerMemberName = null)
-            => SaveWav(new[] { channels.left, channels.right }, duration, volume, fileName, callerMemberName);
-        
+            => SaveWav(new[] { stereoChannels.left, stereoChannels.right }, duration, volume, fileName, callerMemberName);
+
         /// <inheritdoc cref="_savewavdocs"/>
-        private void SaveWav(
+        public void SaveWav(
             IList<Outlet> channels,
-            double? duration = default,
-            double? volume = default,
-            string fileName = null,
+            double duration = default,
+            double volume = default,
+            string fileName = default,
             string callerMemberName = null)
         {
             Console.WriteLine();
@@ -61,8 +90,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             if (channels.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channels));
             
             fileName = string.IsNullOrWhiteSpace(fileName) ? $"{callerMemberName}.wav" : fileName;
-            duration = duration ?? ConfigurationHelper.DefaultOutputDuration;
-            volume = volume ?? ConfigurationHelper.DefaultOutputVolume;
+            if (!fileName.EndsWith(".wav")) fileName += ".wav";
+            
+            if (duration == default) duration = ConfigurationHelper.DefaultOutputDuration;
+            if (volume   == default) volume   = ConfigurationHelper.DefaultOutputVolume;
 
             // Validate Input Data
             var warnings = new List<string>();
@@ -77,9 +108,9 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
             _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channels.Count);
-            audioFileOutput.Duration = duration.Value;
+            audioFileOutput.Duration = duration;
             audioFileOutput.SamplingRate = ConfigurationHelper.DefaultSamplingRate;
-            audioFileOutput.Amplifier = short.MaxValue * volume.Value;
+            audioFileOutput.Amplifier = short.MaxValue * volume;
             audioFileOutput.FilePath = fileName;
 
             for (int i = 0; i < channels.Count; i++)
@@ -136,11 +167,55 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         // ReSharper disable once IdentifierTypo
 
         /// <summary>
-        /// Outputs audio to a file. Also, the entity data tied to the outlet will be verified.
+        /// Outputs audio to a WAV file.<br/>
+        /// A single <see cref="Outlet">Outlet</see> will result in Mono audio.<br/>
+        /// For Stereo use:<br/>
+        /// - a func returning an <see cref="Outlet">Outlet</see> e.g. () => myOutlet.<br/>
+        /// - a tuple of two <see cref="Outlet">Outlets</see>. e.g. (myLeftOutlet, myRightOutlet).<br/>
+        /// - a collection with 2 <see cref="Outlet">Outlets</see>.
+        ///   e.g. new <see cref="Outlet">Outlet</see>[] { myLeftOutlet, myRightOutlet }.<br/>
+        /// Also, the entity data tied to the outlet will be verified.
         /// If parameters are not provided, defaults will be employed.
         /// Some of these defaults you can set in the configuration file.
         /// </summary>
+        /// <param name="func">
+        /// A function that provides a signal.
+        /// Can be used for both Mono and Stereo sound.
+        /// </param>
+        /// <param name="monoChannel">
+        /// An Outlet that provides the Mono signal.
+        /// Use () => myOutlet for stereo instead.
+        /// </param>
+        /// <param name="stereoChannels">
+        /// A tuple of two outlets, one for the Left channel, one for the Right channel.
+        /// </param>
+        /// <param name="channels">
+        /// A list of outlets, one for each channel,
+        /// e.g. a single one for Mono and 2 outlets for stereo.
+        /// </param>
+        /// <param name="duration">
+        /// The duration of the audio in seconds. When 0, the default duration is used,
+        /// that can be specified in the configuration
+        /// file.
+        /// </param>
+        /// <param name="volume">
+        /// The volume level of the audio. If null, the default volume is used,
+        /// that can be specified in the configuration file.
+        /// </param>
+        /// <param name="fileName">
+        /// The name of the file to save the audio to.
+        /// If null, a default file name is used, based on the caller's name.
+        /// If no file extension is provided, ".wav" is assumed.
+        /// </param>
+        /// <param name="speakerSetupEnum">
+        /// The speaker setup configuration (e.g., Mono, Stereo).
+        /// </param>
+        /// <param name="callerMemberName">
+        /// The name of the calling method. This is automatically set by the compiler.
+        /// </param>
         object _savewavdocs;
+
+
 
         #endregion
     }
