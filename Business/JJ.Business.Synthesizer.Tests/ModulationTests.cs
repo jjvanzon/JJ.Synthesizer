@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica_Jingle_RunTest()
         {
-            SaveWav(() => DeepEcho(DetunicaJingle), volume: 0.29, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
+            SaveWav(() => DeepEcho(DetunicaJingle), volume: 0.65, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
         }
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -152,19 +152,14 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         /// <inheritdoc cref="_detunicadocs" />
-        Outlet DetunicaJingle
-        {
-            get
-            {
-                var note1 = DetunicaBass(bar[1],                 bars[5.25]);
-                var note2 = Detunica2   (bar[2], _[B4], _[0.70], bars[1.50]);
-                var note3 = Detunica3   (bar[3], _[C5], _[0.75], bars[1.60]);
-                var note4 = Detunica4   (bar[4], _[D5], _[0.90], bars[1.50]);
-                var note5 = Detunica5   (bar[5], _[E5], _[1.00], bars[3.00]);
-
-                return Adder(note1, note2, note3, note4, note5);
-            }
-        }
+        Outlet DetunicaJingle => Adder
+        (
+            DetunicaBass(bar[1],                 bars[5.25]),
+            Detunica2   (bar[2], _[B4], _[0.70], bars[1.50]),
+            Detunica3   (bar[3], _[C5], _[0.75], bars[1.60]),
+            Detunica4   (bar[4], _[D5], _[0.90], bars[1.50]),
+            Detunica5   (bar[5], _[E5], _[1.00], bars[3.00])
+        );
 
         #endregion
 
@@ -175,10 +170,10 @@ namespace JJ.Business.Synthesizer.Tests
                 panbrello: (speed: 2.0, depth: 0.20),
                 sound: Adder(
                     Detunica1(delay, _[E0], _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
-                    Detunica2(delay, _[E1], _[0.800], duration /*, detuneDepth: _[0.8], chorusRate: _[0.038]*/),
-                    Detunica3(delay, _[E2], _[1.000], duration /*, detuneDepth: _[0.4], chorusRate: _[0.034]*/),
-                    Detunica4(delay, _[E3], _[0.015], duration /*, detuneDepth: _[0.2], chorusRate: _[0.030]*/),
-                    Detunica5(delay, _[E4], _[0.001], duration /*, detuneDepth: _[0.1], chorusRate: _[0.010]*/)));
+                    Detunica2(delay, _[E1], _[0.800], duration),
+                    Detunica3(delay, _[E2], _[1.000], duration),
+                    Detunica4(delay, _[E3], _[0.015], duration),
+                    Detunica5(delay, _[E4], _[0.001], duration)));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica1(
@@ -195,56 +190,47 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
             => MildEcho(
-                Panning(
-                    panning: 0.4,
-                    sound: Panbrello(
-                        panbrello: (speed: 2.6, depth: 0.09),
-                        sound: Detunica(
-                            delay, freq, volume, duration,
-                            vibrato: (_[10.0], _[0.00020]),
-                            tremolo: (_[12.0], _[0.10]),
-                            detuneDepth: _[1.0],
-                            churnRate: Multiply(_[0.10], DetuneRateCurve2)))));
+                Detunica(
+                    delay, freq, volume, duration,
+                    vibrato: (_[10.0], _[0.00020]),
+                    tremolo: (_[12.0], _[0.10]),
+                    detuneDepth: _[1.0],
+                    churnRate: Multiply(_[0.10], DetuneRateCurve2),
+                    panning: _[0.4], panbrello: (_[2.6], _[0.09])));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
-            => Panning(
-                panning: 0.70,
-                sound: Panbrello(
-                    panbrello: (speed: 4.8, depth: 0.05),
-                    sound: Detunica(
-                        delay, freq, volume, duration,
-                        vibrato: (_[05.5], _[0.0005]),
-                        tremolo: (_[15.0], _[0.06]),
-                        detuneDepth: _[0.5],
-                        interferenceRate: Multiply(_[0.002], DetuneRateCurve1),
-                        chorusRate: Multiply(_[0.002],       DetuneRateCurve1),
-                        envelopeVariation: 2)));
+            => Detunica(
+                delay, freq, volume, duration,
+                vibrato: (_[05.5], _[0.0005]),
+                tremolo: (_[15.0], _[0.06]),
+                detuneDepth: _[0.5],
+                interferenceRate: Multiply(_[0.002], DetuneRateCurve1),
+                chorusRate: Multiply(_[0.002],       DetuneRateCurve1),
+                panning: _[0.70], panbrello: (_[4.8], _[0.05]),
+                envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
-            => Panning(
-                panning: 0.20,
-                sound: Panbrello(
-                    panbrello: (speed: 3.4, depth: 0.07),
-                    sound: Detunica(
-                        delay, freq, volume, duration,
-                        vibrato: (_[07], _[0.0003]),
-                        tremolo: (_[10], _[0.08]),
-                        detuneDepth: _[0.5],
-                        interferenceRate: Multiply(_[0.003], DetuneRateCurve3))));
+            => Detunica(
+                delay, freq, volume, duration,
+                vibrato: (_[07], _[0.0003]),
+                tremolo: (_[10], _[0.08]),
+                detuneDepth: _[0.5],
+                interferenceRate: Multiply(_[0.003], DetuneRateCurve3),
+                panning: Stretch(CurveIn(0.2, 0.6), duration),
+                panbrello: (_[3.4], _[0.07]));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
-            => Panning(
-                panning: 0.48,
-                sound: Detunica(
-                    delay, freq, volume, duration,
-                    vibrato: (_[5.5], _[0.00005]),
-                    tremolo: (_[3.0], _[0.25]),
-                    detuneDepth: _[0.8],
-                    churnRate: Multiply(_[0.001], DetuneRateCurve1),
-                    chorusRate: _[0.001]));
+            => Detunica(
+                delay, freq, volume, duration,
+                vibrato: (_[5.5], _[0.00005]),
+                tremolo: (_[3.0], _[0.25]),
+                detuneDepth: _[0.8],
+                churnRate: Multiply(_[0.001], DetuneRateCurve1),
+                chorusRate: _[0.001],
+                panning: _[0.48]);
 
         #endregion
 
@@ -255,16 +241,19 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             (Outlet speed, Outlet depth) vibrato = default, (Outlet speed, Outlet depth) tremolo = default,
             Outlet detuneDepth = null, Outlet churnRate = null, Outlet interferenceRate = null, Outlet chorusRate = null,
+            Outlet panning = null, (Outlet speed, Outlet depth) panbrello = default,
             int envelopeVariation = 1)
         {
             duration = duration ?? _[1];
 
-            if (vibrato != default) freq  = VibratoOverPitch(freq, vibrato);
-            var    baseHarmonics          = BaseHarmonics(freq);
-            var    detunedHarmonics       = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
-            Outlet sound                  = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
-            if (tremolo != default) sound = Tremolo(sound, tremolo);
-
+            if (vibrato != default) freq    = VibratoOverPitch(freq, vibrato);
+            var    baseHarmonics            = BaseHarmonics(freq);
+            var    detunedHarmonics         = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
+            Outlet sound                    = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
+            if (tremolo != default) sound   = Tremolo(sound, tremolo);
+            if (panning != null) sound      = Panning(sound, panning);
+            if (panbrello != default) sound = Panbrello(sound, panbrello);
+            
             // Apply volume curve
             switch (envelopeVariation)
             {

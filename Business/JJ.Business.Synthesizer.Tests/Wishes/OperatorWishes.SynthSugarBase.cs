@@ -2,7 +2,6 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
@@ -58,9 +57,20 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         // Panning
 
+        /// <summary>
+        /// Tries getting a constant value from an operator or outlet.
+        /// If it is dynamic, so no constant value, null is returned.
+        /// </summary>
+        /// <returns></returns>
+        //public static double? TryGetValue(static Outlet outlet) => panning.Operator.AsValueOperator?.Value
+        
+        
         /// <inheritdoc cref="_panningdocs" />
         public Outlet Panning(Outlet sound, Outlet panning)
         {
+            //double? contPanning = panning.Operator.AsValueOperator?.Value;
+            //if (panning.Operator.AsValueOperator?.Value != default)
+                
             switch (Channel)
             {
                 case Left:  return Multiply(sound, Substract(_[1], panning));
@@ -82,39 +92,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 default:    return sound;
             }
         }
-
-        ///// <inheritdoc cref="_panningdocs" />
-        //public (Outlet Left, Outlet Right) Panning((Outlet left, Outlet right) channels, Outlet panning)
-        //{
-        //    var originalChannel = Channel;
-        //    try
-        //    {
-        //        Channel = Left; Outlet  leftWithEffect  = Panning(channels.left,  panning);
-        //        Channel = Right; Outlet rightWithEffect = Panning(channels.right, panning);
-        //        return (leftWithEffect, rightWithEffect);
-        //    }
-        //    finally
-        //    {
-        //        Channel = originalChannel;
-        //    }
-        //}
-
-        ///// <inheritdoc cref="_panningdocs" />
-        //public (Outlet Left, Outlet Right) Panning((Outlet left, Outlet right) channels, double panning)
-        //{
-        //    var originalChannel = Channel;
-        //    try
-        //    {
-        //        Channel = Left; Outlet  leftWithEffect  = Panning(channels.left,  panning);
-        //        Channel = Right; Outlet rightWithEffect = Panning(channels.right, panning);
-
-        //        return (leftWithEffect, rightWithEffect);
-        //    }
-        //    finally
-        //    {
-        //        Channel = originalChannel;
-        //    }
-        //}
 
         // Panbrello
         
@@ -146,45 +123,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             return Panning(sound, zeroToOne);
         }
-
-        ///// <inheritdoc cref="_panbrellodocs" />
-        //public (Outlet Left, Outlet Right) Panbrello(
-        //    (Outlet left, Outlet right) channels,
-        //    (Outlet speed, Outlet depth) panbrello)
-        //{
-        //    var originalChannel = Channel;
-        //    try
-        //    {
-        //        Channel = Left; Outlet  leftWithEffect  = Panbrello(channels.left,  panbrello);
-        //        Channel = Right; Outlet rightWithEffect = Panbrello(channels.right, panbrello);
-
-        //        return (leftWithEffect, rightWithEffect);
-        //    }
-        //    finally
-        //    {
-        //        Channel = originalChannel;
-        //    }
-        //}
-
-        ///// <inheritdoc cref="_panbrellodocs" />
-        //public (Outlet Left, Outlet Right) Panbrello(
-        //    (Outlet left, Outlet right) channels,
-        //    (double speed, double depth) panbrello = default)
-        //{
-        //    var originalChannel = Channel;
-        //    try
-        //    {
-        //        Channel = Left; Outlet  leftWithEffect  = Panbrello(channels.left,  panbrello);
-        //        Channel = Right; Outlet rightWithEffect = Panbrello(channels.right, panbrello);
-
-        //        return (leftWithEffect, rightWithEffect);
-        //    }
-        //    finally
-        //    {
-        //        Channel = originalChannel;
-        //    }
-        //}
-
+        
         // PitchPan
         
         /// <inheritdoc cref="_pitchpandocs" />
@@ -264,8 +203,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         #region Docs
 
         #pragma warning disable CS0169 // Field is never used
-
-        // ReSharper disable IdentifierTypo
 
         /// <summary>
         /// Generates a sine wave signal with the specified pitch.<br />
