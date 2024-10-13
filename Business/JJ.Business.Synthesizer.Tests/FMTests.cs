@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Jingle_RunTest()
-            => SaveWavMono(DeepEcho(Jingle()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
+            => SaveMono(DeepEcho(Jingle()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void FM_Flute_Melody1()
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Flute_Melody1_RunTest()
-            => SaveWavMono(MildEcho(FluteMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(FluteMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Flute_Melody2()
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Flute_Melody2_RunTest()
-            => SaveWavMono(MildEcho(FluteMelody2), volume: 0.3, duration: bars[2.5] + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(FluteMelody2), volume: 0.3, duration: bars[2.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Flute1()
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Flute1_RunTest()
-            => SaveWavMono(MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Flute2()
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Flute2_RunTest()
-            => SaveWavMono(MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Flute3()
@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Flute3_RunTest()
-            => SaveWavMono(MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Flute4()
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Flute4_RunTest()
-            => SaveWavMono(MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Organ()
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Organ_RunTest()
-            => SaveWavMono(MildEcho(Organ(duration: bars[8])), duration: bars[8] + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(Organ(duration: bars[8])), duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Pad()
@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Pad_RunTest()
-            => SaveWavMono(MildEcho(Pad()), duration: bars[8] + MILD_ECHO_TIME, volume: 0.2);
+            => SaveMono(MildEcho(Pad()), duration: bars[8] + MILD_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
         public void FM_Pad_Chords()
@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Pad_Chords_RunTest()
-            => SaveWavMono(MildEcho(PadChords), volume: 0.15, duration: bars[8] + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(PadChords), volume: 0.15, duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Trombone()
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Trombone_RunTest()
-            => SaveWavMono(MildEcho(Trombone(_[E2])));
+            => SaveMono(MildEcho(Trombone(_[E2])));
 
         [TestMethod]
         public void FM_Horn()
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Horn_RunTest()
-            => SaveWavMono(MildEcho(Horn(duration: _[1])), duration: 1 + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(Horn(duration: _[1])), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Trombone_Melody1()
@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Trombone_Melody1_RunTest()
-            => SaveWavMono(MildEcho(TromboneMelody1), volume: 0.45, duration: bars[4] + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(TromboneMelody1), volume: 0.45, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Trombone_Melody2()
@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Trombone_Melody2_RunTest()
-            => SaveWavMono(MildEcho(TromboneMelody2), volume: 0.75, duration: bars[3.5] + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(TromboneMelody2), volume: 0.75, duration: bars[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Trombone_Melody3()
@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Trombone_Melody3_RunTest()
-            => SaveWavMono(MildEcho(TromboneMelody3), duration: bars[1.5] + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(TromboneMelody3), duration: bars[1.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Horn_Melody1()
@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Horn_Melody1_RunTest()
-            => SaveWavMono(MildEcho(HornMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(HornMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Horn_Melody2()
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Horn_Melody2_RunTest()
-            => SaveWavMono(MildEcho(HornMelody2), volume: 0.6, duration: bars[3.5] + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(HornMelody2), volume: 0.6, duration: bars[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_ElectricNote()
@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_ElectricNote_RunTest()
-            => SaveWavMono(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Organ_Chords()
@@ -221,7 +221,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Organ_Chords_RunTest()
-            => SaveWavMono(MildEcho(OrganChords), volume: 0.22, duration: bars[8] + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(OrganChords), volume: 0.22, duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_RippleBass()
@@ -231,7 +231,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_RippleBass_RunTest()
-            => SaveWavMono(DeepEcho(RippleBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
+            => SaveMono(DeepEcho(RippleBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void FM_RippleBass_Melody1()
@@ -241,7 +241,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_RippleBass_Melody1_RunTest()
-            => SaveWavMono(DeepEcho(RippleBassMelody1), volume: 0.3, duration: bars[5] + DEEP_ECHO_TIME);
+            => SaveMono(DeepEcho(RippleBassMelody1), volume: 0.3, duration: bars[5] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void FM_RippleBass_Melody2()
@@ -251,7 +251,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_RippleBass_Melody2_RunTest()
-            => SaveWavMono(DeepEcho(RippleBassMelody2), volume: 0.3, duration: bars[4] + DEEP_ECHO_TIME);
+            => SaveMono(DeepEcho(RippleBassMelody2), volume: 0.3, duration: bars[4] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void FM_RippleNote_SharpMetallic()
@@ -261,7 +261,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_RippleNote_SharpMetallic_RunTest()
-            => SaveWavMono(DeepEcho(RippleNote_SharpMetallic(duration: _[2.2])), duration: 2.2 + DEEP_ECHO_TIME);
+            => SaveMono(DeepEcho(RippleNote_SharpMetallic(duration: _[2.2])), duration: 2.2 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void FM_RippleSound_Clean()
@@ -271,7 +271,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_RippleSound_Clean_RunTest()
-            => SaveWavMono(DeepEcho(RippleSound_Clean(duration: _[4])), duration: 4 + DEEP_ECHO_TIME);
+            => SaveMono(DeepEcho(RippleSound_Clean(duration: _[4])), duration: 4 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void FM_RippleSound_FantasyEffect()
@@ -281,7 +281,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_RippleSound_FantasyEffect_RunTest()
-            => SaveWavMono(DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DEEP_ECHO_TIME);
+            => SaveMono(DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void FM_RippleSound_CoolDouble()
@@ -291,7 +291,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_RippleSound_CoolDouble_RunTest()
-            => SaveWavMono(DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
+            => SaveMono(DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void FM_Noise_Beating()
@@ -301,7 +301,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private void FM_Noise_Beating_RunTest()
-            => SaveWavMono(MildEcho(Create_FM_Noise_Beating(_[A4])), duration: 5);
+            => SaveMono(MildEcho(Create_FM_Noise_Beating(_[A4])), duration: 5);
 
         #endregion
 

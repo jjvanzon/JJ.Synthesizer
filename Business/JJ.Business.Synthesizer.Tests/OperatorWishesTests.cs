@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="docs._vibrato" />
         void Vibrato_RunTest()
-            => SaveWavMono(
+            => SaveMono(
                 Sine(VibratoOverPitch(_[A4])),
                 volume: 0.9, duration: 3);
 
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="docs._tremolo" />
         void Tremolo_RunTest()
-            => SaveWavMono(
+            => SaveMono(
                 Tremolo(Sine(_[A4]), tremolo: (_[4], _[0.5])),
                 volume: 0.30, duration: 3);
 

@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             {
                 case SpeakerSetupEnum.Mono: 
                     Channel = Mono; var monoOutlet = func();
-                    SaveWavMono(monoOutlet, duration, volume, fileName, callerMemberName); break;
+                    SaveMono(monoOutlet, duration, volume, fileName, callerMemberName); break;
                 
                 case SpeakerSetupEnum.Stereo:
                     Channel = Left; var  leftOutlet = func();
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         }
 
         /// <inheritdoc cref="_savewavdocs"/>
-        public void SaveWavMono(
+        public void SaveMono(
             Outlet monoChannel,
             double duration = default,
             double volume = default,
