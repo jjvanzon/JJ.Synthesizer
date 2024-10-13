@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// vibrato.depth: The depth of the vibrato modulation. Typical values might include 0.0005.
         /// </param>
         /// <returns> An Outlet representing the output sound. </returns>
-        [UsedImplicitly] public object _default;
+        public object _default;
 
         /// <summary>
         /// Applies vibrato modulation to a given frequency by modulating it with a sine wave.<br />
@@ -44,11 +44,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <param name="freq"> The base frequency to which vibrato will be applied. </param>
         /// <returns> An <see cref="Outlet" /> object representing the frequency modulated with vibrato. </returns>
         /// <inheritdoc cref="_default" />
-        [UsedImplicitly] public object _vibrato;
+        public object _vibrato;
 
         /// <summary> Apply _tremolo by modulating amplitude over time using an oscillator. </summary>
         /// <inheritdoc cref="_default" />
-        [UsedImplicitly] public object _tremolo;
+        public object _tremolo;
 
         /// <summary>
         /// Create a Curve from a list of strings, that 'ASCII-encode' the curve. Putting the strings under each other, they create
@@ -60,14 +60,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
         /// </summary>
         /// <inheritdoc cref="_createcurve" />
-        [UsedImplicitly] public static object _createcurvefromstrings;
+        public object _createcurvefromstrings;
 
         /// <summary>
         /// Create a curve from a list of tuples like (0, 0), (0.1, 0.2), (0.2, 1.0).<br />
         /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
         /// </summary>
         /// <inheritdoc cref="_createcurve" />
-        [UsedImplicitly] public object _createcurvewithtuples;
+        public object _createcurvewithtuples;
 
         /// <summary>
         /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
@@ -84,6 +84,93 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// If no key at all can be resolved, an exception is thrown.
         /// </param>
         /// <returns> A curve populated with the specified data. </returns>
-        [UsedImplicitly] public object _createcurve;
+        public object _createcurve;
+
+        /// <summary>
+        /// Tries getting a constant value from an operator or outlet.
+        /// If it is dynamic, so no constant value, null is returned.
+        /// </summary>
+        /// <returns> </returns>
+        public object _asconst;
+        
+        /// <summary>
+        /// Generates a sine wave signal with the specified pitch.<br />
+        /// Simpler variation on the one in the original OperatorFactory
+        /// with pitch as the first and only parameter.
+        /// </summary>
+        /// <param name="pitch"> The frequency in Hz of the sine wave. </param>
+        /// <returns> An <see cref="Outlet" /> representing the sine wave signal. </returns>
+        public object _sine;
+        
+        /// <summary>
+        /// Applies panning to a stereo signal by adjusting the left and right
+        /// channel volumes based on the specified panning value.
+        /// TODO: A variable panning might go into the negative. Should be clamped to 0-1.
+        /// </summary>
+        /// <param name="panning">
+        /// An <see cref="Outlet" /> or <see cref="System.Double" />
+        /// representing the panning value,
+        /// where 0 is fully left, 1 is fully right, and 0.5 is centered.
+        /// </param>
+        /// <param name="channels">
+        /// A tuple containing the left and right channels of the stereo signal.
+        /// </param>
+        /// <returns>
+        /// A tuple containing the adjusted left and right channels
+        /// after applying the panning.
+        /// </returns>
+        public object _panning;
+
+        /// <summary>
+        /// Applies a panbrello effect to a stereo signal by modulating the panning
+        /// with a sine wave based on the specified speed and depth.
+        /// </summary>
+        /// <param name="channels">
+        /// A tuple containing the left and right channels of the stereo signal.
+        /// </param>
+        /// <param name="panbrello">
+        /// A tuple containing the speed and depth of the panbrello effect.
+        /// If not provided, they will default to 1.
+        /// </param>
+        /// <returns>
+        /// A tuple containing the adjusted left and right channels
+        /// after applying the panbrello effect.
+        /// </returns>
+        public object _panbrello;
+        
+        /// <summary>
+        /// Returns a panning based on the pitch,
+        /// to spread different notes across a stereo field.
+        /// (In other words: If the frequency is the referenceFrequency,
+        /// then the panning is the referencePanning.
+        /// Calculates the new panning for the supplied frequency by extrapolating.)
+        /// </summary>
+        /// <param name="actualFrequency">
+        /// The frequency for which to calculate a panning value.
+        /// </param>
+        /// <param name="centerFrequency">
+        /// The center frequency used as a reference point.
+        /// Defaults to A4 if not provided.
+        /// </param>
+        /// <param name="referenceFrequency">
+        /// The reference frequency to assign a specific panning value to.
+        /// Defaults to E4 if not provided.
+        /// </param>
+        /// <param name="referencePanning">
+        /// Panning value that the reference pitch would get.
+        /// Defaults to 0.6 if not provided.
+        /// </param>
+        /// <returns> The adjusted panning value based on the pitch. </returns>
+        public object _pitchpan;
+ 
+        /// <summary>
+        /// Shorthand for OperatorFactor.Value(123), x.Value(123) or Value(123). Allows using _[123] instead.
+        /// Literal numbers need to be wrapped inside a Value Operator so they can always be substituted by
+        /// a whole formula / graph / calculation / curve over time.
+        /// </summary>
+        /// <returns>
+        /// ValueOperatorWrapper also usable as Outlet or double.
+        /// </returns>
+        public object _valueindexer;
     }
 }
