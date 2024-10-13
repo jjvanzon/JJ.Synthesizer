@@ -158,11 +158,11 @@ namespace JJ.Business.Synthesizer.Tests
                 var note4 = Detunica4   (bar[4], _[D5], _[0.90], bars[1.50]);
                 var note5 = Detunica5   (bar[5], _[E5], _[1.00], bars[3.00]);
                 
-                var (note1L, note1R) = Panbrello((note1, note1), (s:2,d:0.2));
-                var (note2L, note2R) = Panning  ((note2, note2), 0.3);
-                var (note3L, note3R) = Panning  ((note3, note3), 0.7);
-                var (note4L, note4R) = Panning  ((note4, note4), 0.2);
-                var (note5L, note5R) = Panning  ((note5, note5), 0.48);
+                var (note1L, note1R) =         Panbrello((note1, note1), (s:2.0,d:0.20));
+                var (note2L, note2R) = Panning(Panbrello((note2, note2), (s:2.6,d:0.02)), 0.3);
+                var (note3L, note3R) = Panning(Panbrello((note3, note3), (s:4.8,d:0.04)), 0.7);
+                var (note4L, note4R) = Panning(Panbrello((note4, note4), (s:3.4,d:0.07)), 0.2);
+                var (note5L, note5R) = Panning((note5, note5), 0.48);
 
                 return
                 (
@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Tests
                 vibrato: (_[3.0], _[0.00010]),
                 tremolo: (_[1.0], _[0.03]),
                 detuneDepth: detuneDepth ?? _[0.8],
-                chorusRate: Multiply(chorusRate ?? _[0.03], DetuneCurve1),
+                chorusRate: Multiply(chorusRate ?? _[0.03], DetuneRateCurve1),
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Tests
                     vibrato: (_[10.0], _[0.00020]),
                     tremolo: (_[12.0], _[0.10]),
                     detuneDepth: _[1.0],
-                    churnRate: Multiply(_[0.10], DetuneCurve2)));
+                    churnRate: Multiply(_[0.10], DetuneRateCurve2)));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
@@ -213,8 +213,8 @@ namespace JJ.Business.Synthesizer.Tests
                 vibrato: (_[05.5], _[0.0005]),
                 tremolo: (_[15.0], _[0.06]),
                 detuneDepth: _[0.5],
-                interferenceRate: Multiply(_[0.002], DetuneCurve1),
-                chorusRate: Multiply(_[0.002], DetuneCurve1),
+                interferenceRate: Multiply(_[0.002], DetuneRateCurve1),
+                chorusRate: Multiply(_[0.002], DetuneRateCurve1),
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -224,7 +224,7 @@ namespace JJ.Business.Synthesizer.Tests
                 vibrato: (_[07], _[0.0003]),
                 tremolo: (_[10], _[0.08]),
                 detuneDepth: _[0.5],
-                interferenceRate: Multiply(_[0.003], DetuneCurve3));
+                interferenceRate: Multiply(_[0.003], DetuneRateCurve3));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
@@ -233,7 +233,7 @@ namespace JJ.Business.Synthesizer.Tests
                 vibrato: (_[5.5], _[0.00005]),
                 tremolo: (_[3.0], _[0.25]),
                 detuneDepth: _[0.8],
-                churnRate: Multiply(_[0.001], DetuneCurve1),
+                churnRate: Multiply(_[0.001], DetuneRateCurve1),
                 chorusRate: _[0.001]);
 
         #endregion
@@ -429,19 +429,19 @@ namespace JJ.Business.Synthesizer.Tests
            
         o                                       o ");
 
-        Outlet DetuneCurve1 => CurveIn(@"
+        Outlet DetuneRateCurve1 => CurveIn(@"
                     o          
                                 
                                 
         o                   o");
 
-        Outlet DetuneCurve2 => CurveIn(@"
+        Outlet DetuneRateCurve2 => CurveIn(@"
              o                 
                                 
                                 
         o                   o ");
 
-        Outlet DetuneCurve3 => CurveIn(@"
+        Outlet DetuneRateCurve3 => CurveIn(@"
                   o            
                                 
                                 
