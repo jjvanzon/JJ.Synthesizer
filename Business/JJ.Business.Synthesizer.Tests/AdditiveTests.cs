@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
 
 // ReSharper disable LocalizableElement
 
@@ -64,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests
             AssertEntities();
 
             SaveMono(
-                AddEcho(Metallophone(_[F4_Sharp])),
+                AddEcho(Metallophone(F4_Sharp)),
                 duration: DEFAULT_NOTE_DURATION + ECHO_TIME,
                 volume: 0.5);
         }
@@ -81,18 +80,18 @@ namespace JJ.Business.Synthesizer.Tests
 
         Outlet MetallophoneJingle => Adder
         (
-            Metallophone(_[A4],       delay: t[bar:1, beat:1.0], volume: _[0.9]),
-            Metallophone(_[E5],       delay: t[bar:1, beat:1.5], volume: _[1.0]),
-            Metallophone(_[B4],       delay: t[bar:1, beat:2.0], volume: _[0.5]),
-            Metallophone(_[C5_Sharp], delay: t[bar:1, beat:2.5], volume: _[0.7]),
-            Metallophone(_[F4_Sharp], delay: t[bar:1, beat:4.0], volume: _[0.4])
+            Metallophone(A4,       delay: t[bar:1, beat:1.0], volume: _[0.9]),
+            Metallophone(E5,       delay: t[bar:1, beat:1.5], volume: _[1.0]),
+            Metallophone(B4,       delay: t[bar:1, beat:2.0], volume: _[0.5]),
+            Metallophone(C5_Sharp, delay: t[bar:1, beat:2.5], volume: _[0.7]),
+            Metallophone(F4_Sharp, delay: t[bar:1, beat:4.0], volume: _[0.4])
         );
 
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="docs._default" />
         Outlet Metallophone(Outlet frequency = null, Outlet volume = null, Outlet delay = null, Outlet duration = null)
         {
-            frequency = frequency ?? _[A4];
+            frequency = frequency ?? A4;
             duration = duration ?? _[DEFAULT_NOTE_DURATION];
 
             var sound = Adder
@@ -114,7 +113,7 @@ namespace JJ.Business.Synthesizer.Tests
             => TimeDivide
             (
                 Multiply(Multiply(Sample(_sample), curve), volume),
-                Divide(frequency, _[440])
+                Divide(frequency, A4)
             );
 
         const double ECHO_TIME = 0.66 * 4;

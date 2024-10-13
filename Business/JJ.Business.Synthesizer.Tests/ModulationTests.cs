@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica1_RunTest()
-            => SaveWav(() => DeepEcho(Detunica1(freq: _[E2], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
+            => SaveWav(() => DeepEcho(Detunica1(freq: E2, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica2_RunTest()
-            => SaveWav(() => DeepEcho(Detunica2(freq: _[B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
+            => SaveWav(() => DeepEcho(Detunica2(freq: B4, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica3_RunTest()
-            => SaveWav(() => DeepEcho(Detunica3(freq: _[C5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
+            => SaveWav(() => DeepEcho(Detunica3(freq: C5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica4_RunTest()
-            => SaveWav(() => DeepEcho(Detunica4(freq: _[D5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
+            => SaveWav(() => DeepEcho(Detunica4(freq: D5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica5_RunTest()
-            => SaveWav(() => DeepEcho(Detunica5(freq: _[E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
+            => SaveWav(() => DeepEcho(Detunica5(freq: E5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()
-            => SaveMono(MildEcho(Vibraphase(freq: _[E5])), duration: 1 + MILD_ECHO_TIME);
+            => SaveMono(MildEcho(Vibraphase(freq: E5)), duration: 1 + MILD_ECHO_TIME);
 
         #endregion
 
@@ -144,21 +144,21 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_vibraphasedocs" />
         Outlet VibraphaseChord => Adder
         (
-            Vibraphase(freq: _[A4], volume: _[0.80]),
-            Vibraphase(freq: _[B4], volume: _[0.70]),
-            Vibraphase(freq: _[C5], volume: _[0.85]),
-            Vibraphase(freq: _[D5], volume: _[0.75]),
-            Vibraphase(freq: _[E5], volume: _[0.90])
+            Vibraphase(freq: A4, volume: _[0.80]),
+            Vibraphase(freq: B4, volume: _[0.70]),
+            Vibraphase(freq: C5, volume: _[0.85]),
+            Vibraphase(freq: D5, volume: _[0.75]),
+            Vibraphase(freq: E5, volume: _[0.90])
         );
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
         (
             DetunicaBass(bar[1],                 bars[5.25]),
-            Detunica2   (bar[2], _[B4], _[0.70], bars[1.50]),
-            Detunica3   (bar[3], _[C5], _[0.75], bars[1.60]),
-            Detunica4   (bar[4], _[D5], _[0.90], bars[1.50]),
-            Detunica5   (bar[5], _[E5], _[1.00], bars[3.00])
+            Detunica2   (bar[2], B4, _[0.70], bars[1.50]),
+            Detunica3   (bar[3], C5, _[0.75], bars[1.60]),
+            Detunica4   (bar[4], D5, _[0.90], bars[1.50]),
+            Detunica5   (bar[5], E5, _[1.00], bars[3.00])
         );
 
         #endregion
@@ -169,11 +169,11 @@ namespace JJ.Business.Synthesizer.Tests
             Panbrello(
                 panbrello: (speed: 2.0, depth: 0.20),
                 sound: Adder(
-                    Detunica1(delay, _[E0], _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
-                    Detunica2(delay, _[E1], _[0.800], duration),
-                    Detunica3(delay, _[E2], _[1.000], duration),
-                    Detunica4(delay, _[E3], _[0.015], duration),
-                    Detunica5(delay, _[E4], _[0.001], duration)));
+                    Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
+                    Detunica2(delay, E1, _[0.800], duration),
+                    Detunica3(delay, E2, _[1.000], duration),
+                    Detunica4(delay, E3, _[0.015], duration),
+                    Detunica5(delay, E4, _[0.001], duration)));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica1(
@@ -294,7 +294,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_semisawdocs" />
         Outlet SemiSaw(Outlet freq)
         {
-            freq = freq ?? _[A4];
+            freq = freq ?? A4;
 
             return Adder
             (
@@ -308,7 +308,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_semisawdocs" />
         Outlet BaseHarmonics(Outlet freq)
         {
-            freq = freq ?? _[A4];
+            freq = freq ?? A4;
 
             return Adder
             (
@@ -325,7 +325,7 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet freq, Outlet duration,
             Outlet churnRate = null, Outlet interferenceRate = null, Outlet chorusRate = null)
         {
-            freq = freq ?? _[A4];
+            freq = freq ?? A4;
 
             return Adder
             (
