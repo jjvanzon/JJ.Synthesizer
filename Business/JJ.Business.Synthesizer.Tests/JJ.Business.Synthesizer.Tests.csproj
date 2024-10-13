@@ -128,6 +128,7 @@
     <Compile Include="CurveWishesTests.cs" />
     <Compile Include="ModulationTests.cs" />
     <Compile Include="Wishes\AudioFileWishes.WavHeaderExtensions.cs" />
+    <Compile Include="Wishes\NoteWishes.SynthSugarBase.cs" />
     <Compile Include="Wishes\OperatorWishes.OperatorExtensions.cs" />
     <Compile Include="Wishes\CurveWishes.CurveFactory.cs" />
     <Compile Include="Helpers\docs.cs" />
