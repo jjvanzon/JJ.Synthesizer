@@ -203,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
+    <None Include=".editorconfig.export" />
     <None Include="App.config" />
     <EmbeddedResource Include="TestResources\violin_16bit_mono.raw" />
     <None Include="packages.config" />
