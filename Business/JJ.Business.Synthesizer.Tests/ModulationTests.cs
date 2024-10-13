@@ -207,7 +207,7 @@ namespace JJ.Business.Synthesizer.Tests
                 detuneDepth: _[0.5],
                 interferenceRate: Multiply(_[0.002], DetuneRateCurve1),
                 chorusRate: Multiply(_[0.002],       DetuneRateCurve1),
-                panning: _[0.70], panbrello: (_[4.8], _[0.05]),
+                panning: Stretch(CurveIn(0.7, 0.55), duration), panbrello: (_[4.8], _[0.05]),
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -218,7 +218,7 @@ namespace JJ.Business.Synthesizer.Tests
                 tremolo: (_[10], _[0.08]),
                 detuneDepth: _[0.5],
                 interferenceRate: Multiply(_[0.003], DetuneRateCurve3),
-                panning: Stretch(CurveIn(0.2, 0.6), duration),
+                panning: Stretch(CurveIn(0.2, 0.8), duration),
                 panbrello: (_[3.4], _[0.07]));
 
         /// <inheritdoc cref="_detunicadocs" />
