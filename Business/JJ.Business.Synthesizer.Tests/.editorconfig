@@ -13,5 +13,5 @@ resharper_int_align_fields = true
 resharper_int_align_invocations = true
 resharper_int_align_switch_expressions = true
 resharper_int_align_switch_sections = true
+resharper_int_align_tuple_components = true
 resharper_int_align_variables = true
-

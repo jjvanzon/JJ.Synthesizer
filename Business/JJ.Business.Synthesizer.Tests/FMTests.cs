@@ -309,26 +309,26 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet Jingle()
         {
-            double fluteVolume = 1.2;
-            double chordsVolume = 0.5;
-            double tromboneVolume = 0.7;
-            double hornVolume = 0.6;
+            double fluteVolume      = 1.2;
+            double chordsVolume     = 0.5;
+            double tromboneVolume   = 0.7;
+            double hornVolume       = 0.6;
             double rippleBassVolume = 0.7;
 
             var pattern1 = Adder
             (
-                Multiply(_[fluteVolume]     , FluteMelody1),
-                Multiply(_[chordsVolume]    , PadChords),
-                Multiply(_[tromboneVolume]  , TromboneMelody1),
-                Multiply(_[hornVolume]      , HornMelody1),
+                Multiply(_[fluteVolume],      FluteMelody1),
+                Multiply(_[chordsVolume],     PadChords),
+                Multiply(_[tromboneVolume],   TromboneMelody1),
+                Multiply(_[hornVolume],       HornMelody1),
                 Multiply(_[rippleBassVolume], RippleBassMelody1)
             );
 
             var pattern2 = Adder
             (
-                Multiply(_[fluteVolume]     , FluteMelody2),
-                Multiply(_[tromboneVolume]  , TromboneMelody2),
-                Multiply(_[hornVolume]      , HornMelody2),
+                Multiply(_[fluteVolume],      FluteMelody2),
+                Multiply(_[tromboneVolume],   TromboneMelody2),
+                Multiply(_[hornVolume],       HornMelody2),
                 Multiply(_[rippleBassVolume], RippleBassMelody2)
             );
 
@@ -436,8 +436,8 @@ namespace JJ.Business.Synthesizer.Tests
 
         private Outlet TromboneMelody3 => Adder
         (
-            Trombone(_[A1]      , beat[1]),
-            Trombone(_[E2]      , beat[3]),
+            Trombone(_[A1],       beat[1]),
+            Trombone(_[E2],       beat[3]),
             Trombone(_[F1_Sharp], beat[5], volume: _[0.7])
         );
 
@@ -457,10 +457,10 @@ namespace JJ.Business.Synthesizer.Tests
         {
             freq = freq ?? _[A4];
 
-            var fmSignal = FMAround0(Divide(freq, _[2]), freq, _[0.005]);
-            var envelope = Stretch(FluteCurve, duration);
+            var fmSignal       = FMAround0(Divide(freq, _[2]), freq, _[0.005]);
+            var envelope       = Stretch(FluteCurve, duration);
             var modulatedSound = Multiply(fmSignal, envelope);
-            var note = StrikeNote(modulatedSound, delay, volume);
+            var note           = StrikeNote(modulatedSound, delay, volume);
 
             return note;
         }
@@ -469,14 +469,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Flute2(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[A4];
+            freq   = freq ?? _[A4];
             volume = volume ?? _[1];
 
-            var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2]), _[0.005]);
-            var envelope = Stretch(FluteCurve, duration);
+            var fmSignal       = FMAroundFreq(freq, Multiply(freq, _[2]), _[0.005]);
+            var envelope       = Stretch(FluteCurve, duration);
             var modulatedSound = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume, _[0.85]);
-            var note = StrikeNote(modulatedSound, delay, adjustedVolume);
+            var adjustedVolume = Multiply(volume,   _[0.85]);
+            var note           = StrikeNote(modulatedSound, delay, adjustedVolume);
 
             return note;
         }
@@ -485,14 +485,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Flute3(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[A4];
+            freq   = freq ?? _[A4];
             volume = volume ?? _[1];
 
-            var fmSignal = FMAroundFreq(freq, Multiply(freq, _[4]), _[0.005]);
-            var envelope = Stretch(FluteCurve, duration);
-            var sound = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume, _[0.8]);
-            var note = StrikeNote(sound, delay, adjustedVolume);
+            var fmSignal       = FMAroundFreq(freq, Multiply(freq, _[4]), _[0.005]);
+            var envelope       = Stretch(FluteCurve, duration);
+            var sound          = Multiply(fmSignal, envelope);
+            var adjustedVolume = Multiply(volume,   _[0.8]);
+            var note           = StrikeNote(sound, delay, adjustedVolume);
 
             return note;
         }
@@ -501,14 +501,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Flute4(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[A4];
+            freq   = freq ?? _[A4];
             volume = volume ?? _[1];
 
-            var fmSignal = FMAround0(Multiply(freq, _[2]), freq, _[0.005]);
-            var envelope = Stretch(FluteCurve, duration);
-            var sound = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume, _[0.70]);
-            var note = StrikeNote(sound, delay, adjustedVolume);
+            var fmSignal       = FMAround0(Multiply(freq, _[2]), freq, _[0.005]);
+            var envelope       = Stretch(FluteCurve, duration);
+            var sound          = Multiply(fmSignal, envelope);
+            var adjustedVolume = Multiply(volume,   _[0.70]);
+            var note           = StrikeNote(sound, delay, adjustedVolume);
 
             return note;
         }
@@ -516,14 +516,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Organ(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[A4];
+            freq     = freq ?? _[A4];
             duration = duration ?? _[1];
 
             var modCurve = Stretch(ModTamingCurve, duration);
             var modDepth = Multiply(_[0.0001], modCurve);
             var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth);
 
-            var volumeEvenOutCurve = Stretch(EvenOutCurve, duration);
+            var volumeEvenOutCurve  = Stretch(EvenOutCurve, duration);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
 
             var note = StrikeNote(soundWithEvenVolume, delay, volume);
@@ -534,13 +534,13 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[A4];
+            freq     = freq ?? _[A4];
             duration = duration ?? beats[1];
 
             // Tame modulation
             var modCurve = Stretch(ModTamingCurve8Times, duration);
             modCurve = Multiply(modCurve, Stretch(ModTamingCurve, duration));
-            modCurve = Multiply(modCurve, Stretch(LineDownCurve, duration));
+            modCurve = Multiply(modCurve, Stretch(LineDownCurve,  duration));
 
             var fmSignal = Add
             (
@@ -548,7 +548,7 @@ namespace JJ.Business.Synthesizer.Tests
                 FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.00015], modCurve))
             );
 
-            var volumeEvenOutCurve = Stretch(EvenOutCurve, duration);
+            var volumeEvenOutCurve  = Stretch(EvenOutCurve, duration);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
 
             var note = StrikeNote(soundWithEvenVolume, delay, volume);
@@ -567,20 +567,20 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet Trombone(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet durationFactor = null)
         {
-            freq = freq ?? _[A1];
+            freq           = freq ?? _[A1];
             durationFactor = durationFactor ?? _[1];
 
             var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, _[5]);
 
             // Exaggerate Duration when Lower
-            var baseNote = _[A1];
-            var baseNoteDuration = Multiply(_[0.8], durationFactor);
-            var ratio = Divide(baseNote, freq);
+            var baseNote            = _[A1];
+            var baseNoteDuration    = Multiply(_[0.8], durationFactor);
+            var ratio               = Divide(baseNote, freq);
             var transformedDuration = Multiply(baseNoteDuration, Power(ratio, _[1.5]));
 
             var envelope = Stretch(BrassCurve, transformedDuration);
-            var sound = Multiply(fmSignal, envelope);
-            var note = StrikeNote(sound, delay, volume);
+            var sound    = Multiply(fmSignal, envelope);
+            var note     = StrikeNote(sound, delay, volume);
 
             return note;
         }
@@ -601,8 +601,8 @@ namespace JJ.Business.Synthesizer.Tests
 
             var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, tamedMod);
             var envelope = Stretch(BrassCurve, duration);
-            var sound = Multiply(fmSignal, envelope);
-            var note = StrikeNote(sound, delay, volume);
+            var sound    = Multiply(fmSignal, envelope);
+            var note     = StrikeNote(sound, delay, volume);
 
             return note;
         }
@@ -610,7 +610,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         private Outlet ElectricNote(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
-            freq = freq ?? _[A4];
+            freq   = freq ?? _[A4];
             volume = volume ?? _[1];
 
             var modDepth = Multiply(_[0.02], Stretch(LineDownCurve, duration));
@@ -620,10 +620,10 @@ namespace JJ.Business.Synthesizer.Tests
                 FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth)
             );
 
-            var envelope = Stretch(DampedBlockCurve, duration);
+            var envelope       = Stretch(DampedBlockCurve, duration);
             var modulatedSound = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume, _[0.6]);
-            var note = StrikeNote(modulatedSound, delay, adjustedVolume);
+            var adjustedVolume = Multiply(volume,   _[0.6]);
+            var note           = StrikeNote(modulatedSound, delay, adjustedVolume);
 
             return note;
         }
@@ -636,7 +636,7 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[A1];
 
             var fmSignal = FMAroundFreq(Multiply(freq, _[8]), Divide(freq, _[2]), _[0.005]);
-            var note = ShapeRippleSound(fmSignal, delay, volume, duration);
+            var note     = ShapeRippleSound(fmSignal, delay, volume, duration);
 
             return note;
         }
@@ -648,7 +648,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             freq = freq ?? _[A3];
             var fmSignal = FMInHertz(freq, Divide(freq, _[2]), _[10]);
-            var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
+            var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
             return sound;
         }
 
@@ -658,7 +658,7 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[A4];
 
             var fmSignal = FMAroundFreq(freq, _[20], _[0.005]);
-            var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
+            var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
 
             return sound;
         }
@@ -671,7 +671,7 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[A5];
 
             var fmSignal = FMAroundFreq(freq, _[10], _[0.02]);
-            var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
+            var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
 
             return sound;
         }
@@ -683,7 +683,7 @@ namespace JJ.Business.Synthesizer.Tests
             freq = freq ?? _[A5];
 
             var fmSignal = FMAroundFreq(freq, _[10], _[0.05]);
-            var sound = ShapeRippleSound(fmSignal, delay, volume, duration);
+            var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
 
             return sound;
         }
@@ -696,8 +696,8 @@ namespace JJ.Business.Synthesizer.Tests
         {
             duration = duration ?? _[2.5];
             var envelope = Stretch(RippleCurve, duration);
-            var sound = Multiply(fmSignal, envelope);
-            var strike = StrikeNote(sound, delay, volume);
+            var sound    = Multiply(fmSignal, envelope);
+            var strike   = StrikeNote(sound, delay, volume);
             return strike;
         }
 
@@ -718,7 +718,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Sine(modDepth, modSpeed);
-            var sound = Sine(_[1], Add(soundFreq, modulator));
+            var sound     = Sine(_[1],     Add(soundFreq, modulator));
             return sound;
         }
 
@@ -727,7 +727,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet FMAround0(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Sine(modDepth, modSpeed);
-            var sound = Sine(_[1], Multiply(soundFreq, modulator));
+            var sound     = Sine(_[1],     Multiply(soundFreq, modulator));
             return sound;
         }
 
@@ -736,7 +736,7 @@ namespace JJ.Business.Synthesizer.Tests
         private Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Add(_[1], Sine(modDepth, modSpeed));
-            var sound = Sine(_[1], Multiply(soundFreq, modulator));
+            var sound     = Sine(_[1], Multiply(soundFreq, modulator));
             return sound;
         }
 
@@ -876,6 +876,7 @@ namespace JJ.Business.Synthesizer.Tests
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.frequency3,
                                                        NodeTypeEnum.Block)).ToArray());
+
         #endregion
     }
 }

@@ -8,6 +8,7 @@ using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
+
 // ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Business.Synthesizer.Tests
@@ -65,19 +66,19 @@ namespace JJ.Business.Synthesizer.Tests
         void Panning_ConstantSignal_ConstantPanningAsDouble_RunTest()
         {
             // Arrange
-            var input = (left: _[0.8], right: _[0.6]);
+            var    input   = (left: _[0.8], right: _[0.6]);
             double panning = 0.5;
 
             // Act
-            var output = Panning(input, panning);
-            var calculator = new OperatorCalculator(default);
-            double outputLeftValue = calculator.CalculateValue(output.Left, time: 0);
+            var    output           = Panning(input, panning);
+            var    calculator       = new OperatorCalculator(default);
+            double outputLeftValue  = calculator.CalculateValue(output.Left,  time: 0);
             double outputRightValue = calculator.CalculateValue(output.Right, time: 0);
 
             // Assert
-            double expectedLeft = 0.8 * (1 - panning); // 0.8 * 0.5 = 0.4
-            double expectedRight = 0.6 * panning;      // 0.6 * 0.5 = 0.3
-            AssertHelper.AreEqual(expectedLeft, () => outputLeftValue);
+            double expectedLeft  = 0.8 * (1 - panning); // 0.8 * 0.5 = 0.4
+            double expectedRight = 0.6 * panning;       // 0.6 * 0.5 = 0.3
+            AssertHelper.AreEqual(expectedLeft,  () => outputLeftValue);
             AssertHelper.AreEqual(expectedRight, () => outputRightValue);
         }
 
@@ -91,20 +92,20 @@ namespace JJ.Business.Synthesizer.Tests
         void Panning_ConstantSignal_ConstantPanningAsOperator_RunTest()
         {
             // Arrange
-            var input = (left: _[0.8], right: _[0.6]);
-            double panning = 0.5;
+            var    input         = (left: _[0.8], right: _[0.6]);
+            double panning       = 0.5;
             Outlet panningOutlet = _[panning];
 
             // Act
-            var output = Panning(input, panningOutlet);
-            var calculator = new OperatorCalculator(default);
-            double outputLeftValue = calculator.CalculateValue(output.Left, time: 0);
+            var    output           = Panning(input, panningOutlet);
+            var    calculator       = new OperatorCalculator(default);
+            double outputLeftValue  = calculator.CalculateValue(output.Left,  time: 0);
             double outputRightValue = calculator.CalculateValue(output.Right, time: 0);
 
             // Assert
-            double expectedLeft = 0.8 * (1 - panning); // 0.8 * 0.5 = 0.4
-            double expectedRight = 0.6 * panning;      // 0.6 * 0.5 = 0.3
-            AssertHelper.AreEqual(expectedLeft, () => outputLeftValue);
+            double expectedLeft  = 0.8 * (1 - panning); // 0.8 * 0.5 = 0.4
+            double expectedRight = 0.6 * panning; // 0.6 * 0.5 = 0.3
+            AssertHelper.AreEqual(expectedLeft,  () => outputLeftValue);
             AssertHelper.AreEqual(expectedRight, () => outputRightValue);
         }
 
@@ -118,25 +119,25 @@ namespace JJ.Business.Synthesizer.Tests
         void Panning_SineWaveSignal_ConstantPanningAsDouble_RunTest()
         {
             // Arrange
-            var freq = A4;
-            var sine = Sine(_[freq]);
-            var stereoInput = (sine, sine);
-            double panning = 0.25;
+            var    freq        = A4;
+            var    sine        = Sine(_[freq]);
+            var    stereoInput = (sine, sine);
+            double panning     = 0.25;
 
             // Act
-            var pannedSine = Panning(stereoInput, panning);
-            var calculator = new OperatorCalculator(default);
-            double maxValueLeft = calculator.CalculateValue(pannedSine.Left, time: 0.25 / freq);
-            double minValueLeft = calculator.CalculateValue(pannedSine.Left, time: 0.75 / freq);
+            var    pannedSine    = Panning(stereoInput, panning);
+            var    calculator    = new OperatorCalculator(default);
+            double maxValueLeft  = calculator.CalculateValue(pannedSine.Left,  time: 0.25 / freq);
+            double minValueLeft  = calculator.CalculateValue(pannedSine.Left,  time: 0.75 / freq);
             double maxValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.25 / freq);
             double minValueRight = calculator.CalculateValue(pannedSine.Right, time: 0.75 / freq);
 
             SaveWav(pannedSine, duration: 1, volume: 1);
 
             // Assert
-            AssertHelper.AreEqual(0.75, () => maxValueLeft);
+            AssertHelper.AreEqual(0.75,  () => maxValueLeft);
             AssertHelper.AreEqual(-0.75, () => minValueLeft);
-            AssertHelper.AreEqual(0.25, () => maxValueRight);
+            AssertHelper.AreEqual(0.25,  () => maxValueRight);
             AssertHelper.AreEqual(-0.25, () => minValueRight);
         }
 
@@ -150,7 +151,7 @@ namespace JJ.Business.Synthesizer.Tests
         void Panning_SineWaveSignal_DynamicPanning_RunTest()
         {
             // Arrange
-            var sine = Sine(_[A4]);
+            var sine        = Sine(_[A4]);
             var stereoInput = (sine, sine);
             Outlet panningOutlet = CurveIn(@"
                                             *
@@ -180,8 +181,8 @@ namespace JJ.Business.Synthesizer.Tests
 
         void Panbrello_RunTest_DefaultSpeedAndDepth()
         {
-            var sound = Sine(_[A4]);
-            var signal = (sound, sound);
+            var sound     = Sine(_[A4]);
+            var signal    = (sound, sound);
             var panbrello = Panbrello(signal);
 
             SaveWav(panbrello, volume: 1);
@@ -196,8 +197,8 @@ namespace JJ.Business.Synthesizer.Tests
 
         void Panbrello_RunTest_ConstSpeedAndDepth()
         {
-            var sound = Sine(_[A4]);
-            var signal = (sound, sound);
+            var sound     = Sine(_[A4]);
+            var signal    = (sound, sound);
             var panbrello = Panbrello(signal, (speed: 2.0, depth: 0.75));
 
             SaveWav(panbrello, volume: 1);
@@ -212,11 +213,11 @@ namespace JJ.Business.Synthesizer.Tests
 
         void Panbrello_RunTest_DynamicSpeedAndDepth()
         {
-            var sound = Sine(_[A4]);
+            var sound  = Sine(_[A4]);
             var signal = (sound, sound);
 
             var speed = CurveIn(
-            "Speed", x:(0, 3), y:(0, 8), @"
+                "Speed", x: (0, 3), y: (0, 8), @"
                             * *
                         *
                     *
@@ -224,7 +225,7 @@ namespace JJ.Business.Synthesizer.Tests
             *                            ");
 
             var depth = CurveIn(
-            "Depth", x:(0, 3), y:(0, 1), @"
+                "Depth", x: (0, 3), y: (0, 1), @"
             *
                 *
                     *
@@ -244,15 +245,15 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateContext())
                 new OperatorWishesTests(context).PitchPan_UsingOperators_RunTest();
         }
-        
+
         void PitchPan_UsingOperators_RunTest()
         {
             // Arrange
-            double centerFrequency = A4;
+            double centerFrequency    = A4;
             double referenceFrequency = A5;
-            double referencePanning = 1;
+            double referencePanning   = 1;
             Console.WriteLine($"Input: {new { centerFrequency, referenceFrequency, referencePanning }}");
-            
+
             Outlet e4 = _[E4];
             Outlet g4 = _[G4];
 
@@ -261,10 +262,10 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet panningOpG4 = PitchPan(g4, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
 
             var calculator = new OperatorCalculator(default);
-            
+
             double panningValueE4 = calculator.CalculateValue(panningOpE4, time: 0);
             double panningValueG4 = calculator.CalculateValue(panningOpG4, time: 0);
-            
+
             Console.WriteLine($"Output: {new { panningValueE4, panningValueG4 }}");
 
             // Assert
@@ -289,9 +290,9 @@ namespace JJ.Business.Synthesizer.Tests
         void PitchPan_UsingDoubles_RunTest()
         {
             // Arrange
-            double centerFrequency = A4;
+            double centerFrequency    = A4;
             double referenceFrequency = A5;
-            double referencePanning = 1;
+            double referencePanning   = 1;
             Console.WriteLine($"Input: {new { centerFrequency, referenceFrequency, referencePanning }}");
 
             // Act

@@ -16,22 +16,25 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
     public partial class SynthSugarBase : OperatorFactory
     {
         public const double TWO_PI = Math.PI * 2;
-            
+
         private void InitializeOperatorWishes()
             => _ = new ValueIndexer(this);
 
         public ChannelEnum Channel { get; set; }
 
+        // ReSharper disable once InconsistentNaming
+        public const ChannelEnum Mono = ChannelEnum.Single;
+
         /// <inheritdoc cref="docs._default" />
         public Outlet Stretch(Outlet signal, Outlet timeFactor)
             => TimeMultiply(signal, timeFactor ?? _[1]);
-        
-        /// <inheritdoc cref="_sinedocs"/>
+
+        /// <inheritdoc cref="_sinedocs" />
         public Outlet Sine(Outlet pitch) => Sine(_[1], pitch);
 
         public Outlet StrikeNote(Outlet sound, Outlet delay = null, Outlet volume = null)
         {
-            if (delay != null) sound = TimeAdd(sound, delay);
+            if (delay != null) sound  = TimeAdd(sound, delay);
             if (volume != null) sound = Multiply(sound, volume);
             return sound;
         }
@@ -57,6 +60,20 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         }
 
         /// <inheritdoc cref="_panningdocs" />
+        public Outlet Panning(Outlet signal, Outlet panning)
+        {
+            switch (Channel)
+            {
+                case Mono:  return signal;
+                case Left:  return Multiply(signal, Substract(_[1], panning));
+                case Right: return Multiply(signal, panning);
+
+                default: throw new ValueNotSupportedException(Channel);
+            }
+            // TODO: Might go into the negative. Should be clamped to 0-1.
+        }
+
+        /// <inheritdoc cref="_panningdocs" />
         public (Outlet Left, Outlet Right) Panning(
             (Outlet left, Outlet right) channels,
             Outlet panning)
@@ -69,26 +86,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         }
 
         /// <inheritdoc cref="_panningdocs" />
-        public Outlet Panning(Outlet signal, Outlet panning)
-        {
-            switch (Channel)
-            {
-                case ChannelEnum.Single: 
-                    return signal;
-                
-                case Left:
-                    return Multiply(signal, Substract(_[1], panning));
-                
-                case Right: 
-                    return Multiply(signal, panning);
-                
-                default: 
-                    throw new ValueNotSupportedException(Channel);
-            }
-            // TODO: Might go into the negative. Should be clamped to 0-1.
-        }
-
-        /// <inheritdoc cref="_panningdocs" />
         public (Outlet Left, Outlet Right) Panning(
             (Outlet left, Outlet right) channels,
             double panning)
@@ -96,13 +93,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             if (panning < 0) panning = 0;
             if (panning > 1) panning = 1;
 
-            var leftPan = Multiply(channels.left, _[1 - panning]);
+            var leftPan  = Multiply(channels.left,  _[1 - panning]);
             var rightPan = Multiply(channels.right, _[panning]);
 
             return (leftPan, rightPan);
         }
 
-        /// <inheritdoc cref="_panbrellodocs"/>
+        /// <inheritdoc cref="_panbrellodocs" />
         public (Outlet Left, Outlet Right) Panbrello(
             (Outlet left, Outlet right) channels,
             (Outlet speed, Outlet depth) panbrello)
@@ -111,14 +108,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             panbrello.depth = panbrello.depth ?? _[1];
 
             // 0.5 is in the middle. 0 is left, 1 is right.
-            var sine = Sine(panbrello.depth, panbrello.speed); // [-1,+1]
-            var halfSine = Multiply(_[0.5], sine); // [-0.5,+0.5]
+            var sine      = Sine(panbrello.depth, panbrello.speed); // [-1,+1]
+            var halfSine  = Multiply(_[0.5], sine); // [-0.5,+0.5]
             var zeroToOne = Add(_[0.5], halfSine); // [0,1]
 
             return Panning(channels, zeroToOne);
         }
 
-        /// <inheritdoc cref="_panbrellodocs"/>
+        /// <inheritdoc cref="_panbrellodocs" />
         public (Outlet Left, Outlet Right) Panbrello(
             (Outlet left, Outlet right) channels,
             (double speed, double depth) panbrello = default)
@@ -127,27 +124,27 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             if (panbrello.depth == default) panbrello.depth = 1;
 
             // 0.5 is in the middle. 0 is left, 1 is right.
-            var halfSine = Multiply(Sine(_[panbrello.speed]), _[panbrello.depth / 2]); // [-0.5,+0.5]
+            var halfSine  = Multiply(Sine(_[panbrello.speed]), _[panbrello.depth / 2]); // [-0.5,+0.5]
             var zeroToOne = Add(_[0.5], halfSine); // [0,1]
 
             return Panning(channels, zeroToOne);
         }
-        
-        /// <inheritdoc cref="_pitchpandocs"/>
+
+        /// <inheritdoc cref="_pitchpandocs" />
         public Outlet PitchPan(
             Outlet actualFrequency, Outlet centerFrequency,
             Outlet referenceFrequency, Outlet referencePanning)
         {
             // Defaults
-            centerFrequency = centerFrequency ?? _[A4];
+            centerFrequency    = centerFrequency ?? _[A4];
             referenceFrequency = referenceFrequency ?? _[E4];
-            referencePanning = referencePanning ?? _[0.6];
+            referencePanning   = referencePanning ?? _[0.6];
 
             var centerPanning = _[0.5];
 
             // Calculate intervals relative to the center frequency
             var referenceInterval = Divide(referenceFrequency, centerFrequency);
-            var actualInterval = Divide(actualFrequency, centerFrequency);
+            var actualInterval    = Divide(actualFrequency,    centerFrequency);
 
             var factor = Multiply(actualInterval, referenceInterval);
 
@@ -155,26 +152,26 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             //var newPanningDeviation = Multiply(Substract(referencePanning, centerPanning), factor);
             // AI's correction:
             var newPanningDeviation = Multiply(Substract(referencePanning, centerPanning), Substract(factor, _[1]));
-            var newPanning = Add(centerPanning, newPanningDeviation);
+            var newPanning          = Add(centerPanning, newPanningDeviation);
 
             return newPanning;
         }
 
-        /// <inheritdoc cref="_pitchpandocs"/>
+        /// <inheritdoc cref="_pitchpandocs" />
         public double PitchPan(
             double actualFrequency, double centerFrequency,
             double referenceFrequency, double referencePanning)
         {
             // Defaults
-            if (centerFrequency == default) centerFrequency = A4;
+            if (centerFrequency == default) centerFrequency       = A4;
             if (referenceFrequency == default) referenceFrequency = E4;
-            if (referencePanning == default) referencePanning = 0.6;
+            if (referencePanning == default) referencePanning     = 0.6;
 
             double centerPanning = 0.5;
 
             // Calculate intervals relative to the center frequency
             double referenceInterval = referenceFrequency / centerFrequency;
-            double actualInterval = actualFrequency / centerFrequency;
+            double actualInterval    = actualFrequency / centerFrequency;
 
             double factor = actualInterval * referenceInterval;
 
@@ -182,7 +179,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             //double newPanningDeviation = (referencePanning - centerPanning) * factor;
             // AI's correction:
             double newPanningDeviation = (referencePanning - centerPanning) * (factor - 1);
-            double newPanning = centerPanning + newPanningDeviation;
+            double newPanning          = centerPanning + newPanningDeviation;
 
             return newPanning;
         }
@@ -196,7 +193,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             private readonly OperatorFactory _parent;
 
             /// <inheritdoc cref="_valueindexerdocs" />
-            internal ValueIndexer(OperatorFactory parent) => _parent = parent;
+            internal ValueIndexer(OperatorFactory parent)
+            {
+                _parent = parent;
+            }
 
             /// <inheritdoc cref="_valueindexerdocs" />
             public ValueOperatorWrapper this[double value] => _parent.Value(value);
@@ -209,12 +209,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         // ReSharper disable IdentifierTypo
 
         /// <summary>
-        /// Generates a sine wave signal with the specified pitch.<br/>
+        /// Generates a sine wave signal with the specified pitch.<br />
         /// Simpler variation on the one in the original OperatorFactory
         /// with pitch as the first and only parameter.
         /// </summary>
-        /// <param name="pitch">The frequency in Hz of the sine wave.</param>
-        /// <returns>An <see cref="Outlet"/> representing the sine wave signal.</returns>
+        /// <param name="pitch"> The frequency in Hz of the sine wave. </param>
+        /// <returns> An <see cref="Outlet" /> representing the sine wave signal. </returns>
         object _sinedocs;
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// Panning value that the reference pitch would get.
         /// Defaults to 0.6 if not provided.
         /// </param>
-        /// <returns>The adjusted panning value based on the pitch.</returns>
+        /// <returns> The adjusted panning value based on the pitch. </returns>
         object _pitchpandocs;
 
         /// <summary>

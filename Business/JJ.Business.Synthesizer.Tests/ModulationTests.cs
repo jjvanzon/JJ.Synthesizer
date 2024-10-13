@@ -6,6 +6,7 @@ using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
+
 #pragma warning disable CS8123 // The tuple element name is ignored because a different name or no name is specified by the assignment target.
 
 namespace JJ.Business.Synthesizer.Tests
@@ -48,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         void DetunicaBass_RunTest()
             => SaveWav(DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.2);
-        
+
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
         public void Test_Detunica1()
@@ -157,12 +158,12 @@ namespace JJ.Business.Synthesizer.Tests
                 var note3 = Detunica3   (bar[3], _[C5], _[0.75], bars[1.60]);
                 var note4 = Detunica4   (bar[4], _[D5], _[0.90], bars[1.50]);
                 var note5 = Detunica5   (bar[5], _[E5], _[1.00], bars[3.00]);
-                
-                var (note1L, note1R) =         Panbrello((note1, note1), (s:2.0,d:0.20));
-                var (note2L, note2R) = Panning(Panbrello((note2, note2), (s:2.6,d:0.09)), 0.3);
-                var (note3L, note3R) = Panning(Panbrello((note3, note3), (s:4.8,d:0.05)), 0.7);
-                var (note4L, note4R) = Panning(Panbrello((note4, note4), (s:3.4,d:0.07)), 0.2);
-                var (note5L, note5R) = Panning((note5, note5), 0.48);
+
+                var (note1L, note1R) =         Panbrello((note1, note1), (s: 2.0, d: 0.20));
+                var (note2L, note2R) = Panning(Panbrello((note2, note2), (s: 2.6, d: 0.09)), 0.30);
+                var (note3L, note3R) = Panning(Panbrello((note3, note3), (s: 4.8, d: 0.05)), 0.70);
+                var (note4L, note4R) = Panning(Panbrello((note4, note4), (s: 3.4, d: 0.07)), 0.20);
+                var (note5L, note5R) = Panning(          (note5, note5),                     0.48);
 
                 return
                 (
@@ -173,20 +174,20 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         #endregion
-        
+
         #region Notes
 
         Outlet DetunicaBass(Outlet delay = null, Outlet duration = null) =>
             Adder(
-                Detunica1(delay, _[E0], _[0.60], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
-                Detunica2(delay, _[E1], _[0.80], duration/*, detuneDepth: _[0.8], chorusRate: _[0.038]*/),
-                Detunica3(delay, _[E2], _[1.00], duration/*, detuneDepth: _[0.4], chorusRate: _[0.034]*/),
-                Detunica4(delay, _[E3], _[0.015], duration/*, detuneDepth: _[0.2], chorusRate: _[0.030]*/),
-                Detunica5(delay, _[E4], _[0.001], duration/*, detuneDepth: _[0.1], chorusRate: _[0.010]*/));
+                Detunica1(delay, _[E0], _[0.60] , duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
+                Detunica2(delay, _[E1], _[0.80] , duration /*, detuneDepth: _[0.8], chorusRate: _[0.038]*/),
+                Detunica3(delay, _[E2], _[1.00] , duration /*, detuneDepth: _[0.4], chorusRate: _[0.034]*/),
+                Detunica4(delay, _[E3], _[0.015], duration /*, detuneDepth: _[0.2], chorusRate: _[0.030]*/),
+                Detunica5(delay, _[E4], _[0.001], duration /*, detuneDepth: _[0.1], chorusRate: _[0.010]*/));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica1(
-            Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null, 
+            Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet detuneDepth = null, Outlet chorusRate = null)
             => Detunica(
                 delay, freq, volume, duration,
@@ -214,7 +215,7 @@ namespace JJ.Business.Synthesizer.Tests
                 tremolo: (_[15.0], _[0.06]),
                 detuneDepth: _[0.5],
                 interferenceRate: Multiply(_[0.002], DetuneRateCurve1),
-                chorusRate: Multiply(_[0.002], DetuneRateCurve1),
+                chorusRate: Multiply(_[0.002],       DetuneRateCurve1),
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -249,10 +250,10 @@ namespace JJ.Business.Synthesizer.Tests
         {
             duration = duration ?? _[1];
 
-            if (vibrato != default) freq = VibratoOverPitch(freq, vibrato);
-            var baseHarmonics = BaseHarmonics(freq);
-            var detunedHarmonics = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
-            Outlet sound = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
+            if (vibrato != default) freq  = VibratoOverPitch(freq, vibrato);
+            var    baseHarmonics          = BaseHarmonics(freq);
+            var    detunedHarmonics       = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
+            Outlet sound                  = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
             if (tremolo != default) sound = Tremolo(sound, tremolo);
 
             // Apply volume curve
@@ -281,10 +282,10 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
         {
-            var saw = SemiSaw(freq);
-            var jittered = Jitter(saw, depthAdjust1, depthAdjust2);
+            var saw       = SemiSaw(freq);
+            var jittered  = Jitter(saw, depthAdjust1, depthAdjust2);
             var enveloped = Multiply(jittered, Stretch(VibraphaseVolumeCurve, duration));
-            var note = StrikeNote(enveloped, delay, volume);
+            var note      = StrikeNote(enveloped, delay, volume);
             return note;
         }
 
@@ -400,8 +401,8 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_echodocs" />
         (Outlet Left, Outlet Right) DeepEcho((Outlet Left, Outlet Right) melody)
-            => (EntityFactory.CreateEcho(this, melody.Left, count: 6, denominator: 2.2, delay: 0.5),
-                EntityFactory.CreateEcho(this, melody.Right, count: 6, denominator: 2, delay: 0.55));
+            => (EntityFactory.CreateEcho(this, melody.Left,  count: 6, denominator: 2.2, delay: 0.5),
+                EntityFactory.CreateEcho(this, melody.Right, count: 6, denominator: 2,   delay: 0.55));
 
         #endregion
 
@@ -484,8 +485,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// 2 gives the newer with a move even fade in and out.
         /// </param>
         /// <inheritdoc cref="docs._default" />
-        [UsedImplicitly]
-        object _detunicadocs;
+        [UsedImplicitly] object _detunicadocs;
 
         /// <summary>
         /// Applies a jitter effect to notes, with adjustable depths.
@@ -497,16 +497,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
         /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
         /// <inheritdoc cref="docs._default" />
-        [UsedImplicitly]
-        object _vibraphasedocs;
+        [UsedImplicitly] object _vibraphasedocs;
 
         /// <summary>
         /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
         /// </summary>
         /// <returns> An <see cref="Outlet" /> representing the semi-sawtooth waveform. </returns>
         /// <inheritdoc cref="docs._default" />
-        [UsedImplicitly]
-        object _semisawdocs;
+        [UsedImplicitly] object _semisawdocs;
 
         /// <summary> Generates a detuned harmonic sound by altering the frequencies slightly. </summary>
         /// <param name="detuneRate">
@@ -514,16 +512,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// If not provided, a default value is used.
         /// </param>
         /// <inheritdoc cref="docs._default" />
-        [UsedImplicitly]
-        object _detunedocs;
+        [UsedImplicitly] object _detunedocs;
 
         /// <summary>
         /// Applies an echo effect to the given sound.
         /// </summary>
         /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the applied echo effect. </returns>
-        [UsedImplicitly]
-        object _echodocs;
+        [UsedImplicitly] object _echodocs;
 
         #endregion
     }
