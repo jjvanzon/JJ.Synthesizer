@@ -1,4 +1,3 @@
-using System;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
@@ -15,8 +14,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 {
     public partial class SynthSugarBase : OperatorFactory
     {
-        public const double TWO_PI = Math.PI * 2;
-
         private void InitializeOperatorWishes()
             => _ = new ValueIndexer(this);
 
@@ -62,54 +59,67 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         // Panning
 
         /// <inheritdoc cref="_panningdocs" />
-        public Outlet Panning(Outlet signal, Outlet panning)
+        public Outlet Panning(Outlet sound, Outlet panning)
         {
             switch (Channel)
             {
-                case Mono:  return signal;
-                case Left:  return Multiply(signal, Substract(_[1], panning));
-                case Right: return Multiply(signal, panning);
-                default:    throw new ValueNotSupportedException(Channel);
+                case Left:  return Multiply(sound, Substract(_[1], panning));
+                case Right: return Multiply(sound, panning);
+                default:    return sound;
             }
         }
 
         /// <inheritdoc cref="_panningdocs" />
-        public Outlet Panning(Outlet signal, double panning)
+        public Outlet Panning(Outlet sound, double panning)
         {
             if (panning < 0) panning = 0;
             if (panning > 1) panning = 1;
 
             switch (Channel)
             {
-                case Mono:  return signal;
-                case Left:  return Multiply(signal, _[1 - panning]);
-                case Right: return Multiply(signal, _[panning]);
-                default:    throw new ValueNotSupportedException(Channel);
+                case Left:  return Multiply(sound, _[1 - panning]);
+                case Right: return Multiply(sound, _[panning]);
+                default:    return sound;
             }
         }
 
         /// <inheritdoc cref="_panningdocs" />
         public (Outlet Left, Outlet Right) Panning((Outlet left, Outlet right) channels, Outlet panning)
         {
-            Channel = Left; Outlet  leftWithEffect  = Panning(channels.left,  panning);
-            Channel = Right; Outlet rightWithEffect = Panning(channels.right, panning);
-
-            return (leftWithEffect, rightWithEffect);
+            var originalChannel = Channel;
+            try
+            {
+                Channel = Left; Outlet  leftWithEffect  = Panning(channels.left,  panning);
+                Channel = Right; Outlet rightWithEffect = Panning(channels.right, panning);
+                return (leftWithEffect, rightWithEffect);
+            }
+            finally
+            {
+                Channel = originalChannel;
+            }
         }
 
         /// <inheritdoc cref="_panningdocs" />
         public (Outlet Left, Outlet Right) Panning((Outlet left, Outlet right) channels, double panning)
         {
-            Channel = Left; Outlet  leftWithEffect  = Panning(channels.left,  panning);
-            Channel = Right; Outlet rightWithEffect = Panning(channels.right, panning);
+            var originalChannel = Channel;
+            try
+            {
+                Channel = Left; Outlet  leftWithEffect  = Panning(channels.left,  panning);
+                Channel = Right; Outlet rightWithEffect = Panning(channels.right, panning);
 
-            return (leftWithEffect, rightWithEffect);
+                return (leftWithEffect, rightWithEffect);
+            }
+            finally
+            {
+                Channel = originalChannel;
+            }
         }
 
         // Panbrello
         
         /// <inheritdoc cref="_panbrellodocs" />
-        public Outlet Panbrello(Outlet signal, (Outlet speed, Outlet depth) panbrello)
+        public Outlet Panbrello(Outlet sound, (Outlet speed, Outlet depth) panbrello)
         {
             panbrello.speed = panbrello.speed ?? _[1];
             panbrello.depth = panbrello.depth ?? _[1];
@@ -119,12 +129,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             var halfSine  = Multiply(_[0.5], sine); // [-0.5,+0.5]
             var zeroToOne = Add(_[0.5], halfSine); // [0,1]
 
-            return Panning(signal, zeroToOne);
+            return Panning(sound, zeroToOne);
         }
         
         /// <inheritdoc cref="_panbrellodocs" />
         public Outlet Panbrello(
-            Outlet signal,
+            Outlet sound,
             (double speed, double depth) panbrello = default)
         {
             if (panbrello.speed == default) panbrello.speed = 1;
@@ -134,7 +144,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             var halfSine  = Multiply(Sine(_[panbrello.speed]), _[panbrello.depth / 2]); // [-0.5,+0.5]
             var zeroToOne = Add(_[0.5], halfSine); // [0,1]
 
-            return Panning(signal, zeroToOne);
+            return Panning(sound, zeroToOne);
         }
 
         /// <inheritdoc cref="_panbrellodocs" />
@@ -142,10 +152,18 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             (Outlet left, Outlet right) channels,
             (Outlet speed, Outlet depth) panbrello)
         {
-            Channel = Left; Outlet  leftWithEffect  = Panbrello(channels.left,  panbrello);
-            Channel = Right; Outlet rightWithEffect = Panbrello(channels.right, panbrello);
-            
-            return (leftWithEffect, rightWithEffect);
+            var originalChannel = Channel;
+            try
+            {
+                Channel = Left; Outlet  leftWithEffect  = Panbrello(channels.left,  panbrello);
+                Channel = Right; Outlet rightWithEffect = Panbrello(channels.right, panbrello);
+
+                return (leftWithEffect, rightWithEffect);
+            }
+            finally
+            {
+                Channel = originalChannel;
+            }
         }
 
         /// <inheritdoc cref="_panbrellodocs" />
@@ -153,10 +171,18 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             (Outlet left, Outlet right) channels,
             (double speed, double depth) panbrello = default)
         {
-            Channel = Left; Outlet  leftWithEffect  = Panbrello(channels.left,  panbrello);
-            Channel = Right; Outlet rightWithEffect = Panbrello(channels.right, panbrello);
+            var originalChannel = Channel;
+            try
+            {
+                Channel = Left; Outlet  leftWithEffect  = Panbrello(channels.left,  panbrello);
+                Channel = Right; Outlet rightWithEffect = Panbrello(channels.right, panbrello);
 
-            return (leftWithEffect, rightWithEffect);
+                return (leftWithEffect, rightWithEffect);
+            }
+            finally
+            {
+                Channel = originalChannel;
+            }
         }
 
         // PitchPan

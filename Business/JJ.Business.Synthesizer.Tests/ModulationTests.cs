@@ -1,5 +1,6 @@
 ﻿using System;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
@@ -50,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void DetunicaBass_RunTest()
-            => SaveMono(DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.2);
+            => SaveWav(() => DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.2);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -62,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica1_RunTest()
-            => SaveMono(DeepEcho(Detunica1(freq: _[E2], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
+            => SaveWav(() => DeepEcho(Detunica1(freq: _[E2], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -74,7 +75,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica2_RunTest()
-            => SaveMono(DeepEcho(Detunica2(freq: _[B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
+            => SaveWav(() => DeepEcho(Detunica2(freq: _[B4], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -86,7 +87,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica3_RunTest()
-            => SaveMono(DeepEcho(Detunica3(freq: _[C5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
+            => SaveWav(() => DeepEcho(Detunica3(freq: _[C5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -98,7 +99,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica4_RunTest()
-            => SaveMono(DeepEcho(Detunica4(freq: _[D5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
+            => SaveWav(() => DeepEcho(Detunica4(freq: _[D5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -110,7 +111,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica5_RunTest()
-            => SaveMono(DeepEcho(Detunica5(freq: _[E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
+            => SaveWav(() => DeepEcho(Detunica5(freq: _[E5], duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -161,12 +162,6 @@ namespace JJ.Business.Synthesizer.Tests
                 var note4 = Detunica4   (bar[4], _[D5], _[0.90], bars[1.50]);
                 var note5 = Detunica5   (bar[5], _[E5], _[1.00], bars[3.00]);
 
-                note1 =         Panbrello(note1, (s: 2.0, d: 0.20));
-                note2 = Panning(Panbrello(note2, (s: 2.6, d: 0.09)), 0.30);
-                note3 = Panning(Panbrello(note3, (s: 4.8, d: 0.05)), 0.70);
-                note4 = Panning(Panbrello(note4, (s: 3.4, d: 0.07)), 0.20);
-                note5 = Panning(          note5                    , 0.48);
-
                 return Adder(note1, note2, note3, note4, note5);
             }
         }
@@ -176,12 +171,14 @@ namespace JJ.Business.Synthesizer.Tests
         #region Notes
 
         Outlet DetunicaBass(Outlet delay = null, Outlet duration = null) =>
-            Adder(
-                Detunica1(delay, _[E0], _[0.60] , duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
-                Detunica2(delay, _[E1], _[0.80] , duration /*, detuneDepth: _[0.8], chorusRate: _[0.038]*/),
-                Detunica3(delay, _[E2], _[1.00] , duration /*, detuneDepth: _[0.4], chorusRate: _[0.034]*/),
-                Detunica4(delay, _[E3], _[0.015], duration /*, detuneDepth: _[0.2], chorusRate: _[0.030]*/),
-                Detunica5(delay, _[E4], _[0.001], duration /*, detuneDepth: _[0.1], chorusRate: _[0.010]*/));
+            Panbrello(
+                panbrello: (speed: 2.0, depth: 0.20),
+                sound: Adder(
+                    Detunica1(delay, _[E0], _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
+                    Detunica2(delay, _[E1], _[0.800], duration /*, detuneDepth: _[0.8], chorusRate: _[0.038]*/),
+                    Detunica3(delay, _[E2], _[1.000], duration /*, detuneDepth: _[0.4], chorusRate: _[0.034]*/),
+                    Detunica4(delay, _[E3], _[0.015], duration /*, detuneDepth: _[0.2], chorusRate: _[0.030]*/),
+                    Detunica5(delay, _[E4], _[0.001], duration /*, detuneDepth: _[0.1], chorusRate: _[0.010]*/)));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica1(
@@ -198,42 +195,56 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
             => MildEcho(
-                Detunica(
-                    delay, freq, volume, duration,
-                    vibrato: (_[10.0], _[0.00020]),
-                    tremolo: (_[12.0], _[0.10]),
-                    detuneDepth: _[1.0],
-                    churnRate: Multiply(_[0.10], DetuneRateCurve2)));
+                Panning(
+                    panning: 0.4,
+                    sound: Panbrello(
+                        panbrello: (speed: 2.6, depth: 0.09),
+                        sound: Detunica(
+                            delay, freq, volume, duration,
+                            vibrato: (_[10.0], _[0.00020]),
+                            tremolo: (_[12.0], _[0.10]),
+                            detuneDepth: _[1.0],
+                            churnRate: Multiply(_[0.10], DetuneRateCurve2)))));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
-            => Detunica(
-                delay, freq, volume, duration,
-                vibrato: (_[05.5], _[0.0005]),
-                tremolo: (_[15.0], _[0.06]),
-                detuneDepth: _[0.5],
-                interferenceRate: Multiply(_[0.002], DetuneRateCurve1),
-                chorusRate: Multiply(_[0.002],       DetuneRateCurve1),
-                envelopeVariation: 2);
+            => Panning(
+                panning: 0.70,
+                sound: Panbrello(
+                    panbrello: (speed: 4.8, depth: 0.05),
+                    sound: Detunica(
+                        delay, freq, volume, duration,
+                        vibrato: (_[05.5], _[0.0005]),
+                        tremolo: (_[15.0], _[0.06]),
+                        detuneDepth: _[0.5],
+                        interferenceRate: Multiply(_[0.002], DetuneRateCurve1),
+                        chorusRate: Multiply(_[0.002],       DetuneRateCurve1),
+                        envelopeVariation: 2)));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
-            => Detunica(
-                delay, freq, volume, duration,
-                vibrato: (_[07], _[0.0003]),
-                tremolo: (_[10], _[0.08]),
-                detuneDepth: _[0.5],
-                interferenceRate: Multiply(_[0.003], DetuneRateCurve3));
+            => Panning(
+                panning: 0.20,
+                sound: Panbrello(
+                    panbrello: (speed: 3.4, depth: 0.07),
+                    sound: Detunica(
+                        delay, freq, volume, duration,
+                        vibrato: (_[07], _[0.0003]),
+                        tremolo: (_[10], _[0.08]),
+                        detuneDepth: _[0.5],
+                        interferenceRate: Multiply(_[0.003], DetuneRateCurve3))));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
-            => Detunica(
-                delay, freq, volume, duration,
-                vibrato: (_[5.5], _[0.00005]),
-                tremolo: (_[3.0], _[0.25]),
-                detuneDepth: _[0.8],
-                churnRate: Multiply(_[0.001], DetuneRateCurve1),
-                chorusRate: _[0.001]);
+            => Panning(
+                panning: 0.48,
+                sound: Detunica(
+                    delay, freq, volume, duration,
+                    vibrato: (_[5.5], _[0.00005]),
+                    tremolo: (_[3.0], _[0.25]),
+                    detuneDepth: _[0.8],
+                    churnRate: Multiply(_[0.001], DetuneRateCurve1),
+                    chorusRate: _[0.001]));
 
         #endregion
 
@@ -394,13 +405,20 @@ namespace JJ.Business.Synthesizer.Tests
         const double DEEP_ECHO_TIME = 0.5 * 5;
 
         /// <inheritdoc cref="_echodocs" />
-        Outlet DeepEcho(Outlet melody)
-            => EntityFactory.CreateEcho(this, melody, count: 6, denominator: 2, delay: 0.5);
-
-        /// <inheritdoc cref="_echodocs" />
-        (Outlet Left, Outlet Right) DeepEcho((Outlet Left, Outlet Right) melody)
-            => (EntityFactory.CreateEcho(this, melody.Left,  count: 6, denominator: 2.2, delay: 0.5),
-                EntityFactory.CreateEcho(this, melody.Right, count: 6, denominator: 2,   delay: 0.55));
+        Outlet DeepEcho(Outlet sound)
+        {
+            switch (Channel)
+            {
+                case ChannelEnum.Left:
+                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.2, delay: 0.50);
+                
+                case ChannelEnum.Right:
+                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.0, delay: 0.55);
+                
+                default:
+                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.0, delay: 0.50);
+            }
+        }
 
         #endregion
 

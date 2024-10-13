@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                     SaveMono(monoOutlet, duration, volume, fileName, callerMemberName); break;
                 
                 case SpeakerSetupEnum.Stereo:
-                    Channel = Left; var  leftOutlet = func();
+                    Channel = Left ; var leftOutlet  = func();
                     Channel = Right; var rightOutlet = func();
                     SaveWav((leftOutlet, rightOutlet), duration, volume, fileName, callerMemberName);
                     break;
@@ -57,15 +57,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         }
 
         /// <inheritdoc cref="_savewavdocs"/>
-        public void SaveMono(
-            Outlet monoChannel,
-            double duration = default,
-            double volume = default,
-            string fileName = default,
-            [CallerMemberName] string callerMemberName = null)
-            => SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
-
-        /// <inheritdoc cref="_savewavdocs"/>
         public void SaveWav(
             (Outlet left, Outlet right) stereoChannels,
             double duration = default,
@@ -73,6 +64,15 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
             => SaveWav(new[] { stereoChannels.left, stereoChannels.right }, duration, volume, fileName, callerMemberName);
+
+        /// <inheritdoc cref="_savewavdocs"/>
+        public void SaveMono(
+            Outlet monoChannel,
+            double duration = default,
+            double volume = default,
+            string fileName = default,
+            [CallerMemberName] string callerMemberName = null)
+            => SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
 
         /// <inheritdoc cref="_savewavdocs"/>
         public void SaveWav(
@@ -163,20 +163,21 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         #region Docs
 
-        #pragma warning disable CS0169 // Field is never used
+#pragma warning disable CS0169 // Field is never used
         // ReSharper disable once IdentifierTypo
 
         /// <summary>
         /// Outputs audio to a WAV file.<br/>
         /// A single <see cref="Outlet">Outlet</see> will result in Mono audio.<br/>
         /// For Stereo use:<br/>
-        /// - a func returning an <see cref="Outlet">Outlet</see> e.g. () => myOutlet.<br/>
-        /// - a tuple of two <see cref="Outlet">Outlets</see>. e.g. (myLeftOutlet, myRightOutlet).<br/>
-        /// - a collection with 2 <see cref="Outlet">Outlets</see>.
+        /// - A func returning an <see cref="Outlet">Outlet</see> e.g. () => myOutlet.
+        ///   (Reason: Func needs to execute twice for the 2 channels.)<br/>
+        /// - A tuple of two <see cref="Outlet">Outlets</see>. e.g. (myLeftOutlet, myRightOutlet).<br/>
+        /// - A collection with 2 <see cref="Outlet">Outlets</see>.
         ///   e.g. new <see cref="Outlet">Outlet</see>[] { myLeftOutlet, myRightOutlet }.<br/>
-        /// Also, the entity data tied to the outlet will be verified.
         /// If parameters are not provided, defaults will be employed.
         /// Some of these defaults you can set in the configuration file.
+        /// Also, the entity data tied to the outlet will be verified.
         /// </summary>
         /// <param name="func">
         /// A function that provides a signal.
