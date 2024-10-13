@@ -159,8 +159,8 @@ namespace JJ.Business.Synthesizer.Tests
                 var note5 = Detunica5   (bar[5], _[E5], _[1.00], bars[3.00]);
                 
                 var (note1L, note1R) =         Panbrello((note1, note1), (s:2.0,d:0.20));
-                var (note2L, note2R) = Panning(Panbrello((note2, note2), (s:2.6,d:0.02)), 0.3);
-                var (note3L, note3R) = Panning(Panbrello((note3, note3), (s:4.8,d:0.04)), 0.7);
+                var (note2L, note2R) = Panning(Panbrello((note2, note2), (s:2.6,d:0.09)), 0.3);
+                var (note3L, note3R) = Panning(Panbrello((note3, note3), (s:4.8,d:0.05)), 0.7);
                 var (note4L, note4R) = Panning(Panbrello((note4, note4), (s:3.4,d:0.07)), 0.2);
                 var (note5L, note5R) = Panning((note5, note5), 0.48);
 
