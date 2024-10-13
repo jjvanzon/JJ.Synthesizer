@@ -59,6 +59,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return Multiply(sound, modulator);
         }
 
+        // Panning
+
         /// <inheritdoc cref="_panningdocs" />
         public Outlet Panning(Outlet signal, Outlet panning)
         {
@@ -67,42 +69,47 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 case Mono:  return signal;
                 case Left:  return Multiply(signal, Substract(_[1], panning));
                 case Right: return Multiply(signal, panning);
-
-                default: throw new ValueNotSupportedException(Channel);
+                default:    throw new ValueNotSupportedException(Channel);
             }
-            // TODO: Might go into the negative. Should be clamped to 0-1.
         }
 
         /// <inheritdoc cref="_panningdocs" />
-        public (Outlet Left, Outlet Right) Panning(
-            (Outlet left, Outlet right) channels,
-            Outlet panning)
-        {
-            Channel = Left;
-            Outlet leftPan = Panning(channels.left, panning);
-            Channel = Right;
-            Outlet rightPan = Panning(channels.right, panning);
-            return (leftPan, rightPan);
-        }
-
-        /// <inheritdoc cref="_panningdocs" />
-        public (Outlet Left, Outlet Right) Panning(
-            (Outlet left, Outlet right) channels,
-            double panning)
+        public Outlet Panning(Outlet signal, double panning)
         {
             if (panning < 0) panning = 0;
             if (panning > 1) panning = 1;
 
-            var leftPan  = Multiply(channels.left,  _[1 - panning]);
-            var rightPan = Multiply(channels.right, _[panning]);
-
-            return (leftPan, rightPan);
+            switch (Channel)
+            {
+                case Mono:  return signal;
+                case Left:  return Multiply(signal, _[1 - panning]);
+                case Right: return Multiply(signal, _[panning]);
+                default:    throw new ValueNotSupportedException(Channel);
+            }
         }
 
+        /// <inheritdoc cref="_panningdocs" />
+        public (Outlet Left, Outlet Right) Panning((Outlet left, Outlet right) channels, Outlet panning)
+        {
+            Channel = Left; Outlet  leftWithEffect  = Panning(channels.left,  panning);
+            Channel = Right; Outlet rightWithEffect = Panning(channels.right, panning);
+
+            return (leftWithEffect, rightWithEffect);
+        }
+
+        /// <inheritdoc cref="_panningdocs" />
+        public (Outlet Left, Outlet Right) Panning((Outlet left, Outlet right) channels, double panning)
+        {
+            Channel = Left; Outlet  leftWithEffect  = Panning(channels.left,  panning);
+            Channel = Right; Outlet rightWithEffect = Panning(channels.right, panning);
+
+            return (leftWithEffect, rightWithEffect);
+        }
+
+        // Panbrello
+        
         /// <inheritdoc cref="_panbrellodocs" />
-        public (Outlet Left, Outlet Right) Panbrello(
-            (Outlet left, Outlet right) channels,
-            (Outlet speed, Outlet depth) panbrello)
+        public Outlet Panbrello(Outlet signal, (Outlet speed, Outlet depth) panbrello)
         {
             panbrello.speed = panbrello.speed ?? _[1];
             panbrello.depth = panbrello.depth ?? _[1];
@@ -112,12 +119,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             var halfSine  = Multiply(_[0.5], sine); // [-0.5,+0.5]
             var zeroToOne = Add(_[0.5], halfSine); // [0,1]
 
-            return Panning(channels, zeroToOne);
+            return Panning(signal, zeroToOne);
         }
-
+        
         /// <inheritdoc cref="_panbrellodocs" />
-        public (Outlet Left, Outlet Right) Panbrello(
-            (Outlet left, Outlet right) channels,
+        public Outlet Panbrello(
+            Outlet signal,
             (double speed, double depth) panbrello = default)
         {
             if (panbrello.speed == default) panbrello.speed = 1;
@@ -127,9 +134,33 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             var halfSine  = Multiply(Sine(_[panbrello.speed]), _[panbrello.depth / 2]); // [-0.5,+0.5]
             var zeroToOne = Add(_[0.5], halfSine); // [0,1]
 
-            return Panning(channels, zeroToOne);
+            return Panning(signal, zeroToOne);
         }
 
+        /// <inheritdoc cref="_panbrellodocs" />
+        public (Outlet Left, Outlet Right) Panbrello(
+            (Outlet left, Outlet right) channels,
+            (Outlet speed, Outlet depth) panbrello)
+        {
+            Channel = Left; Outlet  leftWithEffect  = Panbrello(channels.left,  panbrello);
+            Channel = Right; Outlet rightWithEffect = Panbrello(channels.right, panbrello);
+            
+            return (leftWithEffect, rightWithEffect);
+        }
+
+        /// <inheritdoc cref="_panbrellodocs" />
+        public (Outlet Left, Outlet Right) Panbrello(
+            (Outlet left, Outlet right) channels,
+            (double speed, double depth) panbrello = default)
+        {
+            Channel = Left; Outlet  leftWithEffect  = Panbrello(channels.left,  panbrello);
+            Channel = Right; Outlet rightWithEffect = Panbrello(channels.right, panbrello);
+
+            return (leftWithEffect, rightWithEffect);
+        }
+
+        // PitchPan
+        
         /// <inheritdoc cref="_pitchpandocs" />
         public Outlet PitchPan(
             Outlet actualFrequency, Outlet centerFrequency,
@@ -184,6 +215,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return newPanning;
         }
 
+        // ValueIndexer
+        
         /// <inheritdoc cref="_valueindexerdocs" />
         public ValueIndexer _;
 
@@ -220,6 +253,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <summary>
         /// Applies panning to a stereo signal by adjusting the left and right
         /// channel volumes based on the specified panning value.
+        /// TODO: A variable panning might go into the negative. Should be clamped to 0-1.
         /// </summary>
         /// <param name="panning">
         /// An <see cref="Outlet" /> or <see cref="System.Double" />
