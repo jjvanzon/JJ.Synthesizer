@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Validation;
@@ -38,8 +39,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             Func<Outlet> func,
             double duration = default,
             double volume = default,
-            string fileName = default,
             SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Stereo,
+            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
+            string fileName = default,
             [CallerMemberName] string callerMemberName = null)
         {
             var originalChannel = Channel;
@@ -50,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                     case SpeakerSetupEnum.Mono:
                         Channel = Mono;
                         var monoOutlet = func();
-                        SaveWav(new[] { monoOutlet }, duration, volume, fileName, callerMemberName);
+                        SaveWav(new[] { monoOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
                         break;
 
                     case SpeakerSetupEnum.Stereo:
@@ -58,7 +61,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                         var leftOutlet = func();
                         Channel = Right;
                         var rightOutlet = func();
-                        SaveWav(new[] { leftOutlet, rightOutlet }, duration, volume, fileName, callerMemberName);
+                        SaveWav(new[] { leftOutlet, rightOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
                         break;
                     default:
                         throw new ValueNotSupportedException(speakerSetupEnum);
@@ -71,19 +74,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         }
 
         /// <inheritdoc cref="_savewavdocs" />
-        public void SaveWavMono(
-            Func<Outlet> func,
-            double duration = default,
-            double volume = default,
-            string fileName = default,
-            [CallerMemberName] string callerMemberName = null)
-            => SaveWav(func, duration, volume, fileName, SpeakerSetupEnum.Mono, callerMemberName);
-
-        /// <inheritdoc cref="_savewavdocs" />
         private void SaveWav(
             IList<Outlet> channels,
             double duration = default,
             double volume = default,
+            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
             string fileName = default,
             string callerMemberName = null)
         {
@@ -112,11 +108,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
-            _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channels.Count);
             audioFileOutput.Duration     = duration;
             audioFileOutput.SamplingRate = _configuration.DefaultSamplingRate;
             audioFileOutput.Amplifier    = short.MaxValue * volume;
             audioFileOutput.FilePath     = fileName;
+            _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channels.Count);
+            audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum, _sampleDataTypeRepository);
+            audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum, _audioFileFormatRepository);
 
             for (int i = 0; i < channels.Count; i++)
             {
@@ -144,6 +142,18 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             Console.WriteLine(calculationTimeText + outputFileText + warningText);
         }
 
+        /// <inheritdoc cref="_savewavdocs" />
+        public void SaveWavMono(
+            Func<Outlet> func,
+            double duration = default,
+            double volume = default,
+            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
+            string fileName = default,
+            [CallerMemberName] string callerMemberName = null)
+            => SaveWav(func, duration, volume, SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
+
+
         /// <summary>
         /// Optimizes the given <see cref="AudioFileOutput" /> for tooling environments such as NCrunch and Azure Pipelines.
         /// It can do this by lowering the audio sampling rate for instance.
@@ -155,7 +165,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             {
                 audioFileOutput.SamplingRate = _configuration.NCrunchSamplingRate;
 
-                if (IsTestInCategory(_configuration.LongRunningTestCategory))
+                if (CurrentTestIsInCategory(_configuration.LongRunningTestCategory))
                 {
                     audioFileOutput.SamplingRate = _configuration.NCrunchSamplingRateLongRunning;
                 }
@@ -168,7 +178,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             {
                 audioFileOutput.SamplingRate = _configuration.AzurePipelinesSamplingRate;
 
-                if (IsTestInCategory(_configuration.LongRunningTestCategory))
+                if (CurrentTestIsInCategory(_configuration.LongRunningTestCategory))
                 {
                     audioFileOutput.SamplingRate = _configuration.AzurePipelinesSamplingRateLongRunning;
                 }
@@ -178,7 +188,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             }
         }
 
-        private bool IsTestInCategory(string category) =>
+        private bool CurrentTestIsInCategory(string category) =>
             new StackTrace().GetFrames()?
                             .Select(x => x.GetMethod())
                             .SelectMany(method => method.GetCustomAttributes(typeof(TestCategoryAttribute), true))

@@ -1,6 +1,5 @@
 ﻿using System;
 using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
@@ -73,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests
                 return default;
             }
 
-            double panning = 0.5;
+            var panning = _[0.5];
             Outlet panned;
 
             // Act
@@ -144,9 +143,9 @@ namespace JJ.Business.Synthesizer.Tests
         void Panning_SineWaveSignal_ConstPanningAsDouble_RunTest()
         {
             // Arrange
-            var    freq       = A4;
-            var    sine       = Sine(_[freq]);
-            double panning    = 0.25;
+            var freq    = A4;
+            var sine    = Sine(_[freq]);
+            var panning = _[0.25];
 
             // Act
 

@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         }
 
         /// <inheritdoc cref="docs._panning" />
-        public static Outlet Panning(
+        private static Outlet Panning(
             this OperatorFactory operatorFactory, Outlet sound, double panning, ChannelEnum channel)
         {
             if (operatorFactory == null) throw new NullException(() => operatorFactory);

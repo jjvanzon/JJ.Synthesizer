@@ -126,6 +126,7 @@
     <Compile Include="OperatorWishesTests.cs" />
     <Compile Include="CurveWishesTests.cs" />
     <Compile Include="ModulationTests.cs" />
+    <Compile Include="AudioFormatTests.cs" />
     <Compile Include="Wishes\AudioFileWishes.WavHeaderExtensions.cs" />
     <Compile Include="Wishes\NoteWishes.SynthesizerSugar.cs" />
     <Compile Include="Wishes\OperatorWishes.Extensions.cs" />
@@ -204,7 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
-    <None Include=".editorconfig.export" />
+    <None Include=".editorconfig.resharperexport" />
     <None Include="App.config" />
     <EmbeddedResource Include="TestResources\violin_16bit_mono.raw" />
     <None Include="packages.config" />
