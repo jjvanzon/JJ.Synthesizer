@@ -57,13 +57,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         
         /// <inheritdoc cref="docs._panbrello" />
         public Outlet Panbrello(
-            Outlet sound, (Outlet speed, Outlet depth) panbrello)
+            Outlet sound, (Outlet speed, Outlet depth) panbrello = default)
             => this.Panbrello(sound, panbrello, Channel);
 
-        /// <inheritdoc cref="docs._panbrello" />
-        public Outlet Panbrello(
-            Outlet sound, (double speed, double depth) panbrello = default)
-            => this.Panbrello(sound, panbrello, Channel);
+        ///// <inheritdoc cref="docs._panbrello" />
+        //public Outlet Panbrello(
+        //    Outlet sound, (double speed, double depth) panbrello = default)
+        //    => this.Panbrello(sound, panbrello, Channel);
 
         /// <inheritdoc cref="docs._pitchpan" />
         public Outlet PitchPan(

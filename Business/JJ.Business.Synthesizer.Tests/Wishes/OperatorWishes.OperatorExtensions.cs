@@ -132,7 +132,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <inheritdoc cref="docs._panbrello" />
         public static Outlet Panbrello(
             this OperatorFactory operatorFactory, 
-            Outlet sound, (Outlet speed, Outlet depth) panbrello, ChannelEnum channel)
+            Outlet sound, (Outlet speed, Outlet depth) panbrello = default,
+            ChannelEnum channel = ChannelEnum.Undefined)
         {
             if (operatorFactory == null) throw new NullException(() => operatorFactory);
             var x = operatorFactory;
@@ -140,15 +141,15 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             panbrello.speed = panbrello.speed ?? x.Value(1);
             panbrello.depth = panbrello.depth ?? x.Value(1);
 
-            // Some optimization for constant values
-            {
-                double? constSpeed = panbrello.speed?.AsConst();
-                double? constDepth = panbrello.depth?.AsConst();
-                if (constSpeed != null && constDepth != null)
-                {
-                    return x.Panbrello(sound, (constSpeed.Value, constDepth.Value), channel);
-                }
-            }
+            //// Some optimization for constant values
+            //{
+            //    double? constSpeed = panbrello.speed?.AsConst();
+            //    double? constDepth = panbrello.depth?.AsConst();
+            //    if (constSpeed != null && constDepth != null)
+            //    {
+            //        return x.Panbrello(sound, (constSpeed.Value, constDepth.Value), channel);
+            //    }
+            //}
 
             // 0.5 is in the middle. 0 is left, 1 is right.
             var sine      = x.Sine(panbrello.depth, panbrello.speed); // [-1,+1]
@@ -158,23 +159,23 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return x.Panning(sound, zeroToOne, channel);
         }
         
-        /// <inheritdoc cref="docs._panbrello" />
-        public static Outlet Panbrello(
-            this OperatorFactory operatorFactory,
-            Outlet sound, (double speed, double depth) panbrello = default, ChannelEnum channel = default)
-        {
-            if (operatorFactory == null) throw new NullException(() => operatorFactory);
-            var x = operatorFactory;
+        ///// <inheritdoc cref="docs._panbrello" />
+        //public static Outlet Panbrello(
+        //    this OperatorFactory operatorFactory,
+        //    Outlet sound, (double speed, double depth) panbrello = default, ChannelEnum channel = default)
+        //{
+        //    if (operatorFactory == null) throw new NullException(() => operatorFactory);
+        //    var x = operatorFactory;
 
-            if (panbrello.speed == default) panbrello.speed = 1;
-            if (panbrello.depth == default) panbrello.depth = 1;
+        //    if (panbrello.speed == default) panbrello.speed = 1;
+        //    if (panbrello.depth == default) panbrello.depth = 1;
 
-            // 0.5 is in the middle. 0 is left, 1 is right.
-            var halfSine  = x.Multiply(x.Sine(x.Value(panbrello.speed), x.Value(panbrello.depth / 2))); // [-0.5,+0.5]
-            var zeroToOne = x.Add(x.Value(0.5), halfSine); // [0,1]
+        //    // 0.5 is in the middle. 0 is left, 1 is right.
+        //    var halfSine  = x.Multiply(x.Sine(x.Value(panbrello.speed), x.Value(panbrello.depth / 2))); // [-0.5,+0.5]
+        //    var zeroToOne = x.Add(x.Value(0.5), halfSine); // [0,1]
 
-            return x.Panning(sound, zeroToOne, channel);
-        }
+        //    return x.Panning(sound, zeroToOne, channel);
+        //}
 
         // PitchPan
         

@@ -167,7 +167,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         Outlet DetunicaBass(Outlet delay = null, Outlet duration = null) =>
             Panbrello(
-                panbrello: (speed: 2.0, depth: 0.20),
+                panbrello: (speed: _[2.0], depth: _[0.20]),
                 sound: Adder(
                     Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
                     Detunica2(delay, E1, _[0.800], duration),

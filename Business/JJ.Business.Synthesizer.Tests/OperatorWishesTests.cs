@@ -223,7 +223,7 @@ namespace JJ.Business.Synthesizer.Tests
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
             var sound = Sine(A4);
-            SaveWav(() => Panbrello(sound, (speed: 2.0, depth: 0.75)), volume: 1);
+            SaveWav(() => Panbrello(sound, (speed: _[2.0], depth: _[0.75])), volume: 1);
         }
 
         [TestMethod]
