@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
 
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable AssignmentInsteadOfDiscard

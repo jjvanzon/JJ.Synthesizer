@@ -3,10 +3,10 @@ using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
+using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
 
 #pragma warning disable CS8123 // The tuple element name is ignored because a different name or no name is specified by the assignment target.
 
@@ -154,7 +154,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         Outlet DetunicaJingle => Adder
         (
-            DetunicaBass(bar[1],                 bars[5.25]),
+            DetunicaBass(bar[1],              bars[5.25]),
             Detunica2   (bar[2], B4, _[0.70], bars[1.50]),
             Detunica3   (bar[3], C5, _[0.75], bars[1.60]),
             Detunica4   (bar[4], D5, _[0.90], bars[1.50]),
@@ -238,10 +238,11 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica(
-            Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
-            (Outlet speed, Outlet depth) vibrato = default, (Outlet speed, Outlet depth) tremolo = default,
+            Outlet delay = default, Outlet freq = default, Outlet volume = default, Outlet duration = default,
+            (Outlet speed, Outlet depth) vibrato = default, 
+            (Outlet speed, Outlet depth) tremolo = default,
             Outlet detuneDepth = null, Outlet churnRate = null, Outlet interferenceRate = null, Outlet chorusRate = null,
-            Outlet panning = null, (Outlet speed, Outlet depth) panbrello = default,
+            Outlet panning = default, (Outlet speed, Outlet depth) panbrello = default,
             int envelopeVariation = 1)
         {
             duration = duration ?? _[1];
@@ -398,14 +399,17 @@ namespace JJ.Business.Synthesizer.Tests
         {
             switch (Channel)
             {
+                case ChannelEnum.Single:
+                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.0, delay: 0.50);
+                
                 case ChannelEnum.Left:
-                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.2, delay: 0.50);
+                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.1, delay: 0.50);
                 
                 case ChannelEnum.Right:
-                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.0, delay: 0.55);
+                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.0, delay: 0.53);
                 
                 default:
-                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.0, delay: 0.50);
+                    throw new ValueNotSupportedException(Channel);
             }
         }
 

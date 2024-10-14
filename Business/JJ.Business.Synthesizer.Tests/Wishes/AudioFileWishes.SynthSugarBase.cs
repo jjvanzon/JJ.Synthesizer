@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// Outputs audio to a WAV file.<br/>
         /// A single <see cref="Outlet">Outlet</see> will result in Mono audio.<br/>
         /// For Stereo use a func returning an <see cref="Outlet">Outlet</see> e.g. () => myOutlet.
-        /// (Reason: Func needs to execute twice for the 2 channels.)<br/>
+        /// (Reason: Func needs to execute twice and return a new Outlet each time for the 2 channels!)<br/>
         /// If parameters are not provided, defaults will be employed.
         /// Some of these defaults you can set in the configuration file.
         /// Also, the entity data tied to the outlet will be verified.

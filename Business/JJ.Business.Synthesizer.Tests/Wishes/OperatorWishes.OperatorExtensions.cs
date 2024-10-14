@@ -1,10 +1,9 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Enums.ChannelEnum;
-using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
@@ -81,7 +80,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         }
 
         // Panning
-        
+
         /// <inheritdoc cref="docs._panning" />
         public static Outlet Panning(
             this OperatorFactory operatorFactory, Outlet sound, Outlet panning, ChannelEnum channel)
@@ -100,9 +99,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             switch (channel)
             {
-                case Left:  return x.Multiply(sound, x.Substract(x.Value(1), panning));
-                case Right: return x.Multiply(sound, panning);
-                default:    return sound;
+                case ChannelEnum.Single: return sound;
+                case ChannelEnum.Left:   return x.Multiply(sound, x.Substract(x.Value(1), panning));
+                case ChannelEnum.Right:  return x.Multiply(sound, panning);
+
+                default: throw new ValueNotSupportedException(channel);
             }
         }
 
@@ -118,9 +119,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             switch (channel)
             {
-                case Left:  return x.Multiply(sound, x.Value(1 - panning));
-                case Right: return x.Multiply(sound, x.Value(panning));
-                default:    return sound;
+                case ChannelEnum.Single: return sound;
+                case ChannelEnum.Left:   return x.Multiply(sound, x.Value(1 - panning));
+                case ChannelEnum.Right:  return x.Multiply(sound, x.Value(panning));
+
+                default: throw new ValueNotSupportedException(channel);
             }
         }
 
@@ -205,8 +208,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             }
             
             // Defaults
-            centerFrequency    = centerFrequency ?? x.Value(A4);
-            referenceFrequency = referenceFrequency ?? x.Value(E4);
+            centerFrequency    = centerFrequency ?? x.Value(Notes.A4);
+            referenceFrequency = referenceFrequency ?? x.Value(Notes.E4);
             referencePanning   = referencePanning ?? x.Value(0.6);
             
             var centerPanning = x.Value(0.5);
@@ -235,8 +238,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             if (operatorFactory == null) throw new NullException(() => operatorFactory);
 
             // Defaults
-            if (centerFrequency == default) centerFrequency       = A4;
-            if (referenceFrequency == default) referenceFrequency = E4;
+            if (centerFrequency == default) centerFrequency       = Notes.A4;
+            if (referenceFrequency == default) referenceFrequency = Notes.E4;
             if (referencePanning == default) referencePanning     = 0.6;
 
             double centerPanning = 0.5;

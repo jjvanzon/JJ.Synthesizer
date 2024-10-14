@@ -8,7 +8,6 @@ using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
-using static JJ.Business.Synthesizer.Tests.Wishes.Notes;
 
 // ReSharper disable JoinDeclarationAndInitializer
 
@@ -38,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._vibrato" />
         void Vibrato_RunTest()
             => SaveMono(
-                Sine(VibratoOverPitch(_[A4])),
+                Sine(VibratoOverPitch(A4)),
                 volume: 0.9, duration: 3);
 
         [TestMethod]
@@ -52,19 +51,19 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._tremolo" />
         void Tremolo_RunTest()
             => SaveMono(
-                Tremolo(Sine(_[A4]), tremolo: (_[4], _[0.5])),
+                Tremolo(Sine(A4), tremolo: (_[4], _[0.5])),
                 volume: 0.30, duration: 3);
 
         // Panning Tests
 
         [TestMethod]
-        public void Test_Panning_ConstantSignal_ConstantPanningAsDouble()
+        public void Test_Panning_ConstSignal_ConstPanningAsDouble()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panning_ConstantSignal_ConstantPanningAsDouble_RunTest();
+                new OperatorWishesTests(context).Panning_ConstSignal_ConstPanningAsDouble_RunTest();
         }
 
-        void Panning_ConstantSignal_ConstantPanningAsDouble_RunTest()
+        void Panning_ConstSignal_ConstPanningAsDouble_RunTest()
         {
             // Arrange
             Outlet signal()
@@ -96,13 +95,13 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Panning_ConstantSignal_ConstantPanningAsOperator()
+        public void Test_Panning_ConstSignal_ConstPanningAsOperator()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panning_ConstantSignal_ConstantPanningAsOperator_RunTest();
+                new OperatorWishesTests(context).Panning_ConstSignal_ConstPanningAsOperator_RunTest();
         }
 
-        void Panning_ConstantSignal_ConstantPanningAsOperator_RunTest()
+        void Panning_ConstSignal_ConstPanningAsOperator_RunTest()
         {
             // Arrange
             Outlet TestSignal()
@@ -140,13 +139,13 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Panning_SineWaveSignal_ConstantPanningAsDouble()
+        public void Test_Panning_SineWaveSignal_ConstPanningAsDouble()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panning_SineWaveSignal_ConstantPanningAsDouble_RunTest();
+                new OperatorWishesTests(context).Panning_SineWaveSignal_ConstPanningAsDouble_RunTest();
         }
 
-        void Panning_SineWaveSignal_ConstantPanningAsDouble_RunTest()
+        void Panning_SineWaveSignal_ConstPanningAsDouble_RunTest()
         {
             // Arrange
             var    freq       = A4;
@@ -168,7 +167,7 @@ namespace JJ.Business.Synthesizer.Tests
             double maxValueRight = calculator.CalculateValue(panned, time: 0.25 / freq);
             double minValueRight = calculator.CalculateValue(panned, time: 0.75 / freq);
 
-            SaveWav(() => panned, duration: 1, volume: 1);
+            SaveWav(() => Panning(sine, panning), duration: 1, volume: 1);
 
             // Assert
             AssertHelper.AreEqual(0.75,  () => maxValueLeft);
@@ -186,7 +185,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         void Panning_SineWaveSignal_DynamicPanning_RunTest()
         {
-            var sine = Sine(_[A4]);
+            var sine = Sine(A4);
             var panning = CurveIn(@"
                                     *
                                 *
@@ -196,9 +195,7 @@ namespace JJ.Business.Synthesizer.Tests
                 *
             *");
 
-            var panned = Panning(sine, panning);
-
-            SaveWav(() => panned, duration: 1, volume: 1);
+            SaveWav(() => Panning(sine, panning), duration: 1, volume: 1);
         }
 
         // Panbrello Tests
@@ -207,42 +204,38 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Panbrello_DefaultSpeedAndDepth()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panbrello_RunTest_DefaultSpeedAndDepth();
+                new OperatorWishesTests(context).Panbrello_DefaultSpeedAndDepth_RunTest();
         }
 
-        void Panbrello_RunTest_DefaultSpeedAndDepth()
+        void Panbrello_DefaultSpeedAndDepth_RunTest()
         {
-            var sound     = Sine(_[A4]);
-            var panbrello = Panbrello(sound);
-
-            SaveWav(() => panbrello, volume: 1);
+            var sound = Sine(A4);
+            SaveWav(() => Panbrello(sound), volume: 1);
         }
 
         [TestMethod]
         public void Test_Panbrello_ConstSpeedAndDepth()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panbrello_RunTest_ConstSpeedAndDepth();
+                new OperatorWishesTests(context).Panbrello_ConstSpeedAndDepth_RunTest();
         }
 
-        void Panbrello_RunTest_ConstSpeedAndDepth()
+        void Panbrello_ConstSpeedAndDepth_RunTest()
         {
-            var sound     = Sine(_[A4]);
-            var panbrello = Panbrello(sound, (speed: 2.0, depth: 0.75));
-
-            SaveWav(() => panbrello, volume: 1);
+            var sound = Sine(A4);
+            SaveWav(() => Panbrello(sound, (speed: 2.0, depth: 0.75)), volume: 1);
         }
 
         [TestMethod]
         public void Test_Panbrello_DynamicSpeedAndDepth()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panbrello_RunTest_DynamicSpeedAndDepth();
+                new OperatorWishesTests(context).Panbrello_DynamicSpeedAndDepth_RunTest();
         }
 
-        void Panbrello_RunTest_DynamicSpeedAndDepth()
+        void Panbrello_DynamicSpeedAndDepth_RunTest()
         {
-            var sound = Sine(_[A4]);
+            var sound = Sine(A4);
 
             var speed = CurveIn(
                 "Speed", x: (0, 3), y: (0, 8), @"
@@ -260,9 +253,7 @@ namespace JJ.Business.Synthesizer.Tests
                             *
                                 * *            ");
 
-            var panbrello = Panbrello(sound, (speed, depth));
-
-            SaveWav(() => panbrello, volume: 1);
+            SaveWav(() => Panbrello(sound, (speed, depth)), volume: 1);
         }
 
         // PitchPan Tests
@@ -282,8 +273,8 @@ namespace JJ.Business.Synthesizer.Tests
             double referencePanning   = 1;
             Console.WriteLine($"Input: {new { centerFrequency, referenceFrequency, referencePanning }}");
 
-            Outlet e4 = _[E4];
-            Outlet g4 = _[G4];
+            Outlet e4 = E4;
+            Outlet g4 = G4;
 
             // Act
             Outlet panningOpE4 = PitchPan(e4, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
