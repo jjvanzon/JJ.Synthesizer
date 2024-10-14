@@ -20,7 +20,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         public SynthesizerSugar()
             : this(PersistenceHelper.CreateContext())
         { }
-
         
         public SynthesizerSugar(IContext context)
             : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
