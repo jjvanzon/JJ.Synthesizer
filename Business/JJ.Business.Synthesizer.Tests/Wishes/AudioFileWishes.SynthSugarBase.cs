@@ -39,32 +39,57 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Stereo,
             [CallerMemberName] string callerMemberName = null)
         {
-            switch (speakerSetupEnum)
+            var originalChannel = Channel;
+            try
             {
-                case SpeakerSetupEnum.Mono: 
-                    Channel = Mono; var monoChannel = func();
-                    SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
-                    break;
-                
-                case SpeakerSetupEnum.Stereo:
-                    Channel = Left ; var leftOutlet  = func();
-                    Channel = Right; var rightOutlet = func();
-                    SaveWav(new[] { leftOutlet, rightOutlet }, duration, volume, fileName, callerMemberName);
-                    break;
-                
-                default:
-                    throw new ValueNotSupportedException(speakerSetupEnum);
+                switch (speakerSetupEnum)
+                {
+                    case SpeakerSetupEnum.Mono:
+                        Channel = Mono;
+                        var monoChannel = func();
+                        SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
+                        break;
+
+                    case SpeakerSetupEnum.Stereo:
+                        Channel = Left;
+                        var leftOutlet = func();
+                        Channel = Right;
+                        var rightOutlet = func();
+                        SaveWav(new[] { leftOutlet, rightOutlet }, duration, volume, fileName, callerMemberName);
+                        break;
+                    default:
+                        throw new ValueNotSupportedException(speakerSetupEnum);
+                }
+            }
+            finally
+            {
+                Channel = originalChannel;
             }
         }
 
         /// <inheritdoc cref="_savewavdocs"/>
-        public void SaveMono(
-            Outlet monoChannel,
+        public void SaveWavMono(
+            Func<Outlet> func,
             double duration = default,
             double volume = default,
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
-            => SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
+            => SaveWav(func, duration, volume, fileName, SpeakerSetupEnum.Mono, callerMemberName);
+        /*
+        {
+            
+            var originalChannel = Channel;
+            try
+            {
+                Channel = Mono;
+                SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
+            }
+            finally
+            {
+                Channel = originalChannel;
+            }
+        }
+        */
 
         /// <inheritdoc cref="_savewavdocs"/>
         private void SaveWav(
@@ -160,9 +185,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         /// <summary>
         /// Outputs audio to a WAV file.<br/>
-        /// A single <see cref="Outlet">Outlet</see> will result in Mono audio.<br/>
-        /// For Stereo use a func returning an <see cref="Outlet">Outlet</see> e.g. () => myOutlet.
-        /// (Reason: Func needs to execute twice and return a new Outlet each time for the 2 channels!)<br/>
+        /// A single <see cref="Outlet"/> will result in Mono audio.<br/>
+        /// Use a func returning an <see cref="Outlet"/> e.g. <c>SaveWav(() => MySound());</c> <br/>
+        /// For Stereo it must return a new outlet each time.<br/>
+        /// <strong>So call your <see cref="Outlet"/>-creation method in the Func!</strong> <br/>
         /// If parameters are not provided, defaults will be employed.
         /// Some of these defaults you can set in the configuration file.
         /// Also, the entity data tied to the outlet will be verified.

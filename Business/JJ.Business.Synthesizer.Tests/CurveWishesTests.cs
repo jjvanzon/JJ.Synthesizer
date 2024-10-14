@@ -10,21 +10,21 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void AsciiCurves_OneStringPerLine_WithRange()
         {
-            CurveInWrapper curve = CreateAsciiCurve_OneStringPerLine_WithRange();
-            SaveMono(curve, duration: 4, volume: 1);
+            var curve = CreateAsciiCurve_OneStringPerLine_WithRange();
+            SaveWavMono(() => curve, duration: 4, volume: 1);
         }
         [TestMethod]
         public void AsciiCurves_OneStringPerLine_WithoutRange()
         {
-            CurveInWrapper curve = CreateAsciiCurve_OneStringPerLine_WithoutRange();
-            SaveMono(curve, duration: 4, volume: 1);
+            var curve = CreateAsciiCurve_OneStringPerLine_WithoutRange();
+            SaveWavMono(() => curve, duration: 4, volume: 1);
         }
 
         [TestMethod]
         public void AsciiCurves_VerboseStrings()
         {
-            CurveInWrapper curve = CreateAsciiCurve_VerboseStrings();
-            SaveMono(curve, duration: 4, volume: 1);
+            var curve = CreateAsciiCurve_VerboseStrings();
+            SaveWavMono(() => curve, duration: 4, volume: 1);
         }
 
         CurveInWrapper CreateAsciiCurve_OneStringPerLine_WithoutRange() => CurveIn

@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public object _createcurvewithtuples;
 
         /// <summary>
-        /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
+        /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter about caching.
         /// </summary>
         /// <param name="curveFactory"> The factory used to create the <see cref="Curve" />. </param>
         /// <param name="nodeTuples">

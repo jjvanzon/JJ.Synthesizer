@@ -37,7 +37,22 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica_Jingle_RunTest()
         {
-            SaveWav(() => DeepEcho(DetunicaJingle), volume: 0.65, duration: bars[4] + bars[3.0] + DEEP_ECHO_TIME);
+            SaveWav(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DEEP_ECHO_TIME);
+        }
+
+        [TestMethod]
+        [TestCategory("Long")]
+        /// <inheritdoc cref="_detunicadocs" />
+        public void Test_Detunica_Jingle_Mono()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new ModulationTests(context).Detunica_Jingle_RunTest_Mono();
+        }
+
+        /// <inheritdoc cref="_detunicadocs" />
+        void Detunica_Jingle_RunTest_Mono()
+        {
+            SaveWavMono(() => DeepEcho(DetunicaJingle), volume: 0.22, duration: bars[7] + DEEP_ECHO_TIME);
         }
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -123,7 +138,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => SaveMono(MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
+            => SaveWavMono(() => MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -135,7 +150,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()
-            => SaveMono(MildEcho(Vibraphase(freq: E5)), duration: 1 + MILD_ECHO_TIME);
+            => SaveWavMono(() => MildEcho(Vibraphase(freq: E5)), duration: 1 + MILD_ECHO_TIME);
 
         #endregion
 
@@ -167,10 +182,10 @@ namespace JJ.Business.Synthesizer.Tests
 
         Outlet DetunicaBass(Outlet delay = null, Outlet duration = null) =>
             Panbrello(
-                panbrello: (speed: _[2.0], depth: _[0.20]),
+                panbrello: (speed: _[2], depth: _[0.20]),
                 sound: Adder(
                     Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
-                    Detunica2(delay, E1, _[0.800], duration),
+                    Detunica2(delay, E1, _[0.800], duration), // TODO: Maybe don't use this churning sound.
                     Detunica3(delay, E2, _[1.000], duration),
                     Detunica4(delay, E3, _[0.015], duration),
                     Detunica5(delay, E4, _[0.001], duration)));
@@ -181,8 +196,8 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet detuneDepth = null, Outlet chorusRate = null)
             => Detunica(
                 delay, freq, volume, duration,
-                vibrato: (_[3.0], _[0.00010]),
-                tremolo: (_[1.0], _[0.03]),
+                vibrato: (_[3], _[0.00010]),
+                tremolo: (_[1], _[0.03]),
                 detuneDepth: detuneDepth ?? _[0.8],
                 chorusRate: Multiply(chorusRate ?? _[0.03], DetuneRateCurve1),
                 envelopeVariation: 2);
@@ -192,11 +207,12 @@ namespace JJ.Business.Synthesizer.Tests
             => MildEcho(
                 Detunica(
                     delay, freq, volume, duration,
-                    vibrato: (_[10.0], _[0.00020]),
-                    tremolo: (_[12.0], _[0.10]),
+                    vibrato: (_[10], _[0.00020]),
+                    tremolo: (_[12], _[0.10]),
                     detuneDepth: _[1.0],
                     churnRate: Multiply(_[0.10], DetuneRateCurve2),
-                    panning: _[0.4], panbrello: (_[2.6], _[0.09])));
+                    panning: _[0.4], 
+                    panbrello: (_[2.6], _[0.09])));
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
@@ -204,17 +220,18 @@ namespace JJ.Business.Synthesizer.Tests
                 delay, freq, volume, duration,
                 vibrato: (_[05.5], _[0.0005]),
                 tremolo: (_[15.0], _[0.06]),
-                detuneDepth: _[0.5],
+                detuneDepth     : _[0.5],
                 interferenceRate: Multiply(_[0.002], DetuneRateCurve1),
-                chorusRate: Multiply(_[0.002],       DetuneRateCurve1),
-                panning: Stretch(CurveIn(0.65, 0.35), duration), panbrello: (_[4.8], _[0.05]),
+                chorusRate      : Multiply(_[0.002], DetuneRateCurve1),
+                panning: Stretch(CurveIn(0.7, 0.3), duration), 
+                panbrello: (_[4.8], _[0.05]),
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="_detunicadocs" />
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
             => Detunica(
                 delay, freq, volume, duration,
-                vibrato: (_[07], _[0.0003]),
+                vibrato: (_[7], _[0.0003]),
                 tremolo: (_[10], _[0.08]),
                 detuneDepth: _[0.5],
                 interferenceRate: Multiply(_[0.003], DetuneRateCurve3),

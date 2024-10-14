@@ -45,8 +45,8 @@ namespace JJ.Business.Synthesizer.Tests
         {
             AssertEntities();
 
-            SaveMono(
-                AddEcho(MetallophoneJingle),
+            SaveWavMono(
+                () => AddEcho(MetallophoneJingle),
                 volume: 0.3,
                 duration: 1.2 + DEFAULT_NOTE_DURATION + ECHO_TIME);
         }
@@ -62,8 +62,8 @@ namespace JJ.Business.Synthesizer.Tests
         {
             AssertEntities();
 
-            SaveMono(
-                AddEcho(Metallophone(F4_Sharp)),
+            SaveWavMono(
+                () => AddEcho(Metallophone(F4_Sharp)),
                 duration: DEFAULT_NOTE_DURATION + ECHO_TIME,
                 volume: 0.5);
         }
