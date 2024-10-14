@@ -16,8 +16,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         public ChannelEnum Channel { get; set; }
 
-        // ReSharper disable once InconsistentNaming
-        public const ChannelEnum Mono = ChannelEnum.Single;
 
         // Redefine extensions methods here, or they don't show up in case of inheritance.
         

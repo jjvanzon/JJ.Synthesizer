@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 switch (speakerSetupEnum)
                 {
                     case SpeakerSetupEnum.Mono:
-                        Channel = Mono; var monoOutlet = func();
+                        Channel = ChannelEnum.Single; var monoOutlet = func();
                         return SaveAudio(new[] { monoOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
 
                     case SpeakerSetupEnum.Stereo:
