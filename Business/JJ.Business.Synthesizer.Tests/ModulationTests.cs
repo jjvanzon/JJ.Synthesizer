@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void DetunicaBass_RunTest()
-            => SaveWav(() => DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 1.0);
+            => SaveWav(() => DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.9);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
