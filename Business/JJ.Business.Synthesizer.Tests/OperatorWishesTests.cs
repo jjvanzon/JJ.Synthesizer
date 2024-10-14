@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Tests
         void Panning_ConstSignal_ConstPanningAsDouble_RunTest()
         {
             // Arrange
-            Outlet signal()
+            Outlet fixedValues()
             {
                 if (Channel == Left) return _[0.8];
                 if (Channel == Right) return _[0.6];
@@ -77,15 +77,13 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet panned;
 
             // Act
-            var calculator = new OperatorCalculator(default);
-
             Channel = Left;
-            panned  = Panning(signal(), panning);
-            double outputLeftValue = calculator.CalculateValue(panned, time: 0);
+            panned  = Panning(fixedValues(), panning);
+            double outputLeftValue = panned.Calculate(time: 0);
 
             Channel = Right;
-            panned  = Panning(signal(), panning);
-            double outputRightValue = calculator.CalculateValue(panned, time: 0);
+            panned  = Panning(fixedValues(), panning);
+            double outputRightValue = panned.Calculate(time: 0);
 
             // Assert
             double expectedLeft  = 0.8 * (1 - panning); // 0.8 * 0.5 = 0.4
@@ -117,19 +115,17 @@ namespace JJ.Business.Synthesizer.Tests
             double panningValue  = 0.5;
             Outlet panningOutlet = _[panningValue];
 
-            var calculator = new OperatorCalculator(default);
-
             // Act
 
             Outlet panned;
 
             Channel = Left;
             panned  = Panning(TestSignal(), panningOutlet);
-            double leftValue = calculator.CalculateValue(panned, time: 0);
+            double leftValue = panned.Calculate(time: 0);
 
             Channel = Right;
             panned  = Panning(TestSignal(), panningOutlet);
-            double rightValue = calculator.CalculateValue(panned, time: 0);
+            double rightValue = panned.Calculate(time: 0);
 
             // Assert
             double expectedLeftValue  = 0.8 * (1 - panningValue); // 0.8 * 0.5 = 0.4
@@ -151,7 +147,6 @@ namespace JJ.Business.Synthesizer.Tests
             var    freq       = A4;
             var    sine       = Sine(_[freq]);
             double panning    = 0.25;
-            var    calculator = new OperatorCalculator(default);
 
             // Act
 
@@ -159,13 +154,13 @@ namespace JJ.Business.Synthesizer.Tests
 
             Channel    = Left;
             panned = Panning(sine, panning);
-            double maxValueLeft = calculator.CalculateValue(panned, time: 0.25 / freq);
-            double minValueLeft = calculator.CalculateValue(panned, time: 0.75 / freq);
+            double maxValueLeft = panned.Calculate(time: 0.25 / freq);
+            double minValueLeft = panned.Calculate(time: 0.75 / freq);
 
             Channel    = Right;
             panned = Panning(sine, panning);
-            double maxValueRight = calculator.CalculateValue(panned, time: 0.25 / freq);
-            double minValueRight = calculator.CalculateValue(panned, time: 0.75 / freq);
+            double maxValueRight = panned.Calculate(time: 0.25 / freq);
+            double minValueRight = panned.Calculate(time: 0.75 / freq);
 
             SaveWav(() => Panning(sine, panning), duration: 1, volume: 1);
 
@@ -280,10 +275,8 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet panningOpE4 = PitchPan(e4, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
             Outlet panningOpG4 = PitchPan(g4, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
 
-            var calculator = new OperatorCalculator(default);
-
-            double panningValueE4 = calculator.CalculateValue(panningOpE4, time: 0);
-            double panningValueG4 = calculator.CalculateValue(panningOpG4, time: 0);
+            double panningValueE4 = panningOpE4.Calculate(time: 0);
+            double panningValueG4 = panningOpG4.Calculate(time: 0);
 
             Console.WriteLine($"Output: {new { panningValueE4, panningValueG4 }}");
 

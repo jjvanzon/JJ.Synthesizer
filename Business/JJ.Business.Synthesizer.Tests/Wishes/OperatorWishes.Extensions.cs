@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Common;
@@ -230,6 +231,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             double newPanning          = centerPanning + newPanningDeviation;
 
             return newPanning;
+        }
+
+        public static double Calculate(this Outlet outlet, double time)
+        {
+            var calculator = new OperatorCalculator(default);
+            return calculator.CalculateValue(outlet, time);
         }
     }
 }
