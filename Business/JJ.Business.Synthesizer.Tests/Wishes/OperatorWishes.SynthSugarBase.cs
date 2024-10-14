@@ -60,11 +60,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             Outlet sound, (Outlet speed, Outlet depth) panbrello = default)
             => this.Panbrello(sound, panbrello, Channel);
 
-        ///// <inheritdoc cref="docs._panbrello" />
-        //public Outlet Panbrello(
-        //    Outlet sound, (double speed, double depth) panbrello = default)
-        //    => this.Panbrello(sound, panbrello, Channel);
-
         /// <inheritdoc cref="docs._pitchpan" />
         public Outlet PitchPan(
             Outlet actualFrequency, Outlet centerFrequency,
