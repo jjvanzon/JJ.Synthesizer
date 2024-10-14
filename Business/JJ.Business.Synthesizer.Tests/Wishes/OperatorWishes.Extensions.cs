@@ -148,7 +148,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             return x.Panning(sound, zeroToOne, channel);
         }
-        
 
         // PitchPan
         

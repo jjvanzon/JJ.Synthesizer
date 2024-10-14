@@ -127,13 +127,13 @@
     <Compile Include="CurveWishesTests.cs" />
     <Compile Include="ModulationTests.cs" />
     <Compile Include="Wishes\AudioFileWishes.WavHeaderExtensions.cs" />
-    <Compile Include="Wishes\NoteWishes.SynthSugarBase.cs" />
+    <Compile Include="Wishes\NoteWishes.SynthesizerSugar.cs" />
     <Compile Include="Wishes\OperatorWishes.Extensions.cs" />
     <Compile Include="Wishes\CurveWishes.CurveFactory.cs" />
     <Compile Include="Helpers\docs.cs" />
     <Compile Include="Wishes\NoteWishes.TimeIndexers.cs" />
-    <Compile Include="Wishes\CurveWishes.SynthSugarBase.cs" />
-    <Compile Include="Wishes\AudioFileWishes.SynthSugarBase.cs" />
+    <Compile Include="Wishes\CurveWishes.SynthesizerSugar.cs" />
+    <Compile Include="Wishes\AudioFileWishes.SynthesizerSugar.cs" />
     <Compile Include="Wishes\AudioFileWishes.Conversion.cs" />
     <Compile Include="HardCodedFMTests.cs" />
     <Compile Include="FMTests.cs" />
@@ -150,7 +150,7 @@
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdditiveTests.cs" />
-    <Compile Include="Wishes\SynthSugarBase.cs" />
+    <Compile Include="Wishes\SynthesizerSugar.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
@@ -208,7 +208,7 @@
     <None Include="App.config" />
     <EmbeddedResource Include="TestResources\violin_16bit_mono.raw" />
     <None Include="packages.config" />
-    <Compile Include="Wishes\OperatorWishes.SynthSugarBase.cs" />
+    <Compile Include="Wishes\OperatorWishes.SynthesizerSugar.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="TestResources\violin_16bit_mono_44100.wav" />

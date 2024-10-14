@@ -14,7 +14,7 @@ using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class OperatorWishesTests : SynthSugarBase
+    public class OperatorWishesTests : SynthesizerSugar
     {
         [UsedImplicitly]
         public OperatorWishesTests()

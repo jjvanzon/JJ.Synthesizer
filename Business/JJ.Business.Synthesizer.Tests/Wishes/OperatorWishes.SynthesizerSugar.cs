@@ -9,7 +9,7 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public partial class SynthSugarBase : OperatorFactory
+    public partial class SynthesizerSugar : OperatorFactory
     {
         private void InitializeOperatorWishes()
             => _ = new ValueIndexer(this);

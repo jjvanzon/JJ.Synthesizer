@@ -7,15 +7,15 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public partial class SynthSugarBase
+    public partial class SynthesizerSugar
     {
         public SampleManager Samples { get; }
 
-        public SynthSugarBase()
+        public SynthesizerSugar()
             : this(PersistenceHelper.CreateContext())
         { }
 
-        public SynthSugarBase(IContext context)
+        public SynthesizerSugar(IContext context)
             : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
                    PersistenceHelper.CreateRepository<IInletRepository>(context),
                    PersistenceHelper.CreateRepository<IOutletRepository>(context),

@@ -16,7 +16,7 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public partial class SynthSugarBase
+    public partial class SynthesizerSugar
     {
         // This file adds overloads to the OperatorFactory methods,
         // that create a curve, wraps it into an operator, and caches it.

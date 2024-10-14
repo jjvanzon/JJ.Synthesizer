@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class CurveWishesTests : SynthSugarBase
+    public class CurveWishesTests : SynthesizerSugar
     {
         [TestMethod]
         public void AsciiCurves_OneStringPerLine_WithRange()

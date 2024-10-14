@@ -22,7 +22,7 @@ using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public partial class SynthSugarBase
+    public partial class SynthesizerSugar
     {
         private void InitializeAudioFileOutputWishes(IContext context)
             => _audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);

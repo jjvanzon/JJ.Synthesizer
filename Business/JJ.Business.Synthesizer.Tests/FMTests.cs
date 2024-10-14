@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Tests
     /// making the FM synthesis behave differently.
     /// </summary>
     [TestClass]
-    public class FMTests : SynthSugarBase
+    public class FMTests : SynthesizerSugar
     {
         /// <summary> Constructor for test runner. </summary>
         [UsedImplicitly]

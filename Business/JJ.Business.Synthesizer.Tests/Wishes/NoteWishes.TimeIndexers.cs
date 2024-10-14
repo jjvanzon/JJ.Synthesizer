@@ -6,9 +6,9 @@ using JJ.Framework.Persistence;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public partial class SynthSugarBase
+    public partial class SynthesizerSugar
     {
-        public SynthSugarBase(IContext context, double beat = 1, double bar = 4)
+        public SynthesizerSugar(IContext context, double beat = 1, double bar = 4)
             : this(context)
         {
             this.bar = new BarIndexer(this, bar);
@@ -39,11 +39,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
         public class BarIndexer
         {
-            private readonly SynthSugarBase _parent;
+            private readonly SynthesizerSugar _parent;
             private readonly double _barLength;
 
             /// <inheritdoc cref="BarIndexer" />
-            internal BarIndexer(SynthSugarBase parent, double barLength)
+            internal BarIndexer(SynthesizerSugar parent, double barLength)
             {
                 _parent = parent;
                 _barLength = barLength;
@@ -60,11 +60,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
         public class BarsIndexer
         {
-            private readonly SynthSugarBase _parent;
+            private readonly SynthesizerSugar _parent;
             private readonly double _barLength;
 
             /// <inheritdoc cref="BarsIndexer" />
-            internal BarsIndexer(SynthSugarBase parent, double barLength)
+            internal BarsIndexer(SynthesizerSugar parent, double barLength)
             {
                 _parent = parent;
                 _barLength = barLength;
@@ -81,11 +81,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
         public class BeatIndexer
         {
-            private readonly SynthSugarBase _parent;
+            private readonly SynthesizerSugar _parent;
             private readonly double _beatLength;
 
             /// <inheritdoc cref="BeatIndexer" />
-            internal BeatIndexer(SynthSugarBase parent, double beatLength)
+            internal BeatIndexer(SynthesizerSugar parent, double beatLength)
             {
                 _parent = parent;
                 _beatLength = beatLength;
@@ -102,11 +102,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
         public class BeatsIndexer
         {
-            private readonly SynthSugarBase _parent;
+            private readonly SynthesizerSugar _parent;
             private readonly double _beatLength;
 
             /// <inheritdoc cref="BeatsIndexer" />
-            internal BeatsIndexer(SynthSugarBase parent, double beatLength)
+            internal BeatsIndexer(SynthesizerSugar parent, double beatLength)
             {
                 _parent = parent;
                 _beatLength = beatLength;
@@ -126,11 +126,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <returns> ValueOperatorWrapper also usable as Outlet or double. </returns>
         public class TimeIndexer
         {
-            private readonly SynthSugarBase _parent;
+            private readonly SynthesizerSugar _parent;
             private readonly double _barLength;
             private readonly double _beatLength;
 
-            internal TimeIndexer(SynthSugarBase parent, double barLength, double beatLength)
+            internal TimeIndexer(SynthesizerSugar parent, double barLength, double beatLength)
             {
                 _parent = parent;
                 _barLength = barLength;
