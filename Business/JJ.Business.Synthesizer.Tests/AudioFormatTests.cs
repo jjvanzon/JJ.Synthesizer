@@ -13,8 +13,8 @@ namespace JJ.Business.Synthesizer.Tests
         {
             Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
             SaveAudio(createOutlet, 0, 0, SpeakerSetupEnum.Stereo, SampleDataTypeEnum.Int16, AudioFileFormatEnum.Wav);
-            
-            Outlet sample = Sample()
+
+            //Outlet sample = Sample();
         }
         
         [TestMethod]

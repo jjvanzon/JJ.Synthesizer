@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -16,10 +17,10 @@ using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
-using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
+using ValidationMessage = JJ.Framework.Validation.ValidationMessage;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
@@ -34,8 +35,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         private string NewLine => Environment.NewLine;
 
-        /// <inheritdoc cref="_savewavdocs" />
-        public void SaveAudio(
+        /// <inheritdoc cref="_saveaudiodocs" />
+        public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func,
             double duration = default,
             double volume = default,
@@ -52,14 +53,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 {
                     case SpeakerSetupEnum.Mono:
                         Channel = Mono; var monoOutlet = func();
-                        SaveAudio(new[] { monoOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
-                        break;
+                        return SaveAudio(new[] { monoOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
 
                     case SpeakerSetupEnum.Stereo:
                         Channel = Left ; var leftOutlet  = func();
                         Channel = Right; var rightOutlet = func();
-                        SaveAudio(new[] { leftOutlet, rightOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
-                        break;
+                        return SaveAudio(new[] { leftOutlet, rightOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
                     default:
                         throw new ValueNotSupportedException(speakerSetupEnum);
                 }
@@ -70,8 +69,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             }
         }
 
-        /// <inheritdoc cref="_savewavdocs" />
-        private void SaveAudio(
+        /// <inheritdoc cref="_saveaudiodocs" />
+        private Result<AudioFileOutput> SaveAudio(
             IList<Outlet> channels,
             double duration = default,
             double volume = default,
@@ -93,14 +92,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             fileName = ResolveFileName(fileName, audioFileFormatEnum, callerMemberName);
 
             // Validate Input Data
-            var warnings = new List<string>();
+            var warnings = new List<ValidationMessage>();
             foreach (Outlet channel in channels)
             {
                 new RecursiveOperatorValidator(channel.Operator).Verify();
                 var warningValidator = new RecursiveOperatorWarningValidator(channel.Operator);
-                warnings.AddRange(warningValidator.ValidationMessages.Select(x => x.Text));
+                warnings.AddRange(warningValidator.ValidationMessages);
             }
-
+            
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
             {
@@ -122,7 +121,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             // Validate AudioFileOutput
             _audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
-            warnings.AddRange(new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text));
+            warnings.AddRange(new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages);
 
             // Calculate
             var calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
@@ -137,6 +136,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                                                             $"{string.Join(NewLine, warnings.Select(x => $"- {x}"))}";
 
             Console.WriteLine(calculationTimeText + outputFileText + warningText);
+
+            var result = warnings.ToResult(audioFileOutput);
+            
+            return result;
         }
 
         private string ResolveFileName(string fileName, AudioFileFormatEnum audioFileFormatEnum, string callerMemberName)
@@ -156,8 +159,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return fileName;
         }
 
-        /// <inheritdoc cref="_savewavdocs" />
-        public void SaveAudioMono(
+        /// <inheritdoc cref="_saveaudiodocs" />
+        public Result<AudioFileOutput> SaveAudioMono(
             Func<Outlet> func,
             double duration = default,
             double volume = default,
@@ -260,7 +263,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <param name="callerMemberName">
         /// The name of the calling method. This is automatically set by the compiler.
         /// </param>
-        object _savewavdocs;
+        /// <returns>
+        /// A <see cref="Result"/> with the <see cref="AudioFileOutput"/> entity in it,
+        /// containing resultant data, like the file path and validation messages (warnings).
+        /// </returns>
+        object _saveaudiodocs;
 
         #endregion
     }
