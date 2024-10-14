@@ -16,6 +16,7 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using ConfigurationHelper = JJ.Business.Synthesizer.Tests.Helpers.ConfigurationHelper;
 
@@ -46,8 +47,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 {
                     case SpeakerSetupEnum.Mono:
                         Channel = Mono;
-                        var monoChannel = func();
-                        SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
+                        var monoOutlet = func();
+                        SaveWav(new[] { monoOutlet }, duration, volume, fileName, callerMemberName);
                         break;
 
                     case SpeakerSetupEnum.Stereo:
@@ -75,21 +76,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
             => SaveWav(func, duration, volume, fileName, SpeakerSetupEnum.Mono, callerMemberName);
-        /*
-        {
-            
-            var originalChannel = Channel;
-            try
-            {
-                Channel = Mono;
-                SaveWav(new[] { monoChannel }, duration, volume, fileName, callerMemberName);
-            }
-            finally
-            {
-                Channel = originalChannel;
-            }
-        }
-        */
 
         /// <inheritdoc cref="_savewavdocs"/>
         private void SaveWav(
@@ -166,6 +152,12 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             if (Environment.GetEnvironmentVariable("NCrunch") != null)
             {
                 audioFileOutput.SamplingRate = ConfigurationHelper.NCrunchSamplingRate;
+                
+                if (IsTestInCategory("Long"))
+                {
+                    audioFileOutput.SamplingRate /= 8;
+                }
+
                 Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " +
                                   "to improve NCrunch code coverage performance.");
             }
@@ -173,14 +165,28 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             if (Environment.GetEnvironmentVariable("TF_BUILD") == "True")
             {
                 audioFileOutput.SamplingRate = ConfigurationHelper.AzurePipelinesSamplingRate;
+
+                if (IsTestInCategory("Long"))
+                {
+                    audioFileOutput.SamplingRate /= 8;
+                }
+
                 Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " + 
                                   "to improve Azure Pipelines test performance.");
             }
         }
 
+        private bool IsTestInCategory(string category) =>
+            new StackTrace().GetFrames()?
+                            .Select(x => x.GetMethod())
+                            .SelectMany(method => method.GetCustomAttributes(typeof(TestCategoryAttribute), true))
+                            .OfType<TestCategoryAttribute>()
+                            .Any(x => x.TestCategories.Contains(category)) ?? false;
+
+        
         #region Docs
 
-#pragma warning disable CS0169 // Field is never used
+        #pragma warning disable CS0169 // Field is never used
         // ReSharper disable once IdentifierTypo
 
         /// <summary>
