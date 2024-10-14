@@ -135,7 +135,7 @@
     <Compile Include="Wishes\NoteWishes.TimeIndexers.cs" />
     <Compile Include="Wishes\CurveWishes.SynthesizerSugar.cs" />
     <Compile Include="Wishes\AudioFileWishes.SynthesizerSugar.cs" />
-    <Compile Include="Wishes\AudioFileWishes.Conversion.cs" />
+    <Compile Include="Wishes\AudioFileWishes.Extensions.cs" />
     <Compile Include="HardCodedFMTests.cs" />
     <Compile Include="FMTests.cs" />
     <Compile Include="Wishes\NoteWishes.Notes.cs" />

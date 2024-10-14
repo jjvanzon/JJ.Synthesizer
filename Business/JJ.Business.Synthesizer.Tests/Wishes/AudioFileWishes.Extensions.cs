@@ -1,5 +1,7 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
+// ReSharper disable once PossibleLossOfFraction
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
@@ -33,6 +35,28 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             if (typeof(TSampleDataType) == typeof(byte)) return SampleDataTypeEnum.Byte;
 
             throw new ValueNotSupportedException(typeof(TSampleDataType));
+        }
+ 
+        public static string GetFileExtension(this AudioFileFormatEnum audioFileFormatEnum)
+        {
+            switch (audioFileFormatEnum)
+            {
+                case AudioFileFormatEnum.Wav: return ".wav";
+                case AudioFileFormatEnum.Raw: return ".raw";
+                default:
+                    throw new ValueNotSupportedException(audioFileFormatEnum);
+            }
+        }
+ 
+        public static double GetMaxAmplitude(this SampleDataTypeEnum sampleDataTypeEnum)
+        {
+            switch (sampleDataTypeEnum)
+            {
+                case SampleDataTypeEnum.Int16: return Int16.MaxValue;
+                case SampleDataTypeEnum.Byte:  return Byte.MaxValue / 2;
+                default:                 
+                    throw new ValueNotSupportedException(sampleDataTypeEnum);
+            }
         }
     }
 }

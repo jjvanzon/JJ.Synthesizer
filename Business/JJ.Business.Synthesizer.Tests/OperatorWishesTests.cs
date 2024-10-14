@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="docs._vibrato" />
         void Vibrato_RunTest()
-            => SaveWavMono(
+            => SaveAudioMono(
                 () => Sine(VibratoOverPitch(A4)),
                 volume: 0.9, duration: 3);
 
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="docs._tremolo" />
         void Tremolo_RunTest()
-            => SaveWavMono(
+            => SaveAudioMono(
                 () => Tremolo(Sine(A4), (_[4], _[0.5])),
                 volume: 0.30, duration: 3);
 
@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Tests
             double maxValueRight = panned.Calculate(time: 0.25 / freq);
             double minValueRight = panned.Calculate(time: 0.75 / freq);
 
-            SaveWav(() => Panning(sine, panning), duration: 1, volume: 1);
+            SaveAudio(() => Panning(sine, panning), duration: 1, volume: 1);
 
             // Assert
             AssertHelper.AreEqual(0.75,  () => maxValueLeft);
@@ -189,7 +189,7 @@ namespace JJ.Business.Synthesizer.Tests
                 *
             *");
 
-            SaveWav(() => Panning(sine, panning), duration: 1, volume: 1);
+            SaveAudio(() => Panning(sine, panning), duration: 1, volume: 1);
         }
 
         // Panbrello Tests
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Tests
         void Panbrello_DefaultSpeedAndDepth_RunTest()
         {
             var sound = Sine(A4);
-            SaveWav(() => Panbrello(sound), volume: 1);
+            SaveAudio(() => Panbrello(sound), volume: 1);
         }
 
         [TestMethod]
@@ -217,7 +217,7 @@ namespace JJ.Business.Synthesizer.Tests
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
             var sound = Sine(A4);
-            SaveWav(() => Panbrello(sound, (speed: _[2.0], depth: _[0.75])), volume: 1);
+            SaveAudio(() => Panbrello(sound, (speed: _[2.0], depth: _[0.75])), volume: 1);
         }
 
         [TestMethod]
@@ -247,7 +247,7 @@ namespace JJ.Business.Synthesizer.Tests
                             *
                                 * *            ");
 
-            SaveWav(() => Panbrello(sound, (speed, depth)), volume: 1);
+            SaveAudio(() => Panbrello(sound, (speed, depth)), volume: 1);
         }
 
         // PitchPan Tests

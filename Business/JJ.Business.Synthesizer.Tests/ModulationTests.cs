@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica_Jingle_RunTest()
         {
-            SaveWav(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DEEP_ECHO_TIME);
+            SaveAudio(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DEEP_ECHO_TIME);
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica_Jingle_RunTest_Mono()
         {
-            SaveWavMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DEEP_ECHO_TIME);
+            SaveAudioMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DEEP_ECHO_TIME);
         }
 
         /// <inheritdoc cref="_detunicadocs" />
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void DetunicaBass_RunTest()
-            => SaveWav(() => DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.9);
+            => SaveAudio(() => DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.9);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica1_RunTest()
-            => SaveWav(() => DeepEcho(Detunica1(freq: E2, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
+            => SaveAudio(() => DeepEcho(Detunica1(freq: E2, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica2_RunTest()
-            => SaveWav(() => DeepEcho(Detunica2(freq: B4, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
+            => SaveAudio(() => DeepEcho(Detunica2(freq: B4, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica3_RunTest()
-            => SaveWav(() => DeepEcho(Detunica3(freq: C5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
+            => SaveAudio(() => DeepEcho(Detunica3(freq: C5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica4_RunTest()
-            => SaveWav(() => DeepEcho(Detunica4(freq: D5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
+            => SaveAudio(() => DeepEcho(Detunica4(freq: D5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica5_RunTest()
-            => SaveWav(() => DeepEcho(Detunica5(freq: E5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
+            => SaveAudio(() => DeepEcho(Detunica5(freq: E5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => SaveWavMono(() => MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
+            => SaveAudioMono(() => MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()
-            => SaveWavMono(() => MildEcho(Vibraphase(freq: E5)), duration: 1 + MILD_ECHO_TIME);
+            => SaveAudioMono(() => MildEcho(Vibraphase(freq: E5)), duration: 1 + MILD_ECHO_TIME);
 
         #endregion
 

@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         private string NewLine => Environment.NewLine;
 
         /// <inheritdoc cref="_savewavdocs" />
-        public void SaveWav(
+        public void SaveAudio(
             Func<Outlet> func,
             double duration = default,
             double volume = default,
@@ -51,17 +51,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 switch (speakerSetupEnum)
                 {
                     case SpeakerSetupEnum.Mono:
-                        Channel = Mono;
-                        var monoOutlet = func();
-                        SaveWav(new[] { monoOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
+                        Channel = Mono; var monoOutlet = func();
+                        SaveAudio(new[] { monoOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
                         break;
 
                     case SpeakerSetupEnum.Stereo:
-                        Channel = Left;
-                        var leftOutlet = func();
-                        Channel = Right;
-                        var rightOutlet = func();
-                        SaveWav(new[] { leftOutlet, rightOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
+                        Channel = Left ; var leftOutlet  = func();
+                        Channel = Right; var rightOutlet = func();
+                        SaveAudio(new[] { leftOutlet, rightOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
                         break;
                     default:
                         throw new ValueNotSupportedException(speakerSetupEnum);
@@ -74,7 +71,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         }
 
         /// <inheritdoc cref="_savewavdocs" />
-        private void SaveWav(
+        private void SaveAudio(
             IList<Outlet> channels,
             double duration = default,
             double volume = default,
@@ -90,38 +87,38 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             if (channels.Count == 0) throw new ArgumentException("channels.Count == 0",         nameof(channels));
             if (channels.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channels));
 
-            fileName = string.IsNullOrWhiteSpace(fileName) ? $"{callerMemberName}.wav" : fileName;
-            if (!fileName.EndsWith(".wav")) fileName += ".wav";
-
             if (duration == default) duration = _configuration.DefaultOutputDuration;
             if (volume == default) volume     = _configuration.DefaultOutputVolume;
+
+            fileName = ResolveFileName(fileName, audioFileFormatEnum, callerMemberName);
 
             // Validate Input Data
             var warnings = new List<string>();
             foreach (Outlet channel in channels)
             {
                 new RecursiveOperatorValidator(channel.Operator).Verify();
-                new RecursiveOperatorValidator(channel.Operator).Verify();
-                IValidator warningValidator = new RecursiveOperatorWarningValidator(channel.Operator);
+                var warningValidator = new RecursiveOperatorWarningValidator(channel.Operator);
                 warnings.AddRange(warningValidator.ValidationMessages.Select(x => x.Text));
             }
 
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
-            audioFileOutput.Duration     = duration;
-            audioFileOutput.SamplingRate = _configuration.DefaultSamplingRate;
-            audioFileOutput.Amplifier    = short.MaxValue * volume;
-            audioFileOutput.FilePath     = fileName;
-            _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channels.Count);
-            audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum, _sampleDataTypeRepository);
-            audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum, _audioFileFormatRepository);
-
-            for (int i = 0; i < channels.Count; i++)
             {
-                audioFileOutput.AudioFileOutputChannels[i].Outlet = channels[i];
-            }
+                audioFileOutput.Duration     = duration;
+                audioFileOutput.SamplingRate = _configuration.DefaultSamplingRate;
+                audioFileOutput.FilePath     = fileName;
+                audioFileOutput.Amplifier    = volume * sampleDataTypeEnum.GetMaxAmplitude();
+                audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum, _sampleDataTypeRepository);
+                audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum, _audioFileFormatRepository);
 
-            OptimizeForTooling(audioFileOutput);
+                _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channels.Count);
+                for (int i = 0; i < channels.Count; i++)
+                {
+                    audioFileOutput.AudioFileOutputChannels[i].Outlet = channels[i];
+                }
+
+                OptimizeForTooling(audioFileOutput);
+            }
 
             // Validate AudioFileOutput
             _audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
@@ -142,8 +139,25 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             Console.WriteLine(calculationTimeText + outputFileText + warningText);
         }
 
+        private string ResolveFileName(string fileName, AudioFileFormatEnum audioFileFormatEnum, string callerMemberName)
+        {
+            string fileExtension = audioFileFormatEnum.GetFileExtension();
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return $"{callerMemberName}{fileExtension}";
+            }
+
+            if (!fileName.EndsWith(fileExtension))
+            {
+                fileName += fileExtension;
+            }
+
+            return fileName;
+        }
+
         /// <inheritdoc cref="_savewavdocs" />
-        public void SaveWavMono(
+        public void SaveAudioMono(
             Func<Outlet> func,
             double duration = default,
             double volume = default,
@@ -151,7 +165,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
-            => SaveWav(func, duration, volume, SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
+            => SaveAudio(func, duration, volume, SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
 
 
         /// <summary>
@@ -204,7 +218,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <summary>
         /// Outputs audio to a WAV file.<br />
         /// A single <see cref="Outlet" /> will result in Mono audio.<br />
-        /// Use a func returning an <see cref="Outlet" /> e.g. <c> SaveWav(() => MySound()); </c> <br />
+        /// Use a func returning an <see cref="Outlet" /> e.g. <c> SaveAudio(() => MySound()); </c> <br />
         /// For Stereo it must return a new outlet each time.<br />
         /// <strong> So call your <see cref="Outlet" />-creation method in the Func! </strong> <br />
         /// If parameters are not provided, defaults will be employed.
