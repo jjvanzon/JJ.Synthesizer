@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Managers;
@@ -35,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         private string NewLine => Environment.NewLine;
 
-        /// <inheritdoc cref="_saveaudiodocs" />
+        /// <inheritdoc cref="docs._saveaudio" />
         public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func,
             double duration = default,
@@ -69,7 +70,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             }
         }
 
-        /// <inheritdoc cref="_saveaudiodocs" />
+        /// <inheritdoc cref="docs._saveaudio" />
         private Result<AudioFileOutput> SaveAudio(
             IList<Outlet> channels,
             double duration = default,
@@ -137,7 +138,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             Console.WriteLine(calculationTimeText + outputFileText + warningText);
 
-            var result = warnings.ToResult(audioFileOutput);
+            Result<AudioFileOutput> result = warnings.ToResult(audioFileOutput);
             
             return result;
         }
@@ -169,7 +170,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
             => SaveAudio(func, duration, volume, SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum, fileName, callerMemberName);
-
 
         /// <summary>
         /// Optimizes the given <see cref="AudioFileOutput" /> for tooling environments such as NCrunch and Azure Pipelines.
@@ -212,63 +212,15 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                             .OfType<TestCategoryAttribute>()
                             .Any(x => x.TestCategories.Contains(category)) ?? false;
 
-
-        #region Docs
-
-        #pragma warning disable CS0169 // Field is never used
-        // ReSharper disable once IdentifierTypo
-
-        /// <summary>
-        /// Outputs audio to a WAV file.<br />
-        /// A single <see cref="Outlet" /> will result in Mono audio.<br />
-        /// Use a func returning an <see cref="Outlet" /> e.g. <c> SaveAudio(() => MySound()); </c> <br />
-        /// For Stereo it must return a new outlet each time.<br />
-        /// <strong> So call your <see cref="Outlet" />-creation method in the Func! </strong> <br />
-        /// If parameters are not provided, defaults will be employed.
-        /// Some of these defaults you can set in the configuration file.
-        /// Also, the entity data tied to the outlet will be verified.
-        /// </summary>
-        /// <param name="func">
-        /// A function that provides a signal.
-        /// Can be used for both Mono and Stereo sound.
-        /// </param>
-        /// <param name="monoChannel">
-        /// An Outlet that provides the Mono signal.
-        /// Use () => myOutlet for stereo instead.
-        /// </param>
-        /// <param name="stereoChannels">
-        /// A tuple of two outlets, one for the Left channel, one for the Right channel.
-        /// </param>
-        /// <param name="channels">
-        /// A list of outlets, one for each channel,
-        /// e.g. a single one for Mono and 2 outlets for stereo.
-        /// </param>
-        /// <param name="duration">
-        /// The duration of the audio in seconds. When 0, the default duration is used,
-        /// that can be specified in the configuration
-        /// file.
-        /// </param>
-        /// <param name="volume">
-        /// The volume level of the audio. If null, the default volume is used,
-        /// that can be specified in the configuration file.
-        /// </param>
-        /// <param name="fileName">
-        /// The name of the file to save the audio to.
-        /// If null, a default file name is used, based on the caller's name.
-        /// If no file extension is provided, ".wav" is assumed.
-        /// </param>
-        /// <param name="speakerSetupEnum">
-        /// The speaker setup configuration (e.g., Mono, Stereo).
-        /// </param>
-        /// <param name="callerMemberName">
-        /// The name of the calling method. This is automatically set by the compiler.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Result"/> with the <see cref="AudioFileOutput"/> entity in it,
-        /// containing resultant data, like the file path and validation messages (warnings).
-        /// </returns>
-        object _saveaudiodocs;
-
-        #endregion
+        // Creating Sample Operator
+        
+        public SampleOperatorWrapper Sample(string filePath)
+        { 
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                Sample sample = Samples.CreateSample(stream);
+                return Sample(sample);
+            }
+        }
     }
 }
