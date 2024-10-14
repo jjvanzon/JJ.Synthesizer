@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica_Jingle_RunTest_Mono()
         {
-            SaveWavMono(() => DeepEcho(DetunicaJingle), volume: 0.22, duration: bars[7] + DEEP_ECHO_TIME);
+            SaveWavMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DEEP_ECHO_TIME);
         }
 
         /// <inheritdoc cref="_detunicadocs" />
