@@ -30,9 +30,11 @@ namespace JJ.Business.Synthesizer.Tests
         private const int    SAMPLING_RATE   = 4000;
         private const double FREQUENCY       = 40;
         private const double VOLUME          = 0.50;
+        private const double PANNING         = 0.25;
         private const double DURATION        = 0.25;
         private const double DURATION_LONGER = DURATION;
         //private const double DURATION_LONGER = DURATION * 1.1; // For testing array bounds checks.
+        private const int ROUNDING_DECIMALS = 2;
 
         // Want my static usings, but clashes with System type names.
         private readonly SampleDataTypeEnum Int16  = SampleDataTypeEnum.Int16;
@@ -117,15 +119,14 @@ namespace JJ.Business.Synthesizer.Tests
             SampleDataTypeEnum sampleDataTypeEnum,
             [CallerMemberName] string callerMemberName = null)
         {
-            int channelCount = speakerSetupEnum.GetChannelCount();
-
             // Panned sine, save to file, use sample operator, save to file again
 
-            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
+            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[PANNING]);
 
-            AudioFileOutput audioFileOutput1 = SaveAudio(getPannedSine,    DURATION,           VOLUME,
-                                                         speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
-                                                         SAMPLING_RATE,    default,            callerMemberName).Data;
+            AudioFileOutput audioFileOutput1 =
+                SaveAudio(getPannedSine,    DURATION,           VOLUME,
+                          speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
+                          SAMPLING_RATE,    default,            callerMemberName).Data;
 
             SampleOperatorWrapper getSample()
             {
@@ -144,10 +145,212 @@ namespace JJ.Business.Synthesizer.Tests
 
             var sampleWrapper = getSample();
 
-            AudioFileOutput audioFileOutput2 = SaveAudio(() => getSample(), DURATION_LONGER,    VOLUME,
-                                                         speakerSetupEnum,  sampleDataTypeEnum, audioFileFormatEnum,
-                                                         SAMPLING_RATE,     GetFileName("_Reloaded", callerMemberName)).Data;
-            // Assert
+            AudioFileOutput audioFileOutput2 =
+                SaveAudio(() => getSample(), DURATION_LONGER,    VOLUME,
+                          speakerSetupEnum,  sampleDataTypeEnum, audioFileFormatEnum,
+                          SAMPLING_RATE,     GetFileName("_Reloaded", callerMemberName)).Data;
+
+            AssertEntities(
+                audioFileOutput1,    audioFileOutput2, sampleWrapper,
+                audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
+                callerMemberName);
+
+            // Get Values
+            
+            double amplifier = sampleDataTypeEnum.GetMaxAmplitude() * VOLUME; // TODO: Shouldn't elsewhere already be an amplifier?
+            double tolerance = GetTolerance(sampleDataTypeEnum);
+            Console.WriteLine();
+            Console.WriteLine($"{nameof(tolerance)} = {tolerance}");
+
+            // Mono
+
+            if (speakerSetupEnum == Mono)
+            {
+                // Get Values
+                
+                Channel = Single;
+
+                double[] expectedValues =
+                {
+                    amplifier *        0.0,
+                    amplifier *   Sqrt(.5),
+                    amplifier *        1.0,
+                    amplifier *   Sqrt(.5),
+                    amplifier *        0.0,
+                    amplifier *  -Sqrt(.5),
+                    amplifier *       -1.0,
+                    amplifier *  -Sqrt(.5),
+                    amplifier *        0.0
+                };
+                expectedValues = expectedValues.Select(x => Round(x, ROUNDING_DECIMALS, AwayFromZero)).ToArray();
+
+                double[] actualValues =
+                {
+                    sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
+                };
+
+
+                Console.WriteLine($"  {nameof(actualValues)} = {FormatValues(actualValues)}");
+                Console.WriteLine($"{nameof(expectedValues)} = {FormatValues(expectedValues)}");
+
+                // Assert Values
+                
+                Assert.AreEqual(expectedValues[0], actualValues[0], tolerance);
+                Assert.AreEqual(expectedValues[1], actualValues[1], tolerance);
+                Assert.AreEqual(expectedValues[2], actualValues[2], tolerance);
+                Assert.AreEqual(expectedValues[3], actualValues[3], tolerance);
+                Assert.AreEqual(expectedValues[4], actualValues[4], tolerance);
+                Assert.AreEqual(expectedValues[5], actualValues[5], tolerance);
+                Assert.AreEqual(expectedValues[6], actualValues[6], tolerance);
+                Assert.AreEqual(expectedValues[7], actualValues[7], tolerance);
+                Assert.AreEqual(expectedValues[8], actualValues[8], tolerance);
+            }
+
+            // Stereo
+
+            if (speakerSetupEnum == Stereo)
+            {
+                // Left
+                
+                Channel = Left;
+
+                double[] expectedL =
+                {
+                    amplifier * 0.75 *       0.0,
+                    amplifier * 0.75 *  Sqrt(.5),
+                    amplifier * 0.75 *       1.0,
+                    amplifier * 0.75 *  Sqrt(.5),
+                    amplifier * 0.75 *       0.0,
+                    amplifier * 0.75 * -Sqrt(.5),
+                    amplifier * 0.75 *      -1.0,
+                    amplifier * 0.75 * -Sqrt(.5),
+                    amplifier * 0.75 *       0.0
+                };
+                expectedL = expectedL.Select(x => Round(x, ROUNDING_DECIMALS, AwayFromZero)).ToArray();
+
+                double[] actualL =
+                {
+                    sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
+                };
+
+                // Right
+                
+                Channel = Right;
+
+                double[] expectedR =
+                {
+                    amplifier * 0.25 *       0.0,
+                    amplifier * 0.25 *  Sqrt(.5),
+                    amplifier * 0.25 *       1.0,
+                    amplifier * 0.25 *  Sqrt(.5),
+                    amplifier * 0.25 *       0.0,
+                    amplifier * 0.25 * -Sqrt(.5),
+                    amplifier * 0.25 *      -1.0,
+                    amplifier * 0.25 * -Sqrt(.5),
+                    amplifier * 0.25 *       0.0
+                };
+                expectedR = expectedR.Select(x => Round(x, ROUNDING_DECIMALS, AwayFromZero)).ToArray();
+
+                double[] actualR =
+                {
+                    sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
+                };
+
+                Console.WriteLine($"{nameof(expectedL)} = {{ {FormatValues(expectedL)} }}");
+                Console.WriteLine($"  {nameof(actualL)} = {{ {FormatValues(actualL)  } }}");
+
+                Console.WriteLine();
+                Console.WriteLine($"{nameof(expectedR)} = {{ {FormatValues(expectedR)} }}");
+                Console.WriteLine($"  {nameof(actualR)} = {{ {FormatValues(actualR)  } }}");
+
+                // Assert Values
+                
+                // Left
+                
+                Assert.AreEqual(expectedL[0], actualL[0], tolerance);
+                Assert.AreEqual(expectedL[1], actualL[1], tolerance);
+                Assert.AreEqual(expectedL[2], actualL[2], tolerance);
+                Assert.AreEqual(expectedL[3], actualL[3], tolerance);
+                Assert.AreEqual(expectedL[4], actualL[4], tolerance);
+                Assert.AreEqual(expectedL[5], actualL[5], tolerance);
+                Assert.AreEqual(expectedL[6], actualL[6], tolerance);
+                Assert.AreEqual(expectedL[7], actualL[7], tolerance);
+                Assert.AreEqual(expectedL[8], actualL[8], tolerance);
+
+                // Right
+                
+                Assert.AreEqual(expectedR[0], actualR[0], tolerance);
+                Assert.AreEqual(expectedR[1], actualR[1], tolerance);
+                Assert.AreEqual(expectedR[2], actualR[2], tolerance);
+                Assert.AreEqual(expectedR[3], actualR[3], tolerance);
+                Assert.AreEqual(expectedR[4], actualR[4], tolerance);
+                Assert.AreEqual(expectedR[5], actualR[5], tolerance);
+                Assert.AreEqual(expectedR[6], actualR[6], tolerance);
+                Assert.AreEqual(expectedR[7], actualR[7], tolerance);
+                Assert.AreEqual(expectedR[8], actualR[8], tolerance);
+            }
+        }
+
+        private string FormatValues(double[] values)
+        {
+            int pad = values.Select(x => $"{x:F2}".Length).Max();
+            
+            string formatValue(double value, int i)
+            {
+                // Show 2 decimals
+                string str = $"{value:F2}";
+
+                // Can't get this right.
+                return str;
+                
+                // Add padding for elements other than the first and last one.
+                if (i == 0) return str;
+                if (i == values.Length - 1) return str;
+                str =  str.PadLeft(pad);
+                
+                return str;
+            }
+
+            //string result = string.Join(" ", values.Select(formatValue));
+            string result = string.Join("|", values.Select(formatValue));
+            return result;
+        }
+
+
+        private void AssertEntities(
+            AudioFileOutput audioFileOutput1, 
+            AudioFileOutput audioFileOutput2, 
+            SampleOperatorWrapper sampleWrapper,
+            AudioFileFormatEnum audioFileFormatEnum,
+            SpeakerSetupEnum speakerSetupEnum, 
+            SampleDataTypeEnum sampleDataTypeEnum, 
+            string callerMemberName)
+        {
+            int channelCount = speakerSetupEnum.GetChannelCount();
 
             // AudioFileOutput
             foreach (AudioFileOutput audioFileOutput in new[] { audioFileOutput1, audioFileOutput2 })
@@ -274,163 +477,6 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => sampleOutlet_FromOperatorOutlets);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
-
-            // Get Values
-            
-            double amplifier = sampleDataTypeEnum.GetMaxAmplitude() * VOLUME; // TODO: Shouldn't elsewhere already be an amplifier?
-            double tolerance = GetTolerance(sampleDataTypeEnum);
-            Console.WriteLine();
-            Console.WriteLine($"{nameof(tolerance)} = {tolerance}");
-
-            // Mono
-
-            if (speakerSetupEnum == Mono)
-            {
-                // Get Values
-                
-                Channel = Single;
-
-                double[] expectedValues =
-                {
-                    amplifier *        0.0,
-                    amplifier *   Sqrt(.5),
-                    amplifier *        1.0,
-                    amplifier *   Sqrt(.5),
-                    amplifier *        0.0,
-                    amplifier *  -Sqrt(.5),
-                    amplifier *       -1.0,
-                    amplifier *  -Sqrt(.5),
-                    amplifier *        0.0
-                };
-                expectedValues = expectedValues.Select(x => Round(x, 2, AwayFromZero)).ToArray();
-
-                double[] actualValues =
-                {
-                    sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
-                };
-
-                Console.WriteLine($"  {nameof(actualValues)} = {{ {string.Join(", ", actualValues)} }}");
-                Console.WriteLine($"{nameof(expectedValues)} = {{ {string.Join(", ", expectedValues)} }}");
-
-                // Assert Values
-                
-                Assert.AreEqual(expectedValues[0], actualValues[0], tolerance);
-                Assert.AreEqual(expectedValues[1], actualValues[1], tolerance);
-                Assert.AreEqual(expectedValues[2], actualValues[2], tolerance);
-                Assert.AreEqual(expectedValues[3], actualValues[3], tolerance);
-                Assert.AreEqual(expectedValues[4], actualValues[4], tolerance);
-                Assert.AreEqual(expectedValues[5], actualValues[5], tolerance);
-                Assert.AreEqual(expectedValues[6], actualValues[6], tolerance);
-                Assert.AreEqual(expectedValues[7], actualValues[7], tolerance);
-                Assert.AreEqual(expectedValues[8], actualValues[8], tolerance);
-            }
-
-            // Stereo
-
-            if (speakerSetupEnum == Stereo)
-            {
-                // Left
-                
-                Channel = Left;
-
-                double[] expectedL =
-                {
-                    amplifier * 0.75 *       0.0,
-                    amplifier * 0.75 *  Sqrt(.5),
-                    amplifier * 0.75 *       1.0,
-                    amplifier * 0.75 *  Sqrt(.5),
-                    amplifier * 0.75 *       0.0,
-                    amplifier * 0.75 * -Sqrt(.5),
-                    amplifier * 0.75 *      -1.0,
-                    amplifier * 0.75 * -Sqrt(.5),
-                    amplifier * 0.75 *       0.0
-                };
-                expectedL = expectedL.Select(x => Round(x, 2, AwayFromZero)).ToArray();
-
-                double[] actualL =
-                {
-                    sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
-                };
-
-                // Right
-                
-                Channel = Right;
-
-                double[] expectedR =
-                {
-                    amplifier * 0.25 *       0.0,
-                    amplifier * 0.25 *  Sqrt(.5),
-                    amplifier * 0.25 *       1.0,
-                    amplifier * 0.25 *  Sqrt(.5),
-                    amplifier * 0.25 *       0.0,
-                    amplifier * 0.25 * -Sqrt(.5),
-                    amplifier * 0.25 *      -1.0,
-                    amplifier * 0.25 * -Sqrt(.5),
-                    amplifier * 0.25 *       0.0
-                };
-                expectedR = expectedR.Select(x => Round(x, 2, AwayFromZero)).ToArray();
-
-                double[] actualR =
-                {
-                    sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
-                };
-
-                Console.WriteLine($"{nameof(expectedL)} = {{ {string.Join(", ", expectedL)} }}");
-                Console.WriteLine($"  {nameof(actualL)} = {{ {string.Join(", ", actualL)} }}");
-                Console.WriteLine();
-                Console.WriteLine($"{nameof(expectedR)} = {{ {string.Join(", ", expectedR)} }}");
-                Console.WriteLine($"  {nameof(actualR)} = {{ {string.Join(", ", actualR)} }}");
-
-                // Assert Values
-                
-                // Left
-                
-                Assert.AreEqual(expectedL[0], actualL[0], tolerance);
-                Assert.AreEqual(expectedL[1], actualL[1], tolerance);
-                Assert.AreEqual(expectedL[2], actualL[2], tolerance);
-                Assert.AreEqual(expectedL[3], actualL[3], tolerance);
-                Assert.AreEqual(expectedL[4], actualL[4], tolerance);
-                Assert.AreEqual(expectedL[5], actualL[5], tolerance);
-                Assert.AreEqual(expectedL[6], actualL[6], tolerance);
-                Assert.AreEqual(expectedL[7], actualL[7], tolerance);
-                Assert.AreEqual(expectedL[8], actualL[8], tolerance);
-
-                // Right
-                
-                Assert.AreEqual(expectedR[0], actualR[0], tolerance);
-                Assert.AreEqual(expectedR[1], actualR[1], tolerance);
-                Assert.AreEqual(expectedR[2], actualR[2], tolerance);
-                Assert.AreEqual(expectedR[3], actualR[3], tolerance);
-                Assert.AreEqual(expectedR[4], actualR[4], tolerance);
-                Assert.AreEqual(expectedR[5], actualR[5], tolerance);
-                Assert.AreEqual(expectedR[6], actualR[6], tolerance);
-                Assert.AreEqual(expectedR[7], actualR[7], tolerance);
-                Assert.AreEqual(expectedR[8], actualR[8], tolerance);
-            }
         }
 
         // Helpers
