@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests
         private const double DURATION        = 0.25;
         private const double DURATION_LONGER = DURATION;
         //private const double DURATION_LONGER = DURATION * 1.1; // For testing array bounds checks.
-        private const int ROUNDING_DECIMALS = 2;
+        private const int ROUNDING_DECIMALS = 4;
 
         // Want my static usings, but clashes with System type names.
         private readonly SampleDataTypeEnum Int16  = SampleDataTypeEnum.Int16;
@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[PANNING]);
 
-            AudioFileOutput audioFileOutput1 =
+            var audioFileOutput1 =
                 SaveAudio(getPannedSine,    DURATION,           VOLUME,
                           speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
                           SAMPLING_RATE,    default,            callerMemberName).Data;
@@ -140,12 +140,14 @@ namespace JJ.Business.Synthesizer.Tests
                     wrapper.Sample.SampleDataType = audioFileOutput1.SampleDataType;
                 }
 
+                wrapper.Sample.Amplifier = 1.0 / audioFileOutput1.SampleDataType.GetMaxAmplitude();
+
                 return wrapper;
             }
 
             var sampleWrapper = getSample();
 
-            AudioFileOutput audioFileOutput2 =
+            var audioFileOutput2 =
                 SaveAudio(() => getSample(), DURATION_LONGER,    VOLUME,
                           speakerSetupEnum,  sampleDataTypeEnum, audioFileFormatEnum,
                           SAMPLING_RATE,     GetFileName("_Reloaded", callerMemberName)).Data;
@@ -157,7 +159,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             // Get Values
             
-            double amplifier = sampleDataTypeEnum.GetMaxAmplitude() * VOLUME; // TODO: Shouldn't elsewhere already be an amplifier?
+            double amplifier = VOLUME;
             double tolerance = GetTolerance(sampleDataTypeEnum);
             Console.WriteLine();
             Console.WriteLine($"{nameof(tolerance)} = {tolerance}");
@@ -315,32 +317,6 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        private string FormatValues(double[] values)
-        {
-            int pad = values.Select(x => $"{x:F2}".Length).Max();
-            
-            string formatValue(double value, int i)
-            {
-                // Show 2 decimals
-                string str = $"{value:F2}";
-
-                // Can't get this right.
-                return str;
-                
-                // Add padding for elements other than the first and last one.
-                if (i == 0) return str;
-                if (i == values.Length - 1) return str;
-                str =  str.PadLeft(pad);
-                
-                return str;
-            }
-
-            //string result = string.Join(" ", values.Select(formatValue));
-            string result = string.Join("|", values.Select(formatValue));
-            return result;
-        }
-
-
         private void AssertEntities(
             AudioFileOutput audioFileOutput1, 
             AudioFileOutput audioFileOutput2, 
@@ -488,12 +464,38 @@ namespace JJ.Business.Synthesizer.Tests
         {
             switch (sampleDataTypeEnum)
             {
-                case SampleDataTypeEnum.Int16: return 10;
-                case SampleDataTypeEnum.Byte:  return 1;
+                case SampleDataTypeEnum.Int16: return 0.001;
+                case SampleDataTypeEnum.Byte: return 0.01;
 
                 default:
                     throw new ValueNotSupportedException(sampleDataTypeEnum);
             }
         }
+        
+        private string FormatValues(double[] values)
+        {
+            int pad = values.Select(x => $"{x:F4}".Length).Max();
+            
+            string formatValue(double value, int i)
+            {
+                // Show 2 decimals
+                string str = $"{value:F4}";
+
+                // Can't get this right.
+                return str;
+                
+                // Add padding for elements other than the first and last one.
+                if (i == 0) return str;
+                if (i == values.Length - 1) return str;
+                str =  str.PadLeft(pad);
+                
+                return str;
+            }
+
+            //string result = string.Join(" ", values.Select(formatValue));
+            string result = string.Join("|", values.Select(formatValue));
+            return result;
+        }
+
     }
 }
