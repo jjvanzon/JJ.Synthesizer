@@ -49,6 +49,9 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         public static int GetFrameSize(this Sample sample)
             => sample.GetChannelCount() * sample.SampleDataType.SizeOf();
+
+        public static string GetFileExtension(this AudioFileFormat entity) 
+            => ToEnum(entity).GetFileExtension();
         
         /// <summary>
         /// Retrieves the file extension associated with the specified audio file format.
@@ -69,6 +72,9 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             }
         }
  
+        public static double GetMaxAmplitude(this SampleDataType entity) 
+            => ToEnum(entity).GetMaxAmplitude();
+
         public static double GetMaxAmplitude(this SampleDataTypeEnum sampleDataTypeEnum)
         {
             switch (sampleDataTypeEnum)
@@ -81,6 +87,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         }
  
         /// <returns>Length of a file header in bytes.</returns>
+        public static int GetHeaderLength(this AudioFileFormat entity) 
+            => ToEnum(entity).GetHeaderLength();
+
+        /// <returns>Length of a file header in bytes.</returns>
         public static int GetHeaderLength(this AudioFileFormatEnum audioFileFormatEnum)
         {
             switch (audioFileFormatEnum)
@@ -90,6 +100,24 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 default:
                     throw new ValueNotSupportedException(audioFileFormatEnum);
             }
+        }
+ 
+        public static SampleDataTypeEnum ToEnum(this SampleDataType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return (SampleDataTypeEnum)entity.ID;
+        }
+
+        public static AudioFileFormatEnum ToEnum(this AudioFileFormat entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return (AudioFileFormatEnum)entity.ID;
+        }
+
+        public static SpeakerSetupEnum ToEnum(this SpeakerSetup entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return (SpeakerSetupEnum)entity.ID;
         }
     }
 }
