@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static System.IO.Path;
 using static System.Math;
 using static JJ.Business.Synthesizer.Constants.WavHeaderConstants;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
@@ -63,7 +64,7 @@ namespace JJ.Business.Synthesizer.Tests
             }
 
             // AudioFileOutput FilePaths
-            string expectedFilePath1 = GetFileName("") + Wav.GetFileExtension();
+            string expectedFilePath1 = GetFileName(default) + Wav.GetFileExtension();
             AreEqual(expectedFilePath1, () => audioFileOutput1.FilePath);
             
             string expectedFilePath2 = GetFileName("_Reloaded") + Wav.GetFileExtension();
@@ -78,10 +79,14 @@ namespace JJ.Business.Synthesizer.Tests
             Operator sampleOperator = sampleWrapper.Result.Operator;
             IsNotNull(() => sampleOperator);
             AreEqual("SampleOperator",  () => sampleOperator.OperatorTypeName);
-            AreEqual("Sample Operator", () => sampleOperator.Name);
             IsNull(() => sampleOperator.AsCurveIn);
             IsNull(() => sampleOperator.AsValueOperator);
             IsNotNull(() => sampleOperator.AsSampleOperator);
+            {
+                string expectedName = GetFileNameWithoutExtension(GetFileName(default));
+                NotNullOrEmpty(() => sampleOperator.Name);
+                AreEqual(expectedName, () => sampleOperator.Name);
+            }
 
             // Sample Inlets
             IsNotNull(() => sampleOperator.Inlets);
@@ -126,9 +131,19 @@ namespace JJ.Business.Synthesizer.Tests
             AreEqual(asSampleOperator, () => sample.SampleOperators[0]);
             IsNotNull(() => sample.Bytes);
             NotEqual(0, () => sample.Bytes.Length);
-            int expectedByteCount = (int)(WAV_HEADER_LENGTH + SAMPLING_RATE * sample.GetFrameSize() * DURATION);
-            Assert.AreEqual(expectedByteCount, sample.Bytes.Length);
-            Console.WriteLine($"Byte count = {sample.Bytes.Length}");
+            {
+                int expectedByteCount = (int)(WAV_HEADER_LENGTH + SAMPLING_RATE * sample.GetFrameSize() * DURATION);
+                Assert.AreEqual(expectedByteCount, sample.Bytes.Length);
+                Console.WriteLine($"Byte count = {sample.Bytes.Length}");
+
+                string expectedLocation = GetFullPath(audioFileOutput1.FilePath);
+                NotNullOrEmpty(() => sample.Location);
+                AreEqual(expectedLocation, () => sample.Location);
+
+                string expectedName = GetFileNameWithoutExtension(GetFileName(default));
+                NotNullOrEmpty(() => sample.Name);
+                AreEqual(expectedName, () => sample.Name);
+            }
 
             // Sample Outlet From Different Sources
             Outlet sampleOutlet_ImplicitConversionFromWrapper = sampleWrapper;
@@ -139,11 +154,6 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => sampleOutlet_FromOperatorOutlets);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
-
-            // ✖️ Incorrect (other)
-            // NotNullOrEmpty(() => sample.Name);
-            // string expectedLocation = Path.GetFullPath(audioFileOutput.FilePath);
-            // AreEqual(expectedLocation, () => sample.Location);
 
             return;
 
