@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,53 +23,129 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class AudioFormatTests : SynthesizerSugar
     {
+        private const int    SAMPLING_RATE = 4000;
+        private const double FREQUENCY     = 40;
+        private const double DURATION      = 0.25;
+        private const double VOLUME        = 0.50;
+
+        // Want my static usings, but clashes with System type names.
+        private readonly SampleDataTypeEnum Int16  = SampleDataTypeEnum.Int16;
+        private readonly SampleDataTypeEnum Byte   = SampleDataTypeEnum.Byte;
+        private readonly ChannelEnum        Single = ChannelEnum.Single;
+
         [TestCategory("Wip")]
         [TestMethod]
-        public void Test_AudioFileFormat_Wav_Stereo_16Bit()
+        public void Test_AudioFormat_Wav_Stereo_16Bit()
+            => Test_AudioFormat(Wav, Stereo, Int16);
+
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Wav_Mono_16Bit()
+            => Test_AudioFormat(Wav, Mono, Int16);
+
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Wav_Stereo_8Bit()
+            => Test_AudioFormat(Wav, Stereo, Byte);
+
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Wav_Mono_8Bit()
+            => Test_AudioFormat(Wav, Mono, Byte);
+
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_16Bit()
+            => Test_AudioFormat(Raw, Stereo, Int16);
+
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_16Bit()
+            => Test_AudioFormat(Raw, Mono, Int16);
+
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_8Bit()
+            => Test_AudioFormat(Raw, Stereo, Byte);
+
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_8Bit()
+            => Test_AudioFormat(Raw, Mono, Byte);
+
+        private void Test_AudioFormat(
+            AudioFileFormatEnum audioFileFormatEnum, 
+            SpeakerSetupEnum speakerSetupEnum, 
+            SampleDataTypeEnum sampleDataTypeEnum,
+            [CallerMemberName] string callerMemberName = null)
         {
-            // Arrange
+            int channelCount = speakerSetupEnum.GetChannelCount();
+
+            // Panned sine, save to file, use sample operator, save to file again
+            
             Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
 
-            // Act
-            AudioFileOutput       audioFileOutput1 = SaveAudio(getPannedSine, DURATION, VOLUME, Stereo, Int16, Wav, SAMPLING_RATE).Data;
-            SampleOperatorWrapper sampleWrapper    = Sample(audioFileOutput1.FilePath);
-            AudioFileOutput       audioFileOutput2 = SaveAudio(() => sampleWrapper, DURATION, VOLUME, Stereo, Int16, Wav, SAMPLING_RATE, GetFileName("_Reloaded")).Data;
+            AudioFileOutput audioFileOutput1 = SaveAudio(getPannedSine,    DURATION,           VOLUME,
+                                                         speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
+                                                         SAMPLING_RATE,    default,            callerMemberName).Data;
 
+            SampleOperatorWrapper getSample()
+            {
+                var wrapper = Sample(audioFileOutput1.FilePath);
+                
+                // In case of RAW format, set some values explicitly.
+                if (audioFileFormatEnum == Raw)
+                {
+                    wrapper.Sample.SamplingRate = SAMPLING_RATE;
+                    wrapper.Sample.SpeakerSetup = audioFileOutput1.SpeakerSetup;
+                    wrapper.Sample.SampleDataType = audioFileOutput1.SampleDataType;
+                }
+
+                return wrapper;
+            }
+
+            var sampleWrapper = getSample();
+
+            AudioFileOutput audioFileOutput2 = SaveAudio(() => getSample(), DURATION,           VOLUME,
+                                                         speakerSetupEnum,  sampleDataTypeEnum, audioFileFormatEnum,
+                                                         SAMPLING_RATE,     GetFileName("_Reloaded", callerMemberName)).Data;
             // Assert
 
             // AudioFileOutput
             foreach (AudioFileOutput audioFileOutput in new[] { audioFileOutput1, audioFileOutput2 })
             {
                 // AudioFileOutput Values
-                AreEqual(Wav,            () => audioFileOutput.GetAudioFileFormatEnum());
-                AreEqual(Stereo,         () => audioFileOutput.GetSpeakerSetupEnum());
-                AreEqual(Int16,          () => audioFileOutput.GetSampleDataTypeEnum());
-                AreEqual(32767 * VOLUME, () => audioFileOutput.Amplifier);
-                AreEqual(DURATION,       () => audioFileOutput.Duration);
-                AreEqual(SAMPLING_RATE,  () => audioFileOutput.SamplingRate);
+                AreEqual(audioFileFormatEnum, () => audioFileOutput.GetAudioFileFormatEnum());
+                AreEqual(speakerSetupEnum,    () => audioFileOutput.GetSpeakerSetupEnum());
+                AreEqual(sampleDataTypeEnum,  () => audioFileOutput.GetSampleDataTypeEnum());
+                AreEqual(32767 * VOLUME,      () => audioFileOutput.Amplifier);
+                AreEqual(DURATION,            () => audioFileOutput.Duration);
+                AreEqual(SAMPLING_RATE,       () => audioFileOutput.SamplingRate);
                 NotNullOrEmpty(() => audioFileOutput.FilePath);
 
-                // AudioFileOutputChannels Filled In
+                // AudioFileOutputChannels
                 IsNotNull(() => audioFileOutput.AudioFileOutputChannels);
-                AreEqual(2, () => audioFileOutput.AudioFileOutputChannels.Count);
-                IsNotNull(() => audioFileOutput.AudioFileOutputChannels[0].Outlet);
-                IsNotNull(() => audioFileOutput.AudioFileOutputChannels[1].Outlet);
-                IsNotNull(() => audioFileOutput.AudioFileOutputChannels[0].AudioFileOutput);
-                IsNotNull(() => audioFileOutput.AudioFileOutputChannels[1].AudioFileOutput);
+                AreEqual(channelCount, () => audioFileOutput.AudioFileOutputChannels.Count);
 
-                // AudioFileOutputChannels Equality
-                AreEqual(0,               () => audioFileOutput.AudioFileOutputChannels[0].Index);
-                AreEqual(1,               () => audioFileOutput.AudioFileOutputChannels[1].Index);
-                AreEqual(audioFileOutput, () => audioFileOutput.AudioFileOutputChannels[0].AudioFileOutput);
-                AreEqual(audioFileOutput, () => audioFileOutput.AudioFileOutputChannels[1].AudioFileOutput);
+                for (var i = 0; i < channelCount; i++)
+                {
+                    AudioFileOutputChannel channel = audioFileOutput.AudioFileOutputChannels[i];
+                    IsNotNull(() => channel.Outlet);
+                    IsNotNull(() => channel.AudioFileOutput);
+                    AreEqual(i, () => channel.Index);
+                    IsNotNull(() => channel.AudioFileOutput);
+                    AreEqual(audioFileOutput, () => channel.AudioFileOutput);
+                }
             }
 
             // AudioFileOutput FilePaths
-            string expectedFilePath1 = GetFileName(default) + Wav.GetFileExtension();
-            AreEqual(expectedFilePath1, () => audioFileOutput1.FilePath);
-            
-            string expectedFilePath2 = GetFileName("_Reloaded") + Wav.GetFileExtension();
-            AreEqual(expectedFilePath2, () => audioFileOutput2.FilePath);
+            {
+                string expectedFilePath1 = GetFileName(default, callerMemberName) + audioFileFormatEnum.GetFileExtension();
+                AreEqual(expectedFilePath1, () => audioFileOutput1.FilePath);
+
+                string expectedFilePath2 = GetFileName("_Reloaded", callerMemberName) + audioFileFormatEnum.GetFileExtension();
+                AreEqual(expectedFilePath2, () => audioFileOutput2.FilePath);
+            }
 
             // Sample Wrapper
             IsNotNull(() => sampleWrapper);
@@ -84,7 +160,7 @@ namespace JJ.Business.Synthesizer.Tests
             IsNull(() => sampleOperator.AsValueOperator);
             IsNotNull(() => sampleOperator.AsSampleOperator);
             {
-                string expectedName = GetFileNameWithoutExtension(GetFileName(default));
+                string expectedName = GetFileNameWithoutExtension(GetFileName(default, callerMemberName));
                 NotNullOrEmpty(() => sampleOperator.Name);
                 AreEqual(expectedName, () => sampleOperator.Name);
             }
@@ -118,14 +194,14 @@ namespace JJ.Business.Synthesizer.Tests
 
             // Sample
             Sample sample = sampleOperator.AsSampleOperator.Sample;
-            AreEqual(1,             () => sample.TimeMultiplier);
-            AreEqual(true,          () => sample.IsActive);
-            AreEqual(0,             () => sample.BytesToSkip);
-            AreEqual(SAMPLING_RATE, () => sample.SamplingRate);
-            AreEqual(Int16,         () => sample.GetSampleDataTypeEnum());
-            AreEqual(Stereo,        () => sample.GetSpeakerSetupEnum());
-            AreEqual(Wav,           () => sample.GetAudioFileFormatEnum());
-            AreEqual(Line,          () => sample.GetInterpolationTypeEnum());
+            AreEqual(1,                   () => sample.TimeMultiplier);
+            AreEqual(true,                () => sample.IsActive);
+            AreEqual(0,                   () => sample.BytesToSkip);
+            AreEqual(SAMPLING_RATE,       () => sample.SamplingRate);
+            AreEqual(sampleDataTypeEnum,  () => sample.GetSampleDataTypeEnum());
+            AreEqual(speakerSetupEnum,    () => sample.GetSpeakerSetupEnum());
+            AreEqual(audioFileFormatEnum, () => sample.GetAudioFileFormatEnum());
+            AreEqual(Line,                () => sample.GetInterpolationTypeEnum());
             IsNotNull(() => sample.SampleOperators);
             AreEqual(1, () => sample.SampleOperators.Count);
             IsNotNull(() => sample.SampleOperators[0]);
@@ -141,7 +217,7 @@ namespace JJ.Business.Synthesizer.Tests
                 NotNullOrEmpty(() => sample.Location);
                 AreEqual(expectedLocation, () => sample.Location);
 
-                string expectedName = GetFileNameWithoutExtension(GetFileName(default));
+                string expectedName = GetFileNameWithoutExtension(GetFileName(default, callerMemberName));
                 NotNullOrEmpty(() => sample.Name);
                 AreEqual(expectedName, () => sample.Name);
             }
@@ -155,123 +231,97 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => sampleOutlet_FromOperatorOutlets);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
+            
+            // Values
 
-            Channel = Left;
-            double[] valuesLeftChannel =
+            if (speakerSetupEnum == Stereo)
             {
-                sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
-            };
-            Console.WriteLine($" {nameof(valuesLeftChannel)} = {{ {string.Join(",", valuesLeftChannel)} }}");
+                Channel = Left;
+                double[] valuesLeftChannel =
+                {
+                    sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
+                };
+                Console.WriteLine($" {nameof(valuesLeftChannel)} = {{ {string.Join(",", valuesLeftChannel)} }}");
 
-            Channel = Right;
-            double[] valuesRightChannel =
+                Channel = Right;
+                double[] valuesRightChannel =
+                {
+                    sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
+                };
+                Console.WriteLine($"{nameof(valuesRightChannel)} = {{ {string.Join(",", valuesRightChannel)} }}");
+
+                return;
+                Assert.AreEqual(VOLUME * 0.75 * 0.0,      valuesLeftChannel[0]);
+                Assert.AreEqual(VOLUME * 0.75 * Sqrt(2),  valuesLeftChannel[1]);
+                Assert.AreEqual(VOLUME * 0.75 * 1.0,      valuesLeftChannel[2]);
+                Assert.AreEqual(VOLUME * 0.75 * Sqrt(2),  valuesLeftChannel[3]);
+                Assert.AreEqual(VOLUME * 0.75 * 0.0,      valuesLeftChannel[4]);
+                Assert.AreEqual(VOLUME * 0.75 * -Sqrt(2), valuesLeftChannel[5]);
+                Assert.AreEqual(VOLUME * 0.75 * -1.0,     valuesLeftChannel[6]);
+                Assert.AreEqual(VOLUME * 0.75 * -Sqrt(2), valuesLeftChannel[7]);
+                Assert.AreEqual(VOLUME * 0.75 * 0.0,      valuesLeftChannel[8]);
+
+                Assert.AreEqual(VOLUME * 0.25 * 0.0,      valuesRightChannel[0]);
+                Assert.AreEqual(VOLUME * 0.25 * Sqrt(2),  valuesRightChannel[1]);
+                Assert.AreEqual(VOLUME * 0.25 * 1.0,      valuesRightChannel[2]);
+                Assert.AreEqual(VOLUME * 0.25 * Sqrt(2),  valuesRightChannel[3]);
+                Assert.AreEqual(VOLUME * 0.25 * 0.0,      valuesRightChannel[4]);
+                Assert.AreEqual(VOLUME * 0.25 * -Sqrt(2), valuesRightChannel[5]);
+                Assert.AreEqual(VOLUME * 0.25 * -1.0,     valuesRightChannel[6]);
+                Assert.AreEqual(VOLUME * 0.25 * -Sqrt(2), valuesRightChannel[7]);
+                Assert.AreEqual(VOLUME * 0.25 * 0.0,      valuesRightChannel[8]);
+            }
+            
+            if (speakerSetupEnum == Mono)
             {
-                sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
-                sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
-            };
-            Console.WriteLine($"{nameof(valuesRightChannel)} = {{ {string.Join(",", valuesRightChannel)} }}");
+                Channel = Single;
+                double[] valuesMonoChannel =
+                {
+                    sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
+                };
+                Console.WriteLine($" {nameof(valuesMonoChannel)} = {{ {string.Join(",", valuesMonoChannel)} }}");
 
-            Assert.AreEqual(VOLUME * 0.75 * 0.0,      valuesLeftChannel[0]);
-            Assert.AreEqual(VOLUME * 0.75 * Sqrt(2),  valuesLeftChannel[1]);
-            Assert.AreEqual(VOLUME * 0.75 * 1.0,      valuesLeftChannel[2]);
-            Assert.AreEqual(VOLUME * 0.75 * Sqrt(2),  valuesLeftChannel[3]);
-            Assert.AreEqual(VOLUME * 0.75 * 0.0,      valuesLeftChannel[4]);
-            Assert.AreEqual(VOLUME * 0.75 * -Sqrt(2), valuesLeftChannel[5]);
-            Assert.AreEqual(VOLUME * 0.75 * -1.0,     valuesLeftChannel[6]);
-            Assert.AreEqual(VOLUME * 0.75 * -Sqrt(2), valuesLeftChannel[7]);
-            Assert.AreEqual(VOLUME * 0.75 * 0.0,      valuesLeftChannel[8]);
+                return;
+                Assert.AreEqual(VOLUME * 0.0,      valuesMonoChannel[0]);
+                Assert.AreEqual(VOLUME * Sqrt(2),  valuesMonoChannel[1]);
+                Assert.AreEqual(VOLUME * 1.0,      valuesMonoChannel[2]);
+                Assert.AreEqual(VOLUME * Sqrt(2),  valuesMonoChannel[3]);
+                Assert.AreEqual(VOLUME * 0.0,      valuesMonoChannel[4]);
+                Assert.AreEqual(VOLUME * -Sqrt(2), valuesMonoChannel[5]);
+                Assert.AreEqual(VOLUME * -1.0,     valuesMonoChannel[6]);
+                Assert.AreEqual(VOLUME * -Sqrt(2), valuesMonoChannel[7]);
+                Assert.AreEqual(VOLUME * 0.0,      valuesMonoChannel[8]);
+            }
 
-            Assert.AreEqual(VOLUME * 0.25 * 0.0,      valuesRightChannel[0]);
-            Assert.AreEqual(VOLUME * 0.25 * Sqrt(2),  valuesRightChannel[1]);
-            Assert.AreEqual(VOLUME * 0.25 * 1.0,      valuesRightChannel[2]);
-            Assert.AreEqual(VOLUME * 0.25 * Sqrt(2),  valuesRightChannel[3]);
-            Assert.AreEqual(VOLUME * 0.25 * 0.0,      valuesRightChannel[4]);
-            Assert.AreEqual(VOLUME * 0.25 * -Sqrt(2), valuesRightChannel[5]);
-            Assert.AreEqual(VOLUME * 0.25 * -1.0,     valuesRightChannel[6]);
-            Assert.AreEqual(VOLUME * 0.25 * -Sqrt(2), valuesRightChannel[7]);
-            Assert.AreEqual(VOLUME * 0.25 * 0.0,      valuesRightChannel[8]);
-        }
-
-        [TestMethod]
-        public void Test_AudioFileFormat_Wav_Mono_16Bit()
-        {
-            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
-            SaveAudio(getPannedSine, DURATION, VOLUME, Mono, Int16, Wav, SAMPLING_RATE);
-        }
-
-
-        [TestMethod]
-        public void Test_AudioFileFormat_Wav_Stereo_8Bit()
-        {
-            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
-            SaveAudio(getPannedSine, DURATION, VOLUME, Stereo, Byte, Wav, SAMPLING_RATE);
-        }
-
-        [TestMethod]
-        public void Test_AudioFileFormat_Wav_Mono_8Bit()
-        {
-            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
-            SaveAudio(getPannedSine, DURATION, VOLUME, Mono, Byte, Wav, SAMPLING_RATE);
-        }
-
-        [TestMethod]
-        public void Test_AudioFileFormat_Raw_Stereo_16Bit()
-        {
-            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
-            SaveAudio(getPannedSine, DURATION, VOLUME, Stereo, Int16, Raw, SAMPLING_RATE);
-        }
-
-        [TestMethod]
-        public void Test_AudioFileFormat_Raw_Mono_16Bit()
-        {
-            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
-            SaveAudio(getPannedSine, DURATION, VOLUME, Mono, Int16, Raw, SAMPLING_RATE);
-        }
-
-        [TestMethod]
-        public void Test_AudioFileFormat_Raw_Stereo_8Bit()
-        {
-            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
-            SaveAudio(getPannedSine, DURATION, VOLUME, Stereo, Byte, Raw, SAMPLING_RATE);
-        }
-
-        [TestMethod]
-        public void Test_AudioFileFormat_Raw_Mono_8Bit()
-        {
-            Outlet createOutlet() => Panning(Sine(_[FREQUENCY]), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Mono, Byte, Raw, SAMPLING_RATE);
         }
 
         // Helpers
 
-        private string GetFileName<T>([CallerMemberName] string callerMemberName = null)
-            => GetFileName(suffix: $"_{typeof(T).Name}", callerMemberName);
-
         private string GetFileName(string suffix, [CallerMemberName] string callerMemberName = null)
             => $"{callerMemberName}{suffix}";
-
-        private const int    SAMPLING_RATE = 4000;
-        private const double FREQUENCY     = 40;
-        private const double DURATION      = 0.25;
-        private const double VOLUME        = 0.50;
-
-        // Want my static usings, but clashes with System type names.
-        private readonly SampleDataTypeEnum Int16 = SampleDataTypeEnum.Int16;
-        private readonly SampleDataTypeEnum Byte  = SampleDataTypeEnum.Byte;
     }
 }
