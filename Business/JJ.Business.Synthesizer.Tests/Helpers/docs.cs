@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// ValueOperatorWrapper also usable as Outlet or double.
         /// </returns>
         public object _valueindexer;
-        
+
         /// <summary>
         /// Outputs audio to a WAV file.<br />
         /// A single <see cref="Outlet" /> will result in Mono audio.<br />
@@ -198,13 +198,20 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// The volume level of the audio. If null, the default volume is used,
         /// that can be specified in the configuration file.
         /// </param>
+        /// <param name="speakerSetupEnum">
+        /// The speaker setup configuration (e.g., Mono, Stereo).
+        /// </param>
         /// <param name="fileName">
         /// The name of the file to save the audio to.
         /// If null, a default file name is used, based on the caller's name.
         /// If no file extension is provided, ".wav" is assumed.
         /// </param>
-        /// <param name="speakerSetupEnum">
-        /// The speaker setup configuration (e.g., Mono, Stereo).
+        /// <param name="samplingRateOverride">
+        /// Overrides the sampling rate that was otherwise taken from the config file.
+        /// If you want to test for specific values of specific sample frames, you can use this.
+        /// <br/>
+        /// NOTE: This also overrides optimizations for tooling such as NCrunch code coverage and
+        /// Azure Pipelines automated build. So use with caution.
         /// </param>
         /// <param name="callerMemberName">
         /// The name of the calling method. This is automatically set by the compiler.

@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -7,7 +8,7 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Math;
 using static System.Reflection.MethodBase;
-//using static JJ.Business.Synthesizer.Constants.WavHeaderConstants;
+using static JJ.Business.Synthesizer.Constants.WavHeaderConstants;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
@@ -29,9 +30,9 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet getPannedSine() => Panning(Sine(A4), _[0.25]);
 
             // Act
-            AudioFileOutput       audioFileOutput1 = SaveAudio(getPannedSine, DURATION, VOLUME, Stereo, Int16, Wav).Data;
+            AudioFileOutput       audioFileOutput1 = SaveAudio(getPannedSine, DURATION, VOLUME, Stereo, Int16, Wav, SAMPLING_RATE).Data;
             SampleOperatorWrapper sampleWrapper    = Sample(audioFileOutput1.FilePath);
-            AudioFileOutput       audioFileOutput2 = SaveAudio(() => sampleWrapper, DURATION, VOLUME, Stereo, Int16, Wav, GetFileName("_Reloaded")).Data;
+            AudioFileOutput       audioFileOutput2 = SaveAudio(() => sampleWrapper, DURATION, VOLUME, Stereo, Int16, Wav, SAMPLING_RATE, GetFileName("_Reloaded")).Data;
 
             // Assert
 
@@ -46,6 +47,8 @@ namespace JJ.Business.Synthesizer.Tests
             AreEqual(32767 * VOLUME, () => audioFileOutput2.Amplifier);
             AreEqual(DURATION,       () => audioFileOutput1.Duration);
             AreEqual(DURATION,       () => audioFileOutput2.Duration);
+            AreEqual(SAMPLING_RATE,  () => audioFileOutput1.SamplingRate);
+            AreEqual(SAMPLING_RATE,  () => audioFileOutput2.SamplingRate);
             NotNullOrEmpty(() => audioFileOutput1.FilePath);
             NotNullOrEmpty(() => audioFileOutput2.FilePath);
             AreEqual($"{GetCurrentMethod()?.Name}{Wav.GetFileExtension()}",          () => audioFileOutput1.FilePath);
@@ -56,8 +59,6 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => audioFileOutput2.AudioFileOutputChannels);
             AreEqual(2, () => audioFileOutput1.AudioFileOutputChannels.Count);
             AreEqual(2, () => audioFileOutput2.AudioFileOutputChannels.Count);
-            IsNotNull(() => audioFileOutput1.AudioFileOutputChannels);
-            IsNotNull(() => audioFileOutput2.AudioFileOutputChannels);
             IsNotNull(() => audioFileOutput1.AudioFileOutputChannels[0].Outlet);
             IsNotNull(() => audioFileOutput2.AudioFileOutputChannels[0].Outlet);
             IsNotNull(() => audioFileOutput1.AudioFileOutputChannels[1].Outlet);
@@ -116,35 +117,22 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => asSampleOperator.Sample);
             AreEqual(sampleOperator, () => asSampleOperator.Operator);
 
-            // ... Sample
+            // ✔️ Sample
             Sample sample = sampleOperator.AsSampleOperator.Sample;
-            
-            AreEqual(1,      () => sample.TimeMultiplier);
-            AreEqual(true,   () => sample.IsActive);
-            AreEqual(0,      () => sample.BytesToSkip);
-            AreEqual(Int16,  () => sample.GetSampleDataTypeEnum());
-            AreEqual(Stereo, () => sample.GetSpeakerSetupEnum());
-            AreEqual(Wav,    () => sample.GetAudioFileFormatEnum());
-            AreEqual(Line,   () => sample.GetInterpolationTypeEnum());
-            
+            AreEqual(1,             () => sample.TimeMultiplier);
+            AreEqual(true,          () => sample.IsActive);
+            AreEqual(0,             () => sample.BytesToSkip);
+            AreEqual(SAMPLING_RATE, () => sample.SamplingRate);
+            AreEqual(Int16,         () => sample.GetSampleDataTypeEnum());
+            AreEqual(Stereo,        () => sample.GetSpeakerSetupEnum());
+            AreEqual(Wav,           () => sample.GetAudioFileFormatEnum());
+            AreEqual(Line,          () => sample.GetInterpolationTypeEnum());
             IsNotNull(() => sample.SampleOperators);
             AreEqual(1, () => sample.SampleOperators.Count);
             IsNotNull(() => sample.SampleOperators[0]);
             AreEqual(asSampleOperator, () => sample.SampleOperators[0]);
             IsNotNull(() => sample.Bytes);
             NotEqual(0, () => sample.Bytes.Length);
-
-            // ✖️ Incorrect:
-            // AreEqual(SAMPLING_RATE, () => audioFileOutput1.SamplingRate);
-            // AreEqual(SAMPLING_RATE, () => audioFileOutput2.SamplingRate);
-            // AreEqual(1, ()=> audioFileOutput1.AudioFileOutputChannels[1].Index);
-            // AreEqual(1, ()=> audioFileOutput2.AudioFileOutputChannels[1].Index);
-            // NotNullOrEmpty(() => sample.Name);
-            // AreEqual(SAMPLING_RATE, () => sample.SamplingRate);
-            // string expectedLocation = Path.GetFullPath(audioFileOutput1.FilePath);
-            // AreEqual(expectedLocation, () => sample.Location);
-            //int expectedByteCount = (int)(WAV_HEADER_LENGTH + SAMPLING_RATE * sample.GetFrameSize() * DURATION);
-            // Assert.AreEqual(expectedByteCount, sample.Bytes.Length, 1);
 
             // ✔️ Sample Outlet From Different Sources
             Outlet sampleOutlet_ImplicitConversionFromWrapper = sampleWrapper;
@@ -155,6 +143,18 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => sampleOutlet_FromOperatorOutlets);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
+            
+            // ✖️ Incorrect (relating to Sampling Rate)
+            int expectedByteCount = (int)(WAV_HEADER_LENGTH + SAMPLING_RATE * sample.GetFrameSize() * DURATION);
+            Assert.AreEqual(expectedByteCount, sample.Bytes.Length);
+            Console.WriteLine($"Byte count = {sample.Bytes.Length}");
+            
+            // ✖️ Incorrect (other)
+            // AreEqual(1, ()=> audioFileOutput1.AudioFileOutputChannels[1].Index);
+            // AreEqual(1, ()=> audioFileOutput2.AudioFileOutputChannels[1].Index);
+            // NotNullOrEmpty(() => sample.Name);
+            // string expectedLocation = Path.GetFullPath(audioFileOutput1.FilePath);
+            // AreEqual(expectedLocation, () => sample.Location);
 
             return;
 
@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_AudioFileFormat_Wav_Mono_16Bit()
         {
             Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Mono, Int16, Wav);
+            SaveAudio(createOutlet, DURATION, VOLUME, Mono, Int16, Wav, SAMPLING_RATE);
         }
 
 
@@ -219,42 +219,42 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_AudioFileFormat_Wav_Stereo_8Bit()
         {
             Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Stereo, Byte, Wav);
+            SaveAudio(createOutlet, DURATION, VOLUME, Stereo, Byte, Wav, SAMPLING_RATE);
         }
 
         [TestMethod]
         public void Test_AudioFileFormat_Wav_Mono_8Bit()
         {
             Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, default, DURATION, Mono, Byte, Wav);
+            SaveAudio(createOutlet, default, DURATION, Mono, Byte, Wav, SAMPLING_RATE);
         }
 
         [TestMethod]
         public void Test_AudioFileFormat_Raw_Stereo_16Bit()
         {
             Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Stereo, Int16, Raw);
+            SaveAudio(createOutlet, DURATION, VOLUME, Stereo, Int16, Raw, SAMPLING_RATE);
         }
 
         [TestMethod]
         public void Test_AudioFileFormat_Raw_Mono_16Bit()
         {
             Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Mono, Int16, Raw);
+            SaveAudio(createOutlet, DURATION, VOLUME, Mono, Int16, Raw, SAMPLING_RATE);
         }
 
         [TestMethod]
         public void Test_AudioFileFormat_Raw_Stereo_8Bit()
         {
             Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Stereo, Byte, Raw);
+            SaveAudio(createOutlet, DURATION, VOLUME, Stereo, Byte, Raw, SAMPLING_RATE);
         }
 
         [TestMethod]
         public void Test_AudioFileFormat_Raw_Mono_8Bit()
         {
             Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Mono, Byte, Raw);
+            SaveAudio(createOutlet, DURATION, VOLUME, Mono, Byte, Raw, SAMPLING_RATE);
         }
 
         // Helpers
@@ -265,11 +265,11 @@ namespace JJ.Business.Synthesizer.Tests
         private string GetFileName(string suffix, [CallerMemberName] string callerMemberName = null)
             => $"{callerMemberName}{suffix}";
 
-        private const int    SAMPLING_RATE = 1000; // 300; // HACK: Equal to NCrunch sampling rate from config.
+        private const int    SAMPLING_RATE = 100;
         private const double DURATION      = 0.25;
         private const double VOLUME        = 0.50;
 
-        // Want my static usings, but clashes with system type names.
+        // Want my static usings, but clashes with System type names.
         private readonly SampleDataTypeEnum Int16 = SampleDataTypeEnum.Int16;
         private readonly SampleDataTypeEnum Byte  = SampleDataTypeEnum.Byte;
     }
