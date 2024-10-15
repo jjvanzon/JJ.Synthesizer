@@ -1,4 +1,5 @@
 ﻿using System;
+using JJ.Business.Synthesizer.Constants;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -76,6 +77,18 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 case SampleDataTypeEnum.Byte:  return Byte.MaxValue / 2;
                 default:                 
                     throw new ValueNotSupportedException(sampleDataTypeEnum);
+            }
+        }
+ 
+        /// <returns>Length of a file header in bytes.</returns>
+        public static int GetHeaderLength(this AudioFileFormatEnum audioFileFormatEnum)
+        {
+            switch (audioFileFormatEnum)
+            {
+                case AudioFileFormatEnum.Wav: return WavHeaderConstants.WAV_HEADER_LENGTH;
+                case AudioFileFormatEnum.Raw: return 0;
+                default:
+                    throw new ValueNotSupportedException(audioFileFormatEnum);
             }
         }
     }
