@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class AudioFormatTests : SynthesizerSugar
     {
-        [TestCategory("Busy")]
+        [TestCategory("Wip")]
         [TestMethod]
         public void Test_AudioFileFormat_Wav_Stereo_16Bit()
         {
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             // Assert
 
-            // ✔️ AudioFileOutput Values
+            // AudioFileOutput Values
             AreEqual(Wav,            () => audioFileOutput1.GetAudioFileFormatEnum());
             AreEqual(Wav,            () => audioFileOutput2.GetAudioFileFormatEnum());
             AreEqual(Stereo,         () => audioFileOutput1.GetSpeakerSetupEnum());
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Tests
             AreEqual($"{GetCurrentMethod()?.Name}{Wav.GetFileExtension()}",          () => audioFileOutput1.FilePath);
             AreEqual($"{GetCurrentMethod()?.Name}_Reloaded{Wav.GetFileExtension()}", () => audioFileOutput2.FilePath);
 
-            // ✔️ AudioFileOutputChannels Filled In
+            // AudioFileOutputChannels Filled In
             IsNotNull(() => audioFileOutput1.AudioFileOutputChannels);
             IsNotNull(() => audioFileOutput2.AudioFileOutputChannels);
             AreEqual(2, () => audioFileOutput1.AudioFileOutputChannels.Count);
@@ -68,20 +68,22 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => audioFileOutput1.AudioFileOutputChannels[1].AudioFileOutput);
             IsNotNull(() => audioFileOutput2.AudioFileOutputChannels[1].AudioFileOutput);
 
-            // ✔️ AudioFileOutputChannels Equality
+            // AudioFileOutputChannels Equality
             AreEqual(0,                () => audioFileOutput1.AudioFileOutputChannels[0].Index);
             AreEqual(0,                () => audioFileOutput2.AudioFileOutputChannels[0].Index);
+            AreEqual(1,                () => audioFileOutput1.AudioFileOutputChannels[1].Index);
+            AreEqual(1,                () => audioFileOutput2.AudioFileOutputChannels[1].Index);
             AreEqual(audioFileOutput1, () => audioFileOutput1.AudioFileOutputChannels[0].AudioFileOutput);
             AreEqual(audioFileOutput2, () => audioFileOutput2.AudioFileOutputChannels[0].AudioFileOutput);
             AreEqual(audioFileOutput1, () => audioFileOutput1.AudioFileOutputChannels[1].AudioFileOutput);
             AreEqual(audioFileOutput2, () => audioFileOutput2.AudioFileOutputChannels[1].AudioFileOutput);
 
-            // ✔️ Sample Wrapper
+            // Sample Wrapper
             IsNotNull(() => sampleWrapper);
             IsNotNull(() => sampleWrapper.Sample);
             IsNotNull(() => sampleWrapper.Result);
 
-            // ✔️ Sample Operator
+            // Sample Operator
             Operator sampleOperator = sampleWrapper.Result.Operator;
             IsNotNull(() => sampleOperator);
             AreEqual("SampleOperator",  () => sampleOperator.OperatorTypeName);
@@ -90,16 +92,16 @@ namespace JJ.Business.Synthesizer.Tests
             IsNull(() => sampleOperator.AsValueOperator);
             IsNotNull(() => sampleOperator.AsSampleOperator);
 
-            // ✔️ Sample Inlets
+            // Sample Inlets
             IsNotNull(() => sampleOperator.Inlets);
             AreEqual(0, () => sampleOperator.Inlets.Count);
 
-            // ✔️ Sample Outlets
+            // Sample Outlets
             IsNotNull(() => sampleOperator.Outlets);
             AreEqual(1, () => sampleOperator.Outlets.Count);
             IsNotNull(() => sampleOperator.Outlets[0]);
 
-            // ✔️ Sample Outlet
+            // Sample Outlet
             Outlet sampleOutlet = sampleWrapper.Result;
             IsNotNull(() => sampleOutlet);
             IsNotNull(() => sampleOutlet.Operator);
@@ -110,14 +112,14 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => sampleOutlet.AsAudioFileOutputChannels);
             AreEqual(0, () => sampleOutlet.AsAudioFileOutputChannels.Count);
 
-            // ✔️ AsSampleOperator
+            // AsSampleOperator
             SampleOperator asSampleOperator = sampleOperator.AsSampleOperator;
             IsNotNull(() => asSampleOperator);
             IsNotNull(() => asSampleOperator.Operator);
             IsNotNull(() => asSampleOperator.Sample);
             AreEqual(sampleOperator, () => asSampleOperator.Operator);
 
-            // ✔️ Sample
+            // Sample
             Sample sample = sampleOperator.AsSampleOperator.Sample;
             AreEqual(1,             () => sample.TimeMultiplier);
             AreEqual(true,          () => sample.IsActive);
@@ -133,8 +135,11 @@ namespace JJ.Business.Synthesizer.Tests
             AreEqual(asSampleOperator, () => sample.SampleOperators[0]);
             IsNotNull(() => sample.Bytes);
             NotEqual(0, () => sample.Bytes.Length);
+            int expectedByteCount = (int)(WAV_HEADER_LENGTH + SAMPLING_RATE * sample.GetFrameSize() * DURATION);
+            Assert.AreEqual(expectedByteCount, sample.Bytes.Length);
+            Console.WriteLine($"Byte count = {sample.Bytes.Length}");
 
-            // ✔️ Sample Outlet From Different Sources
+            // Sample Outlet From Different Sources
             Outlet sampleOutlet_ImplicitConversionFromWrapper = sampleWrapper;
             Outlet sampleOutlet_FromWrapperResult             = sampleWrapper.Result;
             Outlet sampleOutlet_FromOperatorOutlets           = sampleOperator.Outlets[0];
@@ -144,14 +149,8 @@ namespace JJ.Business.Synthesizer.Tests
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
             
-            // ✖️ Incorrect (relating to Sampling Rate)
-            int expectedByteCount = (int)(WAV_HEADER_LENGTH + SAMPLING_RATE * sample.GetFrameSize() * DURATION);
-            Assert.AreEqual(expectedByteCount, sample.Bytes.Length);
-            Console.WriteLine($"Byte count = {sample.Bytes.Length}");
             
             // ✖️ Incorrect (other)
-            // AreEqual(1, ()=> audioFileOutput1.AudioFileOutputChannels[1].Index);
-            // AreEqual(1, ()=> audioFileOutput2.AudioFileOutputChannels[1].Index);
             // NotNullOrEmpty(() => sample.Name);
             // string expectedLocation = Path.GetFullPath(audioFileOutput1.FilePath);
             // AreEqual(expectedLocation, () => sample.Location);
