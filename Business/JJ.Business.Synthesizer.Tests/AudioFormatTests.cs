@@ -45,10 +45,13 @@ namespace JJ.Business.Synthesizer.Tests
             : base(context)
         { }
 
-        //[TestCategory("Wip")]
-        //[TestMethod]
-        //public void Test_AudioFormat_Wav_Stereo_16Bit()
-        //    => Test_AudioFormat(Wav, Stereo, Int16);
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Wav_Stereo_16Bit()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).Test_AudioFormat(Wav, Stereo, Int16);
+        }
 
         [TestCategory("Wip")]
         [TestMethod]
@@ -252,18 +255,35 @@ namespace JJ.Business.Synthesizer.Tests
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
 
-            // Signal Values
+            // Get Values
+            
             double amplifier = sampleDataTypeEnum.GetMaxAmplitude() * VOLUME; // TODO: Shouldn't elsewhere already be an amplifier?
-            double delta     = GetDelta(sampleDataTypeEnum);
-            Console.WriteLine($"Testing with {nameof(delta)} = {delta}");
+            double tolerance = GetTolerance(sampleDataTypeEnum);
+            Console.WriteLine();
+            Console.WriteLine($"{nameof(tolerance)} = {tolerance}");
 
             // Mono
 
             if (speakerSetupEnum == Mono)
             {
                 // Get Values
+                
                 Channel = Single;
-                double[] valuesMonoChannel =
+
+                double[] expectedValues =
+                {
+                    amplifier * 0.0,
+                    amplifier * Sqrt(.5),
+                    amplifier * 1.0,
+                    amplifier * Sqrt(.5),
+                    amplifier * 0.0,
+                    amplifier * -Sqrt(.5),
+                    amplifier * -1.0,
+                    amplifier * -Sqrt(.5),
+                    amplifier * 0.0
+                };
+
+                double[] actualValues =
                 {
                     sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
                     sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
@@ -275,42 +295,45 @@ namespace JJ.Business.Synthesizer.Tests
                     sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
                     sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
                 };
-                Console.WriteLine($" {nameof(valuesMonoChannel)} = {{ {string.Join(", ", valuesMonoChannel)} }}");
+
+                Console.WriteLine($"  {nameof(actualValues)} = {{ {string.Join(", ", actualValues)} }}");
+                Console.WriteLine($"{nameof(expectedValues)} = {{ {string.Join(", ", expectedValues)} }}");
 
                 // Assert Values
-                Assert.AreEqual(amplifier * 0.0,       valuesMonoChannel[0], delta);
-                Assert.AreEqual(amplifier * Sqrt(.5),  valuesMonoChannel[1], delta);
-                Assert.AreEqual(amplifier * 1.0,       valuesMonoChannel[2], delta);
-                Assert.AreEqual(amplifier * Sqrt(.5),  valuesMonoChannel[3], delta);
-                Assert.AreEqual(amplifier * 0.0,       valuesMonoChannel[4], delta);
-                Assert.AreEqual(amplifier * -Sqrt(.5), valuesMonoChannel[5], delta);
-                Assert.AreEqual(amplifier * -1.0,      valuesMonoChannel[6], delta);
-                Assert.AreEqual(amplifier * -Sqrt(.5), valuesMonoChannel[7], delta);
-                Assert.AreEqual(amplifier * 0.0,       valuesMonoChannel[8], delta);
+                
+                Assert.AreEqual(expectedValues[0], actualValues[0], tolerance);
+                Assert.AreEqual(expectedValues[1], actualValues[1], tolerance);
+                Assert.AreEqual(expectedValues[2], actualValues[2], tolerance);
+                Assert.AreEqual(expectedValues[3], actualValues[3], tolerance);
+                Assert.AreEqual(expectedValues[4], actualValues[4], tolerance);
+                Assert.AreEqual(expectedValues[5], actualValues[5], tolerance);
+                Assert.AreEqual(expectedValues[6], actualValues[6], tolerance);
+                Assert.AreEqual(expectedValues[7], actualValues[7], tolerance);
+                Assert.AreEqual(expectedValues[8], actualValues[8], tolerance);
             }
 
             // Stereo
 
             if (speakerSetupEnum == Stereo)
             {
-                // Get Values
+                // Left
+                
                 Channel = Left;
-                double[] valuesLeftChannel =
-                {
-                    sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
-                    sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
-                };
-                Console.WriteLine($" {nameof(valuesLeftChannel)} = {{ {string.Join(", ", valuesLeftChannel)} }}");
 
-                Channel = Right;
-                double[] valuesRightChannel =
+                double[] expectedL =
+                {
+                    amplifier * 0.75 * 0.0,
+                    amplifier * 0.75 * Sqrt(.5),
+                    amplifier * 0.75 * 1.0,
+                    amplifier * 0.75 * Sqrt(.5),
+                    amplifier * 0.75 * 0.0,
+                    amplifier * 0.75 * -Sqrt(.5),
+                    amplifier * 0.75 * -1.0,
+                    amplifier * 0.75 * -Sqrt(.5),
+                    amplifier * 0.75 * 0.0
+                };
+
+                double[] actualL =
                 {
                     sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
                     sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
@@ -322,28 +345,68 @@ namespace JJ.Business.Synthesizer.Tests
                     sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
                     sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
                 };
-                Console.WriteLine($"{nameof(valuesRightChannel)} = {{ {string.Join(", ", valuesRightChannel)} }}");
+
+                // Right
+                
+                Channel = Right;
+
+                double[] expectedR =
+                {
+                    amplifier * 0.25 * 0.0,
+                    amplifier * 0.25 * Sqrt(.5),
+                    amplifier * 0.25 * 1.0,
+                    amplifier * 0.25 * Sqrt(.5),
+                    amplifier * 0.25 * 0.0,
+                    amplifier * 0.25 * -Sqrt(.5),
+                    amplifier * 0.25 * -1.0,
+                    amplifier * 0.25 * -Sqrt(.5),
+                    amplifier * 0.25 * 0.0
+                };
+
+                double[] actualR =
+                {
+                    sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
+                    sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
+                };
+
+                Console.WriteLine($"{nameof(expectedL)} = {{ {string.Join(", ", expectedL)} }}");
+                Console.WriteLine($"  {nameof(actualL)} = {{ {string.Join(", ", actualL)} }}");
+                Console.WriteLine();
+                Console.WriteLine($"{nameof(expectedR)} = {{ {string.Join(", ", expectedR)} }}");
+                Console.WriteLine($"  {nameof(actualR)} = {{ {string.Join(", ", actualR)} }}");
 
                 // Assert Values
-                Assert.AreEqual(amplifier * 0.75 * 0.0,      valuesLeftChannel[0], delta);
-                Assert.AreEqual(amplifier * 0.75 * Sqrt(2),  valuesLeftChannel[1], delta);
-                Assert.AreEqual(amplifier * 0.75 * 1.0,      valuesLeftChannel[2], delta);
-                Assert.AreEqual(amplifier * 0.75 * Sqrt(2),  valuesLeftChannel[3], delta);
-                Assert.AreEqual(amplifier * 0.75 * 0.0,      valuesLeftChannel[4], delta);
-                Assert.AreEqual(amplifier * 0.75 * -Sqrt(2), valuesLeftChannel[5], delta);
-                Assert.AreEqual(amplifier * 0.75 * -1.0,     valuesLeftChannel[6], delta);
-                Assert.AreEqual(amplifier * 0.75 * -Sqrt(2), valuesLeftChannel[7], delta);
-                Assert.AreEqual(amplifier * 0.75 * 0.0,      valuesLeftChannel[8], delta);
+                
+                // Left
+                
+                Assert.AreEqual(expectedL[0], actualL[0], tolerance);
+                Assert.AreEqual(expectedL[1], actualL[1], tolerance);
+                Assert.AreEqual(expectedL[2], actualL[2], tolerance);
+                Assert.AreEqual(expectedL[3], actualL[3], tolerance);
+                Assert.AreEqual(expectedL[4], actualL[4], tolerance);
+                Assert.AreEqual(expectedL[5], actualL[5], tolerance);
+                Assert.AreEqual(expectedL[6], actualL[6], tolerance);
+                Assert.AreEqual(expectedL[7], actualL[7], tolerance);
+                Assert.AreEqual(expectedL[8], actualL[8], tolerance);
 
-                Assert.AreEqual(amplifier * 0.25 * 0.0,      valuesRightChannel[0], delta);
-                Assert.AreEqual(amplifier * 0.25 * Sqrt(2),  valuesRightChannel[1], delta);
-                Assert.AreEqual(amplifier * 0.25 * 1.0,      valuesRightChannel[2], delta);
-                Assert.AreEqual(amplifier * 0.25 * Sqrt(2),  valuesRightChannel[3], delta);
-                Assert.AreEqual(amplifier * 0.25 * 0.0,      valuesRightChannel[4], delta);
-                Assert.AreEqual(amplifier * 0.25 * -Sqrt(2), valuesRightChannel[5], delta);
-                Assert.AreEqual(amplifier * 0.25 * -1.0,     valuesRightChannel[6], delta);
-                Assert.AreEqual(amplifier * 0.25 * -Sqrt(2), valuesRightChannel[7], delta);
-                Assert.AreEqual(amplifier * 0.25 * 0.0,      valuesRightChannel[8], delta);
+                // Right
+                
+                Assert.AreEqual(expectedR[0], actualR[0], tolerance);
+                Assert.AreEqual(expectedR[1], actualR[1], tolerance);
+                Assert.AreEqual(expectedR[2], actualR[2], tolerance);
+                Assert.AreEqual(expectedR[3], actualR[3], tolerance);
+                Assert.AreEqual(expectedR[4], actualR[4], tolerance);
+                Assert.AreEqual(expectedR[5], actualR[5], tolerance);
+                Assert.AreEqual(expectedR[6], actualR[6], tolerance);
+                Assert.AreEqual(expectedR[7], actualR[7], tolerance);
+                Assert.AreEqual(expectedR[8], actualR[8], tolerance);
             }
         }
 
@@ -352,12 +415,12 @@ namespace JJ.Business.Synthesizer.Tests
         private string GetFileName(string suffix, [CallerMemberName] string callerMemberName = null)
             => $"{callerMemberName}{suffix}";
 
-        static double GetDelta(SampleDataTypeEnum sampleDataTypeEnum)
+        static double GetTolerance(SampleDataTypeEnum sampleDataTypeEnum)
         {
             switch (sampleDataTypeEnum)
             {
-                case SampleDataTypeEnum.Int16: return 100;
-                case SampleDataTypeEnum.Byte:  return 2;
+                case SampleDataTypeEnum.Int16: return 10;
+                case SampleDataTypeEnum.Byte:  return 1;
 
                 default:
                     throw new ValueNotSupportedException(sampleDataTypeEnum);
