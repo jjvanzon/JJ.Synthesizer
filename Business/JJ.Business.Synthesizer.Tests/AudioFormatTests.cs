@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
@@ -27,7 +28,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_AudioFileFormat_Wav_Stereo_16Bit()
         {
             // Arrange
-            Outlet getPannedSine() => Panning(Sine(A4), _[0.25]);
+            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
 
             // Act
             AudioFileOutput       audioFileOutput1 = SaveAudio(getPannedSine, DURATION, VOLUME, Stereo, Int16, Wav, SAMPLING_RATE).Data;
@@ -155,21 +156,35 @@ namespace JJ.Business.Synthesizer.Tests
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
 
-            return;
-
             Channel = Left;
             double[] valuesLeftChannel =
             {
-                sampleWrapper.Calculate(time: 0.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 1.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 2.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 3.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 4.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 5.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 6.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 7.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 8.0 / 8.0 / A4)
+                sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
             };
+            Console.WriteLine($" {nameof(valuesLeftChannel)} = {{ {string.Join(",", valuesLeftChannel)} }}");
+
+            Channel = Right;
+            double[] valuesRightChannel =
+            {
+                sampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
+                sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
+            };
+            Console.WriteLine($"{nameof(valuesRightChannel)} = {{ {string.Join(",", valuesRightChannel)} }}");
 
             Assert.AreEqual(VOLUME * 0.75 * 0.0,      valuesLeftChannel[0]);
             Assert.AreEqual(VOLUME * 0.75 * Sqrt(2),  valuesLeftChannel[1]);
@@ -180,20 +195,6 @@ namespace JJ.Business.Synthesizer.Tests
             Assert.AreEqual(VOLUME * 0.75 * -1.0,     valuesLeftChannel[6]);
             Assert.AreEqual(VOLUME * 0.75 * -Sqrt(2), valuesLeftChannel[7]);
             Assert.AreEqual(VOLUME * 0.75 * 0.0,      valuesLeftChannel[8]);
-
-            Channel = Right;
-            double[] valuesRightChannel =
-            {
-                sampleWrapper.Calculate(time: 0.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 1.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 2.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 3.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 4.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 5.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 6.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 7.0 / 8.0 / A4),
-                sampleWrapper.Calculate(time: 8.0 / 8.0 / A4)
-            };
 
             Assert.AreEqual(VOLUME * 0.25 * 0.0,      valuesRightChannel[0]);
             Assert.AreEqual(VOLUME * 0.25 * Sqrt(2),  valuesRightChannel[1]);
@@ -209,50 +210,50 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_AudioFileFormat_Wav_Mono_16Bit()
         {
-            Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Mono, Int16, Wav, SAMPLING_RATE);
+            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
+            SaveAudio(getPannedSine, DURATION, VOLUME, Mono, Int16, Wav, SAMPLING_RATE);
         }
 
 
         [TestMethod]
         public void Test_AudioFileFormat_Wav_Stereo_8Bit()
         {
-            Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Stereo, Byte, Wav, SAMPLING_RATE);
+            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
+            SaveAudio(getPannedSine, DURATION, VOLUME, Stereo, Byte, Wav, SAMPLING_RATE);
         }
 
         [TestMethod]
         public void Test_AudioFileFormat_Wav_Mono_8Bit()
         {
-            Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, default, DURATION, Mono, Byte, Wav, SAMPLING_RATE);
+            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
+            SaveAudio(getPannedSine, DURATION, VOLUME, Mono, Byte, Wav, SAMPLING_RATE);
         }
 
         [TestMethod]
         public void Test_AudioFileFormat_Raw_Stereo_16Bit()
         {
-            Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Stereo, Int16, Raw, SAMPLING_RATE);
+            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
+            SaveAudio(getPannedSine, DURATION, VOLUME, Stereo, Int16, Raw, SAMPLING_RATE);
         }
 
         [TestMethod]
         public void Test_AudioFileFormat_Raw_Mono_16Bit()
         {
-            Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Mono, Int16, Raw, SAMPLING_RATE);
+            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
+            SaveAudio(getPannedSine, DURATION, VOLUME, Mono, Int16, Raw, SAMPLING_RATE);
         }
 
         [TestMethod]
         public void Test_AudioFileFormat_Raw_Stereo_8Bit()
         {
-            Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
-            SaveAudio(createOutlet, DURATION, VOLUME, Stereo, Byte, Raw, SAMPLING_RATE);
+            Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
+            SaveAudio(getPannedSine, DURATION, VOLUME, Stereo, Byte, Raw, SAMPLING_RATE);
         }
 
         [TestMethod]
         public void Test_AudioFileFormat_Raw_Mono_8Bit()
         {
-            Outlet createOutlet() => Panning(Sine(A4), _[0.25]);
+            Outlet createOutlet() => Panning(Sine(_[FREQUENCY]), _[0.25]);
             SaveAudio(createOutlet, DURATION, VOLUME, Mono, Byte, Raw, SAMPLING_RATE);
         }
 
@@ -264,7 +265,8 @@ namespace JJ.Business.Synthesizer.Tests
         private string GetFileName(string suffix, [CallerMemberName] string callerMemberName = null)
             => $"{callerMemberName}{suffix}";
 
-        private const int    SAMPLING_RATE = 100;
+        private const int    SAMPLING_RATE = 4000;
+        private const double FREQUENCY     = 40;
         private const double DURATION      = 0.25;
         private const double VOLUME        = 0.50;
 
