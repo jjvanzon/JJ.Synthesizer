@@ -7,7 +7,6 @@ using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Math;
-using static System.Reflection.MethodBase;
 using static JJ.Business.Synthesizer.Constants.WavHeaderConstants;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
@@ -64,10 +63,10 @@ namespace JJ.Business.Synthesizer.Tests
             }
 
             // AudioFileOutput FilePaths
-            string expectedFilePath1 = $"{GetCurrentMethod()?.Name}{Wav.GetFileExtension()}";
+            string expectedFilePath1 = GetFileName("") + Wav.GetFileExtension();
             AreEqual(expectedFilePath1, () => audioFileOutput1.FilePath);
             
-            string expectedFilePath2 = $"{GetCurrentMethod()?.Name}_Reloaded{Wav.GetFileExtension()}";
+            string expectedFilePath2 = GetFileName("_Reloaded") + Wav.GetFileExtension();
             AreEqual(expectedFilePath2, () => audioFileOutput2.FilePath);
 
             // Sample Wrapper
