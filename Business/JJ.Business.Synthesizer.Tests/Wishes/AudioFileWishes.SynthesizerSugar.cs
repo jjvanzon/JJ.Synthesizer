@@ -46,7 +46,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 Sample sample = Samples.CreateSample(stream);
-                return Sample(sample);
+                sample.Location = Path.GetFullPath(filePath);
+                sample.Name = Path.GetFileNameWithoutExtension(filePath);
+
+                SampleOperatorWrapper wrapper = Sample(sample);
+                ((Outlet)wrapper).Operator.Name = sample.Name;
+                
+                return wrapper;
             }
         }
 
