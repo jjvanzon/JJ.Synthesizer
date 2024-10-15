@@ -21,10 +21,11 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class AudioFormatTests : SynthesizerSugar
     {
-        private const int    SAMPLING_RATE = 4000;
-        private const double FREQUENCY     = 40;
-        private const double DURATION      = 0.25;
-        private const double VOLUME        = 0.50;
+        private const int    SAMPLING_RATE   = 4000;
+        private const double FREQUENCY       = 40;
+        private const double VOLUME          = 0.50;
+        private const double DURATION        = 0.25;
+        private const double DURATION_LONGER = DURATION * 1.1; // For testing array bounds checks.
 
         // Want my static usings, but clashes with System type names.
         private readonly SampleDataTypeEnum Int16  = SampleDataTypeEnum.Int16;
@@ -104,7 +105,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             var sampleWrapper = getSample();
 
-            AudioFileOutput audioFileOutput2 = SaveAudio(() => getSample(), DURATION,           VOLUME,
+            AudioFileOutput audioFileOutput2 = SaveAudio(() => getSample(), DURATION_LONGER,    VOLUME,
                                                          speakerSetupEnum,  sampleDataTypeEnum, audioFileFormatEnum,
                                                          SAMPLING_RATE,     GetFileName("_Reloaded", callerMemberName)).Data;
             // Assert
@@ -116,7 +117,6 @@ namespace JJ.Business.Synthesizer.Tests
                 AreEqual(audioFileFormatEnum, () => audioFileOutput.GetAudioFileFormatEnum());
                 AreEqual(speakerSetupEnum,    () => audioFileOutput.GetSpeakerSetupEnum());
                 AreEqual(sampleDataTypeEnum,  () => audioFileOutput.GetSampleDataTypeEnum());
-                AreEqual(DURATION,            () => audioFileOutput.Duration);
                 AreEqual(SAMPLING_RATE,       () => audioFileOutput.SamplingRate);
 
                 AreEqual(sampleDataTypeEnum.GetMaxAmplitude() * VOLUME, () => audioFileOutput.Amplifier);
@@ -137,14 +137,20 @@ namespace JJ.Business.Synthesizer.Tests
                 }
             }
 
-            // AudioFileOutput FilePaths
+            // Specific per AudioFileOutput
             {
-                string expectedFilePath1 = GetFileName(default, callerMemberName) + audioFileFormatEnum.GetFileExtension();
-                AreEqual(expectedFilePath1, () => audioFileOutput1.FilePath);
+                string expectedFilePath = GetFileName(default, callerMemberName) + audioFileFormatEnum.GetFileExtension();
+                AreEqual(expectedFilePath, () => audioFileOutput1.FilePath);
 
-                string expectedFilePath2 = GetFileName("_Reloaded", callerMemberName) + audioFileFormatEnum.GetFileExtension();
-                AreEqual(expectedFilePath2, () => audioFileOutput2.FilePath);
+                AreEqual(DURATION, () => audioFileOutput1.Duration);
             }
+            {
+                string expectedFilePath = GetFileName("_Reloaded", callerMemberName) + audioFileFormatEnum.GetFileExtension();
+                AreEqual(expectedFilePath, () => audioFileOutput2.FilePath);
+
+                AreEqual(DURATION_LONGER, () => audioFileOutput2.Duration);
+            }
+
 
             // Sample Wrapper
             IsNotNull(() => sampleWrapper);
