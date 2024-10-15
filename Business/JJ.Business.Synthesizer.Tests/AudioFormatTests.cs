@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -12,6 +13,7 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.IO.Path;
 using static System.Math;
+using static System.MidpointRounding;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
@@ -61,35 +63,53 @@ namespace JJ.Business.Synthesizer.Tests
                 new AudioFormatTests(context).Test_AudioFormat(Wav, Mono, Int16);
         }
 
-        //[TestCategory("Wip")]
-        //[TestMethod]
-        //public void Test_AudioFormat_Wav_Stereo_8Bit()
-        //    => Test_AudioFormat(Wav, Stereo, Byte);
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Wav_Stereo_8Bit()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).Test_AudioFormat(Wav, Stereo, Byte);
+        }
 
-        //[TestCategory("Wip")]
-        //[TestMethod]
-        //public void Test_AudioFormat_Wav_Mono_8Bit()
-        //    => Test_AudioFormat(Wav, Mono, Byte);
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Wav_Mono_8Bit()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).Test_AudioFormat(Wav, Mono, Byte);
+        }
 
-        //[TestCategory("Wip")]
-        //[TestMethod]
-        //public void Test_AudioFormat_Raw_Stereo_16Bit()
-        //    => Test_AudioFormat(Raw, Stereo, Int16);
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_16Bit()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).Test_AudioFormat(Raw, Stereo, Int16);
+        }
 
-        //[TestCategory("Wip")]
-        //[TestMethod]
-        //public void Test_AudioFormat_Raw_Mono_16Bit()
-        //    => Test_AudioFormat(Raw, Mono, Int16);
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_16Bit()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).Test_AudioFormat(Raw, Mono, Int16);
+        }
 
-        //[TestCategory("Wip")]
-        //[TestMethod]
-        //public void Test_AudioFormat_Raw_Stereo_8Bit()
-        //    => Test_AudioFormat(Raw, Stereo, Byte);
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_8Bit()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).Test_AudioFormat(Raw, Stereo, Byte);
+        }
 
-        //[TestCategory("Wip")]
-        //[TestMethod]
-        //public void Test_AudioFormat_Raw_Mono_8Bit()
-        //    => Test_AudioFormat(Raw, Mono, Byte);
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_8Bit()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).Test_AudioFormat(Raw, Mono, Byte);
+        }
 
         private void Test_AudioFormat(
             AudioFileFormatEnum audioFileFormatEnum,
@@ -272,16 +292,17 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] expectedValues =
                 {
-                    amplifier * 0.0,
-                    amplifier * Sqrt(.5),
-                    amplifier * 1.0,
-                    amplifier * Sqrt(.5),
-                    amplifier * 0.0,
-                    amplifier * -Sqrt(.5),
-                    amplifier * -1.0,
-                    amplifier * -Sqrt(.5),
-                    amplifier * 0.0
+                    amplifier *        0.0,
+                    amplifier *   Sqrt(.5),
+                    amplifier *        1.0,
+                    amplifier *   Sqrt(.5),
+                    amplifier *        0.0,
+                    amplifier *  -Sqrt(.5),
+                    amplifier *       -1.0,
+                    amplifier *  -Sqrt(.5),
+                    amplifier *        0.0
                 };
+                expectedValues = expectedValues.Select(x => Round(x, 2, AwayFromZero)).ToArray();
 
                 double[] actualValues =
                 {
@@ -322,16 +343,17 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] expectedL =
                 {
-                    amplifier * 0.75 * 0.0,
-                    amplifier * 0.75 * Sqrt(.5),
-                    amplifier * 0.75 * 1.0,
-                    amplifier * 0.75 * Sqrt(.5),
-                    amplifier * 0.75 * 0.0,
+                    amplifier * 0.75 *       0.0,
+                    amplifier * 0.75 *  Sqrt(.5),
+                    amplifier * 0.75 *       1.0,
+                    amplifier * 0.75 *  Sqrt(.5),
+                    amplifier * 0.75 *       0.0,
                     amplifier * 0.75 * -Sqrt(.5),
-                    amplifier * 0.75 * -1.0,
+                    amplifier * 0.75 *      -1.0,
                     amplifier * 0.75 * -Sqrt(.5),
-                    amplifier * 0.75 * 0.0
+                    amplifier * 0.75 *       0.0
                 };
+                expectedL = expectedL.Select(x => Round(x, 2, AwayFromZero)).ToArray();
 
                 double[] actualL =
                 {
@@ -352,16 +374,17 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] expectedR =
                 {
-                    amplifier * 0.25 * 0.0,
-                    amplifier * 0.25 * Sqrt(.5),
-                    amplifier * 0.25 * 1.0,
-                    amplifier * 0.25 * Sqrt(.5),
-                    amplifier * 0.25 * 0.0,
+                    amplifier * 0.25 *       0.0,
+                    amplifier * 0.25 *  Sqrt(.5),
+                    amplifier * 0.25 *       1.0,
+                    amplifier * 0.25 *  Sqrt(.5),
+                    amplifier * 0.25 *       0.0,
                     amplifier * 0.25 * -Sqrt(.5),
-                    amplifier * 0.25 * -1.0,
+                    amplifier * 0.25 *      -1.0,
                     amplifier * 0.25 * -Sqrt(.5),
-                    amplifier * 0.25 * 0.0
+                    amplifier * 0.25 *       0.0
                 };
+                expectedR = expectedR.Select(x => Round(x, 2, AwayFromZero)).ToArray();
 
                 double[] actualR =
                 {
