@@ -3,13 +3,11 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.IO.Path;
 using static System.Math;
-using static JJ.Business.Synthesizer.Constants.WavHeaderConstants;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
@@ -74,15 +72,15 @@ namespace JJ.Business.Synthesizer.Tests
             => Test_AudioFormat(Raw, Mono, Byte);
 
         private void Test_AudioFormat(
-            AudioFileFormatEnum audioFileFormatEnum, 
-            SpeakerSetupEnum speakerSetupEnum, 
+            AudioFileFormatEnum audioFileFormatEnum,
+            SpeakerSetupEnum speakerSetupEnum,
             SampleDataTypeEnum sampleDataTypeEnum,
             [CallerMemberName] string callerMemberName = null)
         {
             int channelCount = speakerSetupEnum.GetChannelCount();
 
             // Panned sine, save to file, use sample operator, save to file again
-            
+
             Outlet getPannedSine() => Panning(Sine(_[FREQUENCY]), _[0.25]);
 
             AudioFileOutput audioFileOutput1 = SaveAudio(getPannedSine,    DURATION,           VOLUME,
@@ -92,12 +90,12 @@ namespace JJ.Business.Synthesizer.Tests
             SampleOperatorWrapper getSample()
             {
                 var wrapper = Sample(audioFileOutput1.FilePath);
-                
+
                 // In case of RAW format, set some values explicitly.
                 if (audioFileFormatEnum == Raw)
                 {
-                    wrapper.Sample.SamplingRate = SAMPLING_RATE;
-                    wrapper.Sample.SpeakerSetup = audioFileOutput1.SpeakerSetup;
+                    wrapper.Sample.SamplingRate   = SAMPLING_RATE;
+                    wrapper.Sample.SpeakerSetup   = audioFileOutput1.SpeakerSetup;
                     wrapper.Sample.SampleDataType = audioFileOutput1.SampleDataType;
                 }
 
@@ -118,9 +116,10 @@ namespace JJ.Business.Synthesizer.Tests
                 AreEqual(audioFileFormatEnum, () => audioFileOutput.GetAudioFileFormatEnum());
                 AreEqual(speakerSetupEnum,    () => audioFileOutput.GetSpeakerSetupEnum());
                 AreEqual(sampleDataTypeEnum,  () => audioFileOutput.GetSampleDataTypeEnum());
-                AreEqual(32767 * VOLUME,      () => audioFileOutput.Amplifier);
                 AreEqual(DURATION,            () => audioFileOutput.Duration);
                 AreEqual(SAMPLING_RATE,       () => audioFileOutput.SamplingRate);
+
+                AreEqual(sampleDataTypeEnum.GetMaxAmplitude() * VOLUME, () => audioFileOutput.Amplifier);
                 NotNullOrEmpty(() => audioFileOutput.FilePath);
 
                 // AudioFileOutputChannels
@@ -155,7 +154,7 @@ namespace JJ.Business.Synthesizer.Tests
             // Sample Operator
             Operator sampleOperator = sampleWrapper.Result.Operator;
             IsNotNull(() => sampleOperator);
-            AreEqual("SampleOperator",  () => sampleOperator.OperatorTypeName);
+            AreEqual("SampleOperator", () => sampleOperator.OperatorTypeName);
             IsNull(() => sampleOperator.AsCurveIn);
             IsNull(() => sampleOperator.AsValueOperator);
             IsNotNull(() => sampleOperator.AsSampleOperator);
@@ -209,7 +208,7 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => sample.Bytes);
             NotEqual(0, () => sample.Bytes.Length);
             {
-                int expectedByteCount = (int)(WAV_HEADER_LENGTH + SAMPLING_RATE * sample.GetFrameSize() * DURATION);
+                int expectedByteCount = (int)(audioFileFormatEnum.GetHeaderLength() + SAMPLING_RATE * sample.GetFrameSize() * DURATION);
                 Assert.AreEqual(expectedByteCount, sample.Bytes.Length);
                 Console.WriteLine($"Byte count = {sample.Bytes.Length}");
 
@@ -231,7 +230,7 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => sampleOutlet_FromOperatorOutlets);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
-            
+
             // Values
 
             if (speakerSetupEnum == Stereo)
@@ -249,7 +248,7 @@ namespace JJ.Business.Synthesizer.Tests
                     sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
                     sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
                 };
-                Console.WriteLine($" {nameof(valuesLeftChannel)} = {{ {string.Join(",", valuesLeftChannel)} }}");
+                Console.WriteLine($" {nameof(valuesLeftChannel)} = {{ {string.Join(", ", valuesLeftChannel)} }}");
 
                 Channel = Right;
                 double[] valuesRightChannel =
@@ -264,7 +263,7 @@ namespace JJ.Business.Synthesizer.Tests
                     sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
                     sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
                 };
-                Console.WriteLine($"{nameof(valuesRightChannel)} = {{ {string.Join(",", valuesRightChannel)} }}");
+                Console.WriteLine($"{nameof(valuesRightChannel)} = {{ {string.Join(", ", valuesRightChannel)} }}");
 
                 return;
                 Assert.AreEqual(VOLUME * 0.75 * 0.0,      valuesLeftChannel[0]);
@@ -287,7 +286,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Assert.AreEqual(VOLUME * 0.25 * -Sqrt(2), valuesRightChannel[7]);
                 Assert.AreEqual(VOLUME * 0.25 * 0.0,      valuesRightChannel[8]);
             }
-            
+
             if (speakerSetupEnum == Mono)
             {
                 Channel = Single;
@@ -303,7 +302,7 @@ namespace JJ.Business.Synthesizer.Tests
                     sampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
                     sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
                 };
-                Console.WriteLine($" {nameof(valuesMonoChannel)} = {{ {string.Join(",", valuesMonoChannel)} }}");
+                Console.WriteLine($" {nameof(valuesMonoChannel)} = {{ {string.Join(", ", valuesMonoChannel)} }}");
 
                 return;
                 Assert.AreEqual(VOLUME * 0.0,      valuesMonoChannel[0]);
@@ -316,7 +315,6 @@ namespace JJ.Business.Synthesizer.Tests
                 Assert.AreEqual(VOLUME * -Sqrt(2), valuesMonoChannel[7]);
                 Assert.AreEqual(VOLUME * 0.0,      valuesMonoChannel[8]);
             }
-
         }
 
         // Helpers
