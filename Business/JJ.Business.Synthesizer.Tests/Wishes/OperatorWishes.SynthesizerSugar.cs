@@ -47,11 +47,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         public Outlet Panning(
             Outlet sound, Outlet panning) 
             => this.Panning(sound, panning, Channel);
-
-        ///// <inheritdoc cref="docs._panning" />
-        //public Outlet Panning(
-        //    Outlet sound, double panning) 
-        //    => this.Panning(sound, panning, Channel);
         
         /// <inheritdoc cref="docs._panbrello" />
         public Outlet Panbrello(
