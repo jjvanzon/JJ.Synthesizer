@@ -36,47 +36,39 @@ namespace JJ.Business.Synthesizer.Tests
 
             // Assert
 
-            // AudioFileOutput Values
-            AreEqual(Wav,            () => audioFileOutput1.GetAudioFileFormatEnum());
-            AreEqual(Wav,            () => audioFileOutput2.GetAudioFileFormatEnum());
-            AreEqual(Stereo,         () => audioFileOutput1.GetSpeakerSetupEnum());
-            AreEqual(Stereo,         () => audioFileOutput2.GetSpeakerSetupEnum());
-            AreEqual(Int16,          () => audioFileOutput1.GetSampleDataTypeEnum());
-            AreEqual(Int16,          () => audioFileOutput2.GetSampleDataTypeEnum());
-            AreEqual(32767 * VOLUME, () => audioFileOutput1.Amplifier);
-            AreEqual(32767 * VOLUME, () => audioFileOutput2.Amplifier);
-            AreEqual(DURATION,       () => audioFileOutput1.Duration);
-            AreEqual(DURATION,       () => audioFileOutput2.Duration);
-            AreEqual(SAMPLING_RATE,  () => audioFileOutput1.SamplingRate);
-            AreEqual(SAMPLING_RATE,  () => audioFileOutput2.SamplingRate);
-            NotNullOrEmpty(() => audioFileOutput1.FilePath);
-            NotNullOrEmpty(() => audioFileOutput2.FilePath);
-            AreEqual($"{GetCurrentMethod()?.Name}{Wav.GetFileExtension()}",          () => audioFileOutput1.FilePath);
-            AreEqual($"{GetCurrentMethod()?.Name}_Reloaded{Wav.GetFileExtension()}", () => audioFileOutput2.FilePath);
+            // AudioFileOutput
+            foreach (AudioFileOutput audioFileOutput in new[] { audioFileOutput1, audioFileOutput2 })
+            {
+                // AudioFileOutput Values
+                AreEqual(Wav,            () => audioFileOutput.GetAudioFileFormatEnum());
+                AreEqual(Stereo,         () => audioFileOutput.GetSpeakerSetupEnum());
+                AreEqual(Int16,          () => audioFileOutput.GetSampleDataTypeEnum());
+                AreEqual(32767 * VOLUME, () => audioFileOutput.Amplifier);
+                AreEqual(DURATION,       () => audioFileOutput.Duration);
+                AreEqual(SAMPLING_RATE,  () => audioFileOutput.SamplingRate);
+                NotNullOrEmpty(() => audioFileOutput.FilePath);
 
-            // AudioFileOutputChannels Filled In
-            IsNotNull(() => audioFileOutput1.AudioFileOutputChannels);
-            IsNotNull(() => audioFileOutput2.AudioFileOutputChannels);
-            AreEqual(2, () => audioFileOutput1.AudioFileOutputChannels.Count);
-            AreEqual(2, () => audioFileOutput2.AudioFileOutputChannels.Count);
-            IsNotNull(() => audioFileOutput1.AudioFileOutputChannels[0].Outlet);
-            IsNotNull(() => audioFileOutput2.AudioFileOutputChannels[0].Outlet);
-            IsNotNull(() => audioFileOutput1.AudioFileOutputChannels[1].Outlet);
-            IsNotNull(() => audioFileOutput2.AudioFileOutputChannels[1].Outlet);
-            IsNotNull(() => audioFileOutput1.AudioFileOutputChannels[0].AudioFileOutput);
-            IsNotNull(() => audioFileOutput2.AudioFileOutputChannels[0].AudioFileOutput);
-            IsNotNull(() => audioFileOutput1.AudioFileOutputChannels[1].AudioFileOutput);
-            IsNotNull(() => audioFileOutput2.AudioFileOutputChannels[1].AudioFileOutput);
+                // AudioFileOutputChannels Filled In
+                IsNotNull(() => audioFileOutput.AudioFileOutputChannels);
+                AreEqual(2, () => audioFileOutput.AudioFileOutputChannels.Count);
+                IsNotNull(() => audioFileOutput.AudioFileOutputChannels[0].Outlet);
+                IsNotNull(() => audioFileOutput.AudioFileOutputChannels[1].Outlet);
+                IsNotNull(() => audioFileOutput.AudioFileOutputChannels[0].AudioFileOutput);
+                IsNotNull(() => audioFileOutput.AudioFileOutputChannels[1].AudioFileOutput);
 
-            // AudioFileOutputChannels Equality
-            AreEqual(0,                () => audioFileOutput1.AudioFileOutputChannels[0].Index);
-            AreEqual(0,                () => audioFileOutput2.AudioFileOutputChannels[0].Index);
-            AreEqual(1,                () => audioFileOutput1.AudioFileOutputChannels[1].Index);
-            AreEqual(1,                () => audioFileOutput2.AudioFileOutputChannels[1].Index);
-            AreEqual(audioFileOutput1, () => audioFileOutput1.AudioFileOutputChannels[0].AudioFileOutput);
-            AreEqual(audioFileOutput2, () => audioFileOutput2.AudioFileOutputChannels[0].AudioFileOutput);
-            AreEqual(audioFileOutput1, () => audioFileOutput1.AudioFileOutputChannels[1].AudioFileOutput);
-            AreEqual(audioFileOutput2, () => audioFileOutput2.AudioFileOutputChannels[1].AudioFileOutput);
+                // AudioFileOutputChannels Equality
+                AreEqual(0,               () => audioFileOutput.AudioFileOutputChannels[0].Index);
+                AreEqual(1,               () => audioFileOutput.AudioFileOutputChannels[1].Index);
+                AreEqual(audioFileOutput, () => audioFileOutput.AudioFileOutputChannels[0].AudioFileOutput);
+                AreEqual(audioFileOutput, () => audioFileOutput.AudioFileOutputChannels[1].AudioFileOutput);
+            }
+
+            // AudioFileOutput FilePaths
+            string expectedFilePath1 = $"{GetCurrentMethod()?.Name}{Wav.GetFileExtension()}";
+            AreEqual(expectedFilePath1, () => audioFileOutput1.FilePath);
+            
+            string expectedFilePath2 = $"{GetCurrentMethod()?.Name}_Reloaded{Wav.GetFileExtension()}";
+            AreEqual(expectedFilePath2, () => audioFileOutput2.FilePath);
 
             // Sample Wrapper
             IsNotNull(() => sampleWrapper);
@@ -148,11 +140,10 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => sampleOutlet_FromOperatorOutlets);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
-            
-            
+
             // ✖️ Incorrect (other)
             // NotNullOrEmpty(() => sample.Name);
-            // string expectedLocation = Path.GetFullPath(audioFileOutput1.FilePath);
+            // string expectedLocation = Path.GetFullPath(audioFileOutput.FilePath);
             // AreEqual(expectedLocation, () => sample.Location);
 
             return;
