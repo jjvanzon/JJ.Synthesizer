@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             int sampleCount)
         {
             WriteWavHeader(
-                bw, AudioConversionExtensions.GetSampleDataTypeEnum<TSampleDataType>(),
+                bw, AudioConversionExtensionWishes.GetSampleDataTypeEnum<TSampleDataType>(),
                 speakerSetupEnum, samplingRate, sampleCount);
         }
 
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             int sampleCount)
         {
             WriteWavHeader(
-                bw, AudioConversionExtensions.GetSampleDataTypeEnum<TSampleDataType>(),
+                bw, AudioConversionExtensionWishes.GetSampleDataTypeEnum<TSampleDataType>(),
                 channelCount, samplingRate, sampleCount);
         }
 
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             int sampleCount)
         {
             WriteWavHeader(
-                bw, sampleDataTypeEnum, speakerSetupEnum.ToChannelCount(),
+                bw, sampleDataTypeEnum, speakerSetupEnum.GetChannelCount(),
                 samplingRate, sampleCount);
         }
 

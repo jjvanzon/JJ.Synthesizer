@@ -1,14 +1,19 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
+using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
+
 // ReSharper disable once PossibleLossOfFraction
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    /// <summary> I wish these things were in JJ.Synthesizer </summary>
-    public static class AudioConversionExtensions
+    /// <summary> I wish these things were in JJ.Synthesizer. </summary>
+    public static class AudioConversionExtensionWishes
     {
-        public static int ToChannelCount(this SpeakerSetupEnum speakerSetupEnum)
+        public static int GetChannelCount(this SpeakerSetupEnum speakerSetupEnum)
         {
             switch (speakerSetupEnum)
             {
@@ -18,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             }
         }
 
-        public static SpeakerSetupEnum ToSpeakerSetupEnum(this int channelCount)
+        public static SpeakerSetupEnum GetSpeakerSetupEnum(this int channelCount)
         {
             switch (channelCount)
             {
@@ -31,12 +36,27 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         public static SampleDataTypeEnum GetSampleDataTypeEnum<TSampleDataType>()
         {
             if (typeof(TSampleDataType) == typeof(short)) return SampleDataTypeEnum.Int16;
-
             if (typeof(TSampleDataType) == typeof(byte)) return SampleDataTypeEnum.Byte;
-
             throw new ValueNotSupportedException(typeof(TSampleDataType));
         }
  
+        public static int SizeOf(this SampleDataType sampleDataType)
+            => SampleDataTypeHelper.SizeOf(sampleDataType);
+
+        public static int SizeOf(this SampleDataTypeEnum sampleDataTypeEnum)
+            => SampleDataTypeHelper.SizeOf(sampleDataTypeEnum);
+
+        public static int GetFrameSize(this Sample sample)
+            => sample.GetChannelCount() * sample.SampleDataType.SizeOf();
+        
+        /// <summary>
+        /// Retrieves the file extension associated with the specified audio file format.
+        /// </summary>
+        /// <param name="audioFileFormatEnum">The audio file format enumeration value.</param>
+        /// <returns>
+        /// The file extension corresponding to the provided audio file format.
+        /// A period (.) is included.
+        /// </returns>
         public static string GetFileExtension(this AudioFileFormatEnum audioFileFormatEnum)
         {
             switch (audioFileFormatEnum)

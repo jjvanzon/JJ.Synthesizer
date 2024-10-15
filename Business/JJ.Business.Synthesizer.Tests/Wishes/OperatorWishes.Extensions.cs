@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
@@ -238,5 +239,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             var calculator = new OperatorCalculator(default);
             return calculator.CalculateValue(outlet, time);
         }
+
+        public static double Calculate(this SampleOperatorWrapper wrapper, double time)
+            => Calculate((Outlet)wrapper, time);
     }
 }
