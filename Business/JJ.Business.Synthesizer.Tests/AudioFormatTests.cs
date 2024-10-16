@@ -27,19 +27,16 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class AudioFormatTests : SynthesizerSugar
     {
-        // Aligned
-        //private const int    SAMPLING_RATE = 4096;
-        //private const double FREQUENCY     = 64;
-        
-        // Non aligned
-        private const int    SAMPLING_RATE = 4093;
-        private const double FREQUENCY     = 61;
-        
-        private const double VOLUME        = 0.50;
-        private const double PANNING       = 0.25;
-        private const double DURATION      = 0.25;
-        private const double DURATION2     = DURATION * 1.01;
-        private const int    DECIMALS      = 4;
+        private const int    ALIGNED_SAMPLING_RATE     = 4096;
+        private const double ALIGNED_FREQUENCY         = 64;
+        private const int    NON_ALIGNED_SAMPLING_RATE = 4093;
+        private const double NON_ALIGNED_FREQUENCY = 61;
+
+        private const double VOLUME    = 0.50;
+        private const double PANNING   = 0.25;
+        private const double DURATION  = 0.25;
+        private const double DURATION2 = DURATION * 1.01;
+        private const int    DECIMALS  = 4;
 
         [UsedImplicitly]
         public AudioFormatTests()
@@ -50,130 +47,246 @@ namespace JJ.Business.Synthesizer.Tests
         { }
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_16Bit_Linear()
+        public void Test_AudioFormat_Wav_Stereo_16Bit_Linear_Aligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Wav, Stereo, Int16, Line);
+                new AudioFormatTests(context).GenericTest(Wav, Stereo, Int16, Line, aligned: true);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_16Bit_Blocky()
+        public void Test_AudioFormat_Wav_Stereo_16Bit_Linear_NonAligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Wav, Stereo, Int16, Block);
+                new AudioFormatTests(context).GenericTest(Wav, Stereo, Int16, Line, aligned: false);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_16Bit_Linear()
+        public void Test_AudioFormat_Wav_Stereo_16Bit_Blocky_Aligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Wav, Mono, Int16, Line);
+                new AudioFormatTests(context).GenericTest(Wav, Stereo, Int16, Block, aligned: true);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_16Bit_Block()
+        public void Test_AudioFormat_Wav_Stereo_16Bit_Blocky_NonAligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Wav, Mono, Int16, Block);
+                new AudioFormatTests(context).GenericTest(Wav, Stereo, Int16, Block, aligned: false);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_8Bit_Linear()
+        public void Test_AudioFormat_Wav_Mono_16Bit_Linear_Aligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Wav, Stereo, Byte, Line);
+                new AudioFormatTests(context).GenericTest(Wav, Mono, Int16, Line, aligned: true);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_8Bit_Blocky()
+        public void Test_AudioFormat_Wav_Mono_16Bit_Linear_NonAligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Wav, Stereo, Byte, Block);
+                new AudioFormatTests(context).GenericTest(Wav, Mono, Int16, Line, aligned: false);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_8Bit_Linear()
+        public void Test_AudioFormat_Wav_Mono_16Bit_Block_Aligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Wav, Mono, Byte, Line);
+                new AudioFormatTests(context).GenericTest(Wav, Mono, Int16, Block, aligned: true);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_8Bit_Blocky()
+        public void Test_AudioFormat_Wav_Mono_16Bit_Block_NonAligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Wav, Mono, Byte, Block);
+                new AudioFormatTests(context).GenericTest(Wav, Mono, Int16, Block, aligned: false);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_16Bit_Linear()
+        public void Test_AudioFormat_Wav_Stereo_8Bit_Linear_Aligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Raw, Stereo, Int16, Line);
+                new AudioFormatTests(context).GenericTest(Wav, Stereo, Byte, Line, aligned: true);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_16Bit_Blocky()
+        public void Test_AudioFormat_Wav_Stereo_8Bit_Linear_NonAligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Raw, Stereo, Int16, Block);
+                new AudioFormatTests(context).GenericTest(Wav, Stereo, Byte, Line, aligned: false);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_16Bit_Linear()
+        public void Test_AudioFormat_Wav_Stereo_8Bit_Blocky_Aligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Raw, Mono, Int16, Line);
+                new AudioFormatTests(context).GenericTest(Wav, Stereo, Byte, Block, aligned: true);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_16Bit_Blocky()
+        public void Test_AudioFormat_Wav_Stereo_8Bit_Blocky_NonAligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Raw, Mono, Int16, Block);
+                new AudioFormatTests(context).GenericTest(Wav, Stereo, Byte, Block, aligned: false);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_8Bit_Linear()
+        public void Test_AudioFormat_Wav_Mono_8Bit_Linear_Aligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Raw, Stereo, Byte, Line);
+                new AudioFormatTests(context).GenericTest(Wav, Mono, Byte, Line, aligned: true);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_8Bit_Blocky()
+        public void Test_AudioFormat_Wav_Mono_8Bit_Linear_NonAligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Raw, Stereo, Byte, Block);
+                new AudioFormatTests(context).GenericTest(Wav, Mono, Byte, Line, aligned: false);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_8Bit_Linear()
+        public void Test_AudioFormat_Wav_Mono_8Bit_Blocky_Aligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Raw, Mono, Byte, Line);
+                new AudioFormatTests(context).GenericTest(Wav, Mono, Byte, Block, aligned: true);
         }
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_8Bit_Blocky()
+        public void Test_AudioFormat_Wav_Mono_8Bit_Blocky_NonAligned()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).Test_AudioFormat(Raw, Mono, Byte, Block);
+                new AudioFormatTests(context).GenericTest(Wav, Mono, Byte, Block, aligned: false);
         }
 
-        private void Test_AudioFormat(
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_16Bit_Linear_Aligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Stereo, Int16, Line, aligned: true);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_16Bit_Linear_NonAligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Stereo, Int16, Line, aligned: false);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_16Bit_Blocky_Aligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Stereo, Int16, Block, aligned: true);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_16Bit_Blocky_NonAligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Stereo, Int16, Block, aligned: false);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_16Bit_Linear_Aligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Mono, Int16, Line, aligned: true);
+        }
+        
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_16Bit_Linear_NonAligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Mono, Int16, Line, aligned: false);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_16Bit_Blocky_Aligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Mono, Int16, Block, aligned: true);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_16Bit_Blocky_NonAligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Mono, Int16, Block, aligned: false);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_8Bit_Linear_Aligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Stereo, Byte, Line, aligned: true);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_8Bit_Linear_NonAligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Stereo, Byte, Line, aligned: false);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_8Bit_Blocky_Aligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Stereo, Byte, Block, aligned: true);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Stereo_8Bit_Blocky_NonAligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Stereo, Byte, Block, aligned: false);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_8Bit_Linear_Aligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Mono, Byte, Line, aligned: true);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_8Bit_Linear_NonAligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Mono, Byte, Line, aligned: false);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_8Bit_Blocky_Aligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Mono, Byte, Block, aligned: true);
+        }
+
+        [TestMethod]
+        public void Test_AudioFormat_Raw_Mono_8Bit_Blocky_NonAligned()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFormatTests(context).GenericTest(Raw, Mono, Byte, Block, aligned: false);
+        }
+
+        private void GenericTest(
             AudioFileFormatEnum audioFileFormatEnum,
             SpeakerSetupEnum speakerSetupEnum,
             SampleDataTypeEnum sampleDataTypeEnum,
             InterpolationTypeEnum interpolationTypeEnum,
+            bool aligned,
             [CallerMemberName] string callerMemberName = null)
         {
             // Arrange
-            
+
+            int samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
+            double frequency = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
+
             // Panned, amplified sine
             Outlet getSignal()
             {
-                var sine      = Sine(_[FREQUENCY]);
+                var sine      = Sine(_[frequency]);
                 var amplified = Multiply(sine, _[VOLUME]);
                 var panned    = Panning(amplified, _[PANNING]);
                 return panned;
@@ -182,7 +295,7 @@ namespace JJ.Business.Synthesizer.Tests
             // Save to file
             AudioFileOutput audioFileOutput1 =
                 SaveAudio(getSignal, DURATION, volume: 1, 
-                          speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, SAMPLING_RATE, 
+                          speakerSetupEnum,  sampleDataTypeEnum, audioFileFormatEnum, samplingRate, 
                           fileName: default, callerMemberName).Data;
 
             // Use sample operator
@@ -193,7 +306,7 @@ namespace JJ.Business.Synthesizer.Tests
                 if (audioFileFormatEnum == Raw)
                 {
                     // In case of RAW format, set some values explicitly.
-                    wrapper.Sample.SamplingRate   = SAMPLING_RATE;
+                    wrapper.Sample.SamplingRate   = samplingRate;
                     wrapper.Sample.SpeakerSetup   = audioFileOutput1.SpeakerSetup;
                     wrapper.Sample.SampleDataType = audioFileOutput1.SampleDataType;
                     wrapper.Sample.Amplifier      = 1.0 / audioFileOutput1.SampleDataType.GetMaxAmplitude();
@@ -205,7 +318,7 @@ namespace JJ.Business.Synthesizer.Tests
             // Save to file again
             AudioFileOutput audioFileOutput2 =
                 SaveAudio(() => getSample(), DURATION2, volume: 1,
-                                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, SAMPLING_RATE,
+                                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRate,
                                 fileName: $"{callerMemberName}_Reloaded").Data;
 
             // Assert AudioFileOutput Entities
@@ -214,14 +327,14 @@ namespace JJ.Business.Synthesizer.Tests
             
             AssertAudioFileOutputEntities(
                 audioFileOutput1,
-                audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
+                audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, samplingRate,
                 expectedFilePath1, DURATION);
 
             string expectedFilePath2 = $"{callerMemberName}_Reloaded" + audioFileFormatEnum.GetFileExtension();
             
             AssertAudioFileOutputEntities(
                 audioFileOutput2,
-                audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
+                audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, samplingRate,
                 expectedFilePath2, DURATION2);
 
             // Assert Samples Entities
@@ -232,9 +345,10 @@ namespace JJ.Business.Synthesizer.Tests
                 
                 var sampleWrapperMono  = getSample();
                 
-                AssertSampleEntities(sampleWrapperMono,
-                                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum,
-                                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
+                AssertSampleEntities(
+                    sampleWrapperMono,
+                    audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
+                    expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
             }
 
             if (speakerSetupEnum == Stereo)
@@ -243,24 +357,22 @@ namespace JJ.Business.Synthesizer.Tests
                 
                 var sampleWrapperLeft  = getSample();
 
-                AssertSampleEntities(sampleWrapperLeft,
-                                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum,
-                                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
+                AssertSampleEntities(
+                    sampleWrapperLeft,
+                    audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
+                    expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
 
                 Channel = Right;
                 
                 var sampleWrapperRight = getSample();
 
-                AssertSampleEntities(sampleWrapperRight,
-                                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum,
-                                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
+                AssertSampleEntities(
+                    sampleWrapperRight,
+                    audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
+                    expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
             }
             
             // Get Values
-
-            double tolerance = GetValueTolerance(sampleDataTypeEnum, interpolationTypeEnum);
-            Console.WriteLine();
-            Console.WriteLine($"{nameof(tolerance)} = {tolerance}");
 
             // Mono
 
@@ -288,32 +400,37 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] actualValues =
                 {
-                    Calculate(sampleWrapperMono, time: 0.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperMono, time: 1.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperMono, time: 2.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperMono, time: 3.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperMono, time: 4.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperMono, time: 5.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperMono, time: 6.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperMono, time: 7.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperMono, time: 8.0 / 8.0 / FREQUENCY)
+                    Calculate(sampleWrapperMono, time: 0.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperMono, time: 1.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperMono, time: 2.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperMono, time: 3.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperMono, time: 4.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperMono, time: 5.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperMono, time: 6.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperMono, time: 7.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperMono, time: 8.0 / 8.0 / frequency)
                 };
 
-
+                double valueTolerance = GetValueTolerance(aligned, interpolationTypeEnum, sampleDataTypeEnum);
+                double valueToleranceRequired = expectedValues.Zip(actualValues, (x,y) => Abs(x - y)).Max();
+                Console.WriteLine();
+                Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
+                Console.WriteLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
+                Console.WriteLine();
                 Console.WriteLine($"{nameof(expectedValues)} = {FormatValues(expectedValues)}");
                 Console.WriteLine($"{nameof(actualValues)}   = {FormatValues(actualValues  )}");
 
                 // Assert Values
                 
-                AreEqual(expectedValues[0], actualValues[0], tolerance);
-                AreEqual(expectedValues[1], actualValues[1], tolerance);
-                AreEqual(expectedValues[2], actualValues[2], tolerance);
-                AreEqual(expectedValues[3], actualValues[3], tolerance);
-                AreEqual(expectedValues[4], actualValues[4], tolerance);
-                AreEqual(expectedValues[5], actualValues[5], tolerance);
-                AreEqual(expectedValues[6], actualValues[6], tolerance);
-                AreEqual(expectedValues[7], actualValues[7], tolerance);
-                AreEqual(expectedValues[8], actualValues[8], tolerance);
+                AreEqual(expectedValues[0], actualValues[0], valueTolerance);
+                AreEqual(expectedValues[1], actualValues[1], valueTolerance);
+                AreEqual(expectedValues[2], actualValues[2], valueTolerance);
+                AreEqual(expectedValues[3], actualValues[3], valueTolerance);
+                AreEqual(expectedValues[4], actualValues[4], valueTolerance);
+                AreEqual(expectedValues[5], actualValues[5], valueTolerance);
+                AreEqual(expectedValues[6], actualValues[6], valueTolerance);
+                AreEqual(expectedValues[7], actualValues[7], valueTolerance);
+                AreEqual(expectedValues[8], actualValues[8], valueTolerance);
             }
 
             // Stereo
@@ -344,15 +461,15 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] actualL =
                 {
-                    Calculate(sampleWrapperLeft, time: 0.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperLeft, time: 1.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperLeft, time: 2.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperLeft, time: 3.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperLeft, time: 4.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperLeft, time: 5.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperLeft, time: 6.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperLeft, time: 7.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperLeft, time: 8.0 / 8.0 / FREQUENCY)
+                    Calculate(sampleWrapperLeft, time: 0.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperLeft, time: 1.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperLeft, time: 2.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperLeft, time: 3.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperLeft, time: 4.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperLeft, time: 5.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperLeft, time: 6.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperLeft, time: 7.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperLeft, time: 8.0 / 8.0 / frequency)
                 };
 
                 // Right
@@ -377,20 +494,25 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] actualR =
                 {
-                    Calculate(sampleWrapperRight, time: 0.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperRight, time: 1.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperRight, time: 2.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperRight, time: 3.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperRight, time: 4.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperRight, time: 5.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperRight, time: 6.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperRight, time: 7.0 / 8.0 / FREQUENCY),
-                    Calculate(sampleWrapperRight, time: 8.0 / 8.0 / FREQUENCY)
+                    Calculate(sampleWrapperRight, time: 0.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperRight, time: 1.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperRight, time: 2.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperRight, time: 3.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperRight, time: 4.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperRight, time: 5.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperRight, time: 6.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperRight, time: 7.0 / 8.0 / frequency),
+                    Calculate(sampleWrapperRight, time: 8.0 / 8.0 / frequency)
                 };
 
+                double valueTolerance = GetValueTolerance(aligned, interpolationTypeEnum, sampleDataTypeEnum);
+                double valueToleranceRequired = expectedL.Concat(expectedR).Zip(actualL.Concat(actualR), (x,y) => Abs(x - y)).Max();
+                Console.WriteLine();
+                Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
+                Console.WriteLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
+                Console.WriteLine();
                 Console.WriteLine($"{nameof(expectedL)} = {FormatValues(expectedL)}");
                 Console.WriteLine($"  {nameof(actualL)} = {FormatValues(actualL  )}");
-
                 Console.WriteLine();
                 Console.WriteLine($"{nameof(expectedR)} = {FormatValues(expectedR)}");
                 Console.WriteLine($"  {nameof(actualR)} = {FormatValues(actualR  )}");
@@ -398,28 +520,28 @@ namespace JJ.Business.Synthesizer.Tests
                 // Assert Values
                 
                 // Left
-                
-                AreEqual(expectedL[0], actualL[0], tolerance);
-                AreEqual(expectedL[1], actualL[1], tolerance);
-                AreEqual(expectedL[2], actualL[2], tolerance);
-                AreEqual(expectedL[3], actualL[3], tolerance);
-                AreEqual(expectedL[4], actualL[4], tolerance);
-                AreEqual(expectedL[5], actualL[5], tolerance);
-                AreEqual(expectedL[6], actualL[6], tolerance);
-                AreEqual(expectedL[7], actualL[7], tolerance);
-                AreEqual(expectedL[8], actualL[8], tolerance);
+
+                AreEqual(expectedL[0], actualL[0], valueTolerance);
+                AreEqual(expectedL[1], actualL[1], valueTolerance);
+                AreEqual(expectedL[2], actualL[2], valueTolerance);
+                AreEqual(expectedL[3], actualL[3], valueTolerance);
+                AreEqual(expectedL[4], actualL[4], valueTolerance);
+                AreEqual(expectedL[5], actualL[5], valueTolerance);
+                AreEqual(expectedL[6], actualL[6], valueTolerance);
+                AreEqual(expectedL[7], actualL[7], valueTolerance);
+                AreEqual(expectedL[8], actualL[8], valueTolerance);
 
                 // Right
                 
-                AreEqual(expectedR[0], actualR[0], tolerance);
-                AreEqual(expectedR[1], actualR[1], tolerance);
-                AreEqual(expectedR[2], actualR[2], tolerance);
-                AreEqual(expectedR[3], actualR[3], tolerance);
-                AreEqual(expectedR[4], actualR[4], tolerance);
-                AreEqual(expectedR[5], actualR[5], tolerance);
-                AreEqual(expectedR[6], actualR[6], tolerance);
-                AreEqual(expectedR[7], actualR[7], tolerance);
-                AreEqual(expectedR[8], actualR[8], tolerance);
+                AreEqual(expectedR[0], actualR[0], valueTolerance);
+                AreEqual(expectedR[1], actualR[1], valueTolerance);
+                AreEqual(expectedR[2], actualR[2], valueTolerance);
+                AreEqual(expectedR[3], actualR[3], valueTolerance);
+                AreEqual(expectedR[4], actualR[4], valueTolerance);
+                AreEqual(expectedR[5], actualR[5], valueTolerance);
+                AreEqual(expectedR[6], actualR[6], valueTolerance);
+                AreEqual(expectedR[7], actualR[7], valueTolerance);
+                AreEqual(expectedR[8], actualR[8], valueTolerance);
             }
         }
 
@@ -428,6 +550,7 @@ namespace JJ.Business.Synthesizer.Tests
             AudioFileFormatEnum audioFileFormatEnum,
             SpeakerSetupEnum speakerSetupEnum, 
             SampleDataTypeEnum sampleDataTypeEnum, 
+            int samplingRate,
             string expectedFilePath, 
             double expectedDuration)
         {
@@ -436,7 +559,7 @@ namespace JJ.Business.Synthesizer.Tests
             IsNotNull(() => audioFileOutput.SampleDataType);
             IsNotNull(() => audioFileOutput.SpeakerSetup);
             
-            AreEqual(SAMPLING_RATE,       () => audioFileOutput.SamplingRate);
+            AreEqual(samplingRate,       () => audioFileOutput.SamplingRate);
             AreEqual(expectedFilePath,    () => audioFileOutput.FilePath);
             AreEqual(0,                   () => audioFileOutput.StartTime);
             AreEqual(expectedDuration,    () => audioFileOutput.GetEndTime());
@@ -471,6 +594,7 @@ namespace JJ.Business.Synthesizer.Tests
             SpeakerSetupEnum speakerSetupEnum, 
             SampleDataTypeEnum sampleDataTypeEnum, 
             InterpolationTypeEnum interpolationTypeEnum,
+            int samplingRate,
             double expectedDuration,
             string filePath,
             string callerMemberName)
@@ -522,14 +646,14 @@ namespace JJ.Business.Synthesizer.Tests
 
             // Sample
             Sample sample = sampleOperator.AsSampleOperator.Sample;
-            AreEqual(1,                                () => sample.TimeMultiplier);
-            AreEqual(true,                             () => sample.IsActive);
-            AreEqual(0,                                () => sample.BytesToSkip);
-            AreEqual(SAMPLING_RATE,                    () => sample.SamplingRate);
-            AreEqual(sampleDataTypeEnum,               () => sample.GetSampleDataTypeEnum());
-            AreEqual(speakerSetupEnum,                 () => sample.GetSpeakerSetupEnum());
-            AreEqual(audioFileFormatEnum,              () => sample.GetAudioFileFormatEnum());
-            AreEqual(interpolationTypeEnum,            () => sample.GetInterpolationTypeEnum());
+            AreEqual(1,                     () => sample.TimeMultiplier);
+            AreEqual(true,                  () => sample.IsActive);
+            AreEqual(0,                     () => sample.BytesToSkip);
+            AreEqual(samplingRate,          () => sample.SamplingRate);
+            AreEqual(sampleDataTypeEnum,    () => sample.GetSampleDataTypeEnum());
+            AreEqual(speakerSetupEnum,      () => sample.GetSpeakerSetupEnum());
+            AreEqual(audioFileFormatEnum,   () => sample.GetAudioFileFormatEnum());
+            AreEqual(interpolationTypeEnum, () => sample.GetInterpolationTypeEnum());
 
             int expectedChannelCount = speakerSetupEnum == Mono ? 1 : 2;
             AreEqual(expectedChannelCount, () => sample.GetChannelCount());
@@ -544,7 +668,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 NotEqual(0, () => sample.Bytes.Length);
                 
-                int byteCountExpected  = (int)(audioFileFormatEnum.GetHeaderLength() + SAMPLING_RATE * sample.GetFrameSize() * DURATION);
+                int byteCountExpected  = (int)(audioFileFormatEnum.GetHeaderLength() + samplingRate * sample.GetFrameSize() * DURATION);
                 int byteCountTolerance = GetByteCountTolerance(sampleDataTypeEnum);
 
                 Console.WriteLine();
@@ -585,27 +709,56 @@ namespace JJ.Business.Synthesizer.Tests
         // Helpers
 
         private double GetValueTolerance(
-            SampleDataTypeEnum sampleDataTypeEnum,
-            InterpolationTypeEnum interpolationTypeEnum)
+            bool aligned,
+            InterpolationTypeEnum interpolationTypeEnum,
+            SampleDataTypeEnum sampleDataTypeEnum)
         {
-            if (sampleDataTypeEnum == Int16 && interpolationTypeEnum == Line)
+            // Worst: Not Aligned, Block
+            
+            if (!aligned && interpolationTypeEnum == Block && sampleDataTypeEnum == Int16)
             {
-                return 0.001;
+                return 0.0325;
             }
 
-            if (sampleDataTypeEnum == Int16 && interpolationTypeEnum == Block)
+            if (!aligned && interpolationTypeEnum == Block && sampleDataTypeEnum == Byte)
             {
-                return 0.050;
+                return 0.0325;
+            }
+            
+            // Byte
+            
+            if (aligned && interpolationTypeEnum == Line && sampleDataTypeEnum == Byte)
+            {
+                return 0.008;
             }
 
-            if (sampleDataTypeEnum == Byte && interpolationTypeEnum == Line)
+            if (!aligned && interpolationTypeEnum == Line && sampleDataTypeEnum == Byte)
             {
-                return 0.010;
+                return 0.008;
             }
 
-            if (sampleDataTypeEnum == Byte && interpolationTypeEnum == Block)
+            if (aligned && interpolationTypeEnum == Block && sampleDataTypeEnum == Byte)
             {
-                return 0.050;
+                return 0.008;
+            }
+
+            // Int16 Not Aligned
+            
+            if (!aligned && interpolationTypeEnum == Line && sampleDataTypeEnum == Int16)
+            {
+                return 0.0006;
+            }
+                        
+            // Int16 Aligned
+            
+            if (aligned && interpolationTypeEnum == Line && sampleDataTypeEnum == Int16)
+            {
+                return 0.00008;
+            }
+
+            if (aligned && interpolationTypeEnum == Block && sampleDataTypeEnum == Int16)
+            {
+                return 0.00008;
             }
 
             throw new NotSupportedException(
@@ -613,7 +766,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private int GetByteCountTolerance(SampleDataTypeEnum sampleDataTypeEnum) 
-            => 2 * sampleDataTypeEnum.SizeOf();
+            => 2 * sampleDataTypeEnum.SizeOf(); // A tolerance of 2 audio frames.
 
         private double RoundValue(double x) => Round(x, DECIMALS, AwayFromZero);
 
