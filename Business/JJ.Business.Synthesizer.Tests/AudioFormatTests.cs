@@ -158,8 +158,7 @@ namespace JJ.Business.Synthesizer.Tests
                 callerMemberName);
 
             // Get Values
-            
-            double amplifier = VOLUME;
+
             double tolerance = GetTolerance(sampleDataTypeEnum);
             Console.WriteLine();
             Console.WriteLine($"{nameof(tolerance)} = {tolerance}");
@@ -174,15 +173,15 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] expectedValues =
                 {
-                    amplifier *        0.0,
-                    amplifier *   Sqrt(.5),
-                    amplifier *        1.0,
-                    amplifier *   Sqrt(.5),
-                    amplifier *        0.0,
-                    amplifier *  -Sqrt(.5),
-                    amplifier *       -1.0,
-                    amplifier *  -Sqrt(.5),
-                    amplifier *        0.0
+                    VOLUME *       0.0,
+                    VOLUME *  Sqrt(.5),
+                    VOLUME *       1.0,
+                    VOLUME *  Sqrt(.5),
+                    VOLUME *       0.0,
+                    VOLUME * -Sqrt(.5),
+                    VOLUME *      -1.0,
+                    VOLUME * -Sqrt(.5),
+                    VOLUME *       0.0
                 };
                 expectedValues = expectedValues.Select(x => Round(x, ROUNDING_DECIMALS, AwayFromZero)).ToArray();
 
@@ -226,15 +225,15 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] expectedL =
                 {
-                    amplifier * 0.75 *       0.0,
-                    amplifier * 0.75 *  Sqrt(.5),
-                    amplifier * 0.75 *       1.0,
-                    amplifier * 0.75 *  Sqrt(.5),
-                    amplifier * 0.75 *       0.0,
-                    amplifier * 0.75 * -Sqrt(.5),
-                    amplifier * 0.75 *      -1.0,
-                    amplifier * 0.75 * -Sqrt(.5),
-                    amplifier * 0.75 *       0.0
+                    VOLUME * 0.75 *       0.0,
+                    VOLUME * 0.75 *  Sqrt(.5),
+                    VOLUME * 0.75 *       1.0,
+                    VOLUME * 0.75 *  Sqrt(.5),
+                    VOLUME * 0.75 *       0.0,
+                    VOLUME * 0.75 * -Sqrt(.5),
+                    VOLUME * 0.75 *      -1.0,
+                    VOLUME * 0.75 * -Sqrt(.5),
+                    VOLUME * 0.75 *       0.0
                 };
                 expectedL = expectedL.Select(x => Round(x, ROUNDING_DECIMALS, AwayFromZero)).ToArray();
 
@@ -257,15 +256,15 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] expectedR =
                 {
-                    amplifier * 0.25 *       0.0,
-                    amplifier * 0.25 *  Sqrt(.5),
-                    amplifier * 0.25 *       1.0,
-                    amplifier * 0.25 *  Sqrt(.5),
-                    amplifier * 0.25 *       0.0,
-                    amplifier * 0.25 * -Sqrt(.5),
-                    amplifier * 0.25 *      -1.0,
-                    amplifier * 0.25 * -Sqrt(.5),
-                    amplifier * 0.25 *       0.0
+                    VOLUME * 0.25 *       0.0,
+                    VOLUME * 0.25 *  Sqrt(.5),
+                    VOLUME * 0.25 *       1.0,
+                    VOLUME * 0.25 *  Sqrt(.5),
+                    VOLUME * 0.25 *       0.0,
+                    VOLUME * 0.25 * -Sqrt(.5),
+                    VOLUME * 0.25 *      -1.0,
+                    VOLUME * 0.25 * -Sqrt(.5),
+                    VOLUME * 0.25 *       0.0
                 };
                 expectedR = expectedR.Select(x => Round(x, ROUNDING_DECIMALS, AwayFromZero)).ToArray();
 
@@ -282,12 +281,12 @@ namespace JJ.Business.Synthesizer.Tests
                     sampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
                 };
 
-                Console.WriteLine($"{nameof(expectedL)} = {{ {FormatValues(expectedL)} }}");
-                Console.WriteLine($"  {nameof(actualL)} = {{ {FormatValues(actualL)  } }}");
+                Console.WriteLine($"{nameof(expectedL)} = {FormatValues(expectedL)}");
+                Console.WriteLine($"  {nameof(actualL)} = {FormatValues(actualL)  }");
 
                 Console.WriteLine();
-                Console.WriteLine($"{nameof(expectedR)} = {{ {FormatValues(expectedR)} }}");
-                Console.WriteLine($"  {nameof(actualR)} = {{ {FormatValues(actualR)  } }}");
+                Console.WriteLine($"{nameof(expectedR)} = {FormatValues(expectedR)}");
+                Console.WriteLine($"  {nameof(actualR)} = {FormatValues(actualR)  }");
 
                 // Assert Values
                 
@@ -474,28 +473,19 @@ namespace JJ.Business.Synthesizer.Tests
         
         private string FormatValues(double[] values)
         {
-            int pad = values.Select(x => $"{x:F4}".Length).Max();
+            // Character = sign + 0 + . + decimals e.g. -0.1234
+            int length = 1 + 1 + 1 + ROUNDING_DECIMALS; 
             
             string formatValue(double value, int i)
             {
-                // Show 2 decimals
-                string str = $"{value:F4}";
-
-                // Can't get this right.
-                return str;
-                
-                // Add padding for elements other than the first and last one.
-                if (i == 0) return str;
-                if (i == values.Length - 1) return str;
-                str =  str.PadLeft(pad);
-                
-                return str;
+                double rounded = Round(value, ROUNDING_DECIMALS, AwayFromZero);
+                string formatted = rounded.ToString("F" + ROUNDING_DECIMALS);
+                string padded = formatted.PadLeft(length) + " "; 
+                return padded;
             }
 
-            //string result = string.Join(" ", values.Select(formatValue));
             string result = string.Join("|", values.Select(formatValue));
             return result;
         }
-
     }
 }
