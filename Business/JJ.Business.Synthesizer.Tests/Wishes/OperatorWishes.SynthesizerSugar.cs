@@ -2,6 +2,8 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Framework.Common;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 
 // ReSharper disable MemberCanBeProtected.Global
@@ -15,7 +17,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             => _ = new ValueIndexer(this);
 
         public ChannelEnum Channel { get; set; }
-
 
         // Redefine extensions methods here, or they don't show up in case of inheritance.
         
@@ -86,5 +87,27 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             /// <inheritdoc cref="docs._valueindexer" />
             public ValueOperatorWrapper this[double value] => _parent.Value(value);
         }
+ 
+     
+        public double Calculate(Outlet outlet, double time)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+            return outlet.Calculate(time, ChannelIndex);
+        }
+
+        public int ChannelIndex
+        {
+            get
+            {
+                switch (Channel)
+                {
+                    case ChannelEnum.Single: return 0;
+                    case ChannelEnum.Left:   return 0;
+                    case ChannelEnum.Right:  return 1;
+                    
+                    default: throw new InvalidValueException(Channel);
+                }
+            }
+        }   
     }
 }
