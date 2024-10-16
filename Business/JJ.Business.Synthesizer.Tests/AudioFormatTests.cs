@@ -371,94 +371,113 @@ namespace JJ.Business.Synthesizer.Tests
                 AreEqual(DURATION2, () => audioFileOutput2.Duration);
             }
 
-            var sampleWrappers = new[] { sampleWrapperMono, sampleWrapperLeft, sampleWrapperRight };
-            foreach (var sampleWrapper in sampleWrappers)
+            // Samples
+            
+            AssertSampleEntities(sampleWrapperMono,
+                                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
+                                 audioFileOutput1.FilePath, callerMemberName);
+            
+            AssertSampleEntities(sampleWrapperLeft,
+                                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
+                                 audioFileOutput1.FilePath, callerMemberName);
+            
+            AssertSampleEntities(sampleWrapperRight,
+                                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
+                                 audioFileOutput1.FilePath, callerMemberName);
+        }
+
+        void AssertSampleEntities(
+            SampleOperatorWrapper sampleWrapper, 
+            AudioFileFormatEnum audioFileFormatEnum, 
+            SpeakerSetupEnum speakerSetupEnum, 
+            SampleDataTypeEnum sampleDataTypeEnum, 
+            string filePath,
+            string callerMemberName)
+        {
+            // Sample Wrapper
+            IsNotNull(() => sampleWrapper);
+            IsNotNull(() => sampleWrapper.Sample);
+            IsNotNull(() => sampleWrapper.Result);
+
+            // Sample Operator
+            Operator sampleOperator = sampleWrapper.Result.Operator;
+            IsNotNull(() => sampleOperator);
+            AreEqual("SampleOperator", () => sampleOperator.OperatorTypeName);
+            IsNull(() => sampleOperator.AsCurveIn);
+            IsNull(() => sampleOperator.AsValueOperator);
+            IsNotNull(() => sampleOperator.AsSampleOperator);
             {
-                // Sample Wrapper
-                IsNotNull(() => sampleWrapper);
-                IsNotNull(() => sampleWrapper.Sample);
-                IsNotNull(() => sampleWrapper.Result);
-
-                // Sample Operator
-                Operator sampleOperator = sampleWrapper.Result.Operator;
-                IsNotNull(() => sampleOperator);
-                AreEqual("SampleOperator", () => sampleOperator.OperatorTypeName);
-                IsNull(() => sampleOperator.AsCurveIn);
-                IsNull(() => sampleOperator.AsValueOperator);
-                IsNotNull(() => sampleOperator.AsSampleOperator);
-                {
-                    string expectedName = GetFileNameWithoutExtension(GetFileName(default, callerMemberName));
-                    NotNullOrEmpty(() => sampleOperator.Name);
-                    AreEqual(expectedName, () => sampleOperator.Name);
-                }
-
-                // Sample Inlets
-                IsNotNull(() => sampleOperator.Inlets);
-                AreEqual(0, () => sampleOperator.Inlets.Count);
-
-                // Sample Outlets
-                IsNotNull(() => sampleOperator.Outlets);
-                AreEqual(1, () => sampleOperator.Outlets.Count);
-                IsNotNull(() => sampleOperator.Outlets[0]);
-
-                // Sample Outlet
-                Outlet sampleOutlet = sampleWrapper.Result;
-                IsNotNull(() => sampleOutlet);
-                IsNotNull(() => sampleOutlet.Operator);
-                AreEqual(sampleOperator, () => sampleOutlet.Operator);
-                AreEqual("Result",       () => sampleOutlet.Name);
-                IsNotNull(() => sampleOutlet.ConnectedInlets);
-                AreEqual(0, () => sampleOutlet.ConnectedInlets.Count);
-                IsNotNull(() => sampleOutlet.AsAudioFileOutputChannels);
-                AreEqual(0, () => sampleOutlet.AsAudioFileOutputChannels.Count);
-
-                // AsSampleOperator
-                SampleOperator asSampleOperator = sampleOperator.AsSampleOperator;
-                IsNotNull(() => asSampleOperator);
-                IsNotNull(() => asSampleOperator.Operator);
-                IsNotNull(() => asSampleOperator.Sample);
-                AreEqual(sampleOperator, () => asSampleOperator.Operator);
-
-                // Sample
-                Sample sample = sampleOperator.AsSampleOperator.Sample;
-                AreEqual(1,                   () => sample.TimeMultiplier);
-                AreEqual(true,                () => sample.IsActive);
-                AreEqual(0,                   () => sample.BytesToSkip);
-                AreEqual(SAMPLING_RATE,       () => sample.SamplingRate);
-                AreEqual(sampleDataTypeEnum,  () => sample.GetSampleDataTypeEnum());
-                AreEqual(speakerSetupEnum,    () => sample.GetSpeakerSetupEnum());
-                AreEqual(audioFileFormatEnum, () => sample.GetAudioFileFormatEnum());
-                AreEqual(Line,                () => sample.GetInterpolationTypeEnum());
-                IsNotNull(() => sample.SampleOperators);
-                AreEqual(1, () => sample.SampleOperators.Count);
-                IsNotNull(() => sample.SampleOperators[0]);
-                AreEqual(asSampleOperator, () => sample.SampleOperators[0]);
-                IsNotNull(() => sample.Bytes);
-                NotEqual(0, () => sample.Bytes.Length);
-                {
-                    int expectedByteCount = (int)(audioFileFormatEnum.GetHeaderLength() + SAMPLING_RATE * sample.GetFrameSize() * DURATION);
-                    Assert.AreEqual(expectedByteCount, sample.Bytes.Length);
-                    Console.WriteLine($"Byte count = {sample.Bytes.Length}");
-
-                    string expectedLocation = GetFullPath(audioFileOutput1.FilePath);
-                    NotNullOrEmpty(() => sample.Location);
-                    AreEqual(expectedLocation, () => sample.Location);
-
-                    string expectedName = GetFileNameWithoutExtension(GetFileName(default, callerMemberName));
-                    NotNullOrEmpty(() => sample.Name);
-                    AreEqual(expectedName, () => sample.Name);
-                }
-
-                // Sample Outlet From Different Sources
-                Outlet sampleOutlet_ImplicitConversionFromWrapper = sampleWrapper;
-                Outlet sampleOutlet_FromWrapperResult             = sampleWrapper.Result;
-                Outlet sampleOutlet_FromOperatorOutlets           = sampleOperator.Outlets[0];
-                IsNotNull(() => sampleOutlet_ImplicitConversionFromWrapper);
-                IsNotNull(() => sampleOutlet_FromWrapperResult);
-                IsNotNull(() => sampleOutlet_FromOperatorOutlets);
-                AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
-                AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
+                string expectedName = GetFileNameWithoutExtension(GetFileName(default, callerMemberName));
+                NotNullOrEmpty(() => sampleOperator.Name);
+                AreEqual(expectedName, () => sampleOperator.Name);
             }
+
+            // Sample Inlets
+            IsNotNull(() => sampleOperator.Inlets);
+            AreEqual(0, () => sampleOperator.Inlets.Count);
+
+            // Sample Outlets
+            IsNotNull(() => sampleOperator.Outlets);
+            AreEqual(1, () => sampleOperator.Outlets.Count);
+            IsNotNull(() => sampleOperator.Outlets[0]);
+
+            // Sample Outlet
+            Outlet sampleOutlet = sampleWrapper.Result;
+            IsNotNull(() => sampleOutlet);
+            IsNotNull(() => sampleOutlet.Operator);
+            AreEqual(sampleOperator, () => sampleOutlet.Operator);
+            AreEqual("Result",       () => sampleOutlet.Name);
+            IsNotNull(() => sampleOutlet.ConnectedInlets);
+            AreEqual(0, () => sampleOutlet.ConnectedInlets.Count);
+            IsNotNull(() => sampleOutlet.AsAudioFileOutputChannels);
+            AreEqual(0, () => sampleOutlet.AsAudioFileOutputChannels.Count);
+
+            // AsSampleOperator
+            SampleOperator asSampleOperator = sampleOperator.AsSampleOperator;
+            IsNotNull(() => asSampleOperator);
+            IsNotNull(() => asSampleOperator.Operator);
+            IsNotNull(() => asSampleOperator.Sample);
+            AreEqual(sampleOperator, () => asSampleOperator.Operator);
+
+            // Sample
+            Sample sample = sampleOperator.AsSampleOperator.Sample;
+            AreEqual(1,                   () => sample.TimeMultiplier);
+            AreEqual(true,                () => sample.IsActive);
+            AreEqual(0,                   () => sample.BytesToSkip);
+            AreEqual(SAMPLING_RATE,       () => sample.SamplingRate);
+            AreEqual(sampleDataTypeEnum,  () => sample.GetSampleDataTypeEnum());
+            AreEqual(speakerSetupEnum,    () => sample.GetSpeakerSetupEnum());
+            AreEqual(audioFileFormatEnum, () => sample.GetAudioFileFormatEnum());
+            AreEqual(Line,                () => sample.GetInterpolationTypeEnum());
+            IsNotNull(() => sample.SampleOperators);
+            AreEqual(1, () => sample.SampleOperators.Count);
+            IsNotNull(() => sample.SampleOperators[0]);
+            AreEqual(asSampleOperator, () => sample.SampleOperators[0]);
+            IsNotNull(() => sample.Bytes);
+            NotEqual(0, () => sample.Bytes.Length);
+            {
+                int expectedByteCount = (int)(audioFileFormatEnum.GetHeaderLength() + SAMPLING_RATE * sample.GetFrameSize() * DURATION);
+                Assert.AreEqual(expectedByteCount, sample.Bytes.Length);
+                Console.WriteLine($"Byte count = {sample.Bytes.Length}");
+
+                string expectedLocation = GetFullPath(filePath);
+                NotNullOrEmpty(() => sample.Location);
+                AreEqual(expectedLocation, () => sample.Location);
+
+                string expectedName = GetFileNameWithoutExtension(GetFileName(default, callerMemberName));
+                NotNullOrEmpty(() => sample.Name);
+                AreEqual(expectedName, () => sample.Name);
+            }
+
+            // Sample Outlet From Different Sources
+            Outlet sampleOutlet_ImplicitConversionFromWrapper = sampleWrapper;
+            Outlet sampleOutlet_FromWrapperResult             = sampleWrapper.Result;
+            Outlet sampleOutlet_FromOperatorOutlets           = sampleOperator.Outlets[0];
+            IsNotNull(() => sampleOutlet_ImplicitConversionFromWrapper);
+            IsNotNull(() => sampleOutlet_FromWrapperResult);
+            IsNotNull(() => sampleOutlet_FromOperatorOutlets);
+            AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
+            AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
         }
 
         // Helpers
