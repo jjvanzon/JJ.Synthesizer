@@ -320,8 +320,8 @@ namespace JJ.Business.Synthesizer.Tests
             Assert.IsTrue(panningValueE4 < panningValueG4);
         }
         
-        
         [TestMethod]
+        [TestCategory("Wip")]
         public void Test_Echo_UsingOutlets()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -331,13 +331,14 @@ namespace JJ.Business.Synthesizer.Tests
         void Echo_UsingOutlets_RunTest()
         {
             Outlet signal = Multiply(Sine(A4), CurveIn((0, 1), (0.2, 0)));
-            SaveAudio(() => signal, fileName: "Echo_UsingOutlets_Signal.wav");
+            SaveAudioMono(() => signal, fileName: "Echo_UsingOutlets_Signal.wav");
             
-            Outlet echoes = Echo(signal, delay: (Outlet)_[0.4], magnitude: _[0.5]);
-            SaveAudio(() => echoes, volume: 1, duration: 3, fileName: "Echo_UsingOutlets_Echoes.wav");
+            Outlet echoes = Echo(signal, magnitude: (Outlet)_[0.66], delay: _[0.5], count: 8);
+            SaveAudioMono(() => echoes, volume: 1, duration: 4, fileName: "Echo_UsingOutlets_Echoes.wav");
         }
         
         [TestMethod]
+        [TestCategory("Wip")]
         public void Test_Echo_UsingDoubles()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -347,10 +348,10 @@ namespace JJ.Business.Synthesizer.Tests
         void Echo_UsingDoubles_RunTest()
         {
             Outlet signal = Multiply(Sine(A4), CurveIn((0, 1), (0.2, 0)));
-            SaveAudio(() => signal, fileName: "Echo_UsingDoubles_Signal.wav");
+            SaveAudioMono(() => signal, fileName: "Echo_UsingDoubles_Signal.wav");
             
             Outlet echoes = Echo(signal, magnitude: 0.66, delay: 0.5, count: 8);
-            SaveAudio(() => echoes, volume: 1, duration: 4, fileName: "Echo_UsingDoubles_Echoes.wav");
+            SaveAudioMono(() => echoes, volume: 1, duration: 4, fileName: "Echo_UsingDoubles_Echoes.wav");
         }
     }
 }

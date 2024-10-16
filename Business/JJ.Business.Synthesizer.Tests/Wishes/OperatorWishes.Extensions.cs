@@ -272,25 +272,20 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             if (magnitude == null) magnitude = x.Value(0.66);
             if (delay == null) delay = x.Value(0.25);
 
-            Outlet cumulativeSignal = signal;
-
+            Outlet cumulativeSignal    = signal;
             Outlet cumulativeMagnitude = magnitude;
-            Outlet cumulativeDelay = delay;
+            Outlet cumulativeDelay     = delay;
             
-            int counter = 1;
-            while (counter < count + 1)
-            {
-                Outlet quieter   = x.Multiply(cumulativeSignal, cumulativeMagnitude);
-                Outlet shifted   = x.TimeAdd(quieter, cumulativeDelay);
-                
-                cumulativeSignal = x.Add(cumulativeSignal, shifted);
-                
-                cumulativeMagnitude = x.Multiply(cumulativeMagnitude, cumulativeMagnitude);
-                //cumulativeMagnitude    = x.Multiply(cumulativeMagnitude, magnitude);
-                cumulativeDelay      = x.Multiply(cumulativeDelay,     cumulativeDelay);
-                //cumulativeDelay        = x.Multiply(cumulativeDelay,     delay);
+            int loopCount = Log(count, 2);
 
-                counter *= 2;
+            for (int i = 0; i < loopCount; i++)
+            {
+                Outlet quieter = x.Multiply(cumulativeSignal, cumulativeMagnitude);
+                Outlet shifted = x.TimeAdd(quieter, cumulativeDelay);
+                
+                cumulativeSignal    = x.Add(cumulativeSignal, shifted);
+                cumulativeMagnitude = x.Multiply(cumulativeMagnitude, cumulativeMagnitude);
+                cumulativeDelay     = x.Add(cumulativeDelay, cumulativeDelay);
             }
 
             return cumulativeSignal;
