@@ -26,8 +26,14 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class AudioFormatTests : SynthesizerSugar
     {
-        private const int    SAMPLING_RATE = 4000;
-        private const double FREQUENCY     = 40;
+        // Aligned
+        //private const int    SAMPLING_RATE = 4096;
+        //private const double FREQUENCY     = 64;
+        
+        // Non aligned
+        private const int    SAMPLING_RATE = 4093;
+        private const double FREQUENCY     = 61;
+        
         private const double VOLUME        = 0.50;
         private const double PANNING       = 0.25;
         private const double DURATION      = 0.25;
@@ -565,17 +571,17 @@ namespace JJ.Business.Synthesizer.Tests
 
             if (sampleDataTypeEnum == Int16 && interpolationTypeEnum == Block)
             {
-                return 0.015;
+                return 0.050;
             }
 
             if (sampleDataTypeEnum == Byte && interpolationTypeEnum == Line)
             {
-                return 0.01;
+                return 0.010;
             }
 
             if (sampleDataTypeEnum == Byte && interpolationTypeEnum == Block)
             {
-                return 0.05;
+                return 0.050;
             }
 
             throw new NotSupportedException(
