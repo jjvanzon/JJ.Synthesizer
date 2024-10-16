@@ -117,8 +117,8 @@ namespace JJ.Business.Synthesizer.Tests
 
             AudioFileOutput audioFileOutput1 =
                 SaveAudio(getSignal, DURATION, volume: 1, 
-                          speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
-                          SAMPLING_RATE, callerMemberName).Data;
+                          speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, SAMPLING_RATE, 
+                          fileName: default, callerMemberName).Data;
 
             SampleOperatorWrapper getSample()
             {
@@ -139,21 +139,21 @@ namespace JJ.Business.Synthesizer.Tests
 
             AudioFileOutput audioFileOutput2 =
                 SaveAudio(() => getSample(), DURATION2, volume: 1,
-                          speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
-                          SAMPLING_RATE, GetFileName("_Reloaded", callerMemberName)).Data;
+                                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, SAMPLING_RATE,
+                                fileName: $"{callerMemberName}_Reloaded").Data;
 
             Channel = Single;
-            SampleOperatorWrapper monoSampleWrapper = getSample();
+            var sampleWrapperMono = getSample();
             
             Channel = Left;
-            SampleOperatorWrapper sampleWrapperLeft = getSample();
+            var sampleWrapperLeft = getSample();
             
             Channel = Right;
-            SampleOperatorWrapper sampleWrapperRight = getSample();
+            var sampleWrapperRight = getSample();
 
             AssertEntities(
                 audioFileOutput1,  audioFileOutput2, 
-                monoSampleWrapper, sampleWrapperLeft, sampleWrapperRight,
+                sampleWrapperMono, sampleWrapperLeft, sampleWrapperRight,
                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
                 callerMemberName);
 
@@ -187,15 +187,15 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] actualValues =
                 {
-                    Calculate(monoSampleWrapper, time: 0.0 / 8.0 / FREQUENCY),
-                    Calculate(monoSampleWrapper, time: 1.0 / 8.0 / FREQUENCY),
-                    Calculate(monoSampleWrapper, time: 2.0 / 8.0 / FREQUENCY),
-                    Calculate(monoSampleWrapper, time: 3.0 / 8.0 / FREQUENCY),
-                    Calculate(monoSampleWrapper, time: 4.0 / 8.0 / FREQUENCY),
-                    Calculate(monoSampleWrapper, time: 5.0 / 8.0 / FREQUENCY),
-                    Calculate(monoSampleWrapper, time: 6.0 / 8.0 / FREQUENCY),
-                    Calculate(monoSampleWrapper, time: 7.0 / 8.0 / FREQUENCY),
-                    Calculate(monoSampleWrapper, time: 8.0 / 8.0 / FREQUENCY)
+                    Calculate(sampleWrapperMono, time: 0.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperMono, time: 1.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperMono, time: 2.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperMono, time: 3.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperMono, time: 4.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperMono, time: 5.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperMono, time: 6.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperMono, time: 7.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperMono, time: 8.0 / 8.0 / FREQUENCY)
                 };
 
 
@@ -333,6 +333,9 @@ namespace JJ.Business.Synthesizer.Tests
             var audioFileOutputs = new[] { audioFileOutput1, audioFileOutput2 };
             foreach (var audioFileOutput in audioFileOutputs)
             {
+                string expectedFilePath;
+                double expectedDuration;
+                
                 // AudioFileOutput Values
                 AreEqual(audioFileFormatEnum, () => audioFileOutput.GetAudioFileFormatEnum());
                 AreEqual(speakerSetupEnum,    () => audioFileOutput.GetSpeakerSetupEnum());
@@ -359,16 +362,18 @@ namespace JJ.Business.Synthesizer.Tests
 
             // Specific per AudioFileOutput
             {
-                string expectedFilePath = GetFileName(default, callerMemberName) + audioFileFormatEnum.GetFileExtension();
+                string expectedFilePath = $"{callerMemberName}" + audioFileFormatEnum.GetFileExtension();
+                double expectedDuration = DURATION;
+                
                 AreEqual(expectedFilePath, () => audioFileOutput1.FilePath);
-
-                AreEqual(DURATION, () => audioFileOutput1.Duration);
+                AreEqual(expectedDuration, () => audioFileOutput1.Duration);
             }
             {
-                string expectedFilePath = GetFileName("_Reloaded", callerMemberName) + audioFileFormatEnum.GetFileExtension();
+                string expectedFilePath = $"{callerMemberName}{"_Reloaded"}" + audioFileFormatEnum.GetFileExtension();
+                double expectedDuration = DURATION2;
+                
                 AreEqual(expectedFilePath, () => audioFileOutput2.FilePath);
-
-                AreEqual(DURATION2, () => audioFileOutput2.Duration);
+                AreEqual(expectedDuration, () => audioFileOutput2.Duration);
             }
 
             // Samples
@@ -386,7 +391,7 @@ namespace JJ.Business.Synthesizer.Tests
                                  audioFileOutput1.FilePath, callerMemberName);
         }
 
-        void AssertSampleEntities(
+        private void AssertSampleEntities(
             SampleOperatorWrapper sampleWrapper, 
             AudioFileFormatEnum audioFileFormatEnum, 
             SpeakerSetupEnum speakerSetupEnum, 
@@ -407,7 +412,7 @@ namespace JJ.Business.Synthesizer.Tests
             IsNull(() => sampleOperator.AsValueOperator);
             IsNotNull(() => sampleOperator.AsSampleOperator);
             {
-                string expectedName = GetFileNameWithoutExtension(GetFileName(default, callerMemberName));
+                string expectedName = GetFileNameWithoutExtension($"{callerMemberName}{default(string)}");
                 NotNullOrEmpty(() => sampleOperator.Name);
                 AreEqual(expectedName, () => sampleOperator.Name);
             }
@@ -464,7 +469,7 @@ namespace JJ.Business.Synthesizer.Tests
                 NotNullOrEmpty(() => sample.Location);
                 AreEqual(expectedLocation, () => sample.Location);
 
-                string expectedName = GetFileNameWithoutExtension(GetFileName(default, callerMemberName));
+                string expectedName = GetFileNameWithoutExtension($"{callerMemberName}{default(string)}");
                 NotNullOrEmpty(() => sample.Name);
                 AreEqual(expectedName, () => sample.Name);
             }
@@ -481,9 +486,6 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         // Helpers
-
-        private string GetFileName(string suffix, [CallerMemberName] string callerMemberName = null)
-            => $"{callerMemberName}{suffix}";
 
         static double GetTolerance(SampleDataTypeEnum sampleDataTypeEnum)
         {
