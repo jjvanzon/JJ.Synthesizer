@@ -19,6 +19,7 @@ using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Framework.Testing.AssertHelper;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 // ReSharper disable RedundantArgumentDefaultValue
 
@@ -105,8 +106,9 @@ namespace JJ.Business.Synthesizer.Tests
             SampleDataTypeEnum sampleDataTypeEnum,
             [CallerMemberName] string callerMemberName = null)
         {
-            // Panned sine, save to file, use sample operator, save to file again
-
+            // Arrange
+            
+            // Panned, amplified sine
             Outlet getSignal()
             {
                 var sine      = Sine(_[FREQUENCY]);
@@ -115,11 +117,13 @@ namespace JJ.Business.Synthesizer.Tests
                 return panned;
             }
 
+            // Save to file
             AudioFileOutput audioFileOutput1 =
                 SaveAudio(getSignal, DURATION, volume: 1, 
                           speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, SAMPLING_RATE, 
                           fileName: default, callerMemberName).Data;
 
+            // Use sample operator
             SampleOperatorWrapper getSample()
             {
                 var wrapper = Sample(audioFileOutput1.FilePath);
@@ -136,26 +140,46 @@ namespace JJ.Business.Synthesizer.Tests
 
                 return wrapper;
             }
+            
+            Channel = Single; var sampleWrapperMono = getSample();
+            Channel = Left  ; var sampleWrapperLeft = getSample();
+            Channel = Right ; var sampleWrapperRight = getSample();
 
+            // Save to file again
             AudioFileOutput audioFileOutput2 =
                 SaveAudio(() => getSample(), DURATION2, volume: 1,
                                 speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, SAMPLING_RATE,
                                 fileName: $"{callerMemberName}_Reloaded").Data;
 
-            Channel = Single;
-            var sampleWrapperMono = getSample();
-            
-            Channel = Left;
-            var sampleWrapperLeft = getSample();
-            
-            Channel = Right;
-            var sampleWrapperRight = getSample();
+            // Assert AudioFileOutput Entities
 
-            AssertEntities(
-                audioFileOutput1,  audioFileOutput2, 
-                sampleWrapperMono, sampleWrapperLeft, sampleWrapperRight,
+            string expectedFilePath1 = $"{callerMemberName}" + audioFileFormatEnum.GetFileExtension();
+            
+            AssertAudioFileOutputEntities(
+                audioFileOutput1,
                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
-                callerMemberName);
+                expectedFilePath1, DURATION);
+
+            string expectedFilePath2 = $"{callerMemberName}_Reloaded" + audioFileFormatEnum.GetFileExtension();
+            
+            AssertAudioFileOutputEntities(
+                audioFileOutput2,
+                audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
+                expectedFilePath2, DURATION2);
+
+            // Assert Samples Entities
+            
+            AssertSampleEntities(sampleWrapperMono,
+                                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
+                                 audioFileOutput1.FilePath, callerMemberName);
+            
+            AssertSampleEntities(sampleWrapperLeft,
+                                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
+                                 audioFileOutput1.FilePath, callerMemberName);
+            
+            AssertSampleEntities(sampleWrapperRight,
+                                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
+                                 audioFileOutput1.FilePath, callerMemberName);
 
             // Get Values
 
@@ -219,6 +243,8 @@ namespace JJ.Business.Synthesizer.Tests
 
             if (speakerSetupEnum == Stereo)
             {
+                // GetValues
+
                 // Left
                 
                 double[] expectedL =
@@ -316,79 +342,33 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        private void AssertEntities(
-            AudioFileOutput audioFileOutput1,
-            AudioFileOutput audioFileOutput2,
-            SampleOperatorWrapper sampleWrapperMono,
-            SampleOperatorWrapper sampleWrapperLeft,
-            SampleOperatorWrapper sampleWrapperRight,
-            AudioFileFormatEnum audioFileFormatEnum,
-            SpeakerSetupEnum speakerSetupEnum,
-            SampleDataTypeEnum sampleDataTypeEnum,
-            string callerMemberName)
+        static void AssertAudioFileOutputEntities(AudioFileOutput audioFileOutput, AudioFileFormatEnum audioFileFormatEnum, SpeakerSetupEnum speakerSetupEnum, SampleDataTypeEnum sampleDataTypeEnum, string expectedFilePath, double expectedDuration)
         {
-            int channelCount = speakerSetupEnum.GetChannelCount();
-
             // AudioFileOutput
-            var audioFileOutputs = new[] { audioFileOutput1, audioFileOutput2 };
-            foreach (var audioFileOutput in audioFileOutputs)
-            {
-                string expectedFilePath;
-                double expectedDuration;
+            AreEqual(audioFileFormatEnum, () => audioFileOutput.GetAudioFileFormatEnum());
+            AreEqual(speakerSetupEnum,    () => audioFileOutput.GetSpeakerSetupEnum());
+            AreEqual(sampleDataTypeEnum,  () => audioFileOutput.GetSampleDataTypeEnum());
+            AreEqual(SAMPLING_RATE,       () => audioFileOutput.SamplingRate);
+            AreEqual(expectedFilePath,    () => audioFileOutput.FilePath);
+            AreEqual(expectedDuration,    () => audioFileOutput.Duration);
                 
-                // AudioFileOutput Values
-                AreEqual(audioFileFormatEnum, () => audioFileOutput.GetAudioFileFormatEnum());
-                AreEqual(speakerSetupEnum,    () => audioFileOutput.GetSpeakerSetupEnum());
-                AreEqual(sampleDataTypeEnum,  () => audioFileOutput.GetSampleDataTypeEnum());
-                AreEqual(SAMPLING_RATE,       () => audioFileOutput.SamplingRate);
+            NotNullOrEmpty(() => audioFileOutput.FilePath);
+            AreEqual(sampleDataTypeEnum.GetMaxAmplitude(), () => audioFileOutput.Amplifier);
 
-                AreEqual(sampleDataTypeEnum.GetMaxAmplitude(), () => audioFileOutput.Amplifier);
-                NotNullOrEmpty(() => audioFileOutput.FilePath);
+            // AudioFileOutputChannels
+            IsNotNull(() => audioFileOutput.AudioFileOutputChannels);
+            int channelCount = speakerSetupEnum.GetChannelCount();
+            AreEqual(channelCount, () => audioFileOutput.AudioFileOutputChannels.Count);
 
-                // AudioFileOutputChannels
-                IsNotNull(() => audioFileOutput.AudioFileOutputChannels);
-                AreEqual(channelCount, () => audioFileOutput.AudioFileOutputChannels.Count);
-
-                for (var i = 0; i < channelCount; i++)
-                {
-                    AudioFileOutputChannel channel = audioFileOutput.AudioFileOutputChannels[i];
-                    IsNotNull(() => channel.Outlet);
-                    IsNotNull(() => channel.AudioFileOutput);
-                    AreEqual(i, () => channel.Index);
-                    IsNotNull(() => channel.AudioFileOutput);
-                    AreEqual(audioFileOutput, () => channel.AudioFileOutput);
-                }
-            }
-
-            // Specific per AudioFileOutput
+            for (var i = 0; i < channelCount; i++)
             {
-                string expectedFilePath = $"{callerMemberName}" + audioFileFormatEnum.GetFileExtension();
-                double expectedDuration = DURATION;
-                
-                AreEqual(expectedFilePath, () => audioFileOutput1.FilePath);
-                AreEqual(expectedDuration, () => audioFileOutput1.Duration);
+                AudioFileOutputChannel channel = audioFileOutput.AudioFileOutputChannels[i];
+                IsNotNull(() => channel.Outlet);
+                IsNotNull(() => channel.AudioFileOutput);
+                AreEqual(i, () => channel.Index);
+                IsNotNull(() => channel.AudioFileOutput);
+                AreEqual(audioFileOutput, () => channel.AudioFileOutput);
             }
-            {
-                string expectedFilePath = $"{callerMemberName}{"_Reloaded"}" + audioFileFormatEnum.GetFileExtension();
-                double expectedDuration = DURATION2;
-                
-                AreEqual(expectedFilePath, () => audioFileOutput2.FilePath);
-                AreEqual(expectedDuration, () => audioFileOutput2.Duration);
-            }
-
-            // Samples
-            
-            AssertSampleEntities(sampleWrapperMono,
-                                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
-                                 audioFileOutput1.FilePath, callerMemberName);
-            
-            AssertSampleEntities(sampleWrapperLeft,
-                                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
-                                 audioFileOutput1.FilePath, callerMemberName);
-            
-            AssertSampleEntities(sampleWrapperRight,
-                                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum,
-                                 audioFileOutput1.FilePath, callerMemberName);
         }
 
         private void AssertSampleEntities(
