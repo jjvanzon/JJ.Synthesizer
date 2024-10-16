@@ -122,6 +122,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="AudioFileWishesTests.cs" />
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="OperatorWishesTests.cs" />
     <Compile Include="CurveWishesTests.cs" />

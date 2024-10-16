@@ -18,6 +18,7 @@ using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Framework.Testing.AssertHelper;
+using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 // ReSharper disable RedundantArgumentDefaultValue
 
@@ -233,7 +234,7 @@ namespace JJ.Business.Synthesizer.Tests
                 
                 AssertSampleEntities(sampleWrapperMono,
                                      audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum,
-                                     audioFileOutput1.FilePath, callerMemberName);
+                                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
             }
 
             if (speakerSetupEnum == Stereo)
@@ -244,7 +245,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 AssertSampleEntities(sampleWrapperLeft,
                                      audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum,
-                                     audioFileOutput1.FilePath, callerMemberName);
+                                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
 
                 Channel = Right;
                 
@@ -252,7 +253,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 AssertSampleEntities(sampleWrapperRight,
                                      audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum,
-                                     audioFileOutput1.FilePath, callerMemberName);
+                                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
             }
             
             // Get Values
@@ -304,15 +305,15 @@ namespace JJ.Business.Synthesizer.Tests
 
                 // Assert Values
                 
-                Assert.AreEqual(expectedValues[0], actualValues[0], tolerance);
-                Assert.AreEqual(expectedValues[1], actualValues[1], tolerance);
-                Assert.AreEqual(expectedValues[2], actualValues[2], tolerance);
-                Assert.AreEqual(expectedValues[3], actualValues[3], tolerance);
-                Assert.AreEqual(expectedValues[4], actualValues[4], tolerance);
-                Assert.AreEqual(expectedValues[5], actualValues[5], tolerance);
-                Assert.AreEqual(expectedValues[6], actualValues[6], tolerance);
-                Assert.AreEqual(expectedValues[7], actualValues[7], tolerance);
-                Assert.AreEqual(expectedValues[8], actualValues[8], tolerance);
+                AreEqual(expectedValues[0], actualValues[0], tolerance);
+                AreEqual(expectedValues[1], actualValues[1], tolerance);
+                AreEqual(expectedValues[2], actualValues[2], tolerance);
+                AreEqual(expectedValues[3], actualValues[3], tolerance);
+                AreEqual(expectedValues[4], actualValues[4], tolerance);
+                AreEqual(expectedValues[5], actualValues[5], tolerance);
+                AreEqual(expectedValues[6], actualValues[6], tolerance);
+                AreEqual(expectedValues[7], actualValues[7], tolerance);
+                AreEqual(expectedValues[8], actualValues[8], tolerance);
             }
 
             // Stereo
@@ -398,43 +399,56 @@ namespace JJ.Business.Synthesizer.Tests
                 
                 // Left
                 
-                Assert.AreEqual(expectedL[0], actualL[0], tolerance);
-                Assert.AreEqual(expectedL[1], actualL[1], tolerance);
-                Assert.AreEqual(expectedL[2], actualL[2], tolerance);
-                Assert.AreEqual(expectedL[3], actualL[3], tolerance);
-                Assert.AreEqual(expectedL[4], actualL[4], tolerance);
-                Assert.AreEqual(expectedL[5], actualL[5], tolerance);
-                Assert.AreEqual(expectedL[6], actualL[6], tolerance);
-                Assert.AreEqual(expectedL[7], actualL[7], tolerance);
-                Assert.AreEqual(expectedL[8], actualL[8], tolerance);
+                AreEqual(expectedL[0], actualL[0], tolerance);
+                AreEqual(expectedL[1], actualL[1], tolerance);
+                AreEqual(expectedL[2], actualL[2], tolerance);
+                AreEqual(expectedL[3], actualL[3], tolerance);
+                AreEqual(expectedL[4], actualL[4], tolerance);
+                AreEqual(expectedL[5], actualL[5], tolerance);
+                AreEqual(expectedL[6], actualL[6], tolerance);
+                AreEqual(expectedL[7], actualL[7], tolerance);
+                AreEqual(expectedL[8], actualL[8], tolerance);
 
                 // Right
                 
-                Assert.AreEqual(expectedR[0], actualR[0], tolerance);
-                Assert.AreEqual(expectedR[1], actualR[1], tolerance);
-                Assert.AreEqual(expectedR[2], actualR[2], tolerance);
-                Assert.AreEqual(expectedR[3], actualR[3], tolerance);
-                Assert.AreEqual(expectedR[4], actualR[4], tolerance);
-                Assert.AreEqual(expectedR[5], actualR[5], tolerance);
-                Assert.AreEqual(expectedR[6], actualR[6], tolerance);
-                Assert.AreEqual(expectedR[7], actualR[7], tolerance);
-                Assert.AreEqual(expectedR[8], actualR[8], tolerance);
+                AreEqual(expectedR[0], actualR[0], tolerance);
+                AreEqual(expectedR[1], actualR[1], tolerance);
+                AreEqual(expectedR[2], actualR[2], tolerance);
+                AreEqual(expectedR[3], actualR[3], tolerance);
+                AreEqual(expectedR[4], actualR[4], tolerance);
+                AreEqual(expectedR[5], actualR[5], tolerance);
+                AreEqual(expectedR[6], actualR[6], tolerance);
+                AreEqual(expectedR[7], actualR[7], tolerance);
+                AreEqual(expectedR[8], actualR[8], tolerance);
             }
         }
 
-        static void AssertAudioFileOutputEntities(AudioFileOutput audioFileOutput, AudioFileFormatEnum audioFileFormatEnum, SpeakerSetupEnum speakerSetupEnum, SampleDataTypeEnum sampleDataTypeEnum, string expectedFilePath, double expectedDuration)
+        static void AssertAudioFileOutputEntities(
+            AudioFileOutput audioFileOutput, 
+            AudioFileFormatEnum audioFileFormatEnum,
+            SpeakerSetupEnum speakerSetupEnum, 
+            SampleDataTypeEnum sampleDataTypeEnum, 
+            string expectedFilePath, 
+            double expectedDuration)
         {
             // AudioFileOutput
-            AreEqual(audioFileFormatEnum, () => audioFileOutput.GetAudioFileFormatEnum());
-            AreEqual(speakerSetupEnum,    () => audioFileOutput.GetSpeakerSetupEnum());
-            AreEqual(sampleDataTypeEnum,  () => audioFileOutput.GetSampleDataTypeEnum());
+            IsNotNull(() => audioFileOutput.AudioFileFormat);
+            IsNotNull(() => audioFileOutput.SampleDataType);
+            IsNotNull(() => audioFileOutput.SpeakerSetup);
+            
             AreEqual(SAMPLING_RATE,       () => audioFileOutput.SamplingRate);
             AreEqual(expectedFilePath,    () => audioFileOutput.FilePath);
+            AreEqual(0,                   () => audioFileOutput.StartTime);
+            AreEqual(expectedDuration,    () => audioFileOutput.GetEndTime());
             AreEqual(expectedDuration,    () => audioFileOutput.Duration);
-                
-            NotNullOrEmpty(() => audioFileOutput.FilePath);
-            AreEqual(sampleDataTypeEnum.GetMaxAmplitude(), () => audioFileOutput.Amplifier);
+            AreEqual(audioFileFormatEnum, () => audioFileOutput.GetAudioFileFormatEnum());
+            AreEqual(sampleDataTypeEnum,  () => audioFileOutput.GetSampleDataTypeEnum());
+            AreEqual(speakerSetupEnum,    () => audioFileOutput.GetSpeakerSetupEnum());
 
+            IsTrue(audioFileOutput.ID > 0, "audioFileOutput.ID > 0");
+            double expectedAmplifier = sampleDataTypeEnum.GetMaxAmplitude();
+            AreEqual(expectedAmplifier, () => audioFileOutput.Amplifier);
+            
             // AudioFileOutputChannels
             IsNotNull(() => audioFileOutput.AudioFileOutputChannels);
             int channelCount = speakerSetupEnum.GetChannelCount();
@@ -457,6 +471,7 @@ namespace JJ.Business.Synthesizer.Tests
             SpeakerSetupEnum speakerSetupEnum, 
             SampleDataTypeEnum sampleDataTypeEnum, 
             InterpolationTypeEnum interpolationTypeEnum,
+            double expectedDuration,
             string filePath,
             string callerMemberName)
         {
@@ -507,20 +522,24 @@ namespace JJ.Business.Synthesizer.Tests
 
             // Sample
             Sample sample = sampleOperator.AsSampleOperator.Sample;
-            AreEqual(1,                     () => sample.TimeMultiplier);
-            AreEqual(true,                  () => sample.IsActive);
-            AreEqual(0,                     () => sample.BytesToSkip);
-            AreEqual(SAMPLING_RATE,         () => sample.SamplingRate);
-            AreEqual(sampleDataTypeEnum,    () => sample.GetSampleDataTypeEnum());
-            AreEqual(speakerSetupEnum,      () => sample.GetSpeakerSetupEnum());
-            AreEqual(audioFileFormatEnum,   () => sample.GetAudioFileFormatEnum());
-            AreEqual(interpolationTypeEnum, () => sample.GetInterpolationTypeEnum());
+            AreEqual(1,                                () => sample.TimeMultiplier);
+            AreEqual(true,                             () => sample.IsActive);
+            AreEqual(0,                                () => sample.BytesToSkip);
+            AreEqual(SAMPLING_RATE,                    () => sample.SamplingRate);
+            AreEqual(sampleDataTypeEnum,               () => sample.GetSampleDataTypeEnum());
+            AreEqual(speakerSetupEnum,                 () => sample.GetSpeakerSetupEnum());
+            AreEqual(audioFileFormatEnum,              () => sample.GetAudioFileFormatEnum());
+            AreEqual(interpolationTypeEnum,            () => sample.GetInterpolationTypeEnum());
+
+            int expectedChannelCount = speakerSetupEnum == Mono ? 1 : 2;
+            AreEqual(expectedChannelCount, () => sample.GetChannelCount());
+
             IsNotNull(() => sample.SampleOperators);
             AreEqual(1, () => sample.SampleOperators.Count);
             IsNotNull(() => sample.SampleOperators[0]);
             AreEqual(asSampleOperator, () => sample.SampleOperators[0]);
             IsNotNull(() => sample.Bytes);
-            
+
             // ByteCount
             {
                 NotEqual(0, () => sample.Bytes.Length);
@@ -533,10 +552,10 @@ namespace JJ.Business.Synthesizer.Tests
                 Console.WriteLine($"Byte count expected  = {byteCountExpected}");
                 Console.WriteLine($"Byte count actual    = {sample.Bytes.Length}");
                 
-                Assert.AreEqual(byteCountExpected, sample.Bytes.Length, byteCountTolerance);
+                AreEqual(byteCountExpected, sample.Bytes.Length, byteCountTolerance);
             }
             
-            // Locations
+            // Paths
             {
                 string expectedLocation = GetFullPath(filePath);
                 NotNullOrEmpty(() => sample.Location);
@@ -547,6 +566,10 @@ namespace JJ.Business.Synthesizer.Tests
                 AreEqual(expectedName, () => sample.Name);
             }
 
+            // Sample Duration
+            double durationTolerance_RatherHigh = 0.02;
+            AreEqual(expectedDuration, sample.GetDuration(), durationTolerance_RatherHigh);
+            
             // Sample Outlet From Different Sources
             Outlet sampleOutlet_ImplicitConversionFromWrapper = sampleWrapper;
             Outlet sampleOutlet_FromWrapperResult             = sampleWrapper.Result;
@@ -561,8 +584,9 @@ namespace JJ.Business.Synthesizer.Tests
 
         // Helpers
 
-        private double GetValueTolerance(SampleDataTypeEnum sampleDataTypeEnum,
-                                   InterpolationTypeEnum interpolationTypeEnum)
+        private double GetValueTolerance(
+            SampleDataTypeEnum sampleDataTypeEnum,
+            InterpolationTypeEnum interpolationTypeEnum)
         {
             if (sampleDataTypeEnum == Int16 && interpolationTypeEnum == Line)
             {
