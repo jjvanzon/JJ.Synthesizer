@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
-    internal static class ValidationMessageExtensions
+    public static class ValidationMessageExtensions
     {
         public static JJ.Business.CanonicalModel.ValidationMessage ToCanonical(this JJ.Framework.Validation.ValidationMessage sourceEntity)
         {
