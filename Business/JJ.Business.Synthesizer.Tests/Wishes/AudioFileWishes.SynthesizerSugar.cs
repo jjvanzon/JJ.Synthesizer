@@ -19,6 +19,7 @@ using JJ.Framework.Configuration;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using ValidationMessage = JJ.Framework.Validation.ValidationMessage;
@@ -33,11 +34,15 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         public readonly ChannelEnum        Single = ChannelEnum.Single;
 
         private void InitializeAudioFileOutputWishes(IContext context)
-            => _audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
+        {
+            _interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
+            _audioFileOutputManager      = TestHelper.CreateAudioFileOutputManager(context);
+        }
 
         private static readonly ConfigurationSection _configuration = CustomConfigurationManager.GetSection<ConfigurationSection>();
 
-        private AudioFileOutputManager _audioFileOutputManager;
+        private IInterpolationTypeRepository _interpolationTypeRepository;
+        private AudioFileOutputManager       _audioFileOutputManager;
 
         private string NewLine => Environment.NewLine;
 
@@ -46,13 +51,16 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// </summary>
         /// <param name="filePath">The file path of the audio sample to load.</param>
         /// <returns><see cref="SampleOperatorWrapper"/>  that can be used as an <see cref="Outlet"/> too.</returns>
-        public SampleOperatorWrapper Sample(string filePath)
+        public SampleOperatorWrapper Sample(
+            string filePath, 
+            InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line)
         { 
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 Sample sample = Samples.CreateSample(stream);
                 sample.Location = Path.GetFullPath(filePath);
                 sample.Name = Path.GetFileNameWithoutExtension(filePath);
+                sample.SetInterpolationTypeEnum(interpolationTypeEnum, _interpolationTypeRepository);
 
                 SampleOperatorWrapper wrapper = Sample(sample);
                 ((Outlet)wrapper).Operator.Name = sample.Name;
@@ -80,12 +88,20 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 {
                     case SpeakerSetupEnum.Mono:
                         Channel = ChannelEnum.Single; var monoOutlet = func();
-                        return SaveAudio(new[] { monoOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, fileName, callerMemberName);
+                        return SaveAudio(
+                            new[] { monoOutlet }, 
+                            duration, volume, 
+                            sampleDataTypeEnum, audioFileFormatEnum, 
+                            samplingRateOverride, fileName, callerMemberName);
 
                     case SpeakerSetupEnum.Stereo:
                         Channel = Left ; var leftOutlet  = func();
                         Channel = Right; var rightOutlet = func();
-                        return SaveAudio(new[] { leftOutlet, rightOutlet }, duration, volume, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, fileName, callerMemberName);
+                        return SaveAudio(
+                            new[] { leftOutlet, rightOutlet }, 
+                            duration, volume, 
+                            sampleDataTypeEnum, audioFileFormatEnum, 
+                            samplingRateOverride, fileName, callerMemberName);
                     default:
                         throw new ValueNotSupportedException(speakerSetupEnum);
                 }
@@ -99,13 +115,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <inheritdoc cref="docs._saveaudio" />
         private Result<AudioFileOutput> SaveAudio(
             IList<Outlet> channels,
-            double duration = default,
-            double volume = default,
-            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
-            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
-            int samplingRateOverride = default,
-            string fileName = default,
-            string callerMemberName = null)
+            double duration,
+            double volume,
+            SampleDataTypeEnum sampleDataTypeEnum,
+            AudioFileFormatEnum audioFileFormatEnum,
+            int samplingRateOverride,
+            string fileName,
+            string callerMemberName)
         {
             Console.WriteLine();
 
@@ -179,7 +195,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             int samplingRateOverride = default,
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
-            => SaveAudio(func, duration, volume, SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, fileName, callerMemberName);
+            => SaveAudio(func, 
+                         duration, volume, 
+                         SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum, 
+                         samplingRateOverride, fileName, callerMemberName);
 
         // Helpers
         
