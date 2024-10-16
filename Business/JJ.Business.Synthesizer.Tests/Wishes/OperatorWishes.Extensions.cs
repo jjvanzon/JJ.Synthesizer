@@ -234,13 +234,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return newPanning;
         }
 
-        public static double Calculate(this Outlet outlet, double time)
+        public static double Calculate(this Outlet outlet, double time, int channelIndex = 0)
         {
-            var calculator = new OperatorCalculator(default);
+            var calculator = new OperatorCalculator(channelIndex);
             return calculator.CalculateValue(outlet, time);
         }
 
-        public static double Calculate(this SampleOperatorWrapper wrapper, double time)
-            => Calculate((Outlet)wrapper, time);
+        public static double Calculate(this SampleOperatorWrapper wrapper, double time, int channelIndex = 0)
+            => Calculate((Outlet)wrapper, time, channelIndex);
     }
 }
