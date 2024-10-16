@@ -189,9 +189,8 @@ namespace JJ.Business.Synthesizer.Tests
                     wrapper.Sample.SamplingRate   = SAMPLING_RATE;
                     wrapper.Sample.SpeakerSetup   = audioFileOutput1.SpeakerSetup;
                     wrapper.Sample.SampleDataType = audioFileOutput1.SampleDataType;
+                    wrapper.Sample.Amplifier      = 1.0 / audioFileOutput1.SampleDataType.GetMaxAmplitude();
                 }
-
-                wrapper.Sample.Amplifier = 1.0 / audioFileOutput1.SampleDataType.GetMaxAmplitude();
 
                 return wrapper;
             }

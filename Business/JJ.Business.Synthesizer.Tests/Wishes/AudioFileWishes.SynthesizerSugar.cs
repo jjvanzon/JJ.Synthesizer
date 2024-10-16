@@ -48,6 +48,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         /// <summary>
         /// Creates a Sample by reading the file at the given <paramref name="filePath" />.
+        /// Sets the <see cref=Sample.Amplifier" /> to scale values to range between -1 and +1.
         /// </summary>
         /// <param name="filePath">The file path of the audio sample to load.</param>
         /// <returns><see cref="SampleOperatorWrapper"/>  that can be used as an <see cref="Outlet"/> too.</returns>
@@ -61,6 +62,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 sample.Location = Path.GetFullPath(filePath);
                 sample.Name = Path.GetFileNameWithoutExtension(filePath);
                 sample.SetInterpolationTypeEnum(interpolationTypeEnum, _interpolationTypeRepository);
+                sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
 
                 SampleOperatorWrapper wrapper = Sample(sample);
                 ((Outlet)wrapper).Operator.Name = sample.Name;
