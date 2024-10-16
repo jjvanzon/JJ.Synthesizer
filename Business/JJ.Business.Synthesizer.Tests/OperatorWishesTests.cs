@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
@@ -317,6 +318,39 @@ namespace JJ.Business.Synthesizer.Tests
             Assert.IsTrue(panningValueG4 > 0.5);
             Assert.IsTrue(panningValueG4 < 1.0);
             Assert.IsTrue(panningValueE4 < panningValueG4);
+        }
+        
+        
+        [TestMethod]
+        public void Test_Echo_UsingOutlets()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new OperatorWishesTests(context).Echo_UsingOutlets_RunTest();
+        }
+
+        void Echo_UsingOutlets_RunTest()
+        {
+            Outlet signal = Multiply(Sine(A4), CurveIn((0, 1), (0.2, 0)));
+            SaveAudio(() => signal, fileName: "Echo_UsingOutlets_Signal.wav");
+            
+            Outlet echoes = Echo(signal, delay: (Outlet)_[0.4], magnitude: _[0.5]);
+            SaveAudio(() => echoes, volume: 1, duration: 3, fileName: "Echo_UsingOutlets_Echoes.wav");
+        }
+        
+        [TestMethod]
+        public void Test_Echo_UsingDoubles()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new OperatorWishesTests(context).Echo_UsingDoubles_RunTest();
+        }
+
+        void Echo_UsingDoubles_RunTest()
+        {
+            Outlet signal = Multiply(Sine(A4), CurveIn((0, 1), (0.2, 0)));
+            SaveAudio(() => signal, fileName: "Echo_UsingDoubles_Signal.wav");
+            
+            Outlet echoes = Echo(signal, magnitude: 0.66, delay: 0.5, count: 8);
+            SaveAudio(() => echoes, volume: 1, duration: 4, fileName: "Echo_UsingDoubles_Echoes.wav");
         }
     }
 }

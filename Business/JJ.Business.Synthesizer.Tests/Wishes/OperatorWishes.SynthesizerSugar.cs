@@ -68,8 +68,14 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             => OperatorExtensionsWishes.PitchPan(
                 this, actualFrequency, centerFrequency, referenceFrequency, referencePanning);
 
+        public Outlet Echo(Outlet signal, double magnitude = 0.66, double delay = 0.25, int count = 16)
+            => OperatorExtensionsWishes.Echo(this, signal, magnitude, delay, count);
+
+        public Outlet Echo(Outlet signal, Outlet magnitude = default, Outlet delay = default, int count = 16)
+            => OperatorExtensionsWishes.Echo(this, signal, magnitude, delay, count);
+
         // ValueIndexer
-        
+
         /// <inheritdoc cref="docs._valueindexer" />
         public ValueIndexer _;
 

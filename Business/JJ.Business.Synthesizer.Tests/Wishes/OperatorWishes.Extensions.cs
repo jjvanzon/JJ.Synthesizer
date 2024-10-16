@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Calculation;
+﻿using System;
+using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
@@ -232,6 +234,88 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             double newPanning          = centerPanning + newPanningDeviation;
 
             return newPanning;
+        }
+
+        public static Outlet Echo(
+            this OperatorFactory x, Outlet signal, 
+            double magnitude = 0.66, double delay = 0.25, int count = 16)
+        {
+            if (x == null) throw new NullException(() => x);
+            if (signal == null) throw new NullException(() => signal);
+
+            Outlet cumulativeSignal    = signal;
+            double cumulativeMagnitude = magnitude;
+            double cumulativeDelay     = delay;
+
+            int loopCount = Log(count, 2);
+            
+            for (int i = 0; i < loopCount; i++)
+            {
+                Outlet quieter = x.Multiply(cumulativeSignal, x.Value(cumulativeMagnitude));
+                Outlet shifted = x.TimeAdd(quieter, x.Value(cumulativeDelay));
+                
+                cumulativeSignal = x.Add(cumulativeSignal, shifted);
+
+                cumulativeMagnitude *= cumulativeMagnitude;
+                cumulativeDelay     += cumulativeDelay;
+            }
+
+            return cumulativeSignal;
+        }
+
+        public static Outlet Echo(
+            this OperatorFactory x, Outlet signal,
+            Outlet magnitude = null, Outlet delay = null, int count = 16)
+        {
+            if (x == null) throw new NullException(() => x);
+            if (signal == null) throw new NullException(() => signal);
+            if (magnitude == null) magnitude = x.Value(0.66);
+            if (delay == null) delay = x.Value(0.25);
+
+            Outlet cumulativeSignal = signal;
+
+            Outlet cumulativeMagnitude = magnitude;
+            Outlet cumulativeDelay = delay;
+            
+            int counter = 1;
+            while (counter < count + 1)
+            {
+                Outlet quieter   = x.Multiply(cumulativeSignal, cumulativeMagnitude);
+                Outlet shifted   = x.TimeAdd(quieter, cumulativeDelay);
+                
+                cumulativeSignal = x.Add(cumulativeSignal, shifted);
+                
+                cumulativeMagnitude = x.Multiply(cumulativeMagnitude, cumulativeMagnitude);
+                //cumulativeMagnitude    = x.Multiply(cumulativeMagnitude, magnitude);
+                cumulativeDelay      = x.Multiply(cumulativeDelay,     cumulativeDelay);
+                //cumulativeDelay        = x.Multiply(cumulativeDelay,     delay);
+
+                counter *= 2;
+            }
+
+            return cumulativeSignal;
+        }
+
+
+        /// <summary>
+        /// Integer variation of the Math.Log function.
+        /// It will only return integers,
+        /// but will prevent rounding errors such as
+        /// 1000 log 10 = 2.99999999996.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Log(int value, int n)
+        {
+            int temp = value;
+            var i    = 0;
+
+            while (temp >= n)
+            {
+                temp /= n;
+                i++;
+            }
+
+            return i;
         }
 
         public static double Calculate(this Outlet outlet, double time, int channelIndex = 0)
