@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Persistence;
@@ -20,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         public SynthesizerSugar()
             : this(PersistenceHelper.CreateContext())
         { }
-        
+
         public SynthesizerSugar(IContext context)
             : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
                    PersistenceHelper.CreateRepository<IInletRepository>(context),
@@ -30,7 +29,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                    PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context))
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
-            
+
             _audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
             _sampleDataTypeRepository  = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
 

@@ -27,6 +27,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 {
     public partial class SynthesizerSugar
     {
+        // Want my static usings, but clashes with System type names.
+        public readonly SampleDataTypeEnum Int16  = SampleDataTypeEnum.Int16;
+        public readonly SampleDataTypeEnum Byte   = SampleDataTypeEnum.Byte;
+        public readonly ChannelEnum        Single = ChannelEnum.Single;
+
         private void InitializeAudioFileOutputWishes(IContext context)
             => _audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
 
