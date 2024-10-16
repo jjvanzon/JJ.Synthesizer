@@ -27,20 +27,13 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class AudioFormatTests : SynthesizerSugar
     {
-        private const int    SAMPLING_RATE     = 4000;
-        private const double FREQUENCY         = 40;
-        private const double VOLUME            = 0.50;
-        private const double PANNING           = 0.25;
-        private const double DURATION          = 0.25;
-        //private const double DURATION2       = DURATION * 1.001; // For testing array bounds checks.
-        //private const double DURATION2       = DURATION;
-        private const double DURATION2         = DURATION * 0.999; // For not failing over array bounds bug.
-        private const int    ROUNDING_DECIMALS = 4;
-
-        // Want my static usings, but clashes with System type names.
-        private readonly SampleDataTypeEnum Int16  = SampleDataTypeEnum.Int16;
-        private readonly SampleDataTypeEnum Byte   = SampleDataTypeEnum.Byte;
-        private readonly ChannelEnum        Single = ChannelEnum.Single;
+        private const int    SAMPLING_RATE = 4000;
+        private const double FREQUENCY     = 40;
+        private const double VOLUME        = 0.50;
+        private const double PANNING       = 0.25;
+        private const double DURATION      = 0.25;
+        private const double DURATION2     = DURATION * 1.001;
+        private const int    DECIMALS      = 4;
 
         [UsedImplicitly]
         public AudioFormatTests()
@@ -50,7 +43,6 @@ namespace JJ.Business.Synthesizer.Tests
             : base(context)
         { }
 
-        [TestCategory("Wip")]
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_16Bit()
         {
@@ -58,7 +50,6 @@ namespace JJ.Business.Synthesizer.Tests
                 new AudioFormatTests(context).Test_AudioFormat(Wav, Stereo, Int16);
         }
 
-        [TestCategory("Wip")]
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_16Bit()
         {
@@ -66,7 +57,6 @@ namespace JJ.Business.Synthesizer.Tests
                 new AudioFormatTests(context).Test_AudioFormat(Wav, Mono, Int16);
         }
 
-        [TestCategory("Wip")]
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_8Bit()
         {
@@ -74,7 +64,6 @@ namespace JJ.Business.Synthesizer.Tests
                 new AudioFormatTests(context).Test_AudioFormat(Wav, Stereo, Byte);
         }
 
-        [TestCategory("Wip")]
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_8Bit()
         {
@@ -82,7 +71,6 @@ namespace JJ.Business.Synthesizer.Tests
                 new AudioFormatTests(context).Test_AudioFormat(Wav, Mono, Byte);
         }
 
-        [TestCategory("Wip")]
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_16Bit()
         {
@@ -90,7 +78,6 @@ namespace JJ.Business.Synthesizer.Tests
                 new AudioFormatTests(context).Test_AudioFormat(Raw, Stereo, Int16);
         }
 
-        [TestCategory("Wip")]
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_16Bit()
         {
@@ -98,7 +85,6 @@ namespace JJ.Business.Synthesizer.Tests
                 new AudioFormatTests(context).Test_AudioFormat(Raw, Mono, Int16);
         }
 
-        [TestCategory("Wip")]
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_8Bit()
         {
@@ -106,7 +92,6 @@ namespace JJ.Business.Synthesizer.Tests
                 new AudioFormatTests(context).Test_AudioFormat(Raw, Stereo, Byte);
         }
 
-        [TestCategory("Wip")]
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_8Bit()
         {
@@ -133,7 +118,7 @@ namespace JJ.Business.Synthesizer.Tests
             AudioFileOutput audioFileOutput1 =
                 SaveAudio(getSignal, DURATION, volume: 1, 
                           speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
-                          SAMPLING_RATE, callerMemberName: callerMemberName).Data;
+                          SAMPLING_RATE, callerMemberName).Data;
 
             SampleOperatorWrapper getSample()
             {
@@ -165,9 +150,6 @@ namespace JJ.Business.Synthesizer.Tests
             
             Channel = Right;
             SampleOperatorWrapper sampleWrapperRight = getSample();
-            
-            // TEST!
-            //sampleWrapperRight = sampleWrapperLeft;
 
             AssertEntities(
                 audioFileOutput1,  audioFileOutput2, 
@@ -205,20 +187,20 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] actualValues =
                 {
-                    monoSampleWrapper.Calculate(time: 0.0 / 8.0 / FREQUENCY),
-                    monoSampleWrapper.Calculate(time: 1.0 / 8.0 / FREQUENCY),
-                    monoSampleWrapper.Calculate(time: 2.0 / 8.0 / FREQUENCY),
-                    monoSampleWrapper.Calculate(time: 3.0 / 8.0 / FREQUENCY),
-                    monoSampleWrapper.Calculate(time: 4.0 / 8.0 / FREQUENCY),
-                    monoSampleWrapper.Calculate(time: 5.0 / 8.0 / FREQUENCY),
-                    monoSampleWrapper.Calculate(time: 6.0 / 8.0 / FREQUENCY),
-                    monoSampleWrapper.Calculate(time: 7.0 / 8.0 / FREQUENCY),
-                    monoSampleWrapper.Calculate(time: 8.0 / 8.0 / FREQUENCY)
+                    Calculate(monoSampleWrapper, time: 0.0 / 8.0 / FREQUENCY),
+                    Calculate(monoSampleWrapper, time: 1.0 / 8.0 / FREQUENCY),
+                    Calculate(monoSampleWrapper, time: 2.0 / 8.0 / FREQUENCY),
+                    Calculate(monoSampleWrapper, time: 3.0 / 8.0 / FREQUENCY),
+                    Calculate(monoSampleWrapper, time: 4.0 / 8.0 / FREQUENCY),
+                    Calculate(monoSampleWrapper, time: 5.0 / 8.0 / FREQUENCY),
+                    Calculate(monoSampleWrapper, time: 6.0 / 8.0 / FREQUENCY),
+                    Calculate(monoSampleWrapper, time: 7.0 / 8.0 / FREQUENCY),
+                    Calculate(monoSampleWrapper, time: 8.0 / 8.0 / FREQUENCY)
                 };
 
 
                 Console.WriteLine($"{nameof(expectedValues)} = {FormatValues(expectedValues)}");
-                Console.WriteLine($"  {nameof(actualValues)} = {FormatValues(actualValues)}");
+                Console.WriteLine($"{nameof(actualValues  )} = {FormatValues(actualValues  )}");
 
                 // Assert Values
                 
@@ -257,15 +239,15 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] actualL =
                 {
-                    sampleWrapperLeft.Calculate(time: 0.0 / 8.0 / FREQUENCY, channelIndex: 0),
-                    sampleWrapperLeft.Calculate(time: 1.0 / 8.0 / FREQUENCY, channelIndex: 0),
-                    sampleWrapperLeft.Calculate(time: 2.0 / 8.0 / FREQUENCY, channelIndex: 0),
-                    sampleWrapperLeft.Calculate(time: 3.0 / 8.0 / FREQUENCY, channelIndex: 0),
-                    sampleWrapperLeft.Calculate(time: 4.0 / 8.0 / FREQUENCY, channelIndex: 0),
-                    sampleWrapperLeft.Calculate(time: 5.0 / 8.0 / FREQUENCY, channelIndex: 0),
-                    sampleWrapperLeft.Calculate(time: 6.0 / 8.0 / FREQUENCY, channelIndex: 0),
-                    sampleWrapperLeft.Calculate(time: 7.0 / 8.0 / FREQUENCY, channelIndex: 0),
-                    sampleWrapperLeft.Calculate(time: 8.0 / 8.0 / FREQUENCY, channelIndex: 0)
+                    Calculate(sampleWrapperLeft, time: 0.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperLeft, time: 1.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperLeft, time: 2.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperLeft, time: 3.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperLeft, time: 4.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperLeft, time: 5.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperLeft, time: 6.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperLeft, time: 7.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperLeft, time: 8.0 / 8.0 / FREQUENCY)
                 };
 
                 // Right
@@ -288,23 +270,23 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double[] actualR =
                 {
-                    sampleWrapperRight.Calculate(time: 0.0 / 8.0 / FREQUENCY, channelIndex: 1),
-                    sampleWrapperRight.Calculate(time: 1.0 / 8.0 / FREQUENCY, channelIndex: 1),
-                    sampleWrapperRight.Calculate(time: 2.0 / 8.0 / FREQUENCY, channelIndex: 1),
-                    sampleWrapperRight.Calculate(time: 3.0 / 8.0 / FREQUENCY, channelIndex: 1),
-                    sampleWrapperRight.Calculate(time: 4.0 / 8.0 / FREQUENCY, channelIndex: 1),
-                    sampleWrapperRight.Calculate(time: 5.0 / 8.0 / FREQUENCY, channelIndex: 1),
-                    sampleWrapperRight.Calculate(time: 6.0 / 8.0 / FREQUENCY, channelIndex: 1),
-                    sampleWrapperRight.Calculate(time: 7.0 / 8.0 / FREQUENCY, channelIndex: 1),
-                    sampleWrapperRight.Calculate(time: 8.0 / 8.0 / FREQUENCY, channelIndex: 1)
+                    Calculate(sampleWrapperRight, time: 0.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperRight, time: 1.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperRight, time: 2.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperRight, time: 3.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperRight, time: 4.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperRight, time: 5.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperRight, time: 6.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperRight, time: 7.0 / 8.0 / FREQUENCY),
+                    Calculate(sampleWrapperRight, time: 8.0 / 8.0 / FREQUENCY)
                 };
 
                 Console.WriteLine($"{nameof(expectedL)} = {FormatValues(expectedL)}");
-                Console.WriteLine($"  {nameof(actualL)} = {FormatValues(actualL)  }");
+                Console.WriteLine($"{nameof(actualL  )} = {FormatValues(actualL  )}");
 
                 Console.WriteLine();
                 Console.WriteLine($"{nameof(expectedR)} = {FormatValues(expectedR)}");
-                Console.WriteLine($"  {nameof(actualR)} = {FormatValues(actualR)  }");
+                Console.WriteLine($"{nameof(actualR  )} = {FormatValues(actualR  )}");
 
                 // Assert Values
                 
@@ -333,8 +315,6 @@ namespace JJ.Business.Synthesizer.Tests
                 Assert.AreEqual(expectedR[8], actualR[8], tolerance);
             }
         }
-
-        static double RoundValue(double x) => Round(x, ROUNDING_DECIMALS, AwayFromZero);
 
         private void AssertEntities(
             AudioFileOutput audioFileOutput1,
@@ -498,21 +478,22 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
         
+        static double RoundValue(double x) => Round(x, DECIMALS, AwayFromZero);
+
         private string FormatValues(double[] values)
         {
-            // Character = sign + 0 + . + decimals e.g. -0.1234
-            int length = 1 + 1 + 1 + ROUNDING_DECIMALS; 
-            
-            string formatValue(double value, int i)
-            {
-                double rounded = Round(value, ROUNDING_DECIMALS, AwayFromZero);
-                string formatted = rounded.ToString("F" + ROUNDING_DECIMALS);
-                string padded = formatted.PadLeft(length) + " "; 
-                return padded;
-            }
-
-            string result = string.Join("|", values.Select(formatValue));
+            string result = string.Join("|", values.Select(FormatValue));
             return result;
+        }
+
+        private string FormatValue(double value)
+        {
+            // Length "-0.1234" = sign + 0 + . + decimals 
+            int    length    = 1 + 1 + 1 + DECIMALS; 
+            double rounded   = Round(value, DECIMALS, AwayFromZero);
+            string formatted = rounded.ToString("F" + DECIMALS);
+            string padded    = formatted.PadLeft(length) + " "; 
+            return padded;
         }
     }
 }
