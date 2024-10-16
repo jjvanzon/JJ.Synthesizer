@@ -284,8 +284,19 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 Outlet shifted = x.TimeAdd(quieter, cumulativeDelay);
                 
                 cumulativeSignal    = x.Add(cumulativeSignal, shifted);
-                cumulativeMagnitude = x.Multiply(cumulativeMagnitude, cumulativeMagnitude);
-                cumulativeDelay     = x.Add(cumulativeDelay, cumulativeDelay);
+
+                double? constMagnitude = cumulativeMagnitude.AsConst();
+                double? constDelay = cumulativeDelay.AsConst();
+
+                if (constMagnitude != null)
+                    cumulativeMagnitude = x.Value(constMagnitude.Value * constMagnitude.Value);
+                else
+                    cumulativeMagnitude = x.Multiply(cumulativeMagnitude, cumulativeMagnitude);
+
+                if (constDelay != null)
+                    cumulativeDelay = x.Value(constDelay.Value + constDelay.Value);
+                else
+                    cumulativeDelay = x.Add(cumulativeDelay, cumulativeDelay);
             }
 
             return cumulativeSignal;
