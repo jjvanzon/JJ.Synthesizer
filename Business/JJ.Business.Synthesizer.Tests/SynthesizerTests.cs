@@ -233,6 +233,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
+        [TestCategory("Long")]
         public void Test_Synthesizer_TimePowerWithEcho()
         {
             using (IContext context = PersistenceHelper.CreateContext())
