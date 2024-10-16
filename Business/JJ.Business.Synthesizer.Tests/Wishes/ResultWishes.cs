@@ -14,7 +14,5 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
                 ValidationMessages = frameworkValidationMessages.ToCanonical(),
                 Successful         = successful
             };
-
-
     }
 }
