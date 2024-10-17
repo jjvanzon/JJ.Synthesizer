@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         private readonly IAudioFileFormatRepository _audioFileFormatRepository;
         private readonly ISampleDataTypeRepository  _sampleDataTypeRepository;
 
+        public IContext Context { get; }
         public SampleManager Samples { get; }
 
         public SynthesizerSugar()
@@ -30,6 +31,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
+            Context = context;
+            
             _audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
             _sampleDataTypeRepository  = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
 
