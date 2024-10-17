@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer.Managers
             return sample;
         }
 
-        internal Sample CreateWavSample(WavHeaderStruct wavHeaderStruct)
+        private Sample CreateWavSample(WavHeaderStruct wavHeaderStruct)
         {
             AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
 
