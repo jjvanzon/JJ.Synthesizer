@@ -1,15 +1,19 @@
 ﻿using System;
+using System.IO;
+using System.IO.Pipes;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Framework.Testing;
-using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+// ReSharper disable FieldCanBeMadeReadOnly.Local
+// ReSharper disable NotAccessedVariable
 #pragma warning disable CS0414 // Field is assigned but its value is never used
 #pragma warning disable CS0169 // Field is never used
-// ReSharper disable NotAccessedVariable
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -20,6 +24,8 @@ namespace JJ.Business.Synthesizer.Tests
     {
         private ChannelEnum _invalidChannelEnum;
         private int _channelIndex;
+        private Stream _emptyStream = new MemoryStream(new byte[] { });
+        private Stream _wavStream = TestHelper.GetViolin16BitMono44100WavStream();
 
         [UsedImplicitly]
         public ThrowTests()
@@ -83,8 +89,20 @@ namespace JJ.Business.Synthesizer.Tests
             // ModulationTests.DeepEcho ChannelEnumNotSupported
             AssertHelper.ThrowsException(() => new ModulationTests().DeepEcho(Sine()));
             
-            // AudioFormatTests.GetValueTolerance CombinationOfValues_NotSupported
+            // AudioFormatTests.GetValueTolerance CombinationOfValuesNotSupported
             AssertHelper.ThrowsException(() => new AudioFormatTests().GetValueTolerance(true, InterpolationTypeEnum.Undefined, SampleDataTypeEnum.Undefined));
+            
+            // SampleManager.CreateSample AudioFileFormatEnumNotSupported
+            AssertHelper.ThrowsException(() => Samples.CreateSample(TestHelper.GetViolin16BitMono44100WavStream(), AudioFileFormatEnum.Undefined));
+            
+            // SampleManager.CreateWavSample WavFileAtLeast44Bytes
+            AssertHelper.ThrowsException(() => Samples.CreateSample(_emptyStream, AudioFileFormatEnum.Wav));
+            
+            // SampleManager.CreateWavSample ChannelCountNotSupported
+            //var wavHeaderStruct = new WavHeaderStruct { ChannelCount = 0 };
+            //AssertHelper.ThrowsException(() => Samples.CreateWavSample(wavHeaderStruct),
+            //                             "audioFile.ChannelCount value '0' not supported.");
+
         }
     }
 }
