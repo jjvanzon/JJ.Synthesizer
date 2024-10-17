@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -235,7 +236,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             return newPanning;
         }
-
 
         public static Outlet Echo(
             this OperatorFactory x, Outlet signal,

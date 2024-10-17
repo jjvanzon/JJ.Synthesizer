@@ -2,6 +2,7 @@
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
@@ -320,23 +321,43 @@ namespace JJ.Business.Synthesizer.Tests
             Assert.IsTrue(panningValueG4 < 1.0);
             Assert.IsTrue(panningValueE4 < panningValueG4);
         }
-        
+
+                
         [TestMethod]
         [TestCategory("Wip")]
-        public void Test_Echo_WithFixedValues()
+        public void Test_Echo_Old()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_WithFixedValues_RunTest();
+                new OperatorWishesTests(context).Echo_Old_RunTest();
         }
 
-        void Echo_WithFixedValues_RunTest()
+        void Echo_Old_RunTest()
+        {
+            Outlet envelope = CurveIn((0, 1), (0.2, 0));
+            Outlet sound    = Multiply(Sine(A4), envelope);
+            Outlet echoes   = EntityFactory.CreateEcho(this, sound, denominator: 1.5, delay: 0.25, count: 16);
+
+            SaveAudioMono(() => sound,  volume: 1, duration: 0.2, fileName: "Echo_Old_InputSound.wav");
+            SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: "Echo_Old_Echoes.wav");
+        }
+
+
+        [TestMethod]
+        [TestCategory("Wip")]
+        public void Test_Echo_FixedValues()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new OperatorWishesTests(context).Echo_FixedValues_RunTest();
+        }
+
+        void Echo_FixedValues_RunTest()
         {
             Outlet envelope = CurveIn((0, 1), (0.2, 0));
             Outlet sound = Multiply(Sine(A4), envelope);
             Outlet echoes = Echo(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
-            
-            SaveAudioMono(() => sound, volume: 1, duration: 0.2, fileName: "Echo_WithFixedValues_InputSound.wav");
-            SaveAudioMono(() => echoes, volume: 1, duration: 4, fileName: "Echo_WithFixedValues_Echoes.wav");
+
+            SaveAudioMono(() => sound,  volume: 1, duration: 0.2, fileName: "Echo_FixedValues_InputSound.wav");
+            SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: "Echo_FixedValues_Echoes.wav");
         }
         
         [TestMethod]
