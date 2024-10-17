@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public string FormatRecursive(Inlet entity)
         {
             _sb = new StringBuilder();
-            BuildStringRecursive(entity, out bool multiLine);
+            BuildStringRecursive(entity);
             return _sb.ToString();
         }
         
@@ -55,13 +55,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 Append('(');
             }
 
-            bool multiLine = false;
-            
             for (var i = 0; i < op.Inlets.Count; i++)
             {
                 Inlet inlet = op.Inlets[i];
 
-                BuildStringRecursive(inlet, out multiLine);
+                BuildStringRecursive(inlet);
                 
                 int isLast = op.Inlets.Count - 1;
                 if (i != isLast)
@@ -74,14 +72,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             {
                 Append(')');
             }
-            
-            if (multiLine) AppendLine();
         }
         
-        private void BuildStringRecursive(Inlet inlet, out bool multiLine)
+        private void BuildStringRecursive(Inlet inlet)
         {
-            multiLine = false;
-            
             if (inlet?.Input?.Operator == null) return;
             
             bool mustIncludeName = MustIncludeName(inlet);
@@ -94,7 +88,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             {
                 Indent();
                 AppendLine();
-                multiLine = true;
             }
 
             BuildStringRecursive(inlet.Input.Operator);
