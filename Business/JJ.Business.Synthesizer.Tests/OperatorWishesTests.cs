@@ -352,18 +352,21 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet envelope = CurveIn((0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(A4), envelope);
             
-            //Outlet magnitude = _[0.66];
-            Outlet magnitude = CurveIn("Magnitude", (0, 0.66), (0.5, 0.9), (3, 1.0), (4, 0.8));
+            Outlet magnitude = CurveIn("Magnitude", 
+                                       (0.0, 0.66), 
+                                       (0.5, 0.90), 
+                                       (3.0, 1.00), 
+                                       (4.0, 0.80), 
+                                       (5.0, 0.25));
             
-            Outlet delay = _[0.25];
-            //Outlet delay   = CurveIn("Delay", (0, 0.25), (4, 0.50));
+            Outlet delay   = CurveIn("Delay", (0, 0.25), (4, 0.35));
             
             Outlet echoes = Echo(sound, magnitude, delay, count: 16);
 
             SaveAudioMono(() => sound,     fileName: "Echo_DynamicParameters_InputSound.wav", volume: 1, duration: 0.2);
-            SaveAudioMono(() => magnitude, fileName: "Echo_DynamicParameters_Magnitude.wav", volume: 1, duration: 4);
-            SaveAudioMono(() => delay,     fileName: "Echo_DynamicParameters_Delay.wav", volume: 1, duration: 4);
-            SaveAudioMono(() => echoes,    fileName: "Echo_DynamicParameters_Echoes.wav", volume: 1, duration: 4);
+            SaveAudioMono(() => magnitude, fileName: "Echo_DynamicParameters_Magnitude.wav" , volume: 1, duration: 5);
+            SaveAudioMono(() => delay,     fileName: "Echo_DynamicParameters_Delay.wav"     , volume: 1, duration: 5);
+            SaveAudioMono(() => echoes,    fileName: "Echo_DynamicParameters_Echoes.wav"    , volume: 1, duration: 5);
         }
     }
 }
