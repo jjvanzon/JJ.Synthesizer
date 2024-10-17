@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests
             AssertEntities();
 
             SaveAudioMono(
-                () => AddEcho(MetallophoneJingle),
+                () => Echo(MetallophoneJingle),
                 volume: 0.3,
                 duration: 1.2 + DEFAULT_NOTE_DURATION + ECHO_TIME);
         }
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests
             AssertEntities();
 
             SaveAudioMono(
-                () => AddEcho(Metallophone(F4_Sharp)),
+                () => Echo(Metallophone(F4_Sharp)),
                 duration: DEFAULT_NOTE_DURATION + ECHO_TIME,
                 volume: 0.5);
         }
@@ -119,8 +119,8 @@ namespace JJ.Business.Synthesizer.Tests
         const double ECHO_TIME = 0.66 * 4;
 
         /// <inheritdoc cref="docs._default" />
-        Outlet AddEcho(Outlet sound)
-            => EntityFactory.CreateEcho(this, sound, count: 5, denominator: 3, delay: 0.66);
+        Outlet Echo(Outlet sound)
+            => Echo(sound, count: 5, magnitude: _[1 / 3d], delay: _[0.66]);
 
         #endregion
 

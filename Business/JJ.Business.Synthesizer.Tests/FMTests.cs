@@ -745,7 +745,7 @@ namespace JJ.Business.Synthesizer.Tests
         private const double MILD_ECHO_TIME = 0.33 * 5;
 
         private Outlet MildEcho(Outlet outlet)
-            => EntityFactory.CreateEcho(this, outlet, count: 8, denominator: 4, delay: 0.33);
+            => Echo(outlet, count: 8, magnitude: _[0.25], delay: _[0.33]);
 
         private Outlet MildEcho2(Outlet outlet)
             => Echo(outlet, count: 8, magnitude: _[0.25], delay: _[0.33]);
@@ -756,7 +756,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="melody"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the deep echo effect applied. </returns>
         private Outlet DeepEcho(Outlet melody)
-            => EntityFactory.CreateEcho(this, melody, count: 8, denominator: 2, delay: 0.5);
+            => Echo(melody, count: 8, magnitude: _[0.5], delay: _[0.5]);
 
         /// <summary> Applies a deep echo effect to the specified sound. </summary>
         /// <param name="melody"> The original sound to which the echo effect will be applied. </param>

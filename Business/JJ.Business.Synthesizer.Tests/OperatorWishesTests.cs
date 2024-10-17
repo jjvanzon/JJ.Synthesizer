@@ -400,18 +400,18 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         [TestCategory("Wip")]
-        public void Test_Echo_FeedBackLoop_FixedValues()
+        public void Test_Echo_FeedBack_FixedValues()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_FeedBackLoop_FixedValues_RunTest();
+                new OperatorWishesTests(context).Echo_FeedBack_FixedValues_RunTest();
         }
 
-        void Echo_FeedBackLoop_FixedValues_RunTest()
+        void Echo_FeedBack_FixedValues_RunTest()
         {
             Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
             Outlet sound = Multiply(Sine(A4), envelope);
             
-            Outlet echoes = EchoFeedbackLoop(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
+            Outlet echoes = EchoFeedBack(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
             SaveAudioMono(() => sound,  volume: 1, duration: 0.2, fileName: Name() + "_InputSound.wav");
             SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: Name() + "_Echoes.wav");
@@ -422,13 +422,13 @@ namespace JJ.Business.Synthesizer.Tests
         
         [TestMethod]
         [TestCategory("Wip")]
-        public void Test_Echo_FeedBackLoop_DynamicParameters()
+        public void Test_Echo_FeedBack_DynamicParameters()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_FeedBackLoop_DynamicParameters_RunTest();
+                new OperatorWishesTests(context).Echo_FeedBack_DynamicParameters_RunTest();
         }
 
-        void Echo_FeedBackLoop_DynamicParameters_RunTest()
+        void Echo_FeedBack_DynamicParameters_RunTest()
         {
             Outlet envelope = CurveIn("Volume Curve", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(A4), envelope);
@@ -442,7 +442,7 @@ namespace JJ.Business.Synthesizer.Tests
             
             Outlet delay   = CurveIn("Delay Curve", (0, 0.25), (4, 0.35));
             
-            Outlet echoes = EchoFeedbackLoop(sound, magnitude, delay, count: 16);
+            Outlet echoes = EchoFeedBack(sound, magnitude, delay, count: 16);
 
             SaveAudioMono(() => sound,     volume: 1, duration: 0.2, fileName: Name() + "_InputSound.wav");
             SaveAudioMono(() => magnitude, volume: 1, duration: 5,   fileName: Name() + "_Magnitude.wav");

@@ -305,7 +305,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// this optimization is currently ineffective. Future versions may improve on this.
         /// Keeping it in here just to have an optimization option for later.
         /// </summary>
-        internal static Outlet EchoFeedbackLoop(
+        internal static Outlet EchoFeedBack(
             this OperatorFactory x, Outlet signal,
             Outlet magnitude = null, Outlet delay = null, int count = 8)
         {

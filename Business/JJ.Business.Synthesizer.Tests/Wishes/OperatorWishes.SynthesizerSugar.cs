@@ -71,11 +71,11 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         public Outlet Echo(Outlet signal, Outlet magnitude = default, Outlet delay = default, int count = 16)
             => OperatorExtensionsWishes.Echo(this, signal, magnitude, delay, count);
 
-        internal Outlet EchoAdditive(Outlet signal, Outlet magnitude = default, Outlet delay = default, int count = 16)
+        public Outlet EchoAdditive(Outlet signal, Outlet magnitude = default, Outlet delay = default, int count = 16)
             => OperatorExtensionsWishes.EchoAdditive(this, signal, magnitude, delay, count);
 
-        public Outlet EchoFeedbackLoop(Outlet signal, Outlet magnitude = default, Outlet delay = default, int count = 16)
-            => OperatorExtensionsWishes.EchoFeedbackLoop(this, signal, magnitude, delay, count);
+        public Outlet EchoFeedBack(Outlet signal, Outlet magnitude = default, Outlet delay = default, int count = 16)
+            => OperatorExtensionsWishes.EchoFeedBack(this, signal, magnitude, delay, count);
 
         // ValueIndexer
 

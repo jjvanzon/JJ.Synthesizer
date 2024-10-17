@@ -407,7 +407,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_echodocs" />
         Outlet MildEcho(Outlet sound)
-            => EntityFactory.CreateEcho(this, sound, count: 6, denominator: 4, delay: 0.33);
+            => Echo(sound, count: 6, magnitude: _[0.25], delay: _[0.33]);
 
         const double DEEP_ECHO_TIME = 0.5 * 5;
 
@@ -417,13 +417,13 @@ namespace JJ.Business.Synthesizer.Tests
             switch (Channel)
             {
                 case ChannelEnum.Single:
-                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.0, delay: 0.50);
+                    return Echo(sound, count: 6, magnitude: _[1 / 2.0], delay: _[0.50]);
                 
                 case ChannelEnum.Left:
-                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.1, delay: 0.50);
+                    return Echo(sound, count: 6, magnitude: _[1 / 2.1], delay: _[0.50]);
                 
                 case ChannelEnum.Right:
-                    return EntityFactory.CreateEcho(this, sound, count: 6, denominator: 2.0, delay: 0.53);
+                    return Echo(sound, count: 6, magnitude: _[1 / 2.0], delay: _[0.53]);
                 
                 default:
                     throw new ValueNotSupportedException(Channel);
