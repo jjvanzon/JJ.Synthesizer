@@ -41,10 +41,10 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return calculator.CalculateValue(outlet, time);
         }
 
-        public static string String(this Operator entity)
+        public static string String(this Outlet entity)
             => new OperatorStringifier().StringifyRecursive(entity);
 
-        public static string String(this Outlet entity)
+        public static string String(this Operator entity)
             => new OperatorStringifier().StringifyRecursive(entity);
 
         public static string String(this Inlet entity)
@@ -234,6 +234,8 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return newPanning;
         }
 
+        // PitchPan
+        
         /// <inheritdoc cref="docs._pitchpan" />
         public static double PitchPan(
             this OperatorFactory operatorFactory,
@@ -263,44 +265,114 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             return newPanning;
         }
+        
+        // Echo
 
         public static Outlet Echo(
             this OperatorFactory x, Outlet signal,
-            Outlet magnitude = null, Outlet delay = null, int count = 16)
+            Outlet magnitude = null, Outlet delay = null, int count = 8)
+            => EchoAdditive(x, signal, magnitude, delay, count);
+        
+        internal static Outlet EchoAdditive(
+            this OperatorFactory x, Outlet signal,
+            Outlet magnitude = null, Outlet delay = null, int count = 8)
+        {
+            Outlet cumulativeMagnitude = x.Value(1);
+            Outlet cumulativeDelay     = x.Value();
+
+            IList<Outlet> repeats = new List<Outlet>(count);
+
+            for (int i = 0; i < count; i++)
+            {
+                Outlet divide  = x.Multiply(signal, cumulativeMagnitude);
+                Outlet timeAdd = x.TimeAdd(divide, cumulativeDelay);
+                
+                repeats.Add(timeAdd);
+
+                cumulativeMagnitude = x.OptimizedMultiply(cumulativeMagnitude, magnitude);
+                cumulativeDelay     = x.OptimizedAdd(cumulativeDelay, delay);
+            }
+
+            Adder adder = x.Adder(repeats);
+            return adder;
+        }
+
+        /// <summary>
+        /// Applies an echo effect using a feedback loop.
+        /// The goal is to make it more efficient than an additive approach by reusing double echoes 
+        /// to generate quadruple echoes, so 4 echoes take 2 iterations, and 8 echoes take 3 iterations.
+        /// However, since values from the same formula are not yet reused within the final calculation,
+        /// this optimization is currently ineffective. Future versions may improve on this.
+        /// Keeping it in here just to have an optimization option for later.
+        /// </summary>
+        internal static Outlet EchoWithFeedbackLoop(
+            this OperatorFactory x, Outlet signal,
+            Outlet magnitude = null, Outlet delay = null, int count = 8)
         {
             if (x == null) throw new NullException(() => x);
             if (signal == null) throw new NullException(() => signal);
             if (magnitude == null) magnitude = x.Value(0.66);
-            if (delay == null) delay = x.Value(0.25);
+            if (delay == null) delay         = x.Value(0.25);
 
             Outlet cumulativeSignal    = signal;
             Outlet cumulativeMagnitude = magnitude;
             Outlet cumulativeDelay     = delay;
-            
+
             int loopCount = Log(count, 2);
 
             for (int i = 0; i < loopCount; i++)
             {
                 Outlet quieter = x.Multiply(cumulativeSignal, cumulativeMagnitude);
                 Outlet shifted = x.TimeAdd(quieter, cumulativeDelay);
+
+                cumulativeSignal = x.Add(cumulativeSignal, shifted);
                 
-                cumulativeSignal    = x.Add(cumulativeSignal, shifted);
-
-                double? constMagnitude = cumulativeMagnitude.AsConst();
-                double? constDelay = cumulativeDelay.AsConst();
-
-                if (constMagnitude != null)
-                    cumulativeMagnitude = x.Value(constMagnitude.Value * constMagnitude.Value);
-                else
-                    cumulativeMagnitude = x.Multiply(cumulativeMagnitude, cumulativeMagnitude);
-
-                if (constDelay != null)
-                    cumulativeDelay = x.Value(constDelay.Value + constDelay.Value);
-                else
-                    cumulativeDelay = x.Add(cumulativeDelay, cumulativeDelay);
+                cumulativeMagnitude = x.OptimizedMultiply(cumulativeMagnitude, cumulativeMagnitude);
+                cumulativeDelay = x.OptimizedAdd(cumulativeDelay, cumulativeDelay);
             }
 
             return cumulativeSignal;
+        }
+
+        // Helpers
+        
+        /// <summary> Multiplies two <see cref="Outlet"/> operands, optimizing for constant values if possible. </summary>
+        internal static Outlet OptimizedMultiply(this OperatorFactory x, Outlet operandA, Outlet operandB, Outlet origin = null)
+        {
+            operandA = operandA ?? x.Value(1);
+            operandB = operandB ?? x.Value(1);
+
+            if (origin == null)
+            {
+                double? constOperandA = operandA.AsConst();
+                double? constOperandB = operandB.AsConst();
+                
+                if (constOperandA != null && constOperandB != null)
+                {
+                    double multiplied = constOperandA.Value * constOperandB.Value;
+                    return x.Value(multiplied);
+                }
+            }
+
+            return x.Multiply(operandA, operandB, origin);
+        }
+
+        /// <summary> Adds two <see cref="Outlet"/> operands, optimizing for constant values if possible. </summary>
+        internal static Outlet OptimizedAdd(this OperatorFactory x, Outlet operandA, Outlet operandB)
+        {
+            operandA = operandA ?? x.Value(1);
+            operandB = operandB ?? x.Value(1);
+
+            double? constOperandA = operandA.AsConst();
+            double? constOperandB = operandB.AsConst();
+            
+            if (constOperandA != null && constOperandB != null)
+            {
+                double multiplied = constOperandA.Value + constOperandB.Value;
+                return x.Value(multiplied);
+            }
+
+            return x.Add(operandA, operandB);
         }
 
         /// <summary>
@@ -310,7 +382,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// 1000 log 10 = 2.99999999996.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Log(int value, int n)
+        private static int Log(int value, int n)
         {
             int temp = value;
             var i    = 0;
