@@ -320,6 +320,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
+        [TestCategory("Wip")]
         public void Test_Echo_Old()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -328,27 +329,19 @@ namespace JJ.Business.Synthesizer.Tests
 
         void Echo_Old_RunTest()
         {
-            Outlet envelope = CurveIn((0, 1), (0.2, 0));
+            Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(A4), envelope);
             Outlet echoes   = EntityFactory.CreateEcho(this, sound, denominator: 1.5, delay: 0.25, count: 16);
 
             SaveAudioMono(() => sound,  volume: 1, duration: 0.2, fileName: "Echo_Old_InputSound.wav");
             SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: "Echo_Old_Echoes.wav");
 
-            
-            //var settings = new JsonSerializerSettings
-            //{
-            //    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            //};
-            //var json = JsonConvert.SerializeObject(echoes.Operator, settings);
-            //File.WriteAllText("Echo_Old.json",json);
-            
-            string text = OperatorFormatter.FormatRecursive(echoes);
             Console.WriteLine();
-            Console.WriteLine(text);
+            Console.WriteLine(new OperatorFormatter().FormatRecursive(echoes));
         }
 
         [TestMethod]
+        [TestCategory("Wip")]
         public void Test_Echo_FixedValues()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -357,15 +350,19 @@ namespace JJ.Business.Synthesizer.Tests
 
         void Echo_FixedValues_RunTest()
         {
-            Outlet envelope = CurveIn((0, 1), (0.2, 0));
+            Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
             Outlet sound = Multiply(Sine(A4), envelope);
             Outlet echoes = Echo(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
             SaveAudioMono(() => sound,  volume: 1, duration: 0.2, fileName: "Echo_FixedValues_InputSound.wav");
             SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: "Echo_FixedValues_Echoes.wav");
+            
+            Console.WriteLine();
+            Console.WriteLine(new OperatorFormatter().FormatRecursive(echoes));
         }
         
         [TestMethod]
+        [TestCategory("Wip")]
         public void Test_Echo_DynamicParameters()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -392,6 +389,9 @@ namespace JJ.Business.Synthesizer.Tests
             SaveAudioMono(() => magnitude, fileName: "Echo_DynamicParameters_Magnitude.wav" , volume: 1, duration: 5);
             SaveAudioMono(() => delay,     fileName: "Echo_DynamicParameters_Delay.wav"     , volume: 1, duration: 5);
             SaveAudioMono(() => echoes,    fileName: "Echo_DynamicParameters_Echoes.wav"    , volume: 1, duration: 5);
+        
+            Console.WriteLine();
+            Console.WriteLine(new OperatorFormatter().FormatRecursive(echoes));
         }
     }
 }

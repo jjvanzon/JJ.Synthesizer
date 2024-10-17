@@ -1,41 +1,61 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Persistence.Synthesizer;
+using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    public static class OperatorFormatter
+    public class OperatorFormatter
     {
-        public static string FormatRecursive(Outlet outlet)
+        private StringBuilder _sb;
+        private int tabs;
+
+        private void AppendLine(string line = "")
         {
-            var sb = new StringBuilder();
-            BuildStringRecursive(outlet, sb);
-            return sb.ToString();
+            _sb.Append(NewLine);
+            AppendTabs();
+            _sb.Append(line);
         }
 
-        public static string FormatRecursive(Operator op)
+        private void AppendTabs()
         {
-            var sb = new StringBuilder();
-            BuildStringRecursive(op, sb);
-            return sb.ToString();
+            for (int i = 0; i < tabs; i++)
+            {
+                _sb.Append(" ");
+            }
         }
 
-        private static void BuildStringRecursive(Outlet outlet, StringBuilder sb)
+        public string FormatRecursive(Outlet outlet)
         {
-            BuildStringRecursive(outlet?.Operator, sb);
+            _sb = new StringBuilder();
+            BuildStringRecursive(outlet);
+            return _sb.ToString();
         }
 
-        private static void BuildStringRecursive(Operator op, StringBuilder sb)
+        public string FormatRecursive(Operator op)
+        {
+            _sb = new StringBuilder();
+            BuildStringRecursive(op);
+            return _sb.ToString();
+        }
+
+        private void BuildStringRecursive(Outlet outlet)
+        {
+            BuildStringRecursive(outlet?.Operator);
+        }
+
+        private void BuildStringRecursive(Operator op)
         {
             double? asConst = op.AsConst();
             if (asConst != null)
             {
-                sb.Append(asConst);
+                _sb.Append(asConst);
                 return;
             }
 
-            sb.Append($"{op.Name ?? op.OperatorTypeName}");
+            _sb.Append($"{op.Name ?? op.OperatorTypeName}");
 
             bool isMultiLine = op.Inlets.Any(x => x.Input != null && !x.Input.Operator.IsConst());
 
@@ -43,44 +63,69 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             {
                 if (isMultiLine)
                 {
-                    sb.AppendLine();
-                    sb.AppendLine("(");
+                    AppendLine("(");
+                    tabs++;
                 }
-                else sb.Append('(');
+                else _sb.Append('(');
             }
 
             for (var i = 0; i < op.Inlets.Count; i++)
             {
                 Inlet inlet = op.Inlets[i];
                 
-                BuildStringRecursive(inlet, sb);
+                BuildStringRecursive(inlet);
                 
                 int isLast = op.Inlets.Count - 1;
                 if (i != isLast)
                 {
-                    sb.Append(',');
+                    _sb.Append(',');
                 }
             }
 
             if (op.Inlets.Count != 0)
             {
-                //if (isMultiLine)
-                //{
-                //    sb.AppendLine();
-                //    sb.AppendLine(")");
-                //}
-                //else 
-                sb.Append(')');
+                if (isMultiLine)
+                {
+                    _sb.Append(')');
+                    //AppendLine(")");
+                    tabs--;
+                }
+                else 
+                    _sb.Append(')');
             }
         }
 
-        private static void BuildStringRecursive(Inlet inlet, StringBuilder sb)
+        private string[] _simpleOperatorTypeNames = {"Adder","Add", "Multiply", "Divide", "Substract"};
+        
+        private void BuildStringRecursive(Inlet inlet)
         {
             if (inlet?.Input?.Operator == null) return;
 
-            //sb.Append($"{inlet.Name}");
+            bool mustIncludeName = MustIncludeName(inlet);
+            if (mustIncludeName)
+            {
+                _sb.Append($"{inlet.Name}=");
+            }
 
-            BuildStringRecursive(inlet.Input.Operator, sb);
+            BuildStringRecursive(inlet.Input.Operator);
+        }
+
+        private bool MustIncludeName(Inlet inlet)
+        {
+            bool isAlone = inlet?.Operator?.Inlets?.Count > 1;
+            if (isAlone)
+            {
+                return false;
+            }
+
+            bool isSimple = _simpleOperatorTypeNames.Contains(inlet?.Operator?.OperatorTypeName) ||
+                            _simpleOperatorTypeNames.Contains(inlet?.Operator?.Name);
+            if (isSimple)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
