@@ -371,17 +371,17 @@ namespace JJ.Business.Synthesizer.Tests
 
         void Echo_DynamicParameters_RunTest()
         {
-            Outlet envelope = CurveIn((0, 1), (0.2, 0));
+            Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(A4), envelope);
             
-            Outlet magnitude = CurveIn("Magnitude", 
+            Outlet magnitude = CurveIn("Magnitude Curve", 
                                        (0.0, 0.66), 
                                        (0.5, 0.90), 
                                        (3.0, 1.00), 
                                        (4.0, 0.80), 
                                        (5.0, 0.25));
             
-            Outlet delay   = CurveIn("Delay", (0, 0.25), (4, 0.35));
+            Outlet delay   = CurveIn("Delay Curve", (0, 0.25), (4, 0.35));
             
             Outlet echoes = Echo(sound, magnitude, delay, count: 16);
 

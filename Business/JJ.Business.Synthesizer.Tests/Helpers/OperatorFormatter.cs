@@ -7,7 +7,7 @@ using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    public class OperatorFormatter
+    internal class OperatorFormatter
     {
         private StringBuilder _sb;
         private int tabs;
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             for (int i = 0; i < tabs; i++)
             {
-                _sb.Append(" ");
+                _sb.Append("  ");
             }
         }
 
@@ -48,23 +48,24 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private void BuildStringRecursive(Operator op)
         {
-            double? asConst = op.AsConst();
-            if (asConst != null)
+            if (op.IsConst())
             {
-                _sb.Append(asConst);
+                _sb.Append(op.AsConst());
                 return;
             }
 
             _sb.Append($"{op.Name ?? op.OperatorTypeName}");
 
-            bool isMultiLine = op.Inlets.Any(x => x.Input != null && !x.Input.Operator.IsConst());
+            bool anyCalculatedInlets = op.Inlets.Any(x => x.Input != null && !x.Input.Operator.IsConst());
+            bool isMultiLine = anyCalculatedInlets;
 
             if (op.Inlets.Count != 0)
             {
                 if (isMultiLine)
                 {
-                    AppendLine("(");
+                    _sb.Append("(");
                     tabs++;
+                    AppendLine();
                 }
                 else _sb.Append('(');
             }
@@ -87,8 +88,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 if (isMultiLine)
                 {
                     _sb.Append(')');
-                    //AppendLine(")");
                     tabs--;
+                    AppendLine();
                 }
                 else 
                     _sb.Append(')');
