@@ -9,23 +9,29 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class OperatorFormatter
     {
+        private readonly string[] _simpleOperatorTypeNames = 
+            {"Adder","Add", "Multiply", "Divide", "Substract"};
+
         private StringBuilder _sb;
-        private int tabs;
+        private int tabCount;
 
         private void AppendLine(string line = "")
         {
-            _sb.Append(NewLine);
+            Append(NewLine);
             AppendTabs();
-            _sb.Append(line);
+            Append(line);
         }
 
         private void AppendTabs()
         {
-            for (int i = 0; i < tabs; i++)
+            for (int i = 0; i < tabCount; i++)
             {
                 _sb.Append("  ");
             }
         }
+
+        private void Append(string str) => _sb.Append(str);
+        private void Append(char chr) => _sb.Append(chr);
 
         public string FormatRecursive(Outlet outlet)
         {
@@ -34,17 +40,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return _sb.ToString();
         }
 
-        public string FormatRecursive(Operator op)
-        {
-            _sb = new StringBuilder();
-            BuildStringRecursive(op);
-            return _sb.ToString();
-        }
-
-        private void BuildStringRecursive(Outlet outlet)
-        {
-            BuildStringRecursive(outlet?.Operator);
-        }
+        private void BuildStringRecursive(Outlet outlet) 
+            => BuildStringRecursive(outlet?.Operator);
 
         private void BuildStringRecursive(Operator op)
         {
@@ -54,61 +51,61 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 return;
             }
 
-            _sb.Append($"{op.Name ?? op.OperatorTypeName}");
-
-            bool anyCalculatedInlets = op.Inlets.Any(x => x.Input != null && !x.Input.Operator.IsConst());
-            bool isMultiLine = anyCalculatedInlets;
+            Append($"{op.Name ?? op.OperatorTypeName}");
 
             if (op.Inlets.Count != 0)
             {
-                if (isMultiLine)
-                {
-                    _sb.Append("(");
-                    tabs++;
-                    AppendLine();
-                }
-                else _sb.Append('(');
+                Append('(');
             }
 
+            bool multiLine = false;
+            
             for (var i = 0; i < op.Inlets.Count; i++)
             {
                 Inlet inlet = op.Inlets[i];
+
                 
-                BuildStringRecursive(inlet);
+                BuildStringRecursive(inlet, out multiLine);
                 
                 int isLast = op.Inlets.Count - 1;
                 if (i != isLast)
                 {
-                    _sb.Append(',');
+                    Append(',');
                 }
             }
 
             if (op.Inlets.Count != 0)
             {
-                if (isMultiLine)
-                {
-                    _sb.Append(')');
-                    tabs--;
-                    AppendLine();
-                }
-                else 
-                    _sb.Append(')');
+                Append(')');
+                if (multiLine) AppendLine();
             }
         }
-
-        private string[] _simpleOperatorTypeNames = {"Adder","Add", "Multiply", "Divide", "Substract"};
         
-        private void BuildStringRecursive(Inlet inlet)
+        private void BuildStringRecursive(Inlet inlet, out bool multiLine)
         {
+            multiLine = false;
+            
             if (inlet?.Input?.Operator == null) return;
-
+            
             bool mustIncludeName = MustIncludeName(inlet);
             if (mustIncludeName)
             {
-                _sb.Append($"{inlet.Name}=");
+                Append($"{inlet.Name}=");
+            }
+
+            if (!inlet.IsConst())
+            {
+                tabCount++;
+                AppendLine();
+                multiLine = true;
             }
 
             BuildStringRecursive(inlet.Input.Operator);
+
+            if (!inlet.IsConst())
+            {
+                tabCount--;
+            }
         }
 
         private bool MustIncludeName(Inlet inlet)

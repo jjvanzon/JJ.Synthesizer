@@ -18,10 +18,16 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
     public static class OperatorExtensionsWishes
     {
         /// <inheritdoc cref="docs._asconst"/>
+        public static double? AsConst(this Inlet inlet) =>  inlet?.Input?.AsConst();
+        
+        /// <inheritdoc cref="docs._asconst"/>
         public static double? AsConst(this Outlet outlet) =>  outlet?.Operator?.AsConst();
 
         /// <inheritdoc cref="docs._asconst"/>
         public static double? AsConst(this Operator op) => op?.AsValueOperator?.Value;
+
+        /// <inheritdoc cref="docs._asconst"/>
+        public static bool IsConst(this Inlet inlet) => inlet?.AsConst() != null;
 
         /// <inheritdoc cref="docs._asconst"/>
         public static bool IsConst(this Outlet outlet) => outlet?.AsConst() != null;
