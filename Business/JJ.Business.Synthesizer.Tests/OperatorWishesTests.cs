@@ -353,12 +353,10 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet sound    = Multiply(Sine(A4), envelope);
             
             //Outlet magnitude = _[0.66];
-            //Outlet magnitude = CurveIn("Magnitude", (0, 0.66), (4, 0.66));
-            Outlet magnitude = CurveIn("Magnitude", (0, 0.5), (1, 0.9), (3, 1.1), (4, 0.8));
+            Outlet magnitude = CurveIn("Magnitude", (0, 0.66), (0.5, 0.9), (3, 1.0), (4, 0.8));
             
-            //Outlet delay = _[0.25];
-            //Outlet delay   = CurveIn("Delay", (0, 0.25), (4, 0.25));
-            Outlet delay   = CurveIn("Delay", (0, 0.25), (4, 0.50));
+            Outlet delay = _[0.25];
+            //Outlet delay   = CurveIn("Delay", (0, 0.25), (4, 0.50));
             
             Outlet echoes = Echo(sound, magnitude, delay, count: 16);
 
