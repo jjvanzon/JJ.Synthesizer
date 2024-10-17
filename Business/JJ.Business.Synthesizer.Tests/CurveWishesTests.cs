@@ -1,30 +1,65 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
+﻿using JetBrains.Annotations;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Tests.Wishes;
+using JJ.Framework.Persistence;
+using JJ.Framework.Testing;
+using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Tests.Helpers.NameHelper;
 
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
     public class CurveWishesTests : SynthesizerSugar
     {
+        [UsedImplicitly]
+        public CurveWishesTests()
+        { }
+
+        private CurveWishesTests(IContext context)
+            : base(context)
+        { }
+
+        [TestCategory("Wip")]
+        [TestMethod]
+        public void CurveWishes_SynthesizerSugar_GetCurve()
+        {
+            // Arrange
+            CurveInWrapper curve1_cached = CurveIn("Curve1", (0, 1), (1, 0));
+            CurveInWrapper curve2_cached = CurveIn("Curve2", (0, 0), (0.5, 1), (1, 0));
+
+            // Act
+            CurveInWrapper curve1_reused = GetCurve("Curve1");
+            CurveInWrapper curve2_reused = GetCurve("Curve2");
+
+            // Assert
+            AssertHelper.AreEqual(curve1_cached, () => curve1_reused);
+            AssertHelper.AreEqual(curve2_cached, () => curve2_reused);
+            
+            // Diagnostics
+            SaveAudioMono(() => curve1_cached, fileName: Name() + "_Curve1.wav");
+            SaveAudioMono(() => curve2_cached, fileName: Name() + "_Curve2.wav");
+        }
+
         [TestMethod]
         public void AsciiCurves_OneStringPerLine_WithRange()
         {
             var curve = CreateAsciiCurve_OneStringPerLine_WithRange();
-            SaveAudioMono(() => curve, duration: 4, volume: 1);
+            SaveAudioMono(() => curve, duration: 4);
         }
+        
         [TestMethod]
         public void AsciiCurves_OneStringPerLine_WithoutRange()
         {
             var curve = CreateAsciiCurve_OneStringPerLine_WithoutRange();
-            SaveAudioMono(() => curve, duration: 4, volume: 1);
+            SaveAudioMono(() => curve, duration: 4);
         }
 
         [TestMethod]
         public void AsciiCurves_VerboseStrings()
         {
             var curve = CreateAsciiCurve_VerboseStrings();
-            SaveAudioMono(() => curve, duration: 4, volume: 1);
+            SaveAudioMono(() => curve, duration: 4);
         }
 
         CurveInWrapper CreateAsciiCurve_OneStringPerLine_WithoutRange() => CurveIn

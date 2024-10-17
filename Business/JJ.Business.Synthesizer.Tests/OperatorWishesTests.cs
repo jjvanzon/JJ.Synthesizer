@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Tests
             double maxValueRight = panned.Calculate(time: 0.25 / freq);
             double minValueRight = panned.Calculate(time: 0.75 / freq);
 
-            SaveAudio(() => Panning(sine, panning), duration: 1, volume: 1);
+            SaveAudio(() => Panning(sine, panning), duration: 1);
 
             // Assert
             AssertHelper.AreEqual(0.75,  () => maxValueLeft);
@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Tests
                 *
             *");
 
-            SaveAudio(() => Panning(sine, panning), duration: 1, volume: 1);
+            SaveAudio(() => Panning(sine, panning), duration: 1);
         }
 
         // Panbrello Tests
@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer.Tests
         void Panbrello_DefaultSpeedAndDepth_RunTest()
         {
             var sound = Sine(A4);
-            SaveAudio(() => Panbrello(sound), volume: 1);
+            SaveAudio(() => Panbrello(sound));
         }
 
         [TestMethod]
@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
             var sound = Sine(A4);
-            SaveAudio(() => Panbrello(sound, (speed: _[2.0], depth: _[0.75])), volume: 1);
+            SaveAudio(() => Panbrello(sound, (speed: _[2.0], depth: _[0.75])));
         }
 
         [TestMethod]
@@ -249,7 +249,7 @@ namespace JJ.Business.Synthesizer.Tests
                             *
                                 * *            ");
 
-            SaveAudio(() => Panbrello(sound, (speed, depth)), volume: 1);
+            SaveAudio(() => Panbrello(sound, (speed, depth)));
         }
 
         // PitchPan Tests
@@ -324,7 +324,6 @@ namespace JJ.Business.Synthesizer.Tests
         // Echo Tests
         
         [TestMethod]
-        [TestCategory("Wip")]
         public void Test_Echo_Additive_Old()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -337,15 +336,14 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet sound    = Multiply(Sine(A4), envelope);
             Outlet echoes   = EntityFactory.CreateEcho(this, sound, denominator: 1.5, delay: 0.25, count: 16);
 
-            SaveAudioMono(() => sound,  volume: 1, duration: 0.2, fileName: Name() + "_InputSound.wav");
-            SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: Name() + "_Echoes.wav");
+            SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_InputSound.wav");
+            SaveAudioMono(() => echoes, duration: 4.0, fileName: Name() + "_Echoes.wav");
 
             Console.WriteLine();
             Console.WriteLine(echoes.String());
         }
 
         [TestMethod]
-        [TestCategory("Wip")]
         public void Test_Echo_Additive_FixedValues()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -358,15 +356,14 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet sound = Multiply(Sine(A4), envelope);
             Outlet echoes = EchoAdditive(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
-            SaveAudioMono(() => sound,  volume: 1, duration: 0.2, fileName: Name() + "_InputSound.wav");
-            SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: Name() + "_Echoes.wav");
+            SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_InputSound.wav");
+            SaveAudioMono(() => echoes, duration: 4.0, fileName: Name() + "_Echoes.wav");
             
             Console.WriteLine();
             Console.WriteLine(echoes.String());
         }
         
         [TestMethod]
-        [TestCategory("Wip")]
         public void Test_Echo_Additive_DynamicParameters()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -389,17 +386,16 @@ namespace JJ.Business.Synthesizer.Tests
             
             Outlet echoes = EchoAdditive(sound, magnitude, delay, count: 16);
 
-            SaveAudioMono(() => sound,     volume: 1, duration: 0.2, fileName: Name() + "_InputSound.wav");
-            SaveAudioMono(() => magnitude, volume: 1, duration: 5,   fileName: Name() + "_Magnitude.wav");
-            SaveAudioMono(() => delay,     volume: 1, duration: 5,   fileName: Name() + "_Delay.wav");
-            SaveAudioMono(() => echoes,    volume: 1, duration: 5,   fileName: Name() + "_Echoes.wav");
+            SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_InputSound.wav");
+            SaveAudioMono(() => magnitude, duration: 5,   fileName: Name() + "_Magnitude.wav");
+            SaveAudioMono(() => delay,     duration: 5,   fileName: Name() + "_Delay.wav");
+            SaveAudioMono(() => echoes,    duration: 5,   fileName: Name() + "_Echoes.wav");
         
             Console.WriteLine();
             Console.WriteLine(echoes.String());
         }
 
         [TestMethod]
-        [TestCategory("Wip")]
         public void Test_Echo_FeedBack_FixedValues()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -413,15 +409,14 @@ namespace JJ.Business.Synthesizer.Tests
             
             Outlet echoes = EchoFeedBack(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
-            SaveAudioMono(() => sound,  volume: 1, duration: 0.2, fileName: Name() + "_InputSound.wav");
-            SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: Name() + "_Echoes.wav");
+            SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_InputSound.wav");
+            SaveAudioMono(() => echoes, duration: 4.0, fileName: Name() + "_Echoes.wav");
             
             Console.WriteLine();
             Console.WriteLine(echoes.String());
         }
         
         [TestMethod]
-        [TestCategory("Wip")]
         public void Test_Echo_FeedBack_DynamicParameters()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -444,10 +439,10 @@ namespace JJ.Business.Synthesizer.Tests
             
             Outlet echoes = EchoFeedBack(sound, magnitude, delay, count: 16);
 
-            SaveAudioMono(() => sound,     volume: 1, duration: 0.2, fileName: Name() + "_InputSound.wav");
-            SaveAudioMono(() => magnitude, volume: 1, duration: 5,   fileName: Name() + "_Magnitude.wav");
-            SaveAudioMono(() => delay,     volume: 1, duration: 5,   fileName: Name() + "_Delay.wav");
-            SaveAudioMono(() => echoes,    volume: 1, duration: 5,   fileName: Name() + "_Echoes.wav");
+            SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_InputSound.wav");
+            SaveAudioMono(() => magnitude, duration: 5,   fileName: Name() + "_Magnitude.wav");
+            SaveAudioMono(() => delay,     duration: 5,   fileName: Name() + "_Delay.wav");
+            SaveAudioMono(() => echoes,    duration: 5,   fileName: Name() + "_Echoes.wav");
         
             Console.WriteLine();
             Console.WriteLine(echoes.String());
