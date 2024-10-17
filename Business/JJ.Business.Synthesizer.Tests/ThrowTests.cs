@@ -1,22 +1,24 @@
 ﻿using System;
 using System.IO;
-using System.IO.Pipes;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
-using JJ.Framework.Testing;
+using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
-// ReSharper disable NotAccessedVariable
+// ReSharper disable once NotAccessedField.Local
 #pragma warning disable CS0414 // Field is assigned but its value is never used
-#pragma warning disable CS0169 // Field is never used
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -28,7 +30,10 @@ namespace JJ.Business.Synthesizer.Tests
         private ChannelEnum _invalidChannelEnum;
         private int _channelIndex;
         private Stream _emptyStream = new MemoryStream(new byte[] { });
-        private Stream _wavStream = TestHelper.GetViolin16BitMono44100WavStream();
+        private SampleDataType _invalidSampleDataType = new SampleDataType();
+        private AudioFileFormat _invalidAudioFileFormat = new AudioFileFormat();
+        private InterpolationType _invalidInterpolationType = new InterpolationType();
+        private NodeType _invalidNodeType = new NodeType();
 
         [UsedImplicitly]
         public ThrowTests()
@@ -46,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests
                 new ThrowTests(context).ExceptionTests();
         }
 
-        public void ExceptionTests()
+        void ExceptionTests()
         {
             Channel = _invalidChannelEnum = 0;
 
@@ -100,7 +105,20 @@ namespace JJ.Business.Synthesizer.Tests
             
             // SampleManager.CreateWavSample WavFileAtLeast44Bytes
             ThrowsException(() => Samples.CreateSample(_emptyStream, AudioFileFormatEnum.Wav));
+            
+            // SampleDataTypeHelper.SizeOf SampleDataTypeInvalid
+            ThrowsException(() => SampleDataTypeHelper.SizeOf(SampleDataTypeEnum.Undefined));
+        }
+                
+        [TestMethod]
+        public void Test_Exceptions_HardToReach()
+        {             
+            using (IContext context = PersistenceHelper.CreateContext())
+                new ThrowTests(context).ExceptionHardToReachTests();
+        }
 
+        void ExceptionHardToReachTests()
+        {
             // WavHeaderStructToAudioFileInfoConverter ChannelCountCannotBe0
             {
                 WavHeaderStruct wavHeaderStruct = TestHelper.GetValidWavHeaderStruct();
@@ -138,8 +156,45 @@ namespace JJ.Business.Synthesizer.Tests
                 
                 ThrowsException(() => accessor.CreateWavSample(wavHeaderStruct));
             }
+
+            // SampleCalculatorFactory.CreateSampleCalculator InvalidComboInterpolationAndSampleDataType
+            {
+                Sample sample = Samples.CreateSample(TestHelper.GetViolin16BitMono44100WavStream());
+                sample.SampleDataType = _invalidSampleDataType;
+                sample.InterpolationType = _invalidInterpolationType;
+                ThrowsException(() => SampleCalculatorFactory.CreateSampleCalculator(sample));
+            }
+
+            // SampleCalculatorBase.ReadSamples AudioFileFormatNotSupported
+            {
+                Sample sample = Samples.CreateSample(TestHelper.GetViolin16BitMono44100WavStream());
+                sample.AudioFileFormat = _invalidAudioFileFormat;
+                ThrowsException(() => SampleCalculatorFactory.CreateSampleCalculator(sample));
+            }
+        
+            // CurveCalculator.CalculateValue NodeTypeNotSupported
+            {
+                Curve curve = CurveIn((0, 1), (1, 0)).Curve;
+                curve.Nodes[0].NodeType = _invalidNodeType;
+                var curveCalculator = new CurveCalculator(curve);
+                ThrowsException(() => curveCalculator.CalculateValue(0.5));
+            }
+
+            // AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator SampleDataTypeNotSupported
+            {
+                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(Context);
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
+                audioFileOutput.SampleDataType = _invalidSampleDataType;
+                ThrowsException(() => AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput));
+            }
             
-            // SampleDataTypeHelper
+            // AudioFileOutputCalculatorBase.ctor FilePathRequired
+            // TODO
+            
+            // AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported
+            // TODO
+
+            Assert.Inconclusive("There are still some TODOs left.");
         }
     }
 }
