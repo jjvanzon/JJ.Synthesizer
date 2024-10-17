@@ -1,13 +1,17 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Structs;
 using JJ.Framework.IO;
+using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    public static class WavHeaderExtensions
+    public static class WavHeaderExtensionsWishes
     {
         // WriteWavHeader
 
@@ -66,6 +70,43 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             var wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);
 
             bw.WriteStruct(wavHeaderStruct);
+        }
+        
+        // Reading Wav Header
+
+        public static WavHeaderStruct ReadWavHeaderStruct(this string filePath)
+        {
+            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                return ReadWavHeaderStruct(fileStream);
+            }
+        }
+
+        public static WavHeaderStruct ReadWavHeaderStruct(this Stream stream)
+            => ReadWavHeaderStruct(new BinaryReader(stream));
+
+        public static WavHeaderStruct ReadWavHeaderStruct(this BinaryReader reader)
+        {
+            if (reader == null) throw new NullException(() => reader);
+            return reader.ReadStruct<WavHeaderStruct>();
+        }
+    
+        public static AudioFileInfo ReadAudioFileInfo(this string filePath)
+        {
+            WavHeaderStruct wavHeaderStruct = ReadWavHeaderStruct(filePath);
+            return WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
+        }
+
+        public static AudioFileInfo ReadAudioFileInfo(this Stream stream)
+        {
+            WavHeaderStruct wavHeaderStruct = ReadWavHeaderStruct(stream);
+            return WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
+        }
+
+        public static AudioFileInfo ReadAudioFileInfo(this BinaryReader reader)
+        {
+            WavHeaderStruct wavHeaderStruct = ReadWavHeaderStruct(reader);
+            return WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
         }
     }
 }
