@@ -321,15 +321,17 @@ namespace JJ.Business.Synthesizer.Tests
             Assert.IsTrue(panningValueE4 < panningValueG4);
         }
 
+        // Echo Tests
+        
         [TestMethod]
         [TestCategory("Wip")]
-        public void Test_Echo_Old_Additive()
+        public void Test_Echo_Additive_Old()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_Old_Additive_RunTest();
+                new OperatorWishesTests(context).Echo_Additive_Old_RunTest();
         }
 
-        void Echo_Old_Additive_RunTest()
+        void Echo_Additive_Old_RunTest()
         {
             Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(A4), envelope);
@@ -344,17 +346,17 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         [TestCategory("Wip")]
-        public void Test_Echo_WithFeedBackLoop_FixedValues()
+        public void Test_Echo_Additive_FixedValues()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_WithFeedBackLoop_FixedValues_RunTest();
+                new OperatorWishesTests(context).Echo_Additive_FixedValues_RunTest();
         }
 
-        void Echo_WithFeedBackLoop_FixedValues_RunTest()
+        void Echo_Additive_FixedValues_RunTest()
         {
             Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
             Outlet sound = Multiply(Sine(A4), envelope);
-            Outlet echoes = Echo(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
+            Outlet echoes = EchoAdditive(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
             SaveAudioMono(() => sound,  volume: 1, duration: 0.2, fileName: Name() + "_InputSound.wav");
             SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: Name() + "_Echoes.wav");
@@ -365,13 +367,13 @@ namespace JJ.Business.Synthesizer.Tests
         
         [TestMethod]
         [TestCategory("Wip")]
-        public void Test_Echo_WithFeedBackLoop_DynamicParameters()
+        public void Test_Echo_Additive_DynamicParameters()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_WithFeedBackLoop_DynamicParameters_RunTest();
+                new OperatorWishesTests(context).Echo_Additive_DynamicParameters_RunTest();
         }
 
-        void Echo_WithFeedBackLoop_DynamicParameters_RunTest()
+        void Echo_Additive_DynamicParameters_RunTest()
         {
             Outlet envelope = CurveIn("Volume Curve", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(A4), envelope);
@@ -385,7 +387,62 @@ namespace JJ.Business.Synthesizer.Tests
             
             Outlet delay   = CurveIn("Delay Curve", (0, 0.25), (4, 0.35));
             
-            Outlet echoes = Echo(sound, magnitude, delay, count: 16);
+            Outlet echoes = EchoAdditive(sound, magnitude, delay, count: 16);
+
+            SaveAudioMono(() => sound,     volume: 1, duration: 0.2, fileName: Name() + "_InputSound.wav");
+            SaveAudioMono(() => magnitude, volume: 1, duration: 5,   fileName: Name() + "_Magnitude.wav");
+            SaveAudioMono(() => delay,     volume: 1, duration: 5,   fileName: Name() + "_Delay.wav");
+            SaveAudioMono(() => echoes,    volume: 1, duration: 5,   fileName: Name() + "_Echoes.wav");
+        
+            Console.WriteLine();
+            Console.WriteLine(echoes.String());
+        }
+
+        [TestMethod]
+        [TestCategory("Wip")]
+        public void Test_Echo_FeedBackLoop_FixedValues()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new OperatorWishesTests(context).Echo_FeedBackLoop_FixedValues_RunTest();
+        }
+
+        void Echo_FeedBackLoop_FixedValues_RunTest()
+        {
+            Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
+            Outlet sound = Multiply(Sine(A4), envelope);
+            
+            Outlet echoes = EchoFeedbackLoop(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
+
+            SaveAudioMono(() => sound,  volume: 1, duration: 0.2, fileName: Name() + "_InputSound.wav");
+            SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: Name() + "_Echoes.wav");
+            
+            Console.WriteLine();
+            Console.WriteLine(echoes.String());
+        }
+        
+        [TestMethod]
+        [TestCategory("Wip")]
+        public void Test_Echo_FeedBackLoop_DynamicParameters()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new OperatorWishesTests(context).Echo_FeedBackLoop_DynamicParameters_RunTest();
+        }
+
+        void Echo_FeedBackLoop_DynamicParameters_RunTest()
+        {
+            Outlet envelope = CurveIn("Volume Curve", (0, 1), (0.2, 0));
+            Outlet sound    = Multiply(Sine(A4), envelope);
+            
+            Outlet magnitude = CurveIn("Magnitude Curve", 
+                                       (0.0, 0.66), 
+                                       (0.5, 0.90), 
+                                       (3.0, 1.00), 
+                                       (4.0, 0.80), 
+                                       (5.0, 0.25));
+            
+            Outlet delay   = CurveIn("Delay Curve", (0, 0.25), (4, 0.35));
+            
+            Outlet echoes = EchoFeedbackLoop(sound, magnitude, delay, count: 16);
 
             SaveAudioMono(() => sound,     volume: 1, duration: 0.2, fileName: Name() + "_InputSound.wav");
             SaveAudioMono(() => magnitude, volume: 1, duration: 5,   fileName: Name() + "_Magnitude.wav");
