@@ -2,7 +2,9 @@
 using System.IO;
 using System.IO.Pipes;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
@@ -98,12 +100,46 @@ namespace JJ.Business.Synthesizer.Tests
             
             // SampleManager.CreateWavSample WavFileAtLeast44Bytes
             ThrowsException(() => Samples.CreateSample(_emptyStream, AudioFileFormatEnum.Wav));
-            
-            // SampleManager.CreateWavSample ChannelCountNotSupported
-            //var wavHeaderStruct = new WavHeaderStruct { ChannelCount = 0 };
-            //AssertHelper.ThrowsException(() => Samples.CreateWavSample(wavHeaderStruct),
-            //                             "audioFile.ChannelCount value '0' not supported.");
 
+            // WavHeaderStructToAudioFileInfoConverter ChannelCountCannotBe0
+            {
+                WavHeaderStruct wavHeaderStruct = TestHelper.GetValidWavHeaderStruct();
+                wavHeaderStruct.ChannelCount = 0;
+                ThrowsException(
+                    () => WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct),
+                    "wavHeaderStruct.ChannelCount cannot be 0.");
+            }
+            
+            // WavHeaderStructToAudioFileInfoConverter BitsPerValueCannotBe0
+            {
+                WavHeaderStruct wavHeaderStruct = TestHelper.GetValidWavHeaderStruct();
+                wavHeaderStruct.BitsPerValue = 0;
+                ThrowsException(
+                    () => WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct),
+                    "wavHeaderStruct.BitsPerValue cannot be 0.");
+            }
+
+            // SampleManager.CreateWavSample ChannelCountNotSupported
+            {
+                WavHeaderStruct wavHeaderStruct = TestHelper.GetValidWavHeaderStruct();
+                wavHeaderStruct.ChannelCount = short.MaxValue;
+                
+                var accessor = new SampleManagerAccessor(Samples);
+                
+                ThrowsException(() => accessor.CreateWavSample(wavHeaderStruct));
+            }
+
+            // SampleManager.CreateWavSample BytesPerValueNotSupported
+            {
+                WavHeaderStruct wavHeaderStruct = TestHelper.GetValidWavHeaderStruct();
+                wavHeaderStruct.BitsPerValue = short.MaxValue;
+                
+                var accessor = new SampleManagerAccessor(Samples);
+                
+                ThrowsException(() => accessor.CreateWavSample(wavHeaderStruct));
+            }
+            
+            // SampleDataTypeHelper
         }
     }
 }
