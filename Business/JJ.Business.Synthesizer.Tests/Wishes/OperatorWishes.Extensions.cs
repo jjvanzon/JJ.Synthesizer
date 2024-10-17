@@ -35,6 +35,25 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         /// <inheritdoc cref="docs._asconst"/>
         public static bool IsConst(this Operator op) => op?.AsConst() != null;
 
+        
+        public static double Calculate(this Outlet outlet, double time, int channelIndex = 0)
+        {
+            var calculator = new OperatorCalculator(channelIndex);
+            return calculator.CalculateValue(outlet, time);
+        }
+
+        public static double Calculate(this SampleOperatorWrapper wrapper, double time, int channelIndex = 0)
+            => Calculate((Outlet)wrapper, time, channelIndex);
+
+        public static string String(this Operator entity)
+            => new OperatorFormatter().FormatRecursive(entity);
+
+        public static string String(this Outlet entity)
+            => new OperatorFormatter().FormatRecursive(entity);
+
+        public static string String(this Inlet entity)
+            => new OperatorFormatter().FormatRecursive(entity);
+        
         /// <inheritdoc cref="docs._default" />
         public static Outlet Stretch(this OperatorFactory operatorFactory, Outlet signal, Outlet timeFactor)
         {
@@ -308,14 +327,5 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             return i;
         }
-
-        public static double Calculate(this Outlet outlet, double time, int channelIndex = 0)
-        {
-            var calculator = new OperatorCalculator(channelIndex);
-            return calculator.CalculateValue(outlet, time);
-        }
-
-        public static double Calculate(this SampleOperatorWrapper wrapper, double time, int channelIndex = 0)
-            => Calculate((Outlet)wrapper, time, channelIndex);
     }
 }

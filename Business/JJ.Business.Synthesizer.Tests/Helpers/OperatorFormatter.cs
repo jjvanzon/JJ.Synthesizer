@@ -12,33 +12,30 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private readonly string[] _simpleOperatorTypeNames = 
             {"Adder","Add", "Multiply", "Divide", "Substract"};
 
-        private StringBuilder _sb;
-        private int tabCount;
-
-        private void AppendLine(string line = "")
+        // Entry Points
+        
+        public string FormatRecursive(Operator entity)
         {
-            Append(NewLine);
-            AppendTabs();
-            Append(line);
+            _sb = new StringBuilder();
+            BuildStringRecursive(entity);
+            return _sb.ToString();
         }
-
-        private void AppendTabs()
+        
+        public string FormatRecursive(Inlet entity)
         {
-            for (int i = 0; i < tabCount; i++)
-            {
-                _sb.Append("  ");
-            }
+            _sb = new StringBuilder();
+            BuildStringRecursive(entity, out bool multiLine);
+            return _sb.ToString();
         }
-
-        private void Append(string str) => _sb.Append(str);
-        private void Append(char chr) => _sb.Append(chr);
-
+        
         public string FormatRecursive(Outlet outlet)
         {
             _sb = new StringBuilder();
             BuildStringRecursive(outlet);
             return _sb.ToString();
         }
+        
+        // Recursive String Building
 
         private void BuildStringRecursive(Outlet outlet) 
             => BuildStringRecursive(outlet?.Operator);
@@ -64,7 +61,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             {
                 Inlet inlet = op.Inlets[i];
 
-                
                 BuildStringRecursive(inlet, out multiLine);
                 
                 int isLast = op.Inlets.Count - 1;
@@ -77,8 +73,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             if (op.Inlets.Count != 0)
             {
                 Append(')');
-                if (multiLine) AppendLine();
             }
+            
+            if (multiLine) AppendLine();
         }
         
         private void BuildStringRecursive(Inlet inlet, out bool multiLine)
@@ -95,7 +92,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             if (!inlet.IsConst())
             {
-                tabCount++;
+                Indent();
                 AppendLine();
                 multiLine = true;
             }
@@ -104,7 +101,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             if (!inlet.IsConst())
             {
-                tabCount--;
+                Outdent();
             }
         }
 
@@ -125,5 +122,33 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             return true;
         }
+        
+        // String Builder
+        
+        private StringBuilder _sb;
+        private int tabCount;
+
+        private void Append(string str) => _sb.Append(str);
+        private void Append(char chr) => _sb.Append(chr);
+
+        
+        private void AppendLine(string line = "")
+        {
+            Append(NewLine);
+            AppendTabs();
+            Append(line);
+        }
+
+        private void AppendTabs()
+        {
+            for (int i = 0; i < tabCount; i++)
+            {
+                _sb.Append("  ");
+            }
+        }
+        
+        void Outdent() => tabCount--;
+
+        void Indent() => tabCount++;
     }
 }

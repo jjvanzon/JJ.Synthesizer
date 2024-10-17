@@ -337,7 +337,7 @@ namespace JJ.Business.Synthesizer.Tests
             SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: "Echo_Old_Echoes.wav");
 
             Console.WriteLine();
-            Console.WriteLine(new OperatorFormatter().FormatRecursive(echoes));
+            Console.WriteLine(echoes.String());
         }
 
         [TestMethod]
@@ -358,7 +358,7 @@ namespace JJ.Business.Synthesizer.Tests
             SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: "Echo_FixedValues_Echoes.wav");
             
             Console.WriteLine();
-            Console.WriteLine(new OperatorFormatter().FormatRecursive(echoes));
+            Console.WriteLine(echoes.String());
         }
         
         [TestMethod]
@@ -391,7 +391,7 @@ namespace JJ.Business.Synthesizer.Tests
             SaveAudioMono(() => echoes,    fileName: "Echo_DynamicParameters_Echoes.wav"    , volume: 1, duration: 5);
         
             Console.WriteLine();
-            Console.WriteLine(new OperatorFormatter().FormatRecursive(echoes));
+            Console.WriteLine(echoes.String());
         }
     }
 }
