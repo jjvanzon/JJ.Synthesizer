@@ -708,7 +708,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         // Helpers
 
-        private double GetValueTolerance(
+        internal double GetValueTolerance(
             bool aligned,
             InterpolationTypeEnum interpolationTypeEnum,
             SampleDataTypeEnum sampleDataTypeEnum)
@@ -762,7 +762,7 @@ namespace JJ.Business.Synthesizer.Tests
             }
 
             throw new NotSupportedException(
-                "Combination of values {" + new { sampleDataTypeEnum, interpolationTypeEnum } + "} not supported.");
+                "Unsupported combination of values: " + new { interpolationTypeEnum, sampleDataTypeEnum });
         }
 
         private int GetByteCountTolerance(SampleDataTypeEnum sampleDataTypeEnum) 

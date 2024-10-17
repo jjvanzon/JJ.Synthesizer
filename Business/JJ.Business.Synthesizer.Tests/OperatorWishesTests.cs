@@ -91,6 +91,10 @@ namespace JJ.Business.Synthesizer.Tests
             double expectedRight = 0.6 * panning; // 0.6 * 0.5 = 0.3
             AssertHelper.AreEqual(expectedLeft,  () => outputLeftValue);
             AssertHelper.AreEqual(expectedRight, () => outputRightValue);
+            
+            // Diagnostics (get code coverage)
+            Channel = Single;
+            Assert.IsNull(fixedValues());
         }
 
         [TestMethod]
@@ -133,6 +137,10 @@ namespace JJ.Business.Synthesizer.Tests
             double expectedRightValue = 0.6 * panningValue; // 0.6 * 0.5 = 0.3
             AssertHelper.AreEqual(expectedLeftValue,  () => leftValue);
             AssertHelper.AreEqual(expectedRightValue, () => rightValue);
+            
+            // Diagnostics (get code coverage)
+            Channel = Single;
+            Assert.IsNull(TestSignal());
         }
 
         [TestMethod]

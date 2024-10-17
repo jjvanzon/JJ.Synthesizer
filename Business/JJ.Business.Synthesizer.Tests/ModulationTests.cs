@@ -254,7 +254,7 @@ namespace JJ.Business.Synthesizer.Tests
         #region Instruments
 
         /// <inheritdoc cref="_detunicadocs" />
-        Outlet Detunica(
+        internal Outlet Detunica(
             Outlet delay = default, Outlet freq = default, Outlet volume = default, Outlet duration = default,
             (Outlet speed, Outlet depth) vibrato = default, 
             (Outlet speed, Outlet depth) tremolo = default,
@@ -284,7 +284,7 @@ namespace JJ.Business.Synthesizer.Tests
                     break;
 
                 default:
-                    throw new Exception($"{envelopeVariation} value '{envelopeVariation}' not supported.");
+                    throw new Exception($"{nameof(envelopeVariation)} value '{envelopeVariation}' not supported.");
             }
 
             // Apply velocity and delay
@@ -412,7 +412,7 @@ namespace JJ.Business.Synthesizer.Tests
         const double DEEP_ECHO_TIME = 0.5 * 5;
 
         /// <inheritdoc cref="_echodocs" />
-        Outlet DeepEcho(Outlet sound)
+        internal Outlet DeepEcho(Outlet sound)
         {
             switch (Channel)
             {

@@ -1,9 +1,9 @@
 ﻿using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Framework.Testing;
-using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.NameHelper;
 
@@ -20,9 +20,14 @@ namespace JJ.Business.Synthesizer.Tests
             : base(context)
         { }
 
-        [TestCategory("Wip")]
         [TestMethod]
         public void CurveWishes_SynthesizerSugar_GetCurve()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new CurveWishesTests(context).CurveWishes_SynthesizerSugar_GetCurve_RunTest();
+        }
+
+        void CurveWishes_SynthesizerSugar_GetCurve_RunTest()
         {
             // Arrange
             CurveInWrapper curve1_cached = CurveIn("Curve1", (0, 1), (1, 0));
@@ -41,6 +46,7 @@ namespace JJ.Business.Synthesizer.Tests
             SaveAudioMono(() => curve2_cached, fileName: Name() + "_Curve2.wav");
         }
 
+        
         [TestMethod]
         public void AsciiCurves_OneStringPerLine_WithRange()
         {

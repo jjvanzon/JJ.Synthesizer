@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Tests
                 }
 
                 string message = String.Join(", ", results.Select(x => String.Format("{0}: {1}ms", x.Calculator.GetType().Name, x.Milliseconds)));
-                Assert.Inconclusive(message);
+                Console.WriteLine(message);
             }
         }
 
@@ -262,7 +262,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw1.Stop();
 
                 string message = String.Format("{0}ms", sw1.ElapsedMilliseconds);
-                Assert.Inconclusive(message);
+                Console.WriteLine(message);
 
                 //Stopwatch sw2 = Stopwatch.StartNew();
                 //audioFileOutputCalculator.Execute();

@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
@@ -29,6 +30,12 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         [TestMethod]
         public void Test_AudioFileExtensionWishes()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+                new AudioFileWishesTests(context).AudioFileExtensionWishes_RunTest();
+        }
+
+        void AudioFileExtensionWishes_RunTest()
         {
             // Channel Count => Speaker Setup
             AreEqual(Mono,   () => 1.GetSpeakerSetupEnum());
