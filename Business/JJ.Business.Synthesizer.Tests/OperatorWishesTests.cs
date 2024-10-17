@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
@@ -293,13 +294,13 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_PitchPan_UsingDoubles()
+        public void Test_PitchPan_DynamicParameters()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).PitchPan_UsingDoubles_RunTest();
+                new OperatorWishesTests(context).PitchPan_DynamicParameters_RunTest();
         }
 
-        void PitchPan_UsingDoubles_RunTest()
+        void PitchPan_DynamicParameters_RunTest()
         {
             // Arrange
             double centerFrequency    = A4;
@@ -322,36 +323,49 @@ namespace JJ.Business.Synthesizer.Tests
         
         [TestMethod]
         [TestCategory("Wip")]
-        public void Test_Echo_UsingOutlets()
+        public void Test_Echo_WithFixedValues()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_UsingOutlets_RunTest();
+                new OperatorWishesTests(context).Echo_WithFixedValues_RunTest();
         }
 
-        void Echo_UsingOutlets_RunTest()
+        void Echo_WithFixedValues_RunTest()
         {
-            Outlet signal = Multiply(Sine(A4), CurveIn((0, 1), (0.2, 0)));
-            SaveAudioMono(() => signal, fileName: "Echo_UsingOutlets_Signal.wav");
+            Outlet envelope = CurveIn((0, 1), (0.2, 0));
+            Outlet sound = Multiply(Sine(A4), envelope);
+            Outlet echoes = Echo(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
             
-            Outlet echoes = Echo(signal, magnitude: (Outlet)_[0.66], delay: _[0.5], count: 8);
-            SaveAudioMono(() => echoes, volume: 1, duration: 4, fileName: "Echo_UsingOutlets_Echoes.wav");
+            SaveAudioMono(() => sound, volume: 1, duration: 0.2, fileName: "Echo_WithFixedValues_InputSound.wav");
+            SaveAudioMono(() => echoes, volume: 1, duration: 4, fileName: "Echo_WithFixedValues_Echoes.wav");
         }
         
         [TestMethod]
         [TestCategory("Wip")]
-        public void Test_Echo_UsingDoubles()
+        public void Test_Echo_DynamicParameters()
         {
             using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_UsingDoubles_RunTest();
+                new OperatorWishesTests(context).Echo_DynamicParameters_RunTest();
         }
 
-        void Echo_UsingDoubles_RunTest()
+        void Echo_DynamicParameters_RunTest()
         {
-            Outlet signal = Multiply(Sine(A4), CurveIn((0, 1), (0.2, 0)));
-            SaveAudioMono(() => signal, fileName: "Echo_UsingDoubles_Signal.wav");
+            Outlet envelope = CurveIn((0, 1), (0.2, 0));
+            Outlet sound    = Multiply(Sine(A4), envelope);
             
-            Outlet echoes = Echo(signal, magnitude: 0.66, delay: 0.5, count: 8);
-            SaveAudioMono(() => echoes, volume: 1, duration: 4, fileName: "Echo_UsingDoubles_Echoes.wav");
+            //Outlet magnitude = _[0.66];
+            //Outlet magnitude = CurveIn("Magnitude", (0, 0.66), (4, 0.66));
+            Outlet magnitude = CurveIn("Magnitude", (0, 0.5), (1, 0.9), (3, 1.1), (4, 0.8));
+            
+            //Outlet delay = _[0.25];
+            //Outlet delay   = CurveIn("Delay", (0, 0.25), (4, 0.25));
+            Outlet delay   = CurveIn("Delay", (0, 0.25), (4, 0.50));
+            
+            Outlet echoes = Echo(sound, magnitude, delay, count: 16);
+
+            SaveAudioMono(() => sound,     fileName: "Echo_DynamicParameters_InputSound.wav", volume: 1, duration: 0.2);
+            SaveAudioMono(() => magnitude, fileName: "Echo_DynamicParameters_Magnitude.wav", volume: 1, duration: 4);
+            SaveAudioMono(() => delay,     fileName: "Echo_DynamicParameters_Delay.wav", volume: 1, duration: 4);
+            SaveAudioMono(() => echoes,    fileName: "Echo_DynamicParameters_Echoes.wav", volume: 1, duration: 4);
         }
     }
 }

@@ -236,32 +236,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             return newPanning;
         }
 
-        public static Outlet Echo(
-            this OperatorFactory x, Outlet signal, 
-            double magnitude = 0.66, double delay = 0.25, int count = 16)
-        {
-            if (x == null) throw new NullException(() => x);
-            if (signal == null) throw new NullException(() => signal);
-
-            Outlet cumulativeSignal    = signal;
-            double cumulativeMagnitude = magnitude;
-            double cumulativeDelay     = delay;
-
-            int loopCount = Log(count, 2);
-            
-            for (int i = 0; i < loopCount; i++)
-            {
-                Outlet quieter = x.Multiply(cumulativeSignal, x.Value(cumulativeMagnitude));
-                Outlet shifted = x.TimeAdd(quieter, x.Value(cumulativeDelay));
-                
-                cumulativeSignal = x.Add(cumulativeSignal, shifted);
-
-                cumulativeMagnitude *= cumulativeMagnitude;
-                cumulativeDelay     += cumulativeDelay;
-            }
-
-            return cumulativeSignal;
-        }
 
         public static Outlet Echo(
             this OperatorFactory x, Outlet signal,
@@ -301,7 +275,6 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
             return cumulativeSignal;
         }
-
 
         /// <summary>
         /// Integer variation of the Math.Log function.
