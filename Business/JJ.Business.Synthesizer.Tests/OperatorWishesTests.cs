@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using JetBrains.Annotations;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Framework.Persistence;
@@ -322,9 +319,7 @@ namespace JJ.Business.Synthesizer.Tests
             Assert.IsTrue(panningValueE4 < panningValueG4);
         }
 
-                
         [TestMethod]
-        [TestCategory("Wip")]
         public void Test_Echo_Old()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -339,11 +334,21 @@ namespace JJ.Business.Synthesizer.Tests
 
             SaveAudioMono(() => sound,  volume: 1, duration: 0.2, fileName: "Echo_Old_InputSound.wav");
             SaveAudioMono(() => echoes, volume: 1, duration: 4,   fileName: "Echo_Old_Echoes.wav");
+
+            
+            //var settings = new JsonSerializerSettings
+            //{
+            //    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            //};
+            //var json = JsonConvert.SerializeObject(echoes.Operator, settings);
+            //File.WriteAllText("Echo_Old.json",json);
+            
+            string text = OperatorFormatter.FormatRecursive(echoes);
+            Console.WriteLine();
+            Console.WriteLine(text);
         }
 
-
         [TestMethod]
-        [TestCategory("Wip")]
         public void Test_Echo_FixedValues()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -361,7 +366,6 @@ namespace JJ.Business.Synthesizer.Tests
         }
         
         [TestMethod]
-        [TestCategory("Wip")]
         public void Test_Echo_DynamicParameters()
         {
             using (IContext context = PersistenceHelper.CreateContext())

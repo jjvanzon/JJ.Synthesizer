@@ -22,7 +22,13 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         /// <inheritdoc cref="docs._asconst"/>
         public static double? AsConst(this Operator op) => op?.AsValueOperator?.Value;
-        
+
+        /// <inheritdoc cref="docs._asconst"/>
+        public static bool IsConst(this Outlet outlet) => outlet?.AsConst() != null;
+
+        /// <inheritdoc cref="docs._asconst"/>
+        public static bool IsConst(this Operator op) => op?.AsConst() != null;
+
         /// <inheritdoc cref="docs._default" />
         public static Outlet Stretch(this OperatorFactory operatorFactory, Outlet signal, Outlet timeFactor)
         {

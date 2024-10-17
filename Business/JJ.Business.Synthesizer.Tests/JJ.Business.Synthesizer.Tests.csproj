@@ -124,6 +124,7 @@
   <ItemGroup>
     <Compile Include="AudioFileWishesTests.cs" />
     <Compile Include="Helpers\ConfigurationSection.cs" />
+    <Compile Include="Helpers\OperatorFormatter.cs" />
     <Compile Include="OperatorWishesTests.cs" />
     <Compile Include="CurveWishesTests.cs" />
     <Compile Include="ModulationTests.cs" />
