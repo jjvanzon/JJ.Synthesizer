@@ -1,34 +1,32 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
-using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 
-namespace JJ.Business.Synthesizer.Tests.Helpers
+namespace JJ.Business.Synthesizer.Tests.Wishes
 {
-    internal class OperatorFormatter
+    internal class OperatorStringifier
     {
         private readonly string[] _simpleOperatorTypeNames = 
             {"Adder","Add", "Multiply", "Divide", "Substract"};
 
         // Entry Points
         
-        public string FormatRecursive(Operator entity)
+        public string StringifyRecursive(Operator entity)
         {
             _sb = new StringBuilder();
             BuildStringRecursive(entity);
             return _sb.ToString();
         }
         
-        public string FormatRecursive(Inlet entity)
+        public string StringifyRecursive(Inlet entity)
         {
             _sb = new StringBuilder();
             BuildStringRecursive(entity);
             return _sb.ToString();
         }
         
-        public string FormatRecursive(Outlet outlet)
+        public string StringifyRecursive(Outlet outlet)
         {
             _sb = new StringBuilder();
             BuildStringRecursive(outlet);
@@ -78,7 +76,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (inlet?.Input?.Operator == null) return;
             
-            bool mustIncludeName = MustIncludeName(inlet);
+            bool mustIncludeName = MustIncludeInletName(inlet);
             if (mustIncludeName)
             {
                 Append($"{inlet.Name}=");
@@ -98,7 +96,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
         }
 
-        private bool MustIncludeName(Inlet inlet)
+        private bool MustIncludeInletName(Inlet inlet)
         {
             bool isAlone = inlet?.Operator?.Inlets?.Count > 1;
             if (isAlone)
