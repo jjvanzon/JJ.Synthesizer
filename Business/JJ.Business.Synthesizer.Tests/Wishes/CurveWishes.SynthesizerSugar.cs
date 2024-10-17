@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             new Dictionary<string, CurveInWrapper>();
 
         /// <inheritdoc cref="docs._createcurve" />
-        private CurveInWrapper GetOrCreateCurveIn(string name, Func<CurveInWrapper> func)
+        internal CurveInWrapper GetOrCreateCurveIn(string name, Func<CurveInWrapper> func)
         {
             if (string.IsNullOrEmpty(name))
             {

@@ -125,6 +125,7 @@
     <Compile Include="AudioFileWishesTests.cs" />
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
+    <Compile Include="ThrowTests.cs" />
     <Compile Include="Wishes\OperatorWishes.Stringifier.cs" />
     <Compile Include="OperatorWishesTests.cs" />
     <Compile Include="CurveWishesTests.cs" />
