@@ -10,6 +10,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Tests.Wishes;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -73,6 +77,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             Stream stream = EmbeddedResourceHelper.GetEmbeddedResourceStream(typeof(TestHelper).Assembly, "TestResources", VIOLIN_16BIT_MONO_44100_WAV_FILE_NAME);
             return stream;
+        }
+
+        public static WavHeaderStruct GetValidWavHeaderStruct()
+        {
+            WavHeaderStruct wavHeaderStruct = GetViolin16BitMono44100WavStream().ReadWavHeaderStruct();
+            new WavHeaderStructValidator(wavHeaderStruct).Verify();
+            return wavHeaderStruct;
         }
     }
 }
