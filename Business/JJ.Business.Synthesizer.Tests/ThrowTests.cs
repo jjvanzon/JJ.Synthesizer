@@ -121,14 +121,26 @@ namespace JJ.Business.Synthesizer.Tests
                 audioFileOutput.SampleDataType = _invalidSampleDataType;
                 ThrowsException(() => AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput));
             }
-            
-            // AudioFileOutputCalculatorBase.ctor FilePathRequired
-            // TODO
-            
-            // AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported
-            // TODO
 
-            Assert.Inconclusive("There are still some TODOs left.");
+            // AudioFileOutputCalculatorBase.ctor FilePathRequired
+            { 
+                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(Context);
+                AudioFileOutput        audioFileOutput        = audioFileOutputManager.CreateAudioFileOutput();
+                audioFileOutput.FilePath = null;
+                ThrowsException(() => AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput));
+            }
+
+            // AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported
+            {
+                string fileName = NameHelper.Name() + "_AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported.wav";
+                SaveAudio(() => Sine(), fileName: fileName);
+                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(Context);
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
+                audioFileOutput.FilePath = fileName;
+                audioFileOutput.AudioFileFormat = _invalidAudioFileFormat;
+                IAudioFileOutputCalculator calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
+                ThrowsException(() => calculator.Execute());
+            }
         }
         
         [TestMethod]
