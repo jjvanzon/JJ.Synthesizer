@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Tests
     public class AudioFileWishesTests : SynthWishes
     {
         /// <summary>
-        /// Testing extension methods in <see cref="AudioConversionExtensionWishes" />
+        /// Testing extension methods in <see cref="AudioFileExtensionWishes" />
         /// that didn't get any coverage elsewhere.
         /// </summary>
         [TestMethod]
@@ -66,10 +66,10 @@ namespace JJ.Business.Synthesizer.Tests
             }
 
             // 16-Bit Helpers
-            AreEqual(Int16, () => AudioConversionExtensionWishes.GetSampleDataTypeEnum<short>());
+            AreEqual(Int16, () => AudioFileExtensionWishes.GetSampleDataTypeEnum<short>());
 
             // 8-Bit Helpers
-            AreEqual(Byte, () => AudioConversionExtensionWishes.GetSampleDataTypeEnum<byte>());
+            AreEqual(Byte, () => AudioFileExtensionWishes.GetSampleDataTypeEnum<byte>());
         }
     }
 }
