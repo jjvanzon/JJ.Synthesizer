@@ -5,15 +5,16 @@ resharper_private_accessibility_modifier_style = do_not_change
 resharper_localizable_element_highlighting = none
 resharper_member_can_be_private_global_highlighting = none
 resharper_member_can_be_protected_global_highlighting = none
-resharper_align_multiline_argument = true
-resharper_align_multiline_calls_chain = true
-resharper_align_multiline_parameter = true
-resharper_int_align_assignments = true
-resharper_int_align_fields = true
-resharper_int_align_invocations = true
-resharper_int_align_properties = true
-resharper_int_align_switch_expressions = true
-resharper_int_align_switch_sections = true
-resharper_int_align_tuple_components = true
-resharper_int_align_variables = true
+
+#resharper_align_multiline_argument = true
+#resharper_align_multiline_calls_chain = true
+#resharper_align_multiline_parameter = true
+#resharper_int_align_assignments = true
+#resharper_int_align_fields = true
+#resharper_int_align_invocations = true
+#resharper_int_align_properties = true
+#resharper_int_align_switch_expressions = true
+#resharper_int_align_switch_sections = true
+#resharper_int_align_tuple_components = true
+#resharper_int_align_variables = true
 

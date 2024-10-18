@@ -189,13 +189,10 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// e.g. a single one for Mono and 2 outlets for stereo.
         /// </param>
         /// <param name="duration">
-        /// The duration of the audio in seconds. When 0, the default duration is used,
-        /// that can be specified in the configuration
-        /// file.
+        /// The duration of the audio in seconds. When 0, the default duration of 1 second is used.
         /// </param>
         /// <param name="volume">
-        /// The volume level of the audio. If null, the default volume is used,
-        /// that can be specified in the configuration file.
+        /// The volume level of the audio. If null, the default volume is 1 (full volume).
         /// </param>
         /// <param name="speakerSetupEnum">
         /// The speaker setup configuration (e.g., Mono, Stereo).

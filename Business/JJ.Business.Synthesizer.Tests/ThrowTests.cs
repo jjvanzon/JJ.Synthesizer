@@ -25,7 +25,6 @@ using PersistenceHelper = JJ.Business.Synthesizer.Tests.Helpers.PersistenceHelpe
 namespace JJ.Business.Synthesizer.Tests
 {
     /// <summary> Aims to test rare exception for code coverage. </summary>
-    [TestCategory("Wip")]
     [TestClass]
     public class ThrowTests : SynthesizerSugar
     {

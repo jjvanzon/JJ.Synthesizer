@@ -7,17 +7,17 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     internal static class ServiceFactory
     {
-        public static OperatorFactory CreateOperatorFactory(IContext context)
-        {
-            IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
-            IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
-            IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
-            ICurveInRepository curveInRepository = PersistenceHelper.CreateRepository<ICurveInRepository>(context);
-            IValueOperatorRepository valueOperatorRepository = PersistenceHelper.CreateRepository<IValueOperatorRepository>(context);
-            ISampleOperatorRepository sampleOperatorRepository = PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context);
-            var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository, curveInRepository, valueOperatorRepository, sampleOperatorRepository);
-            return factory;
-        }
+        //public static OperatorFactory CreateOperatorFactory(IContext context)
+        //{
+        //    IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
+        //    IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
+        //    IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
+        //    ICurveInRepository curveInRepository = PersistenceHelper.CreateRepository<ICurveInRepository>(context);
+        //    IValueOperatorRepository valueOperatorRepository = PersistenceHelper.CreateRepository<IValueOperatorRepository>(context);
+        //    ISampleOperatorRepository sampleOperatorRepository = PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context);
+        //    var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository, curveInRepository, valueOperatorRepository, sampleOperatorRepository);
+        //    return factory;
+        //}
 
         public static CurveFactory CreateCurveFactory(IContext context)
         {

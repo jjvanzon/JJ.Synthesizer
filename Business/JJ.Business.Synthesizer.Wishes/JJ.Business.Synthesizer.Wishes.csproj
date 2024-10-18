@@ -197,8 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
-    <None Include=".editorconfig.resharperexport" />
-    <None Include="App.config" />
+    <Content Include="app.config.example.xml" />
     <None Include="packages.config" />
     <Compile Include="OperatorWishes.SynthesizerSugar.cs" />
   </ItemGroup>
@@ -206,9 +205,7 @@
     <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.0\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.0\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Wishes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
