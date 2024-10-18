@@ -49,6 +49,56 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string String(this Inlet entity)
             => new OperatorStringifier().StringifyRecursive(entity);
         
+        // Validation
+        
+        public static Result Validate(this Outlet entity, bool recursive = true)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return Validate(entity.Operator, recursive);
+        }
+
+        public static Result Validate(this Operator entity, bool recursive = true)
+        {
+            if (recursive)
+            {
+                return new RecursiveOperatorValidator(entity).ToResult();
+            }
+            else
+            { 
+                return new VersatileOperatorValidator(entity).ToResult();
+            }
+        }
+        
+        public static void Assert(this Outlet entity, bool recursive = true) 
+            => Validate(entity, recursive).Assert();
+
+        public static void Assert(this Operator entity, bool recursive = true) 
+            => Validate(entity, recursive).Assert();
+
+        public static IList<string> GetWarnings(this Operator entity, bool recursive = true)
+        {
+            IValidator validator;
+            
+            if (recursive)
+            {
+                validator = new RecursiveOperatorWarningValidator(entity);
+            }
+            else
+            {
+                validator = new VersatileOperatorWarningValidator(entity);
+            }
+            
+            return validator.ValidationMessages.Select(x => x.Text).ToList();
+        }
+        
+        public static IList<string> GetWarnings(this Outlet entity, bool recursive = true)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return GetWarnings(entity.Operator, recursive);
+        }
+
+        // Operators
+        
         /// <inheritdoc cref="docs._default" />
         public static Outlet Stretch(this OperatorFactory operatorFactory, Outlet signal, Outlet timeFactor)
         {
