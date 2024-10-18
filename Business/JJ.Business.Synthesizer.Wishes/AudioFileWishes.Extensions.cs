@@ -104,19 +104,19 @@ namespace JJ.Business.Synthesizer.Wishes
  
         public static SampleDataTypeEnum ToEnum(this SampleDataType entity)
         {
-            if (entity == null) throw new NullException(() => entity);
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             return (SampleDataTypeEnum)entity.ID;
         }
 
         public static AudioFileFormatEnum ToEnum(this AudioFileFormat entity)
         {
-            if (entity == null) throw new NullException(() => entity);
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             return (AudioFileFormatEnum)entity.ID;
         }
 
         public static SpeakerSetupEnum ToEnum(this SpeakerSetup entity)
         {
-            if (entity == null) throw new NullException(() => entity);
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             return (SpeakerSetupEnum)entity.ID;
         }
     }

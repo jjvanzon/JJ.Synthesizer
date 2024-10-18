@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
@@ -86,7 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static WavHeaderStruct ReadWavHeaderStruct(this BinaryReader reader)
         {
-            if (reader == null) throw new NullException(() => reader);
+            if (reader == null) throw new ArgumentNullException(nameof(reader));
             return reader.ReadStruct<WavHeaderStruct>();
         }
     

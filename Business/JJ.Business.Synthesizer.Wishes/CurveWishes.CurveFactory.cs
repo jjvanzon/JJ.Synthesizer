@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public static Curve CreateCurve(this CurveFactory curveFactory, IList<(double time, double value)> nodeTuples)
         {
-            if (curveFactory == null) throw new NullException(() => curveFactory);
-            if (nodeTuples == null) throw new NullException(() => nodeTuples);
+            if (curveFactory == null) throw new ArgumentNullException(nameof(curveFactory));
+            if (nodeTuples == null) throw new ArgumentNullException(nameof(nodeTuples));
             var nodeInfos = nodeTuples.Select(x => new NodeInfo(x.Item1, x.Item2)).ToArray();
             Curve curve = curveFactory.CreateCurve(nodeInfos);
             return curve;
@@ -52,8 +52,8 @@ namespace JJ.Business.Synthesizer.Wishes
             double start = 0, double end = 1, double min = 0, double max = 1,
             IList<string> lines = null)
         {
-            if (curveFactory == null) throw new NullException(() => curveFactory);
-            if (lines == null) throw new NullException(() => lines);
+            if (curveFactory == null) throw new ArgumentNullException(nameof(curveFactory));
+            if (lines == null) throw new ArgumentNullException(nameof(lines));
             if (lines.Count == 0) throw new Exception($"{lines} collection empty.");
 
             lines = TrimAsciiCurve(lines);

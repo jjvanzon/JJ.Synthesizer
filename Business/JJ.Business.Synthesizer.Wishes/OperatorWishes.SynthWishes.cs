@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using System;
 
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable AssignmentInsteadOfDiscard
@@ -100,7 +101,7 @@ namespace JJ.Business.Synthesizer.Wishes
      
         public double Calculate(Outlet outlet, double time)
         {
-            if (outlet == null) throw new NullException(() => outlet);
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             return outlet.Calculate(time, ChannelIndex);
         }
 
