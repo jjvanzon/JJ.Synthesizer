@@ -11,27 +11,38 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes(IContext context, double beat = 1, double bar = 4)
             : this(context)
         {
-            this.bar = new BarIndexer(this, bar);
-            bars = new BarsIndexer(this, bar);
-            this.beat = new BeatIndexer(this, beat);
-            beats = new BeatsIndexer(this, beat);
-            t = new TimeIndexer(this, bar, beat);
+            InitializeTimeIndexers(beat, bar);
+        }
+
+        public SynthWishes(double beat = 1, double bar = 4)
+            : this()
+        {
+            InitializeTimeIndexers(beat, bar);
+        }
+
+        private void InitializeTimeIndexers(double beatDuration, double barDuration)
+        {
+            bar = new BarIndexer(this, barDuration);
+            bars = new BarsIndexer(this, barDuration);
+            beat = new BeatIndexer(this, beatDuration);
+            beats = new BeatsIndexer(this, beatDuration);
+            t = new TimeIndexer(this, barDuration, beatDuration);
         }
 
         /// <inheritdoc cref="BarIndexer" />
-        public BarIndexer bar { get; }
+        public BarIndexer bar { get; private set; }
 
         /// <inheritdoc cref="BarsIndexer" />
-        public BarsIndexer bars { get; }
+        public BarsIndexer bars { get; private set; }
 
         /// <inheritdoc cref="BeatIndexer" />
-        public BeatIndexer beat { get; }
+        public BeatIndexer beat { get; private set; }
 
         /// <inheritdoc cref="BeatsIndexer" />
-        public BeatsIndexer beats { get; }
+        public BeatsIndexer beats { get; private set; }
 
         /// <inheritdoc cref="TimeIndexer" />
-        public TimeIndexer t { get; }
+        public TimeIndexer t { get; private set; }
 
         /// <summary>
         /// Returns the time in seconds of the start of a bar.
@@ -40,18 +51,18 @@ namespace JJ.Business.Synthesizer.Wishes
         public class BarIndexer
         {
             private readonly SynthWishes _parent;
-            private readonly double _barLength;
+            private readonly double _barDuration;
 
             /// <inheritdoc cref="BarIndexer" />
-            internal BarIndexer(SynthWishes parent, double barLength)
+            internal BarIndexer(SynthWishes parent, double barDuration)
             {
                 _parent = parent;
-                _barLength = barLength;
+                _barDuration = barDuration;
             }
 
             /// <inheritdoc cref="BarIndexer" />
             public ValueOperatorWrapper this[double count]
-                => _parent.Value((count - 1) * _barLength);
+                => _parent.Value((count - 1) * _barDuration);
         }
 
         /// <summary>
@@ -61,18 +72,18 @@ namespace JJ.Business.Synthesizer.Wishes
         public class BarsIndexer
         {
             private readonly SynthWishes _parent;
-            private readonly double _barLength;
+            private readonly double _barDuration;
 
             /// <inheritdoc cref="BarsIndexer" />
-            internal BarsIndexer(SynthWishes parent, double barLength)
+            internal BarsIndexer(SynthWishes parent, double barDuration)
             {
                 _parent = parent;
-                _barLength = barLength;
+                _barDuration = barDuration;
             }
 
             /// <inheritdoc cref="BarsIndexer" />
             public ValueOperatorWrapper this[double count]
-                => _parent.Value(count * _barLength);
+                => _parent.Value(count * _barDuration);
         }
 
         /// <summary>
@@ -82,18 +93,18 @@ namespace JJ.Business.Synthesizer.Wishes
         public class BeatIndexer
         {
             private readonly SynthWishes _parent;
-            private readonly double _beatLength;
+            private readonly double _beatDuration;
 
             /// <inheritdoc cref="BeatIndexer" />
-            internal BeatIndexer(SynthWishes parent, double beatLength)
+            internal BeatIndexer(SynthWishes parent, double beatDuration)
             {
                 _parent = parent;
-                _beatLength = beatLength;
+                _beatDuration = beatDuration;
             }
 
             /// <inheritdoc cref="BeatIndexer" />
             public ValueOperatorWrapper this[double count]
-                => _parent.Value((count - 1) * _beatLength);
+                => _parent.Value((count - 1) * _beatDuration);
         }
 
         /// <summary>
