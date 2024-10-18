@@ -1,13 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
+using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
+// ReSharper disable RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -16,6 +23,8 @@ namespace JJ.Business.Synthesizer.Wishes
     /// </summary>
     public static class OperatorExtensionsWishes
     {
+        // IsConst
+        
         /// <inheritdoc cref="docs._asconst"/>
         public static double? AsConst(this Inlet inlet) =>  inlet?.Input?.AsConst();
         
@@ -34,12 +43,16 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._asconst"/>
         public static bool IsConst(this Operator op) => op?.AsConst() != null;
         
+        // Calculate
+        
         public static double Calculate(this Outlet outlet, double time, int channelIndex = 0)
         {
             var calculator = new OperatorCalculator(channelIndex);
             return calculator.CalculateValue(outlet, time);
         }
 
+        // String
+        
         public static string String(this Outlet entity)
             => new OperatorStringifier().StringifyRecursive(entity);
 
@@ -48,7 +61,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static string String(this Inlet entity)
             => new OperatorStringifier().StringifyRecursive(entity);
-        
+
         // Validation
         
         public static Result Validate(this Outlet entity, bool recursive = true)
@@ -102,7 +115,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._default" />
         public static Outlet Stretch(this OperatorFactory operatorFactory, Outlet signal, Outlet timeFactor)
         {
-            if (operatorFactory == null) throw new NullException(() => operatorFactory);
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
             var x = operatorFactory;
             
             return x.TimeMultiply(signal, timeFactor ?? x.Value(1));
@@ -111,7 +124,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._sine" />
         public static Outlet Sine(this OperatorFactory operatorFactory, Outlet pitch)
         {
-            if (operatorFactory == null) throw new NullException(() => operatorFactory);
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
             var x = operatorFactory;
             
             return x.Sine(x.Value(1), pitch);
@@ -121,7 +134,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Outlet StrikeNote(
             this OperatorFactory operatorFactory, Outlet sound, Outlet delay = null, Outlet volume = null)
         {
-            if (operatorFactory == null) throw new NullException(() => operatorFactory);
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
             var x = operatorFactory;
 
             // A little optimization, because so slow...
@@ -138,7 +151,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Outlet VibratoOverPitch(
             this OperatorFactory operatorFactory, Outlet freq, (Outlet speed, Outlet depth) vibrato = default)
         {
-            if (operatorFactory == null) throw new NullException(() => operatorFactory);
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
             var x = operatorFactory;
 
             vibrato.speed = vibrato.speed ?? x.Value(5.5);
@@ -151,7 +164,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Outlet Tremolo(
             this OperatorFactory operatorFactory, Outlet sound, (Outlet speed, Outlet depth) tremolo = default)
         {
-            if (operatorFactory == null) throw new NullException(() => operatorFactory);
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
             var x = operatorFactory;
             
             tremolo.speed = tremolo.speed ?? x.Value(8);
@@ -166,7 +179,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Outlet Panning(
             this OperatorFactory operatorFactory, Outlet sound, Outlet panning, ChannelEnum channel)
         {
-            if (operatorFactory == null) throw new NullException(() => operatorFactory);
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
             var x = operatorFactory;
 
             // Some optimization in case of a constant value
@@ -192,7 +205,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private static Outlet Panning(
             this OperatorFactory operatorFactory, Outlet sound, double panning, ChannelEnum channel)
         {
-            if (operatorFactory == null) throw new NullException(() => operatorFactory);
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
             var x = operatorFactory;
             
             if (panning < 0) panning = 0;
@@ -216,7 +229,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Outlet sound, (Outlet speed, Outlet depth) panbrello = default,
             ChannelEnum channel = ChannelEnum.Undefined)
         {
-            if (operatorFactory == null) throw new NullException(() => operatorFactory);
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
             var x = operatorFactory;
             
             panbrello.speed = panbrello.speed ?? x.Value(1);
@@ -238,7 +251,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Outlet actualFrequency, Outlet centerFrequency,
             Outlet referenceFrequency, Outlet referencePanning)
         {
-            if (operatorFactory == null) throw new NullException(() => operatorFactory);
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
             var x = operatorFactory;
 
             // Some optimization in case of constants, because things are currently so slow.
@@ -291,7 +304,7 @@ namespace JJ.Business.Synthesizer.Wishes
             double actualFrequency, double centerFrequency,
             double referenceFrequency, double referencePanning)
         {
-            if (operatorFactory == null) throw new NullException(() => operatorFactory);
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
 
             // Defaults
             if (centerFrequency == default) centerFrequency       = Notes.A4;
@@ -358,8 +371,8 @@ namespace JJ.Business.Synthesizer.Wishes
             this OperatorFactory x, Outlet signal,
             Outlet magnitude = null, Outlet delay = null, int count = 8)
         {
-            if (x == null) throw new NullException(() => x);
-            if (signal == null) throw new NullException(() => signal);
+            if (x == null) throw new ArgumentNullException(nameof(x));
+            if (signal == null) throw new ArgumentNullException(nameof(signal));
             if (magnitude == null) magnitude = x.Value(0.66);
             if (delay == null) delay         = x.Value(0.25);
 
