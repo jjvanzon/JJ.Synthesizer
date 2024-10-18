@@ -10,19 +10,15 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Persistence;
-using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
-using ValidationMessage = JJ.Framework.Validation.ValidationMessage;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -128,22 +124,20 @@ namespace JJ.Business.Synthesizer.Wishes
             Console.WriteLine();
 
             // Validate Parameters
-            if (channels == null) throw new NullException(() => channels);
+            if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Count == 0) throw new ArgumentException("channels.Count == 0",         nameof(channels));
             if (channels.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channels));
-
             if (duration == default) duration = _[1];
-            if (volume == default) volume     = _[1];
+            if (volume == default) volume = _[1];
 
             fileName = ResolveFileName(fileName, audioFileFormatEnum, callerMemberName);
 
             // Validate Input Data
-            var warnings = new List<ValidationMessage>();
+            var warnings = new List<string>();
             foreach (Outlet channel in channels)
             {
-                new RecursiveOperatorValidator(channel.Operator).Verify();
-                var warningValidator = new RecursiveOperatorWarningValidator(channel.Operator);
-                warnings.AddRange(warningValidator.ValidationMessages);
+                channel.Assert();
+                warnings.AddRange(channel.GetWarnings());
             }
             
             // Configure AudioFileOutput
@@ -166,7 +160,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Validate AudioFileOutput
             _audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
-            warnings.AddRange(new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages);
+            warnings.AddRange(new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text));
 
             // Calculate
             var calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
@@ -178,7 +172,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var calculationTimeText = $"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s{NewLine}";
             var outputFileText      = $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}";
             string warningText = warnings.Count == 0 ? "" : $"{NewLine}{NewLine}Warnings:{NewLine}" +
-                                                            $"{string.Join(NewLine, warnings.Select(x => $"- {x.Text}"))}";
+                                                            $"{string.Join(NewLine, warnings.Select(x => $"- {x}"))}";
 
             Console.WriteLine(calculationTimeText + outputFileText + warningText);
 
