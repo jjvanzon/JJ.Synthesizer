@@ -1,11 +1,6 @@
 ﻿using JJ.Framework.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Tests.Helpers
+namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     internal static class PersistenceHelper
     {

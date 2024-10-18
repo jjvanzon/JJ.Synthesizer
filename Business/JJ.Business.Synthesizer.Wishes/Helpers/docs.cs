@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.CanonicalModel;
+﻿using JJ.Business.CanonicalModel;
 using JJ.Persistence.Synthesizer;
 
 #pragma warning disable CS0649
@@ -8,7 +7,7 @@ using JJ.Persistence.Synthesizer;
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 
-namespace JJ.Business.Synthesizer.Tests.Helpers
+namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     internal struct docs
     {

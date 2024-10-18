@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using JJ.Framework.Common;
 
-namespace JJ.Business.Synthesizer.Tests.Helpers
+namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     public static class NameHelper
     {

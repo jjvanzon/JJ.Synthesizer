@@ -9,7 +9,7 @@ using JJ.Persistence.Synthesizer;
 
 // ReSharper disable once PossibleLossOfFraction
 
-namespace JJ.Business.Synthesizer.Tests.Wishes
+namespace JJ.Business.Synthesizer.Wishes
 {
     /// <summary> I wish these things were in JJ.Synthesizer. </summary>
     public static class AudioConversionExtensionWishes

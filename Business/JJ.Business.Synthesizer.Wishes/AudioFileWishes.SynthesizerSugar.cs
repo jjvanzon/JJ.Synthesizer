@@ -10,10 +10,10 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Persistence;
@@ -24,7 +24,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using ValidationMessage = JJ.Framework.Validation.ValidationMessage;
 
-namespace JJ.Business.Synthesizer.Tests.Wishes
+namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthesizerSugar
     {

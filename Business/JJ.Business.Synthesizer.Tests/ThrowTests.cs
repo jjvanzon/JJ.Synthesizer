@@ -10,11 +10,13 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Tests.Wishes;
+using JJ.Business.Synthesizer.Wishes;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
+using PersistenceHelper = JJ.Business.Synthesizer.Tests.Helpers.PersistenceHelper;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable once NotAccessedField.Local

@@ -4,7 +4,7 @@ using JJ.Framework.Persistence;
 // ReSharper disable InconsistentNaming
 // ReSharper disable MemberCanBeProtected.Global
 
-namespace JJ.Business.Synthesizer.Tests.Wishes
+namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthesizerSugar
     {

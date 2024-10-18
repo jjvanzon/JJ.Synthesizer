@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace JJ.Business.Synthesizer.Tests.Helpers
+namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     public class ConfigurationSection
     {

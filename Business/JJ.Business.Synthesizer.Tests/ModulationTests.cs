@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Tests.Wishes;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
@@ -510,7 +510,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// 1 is the default and a more patchy volume envelope.<br />
         /// 2 gives the newer with a move even fade in and out.
         /// </param>
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         [UsedImplicitly] object _detunicadocs;
 
         /// <summary>
@@ -522,14 +522,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="sound"> The sound to apply the jitter effect to. </param>
         /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
         /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         [UsedImplicitly] object _vibraphasedocs;
 
         /// <summary>
         /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
         /// </summary>
         /// <returns> An <see cref="Outlet" /> representing the semi-sawtooth waveform. </returns>
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         [UsedImplicitly] object _semisawdocs;
 
         /// <summary> Generates a detuned harmonic sound by altering the frequencies slightly. </summary>
@@ -537,7 +537,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// The depth of the detuning applied to the harmonics.
         /// If not provided, a default value is used.
         /// </param>
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         [UsedImplicitly] object _detunedocs;
 
         /// <summary>

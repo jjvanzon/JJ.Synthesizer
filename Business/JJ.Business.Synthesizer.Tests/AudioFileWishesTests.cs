@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Tests.Wishes;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

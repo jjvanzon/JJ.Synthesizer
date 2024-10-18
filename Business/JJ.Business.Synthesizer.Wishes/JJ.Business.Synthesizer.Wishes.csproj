@@ -124,22 +124,22 @@
   <ItemGroup>
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
-    <Compile Include="Wishes\OperatorWishes.Stringifier.cs" />
-    <Compile Include="Wishes\AudioFileWishes.WavHeaderExtensions.cs" />
-    <Compile Include="Wishes\NoteWishes.SynthesizerSugar.cs" />
-    <Compile Include="Wishes\OperatorWishes.Extensions.cs" />
-    <Compile Include="Wishes\CurveWishes.CurveFactory.cs" />
+    <Compile Include="OperatorWishes.Stringifier.cs" />
+    <Compile Include="AudioFileWishes.WavHeaderExtensions.cs" />
+    <Compile Include="NoteWishes.SynthesizerSugar.cs" />
+    <Compile Include="OperatorWishes.Extensions.cs" />
+    <Compile Include="CurveWishes.CurveFactory.cs" />
     <Compile Include="Helpers\docs.cs" />
-    <Compile Include="Wishes\NoteWishes.TimeIndexers.cs" />
-    <Compile Include="Wishes\CurveWishes.SynthesizerSugar.cs" />
-    <Compile Include="Wishes\AudioFileWishes.SynthesizerSugar.cs" />
-    <Compile Include="Wishes\AudioFileWishes.Extensions.cs" />
-    <Compile Include="Wishes\NoteWishes.Notes.cs" />
+    <Compile Include="NoteWishes.TimeIndexers.cs" />
+    <Compile Include="CurveWishes.SynthesizerSugar.cs" />
+    <Compile Include="AudioFileWishes.SynthesizerSugar.cs" />
+    <Compile Include="AudioFileWishes.Extensions.cs" />
+    <Compile Include="NoteWishes.Notes.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wishes\ResultWishes.cs" />
-    <Compile Include="Wishes\SynthesizerSugar.cs" />
+    <Compile Include="ResultWishes.cs" />
+    <Compile Include="SynthesizerSugar.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
@@ -200,13 +200,15 @@
     <None Include=".editorconfig.resharperexport" />
     <None Include="App.config" />
     <None Include="packages.config" />
-    <Compile Include="Wishes\OperatorWishes.SynthesizerSugar.cs" />
+    <Compile Include="OperatorWishes.SynthesizerSugar.cs" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.0\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.0\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Wishes\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

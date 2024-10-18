@@ -3,7 +3,7 @@ using System.Text;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 
-namespace JJ.Business.Synthesizer.Tests.Wishes
+namespace JJ.Business.Synthesizer.Wishes
 {
     internal class OperatorStringifier
     {

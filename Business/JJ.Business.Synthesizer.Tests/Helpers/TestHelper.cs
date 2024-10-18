@@ -11,8 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Tests.Wishes;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers

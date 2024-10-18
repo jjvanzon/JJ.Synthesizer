@@ -3,7 +3,7 @@
 
 using JJ.Business.Synthesizer.EntityWrappers;
 
-namespace JJ.Business.Synthesizer.Tests.Wishes
+namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthesizerSugar
     {

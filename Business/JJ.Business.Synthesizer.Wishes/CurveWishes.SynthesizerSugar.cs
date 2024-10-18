@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
@@ -14,7 +14,7 @@ using JJ.Persistence.Synthesizer;
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable LocalizableElement
 
-namespace JJ.Business.Synthesizer.Tests.Wishes
+namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthesizerSugar
     {

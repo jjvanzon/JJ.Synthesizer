@@ -2,13 +2,13 @@
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Tests.Wishes;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
-using static JJ.Business.Synthesizer.Tests.Helpers.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 
 // ReSharper disable JoinDeclarationAndInitializer
 
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests
                 new OperatorWishesTests(context).Vibrato_RunTest();
         }
 
-        /// <inheritdoc cref="docs._vibrato" />
+        /// <inheritdoc cref="Wishes.Helpers.docs._vibrato" />
         void Vibrato_RunTest()
             => SaveAudioMono(
                 () => Sine(VibratoOverPitch(A4)),
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
                 new OperatorWishesTests(context).Tremolo_RunTest();
         }
 
-        /// <inheritdoc cref="docs._tremolo" />
+        /// <inheritdoc cref="Wishes.Helpers.docs._tremolo" />
         void Tremolo_RunTest()
             => SaveAudioMono(
                 () => Tremolo(Sine(A4), (_[4], _[0.5])),

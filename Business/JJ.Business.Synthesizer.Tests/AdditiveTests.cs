@@ -1,7 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Tests.Wishes;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Tests
         );
 
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet Metallophone(Outlet frequency = null, Outlet volume = null, Outlet delay = null, Outlet duration = null)
         {
             frequency = frequency ?? A4;
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         const double ECHO_TIME = 0.66 * 4;
 
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet Echo(Outlet sound)
             => Echo(sound, count: 5, magnitude: _[1 / 3d], delay: _[0.66]);
 

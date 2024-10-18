@@ -1,21 +1,9 @@
 ﻿using JJ.Business.Synthesizer.Factories;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Tests.Wishes;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Tests.Helpers
+namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     internal static class ServiceFactory
     {

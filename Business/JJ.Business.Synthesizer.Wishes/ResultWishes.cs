@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Extensions;
 
-namespace JJ.Business.Synthesizer.Tests.Wishes
+namespace JJ.Business.Synthesizer.Wishes
 {
     public static class ResultWishes
     {

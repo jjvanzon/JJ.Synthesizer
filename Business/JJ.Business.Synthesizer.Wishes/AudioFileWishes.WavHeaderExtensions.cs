@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
@@ -9,7 +8,7 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Framework.IO;
 using JJ.Framework.Reflection;
 
-namespace JJ.Business.Synthesizer.Tests.Wishes
+namespace JJ.Business.Synthesizer.Wishes
 {
     public static class WavHeaderExtensionsWishes
     {
