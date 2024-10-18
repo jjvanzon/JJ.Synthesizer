@@ -23,6 +23,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Managers;
 using System.IO;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+using JJ.Business.Synthesizer.Wishes;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -233,7 +234,6 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        [TestCategory("Long")]
         public void Test_Synthesizer_TimePowerWithEcho()
         {
             using (IContext context = PersistenceHelper.CreateContext())
@@ -250,11 +250,14 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet sampleOperator = operatorFactory.Sample(sample);
                 Outlet effect = EntityFactory.CreateTimePowerEffectWithEcho(operatorFactory, sampleOperator);
 
+                new SynthWishes(context).SaveAudioMono(() => effect, duration: 6.5);
+                return;
+                
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;
                 audioFileOutput.FilePath = "Test_Synthesizer_TimePowerWithEcho.wav";
                 audioFileOutput.Duration = 6.5;
-                
+
                 IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
 
                 Stopwatch sw1 = Stopwatch.StartNew();
