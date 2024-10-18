@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
             _audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
             _sampleDataTypeRepository  = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
 
-            Samples = TestHelper.CreateSampleManager(context);
+            Samples = ServiceFactory.CreateSampleManager(context);
 
             InitializeAudioFileOutputWishes(context);
             InitializeCurveWishes(context);

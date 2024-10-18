@@ -1,16 +1,17 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("JJ.Business.Synthesizer")]
+[assembly: AssemblyTitle("JJ.Business.Synthesizer.Wishes")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("JJ.Business.Synthesizer")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyProduct("JJ.Business.Synthesizer.Wishes")]
+[assembly: AssemblyCopyright("Copyright © JJ van Zon 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +21,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6c9a3ca6-f0ea-4e64-87a7-4f74eb2195a4")]
+[assembly: Guid("13f29762-103c-4ff9-b178-e6c5202d1254")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -36,4 +37,3 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: InternalsVisibleTo("JJ.Business.Synthesizer.Tests")]
-[assembly: InternalsVisibleTo("JJ.Business.Synthesizer.Wishes")]

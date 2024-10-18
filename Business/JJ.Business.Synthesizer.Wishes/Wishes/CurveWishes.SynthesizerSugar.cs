@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
 
         private void InitializeCurveWishes(IContext context)
         {
-            _curveFactory = TestHelper.CreateCurveFactory(context);
+            _curveFactory = ServiceFactory.CreateCurveFactory(context);
         }
 
         // Overloads with NodeInfo

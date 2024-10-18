@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Wishes
         private void InitializeAudioFileOutputWishes(IContext context)
         {
             _interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
-            _audioFileOutputManager      = TestHelper.CreateAudioFileOutputManager(context);
+            _audioFileOutputManager      = ServiceFactory.CreateAudioFileOutputManager(context);
         }
 
         private static readonly ConfigurationSection _configuration = CustomConfigurationManager.GetSection<ConfigurationSection>();

@@ -9,11 +9,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5C26AF7B-1C83-49BD-9ED1-6A880103D293}</ProjectGuid>
+    <ProjectGuid>{07AF4F12-BA9A-4673-A813-30EC8E4DB296}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JJ.Business.Synthesizer.Tests</RootNamespace>
-    <AssemblyName>JJ.Business.Synthesizer.Tests</AssemblyName>
+    <RootNamespace>JJ.Business.Synthesizer.Wishes</RootNamespace>
+    <AssemblyName>JJ.Business.Synthesizer.Wishes</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -122,28 +122,24 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="AudioFileWishesTests.cs" />
     <Compile Include="Helpers\ConfigurationSection.cs" />
-    <Compile Include="Helpers\SampleManagerAccessor.cs" />
-    <Compile Include="ThrowTests.cs" />
-    <Compile Include="OperatorWishesTests.cs" />
-    <Compile Include="CurveWishesTests.cs" />
-    <Compile Include="ModulationTests.cs" />
-    <Compile Include="AudioFormatTests.cs" />
-    <Compile Include="HardCodedFMTests.cs" />
-    <Compile Include="FMTests.cs" />
-    <Compile Include="CurveTests.cs" />
-    <Compile Include="Helpers\IOperatorCalculator.cs" />
-    <Compile Include="Helpers\EntityFactory.cs" />
-    <Compile Include="Helpers\OperatorCalculator_WithWrappersAndNullChecks.cs" />
+    <Compile Include="Helpers\NameHelper.cs" />
+    <Compile Include="Wishes\OperatorWishes.Stringifier.cs" />
+    <Compile Include="Wishes\AudioFileWishes.WavHeaderExtensions.cs" />
+    <Compile Include="Wishes\NoteWishes.SynthesizerSugar.cs" />
+    <Compile Include="Wishes\OperatorWishes.Extensions.cs" />
+    <Compile Include="Wishes\CurveWishes.CurveFactory.cs" />
+    <Compile Include="Helpers\docs.cs" />
+    <Compile Include="Wishes\NoteWishes.TimeIndexers.cs" />
+    <Compile Include="Wishes\CurveWishes.SynthesizerSugar.cs" />
+    <Compile Include="Wishes\AudioFileWishes.SynthesizerSugar.cs" />
+    <Compile Include="Wishes\AudioFileWishes.Extensions.cs" />
+    <Compile Include="Wishes\NoteWishes.Notes.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
-    <Compile Include="Helpers\OperatorCalculator_WithoutWrappers.cs" />
-    <Compile Include="Helpers\OperatorCalculator_WithoutWrappersOrNullChecks.cs" />
-    <Compile Include="Helpers\TestHelper.cs" />
-    <Compile Include="SampleTests.cs" />
-    <Compile Include="SynthesizerTests.cs" />
+    <Compile Include="Helpers\ServiceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AdditiveTests.cs" />
+    <Compile Include="Wishes\ResultWishes.cs" />
+    <Compile Include="Wishes\SynthesizerSugar.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
@@ -194,10 +190,6 @@
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Persistence.Synthesizer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\JJ.Business.Synthesizer.Wishes\JJ.Business.Synthesizer.Wishes.csproj">
-      <Project>{07af4f12-ba9a-4673-a813-30ec8e4db296}</Project>
-      <Name>JJ.Business.Synthesizer.Wishes</Name>
-    </ProjectReference>
     <ProjectReference Include="..\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
@@ -207,11 +199,8 @@
     <None Include=".editorconfig" />
     <None Include=".editorconfig.resharperexport" />
     <None Include="App.config" />
-    <EmbeddedResource Include="TestResources\violin_16bit_mono.raw" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestResources\violin_16bit_mono_44100.wav" />
+    <Compile Include="Wishes\OperatorWishes.SynthesizerSugar.cs" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.0\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
