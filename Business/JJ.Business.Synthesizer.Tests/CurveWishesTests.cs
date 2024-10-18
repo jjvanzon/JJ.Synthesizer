@@ -12,20 +12,9 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class CurveWishesTests : SynthWishes
     {
-        [UsedImplicitly]
-        public CurveWishesTests()
-        { }
-
-        private CurveWishesTests(IContext context)
-            : base(context)
-        { }
-
         [TestMethod]
-        public void CurveWishes_SynthesizerSugar_GetCurve()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new CurveWishesTests(context).CurveWishes_SynthesizerSugar_GetCurve_RunTest();
-        }
+        public void CurveWishes_SynthesizerSugar_GetCurve() 
+            => new CurveWishesTests().CurveWishes_SynthesizerSugar_GetCurve_RunTest();
 
         void CurveWishes_SynthesizerSugar_GetCurve_RunTest()
         {

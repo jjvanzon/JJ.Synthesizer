@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using JetBrains.Annotations;
+﻿using System.IO;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Calculation.Samples;
@@ -12,11 +10,9 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Helpers;
-using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
-using PersistenceHelper = JJ.Business.Synthesizer.Tests.Helpers.PersistenceHelper;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable once NotAccessedField.Local
@@ -36,21 +32,8 @@ namespace JJ.Business.Synthesizer.Tests
         private InterpolationType _invalidInterpolationType = new InterpolationType();
         private NodeType _invalidNodeType = new NodeType();
 
-        [UsedImplicitly]
-        public ThrowTests()
-        {
-        }
-
-        private ThrowTests(IContext context)
-            : base(context)
-        { }
-        
         [TestMethod]
-        public void Test_Exceptions_InWishes()
-        {             
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ThrowTests(context).ExceptionsInWishes();
-        }
+        public void Test_Exceptions_InWishes() => new ThrowTests().ExceptionsInWishes();
 
         void ExceptionsInWishes()
         {
@@ -94,11 +77,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Exceptions_InTests()
-        {             
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ThrowTests(context).ExceptionsInTests();
-        }
+        public void Test_Exceptions_InTests() => new ThrowTests().ExceptionsInTests();
 
         void ExceptionsInTests()
         {
@@ -112,13 +91,9 @@ namespace JJ.Business.Synthesizer.Tests
             // AudioFormatTests.GetValueTolerance CombinationOfValuesNotSupported
             ThrowsException(() => new AudioFormatTests().GetValueTolerance(true, InterpolationTypeEnum.Undefined, SampleDataTypeEnum.Undefined));
         }
-                    
+
         [TestMethod]
-        public void Test_Exceptions_InBackEnd()
-        {             
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ThrowTests(context).ExceptionsInBackEnd();
-        }
+        public void Test_Exceptions_InBackEnd() => new ThrowTests().ExceptionsInBackEnd();
 
         void ExceptionsInBackEnd()
         {
@@ -203,7 +178,7 @@ namespace JJ.Business.Synthesizer.Tests
             // AudioFileOutputCalculatorBase.ctor FilePathRequired
             { 
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(Context);
-                AudioFileOutput        audioFileOutput        = audioFileOutputManager.CreateAudioFileOutput();
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
                 audioFileOutput.FilePath = null;
                 ThrowsException(() => AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput));
             }

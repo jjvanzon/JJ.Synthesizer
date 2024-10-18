@@ -15,12 +15,8 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class ModulationTests : SynthWishes
     {
-        [UsedImplicitly]
         public ModulationTests()
-        { }
-
-        ModulationTests(IContext context)
-            : base(context, beat: 0.55, bar: 2.2)
+            : base(beat: 0.55, bar: 2.2)
         { }
 
         #region Tests
@@ -28,41 +24,23 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         [TestCategory("Long")]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Detunica_Jingle()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).Detunica_Jingle_RunTest();
-        }
+        public void Test_Detunica_Jingle() => new ModulationTests().Detunica_Jingle_RunTest();
 
         /// <inheritdoc cref="_detunicadocs" />
-        void Detunica_Jingle_RunTest()
-        {
-            SaveAudio(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DEEP_ECHO_TIME);
-        }
+        void Detunica_Jingle_RunTest() => SaveAudio(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DEEP_ECHO_TIME);
 
         [TestMethod]
         [TestCategory("Long")]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Detunica_Jingle_Mono()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).Detunica_Jingle_RunTest_Mono();
-        }
+        public void Test_Detunica_Jingle_Mono() => new ModulationTests().Detunica_Jingle_RunTest_Mono();
 
         /// <inheritdoc cref="_detunicadocs" />
-        void Detunica_Jingle_RunTest_Mono()
-        {
-            SaveAudioMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DEEP_ECHO_TIME);
-        }
+        void Detunica_Jingle_RunTest_Mono() => SaveAudioMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DEEP_ECHO_TIME);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
         [TestCategory("Long")]
-        public void Test_DetunicaBass()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).DetunicaBass_RunTest();
-        }
+        public void Test_DetunicaBass() => new ModulationTests().DetunicaBass_RunTest();
 
         /// <inheritdoc cref="_detunicadocs" />
         void DetunicaBass_RunTest()
@@ -70,11 +48,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
-        public void Test_Detunica1()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).Detunica1_RunTest();
-        }
+        public void Test_Detunica1() => new ModulationTests().Detunica1_RunTest();
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica1_RunTest()
@@ -82,11 +56,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Detunica2()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).Detunica2_RunTest();
-        }
+        public void Test_Detunica2() => new ModulationTests().Detunica2_RunTest();
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica2_RunTest()
@@ -94,11 +64,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Detunica3()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).Detunica3_RunTest();
-        }
+        public void Test_Detunica3() => new ModulationTests().Detunica3_RunTest();
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica3_RunTest()
@@ -106,11 +72,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Detunica4()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).Detunica4_RunTest();
-        }
+        public void Test_Detunica4() => new ModulationTests().Detunica4_RunTest();
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica4_RunTest()
@@ -118,11 +80,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Detunica5()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).Detunica5_RunTest();
-        }
+        public void Test_Detunica5() => new ModulationTests().Detunica5_RunTest();
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica5_RunTest()
@@ -130,11 +88,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
-        public void Test_Vibraphase_Chord()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).Vibraphase_Chord_RunTest();
-        }
+        public void Test_Vibraphase_Chord() => new ModulationTests().Vibraphase_Chord_RunTest();
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
@@ -142,11 +96,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
-        public void Test_Vibraphase()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new ModulationTests(context).Vibraphase_RunTest();
-        }
+        public void Test_Vibraphase() => new ModulationTests().Vibraphase_RunTest();
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Persistence;
 using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,23 +14,11 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class OperatorWishesTests : SynthWishes
     {
-        [UsedImplicitly]
-        public OperatorWishesTests()
-        { }
-
-        OperatorWishesTests(IContext context)
-            : base(context)
-        { }
-
         // Vibrato/Tremolo Tests
 
         [TestMethod]
         /// <inheritdoc cref="docs._vibrato" />
-        public void Test_Vibrato()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Vibrato_RunTest();
-        }
+        public void Test_Vibrato() => new OperatorWishesTests().Vibrato_RunTest();
 
         /// <inheritdoc cref="Wishes.Helpers.docs._vibrato" />
         void Vibrato_RunTest()
@@ -43,11 +28,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         /// <inheritdoc cref="docs._tremolo" />
-        public void Test_Tremolo()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Tremolo_RunTest();
-        }
+        public void Test_Tremolo() => new OperatorWishesTests().Tremolo_RunTest();
 
         /// <inheritdoc cref="Wishes.Helpers.docs._tremolo" />
         void Tremolo_RunTest()
@@ -58,11 +39,7 @@ namespace JJ.Business.Synthesizer.Tests
         // Panning Tests
 
         [TestMethod]
-        public void Test_Panning_ConstSignal_ConstPanningAsDouble()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panning_ConstSignal_ConstPanningAsDouble_RunTest();
-        }
+        public void Test_Panning_ConstSignal_ConstPanningAsDouble() => new OperatorWishesTests().Panning_ConstSignal_ConstPanningAsDouble_RunTest();
 
         void Panning_ConstSignal_ConstPanningAsDouble_RunTest()
         {
@@ -98,11 +75,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Panning_ConstSignal_ConstPanningAsOperator()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panning_ConstSignal_ConstPanningAsOperator_RunTest();
-        }
+        public void Test_Panning_ConstSignal_ConstPanningAsOperator() => new OperatorWishesTests().Panning_ConstSignal_ConstPanningAsOperator_RunTest();
 
         void Panning_ConstSignal_ConstPanningAsOperator_RunTest()
         {
@@ -144,11 +117,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Panning_SineWaveSignal_ConstPanningAsDouble()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panning_SineWaveSignal_ConstPanningAsDouble_RunTest();
-        }
+        public void Test_Panning_SineWaveSignal_ConstPanningAsDouble() => new OperatorWishesTests().Panning_SineWaveSignal_ConstPanningAsDouble_RunTest();
 
         void Panning_SineWaveSignal_ConstPanningAsDouble_RunTest()
         {
@@ -181,11 +150,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Panning_SineWaveSignal_DynamicPanning()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panning_SineWaveSignal_DynamicPanning_RunTest();
-        }
+        public void Test_Panning_SineWaveSignal_DynamicPanning() => new OperatorWishesTests().Panning_SineWaveSignal_DynamicPanning_RunTest();
 
         void Panning_SineWaveSignal_DynamicPanning_RunTest()
         {
@@ -205,11 +170,7 @@ namespace JJ.Business.Synthesizer.Tests
         // Panbrello Tests
 
         [TestMethod]
-        public void Test_Panbrello_DefaultSpeedAndDepth()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panbrello_DefaultSpeedAndDepth_RunTest();
-        }
+        public void Test_Panbrello_DefaultSpeedAndDepth() => new OperatorWishesTests().Panbrello_DefaultSpeedAndDepth_RunTest();
 
         void Panbrello_DefaultSpeedAndDepth_RunTest()
         {
@@ -218,11 +179,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Panbrello_ConstSpeedAndDepth()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panbrello_ConstSpeedAndDepth_RunTest();
-        }
+        public void Test_Panbrello_ConstSpeedAndDepth() => new OperatorWishesTests().Panbrello_ConstSpeedAndDepth_RunTest();
 
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
@@ -231,11 +188,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Panbrello_DynamicSpeedAndDepth()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Panbrello_DynamicSpeedAndDepth_RunTest();
-        }
+        public void Test_Panbrello_DynamicSpeedAndDepth() => new OperatorWishesTests().Panbrello_DynamicSpeedAndDepth_RunTest();
 
         void Panbrello_DynamicSpeedAndDepth_RunTest()
         {
@@ -263,11 +216,7 @@ namespace JJ.Business.Synthesizer.Tests
         // PitchPan Tests
 
         [TestMethod]
-        public void Test_PitchPan_UsingOperators()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).PitchPan_UsingOperators_RunTest();
-        }
+        public void Test_PitchPan_UsingOperators() => new OperatorWishesTests().PitchPan_UsingOperators_RunTest();
 
         void PitchPan_UsingOperators_RunTest()
         {
@@ -302,11 +251,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_PitchPan_DynamicParameters()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).PitchPan_DynamicParameters_RunTest();
-        }
+        public void Test_PitchPan_DynamicParameters() => new OperatorWishesTests().PitchPan_DynamicParameters_RunTest();
 
         void PitchPan_DynamicParameters_RunTest()
         {
@@ -330,13 +275,9 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         // Echo Tests
-        
+
         [TestMethod]
-        public void Test_Echo_Additive_Old()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_Additive_Old_RunTest();
-        }
+        public void Test_Echo_Additive_Old() => new OperatorWishesTests().Echo_Additive_Old_RunTest();
 
         void Echo_Additive_Old_RunTest()
         {
@@ -352,11 +293,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Echo_Additive_FixedValues()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_Additive_FixedValues_RunTest();
-        }
+        public void Test_Echo_Additive_FixedValues() => new OperatorWishesTests().Echo_Additive_FixedValues_RunTest();
 
         void Echo_Additive_FixedValues_RunTest()
         {
@@ -370,13 +307,9 @@ namespace JJ.Business.Synthesizer.Tests
             Console.WriteLine();
             Console.WriteLine(echoes.String());
         }
-        
+
         [TestMethod]
-        public void Test_Echo_Additive_DynamicParameters()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_Additive_DynamicParameters_RunTest();
-        }
+        public void Test_Echo_Additive_DynamicParameters() => new OperatorWishesTests().Echo_Additive_DynamicParameters_RunTest();
 
         void Echo_Additive_DynamicParameters_RunTest()
         {
@@ -404,11 +337,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Echo_FeedBack_FixedValues()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_FeedBack_FixedValues_RunTest();
-        }
+        public void Test_Echo_FeedBack_FixedValues() => new OperatorWishesTests().Echo_FeedBack_FixedValues_RunTest();
 
         void Echo_FeedBack_FixedValues_RunTest()
         {
@@ -425,11 +354,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
         
         [TestMethod]
-        public void Test_Echo_FeedBack_DynamicParameters()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new OperatorWishesTests(context).Echo_FeedBack_DynamicParameters_RunTest();
-        }
+        public void Test_Echo_FeedBack_DynamicParameters() => new OperatorWishesTests().Echo_FeedBack_DynamicParameters_RunTest();
 
         void Echo_FeedBack_DynamicParameters_RunTest()
         {

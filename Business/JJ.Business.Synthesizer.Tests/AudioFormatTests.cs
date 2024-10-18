@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.IO.Path;
@@ -38,239 +35,135 @@ namespace JJ.Business.Synthesizer.Tests
         private const double DURATION2 = DURATION * 1.01;
         private const int    DECIMALS  = 4;
 
-        [UsedImplicitly]
-        public AudioFormatTests()
-        { }
-
-        AudioFormatTests(IContext context)
-            : base(context)
-        { }
+        [TestMethod]
+        public void Test_AudioFormat_Wav_Stereo_16Bit_Linear_Aligned() 
+            => new AudioFormatTests().GenericTest(Wav, Stereo, Int16, Line, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_16Bit_Linear_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Stereo, Int16, Line, aligned: true);
-        }
+        public void Test_AudioFormat_Wav_Stereo_16Bit_Linear_NonAligned() 
+            => new AudioFormatTests().GenericTest(Wav, Stereo, Int16, Line, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_16Bit_Linear_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Stereo, Int16, Line, aligned: false);
-        }
+        public void Test_AudioFormat_Wav_Stereo_16Bit_Blocky_Aligned() 
+            => new AudioFormatTests().GenericTest(Wav, Stereo, Int16, Block, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_16Bit_Blocky_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Stereo, Int16, Block, aligned: true);
-        }
+        public void Test_AudioFormat_Wav_Stereo_16Bit_Blocky_NonAligned() 
+            => new AudioFormatTests().GenericTest(Wav, Stereo, Int16, Block, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_16Bit_Blocky_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Stereo, Int16, Block, aligned: false);
-        }
+        public void Test_AudioFormat_Wav_Mono_16Bit_Linear_Aligned() 
+            => new AudioFormatTests().GenericTest(Wav, Mono, Int16, Line, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_16Bit_Linear_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Mono, Int16, Line, aligned: true);
-        }
+        public void Test_AudioFormat_Wav_Mono_16Bit_Linear_NonAligned() 
+            => new AudioFormatTests().GenericTest(Wav, Mono, Int16, Line, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_16Bit_Linear_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Mono, Int16, Line, aligned: false);
-        }
-
-        [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_16Bit_Block_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Mono, Int16, Block, aligned: true);
-        }
+        public void Test_AudioFormat_Wav_Mono_16Bit_Block_Aligned() 
+            => new AudioFormatTests().GenericTest(Wav, Mono, Int16, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_16Bit_Block_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Mono, Int16, Block, aligned: false);
-        }
+            => new AudioFormatTests().GenericTest(Wav, Mono, Int16, Block, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_8Bit_Linear_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Stereo, Byte, Line, aligned: true);
-        }
+        public void Test_AudioFormat_Wav_Stereo_8Bit_Linear_Aligned() 
+            => new AudioFormatTests().GenericTest(Wav, Stereo, Byte, Line, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_8Bit_Linear_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Stereo, Byte, Line, aligned: false);
-        }
+        public void Test_AudioFormat_Wav_Stereo_8Bit_Linear_NonAligned() 
+            => new AudioFormatTests().GenericTest(Wav, Stereo, Byte, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_8Bit_Blocky_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Stereo, Byte, Block, aligned: true);
-        }
+            => new AudioFormatTests().GenericTest(Wav, Stereo, Byte, Block, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_8Bit_Blocky_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Stereo, Byte, Block, aligned: false);
-        }
+        public void Test_AudioFormat_Wav_Stereo_8Bit_Blocky_NonAligned() 
+            => new AudioFormatTests().GenericTest(Wav, Stereo, Byte, Block, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_8Bit_Linear_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Mono, Byte, Line, aligned: true);
-        }
+        public void Test_AudioFormat_Wav_Mono_8Bit_Linear_Aligned() 
+            => new AudioFormatTests().GenericTest(Wav, Mono, Byte, Line, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_8Bit_Linear_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Mono, Byte, Line, aligned: false);
-        }
+        public void Test_AudioFormat_Wav_Mono_8Bit_Linear_NonAligned() 
+            => new AudioFormatTests().GenericTest(Wav, Mono, Byte, Line, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_8Bit_Blocky_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Mono, Byte, Block, aligned: true);
-        }
+        public void Test_AudioFormat_Wav_Mono_8Bit_Blocky_Aligned() 
+            => new AudioFormatTests().GenericTest(Wav, Mono, Byte, Block, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_8Bit_Blocky_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Wav, Mono, Byte, Block, aligned: false);
-        }
+        public void Test_AudioFormat_Wav_Mono_8Bit_Blocky_NonAligned() 
+            => new AudioFormatTests().GenericTest(Wav, Mono, Byte, Block, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_16Bit_Linear_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Stereo, Int16, Line, aligned: true);
-        }
+        public void Test_AudioFormat_Raw_Stereo_16Bit_Linear_Aligned() 
+            => new AudioFormatTests().GenericTest(Raw, Stereo, Int16, Line, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_16Bit_Linear_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Stereo, Int16, Line, aligned: false);
-        }
+        public void Test_AudioFormat_Raw_Stereo_16Bit_Linear_NonAligned() 
+            => new AudioFormatTests().GenericTest(Raw, Stereo, Int16, Line, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_16Bit_Blocky_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Stereo, Int16, Block, aligned: true);
-        }
+        public void Test_AudioFormat_Raw_Stereo_16Bit_Blocky_Aligned() 
+            => new AudioFormatTests().GenericTest(Raw, Stereo, Int16, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_16Bit_Blocky_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Stereo, Int16, Block, aligned: false);
-        }
+            => new AudioFormatTests().GenericTest(Raw, Stereo, Int16, Block, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_16Bit_Linear_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Mono, Int16, Line, aligned: true);
-        }
-        
+            => new AudioFormatTests().GenericTest(Raw, Mono, Int16, Line, aligned: true);
+
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_16Bit_Linear_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Mono, Int16, Line, aligned: false);
-        }
+            => new AudioFormatTests().GenericTest(Raw, Mono, Int16, Line, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_16Bit_Blocky_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Mono, Int16, Block, aligned: true);
-        }
+        public void Test_AudioFormat_Raw_Mono_16Bit_Blocky_Aligned() 
+            => new AudioFormatTests().GenericTest(Raw, Mono, Int16, Block, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_16Bit_Blocky_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Mono, Int16, Block, aligned: false);
-        }
+        public void Test_AudioFormat_Raw_Mono_16Bit_Blocky_NonAligned() 
+            => new AudioFormatTests().GenericTest(Raw, Mono, Int16, Block, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_8Bit_Linear_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Stereo, Byte, Line, aligned: true);
-        }
+        public void Test_AudioFormat_Raw_Stereo_8Bit_Linear_Aligned() 
+            => new AudioFormatTests().GenericTest(Raw, Stereo, Byte, Line, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_8Bit_Linear_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Stereo, Byte, Line, aligned: false);
-        }
+        public void Test_AudioFormat_Raw_Stereo_8Bit_Linear_NonAligned() 
+            => new AudioFormatTests().GenericTest(Raw, Stereo, Byte, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_8Bit_Blocky_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Stereo, Byte, Block, aligned: true);
-        }
+            => new AudioFormatTests().GenericTest(Raw, Stereo, Byte, Block, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_8Bit_Blocky_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Stereo, Byte, Block, aligned: false);
-        }
+        public void Test_AudioFormat_Raw_Stereo_8Bit_Blocky_NonAligned() 
+            => new AudioFormatTests().GenericTest(Raw, Stereo, Byte, Block, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_8Bit_Linear_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Mono, Byte, Line, aligned: true);
-        }
+        public void Test_AudioFormat_Raw_Mono_8Bit_Linear_Aligned() 
+            => new AudioFormatTests().GenericTest(Raw, Mono, Byte, Line, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_8Bit_Linear_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Mono, Byte, Line, aligned: false);
-        }
+        public void Test_AudioFormat_Raw_Mono_8Bit_Linear_NonAligned() 
+            => new AudioFormatTests().GenericTest(Raw, Mono, Byte, Line, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_8Bit_Blocky_Aligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Mono, Byte, Block, aligned: true);
-        }
+        public void Test_AudioFormat_Raw_Mono_8Bit_Blocky_Aligned() 
+            => new AudioFormatTests().GenericTest(Raw, Mono, Byte, Block, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_8Bit_Blocky_NonAligned()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFormatTests(context).GenericTest(Raw, Mono, Byte, Block, aligned: false);
-        }
+        public void Test_AudioFormat_Raw_Mono_8Bit_Blocky_NonAligned() 
+            => new AudioFormatTests().GenericTest(Raw, Mono, Byte, Block, aligned: false);
 
-        private void GenericTest(
+        void GenericTest(
             AudioFileFormatEnum audioFileFormatEnum,
             SpeakerSetupEnum speakerSetupEnum,
             SampleDataTypeEnum sampleDataTypeEnum,

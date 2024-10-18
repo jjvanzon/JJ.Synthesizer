@@ -18,24 +18,14 @@ namespace JJ.Business.Synthesizer.Tests
     {
         const double DEFAULT_NOTE_DURATION = 2.5;
 
-        /// <summary> Constructor for test runner. </summary>
-        [UsedImplicitly]
         public AdditiveTests()
-        { }
-
-        /// <summary> Constructor allowing each test to run in its own instance. </summary>
-        public AdditiveTests(IContext context)
-            : base(context, beat: 0.4, bar: 1.6)
+            : base(beat: 0.4, bar: 1.6)
         { }
 
         #region Tests
 
         [TestMethod]
-        public void Sines_Samples_Metallophone_Jingle()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AdditiveTests(context).Sines_Samples_Metallophone_Jingle_RunTest();
-        }
+        public void Sines_Samples_Metallophone_Jingle() => new AdditiveTests().Sines_Samples_Metallophone_Jingle_RunTest();
 
         /// <summary>
         /// Arpeggio sound with harmonics, a high-pitch sample for attack,
@@ -52,11 +42,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Sines_Samples_Metallophone_Note()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AdditiveTests(context).Sines_Samples_Metallophone_Note_RunTest();
-        }
+        public void Sines_Samples_Metallophone_Note() => new AdditiveTests().Sines_Samples_Metallophone_Note_RunTest();
 
         void Sines_Samples_Metallophone_Note_RunTest()
         {
@@ -69,10 +55,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Assert some entities that WriteToAudioFile won't. </summary>
-        void AssertEntities()
-        {
-            Samples.ValidateSample(GetSample()).Verify();
-        }
+        void AssertEntities() => Samples.ValidateSample(GetSample()).Verify();
 
         #endregion
 

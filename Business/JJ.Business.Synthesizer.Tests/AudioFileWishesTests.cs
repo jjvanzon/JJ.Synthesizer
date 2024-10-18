@@ -14,26 +14,12 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class AudioFileWishesTests : SynthWishes
     {
-        /// <summary> Constructor for test runner. </summary>
-        [UsedImplicitly]
-        public AudioFileWishesTests()
-        { }
-
-        /// <summary> Constructor allowing each test to run in its own instance. </summary>
-        public AudioFileWishesTests(IContext context)
-            : base(context)
-        { }
-
         /// <summary>
         /// Testing extension methods in <see cref="AudioConversionExtensionWishes" />
         /// that didn't get any coverage elsewhere.
         /// </summary>
         [TestMethod]
-        public void Test_AudioFileExtensionWishes()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new AudioFileWishesTests(context).AudioFileExtensionWishes_RunTest();
-        }
+        public void Test_AudioFileExtensionWishes() => new AudioFileWishesTests().AudioFileExtensionWishes_RunTest();
 
         void AudioFileExtensionWishes_RunTest()
         {
@@ -81,7 +67,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             // 16-Bit Helpers
             AreEqual(Int16, () => AudioConversionExtensionWishes.GetSampleDataTypeEnum<short>());
-            
+
             // 8-Bit Helpers
             AreEqual(Byte, () => AudioConversionExtensionWishes.GetSampleDataTypeEnum<byte>());
         }
