@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class ModulationTests : SynthesizerSugar
+    public class ModulationTests : SynthWishes
     {
         [UsedImplicitly]
         public ModulationTests()

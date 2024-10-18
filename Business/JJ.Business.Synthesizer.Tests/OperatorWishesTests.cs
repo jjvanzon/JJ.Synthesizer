@@ -15,7 +15,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class OperatorWishesTests : SynthesizerSugar
+    public class OperatorWishesTests : SynthWishes
     {
         [UsedImplicitly]
         public OperatorWishesTests()

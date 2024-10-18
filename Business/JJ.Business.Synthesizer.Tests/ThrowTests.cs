@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests
 {
     /// <summary> Aims to test rare exception for code coverage. </summary>
     [TestClass]
-    public class ThrowTests : SynthesizerSugar
+    public class ThrowTests : SynthWishes
     {
         private int _channelIndex;
         private ChannelEnum _invalidChannelEnum;

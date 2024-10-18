@@ -25,7 +25,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class AudioFormatTests : SynthesizerSugar
+    public class AudioFormatTests : SynthWishes
     {
         private const int    ALIGNED_SAMPLING_RATE     = 4096;
         private const double ALIGNED_FREQUENCY         = 64;

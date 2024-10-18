@@ -12,7 +12,7 @@ using static JJ.Framework.Testing.AssertHelper;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class AudioFileWishesTests : SynthesizerSugar
+    public class AudioFileWishesTests : SynthWishes
     {
         /// <summary> Constructor for test runner. </summary>
         [UsedImplicitly]

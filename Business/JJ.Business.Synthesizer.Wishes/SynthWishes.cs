@@ -9,7 +9,7 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public partial class SynthesizerSugar
+    public partial class SynthWishes
     {
         private readonly IAudioFileFormatRepository _audioFileFormatRepository;
         private readonly ISampleDataTypeRepository  _sampleDataTypeRepository;
@@ -17,11 +17,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public IContext Context { get; }
         public SampleManager Samples { get; }
 
-        public SynthesizerSugar()
+        public SynthWishes()
             : this(PersistenceHelper.CreateContext())
         { }
 
-        public SynthesizerSugar(IContext context)
+        public SynthWishes(IContext context)
             : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
                    PersistenceHelper.CreateRepository<IInletRepository>(context),
                    PersistenceHelper.CreateRepository<IOutletRepository>(context),

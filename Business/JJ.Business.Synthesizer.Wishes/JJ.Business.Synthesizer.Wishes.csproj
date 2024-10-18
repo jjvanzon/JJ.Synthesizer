@@ -126,20 +126,20 @@
     <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="OperatorWishes.Stringifier.cs" />
     <Compile Include="AudioFileWishes.WavHeaderExtensions.cs" />
-    <Compile Include="NoteWishes.SynthesizerSugar.cs" />
+    <Compile Include="NoteWishes.SynthWishes.cs" />
     <Compile Include="OperatorWishes.Extensions.cs" />
     <Compile Include="CurveWishes.CurveFactory.cs" />
     <Compile Include="Helpers\docs.cs" />
     <Compile Include="NoteWishes.TimeIndexers.cs" />
-    <Compile Include="CurveWishes.SynthesizerSugar.cs" />
-    <Compile Include="AudioFileWishes.SynthesizerSugar.cs" />
+    <Compile Include="CurveWishes.SynthWishes.cs" />
+    <Compile Include="AudioFileWishes.SynthWishes.cs" />
     <Compile Include="AudioFileWishes.Extensions.cs" />
     <Compile Include="NoteWishes.Notes.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultWishes.cs" />
-    <Compile Include="SynthesizerSugar.cs" />
+    <Compile Include="SynthWishes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
@@ -199,7 +199,7 @@
     <None Include=".editorconfig" />
     <Content Include="app.config.example.xml" />
     <None Include="packages.config" />
-    <Compile Include="OperatorWishes.SynthesizerSugar.cs" />
+    <Compile Include="OperatorWishes.SynthWishes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.0\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />

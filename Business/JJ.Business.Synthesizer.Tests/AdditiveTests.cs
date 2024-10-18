@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Tests
     /// <summary>
     /// Additional tests written upon retro-actively isolating older synthesizer versions.
     /// </summary>
-    public class AdditiveTests : SynthesizerSugar
+    public class AdditiveTests : SynthWishes
     {
         const double DEFAULT_NOTE_DURATION = 2.5;
 

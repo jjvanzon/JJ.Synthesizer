@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public partial class SynthesizerSugar
+    public partial class SynthWishes
     {
         public ValueOperatorWrapper SemiToneFactor => _[Notes.SemiToneFactor];
 

@@ -11,7 +11,7 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public partial class SynthesizerSugar : OperatorFactory
+    public partial class SynthWishes : OperatorFactory
     {
         private void InitializeOperatorWishes()
             => _ = new ValueIndexer(this);

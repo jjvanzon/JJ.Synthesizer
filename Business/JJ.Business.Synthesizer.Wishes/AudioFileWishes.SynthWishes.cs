@@ -26,7 +26,7 @@ using ValidationMessage = JJ.Framework.Validation.ValidationMessage;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public partial class SynthesizerSugar
+    public partial class SynthWishes
     {
         // Want my static usings, but clashes with System type names.
         public readonly SampleDataTypeEnum Int16  = SampleDataTypeEnum.Int16;

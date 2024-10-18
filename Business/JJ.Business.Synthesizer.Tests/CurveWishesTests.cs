@@ -10,7 +10,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    public class CurveWishesTests : SynthesizerSugar
+    public class CurveWishesTests : SynthWishes
     {
         [UsedImplicitly]
         public CurveWishesTests()
