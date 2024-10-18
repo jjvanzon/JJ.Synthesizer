@@ -1,14 +1,11 @@
 ﻿using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-// ReSharper disable FieldCanBeMadeReadOnly.Local
 
+// ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable LocalizableElement
 
 namespace JJ.Business.Synthesizer.Tests
@@ -20,14 +17,8 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class FMTests : SynthWishes
     {
-        /// <summary> Constructor for test runner. </summary>
-        [UsedImplicitly]
         public FMTests()
-        { }
-
-        /// <summary> Constructor allowing each test to run in its own instance. </summary>
-        public FMTests(IContext context)
-            : base(context, beat: 0.45, bar: 4 * 0.45)
+            : base(beat: 0.45, bar: 4 * 0.45)
         {
             _chordFrequencies = CreateChordFrequencies();
         }
@@ -36,280 +27,172 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         [TestCategory("Long")]
-        public void FM_Jingle()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Jingle_RunTest();
-        }
+        public void FM_Jingle() => new FMTests().FM_Jingle_RunTest();
 
-        private void FM_Jingle_RunTest()
+        void FM_Jingle_RunTest()
             => SaveAudioMono(() => DeepEcho(Jingle()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Flute_Melody1()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Flute_Melody1_RunTest();
-        }
+        public void FM_Flute_Melody1() => new FMTests().FM_Flute_Melody1_RunTest();
 
-        private void FM_Flute_Melody1_RunTest()
+        void FM_Flute_Melody1_RunTest()
             => SaveAudioMono(() => MildEcho(FluteMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Flute_Melody2()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Flute_Melody2_RunTest();
-        }
+        public void FM_Flute_Melody2() => new FMTests().FM_Flute_Melody2_RunTest();
 
-        private void FM_Flute_Melody2_RunTest()
+        void FM_Flute_Melody2_RunTest()
             => SaveAudioMono(() => MildEcho(FluteMelody2), volume: 0.3, duration: bars[2.5] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Flute1()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Flute1_RunTest();
-        }
+        public void FM_Flute1() => new FMTests().FM_Flute1_RunTest();
 
-        private void FM_Flute1_RunTest()
+        void FM_Flute1_RunTest()
             => SaveAudioMono(() => MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Flute2()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Flute2_RunTest();
-        }
+        public void FM_Flute2() => new FMTests().FM_Flute2_RunTest();
 
-        private void FM_Flute2_RunTest()
+        void FM_Flute2_RunTest()
             => SaveAudioMono(() => MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Flute3()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Flute3_RunTest();
-        }
+        public void FM_Flute3() => new FMTests().FM_Flute3_RunTest();
 
-        private void FM_Flute3_RunTest()
+        void FM_Flute3_RunTest()
             => SaveAudioMono(() => MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Flute4()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Flute4_RunTest();
-        }
+        public void FM_Flute4() => new FMTests().FM_Flute4_RunTest();
 
-        private void FM_Flute4_RunTest()
+        void FM_Flute4_RunTest()
             => SaveAudioMono(() => MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Organ()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Organ_RunTest();
-        }
+        public void FM_Organ() => new FMTests().FM_Organ_RunTest();
 
-        private void FM_Organ_RunTest()
+        void FM_Organ_RunTest()
             => SaveAudioMono(() => MildEcho(Organ(duration: bars[8])), duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Pad()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Pad_RunTest();
-        }
+        public void FM_Pad() => new FMTests().FM_Pad_RunTest();
 
-        private void FM_Pad_RunTest()
+        void FM_Pad_RunTest()
             => SaveAudioMono(() => MildEcho(Pad()), duration: bars[8] + MILD_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
-        public void FM_Pad_Chords()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Pad_Chords_RunTest();
-        }
+        public void FM_Pad_Chords() => new FMTests().FM_Pad_Chords_RunTest();
 
-        private void FM_Pad_Chords_RunTest()
+        void FM_Pad_Chords_RunTest()
             => SaveAudioMono(() => MildEcho(PadChords), volume: 0.15, duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Trombone()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Trombone_RunTest();
-        }
+        public void FM_Trombone() => new FMTests().FM_Trombone_RunTest();
 
-        private void FM_Trombone_RunTest()
+        void FM_Trombone_RunTest()
             => SaveAudioMono(() => MildEcho(Trombone(E2)));
 
         [TestMethod]
-        public void FM_Horn()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Horn_RunTest();
-        }
+        public void FM_Horn() => new FMTests().FM_Horn_RunTest();
 
-        private void FM_Horn_RunTest()
+        void FM_Horn_RunTest()
             => SaveAudioMono(() => MildEcho(Horn(duration: _[1])), duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Trombone_Melody1()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Trombone_Melody1_RunTest();
-        }
+        public void FM_Trombone_Melody1() => new FMTests().FM_Trombone_Melody1_RunTest();
 
-        private void FM_Trombone_Melody1_RunTest()
+        void FM_Trombone_Melody1_RunTest()
             => SaveAudioMono(() => MildEcho(TromboneMelody1), volume: 0.45, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Trombone_Melody2()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Trombone_Melody2_RunTest();
-        }
+        public void FM_Trombone_Melody2() => new FMTests().FM_Trombone_Melody2_RunTest();
 
-        private void FM_Trombone_Melody2_RunTest()
+        void FM_Trombone_Melody2_RunTest()
             => SaveAudioMono(() => MildEcho(TromboneMelody2), volume: 0.75, duration: bars[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Trombone_Melody3()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Trombone_Melody3_RunTest();
-        }
+        public void FM_Trombone_Melody3() => new FMTests().FM_Trombone_Melody3_RunTest();
 
-        private void FM_Trombone_Melody3_RunTest()
+        void FM_Trombone_Melody3_RunTest()
             => SaveAudioMono(() => MildEcho(TromboneMelody3), duration: bars[1.5] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Horn_Melody1()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Horn_Melody1_RunTest();
-        }
+        public void FM_Horn_Melody1() => new FMTests().FM_Horn_Melody1_RunTest();
 
-        private void FM_Horn_Melody1_RunTest()
+        void FM_Horn_Melody1_RunTest()
             => SaveAudioMono(() => MildEcho(HornMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Horn_Melody2()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Horn_Melody2_RunTest();
-        }
+        public void FM_Horn_Melody2() => new FMTests().FM_Horn_Melody2_RunTest();
 
-        private void FM_Horn_Melody2_RunTest()
+        void FM_Horn_Melody2_RunTest()
             => SaveAudioMono(() => MildEcho(HornMelody2), volume: 0.6, duration: bars[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_ElectricNote()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_ElectricNote_RunTest();
-        }
+        public void FM_ElectricNote() => new FMTests().FM_ElectricNote_RunTest();
 
-        private void FM_ElectricNote_RunTest()
+        void FM_ElectricNote_RunTest()
             => SaveAudioMono(() => MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Organ_Chords()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Organ_Chords_RunTest();
-        }
+        public void FM_Organ_Chords() => new FMTests().FM_Organ_Chords_RunTest();
 
-        private void FM_Organ_Chords_RunTest()
+        void FM_Organ_Chords_RunTest()
             => SaveAudioMono(() => MildEcho(OrganChords), volume: 0.22, duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
-        public void FM_RippleBass()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_RippleBass_RunTest();
-        }
+        public void FM_RippleBass() => new FMTests().FM_RippleBass_RunTest();
 
-        private void FM_RippleBass_RunTest()
+        void FM_RippleBass_RunTest()
             => SaveAudioMono(() => DeepEcho(RippleBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void FM_RippleBass_Melody1()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_RippleBass_Melody1_RunTest();
-        }
+        public void FM_RippleBass_Melody1() => new FMTests().FM_RippleBass_Melody1_RunTest();
 
-        private void FM_RippleBass_Melody1_RunTest()
+        void FM_RippleBass_Melody1_RunTest()
             => SaveAudioMono(() => DeepEcho(RippleBassMelody1), volume: 0.3, duration: bars[5] + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void FM_RippleBass_Melody2()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_RippleBass_Melody2_RunTest();
-        }
+        public void FM_RippleBass_Melody2() => new FMTests().FM_RippleBass_Melody2_RunTest();
 
-        private void FM_RippleBass_Melody2_RunTest()
+        void FM_RippleBass_Melody2_RunTest()
             => SaveAudioMono(() => DeepEcho(RippleBassMelody2), volume: 0.3, duration: bars[4] + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void FM_RippleNote_SharpMetallic()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_RippleNote_SharpMetallic_RunTest();
-        }
+        public void FM_RippleNote_SharpMetallic() => new FMTests().FM_RippleNote_SharpMetallic_RunTest();
 
-        private void FM_RippleNote_SharpMetallic_RunTest()
+        void FM_RippleNote_SharpMetallic_RunTest()
             => SaveAudioMono(() => DeepEcho(RippleNote_SharpMetallic(duration: _[2.2])), duration: 2.2 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void FM_RippleSound_Clean()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_RippleSound_Clean_RunTest();
-        }
+        public void FM_RippleSound_Clean() => new FMTests().FM_RippleSound_Clean_RunTest();
 
-        private void FM_RippleSound_Clean_RunTest()
+        void FM_RippleSound_Clean_RunTest()
             => SaveAudioMono(() => DeepEcho(RippleSound_Clean(duration: _[4])), duration: 4 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void FM_RippleSound_FantasyEffect()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_RippleSound_FantasyEffect_RunTest();
-        }
+        public void FM_RippleSound_FantasyEffect() => new FMTests().FM_RippleSound_FantasyEffect_RunTest();
 
-        private void FM_RippleSound_FantasyEffect_RunTest()
+        void FM_RippleSound_FantasyEffect_RunTest()
             => SaveAudioMono(() => DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void FM_RippleSound_CoolDouble()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_RippleSound_CoolDouble_RunTest();
-        }
+        public void FM_RippleSound_CoolDouble() => new FMTests().FM_RippleSound_CoolDouble_RunTest();
 
-        private void FM_RippleSound_CoolDouble_RunTest()
+        void FM_RippleSound_CoolDouble_RunTest()
             => SaveAudioMono(() => DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME);
 
         [TestMethod]
-        public void FM_Noise_Beating()
-        {
-            using (IContext context = PersistenceHelper.CreateContext())
-                new FMTests(context).FM_Noise_Beating_RunTest();
-        }
+        public void FM_Noise_Beating() => new FMTests().FM_Noise_Beating_RunTest();
 
-        private void FM_Noise_Beating_RunTest()
+        void FM_Noise_Beating_RunTest()
             => SaveAudioMono(() => MildEcho(Create_FM_Noise_Beating(A4)), duration: 5);
 
         #endregion
 
         #region Jingle
 
-        private Outlet Jingle()
+        Outlet Jingle()
         {
             double fluteVolume      = 1.2;
             double chordsVolume     = 0.5;
@@ -348,7 +231,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         #region Melodies
 
-        private Outlet FluteMelody1 => Adder
+        Outlet FluteMelody1 => Adder
         (
             Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
             Flute1(F4, t[bar: 1, beat: 2.5], volume: _[0.70], beats[2.17]),
@@ -360,7 +243,7 @@ namespace JJ.Business.Synthesizer.Tests
             Flute1(G4, t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
         );
 
-        private Outlet FluteMelody2 => Adder
+        Outlet FluteMelody2 => Adder
         (
             Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
             Flute2(F4, t[bar: 1, beat: 2.5], volume: _[0.68], beats[1.0]),
@@ -383,7 +266,7 @@ namespace JJ.Business.Synthesizer.Tests
                 )
             );
 
-        private Outlet PadChords => Multiply
+        Outlet PadChords => Multiply
         (
             Stretch(ChordVolumeCurve, bars[1]),
             Adder
@@ -394,7 +277,7 @@ namespace JJ.Business.Synthesizer.Tests
             )
         );
 
-        private Outlet HornMelody1 => Adder
+        Outlet HornMelody1 => Adder
         (
             //Horn(A2, Beat[01], duration: Beats[2]),
             //Horn(E3, Beat[02]),
@@ -406,7 +289,7 @@ namespace JJ.Business.Synthesizer.Tests
             //Horn(D3, Beat[15])
         );
 
-        private Outlet HornMelody2 => Adder
+        Outlet HornMelody2 => Adder
         (
             Horn(A2, beat[1], duration: beat[3], volume: _[0.75]),
             //Horn(E3, Beat[3]),
@@ -415,7 +298,7 @@ namespace JJ.Business.Synthesizer.Tests
             Horn(A1, beat[9], duration: beat[5], volume: _[1.0])
         );
 
-        private Outlet TromboneMelody1 => Adder
+        Outlet TromboneMelody1 => Adder
         (
             //Trombone(A3, Beat[00]),
             //Trombone(E4, Beat[02]),
@@ -427,7 +310,7 @@ namespace JJ.Business.Synthesizer.Tests
             //Trombone(B3, Beat[14])
         );
 
-        private Outlet TromboneMelody2 => Adder
+        Outlet TromboneMelody2 => Adder
         (
             //Trombone(A2, Beat[1]),
             Trombone(E4, beat[3], durationFactor: _[1.4]),
@@ -436,17 +319,17 @@ namespace JJ.Business.Synthesizer.Tests
             //Trombone(A3, Beat[9])
         );
 
-        private Outlet TromboneMelody3 => Adder
+        Outlet TromboneMelody3 => Adder
         (
             Trombone(A1,       beat[1]),
             Trombone(E2,       beat[3]),
             Trombone(F1_Sharp, beat[5], volume: _[0.7])
         );
 
-        private Outlet RippleBassMelody1 => _[0];
+        Outlet RippleBassMelody1 => _[0];
         //RippleBass(A2, delay: Bar[1], duration: Bars[2]);
 
-        private Outlet RippleBassMelody2 =>
+        Outlet RippleBassMelody2 =>
             RippleBass(A1, delay: bar[3.5], duration: bars[0.8]);
 
         #endregion
@@ -455,7 +338,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet Flute1(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet Flute1(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? A4;
 
@@ -469,7 +352,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet Flute2(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet Flute2(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq   = freq ?? A4;
             volume = volume ?? _[1];
@@ -485,7 +368,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet Flute3(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet Flute3(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq   = freq ?? A4;
             volume = volume ?? _[1];
@@ -501,8 +384,8 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet Flute4(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
-        {   
+        Outlet Flute4(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        {
             freq   = freq ?? A4;
             volume = volume ?? _[1];
 
@@ -516,7 +399,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet Organ(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet Organ(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq     = freq ?? A4;
             duration = duration ?? _[1];
@@ -534,7 +417,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq     = freq ?? A4;
             duration = duration ?? beats[1];
@@ -567,7 +450,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
         /// <param name="durationFactor"> Duration varies with pitch, but can be multiplied by this factor (default is 1). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet Trombone(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet durationFactor = null)
+        Outlet Trombone(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet durationFactor = null)
         {
             freq           = freq ?? A1;
             durationFactor = durationFactor ?? _[1];
@@ -595,7 +478,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A2/110Hz). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet Horn(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet Horn(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? A2;
 
@@ -610,7 +493,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet ElectricNote(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet ElectricNote(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq   = freq ?? A4;
             volume = volume ?? _[1];
@@ -633,7 +516,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet RippleBass(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet RippleBass(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? A1;
 
@@ -646,7 +529,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A3/220Hz). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet RippleNote_SharpMetallic(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet RippleNote_SharpMetallic(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? A3;
             var fmSignal = FMInHertz(freq, Divide(freq, _[2]), _[10]);
@@ -655,7 +538,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-        private Outlet RippleSound_Clean(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet RippleSound_Clean(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? A4;
 
@@ -668,7 +551,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet RippleSound_FantasyEffect(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet RippleSound_FantasyEffect(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? A5;
 
@@ -680,7 +563,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.05 </summary>
         /// <inheritdoc cref="ShapeRippleSound" />
-        private Outlet RippleSound_CoolDouble(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        Outlet RippleSound_CoolDouble(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? A5;
 
@@ -694,7 +577,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <param name="fmSignal"> A ripple sound to be shaped </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet ShapeRippleSound(Outlet fmSignal, Outlet delay, Outlet volume, Outlet duration)
+        Outlet ShapeRippleSound(Outlet fmSignal, Outlet delay, Outlet volume, Outlet duration)
         {
             duration = duration ?? _[2.5];
             var envelope = Stretch(RippleCurve, duration);
@@ -707,7 +590,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Beating audible further along the sound.
         /// Mod speed much below sound freq, changes sound freq drastically * [0.5, 1.5]
         /// </summary>
-        private Outlet Create_FM_Noise_Beating(Outlet pitch = null)
+        Outlet Create_FM_Noise_Beating(Outlet pitch = null)
             => FMAroundFreq(pitch ?? A4, _[55], _[0.5]);
 
         #endregion
@@ -717,7 +600,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <summary> FM sound synthesis modulating with addition. Modulates sound freq to +/- a number of Hz. </summary>
         /// <param name="modDepth"> In Hz </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
+        Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Sine(modDepth, modSpeed);
             var sound     = Sine(Add(soundFreq, modulator));
@@ -726,7 +609,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> FM with (faulty) multiplication around 0. </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet FMAround0(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
+        Outlet FMAround0(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Sine(modDepth, modSpeed);
             var sound     = Sine(Multiply(soundFreq, modulator));
@@ -735,24 +618,24 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> FM with multiplication around 1. </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        private Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
+        Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
             var modulator = Add(_[1], Sine(modDepth, modSpeed));
             var sound     = Sine(Multiply(soundFreq, modulator));
             return sound;
         }
 
-        private const double MILD_ECHO_TIME = 0.33 * 5;
+        const double MILD_ECHO_TIME = 0.33 * 5;
 
-        private Outlet MildEcho(Outlet outlet)
+        Outlet MildEcho(Outlet outlet)
             => Echo(outlet, count: 8, magnitude: _[0.25], delay: _[0.33]);
 
-        private const double DEEP_ECHO_TIME = 0.5 * 5;
+        const double DEEP_ECHO_TIME = 0.5 * 5;
 
         /// <summary> Applies a deep echo effect to the specified sound. </summary>
         /// <param name="melody"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the deep echo effect applied. </returns>
-        private Outlet DeepEcho(Outlet melody)
+        Outlet DeepEcho(Outlet melody)
             => Echo(melody, count: 8, magnitude: _[0.5], delay: _[0.5]);
 
         #endregion
@@ -850,8 +733,9 @@ namespace JJ.Business.Synthesizer.Tests
             (8.0, 0.0)
         );
 
-        private (double time, double freq1, double freq2, double freq3)[] _chordFrequencies;
-        private (double time, double freq1, double freq2, double freq3)[] CreateChordFrequencies() => new[]
+        (double time, double freq1, double freq2, double freq3)[] _chordFrequencies;
+
+        (double time, double freq1, double freq2, double freq3)[] CreateChordFrequencies() => new[]
         {
             (0.0, Notes.E4, Notes.A4, Notes.C5),
             (1.0, Notes.F4, Notes.A4, Notes.C5),
