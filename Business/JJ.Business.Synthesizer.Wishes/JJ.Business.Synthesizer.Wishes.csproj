@@ -122,6 +122,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="CurveWishes.Extensions.cs" />
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="OperatorWishes.Stringifier.cs" />
