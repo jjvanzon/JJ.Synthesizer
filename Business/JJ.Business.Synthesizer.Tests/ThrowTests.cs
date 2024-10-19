@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Calculation.Samples;
@@ -12,6 +13,7 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Tests.Helpers.CopiedFromFramework;
 using static JJ.Framework.Testing.AssertHelper;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
@@ -110,8 +112,8 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 WavHeaderStruct wavHeaderStruct = TestHelper.GetValidWavHeaderStruct();
                 wavHeaderStruct.ChannelCount = 0;
-                ThrowsException(
-                    () => WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct),
+                ThrowsException_OrInnerException<Exception>(
+                    () => WavHeaderStructToAudioFileInfoConverterAccessor.Convert(wavHeaderStruct),
                     "wavHeaderStruct.ChannelCount cannot be 0.");
             }
             
@@ -119,8 +121,8 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 WavHeaderStruct wavHeaderStruct = TestHelper.GetValidWavHeaderStruct();
                 wavHeaderStruct.BitsPerValue = 0;
-                ThrowsException(
-                    () => WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct),
+                ThrowsException_OrInnerException<Exception>(
+                    () => WavHeaderStructToAudioFileInfoConverterAccessor.Convert(wavHeaderStruct),
                     "wavHeaderStruct.BitsPerValue cannot be 0.");
             }
 

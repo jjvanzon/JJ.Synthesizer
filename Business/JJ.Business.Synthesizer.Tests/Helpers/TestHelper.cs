@@ -14,6 +14,7 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Validation;
+using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -82,8 +83,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static WavHeaderStruct GetValidWavHeaderStruct()
         {
             WavHeaderStruct wavHeaderStruct = GetViolin16BitMono44100WavStream().ReadWavHeader();
-            new WavHeaderStructValidator(wavHeaderStruct).Verify();
+            
+            // Trigger validation
+            WavHeaderManager.GetAudioFileInfoFromWavHeaderStruct(wavHeaderStruct);
+            
             return wavHeaderStruct;
+
         }
     }
 }

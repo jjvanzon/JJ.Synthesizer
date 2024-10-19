@@ -358,7 +358,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             switch (enumValue)
             {
-                case AudioFileFormatEnum.Wav: return WavHeaderConstants.WAV_HEADER_LENGTH;
+                case AudioFileFormatEnum.Wav: return 44;
                 case AudioFileFormatEnum.Raw: return 0;
                 default:
                     throw new ValueNotSupportedException(enumValue);
