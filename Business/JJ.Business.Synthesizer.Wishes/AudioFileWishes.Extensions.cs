@@ -95,6 +95,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Derived Fields
 
+        public static int SizeOf(Type sampleDataType)
+        {
+            if (sampleDataType == typeof(Byte)) return 1;
+            if (sampleDataType == typeof(Int16)) return 2;
+            throw new ValueNotSupportedException(sampleDataType);
+        }
+
         public static int SizeOf(this SampleDataTypeEnum enumValue)
             => SampleDataTypeHelper.SizeOf(enumValue);
 
@@ -141,7 +148,10 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return SizeOfSampleDataType(entity.AudioFileOutput);
         }
-        
+
+        public static int GetBits(this Type sampleDataType)
+            => SizeOf(sampleDataType) * 8;
+
         public static int GetBits(this SampleDataTypeEnum enumValue) 
             => enumValue.SizeOf() * 8;
 

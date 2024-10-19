@@ -5,8 +5,8 @@
     {
         public int Bits { get; set; }
         public int ChannelCount { get; set; }
+        public int SamplingRate { get; set; }
         /// <summary> A.k.a. SampleCount </summary>
         public int FrameCount { get; set; }
-        public int SamplingRate { get; set; }
     }
 }
