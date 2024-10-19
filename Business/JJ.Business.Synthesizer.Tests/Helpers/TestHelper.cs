@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public static WavHeaderStruct GetValidWavHeaderStruct()
         {
-            WavHeaderStruct wavHeaderStruct = GetViolin16BitMono44100WavStream().ReadWavHeaderStruct();
+            WavHeaderStruct wavHeaderStruct = GetViolin16BitMono44100WavStream().ReadWavHeader();
             new WavHeaderStructValidator(wavHeaderStruct).Verify();
             return wavHeaderStruct;
         }

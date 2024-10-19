@@ -123,6 +123,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CurveWishes.Extensions.cs" />
+    <Compile Include="AudioFileInfoWish.cs" />
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="OperatorWishes.Stringifier.cs" />

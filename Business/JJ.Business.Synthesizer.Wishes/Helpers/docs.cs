@@ -217,5 +217,18 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// containing resultant data, like the file path and validation messages (warnings).
         /// </returns>
         public object _saveaudio;
+    
+        /// <summary>
+        /// Retrieves the file extension associated with the specified audio file.
+        /// </summary>
+        /// <param name="enumValue">The audio file format enumeration value.</param>
+        /// <returns>
+        /// The file extension corresponding to the provided audio file format.
+        /// A period (.) is included.
+        /// </returns>
+        public object _fileextension;
+
+        /// <returns> Length of a file header in bytes. </returns>
+        public object _headerLength;
     }
 }
