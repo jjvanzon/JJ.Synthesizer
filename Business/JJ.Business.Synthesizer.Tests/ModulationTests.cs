@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()
-            => SaveAudioMono(() => MildEcho(Vibraphase(freq: E5)), duration: 1 + MILD_ECHO_TIME);
+            => SaveAudioMono(() => MildEcho(Vibraphase(freq: E5)), duration: 1 + MILD_ECHO_TIME, volume: 0.5);
 
         #endregion
 

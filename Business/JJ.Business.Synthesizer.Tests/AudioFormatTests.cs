@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             // Save to file
             AudioFileOutput audioFileOutput1 =
-                SaveAudio(getSignal, DURATION, volume: 1, 
+                SaveAudio(getSignal, DURATION, volume: default,
                           speakerSetupEnum,  sampleDataTypeEnum, audioFileFormatEnum, samplingRate, 
                           fileName: default, callerMemberName).Data;
 
@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Tests
             
             // Save to file again
             AudioFileOutput audioFileOutput2 =
-                SaveAudio(() => getSample(), DURATION2, volume: 1,
+                SaveAudio(() => getSample(), DURATION2, volume: default,
                                 speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRate,
                                 fileName: $"{callerMemberName}_Reloaded").Data;
 
