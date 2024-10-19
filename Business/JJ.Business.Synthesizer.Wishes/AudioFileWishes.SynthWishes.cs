@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Runtime.CompilerServices;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
@@ -49,9 +50,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="filePath">The file path of the audio sample to load.</param>
         /// <returns><see cref="SampleOperatorWrapper"/>  that can be used as an <see cref="Outlet"/> too.</returns>
         public SampleOperatorWrapper Sample(
-            string filePath, 
+            string filePath,
             InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line)
-        { 
+        {
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 Sample sample = Samples.CreateSample(stream);
@@ -62,7 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 SampleOperatorWrapper wrapper = Sample(sample);
                 ((Outlet)wrapper).Operator.Name = sample.Name;
-                
+
                 return wrapper;
             }
         }
@@ -87,18 +88,18 @@ namespace JJ.Business.Synthesizer.Wishes
                     case SpeakerSetupEnum.Mono:
                         Channel = ChannelEnum.Single; var monoOutlet = func();
                         return SaveAudio(
-                            new[] { monoOutlet }, 
-                            duration, volume, 
-                            sampleDataTypeEnum, audioFileFormatEnum, 
+                            new[] { monoOutlet },
+                            duration, volume,
+                            sampleDataTypeEnum, audioFileFormatEnum,
                             samplingRateOverride, fileName, callerMemberName);
 
                     case SpeakerSetupEnum.Stereo:
                         Channel = Left ; var leftOutlet  = func();
                         Channel = Right; var rightOutlet = func();
                         return SaveAudio(
-                            new[] { leftOutlet, rightOutlet }, 
-                            duration, volume, 
-                            sampleDataTypeEnum, audioFileFormatEnum, 
+                            new[] { leftOutlet, rightOutlet },
+                            duration, volume,
+                            sampleDataTypeEnum, audioFileFormatEnum,
                             samplingRateOverride, fileName, callerMemberName);
                     default:
                         throw new ValueNotSupportedException(speakerSetupEnum);
@@ -109,6 +110,21 @@ namespace JJ.Business.Synthesizer.Wishes
                 Channel = originalChannel;
             }
         }
+
+        /// <inheritdoc cref="docs._saveaudio" />
+        public Result<AudioFileOutput> SaveAudioMono(
+            Func<Outlet> func,
+            double duration = default,
+            double volume = default,
+            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
+            int samplingRateOverride = default,
+            string fileName = default,
+            [CallerMemberName] string callerMemberName = null)
+            => SaveAudio(func,
+                         duration, volume,
+                         SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum,
+                         samplingRateOverride, fileName, callerMemberName);
 
         /// <inheritdoc cref="docs._saveaudio" />
         private Result<AudioFileOutput> SaveAudio(
@@ -139,7 +155,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 channel.Assert();
                 warnings.AddRange(channel.GetWarnings());
             }
-            
+
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
             {
@@ -176,28 +192,15 @@ namespace JJ.Business.Synthesizer.Wishes
 
             Console.WriteLine(calculationTimeText + outputFileText + warningText);
 
+            PlayAudioConditionally(audioFileOutput);
+
             var result = warnings.ToResult(audioFileOutput);
-            
+
             return result;
         }
 
-        /// <inheritdoc cref="docs._saveaudio" />
-        public Result<AudioFileOutput> SaveAudioMono(
-            Func<Outlet> func,
-            double duration = default,
-            double volume = default,
-            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
-            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
-            int samplingRateOverride = default,
-            string fileName = default,
-            [CallerMemberName] string callerMemberName = null)
-            => SaveAudio(func, 
-                         duration, volume, 
-                         SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum, 
-                         samplingRateOverride, fileName, callerMemberName);
-
         // Helpers
-        
+
         private string ResolveFileName(string fileName, AudioFileFormatEnum audioFileFormatEnum, string callerMemberName)
         {
             string fileExtension = audioFileFormatEnum.GetFileExtension();
@@ -214,7 +217,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return fileName;
         }
-        
+
         private void SetSamplingRate(AudioFileOutput audioFileOutput, int samplingRateOverride)
         {
             if (samplingRateOverride != default)
@@ -236,26 +239,26 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="audioFileOutput"> The <see cref="AudioFileOutput" /> to be optimized. </param>
         private void SetSamplingRateForTooling(AudioFileOutput audioFileOutput)
         {
-            if (Environment.GetEnvironmentVariable("NCrunch") != null)
+            if (IsRunningInNCrunch)
             {
-                audioFileOutput.SamplingRate = _configuration.NCrunchSamplingRate;
+                audioFileOutput.SamplingRate = _configuration.NCrunch.SamplingRate;
 
                 if (CurrentTestIsInCategory(_configuration.LongRunningTestCategory))
                 {
-                    audioFileOutput.SamplingRate = _configuration.NCrunchSamplingRateLongRunning;
+                    audioFileOutput.SamplingRate = _configuration.NCrunch.SamplingRateLongRunning;
                 }
 
                 Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " +
                                   "to improve performance of NCrunch code coverage.");
             }
 
-            if (Environment.GetEnvironmentVariable("TF_BUILD") == "True")
+            if (IsRunningInAzurePipelines)
             {
-                audioFileOutput.SamplingRate = _configuration.AzurePipelinesSamplingRate;
+                audioFileOutput.SamplingRate = _configuration.AzurePipelines.SamplingRate;
 
                 if (CurrentTestIsInCategory(_configuration.LongRunningTestCategory))
                 {
-                    audioFileOutput.SamplingRate = _configuration.AzurePipelinesSamplingRateLongRunning;
+                    audioFileOutput.SamplingRate = _configuration.AzurePipelines.SamplingRateLongRunning;
                 }
 
                 Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " +
@@ -263,11 +266,51 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
+        private bool IsRunningInNCrunch => Environment.GetEnvironmentVariable("NCrunch") != null;
+        private bool IsRunningInAzurePipelines => Environment.GetEnvironmentVariable("TF_BUILD") == "True";
+
         private bool CurrentTestIsInCategory(string category) =>
             new StackTrace().GetFrames()?
                             .Select(x => x.GetMethod())
                             .SelectMany(method => method.GetCustomAttributes(typeof(TestCategoryAttribute), true))
                             .OfType<TestCategoryAttribute>()
                             .Any(x => x.TestCategories.Contains(category)) ?? false;
+
+        private void PlayAudioConditionally(AudioFileOutput audioFileOutput)
+        {
+            if (!_configuration.PlayAudioAfterSave)
+            {
+                return;
+            }
+
+            if (IsRunningInNCrunch && !_configuration.NCrunch.PlayAudioAfterSave)
+            {
+                return;
+            }
+
+            if (IsRunningInAzurePipelines && !_configuration.AzurePipelines.PlayAudioAfterSave)
+            {
+                return;
+            }
+
+            if (audioFileOutput.GetAudioFileFormatEnum() != AudioFileFormatEnum.Wav)
+            {
+                return;
+            }
+
+            Console.WriteLine();
+
+            var soundPlayer = new SoundPlayer(audioFileOutput.FilePath);
+            if (_configuration.PlaySynchronous)
+            { 
+                Console.WriteLine("Playing audio...");
+                soundPlayer.PlaySync();
+            }
+            else
+            {
+                Console.WriteLine("Playing audio.");
+                soundPlayer.Play();
+            }
+        }
     }
 }
