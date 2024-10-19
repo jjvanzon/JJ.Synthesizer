@@ -12,6 +12,7 @@ using static JJ.Framework.Testing.AssertHelper;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
+    [TestCategory("Technical")]
     public class AudioFileWishesTests : SynthWishes
     {
         /// <summary>

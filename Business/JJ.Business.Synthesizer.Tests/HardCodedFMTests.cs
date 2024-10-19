@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
 	[TestClass]
+    [TestCategory("Technical")]
 	public class HardCodedFMTests
 	{
 		[TestMethod]

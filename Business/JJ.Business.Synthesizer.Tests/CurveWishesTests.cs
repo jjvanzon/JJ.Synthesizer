@@ -10,6 +10,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
+    [TestCategory("Technical")]
     public class CurveWishesTests : SynthWishes
     {
         [TestMethod]

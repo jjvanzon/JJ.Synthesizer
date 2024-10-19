@@ -24,6 +24,7 @@ namespace JJ.Business.Synthesizer.Tests
 {
     /// <summary> Aims to test rare exception for code coverage. </summary>
     [TestClass]
+    [TestCategory("Technical")]
     public class ThrowTests : SynthWishes
     {
         private int _channelIndex;

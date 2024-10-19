@@ -1,8 +1,6 @@
 ﻿using System;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -10,10 +8,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests
 {
-    [TestClass]
     /// <summary>
     /// Additional tests written upon retro-actively isolating older synthesizer versions.
     /// </summary>
+    [TestClass]
+    [TestCategory("Functional")]
     public class AdditiveTests : SynthWishes
     {
         const double DEFAULT_NOTE_DURATION = 2.5;

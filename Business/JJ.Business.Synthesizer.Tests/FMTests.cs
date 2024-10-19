@@ -15,6 +15,7 @@ namespace JJ.Business.Synthesizer.Tests
     /// making the FM synthesis behave differently.
     /// </summary>
     [TestClass]
+    [TestCategory("Functional")]
     public class FMTests : SynthWishes
     {
         public FMTests()

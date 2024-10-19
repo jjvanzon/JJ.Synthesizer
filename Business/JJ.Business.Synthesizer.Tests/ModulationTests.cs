@@ -1,10 +1,8 @@
 ﻿using System;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
-using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
+    [TestCategory("Functional")]
     public class ModulationTests : SynthWishes
     {
         public ModulationTests()

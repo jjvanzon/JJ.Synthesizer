@@ -12,6 +12,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
+    [TestCategory("Functional")]
     public class OperatorWishesTests : SynthWishes
     {
         // Vibrato/Tremolo Tests
