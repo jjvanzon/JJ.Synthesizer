@@ -208,7 +208,7 @@
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include=".editorconfig.resharperexport" />
-    <None Include="app.config" />
+    <None Include="~app.config" />
     <EmbeddedResource Include="TestResources\violin_16bit_mono.raw" />
     <None Include="packages.config" />
   </ItemGroup>

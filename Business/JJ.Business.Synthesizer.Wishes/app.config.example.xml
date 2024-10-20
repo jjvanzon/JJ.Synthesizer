@@ -19,20 +19,18 @@
 
 	<jj.business.synthesizer.wishes 
 		defaultSamplingRate="48000"
-		playAudioAfterSave="true"
-		playSynchronous="true"
+		playAudioEnabled="true"
 		longRunningTestCategory="Long">
 		
 		<nCrunch
 			samplingRate="150"
 			samplingRateLongRunning="30"
-			playAudioAfterSave="false" />
+			playAudioEnabled="false" />
 		
 		<azurePipelines
 			samplingRate="1500"
 			samplingRateLongRunning="100"
-			playAudioAfterSave="false" />
+			playAudioEnabled="false" />
 	</jj.business.synthesizer.wishes>
-
 	
 </configuration>

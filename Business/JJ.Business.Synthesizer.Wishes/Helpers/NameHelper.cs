@@ -8,5 +8,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Name([CallerMemberName] string calledMemberName = null) 
             => calledMemberName.CutLeft("get_").CutLeft("set_");
+
+        public static string GetAssemblyName<TType>() => typeof(TType).Assembly.GetName().Name;
     }
 }

@@ -14,7 +14,6 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
-using JJ.Framework.Configuration;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
@@ -35,8 +34,6 @@ namespace JJ.Business.Synthesizer.Wishes
             _interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
             _audioFileOutputManager = ServiceFactory.CreateAudioFileOutputManager(context);
         }
-
-        private static readonly ConfigurationSection _configuration = CustomConfigurationManager.GetSection<ConfigurationSection>();
 
         private IInterpolationTypeRepository _interpolationTypeRepository;
         private AudioFileOutputManager _audioFileOutputManager;
@@ -256,17 +253,17 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private void PlayAudioConditionally(AudioFileOutput audioFileOutput)
         {
-            if (!_configuration.PlayAudioAfterSave)
+            if (!ConfigHelper.PlayAudioEnabled)
             {
                 return;
             }
 
-            if (IsRunningInNCrunch && !_configuration.NCrunch.PlayAudioAfterSave)
+            if (IsRunningInNCrunch && !ConfigHelper.NCrunch.PlayAudioEnabled)
             {
                 return;
             }
 
-            if (IsRunningInAzurePipelines && !_configuration.AzurePipelines.PlayAudioAfterSave)
+            if (IsRunningInAzurePipelines && !ConfigHelper.AzurePipelines.PlayAudioEnabled)
             {
                 return;
             }
@@ -277,18 +274,9 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             Console.WriteLine();
-
-            var soundPlayer = new SoundPlayer(audioFileOutput.FilePath);
-            if (_configuration.PlaySynchronous)
-            {
-                Console.WriteLine("Playing audio...");
-                soundPlayer.PlaySync();
-            }
-            else
-            {
-                Console.WriteLine("Playing audio.");
-                soundPlayer.Play();
-            }
+            Console.WriteLine("Playing audio...");
+            
+            new SoundPlayer(audioFileOutput.FilePath).PlaySync();
         }
 
         private string ResolveFileName(string fileName, AudioFileFormatEnum audioFileFormatEnum, string callerMemberName)
@@ -317,7 +305,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return;
             }
 
-            audioFileOutput.SamplingRate = _configuration.DefaultSamplingRate;
+            audioFileOutput.SamplingRate = ConfigHelper.DefaultSamplingRate;
 
             SetSamplingRateForTooling(audioFileOutput);
         }
@@ -331,11 +319,11 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (IsRunningInNCrunch)
             {
-                audioFileOutput.SamplingRate = _configuration.NCrunch.SamplingRate;
+                audioFileOutput.SamplingRate = ConfigHelper.NCrunch.SamplingRate;
 
-                if (CurrentTestIsInCategory(_configuration.LongRunningTestCategory))
+                if (CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory))
                 {
-                    audioFileOutput.SamplingRate = _configuration.NCrunch.SamplingRateLongRunning;
+                    audioFileOutput.SamplingRate = ConfigHelper.NCrunch.SamplingRateLongRunning;
                 }
 
                 Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " +
@@ -344,11 +332,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (IsRunningInAzurePipelines)
             {
-                audioFileOutput.SamplingRate = _configuration.AzurePipelines.SamplingRate;
+                audioFileOutput.SamplingRate = ConfigHelper.AzurePipelines.SamplingRate;
 
-                if (CurrentTestIsInCategory(_configuration.LongRunningTestCategory))
+                if (CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory))
                 {
-                    audioFileOutput.SamplingRate = _configuration.AzurePipelines.SamplingRateLongRunning;
+                    audioFileOutput.SamplingRate = ConfigHelper.AzurePipelines.SamplingRateLongRunning;
                 }
 
                 Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " +

@@ -2,22 +2,20 @@
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    internal class ConfigurationSection
+    internal class ConfigSection
     {
-        [XmlAttribute] public int DefaultSamplingRate { get; set; }
-        [XmlAttribute] public string LongRunningTestCategory { get; set; }
-        [XmlAttribute] public bool PlayAudioAfterSave { get; set; }
-        [XmlAttribute] public bool PlaySynchronous { get; set; }
+        [XmlAttribute] public int? DefaultSamplingRate { get; set; } 
+        [XmlAttribute] public string LongRunningTestCategory { get; set;}
+        [XmlAttribute] public bool? PlayAudioEnabled { get; set;}
 
-        public ToolingConfiguration AzurePipelines { get; set; }
-        public ToolingConfiguration NCrunch { get; set; }
-
+        public ToolingConfiguration AzurePipelines { get; set; } = new ToolingConfiguration();
+        public ToolingConfiguration NCrunch { get; set; } = new ToolingConfiguration();
     }
 
     internal class ToolingConfiguration
     {
-        [XmlAttribute] public int SamplingRate { get; set; }
-        [XmlAttribute] public int SamplingRateLongRunning { get; set; }
-        [XmlAttribute] public bool PlayAudioAfterSave { get; set; }
+        [XmlAttribute] public int? SamplingRate { get; set;}
+        [XmlAttribute] public int? SamplingRateLongRunning { get; set;}
+        [XmlAttribute] public bool? PlayAudioEnabled { get; set;}
     }
 }
