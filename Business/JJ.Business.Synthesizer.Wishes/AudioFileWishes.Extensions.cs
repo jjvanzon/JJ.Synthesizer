@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Business.Synthesizer.Constants;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;

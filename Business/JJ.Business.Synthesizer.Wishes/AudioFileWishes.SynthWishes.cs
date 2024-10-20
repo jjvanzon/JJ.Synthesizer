@@ -26,29 +26,30 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         // Want my static usings, but clashes with System type names.
-        public readonly SampleDataTypeEnum Int16  = SampleDataTypeEnum.Int16;
-        public readonly SampleDataTypeEnum Byte   = SampleDataTypeEnum.Byte;
-        public readonly ChannelEnum        Single = ChannelEnum.Single;
+        public readonly SampleDataTypeEnum Int16 = SampleDataTypeEnum.Int16;
+        public readonly SampleDataTypeEnum Byte = SampleDataTypeEnum.Byte;
+        public readonly ChannelEnum Single = ChannelEnum.Single;
 
         private void InitializeAudioFileOutputWishes(IContext context)
         {
             _interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
-            _audioFileOutputManager      = ServiceFactory.CreateAudioFileOutputManager(context);
+            _audioFileOutputManager = ServiceFactory.CreateAudioFileOutputManager(context);
         }
 
         private static readonly ConfigurationSection _configuration = CustomConfigurationManager.GetSection<ConfigurationSection>();
 
         private IInterpolationTypeRepository _interpolationTypeRepository;
-        private AudioFileOutputManager       _audioFileOutputManager;
+        private AudioFileOutputManager _audioFileOutputManager;
 
         private string NewLine => Environment.NewLine;
 
         /// <summary>
         /// Creates a Sample by reading the file at the given <paramref name="filePath" />.
-        /// Sets the <see cref=Sample.Amplifier" /> to scale values to range between -1 and +1.
+        /// Sets the <see cref= Sample.Amplifier" /> to scale values to range between -1 and +1.
+        /// 
         /// </summary>
-        /// <param name="filePath">The file path of the audio sample to load.</param>
-        /// <returns><see cref="SampleOperatorWrapper"/>  that can be used as an <see cref="Outlet"/> too.</returns>
+        /// <param name="filePath"> The file path of the audio sample to load. </param>
+        /// <returns> <see cref="SampleOperatorWrapper" />  that can be used as an <see cref="Outlet" /> too. </returns>
         public SampleOperatorWrapper Sample(
             string filePath,
             InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line)
@@ -86,7 +87,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 switch (speakerSetupEnum)
                 {
                     case SpeakerSetupEnum.Mono:
-                        Channel = ChannelEnum.Single; var monoOutlet = func();
+                        Channel = ChannelEnum.Single;
+                        var monoOutlet = func();
                         return SaveAudio(
                             new[] { monoOutlet },
                             duration, volume,
@@ -94,8 +96,10 @@ namespace JJ.Business.Synthesizer.Wishes
                             samplingRateOverride, fileName, callerMemberName);
 
                     case SpeakerSetupEnum.Stereo:
-                        Channel = Left ; var leftOutlet  = func();
-                        Channel = Right; var rightOutlet = func();
+                        Channel = Left;
+                        var leftOutlet = func();
+                        Channel = Right;
+                        var rightOutlet = func();
                         return SaveAudio(
                             new[] { leftOutlet, rightOutlet },
                             duration, volume,
@@ -141,7 +145,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Validate Parameters
             if (channels == null) throw new ArgumentNullException(nameof(channels));
-            if (channels.Count == 0) throw new ArgumentException("channels.Count == 0",         nameof(channels));
+            if (channels.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channels));
             if (channels.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channels));
             if (duration == default) duration = _[1];
             if (volume == default) volume = _[1];
@@ -159,9 +163,9 @@ namespace JJ.Business.Synthesizer.Wishes
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
             {
-                audioFileOutput.Duration     = duration;
-                audioFileOutput.FilePath     = fileName;
-                audioFileOutput.Amplifier    = volume * sampleDataTypeEnum.GetMaxAmplitude();
+                audioFileOutput.Duration = duration;
+                audioFileOutput.FilePath = fileName;
+                audioFileOutput.Amplifier = volume * sampleDataTypeEnum.GetMaxAmplitude();
                 audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum, _sampleDataTypeRepository);
                 audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum, _audioFileFormatRepository);
 
@@ -180,13 +184,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Calculate
             var calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
-            var stopWatch  = Stopwatch.StartNew();
+            var stopWatch = Stopwatch.StartNew();
             calculator.Execute();
             stopWatch.Stop();
 
             // Report
             var calculationTimeText = $"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s{NewLine}";
-            var outputFileText      = $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}";
+            var outputFileText = $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}";
             string warningText = warnings.Count == 0 ? "" : $"{NewLine}{NewLine}Warnings:{NewLine}" +
                                                             $"{string.Join(NewLine, warnings.Select(x => $"- {x}"))}";
 
@@ -302,7 +306,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             var soundPlayer = new SoundPlayer(audioFileOutput.FilePath);
             if (_configuration.PlaySynchronous)
-            { 
+            {
                 Console.WriteLine("Playing audio...");
                 soundPlayer.PlaySync();
             }
