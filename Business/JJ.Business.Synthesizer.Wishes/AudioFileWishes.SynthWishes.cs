@@ -69,6 +69,50 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
+        public Result<AudioFileOutput> Play(
+            Func<Outlet> func,
+            double duration = default,
+            double volume = default,
+            SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Stereo,
+            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
+            int samplingRateOverride = default,
+            string fileName = default,
+            [CallerMemberName] string callerMemberName = null)
+        {
+            var result =
+                SaveAudio(
+                    func, duration, volume,
+                    speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
+                    fileName, callerMemberName);
+            
+            PlayAudioConditionally(result.Data);
+            
+            return result;
+        }
+        
+        public Result<AudioFileOutput> PlayMono(
+            Func<Outlet> func,
+            double duration = default,
+            double volume = default,
+            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
+            int samplingRateOverride = default,
+            string fileName = default,
+            [CallerMemberName] string callerMemberName = null)
+        {
+            var result =
+                SaveAudioMono(
+                    func, duration, volume,
+                    sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
+                    fileName, callerMemberName);
+            
+            PlayAudioConditionally(result.Data);
+
+            return result;
+        }
+
+        
         /// <inheritdoc cref="docs._saveaudio" />
         public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func,
@@ -89,7 +133,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     case SpeakerSetupEnum.Mono:
                         Channel = ChannelEnum.Single;
                         var monoOutlet = func();
-                        return SaveAudio(
+                        return SaveAudioBase(
                             new[] { monoOutlet },
                             duration, volume,
                             sampleDataTypeEnum, audioFileFormatEnum,
@@ -100,7 +144,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         var leftOutlet = func();
                         Channel = Right;
                         var rightOutlet = func();
-                        return SaveAudio(
+                        return SaveAudioBase(
                             new[] { leftOutlet, rightOutlet },
                             duration, volume,
                             sampleDataTypeEnum, audioFileFormatEnum,
@@ -130,8 +174,9 @@ namespace JJ.Business.Synthesizer.Wishes
                          SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum,
                          samplingRateOverride, fileName, callerMemberName);
 
+
         /// <inheritdoc cref="docs._saveaudio" />
-        private Result<AudioFileOutput> SaveAudio(
+        private Result<AudioFileOutput> SaveAudioBase(
             IList<Outlet> channels,
             double duration,
             double volume,
@@ -196,7 +241,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
             Console.WriteLine(calculationTimeText + outputFileText + warningText);
 
-            PlayAudioConditionally(audioFileOutput);
+            foreach (var channel in channels)
+            {
+                Console.WriteLine();
+                Console.WriteLine(channel.String());
+            }
 
             var result = warnings.ToResult(audioFileOutput);
 
@@ -204,6 +253,43 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Helpers
+        
+        private void PlayAudioConditionally(AudioFileOutput audioFileOutput)
+        {
+            if (!_configuration.PlayAudioAfterSave)
+            {
+                return;
+            }
+
+            if (IsRunningInNCrunch && !_configuration.NCrunch.PlayAudioAfterSave)
+            {
+                return;
+            }
+
+            if (IsRunningInAzurePipelines && !_configuration.AzurePipelines.PlayAudioAfterSave)
+            {
+                return;
+            }
+
+            if (audioFileOutput.GetAudioFileFormatEnum() != AudioFileFormatEnum.Wav)
+            {
+                return;
+            }
+
+            Console.WriteLine();
+
+            var soundPlayer = new SoundPlayer(audioFileOutput.FilePath);
+            if (_configuration.PlaySynchronous)
+            {
+                Console.WriteLine("Playing audio...");
+                soundPlayer.PlaySync();
+            }
+            else
+            {
+                Console.WriteLine("Playing audio.");
+                soundPlayer.Play();
+            }
+        }
 
         private string ResolveFileName(string fileName, AudioFileFormatEnum audioFileFormatEnum, string callerMemberName)
         {
@@ -279,42 +365,5 @@ namespace JJ.Business.Synthesizer.Wishes
                             .SelectMany(method => method.GetCustomAttributes(typeof(TestCategoryAttribute), true))
                             .OfType<TestCategoryAttribute>()
                             .Any(x => x.TestCategories.Contains(category)) ?? false;
-
-        private void PlayAudioConditionally(AudioFileOutput audioFileOutput)
-        {
-            if (!_configuration.PlayAudioAfterSave)
-            {
-                return;
-            }
-
-            if (IsRunningInNCrunch && !_configuration.NCrunch.PlayAudioAfterSave)
-            {
-                return;
-            }
-
-            if (IsRunningInAzurePipelines && !_configuration.AzurePipelines.PlayAudioAfterSave)
-            {
-                return;
-            }
-
-            if (audioFileOutput.GetAudioFileFormatEnum() != AudioFileFormatEnum.Wav)
-            {
-                return;
-            }
-
-            Console.WriteLine();
-
-            var soundPlayer = new SoundPlayer(audioFileOutput.FilePath);
-            if (_configuration.PlaySynchronous)
-            {
-                Console.WriteLine("Playing audio...");
-                soundPlayer.PlaySync();
-            }
-            else
-            {
-                Console.WriteLine("Playing audio.");
-                soundPlayer.Play();
-            }
-        }
     }
 }
