@@ -22,7 +22,6 @@ using JJ.Business.Synthesizer.Infos;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    [TestCategory("Technical")]
     public class CurveTests
     {
         [TestMethod]

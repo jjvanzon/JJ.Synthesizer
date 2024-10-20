@@ -28,7 +28,6 @@ using JJ.Business.Synthesizer.Wishes;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    [TestCategory("Technical")]
     public class SynthesizerTests
     {
         [TestMethod]

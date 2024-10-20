@@ -25,7 +25,6 @@ using JJ.Business.Synthesizer.Helpers;
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
-    [TestCategory("Technical")]
     public class SampleTests
     {
         private const string OUTPUT_FILE_NAME = "AudioFileOutput.wav";
