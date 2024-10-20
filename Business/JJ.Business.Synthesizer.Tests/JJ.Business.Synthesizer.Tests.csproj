@@ -122,18 +122,18 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="AudioFileWishesTests.cs" />
+    <Compile Include="Technical\AudioFileWishesTests.cs" />
     <Compile Include="Helpers\CopiedFromFramework.cs" />
     <Compile Include="Accessors\SampleManagerAccessor.cs" />
     <Compile Include="Accessors\SynthWishesAccessor.cs" />
     <Compile Include="Accessors\WavHeaderStructToAudioFileInfoConverterAccessor.cs" />
-    <Compile Include="ThrowTests.cs" />
-    <Compile Include="OperatorWishesTests.cs" />
-    <Compile Include="CurveWishesTests.cs" />
-    <Compile Include="ModulationTests.cs" />
-    <Compile Include="AudioFormatTests.cs" />
-    <Compile Include="HardCodedFMTests.cs" />
-    <Compile Include="FMTests.cs" />
+    <Compile Include="Technical\ThrowTests.cs" />
+    <Compile Include="Functional\OperatorWishesTests.cs" />
+    <Compile Include="Technical\CurveWishesTests.cs" />
+    <Compile Include="Functional\ModulationTests.cs" />
+    <Compile Include="Technical\AudioFormatTests.cs" />
+    <Compile Include="Technical\HardCodedFMTests.cs" />
+    <Compile Include="Functional\FMTests.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\IOperatorCalculator.cs" />
     <Compile Include="Helpers\EntityFactory.cs" />
@@ -145,7 +145,7 @@
     <Compile Include="SampleTests.cs" />
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AdditiveTests.cs" />
+    <Compile Include="Functional\AdditiveTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
@@ -208,7 +208,7 @@
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include=".editorconfig.resharperexport" />
-    <None Include="App.config" />
+    <None Include="app.config" />
     <EmbeddedResource Include="TestResources\violin_16bit_mono.raw" />
     <None Include="packages.config" />
   </ItemGroup>

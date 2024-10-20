@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
+using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Helpers;
@@ -20,7 +21,7 @@ using static JJ.Framework.Testing.AssertHelper;
 // ReSharper disable once NotAccessedField.Local
 #pragma warning disable CS0414 // Field is assigned but its value is never used
 
-namespace JJ.Business.Synthesizer.Tests
+namespace JJ.Business.Synthesizer.Tests.Technical
 {
     /// <summary> Aims to test rare exception for code coverage. </summary>
     [TestClass]

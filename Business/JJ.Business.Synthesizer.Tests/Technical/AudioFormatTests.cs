@@ -19,7 +19,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 // ReSharper disable RedundantArgumentDefaultValue
 
-namespace JJ.Business.Synthesizer.Tests
+namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]

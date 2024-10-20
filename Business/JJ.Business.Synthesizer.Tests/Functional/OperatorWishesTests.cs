@@ -9,7 +9,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 
 // ReSharper disable JoinDeclarationAndInitializer
 
-namespace JJ.Business.Synthesizer.Tests
+namespace JJ.Business.Synthesizer.Tests.Functional
 {
     [TestClass]
     [TestCategory("Functional")]

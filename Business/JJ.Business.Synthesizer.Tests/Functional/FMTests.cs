@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable LocalizableElement
 
-namespace JJ.Business.Synthesizer.Tests
+namespace JJ.Business.Synthesizer.Tests.Functional
 {
     /// <summary>
     /// NOTE: Version 0.0.250 does not have time tracking in its oscillator,

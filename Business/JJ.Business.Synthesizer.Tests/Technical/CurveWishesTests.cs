@@ -1,13 +1,10 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Tests.Helpers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Persistence;
 using JJ.Framework.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 
-namespace JJ.Business.Synthesizer.Tests
+namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]

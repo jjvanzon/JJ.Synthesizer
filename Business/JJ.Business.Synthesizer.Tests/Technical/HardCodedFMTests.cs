@@ -4,9 +4,10 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 // ReSharper disable LocalizableElement
 
-namespace JJ.Business.Synthesizer.Tests
+namespace JJ.Business.Synthesizer.Tests.Technical
 {
 	[TestClass]
     [TestCategory("Technical")]

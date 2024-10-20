@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // ReSharper disable LocalizableElement
 
-namespace JJ.Business.Synthesizer.Tests
+namespace JJ.Business.Synthesizer.Tests.Functional
 {
     /// <summary>
     /// Additional tests written upon retro-actively isolating older synthesizer versions.

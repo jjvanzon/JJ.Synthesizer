@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #pragma warning disable CS8123 // The tuple element name is ignored because a different name or no name is specified by the assignment target.
 
-namespace JJ.Business.Synthesizer.Tests
+namespace JJ.Business.Synthesizer.Tests.Functional
 {
     [TestClass]
     [TestCategory("Functional")]
