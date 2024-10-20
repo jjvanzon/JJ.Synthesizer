@@ -26,7 +26,8 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Detunica_Jingle() => new ModulationTests().Detunica_Jingle_RunTest();
 
         /// <inheritdoc cref="_detunicadocs" />
-        void Detunica_Jingle_RunTest() => SaveAudio(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DEEP_ECHO_TIME);
+        void Detunica_Jingle_RunTest() 
+            => Play(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DEEP_ECHO_TIME);
 
         [TestMethod]
         [TestCategory("Long")]
@@ -34,7 +35,8 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Detunica_Jingle_Mono() => new ModulationTests().Detunica_Jingle_RunTest_Mono();
 
         /// <inheritdoc cref="_detunicadocs" />
-        void Detunica_Jingle_RunTest_Mono() => SaveAudioMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DEEP_ECHO_TIME);
+        void Detunica_Jingle_RunTest_Mono() 
+            => PlayMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DEEP_ECHO_TIME);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -43,7 +45,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void DetunicaBass_RunTest()
-            => SaveAudio(() => DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.9);
+            => Play(() => DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.9);
 
         /// <inheritdoc cref="_detunicadocs" />
         [TestMethod]
@@ -51,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica1_RunTest()
-            => SaveAudio(() => DeepEcho(Detunica1(freq: E2, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
+            => Play(() => DeepEcho(Detunica1(freq: E2, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -59,7 +61,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica2_RunTest()
-            => SaveAudio(() => DeepEcho(Detunica2(freq: B4, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
+            => Play(() => DeepEcho(Detunica2(freq: B4, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -67,7 +69,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica3_RunTest()
-            => SaveAudio(() => DeepEcho(Detunica3(freq: C5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
+            => Play(() => DeepEcho(Detunica3(freq: C5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -75,7 +77,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica4_RunTest()
-            => SaveAudio(() => DeepEcho(Detunica4(freq: D5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
+            => Play(() => DeepEcho(Detunica4(freq: D5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
 
         [TestMethod]
         /// <inheritdoc cref="_detunicadocs" />
@@ -83,7 +85,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_detunicadocs" />
         void Detunica5_RunTest()
-            => SaveAudio(() => DeepEcho(Detunica5(freq: E5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
+            => Play(() => DeepEcho(Detunica5(freq: E5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -91,7 +93,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => SaveAudioMono(() => MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
         [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -99,7 +101,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()
-            => SaveAudioMono(() => MildEcho(Vibraphase(freq: E5)), duration: 1 + MILD_ECHO_TIME, volume: 0.5);
+            => PlayMono(() => MildEcho(Vibraphase(freq: E5)), duration: 1 + MILD_ECHO_TIME, volume: 0.5);
 
         #endregion
 

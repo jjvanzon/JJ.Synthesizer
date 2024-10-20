@@ -33,44 +33,44 @@ namespace JJ.Business.Synthesizer.Tests
         public void FM_Jingle() => new FMTests().FM_Jingle_RunTest();
 
         void FM_Jingle_RunTest()
-            => SaveAudioMono(() => DeepEcho(Jingle()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
+            => PlayMono(() => DeepEcho(Jingle()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void FM_Flute_Melody1() => new FMTests().FM_Flute_Melody1_RunTest();
 
         void FM_Flute_Melody1_RunTest()
-            => SaveAudioMono(() => MildEcho(FluteMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(FluteMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Flute_Melody2() => new FMTests().FM_Flute_Melody2_RunTest();
 
         void FM_Flute_Melody2_RunTest()
-            => SaveAudioMono(() => MildEcho(FluteMelody2), volume: 0.3, duration: bars[2.5] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(FluteMelody2), volume: 0.3, duration: bars[2.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Flute1() => new FMTests().FM_Flute1_RunTest();
 
         void FM_Flute1_RunTest()
-            => SaveAudioMono(() => MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         
         [TestMethod]
         public void FM_Flute2() => new FMTests().FM_Flute2_RunTest();
 
         void FM_Flute2_RunTest()
-            => SaveAudioMono(() => MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_Flute3() => new FMTests().FM_Flute3_RunTest();
 
         void FM_Flute3_RunTest()
-            => SaveAudioMono(() => MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_Flute4() => new FMTests().FM_Flute4_RunTest();
 
         void FM_Flute4_RunTest()
-            => SaveAudioMono(() => MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_Organ() => new FMTests().FM_Organ_RunTest();
@@ -79,58 +79,64 @@ namespace JJ.Business.Synthesizer.Tests
             => SaveAudioMono(() => MildEcho(Organ(duration: bars[8])), duration: bars[8] + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
+        public void FM_Organ_Chords() => new FMTests().FM_Organ_Chords_RunTest();
+
+        void FM_Organ_Chords_RunTest()
+            => PlayMono(() => MildEcho(OrganChords), volume: 0.22, duration: bars[8] + MILD_ECHO_TIME);
+
+        [TestMethod]
         public void FM_Pad() => new FMTests().FM_Pad_RunTest();
 
         void FM_Pad_RunTest()
-            => SaveAudioMono(() => MildEcho(Pad()), duration: bars[8] + MILD_ECHO_TIME, volume: 0.2);
+            => PlayMono(() => MildEcho(Pad()), duration: bars[8] + MILD_ECHO_TIME, volume: 0.2);
 
         [TestMethod]
         public void FM_Pad_Chords() => new FMTests().FM_Pad_Chords_RunTest();
 
         void FM_Pad_Chords_RunTest()
-            => SaveAudioMono(() => MildEcho(PadChords), volume: 0.15, duration: bars[8] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(PadChords), volume: 0.15, duration: bars[8] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Trombone() => new FMTests().FM_Trombone_RunTest();
 
         void FM_Trombone_RunTest()
-            => SaveAudioMono(() => MildEcho(Trombone(E2)), volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Trombone(E2)), volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_Horn() => new FMTests().FM_Horn_RunTest();
 
         void FM_Horn_RunTest()
-            => SaveAudioMono(() => MildEcho(Horn(duration: _[1])), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Horn(duration: _[1])), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_Trombone_Melody1() => new FMTests().FM_Trombone_Melody1_RunTest();
 
         void FM_Trombone_Melody1_RunTest()
-            => SaveAudioMono(() => MildEcho(TromboneMelody1), volume: 0.45, duration: bars[4] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(TromboneMelody1), volume: 0.45, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Trombone_Melody2() => new FMTests().FM_Trombone_Melody2_RunTest();
 
         void FM_Trombone_Melody2_RunTest()
-            => SaveAudioMono(() => MildEcho(TromboneMelody2), volume: 0.75, duration: bars[3.5] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(TromboneMelody2), volume: 0.75, duration: bars[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Trombone_Melody3() => new FMTests().FM_Trombone_Melody3_RunTest();
 
         void FM_Trombone_Melody3_RunTest()
-            => SaveAudioMono(() => MildEcho(TromboneMelody3), duration: bars[1.5] + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(TromboneMelody3), duration: bars[1.5] + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_Horn_Melody1() => new FMTests().FM_Horn_Melody1_RunTest();
 
         void FM_Horn_Melody1_RunTest()
-            => SaveAudioMono(() => MildEcho(HornMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(HornMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_Horn_Melody2() => new FMTests().FM_Horn_Melody2_RunTest();
 
         void FM_Horn_Melody2_RunTest()
-            => SaveAudioMono(() => MildEcho(HornMelody2), volume: 0.6, duration: bars[3.5] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(HornMelody2), volume: 0.6, duration: bars[3.5] + MILD_ECHO_TIME);
 
         [TestMethod]
         public void FM_ElectricNote() => new FMTests().FM_ElectricNote_RunTest();
@@ -139,16 +145,10 @@ namespace JJ.Business.Synthesizer.Tests
             => SaveAudioMono(() => MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
-        public void FM_Organ_Chords() => new FMTests().FM_Organ_Chords_RunTest();
-
-        void FM_Organ_Chords_RunTest()
-            => SaveAudioMono(() => MildEcho(OrganChords), volume: 0.22, duration: bars[8] + MILD_ECHO_TIME);
-
-        [TestMethod]
         public void FM_RippleBass() => new FMTests().FM_RippleBass_RunTest();
 
         void FM_RippleBass_RunTest()
-            => SaveAudioMono(() => DeepEcho(RippleBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => DeepEcho(RippleBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_RippleBass_Melody1() => new FMTests().FM_RippleBass_Melody1_RunTest();
@@ -160,31 +160,31 @@ namespace JJ.Business.Synthesizer.Tests
         public void FM_RippleBass_Melody2() => new FMTests().FM_RippleBass_Melody2_RunTest();
 
         void FM_RippleBass_Melody2_RunTest()
-            => SaveAudioMono(() => DeepEcho(RippleBassMelody2), volume: 0.3, duration: bars[4] + DEEP_ECHO_TIME);
+            => PlayMono(() => DeepEcho(RippleBassMelody2), volume: 0.3, duration: bars[4] + DEEP_ECHO_TIME);
 
         [TestMethod]
         public void FM_RippleNote_SharpMetallic() => new FMTests().FM_RippleNote_SharpMetallic_RunTest();
 
         void FM_RippleNote_SharpMetallic_RunTest()
-            => SaveAudioMono(() => DeepEcho(RippleNote_SharpMetallic(duration: _[2.2])), duration: 2.2 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => DeepEcho(RippleNote_SharpMetallic(duration: _[2.2])), duration: 2.2 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_RippleSound_Clean() => new FMTests().FM_RippleSound_Clean_RunTest();
 
         void FM_RippleSound_Clean_RunTest()
-            => SaveAudioMono(() => DeepEcho(RippleSound_Clean(duration: _[4])), duration: 4 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => DeepEcho(RippleSound_Clean(duration: _[4])), duration: 4 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_RippleSound_FantasyEffect() => new FMTests().FM_RippleSound_FantasyEffect_RunTest();
 
         void FM_RippleSound_FantasyEffect_RunTest()
-            => SaveAudioMono(() => DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_RippleSound_CoolDouble() => new FMTests().FM_RippleSound_CoolDouble_RunTest();
 
         void FM_RippleSound_CoolDouble_RunTest()
-            => SaveAudioMono(() => DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_Noise_Beating() => new FMTests().FM_Noise_Beating_RunTest();

@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="Wishes.Helpers.docs._vibrato" />
         void Vibrato_RunTest()
-            => SaveAudioMono(
+            => PlayMono(
                 () => Sine(VibratoOverPitch(A4)),
                 volume: 0.9, duration: 3);
 
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <inheritdoc cref="Wishes.Helpers.docs._tremolo" />
         void Tremolo_RunTest()
-            => SaveAudioMono(
+            => PlayMono(
                 () => Tremolo(Sine(A4), (_[4], _[0.5])),
                 volume: 0.30, duration: 3);
 
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Tests
             double maxValueRight = panned.Calculate(time: 0.25 / freq);
             double minValueRight = panned.Calculate(time: 0.75 / freq);
 
-            SaveAudio(() => Panning(sine, panning), duration: 1);
+            Play(() => Panning(sine, panning), duration: 1);
 
             // Assert
             AssertHelper.AreEqual(0.75,  () => maxValueLeft);
@@ -165,7 +165,7 @@ namespace JJ.Business.Synthesizer.Tests
                 *
             *");
 
-            SaveAudio(() => Panning(sine, panning), duration: 1);
+            Play(() => Panning(sine, panning), duration: 1);
         }
 
         // Panbrello Tests
@@ -176,7 +176,7 @@ namespace JJ.Business.Synthesizer.Tests
         void Panbrello_DefaultSpeedAndDepth_RunTest()
         {
             var sound = Sine(A4);
-            SaveAudio(() => Panbrello(sound));
+            Play(() => Panbrello(sound));
         }
 
         [TestMethod]
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Tests
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
             var sound = Sine(A4);
-            SaveAudio(() => Panbrello(sound, (speed: _[2.0], depth: _[0.75])));
+            Play(() => Panbrello(sound, (speed: _[2.0], depth: _[0.75])));
         }
 
         [TestMethod]
@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Tests
                             *
                                 * *            ");
 
-            SaveAudio(() => Panbrello(sound, (speed, depth)));
+            Play(() => Panbrello(sound, (speed, depth)));
         }
 
         // PitchPan Tests
@@ -286,8 +286,8 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet sound    = Multiply(Sine(A4), envelope);
             Outlet echoes   = EntityFactory.CreateEcho(this, sound, denominator: 1.5, delay: 0.25, count: 16);
 
-            SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
-            SaveAudioMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
+            PlayMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
+            PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
 
             Console.WriteLine();
             Console.WriteLine(echoes.String());
@@ -302,8 +302,8 @@ namespace JJ.Business.Synthesizer.Tests
             Outlet sound = Multiply(Sine(A4), envelope);
             Outlet echoes = EchoAdditive(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
-            SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
-            SaveAudioMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
+            PlayMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
+            PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
             
             Console.WriteLine();
             Console.WriteLine(echoes.String());
@@ -328,10 +328,10 @@ namespace JJ.Business.Synthesizer.Tests
             
             Outlet echoes = EchoAdditive(sound, magnitude, delay, count: 16);
 
-            SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav");
+            PlayMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav");
             SaveAudioMono(() => magnitude, duration: 5,   fileName: Name() + "_Magnitude.wav");
             SaveAudioMono(() => delay,     duration: 5,   fileName: Name() + "_Delay.wav");
-            SaveAudioMono(() => echoes,    duration: 5,   fileName: Name() + "_Output.wav");
+            PlayMono(() => echoes,    duration: 5,   fileName: Name() + "_Output.wav");
         
             Console.WriteLine();
             Console.WriteLine(echoes.String());
@@ -347,8 +347,8 @@ namespace JJ.Business.Synthesizer.Tests
             
             Outlet echoes = EchoFeedBack(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
-            SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
-            SaveAudioMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
+            PlayMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
+            PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
             
             Console.WriteLine();
             Console.WriteLine(echoes.String());
@@ -373,10 +373,10 @@ namespace JJ.Business.Synthesizer.Tests
             
             Outlet echoes = EchoFeedBack(sound, magnitude, delay, count: 16);
 
-            SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav");
+            PlayMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav");
             SaveAudioMono(() => magnitude, duration: 5,   fileName: Name() + "_Magnitude.wav");
             SaveAudioMono(() => delay,     duration: 5,   fileName: Name() + "_Delay.wav");
-            SaveAudioMono(() => echoes,    duration: 5,   fileName: Name() + "_Output.wav");
+            PlayMono(() => echoes,    duration: 5,   fileName: Name() + "_Output.wav");
         
             Console.WriteLine();
             Console.WriteLine(echoes.String());
