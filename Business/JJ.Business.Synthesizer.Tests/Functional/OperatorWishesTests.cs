@@ -290,7 +290,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
 
             Console.WriteLine();
-            Console.WriteLine(echoes.String());
+            Console.WriteLine(echoes.Stringify());
         }
 
         [TestMethod]
@@ -306,7 +306,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
 
             Console.WriteLine();
-            Console.WriteLine(echoes.String());
+            Console.WriteLine(echoes.Stringify());
         }
 
         [TestMethod]
@@ -334,7 +334,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             PlayMono(() => echoes, duration: 5, fileName: Name() + "_Output.wav");
 
             Console.WriteLine();
-            Console.WriteLine(echoes.String());
+            Console.WriteLine(echoes.Stringify());
         }
 
         [TestMethod]
@@ -351,7 +351,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
 
             Console.WriteLine();
-            Console.WriteLine(echoes.String());
+            Console.WriteLine(echoes.Stringify());
         }
 
         [TestMethod]
@@ -379,7 +379,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             PlayMono(() => echoes, duration: 5, fileName: Name() + "_Output.wav");
 
             Console.WriteLine();
-            Console.WriteLine(echoes.String());
+            Console.WriteLine(echoes.Stringify());
         }
     }
 }

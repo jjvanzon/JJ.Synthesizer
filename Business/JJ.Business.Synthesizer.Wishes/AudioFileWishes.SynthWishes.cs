@@ -241,7 +241,7 @@ namespace JJ.Business.Synthesizer.Wishes
             foreach (var channel in channels)
             {
                 Console.WriteLine();
-                Console.WriteLine(channel.String());
+                Console.WriteLine(channel.Stringify());
             }
 
             var result = warnings.ToResult(audioFileOutput);

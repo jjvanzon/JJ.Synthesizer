@@ -52,13 +52,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // String
         
-        public static string String(this Outlet entity)
+        public static string Stringify(this Outlet entity)
             => new OperatorStringifier().StringifyRecursive(entity);
 
-        public static string String(this Operator entity)
+        public static string Stringify(this Operator entity)
             => new OperatorStringifier().StringifyRecursive(entity);
 
-        public static string String(this Inlet entity)
+        public static string Stringify(this Inlet entity)
             => new OperatorStringifier().StringifyRecursive(entity);
 
         // Validation
