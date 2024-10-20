@@ -125,6 +125,7 @@
     <Compile Include="AudioFileWishesTests.cs" />
     <Compile Include="Helpers\CopiedFromFramework.cs" />
     <Compile Include="Helpers\SampleManagerAccessor.cs" />
+    <Compile Include="Helpers\SynthWishesAccessor.cs" />
     <Compile Include="Helpers\WavHeaderStructToAudioFileInfoConverterAccessor.cs" />
     <Compile Include="ThrowTests.cs" />
     <Compile Include="OperatorWishesTests.cs" />

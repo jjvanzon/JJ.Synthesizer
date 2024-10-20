@@ -3,7 +3,6 @@ using System.IO;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
@@ -55,7 +54,8 @@ namespace JJ.Business.Synthesizer.Tests
             ThrowsException(() => GetCurve("Curve"));
 
             // CurveWishes.SynthesizerSugar.GetOrCreateCurveIn Internal_CacheKeyUnresolvableFromContext
-            ThrowsException(() => GetOrCreateCurveIn(null, () => CurveIn(0)));
+            var accessor = new SynthWishesAccessor(this);
+            ThrowsException(() => accessor.GetOrCreateCurveIn(null, () => CurveIn(0)));
 
             // AudioFileWishes.SynthesizerSugar.SaveAudio SpeakerSetupNotSupported
             ThrowsException(() => SaveAudio(() => Sine(), speakerSetupEnum: SpeakerSetupEnum.Undefined));
