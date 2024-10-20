@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 return default;
             }
 
-            var panning = _[0.5];
+            var    panning = _[0.5];
             Outlet panned;
 
             // Act
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double expectedRight = 0.6 * panning; // 0.6 * 0.5 = 0.3
             AssertHelper.AreEqual(expectedLeft,  () => outputLeftValue);
             AssertHelper.AreEqual(expectedRight, () => outputRightValue);
-            
+
             // Diagnostics (get code coverage)
             Channel = Single;
             Assert.IsNull(fixedValues());
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double expectedRightValue = 0.6 * panningValue; // 0.6 * 0.5 = 0.3
             AssertHelper.AreEqual(expectedLeftValue,  () => leftValue);
             AssertHelper.AreEqual(expectedRightValue, () => rightValue);
-            
+
             // Diagnostics (get code coverage)
             Channel = Single;
             Assert.IsNull(TestSignal());
@@ -131,13 +131,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Outlet panned;
 
-            Channel    = Left;
-            panned = Panning(sine, panning);
+            Channel = Left;
+            panned  = Panning(sine, panning);
             double maxValueLeft = panned.Calculate(time: 0.25 / freq);
             double minValueLeft = panned.Calculate(time: 0.75 / freq);
 
-            Channel    = Right;
-            panned = Panning(sine, panning);
+            Channel = Right;
+            panned  = Panning(sine, panning);
             double maxValueRight = panned.Calculate(time: 0.25 / freq);
             double minValueRight = panned.Calculate(time: 0.75 / freq);
 
@@ -283,7 +283,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Echo_Additive_Old_RunTest()
         {
             Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
-            Outlet sound    = Multiply(Sine(A4), envelope);
+            Outlet sound    = Multiply(Sine(G4), envelope);
             Outlet echoes   = EntityFactory.CreateEcho(this, sound, denominator: 1.5, delay: 0.25, count: 16);
 
             PlayMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
@@ -299,12 +299,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Echo_Additive_FixedValues_RunTest()
         {
             Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
-            Outlet sound = Multiply(Sine(A4), envelope);
-            Outlet echoes = EchoAdditive(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
+            Outlet sound    = Multiply(Sine(B4), envelope);
+            Outlet echoes   = EchoAdditive(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
             PlayMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
-            
+
             Console.WriteLine();
             Console.WriteLine(echoes.String());
         }
@@ -315,24 +315,24 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Echo_Additive_DynamicParameters_RunTest()
         {
             Outlet envelope = CurveIn("Volume Curve", (0, 1), (0.2, 0));
-            Outlet sound    = Multiply(Sine(A4), envelope);
-            
-            Outlet magnitude = CurveIn("Magnitude Curve", 
-                                       (0.0, 0.66), 
-                                       (0.5, 0.90), 
-                                       (3.0, 1.00), 
-                                       (4.0, 0.80), 
+            Outlet sound    = Multiply(Sine(D5), envelope);
+
+            Outlet magnitude = CurveIn("Magnitude Curve",
+                                       (0.0, 0.66),
+                                       (0.5, 0.90),
+                                       (3.0, 1.00),
+                                       (4.0, 0.80),
                                        (5.0, 0.25));
-            
-            Outlet delay   = CurveIn("Delay Curve", (0, 0.25), (4, 0.35));
-            
+
+            Outlet delay = CurveIn("Delay Curve", (0, 0.25), (4, 0.35));
+
             Outlet echoes = EchoAdditive(sound, magnitude, delay, count: 16);
 
-            PlayMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav");
-            SaveAudioMono(() => magnitude, duration: 5,   fileName: Name() + "_Magnitude.wav");
-            SaveAudioMono(() => delay,     duration: 5,   fileName: Name() + "_Delay.wav");
-            PlayMono(() => echoes,    duration: 5,   fileName: Name() + "_Output.wav");
-        
+            PlayMono(() => sound, duration: 0.2, fileName: Name() + "_Input.wav");
+            SaveAudioMono(() => magnitude, duration: 5, fileName: Name() + "_Magnitude.wav");
+            SaveAudioMono(() => delay,     duration: 5, fileName: Name() + "_Delay.wav");
+            PlayMono(() => echoes, duration: 5, fileName: Name() + "_Output.wav");
+
             Console.WriteLine();
             Console.WriteLine(echoes.String());
         }
@@ -343,41 +343,41 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Echo_FeedBack_FixedValues_RunTest()
         {
             Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
-            Outlet sound = Multiply(Sine(A4), envelope);
-            
+            Outlet sound    = Multiply(Sine(F5), envelope);
+
             Outlet echoes = EchoFeedBack(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
             PlayMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
-            
+
             Console.WriteLine();
             Console.WriteLine(echoes.String());
         }
-        
+
         [TestMethod]
         public void Test_Echo_FeedBack_DynamicParameters() => new OperatorWishesTests().Echo_FeedBack_DynamicParameters_RunTest();
 
         void Echo_FeedBack_DynamicParameters_RunTest()
         {
             Outlet envelope = CurveIn("Volume Curve", (0, 1), (0.2, 0));
-            Outlet sound    = Multiply(Sine(A4), envelope);
-            
-            Outlet magnitude = CurveIn("Magnitude Curve", 
-                                       (0.0, 0.66), 
-                                       (0.5, 0.90), 
-                                       (3.0, 1.00), 
-                                       (4.0, 0.80), 
+            Outlet sound    = Multiply(Sine(D5), envelope);
+
+            Outlet magnitude = CurveIn("Magnitude Curve",
+                                       (0.0, 0.66),
+                                       (0.5, 0.90),
+                                       (3.0, 1.00),
+                                       (4.0, 0.80),
                                        (5.0, 0.25));
-            
-            Outlet delay   = CurveIn("Delay Curve", (0, 0.25), (4, 0.35));
-            
+
+            Outlet delay = CurveIn("Delay Curve", (0, 0.25), (4, 0.35));
+
             Outlet echoes = EchoFeedBack(sound, magnitude, delay, count: 16);
 
-            PlayMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav");
-            SaveAudioMono(() => magnitude, duration: 5,   fileName: Name() + "_Magnitude.wav");
-            SaveAudioMono(() => delay,     duration: 5,   fileName: Name() + "_Delay.wav");
-            PlayMono(() => echoes,    duration: 5,   fileName: Name() + "_Output.wav");
-        
+            PlayMono(() => sound, duration: 0.2, fileName: Name() + "_Input.wav");
+            SaveAudioMono(() => magnitude, duration: 5, fileName: Name() + "_Magnitude.wav");
+            SaveAudioMono(() => delay,     duration: 5, fileName: Name() + "_Delay.wav");
+            PlayMono(() => echoes, duration: 5, fileName: Name() + "_Output.wav");
+
             Console.WriteLine();
             Console.WriteLine(echoes.String());
         }
