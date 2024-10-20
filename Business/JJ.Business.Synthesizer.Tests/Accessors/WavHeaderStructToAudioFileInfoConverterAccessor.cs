@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Framework.Reflection;
 
-namespace JJ.Business.Synthesizer.Tests.Helpers
+namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal static class WavHeaderStructToAudioFileInfoConverterAccessor
     {

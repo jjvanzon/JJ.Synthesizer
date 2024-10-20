@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
 
-namespace JJ.Business.Synthesizer.Tests.Helpers
+namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class SynthWishesAccessor
     {

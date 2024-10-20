@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 
-namespace JJ.Business.Synthesizer.Tests.Helpers
+namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class SampleManagerAccessor
     {
