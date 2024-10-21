@@ -15,6 +15,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+// ReSharper disable InvokeAsExtensionMethod
 
 // ReSharper disable once PossibleLossOfFraction
 
@@ -157,7 +158,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int GetBits(this SampleDataType enumEntity)
         {
             if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return ToEnum(enumEntity).GetBits();
+            return EnumWishes.ToEnum(enumEntity).GetBits();
         }
 
         public static int GetBits(this WavHeaderStruct wavHeader)
@@ -267,7 +268,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this AudioFileFormat enumEntity) 
-            => ToEnum(enumEntity).GetFileExtension();
+            => EnumWishes.ToEnum(enumEntity).GetFileExtension();
 
         /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this WavHeaderStruct wavHeader) 
@@ -320,7 +321,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
                 
         public static double GetMaxAmplitude(this SampleDataType enumEntity) 
-            => ToEnum(enumEntity).GetMaxAmplitude();
+            => EnumWishes.ToEnum(enumEntity).GetMaxAmplitude();
 
         public static double GetMaxAmplitude(this Sample entity)
         {
@@ -366,7 +367,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this AudioFileFormat enumEntity) 
-            => ToEnum(enumEntity).GetHeaderLength();
+            => EnumWishes.ToEnum(enumEntity).GetHeaderLength();
 
         /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this WavHeaderStruct wavHeader)
@@ -405,32 +406,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetHeaderLength(entity.AudioFileOutput);
-        }
-
-        // Enums
-        
-        public static SampleDataTypeEnum ToEnum(this SampleDataType entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return (SampleDataTypeEnum)entity.ID;
-        }
-
-        public static AudioFileFormatEnum ToEnum(this AudioFileFormat entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return (AudioFileFormatEnum)entity.ID;
-        }
-
-        public static SpeakerSetupEnum ToEnum(this SpeakerSetup entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return (SpeakerSetupEnum)entity.ID;
-        }
-
-        public static InterpolationTypeEnum ToEnum(this InterpolationType entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return (InterpolationTypeEnum)entity.ID;
         }
         
         // Helpers
