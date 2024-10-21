@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="CurveWishes.Extensions.cs" />
     <Compile Include="AudioFileInfoWish.cs" />
-    <Compile Include="EnumWishes.cs" />
+    <Compile Include="EnumWishes.Extensions.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\ConfigSection.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
