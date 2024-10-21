@@ -230,5 +230,11 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         /// <returns> Length of a file header in bytes. </returns>
         public object _headerLength;
+
+        /// <summary> Adds two <see cref="Outlet"/> operands, optimizing for constant values if possible. </summary>
+        public object _add;
+
+        /// <summary> Multiplies two <see cref="Outlet"/> operands, optimizing for constant values if possible. </summary>
+        public object _multiply;
     }
 }

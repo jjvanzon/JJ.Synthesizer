@@ -332,9 +332,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Outlet Echo(
             this OperatorFactory x, Outlet signal,
             Outlet magnitude = null, Outlet delay = null, int count = 8)
-            => EchoAdditive(x, signal, magnitude, delay, count);
+            => EchoFeedBack(x, signal, magnitude, delay, count);
         
-        internal static Outlet EchoAdditive(
+        public static Outlet EchoAdditive(
             this OperatorFactory x, Outlet signal,
             Outlet magnitude = null, Outlet delay = null, int count = 8)
         {
@@ -350,8 +350,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 
                 repeats.Add(timeAdd);
 
-                cumulativeMagnitude = x.OptimizedMultiply(cumulativeMagnitude, magnitude);
-                cumulativeDelay     = x.OptimizedAdd(cumulativeDelay, delay);
+                cumulativeMagnitude = Multiply(x, cumulativeMagnitude, magnitude);
+                cumulativeDelay     = Add(x, cumulativeDelay, delay);
             }
 
             Adder adder = x.Adder(repeats);
@@ -366,7 +366,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// this optimization is currently ineffective. Future versions may improve on this.
         /// Keeping it in here just to have an optimization option for later.
         /// </summary>
-        internal static Outlet EchoFeedBack(
+        public static Outlet EchoFeedBack(
             this OperatorFactory x, Outlet signal,
             Outlet magnitude = null, Outlet delay = null, int count = 8)
         {
@@ -388,17 +388,35 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 cumulativeSignal = x.Add(cumulativeSignal, shifted);
                 
-                cumulativeMagnitude = x.OptimizedMultiply(cumulativeMagnitude, cumulativeMagnitude);
-                cumulativeDelay = x.OptimizedAdd(cumulativeDelay, cumulativeDelay);
+                cumulativeMagnitude = Multiply(x, cumulativeMagnitude, cumulativeMagnitude);
+                cumulativeDelay = Add(x, cumulativeDelay, cumulativeDelay);
             }
 
             return cumulativeSignal;
         }
 
         // Helpers
+
+        /// <inheritdoc cref="docs._add"/>
+        public static Outlet Add(this OperatorFactory x, Outlet operandA, Outlet operandB)
+        {
+            operandA = operandA ?? x.Value(1);
+            operandB = operandB ?? x.Value(1);
+
+            double? constOperandA = operandA.AsConst();
+            double? constOperandB = operandB.AsConst();
+            
+            if (constOperandA != null && constOperandB != null)
+            {
+                double multiplied = constOperandA.Value + constOperandB.Value;
+                return x.Value(multiplied);
+            }
+
+            return x.Add(operandA, operandB);
+        }
         
-        /// <summary> Multiplies two <see cref="Outlet"/> operands, optimizing for constant values if possible. </summary>
-        internal static Outlet OptimizedMultiply(this OperatorFactory x, Outlet operandA, Outlet operandB, Outlet origin = null)
+        /// <inheritdoc cref="docs._multiply"/>
+        public static Outlet Multiply(this OperatorFactory x, Outlet operandA, Outlet operandB, Outlet origin = null)
         {
             operandA = operandA ?? x.Value(1);
             operandB = operandB ?? x.Value(1);
@@ -416,24 +434,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             return x.Multiply(operandA, operandB, origin);
-        }
-
-        /// <summary> Adds two <see cref="Outlet"/> operands, optimizing for constant values if possible. </summary>
-        internal static Outlet OptimizedAdd(this OperatorFactory x, Outlet operandA, Outlet operandB)
-        {
-            operandA = operandA ?? x.Value(1);
-            operandB = operandB ?? x.Value(1);
-
-            double? constOperandA = operandA.AsConst();
-            double? constOperandB = operandB.AsConst();
-            
-            if (constOperandA != null && constOperandB != null)
-            {
-                double multiplied = constOperandA.Value + constOperandB.Value;
-                return x.Value(multiplied);
-            }
-
-            return x.Add(operandA, operandB);
         }
 
         /// <summary>

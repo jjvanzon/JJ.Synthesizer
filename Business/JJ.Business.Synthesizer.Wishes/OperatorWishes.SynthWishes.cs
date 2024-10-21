@@ -19,10 +19,17 @@ namespace JJ.Business.Synthesizer.Wishes
         public ChannelEnum Channel { get; set; }
 
         // Redefine extensions methods here, or they don't show up in case of inheritance.
-        
+
+        /// <inheritdoc cref="docs._add"/>
+        public new Outlet Add(Outlet operandA, Outlet operandB)
+            => OperatorExtensionsWishes.Add(this, operandA, operandB);
+
+        /// <inheritdoc cref="docs._multiply"/>
+        public new Outlet Multiply(Outlet operandA, Outlet operandB, Outlet origin)
+            => OperatorExtensionsWishes.Multiply(this, operandA, operandB, origin);
+
         /// <inheritdoc cref="docs._default" />
-        public Outlet Stretch(
-            Outlet signal, Outlet timeFactor)
+        public Outlet Stretch(Outlet signal, Outlet timeFactor)
             => OperatorExtensionsWishes.Stretch(this, signal, timeFactor);
 
         /// <inheritdoc cref="docs._sine" />
