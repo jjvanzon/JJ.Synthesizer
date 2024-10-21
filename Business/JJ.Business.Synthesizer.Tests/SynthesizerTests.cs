@@ -58,6 +58,8 @@ namespace JJ.Business.Synthesizer.Tests
 
                 IValidator validator2 = new RecursiveOperatorValidator(substract.Operator);
                 IValidator warningValidator = new RecursiveOperatorWarningValidator(substract.Operator);
+            
+                CultureHelper.SetThreadCulture("en-US");
             }
         }
 
@@ -231,6 +233,8 @@ namespace JJ.Business.Synthesizer.Tests
                     calculator.CalculateValue(sine, 1.00)
                 };
             }
+            
+            CultureHelper.SetThreadCulture("en-US");
         }
 
         [TestMethod]
