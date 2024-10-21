@@ -22,26 +22,6 @@ namespace JJ.Business.Synthesizer.Wishes
     /// </summary>
     public static class OperatorExtensionsWishes
     {
-        // IsConst
-
-        /// <inheritdoc cref="docs._asconst"/>
-        public static double? AsConst(this Inlet inlet) => inlet?.Input?.AsConst();
-
-        /// <inheritdoc cref="docs._asconst"/>
-        public static double? AsConst(this Outlet outlet) => outlet?.Operator?.AsConst();
-
-        /// <inheritdoc cref="docs._asconst"/>
-        public static double? AsConst(this Operator op) => op?.AsValueOperator?.Value;
-
-        /// <inheritdoc cref="docs._asconst"/>
-        public static bool IsConst(this Inlet inlet) => inlet?.AsConst() != null;
-
-        /// <inheritdoc cref="docs._asconst"/>
-        public static bool IsConst(this Outlet outlet) => outlet?.AsConst() != null;
-
-        /// <inheritdoc cref="docs._asconst"/>
-        public static bool IsConst(this Operator op) => op?.AsConst() != null;
-
         // Calculate
 
         public static double Calculate(this Outlet outlet, double time, int channelIndex = 0)
@@ -109,29 +89,96 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetWarnings(entity.Operator, recursive);
         }
 
+        // IsConst
+
+        /// <inheritdoc cref="docs._asconst"/>
+        public static double? AsConst(this Inlet inlet) => inlet?.Input?.AsConst();
+
+        /// <inheritdoc cref="docs._asconst"/>
+        public static double? AsConst(this Outlet outlet) => outlet?.Operator?.AsConst();
+
+        /// <inheritdoc cref="docs._asconst"/>
+        public static double? AsConst(this Operator op) => op?.AsValueOperator?.Value;
+
+        /// <inheritdoc cref="docs._asconst"/>
+        public static bool IsConst(this Inlet inlet) => inlet?.AsConst() != null;
+
+        /// <inheritdoc cref="docs._asconst"/>
+        public static bool IsConst(this Outlet outlet) => outlet?.AsConst() != null;
+
+        /// <inheritdoc cref="docs._asconst"/>
+        public static bool IsConst(this Operator op) => op?.AsConst() != null;
+
         // Operators
+        
+        public static bool IsAdd(this Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            return IsAdd(outlet.Operator);
+        }
+
+        public static bool IsAdd(this Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            return string.Equals(op.OperatorTypeName, nameof(Add), StringComparison.Ordinal);
+        }
 
         /// <inheritdoc cref="docs._add"/>
         public static Outlet Add(this OperatorFactory x, Outlet operandA, Outlet operandB)
         {
-            operandA = operandA ?? x.Value(1);
-            operandB = operandB ?? x.Value(1);
+            if (x == null) throw new ArgumentNullException(nameof(x));
+            
+            operandA = operandA ?? x.Value(0);
+            operandB = operandB ?? x.Value(0);
 
             double? constOperandA = operandA.AsConst();
             double? constOperandB = operandB.AsConst();
 
+            // Consts
             if (constOperandA != null && constOperandB != null)
             {
                 double multiplied = constOperandA.Value + constOperandB.Value;
                 return x.Value(multiplied);
             }
+            
+            // Identity 0
+            if (constOperandA == 0)
+            {
+                return operandB;
+            }
 
+            if (constOperandB == 0)
+            {
+                return operandA;
+            }
+
+            // Summation
+            if (IsAdd(operandA) && IsAdd(operandB))
+            {
+                var addA = new Add(operandA.Operator);
+                var addB = new Add(operandB.Operator);
+                return Sum(x, addA.OperandA, addA.OperandB, addB.OperandA, addB.OperandB);
+            }
+            if (IsAdd(operandA))
+            {
+                var addA = new Add(operandA.Operator);
+                return Sum(x, addA.OperandA, addA.OperandB, operandB);
+            }
+            if (IsAdd(operandB))
+            {
+                var addB = new Add(operandB.Operator);
+                return Sum(x, operandA, addB.OperandA, addB.OperandB);
+            }
+
+            // Normal Addition
             return x.Add(operandA, operandB);
         }
 
         /// <inheritdoc cref="docs._multiply"/>
         public static Outlet Multiply(this OperatorFactory x, Outlet operandA, Outlet operandB, Outlet origin = null)
         {
+            if (x == null) throw new ArgumentNullException(nameof(x));
+            
             operandA = operandA ?? x.Value(1);
             operandB = operandB ?? x.Value(1);
 
@@ -140,28 +187,76 @@ namespace JJ.Business.Synthesizer.Wishes
                 double? constOperandA = operandA.AsConst();
                 double? constOperandB = operandB.AsConst();
 
+                // Const
                 if (constOperandA != null && constOperandB != null)
                 {
                     double multiplied = constOperandA.Value * constOperandB.Value;
                     return x.Value(multiplied);
+                }
+
+                // Identity 1
+                if (constOperandA == 1)
+                {
+                    return operandB;
+                }
+
+                if (constOperandB == 1)
+                {
+                    return operandA;
                 }
             }
 
             return x.Multiply(operandA, operandB, origin);
         }
 
-        /// <inheritdoc cref="docs._sum"/>
-        public static Adder Sum(this OperatorFactory x, params Outlet[] operands)
+        public static bool IsSum(this Outlet operand)
         {
-            if (x == null) throw new ArgumentNullException(nameof(x));
-            return x.Adder(operands);
+            if (operand == null) throw new ArgumentNullException(nameof(operand));
+            return IsSum(operand.Operator);
+        }
+
+        public static bool IsSum(this Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            return string.Equals(op.OperatorTypeName, nameof(Adder), StringComparison.Ordinal);
         }
 
         /// <inheritdoc cref="docs._sum"/>
-        public static Adder Sum(this OperatorFactory x, IList<Outlet> operands)
+        public static Outlet Sum(this OperatorFactory x, params Outlet[] operands)
+        {
+            return Sum(x, (IList<Outlet>)operands);
+        }
+
+        /// <inheritdoc cref="docs._sum"/>
+        public static Outlet Sum(this OperatorFactory x, IList<Outlet> operands)
         {
             if (x == null) throw new ArgumentNullException(nameof(x));
-            return x.Adder(operands);
+            if (operands == null) throw new ArgumentNullException(nameof(operands));
+            
+            // Flatten Nested Sums
+            var unNestedOperands = new List<Outlet>();
+            
+            foreach (Outlet operand in operands)
+            {
+                if (IsSum(operand))
+                {
+                    var nestedAdder = new Adder(operand.Operator);
+                    unNestedOperands.AddRange(nestedAdder.Operands);
+                }
+                else
+                {
+                    unNestedOperands.Add(operand);
+                }
+            }
+
+            // Simple Add for 2 Operands
+            if (unNestedOperands.Count == 2)
+            {
+                return Add(x, unNestedOperands[0], unNestedOperands[1]);
+            }
+
+            // Make Normal Adder
+            return x.Adder(unNestedOperands);
         }
 
         /// <inheritdoc cref="docs._default" />
@@ -194,7 +289,7 @@ namespace JJ.Business.Synthesizer.Wishes
             bool volumeFilledIn = volume != null && volume.AsConst() != 1;
             
             if (delayFilledIn) sound = x.TimeAdd(sound, delay);
-            if (volumeFilledIn) sound = x.Multiply(sound, volume);
+            if (volumeFilledIn) sound = Multiply(x, sound, volume);
 
             return sound;
         }
@@ -209,7 +304,7 @@ namespace JJ.Business.Synthesizer.Wishes
             vibrato.speed = vibrato.speed ?? x.Value(5.5);
             vibrato.depth = vibrato.depth ?? x.Value(0.0005);
 
-            return x.Multiply(freq, x.Add(x.Value(1), x.Sine(vibrato.depth, vibrato.speed)));
+            return Multiply(x, freq, Add(x, x.Value(1), x.Sine(vibrato.depth, vibrato.speed)));
         }
 
         /// <inheritdoc cref="docs._tremolo" />
@@ -222,7 +317,7 @@ namespace JJ.Business.Synthesizer.Wishes
             tremolo.speed = tremolo.speed ?? x.Value(8);
             tremolo.depth = tremolo.depth ?? x.Value(0.33);
 
-            return x.Multiply(sound, x.Add(x.Sine(tremolo.depth, tremolo.speed), x.Value(1)));
+            return Multiply(x, sound, Add(x, x.Sine(tremolo.depth, tremolo.speed), x.Value(1)));
         }
 
         // Panning
@@ -246,8 +341,8 @@ namespace JJ.Business.Synthesizer.Wishes
             switch (channel)
             {
                 case ChannelEnum.Single: return sound;
-                case ChannelEnum.Left:   return x.Multiply(sound, x.Substract(x.Value(1), panning));
-                case ChannelEnum.Right:  return x.Multiply(sound, panning);
+                case ChannelEnum.Left:   return Multiply(x, sound, x.Substract(x.Value(1), panning));
+                case ChannelEnum.Right:  return Multiply(x, sound, panning);
 
                 default: throw new ValueNotSupportedException(channel);
             }
@@ -266,8 +361,8 @@ namespace JJ.Business.Synthesizer.Wishes
             switch (channel)
             {
                 case ChannelEnum.Single: return sound;
-                case ChannelEnum.Left:   return x.Multiply(sound, x.Value(1 - panning));
-                case ChannelEnum.Right:  return x.Multiply(sound, x.Value(panning));
+                case ChannelEnum.Left:   return Multiply(x, sound, x.Value(1 - panning));
+                case ChannelEnum.Right:  return Multiply(x, sound, x.Value(panning));
 
                 default: throw new ValueNotSupportedException(channel);
             }
@@ -289,8 +384,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // 0.5 is in the middle. 0 is left, 1 is right.
             var sine      = x.Sine(panbrello.depth, panbrello.speed); // [-1,+1]
-            var halfSine  = x.Multiply(x.Value(0.5), sine); // [-0.5,+0.5]
-            var zeroToOne = x.Add(x.Value(0.5), halfSine); // [0,1]
+            var halfSine  = Multiply(x, x.Value(0.5), sine); // [-0.5,+0.5]
+            var zeroToOne = Add(x, x.Value(0.5), halfSine); // [0,1]
 
             return x.Panning(sound, zeroToOne, channel);
         }
@@ -337,13 +432,13 @@ namespace JJ.Business.Synthesizer.Wishes
             var referenceInterval = x.Divide(referenceFrequency, centerFrequency);
             var actualInterval    = x.Divide(actualFrequency,    centerFrequency);
 
-            var factor = x.Multiply(actualInterval, referenceInterval);
+            var factor = Multiply(x, actualInterval, referenceInterval);
 
             // Calculate panning deviation
-            //var newPanningDeviation = x.Multiply(x.Substract(referencePanning, centerPanning), factor);
+            //var newPanningDeviation = Multiply(x, x.Substract(referencePanning, centerPanning), factor);
             // AI's correction:
-            var newPanningDeviation = x.Multiply(x.Substract(referencePanning, centerPanning), x.Substract(factor, x.Value(1)));
-            var newPanning          = x.Add(centerPanning, newPanningDeviation);
+            var newPanningDeviation = Multiply(x, x.Substract(referencePanning, centerPanning), x.Substract(factor, x.Value(1)));
+            var newPanning          = Add(x, centerPanning, newPanningDeviation);
 
             return newPanning;
         }
@@ -398,7 +493,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             for (int i = 0; i < count; i++)
             {
-                Outlet divide  = x.Multiply(signal, cumulativeMagnitude);
+                Outlet divide  = Multiply(x, signal, cumulativeMagnitude);
                 Outlet timeAdd = x.TimeAdd(divide, cumulativeDelay);
                 
                 repeats.Add(timeAdd);
@@ -407,7 +502,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay     = Add(x, cumulativeDelay, delay);
             }
 
-            Adder adder = x.Adder(repeats);
+            var adder = Sum(x, repeats);
             return adder;
         }
 
@@ -436,10 +531,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
             for (int i = 0; i < loopCount; i++)
             {
-                Outlet quieter = x.Multiply(cumulativeSignal, cumulativeMagnitude);
+                Outlet quieter = Multiply(x, cumulativeSignal, cumulativeMagnitude);
                 Outlet shifted = x.TimeAdd(quieter, cumulativeDelay);
 
-                cumulativeSignal = x.Add(cumulativeSignal, shifted);
+                cumulativeSignal = Add(x, cumulativeSignal, shifted);
                 
                 cumulativeMagnitude = Multiply(x, cumulativeMagnitude, cumulativeMagnitude);
                 cumulativeDelay = Add(x, cumulativeDelay, cumulativeDelay);
