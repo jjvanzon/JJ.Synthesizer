@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Persistence.Synthesizer;
 
-
 namespace JJ.Business.Synthesizer.Wishes
 {
     public static class CurveExtensionWishes

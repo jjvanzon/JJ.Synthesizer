@@ -22,9 +22,14 @@ namespace JJ.Business.Synthesizer
             return ContextFactory.CreateContextFromConfiguration(_config);
         }
 
-        public static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context)
+        /// <summary>
+        /// Creates a new repository, of the given interface type TInterface.
+        /// If the context isn't provided, a brand new one is created, based on the settings from the config file.
+        /// Depending on the use-case, creating a new context like that each time can be problematic.
+        /// </summary>
+        public static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context = null)
         {
-            return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context, _config);
+            return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context ?? CreateContext(), _config);
         }
 
         // Defaults for Optional Config

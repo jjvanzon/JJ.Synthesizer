@@ -15,8 +15,8 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-// ReSharper disable InvokeAsExtensionMethod
 
+// ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable once PossibleLossOfFraction
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -56,42 +56,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static IList<string> GetWarnings(this AudioFileOutput audioFileOutput)
             => new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text).ToList();
-
-        // Conversions
-
-        public static SpeakerSetupEnum GetSpeakerSetupEnum(this int channelCount)
-        {
-            switch (channelCount)
-            {
-                case 1: return SpeakerSetupEnum.Mono;
-                case 2: return SpeakerSetupEnum.Stereo;
-                default: throw new ValueNotSupportedException(channelCount);
-            }
-        }
-
-        public static int GetChannelCount(this SpeakerSetupEnum speakerSetupEnum)
-        {
-            switch (speakerSetupEnum)
-            {
-                case SpeakerSetupEnum.Mono: return 1;
-                case SpeakerSetupEnum.Stereo: return 2;
-                default: throw new ValueNotSupportedException(speakerSetupEnum);
-            }
-        }
-
-        public static SampleDataTypeEnum GetSampleDataTypeEnum<TSampleDataType>()
-        {
-            if (typeof(TSampleDataType) == typeof(short)) return SampleDataTypeEnum.Int16;
-            if (typeof(TSampleDataType) == typeof(byte)) return SampleDataTypeEnum.Byte;
-            throw new ValueNotSupportedException(typeof(TSampleDataType));
-        }
-
-        public static int GetChannelIndex(this ChannelEnum channelEnum, IContext context = null)
-        {
-            IChannelRepository channelRepository = CreateRepository<IChannelRepository>(context);
-            Channel channel = channelRepository.Get((int)channelEnum);
-            return channel.Index;
-        }
 
         // Derived Fields
 
@@ -158,7 +122,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int GetBits(this SampleDataType enumEntity)
         {
             if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return EnumWishes.ToEnum(enumEntity).GetBits();
+            return EntityToEnumWishes.ToEnum(enumEntity).GetBits();
         }
 
         public static int GetBits(this WavHeaderStruct wavHeader)
@@ -268,7 +232,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this AudioFileFormat enumEntity) 
-            => EnumWishes.ToEnum(enumEntity).GetFileExtension();
+            => EntityToEnumWishes.ToEnum(enumEntity).GetFileExtension();
 
         /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this WavHeaderStruct wavHeader) 
@@ -321,7 +285,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
                 
         public static double GetMaxAmplitude(this SampleDataType enumEntity) 
-            => EnumWishes.ToEnum(enumEntity).GetMaxAmplitude();
+            => EntityToEnumWishes.ToEnum(enumEntity).GetMaxAmplitude();
 
         public static double GetMaxAmplitude(this Sample entity)
         {
@@ -367,7 +331,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this AudioFileFormat enumEntity) 
-            => EnumWishes.ToEnum(enumEntity).GetHeaderLength();
+            => EntityToEnumWishes.ToEnum(enumEntity).GetHeaderLength();
 
         /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this WavHeaderStruct wavHeader)
@@ -407,15 +371,5 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetHeaderLength(entity.AudioFileOutput);
         }
-        
-        // Helpers
-        
-        /// <summary>
-        /// Creates a new repository, of the given interface type TInterface.
-        /// If the context isn't provided, a brand new one is created, based on the settings from the config file.
-        /// Depending on the use-case, creating a new context like that each time can be problematic.
-        /// </summary>
-        private static TInterface CreateRepository<TInterface>(IContext context = null) 
-            => PersistenceHelper.CreateRepository<TInterface>(context ?? PersistenceHelper.CreateContext());
     }
 }

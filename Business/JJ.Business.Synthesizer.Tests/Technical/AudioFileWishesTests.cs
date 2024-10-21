@@ -64,10 +64,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // 16-Bit Helpers
-            AreEqual(Int16, () => AudioFileExtensionWishes.GetSampleDataTypeEnum<short>());
+            AreEqual(Int16, () => SpecialEnumWishes.GetSampleDataTypeEnum<short>());
 
             // 8-Bit Helpers
-            AreEqual(Byte, () => AudioFileExtensionWishes.GetSampleDataTypeEnum<byte>());
+            AreEqual(Byte, () => SpecialEnumWishes.GetSampleDataTypeEnum<byte>());
         }
     }
 }
