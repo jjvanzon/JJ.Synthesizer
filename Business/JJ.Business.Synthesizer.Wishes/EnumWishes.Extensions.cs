@@ -726,38 +726,42 @@ namespace JJ.Business.Synthesizer.Wishes
         // SpeakerSetupChannel by ChannelEnum
 
         public static SpeakerSetupChannel TryGetSpeakerSetupChannel(
-            this SpeakerSetup speakerSetup, ChannelEnum channel, IContext context = null)
-            => TryGetSpeakerSetupChannel(speakerSetup, channel.ToEntity(context));
-        
-        public static SpeakerSetupChannel GetSpeakerSetupChannel(
-            this SpeakerSetup speakerSetup, ChannelEnum channel, IContext context = null)
-            => GetSpeakerSetupChannel(speakerSetup, channel.ToEntity(context));
+            this SpeakerSetup speakerSetup, Channel channel)
+        {
+            if (channel == null) throw new ArgumentNullException(nameof(channel));
+            return TryGetSpeakerSetupChannel(speakerSetup, channel.ToEnum());
+        }
 
         public static SpeakerSetupChannel GetSpeakerSetupChannel(
-            this SpeakerSetup parent, Channel channel)
+            this SpeakerSetup speakerSetup, Channel channel)
+        {
+            if (channel == null) throw new ArgumentNullException(nameof(channel));
+            return GetSpeakerSetupChannel(speakerSetup, channel.ToEnum());
+        }
+
+        public static SpeakerSetupChannel GetSpeakerSetupChannel(
+            this SpeakerSetup parent, ChannelEnum channelEnum)
         {
             if (parent == null) throw new ArgumentNullException(nameof(parent));
-            if (channel == null) throw new ArgumentNullException(nameof(channel));
 
-            SpeakerSetupChannel child = TryGetSpeakerSetupChannel(parent, channel);
+            SpeakerSetupChannel child = TryGetSpeakerSetupChannel(parent, channelEnum);
 
             if (child == null)
             {
                 throw new Exception($"{nameof(SpeakerSetupChannel)} not found for "+
-                                    $"{nameof(channel)} '{channel.ToEnum()}'.");
+                                    $"{nameof(channelEnum)} '{channelEnum}'.");
             }
 
             return child;
         }
         
         public static SpeakerSetupChannel TryGetSpeakerSetupChannel(
-            this SpeakerSetup parent, Channel channel)
+            this SpeakerSetup parent, ChannelEnum channelEnum)
         {
             if (parent == null) throw new ArgumentNullException(nameof(parent));
-            if (channel == null) throw new ArgumentNullException(nameof(channel));
 
             var children = parent.SpeakerSetupChannels
-                                 .Where(x => x.Channel?.ID == channel.ID)
+                                 .Where(x => x.Channel?.ToEnum() == channelEnum)
                                  .ToArray();
             
             switch (children.Length)
@@ -766,7 +770,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 case 0: return null;
                 default:
                     throw new Exception($"Multiple {nameof(SpeakerSetupChannel)}s not found with " +
-                                        $"{nameof(channel)} '{channel.ToEnum()}'.");
+                                        $"{nameof(channelEnum)} '{channelEnum}'.");
             }
         }
 
@@ -812,12 +816,6 @@ namespace JJ.Business.Synthesizer.Wishes
                                         $"{nameof(channel)} '{channel.ToEnum()}'.");
             }
         }
-
-        // TODO: Add extensions:
-        //speakerSetup.GetChannel(ChannelEnum.Left);
-        //audioFileOutput.GetChannel(ChannelEnum.Right);
-        //speakerSetup.GetChannel(index)
-        //audioFileOutput.GetChannel(index)
         
         // SetNodeTypeEnum for whole Curve
 
