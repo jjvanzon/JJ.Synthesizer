@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Wishes
             fileName = ResolveFileName(fileName, audioFileFormatEnum, callerMemberName);
 
             WriteLine();
-            WriteLine(GetPrettyTitle(fileName));
+            WriteLine(NameHelper.GetPrettyTitle(fileName));
             
             // Validate Input Data
             var warnings = new List<string>();
@@ -255,30 +255,13 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private void PlayAudioConditionally(AudioFileOutput audioFileOutput)
         {
-            if (!ConfigHelper.PlayAudioEnabled)
+            if (ToolingHelper.PlayAudioAllowed(audioFileOutput.GetFileExtension()))
             {
-                return;
-            }
+                WriteLine("Playing audio...");
+                WriteLine();
 
-            if (IsRunningInNCrunch && !ConfigHelper.NCrunch.PlayAudioEnabled)
-            {
-                return;
+                new SoundPlayer(audioFileOutput.FilePath).PlaySync();
             }
-
-            if (IsRunningInAzurePipelines && !ConfigHelper.AzurePipelines.PlayAudioEnabled)
-            {
-                return;
-            }
-
-            if (audioFileOutput.GetAudioFileFormatEnum() != AudioFileFormatEnum.Wav)
-            {
-                return;
-            }
-
-            WriteLine("Playing audio...");
-            WriteLine();
-            
-            new SoundPlayer(audioFileOutput.FilePath).PlaySync();
         }
 
         private string ResolveFileName(string fileName, AudioFileFormatEnum audioFileFormatEnum, string callerMemberName)
@@ -297,27 +280,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return fileName;
         }
-        
-        private string GetPrettyTitle(string fileName)
-        {
-            string title;
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                title = "Untitled";
-            }
-            else
-            {
-                title = fileName.CutRightUntil(".") // Removing file extension
-                                .CutRight(".")
-                                .Replace("_RunTest", "")
-                                .Replace("_Test", "")
-                                .Replace("_", " ");
-            }
-            
-            string dashes = "".PadRight(title.Length, '-');
-
-            return title + NewLine + dashes;
-        }
 
         private void SetSamplingRate(AudioFileOutput audioFileOutput, int samplingRateOverride)
         {
@@ -330,96 +292,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             audioFileOutput.SamplingRate = ConfigHelper.DefaultSamplingRate;
 
-            SetSamplingRateForTooling(audioFileOutput);
+            ToolingHelper.SetSamplingRateForTooling(audioFileOutput);
         }
-
-        /// <summary>
-        /// Optimizes the given <see cref="AudioFileOutput" /> for tooling environments such as NCrunch and Azure Pipelines.
-        /// It can do this by lowering the audio sampling rate for instance.
-        /// </summary>
-        /// <param name="audioFileOutput"> The <see cref="AudioFileOutput" /> to be optimized. </param>
-        private void SetSamplingRateForTooling(AudioFileOutput audioFileOutput)
-        {
-            if (IsRunningInNCrunch)
-            {
-                audioFileOutput.SamplingRate = ConfigHelper.NCrunch.SamplingRate;
-
-                if (CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory))
-                {
-                    WriteLine($"Test is in category '{ConfigHelper.LongRunningTestCategory}'.");
-
-                    audioFileOutput.SamplingRate = ConfigHelper.NCrunch.SamplingRateLongRunning;
-                }
-
-                WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate}.");
-            }
-
-            if (IsRunningInAzurePipelines)
-            {
-                audioFileOutput.SamplingRate = ConfigHelper.AzurePipelines.SamplingRate;
-
-                if (CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory))
-                {
-                    WriteLine($"Test is in category '{ConfigHelper.LongRunningTestCategory}'.");
-                    
-                    audioFileOutput.SamplingRate = ConfigHelper.AzurePipelines.SamplingRateLongRunning;
-                }
-
-                WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate}.");
-            }
-            
-            WriteLine();
-        }
-
-        private bool IsRunningInNCrunch
-        {
-            get
-            {
-                if (ConfigHelper.NCrunch.Pretend)
-                {
-                    WriteLine("Pretending to be NCrunch.");
-                    Environment.SetEnvironmentVariable("NCrunch", "1");
-                }
-
-                string environmentVariable = Environment.GetEnvironmentVariable("NCrunch");
-                bool isNCrunch = string.Equals(environmentVariable, "1");
-                if (isNCrunch)
-                { 
-                    WriteLine($"Environment variable NCrunch = {environmentVariable}");
-                }
-
-                return isNCrunch;
-            }
-        }
-
-        private bool IsRunningInAzurePipelines
-        {
-            get
-            {
-                if (ConfigHelper.AzurePipelines.Pretend)
-                {
-                    WriteLine("Pretending to be Azure Pipelines.");
-                    Environment.SetEnvironmentVariable("TF_BUILD", "True");
-                }
-
-                string environmentVariable = Environment.GetEnvironmentVariable("TF_BUILD");
-                bool isAzurePipelines = string.Equals(environmentVariable, "True");
-                if (isAzurePipelines)
-                { 
-                    WriteLine($"Environment variable TF_BUILD = {environmentVariable} (Azure Pipelines)");
-                }
-
-                return isAzurePipelines;
-            }
-        }
-
-        private bool CurrentTestIsInCategory(string category) =>
-            new StackTrace().GetFrames()?
-                            .Select(stackFrame => stackFrame.GetMethod())
-                            //.Where(method => !method.IsProperty())
-                            .SelectMany(method => method.GetCustomAttributes(false)
-                                                        .Where(attr => attr.GetType().Name == "TestCategoryAttribute")
-                                                        .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr) as IEnumerable<string>))
-                            .Any(x => x.Contains(category)) ?? false;
     }
 }

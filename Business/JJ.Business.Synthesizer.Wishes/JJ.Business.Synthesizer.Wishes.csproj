@@ -57,6 +57,7 @@
     <Compile Include="Helpers\ConfigSection.cs" />
     <Compile Include="Helpers\CopiedFromFramework.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
+    <Compile Include="Helpers\ToolingHelper.cs" />
     <Compile Include="OperatorWishes.Stringifier.cs" />
     <Compile Include="AudioFileWishes.WavHeaderExtensions.cs" />
     <Compile Include="NoteWishes.SynthWishes.cs" />
