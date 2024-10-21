@@ -11,7 +11,6 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
@@ -324,8 +323,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     audioFileOutput.SamplingRate = ConfigHelper.NCrunch.SamplingRateLongRunning;
                 }
 
-                Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " +
-                                  "to improve performance of NCrunch code coverage.");
+                Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate}.");
             }
 
             if (IsRunningInAzurePipelines)
@@ -337,13 +335,53 @@ namespace JJ.Business.Synthesizer.Wishes
                     audioFileOutput.SamplingRate = ConfigHelper.AzurePipelines.SamplingRateLongRunning;
                 }
 
-                Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate} " +
-                                  "to improve performance of Azure Pipelines tests.");
+                Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate}.");
+            }
+            
+            Console.WriteLine();
+        }
+
+        private bool IsRunningInNCrunch
+        {
+            get
+            {
+                if (ConfigHelper.NCrunch.Pretend)
+                {
+                    Console.WriteLine("Pretending to be NCrunch.");
+                    Environment.SetEnvironmentVariable("NCrunch", "1");
+                }
+
+                string environmentVariable = Environment.GetEnvironmentVariable("NCrunch");
+                bool isNCrunch = string.Equals(environmentVariable, "1");
+                if (isNCrunch)
+                { 
+                    Console.WriteLine($"Environment variable NCrunch = {environmentVariable}");
+                }
+
+                return isNCrunch;
             }
         }
 
-        private bool IsRunningInNCrunch => Environment.GetEnvironmentVariable("NCrunch") != null;
-        private bool IsRunningInAzurePipelines => Environment.GetEnvironmentVariable("TF_BUILD") == "True";
+        private bool IsRunningInAzurePipelines
+        {
+            get
+            {
+                if (ConfigHelper.AzurePipelines.Pretend)
+                {
+                    Console.WriteLine("Pretending to be Azure Pipelines.");
+                    Environment.SetEnvironmentVariable("TF_BUILD", "True");
+                }
+
+                string environmentVariable = Environment.GetEnvironmentVariable("TF_BUILD");
+                bool isAzurePipelines = string.Equals(environmentVariable, "True");
+                if (isAzurePipelines)
+                { 
+                    Console.WriteLine($"Environment variable TF_BUILD = {environmentVariable} (Azure Pipelines)");
+                }
+
+                return isAzurePipelines;
+            }
+        }
 
         private bool CurrentTestIsInCategory(string category) =>
             new StackTrace().GetFrames()?

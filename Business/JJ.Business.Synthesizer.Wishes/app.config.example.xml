@@ -25,12 +25,14 @@
 		<nCrunch
 			samplingRate="150"
 			samplingRateLongRunning="30"
-			playAudioEnabled="false" />
+			playAudioEnabled="false"
+			pretend="false" />
 		
 		<azurePipelines
 			samplingRate="1500"
 			samplingRateLongRunning="100"
-			playAudioEnabled="false" />
+			playAudioEnabled="false" 
+			pretend="false"/>
 	</jj.business.synthesizer.wishes>
 	
 </configuration>

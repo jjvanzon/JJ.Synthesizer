@@ -16,6 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         private const int DEFAULT_TOOLING_SAMPLING_RATE = 150;
         private const int DEFAULT_SAMPLING_RATE_LONG_RUNNING = 30;
         private const bool DEFAULT_TOOLING_PLAY_AUDIO_ENABLED = false;
+        private const bool DEFAULT_TOOLING_PRETEND = false;
 
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
@@ -51,6 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             public int SamplingRate => _baseConfig.SamplingRate ?? DEFAULT_TOOLING_SAMPLING_RATE;
             public int SamplingRateLongRunning => _baseConfig.SamplingRateLongRunning ?? DEFAULT_SAMPLING_RATE_LONG_RUNNING;
             public bool PlayAudioEnabled => _baseConfig.PlayAudioEnabled ?? DEFAULT_TOOLING_PLAY_AUDIO_ENABLED;
+            public bool Pretend => _baseConfig.Pretend ?? DEFAULT_TOOLING_PRETEND;
         }
         
         /// <summary> This null-tolerant version is missing in JJ.Framework.Configuration for now. </summary>

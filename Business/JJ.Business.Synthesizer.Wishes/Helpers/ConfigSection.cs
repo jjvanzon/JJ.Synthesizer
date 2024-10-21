@@ -17,5 +17,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         [XmlAttribute] public int? SamplingRate { get; set;}
         [XmlAttribute] public int? SamplingRateLongRunning { get; set;}
         [XmlAttribute] public bool? PlayAudioEnabled { get; set;}
+        [XmlAttribute] public bool? Pretend { get; set;}
     }
 }
