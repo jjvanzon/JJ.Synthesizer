@@ -127,8 +127,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 switch (speakerSetupEnum)
                 {
                     case SpeakerSetupEnum.Mono:
-                        Channel = ChannelEnum.Single;
-                        var monoOutlet = func();
+                        Channel = ChannelEnum.Single; var monoOutlet = func();
+                        
                         return SaveAudioBase(
                             new[] { monoOutlet },
                             duration, volume,
@@ -136,10 +136,9 @@ namespace JJ.Business.Synthesizer.Wishes
                             samplingRateOverride, fileName, callerMemberName);
 
                     case SpeakerSetupEnum.Stereo:
-                        Channel = Left;
-                        var leftOutlet = func();
-                        Channel = Right;
-                        var rightOutlet = func();
+                        Channel = Left; var leftOutlet = func();
+                        Channel = Right; var rightOutlet = func();
+                        
                         return SaveAudioBase(
                             new[] { leftOutlet, rightOutlet },
                             duration, volume,
@@ -207,8 +206,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutput.Duration = duration;
                 audioFileOutput.FilePath = fileName;
                 audioFileOutput.Amplifier = volume * sampleDataTypeEnum.GetMaxAmplitude();
-                audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum, _sampleDataTypeRepository);
-                audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum, _audioFileFormatRepository);
+                audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum);
+                audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum);
 
                 _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channels.Count);
                 for (int i = 0; i < channels.Count; i++)
@@ -220,8 +219,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             // Validate AudioFileOutput
-            _audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput).Verify();
-            warnings.AddRange(new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text));
+            audioFileOutput.Assert();
+            warnings.AddRange(audioFileOutput.GetWarnings());
 
             // Calculate
             var calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
@@ -349,6 +348,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private bool CurrentTestIsInCategory(string category) =>
             new StackTrace().GetFrames()?
                             .Select(stackFrame => stackFrame.GetMethod())
+                            .Where(method => !method.IsProperty())
                             .SelectMany(method => method.GetCustomAttributes(false)
                                                         .Where(attr => attr.GetType().Name == "TestCategoryAttribute")
                                                         .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(method) as IEnumerable<string>))
