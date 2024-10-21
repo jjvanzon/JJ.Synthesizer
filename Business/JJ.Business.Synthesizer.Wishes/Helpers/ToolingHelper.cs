@@ -36,12 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return true;
         }
 
-        /// <summary>
-        /// Optimizes the given <see cref="AudioFileOutput" /> for tooling environments such as NCrunch and Azure Pipelines.
-        /// It can do this by lowering the audio sampling rate for instance.
-        /// </summary>
-        /// <param name="audioFileOutput"> The <see cref="AudioFileOutput" /> to be optimized. </param>
-        public static int? GetSamplingRateForTooling()
+        public static int? TryGetSamplingRateForNCrunch()
         {
             if (IsRunningInNCrunch)
             {
@@ -54,7 +49,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                     return ConfigHelper.NCrunch.SamplingRate;
                 }
             }
-
+            
+            return null;
+        }
+        
+        public static int? TryGetSamplingRateForAzurePipelines()
+        {
             if (IsRunningInAzurePipelines)
             {
                 if (CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory))
@@ -92,7 +92,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 if (lines.Any())
                 {
                     lines.ForEach(WriteLine);
-                    WriteLine();
                 }
 
                 return isNCrunch;

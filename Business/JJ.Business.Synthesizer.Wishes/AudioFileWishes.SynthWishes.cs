@@ -208,6 +208,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutput.Duration = duration;
                 audioFileOutput.FilePath = fileName;
                 audioFileOutput.Amplifier = volume * sampleDataTypeEnum.GetMaxAmplitude();
+                audioFileOutput.SamplingRate = ResolveSamplingRate(samplingRateOverride);
                 audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum);
                 audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum);
 
@@ -217,7 +218,6 @@ namespace JJ.Business.Synthesizer.Wishes
                     audioFileOutput.AudioFileOutputChannels[i].Outlet = channels[i];
                 }
 
-                SetSamplingRate(audioFileOutput, samplingRateOverride);
             }
 
             // Validate AudioFileOutput
@@ -282,25 +282,34 @@ namespace JJ.Business.Synthesizer.Wishes
             return fileName;
         }
 
-        private void SetSamplingRate(AudioFileOutput audioFileOutput, int samplingRateOverride)
+        private int ResolveSamplingRate(int samplingRateOverride)
         {
             if (samplingRateOverride != default)
             {
-                audioFileOutput.SamplingRate = samplingRateOverride;
-                WriteLine($"Sampling rate override = {audioFileOutput.SamplingRate}.");
-                return;
+                WriteLine($"Sampling rate override: {samplingRateOverride}");
+                return samplingRateOverride;
             }
 
-            audioFileOutput.SamplingRate = ConfigHelper.DefaultSamplingRate;
-
-            int? samplingRateForTooling = ToolingHelper.GetSamplingRateForTooling();
-            if (samplingRateForTooling != null)
             {
-                WriteLine($"Setting sampling rate to {samplingRateForTooling}.");
-                audioFileOutput.SamplingRate = samplingRateForTooling.Value;
-                WriteLine();
-                
+                int? samplingRate = ToolingHelper.TryGetSamplingRateForNCrunch();
+                if (samplingRate != null)
+                {
+                    WriteLine($"Sampling rate NCrunch: {samplingRate}");
+                    return samplingRate.Value;
+                }
             }
+
+            {
+                int? samplingRate = ToolingHelper.TryGetSamplingRateForAzurePipelines();
+                if (samplingRate != null)
+                {
+                    WriteLine($"Sampling rate Azure Pipelines: {samplingRate}");
+                    return samplingRate.Value;
+                }
+            }
+
+            WriteLine($"Sampling rate: {ConfigHelper.DefaultSamplingRate}");
+            return ConfigHelper.DefaultSamplingRate;
         }
     }
 }
