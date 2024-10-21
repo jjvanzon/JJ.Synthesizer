@@ -222,10 +222,8 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._sum"/>
-        public static Outlet Sum(this OperatorFactory x, params Outlet[] operands)
-        {
-            return Sum(x, (IList<Outlet>)operands);
-        }
+        public static Outlet Sum(this OperatorFactory x, params Outlet[] operands) 
+            => Sum(x, (IList<Outlet>)operands);
 
         /// <inheritdoc cref="docs._sum"/>
         public static Outlet Sum(this OperatorFactory x, IList<Outlet> operands)
@@ -234,29 +232,90 @@ namespace JJ.Business.Synthesizer.Wishes
             if (operands == null) throw new ArgumentNullException(nameof(operands));
             
             // Flatten Nested Sums
-            var unNestedOperands = new List<Outlet>();
+            IList<Outlet> flattenedTerms = FlattenTerms(operands);
             
-            foreach (Outlet operand in operands)
+            // Consts
+            flattenedTerms = flattenedTerms.Where(y => !y.IsConst()).ToArray();
+            
+            //IList<Outlet> consts = flattenedTerms.Where(y => y.IsConst()).ToArray();
+            // ReSharper disable once PossibleInvalidOperationException
+            //double constsSum = consts.Sum(y => y.AsConst().Value);
+            double constant = flattenedTerms.Sum(y => y.AsConst() ?? 0);
+
+            // Identity 1
+            if (constant != 1)
             {
-                if (IsSum(operand))
-                {
-                    var nestedAdder = new Adder(operand.Operator);
-                    unNestedOperands.AddRange(nestedAdder.Operands);
-                }
-                else
-                {
-                    unNestedOperands.Add(operand);
-                }
+                Outlet constOutlet = x.Value(constant);
+                flattenedTerms = flattenedTerms.Concat(new [] { constOutlet }).ToArray();
             }
 
+            // Identity 1
+            //flattenedTerms = flattenedTerms.Where(y => y.AsConst() != 1).ToArray();
+            
+            // Zero
+            //if (!flattenedTerms.Any())
+            //{ 
+            //    return x.Value(0);
+            //}
+            //if (flattenedTerms.Any(y => y.AsConst() == 0))
+            //{
+            //    return x.Value(0);
+            //}
+
             // Simple Add for 2 Operands
-            if (unNestedOperands.Count == 2)
+            if (flattenedTerms.Count == 2)
             {
-                return Add(x, unNestedOperands[0], unNestedOperands[1]);
+                return x.Add(flattenedTerms[0], flattenedTerms[1]);
             }
 
             // Make Normal Adder
-            return x.Adder(unNestedOperands);
+            return x.Adder(flattenedTerms);
+        }
+
+        /// <summary> Alternative entry point (Operator) Outlet. </summary>
+        public static IList<Outlet> FlattenTerms(Outlet sumOrAdd)
+        {
+            if (sumOrAdd == null) throw new ArgumentNullException(nameof(sumOrAdd));
+            
+            if (sumOrAdd.IsAdd())
+            {
+                var add = new Add(sumOrAdd.Operator);
+                return FlattenTerms(add.OperandA, add.OperandB);
+            }
+
+            if (sumOrAdd.IsSum())
+            {
+                var sum = new Adder(sumOrAdd.Operator);
+                return FlattenTerms(sum.Operands);
+            }
+
+            throw new Exception("sumOrAdd is not a Sum / Adder or Add operator.");
+        }
+
+        public static IList<Outlet> FlattenTerms(params Outlet[] operands)
+            => FlattenTerms((IList<Outlet>)operands);
+
+        public static IList<Outlet> FlattenTerms(IList<Outlet> operands)
+        {
+            IList<Outlet> flattened = new List<Outlet>();
+            
+            foreach (Outlet operand in operands)
+            {
+                if (operand.IsSum() || operand.IsAdd())
+                {
+                    IList<Outlet> deeperOperands = operand.Operator.Inlets.Select(x => x.Input).ToArray();
+                    
+                    var flattened2 = FlattenTerms(deeperOperands);
+                    
+                    flattened.AddRange(flattened2);
+                }
+                else
+                { 
+                    flattened.Add(operand);
+                }
+            }
+
+            return flattened;
         }
 
         /// <inheritdoc cref="docs._default" />
