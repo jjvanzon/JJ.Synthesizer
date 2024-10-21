@@ -11,9 +11,6 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        private readonly IAudioFileFormatRepository _audioFileFormatRepository;
-        private readonly ISampleDataTypeRepository  _sampleDataTypeRepository;
-
         public IContext Context { get; }
         public SampleManager Samples { get; }
 
@@ -33,9 +30,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             Context = context;
             
-            _audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
-            _sampleDataTypeRepository  = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
-
             Samples = ServiceFactory.CreateSampleManager(context);
 
             InitializeAudioFileOutputWishes(context);
