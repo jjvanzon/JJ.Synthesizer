@@ -320,6 +320,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 if (CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory))
                 {
+                    Console.WriteLine($"Test is in category '{ConfigHelper.LongRunningTestCategory}'.");
+
                     audioFileOutput.SamplingRate = ConfigHelper.NCrunch.SamplingRateLongRunning;
                 }
 
@@ -332,6 +334,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 if (CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory))
                 {
+                    Console.WriteLine($"Test is in category '{ConfigHelper.LongRunningTestCategory}'.");
+                    
                     audioFileOutput.SamplingRate = ConfigHelper.AzurePipelines.SamplingRateLongRunning;
                 }
 
@@ -386,10 +390,10 @@ namespace JJ.Business.Synthesizer.Wishes
         private bool CurrentTestIsInCategory(string category) =>
             new StackTrace().GetFrames()?
                             .Select(stackFrame => stackFrame.GetMethod())
-                            .Where(method => !method.IsProperty())
+                            //.Where(method => !method.IsProperty())
                             .SelectMany(method => method.GetCustomAttributes(false)
                                                         .Where(attr => attr.GetType().Name == "TestCategoryAttribute")
-                                                        .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(method) as IEnumerable<string>))
+                                                        .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr) as IEnumerable<string>))
                             .Any(x => x.Contains(category)) ?? false;
     }
 }
