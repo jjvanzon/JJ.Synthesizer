@@ -17,6 +17,7 @@ using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static System.Console;
+using static System.Environment;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -36,8 +37,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private IInterpolationTypeRepository _interpolationTypeRepository;
         private AudioFileOutputManager _audioFileOutputManager;
-
-        private string NewLine => Environment.NewLine;
 
         /// <summary>
         /// Creates a Sample by reading the file at the given <paramref name="filePath" />.
@@ -186,7 +185,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channels.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channels));
             if (duration == default) duration = _[1];
             if (volume == default) volume = _[1];
-
             fileName = ResolveFileName(fileName, audioFileFormatEnum, callerMemberName);
 
             WriteLine();
@@ -203,20 +201,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
+            audioFileOutput.Duration = duration;
+            audioFileOutput.FilePath = fileName;
+            audioFileOutput.Amplifier = volume * sampleDataTypeEnum.GetMaxAmplitude();
+            audioFileOutput.SamplingRate = ResolveSamplingRate(samplingRateOverride);
+            audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum);
+            audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum);
+            _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channels.Count);
+            for (int i = 0; i < channels.Count; i++)
             {
-                audioFileOutput.Duration = duration;
-                audioFileOutput.FilePath = fileName;
-                audioFileOutput.Amplifier = volume * sampleDataTypeEnum.GetMaxAmplitude();
-                audioFileOutput.SamplingRate = ResolveSamplingRate(samplingRateOverride);
-                audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum);
-                audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum);
-
-                _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channels.Count);
-                for (int i = 0; i < channels.Count; i++)
-                {
-                    audioFileOutput.AudioFileOutputChannels[i].Outlet = channels[i];
-                }
-
+                audioFileOutput.AudioFileOutputChannels[i].Outlet = channels[i];
             }
 
             // Validate AudioFileOutput
@@ -293,7 +287,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 int? samplingRate = ToolingHelper.TryGetSamplingRateForNCrunch();
                 if (samplingRate != null)
                 {
-                    WriteLine($"Sampling rate NCrunch: {samplingRate}");
+                    WriteLine($"Sampling rate for NCrunch: {samplingRate}");
                     return samplingRate.Value;
                 }
             }
@@ -302,7 +296,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 int? samplingRate = ToolingHelper.TryGetSamplingRateForAzurePipelines();
                 if (samplingRate != null)
                 {
-                    WriteLine($"Sampling rate Azure Pipelines: {samplingRate}");
+                    WriteLine($"Sampling rate for Azure Pipelines: {samplingRate}");
                     return samplingRate.Value;
                 }
             }
