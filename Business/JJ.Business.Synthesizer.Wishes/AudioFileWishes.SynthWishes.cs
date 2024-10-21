@@ -253,9 +253,11 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 WriteLine("Playing audio...");
                 new SoundPlayer(audioFileOutput.FilePath).PlaySync();
-                WriteLine("Done");
                 WriteLine();
             }
+
+            WriteLine("Done.");
+            WriteLine();
         }
 
         private string ResolveFileName(string fileName, AudioFileFormatEnum audioFileFormatEnum, string callerMemberName)

@@ -243,6 +243,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sampleWrapperMono,
                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
+                Console.WriteLine();
             }
 
             if (speakerSetupEnum == Stereo)
@@ -255,6 +256,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sampleWrapperLeft,
                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
+                Console.WriteLine();
 
                 Channel = Right;
                 
@@ -264,6 +266,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sampleWrapperRight,
                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
+                Console.WriteLine();
             }
             
             // Get Values
@@ -307,12 +310,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double valueTolerance = GetValueTolerance(aligned, interpolationTypeEnum, sampleDataTypeEnum);
                 double valueToleranceRequired = expectedValues.Zip(actualValues, (x,y) => Abs(x - y)).Max();
-                Console.WriteLine();
                 Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
                 Console.WriteLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
                 Console.WriteLine();
                 Console.WriteLine($"{nameof(expectedValues)} = {FormatValues(expectedValues)}");
                 Console.WriteLine($"{nameof(actualValues)}   = {FormatValues(actualValues  )}");
+                Console.WriteLine();
 
                 // Assert Values
                 
@@ -401,7 +404,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double valueTolerance = GetValueTolerance(aligned, interpolationTypeEnum, sampleDataTypeEnum);
                 double valueToleranceRequired = expectedL.Concat(expectedR).Zip(actualL.Concat(actualR), (x,y) => Abs(x - y)).Max();
-                Console.WriteLine();
                 Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
                 Console.WriteLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
                 Console.WriteLine();
@@ -410,6 +412,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Console.WriteLine();
                 Console.WriteLine($"{nameof(expectedR)} = {FormatValues(expectedR)}");
                 Console.WriteLine($"  {nameof(actualR)} = {FormatValues(actualR  )}");
+                Console.WriteLine();
 
                 // Assert Values
                 
@@ -565,7 +568,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 int byteCountExpected  = (int)(audioFileFormatEnum.GetHeaderLength() + samplingRate * sample.GetFrameSize() * DURATION);
                 int byteCountTolerance = GetByteCountTolerance(sampleDataTypeEnum);
 
-                Console.WriteLine();
                 Console.WriteLine($"Byte count tolerance = {byteCountTolerance}");
                 Console.WriteLine($"Byte count expected  = {byteCountExpected}");
                 Console.WriteLine($"Byte count actual    = {sample.Bytes.Length}");
