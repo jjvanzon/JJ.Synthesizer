@@ -17,7 +17,6 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -349,9 +348,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private bool CurrentTestIsInCategory(string category) =>
             new StackTrace().GetFrames()?
-                            .Select(x => x.GetMethod())
-                            .SelectMany(method => method.GetCustomAttributes(typeof(TestCategoryAttribute), true))
-                            .OfType<TestCategoryAttribute>()
-                            .Any(x => x.TestCategories.Contains(category)) ?? false;
+                            .Select(stackFrame => stackFrame.GetMethod())
+                            .SelectMany(method => method.GetCustomAttributes(false)
+                                                        .Where(attr => attr.GetType().Name == "TestCategoryAttribute")
+                                                        .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(method) as IEnumerable<string>))
+                            .Any(x => x.Contains(category)) ?? false;
     }
 }

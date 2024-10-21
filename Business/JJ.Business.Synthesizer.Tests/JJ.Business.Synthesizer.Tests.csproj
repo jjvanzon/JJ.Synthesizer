@@ -209,7 +209,6 @@
     <None Include=".editorconfig" />
     <None Include=".editorconfig.resharperexport" />
     <EmbeddedResource Include="TestResources\violin_16bit_mono.raw" />
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
