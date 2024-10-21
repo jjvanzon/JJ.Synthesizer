@@ -107,8 +107,23 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return result;
         }
-
         
+        
+        /// <inheritdoc cref="docs._saveaudio" />
+        public Result<AudioFileOutput> SaveAudioMono(
+            Func<Outlet> func,
+            double duration = default,
+            double volume = default,
+            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
+            int samplingRateOverride = default,
+            string fileName = default,
+            [CallerMemberName] string callerMemberName = null)
+            => SaveAudio(func,
+                         duration, volume,
+                         SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum,
+                         samplingRateOverride, fileName, callerMemberName);
+
         /// <inheritdoc cref="docs._saveaudio" />
         public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func,
@@ -153,22 +168,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 Channel = originalChannel;
             }
         }
-
-        /// <inheritdoc cref="docs._saveaudio" />
-        public Result<AudioFileOutput> SaveAudioMono(
-            Func<Outlet> func,
-            double duration = default,
-            double volume = default,
-            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
-            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
-            int samplingRateOverride = default,
-            string fileName = default,
-            [CallerMemberName] string callerMemberName = null)
-            => SaveAudio(func,
-                         duration, volume,
-                         SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum,
-                         samplingRateOverride, fileName, callerMemberName);
-
 
         /// <inheritdoc cref="docs._saveaudio" />
         private Result<AudioFileOutput> SaveAudioBase(
