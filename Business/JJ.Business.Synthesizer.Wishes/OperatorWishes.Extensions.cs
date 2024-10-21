@@ -164,14 +164,20 @@ namespace JJ.Business.Synthesizer.Wishes
                 flattenedTerms = vars.Concat(new [] { constOutlet }).ToArray();
             }
 
-            // Simple Add for 2 Operands
-            if (flattenedTerms.Count == 2)
+            switch (flattenedTerms.Count)
             {
-                return x.Add(flattenedTerms[0], flattenedTerms[1]);
+                case 0:
+                    return x.Value(0);
+                case 1:
+                    // Return single term
+                    return flattenedTerms[0];
+                case 2:
+                    // Simple Add for 2 Operands
+                    return x.Add(flattenedTerms[0], flattenedTerms[1]);
+                default:
+                    // Make Normal Adder
+                    return x.Adder(flattenedTerms);
             }
-
-            // Make Normal Adder
-            return x.Adder(flattenedTerms);
         }
 
         /// <summary> Alternative entry point (Operator) Outlet. </summary>

@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Tremolo_RunTest()
             => PlayMono(
                 () => Tremolo(Sine(A4), (_[4], _[0.5])),
-                volume: 0.30, duration: 1);
+                volume: 0.30, duration: 2);
 
         // Panning Tests
 
