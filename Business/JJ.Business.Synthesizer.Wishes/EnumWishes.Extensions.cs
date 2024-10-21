@@ -726,20 +726,38 @@ namespace JJ.Business.Synthesizer.Wishes
         // SpeakerSetupChannel by ChannelEnum
 
         public static SpeakerSetupChannel TryGetSpeakerSetupChannel(
-            this SpeakerSetup speakerSetup, Channel channel)
-            => TryGetSpeakerSetupChannel(speakerSetup, channel.ToEnum());
+            this SpeakerSetup speakerSetup, ChannelEnum channel, IContext context = null)
+            => TryGetSpeakerSetupChannel(speakerSetup, channel.ToEntity(context));
         
         public static SpeakerSetupChannel GetSpeakerSetupChannel(
-            this SpeakerSetup speakerSetup, Channel channel)
-            => GetSpeakerSetupChannel(speakerSetup, channel.ToEnum());
+            this SpeakerSetup speakerSetup, ChannelEnum channel, IContext context = null)
+            => GetSpeakerSetupChannel(speakerSetup, channel.ToEntity(context));
 
-        public static SpeakerSetupChannel TryGetSpeakerSetupChannel(
-            this SpeakerSetup parent, ChannelEnum channelEnum)
+        public static SpeakerSetupChannel GetSpeakerSetupChannel(
+            this SpeakerSetup parent, Channel channel)
         {
             if (parent == null) throw new ArgumentNullException(nameof(parent));
+            if (channel == null) throw new ArgumentNullException(nameof(channel));
+
+            SpeakerSetupChannel child = TryGetSpeakerSetupChannel(parent, channel);
+
+            if (child == null)
+            {
+                throw new Exception($"{nameof(SpeakerSetupChannel)} not found for "+
+                                    $"{nameof(channel)} '{channel.ToEnum()}'.");
+            }
+
+            return child;
+        }
+        
+        public static SpeakerSetupChannel TryGetSpeakerSetupChannel(
+            this SpeakerSetup parent, Channel channel)
+        {
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
+            if (channel == null) throw new ArgumentNullException(nameof(channel));
 
             var children = parent.SpeakerSetupChannels
-                                 .Where(x => x.Channel?.ToEnum() == channelEnum)
+                                 .Where(x => x.Channel?.ID == channel.ID)
                                  .ToArray();
             
             switch (children.Length)
@@ -748,44 +766,41 @@ namespace JJ.Business.Synthesizer.Wishes
                 case 0: return null;
                 default:
                     throw new Exception($"Multiple {nameof(SpeakerSetupChannel)}s not found with " +
-                                        $"{nameof(channelEnum)} '{channelEnum}'.");
+                                        $"{nameof(channel)} '{channel.ToEnum()}'.");
             }
-        }
-
-        public static SpeakerSetupChannel GetSpeakerSetupChannel(
-            this SpeakerSetup parent, ChannelEnum channelEnum)
-        {
-            if (parent == null) throw new ArgumentNullException(nameof(parent));
-
-            SpeakerSetupChannel child = TryGetSpeakerSetupChannel(parent, channelEnum);
-
-            if (child == null)
-            {
-                throw new Exception($"{nameof(SpeakerSetupChannel)} not found for "+
-                                    $"{nameof(channelEnum)} '{channelEnum}'.");
-            }
-
-            return child;
         }
 
         // AudioFileOutputChannel by ChannelEnum
 
-
         public static AudioFileOutputChannel TryGetAudioFileOutputChannel(
-            this AudioFileOutput audioFileOutput, Channel channel)
-            => TryGetAudioFileOutputChannel(audioFileOutput, channel.ToEnum());
+            this AudioFileOutput audioFileOutput, ChannelEnum channelEnum, IContext context = null)
+            => TryGetAudioFileOutputChannel(audioFileOutput, channelEnum.ToEntity(context));
         
         public static AudioFileOutputChannel GetAudioFileOutputChannel(
-            this AudioFileOutput audioFileOutput, Channel channel)
-            => GetAudioFileOutputChannel(audioFileOutput, channel.ToEnum());
+            this AudioFileOutput audioFileOutput, ChannelEnum channelEnum, IContext context = null)
+            => GetAudioFileOutputChannel(audioFileOutput, channelEnum.ToEntity(context));
 
+        public static AudioFileOutputChannel GetAudioFileOutputChannel(
+            this AudioFileOutput parent, Channel channel)
+        {
+            AudioFileOutputChannel child = TryGetAudioFileOutputChannel(parent, channel);
+
+            if (child == null)
+            {
+                throw new Exception($"{nameof(AudioFileOutputChannel)} not found for "+
+                                    $"{nameof(channel)} '{channel.ToEnum()}'.");
+            }
+
+            return child;
+        }
         public static AudioFileOutputChannel TryGetAudioFileOutputChannel(
-            this AudioFileOutput parent, ChannelEnum channelEnum)
+            this AudioFileOutput parent, Channel channel)
         {
             if (parent == null) throw new ArgumentNullException(nameof(parent));
+            if (channel == null) throw new ArgumentNullException(nameof(channel));
 
             var children = parent.AudioFileOutputChannels
-                                 .Where(x => x.Index == channelEnum.GetIndex())
+                                 .Where(x => x.Index == channel.Index)
                                  .ToArray();
             
             switch (children.Length)
@@ -794,24 +809,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 case 0: return null;
                 default:
                     throw new Exception($"Multiple {nameof(AudioFileOutputChannel)}s not found with " +
-                                        $"{nameof(channelEnum)} '{channelEnum}'.");
+                                        $"{nameof(channel)} '{channel.ToEnum()}'.");
             }
-        }
-
-        public static AudioFileOutputChannel GetAudioFileOutputChannel(
-            this AudioFileOutput parent, ChannelEnum channelEnum)
-        {
-            if (parent == null) throw new ArgumentNullException(nameof(parent));
-
-            AudioFileOutputChannel child = TryGetAudioFileOutputChannel(parent, channelEnum);
-
-            if (child == null)
-            {
-                throw new Exception($"{nameof(AudioFileOutputChannel)} not found for "+
-                                    $"{nameof(channelEnum)} '{channelEnum}'.");
-            }
-
-            return child;
         }
 
         // TODO: Add extensions:
