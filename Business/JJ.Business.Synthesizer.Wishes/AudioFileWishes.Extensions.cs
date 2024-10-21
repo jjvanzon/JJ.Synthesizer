@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         public static double Calculate(this Sample sample, double time, ChannelEnum channelEnum)
-            => Calculate(sample, time, channelEnum.GetChannelIndex());
+            => Calculate(sample, time, channelEnum.GetIndex());
 
         public static double Calculate(this Sample sample, double time, int channelIndex)
             => SampleCalculatorFactory.CreateSampleCalculator(sample).CalculateValue(channelIndex, time);

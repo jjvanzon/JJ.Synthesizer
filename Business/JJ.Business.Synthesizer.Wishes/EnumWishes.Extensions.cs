@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -10,36 +11,35 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.PersistenceHelper;
-// ReSharper disable InvokeAsExtensionMethod
 
+// ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public static class EntityToEnumWishes
+    
+    public static class MissingChannelEnumExtensionWishes
     {
-        public static SampleDataTypeEnum ToEnum(this SampleDataType enumEntity)
+        public static ChannelEnum GetChannelEnum(this SpeakerSetupChannel entity)
         {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return (SampleDataTypeEnum)enumEntity.ID;
+            if (entity.Channel == null) return ChannelEnum.Undefined;
+            return (ChannelEnum)entity.Channel.ID;
         }
 
+        public static void SetChannelEnum(
+            this SpeakerSetupChannel entity, ChannelEnum channelEnum, IChannelRepository channelRepository)
+        {
+            if (channelRepository == null) throw new NullException(() => channelRepository);
+            entity.Channel = channelRepository.Get((int)channelEnum);
+        }
+    }
+
+    public static class EntityToEnumWishes
+    {
         public static AudioFileFormatEnum ToEnum(this AudioFileFormat enumEntity)
         {
             if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
             return (AudioFileFormatEnum)enumEntity.ID;
-        }
-
-        public static SpeakerSetupEnum ToEnum(this SpeakerSetup enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return (SpeakerSetupEnum)enumEntity.ID;
-        }
-
-        public static InterpolationTypeEnum ToEnum(this InterpolationType enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return (InterpolationTypeEnum)enumEntity.ID;
         }
 
         public static ChannelEnum ToEnum(this Channel enumEntity)
@@ -48,10 +48,28 @@ namespace JJ.Business.Synthesizer.Wishes
             return (ChannelEnum)enumEntity.ID;
         }
 
+        public static InterpolationTypeEnum ToEnum(this InterpolationType enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return (InterpolationTypeEnum)enumEntity.ID;
+        }
+
         public static NodeTypeEnum ToEnum(this NodeType enumEntity)
         {
             if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
             return (NodeTypeEnum)enumEntity.ID;
+        }
+
+        public static SampleDataTypeEnum ToEnum(this SampleDataType enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return (SampleDataTypeEnum)enumEntity.ID;
+        }
+
+        public static SpeakerSetupEnum ToEnum(this SpeakerSetup enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return (SpeakerSetupEnum)enumEntity.ID;
         }
     }
 
@@ -99,19 +117,22 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // AudioFileOutput
         
-        public static void SetAudioFileFormatEnum(this AudioFileOutput entity, AudioFileFormatEnum enumValue, IContext context = null)
+        public static void SetAudioFileFormatEnum(
+            this AudioFileOutput entity, AudioFileFormatEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<IAudioFileFormatRepository>(context);
             entity.SetAudioFileFormatEnum(enumValue, repository);
         }
         
-        public static void SetSampleDataTypeEnum(this AudioFileOutput entity, SampleDataTypeEnum enumValue, IContext context = null)
+        public static void SetSampleDataTypeEnum(
+            this AudioFileOutput entity, SampleDataTypeEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<ISampleDataTypeRepository>(context);
             entity.SetSampleDataTypeEnum(enumValue, repository);
         }
 
-        public static void SetSpeakerSetupEnum(this AudioFileOutput entity, SpeakerSetupEnum enumValue, IContext context = null)
+        public static void SetSpeakerSetupEnum(
+            this AudioFileOutput entity, SpeakerSetupEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<ISpeakerSetupRepository>(context);
             entity.SetSpeakerSetupEnum(enumValue, repository);
@@ -149,6 +170,15 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var repository = CreateRepository<ISpeakerSetupRepository>(context);
             entity.SetSpeakerSetupEnum(enumValue, repository);
+        }
+
+        // SpeakerSetupChannel.Channel
+
+        public static void SetChannelEnum(
+            this SpeakerSetupChannel entity, ChannelEnum enumValue, IContext context = null)
+        {
+            var repository = CreateRepository<IChannelRepository>(context);
+            entity.SetChannelEnum(enumValue, repository);
         }
     }
 
@@ -641,22 +671,24 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // From Int/ID?
+    // To Int/ID
 
-    // TODO
-
-    // To Int / ID?
-
-    // TODO
-
-    // Missing ChannelEnum Methods
-
-    // TODO
+    public static class EnumToIDExtensions
+    {
+        public static int ToID(this AudioFileFormatEnum enumValue) => (int)enumValue;
+        public static int ToID(this ChannelEnum enumValue) => (int)enumValue;
+        public static int ToID(this InterpolationTypeEnum enumValue) => (int)enumValue;
+        public static int ToID(this SampleDataTypeEnum enumValue) => (int)enumValue;
+        public static int ToID(this SpeakerSetupEnum enumValue) => (int)enumValue;
+        public static int ToID(this NodeTypeEnum enumValue) => (int)enumValue;
+    }
 
     // Specials (conversion from one thing to the other)
 
     public static class SpecialEnumWishes
     {
+        // SpeakerSetup Values Conversion
+        
         public static SpeakerSetupEnum GetSpeakerSetupEnum(this int channelCount)
         {
             switch (channelCount)
@@ -684,13 +716,109 @@ namespace JJ.Business.Synthesizer.Wishes
             throw new ValueNotSupportedException(typeof(TSampleDataType));
         }
 
-        public static int GetChannelIndex(this ChannelEnum channelEnum, IContext context = null)
+        public static int GetIndex(this ChannelEnum channelEnum, IContext context = null)
         {
             IChannelRepository channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(context);
             Channel channel = channelRepository.Get((int)channelEnum);
             return channel.Index;
         }
 
+        // SpeakerSetupChannel by ChannelEnum
+
+        public static SpeakerSetupChannel TryGetSpeakerSetupChannel(
+            this SpeakerSetup speakerSetup, Channel channel)
+            => TryGetSpeakerSetupChannel(speakerSetup, channel.ToEnum());
+        
+        public static SpeakerSetupChannel GetSpeakerSetupChannel(
+            this SpeakerSetup speakerSetup, Channel channel)
+            => GetSpeakerSetupChannel(speakerSetup, channel.ToEnum());
+
+        public static SpeakerSetupChannel TryGetSpeakerSetupChannel(
+            this SpeakerSetup parent, ChannelEnum channelEnum)
+        {
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
+
+            var children = parent.SpeakerSetupChannels
+                                 .Where(x => x.Channel?.ToEnum() == channelEnum)
+                                 .ToArray();
+            
+            switch (children.Length)
+            { 
+                case 1: return children[0];
+                case 0: return null;
+                default:
+                    throw new Exception($"Multiple {nameof(SpeakerSetupChannel)}s not found with " +
+                                        $"{nameof(channelEnum)} '{channelEnum}'.");
+            }
+        }
+
+        public static SpeakerSetupChannel GetSpeakerSetupChannel(
+            this SpeakerSetup parent, ChannelEnum channelEnum)
+        {
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
+
+            SpeakerSetupChannel child = TryGetSpeakerSetupChannel(parent, channelEnum);
+
+            if (child == null)
+            {
+                throw new Exception($"{nameof(SpeakerSetupChannel)} not found for "+
+                                    $"{nameof(channelEnum)} '{channelEnum}'.");
+            }
+
+            return child;
+        }
+
+        // AudioFileOutputChannel by ChannelEnum
+
+
+        public static AudioFileOutputChannel TryGetAudioFileOutputChannel(
+            this AudioFileOutput audioFileOutput, Channel channel)
+            => TryGetAudioFileOutputChannel(audioFileOutput, channel.ToEnum());
+        
+        public static AudioFileOutputChannel GetAudioFileOutputChannel(
+            this AudioFileOutput audioFileOutput, Channel channel)
+            => GetAudioFileOutputChannel(audioFileOutput, channel.ToEnum());
+
+        public static AudioFileOutputChannel TryGetAudioFileOutputChannel(
+            this AudioFileOutput parent, ChannelEnum channelEnum)
+        {
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
+
+            var children = parent.AudioFileOutputChannels
+                                 .Where(x => x.Index == channelEnum.GetIndex())
+                                 .ToArray();
+            
+            switch (children.Length)
+            { 
+                case 1: return children[0];
+                case 0: return null;
+                default:
+                    throw new Exception($"Multiple {nameof(AudioFileOutputChannel)}s not found with " +
+                                        $"{nameof(channelEnum)} '{channelEnum}'.");
+            }
+        }
+
+        public static AudioFileOutputChannel GetAudioFileOutputChannel(
+            this AudioFileOutput parent, ChannelEnum channelEnum)
+        {
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
+
+            AudioFileOutputChannel child = TryGetAudioFileOutputChannel(parent, channelEnum);
+
+            if (child == null)
+            {
+                throw new Exception($"{nameof(AudioFileOutputChannel)} not found for "+
+                                    $"{nameof(channelEnum)} '{channelEnum}'.");
+            }
+
+            return child;
+        }
+
+        // TODO: Add extensions:
+        //speakerSetup.GetChannel(ChannelEnum.Left);
+        //audioFileOutput.GetChannel(ChannelEnum.Right);
+        //speakerSetup.GetChannel(index)
+        //audioFileOutput.GetChannel(index)
         
         // SetNodeTypeEnum for whole Curve
 
