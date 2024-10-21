@@ -253,6 +253,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 WriteLine("Playing audio...");
                 new SoundPlayer(audioFileOutput.FilePath).PlaySync();
+                WriteLine("Done");
                 WriteLine();
             }
         }
@@ -286,7 +287,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 int? samplingRate = ToolingHelper.TryGetSamplingRateForNCrunch();
                 if (samplingRate != null)
                 {
-                    WriteLine($"Sampling rate for NCrunch: {samplingRate}");
+                    WriteLine($"Sampling rate: {samplingRate}");
                     return samplingRate.Value;
                 }
             }
@@ -295,7 +296,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 int? samplingRate = ToolingHelper.TryGetSamplingRateForAzurePipelines();
                 if (samplingRate != null)
                 {
-                    WriteLine($"Sampling rate for Azure Pipelines: {samplingRate}");
+                    WriteLine($"Sampling rate: {samplingRate}");
                     return samplingRate.Value;
                 }
             }

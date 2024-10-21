@@ -122,6 +122,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Functional\LongRunningTests.cs" />
+    <Compile Include="Helpers\docs.cs" />
     <Compile Include="Technical\AudioFileWishesTests.cs" />
     <Compile Include="Helpers\CopiedFromFramework.cs" />
     <Compile Include="Accessors\SampleManagerAccessor.cs" />

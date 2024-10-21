@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using static System.Console;
 using static System.Environment;
 // ReSharper disable RedundantIfElseBlock
@@ -121,14 +122,21 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             }
         }
 
+        // ReSharper disable AssignNullToNotNullAttribute
         public static bool CurrentTestIsInCategory(string category)
         {
-            bool isInCategory = new StackTrace().GetFrames()?
-                                                .Select(stackFrame => stackFrame.GetMethod())
-                                                .SelectMany(method => method.GetCustomAttributes(false)
-                                                                            .Where(attr => attr.GetType().Name == "TestCategoryAttribute")
-                                                                            .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr) as IEnumerable<string>))
-                                                .Any(x => x.Contains(category)) ?? false;
+            var methodQuery = new StackTrace().GetFrames().Select(x => x.GetMethod());
+
+            var attributeQuery =
+                methodQuery.SelectMany(method => method.GetCustomAttributes()
+                                                       .Union(method.DeclaringType?.GetCustomAttributes()));
+            var categoryQuery =
+                attributeQuery.Where(attr => attr.GetType().Name == "TestCategoryAttribute")
+                              .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr))
+                              .OfType<IEnumerable<string>>()
+                              .SelectMany(x => x);
+
+            bool isInCategory = categoryQuery.Any(x => string.Equals(x, category, StringComparison.OrdinalIgnoreCase));
             if (isInCategory)
             {
                 WriteLine($"Test has category '{category}'.");

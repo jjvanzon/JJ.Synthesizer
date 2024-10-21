@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Business.Synthesizer.Tests.Helpers;
 
 #pragma warning disable CS8123 // The tuple element name is ignored because a different name or no name is specified by the assignment target.
 
@@ -20,83 +21,71 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Tests
 
-        [TestMethod]
-        [TestCategory("Long")]
-        /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Detunica_Jingle() => new ModulationTests().Detunica_Jingle_RunTest();
-
-        /// <inheritdoc cref="_detunicadocs" />
-        void Detunica_Jingle_RunTest() 
+        // Long Running
+        /// <inheritdoc cref="docs._detunica" />
+        internal void Detunica_Jingle_RunTest() 
             => Play(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DEEP_ECHO_TIME);
 
-        [TestMethod]
-        [TestCategory("Long")]
-        /// <inheritdoc cref="_detunicadocs" />
-        public void Test_Detunica_Jingle_Mono() => new ModulationTests().Detunica_Jingle_RunTest_Mono();
-
-        /// <inheritdoc cref="_detunicadocs" />
-        void Detunica_Jingle_RunTest_Mono() 
+        // Long Running
+        /// <inheritdoc cref="docs._detunica" />
+        internal void Detunica_Jingle_RunTest_Mono() 
             => PlayMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DEEP_ECHO_TIME);
 
-        /// <inheritdoc cref="_detunicadocs" />
-        [TestMethod]
-        [TestCategory("Long")]
-        public void Test_DetunicaBass() => new ModulationTests().DetunicaBass_RunTest();
-
-        /// <inheritdoc cref="_detunicadocs" />
-        void DetunicaBass_RunTest()
+        // Long Running
+        /// <inheritdoc cref="docs._detunica" />
+        internal void DetunicaBass_RunTest()
             => Play(() => DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.9);
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
         public void Test_Detunica1() => new ModulationTests().Detunica1_RunTest();
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         void Detunica1_RunTest()
             => Play(() => DeepEcho(Detunica1(freq: E2, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
+        /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        /// <inheritdoc cref="_detunicadocs" />
         public void Test_Detunica2() => new ModulationTests().Detunica2_RunTest();
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         void Detunica2_RunTest()
             => Play(() => DeepEcho(Detunica2(freq: B4, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
 
+        /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        /// <inheritdoc cref="_detunicadocs" />
         public void Test_Detunica3() => new ModulationTests().Detunica3_RunTest();
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         void Detunica3_RunTest()
             => Play(() => DeepEcho(Detunica3(freq: C5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
 
+        /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        /// <inheritdoc cref="_detunicadocs" />
         public void Test_Detunica4() => new ModulationTests().Detunica4_RunTest();
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         void Detunica4_RunTest()
             => Play(() => DeepEcho(Detunica4(freq: D5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
 
+        /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        /// <inheritdoc cref="_detunicadocs" />
         public void Test_Detunica5() => new ModulationTests().Detunica5_RunTest();
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         void Detunica5_RunTest()
             => Play(() => DeepEcho(Detunica5(freq: E5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
 
-        [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
+        [TestMethod]
         public void Test_Vibraphase_Chord() => new ModulationTests().Vibraphase_Chord_RunTest();
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
             => PlayMono(() => MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
 
-        [TestMethod]
         /// <inheritdoc cref="_vibraphasedocs" />
+        [TestMethod]
         public void Test_Vibraphase() => new ModulationTests().Vibraphase_RunTest();
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -117,7 +106,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Vibraphase(freq: E5, volume: _[0.90])
         );
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         Outlet DetunicaJingle => Adder
         (
             DetunicaBass(bar[1],              bars[5.25]),
@@ -141,7 +130,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     Detunica4(delay, E3, _[0.015], duration),
                     Detunica5(delay, E4, _[0.001], duration)));
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         Outlet Detunica1(
             Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
             Outlet detuneDepth = null, Outlet chorusRate = null)
@@ -153,7 +142,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 chorusRate: Multiply(chorusRate ?? _[0.03], DetuneRateCurve1),
                 envelopeVariation: 2);
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
             => MildEcho(
                 Detunica(
@@ -165,7 +154,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     panning: _[0.4], 
                     panbrello: (_[2.6], _[0.09])));
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
             => Detunica(
                 delay, freq, volume, duration,
@@ -178,7 +167,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 panbrello: (_[4.8], _[0.05]),
                 envelopeVariation: 2);
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
             => Detunica(
                 delay, freq, volume, duration,
@@ -189,7 +178,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 panning: Stretch(CurveIn(0.2, 0.8), duration),
                 panbrello: (_[3.4], _[0.07]));
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
             => Detunica(
                 delay, freq, volume, duration,
@@ -204,7 +193,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Instruments
 
-        /// <inheritdoc cref="_detunicadocs" />
+        /// <inheritdoc cref="docs._detunica" />
         internal Outlet Detunica(
             Outlet delay = default, Outlet freq = default, Outlet volume = default, Outlet duration = default,
             (Outlet speed, Outlet depth) vibrato = default, 
@@ -441,28 +430,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         #pragma warning disable CS0169 // Field is never used
 
         // ReSharper disable InconsistentNaming
-
-        /// <summary>
-        /// A detuned note characterized by a rich and slightly eerie sound due to the detuned harmonics.
-        /// It produces a haunting tone with subtle shifts in pitch.
-        /// </summary>
-        /// <param name="detuneDepth">
-        /// The detune depth, adjusting the harmonic frequencies relative to the base frequency,
-        /// creating a subtle dissonance and eerie quality.<br /><br />
-        /// If the detune depth is low, this may cause a slow _tremolo-like effect
-        /// due to periodic constructive/destructive interference <br /><br />
-        /// This effect of which can be quite drastic. Possible mitigations:<br /><br />
-        /// 1) Increase the detune depth
-        /// 2) Lower amplitude for the detuned partials
-        /// 3) Different volume envelope
-        /// 4) A different detune function
-        /// </param>
-        /// <param name="envelopeVariation">
-        /// 1 is the default and a more patchy volume envelope.<br />
-        /// 2 gives the newer with a move even fade in and out.
-        /// </param>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        [UsedImplicitly] object _detunicadocs;
 
         /// <summary>
         /// Applies a jitter effect to notes, with adjustable depths.

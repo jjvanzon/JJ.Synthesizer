@@ -28,11 +28,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Tests
 
-        [TestMethod]
-        [TestCategory("Long")]
-        public void FM_Jingle() => new FMTests().FM_Jingle_RunTest();
-
-        void FM_Jingle_RunTest()
+        // Long Running
+        internal void FM_Jingle_RunTest()
             => PlayMono(() => DeepEcho(Jingle()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
 
         [TestMethod]
