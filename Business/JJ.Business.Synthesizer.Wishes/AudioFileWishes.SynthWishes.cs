@@ -252,9 +252,8 @@ namespace JJ.Business.Synthesizer.Wishes
             if (ToolingHelper.PlayAudioAllowed(audioFileOutput.GetFileExtension()))
             {
                 WriteLine("Playing audio...");
-                WriteLine();
-
                 new SoundPlayer(audioFileOutput.FilePath).PlaySync();
+                WriteLine();
             }
         }
 

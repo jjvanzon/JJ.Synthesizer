@@ -20,11 +20,13 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             if (IsRunningInNCrunch && !ConfigHelper.NCrunch.PlayAudioEnabled)
             {
+                WriteLine("Audio disabled");
                 return false;
             }
 
             if (IsRunningInAzurePipelines && !ConfigHelper.AzurePipelines.PlayAudioEnabled)
             {
+                WriteLine("Audio disabled");
                 return false;
             }
 
