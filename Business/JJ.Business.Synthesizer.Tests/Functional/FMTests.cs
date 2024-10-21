@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double hornVolume       = 0.6;
             double rippleBassVolume = 0.7;
 
-            var pattern1 = Adder
+            var pattern1 = Sum
             (
                 Multiply(_[fluteVolume],      FluteMelody1),
                 Multiply(_[chordsVolume],     PadChords),
@@ -210,7 +210,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 Multiply(_[rippleBassVolume], RippleBassMelody1)
             );
 
-            var pattern2 = Adder
+            var pattern2 = Sum
             (
                 Multiply(_[fluteVolume],      FluteMelody2),
                 Multiply(_[tromboneVolume],   TromboneMelody2),
@@ -218,7 +218,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 Multiply(_[rippleBassVolume], RippleBassMelody2)
             );
 
-            var composition = Adder
+            var composition = Sum
             (
                 pattern1,
                 TimeAdd(pattern2, bar[5])
@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Melodies
 
-        Outlet FluteMelody1 => Adder
+        Outlet FluteMelody1 => Sum
         (
             Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
             Flute1(F4, t[bar: 1, beat: 2.5], volume: _[0.70], beats[2.17]),
@@ -244,7 +244,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Flute1(G4, t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
         );
 
-        Outlet FluteMelody2 => Adder
+        Outlet FluteMelody2 => Sum
         (
             Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
             Flute2(F4, t[bar: 1, beat: 2.5], volume: _[0.68], beats[1.0]),
@@ -259,7 +259,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
-                Adder
+                Sum
                 (
                     Organ(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
                     Organ(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         Outlet PadChords => Multiply
         (
             Stretch(ChordVolumeCurve, bars[1]),
-            Adder
+            Sum
             (
                 Pad(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
                 Pad(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
@@ -278,7 +278,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             )
         );
 
-        Outlet HornMelody1 => Adder
+        Outlet HornMelody1 => Sum
         (
             //Horn(A2, Beat[01], duration: Beats[2]),
             //Horn(E3, Beat[02]),
@@ -290,7 +290,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             //Horn(D3, Beat[15])
         );
 
-        Outlet HornMelody2 => Adder
+        Outlet HornMelody2 => Sum
         (
             Horn(A2, beat[1], duration: beat[3], volume: _[0.75]),
             //Horn(E3, Beat[3]),
@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Horn(A1, beat[9], duration: beat[5], volume: _[1.0])
         );
 
-        Outlet TromboneMelody1 => Adder
+        Outlet TromboneMelody1 => Sum
         (
             //Trombone(A3, Beat[00]),
             //Trombone(E4, Beat[02]),
@@ -311,7 +311,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             //Trombone(B3, Beat[14])
         );
 
-        Outlet TromboneMelody2 => Adder
+        Outlet TromboneMelody2 => Sum
         (
             //Trombone(A2, Beat[1]),
             Trombone(E4, beat[3], durationFactor: _[1.4]),
@@ -320,7 +320,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             //Trombone(A3, Beat[9])
         );
 
-        Outlet TromboneMelody3 => Adder
+        Outlet TromboneMelody3 => Sum
         (
             Trombone(A1,       beat[1]),
             Trombone(E2,       beat[3]),

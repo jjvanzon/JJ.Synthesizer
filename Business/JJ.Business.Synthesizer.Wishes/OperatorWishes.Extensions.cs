@@ -23,12 +23,12 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class OperatorExtensionsWishes
     {
         // IsConst
-        
+
         /// <inheritdoc cref="docs._asconst"/>
-        public static double? AsConst(this Inlet inlet) =>  inlet?.Input?.AsConst();
-        
+        public static double? AsConst(this Inlet inlet) => inlet?.Input?.AsConst();
+
         /// <inheritdoc cref="docs._asconst"/>
-        public static double? AsConst(this Outlet outlet) =>  outlet?.Operator?.AsConst();
+        public static double? AsConst(this Outlet outlet) => outlet?.Operator?.AsConst();
 
         /// <inheritdoc cref="docs._asconst"/>
         public static double? AsConst(this Operator op) => op?.AsValueOperator?.Value;
@@ -41,9 +41,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._asconst"/>
         public static bool IsConst(this Operator op) => op?.AsConst() != null;
-        
+
         // Calculate
-        
+
         public static double Calculate(this Outlet outlet, double time, int channelIndex = 0)
         {
             var calculator = new OperatorCalculator(channelIndex);
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // String
-        
+
         public static string Stringify(this Outlet entity)
             => new OperatorStringifier().StringifyRecursive(entity);
 
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => new OperatorStringifier().StringifyRecursive(entity);
 
         // Validation
-        
+
         public static Result Validate(this Outlet entity, bool recursive = true)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -76,21 +76,21 @@ namespace JJ.Business.Synthesizer.Wishes
                 return new RecursiveOperatorValidator(entity).ToResult();
             }
             else
-            { 
+            {
                 return new VersatileOperatorValidator(entity).ToResult();
             }
         }
-        
-        public static void Assert(this Outlet entity, bool recursive = true) 
+
+        public static void Assert(this Outlet entity, bool recursive = true)
             => Validate(entity, recursive).Assert();
 
-        public static void Assert(this Operator entity, bool recursive = true) 
+        public static void Assert(this Operator entity, bool recursive = true)
             => Validate(entity, recursive).Assert();
 
         public static IList<string> GetWarnings(this Operator entity, bool recursive = true)
         {
             IValidator validator;
-            
+
             if (recursive)
             {
                 validator = new RecursiveOperatorWarningValidator(entity);
@@ -99,10 +99,10 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 validator = new VersatileOperatorWarningValidator(entity);
             }
-            
+
             return validator.ValidationMessages.Select(x => x.Text).ToList();
         }
-        
+
         public static IList<string> GetWarnings(this Outlet entity, bool recursive = true)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -110,7 +110,60 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Operators
-        
+
+        /// <inheritdoc cref="docs._add"/>
+        public static Outlet Add(this OperatorFactory x, Outlet operandA, Outlet operandB)
+        {
+            operandA = operandA ?? x.Value(1);
+            operandB = operandB ?? x.Value(1);
+
+            double? constOperandA = operandA.AsConst();
+            double? constOperandB = operandB.AsConst();
+
+            if (constOperandA != null && constOperandB != null)
+            {
+                double multiplied = constOperandA.Value + constOperandB.Value;
+                return x.Value(multiplied);
+            }
+
+            return x.Add(operandA, operandB);
+        }
+
+        /// <inheritdoc cref="docs._multiply"/>
+        public static Outlet Multiply(this OperatorFactory x, Outlet operandA, Outlet operandB, Outlet origin = null)
+        {
+            operandA = operandA ?? x.Value(1);
+            operandB = operandB ?? x.Value(1);
+
+            if (origin == null)
+            {
+                double? constOperandA = operandA.AsConst();
+                double? constOperandB = operandB.AsConst();
+
+                if (constOperandA != null && constOperandB != null)
+                {
+                    double multiplied = constOperandA.Value * constOperandB.Value;
+                    return x.Value(multiplied);
+                }
+            }
+
+            return x.Multiply(operandA, operandB, origin);
+        }
+
+        /// <inheritdoc cref="docs._sum"/>
+        public static Adder Sum(this OperatorFactory x, params Outlet[] operands)
+        {
+            if (x == null) throw new ArgumentNullException(nameof(x));
+            return x.Adder(operands);
+        }
+
+        /// <inheritdoc cref="docs._sum"/>
+        public static Adder Sum(this OperatorFactory x, IList<Outlet> operands)
+        {
+            if (x == null) throw new ArgumentNullException(nameof(x));
+            return x.Adder(operands);
+        }
+
         /// <inheritdoc cref="docs._default" />
         public static Outlet Stretch(this OperatorFactory operatorFactory, Outlet signal, Outlet timeFactor)
         {
@@ -396,45 +449,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Helpers
-
-        /// <inheritdoc cref="docs._add"/>
-        public static Outlet Add(this OperatorFactory x, Outlet operandA, Outlet operandB)
-        {
-            operandA = operandA ?? x.Value(1);
-            operandB = operandB ?? x.Value(1);
-
-            double? constOperandA = operandA.AsConst();
-            double? constOperandB = operandB.AsConst();
-            
-            if (constOperandA != null && constOperandB != null)
-            {
-                double multiplied = constOperandA.Value + constOperandB.Value;
-                return x.Value(multiplied);
-            }
-
-            return x.Add(operandA, operandB);
-        }
-        
-        /// <inheritdoc cref="docs._multiply"/>
-        public static Outlet Multiply(this OperatorFactory x, Outlet operandA, Outlet operandB, Outlet origin = null)
-        {
-            operandA = operandA ?? x.Value(1);
-            operandB = operandB ?? x.Value(1);
-
-            if (origin == null)
-            {
-                double? constOperandA = operandA.AsConst();
-                double? constOperandB = operandB.AsConst();
-                
-                if (constOperandA != null && constOperandB != null)
-                {
-                    double multiplied = constOperandA.Value * constOperandB.Value;
-                    return x.Value(multiplied);
-                }
-            }
-
-            return x.Multiply(operandA, operandB, origin);
-        }
 
         /// <summary>
         /// Integer variation of the Math.Log function.

@@ -236,5 +236,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         /// <summary> Multiplies two <see cref="Outlet"/> operands, optimizing for constant values if possible. </summary>
         public object _multiply;
+
+        /// <summary> Synonym for 'Adder'. </summary>
+        public object _sum;
     }
 }

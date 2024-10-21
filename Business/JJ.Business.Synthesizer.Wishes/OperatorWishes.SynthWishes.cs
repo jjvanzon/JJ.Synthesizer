@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using System;
+using System.Collections.Generic;
 
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable AssignmentInsteadOfDiscard
@@ -27,6 +28,22 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._multiply"/>
         public new Outlet Multiply(Outlet operandA, Outlet operandB, Outlet origin)
             => OperatorExtensionsWishes.Multiply(this, operandA, operandB, origin);
+
+        /// <inheritdoc cref="docs._sum"/>
+        public Outlet Sum(params Outlet[] operands) 
+            => OperatorExtensionsWishes.Sum(this, operands);
+        
+        /// <inheritdoc cref="docs._sum"/>
+        public Outlet Sum(IList<Outlet> operands) 
+            => OperatorExtensionsWishes.Sum(this, operands);
+        
+        [Obsolete("Use Sum instead.")]
+        public new Outlet Adder(params Outlet[] operands) 
+            => base.Adder(operands);
+
+        [Obsolete("Use Sum instead.")]
+        public new Outlet Adder(IList<Outlet> operands) 
+            => base.Adder(operands);
 
         /// <inheritdoc cref="docs._default" />
         public Outlet Stretch(Outlet signal, Outlet timeFactor)

@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Patches
 
-        Outlet MetallophoneJingle => Adder
+        Outlet MetallophoneJingle => Sum
         (
             Metallophone(A4,       delay: t[bar:1, beat:1.0], volume: _[0.9]),
             Metallophone(E5,       delay: t[bar:1, beat:1.5], volume: _[1.0]),
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             frequency = frequency ?? A4;
             duration = duration ?? _[DEFAULT_NOTE_DURATION];
 
-            var sound = Adder
+            var sound = Sum
             (
                 SinePartial(           frequency,        volume: _[1.0], Stretch(SinePartialCurve1,  duration)),
                 SinePartial(  Multiply(frequency, _[2]), volume: _[0.7], Stretch(SinePartialCurve2,  duration)),

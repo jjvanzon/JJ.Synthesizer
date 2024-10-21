@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         #region Jingles
 
         /// <inheritdoc cref="_vibraphasedocs" />
-        Outlet VibraphaseChord => Adder
+        Outlet VibraphaseChord => Sum
         (
             Vibraphase(freq: A4, volume: _[0.80]),
             Vibraphase(freq: B4, volume: _[0.70]),
@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         );
 
         /// <inheritdoc cref="docs._detunica" />
-        Outlet DetunicaJingle => Adder
+        Outlet DetunicaJingle => Sum
         (
             DetunicaBass(bar[1],              bars[5.25]),
             Detunica2   (bar[2], B4, _[0.70], bars[1.50]),
@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         Outlet DetunicaBass(Outlet delay = null, Outlet duration = null) =>
             Panbrello(
                 panbrello: (speed: _[2], depth: _[0.20]),
-                sound: Adder(
+                sound: Sum(
                     Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
                     Detunica2(delay, E1, _[0.800], duration), // TODO: Maybe don't use this churning sound.
                     Detunica3(delay, E2, _[1.000], duration),
@@ -254,7 +254,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            return Adder
+            return Sum
             (
                 Sine(_[1.0], freq),
                 Sine(_[0.5], Multiply(freq, _[2])),
@@ -268,7 +268,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            return Adder
+            return Sum
             (
                 Sine(_[1.00], freq),
                 Sine(_[0.30], Multiply(freq, _[2])),
@@ -285,7 +285,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            return Adder
+            return Sum
             (
                 Sine(_[1.00], DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate)),
                 Sine(_[0.30], DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate)),
