@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Vibrato_RunTest()
             => PlayMono(
                 () => Sine(VibratoOverPitch(A4)),
-                volume: 0.9, duration: 3);
+                volume: 0.9, duration: 2);
 
         [TestMethod]
         /// <inheritdoc cref="docs._tremolo" />
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Tremolo_RunTest()
             => PlayMono(
                 () => Tremolo(Sine(A4), (_[4], _[0.5])),
-                volume: 0.30, duration: 3);
+                volume: 0.30, duration: 1);
 
         // Panning Tests
 

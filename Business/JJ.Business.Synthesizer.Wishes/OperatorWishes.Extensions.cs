@@ -122,58 +122,107 @@ namespace JJ.Business.Synthesizer.Wishes
             if (op == null) throw new ArgumentNullException(nameof(op));
             return string.Equals(op.OperatorTypeName, nameof(Add), StringComparison.Ordinal);
         }
+        
+        public static bool IsAdder(this Outlet operand)
+        {
+            if (operand == null) throw new ArgumentNullException(nameof(operand));
+            return IsAdder(operand.Operator);
+        }
+
+        public static bool IsAdder(this Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            return string.Equals(op.OperatorTypeName, nameof(Adder), StringComparison.Ordinal);
+        }
 
         /// <inheritdoc cref="docs._add"/>
         public static Outlet Add(this OperatorFactory x, Outlet operandA, Outlet operandB)
         {
-            if (x == null) throw new ArgumentNullException(nameof(x));
-            
-            operandA = operandA ?? x.Value(0);
-            operandB = operandB ?? x.Value(0);
-
-            double? constOperandA = operandA.AsConst();
-            double? constOperandB = operandB.AsConst();
-
-            // Consts
-            if (constOperandA != null && constOperandB != null)
-            {
-                double multiplied = constOperandA.Value + constOperandB.Value;
-                return x.Value(multiplied);
-            }
-            
-            // Identity 0
-            if (constOperandA == 0)
-            {
-                return operandB;
-            }
-
-            if (constOperandB == 0)
-            {
-                return operandA;
-            }
-
-            // Summation
-            if (IsAdd(operandA) && IsAdd(operandB))
-            {
-                var addA = new Add(operandA.Operator);
-                var addB = new Add(operandB.Operator);
-                return Sum(x, addA.OperandA, addA.OperandB, addB.OperandA, addB.OperandB);
-            }
-            if (IsAdd(operandA))
-            {
-                var addA = new Add(operandA.Operator);
-                return Sum(x, addA.OperandA, addA.OperandB, operandB);
-            }
-            if (IsAdd(operandB))
-            {
-                var addB = new Add(operandB.Operator);
-                return Sum(x, operandA, addB.OperandA, addB.OperandB);
-            }
-
-            // Normal Addition
-            return x.Add(operandA, operandB);
+            return Sum(x, operandA, operandB);
         }
 
+        /// <inheritdoc cref="docs._sum"/>
+        public static Outlet Sum(this OperatorFactory x, params Outlet[] operands) 
+            => Sum(x, (IList<Outlet>)operands);
+
+        /// <inheritdoc cref="docs._sum"/>
+        public static Outlet Sum(this OperatorFactory x, IList<Outlet> operands)
+        {
+            if (x == null) throw new ArgumentNullException(nameof(x));
+            if (operands == null) throw new ArgumentNullException(nameof(operands));
+            
+            // Flatten Nested Sums
+            IList<Outlet> flattenedTerms = FlattenTerms(operands);
+            
+            // Consts
+            IList<Outlet> vars = flattenedTerms.Where(y => !y.IsConst()).ToArray();
+            double constant = flattenedTerms.Sum(y => y.AsConst() ?? 0);
+            
+            if (constant != 0)  // Identity 0
+            {
+                Outlet constOutlet = x.Value(constant);
+                flattenedTerms = vars.Concat(new [] { constOutlet }).ToArray();
+            }
+
+            // Simple Add for 2 Operands
+            if (flattenedTerms.Count == 2)
+            {
+                return x.Add(flattenedTerms[0], flattenedTerms[1]);
+            }
+
+            // Make Normal Adder
+            return x.Adder(flattenedTerms);
+        }
+
+        /// <summary> Alternative entry point (Operator) Outlet. </summary>
+        public static IList<Outlet> FlattenTerms(Outlet sumOrAdd)
+        {
+            if (sumOrAdd == null) throw new ArgumentNullException(nameof(sumOrAdd));
+            
+            if (sumOrAdd.IsAdd())
+            {
+                var add = new Add(sumOrAdd.Operator);
+                return FlattenTerms(add.OperandA, add.OperandB);
+            }
+
+            if (sumOrAdd.IsAdder())
+            {
+                var sum = new Adder(sumOrAdd.Operator);
+                return FlattenTerms(sum.Operands);
+            }
+
+            throw new Exception("sumOrAdd is not a Sum / Adder or Add operator.");
+        }
+
+        public static IList<Outlet> FlattenTerms(params Outlet[] operands)
+            => FlattenTerms((IList<Outlet>)operands);
+
+        public static IList<Outlet> FlattenTerms(IList<Outlet> operands)
+        {
+            IList<Outlet> flattened = new List<Outlet>();
+            
+            foreach (Outlet operand in operands)
+            {
+                if (operand.IsAdder() || operand.IsAdd())
+                {
+                    var wrapper = new Adder(operand.Operator);
+                    
+                    IList<Outlet> deeperOperands = wrapper.Operands;
+                    
+                    var flattened2 = FlattenTerms(deeperOperands);
+                    
+                    flattened.AddRange(flattened2);
+                }
+                else
+                { 
+                    flattened.Add(operand);
+                }
+            }
+
+            return flattened;
+        }
+
+        
         /// <inheritdoc cref="docs._multiply"/>
         public static Outlet Multiply(this OperatorFactory x, Outlet operandA, Outlet operandB, Outlet origin = null)
         {
@@ -207,115 +256,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             return x.Multiply(operandA, operandB, origin);
-        }
-
-        public static bool IsSum(this Outlet operand)
-        {
-            if (operand == null) throw new ArgumentNullException(nameof(operand));
-            return IsSum(operand.Operator);
-        }
-
-        public static bool IsSum(this Operator op)
-        {
-            if (op == null) throw new ArgumentNullException(nameof(op));
-            return string.Equals(op.OperatorTypeName, nameof(Adder), StringComparison.Ordinal);
-        }
-
-        /// <inheritdoc cref="docs._sum"/>
-        public static Outlet Sum(this OperatorFactory x, params Outlet[] operands) 
-            => Sum(x, (IList<Outlet>)operands);
-
-        /// <inheritdoc cref="docs._sum"/>
-        public static Outlet Sum(this OperatorFactory x, IList<Outlet> operands)
-        {
-            if (x == null) throw new ArgumentNullException(nameof(x));
-            if (operands == null) throw new ArgumentNullException(nameof(operands));
-            
-            // Flatten Nested Sums
-            IList<Outlet> flattenedTerms = FlattenTerms(operands);
-            
-            // Consts
-            flattenedTerms = flattenedTerms.Where(y => !y.IsConst()).ToArray();
-            
-            //IList<Outlet> consts = flattenedTerms.Where(y => y.IsConst()).ToArray();
-            // ReSharper disable once PossibleInvalidOperationException
-            //double constsSum = consts.Sum(y => y.AsConst().Value);
-            double constant = flattenedTerms.Sum(y => y.AsConst() ?? 0);
-
-            // Identity 1
-            if (constant != 1)
-            {
-                Outlet constOutlet = x.Value(constant);
-                flattenedTerms = flattenedTerms.Concat(new [] { constOutlet }).ToArray();
-            }
-
-            // Identity 1
-            //flattenedTerms = flattenedTerms.Where(y => y.AsConst() != 1).ToArray();
-            
-            // Zero
-            //if (!flattenedTerms.Any())
-            //{ 
-            //    return x.Value(0);
-            //}
-            //if (flattenedTerms.Any(y => y.AsConst() == 0))
-            //{
-            //    return x.Value(0);
-            //}
-
-            // Simple Add for 2 Operands
-            if (flattenedTerms.Count == 2)
-            {
-                return x.Add(flattenedTerms[0], flattenedTerms[1]);
-            }
-
-            // Make Normal Adder
-            return x.Adder(flattenedTerms);
-        }
-
-        /// <summary> Alternative entry point (Operator) Outlet. </summary>
-        public static IList<Outlet> FlattenTerms(Outlet sumOrAdd)
-        {
-            if (sumOrAdd == null) throw new ArgumentNullException(nameof(sumOrAdd));
-            
-            if (sumOrAdd.IsAdd())
-            {
-                var add = new Add(sumOrAdd.Operator);
-                return FlattenTerms(add.OperandA, add.OperandB);
-            }
-
-            if (sumOrAdd.IsSum())
-            {
-                var sum = new Adder(sumOrAdd.Operator);
-                return FlattenTerms(sum.Operands);
-            }
-
-            throw new Exception("sumOrAdd is not a Sum / Adder or Add operator.");
-        }
-
-        public static IList<Outlet> FlattenTerms(params Outlet[] operands)
-            => FlattenTerms((IList<Outlet>)operands);
-
-        public static IList<Outlet> FlattenTerms(IList<Outlet> operands)
-        {
-            IList<Outlet> flattened = new List<Outlet>();
-            
-            foreach (Outlet operand in operands)
-            {
-                if (operand.IsSum() || operand.IsAdd())
-                {
-                    IList<Outlet> deeperOperands = operand.Operator.Inlets.Select(x => x.Input).ToArray();
-                    
-                    var flattened2 = FlattenTerms(deeperOperands);
-                    
-                    flattened.AddRange(flattened2);
-                }
-                else
-                { 
-                    flattened.Add(operand);
-                }
-            }
-
-            return flattened;
         }
 
         /// <inheritdoc cref="docs._default" />

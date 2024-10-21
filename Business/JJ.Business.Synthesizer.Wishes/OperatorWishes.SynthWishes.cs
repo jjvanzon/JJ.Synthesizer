@@ -38,11 +38,11 @@ namespace JJ.Business.Synthesizer.Wishes
             => OperatorExtensionsWishes.Sum(this, operands);
         
         [Obsolete("Use Sum instead.")]
-        public new Outlet Adder(params Outlet[] operands) 
+        public new Adder Adder(params Outlet[] operands) 
             => base.Adder(operands);
 
         [Obsolete("Use Sum instead.")]
-        public new Outlet Adder(IList<Outlet> operands) 
+        public new Adder Adder(IList<Outlet> operands) 
             => base.Adder(operands);
 
         /// <inheritdoc cref="docs._default" />
