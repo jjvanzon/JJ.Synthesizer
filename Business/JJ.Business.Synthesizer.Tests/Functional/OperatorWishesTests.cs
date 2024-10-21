@@ -286,11 +286,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet sound    = Multiply(Sine(G4), envelope);
             Outlet echoes   = EntityFactory.CreateEcho(this, sound, denominator: 1.5, delay: 0.25, count: 16);
 
-            PlayMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
+            SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
 
-            Console.WriteLine();
-            Console.WriteLine(echoes.Stringify());
         }
 
         [TestMethod]
@@ -302,11 +300,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet sound    = Multiply(Sine(B4), envelope);
             Outlet echoes   = EchoAdditive(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
-            PlayMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
+            SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
-
-            Console.WriteLine();
-            Console.WriteLine(echoes.Stringify());
         }
 
         [TestMethod]
@@ -328,13 +323,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Outlet echoes = EchoAdditive(sound, magnitude, delay, count: 16);
 
-            PlayMono(() => sound, duration: 0.2, fileName: Name() + "_Input.wav");
+            SaveAudioMono(() => sound, duration: 0.2, fileName: Name() + "_Input.wav");
             SaveAudioMono(() => magnitude, duration: 5, fileName: Name() + "_Magnitude.wav");
             SaveAudioMono(() => delay,     duration: 5, fileName: Name() + "_Delay.wav");
             PlayMono(() => echoes, duration: 5, fileName: Name() + "_Output.wav");
-
-            Console.WriteLine();
-            Console.WriteLine(echoes.Stringify());
         }
 
         [TestMethod]
@@ -347,11 +339,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Outlet echoes = EchoFeedBack(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
-            PlayMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
+            SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
-
-            Console.WriteLine();
-            Console.WriteLine(echoes.Stringify());
         }
 
         [TestMethod]
@@ -373,13 +362,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Outlet echoes = EchoFeedBack(sound, magnitude, delay, count: 16);
 
-            PlayMono(() => sound, duration: 0.2, fileName: Name() + "_Input.wav");
+            SaveAudioMono(() => sound, duration: 0.2, fileName: Name() + "_Input.wav");
             SaveAudioMono(() => magnitude, duration: 5, fileName: Name() + "_Magnitude.wav");
             SaveAudioMono(() => delay,     duration: 5, fileName: Name() + "_Delay.wav");
             PlayMono(() => echoes, duration: 5, fileName: Name() + "_Output.wav");
-
-            Console.WriteLine();
-            Console.WriteLine(echoes.Stringify());
         }
     }
 }

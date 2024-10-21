@@ -192,6 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             WriteLine();
             WriteLine(NameHelper.GetPrettyTitle(fileName));
+            WriteLine();
             
             // Validate Input Data
             var warnings = new List<string>();
@@ -292,7 +293,14 @@ namespace JJ.Business.Synthesizer.Wishes
 
             audioFileOutput.SamplingRate = ConfigHelper.DefaultSamplingRate;
 
-            ToolingHelper.SetSamplingRateForTooling(audioFileOutput);
+            int? samplingRateForTooling = ToolingHelper.GetSamplingRateForTooling();
+            if (samplingRateForTooling != null)
+            {
+                WriteLine($"Setting sampling rate to {samplingRateForTooling}.");
+                audioFileOutput.SamplingRate = samplingRateForTooling.Value;
+                WriteLine();
+                
+            }
         }
     }
 }

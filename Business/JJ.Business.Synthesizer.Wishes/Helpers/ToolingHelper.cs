@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using static System.Console;
 using static System.Environment;
+// ReSharper disable RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
@@ -40,37 +41,33 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// It can do this by lowering the audio sampling rate for instance.
         /// </summary>
         /// <param name="audioFileOutput"> The <see cref="AudioFileOutput" /> to be optimized. </param>
-        public static void SetSamplingRateForTooling(AudioFileOutput audioFileOutput)
+        public static int? GetSamplingRateForTooling()
         {
             if (IsRunningInNCrunch)
             {
-                audioFileOutput.SamplingRate = ConfigHelper.NCrunch.SamplingRate;
-
                 if (CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory))
                 {
-                    WriteLine($"Test has category '{ConfigHelper.LongRunningTestCategory}'.");
-
-                    audioFileOutput.SamplingRate = ConfigHelper.NCrunch.SamplingRateLongRunning;
+                    return ConfigHelper.NCrunch.SamplingRateLongRunning;
                 }
-
-                WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate}.");
+                else
+                {
+                    return ConfigHelper.NCrunch.SamplingRate;
+                }
             }
 
             if (IsRunningInAzurePipelines)
             {
-                audioFileOutput.SamplingRate = ConfigHelper.AzurePipelines.SamplingRate;
-
                 if (CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory))
                 {
-                    WriteLine($"Test has category '{ConfigHelper.LongRunningTestCategory}'.");
-                    
-                    audioFileOutput.SamplingRate = ConfigHelper.AzurePipelines.SamplingRateLongRunning;
+                    return ConfigHelper.AzurePipelines.SamplingRateLongRunning;
                 }
-
-                WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate}.");
+                else
+                {
+                    return ConfigHelper.AzurePipelines.SamplingRate;
+                }
             }
-            
-            WriteLine();
+
+            return null;
         }
 
         public static bool IsRunningInNCrunch
@@ -94,8 +91,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
                 if (lines.Any())
                 {
-                    WriteLine();
                     lines.ForEach(WriteLine);
+                    WriteLine();
                 }
 
                 return isNCrunch;
@@ -123,12 +120,20 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             }
         }
 
-        public static bool CurrentTestIsInCategory(string category) =>
-            new StackTrace().GetFrames()?
-                            .Select(stackFrame => stackFrame.GetMethod())
-                            .SelectMany(method => method.GetCustomAttributes(false)
-                                                        .Where(attr => attr.GetType().Name == "TestCategoryAttribute")
-                                                        .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr) as IEnumerable<string>))
-                            .Any(x => x.Contains(category)) ?? false;
+        public static bool CurrentTestIsInCategory(string category)
+        {
+            bool isInCategory = new StackTrace().GetFrames()?
+                                                .Select(stackFrame => stackFrame.GetMethod())
+                                                .SelectMany(method => method.GetCustomAttributes(false)
+                                                                            .Where(attr => attr.GetType().Name == "TestCategoryAttribute")
+                                                                            .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr) as IEnumerable<string>))
+                                                .Any(x => x.Contains(category)) ?? false;
+            if (isInCategory)
+            {
+                WriteLine($"Test has category '{category}'.");
+            }
+
+            return isInCategory;
+        }
     }
 }
