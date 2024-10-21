@@ -16,6 +16,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using static System.Console;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -180,8 +181,6 @@ namespace JJ.Business.Synthesizer.Wishes
             string fileName,
             string callerMemberName)
         {
-            Console.WriteLine();
-
             // Validate Parameters
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channels));
@@ -191,6 +190,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
             fileName = ResolveFileName(fileName, audioFileFormatEnum, callerMemberName);
 
+            WriteLine();
+            WriteLine(GetPrettyTitle(fileName));
+            
             // Validate Input Data
             var warnings = new List<string>();
             foreach (Outlet channel in channels)
@@ -233,12 +235,15 @@ namespace JJ.Business.Synthesizer.Wishes
             string warningText = warnings.Count == 0 ? "" : $"{NewLine}{NewLine}Warnings:{NewLine}" +
                                                             $"{string.Join(NewLine, warnings.Select(x => $"- {x}"))}";
 
-            Console.WriteLine(calculationTimeText + outputFileText + warningText);
+            WriteLine(calculationTimeText + outputFileText + warningText);
+            WriteLine();
 
-            foreach (var channel in channels)
+            foreach (AudioFileOutputChannel audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
             {
-                Console.WriteLine();
-                Console.WriteLine(channel.Stringify());
+                WriteLine($"Calculation Channel {audioFileOutputChannel.Index + 1}:");
+                WriteLine();
+                WriteLine(audioFileOutputChannel.Outlet?.Stringify());
+                WriteLine();
             }
 
             var result = warnings.ToResult(audioFileOutput);
@@ -270,8 +275,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 return;
             }
 
-            Console.WriteLine();
-            Console.WriteLine("Playing audio...");
+            WriteLine("Playing audio...");
+            WriteLine();
             
             new SoundPlayer(audioFileOutput.FilePath).PlaySync();
         }
@@ -292,13 +297,34 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return fileName;
         }
+        
+        private string GetPrettyTitle(string fileName)
+        {
+            string title;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                title = "Untitled";
+            }
+            else
+            {
+                title = fileName.CutRightUntil(".") // Removing file extension
+                                .CutRight(".")
+                                .Replace("_RunTest", "")
+                                .Replace("_Test", "")
+                                .Replace("_", " ");
+            }
+            
+            string dashes = "".PadRight(title.Length, '-');
+
+            return title + NewLine + dashes;
+        }
 
         private void SetSamplingRate(AudioFileOutput audioFileOutput, int samplingRateOverride)
         {
             if (samplingRateOverride != default)
             {
                 audioFileOutput.SamplingRate = samplingRateOverride;
-                Console.WriteLine($"Sampling rate override = {audioFileOutput.SamplingRate}.");
+                WriteLine($"Sampling rate override = {audioFileOutput.SamplingRate}.");
                 return;
             }
 
@@ -320,12 +346,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 if (CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory))
                 {
-                    Console.WriteLine($"Test is in category '{ConfigHelper.LongRunningTestCategory}'.");
+                    WriteLine($"Test is in category '{ConfigHelper.LongRunningTestCategory}'.");
 
                     audioFileOutput.SamplingRate = ConfigHelper.NCrunch.SamplingRateLongRunning;
                 }
 
-                Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate}.");
+                WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate}.");
             }
 
             if (IsRunningInAzurePipelines)
@@ -334,15 +360,15 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 if (CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory))
                 {
-                    Console.WriteLine($"Test is in category '{ConfigHelper.LongRunningTestCategory}'.");
+                    WriteLine($"Test is in category '{ConfigHelper.LongRunningTestCategory}'.");
                     
                     audioFileOutput.SamplingRate = ConfigHelper.AzurePipelines.SamplingRateLongRunning;
                 }
 
-                Console.WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate}.");
+                WriteLine($"Setting sampling rate to {audioFileOutput.SamplingRate}.");
             }
             
-            Console.WriteLine();
+            WriteLine();
         }
 
         private bool IsRunningInNCrunch
@@ -351,7 +377,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 if (ConfigHelper.NCrunch.Pretend)
                 {
-                    Console.WriteLine("Pretending to be NCrunch.");
+                    WriteLine("Pretending to be NCrunch.");
                     Environment.SetEnvironmentVariable("NCrunch", "1");
                 }
 
@@ -359,7 +385,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 bool isNCrunch = string.Equals(environmentVariable, "1");
                 if (isNCrunch)
                 { 
-                    Console.WriteLine($"Environment variable NCrunch = {environmentVariable}");
+                    WriteLine($"Environment variable NCrunch = {environmentVariable}");
                 }
 
                 return isNCrunch;
@@ -372,7 +398,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 if (ConfigHelper.AzurePipelines.Pretend)
                 {
-                    Console.WriteLine("Pretending to be Azure Pipelines.");
+                    WriteLine("Pretending to be Azure Pipelines.");
                     Environment.SetEnvironmentVariable("TF_BUILD", "True");
                 }
 
@@ -380,7 +406,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 bool isAzurePipelines = string.Equals(environmentVariable, "True");
                 if (isAzurePipelines)
                 { 
-                    Console.WriteLine($"Environment variable TF_BUILD = {environmentVariable} (Azure Pipelines)");
+                    WriteLine($"Environment variable TF_BUILD = {environmentVariable} (Azure Pipelines)");
                 }
 
                 return isAzurePipelines;
