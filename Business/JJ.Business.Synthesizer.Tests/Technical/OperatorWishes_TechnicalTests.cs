@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             IsNotNull(() => nestedAdder);
             AreEqual(4, () => nestedAdder.Operands.Count);
-            double nestedAdderResult = nestedAdder.Result.Calculate(0);
+            double nestedAdderResult = nestedAdder.Calculate(0);
             AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => nestedAdderResult);
 
             // Check Flattened Terms
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => constant);
             AreEqual(9 + 10, () => constant.Value);
             
-            double calculatedNestedSum = sumWrapper.Result.Calculate(0);
+            double calculatedNestedSum = sumWrapper.Calculate(0);
             AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => calculatedNestedSum);
         }
  
@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IList<Outlet> flattenedFactors = OperatorExtensionsWishesAccessor.FlattenFactors(nestedMultiply);
             
             IsNotNull(() => flattenedFactors);
-            AreEqual(6,      () => flattenedFactors.Count);
+            AreEqual(6, () => flattenedFactors.Count);
             
             // Operator creation reversed the order.
             AreEqual(var2,   () => flattenedFactors[4]);

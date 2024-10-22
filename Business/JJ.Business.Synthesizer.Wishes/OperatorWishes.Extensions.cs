@@ -31,6 +31,34 @@ namespace JJ.Business.Synthesizer.Wishes
             return calculator.CalculateValue(outlet, time);
         }
 
+        public static double Calculate(this Operator op, double time, int channelIndex = 0)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+
+            Outlet outlet;
+            switch (op.Outlets.Count)
+            { 
+                case 1: 
+                    outlet = op.Outlets[0]; 
+                    break;
+
+                default: 
+                    throw new Exception(
+                        $"{nameof(Calculate)} can only be called on "+
+                        $"{nameof(Operator)}s with exactly one {nameof(Outlet)}. " +
+                        $"Consider calling {nameof(Operator)}.{nameof(Outlet)}.{nameof(Calculate)}() instead. " +
+                        $"({nameof(op.OperatorTypeName)} = '{op.OperatorTypeName}')");
+            }
+
+            return Calculate(outlet, time, channelIndex);
+        }
+
+        public static double Calculate(this OperatorWrapperBase wrapper, double time, int channelIndex = 0)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return Calculate(wrapper.Operator, time, channelIndex);
+        }
+
         // String
 
         public static string Stringify(this Outlet entity)
