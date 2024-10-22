@@ -170,7 +170,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveaudio" />
         private Result<AudioFileOutput> SaveAudioBase(
-            IList<Outlet> channels,
+            IList<Outlet> channelInputs,
             double duration,
             double volume,
             SampleDataTypeEnum sampleDataTypeEnum,
@@ -180,9 +180,9 @@ namespace JJ.Business.Synthesizer.Wishes
             string callerMemberName)
         {
             // Validate Parameters
-            if (channels == null) throw new ArgumentNullException(nameof(channels));
-            if (channels.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channels));
-            if (channels.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channels));
+            if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
+            if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
+            if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
             if (duration == default) duration = _[1];
             if (volume == default) volume = _[1];
             fileName = ResolveFileName(fileName, audioFileFormatEnum, callerMemberName);
@@ -193,10 +193,10 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Validate Input Data
             var warnings = new List<string>();
-            foreach (Outlet channel in channels)
+            foreach (Outlet channelInput in channelInputs)
             {
-                channel.Assert();
-                warnings.AddRange(channel.GetWarnings());
+                channelInput.Assert();
+                warnings.AddRange(channelInput.GetWarnings());
             }
 
             // Configure AudioFileOutput
@@ -207,10 +207,10 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SamplingRate = ResolveSamplingRate(samplingRateOverride);
             audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum);
             audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum);
-            _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channels.Count);
-            for (int i = 0; i < channels.Count; i++)
+            _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channelInputs.Count);
+            for (int i = 0; i < channelInputs.Count; i++)
             {
-                audioFileOutput.AudioFileOutputChannels[i].Outlet = channels[i];
+                audioFileOutput.AudioFileOutputChannels[i].Outlet = channelInputs[i];
             }
 
             // Validate AudioFileOutput
@@ -234,7 +234,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             foreach (AudioFileOutputChannel audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
             {
-                WriteLine($"Calculation Channel {audioFileOutputChannel.Index + 1}:");
+                WriteLine($"Calculation Channel {audioFileOutputChannel.GetSpeakerSetupChannel().Channel.Name}:");
                 WriteLine();
                 WriteLine(audioFileOutputChannel.Outlet?.Stringify());
                 WriteLine();
