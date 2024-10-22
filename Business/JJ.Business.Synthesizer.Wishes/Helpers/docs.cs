@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// Simpler variation on the one in the original OperatorFactory
         /// with pitch as the first and only parameter.
         /// </summary>
-        /// <param name="pitch"> The frequency in Hz of the sine wave. </param>
+        /// <param name="pitch"> The frequency in Hz of the sine wave. Defaults to 1 Hz.</param>
         /// <returns> An <see cref="Outlet" /> representing the sine wave signal. </returns>
         /// <inheritdoc cref="_default" />
         public object _sine;
@@ -235,8 +235,5 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         /// <summary> Multiplies two <see cref="Outlet"/> operands, optimizing for constant values if possible. </summary>
         public object _multiply;
-
-        /// <summary> Synonym for 'Adder'. </summary>
-        public object _sum;
     }
 }

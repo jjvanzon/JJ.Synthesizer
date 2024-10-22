@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public void FM_Trombone() => new FMTests().FM_Trombone_RunTest();
 
         void FM_Trombone_RunTest()
-            => PlayMono(() => MildEcho(Trombone(E2)), volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Trombone(E2)), duration: 2, volume: DEFAULT_VOLUME);
 
         [TestMethod]
         public void FM_Horn() => new FMTests().FM_Horn_RunTest();
@@ -175,13 +175,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public void FM_RippleSound_FantasyEffect() => new FMTests().FM_RippleSound_FantasyEffect_RunTest();
 
         void FM_RippleSound_FantasyEffect_RunTest()
-            => PlayMono(() => DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DEEP_ECHO_TIME, volume: 0.05);
 
         [TestMethod]
         public void FM_RippleSound_CoolDouble() => new FMTests().FM_RippleSound_CoolDouble_RunTest();
 
         void FM_RippleSound_CoolDouble_RunTest()
-            => PlayMono(() => DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.05);
 
         [TestMethod]
         public void FM_Noise_Beating() => new FMTests().FM_Noise_Beating_RunTest();
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double hornVolume       = 0.6;
             double rippleBassVolume = 0.7;
 
-            var pattern1 = Sum
+            var pattern1 = Add
             (
                 Multiply(_[fluteVolume],      FluteMelody1),
                 Multiply(_[chordsVolume],     PadChords),
@@ -210,7 +210,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 Multiply(_[rippleBassVolume], RippleBassMelody1)
             );
 
-            var pattern2 = Sum
+            var pattern2 = Add
             (
                 Multiply(_[fluteVolume],      FluteMelody2),
                 Multiply(_[tromboneVolume],   TromboneMelody2),
@@ -218,10 +218,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 Multiply(_[rippleBassVolume], RippleBassMelody2)
             );
 
-            var composition = Sum
+            var composition = Add
             (
                 pattern1,
-                TimeAdd(pattern2, bar[5])
+                Delay(pattern2, bar[5])
                 //RippleSound_Clean(A4, delay: Bar[3], volume: _[0.50], duration: Bar(2))
             );
 
@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Melodies
 
-        Outlet FluteMelody1 => Sum
+        Outlet FluteMelody1 => Add
         (
             Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
             Flute1(F4, t[bar: 1, beat: 2.5], volume: _[0.70], beats[2.17]),
@@ -244,7 +244,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Flute1(G4, t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
         );
 
-        Outlet FluteMelody2 => Sum
+        Outlet FluteMelody2 => Add
         (
             Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
             Flute2(F4, t[bar: 1, beat: 2.5], volume: _[0.68], beats[1.0]),
@@ -259,7 +259,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
-                Sum
+                Add
                 (
                     Organ(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
                     Organ(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         Outlet PadChords => Multiply
         (
             Stretch(ChordVolumeCurve, bars[1]),
-            Sum
+            Add
             (
                 Pad(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
                 Pad(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
@@ -278,7 +278,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             )
         );
 
-        Outlet HornMelody1 => Sum
+        Outlet HornMelody1 => Add
         (
             //Horn(A2, Beat[01], duration: Beats[2]),
             //Horn(E3, Beat[02]),
@@ -290,7 +290,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             //Horn(D3, Beat[15])
         );
 
-        Outlet HornMelody2 => Sum
+        Outlet HornMelody2 => Add
         (
             Horn(A2, beat[1], duration: beat[3], volume: _[0.75]),
             //Horn(E3, Beat[3]),
@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Horn(A1, beat[9], duration: beat[5], volume: _[1.0])
         );
 
-        Outlet TromboneMelody1 => Sum
+        Outlet TromboneMelody1 => Add
         (
             //Trombone(A3, Beat[00]),
             //Trombone(E4, Beat[02]),
@@ -311,7 +311,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             //Trombone(B3, Beat[14])
         );
 
-        Outlet TromboneMelody2 => Sum
+        Outlet TromboneMelody2 => Add
         (
             //Trombone(A2, Beat[1]),
             Trombone(E4, beat[3], durationFactor: _[1.4]),
@@ -320,7 +320,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             //Trombone(A3, Beat[9])
         );
 
-        Outlet TromboneMelody3 => Sum
+        Outlet TromboneMelody3 => Add
         (
             Trombone(A1,       beat[1]),
             Trombone(E2,       beat[3]),
@@ -603,7 +603,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
-            var modulator = Sine(modDepth, modSpeed);
+            var modulator = Multiply(Sine(modSpeed), modDepth);
             var sound     = Sine(Add(soundFreq, modulator));
             return sound;
         }
@@ -612,7 +612,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet FMAround0(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
-            var modulator = Sine(modDepth, modSpeed);
+            var modulator = Multiply(Sine(modSpeed), modDepth);
             var sound     = Sine(Multiply(soundFreq, modulator));
             return sound;
         }
@@ -621,7 +621,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
-            var modulator = Add(_[1], Sine(modDepth, modSpeed));
+            var modulator = Add(_[1], Multiply(Sine(modSpeed), modDepth));
             var sound     = Sine(Multiply(soundFreq, modulator));
             return sound;
         }
@@ -654,7 +654,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         Outlet BrassCurve => CurveIn
         (
-            (time: 0.00, value: 1),
+            (time: 0.00, value: 0),
+            (time: 0.07, value: 1),
             (time: 0.93, value: 1),
             (time: 1.00, value: 0)
         );

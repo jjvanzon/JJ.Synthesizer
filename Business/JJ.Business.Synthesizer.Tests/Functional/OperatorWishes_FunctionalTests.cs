@@ -285,7 +285,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(G4), envelope);
-            Outlet echoes   = EntityFactory.CreateEcho(this, sound, denominator: 1.5, delay: 0.25, count: 16);
+            Outlet echoes   = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
 
             SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono     (() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");

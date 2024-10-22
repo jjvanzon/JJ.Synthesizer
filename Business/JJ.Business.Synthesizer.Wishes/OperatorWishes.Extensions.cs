@@ -183,15 +183,11 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._add"/>
-        public static Outlet Add(this OperatorFactory x, Outlet operandA, Outlet operandB) 
-            => Sum(x, operandA, operandB);
+        public static Outlet Add(this OperatorFactory x, params Outlet[] operands) 
+            => Add(x, (IList<Outlet>)operands);
 
-        /// <inheritdoc cref="docs._sum"/>
-        public static Outlet Sum(this OperatorFactory x, params Outlet[] operands) 
-            => Sum(x, (IList<Outlet>)operands);
-
-        /// <inheritdoc cref="docs._sum"/>
-        public static Outlet Sum(this OperatorFactory x, IList<Outlet> operands)
+        /// <inheritdoc cref="docs._add"/>
+        public static Outlet Add(this OperatorFactory x, IList<Outlet> operands)
         {
             if (x == null) throw new ArgumentNullException(nameof(x));
             if (operands == null) throw new ArgumentNullException(nameof(operands));
@@ -378,6 +374,13 @@ namespace JJ.Business.Synthesizer.Wishes
             return x.Multiply(firstFactor, NestMultiplications(x, remainingFactors));
         }
 
+
+        public static Outlet Delay(OperatorFactory operatorFactory, Outlet signal, Outlet timeDifference)
+        {
+            if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
+            return operatorFactory.TimeAdd(signal, timeDifference);
+        }
+
         /// <inheritdoc cref="docs._default" />
         public static Outlet Stretch(this OperatorFactory operatorFactory, Outlet signal, Outlet timeFactor)
         {
@@ -388,10 +391,12 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._sine" />
-        public static Outlet Sine(this OperatorFactory operatorFactory, Outlet pitch)
+        public static Outlet Sine(this OperatorFactory operatorFactory, Outlet pitch = null)
         {
             if (operatorFactory == null) throw new ArgumentNullException(nameof(operatorFactory));
             var x = operatorFactory;
+
+            pitch = pitch ?? x.Value(1);
             
             return x.Sine(x.Value(1), pitch);
         }
@@ -621,7 +626,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay     = Add(x, cumulativeDelay, delay);
             }
 
-            var adder = Sum(x, repeats);
+            var adder = Add(x, repeats);
             return adder;
         }
 

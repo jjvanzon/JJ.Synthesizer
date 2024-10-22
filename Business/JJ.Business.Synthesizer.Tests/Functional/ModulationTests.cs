@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         #region Jingles
 
         /// <inheritdoc cref="_vibraphasedocs" />
-        Outlet VibraphaseChord => Sum
+        Outlet VibraphaseChord => Add
         (
             Vibraphase(freq: A4, volume: _[0.80]),
             Vibraphase(freq: B4, volume: _[0.70]),
@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         );
 
         /// <inheritdoc cref="docs._detunica" />
-        Outlet DetunicaJingle => Sum
+        Outlet DetunicaJingle => Add
         (
             DetunicaBass(bar[1],              bars[5.25]),
             Detunica2   (bar[2], B4, _[0.70], bars[1.50]),
@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         Outlet DetunicaBass(Outlet delay = null, Outlet duration = null) =>
             Panbrello(
                 panbrello: (speed: _[2], depth: _[0.20]),
-                sound: Sum(
+                sound: Add(
                     Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
                     Detunica2(delay, E1, _[0.800], duration), // TODO: Maybe don't use this churning sound.
                     Detunica3(delay, E2, _[1.000], duration),
@@ -254,12 +254,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            return Sum
+            return Add
             (
-                Sine(_[1.0], freq),
-                Sine(_[0.5], Multiply(freq, _[2])),
-                Sine(_[0.3], Multiply(freq, _[3])),
-                Sine(_[0.2], Multiply(freq, _[4]))
+                Multiply(Sine(Multiply(freq, _[1])), _[1.0]),
+                Multiply(Sine(Multiply(freq, _[2])), _[0.5]),
+                Multiply(Sine(Multiply(freq, _[3])), _[0.3]), 
+                Multiply(Sine(Multiply(freq, _[4])), _[0.2])
             );
         }
 
@@ -268,13 +268,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            return Sum
+            return Add
             (
-                Sine(_[1.00], freq),
-                Sine(_[0.30], Multiply(freq, _[2])),
-                Sine(_[0.15], Multiply(freq, _[5])),
-                Sine(_[0.08], Multiply(freq, _[7])),
-                Sine(_[0.10], Multiply(freq, _[9]))
+                Multiply(Sine(Multiply(freq, _[1])), _[1.00]),
+                Multiply(Sine(Multiply(freq, _[2])), _[0.30]),
+                Multiply(Sine(Multiply(freq, _[5])), _[0.15]),
+                Multiply(Sine(Multiply(freq, _[7])), _[0.08]),
+                Multiply(Sine(Multiply(freq, _[9])), _[0.10])
             );
         }
 
@@ -285,13 +285,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            return Sum
+            return Add
             (
-                Sine(_[1.00], DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate)),
-                Sine(_[0.30], DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate)),
-                Sine(_[0.15], DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate)),
-                Sine(_[0.08], DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate)),
-                Sine(_[0.10], DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate))
+                Multiply(_[1.00], Sine(DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate))),
+                Multiply(_[0.30], Sine(DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate))),
+                Multiply(_[0.15], Sine(DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate))),
+                Multiply(_[0.08], Sine(DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate))),
+                Multiply(_[0.10], Sine(DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate)))
             );
         }
 
@@ -334,10 +334,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             depthAdjust1 = depthAdjust1 ?? _[0.005];
             depthAdjust2 = depthAdjust2 ?? _[0.250];
 
-            var tremoloWave1 = Sine(Add(_[1], depthAdjust1), _[5.5]); // 5.5 Hz _tremolo
+            var tremoloWave1 = Multiply(Add(_[1], depthAdjust1), Sine(_[5.5])); // 5.5 Hz _tremolo
             sound = Multiply(sound, tremoloWave1);
 
-            var tremoloWave2 = Sine(Add(_[1], depthAdjust2), _[4]); // 4 Hz _tremolo
+            var tremoloWave2 = Multiply(Add(_[1], depthAdjust2), Sine(_[4])); // 4 Hz _tremolo
             sound = Multiply(sound, tremoloWave2);
 
             return sound;

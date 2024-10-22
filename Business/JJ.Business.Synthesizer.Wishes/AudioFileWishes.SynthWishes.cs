@@ -29,14 +29,19 @@ namespace JJ.Business.Synthesizer.Wishes
         public readonly SampleDataTypeEnum Byte = SampleDataTypeEnum.Byte;
         public readonly ChannelEnum Single = ChannelEnum.Single;
 
-        private void InitializeAudioFileOutputWishes(IContext context)
+        private void InitializeAudioFileWishes(IContext context)
         {
             _interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
             _audioFileOutputManager = ServiceFactory.CreateAudioFileOutputManager(context);
+            Samples = ServiceFactory.CreateSampleManager(context);
         }
 
         private IInterpolationTypeRepository _interpolationTypeRepository;
         private AudioFileOutputManager _audioFileOutputManager;
+        public SampleManager Samples { get; private set; }
+
+        // TODO: Deprecate. Hide inside SynthWishes.
+        public SampleOperatorWrapper Sample(Sample sample) => _operatorFactory.Sample(sample);
 
         /// <summary>
         /// Creates a Sample by reading the file at the given <paramref name="filePath" />.
@@ -57,7 +62,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 sample.SetInterpolationTypeEnum(interpolationTypeEnum, _interpolationTypeRepository);
                 sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
 
-                SampleOperatorWrapper wrapper = Sample(sample);
+                SampleOperatorWrapper wrapper = _operatorFactory.Sample(sample);
                 ((Outlet)wrapper).Operator.Name = sample.Name;
 
                 return wrapper;
@@ -259,7 +264,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return (func, duration2);
             }
 
-            Outlet func2() => TimeAdd(func(), _[ConfigHelper.PlayLeadingSilence]);
+            Outlet func2() => Delay(func(), _[ConfigHelper.PlayLeadingSilence]);
             return (func2, duration2);
         }
 

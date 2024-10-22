@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
@@ -41,30 +42,31 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => constValue10);
 
             // Check Classic Adder
+            OperatorFactory x = TestHelper.CreateOperatorFactory(Context);
             Adder nestedAdder =
-                Adder
+                x.Adder
                 (
-                    Adder
+                    x.Adder
                     (
                         cloackedValue1,
                         cloackedValue2,
                         cloackedValue3
                     ),
                     cloackedValue4,
-                    Adder
+                    x.Adder
                     (
                         cloackedValue5,
-                        Adder
+                        x.Adder
                         (
                             cloackedValue6,
-                            Adder
+                            x.Adder
                             (
                                 cloackedValue7,
                                 cloackedValue8
                             )
                         )
                     ),
-                    Adder
+                    x.Adder
                     (
                         constValue9, 
                         constValue10
@@ -94,19 +96,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Check Nested Sum
             Outlet nestedSumOutlet =
-                Sum
+                Add
                 (
-                    Sum
+                    Add
                     (
                         cloackedValue1,
                         cloackedValue2,
                         cloackedValue3
                     ),
                     cloackedValue4,
-                    Sum
+                    Add
                     (
                         cloackedValue5,
-                        Sum
+                        Add
                         (
                             cloackedValue6,
                             Add

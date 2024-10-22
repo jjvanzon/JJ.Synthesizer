@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Factories;
 using JJ.Framework.Persistence;
 
 // ReSharper disable InconsistentNaming
@@ -62,7 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             /// <inheritdoc cref="BarIndexer" />
             public ValueOperatorWrapper this[double count]
-                => _parent.Value((count - 1) * _barDuration);
+                => _parent._operatorFactory.Value((count - 1) * _barDuration);
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             /// <inheritdoc cref="BarsIndexer" />
             public ValueOperatorWrapper this[double count]
-                => _parent.Value(count * _barDuration);
+                => _parent._operatorFactory.Value(count * _barDuration);
         }
 
         /// <summary>
@@ -104,7 +105,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             /// <inheritdoc cref="BeatIndexer" />
             public ValueOperatorWrapper this[double count]
-                => _parent.Value((count - 1) * _beatDuration);
+                => _parent._operatorFactory.Value((count - 1) * _beatDuration);
         }
 
         /// <summary>
@@ -125,7 +126,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             /// <inheritdoc cref="BeatsIndexer" />
             public ValueOperatorWrapper this[double count]
-                => _parent.Value(count * _beatLength);
+                => _parent._operatorFactory.Value(count * _beatLength);
         }
 
         /// <summary>
@@ -150,7 +151,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             /// <inheritdoc cref="TimeIndexer" />
             public ValueOperatorWrapper this[double bar, double beat]
-                => _parent.Value((bar - 1) * _barLength + (beat - 1) * _beatLength);
+                => _parent._operatorFactory.Value((bar - 1) * _barLength + (beat - 1) * _beatLength);
         }
     }
 }

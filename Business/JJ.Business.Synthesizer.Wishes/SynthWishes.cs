@@ -1,4 +1,5 @@
 ﻿using System;
+using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
@@ -12,29 +13,20 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         public IContext Context { get; }
-        public SampleManager Samples { get; }
 
         public SynthWishes()
             : this(PersistenceHelper.CreateContext())
         { }
 
         public SynthWishes(IContext context)
-            : base(PersistenceHelper.CreateRepository<IOperatorRepository>(context),
-                   PersistenceHelper.CreateRepository<IInletRepository>(context),
-                   PersistenceHelper.CreateRepository<IOutletRepository>(context),
-                   PersistenceHelper.CreateRepository<ICurveInRepository>(context),
-                   PersistenceHelper.CreateRepository<IValueOperatorRepository>(context),
-                   PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context))
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             Context = context;
-            
-            Samples = ServiceFactory.CreateSampleManager(context);
 
-            InitializeAudioFileOutputWishes(context);
+            InitializeAudioFileWishes(context);
             InitializeCurveWishes(context);
-            InitializeOperatorWishes();
+            InitializeOperatorWishes(context);
         }
     }
 }
