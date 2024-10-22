@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 Divide(frequency, A4)
             );
 
-        const double ECHO_TIME = 0.66 * 4;
+        const double ECHO_TIME = 0.66 * 3;
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet Echo(Outlet sound)
