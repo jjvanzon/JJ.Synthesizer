@@ -29,7 +29,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// 1 is the default and a more patchy volume envelope.<br />
         /// 2 gives the newer with a move even fade in and out.
         /// </param>
-        /// <inheritdoc cref="wishes.docs._default" />
+        /// <inheritdoc cref="docs._default" />
         public object _detunica;
+
+        /// <inheritdoc cref="wishes.docs._default" />
+        public object _default;
     }
 }

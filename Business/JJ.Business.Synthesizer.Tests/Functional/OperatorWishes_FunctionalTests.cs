@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Testing;
@@ -24,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._vibrato" />
         void Vibrato_RunTest()
             => PlayMono(
-                () => Sine(VibratoOverPitch(A4)),
+                () => Envelope(Sine(VibratoOverPitch(A4)), duration: _[2]),
                 volume: 0.9, duration: 2);
 
         [TestMethod]
@@ -34,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._tremolo" />
         void Tremolo_RunTest()
             => PlayMono(
-                () => Tremolo(Sine(A4), (_[4], _[0.5])),
+                () => Envelope(Tremolo(Sine(A4), (_[4], _[0.5])), duration: _[2]),
                 volume: 0.30, duration: 2);
 
         // Panning Tests
@@ -141,7 +142,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double maxValueRight = panned.Calculate(time: 0.25 / freq);
             double minValueRight = panned.Calculate(time: 0.75 / freq);
 
-            Play(() => Panning(sine, panning), duration: 1);
+            Play(() => Envelope(Panning(sine, panning)), duration: 1);
 
             // Assert
             AssertHelper.AreEqual(0.75,  () => maxValueLeft);
@@ -155,7 +156,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panning_SineWaveSignal_DynamicPanning_RunTest()
         {
-            var sine = Sine(A4);
+            var sine = Envelope(Sine(A4));
             var panning = CurveIn(@"
                                     *
                                 *
@@ -175,7 +176,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panbrello_DefaultSpeedAndDepth_RunTest()
         {
-            var sound = Sine(A4);
+            var sound = Envelope(Sine(A4));
             Play(() => Panbrello(sound));
         }
 
@@ -184,7 +185,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
-            var sound = Sine(A4);
+            var sound = Envelope(Sine(A4));
             Play(() => Panbrello(sound, (speed: _[2.0], depth: _[0.75])));
         }
 
@@ -193,7 +194,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panbrello_DynamicSpeedAndDepth_RunTest()
         {
-            var sound = Sine(A4);
+            var sound = Envelope(Sine(A4));
 
             var speed = CurveIn(
                 "Speed", x: (0, 3), y: (0, 8), @"
@@ -287,7 +288,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet echoes   = EntityFactory.CreateEcho(this, sound, denominator: 1.5, delay: 0.25, count: 16);
 
             SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
-            PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
+            PlayMono     (() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
 
         }
 
@@ -301,7 +302,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet echoes   = EchoAdditive(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
             SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
-            PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
+            PlayMono     (() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
         }
 
         [TestMethod]
@@ -363,9 +364,16 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet echoes = EchoFeedBack(sound, magnitude, delay, count: 16);
 
             SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav"    );
-            SaveAudioMono(() => magnitude, duration: 4,   fileName: Name() + "_Magnitude.wav");
-            SaveAudioMono(() => delay,     duration: 4,   fileName: Name() + "_Delay.wav"    );
-            PlayMono(     () => echoes,    duration: 4,   fileName: Name() + "_Output.wav"   );
+            SaveAudioMono(() => magnitude, duration: 4.5,   fileName: Name() + "_Magnitude.wav");
+            SaveAudioMono(() => delay,     duration: 4.5,   fileName: Name() + "_Delay.wav"    );
+            PlayMono(     () => echoes,    duration: 4.5,   fileName: Name() + "_Output.wav"   );
+        }
+
+        /// <inheritdoc cref="docs._default"/>
+        private Outlet Envelope(Outlet sound, Outlet duration = null)
+        {
+            duration = duration ?? _[1];
+            return Multiply(sound, Stretch(CurveIn((0, 0), (0.05, 1), (0.95, 1), (1.00, 0)), duration));
         }
     }
 }

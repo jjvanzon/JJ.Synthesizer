@@ -75,11 +75,11 @@ namespace JJ.Business.Synthesizer.Wishes
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
         {
-            var func2 = ApplyLeadingSilence(func);
+            (func, duration) = ApplyLeadingSilence(func, duration);
 
             var result =
                 SaveAudio(
-                    func2, duration + ConfigHelper.PlayLeadingSilence, volume,
+                    func, duration, volume,
                     speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
                     fileName, callerMemberName);
             
@@ -98,11 +98,11 @@ namespace JJ.Business.Synthesizer.Wishes
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
         {
-            var func2 = ApplyLeadingSilence(func);
+            (func, duration) = ApplyLeadingSilence(func, duration);
 
             var result =
                 SaveAudioMono(
-                    func2, duration + ConfigHelper.PlayLeadingSilence, volume,
+                    func, duration, volume,
                     sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
                     fileName, callerMemberName);
             
@@ -110,16 +110,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return result;
         }
-
-        private Func<Outlet> ApplyLeadingSilence(Func<Outlet> func)
-        {
-            if (ConfigHelper.PlayLeadingSilence == 0) return func;
-
-            Outlet func2() => TimeAdd(func(), _[ConfigHelper.PlayLeadingSilence]);
-
-            return func2;
-        }
-
 
         /// <inheritdoc cref="docs._saveaudio" />
         public Result<AudioFileOutput> SaveAudioMono(
@@ -260,9 +250,22 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
         
+        private (Func<Outlet> func, double duration) ApplyLeadingSilence(Func<Outlet> func, double duration)
+        {
+            double duration2 = duration + ConfigHelper.PlayLeadingSilence + ConfigHelper.PlayTrailingSilence;
+                
+            if (ConfigHelper.PlayLeadingSilence == 0)
+            {
+                return (func, duration2);
+            }
+
+            Outlet func2() => TimeAdd(func(), _[ConfigHelper.PlayLeadingSilence]);
+            return (func2, duration2);
+        }
+
         private void PlayIfAllowed(AudioFileOutput audioFileOutput)
         {
-            if (ToolingHelper.PlayAudioAllowed(audioFileOutput.GetFileExtension()))
+            if (ToolingHelper.PlayAllowed(audioFileOutput.GetFileExtension()))
             {
                 WriteLine("Playing audio...");
                 new SoundPlayer(audioFileOutput.FilePath).PlaySync();

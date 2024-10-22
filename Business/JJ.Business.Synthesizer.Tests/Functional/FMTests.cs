@@ -626,12 +626,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        const double MILD_ECHO_TIME = 0.33 * 5;
+        const double MILD_ECHO_TIME = 0.33 * 7;
 
         Outlet MildEcho(Outlet outlet)
             => Echo(outlet, count: 8, magnitude: _[0.25], delay: _[0.33]);
 
-        const double DEEP_ECHO_TIME = 0.5 * 5;
+        const double DEEP_ECHO_TIME = 0.5 * 7;
 
         /// <summary> Applies a deep echo effect to the specified sound. </summary>
         /// <param name="melody"> The original sound to which the echo effect will be applied. </param>

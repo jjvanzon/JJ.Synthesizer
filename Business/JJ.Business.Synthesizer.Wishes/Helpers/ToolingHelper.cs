@@ -12,20 +12,20 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     internal static class ToolingHelper
     {
-        public static bool PlayAudioAllowed(string fileExtension)
+        public static bool PlayAllowed(string fileExtension)
         {
-            if (!ConfigHelper.PlayAudioEnabled)
+            if (!ConfigHelper.PlayEnabled)
             {
                 return false;
             }
 
-            if (IsRunningInNCrunch && !ConfigHelper.NCrunch.PlayAudioEnabled)
+            if (IsRunningInNCrunch && !ConfigHelper.NCrunch.PlayEnabled)
             {
                 WriteLine("Audio disabled");
                 return false;
             }
 
-            if (IsRunningInAzurePipelines && !ConfigHelper.AzurePipelines.PlayAudioEnabled)
+            if (IsRunningInAzurePipelines && !ConfigHelper.AzurePipelines.PlayEnabled)
             {
                 WriteLine("Audio disabled");
                 return false;

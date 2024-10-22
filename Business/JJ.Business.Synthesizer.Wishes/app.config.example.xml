@@ -19,20 +19,21 @@
 
 	<jj.business.synthesizer.wishes 
 		defaultSamplingRate="48000"
-		playAudioEnabled="true"
+		playEnabled="true"
 		playLeadingSilence="0.2"
+		playTrailingSilence="0.2"
 		longRunningTestCategory="Long">
 		
 		<nCrunch
 			samplingRate="150"
 			samplingRateLongRunning="30"
-			playAudioEnabled="false"
+			playEnabled="false"
 			pretend="false" />
 		
 		<azurePipelines
 			samplingRate="1500"
 			samplingRateLongRunning="100"
-			playAudioEnabled="false" 
+			playEnabled="false" 
 			pretend="false"/>
 	</jj.business.synthesizer.wishes>
 	

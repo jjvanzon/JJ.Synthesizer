@@ -13,8 +13,9 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
 
         public static int    DefaultSamplingRate => _section.DefaultSamplingRate ?? 48000;
-        public static bool   PlayAudioEnabled    => _section.PlayAudioEnabled    ?? true;
+        public static bool   PlayEnabled         => _section.PlayEnabled         ?? true;
         public static double PlayLeadingSilence  => _section.PlayLeadingSilence  ?? 0.2;
+        public static double PlayTrailingSilence => _section.PlayTrailingSilence ?? 0.2;
 
         public static string LongRunningTestCategory
         {
@@ -40,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             public int  SamplingRate            => _baseConfig.SamplingRate            ?? 150;
             public int  SamplingRateLongRunning => _baseConfig.SamplingRateLongRunning ?? 30;
-            public bool PlayAudioEnabled        => _baseConfig.PlayAudioEnabled        ?? false;
+            public bool PlayEnabled             => _baseConfig.PlayEnabled        ?? false;
             public bool Pretend                 => _baseConfig.Pretend                 ?? false;
         }
         

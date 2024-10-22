@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet Echo(Outlet sound)
-            => Echo(sound, count: 5, magnitude: _[1 / 3d], delay: _[0.66]);
+            => Echo(sound, count: 4, magnitude: _[1 / 3d], delay: _[0.66]);
 
         #endregion
 
