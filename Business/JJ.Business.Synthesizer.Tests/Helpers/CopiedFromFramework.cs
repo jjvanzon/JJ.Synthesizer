@@ -89,5 +89,29 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// </summary>
         private static IEnumerable<TSource> OfType<TSource>(this IEnumerable<TSource> source, Type type)
             => source.Where(x => x.GetType() == type);
+
+            
+        /// <summary>
+        /// Works similar to Sum, but instead of adding up all the numbers, all the numbers are multiplied.
+        /// </summary>
+        public static double Product<TSource>(this IEnumerable<TSource> collection, Func<TSource, double> selector)
+            => collection.Select(selector).Product();
+
+        /// <summary>
+        /// Works similar to Sum, but instead of adding up all the numbers, all the numbers are multiplied.
+        /// </summary>
+        public static double Product(this IEnumerable<double> collection)
+        {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            double product = collection.FirstOrDefault();
+
+            foreach (double value in collection.Skip(1))
+            {
+                product *= value;
+            }
+
+            return product;
+        }
     }
 }

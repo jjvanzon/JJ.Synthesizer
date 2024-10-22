@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => OperatorExtensionsWishes.Add(this, operandA, operandB);
 
         /// <inheritdoc cref="docs._multiply"/>
-        public new Outlet Multiply(Outlet operandA, Outlet operandB, Outlet origin)
+        public new Outlet Multiply(Outlet operandA, Outlet operandB, Outlet origin = null)
             => OperatorExtensionsWishes.Multiply(this, operandA, operandB, origin);
 
         /// <inheritdoc cref="docs._sum"/>

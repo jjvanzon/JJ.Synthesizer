@@ -1,4 +1,8 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Tests.Accessors;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]
-    public class OperatorWishesTechnicalTests : SynthWishes
+    public class OperatorWishes_TechnicalTests : SynthWishes
     {
         [TestMethod]
         public void TestNestedSumFlattening()
@@ -72,7 +76,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => nestedAdderResult);
 
             // Check Flattened Terms
-            var flattenAdderTerms = OperatorExtensionsWishes.FlattenTerms(nestedAdder);
+            var flattenAdderTerms = OperatorExtensionsWishesAccessor.FlattenTerms(nestedAdder);
 
             IsNotNull(() => flattenAdderTerms);
             AreEqual(10,             () => flattenAdderTerms.Count);
@@ -137,6 +141,71 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             double calculatedNestedSum = sumWrapper.Result.Calculate(0);
             AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => calculatedNestedSum);
+        }
+ 
+        [TestMethod]
+        public void TestNestedMultiplicationOptimization()
+        {
+            // Arrange
+            var const1 = _[1];
+            var var2 = CurveIn("Curve2", 2, 2);
+            var const3 = _[3];
+            var var4 = CurveIn("Curve4", 4, 4);
+            var const5 = _[5];
+            var var6 = CurveIn("Curve6", 6, 6);
+            var var7 = CurveIn("Curve7", 7, 7);
+            var var8 = CurveIn("Curve8", 8, 8);
+
+            IsNotNull(() => const1);
+            IsNotNull(() => var2);
+            IsNotNull(() => const3);
+            IsNotNull(() => var4);
+            IsNotNull(() => const5);
+            IsNotNull(() => var6);
+            IsNotNull(() => var7);
+            IsNotNull(() => var8);
+
+            // Check Nested Multiplication
+            Outlet nestedMultiply =
+                Multiply
+                (
+                    Multiply
+                    (
+                        Multiply(const1, var2),
+                        Multiply
+                        (
+                            const3,
+                            Multiply(var4, const5)
+                        )
+                    ),
+                    Multiply
+                    (
+                        var6, 
+                        Multiply(var7, var8)
+                    )
+                );
+
+            IsNotNull(() => nestedMultiply);
+            double multiplyResult = nestedMultiply.Calculate(time: 0);
+            AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => multiplyResult);
+
+            // Check Optimized Factors
+            IList<Outlet> flattenedFactors = OperatorExtensionsWishesAccessor.FlattenFactors(nestedMultiply);
+
+            IsNotNull(() => flattenedFactors);
+            AreEqual(6,      () => flattenedFactors.Count);
+            AreEqual(var2,   () => flattenedFactors[0]);
+            AreEqual(var4,   () => flattenedFactors[1]);
+            AreEqual(var6,   () => flattenedFactors[2]);
+            AreEqual(var7,   () => flattenedFactors[3]);
+            AreEqual(var8,   () => flattenedFactors[4]);
+            
+            double? constant = flattenedFactors[5].AsConst();
+            IsNotNull(() => constant);
+            AreEqual(1 * 3 * 5, () => constant.Value);
+
+            double calculatedFlattenedFactors = flattenedFactors.Product(x => x.Calculate(0));
+            AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => calculatedFlattenedFactors);
         }
     }
 }

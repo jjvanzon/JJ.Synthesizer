@@ -122,6 +122,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Accessors\OperatorExtensionsWishesAccessor.cs" />
     <Compile Include="Functional\LongRunningTests.cs" />
     <Compile Include="Helpers\docs.cs" />
     <Compile Include="Technical\AudioFileWishesTests.cs" />
@@ -130,9 +131,9 @@
     <Compile Include="Accessors\SynthWishesAccessor.cs" />
     <Compile Include="Accessors\WavHeaderStructToAudioFileInfoConverterAccessor.cs" />
     <Compile Include="Technical\EnumWishesTests.cs" />
-    <Compile Include="Technical\OperatorWishesTechnicalTests.cs" />
+    <Compile Include="Technical\OperatorWishes_TechnicalTests.cs" />
     <Compile Include="Technical\ThrowTests.cs" />
-    <Compile Include="Functional\OperatorWishesFunctionalTests.cs" />
+    <Compile Include="Functional\OperatorWishes_FunctionalTests.cs" />
     <Compile Include="Technical\CurveWishesTests.cs" />
     <Compile Include="Functional\ModulationTests.cs" />
     <Compile Include="Technical\AudioFormatTests.cs" />

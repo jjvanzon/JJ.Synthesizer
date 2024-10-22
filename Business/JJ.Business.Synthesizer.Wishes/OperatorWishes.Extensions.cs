@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -184,7 +185,8 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <summary> Alternative entry point (Operator) Outlet. </summary>
-        public static IList<Outlet> FlattenTerms(Outlet sumOrAdd)
+        [UsedImplicitly]
+        private static IList<Outlet> FlattenTerms(Outlet sumOrAdd)
         {
             if (sumOrAdd == null) throw new ArgumentNullException(nameof(sumOrAdd));
             
@@ -203,10 +205,10 @@ namespace JJ.Business.Synthesizer.Wishes
             throw new Exception("sumOrAdd is not a Sum / Adder or Add operator.");
         }
 
-        public static IList<Outlet> FlattenTerms(params Outlet[] operands)
+        private static IList<Outlet> FlattenTerms(params Outlet[] operands)
             => FlattenTerms((IList<Outlet>)operands);
 
-        public static IList<Outlet> FlattenTerms(IList<Outlet> operands)
+        private static IList<Outlet> FlattenTerms(IList<Outlet> operands)
         {
             return operands.SelectMany(x =>
             {
@@ -222,9 +224,85 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }).ToList();
         }
+                
+        public static bool IsMultiply(this Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            return IsMultiply(outlet.Operator);
+        }
+
+        public static bool IsMultiply(this Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            return string.Equals(op.OperatorTypeName, nameof(Multiply), StringComparison.Ordinal);
+        }
         
         /// <inheritdoc cref="docs._multiply"/>
         public static Outlet Multiply(this OperatorFactory x, Outlet operandA, Outlet operandB, Outlet origin = null)
+        {
+            if (x == null) throw new ArgumentNullException(nameof(x));
+
+            if (origin != null)
+            {
+                return x.Multiply(operandA, operandB, origin);
+            }
+
+            // Flatten Nested Sums
+            IList<Outlet> flattenedFactors = FlattenFactors(operandA, operandB);
+            
+            // Consts
+            IList<Outlet> vars = flattenedFactors.Where(y => !y.IsConst()).ToArray();
+            double constant = flattenedFactors.Product(y => y.AsConst() ?? 1);
+
+            IList<Outlet> factors = new List<Outlet>(vars);
+            if (constant != 1)  // Skip Identity 1
+            {
+                factors.Add(x.Value(constant));
+            }
+
+            switch (factors.Count)
+            {
+                case 0:
+                    // Return identity 1
+                    return x.Value(1);
+                
+                case 1:
+                    // Return single number
+                    return factors[0];
+                
+                case 2:
+                    // Simple Multiply for 2 Operands
+                    return x.Multiply(factors[0], factors[1]);
+                
+                default:
+                    // Re-nest remaining factors
+                    return NestMultiplications(x, factors);
+            }
+        }
+
+        private static Outlet NestMultiplications(OperatorFactory x, IList<Outlet> flattenedFactors)
+        {
+            // Base case: If there's only one factor, return it
+            if (flattenedFactors.Count == 1)
+            {
+                return flattenedFactors[0];
+            }
+
+            //if (flattenedFactors.Count == 2)
+            //{
+            //    return x.Multiply(flattenedFactors[0], flattenedFactors[1]);
+            //}
+
+            // Recursive case: Nest the first factor with the result of nesting the rest
+            var firstFactor = flattenedFactors[0];
+            var remainingFactors = flattenedFactors.Skip(1).ToList();
+
+            // Recursively nest the remaining factors and multiply with the first
+            return x.Multiply(firstFactor, NestMultiplications(x, remainingFactors));
+        }
+
+        /// <inheritdoc cref="docs._multiply"/>
+        private static Outlet Multiply_Old(this OperatorFactory x, Outlet operandA, Outlet operandB, Outlet origin = null)
         {
             if (x == null) throw new ArgumentNullException(nameof(x));
             
@@ -256,6 +334,40 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             return x.Multiply(operandA, operandB, origin);
+        }
+        
+        /// <summary> Alternative entry point (Operator) Outlet. </summary>
+        public static IList<Outlet> FlattenFactors(Outlet multiplyOutlet)
+        {
+            if (multiplyOutlet == null) throw new ArgumentNullException(nameof(multiplyOutlet));
+
+            if (!multiplyOutlet.IsMultiply())
+            {
+                throw new Exception($"{nameof(multiplyOutlet)} parameter is not a Multiply operator.");
+            }
+
+            var multiplyWrapper = new Multiply(multiplyOutlet.Operator);
+            return FlattenFactors(multiplyWrapper.OperandA, multiplyWrapper.OperandB);
+        }
+
+        public static IList<Outlet> FlattenFactors(params Outlet[] operands)
+            => FlattenFactors((IList<Outlet>)operands);
+
+        public static IList<Outlet> FlattenFactors(IList<Outlet> operands)
+        {
+            return operands.SelectMany(x =>
+            {
+                if (x.IsMultiply())
+                {
+                    var multiplyWrapper = new Multiply(x.Operator);
+                    return FlattenFactors(multiplyWrapper.OperandA, multiplyWrapper.OperandB);
+                }
+                else
+                {
+                    // Wrap the single operand in a list
+                    return new List<Outlet> { x }; 
+                }
+            }).ToList();
         }
 
         /// <inheritdoc cref="docs._default" />

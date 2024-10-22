@@ -13,13 +13,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 {
     [TestClass]
     [TestCategory("Functional")]
-    public class OperatorWishesFunctionalTests : SynthWishes
+    public class OperatorWishes_FunctionalTests : SynthWishes
     {
         // Vibrato/Tremolo Tests
 
         [TestMethod]
         /// <inheritdoc cref="docs._vibrato" />
-        public void Test_Vibrato() => new OperatorWishesFunctionalTests().Vibrato_RunTest();
+        public void Test_Vibrato() => new OperatorWishes_FunctionalTests().Vibrato_RunTest();
 
         /// <inheritdoc cref="Wishes.Helpers.docs._vibrato" />
         void Vibrato_RunTest()
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         /// <inheritdoc cref="docs._tremolo" />
-        public void Test_Tremolo() => new OperatorWishesFunctionalTests().Tremolo_RunTest();
+        public void Test_Tremolo() => new OperatorWishes_FunctionalTests().Tremolo_RunTest();
 
         /// <inheritdoc cref="Wishes.Helpers.docs._tremolo" />
         void Tremolo_RunTest()
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Panning Tests
 
         [TestMethod]
-        public void Test_Panning_ConstSignal_ConstPanningAsDouble() => new OperatorWishesFunctionalTests().Panning_ConstSignal_ConstPanningAsDouble_RunTest();
+        public void Test_Panning_ConstSignal_ConstPanningAsDouble() => new OperatorWishes_FunctionalTests().Panning_ConstSignal_ConstPanningAsDouble_RunTest();
 
         void Panning_ConstSignal_ConstPanningAsDouble_RunTest()
         {
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_Panning_ConstSignal_ConstPanningAsOperator() => new OperatorWishesFunctionalTests().Panning_ConstSignal_ConstPanningAsOperator_RunTest();
+        public void Test_Panning_ConstSignal_ConstPanningAsOperator() => new OperatorWishes_FunctionalTests().Panning_ConstSignal_ConstPanningAsOperator_RunTest();
 
         void Panning_ConstSignal_ConstPanningAsOperator_RunTest()
         {
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_Panning_SineWaveSignal_ConstPanningAsDouble() => new OperatorWishesFunctionalTests().Panning_SineWaveSignal_ConstPanningAsDouble_RunTest();
+        public void Test_Panning_SineWaveSignal_ConstPanningAsDouble() => new OperatorWishes_FunctionalTests().Panning_SineWaveSignal_ConstPanningAsDouble_RunTest();
 
         void Panning_SineWaveSignal_ConstPanningAsDouble_RunTest()
         {
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_Panning_SineWaveSignal_DynamicPanning() => new OperatorWishesFunctionalTests().Panning_SineWaveSignal_DynamicPanning_RunTest();
+        public void Test_Panning_SineWaveSignal_DynamicPanning() => new OperatorWishes_FunctionalTests().Panning_SineWaveSignal_DynamicPanning_RunTest();
 
         void Panning_SineWaveSignal_DynamicPanning_RunTest()
         {
@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Panbrello Tests
 
         [TestMethod]
-        public void Test_Panbrello_DefaultSpeedAndDepth() => new OperatorWishesFunctionalTests().Panbrello_DefaultSpeedAndDepth_RunTest();
+        public void Test_Panbrello_DefaultSpeedAndDepth() => new OperatorWishes_FunctionalTests().Panbrello_DefaultSpeedAndDepth_RunTest();
 
         void Panbrello_DefaultSpeedAndDepth_RunTest()
         {
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_Panbrello_ConstSpeedAndDepth() => new OperatorWishesFunctionalTests().Panbrello_ConstSpeedAndDepth_RunTest();
+        public void Test_Panbrello_ConstSpeedAndDepth() => new OperatorWishes_FunctionalTests().Panbrello_ConstSpeedAndDepth_RunTest();
 
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
@@ -189,7 +189,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_Panbrello_DynamicSpeedAndDepth() => new OperatorWishesFunctionalTests().Panbrello_DynamicSpeedAndDepth_RunTest();
+        public void Test_Panbrello_DynamicSpeedAndDepth() => new OperatorWishes_FunctionalTests().Panbrello_DynamicSpeedAndDepth_RunTest();
 
         void Panbrello_DynamicSpeedAndDepth_RunTest()
         {
@@ -217,7 +217,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // PitchPan Tests
 
         [TestMethod]
-        public void Test_PitchPan_UsingOperators() => new OperatorWishesFunctionalTests().PitchPan_UsingOperators_RunTest();
+        public void Test_PitchPan_UsingOperators() => new OperatorWishes_FunctionalTests().PitchPan_UsingOperators_RunTest();
 
         void PitchPan_UsingOperators_RunTest()
         {
@@ -252,7 +252,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_PitchPan_DynamicParameters() => new OperatorWishesFunctionalTests().PitchPan_DynamicParameters_RunTest();
+        public void Test_PitchPan_DynamicParameters() => new OperatorWishes_FunctionalTests().PitchPan_DynamicParameters_RunTest();
 
         void PitchPan_DynamicParameters_RunTest()
         {
@@ -278,7 +278,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Echo Tests
 
         [TestMethod]
-        public void Test_Echo_Additive_Old() => new OperatorWishesFunctionalTests().Echo_Additive_Old_RunTest();
+        public void Test_Echo_Additive_Old() => new OperatorWishes_FunctionalTests().Echo_Additive_Old_RunTest();
 
         void Echo_Additive_Old_RunTest()
         {
@@ -292,7 +292,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_Echo_Additive_FixedValues() => new OperatorWishesFunctionalTests().Echo_Additive_FixedValues_RunTest();
+        public void Test_Echo_Additive_FixedValues() => new OperatorWishes_FunctionalTests().Echo_Additive_FixedValues_RunTest();
 
         void Echo_Additive_FixedValues_RunTest()
         {
@@ -305,7 +305,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_Echo_Additive_DynamicParameters() => new OperatorWishesFunctionalTests().Echo_Additive_DynamicParameters_RunTest();
+        public void Test_Echo_Additive_DynamicParameters() => new OperatorWishes_FunctionalTests().Echo_Additive_DynamicParameters_RunTest();
 
         void Echo_Additive_DynamicParameters_RunTest()
         {
@@ -330,7 +330,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_Echo_FeedBack_FixedValues() => new OperatorWishesFunctionalTests().Echo_FeedBack_FixedValues_RunTest();
+        public void Test_Echo_FeedBack_FixedValues() => new OperatorWishes_FunctionalTests().Echo_FeedBack_FixedValues_RunTest();
 
         void Echo_FeedBack_FixedValues_RunTest()
         {
@@ -344,7 +344,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_Echo_FeedBack_DynamicParameters() => new OperatorWishesFunctionalTests().Echo_FeedBack_DynamicParameters_RunTest();
+        public void Test_Echo_FeedBack_DynamicParameters() => new OperatorWishes_FunctionalTests().Echo_FeedBack_DynamicParameters_RunTest();
 
         void Echo_FeedBack_DynamicParameters_RunTest()
         {
