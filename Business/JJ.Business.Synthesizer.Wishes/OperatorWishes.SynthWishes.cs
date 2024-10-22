@@ -28,6 +28,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Basic Operators
 
+        // TODO: Delegate everything to OperatorExtensionsWishes and add deprecated ones there too.
+
         /// <inheritdoc cref="docs._add"/>
         public Outlet Add(params Outlet[] operands) 
             => OperatorExtensionsWishes.Add(_operatorFactory, operands);
@@ -36,16 +38,17 @@ namespace JJ.Business.Synthesizer.Wishes
         public Outlet Add(IList<Outlet> operands) 
             => OperatorExtensionsWishes.Add(_operatorFactory, operands);
 
-        [Obsolete("Use " + nameof(Add) + " instead. Or " + nameof(OperatorFactory) + "." + nameof(Adder) + "() in exceptional cases.", true)]
-        public Adder Adder(params Outlet[] operands)
-            => throw new NotSupportedException();
+        [Obsolete("Use Add instead. Or OperatorFactory.Adder() in exceptional cases.", true)]
+        public Adder Adder(params Outlet[] operands) => throw new NotSupportedException();
 
-        [Obsolete("Use " + nameof(Add) + " instead. Or " + nameof(OperatorFactory) + "." + nameof(Adder) + "() in exceptional cases.", true)]
-        public Adder Adder(IList<Outlet> operands)
-            => throw new NotSupportedException();
+        [Obsolete("Use Add instead. Or OperatorFactory.Adder() in exceptional cases.", true)]
+        public Adder Adder(IList<Outlet> operands) => throw new NotSupportedException();
 
-        public Divide Divide(Outlet numerator, Outlet denominator, Outlet origin = null)
-            => _operatorFactory.Divide(numerator, denominator, origin);
+        [Obsolete("Origin parameter is deprecated.", true)]
+        public Divide Divide(Outlet numerator, Outlet denominator, Outlet origin) => throw new NotSupportedException();
+
+        public Divide Divide(Outlet numerator, Outlet denominator)
+            => _operatorFactory.Divide(numerator, denominator);
 
         /// <inheritdoc cref="docs._multiply"/>
         public Outlet Multiply(Outlet operandA, Outlet operandB, Outlet origin = null)
@@ -59,64 +62,60 @@ namespace JJ.Business.Synthesizer.Wishes
             => OperatorExtensionsWishes.Sine(_operatorFactory, pitch);
 
         // TODO: Add obsolete ones to OperatorExtensionsWishes too.
-        [Obsolete("Use Multiply(Sine(pitch), volume) instead of " +
-                  "Sine(volume, pitch).", true)]
-        public Sine Sine(Outlet volume, Outlet pitch) 
-            => throw new NotImplementedException();
+        [Obsolete("Use Multiply(Sine(pitch), volume) instead of Sine(volume, pitch).", true)]
+        public Sine Sine(Outlet volume, Outlet pitch) => throw new NotSupportedException();
 
-        [Obsolete("Use Add(Multiply(Sine(pitch), volume), level) instead of " +
-                  "Sine(volume, pitch, level).", true)]
-        public Sine Sine(Outlet volume, Outlet pitch, Outlet level)
-            => throw new NotImplementedException();
+        [Obsolete("Use Add(Multiply(Sine(pitch), volume), level) instead of Sine(volume, pitch, level).", true)]
+        public Sine Sine(Outlet volume, Outlet pitch, Outlet level) => throw new NotSupportedException();
 
-        [Obsolete("Use Delay(Add(Multiply(Sine(pitch), volume), level), phaseStart) instead of " +
-                  "Sine(volume, pitch, level, phaseStart).", true)]
-        public Sine Sine(Outlet volume, Outlet pitch, Outlet level, Outlet phaseStart)
-            => throw new NotImplementedException();
+        [Obsolete("Use Delay(Add(Multiply(Sine(pitch), volume), level), phaseStart) instead of Sine(volume, pitch, level, phaseStart).", true)]
+        public Sine Sine(Outlet volume, Outlet pitch, Outlet level, Outlet phaseStart) => throw new NotSupportedException();
 
-        // TODO: Delegate to OperatorExtensionWishes and create and obsolete synonym.
+        [Obsolete("Typo. Use Subtract instead.", true)]
+        public Substract Substract(Outlet operandA = null, Outlet operandB = null) => throw new NotSupportedException();
+
         public Substract Subtract(Outlet operandA = null, Outlet operandB = null)
             => _operatorFactory.Substract(operandA, operandB);
 
-        [Obsolete("Use " + nameof(Delay) + " instead.", true)]
-        public TimeAdd TimeAdd(Outlet signal = null, Outlet timeDifference = null)
-            => throw new NotSupportedException();
+        [Obsolete("Use Delay instead.", true)]
+        public TimeAdd TimeAdd(Outlet signal = null, Outlet timeDifference = null) => throw new NotSupportedException();
 
         public Outlet Delay(Outlet signal = null, Outlet timeDifference = null)
             => OperatorExtensionsWishes.Delay(_operatorFactory, signal, timeDifference);
 
-        [Obsolete("Use " + nameof(Squash) + " instead.", true)]
-        public TimeDivide TimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
-            => throw new NotSupportedException();
+        [Obsolete("Use Squash instead.", true)]
+        public TimeDivide TimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null) => throw new NotSupportedException();
 
-        // TODO: Delegate to OperatorExtensionWishes and create and obsolete synonym.
-        /// <summary> Opposite of <see cref="Stretch"/>. </summary>
-        public TimeDivide Squash(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
-            => _operatorFactory.TimeDivide(signal, timeDivider, origin);
+        [Obsolete("Origin parameter obsolete.", true)]
+        public TimeDivide Squash(Outlet signal, Outlet timeDivider, Outlet origin) => throw new NotSupportedException();
 
-        [Obsolete("Use " + nameof(Stretch) + " instead.")]
-        public TimeMultiply TimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
-            => throw new NotSupportedException();
+        public TimeDivide Squash(Outlet signal = null, Outlet timeDivider = null)
+            => _operatorFactory.TimeDivide(signal, timeDivider);
+
+        [Obsolete("Use Stretch instead.", true)]
+        public TimeMultiply TimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null) => throw new NotSupportedException();
+
+        [Obsolete("Origin parameter obsolete.", true)]
+        public Outlet Stretch(Outlet signal, Outlet timeFactor, Outlet origin) => throw new NotSupportedException();
 
         /// <inheritdoc cref="docs._default" />
         public Outlet Stretch(Outlet signal, Outlet timeFactor)
             => OperatorExtensionsWishes.Stretch(_operatorFactory, signal, timeFactor);
 
-        public TimePower TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
-            => _operatorFactory.TimePower(signal, exponent, origin);
+        [Obsolete("Origin parameter obsolete.", true)]
+        public TimePower TimePower(Outlet signal, Outlet exponent, Outlet origin) => throw new NotSupportedException();
+
+        public TimePower TimePower(Outlet signal = null, Outlet exponent = null)
+            => _operatorFactory.TimePower(signal, exponent);
 
         [Obsolete("Typo. Use TimeSubtract instead.", true)]
-        public TimeSubstract TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
-            => throw new NotSupportedException();
+        public TimeSubstract TimeSubstract(Outlet signal = null, Outlet timeDifference = null) => throw new NotSupportedException();
 
-        // TODO: Delegate to OperatorExtensionWishes and create and obsolete synonym.
         public TimeSubstract TimeSubtract(Outlet signal = null, Outlet timeDifference = null)
             => _operatorFactory.TimeSubstract(signal, timeDifference);
 
         [Obsolete("Use _[123] instead.")]
         public ValueOperatorWrapper Value(double value = 0) => _[value];
-
-        // TODO: Sample (see which overloads are practical.
 
         // Derived Operators
 
