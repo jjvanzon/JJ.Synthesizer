@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.CanonicalModel;
@@ -12,9 +13,7 @@ using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
-using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 // ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable once PossibleLossOfFraction
@@ -116,7 +115,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int GetBits(this Type sampleDataType)
             => SizeOf(sampleDataType) * 8;
 
-        public static int GetBits(this SampleDataTypeEnum enumValue) 
+        public static int GetBits(this SampleDataTypeEnum enumValue)
             => enumValue.SizeOf() * 8;
 
         public static int GetBits(this SampleDataType enumEntity)
@@ -133,13 +132,13 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetBits(entity.SampleDataType);
         }
-        
+
         public static int GetBits(this SampleOperator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetBits(entity.Sample);
         }
-        
+
         public static int GetBits(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -229,13 +228,13 @@ namespace JJ.Business.Synthesizer.Wishes
                     throw new ValueNotSupportedException(enumValue);
             }
         }
-        
+
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string GetFileExtension(this AudioFileFormat enumEntity) 
+        public static string GetFileExtension(this AudioFileFormat enumEntity)
             => EntityToEnumWishes.ToEnum(enumEntity).GetFileExtension();
 
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string GetFileExtension(this WavHeaderStruct wavHeader) 
+        public static string GetFileExtension(this WavHeaderStruct wavHeader)
             => GetFileExtension(AudioFileFormatEnum.Wav);
 
         /// <inheritdoc cref="docs._fileextension"/>
@@ -258,7 +257,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return GetFileExtension(wrapper.Sample);
         }
-        
+
         /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this AudioFileOutput entity)
         {
@@ -279,12 +278,12 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 case SampleDataTypeEnum.Int16: return Int16.MaxValue;
                 case SampleDataTypeEnum.Byte:  return Byte.MaxValue / 2;
-                default:                 
+                default:
                     throw new ValueNotSupportedException(enumValue);
             }
         }
-                
-        public static double GetMaxAmplitude(this SampleDataType enumEntity) 
+
+        public static double GetMaxAmplitude(this SampleDataType enumEntity)
             => EntityToEnumWishes.ToEnum(enumEntity).GetMaxAmplitude();
 
         public static double GetMaxAmplitude(this Sample entity)
@@ -304,13 +303,13 @@ namespace JJ.Business.Synthesizer.Wishes
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return GetMaxAmplitude(wrapper.Sample);
         }
-        
+
         public static double GetMaxAmplitude(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetMaxAmplitude(entity.SampleDataType);
         }
-        
+
         public static double GetMaxAmplitude(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -328,9 +327,9 @@ namespace JJ.Business.Synthesizer.Wishes
                     throw new ValueNotSupportedException(enumValue);
             }
         }
-        
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this AudioFileFormat enumEntity) 
+        public static int GetHeaderLength(this AudioFileFormat enumEntity)
             => EntityToEnumWishes.ToEnum(enumEntity).GetHeaderLength();
 
         /// <inheritdoc cref="docs._headerlength"/>
@@ -357,19 +356,53 @@ namespace JJ.Business.Synthesizer.Wishes
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return GetHeaderLength(wrapper.Sample);
         }
-        
+
         /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return entity.GetAudioFileFormatEnum().GetHeaderLength();
         }
-        
+
         /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetHeaderLength(entity.AudioFileOutput);
+        }
+
+        // AudioFileOutputChannel Extensions for Missing Model Properties
+
+        //public static Channel GetChannel(this AudioFileOutputChannel audioFileOutputChannel/*, IContext context = null*/)
+        //{
+        //    //int speakerSetupID = audioFileOutputChannel.GetSpeakerSetup().ID;
+            
+        //    //SpeakerSetup speakerSetup = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context)
+        //    //                                             .GetWithRelatedEntities(speakerSetupID);
+
+        //    //Channel channel = speakerSetup.SpeakerSetupChannels
+        //    //                              .Where(x => x.Index == audioFileOutputChannel.Index)
+        //    //                              .Select(x => x.Channel)
+        //    //                              .Single();
+
+        //    Channel channel = audioFileOutputChannel.GetSpeakerSetupChannel()
+        //                                            .Select(x => x.Channel)
+        //                                            .Single();
+        //    return channel;
+        //}
+
+        public static SpeakerSetupChannel GetSpeakerSetupChannel(this AudioFileOutputChannel audioFileOutputChannel)
+        {
+            IList<SpeakerSetupChannel> speakerSetupChannels =
+                audioFileOutputChannel.GetSpeakerSetup()
+                                      .SpeakerSetupChannels;
+            
+            SpeakerSetupChannel speakerSetupChannel =
+                speakerSetupChannels.Single(x => x.Index == audioFileOutputChannel.Index);
+
+            speakerSetupChannel.Channel.SpeakerSetupChannels = speakerSetupChannels;
+
+            return speakerSetupChannel;
         }
     }
 }
