@@ -10,21 +10,11 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     /// </summary>
     public static class ConfigHelper
     {
-        private const int DEFAULT_SAMPLING_RATE = 48000;
-        private const bool DEFAULT_PLAY_AUDIO_ENABLED = true;
-        private const string DEFAULT_LONG_RUNNING_TEST_CATEGORY = "Long";
-        private const int DEFAULT_TOOLING_SAMPLING_RATE = 150;
-        private const int DEFAULT_SAMPLING_RATE_LONG_RUNNING = 30;
-        private const bool DEFAULT_TOOLING_PLAY_AUDIO_ENABLED = false;
-        private const bool DEFAULT_TOOLING_PRETEND = false;
-
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
-        
-        public static int DefaultSamplingRate 
-            => _section.DefaultSamplingRate ?? DEFAULT_SAMPLING_RATE;
 
-        public static bool PlayAudioEnabled 
-            => _section.PlayAudioEnabled ?? DEFAULT_PLAY_AUDIO_ENABLED;
+        public static int    DefaultSamplingRate => _section.DefaultSamplingRate ?? 48000;
+        public static bool   PlayAudioEnabled    => _section.PlayAudioEnabled    ?? true;
+        public static double PlayLeadingSilence  => _section.PlayLeadingSilence  ?? 0.2;
 
         public static string LongRunningTestCategory
         {
@@ -35,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                     return _section.LongRunningTestCategory;
                 }
                 
-                return DEFAULT_LONG_RUNNING_TEST_CATEGORY;
+                return "Long";
             }
         }
 
@@ -46,13 +36,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             private readonly ToolingConfiguration _baseConfig;
             
-            internal ToolingConfigWithDefaults(ToolingConfiguration baseConfig) 
-                => _baseConfig = baseConfig;
+            internal ToolingConfigWithDefaults(ToolingConfiguration baseConfig) => _baseConfig = baseConfig;
             
-            public int SamplingRate => _baseConfig.SamplingRate ?? DEFAULT_TOOLING_SAMPLING_RATE;
-            public int SamplingRateLongRunning => _baseConfig.SamplingRateLongRunning ?? DEFAULT_SAMPLING_RATE_LONG_RUNNING;
-            public bool PlayAudioEnabled => _baseConfig.PlayAudioEnabled ?? DEFAULT_TOOLING_PLAY_AUDIO_ENABLED;
-            public bool Pretend => _baseConfig.Pretend ?? DEFAULT_TOOLING_PRETEND;
+            public int  SamplingRate            => _baseConfig.SamplingRate            ?? 150;
+            public int  SamplingRateLongRunning => _baseConfig.SamplingRateLongRunning ?? 30;
+            public bool PlayAudioEnabled        => _baseConfig.PlayAudioEnabled        ?? false;
+            public bool Pretend                 => _baseConfig.Pretend                 ?? false;
         }
         
         /// <summary> This null-tolerant version is missing in JJ.Framework.Configuration for now. </summary>

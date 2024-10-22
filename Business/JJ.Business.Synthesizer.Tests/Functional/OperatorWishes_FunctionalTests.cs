@@ -323,10 +323,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Outlet echoes = EchoAdditive(sound, magnitude, delay, count: 16);
 
-            SaveAudioMono(() => sound, duration: 0.2, fileName: Name() + "_Input.wav");
-            SaveAudioMono(() => magnitude, duration: 5, fileName: Name() + "_Magnitude.wav");
-            SaveAudioMono(() => delay,     duration: 5, fileName: Name() + "_Delay.wav");
-            PlayMono(() => echoes, duration: 5, fileName: Name() + "_Output.wav");
+            SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav");
+            SaveAudioMono(() => magnitude, duration: 4,   fileName: Name() + "_Magnitude.wav");
+            SaveAudioMono(() => delay,     duration: 4,   fileName: Name() + "_Delay.wav");
+            PlayMono(     () => echoes,    duration: 4,   fileName: Name() + "_Output.wav");
         }
 
         [TestMethod]
@@ -362,10 +362,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Outlet echoes = EchoFeedBack(sound, magnitude, delay, count: 16);
 
-            SaveAudioMono(() => sound, duration: 0.2, fileName: Name() + "_Input.wav");
-            SaveAudioMono(() => magnitude, duration: 5, fileName: Name() + "_Magnitude.wav");
-            SaveAudioMono(() => delay,     duration: 5, fileName: Name() + "_Delay.wav");
-            PlayMono(() => echoes, duration: 5, fileName: Name() + "_Output.wav");
+            SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav"    );
+            SaveAudioMono(() => magnitude, duration: 4,   fileName: Name() + "_Magnitude.wav");
+            SaveAudioMono(() => delay,     duration: 4,   fileName: Name() + "_Delay.wav"    );
+            PlayMono(     () => echoes,    duration: 4,   fileName: Name() + "_Output.wav"   );
         }
     }
 }

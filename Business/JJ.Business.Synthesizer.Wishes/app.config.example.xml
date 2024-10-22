@@ -20,6 +20,7 @@
 	<jj.business.synthesizer.wishes 
 		defaultSamplingRate="48000"
 		playAudioEnabled="true"
+		playLeadingSilence="0.2"
 		longRunningTestCategory="Long">
 		
 		<nCrunch

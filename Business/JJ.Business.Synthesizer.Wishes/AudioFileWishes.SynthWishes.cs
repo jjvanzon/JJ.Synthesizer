@@ -75,13 +75,15 @@ namespace JJ.Business.Synthesizer.Wishes
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
         {
+            var func2 = ApplyLeadingSilence(func);
+
             var result =
                 SaveAudio(
-                    func, duration, volume,
+                    func2, duration + ConfigHelper.PlayLeadingSilence, volume,
                     speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
                     fileName, callerMemberName);
             
-            PlayAudioConditionally(result.Data);
+            PlayIfAllowed(result.Data);
             
             return result;
         }
@@ -96,18 +98,29 @@ namespace JJ.Business.Synthesizer.Wishes
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
         {
+            var func2 = ApplyLeadingSilence(func);
+
             var result =
                 SaveAudioMono(
-                    func, duration, volume,
+                    func2, duration + ConfigHelper.PlayLeadingSilence, volume,
                     sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
                     fileName, callerMemberName);
             
-            PlayAudioConditionally(result.Data);
+            PlayIfAllowed(result.Data);
 
             return result;
         }
-        
-        
+
+        private Func<Outlet> ApplyLeadingSilence(Func<Outlet> func)
+        {
+            if (ConfigHelper.PlayLeadingSilence == 0) return func;
+
+            Outlet func2() => TimeAdd(func(), _[ConfigHelper.PlayLeadingSilence]);
+
+            return func2;
+        }
+
+
         /// <inheritdoc cref="docs._saveaudio" />
         public Result<AudioFileOutput> SaveAudioMono(
             Func<Outlet> func,
@@ -247,7 +260,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
         
-        private void PlayAudioConditionally(AudioFileOutput audioFileOutput)
+        private void PlayIfAllowed(AudioFileOutput audioFileOutput)
         {
             if (ToolingHelper.PlayAudioAllowed(audioFileOutput.GetFileExtension()))
             {
