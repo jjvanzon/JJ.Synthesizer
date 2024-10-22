@@ -109,6 +109,24 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._asconst"/>
         public static bool IsConst(this Operator op) => op?.AsConst() != null;
+        
+        public static bool IsVar(this Inlet inlet)
+        {
+            if (inlet == null) throw new ArgumentNullException(nameof(inlet));
+            return inlet.AsConst() == null;
+        }
+
+        public static bool IsVar(this Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            return outlet.AsConst() == null;
+        }
+
+        public static bool IsVar(this Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            return op.AsConst() == null;
+        }
 
         // Operators
         
@@ -137,10 +155,8 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._add"/>
-        public static Outlet Add(this OperatorFactory x, Outlet operandA, Outlet operandB)
-        {
-            return Sum(x, operandA, operandB);
-        }
+        public static Outlet Add(this OperatorFactory x, Outlet operandA, Outlet operandB) 
+            => Sum(x, operandA, operandB);
 
         /// <inheritdoc cref="docs._sum"/>
         public static Outlet Sum(this OperatorFactory x, params Outlet[] operands) 
@@ -156,7 +172,7 @@ namespace JJ.Business.Synthesizer.Wishes
             IList<Outlet> flattenedTerms = FlattenTerms(operands);
             
             // Consts
-            IList<Outlet> vars = flattenedTerms.Where(y => !y.IsConst()).ToArray();
+            IList<Outlet> vars = flattenedTerms.Where(y => y.IsVar()).ToArray();
             double constant = flattenedTerms.Sum(y => y.AsConst() ?? 0);
             
             if (constant != 0)  // Skip Identity 0
@@ -251,7 +267,7 @@ namespace JJ.Business.Synthesizer.Wishes
             IList<Outlet> flattenedFactors = FlattenFactors(operandA, operandB);
             
             // Consts
-            IList<Outlet> vars = flattenedFactors.Where(y => !y.IsConst()).ToArray();
+            IList<Outlet> vars = flattenedFactors.Where(y => y.IsVar()).ToArray();
             double constant = flattenedFactors.Product(y => y.AsConst() ?? 1);
 
             IList<Outlet> factors = new List<Outlet>(vars);
@@ -280,62 +296,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private static Outlet NestMultiplications(OperatorFactory x, IList<Outlet> flattenedFactors)
-        {
-            // Base case: If there's only one factor, return it
-            if (flattenedFactors.Count == 1)
-            {
-                return flattenedFactors[0];
-            }
-
-            //if (flattenedFactors.Count == 2)
-            //{
-            //    return x.Multiply(flattenedFactors[0], flattenedFactors[1]);
-            //}
-
-            // Recursive case: Nest the first factor with the result of nesting the rest
-            var firstFactor = flattenedFactors[0];
-            var remainingFactors = flattenedFactors.Skip(1).ToList();
-
-            // Recursively nest the remaining factors and multiply with the first
-            return x.Multiply(firstFactor, NestMultiplications(x, remainingFactors));
-        }
-
-        /// <inheritdoc cref="docs._multiply"/>
-        private static Outlet Multiply_Old(this OperatorFactory x, Outlet operandA, Outlet operandB, Outlet origin = null)
-        {
-            if (x == null) throw new ArgumentNullException(nameof(x));
-            
-            operandA = operandA ?? x.Value(1);
-            operandB = operandB ?? x.Value(1);
-
-            if (origin == null)
-            {
-                double? constOperandA = operandA.AsConst();
-                double? constOperandB = operandB.AsConst();
-
-                // Const
-                if (constOperandA != null && constOperandB != null)
-                {
-                    double multiplied = constOperandA.Value * constOperandB.Value;
-                    return x.Value(multiplied);
-                }
-
-                // Identity 1
-                if (constOperandA == 1)
-                {
-                    return operandB;
-                }
-
-                if (constOperandB == 1)
-                {
-                    return operandA;
-                }
-            }
-
-            return x.Multiply(operandA, operandB, origin);
-        }
-        
         /// <summary> Alternative entry point (Operator) Outlet. </summary>
         public static IList<Outlet> FlattenFactors(Outlet multiplyOutlet)
         {
@@ -368,6 +328,23 @@ namespace JJ.Business.Synthesizer.Wishes
                     return new List<Outlet> { x }; 
                 }
             }).ToList();
+        }
+        
+        private static Outlet NestMultiplications(OperatorFactory x, IList<Outlet> flattenedFactors)
+        {
+            // Base case: If there's only one factor, return it
+            // Also stops the recursion
+            if (flattenedFactors.Count == 1)
+            {
+                return flattenedFactors[0];
+            }
+
+            // Recursive case: Nest the first factor with the result of nesting the rest
+            var firstFactor = flattenedFactors[0];
+            var remainingFactors = flattenedFactors.Skip(1).ToList();
+
+            // Recursively nest the remaining factors and multiply with the first
+            return x.Multiply(firstFactor, NestMultiplications(x, remainingFactors));
         }
 
         /// <inheritdoc cref="docs._default" />

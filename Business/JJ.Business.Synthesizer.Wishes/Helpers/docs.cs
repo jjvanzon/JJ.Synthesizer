@@ -99,7 +99,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// Tries getting a constant value from an operator or outlet.
         /// If it is dynamic, so no constant value, null is returned.
         /// </summary>
-        /// <returns> </returns>
         public object _asconst;
         
         /// <summary>
