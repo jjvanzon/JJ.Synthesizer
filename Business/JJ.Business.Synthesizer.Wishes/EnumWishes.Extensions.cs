@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public static ChannelEnum GetChannelEnum(this SpeakerSetupChannel entity)
         {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.Channel == null) return ChannelEnum.Undefined;
             return (ChannelEnum)entity.Channel.ID;
         }
@@ -31,6 +32,23 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (channelRepository == null) throw new NullException(() => channelRepository);
             entity.Channel = channelRepository.Get((int)channelEnum);
+        }
+
+        public static SpeakerSetupEnum GetSpeakerSetupEnum(this SpeakerSetupChannel entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
+            return (SpeakerSetupEnum)entity.SpeakerSetup.ID;
+        }
+
+        public static SpeakerSetupEnum SetSpeakerSetupEnum(
+            this SpeakerSetupChannel entity, 
+            SpeakerSetupEnum speakerSetupEnum, 
+            ISpeakerSetupRepository speakerSetupRepository)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.SpeakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
+            return (SpeakerSetupEnum)entity.SpeakerSetup.ID;
         }
     }
 
@@ -172,13 +190,20 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetSpeakerSetupEnum(enumValue, repository);
         }
 
-        // SpeakerSetupChannel.Channel
+        // SpeakerSetupChannel
 
         public static void SetChannelEnum(
             this SpeakerSetupChannel entity, ChannelEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<IChannelRepository>(context);
             entity.SetChannelEnum(enumValue, repository);
+        }
+
+        public static void SetSpeakerSetupEnum(
+            this SpeakerSetupChannel entity, SpeakerSetupEnum enumValue, IContext context = null)
+        {
+            var repository = CreateRepository<ISpeakerSetupRepository>(context);
+            entity.SetSpeakerSetupEnum(enumValue, repository);
         }
     }
 
@@ -687,7 +712,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class SpecialEnumWishes
     {
-        // SpeakerSetup Values Conversion
+        // SpeakerSetup Value Conversions
         
         public static SpeakerSetupEnum GetSpeakerSetupEnum(this int channelCount)
         {
