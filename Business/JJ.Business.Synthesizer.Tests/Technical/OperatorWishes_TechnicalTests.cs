@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Tests.Accessors;
@@ -185,24 +186,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     )
                 );
 
-            IsNotNull(() => nestedMultiply);
-            double multiplyResult = nestedMultiply.Calculate(time: 0);
-            AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => multiplyResult);
-
             // Check Optimized Factors
             IList<Outlet> flattenedFactors = OperatorExtensionsWishesAccessor.FlattenFactors(nestedMultiply);
-
+            
             IsNotNull(() => flattenedFactors);
             AreEqual(6,      () => flattenedFactors.Count);
-            AreEqual(var2,   () => flattenedFactors[0]);
-            AreEqual(var4,   () => flattenedFactors[1]);
+            
+            // Operator creation reversed the order.
+            AreEqual(var2,   () => flattenedFactors[4]);
+            AreEqual(var4,   () => flattenedFactors[3]);
             AreEqual(var6,   () => flattenedFactors[2]);
-            AreEqual(var7,   () => flattenedFactors[3]);
-            AreEqual(var8,   () => flattenedFactors[4]);
+            AreEqual(var7,   () => flattenedFactors[1]);
+            AreEqual(var8,   () => flattenedFactors[0]);
             
             double? constant = flattenedFactors[5].AsConst();
             IsNotNull(() => constant);
             AreEqual(1 * 3 * 5, () => constant.Value);
+            
+            IsNotNull(() => nestedMultiply);
+            double multiplyResult = nestedMultiply.Calculate(time: 0);
+            AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => multiplyResult);
 
             double calculatedFlattenedFactors = flattenedFactors.Product(x => x.Calculate(0));
             AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => calculatedFlattenedFactors);

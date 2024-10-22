@@ -263,6 +263,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 return x.Multiply(operandA, operandB, origin);
             }
 
+            // Reverse operands increasing likelihood to have a 0-valued (volume) curve first.
+            (operandA, operandB) = (operandB, operandA);
+
             // Flatten Nested Sums
             IList<Outlet> flattenedFactors = FlattenFactors(operandA, operandB);
             
