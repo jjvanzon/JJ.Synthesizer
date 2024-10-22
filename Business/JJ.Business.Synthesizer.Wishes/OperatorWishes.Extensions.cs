@@ -158,7 +158,7 @@ namespace JJ.Business.Synthesizer.Wishes
             IList<Outlet> vars = flattenedTerms.Where(y => !y.IsConst()).ToArray();
             double constant = flattenedTerms.Sum(y => y.AsConst() ?? 0);
             
-            if (constant != 0)  // Identity 0
+            if (constant != 0)  // Skip Identity 0
             {
                 Outlet constOutlet = x.Value(constant);
                 flattenedTerms = vars.Concat(new [] { constOutlet }).ToArray();
@@ -168,12 +168,15 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 case 0:
                     return x.Value(0);
+                
                 case 1:
                     // Return single term
                     return flattenedTerms[0];
+                
                 case 2:
                     // Simple Add for 2 Operands
                     return x.Add(flattenedTerms[0], flattenedTerms[1]);
+                
                 default:
                     // Make Normal Adder
                     return x.Adder(flattenedTerms);
@@ -205,29 +208,20 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static IList<Outlet> FlattenTerms(IList<Outlet> operands)
         {
-            IList<Outlet> flattened = new List<Outlet>();
-            
-            foreach (Outlet operand in operands)
+            return operands.SelectMany(x =>
             {
-                if (operand.IsAdder() || operand.IsAdd())
+                if (x.IsAdder() || x.IsAdd())
                 {
-                    var wrapper = new Adder(operand.Operator);
-                    
-                    IList<Outlet> deeperOperands = wrapper.Operands;
-                    
-                    var flattened2 = FlattenTerms(deeperOperands);
-                    
-                    flattened.AddRange(flattened2);
+                    var wrapper = new Adder(x.Operator);
+                    return FlattenTerms(wrapper.Operands);
                 }
                 else
-                { 
-                    flattened.Add(operand);
+                {
+                    // Wrap the single operand in a list
+                    return new List<Outlet> { x }; 
                 }
-            }
-
-            return flattened;
+            }).ToList();
         }
-
         
         /// <inheritdoc cref="docs._multiply"/>
         public static Outlet Multiply(this OperatorFactory x, Outlet operandA, Outlet operandB, Outlet origin = null)
