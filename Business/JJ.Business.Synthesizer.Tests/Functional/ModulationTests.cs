@@ -343,13 +343,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        const double MILD_ECHO_TIME = 0.33 * 7;
+        const double MILD_ECHO_TIME = 0.33 * 5;
 
         /// <inheritdoc cref="_echodocs" />
         Outlet MildEcho(Outlet sound)
-            => Echo(sound, count: 8, magnitude: _[0.25], delay: _[0.33]);
+            => Echo(sound, count: 6, magnitude: _[0.25], delay: _[0.33]);
 
-        const double DEEP_ECHO_TIME = 0.5 * 7;
+        const double DEEP_ECHO_TIME = 0.5 * 5;
 
         /// <inheritdoc cref="_echodocs" />
         internal Outlet DeepEcho(Outlet sound)
@@ -357,13 +357,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             switch (Channel)
             {
                 case ChannelEnum.Single:
-                    return Echo(sound, count: 8, magnitude: _[1 / 2.0], delay: _[0.50]);
+                    return Echo(sound, count: 6, magnitude: _[1 / 2.0], delay: _[0.50]);
                 
                 case ChannelEnum.Left:
-                    return Echo(sound, count: 8, magnitude: _[1 / 2.1], delay: _[0.50]);
+                    return Echo(sound, count: 6, magnitude: _[1 / 2.1], delay: _[0.50]);
                 
                 case ChannelEnum.Right:
-                    return Echo(sound, count: 8, magnitude: _[1 / 2.0], delay: _[0.53]);
+                    return Echo(sound, count: 6, magnitude: _[1 / 2.0], delay: _[0.53]);
                 
                 default:
                     throw new ValueNotSupportedException(Channel);

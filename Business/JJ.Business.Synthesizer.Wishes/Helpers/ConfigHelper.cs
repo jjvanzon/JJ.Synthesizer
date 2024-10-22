@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             public int  SamplingRate            => _baseConfig.SamplingRate            ?? 150;
             public int  SamplingRateLongRunning => _baseConfig.SamplingRateLongRunning ?? 30;
-            public bool PlayEnabled             => _baseConfig.PlayEnabled        ?? false;
+            public bool PlayEnabled             => _baseConfig.PlayEnabled             ?? false;
             public bool Pretend                 => _baseConfig.Pretend                 ?? false;
         }
         
