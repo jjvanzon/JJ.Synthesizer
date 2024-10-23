@@ -53,6 +53,13 @@ namespace JJ.Business.Synthesizer.Wishes
             return Calculate(outlet, time, channelIndex);
         }
 
+        public static double Calculate(this Inlet inlet, double time, int channelIndex = 0)
+        {
+            if (inlet == null) throw new ArgumentNullException(nameof(inlet));
+            var calculator = new OperatorCalculator(channelIndex);
+            return calculator.CalculateValue(inlet.Input, time);
+        }
+
         public static double Calculate(this OperatorWrapperBase wrapper, double time, int channelIndex = 0)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
