@@ -33,20 +33,36 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             _interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
             _audioFileOutputManager = ServiceFactory.CreateAudioFileOutputManager(context);
-            Samples = ServiceFactory.CreateSampleManager(context);
+            _samples = ServiceFactory.CreateSampleManager(context);
         }
 
         private IInterpolationTypeRepository _interpolationTypeRepository;
         private AudioFileOutputManager _audioFileOutputManager;
-        public SampleManager Samples { get; private set; }
+        private SampleManager _samples;
 
-        // TODO: Deprecate. Hide inside SynthWishes.
-        public SampleOperatorWrapper Sample(Sample sample) => _operatorFactory.Sample(sample);
+        public SampleOperatorWrapper Sample(string fileName, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
+        {
+            using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                return Sample(fileStream);
+        }
+
+        public SampleOperatorWrapper Sample(byte[] bytes, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
+            => Sample(new MemoryStream(bytes), amplifier, speedFactor, bytesToSkip);
+        
+        public SampleOperatorWrapper Sample(Stream stream, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
+        {
+            Sample sample = _samples.CreateSample(stream);
+
+            sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude() * amplifier;
+            sample.TimeMultiplier = 1 / speedFactor;
+            sample.BytesToSkip = bytesToSkip;
+
+            return _operatorFactory.Sample(sample);
+        }
 
         /// <summary>
         /// Creates a Sample by reading the file at the given <paramref name="filePath" />.
         /// Sets the <see cref= Sample.Amplifier" /> to scale values to range between -1 and +1.
-        /// 
         /// </summary>
         /// <param name="filePath"> The file path of the audio sample to load. </param>
         /// <returns> <see cref="SampleOperatorWrapper" />  that can be used as an <see cref="Outlet" /> too. </returns>
@@ -56,7 +72,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                Sample sample = Samples.CreateSample(stream);
+                Sample sample = _samples.CreateSample(stream);
                 sample.Location = Path.GetFullPath(filePath);
                 sample.Name = Path.GetFileNameWithoutExtension(filePath);
                 sample.SetInterpolationTypeEnum(interpolationTypeEnum, _interpolationTypeRepository);

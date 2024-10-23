@@ -74,7 +74,7 @@
     <Compile Include="NoteWishes.Notes.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
-    <Compile Include="OperatorWishes.SynthWishes.Obsolete.cs" />
+    <Compile Include="SynthWishes.Obsolete.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultWishes.cs" />
     <Compile Include="SynthWishes.cs" />
