@@ -216,8 +216,11 @@ namespace JJ.Business.Synthesizer.Wishes
             => _operatorFactory.Power(@base, exponent);
         
         /// <inheritdoc cref="docs._sine" />
-        public Outlet Sine(Outlet pitch = null) 
-            => _operatorFactory.Sine(_[1], pitch ?? _[1]);
+        public ChainedOutlet Sine(Outlet pitch = null)
+        {
+            Sine sine = _operatorFactory.Sine(_[1], pitch ?? _[1]);
+            return new ChainedOutlet(this, sine);
+        }
 
         public Outlet Delay(Outlet signal, Outlet timeDifference) 
             => _operatorFactory.TimeAdd(signal, timeDifference);
@@ -348,7 +351,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     constReferencePanning != null)
                 {
                     double pitchPan = PitchPan(constActualFrequency.Value, constCenterFrequency.Value,
-                                               constReferenceFrequency.Value, constReferencePanning.Value);
+                                                        constReferenceFrequency.Value, constReferencePanning.Value);
                     return _[pitchPan];
                 }
             }

@@ -210,5 +210,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             double calculatedFlattenedFactors = flattenedFactors.Product(x => x.Calculate(0));
             AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => calculatedFlattenedFactors);
         }
+
+        [TestMethod]
+        public void Test_OperatorChaining()
+        {
+            Play(() => Sine(A4).Multiply(0.5).Panbrello(speed: 3, depth: 0.5));
+        }
     }
 }
