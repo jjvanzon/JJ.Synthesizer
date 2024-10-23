@@ -6,6 +6,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     public static class NameHelper
     {
+        /// <summary> Returns the current method name or current property name. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Name([CallerMemberName] string calledMemberName = null) 
             => calledMemberName.CutLeft("get_").CutLeft("set_");

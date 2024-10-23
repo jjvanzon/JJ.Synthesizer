@@ -14,6 +14,8 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
+
 // ReSharper disable RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -125,7 +127,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetWarnings(entity.Operator, recursive);
         }
 
-        // IsConst
+        // As/Is
 
         /// <inheritdoc cref="docs._asconst"/>
         public static double? AsConst(this Inlet inlet) => inlet?.Input?.AsConst();
@@ -163,31 +165,61 @@ namespace JJ.Business.Synthesizer.Wishes
             return op.AsConst() == null;
         }
 
-        // Operators
-        
-        public static bool IsAdd(this Outlet outlet)
+        public  static bool IsAdd         (this Inlet    entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsAdd         (this Outlet   entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsAdd         (this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsSubtract    (this Inlet    entity) => HasOperatorTypeName(entity, nameof(Substract));
+        public  static bool IsSubtract    (this Outlet   entity) => HasOperatorTypeName(entity, nameof(Substract));
+        public  static bool IsSubtract    (this Operator entity) => HasOperatorTypeName(entity, nameof(Substract));
+        public  static bool IsMultiply    (this Inlet    entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsMultiply    (this Outlet   entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsMultiply    (this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsDivide      (this Inlet    entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsDivide      (this Outlet   entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsDivide      (this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsPower       (this Inlet    entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsPower       (this Outlet   entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsPower       (this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsSine        (this Inlet    entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsSine        (this Outlet   entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsSine        (this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsDelay       (this Inlet    entity) => HasOperatorTypeName(entity, nameof(TimeAdd));
+        public  static bool IsDelay       (this Outlet   entity) => HasOperatorTypeName(entity, nameof(TimeAdd));
+        public  static bool IsDelay       (this Operator entity) => HasOperatorTypeName(entity, nameof(TimeAdd));
+        public  static bool IsStretch     (this Inlet    entity) => HasOperatorTypeName(entity, nameof(TimeMultiply));
+        public  static bool IsStretch     (this Outlet   entity) => HasOperatorTypeName(entity, nameof(TimeMultiply));
+        public  static bool IsStretch     (this Operator entity) => HasOperatorTypeName(entity, nameof(TimeMultiply));
+        public  static bool IsSquash      (this Inlet    entity) => HasOperatorTypeName(entity, nameof(TimeDivide));
+        public  static bool IsSquash      (this Outlet   entity) => HasOperatorTypeName(entity, nameof(TimeDivide));
+        public  static bool IsSquash      (this Operator entity) => HasOperatorTypeName(entity, nameof(TimeDivide));
+        public  static bool IsTimeSubtract(this Inlet    entity) => HasOperatorTypeName(entity, nameof(TimeSubstract));
+        public  static bool IsTimeSubtract(this Outlet   entity) => HasOperatorTypeName(entity, nameof(TimeSubstract));
+        public  static bool IsTimeSubtract(this Operator entity) => HasOperatorTypeName(entity, nameof(TimeSubstract));
+        public  static bool IsTimePower   (this Inlet    entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsTimePower   (this Outlet   entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public  static bool IsTimePower   (this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        private static bool IsAdder       (this Outlet   entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        private static bool IsAdder       (this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+
+        private static bool HasOperatorTypeName(this Outlet outlet, string operatorTypeName)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            return IsAdd(outlet.Operator);
+            return HasOperatorTypeName(outlet.Operator, operatorTypeName);
         }
 
-        public static bool IsAdd(this Operator op)
+        private static bool HasOperatorTypeName(this Operator op, string operatorTypeName)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
-            return string.Equals(op.OperatorTypeName, nameof(Add), StringComparison.Ordinal);
-        }
-        
-        public static bool IsAdder(this Outlet operand)
-        {
-            if (operand == null) throw new ArgumentNullException(nameof(operand));
-            return IsAdder(operand.Operator);
+            return string.Equals(op.OperatorTypeName, operatorTypeName, StringComparison.Ordinal);
         }
 
-        public static bool IsAdder(this Operator op)
+        private static bool HasOperatorTypeName(this Inlet inlet, string operatorTypeName)
         {
-            if (op == null) throw new ArgumentNullException(nameof(op));
-            return string.Equals(op.OperatorTypeName, nameof(Adder), StringComparison.Ordinal);
+            if (inlet == null) throw new ArgumentNullException(nameof(inlet));
+            return HasOperatorTypeName(inlet.Input, operatorTypeName);
         }
+
+        // Operators
 
         /// <inheritdoc cref="docs._add"/>
         public static Outlet Add(this OperatorFactory x, params Outlet[] operands) 
@@ -270,18 +302,6 @@ namespace JJ.Business.Synthesizer.Wishes
                     return new List<Outlet> { x }; 
                 }
             }).ToList();
-        }
-                
-        public static bool IsMultiply(this Outlet outlet)
-        {
-            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            return IsMultiply(outlet.Operator);
-        }
-
-        public static bool IsMultiply(this Operator op)
-        {
-            if (op == null) throw new ArgumentNullException(nameof(op));
-            return string.Equals(op.OperatorTypeName, nameof(Multiply), StringComparison.Ordinal);
         }
         
         /// <inheritdoc cref="docs._multiply"/>
@@ -380,7 +400,6 @@ namespace JJ.Business.Synthesizer.Wishes
             // Recursively nest the remaining factors and multiply with the first
             return x.Multiply(firstFactor, NestMultiplications(x, remainingFactors));
         }
-
 
         public static Outlet Delay(OperatorFactory operatorFactory, Outlet signal, Outlet timeDifference)
         {
