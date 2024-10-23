@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Factories;
+﻿using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 
 // ReSharper disable InconsistentNaming
@@ -48,7 +47,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary>
         /// Returns the time in seconds of the start of a bar.
         /// </summary>
-        /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
+        /// <inheritdoc cref="docs._timeindexer"/>
         public class BarIndexer
         {
             private readonly SynthWishes _parent;
@@ -62,14 +61,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="BarIndexer" />
-            public ValueOperatorWrapper this[double count]
-                => _parent._operatorFactory.Value((count - 1) * _barDuration);
+            public ValueWrapper this[double count]
+                => new ValueWrapper(_parent._operatorFactory.Value((count - 1) * _barDuration));
         }
 
         /// <summary>
         /// Returns duration of a number of bars in seconds.<br />
         /// </summary>
-        /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
+        /// <inheritdoc cref="docs._timeindexer"/>
         public class BarsIndexer
         {
             private readonly SynthWishes _parent;
@@ -83,14 +82,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="BarsIndexer" />
-            public ValueOperatorWrapper this[double count]
-                => _parent._operatorFactory.Value(count * _barDuration);
+            public ValueWrapper this[double count]
+                => new ValueWrapper(_parent._operatorFactory.Value(count * _barDuration));
         }
 
         /// <summary>
         /// Returns the start time of a beat in seconds.
         /// </summary>
-        /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
+        /// <inheritdoc cref="docs._timeindexer"/>
         public class BeatIndexer
         {
             private readonly SynthWishes _parent;
@@ -104,14 +103,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="BeatIndexer" />
-            public ValueOperatorWrapper this[double count]
-                => _parent._operatorFactory.Value((count - 1) * _beatDuration);
+            public ValueWrapper this[double count]
+                => new ValueWrapper(_parent._operatorFactory.Value((count - 1) * _beatDuration));
         }
 
         /// <summary>
         /// Returns duration of a number of beats in seconds.
         /// </summary>
-        /// <returns> ValueOperatorWrapper which can also be used as an Outlet or a double. </returns>
+        /// <inheritdoc cref="docs._timeindexer"/>
         public class BeatsIndexer
         {
             private readonly SynthWishes _parent;
@@ -125,8 +124,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="BeatsIndexer" />
-            public ValueOperatorWrapper this[double count]
-                => _parent._operatorFactory.Value(count * _beatLength);
+            public ValueWrapper this[double count]
+                => new ValueWrapper(_parent._operatorFactory.Value(count * _beatLength));
         }
 
         /// <summary>
@@ -135,7 +134,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Example usage: t[bar: 2, beat: 1.5] will return the number of seconds.
         /// The numbers are 1-based, so the first bar is bar 1, the first beat is beat 1.
         /// </summary>
-        /// <returns> ValueOperatorWrapper also usable as Outlet or double. </returns>
+        /// <inheritdoc cref="docs._timeindexer"/>
         public class TimeIndexer
         {
             private readonly SynthWishes _parent;
@@ -150,8 +149,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="TimeIndexer" />
-            public ValueOperatorWrapper this[double bar, double beat]
-                => _parent._operatorFactory.Value((bar - 1) * _barLength + (beat - 1) * _beatLength);
+            public ValueWrapper this[double bar, double beat]
+                => new ValueWrapper(_parent._operatorFactory.Value((bar - 1) * _barLength + (beat - 1) * _beatLength));
         }
     }
 }

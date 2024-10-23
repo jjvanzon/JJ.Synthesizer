@@ -212,8 +212,8 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
             if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
             if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
-            if (duration == default) duration = _[1];
-            if (volume == default) volume = _[1];
+            if (duration == default) duration = 1;
+            if (volume == default) volume = 1;
             fileName = ResolveFileName(fileName, audioFileFormatEnum, callerMemberName);
 
             WriteLine();

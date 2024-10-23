@@ -481,7 +481,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="docs._valueindexer" />
-            public ValueOperatorWrapper this[double value] => _parent.Value(value);
+            public ValueWrapper this[double value] => new ValueWrapper(_parent.Value(value));
         }
      
         // Helpers

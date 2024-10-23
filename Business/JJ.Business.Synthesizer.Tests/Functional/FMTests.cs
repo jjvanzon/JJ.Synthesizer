@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -729,34 +730,34 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (8.0, 0.0)
         );
 
-        (double time, double freq1, double freq2, double freq3)[] _chordFrequencies;
+        (double time, ValueWrapper freq1, ValueWrapper freq2, ValueWrapper freq3)[] _chordFrequencies;
 
-        (double time, double freq1, double freq2, double freq3)[] CreateChordFrequencies() => new[]
+        (double time, ValueWrapper freq1, ValueWrapper freq2, ValueWrapper freq3)[] CreateChordFrequencies() => new[]
         {
-            (0.0, Notes.E4, Notes.A4, Notes.C5),
-            (1.0, Notes.F4, Notes.A4, Notes.C5),
-            (2.0, Notes.E4, Notes.G4, Notes.C5),
-            (3.0, Notes.D4, Notes.G4, Notes.B4),
-            (4.0, Notes.D4, Notes.F4, Notes.A4),
-            (5.0, Notes.F4, Notes.A4, Notes.D5),
-            (6.0, Notes.E4, Notes.A4, Notes.C5),
-            (7.0, Notes.E4, Notes.A5, Notes.E5),
-            (8.0, Notes.E4, Notes.A5, Notes.E5)
+            (0.0, E4, A4, C5),
+            (1.0, F4, A4, C5),
+            (2.0, E4, G4, C5),
+            (3.0, D4, G4, B4),
+            (4.0, D4, F4, A4),
+            (5.0, F4, A4, D5),
+            (6.0, E4, A4, C5),
+            (7.0, E4, A5, E5),
+            (8.0, E4, A5, E5)
         };
 
         Outlet ChordPitchCurve1 => Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
-                                                       x.freq1,
+                                                       x.freq1.Value,
                                                        NodeTypeEnum.Block)).ToArray());
 
         Outlet ChordPitchCurve2 => Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
-                                                       x.freq2,
+                                                       x.freq2.Value,
                                                        NodeTypeEnum.Block)).ToArray());
 
         Outlet ChordPitchCurve3 => Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
-                                                       x.freq3,
+                                                       x.freq3.Value,
                                                        NodeTypeEnum.Block)).ToArray());
 
         #endregion
