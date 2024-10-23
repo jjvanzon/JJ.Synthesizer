@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => nestedAdderResult);
 
             // Check Flattened Terms
-            var flattenAdderTerms = OperatorExtensionsWishesAccessor.FlattenTerms(nestedAdder);
+            var flattenAdderTerms = new SynthWishesAccessor(this).FlattenTerms(nestedAdder);
 
             IsNotNull(() => flattenAdderTerms);
             AreEqual(10,             () => flattenAdderTerms.Count);
@@ -189,7 +189,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 );
 
             // Check Optimized Factors
-            IList<Outlet> flattenedFactors = OperatorExtensionsWishesAccessor.FlattenFactors(nestedMultiply);
+            IList<Outlet> flattenedFactors = new SynthWishesAccessor(this).FlattenFactors(nestedMultiply);
             
             IsNotNull(() => flattenedFactors);
             AreEqual(6, () => flattenedFactors.Count);

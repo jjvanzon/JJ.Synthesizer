@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
 
         public static IList<Outlet> FlattenFactors(IList<Outlet> operands)
-        { 
+        {
             return (IList<Outlet>)_accessor.InvokeMethod(nameof(FlattenFactors), operands);
         }
 

@@ -116,6 +116,11 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// channel volumes based on the specified panning value.
         /// TODO: A variable panning might go into the negative. Should be clamped to 0-1.
         /// </summary>
+        /// <param name="channel">
+        /// The channel for which to calculate the panning.
+        /// If omitted, the <see cref="SynthWishes.Channel"/> property is used,
+        /// which indicates the current channel.
+        /// </param>
         /// <inheritdoc cref="_default" />
         public object _panning;
 
