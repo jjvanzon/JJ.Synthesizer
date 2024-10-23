@@ -54,6 +54,17 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static IList<string> GetWarnings(this AudioFileOutput audioFileOutput)
             => new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text).ToList();
+                
+        // IsSampleOperator
+        
+        public static bool IsSampleOperator(this Outlet entity) 
+            => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(SampleOperator));
+
+        public static bool IsSampleOperator(this Operator entity) 
+            => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(SampleOperator));
+
+        public static bool IsSampleOperator(this Inlet entity) 
+            => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(SampleOperator));
 
         // Derived Fields
 

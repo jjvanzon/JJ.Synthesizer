@@ -229,19 +229,19 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static bool IsAdder       (this Outlet   entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
         internal static bool IsAdder       (this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
 
-        private static bool HasOperatorTypeName(this Outlet outlet, string operatorTypeName)
+        internal static bool HasOperatorTypeName(this Outlet outlet, string operatorTypeName)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             return HasOperatorTypeName(outlet.Operator, operatorTypeName);
         }
 
-        private static bool HasOperatorTypeName(this Operator op, string operatorTypeName)
+        internal static bool HasOperatorTypeName(this Operator op, string operatorTypeName)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
             return string.Equals(op.OperatorTypeName, operatorTypeName, StringComparison.Ordinal);
         }
 
-        private static bool HasOperatorTypeName(this Inlet inlet, string operatorTypeName)
+        internal static bool HasOperatorTypeName(this Inlet inlet, string operatorTypeName)
         {
             if (inlet == null) throw new ArgumentNullException(nameof(inlet));
             return HasOperatorTypeName(inlet.Input, operatorTypeName);

@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Persistence.Synthesizer;
+// ReSharper disable InvokeAsExtensionMethod
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -25,5 +26,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static Result Validate(this Node node)
             => new NodeValidator(node).ToResult();
+        
+        // IsCurve
+        
+        public static bool IsCurve(this Outlet entity) 
+            => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(CurveIn));
+
+        public static bool IsCurve(this Operator entity) 
+            => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(CurveIn));
+
+        public static bool IsCurve(this Inlet entity) 
+            => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(CurveIn));
     }
 }
