@@ -38,6 +38,8 @@ namespace JJ.Business.Synthesizer.Wishes
         private AudioFileOutputManager _audioFileOutputManager;
         private SampleManager _samples;
 
+        // Sample
+        
         /// <inheritdoc cref="docs._sample"/>
         public SampleOperatorWrapper Sample(
             byte[] bytes, 
@@ -90,6 +92,9 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper;
         }
 
+        // Play
+        
+        /// <inheritdoc cref="docs._saveaudio" />
         public Result<AudioFileOutput> Play(
             Func<Outlet> outletFunc,
             double duration = default,
@@ -114,6 +119,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return result;
         }
         
+        /// <inheritdoc cref="docs._saveaudio" />
         public Result<AudioFileOutput> PlayMono(
             Func<Outlet> outletFunc,
             double duration = default,
@@ -136,7 +142,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return result;
         }
-
+        
+        // Save
+        
         /// <inheritdoc cref="docs._saveaudio" />
         public Result<AudioFileOutput> SaveAudioMono(
             Func<Outlet> outletFunc,
@@ -306,35 +314,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return result;
         }
-
-        private static string FormatRealTimeMessage(double duration, Stopwatch stopWatch)
-        {
-            if (!ToolingHelper.IsRunningInTooling)
-            {
-                double realTimePercent = duration / stopWatch.Elapsed.TotalSeconds * 100;
-                
-                string realTimeStatusGlyph;
-                if (realTimePercent < 100)
-                {
-                    realTimeStatusGlyph = "❌";
-                }
-                else
-                { 
-                    realTimeStatusGlyph = "✔️";
-                }
-
-                var realTimeMessage = $"{realTimeStatusGlyph} {realTimePercent:F0} % Real Time";
-
-                return realTimeMessage;
-            }
-
-            return default;
-        }
-
+        
         // Helpers
         
-        private (Func<Outlet> func, double duration) ApplyLeadingSilence(Func<Outlet> func, double duration)
+        private (Func<Outlet> func, double duration) ApplyLeadingSilence(Func<Outlet> func, double duration = default)
         {
+            if (duration == default) duration = 1;
+            
             double duration2 = duration + ConfigHelper.PlayLeadingSilence + ConfigHelper.PlayTrailingSilence;
                 
             if (ConfigHelper.PlayLeadingSilence == 0)
@@ -404,6 +390,30 @@ namespace JJ.Business.Synthesizer.Wishes
 
             WriteLine($"Sampling rate: {ConfigHelper.DefaultSamplingRate}");
             return ConfigHelper.DefaultSamplingRate;
+        }
+        
+        private static string FormatRealTimeMessage(double duration, Stopwatch stopWatch)
+        {
+            if (!ToolingHelper.IsRunningInTooling)
+            {
+                double realTimePercent = duration / stopWatch.Elapsed.TotalSeconds * 100;
+                
+                string realTimeStatusGlyph;
+                if (realTimePercent < 100)
+                {
+                    realTimeStatusGlyph = "❌";
+                }
+                else
+                { 
+                    realTimeStatusGlyph = "✔️";
+                }
+
+                var realTimeMessage = $"{realTimeStatusGlyph} {realTimePercent:F0} % Real Time";
+
+                return realTimeMessage;
+            }
+
+            return default;
         }
     }
 }

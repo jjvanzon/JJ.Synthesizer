@@ -163,12 +163,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// a whole formula / graph / calculation / curve over time.
         /// </summary>
         /// <returns>
-        /// ValueOperatorWrapper also usable as Outlet or double.
+        /// ValueWrapper also usable as Outlet or double.
         /// </returns>
         public object _valueindexer;
 
         /// <summary>
-        /// Outputs audio to a WAV file.<br />
+        /// Outputs audio to a WAV file and plays it if needed.<br />
         /// A single <see cref="Outlet" /> will result in Mono audio.<br />
         /// Use a func returning an <see cref="Outlet" /> e.g. <c> SaveAudio(() => MySound()); </c> <br />
         /// For Stereo it must return a new outlet each time.<br />
@@ -271,5 +271,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// Optionally, it can be output in a single line.
         /// </summary>
         public object _stringify;
+
+        /// <returns> <see cref="ValueWrapper"/> which can also be used as an Outlet or a <see langword="double"/>. </returns>
+        private object _timeindexer;
     }
 }

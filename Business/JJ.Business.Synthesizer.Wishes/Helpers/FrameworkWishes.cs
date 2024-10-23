@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using static System.Environment;
 
@@ -113,6 +114,27 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             }
 
             return product;
+        }
+
+        /// <summary>
+        /// Integer variation of the Math.Log function.
+        /// It will only return integers,
+        /// but will prevent rounding errors such as
+        /// 1000 log 10 = 2.99999999996.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Log(int value, int n)
+        {
+            int temp = value;
+            var i    = 0;
+
+            while (temp >= n)
+            {
+                temp /= n;
+                i++;
+            }
+
+            return i;
         }
     }
 }

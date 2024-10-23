@@ -10,6 +10,7 @@ using JJ.Framework.Persistence;
 using System.Linq;
 using JetBrains.Annotations;
 using System.Runtime.CompilerServices;
+using static JJ.Business.Synthesizer.Wishes.Helpers.CopiedFromFramework;
 
 // ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable MemberCanBeProtected.Global
@@ -486,26 +487,6 @@ namespace JJ.Business.Synthesizer.Wishes
      
         // Helpers
 
-        /// <summary>
-        /// Integer variation of the Math.Log function.
-        /// It will only return integers,
-        /// but will prevent rounding errors such as
-        /// 1000 log 10 = 2.99999999996.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int Log(int value, int n)
-        {
-            int temp = value;
-            var i    = 0;
-
-            while (temp >= n)
-            {
-                temp /= n;
-                i++;
-            }
-
-            return i;
-        }
 
         /// <summary>
         /// Uses the channel specified by the <see cref="SynthWishes.Channel"/> property.
