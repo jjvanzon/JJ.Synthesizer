@@ -97,14 +97,38 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // String
 
+        /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Outlet entity)
             => new OperatorStringifier().StringifyRecursive(entity);
 
+        /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Operator entity)
             => new OperatorStringifier().StringifyRecursive(entity);
 
+        /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Inlet entity)
             => new OperatorStringifier().StringifyRecursive(entity);
+
+        /// <inheritdoc cref="docs._stringify"/>
+        public static string Stringify(this OperatorWrapperBase wrapper)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return new OperatorStringifier().StringifyRecursive(wrapper.Operator);
+        }
+
+        /// <inheritdoc cref="docs._stringify"/>
+        public static string Stringify(this SampleOperatorWrapper wrapper)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return new OperatorStringifier().StringifyRecursive(wrapper.Result);
+        }
+
+        /// <inheritdoc cref="docs._stringify"/>
+        public static string Stringify(this CurveInWrapper wrapper)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return new OperatorStringifier().StringifyRecursive(wrapper.Result);
+        }
 
         // Validation
 
@@ -126,11 +150,47 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
+        public static Result Validate(this OperatorWrapperBase wrapper, bool recursive = true)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return Validate( wrapper.Operator, recursive);
+        }
+
+        public static Result Validate(this CurveInWrapper wrapper, bool recursive = true)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return Validate(wrapper.Result, recursive);
+        }
+
+        public static Result Validate(this SampleOperatorWrapper wrapper, bool recursive = true)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return Validate(wrapper.Result, recursive);
+        }
+
         public static void Assert(this Outlet entity, bool recursive = true)
             => Validate(entity, recursive).Assert();
 
         public static void Assert(this Operator entity, bool recursive = true)
             => Validate(entity, recursive).Assert();
+        
+        public static void Assert(this OperatorWrapperBase wrapper, bool recursive = true)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            Assert( wrapper.Operator, recursive);
+        }
+
+        public static void Assert(this CurveInWrapper wrapper, bool recursive = true)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            Assert(wrapper.Result, recursive);
+        }
+
+        public static void Assert(this SampleOperatorWrapper wrapper, bool recursive = true)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            Assert(wrapper.Result, recursive);
+        }
 
         public static IList<string> GetWarnings(this Operator entity, bool recursive = true)
         {
@@ -152,6 +212,24 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetWarnings(entity.Operator, recursive);
+        }
+                
+        public static IList<string> GetWarnings(this OperatorWrapperBase wrapper, bool recursive = true)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return GetWarnings( wrapper.Operator, recursive);
+        }
+
+        public static IList<string> GetWarnings(this CurveInWrapper wrapper, bool recursive = true)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return GetWarnings(wrapper.Result, recursive);
+        }
+
+        public static IList<string> GetWarnings(this SampleOperatorWrapper wrapper, bool recursive = true)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return GetWarnings(wrapper.Result, recursive);
         }
 
         // As/Is
