@@ -220,15 +220,15 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public Outlet Delay(Outlet signal, Outlet timeDifference) 
             => _operatorFactory.TimeAdd(signal, timeDifference);
+        
+        public Outlet Skip(Outlet signal = null, Outlet timeDifference = null)
+            => _operatorFactory.TimeSubstract(signal, timeDifference);
 
         public Outlet Stretch(Outlet signal, Outlet timeFactor) 
             => _operatorFactory.TimeMultiply(signal, timeFactor ?? _[1]);
 
         public TimeDivide Squash(Outlet signal = null, Outlet timeDivider = null)
             => _operatorFactory.TimeDivide(signal, timeDivider);
-
-        public TimeSubstract TimeSubtract(Outlet signal = null, Outlet timeDifference = null)
-            => _operatorFactory.TimeSubstract(signal, timeDifference);
 
         public TimePower TimePower(Outlet signal = null, Outlet exponent = null)
             => _operatorFactory.TimePower(signal, exponent);

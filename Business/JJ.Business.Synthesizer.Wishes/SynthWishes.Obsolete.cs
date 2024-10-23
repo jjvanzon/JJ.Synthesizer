@@ -56,7 +56,11 @@ namespace JJ.Business.Synthesizer.Wishes
         [Obsolete("Origin parameter obsolete.", true), UsedImplicitly]
         public TimePower TimePower(Outlet signal, Outlet exponent, Outlet origin) => throw new NotSupportedException();
 
-        [Obsolete("Prefer other parameters.", true)]
+        [Obsolete("Prefer other parameters.", true), UsedImplicitly]
         public SampleOperatorWrapper Sample(Sample sample) => throw new NotSupportedException();
+
+        [Obsolete("Use Skip instead.", true), UsedImplicitly]
+        public TimeSubstract TimeSubtract(Outlet signal = null, Outlet timeDifference = null)
+            => throw new NotSupportedException();
     }
 }
