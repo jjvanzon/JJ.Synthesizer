@@ -741,7 +741,7 @@ namespace JJ.Business.Synthesizer.Wishes
             throw new ValueNotSupportedException(typeof(TSampleDataType));
         }
 
-        public static int GetIndex(this ChannelEnum channelEnum, IContext context = null)
+        public static int ToIndex(this ChannelEnum channelEnum, IContext context = null)
         {
             IChannelRepository channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(context);
             Channel channel = channelRepository.Get((int)channelEnum);

@@ -8,48 +8,34 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     internal static class ServiceFactory
     {
         public static OperatorFactory CreateOperatorFactory(IContext context)
-        {
-            IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
-            IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
-            IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
-            ICurveInRepository curveInRepository = PersistenceHelper.CreateRepository<ICurveInRepository>(context);
-            IValueOperatorRepository valueOperatorRepository = PersistenceHelper.CreateRepository<IValueOperatorRepository>(context);
-            ISampleOperatorRepository sampleOperatorRepository = PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context);
-            var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository, curveInRepository, valueOperatorRepository, sampleOperatorRepository);
-            return factory;
-        }
+            => new OperatorFactory(
+                PersistenceHelper.CreateRepository<IOperatorRepository>(context),
+                PersistenceHelper.CreateRepository<IInletRepository>(context),
+                PersistenceHelper.CreateRepository<IOutletRepository>(context),
+                PersistenceHelper.CreateRepository<ICurveInRepository>(context),
+                PersistenceHelper.CreateRepository<IValueOperatorRepository>(context),
+                PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context));
 
         public static CurveFactory CreateCurveFactory(IContext context)
-        {
-            ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-            INodeRepository nodeRepository = PersistenceHelper.CreateRepository<INodeRepository>(context);
-            INodeTypeRepository nodeTypeRepository = PersistenceHelper.CreateRepository<INodeTypeRepository>(context);
-            var factory = new CurveFactory(curveRepository, nodeRepository, nodeTypeRepository);
-            return factory;
-        }
+            => new CurveFactory(
+                PersistenceHelper.CreateRepository<ICurveRepository>(context),
+                PersistenceHelper.CreateRepository<INodeRepository>(context),
+                PersistenceHelper.CreateRepository<INodeTypeRepository>(context));
 
         public static SampleManager CreateSampleManager(IContext context)
-        {
-            ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
-            ISampleDataTypeRepository sampleDataTypeRepository = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
-            ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context);
-            IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
-            IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
-
-            var manager = new SampleManager(sampleRepository, sampleDataTypeRepository, speakerSetupRepository, audioFileFormatRepository, interpolationTypeRepository);
-            return manager;
-        }
+            => new SampleManager(
+                PersistenceHelper.CreateRepository<ISampleRepository>(context),
+                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
+                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context),
+                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context),
+                PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context));
 
         public static AudioFileOutputManager CreateAudioFileOutputManager(IContext context)
-        {
-            IAudioFileOutputRepository audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(context);
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository = PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(context);
-            ISampleDataTypeRepository sampleDataTypeRepository = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
-            ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context);
-            IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
-
-            var manager = new AudioFileOutputManager(audioFileOutputRepository, audioFileOutputChannelRepository, sampleDataTypeRepository, speakerSetupRepository, audioFileFormatRepository);
-            return manager;
-        }
+            => new AudioFileOutputManager(
+                PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(context),
+                PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(context),
+                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
+                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context),
+                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context));
     }
 }

@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         void Detunica1_RunTest()
-            => Play(() => DeepEcho(Detunica1(freq: E2, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
+            => Play(() => DeepEcho(Detunica1(freq: E2, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.15);
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
@@ -216,11 +216,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             switch (envelopeVariation)
             {
                 case 1:
-                    sound = Multiply(sound, Stretch(DetunicaPatchyVolumeCurve, duration));
+                    sound = Multiply(sound, Stretch(PatchyEnvelope, duration));
                     break;
 
                 case 2:
-                    sound = Multiply(sound, Stretch(DetunicaEvenVolumeCurve, duration));
+                    sound = Multiply(sound, Stretch(EvenEnvelope, duration));
                     break;
 
                 default:
@@ -374,7 +374,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Curves
 
-        Outlet DetunicaPatchyVolumeCurve => CurveIn(@"
+        Outlet PatchyEnvelope => CurveIn(@"
                          o                             
                     
                               o                         
@@ -385,7 +385,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         o                                       o ");
 
-        Outlet DetunicaEvenVolumeCurve => CurveIn(@"
+        Outlet EvenEnvelope => CurveIn(@"
                           o                             
                    
                                                         

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.CanonicalModel;
@@ -31,7 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         public static double Calculate(this Sample sample, double time, ChannelEnum channelEnum)
-            => Calculate(sample, time, channelEnum.GetIndex());
+            => Calculate(sample, time, channelEnum.ToIndex());
 
         public static double Calculate(this Sample sample, double time, int channelIndex)
             => SampleCalculatorFactory.CreateSampleCalculator(sample).CalculateValue(channelIndex, time);

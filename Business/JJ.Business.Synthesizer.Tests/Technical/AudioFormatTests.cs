@@ -358,15 +358,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualL =
                 {
-                    Calculate(sampleWrapperLeft, time: 0.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperLeft, time: 1.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperLeft, time: 2.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperLeft, time: 3.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperLeft, time: 4.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperLeft, time: 5.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperLeft, time: 6.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperLeft, time: 7.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperLeft, time: 8.0 / 8.0 / frequency)
+                    sampleWrapperLeft.Calculate(time: 0.0 / 8.0 / frequency, Left),
+                    sampleWrapperLeft.Calculate(time: 1.0 / 8.0 / frequency, Left),
+                    sampleWrapperLeft.Calculate(time: 2.0 / 8.0 / frequency, Left),
+                    sampleWrapperLeft.Calculate(time: 3.0 / 8.0 / frequency, Left),
+                    sampleWrapperLeft.Calculate(time: 4.0 / 8.0 / frequency, Left),
+                    sampleWrapperLeft.Calculate(time: 5.0 / 8.0 / frequency, Left),
+                    sampleWrapperLeft.Calculate(time: 6.0 / 8.0 / frequency, Left),
+                    sampleWrapperLeft.Calculate(time: 7.0 / 8.0 / frequency, Left),
+                    sampleWrapperLeft.Calculate(time: 8.0 / 8.0 / frequency, Left)
                 };
 
                 // Right
@@ -391,15 +391,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualR =
                 {
-                    Calculate(sampleWrapperRight, time: 0.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperRight, time: 1.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperRight, time: 2.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperRight, time: 3.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperRight, time: 4.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperRight, time: 5.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperRight, time: 6.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperRight, time: 7.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperRight, time: 8.0 / 8.0 / frequency)
+                    sampleWrapperRight.Calculate(time: 0.0 / 8.0 / frequency, Right),
+                    sampleWrapperRight.Calculate(time: 1.0 / 8.0 / frequency, Right),
+                    sampleWrapperRight.Calculate(time: 2.0 / 8.0 / frequency, Right),
+                    sampleWrapperRight.Calculate(time: 3.0 / 8.0 / frequency, Right),
+                    sampleWrapperRight.Calculate(time: 4.0 / 8.0 / frequency, Right),
+                    sampleWrapperRight.Calculate(time: 5.0 / 8.0 / frequency, Right),
+                    sampleWrapperRight.Calculate(time: 6.0 / 8.0 / frequency, Right),
+                    sampleWrapperRight.Calculate(time: 7.0 / 8.0 / frequency, Right),
+                    sampleWrapperRight.Calculate(time: 8.0 / 8.0 / frequency, Right)
                 };
 
                 double valueTolerance = GetValueTolerance(aligned, interpolationTypeEnum, sampleDataTypeEnum);

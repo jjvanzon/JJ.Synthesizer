@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Testing;

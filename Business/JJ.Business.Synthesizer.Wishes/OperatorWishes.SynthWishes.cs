@@ -29,12 +29,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public ChannelEnum Channel { get; set; }
 
-        // Basic Operators
+        public int ChannelIndex => Channel.ToIndex();
 
-        // TODO: Delegate everything to OperatorExtensionsWishes and add deprecated ones there too.
-        
-        [Obsolete("Use _[123] instead.")]
-        public ValueOperatorWrapper Value(double value = 0) => _[value];
+        // Basic Operators
 
         /// <inheritdoc cref="docs._add"/>
         public Outlet Add(params Outlet[] operands) 
@@ -46,38 +43,37 @@ namespace JJ.Business.Synthesizer.Wishes
             if (operands == null) throw new ArgumentNullException(nameof(operands));
             
             // Flatten Nested Sums
-            IList<Outlet> flattenedTerms = FlattenTerms(operands);
+            IList<Outlet> term = FlattenTerms(operands);
             
             // Consts
-            IList<Outlet> vars = flattenedTerms.Where(y => y.IsVar()).ToArray();
-            double constant = flattenedTerms.Sum(y => y.AsConst() ?? 0);
+            IList<Outlet> vars = term.Where(y => y.IsVar()).ToArray();
+            double constant = term.Sum(y => y.AsConst() ?? 0);
             
             if (constant != 0)  // Skip Identity 0
             {
-                Outlet constOutlet = _[constant];
-                flattenedTerms = vars.Concat(new [] { constOutlet }).ToArray();
+                term = vars.Concat(new [] { (Outlet)_[constant] }).ToArray();
             }
 
-            switch (flattenedTerms.Count)
+            switch (term.Count)
             {
                 case 0:
                     return _[0];
                 
                 case 1:
                     // Return single term
-                    return flattenedTerms[0];
+                    return term[0];
                 
                 case 2:
                     // Simple Add for 2 Operands
-                    return _operatorFactory.Add(flattenedTerms[0], flattenedTerms[1]);
+                    return _operatorFactory.Add(term[0], term[1]);
                 
                 default:
                     // Make Normal Adder
-                    return _operatorFactory.Adder(flattenedTerms);
+                    return _operatorFactory.Adder(term);
             }
         }
 
-        /// <summary> Alternative entry point (Operator) Outlet. </summary>
+        /// <summary> Alternative entry point (Operator) Outlet (used in tests). </summary>
         [UsedImplicitly]
         private IList<Outlet> FlattenTerms(Outlet sumOrAdd)
         {
@@ -118,26 +114,12 @@ namespace JJ.Business.Synthesizer.Wishes
             }).ToList();
         }
 
-        [Obsolete("Use Add instead.", true)]
-        public Adder Adder(params Outlet[] operands) => throw new NotSupportedException();
-
-        [Obsolete("Use Add instead.", true)]
-        public Adder Adder(IList<Outlet> operands) => throw new NotSupportedException();
-
         public Substract Subtract(Outlet operandA = null, Outlet operandB = null)
             => _operatorFactory.Substract(operandA, operandB);
-
-        [Obsolete("Typo. Use Subtract instead.", true)]
-        public Substract Substract(Outlet operandA = null, Outlet operandB = null) => throw new NotSupportedException();
         
         /// <inheritdoc cref="docs._multiply"/>
         public Outlet Multiply(Outlet operandA, Outlet operandB)
         {
-            //if (origin != null)
-            //{
-            //    return _operatorFactory.Multiply(operandA, operandB, origin);
-            //}
-
             // Reverse operands increasing likelihood to have a 0-valued (volume) curve first.
             (operandA, operandB) = (operandB, operandA);
 
@@ -174,7 +156,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <summary> Alternative entry point (Operator) Outlet. </summary>
+        /// <summary> Alternative entry point (Operator) Outlet (used in tests). </summary>
+        [UsedImplicitly]
         public IList<Outlet> FlattenFactors(Outlet multiplyOutlet)
         {
             if (multiplyOutlet == null) throw new ArgumentNullException(nameof(multiplyOutlet));
@@ -224,76 +207,31 @@ namespace JJ.Business.Synthesizer.Wishes
             // Recursively nest the remaining factors and multiply with the first
             return _operatorFactory.Multiply(firstFactor, NestMultiplications(remainingFactors));
         }
-
-        [Obsolete("Origin parameter obsolete.", true)]
-        public Outlet Multiply(Outlet operandA, Outlet operandB, Outlet origin) => throw new NotSupportedException();
         
         public Divide Divide(Outlet numerator, Outlet denominator)
             => _operatorFactory.Divide(numerator, denominator);
-
-        [Obsolete("Origin parameter obsolete.", true)]
-        public Divide Divide(Outlet numerator, Outlet denominator, Outlet origin) => throw new NotSupportedException();
 
         public Power Power(Outlet @base = null, Outlet exponent = null)
             => _operatorFactory.Power(@base, exponent);
         
         /// <inheritdoc cref="docs._sine" />
-        public Outlet Sine(Outlet pitch = null)
-        {
-            pitch = pitch ?? _[1];
-            
-            return _operatorFactory.Sine(_[1], pitch);
-        }
+        public Outlet Sine(Outlet pitch = null) 
+            => _operatorFactory.Sine(_[1], pitch ?? _[1]);
 
-        [Obsolete("Use Multiply(Sine(pitch), volume) instead of Sine(volume, pitch).", true)]
-        public Sine Sine(Outlet volume, Outlet pitch) => throw new NotSupportedException();
+        public Outlet Delay(Outlet signal, Outlet timeDifference) 
+            => _operatorFactory.TimeAdd(signal, timeDifference);
 
-        [Obsolete("Use Add(Multiply(Sine(pitch), volume), level) instead of Sine(volume, pitch, level).", true)]
-        public Sine Sine(Outlet volume, Outlet pitch, Outlet level) => throw new NotSupportedException();
-
-        [Obsolete("Use Delay(Add(Multiply(Sine(pitch), volume), level), phaseStart) instead of Sine(volume, pitch, level, phaseStart).", true)]
-        public Sine Sine(Outlet volume, Outlet pitch, Outlet level, Outlet phaseStart) => throw new NotSupportedException();
-
-        public Outlet Delay(Outlet signal, Outlet timeDifference)
-        {
-            return _operatorFactory.TimeAdd(signal, timeDifference);
-        }
-
-        [Obsolete("Use Delay instead.", true)]
-        public TimeAdd TimeAdd(Outlet signal = null, Outlet timeDifference = null) => throw new NotSupportedException();
-
-        /// <inheritdoc cref="docs._default" />
-        public Outlet Stretch(Outlet signal, Outlet timeFactor)
-        {
-            return _operatorFactory.TimeMultiply(signal, timeFactor ?? _[1]);
-        }
-
-        [Obsolete("Origin parameter obsolete.", true)]
-        public Outlet Stretch(Outlet signal, Outlet timeFactor, Outlet origin) => throw new NotSupportedException();
-        
-        [Obsolete("Use Stretch instead.", true)]
-        public TimeMultiply TimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null) => throw new NotSupportedException();
+        public Outlet Stretch(Outlet signal, Outlet timeFactor) 
+            => _operatorFactory.TimeMultiply(signal, timeFactor ?? _[1]);
 
         public TimeDivide Squash(Outlet signal = null, Outlet timeDivider = null)
             => _operatorFactory.TimeDivide(signal, timeDivider);
 
-        [Obsolete("Origin parameter obsolete.", true)]
-        public TimeDivide Squash(Outlet signal, Outlet timeDivider, Outlet origin) => throw new NotSupportedException();
-
-        [Obsolete("Use Squash instead.", true)]
-        public TimeDivide TimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null) => throw new NotSupportedException();
-
         public TimeSubstract TimeSubtract(Outlet signal = null, Outlet timeDifference = null)
             => _operatorFactory.TimeSubstract(signal, timeDifference);
 
-        [Obsolete("Typo. Use TimeSubtract instead.", true)]
-        public TimeSubstract TimeSubstract(Outlet signal = null, Outlet timeDifference = null) => throw new NotSupportedException();
-
         public TimePower TimePower(Outlet signal = null, Outlet exponent = null)
             => _operatorFactory.TimePower(signal, exponent);
-
-        [Obsolete("Origin parameter obsolete.", true)]
-        public TimePower TimePower(Outlet signal, Outlet exponent, Outlet origin) => throw new NotSupportedException();
 
         // Derived Operators
 
@@ -569,25 +507,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return i;
         }
 
+        /// <summary>
+        /// Uses the channel specified by the <see cref="SynthWishes.Channel"/> property.
+        /// Or you can call e.g. <c>Outlet.Calculate(time, ChannelEnum.Right)</c>
+        /// </summary>
         public double Calculate(Outlet outlet, double time)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             return outlet.Calculate(time, ChannelIndex);
         }
-
-        public int ChannelIndex
-        {
-            get
-            {
-                switch (Channel)
-                {
-                    case ChannelEnum.Single: return 0;
-                    case ChannelEnum.Left:   return 0;
-                    case ChannelEnum.Right:  return 1;
-                    
-                    default: throw new InvalidValueException(Channel);
-                }
-            }
-        }   
     }
 }
