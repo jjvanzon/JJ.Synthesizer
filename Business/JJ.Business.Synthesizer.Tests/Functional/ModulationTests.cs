@@ -13,13 +13,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class ModulationTests : SynthWishes
     {
-        const int    MILD_ECHO_COUNT       = 4;
-        const double MILD_ECHO_DELAY       = 0.33;
-        const double MILD_ECHO_TIME        = MILD_ECHO_DELAY * (MILD_ECHO_COUNT - 1);
-        const int    DEEP_ECHO_COUNT       = 4;
-        const double DEEP_ECHO_DELAY_LEFT  = 0.5;
-        const double DEEP_ECHO_DELAY_RIGHT = 0.53;
-        const double DEEP_ECHO_TIME        = DEEP_ECHO_DELAY_RIGHT * (DEEP_ECHO_COUNT - 1);
+        const int    MILD_ECHO_COUNT   = 4;
+        const double MILD_ECHO_DELAY   = 0.33;
+        const double MILD_ECHO_TIME    = MILD_ECHO_DELAY * (MILD_ECHO_COUNT - 1);
+        const int    DEEP_ECHO_COUNT   = 4;
+        const double DEEP_ECHO_DELAY_L = 0.5;
+        const double DEEP_ECHO_DELAY_R = 0.53;
+        const double DEEP_ECHO_TIME    = DEEP_ECHO_DELAY_R * (DEEP_ECHO_COUNT - 1);
 
         public ModulationTests()
             : base(beat: 0.55, bar: 2.2)
@@ -359,13 +359,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             switch (Channel)
             {
                 case ChannelEnum.Single:
-                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: _[1 / 2.0], delay: _[DEEP_ECHO_DELAY_LEFT]);
+                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: _[1 / 2.0], delay: _[DEEP_ECHO_DELAY_L]);
                 
                 case ChannelEnum.Left:
-                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: _[1 / 2.1], delay: _[DEEP_ECHO_DELAY_LEFT]);
+                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: _[1 / 2.1], delay: _[DEEP_ECHO_DELAY_L]);
                 
                 case ChannelEnum.Right:
-                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: _[1 / 2.0], delay: _[DEEP_ECHO_DELAY_RIGHT]);
+                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: _[1 / 2.0], delay: _[DEEP_ECHO_DELAY_R]);
                 
                 default:
                     throw new ValueNotSupportedException(Channel);
