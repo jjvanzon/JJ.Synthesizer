@@ -262,5 +262,14 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// <param name="filePath"> The file path of the audio sample to load. </param>
         /// <returns> <see cref="SampleOperatorWrapper" />  that can be used as an <see cref="Outlet" /> too. </returns>
         public object _sample;
+
+        /// <summary>
+        /// Turns an <see cref="Operator"/> graph into a string,
+        /// in a way that the complexity becomes apparent.
+        /// Having each <see cref="Operator"/> be on its own line,
+        /// the complexity can be expressed as the number of lines.
+        /// Optionally, it can be output in a single line.
+        /// </summary>
+        public object _stringify;
     }
 }
