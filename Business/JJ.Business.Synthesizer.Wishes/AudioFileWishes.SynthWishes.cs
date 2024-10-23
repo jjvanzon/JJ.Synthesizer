@@ -19,6 +19,7 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static System.Console;
 using static System.Environment;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
+using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -40,16 +41,19 @@ namespace JJ.Business.Synthesizer.Wishes
         private AudioFileOutputManager _audioFileOutputManager;
         private SampleManager _samples;
 
-        public SampleOperatorWrapper Sample(string fileName, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
+        public SampleOperatorWrapper Sample(
+            string fileName, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
         {
             using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 return Sample(fileStream);
         }
 
-        public SampleOperatorWrapper Sample(byte[] bytes, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
+        public SampleOperatorWrapper Sample(
+            byte[] bytes, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
             => Sample(new MemoryStream(bytes), amplifier, speedFactor, bytesToSkip);
         
-        public SampleOperatorWrapper Sample(Stream stream, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
+        public SampleOperatorWrapper Sample(
+            Stream stream, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
         {
             Sample sample = _samples.CreateSample(stream);
 
@@ -86,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         public Result<AudioFileOutput> Play(
-            Func<Outlet> func,
+            Func<Outlet> outletFunc,
             double duration = default,
             double volume = default,
             SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Stereo,
@@ -96,11 +100,11 @@ namespace JJ.Business.Synthesizer.Wishes
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
         {
-            (func, duration) = ApplyLeadingSilence(func, duration);
+            (outletFunc, duration) = ApplyLeadingSilence(outletFunc, duration);
 
             var result =
                 SaveAudio(
-                    func, duration, volume,
+                    outletFunc, duration, volume,
                     speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
                     fileName, callerMemberName);
             
@@ -110,7 +114,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         public Result<AudioFileOutput> PlayMono(
-            Func<Outlet> func,
+            Func<Outlet> outletFunc,
             double duration = default,
             double volume = default,
             SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
@@ -119,11 +123,11 @@ namespace JJ.Business.Synthesizer.Wishes
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
         {
-            (func, duration) = ApplyLeadingSilence(func, duration);
+            (outletFunc, duration) = ApplyLeadingSilence(outletFunc, duration);
 
             var result =
                 SaveAudioMono(
-                    func, duration, volume,
+                    outletFunc, duration, volume,
                     sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
                     fileName, callerMemberName);
             
@@ -134,7 +138,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveaudio" />
         public Result<AudioFileOutput> SaveAudioMono(
-            Func<Outlet> func,
+            Func<Outlet> outletFunc,
             double duration = default,
             double volume = default,
             SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
@@ -142,7 +146,7 @@ namespace JJ.Business.Synthesizer.Wishes
             int samplingRateOverride = default,
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
-            => SaveAudio(func,
+            => SaveAudio(outletFunc,
                          duration, volume,
                          SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum,
                          samplingRateOverride, fileName, callerMemberName);
@@ -212,7 +216,7 @@ namespace JJ.Business.Synthesizer.Wishes
             fileName = ResolveFileName(fileName, audioFileFormatEnum, callerMemberName);
 
             WriteLine();
-            WriteLine(NameHelper.GetPrettyTitle(fileName));
+            WriteLine(GetPrettyTitle(fileName));
             WriteLine();
             
             // Validate Input Data

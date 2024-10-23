@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Accessors;
@@ -20,26 +18,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void TestNestedSumFlattening()
         {
             // Arrange
-            var cloackedValue1 = CurveIn("Curve1", 1, 1);
-            var cloackedValue2 = CurveIn("Curve2", 2, 2);
-            var cloackedValue3 = CurveIn("Curve3", 3, 3);
-            var cloackedValue4 = CurveIn("Curve4", 4, 4);
-            var cloackedValue5 = CurveIn("Curve5", 5, 5);
-            var cloackedValue6 = CurveIn("Curve6", 6, 6);
-            var cloackedValue7 = CurveIn("Curve7", 7, 7);
-            var cloackedValue8 = CurveIn("Curve8", 8, 8);
-            var constValue9 = _[9];
-            var constValue10 = _[10];
+            var var1 = CurveIn("Curve1", 1, 1);
+            var var2 = CurveIn("Curve2", 2, 2);
+            var var3 = CurveIn("Curve3", 3, 3);
+            var var4 = CurveIn("Curve4", 4, 4);
+            var var5 = CurveIn("Curve5", 5, 5);
+            var var6 = CurveIn("Curve6", 6, 6);
+            var var7 = CurveIn("Curve7", 7, 7);
+            var var8 = CurveIn("Curve8", 8, 8);
+            var const9 = _[9];
+            var const10 = _[10];
 
-            IsNotNull(() => cloackedValue1);
-            IsNotNull(() => cloackedValue2);
-            IsNotNull(() => cloackedValue3);
-            IsNotNull(() => cloackedValue4);
-            IsNotNull(() => cloackedValue5);
-            IsNotNull(() => cloackedValue6);
-            IsNotNull(() => cloackedValue7);
-            IsNotNull(() => constValue9);
-            IsNotNull(() => constValue10);
+            IsNotNull(() => var1);
+            IsNotNull(() => var2);
+            IsNotNull(() => var3);
+            IsNotNull(() => var4);
+            IsNotNull(() => var5);
+            IsNotNull(() => var6);
+            IsNotNull(() => var7);
+            IsNotNull(() => const9);
+            IsNotNull(() => const10);
 
             // Check Classic Adder
             OperatorFactory x = TestHelper.CreateOperatorFactory(Context);
@@ -48,28 +46,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 (
                     x.Adder
                     (
-                        cloackedValue1,
-                        cloackedValue2,
-                        cloackedValue3
+                        var1,
+                        var2,
+                        var3
                     ),
-                    cloackedValue4,
+                    var4,
                     x.Adder
                     (
-                        cloackedValue5,
+                        var5,
                         x.Adder
                         (
-                            cloackedValue6,
+                            var6,
                             x.Adder
                             (
-                                cloackedValue7,
-                                cloackedValue8
+                                var7,
+                                var8
                             )
                         )
                     ),
                     x.Adder
                     (
-                        constValue9, 
-                        constValue10
+                        const9, 
+                        const10
                     )
                 );
 
@@ -81,18 +79,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Check Flattened Terms
             var flattenAdderTerms = new SynthWishesAccessor(this).FlattenTerms(nestedAdder);
 
-            IsNotNull(() => flattenAdderTerms);
-            AreEqual(10,             () => flattenAdderTerms.Count);
-            AreEqual(cloackedValue1, () => flattenAdderTerms[0]);
-            AreEqual(cloackedValue2, () => flattenAdderTerms[1]);
-            AreEqual(cloackedValue3, () => flattenAdderTerms[2]);
-            AreEqual(cloackedValue4, () => flattenAdderTerms[3]);
-            AreEqual(cloackedValue5, () => flattenAdderTerms[4]);
-            AreEqual(cloackedValue6, () => flattenAdderTerms[5]);
-            AreEqual(cloackedValue7, () => flattenAdderTerms[6]);
-            AreEqual(cloackedValue8, () => flattenAdderTerms[7]);
-            AreEqual(constValue9, () => flattenAdderTerms[8]);
-            AreEqual(constValue10, () => flattenAdderTerms[9]);
+            IsNotNull(        () => flattenAdderTerms);
+            AreEqual(10,      () => flattenAdderTerms.Count);
+            AreEqual(var1,    () => flattenAdderTerms[0]);
+            AreEqual(var2,    () => flattenAdderTerms[1]);
+            AreEqual(var3,    () => flattenAdderTerms[2]);
+            AreEqual(var4,    () => flattenAdderTerms[3]);
+            AreEqual(var5,    () => flattenAdderTerms[4]);
+            AreEqual(var6,    () => flattenAdderTerms[5]);
+            AreEqual(var7,    () => flattenAdderTerms[6]);
+            AreEqual(var8,    () => flattenAdderTerms[7]);
+            AreEqual(const9,  () => flattenAdderTerms[8]);
+            AreEqual(const10, () => flattenAdderTerms[9]);
             
             // Check Nested Sum
             Outlet nestedSumOutlet =
@@ -100,28 +98,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 (
                     Add
                     (
-                        cloackedValue1,
-                        cloackedValue2,
-                        cloackedValue3
+                        var1,
+                        var2,
+                        var3
                     ),
-                    cloackedValue4,
+                    var4,
                     Add
                     (
-                        cloackedValue5,
+                        var5,
                         Add
                         (
-                            cloackedValue6,
+                            var6,
                             Add
                             (
-                                cloackedValue7,
-                                cloackedValue8
+                                var7,
+                                var8
                             )
                         )
                     ),
                     Add
                     (
-                        constValue9,
-                        constValue10
+                        const9,
+                        const10
                     )
                 );
 
@@ -129,14 +127,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             AreEqual(9, () => sumWrapper.Operands.Count);
 
-            AreEqual(cloackedValue1, () => sumWrapper.Operands[0]);
-            AreEqual(cloackedValue2, () => sumWrapper.Operands[1]);
-            AreEqual(cloackedValue3, () => sumWrapper.Operands[2]);
-            AreEqual(cloackedValue4, () => sumWrapper.Operands[3]);
-            AreEqual(cloackedValue5, () => sumWrapper.Operands[4]);
-            AreEqual(cloackedValue6, () => sumWrapper.Operands[5]);
-            AreEqual(cloackedValue7, () => sumWrapper.Operands[6]);
-            AreEqual(cloackedValue8, () => sumWrapper.Operands[7]);
+            AreEqual(var1, () => sumWrapper.Operands[0]);
+            AreEqual(var2, () => sumWrapper.Operands[1]);
+            AreEqual(var3, () => sumWrapper.Operands[2]);
+            AreEqual(var4, () => sumWrapper.Operands[3]);
+            AreEqual(var5, () => sumWrapper.Operands[4]);
+            AreEqual(var6, () => sumWrapper.Operands[5]);
+            AreEqual(var7, () => sumWrapper.Operands[6]);
+            AreEqual(var8, () => sumWrapper.Operands[7]);
             
             double? constant = sumWrapper.Operands[8].AsConst();
             IsNotNull(() => constant);

@@ -7,8 +7,6 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Tests.Helpers;
 
-#pragma warning disable CS8123 // The tuple element name is ignored because a different name or no name is specified by the assignment target.
-
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
     [TestClass]

@@ -1,11 +1,11 @@
 ﻿using JJ.Business.CanonicalModel;
 using JJ.Persistence.Synthesizer;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
 
 #pragma warning disable CS0649
 #pragma warning disable CS0169 // Field is never used
-
-// ReSharper disable InconsistentNaming
-// ReSharper disable IdentifierTypo
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {

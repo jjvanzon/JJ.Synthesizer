@@ -1,6 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
-
 // ReSharper disable CheckNamespace
 // ReSharper disable RedundantNameQualifier
 #pragma warning disable IDE0001 // RedundantNameQualifier

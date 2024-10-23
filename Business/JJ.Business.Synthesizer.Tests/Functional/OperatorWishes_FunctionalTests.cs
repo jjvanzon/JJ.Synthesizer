@@ -7,8 +7,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 
-// ReSharper disable JoinDeclarationAndInitializer
-
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
     [TestClass]

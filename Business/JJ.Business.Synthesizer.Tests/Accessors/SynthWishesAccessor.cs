@@ -17,8 +17,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
 
         public CurveInWrapper GetOrCreateCurveIn(string name, Func<CurveInWrapper> func)
-            => (CurveInWrapper)_accessor.InvokeMethod(nameof(GetOrCreateCurveIn), name, func);
-    
+        {
+            return (CurveInWrapper)_accessor.InvokeMethod(nameof(GetOrCreateCurveIn), name, func);
+        }
+
         public IList<Outlet> FlattenTerms(Outlet sumOrAdd)
         {
             return (IList<Outlet>)_accessor.InvokeMethod(nameof(FlattenTerms), sumOrAdd);

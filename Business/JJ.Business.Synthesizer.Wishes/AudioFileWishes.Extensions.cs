@@ -7,7 +7,6 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Warnings.Entities;
@@ -86,10 +85,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int SizeOf(this SampleDataType enumEntity)
             => SampleDataTypeHelper.SizeOf(enumEntity);
 
-        public static int SizeOfSampleDataType(this WavHeaderStruct wavHeader)
-        {
-            return wavHeader.BitsPerValue * 8;
-        }
+        public static int SizeOfSampleDataType(this WavHeaderStruct wavHeader) 
+            => wavHeader.BitsPerValue * 8;
 
         public static int SizeOfSampleDataType(this AudioFileInfoWish info)
         {

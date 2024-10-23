@@ -92,10 +92,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                     lines.Add($"Environment variable NCrunch = {environmentVariable}");
                 }
 
-                if (lines.Any())
-                {
-                    lines.ForEach(WriteLine);
-                }
+                if (lines.Any()) lines.ForEach(WriteLine);
 
                 return isNCrunch;
             }
@@ -105,18 +102,22 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             get
             {
+                var lines = new List<string>();
+
                 if (ConfigHelper.AzurePipelines.Pretend)
                 {
-                    WriteLine("Pretending to be Azure Pipelines.");
+                    lines.Add("Pretending to be Azure Pipelines.");
                     SetEnvironmentVariable("TF_BUILD", "True");
                 }
 
                 string environmentVariable = GetEnvironmentVariable("TF_BUILD");
                 bool isAzurePipelines = string.Equals(environmentVariable, "True");
                 if (isAzurePipelines)
-                { 
-                    WriteLine($"Environment variable TF_BUILD = {environmentVariable} (Azure Pipelines)");
+                {
+                    lines.Add($"Environment variable TF_BUILD = {environmentVariable} (Azure Pipelines)");
                 }
+
+                if (lines.Any()) lines.ForEach(WriteLine);
 
                 return isAzurePipelines;
             }

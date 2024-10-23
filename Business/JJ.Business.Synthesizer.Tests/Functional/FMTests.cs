@@ -5,9 +5,6 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-// ReSharper disable FieldCanBeMadeReadOnly.Local
-// ReSharper disable LocalizableElement
-
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
     /// <summary>
@@ -18,7 +15,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class FMTests : SynthWishes
     {
-        private const double DEFAULT_VOLUME = 0.5;
+        const double DEFAULT_VOLUME = 0.5;
+        
+        const int    MILD_ECHO_COUNT = 4;
+        const double MILD_ECHO_DELAY = 0.33;
+        const double MILD_ECHO_TIME  = MILD_ECHO_DELAY * (MILD_ECHO_COUNT - 1);
+
+        const int    DEEP_ECHO_COUNT = 4;
+        const double DEEP_ECHO_DELAY = 0.5;
+        const double DEEP_ECHO_TIME  = 0.5 * (DEEP_ECHO_COUNT - 1);
 
         public FMTests()
             : base(beat: 0.45, bar: 4 * 0.45)
@@ -50,7 +55,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_Flute1_RunTest()
             => PlayMono(() => MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
 
-        
         [TestMethod]
         public void FM_Flute2() => new FMTests().FM_Flute2_RunTest();
 
@@ -626,18 +630,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        const double MILD_ECHO_TIME = 0.33 * 3;
-
         Outlet MildEcho(Outlet outlet)
-            => Echo(outlet, count: 4, magnitude: _[0.25], delay: _[0.33]);
-
-        const double DEEP_ECHO_TIME = 0.5 * 3;
+            => Echo(outlet, count: MILD_ECHO_COUNT, magnitude: _[0.25], delay: _[MILD_ECHO_DELAY]);
 
         /// <summary> Applies a deep echo effect to the specified sound. </summary>
         /// <param name="melody"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the deep echo effect applied. </returns>
         Outlet DeepEcho(Outlet melody)
-            => Echo(melody, count: 4, magnitude: _[0.5], delay: _[0.5]);
+            => Echo(melody, count: DEEP_ECHO_COUNT, magnitude: _[0.5], delay: _[DEEP_ECHO_DELAY]);
 
         #endregion
 
@@ -688,16 +688,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// In this version of FM synthesis, the modulation depth accumulates over time without such taming.
         /// This is because of a lack of time tracking in the oscillators in this version.
         /// </summary>
-        Outlet ModTamingCurve => CurveIn
-        (
-            0.3, 1.0, 0.3, 0.0
-        );
+        Outlet ModTamingCurve => CurveIn(0.3, 1.0, 0.3, 0.0);
 
         /// <inheritdoc cref="ModTamingCurve" />
-        Outlet ModTamingCurve2 => CurveIn
-        (
-            1.0, 0.5, 0.2, 0.0
-        );
+        Outlet ModTamingCurve2 => CurveIn(1.0, 0.5, 0.2, 0.0);
 
         /// <inheritdoc cref="ModTamingCurve" />
         Outlet ModTamingCurve8Times => CurveIn

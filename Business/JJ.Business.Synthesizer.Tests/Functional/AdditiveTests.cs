@@ -1,9 +1,7 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static System.Math;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 
 // ReSharper disable LocalizableElement
@@ -17,7 +15,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class AdditiveTests : SynthWishes
     {
-        const double DEFAULT_NOTE_DURATION = 2.5;
+        const double NOTE_DURATION = 2.5;
+        const int    ECHO_COUNT = 4;
+        const double ECHO_DELAY = 0.66;
+        const double ECHO_TIME  = ECHO_DELAY * (ECHO_COUNT - 1);
 
         public AdditiveTests()
             : base(beat: 0.4, bar: 1.6)
@@ -33,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Sines_Samples_Metallophone_Jingle_RunTest()
             => PlayMono(
                 () => Echo(MetallophoneJingle),
-                duration: 1.2 + DEFAULT_NOTE_DURATION + ECHO_TIME,
+                duration: 1.2 + NOTE_DURATION + ECHO_TIME,
                 volume: 0.3);
 
         [TestMethod]
@@ -42,30 +43,30 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Sines_Samples_Metallophone_Note_RunTest()
             => PlayMono(
                 () => Echo(Metallophone(F4_Sharp)),
-                duration: DEFAULT_NOTE_DURATION + ECHO_TIME,
+                duration: NOTE_DURATION + ECHO_TIME,
                 volume: 0.5);
 
         Outlet MetallophoneJingle => Add
         (
-            Metallophone(A4,       delay: t[bar:1, beat:1.0], volume: _[0.9]),
-            Metallophone(E5,       delay: t[bar:1, beat:1.5], volume: _[1.0]),
-            Metallophone(B4,       delay: t[bar:1, beat:2.0], volume: _[0.5]),
-            Metallophone(C5_Sharp, delay: t[bar:1, beat:2.5], volume: _[0.7]),
-            Metallophone(F4_Sharp, delay: t[bar:1, beat:4.0], volume: _[0.4])
+            Metallophone(A4,       delay: t[bar: 1, beat: 1.0], volume: _[0.9]),
+            Metallophone(E5,       delay: t[bar: 1, beat: 1.5], volume: _[1.0]),
+            Metallophone(B4,       delay: t[bar: 1, beat: 2.0], volume: _[0.5]),
+            Metallophone(C5_Sharp, delay: t[bar: 1, beat: 2.5], volume: _[0.7]),
+            Metallophone(F4_Sharp, delay: t[bar: 1, beat: 4.0], volume: _[0.4])
         );
 
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Metallophone(Outlet frequency = null, Outlet volume = null, Outlet delay = null, Outlet duration = null)
+        Outlet Metallophone(Outlet frequency = default, Outlet volume = default, Outlet delay = default, Outlet duration = default)
         {
             frequency = frequency ?? A4;
-            duration = duration ?? _[DEFAULT_NOTE_DURATION];
+            duration  = duration ?? _[NOTE_DURATION];
 
             var sound = Add
             (
-                SinePartial(           frequency,        volume: _[1.0], Stretch(Sine1Envelope,  duration)),
-                SinePartial(  Multiply(frequency, _[2]), volume: _[0.7], Stretch(Sine2Envelope,  duration)),
-                SinePartial(  Multiply(frequency, _[5]), volume: _[0.4], Stretch(Sine3Envelope,  duration)),
+                SinePartial  (         frequency,        volume: _[1.0], Stretch(Sine1Envelope,  duration)),
+                SinePartial  (Multiply(frequency, _[2]), volume: _[0.7], Stretch(Sine2Envelope,  duration)),
+                SinePartial  (Multiply(frequency, _[5]), volume: _[0.4], Stretch(Sine3Envelope,  duration)),
                 SamplePartial(Multiply(frequency, _[2]), volume: _[3.0], Stretch(SampleEnvelope, duration)),
                 SamplePartial(Multiply(frequency, _[7]), volume: _[5.0], Stretch(SampleEnvelope, duration))
             );
@@ -74,7 +75,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         Outlet SinePartial(Outlet frequency, Outlet volume, Outlet envelope)
-            =>  Multiply(Sine(frequency), Multiply(volume, envelope));
+            => Multiply(Sine(frequency), Multiply(volume, envelope));
 
         Outlet SamplePartial(Outlet frequency, Outlet volume, Outlet envelope)
             => Squash
@@ -83,10 +84,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 Divide(frequency, A4)
             );
 
-        const double ECHO_TIME = 0.66 * 3;
-
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Echo(Outlet sound) => Echo(sound, count: 4, magnitude: _[0.33], delay: _[0.66]);
+        Outlet Echo(Outlet sound) => Echo(sound, count: ECHO_COUNT, magnitude: _[0.33], delay: _[ECHO_DELAY]);
 
 
         SampleOperatorWrapper _sample;
@@ -104,7 +103,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Skip for Sharper Attack
             bytesToSkip += 1000;
 
-            // Maximize and Normalize sample values (from 16-bit numbers to [-1, 1]).
+            // Maximize Volume
             double amplifier = 1.467;
 
             // Tune to A 440Hz
