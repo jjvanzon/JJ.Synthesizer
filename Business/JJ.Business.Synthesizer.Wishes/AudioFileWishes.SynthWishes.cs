@@ -9,13 +9,11 @@ using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static System.Console;
 using static System.Environment;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
@@ -32,61 +30,63 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private void InitializeAudioFileWishes(IContext context)
         {
-            _interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
             _audioFileOutputManager = ServiceFactory.CreateAudioFileOutputManager(context);
             _samples = ServiceFactory.CreateSampleManager(context);
         }
 
-        private IInterpolationTypeRepository _interpolationTypeRepository;
         private AudioFileOutputManager _audioFileOutputManager;
         private SampleManager _samples;
 
+        /// <inheritdoc cref="docs._sample"/>
         public SampleOperatorWrapper Sample(
-            string fileName, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
+            byte[] bytes, 
+            InterpolationTypeEnum interpolationTypeEnum = default,
+            double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
+            => SampleBase(new MemoryStream(bytes), default, interpolationTypeEnum, amplifier, speedFactor, bytesToSkip);
+        
+        /// <inheritdoc cref="docs._sample"/>
+        public SampleOperatorWrapper Sample(
+            Stream stream,
+            InterpolationTypeEnum interpolationTypeEnum = default,
+            double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
+            => SampleBase(stream, default, interpolationTypeEnum, amplifier, speedFactor, bytesToSkip);
+
+        /// <inheritdoc cref="docs._sample"/>
+        public SampleOperatorWrapper Sample(
+            string filePath,
+            InterpolationTypeEnum interpolationTypeEnum = default,
+            double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
         {
-            using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-                return Sample(fileStream);
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                return SampleBase(stream, filePath, interpolationTypeEnum, amplifier, speedFactor, bytesToSkip);
         }
 
-        public SampleOperatorWrapper Sample(
-            byte[] bytes, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
-            => Sample(new MemoryStream(bytes), amplifier, speedFactor, bytesToSkip);
-        
-        public SampleOperatorWrapper Sample(
-            Stream stream, double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
+        /// <inheritdoc cref="docs._sample"/>
+        private SampleOperatorWrapper SampleBase(
+            Stream stream, string filePath,
+            InterpolationTypeEnum interpolationTypeEnum,
+            double amplifier, double speedFactor, int bytesToSkip)
         {
-            Sample sample = _samples.CreateSample(stream);
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
 
+            if (interpolationTypeEnum == default) interpolationTypeEnum = InterpolationTypeEnum.Line;
+            
+            Sample sample = _samples.CreateSample(stream);
             sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude() * amplifier;
             sample.TimeMultiplier = 1 / speedFactor;
             sample.BytesToSkip = bytesToSkip;
+            sample.SetInterpolationTypeEnum(interpolationTypeEnum, Context);
 
-            return _operatorFactory.Sample(sample);
-        }
-
-        /// <summary>
-        /// Creates a Sample by reading the file at the given <paramref name="filePath" />.
-        /// Sets the <see cref= Sample.Amplifier" /> to scale values to range between -1 and +1.
-        /// </summary>
-        /// <param name="filePath"> The file path of the audio sample to load. </param>
-        /// <returns> <see cref="SampleOperatorWrapper" />  that can be used as an <see cref="Outlet" /> too. </returns>
-        public SampleOperatorWrapper Sample(
-            string filePath,
-            InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line)
-        {
-            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            if (!string.IsNullOrWhiteSpace(filePath))
             {
-                Sample sample = _samples.CreateSample(stream);
                 sample.Location = Path.GetFullPath(filePath);
                 sample.Name = Path.GetFileNameWithoutExtension(filePath);
-                sample.SetInterpolationTypeEnum(interpolationTypeEnum, _interpolationTypeRepository);
-                sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
-
-                SampleOperatorWrapper wrapper = _operatorFactory.Sample(sample);
-                ((Outlet)wrapper).Operator.Name = sample.Name;
-
-                return wrapper;
             }
+
+            var wrapper = _operatorFactory.Sample(sample);
+            ((Outlet)wrapper).Operator.Name = sample.Name;
+
+            return wrapper;
         }
 
         public Result<AudioFileOutput> Play(

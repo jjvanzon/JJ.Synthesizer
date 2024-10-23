@@ -255,5 +255,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// which depending on the situation, could cause problems or not.
         /// </param>
         public object _setspeakersetup_withsideeffects;
+
+        /// <summary>
+        /// Creates a Sample by reading the file at the given <paramref name="filePath" /> or Stream or Byte array.
+        /// </summary>
+        /// <param name="filePath"> The file path of the audio sample to load. </param>
+        /// <returns> <see cref="SampleOperatorWrapper" />  that can be used as an <see cref="Outlet" /> too. </returns>
+        public object _sample;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -112,7 +113,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double fineTuneFactor = 0.94;
             double speedFactor    = octaveFactor * intervalFactor * fineTuneFactor;
 
-            _sample = Sample(GetViolin16BitMono44100WavStream(), amplifier, speedFactor, bytesToSkip);
+            _sample = Sample(GetViolin16BitMono44100WavStream(), default, amplifier, speedFactor, bytesToSkip);
 
             return _sample;
         }
