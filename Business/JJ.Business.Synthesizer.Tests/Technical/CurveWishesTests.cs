@@ -17,8 +17,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void CurveWishes_SynthesizerSugar_GetCurve_RunTest()
         {
             // Arrange
-            CurveInWrapper curve1_cached = CurveIn("Curve1", (0, 1), (1, 0));
-            CurveInWrapper curve2_cached = CurveIn("Curve2", (0, 0), (0.5, 1), (1, 0));
+            CurveInWrapper curve1_cached = Curve("Curve1", (0, 1), (1, 0));
+            CurveInWrapper curve2_cached = Curve("Curve2", (0, 0), (0.5, 1), (1, 0));
 
             // Act
             CurveInWrapper curve1_reused = GetCurve("Curve1");
@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             SaveAudioMono(() => curve, duration: 4);
         }
 
-        CurveInWrapper CreateAsciiCurve_OneStringPerLine_WithoutRange() => CurveIn
+        CurveInWrapper CreateAsciiCurve_OneStringPerLine_WithoutRange() => Curve
         (
             "   o                 ",
             " o   o               ",
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             "o                   o"
         );
 
-        CurveInWrapper CreateAsciiCurve_OneStringPerLine_WithRange() => CurveIn
+        CurveInWrapper CreateAsciiCurve_OneStringPerLine_WithRange() => Curve
         (
             x: (start: 1, end: 3), y: (min: -1, max: 0.5),
             "   o                 ",
@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             "o                   o"
         );
 
-        CurveInWrapper CreateAsciiCurve_VerboseStrings() => CurveIn(
+        CurveInWrapper CreateAsciiCurve_VerboseStrings() => Curve(
             x: (start: 1, end: 3), y: (min: -1, max: 0.5), @"
 
                o                 

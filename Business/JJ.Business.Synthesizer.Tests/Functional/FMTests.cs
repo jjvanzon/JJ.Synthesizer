@@ -643,7 +643,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Curves
 
-        Outlet FluteCurve => CurveIn
+        Outlet FluteCurve => Curve
         (
             (time: 0.00, value: 0.0),
             (time: 0.05, value: 0.8),
@@ -652,7 +652,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0.0)
         );
 
-        Outlet BrassCurve => CurveIn
+        Outlet BrassCurve => Curve
         (
             (time: 0.00, value: 0),
             (time: 0.07, value: 1),
@@ -660,7 +660,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0)
         );
 
-        Outlet RippleCurve => CurveIn
+        Outlet RippleCurve => Curve
         (
             (time: 0.00, value: 0.00),
             (time: 0.01, value: 0.75),
@@ -669,7 +669,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0.00)
         );
 
-        Outlet DampedBlockCurve => CurveIn
+        Outlet DampedBlockCurve => Curve
         (
             (time: 0.00, value: 0),
             (time: 0.01, value: 1),
@@ -677,7 +677,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0)
         );
 
-        Outlet LineDownCurve => CurveIn
+        Outlet LineDownCurve => Curve
         (
             (time: 0, value: 1),
             (time: 1, value: 0)
@@ -688,13 +688,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// In this version of FM synthesis, the modulation depth accumulates over time without such taming.
         /// This is because of a lack of time tracking in the oscillators in this version.
         /// </summary>
-        Outlet ModTamingCurve => CurveIn(0.3, 1.0, 0.3, 0.0);
+        Outlet ModTamingCurve => Curve(0.3, 1.0, 0.3, 0.0);
 
         /// <inheritdoc cref="ModTamingCurve" />
-        Outlet ModTamingCurve2 => CurveIn(1.0, 0.5, 0.2, 0.0);
+        Outlet ModTamingCurve2 => Curve(1.0, 0.5, 0.2, 0.0);
 
         /// <inheritdoc cref="ModTamingCurve" />
-        Outlet ModTamingCurve8Times => CurveIn
+        Outlet ModTamingCurve8Times => Curve
         (
             0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0,
@@ -707,7 +707,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         );
 
         /// <summary> When harmonics thicken near the center, this curve can even out the volume over time. </summary>
-        Outlet EvenOutCurve => CurveIn
+        Outlet EvenOutCurve => Curve
         (
             (time: 0.00, value: 1.0),
             (time: 0.33, value: 0.6),
@@ -716,7 +716,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 1.0)
         );
 
-        Outlet ChordVolumeCurve => CurveIn
+        Outlet ChordVolumeCurve => Curve
         (
             (0.0, 0.0), (0.05, 0.0), (0.98, 0.5),
             (1.0, 0.0), (1.05, 0.6), (1.98, 0.6),
@@ -744,17 +744,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (8.0, Notes.E4, Notes.A5, Notes.E5)
         };
 
-        Outlet ChordPitchCurve1 => CurveIn(
+        Outlet ChordPitchCurve1 => Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.freq1,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        Outlet ChordPitchCurve2 => CurveIn(
+        Outlet ChordPitchCurve2 => Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.freq2,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        Outlet ChordPitchCurve3 => CurveIn(
+        Outlet ChordPitchCurve3 => Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.freq3,
                                                        NodeTypeEnum.Block)).ToArray());

@@ -154,7 +154,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Panning_SineWaveSignal_DynamicPanning_RunTest()
         {
             var sine = Envelope(Sine(A4));
-            var panning = CurveIn(@"
+            var panning = Curve(@"
                                     *
                                 *
                             *
@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var sound = Envelope(Sine(A4));
 
-            var speed = CurveIn(
+            var speed = Curve(
                 "Speed", x: (0, 3), y: (0, 8), @"
                                 * *
                             *
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     *
                 *                              ");
 
-            var depth = CurveIn(
+            var depth = Curve(
                 "Depth", x: (0, 3), y: (0, 1), @"
                 *
                     *
@@ -280,7 +280,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_Old_RunTest()
         {
-            Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
+            Outlet envelope = Curve("Envelope", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(G4), envelope);
             Outlet echoes   = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
 
@@ -294,7 +294,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_FixedValues_RunTest()
         {
-            Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
+            Outlet envelope = Curve("Envelope", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(B4), envelope);
             Outlet echoes   = EchoAdditive(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
 
@@ -307,17 +307,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_DynamicParameters_RunTest()
         {
-            Outlet envelope = CurveIn("Volume Curve", (0, 1), (0.2, 0));
+            Outlet envelope = Curve("Volume Curve", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(D5), envelope);
 
-            Outlet magnitude = CurveIn("Magnitude Curve",
+            Outlet magnitude = Curve("Magnitude Curve",
                                        (0.0, 0.66),
                                        (0.5, 0.90),
                                        (3.0, 1.00),
                                        (4.0, 0.80),
                                        (5.0, 0.25));
 
-            Outlet delay = CurveIn("Delay Curve", (0, 0.25), (4, 0.35));
+            Outlet delay = Curve("Delay Curve", (0, 0.25), (4, 0.35));
 
             Outlet echoes = EchoAdditive(sound, magnitude, delay, count: 16);
 
@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_FeedBack_FixedValues_RunTest()
         {
-            Outlet envelope = CurveIn("Envelope", (0, 1), (0.2, 0));
+            Outlet envelope = Curve("Envelope", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(F5), envelope);
 
             Outlet echoes = EchoFeedBack(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
@@ -346,17 +346,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_FeedBack_DynamicParameters_RunTest()
         {
-            Outlet envelope = CurveIn("Volume Curve", (0, 1), (0.2, 0));
+            Outlet envelope = Curve("Volume Curve", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(D5), envelope);
 
-            Outlet magnitude = CurveIn("Magnitude Curve",
+            Outlet magnitude = Curve("Magnitude Curve",
                                        (0.0, 0.66),
                                        (0.5, 0.90),
                                        (3.0, 1.00),
                                        (4.0, 0.80),
                                        (5.0, 0.25));
 
-            Outlet delay = CurveIn("Delay Curve", (0, 0.25), (4, 0.35));
+            Outlet delay = Curve("Delay Curve", (0, 0.25), (4, 0.35));
 
             Outlet echoes = EchoFeedBack(sound, magnitude, delay, count: 16);
 
@@ -370,7 +370,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         private Outlet Envelope(Outlet sound, Outlet duration = null)
         {
             duration = duration ?? _[1];
-            return Multiply(sound, Stretch(CurveIn((0, 0), (0.05, 1), (0.95, 1), (1.00, 0)), duration));
+            return Multiply(sound, Stretch(Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0)), duration));
         }
     }
 }

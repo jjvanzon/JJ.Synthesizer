@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Creates a curve representing the volume modulation for the first sine partial.
         /// Starts quietly, peaks at a strong volume, and then fades gradually.
         /// </summary>
-        Outlet Sine1Envelope => CurveIn
+        Outlet Sine1Envelope => Curve
         (
             0.00, 0.80, 1.00, null, null, null, null, null,
             0.25, null, null, null, null, null, null, null,
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Creates a curve for volume modulation of the second sine partial.
         /// Begins with a quick rise, reaches a high peak, and then slightly drops before fading.
         /// </summary>
-        Outlet Sine2Envelope => CurveIn
+        Outlet Sine2Envelope => Curve
         (
             0.00, 1.00, 0.80, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
@@ -147,7 +147,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Starts at a moderate volume, dips to a very low level,
         /// and then has a slight resurgence before fading out.
         /// </summary>
-        Outlet Sine3Envelope => CurveIn
+        Outlet Sine3Envelope => Curve
         (
             0.30, 1.00, 0.30, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
@@ -158,7 +158,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Generates a volume curve for the sample, starting at full volume
         /// and quickly diminishing to a lower level.
         /// </summary>
-        Outlet SampleEnvelope => CurveIn
+        Outlet SampleEnvelope => Curve
         (
             1.00, 0.50, 0.20, null, null, null, null, 0.00,
             null, null, null, null, null, null, null, null,

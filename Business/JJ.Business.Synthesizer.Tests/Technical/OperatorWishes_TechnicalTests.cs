@@ -18,14 +18,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void TestNestedSumFlattening()
         {
             // Arrange
-            var var1 = CurveIn("Curve1", 1, 1);
-            var var2 = CurveIn("Curve2", 2, 2);
-            var var3 = CurveIn("Curve3", 3, 3);
-            var var4 = CurveIn("Curve4", 4, 4);
-            var var5 = CurveIn("Curve5", 5, 5);
-            var var6 = CurveIn("Curve6", 6, 6);
-            var var7 = CurveIn("Curve7", 7, 7);
-            var var8 = CurveIn("Curve8", 8, 8);
+            var var1 = Curve("Curve1", 1, 1);
+            var var2 = Curve("Curve2", 2, 2);
+            var var3 = Curve("Curve3", 3, 3);
+            var var4 = Curve("Curve4", 4, 4);
+            var var5 = Curve("Curve5", 5, 5);
+            var var6 = Curve("Curve6", 6, 6);
+            var var7 = Curve("Curve7", 7, 7);
+            var var8 = Curve("Curve8", 8, 8);
             var const9 = _[9];
             var const10 = _[10];
 
@@ -149,13 +149,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             // Arrange
             var const1 = _[1];
-            var var2 = CurveIn("Curve2", 2, 2);
+            var var2 = Curve("Curve2", 2, 2);
             var const3 = _[3];
-            var var4 = CurveIn("Curve4", 4, 4);
+            var var4 = Curve("Curve4", 4, 4);
             var const5 = _[5];
-            var var6 = CurveIn("Curve6", 6, 6);
-            var var7 = CurveIn("Curve7", 7, 7);
-            var var8 = CurveIn("Curve8", 8, 8);
+            var var6 = Curve("Curve6", 6, 6);
+            var var7 = Curve("Curve7", 7, 7);
+            var var8 = Curve("Curve8", 8, 8);
 
             IsNotNull(() => const1);
             IsNotNull(() => var2);

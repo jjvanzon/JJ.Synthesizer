@@ -169,7 +169,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 detuneDepth     : _[0.5],
                 interferenceRate: Multiply(_[0.002], DetuneRateCurve1),
                 chorusRate      : Multiply(_[0.002], DetuneRateCurve1),
-                panning: Stretch(CurveIn(0.7, 0.3), duration), 
+                panning: Stretch(Curve(0.7, 0.3), duration), 
                 panbrello: (_[4.8], _[0.05]),
                 envelopeVariation: 2);
 
@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 tremolo: (_[10], _[0.08]),
                 detuneDepth: _[0.5],
                 interferenceRate: Multiply(_[0.003], DetuneRateCurve3),
-                panning: Stretch(CurveIn(0.2, 0.8), duration),
+                panning: Stretch(Curve(0.2, 0.8), duration),
                 panbrello: (_[3.4], _[0.07]));
 
         /// <inheritdoc cref="docs._detunica" />
@@ -376,7 +376,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Curves
 
-        Outlet PatchyEnvelope => CurveIn(@"
+        Outlet PatchyEnvelope => Curve(@"
                          o                             
                     
                               o                         
@@ -387,7 +387,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         o                                       o ");
 
-        Outlet EvenEnvelope => CurveIn(@"
+        Outlet EvenEnvelope => Curve(@"
                           o                             
                    
                                                         
@@ -398,25 +398,25 @@ namespace JJ.Business.Synthesizer.Tests.Functional
            
         o                                       o ");
 
-        Outlet DetuneRateCurve1 => CurveIn(@"
+        Outlet DetuneRateCurve1 => Curve(@"
                     o          
                                 
                                 
         o                   o");
 
-        Outlet DetuneRateCurve2 => CurveIn(@"
+        Outlet DetuneRateCurve2 => Curve(@"
              o                 
                                 
                                 
         o                   o ");
 
-        Outlet DetuneRateCurve3 => CurveIn(@"
+        Outlet DetuneRateCurve3 => Curve(@"
                   o            
                                 
                                 
         o                   o ");
 
-        Outlet VibraphaseVolumeCurve => CurveIn(@"
+        Outlet VibraphaseVolumeCurve => Curve(@"
            o                   
          o   o                 
                                 

@@ -50,14 +50,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ThrowsException(() => Panning(Sine(), _[0.25]));
 
             // OperatorWishes.SynthesizerSugar.Panning Dynamic_InvalidChannelEnum
-            ThrowsException(() => Panning(Sine(), CurveIn((0, 0), (0, 1))));
+            ThrowsException(() => Panning(Sine(), Curve((0, 0), (0, 1))));
 
             // CurveWishes.SynthesizerSugar.GetCurve NotFound
             ThrowsException(() => GetCurve("Curve"));
 
             // CurveWishes.SynthesizerSugar.GetOrCreateCurveIn Internal_CacheKeyUnresolvableFromContext
             var accessor = new SynthWishesAccessor(this);
-            ThrowsException(() => accessor.GetOrCreateCurveIn(null, () => CurveIn(0)));
+            ThrowsException(() => accessor.GetOrCreateCurveIn(null, () => Curve(0)));
 
             // AudioFileWishes.SynthesizerSugar.SaveAudio SpeakerSetupNotSupported
             ThrowsException(() => SaveAudio(() => Sine(), speakerSetupEnum: SpeakerSetupEnum.Undefined));
@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
             // CurveCalculator.CalculateValue NodeTypeNotSupported
             {
-                Curve curve = CurveIn((0, 1), (1, 0)).Curve;
+                Curve curve = Curve((0, 1), (1, 0)).Curve;
                 curve.Nodes[0].NodeType = _invalidNodeType;
                 var curveCalculator = new CurveCalculator(curve);
                 ThrowsException(() => curveCalculator.CalculateValue(0.5));
