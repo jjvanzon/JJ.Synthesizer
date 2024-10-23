@@ -58,7 +58,7 @@
     <Compile Include="EnumWishes.Extensions.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\ConfigSection.cs" />
-    <Compile Include="Helpers\CopiedFromFramework.cs" />
+    <Compile Include="Helpers\FrameworkWishes.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="Helpers\ToolingHelper.cs" />
     <Compile Include="OperatorWishes.Stringifier.cs" />
