@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => PlayMono(() => MildEcho(VibraphaseChord), volume: 0.30, duration: 1 + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(VibraphaseChord), volume: 0.25, duration: 1 + MILD_ECHO_TIME);
 
         /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
