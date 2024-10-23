@@ -18,6 +18,7 @@ using static System.Console;
 using static System.Environment;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
+// ReSharper disable UseObjectOrCollectionInitializer
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -252,13 +253,28 @@ namespace JJ.Business.Synthesizer.Wishes
             stopWatch.Stop();
 
             // Report
-            var calculationTimeText = $"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s{NewLine}";
-            var outputFileText = $"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}";
-            string warningText = warnings.Count == 0 ? "" : $"{NewLine}{NewLine}Warnings:{NewLine}" +
-                                                            $"{string.Join(NewLine, warnings.Select(x => $"- {x}"))}";
+            var lines = new List<string>();
+            lines.Add("");
 
-            WriteLine(calculationTimeText + outputFileText + warningText);
-            WriteLine();
+            string realTimeMessage = FormatRealTimeMessage(duration, stopWatch);
+            if (realTimeMessage != default)
+            {
+                lines.Add(realTimeMessage);
+                lines.Add("");
+            }
+            
+            lines.Add($"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s");
+            lines.Add($"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
+            lines.Add("");
+            
+            if (warnings.Any())
+            {
+                lines.Add("Warnings:");
+                lines.AddRange(warnings.Select(warning => $"- {warning}"));
+                lines.Add("");
+            }
+
+            lines.ForEach(WriteLine);
 
             foreach (AudioFileOutputChannel audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
             {
@@ -271,6 +287,30 @@ namespace JJ.Business.Synthesizer.Wishes
             var result = warnings.ToResult(audioFileOutput);
 
             return result;
+        }
+
+        private static string FormatRealTimeMessage(double duration, Stopwatch stopWatch)
+        {
+            if (!ToolingHelper.IsRunningInTooling)
+            {
+                double realTimePercent = duration / stopWatch.Elapsed.TotalSeconds * 100;
+                
+                string realTimeStatusGlyph;
+                if (realTimePercent < 100)
+                {
+                    realTimeStatusGlyph = "❌";
+                }
+                else
+                { 
+                    realTimeStatusGlyph = "✔️";
+                }
+
+                var realTimeMessage = $"{realTimeStatusGlyph} {realTimePercent:N0} % Real Time";
+
+                return realTimeMessage;
+            }
+
+            return default;
         }
 
         // Helpers

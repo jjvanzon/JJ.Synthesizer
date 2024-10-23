@@ -73,6 +73,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return null;
         }
 
+        public static bool IsRunningInTooling => IsRunningInNCrunch || IsRunningInAzurePipelines;
+
         public static bool IsRunningInNCrunch
         {
             get
