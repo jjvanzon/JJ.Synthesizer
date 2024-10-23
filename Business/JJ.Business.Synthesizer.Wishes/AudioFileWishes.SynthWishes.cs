@@ -15,8 +15,8 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using static System.Console;
-using static System.Environment;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 // ReSharper disable UseObjectOrCollectionInitializer
 
@@ -253,35 +253,53 @@ namespace JJ.Business.Synthesizer.Wishes
             stopWatch.Stop();
 
             // Report
-            var lines = new List<string>();
-            lines.Add("");
-
-            string realTimeMessage = FormatRealTimeMessage(duration, stopWatch);
-            if (realTimeMessage != default)
             {
-                lines.Add(realTimeMessage);
+                // Get Info
+                var channelStrings = new List<string>();
+                int complexity = 0;
+
+                foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
+                {
+                    string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
+                    channelStrings.Add(stringify);
+
+                    int stringifyLines = CountLines(stringify);
+                    complexity += stringifyLines;
+                }
+
+                // Gather Lines
+                var lines = new List<string> { "" };
+
+                string realTimeMessage = FormatRealTimeMessage(duration, stopWatch);
+                string sep = realTimeMessage != default ? ", " : "";
+                
+                lines.Add($"{realTimeMessage}{sep}Complexity: {complexity}");
                 lines.Add("");
-            }
-            
-            lines.Add($"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s");
-            lines.Add($"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
-            lines.Add("");
-            
-            if (warnings.Any())
-            {
-                lines.Add("Warnings:");
-                lines.AddRange(warnings.Select(warning => $"- {warning}"));
+
+                lines.Add($"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s");
+                lines.Add($"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
                 lines.Add("");
-            }
 
-            lines.ForEach(WriteLine);
+                if (warnings.Any())
+                {
+                    lines.Add("Warnings:");
+                    lines.AddRange(warnings.Select(warning => $"- {warning}"));
+                    lines.Add("");
+                }
 
-            foreach (AudioFileOutputChannel audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
-            {
-                WriteLine($"Calculation Channel {audioFileOutputChannel.GetSpeakerSetupChannel().Channel.Name}:");
-                WriteLine();
-                WriteLine(audioFileOutputChannel.Outlet?.Stringify());
-                WriteLine();
+                for (var i = 0; i <  audioFileOutput.AudioFileOutputChannels.Count; i++)
+                {
+                    var audioFileOutputChannel = audioFileOutput.AudioFileOutputChannels[i];
+                    var channelString = channelStrings[i];
+
+                    lines.Add($"Calculation Channel {audioFileOutputChannel.GetSpeakerSetupChannel().Channel.Name}:");
+                    lines.Add("");
+                    lines.Add(channelString);
+                    lines.Add("");
+                }
+                
+                // Write Lines
+                lines.ForEach(WriteLine);
             }
 
             var result = warnings.ToResult(audioFileOutput);
@@ -305,7 +323,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     realTimeStatusGlyph = "✔️";
                 }
 
-                var realTimeMessage = $"{realTimeStatusGlyph} {realTimePercent:N0} % Real Time";
+                var realTimeMessage = $"{realTimeStatusGlyph} {realTimePercent:F0} % Real Time";
 
                 return realTimeMessage;
             }
