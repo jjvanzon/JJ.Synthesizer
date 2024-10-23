@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ThrowsException(() => SpeakerSetupEnum.Undefined.GetChannelCount());
 
             // AudioFileWishes.Extensions.GetSpeakerSetupEnum ChannelCountNotSupported
-            ThrowsException(() => 0.GetSpeakerSetupEnum());
+            ThrowsException(() => 0.ToSpeakerSetupEnum());
 
             // AudioFileWishes.Extensions.GetSampleDataTypeEnum SampleDataTypeNotSupported
             ThrowsException(() => SpecialEnumWishes.GetSampleDataTypeEnum<long>());

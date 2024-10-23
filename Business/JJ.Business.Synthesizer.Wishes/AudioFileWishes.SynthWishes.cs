@@ -215,7 +215,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SamplingRate = ResolveSamplingRate(samplingRateOverride);
             audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum);
             audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum);
-            _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, (SpeakerSetupEnum)channelInputs.Count);
+            audioFileOutput.SetSpeakerSetup_WithSideEffects(channelInputs.Count);
             for (int i = 0; i < channelInputs.Count; i++)
             {
                 audioFileOutput.AudioFileOutputChannels[i].Outlet = channelInputs[i];

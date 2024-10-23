@@ -240,5 +240,20 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         /// <summary> Multiplies two <see cref="Outlet"/> operands, optimizing for constant values if possible. </summary>
         public object _multiply;
+
+        /// <summary>
+        /// Sets the speaker setup for the specified <see cref="AudioFileOutput"/>.
+        /// Executes some side effects to initialize the <see cref="AudioFileOutput"/> channels.
+        /// </summary>
+        /// <summary>
+        /// </summary>
+        /// <param name="audioFileOutput">The <see cref="AudioFileOutput"/> to update.</param>
+        /// <param name="speakerSetup">The <see cref="SpeakerSetup"/> to apply to the <paramref name="audioFileOutput"/>.</param>
+        /// <param name="context">
+        /// Optional. The context for persistence operations.
+        /// If one isn't provided, a brand new one will be created,
+        /// which depending on the situation, could cause problems or not.
+        /// </param>
+        public object _setspeakersetup_withsideeffects;
     }
 }

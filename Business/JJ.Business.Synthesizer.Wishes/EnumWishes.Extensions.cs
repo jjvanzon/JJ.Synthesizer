@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Channels;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -17,7 +16,6 @@ using static JJ.Business.Synthesizer.PersistenceHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    
     public static class MissingChannelEnumExtensionWishes
     {
         public static ChannelEnum GetChannelEnum(this SpeakerSetupChannel entity)
@@ -149,13 +147,6 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetSampleDataTypeEnum(enumValue, repository);
         }
 
-        public static void SetSpeakerSetupEnum(
-            this AudioFileOutput entity, SpeakerSetupEnum enumValue, IContext context = null)
-        {
-            var repository = CreateRepository<ISpeakerSetupRepository>(context);
-            entity.SetSpeakerSetupEnum(enumValue, repository);
-        }
-
         // Node
 
         public static void SetNodeTypeEnum(this Node entity, NodeTypeEnum enumValue, IContext context = null)
@@ -208,7 +199,7 @@ namespace JJ.Business.Synthesizer.Wishes
     }
 
     /// <summary> Additional entity entry-points for enum-related extension. </summary>
-    public static class AlternativeEntryPointEnumWishes
+    public static class AlternativeEntryPointEnumExtensionWishes
     {
         // AudioFileOutputChannel.AudioFileFormat
 
@@ -287,45 +278,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
             entity.AudioFileOutput.SetSampleDataTypeEnum(enumValue, context);
-        }
-
-        // AudioFileOutputChannel.SpeakerSetup
-
-        public static SpeakerSetup GetSpeakerSetup(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.SpeakerSetup;
-        }
-
-        public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.GetSpeakerSetupEnum();
-        }
-
-        public static void SetSpeakerSetup(this AudioFileOutputChannel entity, SpeakerSetup enumEntity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SpeakerSetup = enumEntity;
-        }
-
-        public static void SetSpeakerSetupEnum(
-            this AudioFileOutputChannel entity, SpeakerSetupEnum enumValue, ISpeakerSetupRepository repository)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetSpeakerSetupEnum(enumValue, repository);
-        }
-
-        public static void SetSpeakerSetupEnum(
-            this AudioFileOutputChannel entity, SpeakerSetupEnum enumValue, IContext context = null)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetSpeakerSetupEnum(enumValue, context);
         }
 
         // SampleOperator.AudioFileFormat
@@ -698,7 +650,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // To Int/ID
 
-    public static class EnumToIDExtensions
+    public static class EnumToIDExtensionWishes
     {
         public static int ToID(this AudioFileFormatEnum enumValue) => (int)enumValue;
         public static int ToID(this ChannelEnum enumValue) => (int)enumValue;
@@ -708,13 +660,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int ToID(this NodeTypeEnum enumValue) => (int)enumValue;
     }
 
-    // Specials (conversion from one thing to the other)
+    // Specials (conversion from one thing to the other / side effects)
 
     public static class SpecialEnumWishes
     {
         // SpeakerSetup Value Conversions
         
-        public static SpeakerSetupEnum GetSpeakerSetupEnum(this int channelCount)
+        public static SpeakerSetupEnum ToSpeakerSetupEnum(this int channelCount)
         {
             switch (channelCount)
             {

@@ -23,8 +23,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void AudioFileExtensionWishes_RunTest()
         {
             // Channel Count => Speaker Setup
-            AreEqual(Mono,   () => 1.GetSpeakerSetupEnum());
-            AreEqual(Stereo, () => 2.GetSpeakerSetupEnum());
+            AreEqual(Mono,   () => 1.ToSpeakerSetupEnum());
+            AreEqual(Stereo, () => 2.ToSpeakerSetupEnum());
 
             // Mono Extensions
             {
