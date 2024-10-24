@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 *
             *");
 
-            Play(() => Panning(sine, panning), duration: 1);
+            Play(() => Panning(sine, panning));
         }
 
         // Panbrello Tests

@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
@@ -214,60 +212,41 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void Test_OperatorChaining_Notation1()
+        public void Test_Fluent_Notation1()
         {
-            Play(() => Sine(A4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
-
+            Play(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
         }
 
         [TestMethod]
-        public void Test_OperatorChaining_Notation2()
+        public void Test_Fluent_Notation2()
         {
-            Play(() => Fluent(A4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+            Play(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
         }
 
         [TestMethod]
-        public void Test_OperatorChaining_Notation3()
+        public void Test_Fluent_Notation3()
         {
-            Play(() => _[A4].Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+            Play(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+        }
+        
+        [TestMethod]
+        public void Test_Fluent_Notation4()
+        {
+            Play(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9));
         }
 
         [TestMethod]
-        public void Test_OperatorChaining_Notation4()
+        public void Test_Fluent_Chaining()
         {
-            {
-                var sine = A4.Sine;
-            }
-            {
-                var freq = A4;
-                var sine = freq.Sine;
-            }
-            {
-                Outlet freq = A4;
-                var sine = _[freq].Sine;
-            }
-            {
-                FluentOutlet freq = A4;
-                var          sine = freq.Sine;
-            }
-            //{
-            //    ValueWrapper freq = A4;
-            //    var sine = _[freq].Sine;
-            //}
-        }
-
-        [TestMethod]
-        public void Test_OperatorChaining_Notation5()
-        {
-            var freq = A4;
+            var freq = C4;
 
             Play(() => Multiply
                  (
                      Add
                      (
-                         _[freq].Multiply(1).Sine.Multiply(0.50).Panbrello(speed: 3.0, depth: 0.9),
-                         _[freq].Multiply(2).Sine.Multiply(0.08).Panbrello(speed: 2.0, depth: 0.4),
-                         _[freq].Multiply(3).Sine.Multiply(0.04).Panbrello(speed: 2.5, depth: 0.2)
+                         freq.Times(1).Sine.Times(0.50).Panbrello(speed: 3.0, depth: 0.9),
+                         freq.Times(2).Sine.Times(0.08).Panbrello(speed: 2.0, depth: 0.4),
+                         freq.Times(3).Sine.Times(0.04).Panbrello(speed: 2.5, depth: 0.2)
                      ),
                      Curve(@"
 
@@ -275,15 +254,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                            *
                                 *
                                         *
-                     *                              *")//.Stretch(2)
-                 )/*, duration: 2*/);
+                     *                              *")
+                 ));
         }
-
     
         [TestMethod]
-        public void Test_OperatorChaining_Notation6()
+        public void Test_Fluent_PlayMono()
         {
-            var freq = A4;
+            var freq = E4;
 
             Channel = Single;
             
@@ -303,6 +281,63 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                                     *
                  *                              *")
             ).PlayMono();
+        }
+ 
+        [TestMethod]
+        public void Test_Fluent_CSharpOperators()
+        {
+            FluentOutlet freq = G5;
+
+            Play(() => Multiply
+                 (
+                     Add
+                     (
+                         Sine(freq * 1).Times(0.50).Panbrello(3.0, 0.9),
+                         Sine(freq * 2).Times(0.08).Panbrello(2.0, 0.4),
+                         Sine(freq * 3).Times(0.04).Panbrello(2.5, 0.2)
+                     ),
+                     Curve(@"
+
+                       *
+                           *
+                                *
+                                        *
+                     *                              *")
+                 ));
+        }
+ 
+        
+        [TestMethod]
+        public void Test_Fluent_ValueChaining()
+        {
+            {
+                var sine = A4.Sine;
+            }
+            {
+                double freq = 440;
+                var    sine = _[freq].Sine;
+            }
+            {
+                Outlet freq = A4;
+                var    sine = _[freq].Sine;
+            }
+            {
+                FluentOutlet freq = A4;
+                var          sine = freq.Sine;
+            }
+            {
+                var freq = A4;
+                var sine = freq.Sine;
+            }
+        }
+
+        [TestMethod]
+        public void Test_Fluent_CurveChaining()
+        {
+            var chain1 = Curve(0, 1, 0).Stretch(2);
+            var chain2 = Sine(A4).Times(Curve(0, 1, 0));
+            // Does not work:
+            //var chain3 = Sine(A4).Curve(440, 480);
         }
     }
 }

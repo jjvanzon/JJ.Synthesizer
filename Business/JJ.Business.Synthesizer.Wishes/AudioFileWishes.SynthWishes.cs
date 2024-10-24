@@ -93,12 +93,28 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Play
-        
-        /// <inheritdoc cref="docs._saveaudio" />
+
+        /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> Play(
             Func<Outlet> outletFunc,
-            double duration = default,
+            double duration,
             double volume = default,
+            SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Stereo,
+            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
+            int samplingRateOverride = default,
+            string fileName = default,
+            [CallerMemberName] string callerMemberName = null)
+            => Play(
+                outletFunc, _[duration], _[volume], 
+                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, 
+                fileName, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Result<AudioFileOutput> Play(
+            Func<Outlet> outletFunc,
+            Outlet duration = default,
+            Outlet volume = default,
             SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Stereo,
             SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
             AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
@@ -118,12 +134,27 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return result;
         }
-        
-        /// <inheritdoc cref="docs._saveaudio" />
+
+        /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> PlayMono(
             Func<Outlet> outletFunc,
-            double duration = default,
+            double duration,
             double volume = default,
+            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
+            int samplingRateOverride = default,
+            string fileName = default,
+            [CallerMemberName] string callerMemberName = null)
+            => PlayMono(
+                outletFunc, _[duration], _[volume],
+                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
+                fileName, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Result<AudioFileOutput> PlayMono(
+            Func<Outlet> outletFunc,
+            Outlet duration = default,
+            Outlet volume = default,
             SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
             AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
             int samplingRateOverride = default,
@@ -144,12 +175,27 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         // Save
-        
-        /// <inheritdoc cref="docs._saveaudio" />
+
+        /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> SaveAudioMono(
             Func<Outlet> outletFunc,
-            double duration = default,
+            double duration,
             double volume = default,
+            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
+            int samplingRateOverride = default,
+            string fileName = default,
+            [CallerMemberName] string callerMemberName = null)
+            => SaveAudioMono(
+                outletFunc, _[duration], _[volume],
+                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
+                fileName, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Result<AudioFileOutput> SaveAudioMono(
+            Func<Outlet> outletFunc,
+            Outlet duration = default,
+            Outlet volume = default,
             SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
             AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
             int samplingRateOverride = default,
@@ -160,11 +206,27 @@ namespace JJ.Business.Synthesizer.Wishes
                          SpeakerSetupEnum.Mono, sampleDataTypeEnum, audioFileFormatEnum,
                          samplingRateOverride, fileName, callerMemberName);
 
-        /// <inheritdoc cref="docs._saveaudio" />
+        /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func,
-            double duration = default,
+            double duration,
             double volume = default,
+            SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Stereo,
+            SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
+            int samplingRateOverride = default,
+            string fileName = default,
+            [CallerMemberName] string callerMemberName = null)
+            => SaveAudio(
+                func, _[duration], _[volume],
+                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
+                samplingRateOverride, fileName, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Result<AudioFileOutput> SaveAudio(
+            Func<Outlet> func,
+            Outlet duration = default,
+            Outlet volume = default,
             SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Stereo,
             SampleDataTypeEnum sampleDataTypeEnum = SampleDataTypeEnum.Int16,
             AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Wav,
@@ -205,11 +267,11 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="docs._saveaudio" />
+        /// <inheritdoc cref="docs._saveorplay" />
         private Result<AudioFileOutput> SaveAudioBase(
             IList<Outlet> channelInputs,
-            double duration,
-            double volume,
+            Outlet duration,
+            Outlet volume,
             SampleDataTypeEnum sampleDataTypeEnum,
             AudioFileFormatEnum audioFileFormatEnum,
             int samplingRateOverride,
@@ -220,8 +282,15 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
             if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
             if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
-            if (duration == default) duration = 1;
-            if (volume == default) volume = 1;
+            
+            duration = duration ?? _[1];
+            double durationValue = duration.Calculate();
+            if (durationValue == 0) durationValue = 1;
+
+            volume = volume ?? _[1];
+            double volumeValue = volume.Calculate();
+            if (volumeValue == 0) volumeValue = 1;
+            
             fileName = ResolveFileName(fileName, audioFileFormatEnum, callerMemberName);
 
             WriteLine();
@@ -238,9 +307,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Configure AudioFileOutput
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
-            audioFileOutput.Duration = duration;
+            audioFileOutput.Duration = durationValue;
             audioFileOutput.FilePath = fileName;
-            audioFileOutput.Amplifier = volume * sampleDataTypeEnum.GetMaxAmplitude();
+            audioFileOutput.Amplifier = volumeValue * sampleDataTypeEnum.GetMaxAmplitude();
             audioFileOutput.SamplingRate = ResolveSamplingRate(samplingRateOverride);
             audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum);
             audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum);
@@ -278,7 +347,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Gather Lines
                 var lines = new List<string> { "" };
 
-                string realTimeMessage = FormatRealTimeMessage(duration, stopWatch);
+                string realTimeMessage = FormatRealTimeMessage(durationValue, stopWatch);
                 string sep = realTimeMessage != default ? ", " : "";
                 
                 lines.Add($"{realTimeMessage}{sep}Complexity O({complexity})");
@@ -317,11 +386,11 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Helpers
         
-        private (Func<Outlet> func, double duration) ApplyLeadingSilence(Func<Outlet> func, double duration = default)
+        private (Func<Outlet> func, Outlet duration) ApplyLeadingSilence(Func<Outlet> func, Outlet duration = default)
         {
-            if (duration == default) duration = 1;
+            if (duration == default) duration = _[1];
             
-            double duration2 = duration + ConfigHelper.PlayLeadingSilence + ConfigHelper.PlayTrailingSilence;
+            Outlet duration2 = Add(duration, ConfigHelper.PlayLeadingSilence + ConfigHelper.PlayTrailingSilence);
                 
             if (ConfigHelper.PlayLeadingSilence == 0)
             {

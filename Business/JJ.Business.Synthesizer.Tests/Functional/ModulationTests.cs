@@ -30,12 +30,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest() 
-            => Play(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DEEP_ECHO_TIME);
+            => Play(() => DeepEcho(DetunicaJingle), volume: _[0.45], duration: bars[7] + DEEP_ECHO_TIME);
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest_Mono() 
-            => PlayMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DEEP_ECHO_TIME);
+            => PlayMono(() => DeepEcho(DetunicaJingle), volume: _[0.15], duration: bars[7] + DEEP_ECHO_TIME);
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />

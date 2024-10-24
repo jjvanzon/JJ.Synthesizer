@@ -219,90 +219,96 @@ namespace JJ.Business.Synthesizer.Wishes
             _synthWishes.PlayMono(() => _thisOutlet);
         }
 
+        // TODO: Don't throw exceptions in C# operators. Use practical defaults instead.
+        
         // C# Operators
         
         // Operator +
 
-        public static double operator +(FluentOutlet a, FluentOutlet b)
+        public static FluentOutlet operator +(FluentOutlet a, FluentOutlet b)
         {
             if (a == null) throw new ArgumentNullException(nameof(a));
-            if (b == null) throw new ArgumentNullException(nameof(b));
-            return a.Value + b.Value;
+            return a.Plus(b);
         }
         
-        public static double operator +(FluentOutlet a, double b)
+        public static FluentOutlet operator +(FluentOutlet a, double b)
         {
             if (a == null) throw new ArgumentNullException(nameof(a));
-            return a.Value + b;
+            return a.Plus(b);
         }
         
-        public static double operator +(double a, FluentOutlet b)
+        public static FluentOutlet operator +(double a, FluentOutlet b)
         {
             if (b == null) throw new ArgumentNullException(nameof(b));
-            return a + b.Value;
+            var a2 = b._synthWishes._[a];
+            return a2.Plus(b);
         }
 
         // Operator -
         
-        public static double operator -(FluentOutlet a, FluentOutlet b)
+        public static FluentOutlet operator -(FluentOutlet a, FluentOutlet b)
         {
             if (a == null) throw new ArgumentNullException(nameof(a));
             if (b == null) throw new ArgumentNullException(nameof(b));
-            return a.Value - b.Value;
+            return a.Minus(b);
         }
         
-        public static double operator -(FluentOutlet a, double b)
+        public static FluentOutlet operator -(FluentOutlet a, double b)
         {
             if (a == null) throw new ArgumentNullException(nameof(a));
-            return a.Value - b;
+            return a.Minus(b);
         }
         
-        public static double operator -(double a, FluentOutlet b)
+        public static FluentOutlet operator -(double a, FluentOutlet b)
         {
             if (b == null) throw new ArgumentNullException(nameof(b));
-            return a - b.Value;
+            var a2 = b._synthWishes._[a];
+            return a2.Minus(b);
         }
+
 
         // Operator *
         
-        public static double operator *(FluentOutlet a, FluentOutlet b)
+        public static FluentOutlet operator *(FluentOutlet a, FluentOutlet b)
         {
             if (a == null) throw new ArgumentNullException(nameof(a));
             if (b == null) throw new ArgumentNullException(nameof(b));
-            return a.Value * b.Value;
+            return a.Times(b);
         }
         
-        public static double operator *(FluentOutlet a, double b)
+        public static FluentOutlet operator *(FluentOutlet a, double b)
         {
             if (a == null) throw new ArgumentNullException(nameof(a));
-            return a.Value * b;
+            return a.Times(b);
         }
         
-        public static double operator *(double a, FluentOutlet b)
+        public static FluentOutlet operator *(double a, FluentOutlet b)
         {
             if (b == null) throw new ArgumentNullException(nameof(b));
-            return a * b.Value;
+            var a2 = b._synthWishes._[a];
+            return a2.Times(b);
         }
 
         // Operator /
         
-        public static double operator /(FluentOutlet a, FluentOutlet b)
+        public static FluentOutlet operator /(FluentOutlet a, FluentOutlet b)
         {
             if (a == null) throw new ArgumentNullException(nameof(a));
             if (b == null) throw new ArgumentNullException(nameof(b));
-            return a.Value / b.Value;
+            return a.Divide(b);
         }
         
-        public static double operator /(FluentOutlet a, double b)
+        public static FluentOutlet operator /(FluentOutlet a, double b)
         {
             if (a == null) throw new ArgumentNullException(nameof(a));
-            return a.Value / b;
+            return a.Divide(b);
         }
         
-        public static double operator /(double a, FluentOutlet b)
+        public static FluentOutlet operator /(double a, FluentOutlet b)
         {
             if (b == null) throw new ArgumentNullException(nameof(b));
-            return a / b.Value;
+            var a2 = b._synthWishes._[a];
+            return a2.Divide(b);
         }
-}
+    }
 }

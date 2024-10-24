@@ -228,7 +228,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// A <see cref="Result"/> with the <see cref="AudioFileOutput"/> entity in it,
         /// containing resultant data, like the file path and validation messages (warnings).
         /// </returns>
-        public object _saveaudio;
+        public object _saveorplay;
     
         /// <summary>
         /// Retrieves the file extension associated with the specified audio file.
