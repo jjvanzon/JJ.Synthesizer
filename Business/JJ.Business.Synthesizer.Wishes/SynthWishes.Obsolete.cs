@@ -61,7 +61,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public SampleOperatorWrapper Sample(Sample sample) => throw new NotSupportedException();
 
         [Obsolete("Use Skip instead.", true), UsedImplicitly]
-        public TimeSubstract TimeSubtract(Outlet signal = null, Outlet timeDifference = null)
-            => throw new NotSupportedException();
+        public TimeSubstract TimeSubtract(Outlet signal = null, Outlet timeDifference = null)            => throw new NotSupportedException();
     }
 }

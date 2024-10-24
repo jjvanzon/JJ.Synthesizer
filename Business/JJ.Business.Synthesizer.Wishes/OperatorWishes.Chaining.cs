@@ -27,98 +27,68 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Basic Operators
 
-        public FluentOutlet Add(params Outlet[] operands)
-            => Add((IList<Outlet>)operands);
+        public FluentOutlet Add(params Outlet[] operands) => Add((IList<Outlet>)operands);
         
-        public FluentOutlet Add(IList<Outlet> operands)
-            => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
+        public FluentOutlet Add(IList<Outlet> operands) => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
 
-        public FluentOutlet Add(Outlet outlet)
-            => Add(_thisOutlet, outlet);
+        public FluentOutlet Add(Outlet b) => Add(_thisOutlet, b);
 
-        public FluentOutlet Add(double outlet)
-            => _synthWishes.Add(_thisOutlet, outlet);
+        public FluentOutlet Add(double b) => _synthWishes.Add(_thisOutlet, b);
         
-        public FluentOutlet Plus(params Outlet[] operands)
-            => Add((IList<Outlet>)operands);
+        public FluentOutlet Plus(params Outlet[] operands) => Add((IList<Outlet>)operands);
 
-        public FluentOutlet Plus(IList<Outlet> operands)
-            => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
+        public FluentOutlet Plus(IList<Outlet> operands) => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
 
-        public FluentOutlet Plus(Outlet outlet)
-            => Add(_thisOutlet, outlet);
+        public FluentOutlet Plus(Outlet b) => Add(_thisOutlet, b);
 
-        public FluentOutlet Plus(double outlet)
-            => _synthWishes.Add(_thisOutlet, outlet);
+        public FluentOutlet Plus(double b) => _synthWishes.Add(_thisOutlet, b);
 
-        public FluentOutlet Subtract(Outlet operandB)
-            => _synthWishes.Subtract(_thisOutlet, operandB);
+        public FluentOutlet Subtract(Outlet b) => _synthWishes.Subtract(_thisOutlet, b);
 
-        public FluentOutlet Subtract(double operandB)
-            => _synthWishes.Subtract(_thisOutlet, operandB);
+        public FluentOutlet Subtract(double b) => _synthWishes.Subtract(_thisOutlet, b);
 
-        public FluentOutlet Minus(Outlet operandB)
-            => _synthWishes.Subtract(_thisOutlet, operandB);
+        public FluentOutlet Minus(Outlet b) => _synthWishes.Subtract(_thisOutlet, b);
 
-        public FluentOutlet Minus(double operandB)
-            => _synthWishes.Subtract(_thisOutlet, operandB);
+        public FluentOutlet Minus(double b) => _synthWishes.Subtract(_thisOutlet, b);
 
-        public FluentOutlet Multiply(Outlet operandB)
-            => _synthWishes.Multiply(_thisOutlet, operandB);
+        public FluentOutlet Multiply(Outlet b) => _synthWishes.Multiply(_thisOutlet, b);
             
-        public FluentOutlet Multiply(double operandB)
-            => _synthWishes.Multiply(_thisOutlet, operandB);
+        public FluentOutlet Multiply(double b) => _synthWishes.Multiply(_thisOutlet, b);
         
-        public FluentOutlet Times(Outlet operandB)
-            => _synthWishes.Multiply(_thisOutlet, operandB);
+        public FluentOutlet Times(Outlet b) => _synthWishes.Multiply(_thisOutlet, b);
 
-        public FluentOutlet Times(double operandB)
-            => _synthWishes.Multiply(_thisOutlet, operandB);
+        public FluentOutlet Times(double b) => _synthWishes.Multiply(_thisOutlet, b);
 
-        public FluentOutlet Divide(Outlet denominator)
-            => _synthWishes.Divide(_thisOutlet, denominator);
+        public FluentOutlet Divide(Outlet b) => _synthWishes.Divide(_thisOutlet, b);
 
-        public FluentOutlet Divide(double denominator)
-            => _synthWishes.Divide(_thisOutlet, denominator);
+        public FluentOutlet Divide(double b) => _synthWishes.Divide(_thisOutlet, b);
 
-        public FluentOutlet Power(Outlet exponent)
-            => _synthWishes.Power(_thisOutlet, exponent);
+        public FluentOutlet Power(Outlet exponent) => _synthWishes.Power(_thisOutlet, exponent);
 
-        public FluentOutlet Power(double exponent)
-            => _synthWishes.Power(_thisOutlet, exponent);
+        public FluentOutlet Power(double exponent) => _synthWishes.Power(_thisOutlet, exponent);
 
-        public FluentOutlet Sine 
-            => _synthWishes.Sine(_thisOutlet);
+        /// <inheritdoc cref="docs._sine" />
+        public FluentOutlet Sine => _synthWishes.Sine(_thisOutlet);
 
-        public FluentOutlet Delay(Outlet timeDifference)
-            => _synthWishes.Delay(_thisOutlet, timeDifference);
+        public FluentOutlet Delay(Outlet delay) => _synthWishes.Delay(_thisOutlet, delay);
 
-        public FluentOutlet Delay(double timeDifference)
-            => _synthWishes.Delay(_thisOutlet, timeDifference);
+        public FluentOutlet Delay(double delay) => _synthWishes.Delay(_thisOutlet, delay);
 
-        public FluentOutlet Skip(Outlet timeDifference)
-            => _synthWishes.Skip(_thisOutlet, timeDifference);
+        public FluentOutlet Skip(Outlet skip) => _synthWishes.Skip(_thisOutlet, skip);
 
-        public FluentOutlet Skip(double timeDifference)
-            => _synthWishes.Skip(_thisOutlet, timeDifference);
+        public FluentOutlet Skip(double skip) => _synthWishes.Skip(_thisOutlet, skip);
         
-        public FluentOutlet Stretch(Outlet timeFactor)
-            => _synthWishes.Stretch(_thisOutlet, timeFactor);
+        public FluentOutlet Stretch(Outlet timeScale) => _synthWishes.Stretch(_thisOutlet, timeScale);
         
-        public FluentOutlet Stretch(double timeFactor)
-            => _synthWishes.Stretch(_thisOutlet, timeFactor);
+        public FluentOutlet Stretch(double timeScale) => _synthWishes.Stretch(_thisOutlet, timeScale);
         
-        public FluentOutlet Squash(Outlet timeDivider)
-            => _synthWishes.Squash(_thisOutlet, timeDivider);
+        public FluentOutlet Squash(Outlet speed) => _synthWishes.Squash(_thisOutlet, speed);
         
-        public FluentOutlet Squash(double timeDivider)
-            => _synthWishes.Squash(_thisOutlet, timeDivider);
+        public FluentOutlet Squash(double speed) => _synthWishes.Squash(_thisOutlet, speed);
         
-        public FluentOutlet TimePower(Outlet exponent)
-            => _synthWishes.TimePower(_thisOutlet, exponent);
+        public FluentOutlet TimePower(Outlet exponent) => _synthWishes.TimePower(_thisOutlet, exponent);
         
-        public FluentOutlet TimePower(double exponent)
-            => _synthWishes.TimePower(_thisOutlet, exponent);
+        public FluentOutlet TimePower(double exponent) => _synthWishes.TimePower(_thisOutlet, exponent);
         
         // Derived Operators
 
@@ -224,6 +194,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet EchoFeedBack(double magnitude = default, double delay = default, int count = 8)
             => _synthWishes.EchoFeedBack(_thisOutlet, magnitude, delay, count);
 
+        // Misc Chaining Methods
+        
         public void PlayMono()
         {
             _synthWishes.Channel = _synthWishes.Single;

@@ -79,16 +79,13 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._add"/>
-        public FluentOutlet Add(double operandA, double operandB) 
-            => Add(_[operandA], _[operandB]);
+        public FluentOutlet Add(double a, double b) => Add(_[a], _[b]);
 
         /// <inheritdoc cref="docs._add"/>
-        public FluentOutlet Add(Outlet operandA, double operandB) 
-            => Add(operandA, _[operandB]);
+        public FluentOutlet Add(Outlet a, double b) => Add(a, _[b]);
 
         /// <inheritdoc cref="docs._add"/>
-        public FluentOutlet Add(double operandA, Outlet operandB) 
-            => Add(_[operandA], operandB);
+        public FluentOutlet Add(double a, Outlet b) => Add(_[a], b);
 
         /// <summary> Alternative entry point (Operator) Outlet (used in tests). </summary>
         [UsedImplicitly]
@@ -133,23 +130,20 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Overloads
 
-        public FluentOutlet Subtract(Outlet operandA, Outlet operandB)
-            => _[_operatorFactory.Substract(operandA, operandB)];
+        public FluentOutlet Subtract(Outlet a, Outlet b) => _[_operatorFactory.Substract(a, b)];
 
-        public FluentOutlet Subtract(Outlet operandA, double operandB)
-            => _[_operatorFactory.Substract(operandA, _[operandB])];
+        public FluentOutlet Subtract(Outlet a, double b) => _[_operatorFactory.Substract(a, _[b])];
 
-        public FluentOutlet Subtract(double operandA, Outlet operandB)
-            => _[_operatorFactory.Substract(_[operandA], operandB)];
+        public FluentOutlet Subtract(double a, Outlet b) => _[_operatorFactory.Substract(_[a], b)];
 
         /// <inheritdoc cref="docs._multiply"/>
-        public FluentOutlet Multiply(Outlet operandA, Outlet operandB)
+        public FluentOutlet Multiply(Outlet a, Outlet b)
         {
             // Reverse operands increasing likelihood to have a 0-valued (volume) curve first.
-            (operandA, operandB) = (operandB, operandA);
+            (a, b) = (b, a);
 
             // Flatten Nested Sums
-            IList<Outlet> flattenedFactors = FlattenFactors(operandA, operandB);
+            IList<Outlet> flattenedFactors = FlattenFactors(a, b);
             
             // Consts
             IList<Outlet> vars = flattenedFactors.Where(y => y.IsVar()).ToArray();
@@ -182,12 +176,10 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._multiply"/>
-        public FluentOutlet Multiply(Outlet operandA, double operandB)
-            => Multiply(operandA, _[operandB]);
+        public FluentOutlet Multiply(Outlet a, double b) => Multiply(a, _[b]);
 
         /// <inheritdoc cref="docs._multiply"/>
-        public FluentOutlet Multiply(double operandA, Outlet operandB)
-            => Multiply(_[operandA], operandB);
+        public FluentOutlet Multiply(double a, Outlet b) => Multiply(_[a], b);
 
         /// <summary> Alternative entry point (Operator) Outlet (used in tests). </summary>
         [UsedImplicitly]
@@ -241,60 +233,43 @@ namespace JJ.Business.Synthesizer.Wishes
             return _operatorFactory.Multiply(firstFactor, NestMultiplications(remainingFactors));
         }
         
-        public FluentOutlet Divide(Outlet numerator, Outlet denominator)
-            => _[_operatorFactory.Divide(numerator, denominator)];
+        public FluentOutlet Divide(Outlet a, Outlet b) => _[_operatorFactory.Divide(a, b)];
 
-        public FluentOutlet Divide(Outlet numerator, double denominator)
-            => Divide(numerator, _[denominator]);
+        public FluentOutlet Divide(Outlet a, double b) => Divide(a, _[b]);
         
-        public FluentOutlet Divide(double numerator, Outlet denominator)
-            => Divide(_[numerator], denominator);
+        public FluentOutlet Divide(double a, Outlet b) => Divide(_[a], b);
 
-        public FluentOutlet Power(Outlet @base, Outlet exponent)
-            => _[_operatorFactory.Power(@base, exponent)];
+        public FluentOutlet Power(Outlet @base, Outlet exponent) => _[_operatorFactory.Power(@base, exponent)];
         
-        public FluentOutlet Power(Outlet @base, double exponent)
-            => Power(@base, _[exponent]);
+        public FluentOutlet Power(Outlet @base, double exponent) => Power(@base, _[exponent]);
 
-        public FluentOutlet Power(double @base, Outlet exponent)
-            => Power(_[@base], exponent);
+        public FluentOutlet Power(double @base, Outlet exponent) => Power(_[@base], exponent);
 
         /// <inheritdoc cref="docs._sine" />
-        public FluentOutlet Sine(Outlet pitch = null) 
-            => _[_operatorFactory.Sine(_[1], pitch ?? _[1])];
+        public FluentOutlet Sine(Outlet pitch = null) => _[_operatorFactory.Sine(_[1], pitch ?? _[1])];
 
-        public FluentOutlet Sine(double pitch)
-            => Sine(_[pitch]);
+        /// <inheritdoc cref="docs._sine" />
+        public FluentOutlet Sine(double pitch) => Sine(_[pitch]);
         
-        public FluentOutlet Delay(Outlet signal, Outlet timeDifference) 
-            => _[_operatorFactory.TimeAdd(signal, timeDifference)];
+        public FluentOutlet Delay(Outlet signal, Outlet delay) => _[_operatorFactory.TimeAdd(signal, delay ?? _[0])];
 
-        public FluentOutlet Delay(Outlet signal, double timeDifference)
-            => Delay(signal, _[timeDifference]);
+        public FluentOutlet Delay(Outlet signal, double delay) => Delay(signal, _[delay]);
         
-        public FluentOutlet Skip(Outlet signal, Outlet timeDifference)
-            => _[_operatorFactory.TimeSubstract(signal, timeDifference)];
+        public FluentOutlet Skip(Outlet signal, Outlet skip) => _[_operatorFactory.TimeSubstract(signal, skip ?? _[1])];
 
-        public FluentOutlet Skip(Outlet signal, double timeDifference)
-            => Skip(signal, _[timeDifference]);
+        public FluentOutlet Skip(Outlet signal, double skip) => Skip(signal, _[skip]);
         
-        public FluentOutlet Stretch(Outlet signal, Outlet timeFactor) 
-            => _[_operatorFactory.TimeMultiply(signal, timeFactor ?? _[1])];
+        public FluentOutlet Stretch(Outlet signal, Outlet timeScale) => _[_operatorFactory.TimeMultiply(signal, timeScale ?? _[1])];
 
-        public FluentOutlet Stretch(Outlet signal, double timeFactor)
-            => Stretch(signal, _[timeFactor]);
+        public FluentOutlet Stretch(Outlet signal, double timeScale) => Stretch(signal, _[timeScale]);
 
-        public FluentOutlet Squash(Outlet signal, Outlet timeDivider)
-            => _[_operatorFactory.TimeDivide(signal, timeDivider)];
+        public FluentOutlet Squash(Outlet signal, Outlet speed) => _[_operatorFactory.TimeDivide(signal, speed)];
 
-        public FluentOutlet Squash(Outlet signal, double timeDivider)
-            => Squash(signal, _[timeDivider]);
+        public FluentOutlet Squash(Outlet signal, double speed) => Squash(signal, _[speed]);
 
-        public FluentOutlet TimePower(Outlet signal, Outlet exponent)
-            => _[_operatorFactory.TimePower(signal, exponent)];
+        public FluentOutlet TimePower(Outlet signal, Outlet exponent) => _[_operatorFactory.TimePower(signal, exponent)];
 
-        public FluentOutlet TimePower(Outlet signal, double exponent)
-            => TimePower(signal, _[exponent]);
+        public FluentOutlet TimePower(Outlet signal, double exponent) => TimePower(signal, _[exponent]);
         
         // Derived Operators
 
