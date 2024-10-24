@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         Outlet DetunicaBass(Outlet delay = null, Outlet duration = null) =>
             Panbrello(
-                panbrello: (speed: _[2], depth: _[0.20]),
+                panbrello: (speed: 2, depth: 0.20),
                 sound: Add(
                     Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
                     Detunica2(delay, E1, _[0.800], duration), // TODO: Maybe don't use this churning sound.
@@ -156,7 +156,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     vibrato: (_[10], _[0.00020]),
                     tremolo: (_[12], _[0.10]),
                     detuneDepth: _[1.0],
-                    churnRate: Multiply(_[0.10], DetuneRateCurve2),
+                    churnRate: Multiply(0.10, DetuneRateCurve2),
                     panning: _[0.4], 
                     panbrello: (_[2.6], _[0.09])));
 
@@ -166,10 +166,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 delay, freq, volume, duration,
                 vibrato: (_[05.5], _[0.0005]),
                 tremolo: (_[15.0], _[0.06]),
-                detuneDepth     : _[0.5],
-                interferenceRate: Multiply(_[0.002], DetuneRateCurve1),
-                chorusRate      : Multiply(_[0.002], DetuneRateCurve1),
-                panning: Stretch(Curve(0.7, 0.3), duration), 
+                detuneDepth: _[0.5],
+                interferenceRate: Multiply(0.002, DetuneRateCurve1),
+                chorusRate: Multiply(0.002,       DetuneRateCurve1),
+                panning: Stretch(Curve(0.7, 0.3), duration),
                 panbrello: (_[4.8], _[0.05]),
                 envelopeVariation: 2);
 
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 vibrato: (_[7], _[0.0003]),
                 tremolo: (_[10], _[0.08]),
                 detuneDepth: _[0.5],
-                interferenceRate: Multiply(_[0.003], DetuneRateCurve3),
+                interferenceRate: Multiply(0.003, DetuneRateCurve3),
                 panning: Stretch(Curve(0.2, 0.8), duration),
                 panbrello: (_[3.4], _[0.07]));
 
@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 vibrato: (_[5.5], _[0.00005]),
                 tremolo: (_[3.0], _[0.25]),
                 detuneDepth: _[0.8],
-                churnRate: Multiply(_[0.001], DetuneRateCurve1),
+                churnRate: Multiply(0.001, DetuneRateCurve1),
                 chorusRate: _[0.001],
                 panning: _[0.48]);
 
@@ -262,10 +262,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return Add
             (
-                Multiply(Sine(Multiply(freq, _[1])), _[1.0]),
-                Multiply(Sine(Multiply(freq, _[2])), _[0.5]),
-                Multiply(Sine(Multiply(freq, _[3])), _[0.3]), 
-                Multiply(Sine(Multiply(freq, _[4])), _[0.2])
+                Multiply(Sine(Multiply(freq, 1)), 1.0),
+                Multiply(Sine(Multiply(freq, 2)), 0.5),
+                Multiply(Sine(Multiply(freq, 3)), 0.3), 
+                Multiply(Sine(Multiply(freq, 4)), 0.2)
             );
         }
 
@@ -276,11 +276,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return Add
             (
-                Multiply(Sine(Multiply(freq, _[1])), _[1.00]),
-                Multiply(Sine(Multiply(freq, _[2])), _[0.30]),
-                Multiply(Sine(Multiply(freq, _[5])), _[0.15]),
-                Multiply(Sine(Multiply(freq, _[7])), _[0.08]),
-                Multiply(Sine(Multiply(freq, _[9])), _[0.10])
+                Multiply(Sine(Multiply(freq, 1)), 1.00),
+                Multiply(Sine(Multiply(freq, 2)), 0.30),
+                Multiply(Sine(Multiply(freq, 5)), 0.15),
+                Multiply(Sine(Multiply(freq, 7)), 0.08),
+                Multiply(Sine(Multiply(freq, 9)), 0.10)
             );
         }
 
@@ -293,11 +293,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return Add
             (
-                Multiply(_[1.00], Sine(DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate))),
-                Multiply(_[0.30], Sine(DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate))),
-                Multiply(_[0.15], Sine(DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate))),
-                Multiply(_[0.08], Sine(DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate))),
-                Multiply(_[0.10], Sine(DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate)))
+                Multiply(1.00, Sine(DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate))),
+                Multiply(0.30, Sine(DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate))),
+                Multiply(0.15, Sine(DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate))),
+                Multiply(0.08, Sine(DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate))),
+                Multiply(0.10, Sine(DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate)))
             );
         }
 
@@ -328,7 +328,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Multiply by 1 + depth = chorus
             if (chorusRate != null)
             {
-                detunedFreq = Multiply(detunedFreq, Add(_[1], Stretch(chorusRate, duration)));
+                detunedFreq = Multiply(detunedFreq, Add(1, Stretch(chorusRate, duration)));
             }
 
             return detunedFreq;
@@ -340,10 +340,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             depthAdjust1 = depthAdjust1 ?? _[0.005];
             depthAdjust2 = depthAdjust2 ?? _[0.250];
 
-            var tremoloWave1 = Multiply(Add(_[1], depthAdjust1), Sine(_[5.5])); // 5.5 Hz _tremolo
+            var tremoloWave1 = Multiply(Add(1, depthAdjust1), Sine(5.5)); // 5.5 Hz _tremolo
             sound = Multiply(sound, tremoloWave1);
 
-            var tremoloWave2 = Multiply(Add(_[1], depthAdjust2), Sine(_[4])); // 4 Hz _tremolo
+            var tremoloWave2 = Multiply(Add(1, depthAdjust2), Sine(4)); // 4 Hz _tremolo
             sound = Multiply(sound, tremoloWave2);
 
             return sound;
@@ -351,7 +351,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_echodocs" />
         Outlet MildEcho(Outlet sound)
-            => Echo(sound, count: MILD_ECHO_COUNT, magnitude: _[0.25], delay: _[MILD_ECHO_DELAY]);
+            => Echo(sound, count: MILD_ECHO_COUNT, magnitude: 0.25, delay: MILD_ECHO_DELAY);
 
         /// <inheritdoc cref="_echodocs" />
         internal Outlet DeepEcho(Outlet sound)
@@ -359,13 +359,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             switch (Channel)
             {
                 case ChannelEnum.Single:
-                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: _[1 / 2.0], delay: _[DEEP_ECHO_DELAY_L]);
+                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: 1 / 2.0, delay: DEEP_ECHO_DELAY_L);
                 
                 case ChannelEnum.Left:
-                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: _[1 / 2.1], delay: _[DEEP_ECHO_DELAY_L]);
+                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: 1 / 2.1, delay: DEEP_ECHO_DELAY_L);
                 
                 case ChannelEnum.Right:
-                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: _[1 / 2.0], delay: _[DEEP_ECHO_DELAY_R]);
+                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: 1 / 2.0, delay: DEEP_ECHO_DELAY_R);
                 
                 default:
                     throw new ValueNotSupportedException(Channel);

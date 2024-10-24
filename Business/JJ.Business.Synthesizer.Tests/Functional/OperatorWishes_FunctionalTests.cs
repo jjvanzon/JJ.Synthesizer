@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._tremolo" />
         void Tremolo_RunTest()
             => PlayMono(
-                () => Envelope(Tremolo(Sine(A4), (_[4], _[0.5])), duration: _[2]),
+                () => Envelope(Tremolo(Sine(A4), (4, 0.5)), duration: _[2]),
                 volume: 0.30, duration: 2);
 
         // Panning Tests
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 return default;
             }
 
-            var    panning = _[0.5];
+            double panning = 0.5;
             Outlet panned;
 
             // Act
@@ -90,18 +90,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             }
 
             double panningValue  = 0.5;
-            Outlet panningOutlet = _[panningValue];
 
             // Act
 
             Outlet panned;
 
             Channel = Left;
-            panned  = Panning(TestSignal(), panningOutlet);
+            panned  = Panning(TestSignal(), panningValue);
             double leftValue = panned.Calculate(time: 0);
 
             Channel = Right;
-            panned  = Panning(TestSignal(), panningOutlet);
+            panned  = Panning(TestSignal(), panningValue);
             double rightValue = panned.Calculate(time: 0);
 
             // Assert
@@ -123,7 +122,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Arrange
             var freq    = A4;
             var sine    = Sine(freq);
-            var panning = _[0.25];
+            var panning = 0.25;
 
             // Act
 
@@ -183,7 +182,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
             var sound = Envelope(Sine(A4));
-            Play(() => Panbrello(sound, (speed: _[2.0], depth: _[0.75])));
+            Play(() => Panbrello(sound, (speed: 2.0, depth: 0.75)));
         }
 
         [TestMethod]
@@ -296,7 +295,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             Outlet envelope = Curve("Envelope", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(B4), envelope);
-            Outlet echoes   = EchoAdditive(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
+            Outlet echoes   = EchoAdditive(sound, magnitude: 0.66, delay: 0.25, count: 16);
 
             SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono     (() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
@@ -335,7 +334,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet envelope = Curve("Envelope", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(F5), envelope);
 
-            Outlet echoes = EchoFeedBack(sound, magnitude: _[0.66], delay: _[0.25], count: 16);
+            Outlet echoes = EchoFeedBack(sound, magnitude: 0.66, delay: 0.25, count: 16);
 
             SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
@@ -361,9 +360,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet echoes = EchoFeedBack(sound, magnitude, delay, count: 16);
 
             SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav"    );
-            SaveAudioMono(() => magnitude, duration: 4.5,   fileName: Name() + "_Magnitude.wav");
-            SaveAudioMono(() => delay,     duration: 4.5,   fileName: Name() + "_Delay.wav"    );
-            PlayMono(     () => echoes,    duration: 4.5,   fileName: Name() + "_Output.wav"   );
+            SaveAudioMono(() => magnitude, duration: 4.5, fileName: Name() + "_Magnitude.wav");
+            SaveAudioMono(() => delay,     duration: 4.5, fileName: Name() + "_Delay.wav"    );
+            PlayMono(     () => echoes,    duration: 4.5, fileName: Name() + "_Output.wav"   );
         }
 
         /// <inheritdoc cref="docs._default"/>
