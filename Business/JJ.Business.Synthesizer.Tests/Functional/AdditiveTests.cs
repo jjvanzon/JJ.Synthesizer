@@ -65,11 +65,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var sound = Add
             (
-                SinePartial  (         frequency,        volume: _[1.0], Stretch(Sine1Envelope,  duration)),
-                SinePartial  (Multiply(frequency, _[2]), volume: _[0.7], Stretch(Sine2Envelope,  duration)),
-                SinePartial  (Multiply(frequency, _[5]), volume: _[0.4], Stretch(Sine3Envelope,  duration)),
-                SamplePartial(Multiply(frequency, _[2]), volume: _[3.0], Stretch(SampleEnvelope, duration)),
-                SamplePartial(Multiply(frequency, _[7]), volume: _[5.0], Stretch(SampleEnvelope, duration))
+                SinePartial  (  frequency,              volume: _[1.0], Stretch(Sine1Envelope,  duration)),
+                SinePartial  (_[frequency].Multiply(2), volume: _[0.7], Stretch(Sine2Envelope,  duration)),
+                SinePartial  (_[frequency].Multiply(5), volume: _[0.4], Stretch(Sine3Envelope,  duration)),
+                SamplePartial(_[frequency].Multiply(2), volume: _[3.0], Stretch(SampleEnvelope, duration)),
+                SamplePartial(_[frequency].Multiply(7), volume: _[5.0], Stretch(SampleEnvelope, duration))
             );
 
             return StrikeNote(sound, delay, volume);
