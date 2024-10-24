@@ -6,7 +6,6 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Tests.Helpers;
-
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
     [TestClass]
@@ -222,11 +221,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             switch (envelopeVariation)
             {
                 case 1:
-                    sound = Multiply(sound, Stretch(PatchyEnvelope, duration));
+                    sound = Multiply(sound, PatchyEnvelope.Stretch(duration));
                     break;
 
                 case 2:
-                    sound = Multiply(sound, Stretch(EvenEnvelope, duration));
+                    sound = Multiply(sound, EvenEnvelope.Stretch(duration));
                     break;
 
                 default:
@@ -246,8 +245,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var saw       = SemiSaw(freq);
             var jittered  = Jitter(saw, depthAdjust1, depthAdjust2);
-            var enveloped = Multiply(jittered, Stretch(VibraphaseVolumeCurve, duration));
-            var note      = StrikeNote(enveloped, delay, volume);
+            var enveloped = _[jittered].Multiply(VibraphaseVolumeCurve.Stretch(duration));
+            var note      = enveloped.StrikeNote(delay, volume);
             return note;
         }
 
@@ -262,25 +261,24 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return Add
             (
-                Multiply(Sine(Multiply(freq, 1)), 1.0),
-                Multiply(Sine(Multiply(freq, 2)), 0.5),
-                Multiply(Sine(Multiply(freq, 3)), 0.3), 
-                Multiply(Sine(Multiply(freq, 4)), 0.2)
+                _[freq].Multiply(1).Sine.Multiply(1.0),
+                _[freq].Multiply(2).Sine.Multiply(0.5),
+                _[freq].Multiply(3).Sine.Multiply(0.3), 
+                _[freq].Multiply(4).Sine.Multiply(0.2)
             );
         }
 
-        /// <inheritdoc cref="_semisawdocs" />
         Outlet BaseHarmonics(Outlet freq)
         {
             freq = freq ?? A4;
 
             return Add
             (
-                Multiply(Sine(Multiply(freq, 1)), 1.00),
-                Multiply(Sine(Multiply(freq, 2)), 0.30),
-                Multiply(Sine(Multiply(freq, 5)), 0.15),
-                Multiply(Sine(Multiply(freq, 7)), 0.08),
-                Multiply(Sine(Multiply(freq, 9)), 0.10)
+                _[freq].Multiply(1).Sine.Multiply(1.00),
+                _[freq].Multiply(2).Sine.Multiply(0.30),
+                _[freq].Multiply(5).Sine.Multiply(0.15),
+                _[freq].Multiply(7).Sine.Multiply(0.08),
+                _[freq].Multiply(9).Sine.Multiply(0.10)
             );
         }
 
@@ -290,14 +288,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet churnRate = null, Outlet interferenceRate = null, Outlet chorusRate = null)
         {
             freq = freq ?? A4;
-
+             
             return Add
             (
-                Multiply(1.00, Sine(DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate))),
-                Multiply(0.30, Sine(DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate))),
-                Multiply(0.15, Sine(DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate))),
-                Multiply(0.08, Sine(DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate))),
-                Multiply(0.10, Sine(DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate)))
+                DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate).Sine.Multiply(1.00),
+                DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate).Sine.Multiply(0.30),
+                DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate).Sine.Multiply(0.15),
+                DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate).Sine.Multiply(0.08),
+                DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate).Sine.Multiply(0.10)
             );
         }
 
@@ -306,7 +304,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         #region Effects
 
         /// <inheritdoc cref="_detunedocs" />
-        Outlet DetuneFreq(
+        FluentOutlet DetuneFreq(
             Outlet freq, Outlet harmonic, Outlet duration,
             Outlet churnRate = null, Outlet interfereRate = null, Outlet chorusRate = null)
         {
@@ -315,23 +313,23 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Add to harmonic number = churn / heavy interference
             if (churnRate != null)
             {
-                Outlet detunedHarmonic = Add(harmonic, Stretch(churnRate, duration));
+                Outlet detunedHarmonic = Add(harmonic, _[churnRate].Stretch(duration));
                 detunedFreq = Multiply(detunedFreq, detunedHarmonic);
             }
 
             // Add Hz = light interference
             if (interfereRate != null)
             {
-                detunedFreq = Add(detunedFreq, Stretch(interfereRate, duration));
+                detunedFreq = _[detunedFreq].Add(_[interfereRate].Stretch(duration));
             }
 
             // Multiply by 1 + depth = chorus
             if (chorusRate != null)
             {
-                detunedFreq = Multiply(detunedFreq, Add(1, Stretch(chorusRate, duration)));
+                detunedFreq = Multiply(detunedFreq, Add(1, _[chorusRate].Stretch(duration)));
             }
 
-            return detunedFreq;
+            return _[detunedFreq];
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -340,10 +338,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             depthAdjust1 = depthAdjust1 ?? _[0.005];
             depthAdjust2 = depthAdjust2 ?? _[0.250];
 
-            var tremoloWave1 = Multiply(Add(1, depthAdjust1), Sine(5.5)); // 5.5 Hz _tremolo
+            var tremoloWave1 = Multiply(_[depthAdjust1].Add(1), Sine(5.5)); // 5.5 Hz _tremolo
             sound = Multiply(sound, tremoloWave1);
 
-            var tremoloWave2 = Multiply(Add(1, depthAdjust2), Sine(4)); // 4 Hz _tremolo
+            var tremoloWave2 = Multiply(_[depthAdjust2].Add(1), Sine(4)); // 4 Hz _tremolo
             sound = Multiply(sound, tremoloWave2);
 
             return sound;
@@ -376,7 +374,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Curves
 
-        Outlet PatchyEnvelope => Curve(@"
+        FluentOutlet PatchyEnvelope => Curve(@"
                          o                             
                     
                               o                         
@@ -387,7 +385,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         o                                       o ");
 
-        Outlet EvenEnvelope => Curve(@"
+        FluentOutlet EvenEnvelope => Curve(@"
                           o                             
                    
                                                         
@@ -398,25 +396,25 @@ namespace JJ.Business.Synthesizer.Tests.Functional
            
         o                                       o ");
 
-        Outlet DetuneRateCurve1 => Curve(@"
+        FluentOutlet DetuneRateCurve1 => Curve(@"
                     o          
                                 
                                 
         o                   o");
 
-        Outlet DetuneRateCurve2 => Curve(@"
+        FluentOutlet DetuneRateCurve2 => Curve(@"
              o                 
                                 
                                 
         o                   o ");
 
-        Outlet DetuneRateCurve3 => Curve(@"
+        FluentOutlet DetuneRateCurve3 => Curve(@"
                   o            
                                 
                                 
         o                   o ");
 
-        Outlet VibraphaseVolumeCurve => Curve(@"
+        FluentOutlet VibraphaseVolumeCurve => Curve(@"
            o                   
          o   o                 
                                 

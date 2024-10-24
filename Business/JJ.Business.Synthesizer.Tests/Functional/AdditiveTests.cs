@@ -1,9 +1,11 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
+﻿ using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
+using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 
 // ReSharper disable LocalizableElement
 
@@ -65,11 +67,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var sound = Add
             (
-                SinePartial  (  frequency,              volume: _[1.0], Stretch(Sine1Envelope,  duration)),
-                SinePartial  (_[frequency].Multiply(2), volume: _[0.7], Stretch(Sine2Envelope,  duration)),
-                SinePartial  (_[frequency].Multiply(5), volume: _[0.4], Stretch(Sine3Envelope,  duration)),
-                SamplePartial(_[frequency].Multiply(2), volume: _[3.0], Stretch(SampleEnvelope, duration)),
-                SamplePartial(_[frequency].Multiply(7), volume: _[5.0], Stretch(SampleEnvelope, duration))
+                SinePartial  (  frequency,           volume: _[1.0],  Sine1Envelope.Stretch(duration)),
+                SinePartial  (_[frequency].Times(2), volume: _[0.7],  Sine2Envelope.Stretch(duration)),
+                SinePartial  (_[frequency].Times(5), volume: _[0.4],  Sine3Envelope.Stretch(duration)),
+                SamplePartial(_[frequency].Times(2), volume: _[3.0], SampleEnvelope.Stretch(duration)),
+                SamplePartial(_[frequency].Times(7), volume: _[5.0], SampleEnvelope.Stretch(duration))
             );
 
             return StrikeNote(sound, delay, volume);
@@ -87,7 +89,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet Echo(Outlet sound) => Echo(sound, count: ECHO_COUNT, magnitude: 0.33, delay: ECHO_DELAY);
-
 
         SampleOperatorWrapper _sample;
 
@@ -124,8 +125,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Creates a curve representing the volume modulation for the first sine partial.
         /// Starts quietly, peaks at a strong volume, and then fades gradually.
         /// </summary>
-        Outlet Sine1Envelope => Curve
+        FluentOutlet Sine1Envelope => Curve
         (
+            "Sine1Envelope",
             0.00, 0.80, 1.00, null, null, null, null, null,
             0.25, null, null, null, null, null, null, null,
             0.10, null, null, 0.02, null, null, null, 0.00
@@ -135,8 +137,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Creates a curve for volume modulation of the second sine partial.
         /// Begins with a quick rise, reaches a high peak, and then slightly drops before fading.
         /// </summary>
-        Outlet Sine2Envelope => Curve
+        FluentOutlet Sine2Envelope => Curve
         (
+            "Sine2Envelope",
             0.00, 1.00, 0.80, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.05, null, null, 0.01, null, null, null, 0.00
@@ -147,8 +150,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Starts at a moderate volume, dips to a very low level,
         /// and then has a slight resurgence before fading out.
         /// </summary>
-        Outlet Sine3Envelope => Curve
+        FluentOutlet Sine3Envelope => Curve
         (
+            "Sine3Envelope",
             0.30, 1.00, 0.30, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.15, null, null, 0.05, null, null, null, 0.00
@@ -158,8 +162,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Generates a volume curve for the sample, starting at full volume
         /// and quickly diminishing to a lower level.
         /// </summary>
-        Outlet SampleEnvelope => Curve
-        (
+        FluentOutlet SampleEnvelope => Curve(
+            "SampleEnvelope",
             1.00, 0.50, 0.20, null, null, null, null, 0.00,
             null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null

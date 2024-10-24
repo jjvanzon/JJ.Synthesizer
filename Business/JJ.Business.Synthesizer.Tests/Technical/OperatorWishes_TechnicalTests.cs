@@ -223,32 +223,32 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_OperatorChaining_Notation2()
         {
-            Play(() => Fluent(A4).Sine().Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+            Play(() => Fluent(A4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
         }
 
         [TestMethod]
         public void Test_OperatorChaining_Notation3()
         {
-            Play(() => _[A4].Sine().Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+            Play(() => _[A4].Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
         }
 
         [TestMethod]
         public void Test_OperatorChaining_Notation4()
         {
             {
-                _[A4].Sine();
+                var sine = _[A4].Sine;
             }
             {
                 var freq = A4;
-                _[freq].Sine();
+                var sine = _[freq].Sine;
             }
             {
                 ValueWrapper freq = A4;
-                _[freq].Sine();
+                var sine = _[freq].Sine;
             }
             {
                 Outlet freq = A4;
-                _[freq].Sine();
+                var sine = _[freq].Sine;
             }
         }
 
@@ -261,9 +261,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                  (
                      Add
                      (
-                         _[freq].Multiply(1).Sine().Multiply(0.50).Panbrello(speed: 3.0, depth: 0.9),
-                         _[freq].Multiply(2).Sine().Multiply(0.08).Panbrello(speed: 2.0, depth: 0.4),
-                         _[freq].Multiply(3).Sine().Multiply(0.04).Panbrello(speed: 2.5, depth: 0.2)
+                         _[freq].Multiply(1).Sine.Multiply(0.50).Panbrello(speed: 3.0, depth: 0.9),
+                         _[freq].Multiply(2).Sine.Multiply(0.08).Panbrello(speed: 2.0, depth: 0.4),
+                         _[freq].Multiply(3).Sine.Multiply(0.04).Panbrello(speed: 2.5, depth: 0.2)
                      ),
                      Curve(@"
 
@@ -287,9 +287,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             (
                 Add
                 (
-                    _[freq].Multiply(1).Sine().Multiply(0.50).Tremolo(speed: 3.0, depth: 0.9),
-                    _[freq].Multiply(2).Sine().Multiply(0.08).Tremolo(speed: 2.0, depth: 0.4),
-                    _[freq].Multiply(3).Sine().Multiply(0.04).Tremolo(speed: 2.5, depth: 0.2)
+                    _[freq].Multiply(1).Sine.Multiply(0.50).Tremolo(speed: 3.0, depth: 0.9),
+                    _[freq].Multiply(2).Sine.Multiply(0.08).Tremolo(speed: 2.0, depth: 0.4),
+                    _[freq].Multiply(3).Sine.Multiply(0.04).Tremolo(speed: 2.5, depth: 0.2)
                 ),
                 Curve(@"
 
