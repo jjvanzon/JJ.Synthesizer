@@ -23,6 +23,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public static implicit operator Outlet(FluentOutlet fluentOutlet) 
             => fluentOutlet._thisOutlet;
 
+        public Outlet Outlet => _thisOutlet;
+
         // Basic Operators
 
         public FluentOutlet Add(params Outlet[] operands)
@@ -31,16 +33,46 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Add(IList<Outlet> operands)
             => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
 
+        public FluentOutlet Add(Outlet outlet)
+            => Add(_thisOutlet, outlet);
+
+        public FluentOutlet Add(double outlet)
+            => _synthWishes.Add(_thisOutlet, outlet);
+        
+        public FluentOutlet Plus(params Outlet[] operands)
+            => Add((IList<Outlet>)operands);
+
+        public FluentOutlet Plus(IList<Outlet> operands)
+            => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
+
+        public FluentOutlet Plus(Outlet outlet)
+            => Add(_thisOutlet, outlet);
+
+        public FluentOutlet Plus(double outlet)
+            => _synthWishes.Add(_thisOutlet, outlet);
+
         public FluentOutlet Subtract(Outlet operandB)
             => _synthWishes.Subtract(_thisOutlet, operandB);
 
         public FluentOutlet Subtract(double operandB)
             => _synthWishes.Subtract(_thisOutlet, operandB);
-        
+
+        public FluentOutlet Minus(Outlet operandB)
+            => _synthWishes.Subtract(_thisOutlet, operandB);
+
+        public FluentOutlet Minus(double operandB)
+            => _synthWishes.Subtract(_thisOutlet, operandB);
+
         public FluentOutlet Multiply(Outlet operandB)
             => _synthWishes.Multiply(_thisOutlet, operandB);
             
         public FluentOutlet Multiply(double operandB)
+            => _synthWishes.Multiply(_thisOutlet, operandB);
+        
+        public FluentOutlet Times(Outlet operandB)
+            => _synthWishes.Multiply(_thisOutlet, operandB);
+
+        public FluentOutlet Times(double operandB)
             => _synthWishes.Multiply(_thisOutlet, operandB);
 
         public FluentOutlet Divide(Outlet denominator)
@@ -54,8 +86,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FluentOutlet Power(double exponent)
             => _synthWishes.Power(_thisOutlet, exponent);
-        
-        public FluentOutlet Sine()
+
+        public FluentOutlet Sine 
             => _synthWishes.Sine(_thisOutlet);
 
         public FluentOutlet Delay(Outlet timeDifference)
