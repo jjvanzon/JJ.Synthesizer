@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 panbrello: (speed: 2, depth: 0.20),
                 sound: Add(
                     Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
-                    Detunica2(delay, E1, _[0.800], duration), // TODO: Maybe don't use this churning sound.
+                    Detunica2(delay, E1, _[0.800], duration),
                     Detunica3(delay, E2, _[1.000], duration),
                     Detunica4(delay, E3, _[0.015], duration),
                     Detunica5(delay, E4, _[0.001], duration)));
@@ -262,10 +262,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return Add
             (
-                _[freq].Multiply(1).Sine.Multiply(1.0),
-                _[freq].Multiply(2).Sine.Multiply(0.5),
-                _[freq].Multiply(3).Sine.Multiply(0.3), 
-                _[freq].Multiply(4).Sine.Multiply(0.2)
+                _[freq].Multiply(1).Sine * 1.0,
+                _[freq].Multiply(2).Sine * 0.5,
+                _[freq].Multiply(3).Sine * 0.3, 
+                _[freq].Multiply(4).Sine * 0.2
             );
         }
 
@@ -275,11 +275,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return Add
             (
-                _[freq].Multiply(1).Sine.Multiply(1.00),
-                _[freq].Multiply(2).Sine.Multiply(0.30),
-                _[freq].Multiply(5).Sine.Multiply(0.15),
-                _[freq].Multiply(7).Sine.Multiply(0.08),
-                _[freq].Multiply(9).Sine.Multiply(0.10)
+                _[freq].Times(1).Sine * 1.00,
+                _[freq].Times(2).Sine * 0.30,
+                _[freq].Times(5).Sine * 0.15,
+                _[freq].Times(7).Sine * 0.08,
+                _[freq].Times(9).Sine * 0.10
             );
         }
 
@@ -292,11 +292,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
              
             return Add
             (
-                DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate).Sine.Multiply(1.00),
-                DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate).Sine.Multiply(0.30),
-                DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate).Sine.Multiply(0.15),
-                DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate).Sine.Multiply(0.08),
-                DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate).Sine.Multiply(0.10)
+                DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate).Sine * 1.00,
+                DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate).Sine * 0.30,
+                DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate).Sine * 0.15,
+                DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate).Sine * 0.08,
+                DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate).Sine * 0.10
             );
         }
 
@@ -309,28 +309,28 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet freq, Outlet harmonic, Outlet duration,
             Outlet churnRate = null, Outlet interfereRate = null, Outlet chorusRate = null)
         {
-            Outlet detunedFreq = freq;
+            var detunedFreq = _[freq];
 
             // Add to harmonic number = churn / heavy interference
             if (churnRate != null)
             {
-                Outlet detunedHarmonic = Add(harmonic, _[churnRate].Stretch(duration));
-                detunedFreq = Multiply(detunedFreq, detunedHarmonic);
+                var detunedHarmonic = _[harmonic] + _[churnRate].Stretch(duration);
+                detunedFreq *= detunedHarmonic;
             }
 
             // Add Hz = light interference
             if (interfereRate != null)
             {
-                detunedFreq = _[detunedFreq].Add(_[interfereRate].Stretch(duration));
+                detunedFreq += _[interfereRate].Stretch(duration);
             }
 
-            // Multiply by 1 + depth = chorus
+            // Multiply by 1 + rate = chorus
             if (chorusRate != null)
             {
-                detunedFreq = Multiply(detunedFreq, Add(1, _[chorusRate].Stretch(duration)));
+                detunedFreq *= _[1] + _[chorusRate].Stretch(duration);
             }
 
-            return _[detunedFreq];
+            return detunedFreq;
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
