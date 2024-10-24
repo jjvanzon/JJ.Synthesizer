@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             // Arrange
             var freq    = A4;
-            var sine    = Sine(_[freq]);
+            var sine    = Sine(freq);
             var panning = _[0.25];
 
             // Act
@@ -220,17 +220,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void PitchPan_UsingOperators_RunTest()
         {
             // Arrange
-            double centerFrequency    = A4;
-            double referenceFrequency = A5;
-            double referencePanning   = 1;
+            var centerFrequency    = A4;
+            var referenceFrequency = A5;
+            var referencePanning   = _[1];
             Console.WriteLine($"Input: {new { centerFrequency, referenceFrequency, referencePanning }}");
 
             Outlet e4 = E4;
             Outlet g4 = G4;
 
             // Act
-            Outlet panningOpE4 = PitchPan(e4, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
-            Outlet panningOpG4 = PitchPan(g4, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
+            Outlet panningOpE4 = PitchPan(e4, centerFrequency, referenceFrequency, referencePanning);
+            Outlet panningOpG4 = PitchPan(g4, centerFrequency, referenceFrequency, referencePanning);
 
             double panningValueE4 = panningOpE4.Calculate(time: 0);
             double panningValueG4 = panningOpG4.Calculate(time: 0);
@@ -255,14 +255,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void PitchPan_DynamicParameters_RunTest()
         {
             // Arrange
-            double centerFrequency    = A4;
-            double referenceFrequency = A5;
+            double centerFrequency    = A4.Value;
+            double referenceFrequency = A5.Value;
             double referencePanning   = 1;
             Console.WriteLine($"Input: {new { centerFrequency, referenceFrequency, referencePanning }}");
 
             // Act
-            double panningValueE4 = PitchPan(E4, centerFrequency, referenceFrequency, referencePanning);
-            double panningValueG4 = PitchPan(G4, centerFrequency, referenceFrequency, referencePanning);
+            double panningValueE4 = PitchPan(E4.Value, centerFrequency, referenceFrequency, referencePanning);
+            double panningValueG4 = PitchPan(G4.Value, centerFrequency, referenceFrequency, referencePanning);
             Console.WriteLine($"Output: {new { panningValueE4, panningValueG4 }}");
 
             // Assert
