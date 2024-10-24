@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
@@ -212,9 +213,68 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void Test_OperatorChaining()
+        public void OperatorChaining_Test1()
         {
-            Play(() => Sine(A4).Multiply(0.5).Panbrello(speed: 3, depth: 0.5));
+            Play(() => Sine(A4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+
+        }
+
+        [TestMethod]
+        public void OperatorChaining_Test2()
+        {
+            Play(() => Fluent(A4).Sine().Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+        }
+
+        [TestMethod]
+        public void OperatorChaining_Test3()
+        {
+            Play(() => _[A4].Sine().Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+        }
+
+        [TestMethod]
+        public void OperatorChaining_Test4()
+        {
+            {
+                _[A4].Sine();
+            }
+            {
+                var freq = A4;
+                _[freq].Sine();
+            }
+            {
+                ValueWrapper freq = A4;
+                _[freq].Sine();
+            }
+            {
+                Outlet freq = A4;
+                _[freq].Sine();
+            }
+        }
+
+        [TestMethod]
+        public void OperatorChaining_Test5()
+        {
+            var freq = A4;
+
+            Outlet sound()
+                => Multiply
+                (
+                    Add
+                    (
+                        _[freq].Multiply(1).Sine().Multiply(0.50).Panbrello(speed: 3.0, depth: 0.9),
+                        _[freq].Multiply(2).Sine().Multiply(0.08).Panbrello(speed: 2.0, depth: 0.4),
+                        _[freq].Multiply(3).Sine().Multiply(0.04).Panbrello(speed: 2.5, depth: 0.2)
+                    ),
+                    Curve(@"
+
+                       *
+                           *
+                                *
+                                        *
+                     *                              *")
+                );
+
+            Play(sound);
         }
     }
 }

@@ -24,12 +24,17 @@ namespace JJ.Business.Synthesizer.Wishes
         private void InitializeOperatorWishes(IContext context)
         {
             _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
-            _ = new ValueIndexer(_operatorFactory);
+            _ = new ValueIndexer(this);
         }
 
         public ChannelEnum Channel { get; set; }
 
         public int ChannelIndex => Channel.ToIndex();
+        
+        // Chain starting
+        
+        public ChainedOutlet Fluent(Outlet outlet)
+            => new ChainedOutlet(this, outlet);
 
         // Basic Operators
 
@@ -655,16 +660,19 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._valueindexer" />
         public class ValueIndexer
         {
-            private readonly OperatorFactory _parent;
+            private readonly SynthWishes _parent;
 
             /// <inheritdoc cref="docs._valueindexer" />
-            internal ValueIndexer(OperatorFactory parent)
+            internal ValueIndexer(SynthWishes parent)
             {
                 _parent = parent;
             }
 
             /// <inheritdoc cref="docs._valueindexer" />
-            public ValueWrapper this[double value] => new ValueWrapper(_parent.Value(value));
+            public ValueWrapper this[double value] => new ValueWrapper(_parent._operatorFactory.Value(value));
+
+            /// <inheritdoc cref="docs._valueindexer" />
+            public ChainedOutlet this[Outlet outlet] => new ChainedOutlet(_parent, outlet);
         }
      
         // Helpers

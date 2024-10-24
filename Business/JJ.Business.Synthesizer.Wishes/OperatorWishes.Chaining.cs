@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => chainedOutlet._thisOutlet;
 
         // Basic Operators
-        
+
         public ChainedOutlet Add(params Outlet[] operands)
             => Add((IList<Outlet>)operands);
         
