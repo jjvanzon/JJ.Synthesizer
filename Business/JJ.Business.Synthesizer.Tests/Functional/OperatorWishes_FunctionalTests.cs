@@ -6,6 +6,7 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
+// ReSharper disable JoinDeclarationAndInitializer
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
@@ -130,13 +131,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Channel = Left;
             panned  = Panning(sine, panning);
-            double maxValueLeft = panned.Calculate(time: 0.25 / freq);
-            double minValueLeft = panned.Calculate(time: 0.75 / freq);
+            double maxValueLeft = panned.Calculate(time: 0.25 / (double)freq);
+            double minValueLeft = panned.Calculate(time: 0.75 / (double)freq);
 
             Channel = Right;
             panned  = Panning(sine, panning);
-            double maxValueRight = panned.Calculate(time: 0.25 / freq);
-            double minValueRight = panned.Calculate(time: 0.75 / freq);
+            double maxValueRight = panned.Calculate(time: 0.25 / (double)freq);
+            double minValueRight = panned.Calculate(time: 0.75 / (double)freq);
 
             Play(() => Envelope(Panning(sine, panning)), duration: 1);
 

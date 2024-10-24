@@ -3,14 +3,13 @@ using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
         [Obsolete("Use _[123] instead."), UsedImplicitly]
-        public ValueWrapper Value(double value = 0) => _[value];
+        public Outlet Value(double value = 0) => _[value];
 
         [Obsolete("Use Add instead.", true), UsedImplicitly]
         public Adder Adder(params Outlet[] operands) => throw new NotSupportedException();

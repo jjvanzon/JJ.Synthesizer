@@ -236,20 +236,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Test_OperatorChaining_Notation4()
         {
             {
-                var sine = _[A4].Sine;
+                var sine = A4.Sine;
             }
             {
                 var freq = A4;
-                var sine = _[freq].Sine;
-            }
-            {
-                ValueWrapper freq = A4;
-                var sine = _[freq].Sine;
+                var sine = freq.Sine;
             }
             {
                 Outlet freq = A4;
                 var sine = _[freq].Sine;
             }
+            {
+                FluentOutlet freq = A4;
+                var          sine = freq.Sine;
+            }
+            //{
+            //    ValueWrapper freq = A4;
+            //    var sine = _[freq].Sine;
+            //}
         }
 
         [TestMethod]

@@ -730,9 +730,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (8.0, 0.0)
         );
 
-        (double time, ValueWrapper freq1, ValueWrapper freq2, ValueWrapper freq3)[] _chordFrequencies;
+        (double time, FluentOutlet freq1, FluentOutlet freq2, FluentOutlet freq3)[] _chordFrequencies;
 
-        (double time, ValueWrapper freq1, ValueWrapper freq2, ValueWrapper freq3)[] CreateChordFrequencies() => new[]
+        (double time, FluentOutlet freq1, FluentOutlet freq2, FluentOutlet freq3)[] CreateChordFrequencies() => new[]
         {
             (0.0, E4, A4, C5),
             (1.0, F4, A4, C5),

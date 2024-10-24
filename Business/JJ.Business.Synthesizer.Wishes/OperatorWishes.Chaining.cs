@@ -18,46 +18,63 @@ namespace JJ.Business.Synthesizer.Wishes
             _thisOutlet = firstFirstOperand ?? throw new ArgumentNullException(nameof(firstFirstOperand));
         }
         
-        // Swift Conversion back to Outlet
+        // Swift Conversion Back to Outlet
         
         public static implicit operator Outlet(FluentOutlet fluentOutlet) 
             => fluentOutlet._thisOutlet;
 
         public Outlet Outlet => _thisOutlet;
 
-        // Basic Operators
+        // Value
+        
+        public static explicit operator double(FluentOutlet fluentOutlet) 
+            => fluentOutlet.Value;
 
-        public FluentOutlet Add(params Outlet[] operands) => Add((IList<Outlet>)operands);
+        public double Value 
+        {
+            get
+            {
+                double? constant = _thisOutlet.AsConst();
+                if (constant != null) return constant.Value;
+
+                double calculated = _thisOutlet.Calculate(time: 0);
+                return calculated;
+            }
+        }
+        
+        // Basic Operators
         
         public FluentOutlet Add(IList<Outlet> operands) => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
+        
+        public FluentOutlet Add(params Outlet[] operands) => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
 
-        public FluentOutlet Add(Outlet b) => Add(_thisOutlet, b);
+        public FluentOutlet Add(Outlet b) => _synthWishes.Add(_thisOutlet, b);
 
         public FluentOutlet Add(double b) => _synthWishes.Add(_thisOutlet, b);
         
-        public FluentOutlet Plus(params Outlet[] operands) => Add((IList<Outlet>)operands);
+        public FluentOutlet Plus(params Outlet[] operands) => Add(operands);
 
-        public FluentOutlet Plus(IList<Outlet> operands) => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
+        public FluentOutlet Plus(IList<Outlet> operands) =>  Add(operands);
 
-        public FluentOutlet Plus(Outlet b) => Add(_thisOutlet, b);
+        public FluentOutlet Plus(Outlet b) => Add(b);
 
-        public FluentOutlet Plus(double b) => _synthWishes.Add(_thisOutlet, b);
+        public FluentOutlet Plus(double b) => Add(b);
 
         public FluentOutlet Subtract(Outlet b) => _synthWishes.Subtract(_thisOutlet, b);
 
         public FluentOutlet Subtract(double b) => _synthWishes.Subtract(_thisOutlet, b);
 
-        public FluentOutlet Minus(Outlet b) => _synthWishes.Subtract(_thisOutlet, b);
+        public FluentOutlet Minus(Outlet b) => Subtract(b);
 
-        public FluentOutlet Minus(double b) => _synthWishes.Subtract(_thisOutlet, b);
+        public FluentOutlet Minus(double b) => Subtract(b);
 
         public FluentOutlet Multiply(Outlet b) => _synthWishes.Multiply(_thisOutlet, b);
             
         public FluentOutlet Multiply(double b) => _synthWishes.Multiply(_thisOutlet, b);
         
-        public FluentOutlet Times(Outlet b) => _synthWishes.Multiply(_thisOutlet, b);
+        public FluentOutlet Times(Outlet b) => Multiply(b);
 
-        public FluentOutlet Times(double b) => _synthWishes.Multiply(_thisOutlet, b);
+        public FluentOutlet Times(double b) => Multiply(b);
 
         public FluentOutlet Divide(Outlet b) => _synthWishes.Divide(_thisOutlet, b);
 
