@@ -5,7 +5,8 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Business.Synthesizer.Tests.Helpers;
+using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
+
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
     [TestClass]
@@ -374,7 +375,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Curves
 
-        FluentOutlet PatchyEnvelope => Curve(@"
+        FluentOutlet PatchyEnvelope => Curve(Name(), @"
                          o                             
                     
                               o                         
@@ -385,7 +386,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         o                                       o ");
 
-        FluentOutlet EvenEnvelope => Curve(@"
+        FluentOutlet EvenEnvelope => Curve(Name(), @"
                           o                             
                    
                                                         
@@ -396,25 +397,25 @@ namespace JJ.Business.Synthesizer.Tests.Functional
            
         o                                       o ");
 
-        FluentOutlet DetuneRateCurve1 => Curve(@"
+        FluentOutlet DetuneRateCurve1 => Curve(Name(), @"
                     o          
                                 
                                 
         o                   o");
 
-        FluentOutlet DetuneRateCurve2 => Curve(@"
+        FluentOutlet DetuneRateCurve2 => Curve(Name(), @"
              o                 
                                 
                                 
         o                   o ");
 
-        FluentOutlet DetuneRateCurve3 => Curve(@"
+        FluentOutlet DetuneRateCurve3 => Curve(Name(), @"
                   o            
                                 
                                 
         o                   o ");
 
-        FluentOutlet VibraphaseVolumeCurve => Curve(@"
+        FluentOutlet VibraphaseVolumeCurve => Curve(Name(), @"
            o                   
          o   o                 
                                 
