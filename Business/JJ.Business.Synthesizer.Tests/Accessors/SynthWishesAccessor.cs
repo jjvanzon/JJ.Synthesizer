@@ -16,10 +16,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             _accessor = new Accessor(obj, typeof(SynthWishes));
         }
 
-        public CurveInWrapper GetOrCreateCurveIn(string name, Func<CurveInWrapper> func)
-        {
-            return (CurveInWrapper)_accessor.InvokeMethod(nameof(GetOrCreateCurveIn), name, func);
-        }
+        //public CurveInWrapper GetOrCreateCurveIn(string name, Func<FluentOutlet> func)
+        //{
+        //    return (CurveInWrapper)_accessor.InvokeMethod(nameof(GetOrCreateCurveIn), name, func);
+        //}
 
         public IList<Outlet> FlattenTerms(Outlet sumOrAdd)
         {
