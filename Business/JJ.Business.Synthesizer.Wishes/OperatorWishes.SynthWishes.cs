@@ -31,19 +31,19 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public int ChannelIndex => Channel.ToIndex();
         
-        // Chain starting
+        // Start Chaining
         
-        public ChainedOutlet Fluent(Outlet outlet)
-            => new ChainedOutlet(this, outlet);
+        public FluentOutlet Fluent(Outlet outlet)
+            => new FluentOutlet(this, outlet);
 
         // Basic Operators
 
         /// <inheritdoc cref="docs._add"/>
-        public ChainedOutlet Add(params Outlet[] operands) 
+        public FluentOutlet Add(params Outlet[] operands) 
             => Add((IList<Outlet>)operands);
 
         /// <inheritdoc cref="docs._add"/>
-        public ChainedOutlet Add(IList<Outlet> operands)
+        public FluentOutlet Add(IList<Outlet> operands)
         {
             if (operands == null) throw new ArgumentNullException(nameof(operands));
             
@@ -62,32 +62,32 @@ namespace JJ.Business.Synthesizer.Wishes
             switch (term.Count)
             {
                 case 0:
-                    return new ChainedOutlet(this, _[0]);
+                    return new FluentOutlet(this, _[0]);
                 
                 case 1:
                     // Return single term
-                    return new ChainedOutlet(this, term[0]);
+                    return new FluentOutlet(this, term[0]);
                 
                 case 2:
                     // Simple Add for 2 Operands
-                    return new ChainedOutlet(this, _operatorFactory.Add(term[0], term[1]));
+                    return new FluentOutlet(this, _operatorFactory.Add(term[0], term[1]));
                 
                 default:
                     // Make Normal Adder
-                    return new ChainedOutlet(this, _operatorFactory.Adder(term));
+                    return new FluentOutlet(this, _operatorFactory.Adder(term));
             }
         }
 
         /// <inheritdoc cref="docs._add"/>
-        public ChainedOutlet Add(double operandA, double operandB) 
+        public FluentOutlet Add(double operandA, double operandB) 
             => Add(_[operandA], _[operandB]);
 
         /// <inheritdoc cref="docs._add"/>
-        public ChainedOutlet Add(Outlet operandA, double operandB) 
+        public FluentOutlet Add(Outlet operandA, double operandB) 
             => Add(operandA, _[operandB]);
 
         /// <inheritdoc cref="docs._add"/>
-        public ChainedOutlet Add(double operandA, Outlet operandB) 
+        public FluentOutlet Add(double operandA, Outlet operandB) 
             => Add(_[operandA], operandB);
 
         /// <summary> Alternative entry point (Operator) Outlet (used in tests). </summary>
@@ -133,17 +133,17 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Overloads
 
-        public ChainedOutlet Subtract(Outlet operandA, Outlet operandB)
-            => new ChainedOutlet(this, _operatorFactory.Substract(operandA, operandB));
+        public FluentOutlet Subtract(Outlet operandA, Outlet operandB)
+            => new FluentOutlet(this, _operatorFactory.Substract(operandA, operandB));
 
-        public ChainedOutlet Subtract(Outlet operandA, double operandB)
-            => new ChainedOutlet(this, _operatorFactory.Substract(operandA, _[operandB]));
+        public FluentOutlet Subtract(Outlet operandA, double operandB)
+            => new FluentOutlet(this, _operatorFactory.Substract(operandA, _[operandB]));
 
-        public ChainedOutlet Subtract(double operandA, Outlet operandB)
-            => new ChainedOutlet(this, _operatorFactory.Substract(_[operandA], operandB));
+        public FluentOutlet Subtract(double operandA, Outlet operandB)
+            => new FluentOutlet(this, _operatorFactory.Substract(_[operandA], operandB));
 
         /// <inheritdoc cref="docs._multiply"/>
-        public ChainedOutlet Multiply(Outlet operandA, Outlet operandB)
+        public FluentOutlet Multiply(Outlet operandA, Outlet operandB)
         {
             // Reverse operands increasing likelihood to have a 0-valued (volume) curve first.
             (operandA, operandB) = (operandB, operandA);
@@ -165,28 +165,28 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 case 0:
                     // Return identity 1
-                    return new ChainedOutlet(this, _[1]);
+                    return new FluentOutlet(this, _[1]);
                 
                 case 1:
                     // Return single number
-                    return new ChainedOutlet(this, factors[0]);
+                    return new FluentOutlet(this, factors[0]);
                 
                 case 2:
                     // Simple Multiply for 2 Operands
-                    return new ChainedOutlet(this, _operatorFactory.Multiply(factors[0], factors[1]));
+                    return new FluentOutlet(this, _operatorFactory.Multiply(factors[0], factors[1]));
                 
                 default:
                     // Re-nest remaining factors
-                    return new ChainedOutlet(this, NestMultiplications(factors));
+                    return new FluentOutlet(this, NestMultiplications(factors));
             }
         }
 
         /// <inheritdoc cref="docs._multiply"/>
-        public ChainedOutlet Multiply(Outlet operandA, double operandB)
+        public FluentOutlet Multiply(Outlet operandA, double operandB)
             => Multiply(operandA, _[operandB]);
 
         /// <inheritdoc cref="docs._multiply"/>
-        public ChainedOutlet Multiply(double operandA, Outlet operandB)
+        public FluentOutlet Multiply(double operandA, Outlet operandB)
             => Multiply(_[operandA], operandB);
 
         /// <summary> Alternative entry point (Operator) Outlet (used in tests). </summary>
@@ -241,65 +241,65 @@ namespace JJ.Business.Synthesizer.Wishes
             return _operatorFactory.Multiply(firstFactor, NestMultiplications(remainingFactors));
         }
         
-        public ChainedOutlet Divide(Outlet numerator, Outlet denominator)
-            => new ChainedOutlet(this, _operatorFactory.Divide(numerator, denominator));
+        public FluentOutlet Divide(Outlet numerator, Outlet denominator)
+            => new FluentOutlet(this, _operatorFactory.Divide(numerator, denominator));
 
-        public ChainedOutlet Divide(Outlet numerator, double denominator)
+        public FluentOutlet Divide(Outlet numerator, double denominator)
             => Divide(numerator, _[denominator]);
         
-        public ChainedOutlet Divide(double numerator, Outlet denominator)
+        public FluentOutlet Divide(double numerator, Outlet denominator)
             => Divide(_[numerator], denominator);
 
-        public ChainedOutlet Power(Outlet @base, Outlet exponent)
-            => new ChainedOutlet(this, _operatorFactory.Power(@base, exponent));
+        public FluentOutlet Power(Outlet @base, Outlet exponent)
+            => new FluentOutlet(this, _operatorFactory.Power(@base, exponent));
         
-        public ChainedOutlet Power(Outlet @base, double exponent)
+        public FluentOutlet Power(Outlet @base, double exponent)
             => Power(@base, _[exponent]);
 
-        public ChainedOutlet Power(double @base, Outlet exponent)
+        public FluentOutlet Power(double @base, Outlet exponent)
             => Power(_[@base], exponent);
 
         /// <inheritdoc cref="docs._sine" />
-        public ChainedOutlet Sine(Outlet pitch = null) 
-            => new ChainedOutlet(this, _operatorFactory.Sine(_[1], pitch ?? _[1]));
+        public FluentOutlet Sine(Outlet pitch = null) 
+            => new FluentOutlet(this, _operatorFactory.Sine(_[1], pitch ?? _[1]));
 
-        public ChainedOutlet Sine(double pitch)
+        public FluentOutlet Sine(double pitch)
             => Sine(_[pitch]);
         
-        public ChainedOutlet Delay(Outlet signal, Outlet timeDifference) 
-            => new ChainedOutlet(this, _operatorFactory.TimeAdd(signal, timeDifference));
+        public FluentOutlet Delay(Outlet signal, Outlet timeDifference) 
+            => new FluentOutlet(this, _operatorFactory.TimeAdd(signal, timeDifference));
 
-        public ChainedOutlet Delay(Outlet signal, double timeDifference)
+        public FluentOutlet Delay(Outlet signal, double timeDifference)
             => Delay(signal, _[timeDifference]);
         
-        public ChainedOutlet Skip(Outlet signal, Outlet timeDifference)
-            => new ChainedOutlet(this, _operatorFactory.TimeSubstract(signal, timeDifference));
+        public FluentOutlet Skip(Outlet signal, Outlet timeDifference)
+            => new FluentOutlet(this, _operatorFactory.TimeSubstract(signal, timeDifference));
 
-        public ChainedOutlet Skip(Outlet signal, double timeDifference)
+        public FluentOutlet Skip(Outlet signal, double timeDifference)
             => Skip(signal, _[timeDifference]);
         
-        public ChainedOutlet Stretch(Outlet signal, Outlet timeFactor) 
-            => new ChainedOutlet(this, _operatorFactory.TimeMultiply(signal, timeFactor ?? _[1]));
+        public FluentOutlet Stretch(Outlet signal, Outlet timeFactor) 
+            => new FluentOutlet(this, _operatorFactory.TimeMultiply(signal, timeFactor ?? _[1]));
 
-        public ChainedOutlet Stretch(Outlet signal, double timeFactor)
+        public FluentOutlet Stretch(Outlet signal, double timeFactor)
             => Stretch(signal, _[timeFactor]);
 
-        public ChainedOutlet Squash(Outlet signal, Outlet timeDivider)
-            => new ChainedOutlet(this, _operatorFactory.TimeDivide(signal, timeDivider));
+        public FluentOutlet Squash(Outlet signal, Outlet timeDivider)
+            => new FluentOutlet(this, _operatorFactory.TimeDivide(signal, timeDivider));
 
-        public ChainedOutlet Squash(Outlet signal, double timeDivider)
+        public FluentOutlet Squash(Outlet signal, double timeDivider)
             => Squash(signal, _[timeDivider]);
 
-        public ChainedOutlet TimePower(Outlet signal, Outlet exponent)
-            => new ChainedOutlet(this, _operatorFactory.TimePower(signal, exponent));
+        public FluentOutlet TimePower(Outlet signal, Outlet exponent)
+            => new FluentOutlet(this, _operatorFactory.TimePower(signal, exponent));
 
-        public ChainedOutlet TimePower(Outlet signal, double exponent)
+        public FluentOutlet TimePower(Outlet signal, double exponent)
             => TimePower(signal, _[exponent]);
         
         // Derived Operators
 
         /// <inheritdoc cref="docs._default" />
-        public ChainedOutlet StrikeNote(Outlet sound, Outlet delay = default, Outlet volume = default)
+        public FluentOutlet StrikeNote(Outlet sound, Outlet delay = default, Outlet volume = default)
         {
             // A little optimization, because so slow...
             bool delayFilledIn = delay != null && delay.AsConst() != 0;
@@ -308,23 +308,23 @@ namespace JJ.Business.Synthesizer.Wishes
             if (delayFilledIn) sound = Delay(sound, delay);
             if (volumeFilledIn) sound = Multiply(sound, volume);
 
-            return new ChainedOutlet(this, sound);
+            return new FluentOutlet(this, sound);
         }
 
         /// <inheritdoc cref="docs._default" />
-        public ChainedOutlet StrikeNote(Outlet sound, Outlet delay, double volume)
+        public FluentOutlet StrikeNote(Outlet sound, Outlet delay, double volume)
             =>  StrikeNote(sound, delay, _[volume]);
 
         /// <inheritdoc cref="docs._default" />
-        public ChainedOutlet StrikeNote(Outlet sound, double delay, Outlet volume = default)
+        public FluentOutlet StrikeNote(Outlet sound, double delay, Outlet volume = default)
             =>  StrikeNote(sound, _[delay], volume);
                 
         /// <inheritdoc cref="docs._default" />
-        public ChainedOutlet StrikeNote(Outlet sound, double delay, double volume)
+        public FluentOutlet StrikeNote(Outlet sound, double delay, double volume)
             =>  StrikeNote(sound, _[delay], _[volume]);
         
         /// <inheritdoc cref="docs._vibrato" />
-        public ChainedOutlet VibratoOverPitch(Outlet freq, (Outlet speed, Outlet depth) vibrato = default)
+        public FluentOutlet VibratoOverPitch(Outlet freq, (Outlet speed, Outlet depth) vibrato = default)
         {
             vibrato.speed = vibrato.speed ?? _[5.5];
             vibrato.depth = vibrato.depth ?? _[0.0005];
@@ -333,7 +333,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._vibrato" />
-        public ChainedOutlet VibratoOverPitch(Outlet freq, (Outlet speed, double depth) vibrato)
+        public FluentOutlet VibratoOverPitch(Outlet freq, (Outlet speed, double depth) vibrato)
         {
             (Outlet speed, Outlet depth) vibrato2 = default;
             if (vibrato.speed != default) vibrato2.speed = vibrato.speed;
@@ -342,7 +342,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._vibrato" />
-        public ChainedOutlet VibratoOverPitch(Outlet freq, (double speed, Outlet depth) vibrato)
+        public FluentOutlet VibratoOverPitch(Outlet freq, (double speed, Outlet depth) vibrato)
         {
             (Outlet speed, Outlet depth) vibrato2 = default;
             if (vibrato.speed != default) vibrato2.speed = _[vibrato.speed];
@@ -351,7 +351,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._vibrato" />
-        public ChainedOutlet VibratoOverPitch(Outlet freq, (double speed, double depth) vibrato)
+        public FluentOutlet VibratoOverPitch(Outlet freq, (double speed, double depth) vibrato)
         {
             (Outlet speed, Outlet depth) vibrato2 = default;
             if (vibrato.speed != default) vibrato2.speed = _[vibrato.speed];
@@ -360,7 +360,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._tremolo" />
-        public ChainedOutlet Tremolo(Outlet sound, (Outlet speed, Outlet depth) tremolo = default)
+        public FluentOutlet Tremolo(Outlet sound, (Outlet speed, Outlet depth) tremolo = default)
         {
             tremolo.speed = tremolo.speed ?? _[8];
             tremolo.depth = tremolo.depth ?? _[0.33];
@@ -369,7 +369,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._tremolo" />
-        public ChainedOutlet Tremolo(Outlet sound, (Outlet speed, double depth) tremolo)
+        public FluentOutlet Tremolo(Outlet sound, (Outlet speed, double depth) tremolo)
         {
             (Outlet speed, Outlet depth) tremolo2 = default;
             if (tremolo.speed != default) tremolo2.speed = tremolo.speed;
@@ -378,7 +378,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._tremolo" />
-        public ChainedOutlet Tremolo(Outlet sound, (double speed, Outlet depth) tremolo)
+        public FluentOutlet Tremolo(Outlet sound, (double speed, Outlet depth) tremolo)
         {
             (Outlet speed, Outlet depth) tremolo2 = default;
             if (tremolo.speed != default) tremolo2.speed = _[tremolo.speed];
@@ -387,7 +387,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._tremolo" />
-        public ChainedOutlet Tremolo(Outlet sound, (double speed, double depth) tremolo)
+        public FluentOutlet Tremolo(Outlet sound, (double speed, double depth) tremolo)
         {
             (Outlet speed, Outlet depth) tremolo2 = default;
             if (tremolo.speed != default) tremolo2.speed = _[tremolo.speed];
@@ -396,7 +396,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._panning" />
-        public ChainedOutlet Panning(Outlet sound, Outlet panning, ChannelEnum channel = default)
+        public FluentOutlet Panning(Outlet sound, Outlet panning, ChannelEnum channel = default)
         {
             if (channel == default) channel = Channel;
 
@@ -411,7 +411,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             switch (channel)
             {
-                case ChannelEnum.Single: return new ChainedOutlet(this, sound);
+                case ChannelEnum.Single: return new FluentOutlet(this, sound);
                 case ChannelEnum.Left:   return Multiply(sound, Subtract(_[1], panning));
                 case ChannelEnum.Right:  return Multiply(sound, panning);
 
@@ -420,7 +420,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._panning" />
-        public ChainedOutlet Panning(Outlet sound, double panning, ChannelEnum channel = default)
+        public FluentOutlet Panning(Outlet sound, double panning, ChannelEnum channel = default)
         {
             if (channel == default) channel = Channel;
 
@@ -429,7 +429,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             switch (channel)
             {
-                case ChannelEnum.Single: return new ChainedOutlet(this, sound);
+                case ChannelEnum.Single: return new FluentOutlet(this, sound);
                 case ChannelEnum.Left:   return Multiply(sound, _[1 - panning]);
                 case ChannelEnum.Right:  return Multiply(sound, _[panning]);
 
@@ -440,7 +440,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Panbrello
         
         /// <inheritdoc cref="docs._panbrello" />
-        public ChainedOutlet Panbrello(
+        public FluentOutlet Panbrello(
             Outlet sound, (Outlet speed, Outlet depth) panbrello = default, ChannelEnum channel = default)
         {
             if (channel == default) channel = Channel;
@@ -456,7 +456,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Panning(sound, zeroToOne, channel);
         }
 
-        public ChainedOutlet Panbrello(
+        public FluentOutlet Panbrello(
             Outlet sound, (Outlet speed, double depth) panbrello, ChannelEnum channel = default)
         {
             (Outlet speed, Outlet depth) panbrello2 = default;
@@ -465,7 +465,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Panbrello(sound, panbrello2, channel);
         }
 
-        public ChainedOutlet Panbrello(
+        public FluentOutlet Panbrello(
             Outlet sound, (double speed, Outlet depth) panbrello, ChannelEnum channel = default)
         {
             (Outlet speed, Outlet depth) panbrello2 = default;
@@ -474,7 +474,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Panbrello(sound, panbrello2, channel);
         }
 
-        public ChainedOutlet Panbrello(
+        public FluentOutlet Panbrello(
             Outlet sound, (double speed, double depth) panbrello, ChannelEnum channel = default)
         {
             (Outlet speed, Outlet depth) panbrello2 = default;
@@ -562,19 +562,19 @@ namespace JJ.Business.Synthesizer.Wishes
             double referenceFrequency, double referencePanning)
             => PitchPan(actualFrequency, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
         
-        public ChainedOutlet Echo(Outlet signal, Outlet magnitude = default, Outlet delay = default, int count = 8)
+        public FluentOutlet Echo(Outlet signal, Outlet magnitude = default, Outlet delay = default, int count = 8)
             => EchoFeedBack(signal, magnitude, delay, count);
 
-        public ChainedOutlet Echo(Outlet signal, Outlet magnitude, double delay, int count = 8)
+        public FluentOutlet Echo(Outlet signal, Outlet magnitude, double delay, int count = 8)
             => Echo(signal, magnitude, _[delay], count);
 
-        public ChainedOutlet Echo(Outlet signal, double magnitude, Outlet delay = default, int count = 8)
+        public FluentOutlet Echo(Outlet signal, double magnitude, Outlet delay = default, int count = 8)
             => Echo(signal, _[magnitude], delay, count);
         
-        public ChainedOutlet Echo(Outlet signal, double magnitude, double delay, int count = 8)
+        public FluentOutlet Echo(Outlet signal, double magnitude, double delay, int count = 8)
             => Echo(signal, _[magnitude], _[delay], count);
 
-        public ChainedOutlet EchoAdditive(
+        public FluentOutlet EchoAdditive(
             Outlet signal,
             Outlet magnitude = default, Outlet delay = default, int count = 8)
         {
@@ -598,13 +598,13 @@ namespace JJ.Business.Synthesizer.Wishes
             return adder;
         }
 
-        public ChainedOutlet EchoAdditive(Outlet signal, Outlet magnitude, double delay, int count = 8)
+        public FluentOutlet EchoAdditive(Outlet signal, Outlet magnitude, double delay, int count = 8)
             => EchoAdditive(signal, magnitude, _[delay], count);
 
-        public ChainedOutlet EchoAdditive(Outlet signal, double magnitude, Outlet delay = default, int count = 8)
+        public FluentOutlet EchoAdditive(Outlet signal, double magnitude, Outlet delay = default, int count = 8)
             => EchoAdditive(signal, _[magnitude], delay, count);
         
-        public ChainedOutlet EchoAdditive(Outlet signal, double magnitude, double delay, int count = 8)
+        public FluentOutlet EchoAdditive(Outlet signal, double magnitude, double delay, int count = 8)
             => EchoAdditive(signal, _[magnitude], _[delay], count);
         
         /// <summary>
@@ -615,7 +615,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// this optimization is currently ineffective. Future versions may improve on this.
         /// Keeping it in here just to have an optimization option for later.
         /// </summary>
-        public ChainedOutlet EchoFeedBack(
+        public FluentOutlet EchoFeedBack(
             Outlet signal,
             Outlet magnitude = default, Outlet delay = default, int count = 8)
         {
@@ -640,16 +640,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay = Add(cumulativeDelay, cumulativeDelay);
             }
 
-            return new ChainedOutlet(this, cumulativeSignal);
+            return new FluentOutlet(this, cumulativeSignal);
         }
         
-        public ChainedOutlet EchoFeedBack(Outlet signal, Outlet magnitude, double delay, int count = 8)
+        public FluentOutlet EchoFeedBack(Outlet signal, Outlet magnitude, double delay, int count = 8)
             => EchoFeedBack(signal, magnitude, _[delay], count);
 
-        public ChainedOutlet EchoFeedBack(Outlet signal, double magnitude, Outlet delay = default, int count = 8)
+        public FluentOutlet EchoFeedBack(Outlet signal, double magnitude, Outlet delay = default, int count = 8)
             => EchoFeedBack(signal, _[magnitude], delay, count);
         
-        public ChainedOutlet EchoFeedBack(Outlet signal, double magnitude, double delay, int count = 8)
+        public FluentOutlet EchoFeedBack(Outlet signal, double magnitude, double delay, int count = 8)
             => EchoFeedBack(signal, _[magnitude], _[delay], count);
 
         // ValueIndexer
@@ -672,11 +672,10 @@ namespace JJ.Business.Synthesizer.Wishes
             public ValueWrapper this[double value] => new ValueWrapper(_parent._operatorFactory.Value(value));
 
             /// <inheritdoc cref="docs._valueindexer" />
-            public ChainedOutlet this[Outlet outlet] => new ChainedOutlet(_parent, outlet);
+            public FluentOutlet this[Outlet outlet] => new FluentOutlet(_parent, outlet);
         }
      
         // Helpers
-
 
         /// <summary>
         /// Uses the channel specified by the <see cref="SynthWishes.Channel"/> property.

@@ -180,13 +180,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public void FM_RippleSound_FantasyEffect() => new FMTests().FM_RippleSound_FantasyEffect_RunTest();
 
         void FM_RippleSound_FantasyEffect_RunTest()
-            => PlayMono(() => DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DEEP_ECHO_TIME, volume: 0.05);
+            => PlayMono(() => DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DEEP_ECHO_TIME, volume: 0.10);
 
         [TestMethod]
         public void FM_RippleSound_CoolDouble() => new FMTests().FM_RippleSound_CoolDouble_RunTest();
 
         void FM_RippleSound_CoolDouble_RunTest()
-            => PlayMono(() => DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.05);
+            => PlayMono(() => DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.10);
 
         [TestMethod]
         public void FM_Noise_Beating() => new FMTests().FM_Noise_Beating_RunTest();
@@ -208,26 +208,26 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var pattern1 = Add
             (
-                Multiply(_[fluteVolume],      FluteMelody1),
-                Multiply(_[chordsVolume],     PadChords),
-                Multiply(_[tromboneVolume],   TromboneMelody1),
-                Multiply(_[hornVolume],       HornMelody1),
-                Multiply(_[rippleBassVolume], RippleBassMelody1)
+                Multiply(fluteVolume,      FluteMelody1),
+                Multiply(chordsVolume,     PadChords),
+                Multiply(tromboneVolume,   TromboneMelody1),
+                Multiply(hornVolume,       HornMelody1),
+                Multiply(rippleBassVolume, RippleBassMelody1)
             );
 
             var pattern2 = Add
             (
-                Multiply(_[fluteVolume],      FluteMelody2),
-                Multiply(_[tromboneVolume],   TromboneMelody2),
-                Multiply(_[hornVolume],       HornMelody2),
-                Multiply(_[rippleBassVolume], RippleBassMelody2)
+                Multiply(fluteVolume,      FluteMelody2),
+                Multiply(tromboneVolume,   TromboneMelody2),
+                Multiply(hornVolume,       HornMelody2),
+                Multiply(rippleBassVolume, RippleBassMelody2)
             );
 
             var composition = Add
             (
                 pattern1,
-                Delay(pattern2, bar[5])
-                //RippleSound_Clean(A4, delay: Bar[3], volume: _[0.50], duration: Bar(2))
+                Delay(pattern2, bar[5])//,
+                //RippleSound_Clean(A4, delay: bar[3], volume: _[0.50], duration: bars[2])
             );
 
             return composition;
@@ -348,7 +348,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            var fmSignal       = FMAround0(Divide(freq, _[2]), freq, _[0.005]);
+            var fmSignal       = FMAround0(Divide(freq, 2), freq, _[0.005]);
             var envelope       = Stretch(FluteCurve, duration);
             var modulatedSound = Multiply(fmSignal, envelope);
             var note           = StrikeNote(modulatedSound, delay, volume);
@@ -363,10 +363,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             freq   = freq ?? A4;
             volume = volume ?? _[1];
 
-            var fmSignal       = FMAroundFreq(freq, Multiply(freq, _[2]), _[0.005]);
+            var fmSignal       = FMAroundFreq(freq, Multiply(freq, 2), _[0.005]);
             var envelope       = Stretch(FluteCurve, duration);
             var modulatedSound = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume,   _[0.85]);
+            var adjustedVolume = Multiply(volume,   0.85);
             var note           = StrikeNote(modulatedSound, delay, adjustedVolume);
 
             return note;
@@ -379,10 +379,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             freq   = freq ?? A4;
             volume = volume ?? _[1];
 
-            var fmSignal       = FMAroundFreq(freq, Multiply(freq, _[4]), _[0.005]);
+            var fmSignal       = FMAroundFreq(freq, Multiply(freq, 4), _[0.005]);
             var envelope       = Stretch(FluteCurve, duration);
             var sound          = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume,   _[0.8]);
+            var adjustedVolume = Multiply(volume, 0.8);
             var note           = StrikeNote(sound, delay, adjustedVolume);
 
             return note;
@@ -395,10 +395,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             freq   = freq ?? A4;
             volume = volume ?? _[1];
 
-            var fmSignal       = FMAround0(Multiply(freq, _[2]), freq, _[0.005]);
+            var fmSignal       = FMAround0(Multiply(freq, 2), freq, _[0.005]);
             var envelope       = Stretch(FluteCurve, duration);
             var sound          = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume,   _[0.70]);
+            var adjustedVolume = Multiply(volume, 0.70);
             var note           = StrikeNote(sound, delay, adjustedVolume);
 
             return note;
@@ -411,8 +411,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             duration = duration ?? _[1];
 
             var modCurve = Stretch(ModTamingCurve, duration);
-            var modDepth = Multiply(_[0.0001], modCurve);
-            var fmSignal = FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth);
+            var modDepth = Multiply(0.0001, modCurve);
+            var fmSignal = FMAroundFreq(freq, Multiply(freq, 2), modDepth);
 
             var volumeEvenOutCurve  = Stretch(EvenOutCurve, duration);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
@@ -435,8 +435,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var fmSignal = Add
             (
-                FMAroundFreq(freq, Multiply(freq, _[2]), Multiply(_[0.00020], modCurve)),
-                FMAroundFreq(freq, Multiply(freq, _[3]), Multiply(_[0.00015], modCurve))
+                FMAroundFreq(freq, Multiply(freq, 2), Multiply(0.00020, modCurve)),
+                FMAroundFreq(freq, Multiply(freq, 3), Multiply(0.00015, modCurve))
             );
 
             var volumeEvenOutCurve  = Stretch(EvenOutCurve, duration);
@@ -461,11 +461,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             freq           = freq ?? A1;
             durationFactor = durationFactor ?? _[1];
 
-            var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, _[5]);
+            var fmSignal = FMInHertz(Multiply(freq, 2), freq, _[5]);
 
             // Exaggerate Duration when Lower
             var baseNote            = A1;
-            var baseNoteDuration    = Multiply(_[0.8], durationFactor);
+            var baseNoteDuration    = Multiply(0.8, durationFactor);
             var ratio               = Divide(baseNote, freq);
             var transformedDuration = Multiply(baseNoteDuration, Power(ratio, _[1.5]));
 
@@ -488,9 +488,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A2;
 
-            var tamedMod = Multiply(_[5], Stretch(ModTamingCurve2, duration));
+            var tamedMod = Multiply(5, Stretch(ModTamingCurve2, duration));
 
-            var fmSignal = FMInHertz(Multiply(freq, _[2]), freq, tamedMod);
+            var fmSignal = FMInHertz(Multiply(freq, 2), freq, tamedMod);
             var envelope = Stretch(BrassCurve, duration);
             var sound    = Multiply(fmSignal, envelope);
             var note     = StrikeNote(sound, delay, volume);
@@ -504,16 +504,16 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             freq   = freq ?? A4;
             volume = volume ?? _[1];
 
-            var modDepth = Multiply(_[0.02], Stretch(LineDownCurve, duration));
+            var modDepth = Multiply(0.02, Stretch(LineDownCurve, duration));
             var fmSignal = Add
             (
-                FMAroundFreq(freq, Multiply(freq, _[1.5]), modDepth),
-                FMAroundFreq(freq, Multiply(freq, _[2.0]), modDepth)
+                FMAroundFreq(freq, Multiply(freq, 1.5), modDepth),
+                FMAroundFreq(freq, Multiply(freq, 2.0), modDepth)
             );
 
             var envelope       = Stretch(DampedBlockCurve, duration);
             var modulatedSound = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume,   _[0.6]);
+            var adjustedVolume = Multiply(volume, 0.6);
             var note           = StrikeNote(modulatedSound, delay, adjustedVolume);
 
             return note;
@@ -526,7 +526,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A1;
 
-            var fmSignal = FMAroundFreq(Multiply(freq, _[8]), Divide(freq, _[2]), _[0.005]);
+            var fmSignal = FMAroundFreq(Multiply(freq, 8), Divide(freq, 2), _[0.005]);
             var note     = ShapeRippleSound(fmSignal, delay, volume, duration);
 
             return note;
@@ -538,7 +538,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         Outlet RippleNote_SharpMetallic(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
         {
             freq = freq ?? A3;
-            var fmSignal = FMInHertz(freq, Divide(freq, _[2]), _[10]);
+            var fmSignal = FMInHertz(freq, Divide(freq, 2), _[10]);
             var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
             return sound;
         }
@@ -626,19 +626,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
-            var modulator = Add(_[1], Multiply(Sine(modSpeed), modDepth));
+            var modulator = Add(1, Multiply(Sine(modSpeed), modDepth));
             var sound     = Sine(Multiply(soundFreq, modulator));
             return sound;
         }
 
         Outlet MildEcho(Outlet outlet)
-            => Echo(outlet, count: MILD_ECHO_COUNT, magnitude: _[0.25], delay: _[MILD_ECHO_DELAY]);
+            => Echo(outlet, count: MILD_ECHO_COUNT, magnitude: 0.25, delay: _[MILD_ECHO_DELAY]);
 
         /// <summary> Applies a deep echo effect to the specified sound. </summary>
         /// <param name="melody"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the deep echo effect applied. </returns>
         Outlet DeepEcho(Outlet melody)
-            => Echo(melody, count: DEEP_ECHO_COUNT, magnitude: _[0.5], delay: _[DEEP_ECHO_DELAY]);
+            => Echo(melody, count: DEEP_ECHO_COUNT, magnitude: 0.5, delay: DEEP_ECHO_DELAY);
 
         #endregion
 

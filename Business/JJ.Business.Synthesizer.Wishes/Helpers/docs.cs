@@ -156,14 +156,19 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// <returns> The adjusted panning value based on the pitch. </returns>
         /// <inheritdoc cref="_default" />
         public object _pitchpan;
- 
+
         /// <summary>
-        /// Shorthand for OperatorFactor.Value(123), x.Value(123) or Value(123). Allows using _[123] instead.
-        /// Literal numbers need to be wrapped inside a Value Operator so they can always be substituted by
-        /// a whole formula / graph / calculation / curve over time.
+        /// Colloquially called the "capture" operator.
+        /// Allows capturing double values into the synthesizer e.g. <c>_[440]</c>.
+        /// Shorthand for OperatorFactor.Value(123), x.Value(123) or Value(123).
+        /// It wraps a literal number inside a Value Operator, that can always be substituted by
+        /// a whole formula / graph / calculation / curve that varies over time.
+        /// The indexer can also be used to start fluent notation / method chaining e.g.
+        /// _[freq].Sine().Multiply(2), if chaining doesn't automatically happen.
         /// </summary>
         /// <returns>
-        /// ValueWrapper also usable as Outlet or double.
+        /// ValueWrapper also usable as an Outlet.
+        /// Or a fluent notation starter.
         /// </returns>
         public object _valueindexer;
 

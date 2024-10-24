@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             );
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Echo(Outlet sound) => Echo(sound, count: ECHO_COUNT, magnitude: _[0.33], delay: _[ECHO_DELAY]);
+        Outlet Echo(Outlet sound) => Echo(sound, count: ECHO_COUNT, magnitude: 0.33, delay: ECHO_DELAY);
 
 
         SampleOperatorWrapper _sample;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
@@ -213,26 +214,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void OperatorChaining_Test1()
+        public void Test_OperatorChaining_Notation1()
         {
             Play(() => Sine(A4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
 
         }
 
         [TestMethod]
-        public void OperatorChaining_Test2()
+        public void Test_OperatorChaining_Notation2()
         {
             Play(() => Fluent(A4).Sine().Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
         }
 
         [TestMethod]
-        public void OperatorChaining_Test3()
+        public void Test_OperatorChaining_Notation3()
         {
             Play(() => _[A4].Sine().Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
         }
 
         [TestMethod]
-        public void OperatorChaining_Test4()
+        public void Test_OperatorChaining_Notation4()
         {
             {
                 _[A4].Sine();
@@ -252,29 +253,52 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void OperatorChaining_Test5()
+        public void Test_OperatorChaining_Notation5()
         {
             var freq = A4;
 
-            Outlet sound()
-                => Multiply
-                (
-                    Add
-                    (
-                        _[freq].Multiply(1).Sine().Multiply(0.50).Panbrello(speed: 3.0, depth: 0.9),
-                        _[freq].Multiply(2).Sine().Multiply(0.08).Panbrello(speed: 2.0, depth: 0.4),
-                        _[freq].Multiply(3).Sine().Multiply(0.04).Panbrello(speed: 2.5, depth: 0.2)
-                    ),
-                    Curve(@"
+            Play(() => Multiply
+                 (
+                     Add
+                     (
+                         _[freq].Multiply(1).Sine().Multiply(0.50).Panbrello(speed: 3.0, depth: 0.9),
+                         _[freq].Multiply(2).Sine().Multiply(0.08).Panbrello(speed: 2.0, depth: 0.4),
+                         _[freq].Multiply(3).Sine().Multiply(0.04).Panbrello(speed: 2.5, depth: 0.2)
+                     ),
+                     Curve(@"
 
                        *
                            *
                                 *
                                         *
-                     *                              *")
-                );
+                     *                              *")//.Stretch(2)
+                 )/*, duration: 2*/);
+        }
 
-            Play(sound);
+    
+        [TestMethod]
+        public void Test_OperatorChaining_Notation6()
+        {
+            var freq = A4;
+
+            Channel = Single;
+            
+            Multiply
+            (
+                Add
+                (
+                    _[freq].Multiply(1).Sine().Multiply(0.50).Tremolo(speed: 3.0, depth: 0.9),
+                    _[freq].Multiply(2).Sine().Multiply(0.08).Tremolo(speed: 2.0, depth: 0.4),
+                    _[freq].Multiply(3).Sine().Multiply(0.04).Tremolo(speed: 2.5, depth: 0.2)
+                ),
+                Curve(@"
+
+                   *
+                       *
+                            *
+                                    *
+                 *                              *")
+            ).PlayMono();
         }
     }
 }
