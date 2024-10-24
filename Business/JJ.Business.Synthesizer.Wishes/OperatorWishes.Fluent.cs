@@ -4,6 +4,8 @@ using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Framework.Persistence;
+// ReSharper disable FieldCanBeMadeReadOnly.Local
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -218,97 +220,134 @@ namespace JJ.Business.Synthesizer.Wishes
             _synthWishes.Channel = _synthWishes.Single;
             _synthWishes.PlayMono(() => _thisOutlet);
         }
-
-        // TODO: Don't throw exceptions in C# operators. Use practical defaults instead.
         
         // C# Operators
         
         // Operator +
-
+        
         public static FluentOutlet operator +(FluentOutlet a, FluentOutlet b)
         {
-            if (a == null) throw new ArgumentNullException(nameof(a));
+            var synthWishes = EnsureSynthWishes(a, b);
+
+            a = a ?? synthWishes._[0];
+            b = b ?? synthWishes._[0];
+            
             return a.Plus(b);
         }
         
         public static FluentOutlet operator +(FluentOutlet a, double b)
         {
-            if (a == null) throw new ArgumentNullException(nameof(a));
+            var synthWishes = EnsureSynthWishes(a, b);
+            
+            a = a ?? synthWishes._[0];
+            
             return a.Plus(b);
         }
         
         public static FluentOutlet operator +(double a, FluentOutlet b)
         {
-            if (b == null) throw new ArgumentNullException(nameof(b));
-            var a2 = b._synthWishes._[a];
-            return a2.Plus(b);
+            var synthWishes = EnsureSynthWishes(a, b);
+
+            if (b == null) b = synthWishes._[0];
+            
+            return synthWishes._[a].Plus(b);
         }
 
         // Operator -
         
         public static FluentOutlet operator -(FluentOutlet a, FluentOutlet b)
         {
-            if (a == null) throw new ArgumentNullException(nameof(a));
-            if (b == null) throw new ArgumentNullException(nameof(b));
+            var synthWishes = EnsureSynthWishes(a, b);
+
+            a = a ?? synthWishes._[0];
+            b = b ?? synthWishes._[0];
+
             return a.Minus(b);
         }
         
         public static FluentOutlet operator -(FluentOutlet a, double b)
         {
-            if (a == null) throw new ArgumentNullException(nameof(a));
+            var synthWishes = EnsureSynthWishes(a, b);
+
+            a = a ?? synthWishes._[0];
+            
             return a.Minus(b);
         }
         
         public static FluentOutlet operator -(double a, FluentOutlet b)
         {
-            if (b == null) throw new ArgumentNullException(nameof(b));
-            var a2 = b._synthWishes._[a];
-            return a2.Minus(b);
-        }
+            var synthWishes = EnsureSynthWishes(a, b);
+            
+            b = b ?? synthWishes._[0];
 
+            return synthWishes._[a].Minus(b);
+        }
 
         // Operator *
         
         public static FluentOutlet operator *(FluentOutlet a, FluentOutlet b)
         {
-            if (a == null) throw new ArgumentNullException(nameof(a));
-            if (b == null) throw new ArgumentNullException(nameof(b));
+            var synthWishes = EnsureSynthWishes(a, b);
+            
+            a = a ?? synthWishes._[1];
+            b = b ?? synthWishes._[1];
+
             return a.Times(b);
         }
         
         public static FluentOutlet operator *(FluentOutlet a, double b)
         {
-            if (a == null) throw new ArgumentNullException(nameof(a));
+            var synthWishes = EnsureSynthWishes(a, b);
+            
+            a = a ?? synthWishes._[1];
+            
             return a.Times(b);
         }
         
         public static FluentOutlet operator *(double a, FluentOutlet b)
         {
-            if (b == null) throw new ArgumentNullException(nameof(b));
-            var a2 = b._synthWishes._[a];
-            return a2.Times(b);
+            var synthWishes = EnsureSynthWishes(a, b);
+            
+            b = b ?? synthWishes._[1];
+
+            return synthWishes._[a].Times(b);
         }
 
         // Operator /
         
         public static FluentOutlet operator /(FluentOutlet a, FluentOutlet b)
         {
-            if (a == null) throw new ArgumentNullException(nameof(a));
-            if (b == null) throw new ArgumentNullException(nameof(b));
+            var synthWishes = EnsureSynthWishes(a, b);
+            
+            a = a ?? synthWishes._[0];
+            b = b ?? synthWishes._[1];
+
             return a.Divide(b);
         }
         
         public static FluentOutlet operator /(FluentOutlet a, double b)
         {
-            if (a == null) throw new ArgumentNullException(nameof(a));
+            var synthWishes = EnsureSynthWishes(a, b);
+            
+            a = a ?? synthWishes._[0];
+            
             return a.Divide(b);
         }
         
         public static FluentOutlet operator /(double a, FluentOutlet b)
         {
-            if (b == null) throw new ArgumentNullException(nameof(b));
-            var a2 = b._synthWishes._[a];
-            return a2.Divide(b);
+            var synthWishes = EnsureSynthWishes(a, b);
+            
+            b = b ?? synthWishes._[1];
+            
+            return synthWishes._[a].Divide(b);
         }
+    
+        // Defaults SynthWishes preventing exceptions in C# operators, with context inequality as a trade-off.
+
+        private static SynthWishes EnsureSynthWishes(FluentOutlet a, FluentOutlet b) => a?._synthWishes ?? b?._synthWishes ?? DefaultSynthWishes;
+        private static SynthWishes EnsureSynthWishes(FluentOutlet a, double b) => a?._synthWishes ?? DefaultSynthWishes;
+        private static SynthWishes EnsureSynthWishes(double a, FluentOutlet b) => b?._synthWishes ?? DefaultSynthWishes;
+        private static SynthWishes DefaultSynthWishes = new SynthWishes(PersistenceHelper.CreateContext());
     }
 }
