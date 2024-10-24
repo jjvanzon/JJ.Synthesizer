@@ -159,16 +159,19 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         /// <summary>
         /// Colloquially called the "capture" operator.
-        /// Allows capturing double values into the synthesizer e.g. <c>_[440]</c>.
-        /// Shorthand for OperatorFactor.Value(123), x.Value(123) or Value(123).
-        /// It wraps a literal number inside a Value Operator, that can always be substituted by
-        /// a whole formula / graph / calculation / curve that varies over time.
-        /// The indexer can also be used to start fluent notation / method chaining e.g.
-        /// _[freq].Sine().Multiply(2), if chaining doesn't automatically happen.
+        /// Allows capturing double values into the synthesizer,
+        /// and can be used to start fluent notation / method chaining.
+        /// Double values can be captured as follows: <c>_[440]</c>
+        /// It wraps a literal number inside a Value <see cref="Operator"/>, 
+        /// so that can always be substituted by a whole formula /
+        /// graph / calculation / curve that varies over time for added flexibility.
+        /// Here is an example of using it to start fluent notation / method chaining:
+        /// <c>_[freq].Sine.Multiply(2)</c>
+        /// Sometimes capturing goes automatically, so only use it, if it otherwise won't take it.
         /// </summary>
         /// <returns>
-        /// ValueWrapper also usable as an Outlet.
-        /// Or a fluent notation starter.
+        /// <see cref="ValueWrapper"/> also usable as an <see cref="Outlet"/>.
+        /// Or the fluent notation starter <see cref="FluentOutlet"/>.
         /// </returns>
         public object _valueindexer;
 
