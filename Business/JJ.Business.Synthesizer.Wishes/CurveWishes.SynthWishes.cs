@@ -34,7 +34,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return _[wrapper];
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(IList<NodeInfo> nodeInfos)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos));
@@ -52,7 +51,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return _[wrapper];
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
         {
             CurveInWrapper wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos));
@@ -76,7 +74,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="CurveFactory.CreateCurve(double, double?[])" />
         /// <inheritdoc cref="docs._createcurve" />
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(params double?[] values)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values));
@@ -98,7 +95,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._createcurvewithtuples" />
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(IList<(double time, double value)> nodeTuples)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples));
@@ -118,7 +114,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._createcurvewithtuples" />
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples));
@@ -132,7 +127,6 @@ namespace JJ.Business.Synthesizer.Wishes
         // Overload with Strings
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(string text)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(text));
@@ -144,7 +138,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(string name, string text)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(text));
@@ -155,7 +148,6 @@ namespace JJ.Business.Synthesizer.Wishes
         // Overload with String and Ranges
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(
             string name,
             (double start, double end) x,
@@ -168,7 +160,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(
             (double start, double end) x,
             (double min, double max) y,
