@@ -34,8 +34,8 @@ namespace JJ.Business.Synthesizer.Wishes
         // Start Chaining
         
         public FluentOutlet Fluent(Outlet outlet)
-            => new FluentOutlet(this, outlet);
-
+            => _[outlet];
+        
         // Basic Operators
 
         /// <inheritdoc cref="docs._add"/>
@@ -62,19 +62,19 @@ namespace JJ.Business.Synthesizer.Wishes
             switch (term.Count)
             {
                 case 0:
-                    return new FluentOutlet(this, _[0]);
+                    return _[_[0]];
                 
                 case 1:
                     // Return single term
-                    return new FluentOutlet(this, term[0]);
+                    return _[term[0]];
                 
                 case 2:
                     // Simple Add for 2 Operands
-                    return new FluentOutlet(this, _operatorFactory.Add(term[0], term[1]));
+                    return _[_operatorFactory.Add(term[0], term[1])];
                 
                 default:
                     // Make Normal Adder
-                    return new FluentOutlet(this, _operatorFactory.Adder(term));
+                    return _[_operatorFactory.Adder(term)];
             }
         }
 
@@ -134,13 +134,13 @@ namespace JJ.Business.Synthesizer.Wishes
         // Overloads
 
         public FluentOutlet Subtract(Outlet operandA, Outlet operandB)
-            => new FluentOutlet(this, _operatorFactory.Substract(operandA, operandB));
+            => _[_operatorFactory.Substract(operandA, operandB)];
 
         public FluentOutlet Subtract(Outlet operandA, double operandB)
-            => new FluentOutlet(this, _operatorFactory.Substract(operandA, _[operandB]));
+            => _[_operatorFactory.Substract(operandA, _[operandB])];
 
         public FluentOutlet Subtract(double operandA, Outlet operandB)
-            => new FluentOutlet(this, _operatorFactory.Substract(_[operandA], operandB));
+            => _[_operatorFactory.Substract(_[operandA], operandB)];
 
         /// <inheritdoc cref="docs._multiply"/>
         public FluentOutlet Multiply(Outlet operandA, Outlet operandB)
@@ -165,19 +165,19 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 case 0:
                     // Return identity 1
-                    return new FluentOutlet(this, _[1]);
+                    return _[_[1]];
                 
                 case 1:
                     // Return single number
-                    return new FluentOutlet(this, factors[0]);
+                    return _[factors[0]];
                 
                 case 2:
                     // Simple Multiply for 2 Operands
-                    return new FluentOutlet(this, _operatorFactory.Multiply(factors[0], factors[1]));
+                    return _[_operatorFactory.Multiply(factors[0], factors[1])];
                 
                 default:
                     // Re-nest remaining factors
-                    return new FluentOutlet(this, NestMultiplications(factors));
+                    return _[NestMultiplications(factors)];
             }
         }
 
@@ -242,7 +242,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         public FluentOutlet Divide(Outlet numerator, Outlet denominator)
-            => new FluentOutlet(this, _operatorFactory.Divide(numerator, denominator));
+            => _[_operatorFactory.Divide(numerator, denominator)];
 
         public FluentOutlet Divide(Outlet numerator, double denominator)
             => Divide(numerator, _[denominator]);
@@ -251,7 +251,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => Divide(_[numerator], denominator);
 
         public FluentOutlet Power(Outlet @base, Outlet exponent)
-            => new FluentOutlet(this, _operatorFactory.Power(@base, exponent));
+            => _[_operatorFactory.Power(@base, exponent)];
         
         public FluentOutlet Power(Outlet @base, double exponent)
             => Power(@base, _[exponent]);
@@ -261,37 +261,37 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._sine" />
         public FluentOutlet Sine(Outlet pitch = null) 
-            => new FluentOutlet(this, _operatorFactory.Sine(_[1], pitch ?? _[1]));
+            => _[_operatorFactory.Sine(_[1], pitch ?? _[1])];
 
         public FluentOutlet Sine(double pitch)
             => Sine(_[pitch]);
         
         public FluentOutlet Delay(Outlet signal, Outlet timeDifference) 
-            => new FluentOutlet(this, _operatorFactory.TimeAdd(signal, timeDifference));
+            => _[_operatorFactory.TimeAdd(signal, timeDifference)];
 
         public FluentOutlet Delay(Outlet signal, double timeDifference)
             => Delay(signal, _[timeDifference]);
         
         public FluentOutlet Skip(Outlet signal, Outlet timeDifference)
-            => new FluentOutlet(this, _operatorFactory.TimeSubstract(signal, timeDifference));
+            => _[_operatorFactory.TimeSubstract(signal, timeDifference)];
 
         public FluentOutlet Skip(Outlet signal, double timeDifference)
             => Skip(signal, _[timeDifference]);
         
         public FluentOutlet Stretch(Outlet signal, Outlet timeFactor) 
-            => new FluentOutlet(this, _operatorFactory.TimeMultiply(signal, timeFactor ?? _[1]));
+            => _[_operatorFactory.TimeMultiply(signal, timeFactor ?? _[1])];
 
         public FluentOutlet Stretch(Outlet signal, double timeFactor)
             => Stretch(signal, _[timeFactor]);
 
         public FluentOutlet Squash(Outlet signal, Outlet timeDivider)
-            => new FluentOutlet(this, _operatorFactory.TimeDivide(signal, timeDivider));
+            => _[_operatorFactory.TimeDivide(signal, timeDivider)];
 
         public FluentOutlet Squash(Outlet signal, double timeDivider)
             => Squash(signal, _[timeDivider]);
 
         public FluentOutlet TimePower(Outlet signal, Outlet exponent)
-            => new FluentOutlet(this, _operatorFactory.TimePower(signal, exponent));
+            => _[_operatorFactory.TimePower(signal, exponent)];
 
         public FluentOutlet TimePower(Outlet signal, double exponent)
             => TimePower(signal, _[exponent]);
@@ -308,7 +308,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (delayFilledIn) sound = Delay(sound, delay);
             if (volumeFilledIn) sound = Multiply(sound, volume);
 
-            return new FluentOutlet(this, sound);
+            return _[sound];
         }
 
         /// <inheritdoc cref="docs._default" />
@@ -411,7 +411,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             switch (channel)
             {
-                case ChannelEnum.Single: return new FluentOutlet(this, sound);
+                case ChannelEnum.Single: return _[sound];
                 case ChannelEnum.Left:   return Multiply(sound, Subtract(_[1], panning));
                 case ChannelEnum.Right:  return Multiply(sound, panning);
 
@@ -429,7 +429,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             switch (channel)
             {
-                case ChannelEnum.Single: return new FluentOutlet(this, sound);
+                case ChannelEnum.Single: return _[sound];
                 case ChannelEnum.Left:   return Multiply(sound, _[1 - panning]);
                 case ChannelEnum.Right:  return Multiply(sound, _[panning]);
 
@@ -640,7 +640,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay = Add(cumulativeDelay, cumulativeDelay);
             }
 
-            return new FluentOutlet(this, cumulativeSignal);
+            return _[cumulativeSignal];
         }
         
         public FluentOutlet EchoFeedBack(Outlet signal, Outlet magnitude, double delay, int count = 8)
