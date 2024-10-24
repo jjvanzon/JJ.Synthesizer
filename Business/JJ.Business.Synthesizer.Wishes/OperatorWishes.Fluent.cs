@@ -4,7 +4,6 @@ using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Persistence;
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -227,7 +226,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator +(FluentOutlet a, FluentOutlet b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
 
             a = a ?? synthWishes._[0];
             b = b ?? synthWishes._[0];
@@ -237,7 +236,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator +(FluentOutlet a, double b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
             
             a = a ?? synthWishes._[0];
             
@@ -246,7 +245,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator +(double a, FluentOutlet b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
 
             if (b == null) b = synthWishes._[0];
             
@@ -257,7 +256,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator -(FluentOutlet a, FluentOutlet b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
 
             a = a ?? synthWishes._[0];
             b = b ?? synthWishes._[0];
@@ -267,7 +266,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator -(FluentOutlet a, double b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
 
             a = a ?? synthWishes._[0];
             
@@ -276,7 +275,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator -(double a, FluentOutlet b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
             
             b = b ?? synthWishes._[0];
 
@@ -287,7 +286,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator *(FluentOutlet a, FluentOutlet b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
             
             a = a ?? synthWishes._[1];
             b = b ?? synthWishes._[1];
@@ -297,7 +296,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator *(FluentOutlet a, double b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
             
             a = a ?? synthWishes._[1];
             
@@ -306,7 +305,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator *(double a, FluentOutlet b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
             
             b = b ?? synthWishes._[1];
 
@@ -317,7 +316,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator /(FluentOutlet a, FluentOutlet b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
             
             a = a ?? synthWishes._[0];
             b = b ?? synthWishes._[1];
@@ -327,7 +326,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator /(FluentOutlet a, double b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
             
             a = a ?? synthWishes._[0];
             
@@ -336,18 +335,26 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator /(double a, FluentOutlet b)
         {
-            var synthWishes = EnsureSynthWishes(a, b);
+            var synthWishes = GetSynthWishesOrThrow(a, b);
             
             b = b ?? synthWishes._[1];
             
             return synthWishes._[a].Divide(b);
         }
     
-        // Defaults SynthWishes preventing exceptions in C# operators, with context inequality as a trade-off.
+        // Defaults SynthWishes preventing most exceptions in the C# operators.
 
-        private static SynthWishes EnsureSynthWishes(FluentOutlet a, FluentOutlet b) => a?._synthWishes ?? b?._synthWishes ?? DefaultSynthWishes;
-        private static SynthWishes EnsureSynthWishes(FluentOutlet a, double b) => a?._synthWishes ?? DefaultSynthWishes;
-        private static SynthWishes EnsureSynthWishes(double a, FluentOutlet b) => b?._synthWishes ?? DefaultSynthWishes;
-        private static SynthWishes DefaultSynthWishes = new SynthWishes(PersistenceHelper.CreateContext());
+        private static SynthWishes GetSynthWishesOrThrow(FluentOutlet a, FluentOutlet b) 
+            => a?._synthWishes ?? b?._synthWishes ?? throw new Exception(noSynthWishesMessage);
+
+        private static SynthWishes GetSynthWishesOrThrow(FluentOutlet a, double b) 
+            => a?._synthWishes ?? throw new Exception(noSynthWishesMessage);
+
+        private static SynthWishes GetSynthWishesOrThrow(double a, FluentOutlet b) 
+            => b?._synthWishes ?? throw new Exception(noSynthWishesMessage);
+
+        private const string noSynthWishesMessage = 
+            "Cannot perform math operator when no Outlet is involved "+
+            "to provide the Context in which to create more Outlets.";
     }
 }
