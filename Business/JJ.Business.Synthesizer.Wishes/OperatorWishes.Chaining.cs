@@ -218,5 +218,91 @@ namespace JJ.Business.Synthesizer.Wishes
             _synthWishes.Channel = _synthWishes.Single;
             _synthWishes.PlayMono(() => _thisOutlet);
         }
-    }
+
+        // C# Operators
+        
+        // Operator +
+
+        public static double operator +(FluentOutlet a, FluentOutlet b)
+        {
+            if (a == null) throw new ArgumentNullException(nameof(a));
+            if (b == null) throw new ArgumentNullException(nameof(b));
+            return a.Value + b.Value;
+        }
+        
+        public static double operator +(FluentOutlet a, double b)
+        {
+            if (a == null) throw new ArgumentNullException(nameof(a));
+            return a.Value + b;
+        }
+        
+        public static double operator +(double a, FluentOutlet b)
+        {
+            if (b == null) throw new ArgumentNullException(nameof(b));
+            return a + b.Value;
+        }
+
+        // Operator -
+        
+        public static double operator -(FluentOutlet a, FluentOutlet b)
+        {
+            if (a == null) throw new ArgumentNullException(nameof(a));
+            if (b == null) throw new ArgumentNullException(nameof(b));
+            return a.Value - b.Value;
+        }
+        
+        public static double operator -(FluentOutlet a, double b)
+        {
+            if (a == null) throw new ArgumentNullException(nameof(a));
+            return a.Value - b;
+        }
+        
+        public static double operator -(double a, FluentOutlet b)
+        {
+            if (b == null) throw new ArgumentNullException(nameof(b));
+            return a - b.Value;
+        }
+
+        // Operator *
+        
+        public static double operator *(FluentOutlet a, FluentOutlet b)
+        {
+            if (a == null) throw new ArgumentNullException(nameof(a));
+            if (b == null) throw new ArgumentNullException(nameof(b));
+            return a.Value * b.Value;
+        }
+        
+        public static double operator *(FluentOutlet a, double b)
+        {
+            if (a == null) throw new ArgumentNullException(nameof(a));
+            return a.Value * b;
+        }
+        
+        public static double operator *(double a, FluentOutlet b)
+        {
+            if (b == null) throw new ArgumentNullException(nameof(b));
+            return a * b.Value;
+        }
+
+        // Operator /
+        
+        public static double operator /(FluentOutlet a, FluentOutlet b)
+        {
+            if (a == null) throw new ArgumentNullException(nameof(a));
+            if (b == null) throw new ArgumentNullException(nameof(b));
+            return a.Value / b.Value;
+        }
+        
+        public static double operator /(FluentOutlet a, double b)
+        {
+            if (a == null) throw new ArgumentNullException(nameof(a));
+            return a.Value / b;
+        }
+        
+        public static double operator /(double a, FluentOutlet b)
+        {
+            if (b == null) throw new ArgumentNullException(nameof(b));
+            return a / b.Value;
+        }
+}
 }

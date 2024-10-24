@@ -61,8 +61,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="BarIndexer" />
-            public ValueWrapper this[double count]
-                => new ValueWrapper(_parent._operatorFactory.Value((count - 1) * _barDuration));
+            public FluentOutlet this[double count]
+                => _parent._[(count - 1) * _barDuration];
         }
 
         /// <summary>
@@ -82,8 +82,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="BarsIndexer" />
-            public ValueWrapper this[double count]
-                => new ValueWrapper(_parent._operatorFactory.Value(count * _barDuration));
+            public FluentOutlet this[double count]
+                => _parent._[count * _barDuration];
         }
 
         /// <summary>
@@ -103,8 +103,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="BeatIndexer" />
-            public ValueWrapper this[double count]
-                => new ValueWrapper(_parent._operatorFactory.Value((count - 1) * _beatDuration));
+            public FluentOutlet this[double count]
+            {
+                get
+                {
+                    double value = (count - 1) * _beatDuration;
+                    return _parent._[value];
+                }
+            }
         }
 
         /// <summary>
@@ -124,8 +130,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="BeatsIndexer" />
-            public ValueWrapper this[double count]
-                => new ValueWrapper(_parent._operatorFactory.Value(count * _beatLength));
+            public FluentOutlet this[double count]
+                => _parent._[count * _beatLength];
         }
 
         /// <summary>
@@ -149,8 +155,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="TimeIndexer" />
-            public ValueWrapper this[double bar, double beat]
-                => new ValueWrapper(_parent._operatorFactory.Value((bar - 1) * _barLength + (beat - 1) * _beatLength));
+            public FluentOutlet this[double bar, double beat]
+            {
+                get
+                {
+                    double value = (bar - 1) * _barLength + (beat - 1) * _beatLength;
+                    return _parent._[value];
+                }
+            }
         }
     }
 }

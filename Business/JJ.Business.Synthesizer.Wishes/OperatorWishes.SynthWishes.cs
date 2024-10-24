@@ -644,7 +644,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="docs._valueindexer" />
-            public FluentOutlet this[double value] => new FluentOutlet(_parent, new ValueWrapper(_parent._operatorFactory.Value(value)));
+            public FluentOutlet this[double value] => new FluentOutlet(_parent, _parent._operatorFactory.Value(value));
 
             /// <inheritdoc cref="docs._valueindexer" />
             public FluentOutlet this[Outlet outlet] => new FluentOutlet(_parent, outlet);
