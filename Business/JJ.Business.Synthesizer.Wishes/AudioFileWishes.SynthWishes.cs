@@ -281,7 +281,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 string realTimeMessage = FormatRealTimeMessage(duration, stopWatch);
                 string sep = realTimeMessage != default ? ", " : "";
                 
-                lines.Add($"{realTimeMessage}{sep}Complexity: {complexity}");
+                lines.Add($"{realTimeMessage}{sep}Complexity O({complexity})");
                 lines.Add("");
 
                 lines.Add($"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s");
