@@ -262,10 +262,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return Add
             (
-                _[freq].Multiply(1).Sine * 1.0,
-                _[freq].Multiply(2).Sine * 0.5,
-                _[freq].Multiply(3).Sine * 0.3, 
-                _[freq].Multiply(4).Sine * 0.2
+                _[freq].Times(1).Sine * 1.0,
+                _[freq].Times(2).Sine * 0.5,
+                _[freq].Times(3).Sine * 0.3, 
+                _[freq].Times(4).Sine * 0.2
             );
         }
 
@@ -292,11 +292,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
              
             return Add
             (
-                DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate).Sine * 1.00,
-                DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate).Sine * 0.30,
-                DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate).Sine * 0.15,
-                DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate).Sine * 0.08,
-                DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate).Sine * 0.10
+                1.00 * Sine(DetuneFreq(freq, _[1], duration, churnRate, interferenceRate, chorusRate)),
+                0.30 * Sine(DetuneFreq(freq, _[2], duration, churnRate, interferenceRate, chorusRate)),
+                0.15 * Sine(DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate)),
+                0.08 * Sine(DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate)),
+                0.10 * Sine(DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate))
             );
         }
 
@@ -305,7 +305,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         #region Effects
 
         /// <inheritdoc cref="_detunedocs" />
-        FluentOutlet DetuneFreq(
+        Outlet DetuneFreq(
             Outlet freq, Outlet harmonic, Outlet duration,
             Outlet churnRate = null, Outlet interfereRate = null, Outlet chorusRate = null)
         {
@@ -339,11 +339,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             depthAdjust1 = depthAdjust1 ?? _[0.005];
             depthAdjust2 = depthAdjust2 ?? _[0.250];
 
-            var tremoloWave1 = Multiply(_[depthAdjust1].Add(1), Sine(5.5)); // 5.5 Hz _tremolo
-            sound = Multiply(sound, tremoloWave1);
+            var tremoloWave1 = Sine(5.5) * _[depthAdjust1].Add(1); // 5.5 Hz _tremolo
+            sound = _[sound] * _[tremoloWave1];
 
-            var tremoloWave2 = Multiply(_[depthAdjust2].Add(1), Sine(4)); // 4 Hz _tremolo
-            sound = Multiply(sound, tremoloWave2);
+            var tremoloWave2 = Sine(4.0) * _[depthAdjust2].Add(1); // 4 Hz _tremolo
+            sound = _[sound] * _[tremoloWave2];
 
             return sound;
         }
