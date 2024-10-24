@@ -138,7 +138,7 @@
     <None Include=".editorconfig" />
     <Content Include="app.config.example.xml" />
     <Compile Include="OperatorWishes.SynthWishes.cs" />
-    <Compile Include="OperatorWishes.Chaining.cs" />
+    <Compile Include="OperatorWishes.Fluent.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
