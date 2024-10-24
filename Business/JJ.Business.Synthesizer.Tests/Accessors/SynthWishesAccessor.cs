@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using JJ.Business.Synthesizer.EntityWrappers;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
@@ -15,11 +13,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         {
             _accessor = new Accessor(obj, typeof(SynthWishes));
         }
-
-        //public CurveInWrapper GetOrCreateCurveIn(string name, Func<FluentOutlet> func)
-        //{
-        //    return (CurveInWrapper)_accessor.InvokeMethod(nameof(GetOrCreateCurveIn), name, func);
-        //}
 
         public IList<Outlet> FlattenTerms(Outlet sumOrAdd)
         {

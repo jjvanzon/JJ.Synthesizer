@@ -10,30 +10,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class CurveWishesTests : SynthWishes
     {
-        //[TestMethod]
-        //public void CurveWishes_SynthesizerSugar_GetCurve() 
-        //    => new CurveWishesTests().CurveWishes_SynthesizerSugar_GetCurve_RunTest();
-
-        //void CurveWishes_SynthesizerSugar_GetCurve_RunTest()
-        //{
-        //    // Arrange
-        //    var curve1_cached = Curve("Curve1", (0, 1), (1, 0));
-        //    var curve2_cached = Curve("Curve2", (0, 0), (0.5, 1), (1, 0));
-
-        //    // Act
-        //    var curve1_reused = GetCurve("Curve1");
-        //    var curve2_reused = GetCurve("Curve2");
-
-        //    // Assert
-        //    AssertHelper.AreEqual(curve1_cached, () => curve1_reused);
-        //    AssertHelper.AreEqual(curve2_cached, () => curve2_reused);
-            
-        //    // Diagnostics
-        //    SaveAudioMono(() => curve1_cached, fileName: Name() + "_Curve1.wav");
-        //    SaveAudioMono(() => curve2_cached, fileName: Name() + "_Curve2.wav");
-        //}
-
-        
         [TestMethod]
         public void AsciiCurves_OneStringPerLine_WithRange()
         {
