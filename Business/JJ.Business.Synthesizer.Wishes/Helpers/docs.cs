@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
         /// </summary>
         /// <inheritdoc cref="_createcurve" />
-        public object _createcurvefromstrings;
+        public object _createcurvefromstring;
 
         /// <summary>
         /// Create a curve from a list of tuples like (0, 0), (0.1, 0.2), (0.2, 1.0).<br />

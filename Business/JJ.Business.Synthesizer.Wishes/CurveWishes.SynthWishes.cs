@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
@@ -132,7 +131,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Overload with Strings
 
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstring" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(string text)
         {
@@ -144,93 +143,38 @@ namespace JJ.Business.Synthesizer.Wishes
             return _[wrapper];
         }
 
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
-        public FluentOutlet Curve(string name, IList<string> lines)
+        /// <inheritdoc cref="docs._createcurvefromstring" />
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public FluentOutlet Curve(string name, string text)
         {
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(lines));
+            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(text));
             AssignNames(wrapper, name);
-            return _[wrapper];
-        }
-
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public FluentOutlet Curve(IList<string> lines)
-        {
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(lines));
-            
-            string hintName = new StackFrame(1).GetMethod().Name;
-            AssignNames(wrapper, hintName);
-            
-            return _[wrapper];
-        }
-
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public FluentOutlet Curve(string requiredFirstLine, params string[] remainingLines)
-        {
-            string[] combinedLines = new[] { requiredFirstLine }.Concat(remainingLines).ToArray();
-            
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(combinedLines));
-
-            string hint = new StackFrame(1).GetMethod().Name;
-            AssignNames(wrapper, hint);
-            
             return _[wrapper];
         }
 
         // Overload with String and Ranges
 
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstring" />
+        [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(
             string name,
             (double start, double end) x,
             (double min, double max) y,
-            string requiredFirstLine,
-            params string[] remainingLines)
+            string text)
         {
-            string[] combinedLines = new[] { requiredFirstLine }.Concat(remainingLines).ToArray();
-            
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, combinedLines));
-            
+            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, text));
             AssignNames(wrapper, name);
-            
             return _[wrapper];
         }
 
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstring" />
         [MethodImpl(MethodImplOptions.NoInlining)]
         public FluentOutlet Curve(
             (double start, double end) x,
             (double min, double max) y,
-            string line1, // Enforces at least 1 line
-            params string[] remainingLines)
+            string text)
         {
-            string[] combinedLines = new[] { line1 }.Concat(remainingLines).ToArray();
-            
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, combinedLines));
-
-            string hintName = new StackFrame(1).GetMethod().Name;
-            AssignNames(wrapper, hintName);
-            
-            return _[wrapper];
-        }
-
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
-        public FluentOutlet Curve(
-            string name,
-            (double start, double end) x,
-            (double min, double max) y,
-            IList<string> lines)
-            => _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, lines))];
-
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public FluentOutlet Curve(
-            (double start, double end) x,
-            (double min, double max) y,
-            IList<string> lines)
-        {
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, lines));
+            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, text));
             
             string hintName = new StackFrame(1).GetMethod().Name;
             AssignNames(wrapper, hintName);

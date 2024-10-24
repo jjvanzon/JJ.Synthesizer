@@ -30,32 +30,19 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // ASCII Curves
 
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
-        public static Curve CreateCurve(this CurveFactory curveFactory, IList<string> lines)
-            => curveFactory.CreateCurve(0, 1, 0, 1, lines?.ToList());
+        /// <inheritdoc cref="docs._createcurvefromstring" />
+        public static Curve CreateCurve(this CurveFactory curveFactory, string text)
+            => curveFactory.CreateCurve(0, 1, 0, 1, text);
 
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
-        public static Curve CreateCurve(this CurveFactory curveFactory, params string[] lines)
-            => curveFactory.CreateCurve(0, 1, 0, 1, lines?.ToList());
-
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
+        /// <inheritdoc cref="docs._createcurvefromstring" />
         public static Curve CreateCurve(
             this CurveFactory curveFactory,
-            double start = 0, double end = 1, double min = 0, double max = 1,
-            params string[] lines)
-            => curveFactory.CreateCurve(start, end, min, max, lines?.ToList());
-
-        /// <inheritdoc cref="docs._createcurvefromstrings" />
-        public static Curve CreateCurve(
-            this CurveFactory curveFactory,
-            double start = 0, double end = 1, double min = 0, double max = 1,
-            IList<string> lines = null)
+            double start = 0, double end = 1, double min = 0, double max = 1, string text = null)
         {
             if (curveFactory == null) throw new ArgumentNullException(nameof(curveFactory));
-            if (lines == null) throw new ArgumentNullException(nameof(lines));
-            if (lines.Count == 0) throw new Exception($"{lines} collection empty.");
+            if (string.IsNullOrWhiteSpace(text)) throw new ArgumentNullException(nameof(text));
 
-            lines = TrimAsciiCurve(lines);
+            var lines = TrimAsciiCurve(text);
 
             // Helper variables
             double timeSpan = end - start;
@@ -97,6 +84,13 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return curveFactory.CreateCurve(nodes);
         }
+
+        /// <summary>
+        /// Prep Data: Split into unique lines and determine the window where there are characters.
+        /// White space is trimmed off of the top, bottom, left and right,
+        /// leaving only the block of characters that contains data.
+        /// </summary>
+        private static IList<string> TrimAsciiCurve(string text) => TrimAsciiCurve(new [] { text });
 
         /// <summary>
         /// Prep Data: Split into unique lines and determine the window where there are characters.

@@ -1,8 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -11,53 +9,34 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class CurveWishesTests : SynthWishes
     {
         [TestMethod]
-        public void AsciiCurves_OneStringPerLine_WithRange()
+        public void AsciiCurves_WithoutRange()
         {
-            var curve = CreateAsciiCurve_OneStringPerLine_WithRange();
-            SaveAudioMono(() => curve, duration: 4);
-        }
-        
-        [TestMethod]
-        public void AsciiCurves_OneStringPerLine_WithoutRange()
-        {
-            var curve = CreateAsciiCurve_OneStringPerLine_WithoutRange();
+            var curve = CreateAsciiCurve_WithoutRange();
             SaveAudioMono(() => curve, duration: 4);
         }
 
         [TestMethod]
-        public void AsciiCurves_VerboseStrings()
+        public void AsciiCurves_WithRange()
         {
-            var curve = CreateAsciiCurve_VerboseStrings();
+            var curve = CreateAsciiCurve_WithRange();
             SaveAudioMono(() => curve, duration: 4);
         }
 
-        Outlet CreateAsciiCurve_OneStringPerLine_WithoutRange() => Curve
-        (
-            "   o                 ",
-            " o   o               ",
-            "                     ",
-            "           o         ",
-            "o                   o"
-        );
+        Outlet CreateAsciiCurve_WithoutRange() => Curve(@"
+               o                 
+             o   o               
+                                 
+                       o         
+            o                   o");
 
-        Outlet CreateAsciiCurve_OneStringPerLine_WithRange() => Curve
-        (
-            x: (start: 1, end: 3), y: (min: -1, max: 0.5),
-            "   o                 ",
-            " o   o               ",
-            "                     ",
-            "           o         ",
-            "o                   o"
-        );
-
-        Outlet CreateAsciiCurve_VerboseStrings() => Curve(
+        Outlet CreateAsciiCurve_WithRange() => Curve(
             x: (start: 1, end: 3), y: (min: -1, max: 0.5), @"
 
                o                 
              o   o                           
                                             
                        o         
-            o                   o       
+            o                   o
 
             ");
 
