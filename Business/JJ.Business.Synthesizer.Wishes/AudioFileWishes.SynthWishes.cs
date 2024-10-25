@@ -32,30 +32,30 @@ namespace JJ.Business.Synthesizer.Wishes
         private void InitializeAudioFileWishes(IContext context)
         {
             _audioFileOutputManager = ServiceFactory.CreateAudioFileOutputManager(context);
-            _samples = ServiceFactory.CreateSampleManager(context);
+            _sampleManager = ServiceFactory.CreateSampleManager(context);
         }
 
         private AudioFileOutputManager _audioFileOutputManager;
-        private SampleManager _samples;
+        private SampleManager _sampleManager;
 
         // Sample
         
         /// <inheritdoc cref="docs._sample"/>
-        public Outlet Sample(
+        public FluentOutlet Sample(
             byte[] bytes, 
             InterpolationTypeEnum interpolationTypeEnum = default,
             double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
             => SampleBase(new MemoryStream(bytes), default, interpolationTypeEnum, amplifier, speedFactor, bytesToSkip);
         
         /// <inheritdoc cref="docs._sample"/>
-        public Outlet Sample(
+        public FluentOutlet Sample(
             Stream stream,
             InterpolationTypeEnum interpolationTypeEnum = default,
             double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
             => SampleBase(stream, default, interpolationTypeEnum, amplifier, speedFactor, bytesToSkip);
 
         /// <inheritdoc cref="docs._sample"/>
-        public Outlet Sample(
+        public FluentOutlet Sample(
             string filePath,
             InterpolationTypeEnum interpolationTypeEnum = default,
             double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._sample"/>
-        private Outlet SampleBase(
+        private FluentOutlet SampleBase(
             Stream stream, string filePath,
             InterpolationTypeEnum interpolationTypeEnum,
             double amplifier, double speedFactor, int bytesToSkip)
@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (interpolationTypeEnum == default) interpolationTypeEnum = InterpolationTypeEnum.Line;
             
-            Sample sample = _samples.CreateSample(stream);
+            Sample sample = _sampleManager.CreateSample(stream);
             sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude() * amplifier;
             sample.TimeMultiplier = 1 / speedFactor;
             sample.BytesToSkip = bytesToSkip;
@@ -87,9 +87,10 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             var wrapper = _operatorFactory.Sample(sample);
-            ((Outlet)wrapper).Operator.Name = sample.Name;
+            Outlet outlet = wrapper.Result;
+            outlet.Operator.Name = sample.Name;
 
-            return wrapper;
+            return _[outlet];
         }
 
         // Play

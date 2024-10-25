@@ -356,19 +356,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 Channel = Left;
 
-                var sampleWrapperLeft  = getSample();
+                var sampleLeft  = getSample();
 
                 double[] actualL =
                 {
-                    sampleWrapperLeft.Calculate(time: 0.0 / 8.0 / frequency, Left),
-                    sampleWrapperLeft.Calculate(time: 1.0 / 8.0 / frequency, Left),
-                    sampleWrapperLeft.Calculate(time: 2.0 / 8.0 / frequency, Left),
-                    sampleWrapperLeft.Calculate(time: 3.0 / 8.0 / frequency, Left),
-                    sampleWrapperLeft.Calculate(time: 4.0 / 8.0 / frequency, Left),
-                    sampleWrapperLeft.Calculate(time: 5.0 / 8.0 / frequency, Left),
-                    sampleWrapperLeft.Calculate(time: 6.0 / 8.0 / frequency, Left),
-                    sampleWrapperLeft.Calculate(time: 7.0 / 8.0 / frequency, Left),
-                    sampleWrapperLeft.Calculate(time: 8.0 / 8.0 / frequency, Left)
+                    sampleLeft.Calculate(time: 0.0 / 8.0 / frequency, Left),
+                    sampleLeft.Calculate(time: 1.0 / 8.0 / frequency, Left),
+                    sampleLeft.Calculate(time: 2.0 / 8.0 / frequency, Left),
+                    sampleLeft.Calculate(time: 3.0 / 8.0 / frequency, Left),
+                    sampleLeft.Calculate(time: 4.0 / 8.0 / frequency, Left),
+                    sampleLeft.Calculate(time: 5.0 / 8.0 / frequency, Left),
+                    sampleLeft.Calculate(time: 6.0 / 8.0 / frequency, Left),
+                    sampleLeft.Calculate(time: 7.0 / 8.0 / frequency, Left),
+                    sampleLeft.Calculate(time: 8.0 / 8.0 / frequency, Left)
                 };
 
                 // Right

@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using System;
@@ -220,6 +221,23 @@ namespace JJ.Business.Synthesizer.Wishes
             _synthWishes.PlayMono(() => _thisOutlet);
         }
         
+        // Delegate to Extension Methods
+        // (Not Included with the Implicit Conversion to Outlet)
+        
+        public Sample GetSample() 
+            => Outlet.GetSample();
+
+        public SampleOperatorWrapper GetSampleWrapper() 
+            => Outlet.GetSampleWrapper();
+
+        public double Calculate(double time, ChannelEnum channelEnum) 
+            => Outlet.Calculate(time, channelEnum);
+        
+        public double Calculate(double time = 0, int channelIndex = 0)  
+            => Outlet.Calculate(time, channelIndex);
+        
+        // TODO: More
+
         // C# Operators
         
         // Operator +
@@ -404,5 +422,6 @@ namespace JJ.Business.Synthesizer.Wishes
         private const string noSynthWishesMessage = 
             "Cannot perform math operator when no Outlet is involved "+
             "to provide the Context in which to create more Outlets.";
+
     }
 }
