@@ -23,6 +23,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable ForCanBeConvertedToForeach
+// ReSharper disable ArrangeStaticMemberQualifier
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -65,12 +66,9 @@ namespace JJ.Business.Synthesizer.Wishes
             var lck = new object();
             var filePaths = new List<string>();
             var reloadedSamples = new List<Outlet>();
-            //var exceptions = new List<Exception>();
 
             Parallel.ForEach(funcs, func =>
             {
-                //try
-                {
                     // Context isn't thread-safe. I really have to start disposing contexts, don't I?
                     var x = new SynthWishes();
 
@@ -83,18 +81,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
                     // Add to list
                     lock (lck) filePaths.Add(filePath);
-                }
-                //catch (Exception ex)
-                //{
-                //    lock (lck) exceptions.Add(ex);
-                //}
             });
             
-            //if (exceptions.Count > 0)
-            //{
-            //    throw new AggregateException(exceptions);
-            //}
-
             // Reload Samples
             foreach (string filePath in filePaths)
             {
@@ -126,14 +114,11 @@ namespace JJ.Business.Synthesizer.Wishes
             var lck = new object();
             var filePaths = new List<string>();
             var reloadedSamples = new List<Outlet>();
-            //var exceptions = new List<Exception>();
 
             try
             {
                 Parallel.ForEach(funcs, func =>
                 {
-                    //try
-                    {
                         // Think of a name
                         Interlocked.Increment(ref i);
                         string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
@@ -141,41 +126,13 @@ namespace JJ.Business.Synthesizer.Wishes
                         // Save to File
                         string filePath = SaveAudioMono(func, duration, fileName: name).Data.FilePath;
 
-                        // Hypothesis:
-                        // Operator creation methods not thread-safe.
-                        // Operator creation cannot work in parallel,
-                        // While the graph is changing; it uses the graph.
-
-                        // TODO: Remove Non-Working Code
-                        {
-                            // Save and play to test the sample loading
-                            //Outlet sample = x.Sample(filePath);
-                            //string reloadedFileName = filePath.CutLeft(".wav") + "_Reloaded.wav";
-                            //PlayMono(() => sample, duration, fileName: reloadedFileName );
-                        }
-
                         // Add to list
                         lock (lck)
                         {
                             filePaths.Add(filePath);
-
-                            // TODO: Remove Non-Working Code
-                            {
-                                //reloadedSamples.Add(sample);
                             }
-                        }
-                    }
-                    //catch (Exception ex)
-                    //{
-                    //    lock (lck) exceptions.Add(ex);
-                    //}
                 });
                 
-                //if (exceptions.Count > 0)
-                //{
-                //    throw new AggregateException(exceptions);
-                //}
-
                 // Reload Samples
                 for (var j = 0; j < filePaths.Count; j++)
                 {
@@ -189,17 +146,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Clean-up
                 foreach (string filePath in filePaths)
                 {
-                    //try
-                    //{
                         if (File.Exists(filePath))
                         {
                             File.Delete(filePath);
                         }
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    lock (lck) exceptions.Add(ex);
-                    //}
                 }
             }
 
