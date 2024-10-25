@@ -14,6 +14,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class OperatorWishes_FunctionalTests : SynthWishes
     {
+        FluentOutlet Envelope => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
+
         // Vibrato/Tremolo Tests
 
         [TestMethod]
@@ -23,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._vibrato" />
         void Vibrato_RunTest()
             => PlayMono(
-                () => Envelope(Sine(VibratoOverPitch(A4)), duration: _[2]),
+                () => VibratoOverPitch(A4).Sine * Envelope.Stretch(2),
                 volume: 0.9, duration: 2);
 
         [TestMethod]
@@ -33,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._tremolo" />
         void Tremolo_RunTest()
             => PlayMono(
-                () => Envelope(Tremolo(Sine(A4), (4, 0.5)), duration: _[2]),
+                () => Sine(A4).Tremolo(4, 0.5) * Envelope.Stretch(2),
                 volume: 0.30, duration: 2);
 
         // Panning Tests
@@ -139,7 +141,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double maxValueRight = panned.Calculate(time: 0.25 / (double)freq);
             double minValueRight = panned.Calculate(time: 0.75 / (double)freq);
 
-            Play(() => Envelope(Panning(sine, panning)), duration: 1);
+            Play(() => Panning(sine, panning) * Envelope);
 
             // Assert
             AssertHelper.AreEqual(0.75,  () => maxValueLeft);
@@ -153,7 +155,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panning_SineWaveSignal_DynamicPanning_RunTest()
         {
-            var sine = Envelope(Sine(A4));
+            var sine = Sine(A4) * Envelope;
             var panning = Curve(@"
                                     *
                                 *
@@ -173,7 +175,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panbrello_DefaultSpeedAndDepth_RunTest()
         {
-            var sound = Envelope(Sine(A4));
+            var sound = Sine(A4) * Envelope;
             Play(() => Panbrello(sound));
         }
 
@@ -182,7 +184,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
-            var sound = Envelope(Sine(A4));
+            var sound = Sine(A4) * Envelope;
             Play(() => Panbrello(sound, (speed: 2.0, depth: 0.75)));
         }
 
@@ -191,7 +193,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panbrello_DynamicSpeedAndDepth_RunTest()
         {
-            var sound = Envelope(Sine(A4));
+            var sound = Sine(A4) * Envelope;
 
             var speed = Curve(
                 "Speed", x: (0, 3), y: (0, 8), @"
@@ -364,13 +366,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             SaveAudioMono(() => magnitude, duration: 4.5, fileName: Name() + "_Magnitude.wav");
             SaveAudioMono(() => delay,     duration: 4.5, fileName: Name() + "_Delay.wav"    );
             PlayMono(     () => echoes,    duration: 4.5, fileName: Name() + "_Output.wav"   );
-        }
-
-        /// <inheritdoc cref="docs._default"/>
-        private Outlet Envelope(Outlet sound, Outlet duration = null)
-        {
-            duration = duration ?? _[1];
-            return Multiply(sound, Stretch(Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0)), duration));
         }
     }
 }
