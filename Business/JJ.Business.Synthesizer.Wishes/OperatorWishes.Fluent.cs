@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
+﻿using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
@@ -6,7 +7,6 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
@@ -288,20 +288,61 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Delegate to Extension Methods
-        // (Not Included with the Implicit Conversion to Outlet)
-        
-        public Sample GetSample() 
-            => Outlet.GetSample();
-
-        public SampleOperatorWrapper GetSampleWrapper() 
-            => Outlet.GetSampleWrapper();
 
         public double Calculate(double time, ChannelEnum channelEnum) 
-            => Outlet.Calculate(time, channelEnum);
+            => _thisOutlet.Calculate(time, channelEnum);
         
         public double Calculate(double time = 0, int channelIndex = 0)  
-            => Outlet.Calculate(time, channelIndex);
+            => _thisOutlet.Calculate(time, channelIndex);
+
+        public string Stringify(bool singleLine = false)
+            => _thisOutlet.Stringify(singleLine);
+
+        public Result Validate(bool recursive = true)
+            => _thisOutlet.Validate(recursive);
+
+        public void Assert(bool recursive = true)
+            => _thisOutlet.Assert(recursive);
         
-        // TODO: More
+        public IList<string> GetWarnings(bool recursive = true)
+            => _thisOutlet.GetWarnings(recursive);
+
+        public Sample GetSample() => _thisOutlet.GetSample();
+
+        public SampleOperatorWrapper GetSampleWrapper() => _thisOutlet.GetSampleWrapper();
+
+        public Curve GetCurve() => _thisOutlet.GetCurve();
+
+        public CurveInWrapper GetCurveWrapper() => _thisOutlet.GetCurveWrapper();
+        
+        public double? AsConst => _thisOutlet.AsConst();
+        
+        public bool IsConst => _thisOutlet.IsConst();
+        
+        public bool IsVar => _thisOutlet.IsVar();
+        
+        public bool IsAdd => _thisOutlet.IsAdd();
+        
+        public bool IsSubtract => _thisOutlet.IsSubtract();
+        
+        public bool IsMultiply => _thisOutlet.IsMultiply();
+        
+        public bool IsDivide => _thisOutlet.IsDivide();
+        
+        public bool IsPower => _thisOutlet.IsPower();
+        
+        public bool IsSine => _thisOutlet.IsSine();
+        
+        public bool IsDelay => _thisOutlet.IsDelay();
+        
+        public bool IsSkip => _thisOutlet.IsSkip();
+        
+        public bool IsStretch => _thisOutlet.IsStretch();
+        
+        public bool IsSpeedUp => _thisOutlet.IsSpeedUp();
+        
+        public bool IsTimePower => _thisOutlet.IsTimePower();
+        
+        internal bool IsAdder => _thisOutlet.IsAdder();
     }
 }

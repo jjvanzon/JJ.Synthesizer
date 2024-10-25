@@ -7,7 +7,6 @@ using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Wishes.Helpers;
