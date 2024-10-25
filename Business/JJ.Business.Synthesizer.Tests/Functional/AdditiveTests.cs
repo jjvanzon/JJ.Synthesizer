@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet NoteDuration => _[2.5];
         FluentOutlet EchoDelay => _[0.66];
         FluentOutlet EchoTime => EchoDelay * (EchoCount - 1);
-
+         
         public AdditiveTests()
             : base(beat: 0.4, bar: 1.6)
         { }
@@ -40,26 +40,28 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Additive_Metallophone_Note_RunTest()
             => PlayMono(
-                () => Echo(Metallophone(F4_Sharp)),
+                () => Echo(Metallophone(frequency: F4_Sharp)),
                 duration: NoteDuration + EchoTime,
                 volume: 0.5);
 
-
         FluentOutlet MetallophoneJingle => Add
         (
-            Metallophone(A4,       delay: t[bar: 1, beat: 1.0], volume: _[0.9]),
-            Metallophone(E5,       delay: t[bar: 1, beat: 1.5], volume: _[1.0]),
-            Metallophone(B4,       delay: t[bar: 1, beat: 2.0], volume: _[0.5]),
-            Metallophone(C5_Sharp, delay: t[bar: 1, beat: 2.5], volume: _[0.7]),
-            Metallophone(F4_Sharp, delay: t[bar: 1, beat: 4.0], volume: _[0.4])
+            Metallophone(t[bar: 1, beat: 1.0], A4      , _[0.9]),
+            Metallophone(t[bar: 1, beat: 1.5], E5      , _[1.0]),
+            Metallophone(t[bar: 1, beat: 2.0], B4      , _[0.5]),
+            Metallophone(t[bar: 1, beat: 2.5], C5_Sharp, _[0.7]),
+            Metallophone(t[bar: 1, beat: 4.0], F4_Sharp, _[0.4])
         );
 
+        /// <param name="delay"> </param>
+        /// <param name="frequency"> </param>
+        /// <param name="volume"> </param>
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         FluentOutlet Metallophone(
-            FluentOutlet frequency = default,
-            FluentOutlet volume = default, 
             FluentOutlet delay = default,
+            FluentOutlet frequency = default,
+            FluentOutlet volume = default,
             FluentOutlet duration = default)
         {
             frequency = frequency ?? A4;
@@ -79,25 +81,25 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet SamplePartial(FluentOutlet frequency, FluentOutlet duration)
         {
-            var sound = GetSample * SampleEnvelope.Stretch(duration);
+            var sound = MySample * Stretch(SampleEnvelope, duration);
             var faster = SpeedUp(sound, factor: frequency / A4);
             return faster;
         }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet Echo(FluentOutlet sound) => Echo(sound, count: EchoCount, magnitude: 0.33, delay: EchoDelay);
+        FluentOutlet Echo(FluentOutlet sound) => Echo(sound, EchoCount, 0.33, EchoDelay);
 
-        FluentOutlet _sample;
+        FluentOutlet _mySample;
 
         /// <summary>
         /// Load a sample, skip some old header's bytes, maximize volume and tune to 440Hz.
         /// Returns the initialized Sample if already loaded.
         /// </summary>
-        FluentOutlet GetSample
+        FluentOutlet MySample
         {
             get
             {
-                if (_sample != null) return _sample;
+                if (_mySample != null) return _mySample;
 
                 // Skip over Header (from some other file format, that slipped into the audio data).
                 int bytesToSkip = 62;
@@ -114,9 +116,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 double fineTuneFactor = 0.94;
                 double speedFactor    = octaveFactor * intervalFactor * fineTuneFactor;
 
-                _sample = Sample(GetViolin16BitMono44100WavStream(), default, amplifier, speedFactor, bytesToSkip);
+                _mySample = Sample(GetViolin16BitMono44100WavStream(), default, amplifier, speedFactor, bytesToSkip);
 
-                return _sample;
+                return _mySample;
             }
         }
         
