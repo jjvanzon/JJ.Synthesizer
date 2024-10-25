@@ -263,9 +263,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FluentOutlet Stretch(Outlet signal, double timeScale) => Stretch(signal, _[timeScale]);
 
-        public FluentOutlet Squash(Outlet signal, Outlet speed) => _[_operatorFactory.TimeDivide(signal, speed)];
+        public FluentOutlet SpeedUp(Outlet signal, Outlet factor) => _[_operatorFactory.TimeDivide(signal, factor)];
 
-        public FluentOutlet Squash(Outlet signal, double speed) => Squash(signal, _[speed]);
+        public FluentOutlet SpeedUp(Outlet signal, double factor) => SpeedUp(signal, _[factor]);
 
         public FluentOutlet TimePower(Outlet signal, Outlet exponent) => _[_operatorFactory.TimePower(signal, exponent)];
 

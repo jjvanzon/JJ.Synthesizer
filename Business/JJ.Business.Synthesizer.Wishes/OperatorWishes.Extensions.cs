@@ -297,9 +297,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public  static bool IsStretch  (this Inlet    entity) => HasOperatorTypeName(entity, nameof(TimeMultiply));
         public  static bool IsStretch  (this Outlet   entity) => HasOperatorTypeName(entity, nameof(TimeMultiply));
         public  static bool IsStretch  (this Operator entity) => HasOperatorTypeName(entity, nameof(TimeMultiply));
-        public  static bool IsSquash   (this Inlet    entity) => HasOperatorTypeName(entity, nameof(TimeDivide));
-        public  static bool IsSquash   (this Outlet   entity) => HasOperatorTypeName(entity, nameof(TimeDivide));
-        public  static bool IsSquash   (this Operator entity) => HasOperatorTypeName(entity, nameof(TimeDivide));
+        public  static bool IsSpeedUp  (this Inlet    entity) => HasOperatorTypeName(entity, nameof(TimeDivide));
+        public  static bool IsSpeedUp  (this Outlet   entity) => HasOperatorTypeName(entity, nameof(TimeDivide));
+        public  static bool IsSpeedUp  (this Operator entity) => HasOperatorTypeName(entity, nameof(TimeDivide));
         public  static bool IsTimePower(this Inlet    entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
         public  static bool IsTimePower(this Outlet   entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
         public  static bool IsTimePower(this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));

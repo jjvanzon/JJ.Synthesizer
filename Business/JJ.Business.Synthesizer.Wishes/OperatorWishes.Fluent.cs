@@ -101,9 +101,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public FluentOutlet Stretch(double timeScale) => _synthWishes.Stretch(_thisOutlet, timeScale);
         
-        public FluentOutlet Squash(Outlet speed) => _synthWishes.Squash(_thisOutlet, speed);
+        public FluentOutlet SpeedUp(Outlet speed) => _synthWishes.SpeedUp(_thisOutlet, speed);
         
-        public FluentOutlet Squash(double speed) => _synthWishes.Squash(_thisOutlet, speed);
+        public FluentOutlet SpeedUp(double speed) => _synthWishes.SpeedUp(_thisOutlet, speed);
         
         public FluentOutlet TimePower(Outlet exponent) => _synthWishes.TimePower(_thisOutlet, exponent);
         
