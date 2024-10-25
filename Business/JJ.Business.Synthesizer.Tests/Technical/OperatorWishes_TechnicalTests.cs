@@ -334,10 +334,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Fluent_CurveChaining()
         {
-            var chain1 = Curve(0, 1, 0).Stretch(2);
+            var chain1 = Sine(G4).Curve(0, 1, 0);
             var chain2 = Sine(A4).Times(Curve(0, 1, 0));
-            // Does not work:
-            //var chain3 = Sine(A4).Curve(440, 480);
+            var chain3 = Sine(B4) * Curve(0, 1, 0).Stretch(2);
+             
+            PlayMono(() => chain1);
+            PlayMono(() => chain2);
+            PlayMono(() => chain3, duration: 2);
         }
     }
 }

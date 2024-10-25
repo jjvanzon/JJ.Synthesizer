@@ -1,15 +1,18 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Factories;
+using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public class FluentOutlet
+    public partial class FluentOutlet
     {
         private readonly SynthWishes _synthWishes;
         private readonly Outlet _thisOutlet;
@@ -213,14 +216,77 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet EchoFeedBack(double magnitude = default, double delay = default, int count = 8)
             => _synthWishes.EchoFeedBack(_thisOutlet, magnitude, delay, count);
 
-        // Misc Chaining Methods
+        // Curve Chaining Methods
+
+        public FluentOutlet Curve(string name, IList<NodeInfo> nodeInfos)
+            => _thisOutlet * _synthWishes.Curve(name, nodeInfos);
+
+        public FluentOutlet Curve(IList<NodeInfo> nodeInfos)
+            => _thisOutlet * _synthWishes.Curve(nodeInfos);
+
+        public FluentOutlet Curve(string name, params NodeInfo[] nodeInfos)
+            => _thisOutlet * _synthWishes.Curve(name, nodeInfos);
+
+        public FluentOutlet Curve(params NodeInfo[] nodeInfos)
+            => _thisOutlet * _synthWishes.Curve(nodeInfos);
+
+        /// <inheritdoc cref="CurveFactory.CreateCurve(double, double?[])" />
+        /// <inheritdoc cref="docs._createcurve" />
+        public FluentOutlet Curve(string name, params double?[] values)
+            => _thisOutlet * _synthWishes.Curve(values);
+
+        /// <inheritdoc cref="CurveFactory.CreateCurve(double, double?[])" />
+        /// <inheritdoc cref="docs._createcurve" />
+        public FluentOutlet Curve(params double?[] values)
+            => _thisOutlet * _synthWishes.Curve(values);
         
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        public FluentOutlet Curve(string name, IList<(double time, double value)> nodeTuples)
+            => _thisOutlet * _synthWishes.Curve(name, nodeTuples);
+
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        public FluentOutlet Curve(IList<(double time, double value)> nodeTuples)
+            => _thisOutlet * _synthWishes.Curve(nodeTuples);
+
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        public FluentOutlet Curve(string name, params (double time, double value)[] nodeTuples)
+            => _thisOutlet * _synthWishes.Curve(name, nodeTuples);
+
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
+            => _thisOutlet * _synthWishes.Curve(nodeTuples);
+
+        /// <inheritdoc cref="docs._createcurvefromstring" />
+        public FluentOutlet Curve(string text) 
+            => _thisOutlet * _synthWishes.Curve(text);
+
+        /// <inheritdoc cref="docs._createcurvefromstring" />
+        public FluentOutlet Curve(string name, string text)
+            => _thisOutlet * _synthWishes.Curve(name, text);
+
+        /// <inheritdoc cref="docs._createcurvefromstring" />
+        public FluentOutlet Curve(
+            string name,
+            (double start, double end) x,
+            (double min, double max) y,
+            string text)
+            => _thisOutlet * _synthWishes.Curve(name, x, y, text);
+
+        /// <inheritdoc cref="docs._createcurvefromstring" />
+        public FluentOutlet Curve(
+            (double start, double end) x,
+            (double min, double max) y,
+            string text)
+            => _thisOutlet * _synthWishes.Curve(x, y, text);
+        
+        // Misc Chaining Methods
+
         public void PlayMono()
         {
             _synthWishes.Channel = ChannelEnum.Single;
             _synthWishes.PlayMono(() => _thisOutlet);
         }
-        
+
         // Delegate to Extension Methods
         // (Not Included with the Implicit Conversion to Outlet)
         
@@ -237,191 +303,5 @@ namespace JJ.Business.Synthesizer.Wishes
             => Outlet.Calculate(time, channelIndex);
         
         // TODO: More
-
-        // C# Operators
-        
-        // Operator +
-        
-        public static FluentOutlet operator +(FluentOutlet a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
-            return x._[a].Plus(b);
-        }
-        
-        public static FluentOutlet operator +(FluentOutlet a, Outlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
-            return x._[a].Plus(b);
-        }
-
-        public static FluentOutlet operator +(Outlet a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
-            return x._[a].Plus(b);
-        }
-                
-        public static FluentOutlet operator +(FluentOutlet a, double b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            return x._[a].Plus(b);
-        }
-
-        public static FluentOutlet operator +(double a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            b = b ?? x._[0];
-            return x._[a].Plus(b);
-        }
-
-        // Operator -
-        
-        public static FluentOutlet operator -(FluentOutlet a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
-            return x._[a].Minus(b);
-        }
-        
-        public static FluentOutlet operator -(FluentOutlet a, Outlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
-            return x._[a].Minus(b);
-        }
-        
-        public static FluentOutlet operator -(Outlet a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
-            return x._[a].Minus(b);
-        }
-        
-        public static FluentOutlet operator -(FluentOutlet a, double b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            return x._[a].Minus(b);
-        }
-        
-        public static FluentOutlet operator -(double a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            b = b ?? x._[0];
-            return x._[a].Minus(b);
-        }
-
-        // Operator *
-        
-        public static FluentOutlet operator *(FluentOutlet a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[1];
-            b = b ?? x._[1];
-            return x._[a].Times(b);
-        }
-        
-        public static FluentOutlet operator *(FluentOutlet a, Outlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[1];
-            b = b ?? x._[1];
-            return x._[a].Times(b);
-        }
-        
-        public static FluentOutlet operator *(Outlet a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[1];
-            b = b ?? x._[1];
-            return x._[a].Times(b);
-        }
-        
-        public static FluentOutlet operator *(FluentOutlet a, double b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[1];
-            return x._[a].Times(b);
-        }
-        
-        public static FluentOutlet operator *(double a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            b = b ?? x._[1];
-            return x._[a].Times(b);
-        }
-
-        // Operator /
-        
-        public static FluentOutlet operator /(FluentOutlet a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            b = b ?? x._[1];
-            return x._[a].Divide(b);
-        }
-        
-        public static FluentOutlet operator /(FluentOutlet a, Outlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            b = b ?? x._[1];
-            return x._[a].Divide(b);
-        }
-                
-        public static FluentOutlet operator /(Outlet a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            b = b ?? x._[1];
-            return x._[a].Divide(b);
-        }
-        
-        public static FluentOutlet operator /(FluentOutlet a, double b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            a = a ?? x._[0];
-            return x._[a].Divide(b);
-        }
-        
-        public static FluentOutlet operator /(double a, FluentOutlet b)
-        {
-            var x = GetSynthWishesOrThrow(a, b);
-            b = b ?? x._[1];
-            return x._[a].Divide(b);
-        }
-    
-        // Defaults SynthWishes preventing most exceptions in the C# operators.
-
-        // ReSharper disable UnusedParameter.Local
-
-        private static SynthWishes GetSynthWishesOrThrow(FluentOutlet a, FluentOutlet b) 
-            => a?._synthWishes ?? b?._synthWishes ?? throw new Exception(noSynthWishesMessage);
-
-        private static SynthWishes GetSynthWishesOrThrow(FluentOutlet a, double b) 
-            => a?._synthWishes ?? throw new Exception(noSynthWishesMessage);
-
-        private static SynthWishes GetSynthWishesOrThrow(double a, FluentOutlet b) 
-            => b?._synthWishes ?? throw new Exception(noSynthWishesMessage);
-
-        private static SynthWishes GetSynthWishesOrThrow(FluentOutlet a, Outlet b) 
-            => a?._synthWishes ?? throw new Exception(noSynthWishesMessage);
-
-        private static SynthWishes GetSynthWishesOrThrow(Outlet a, FluentOutlet b) 
-            => b?._synthWishes ?? throw new Exception(noSynthWishesMessage);
-
-        private const string noSynthWishesMessage = 
-            "Cannot perform math operator when no Outlet is involved "+
-            "to provide the Context in which to create more Outlets.";
-
     }
 }
