@@ -61,16 +61,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 
         // Is / As
         
-        public static bool IsSampleOperator(this Outlet entity) 
+        public static bool IsSample(this Outlet entity) 
             => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(SampleOperator));
 
-        public static bool IsSampleOperator(this Operator entity) 
+        public static bool IsSample(this Operator entity) 
             => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(SampleOperator));
 
-        public static bool IsSampleOperator(this Inlet entity) 
+        public static bool IsSample(this Inlet entity) 
             => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(SampleOperator));
 
-        public static Sample GetSample(this Inlet entity)
+        internal static Sample GetSample(this Inlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetSample(entity.Input);

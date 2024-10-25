@@ -1,11 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
+using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Framework.Testing.AssertHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -305,7 +312,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                      *                              *")
                  ));
         }
- 
         
         [TestMethod]
         public void Test_Fluent_ValueChaining()
@@ -342,25 +348,135 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             PlayMono(() => chain2);
             PlayMono(() => chain3, duration: 2);
         }
+        
+        [TestMethod]
+        public void Test_ParallelAdd_NormalAdd_ForComparison()
+        {
+            var duration = 0.1;
+
+            var add = Add
+            (
+                Curve(0.1, 0.1),
+                Curve(0.2, 0.2),
+                Curve(0.3, 0.3)
+            );
+
+            double addedValue = add.Calculate(duration / 2);
+            
+            AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
+        }
 
         [TestMethod]
-        public void Test_ParallelAdd()
+        public void Test_ParallelAdd_ConstSignal()
         {
-            var freq = A4;
-            var volume = 0.33;
+            // Arrange
+            var duration = 0.1;
+            var tolerance = 0.001;
+
+            // Act to Create Entities
+            var adder = ParallelAdd
+            (
+                _[duration],
+                // Values higher than 1 seem to be clipped.
+                x => x.Curve(0.1, 0.1),
+                x => x.Curve(0.2, 0.2),
+                x => x.Curve(0.3, 0.3)
+            );
+
+            // Assert Entities
+            IsNotNull(() => adder);
+            IsNotNull(() => adder.Outlet);
+            IsNotNull(() => adder.Outlet.Operator);
+            IsTrue(() => adder.Outlet.IsAdder());
+            IsTrue(() => adder.Outlet.Operator.IsAdder());
+            AreEqual("Adder", () => adder.Outlet.Operator.OperatorTypeName);
+
+            IsNotNull(() => adder.Outlet.Operator.Inlets);
+            var addOperands = adder.Outlet.Operator.Inlets.Select(x => x.Input).ToList();
+            AreEqual(3, () => addOperands.Count);
+
+            foreach (var addOperand in addOperands)
+            {
+                IsNotNull(() => addOperand);
+                IsNotNull(() => addOperand.Operator);
+                IsNotNull(() => addOperands[0].Operator.AsSampleOperator);
+                IsNotNull(() => addOperands[0].Operator.AsSampleOperator.Sample);
+                IsNotNull(() => addOperands[0].Operator.AsSampleOperator.Sample.Bytes);
+                IsTrue(() => addOperand.IsSample());
+                IsTrue(() => addOperand.Operator.IsSample());
+                AreEqual("SampleOperator", () => addOperand.Operator.OperatorTypeName);
+            }
+
+            NotEqual(addOperands[0], () => addOperands[1]);
+            NotEqual(addOperands[1], () => addOperands[2]);
+            
+            // Check Bytes Array, Read as Int16 Values
+            foreach (var addOperand in addOperands)
+            {
+                Sample sample = addOperand.Operator.AsSampleOperator.Sample;
+
+                AreEqual(Wav, () => sample.GetAudioFileFormatEnum());
+                AreEqual(Int16, () => sample.GetSampleDataTypeEnum());
+                AreEqual(Mono, () => sample.GetSpeakerSetupEnum());
+                AreEqual(44,  () => sample.GetHeaderLength());
+
+                using (var stream = new MemoryStream(sample.Bytes))
+                {
+                    stream.Position = 44; // Skip header
+                    
+                    using (var reader = new BinaryReader(stream))
+                    {
+                        short firstValue = reader.ReadInt16();
+                        
+                        while (stream.Position < stream.Length)
+                        {
+                            short nextValue = reader.ReadInt16();
+                            AreEqual(firstValue, () => nextValue);
+                        }
+                    }
+                }
+            }
+
+            // Act to Calculate Values
+            double adderResult = adder.Calculate(duration / 2);
+            
+            double operandValue1 = addOperands[0].Calculate(duration / 2);;
+            double operandValue2 = addOperands[1].Calculate(duration / 2);;
+            double operandValue3 = addOperands[2].Calculate(duration / 2);;
+
+            var operandValuesSorted = new [] { operandValue1, operandValue2, operandValue3 }.OrderBy(x => x).ToArray();
+
+            Console.WriteLine($"{new { operandValue1, operandValue2, operandValue3 }}");
+            
+            // Assert Values
+            Assert.AreEqual(0.1 + 0.2 + 0.3, operandValue1 + operandValue2 + operandValue3, tolerance);
+            Assert.AreEqual(0.1, operandValuesSorted[0], tolerance);
+            Assert.AreEqual(0.2, operandValuesSorted[1], tolerance);
+            Assert.AreEqual(0.3, operandValuesSorted[2], tolerance);
+            Assert.AreEqual(0.1 + 0.2 + 0.3, adderResult, tolerance);
+        }
+        
+        
+        [TestMethod]
+        public void Test_ParallelAdd_SinePartials()
+        {
+            var freq     = A4;
+            var volume   = 0.33;
             var duration = 0.5;
             
             var added = ParallelAdd
             (
                 _[duration],
-                x => x.Sine(x.Value(freq.Value) * 1) * 1.0 * volume,
-                x => x.Sine(x.Value(freq.Value) * 2) * 0.1 * volume,
-                x => x.Sine(x.Value(freq.Value) * 3) * 0.5 * volume//,
-                //x => x.Sine(x.Value(freq.Value) * 4) * 0.2 * volume,
-                //x => x.Sine(x.Value(freq.Value) * 5) * 0.3 * volume
+                x => x.Sine(x.Value(freq.Value) * 1) * 1.0,
+                x => x.Sine(x.Value(freq.Value) * 2) * 0.1,
+                x => x.Sine(x.Value(freq.Value) * 3) * 0.5
             );
 
-            PlayMono(() => added, duration: duration);
+            PlayMono(() => added, duration, volume);
+            
+            // Hypothesis:
+            // Operator creation cannot work in parallel,
+            // While the graph is changing; it uses the graph.
         }
     }
 }

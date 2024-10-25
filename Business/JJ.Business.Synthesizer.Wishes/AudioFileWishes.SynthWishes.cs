@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Media;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -58,8 +57,8 @@ namespace JJ.Business.Synthesizer.Wishes
             int i = 0;
             var guid = Guid.NewGuid();
             var lck = new object();
-            var samples = new List<Outlet>();
-            var outputFilePaths = new List<string>();
+            var audioFileOutputFilePaths = new List<string>();
+            var reloadedSamples = new List<Outlet>();
             var exceptions = new List<Exception>();
 
             Parallel.ForEach(funcs, func =>
@@ -71,23 +70,23 @@ namespace JJ.Business.Synthesizer.Wishes
 
                     // Think of a name
                     Interlocked.Increment(ref i);
-                    string name = $"{nameof(ParallelAdd)}_{guid}_{i}";
+                    string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
 
                     // Save to File
                     AudioFileOutput audioFileOutput = x.PlayMono(() => func(x), duration, fileName: name).Data;
 
-                    // Load from File
-                    Outlet sample = x.Sample(audioFileOutput.FilePath);
+                    // Hypothesis: Operator creation methods not thread-safe.
+                    
+                    //Outlet sample = x.Sample(audioFileOutput.FilePath);
 
-                    // Save and play to test the sample loading
-                    AudioFileOutput audioFileOutput2 = x.PlayMono(() => sample, duration, fileName: name + "_Reloaded").Data;
+                    //// Save and play to test the sample loading
+                    //x.PlayMono(() => sample, duration, fileName: name + "_Reloaded");
 
                     // Add to list
                     lock (lck)
                     {
-                        outputFilePaths.Add(audioFileOutput.FilePath);
-                        outputFilePaths.Add(audioFileOutput2.FilePath);
-                        samples.Add(sample);
+                        audioFileOutputFilePaths.Add(audioFileOutput.FilePath);
+                        //samples.Add(sample);
                     }
                 }
                 catch (Exception ex)
@@ -98,6 +97,18 @@ namespace JJ.Business.Synthesizer.Wishes
                     }
                 }
             });
+
+            // Reload Samples.
+            foreach (string filePath in audioFileOutputFilePaths)
+            {
+                Outlet sample = Sample(filePath);
+
+                // Save and play to test the sample loading
+                string reloadedFileName = Path.GetFileNameWithoutExtension(filePath) + "_Reloaded" + Path.GetExtension(filePath);
+                PlayMono(() => sample, duration, fileName: reloadedFileName );
+
+                reloadedSamples.Add(sample);
+            }
 
             //foreach (string outputFilePath in outputFilePaths)
             //{
@@ -122,7 +133,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 throw new AggregateException(exceptions);
             }
             
-            return Add(samples);
+            
+            // Load from File
+            //samples = outputFilePaths.Select(x => Sample(x).Outlet).ToList();
+
+            return Add(reloadedSamples);
         }
 
         // Sample
@@ -495,7 +510,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             // Validate AudioFileOutput
-            audioFileOutput.Assert();
             warnings.AddRange(audioFileOutput.GetWarnings());
 
             // Calculate
