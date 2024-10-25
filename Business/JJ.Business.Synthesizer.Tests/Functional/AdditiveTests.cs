@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Wishes;
+﻿using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
@@ -25,26 +24,35 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         { }
 
         [TestMethod]
-        public void Sines_Samples_Metallophone_Jingle() => new AdditiveTests().Sines_Samples_Metallophone_Jingle_RunTest();
+        public void Additive_Metallophone_Jingle() => new AdditiveTests().Additive_Metallophone_Jingle_RunTest();
 
         /// <summary>
         /// Arpeggio sound with harmonics, a high-pitch sample for attack,
         /// separate curves for each partial, triggers a wav header auto-detect.
         /// </summary>
-        void Sines_Samples_Metallophone_Jingle_RunTest()
+        void Additive_Metallophone_Jingle_RunTest()
             => PlayMono(
                 () => Echo(MetallophoneJingle),
                 duration: 1.2 + NOTE_DURATION + ECHO_TIME,
                 volume: 0.3);
 
         [TestMethod]
-        public void Sines_Samples_Metallophone_Note() => new AdditiveTests().Sines_Samples_Metallophone_Note_RunTest();
+        public void Additive_Metallophone_Note() => new AdditiveTests().Additive_Metallophone_Note_RunTest();
 
-        void Sines_Samples_Metallophone_Note_RunTest()
+        void Additive_Metallophone_Note_RunTest()
             => PlayMono(
                 () => Echo(Metallophone(F4_Sharp)),
                 duration: NOTE_DURATION + ECHO_TIME,
                 volume: 0.5);
+
+        //[TestMethod]
+        //public void Additive_Metallophone_SamplePartial() => new AdditiveTests().Additive_Metallophone_SamplePartial_RunTest();
+
+        //void Additive_Metallophone_SamplePartial_RunTest()
+        //    => PlayMono(
+        //        () => Echo(SamplePartial(_[F4_Sharp].Times(7), volume: _[5.0], SampleEnvelope.Stretch(NOTE_DURATION))),
+        //        duration: NOTE_DURATION + ECHO_TIME,
+        //        volume: 0.5);
 
         Outlet MetallophoneJingle => Add
         (
@@ -64,58 +72,62 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var sound = Add
             (
-                SinePartial  (  frequency,           volume: _[1.0],  Sine1Envelope.Stretch(duration)),
-                SinePartial  (_[frequency].Times(2), volume: _[0.7],  Sine2Envelope.Stretch(duration)),
-                SinePartial  (_[frequency].Times(5), volume: _[0.4],  Sine3Envelope.Stretch(duration)),
-                SamplePartial(_[frequency].Times(2), volume: _[3.0], SampleEnvelope.Stretch(duration)),
-                SamplePartial(_[frequency].Times(7), volume: _[5.0], SampleEnvelope.Stretch(duration))
+                SinePartial  (  frequency,           volume: _[1.0] * Sine1Envelope.Stretch(duration)),
+                SinePartial  (_[frequency].Times(2), volume: _[0.7] * Sine2Envelope.Stretch(duration)),
+                SinePartial  (_[frequency].Times(5), volume: _[0.4] * Sine3Envelope.Stretch(duration)),
+                SamplePartial(_[frequency].Times(2), volume: _[3.0], duration),
+                SamplePartial(_[frequency].Times(7), volume: _[5.0], duration)
             );
 
             return StrikeNote(sound, delay, volume);
         }
 
-        Outlet SinePartial(Outlet frequency, Outlet volume, Outlet envelope)
-            => Multiply(Sine(frequency), Multiply(volume, envelope));
+        Outlet SinePartial(Outlet frequency, Outlet volume)
+            => Multiply(Sine(frequency), volume);
 
-        Outlet SamplePartial(Outlet frequency, Outlet volume, Outlet envelope)
-            => Squash
-            (
-                Multiply(Multiply(Sample(), envelope), volume),
-                Divide(frequency, A4)
-            );
+        Outlet SamplePartial(Outlet frequency, Outlet volume, Outlet duration)
+        {
+            var sound = MySample * volume * SampleEnvelope.Stretch(duration);
+            var faster = SpeedUp(sound, factor: frequency / A4);
+            return faster;
+        }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet Echo(Outlet sound) => Echo(sound, count: ECHO_COUNT, magnitude: 0.33, delay: ECHO_DELAY);
 
-        Outlet _sample;
+        FluentOutlet _mySample;
 
         /// <summary>
         /// Load a sample, skip some old header's bytes, maximize volume and tune to 440Hz.
+        /// Returns the initialized Sample if already loaded.
         /// </summary>
-        Outlet Sample()
+        FluentOutlet MySample
         {
-            if (_sample != null) return _sample;
+            get
+            {
+                if (_mySample != null) return _mySample;
 
-            // Skip over Header (from some other file format, that slipped into the audio data).
-            int bytesToSkip = 62;
+                // Skip over Header (from some other file format, that slipped into the audio data).
+                int bytesToSkip = 62;
 
-            // Skip for Sharper Attack
-            bytesToSkip += 1000;
+                // Skip for Sharper Attack
+                bytesToSkip += 1000;
 
-            // Maximize Volume
-            double amplifier = 1.467;
+                // Maximize Volume
+                double amplifier = 1.467;
 
-            // Tune to A 440Hz
-            double octaveFactor   = 0.5;
-            double intervalFactor = 4.0 / 5.0;
-            double fineTuneFactor = 0.94;
-            double speedFactor    = octaveFactor * intervalFactor * fineTuneFactor;
+                // Tune to A 440Hz
+                double octaveFactor   = 0.5;
+                double intervalFactor = 4.0 / 5.0;
+                double fineTuneFactor = 0.94;
+                double speedFactor    = octaveFactor * intervalFactor * fineTuneFactor;
 
-            _sample = Sample(GetViolin16BitMono44100WavStream(), default, amplifier, speedFactor, bytesToSkip);
+                _mySample = Sample(GetViolin16BitMono44100WavStream(), default, amplifier, speedFactor, bytesToSkip);
 
-            return _sample;
+                return _mySample;
+            }
         }
-
+        
         // Curves
 
         /// <summary>
