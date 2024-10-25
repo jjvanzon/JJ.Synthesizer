@@ -87,12 +87,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet Echo(Outlet sound) => Echo(sound, count: ECHO_COUNT, magnitude: 0.33, delay: ECHO_DELAY);
 
-        SampleOperatorWrapper _sample;
+        Outlet _sample;
 
         /// <summary>
         /// Load a sample, skip some old header's bytes, maximize volume and tune to 440Hz.
         /// </summary>
-        SampleOperatorWrapper Sample()
+        Outlet Sample()
         {
             if (_sample != null) return _sample;
 

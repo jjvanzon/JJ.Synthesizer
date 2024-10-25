@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static IList<string> GetWarnings(this AudioFileOutput audioFileOutput)
             => new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text).ToList();
                 
-        // IsSampleOperator
+        // Is / As
         
         public static bool IsSampleOperator(this Outlet entity) 
             => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(SampleOperator));
@@ -69,6 +69,43 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static bool IsSampleOperator(this Inlet entity) 
             => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(SampleOperator));
+
+        public static Sample GetSample(this Inlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return GetSample(entity.Input);
+        }
+
+        public static Sample GetSample(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return GetSample(entity.Operator);
+        }
+
+        public static Sample GetSample(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.AsSampleOperator == null) throw new NullException(() => entity.AsSampleOperator);
+            return entity.AsSampleOperator.Sample;
+        }
+
+        public static SampleOperatorWrapper GetSampleWrapper(this Inlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return GetSampleWrapper(entity.Input);
+        }
+
+        public static SampleOperatorWrapper GetSampleWrapper(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return GetSampleWrapper(entity.Operator);
+        }
+
+        public static SampleOperatorWrapper GetSampleWrapper(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return new SampleOperatorWrapper(entity.AsSampleOperator);
+        }
 
         // Derived Fields
 

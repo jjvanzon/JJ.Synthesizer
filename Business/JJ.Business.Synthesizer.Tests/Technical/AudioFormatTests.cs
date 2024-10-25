@@ -193,20 +193,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                           fileName: default, callerMemberName).Data;
 
             // Use sample operator
-            SampleOperatorWrapper getSample()
+            Outlet getSample()
             {
-                var wrapper = Sample(audioFileOutput1.FilePath, interpolationTypeEnum);
+                Outlet outlet = Sample(audioFileOutput1.FilePath, interpolationTypeEnum);
+                Sample sample = outlet.GetSample();
 
                 if (audioFileFormatEnum == Raw)
                 {
                     // In case of RAW format, set some values explicitly.
-                    wrapper.Sample.SamplingRate   = samplingRate;
-                    wrapper.Sample.SpeakerSetup   = audioFileOutput1.SpeakerSetup;
-                    wrapper.Sample.SampleDataType = audioFileOutput1.SampleDataType;
-                    wrapper.Sample.Amplifier      = 1.0 / audioFileOutput1.SampleDataType.GetMaxAmplitude();
+                    sample.SamplingRate   = samplingRate;
+                    sample.SpeakerSetup   = audioFileOutput1.SpeakerSetup;
+                    sample.SampleDataType = audioFileOutput1.SampleDataType;
+                    sample.Amplifier      = 1.0 / audioFileOutput1.SampleDataType.GetMaxAmplitude();
                 }
 
-                return wrapper;
+                return outlet;
             }
             
             // Save to file again
@@ -237,12 +238,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 Channel = Single;
                 
-                var sampleWrapperMono  = getSample();
+                var sampleMono = getSample();
                 
                 AssertSampleEntities(
-                    sampleWrapperMono,
+                    sampleMono.GetSampleWrapper(),
                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
+                
                 Console.WriteLine();
             }
 
@@ -250,20 +252,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 Channel = Left;
                 
-                var sampleWrapperLeft  = getSample();
+                var sampleLeft  = getSample();
 
                 AssertSampleEntities(
-                    sampleWrapperLeft,
+                    sampleLeft.GetSampleWrapper(),
                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
                 Console.WriteLine();
 
                 Channel = Right;
                 
-                var sampleWrapperRight = getSample();
+                var sampleRight = getSample();
 
                 AssertSampleEntities(
-                    sampleWrapperRight,
+                    sampleRight.GetSampleWrapper(),
                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
                 Console.WriteLine();

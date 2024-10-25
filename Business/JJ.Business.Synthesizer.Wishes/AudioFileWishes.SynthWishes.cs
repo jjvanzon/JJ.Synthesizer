@@ -41,21 +41,21 @@ namespace JJ.Business.Synthesizer.Wishes
         // Sample
         
         /// <inheritdoc cref="docs._sample"/>
-        public SampleOperatorWrapper Sample(
+        public Outlet Sample(
             byte[] bytes, 
             InterpolationTypeEnum interpolationTypeEnum = default,
             double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
             => SampleBase(new MemoryStream(bytes), default, interpolationTypeEnum, amplifier, speedFactor, bytesToSkip);
         
         /// <inheritdoc cref="docs._sample"/>
-        public SampleOperatorWrapper Sample(
+        public Outlet Sample(
             Stream stream,
             InterpolationTypeEnum interpolationTypeEnum = default,
             double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
             => SampleBase(stream, default, interpolationTypeEnum, amplifier, speedFactor, bytesToSkip);
 
         /// <inheritdoc cref="docs._sample"/>
-        public SampleOperatorWrapper Sample(
+        public Outlet Sample(
             string filePath,
             InterpolationTypeEnum interpolationTypeEnum = default,
             double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._sample"/>
-        private SampleOperatorWrapper SampleBase(
+        private Outlet SampleBase(
             Stream stream, string filePath,
             InterpolationTypeEnum interpolationTypeEnum,
             double amplifier, double speedFactor, int bytesToSkip)
