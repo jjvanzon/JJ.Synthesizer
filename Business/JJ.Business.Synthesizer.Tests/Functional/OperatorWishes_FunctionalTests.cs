@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._tremolo" />
         void Tremolo_RunTest()
             => PlayMono(
-                () => Sine(A4).Tremolo(4, 0.5) * Envelope.Stretch(2),
+                () => Sine(C5).Tremolo(4, 0.5) * Envelope.Stretch(2),
                 volume: 0.30, duration: 2);
 
         // Panning Tests
@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Panning_SineWaveSignal_ConstPanningAsDouble_RunTest()
         {
             // Arrange
-            var freq    = A4;
+            var freq    = E5;
             var sine    = Sine(freq);
             var panning = 0.25;
 
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panning_SineWaveSignal_DynamicPanning_RunTest()
         {
-            var sine = Sine(A4) * Envelope;
+            var sine = Sine(G5) * Envelope;
             var panning = Curve(@"
                                     *
                                 *
@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
-            var sound = Sine(A4) * Envelope;
+            var sound = Sine(C5) * Envelope;
             Play(() => Panbrello(sound, (speed: 2.0, depth: 0.75)));
         }
 
@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panbrello_DynamicSpeedAndDepth_RunTest()
         {
-            var sound = Sine(A4) * Envelope;
+            var sound = Sine(E5) * Envelope;
 
             var speed = Curve(
                 "Speed", x: (0, 3), y: (0, 8), @"
