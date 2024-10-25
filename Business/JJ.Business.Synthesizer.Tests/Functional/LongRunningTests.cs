@@ -7,9 +7,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Long")]
     public class LongRunningTests
     {
-        [TestMethod]
-        public void FM_Jingle() => new FMTests().FM_Jingle_RunTest();
-    
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
         public void Test_Detunica_Jingle() => new ModulationTests().Detunica_Jingle_RunTest();

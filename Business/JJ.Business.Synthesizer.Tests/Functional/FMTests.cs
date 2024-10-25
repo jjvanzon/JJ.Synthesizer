@@ -33,7 +33,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Tests
 
-        // Long Running
+        [TestMethod]
+        public void FM_Jingle() => new FMTests().FM_Jingle_RunTest();
+
         internal void FM_Jingle_RunTest()
         {
             PlayMono(() => DeepEcho(Jingle()), t[bar: 9, beat: 2] + DeepEchoTime);
@@ -226,7 +228,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var composition = ParallelAdd
             (
                 bars[8],
-                () => Multiply(chordsVolume,     PadChords) * JingleVolume,
+                () => Multiply(chordsVolume, PadChords) * JingleVolume,
                 () => pattern1,
                 () => Delay(pattern2, bars[4])
             );
@@ -238,38 +240,41 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Melodies
 
-        FluentOutlet FluteMelody1 => Add
+        FluentOutlet FluteMelody1 => ParallelAdd
         (
-            Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
-            Flute1(F4, t[bar: 1, beat: 2.5], volume: _[0.70], beats[2.17]),
-            Flute1(G4, t[bar: 1, beat: 4.0], volume: _[0.60], beats[1.00]),
-            Flute1(A4, t[bar: 2, beat: 1.0], volume: _[0.80], beats[2.33]),
-            Flute2(B4, t[bar: 2, beat: 2.5], volume: _[0.50], beats[1.00]),
-            Flute2(A3, t[bar: 2, beat: 4.0], volume: _[0.50], beats[1.67]), // Flute1 would appear delayed because of destructive interference?
-            Flute3(G3, t[bar: 3, beat: 1.0], volume: _[0.85], beats[2.00]),
-            Flute1(G4, t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
+            bars[4],
+            () => Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
+            () => Flute1(F4, t[bar: 1, beat: 2.5], volume: _[0.70], beats[2.17]),
+            () => Flute1(G4, t[bar: 1, beat: 4.0], volume: _[0.60], beats[1.00]),
+            () => Flute1(A4, t[bar: 2, beat: 1.0], volume: _[0.80], beats[2.33]),
+            () => Flute2(B4, t[bar: 2, beat: 2.5], volume: _[0.50], beats[1.00]),
+            () => Flute2(A3, t[bar: 2, beat: 4.0], volume: _[0.50], beats[1.67]), // Flute1 would appear delayed because of destructive interference?
+            () => Flute3(G3, t[bar: 3, beat: 1.0], volume: _[0.85], beats[2.00]),
+            () => Flute1(G4, t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
         );
 
-        FluentOutlet FluteMelody2 => Add
+        FluentOutlet FluteMelody2 => ParallelAdd
         (
-            Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
-            Flute2(F4, t[bar: 1, beat: 2.5], volume: _[0.68], beats[1.0]),
-            Flute1(G4, t[bar: 1, beat: 4.0], volume: _[0.74], beats[0.6]),
-            Flute2(A4, t[bar: 2, beat: 1.0], volume: _[0.82], beats[2.0]),
-            Flute3(B4, t[bar: 2, beat: 2.5], volume: _[0.74], beats[1.0]),
-            Flute2(G4, t[bar: 2, beat: 4.0], volume: _[0.90], beats[0.4]),
-            Flute4(A4, t[bar: 3, beat: 1.0], volume: _[1.00], _[1.66])
+            bars[4],
+            () => Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
+            () => Flute2(F4, t[bar: 1, beat: 2.5], volume: _[0.68], beats[1.0]),
+            () => Flute1(G4, t[bar: 1, beat: 4.0], volume: _[0.74], beats[0.6]),
+            () => Flute2(A4, t[bar: 2, beat: 1.0], volume: _[0.82], beats[2.0]),
+            () => Flute3(B4, t[bar: 2, beat: 2.5], volume: _[0.74], beats[1.0]),
+            () => Flute2(G4, t[bar: 2, beat: 4.0], volume: _[0.90], beats[0.4]),
+            () => Flute4(A4, t[bar: 3, beat: 1.0], volume: _[1.00], _[1.66])
         );
 
         FluentOutlet OrganChords =>
             Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
-                Add
+                ParallelAdd
                 (
-                    Organ(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
-                    Organ(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
-                    Organ(Stretch(ChordPitchCurve3, bars[1]), duration: bars[8])
+                    bars[8],
+                    () => Organ(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
+                    () => Organ(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
+                    () => Organ(Stretch(ChordPitchCurve3, bars[1]), duration: bars[8])
                 )
             );
 
@@ -326,11 +331,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             //Trombone(A3, Beat[9])
         );
 
-        FluentOutlet TromboneMelody3 => Add
+        FluentOutlet TromboneMelody3 => ParallelAdd
         (
-            Trombone(A1,       beat[1]),
-            Trombone(E2,       beat[3]),
-            Trombone(F1_Sharp, beat[5], volume: _[0.7])
+            beats[5.5],
+            () => Trombone(A1,       beat[1]),
+            () => Trombone(E2,       beat[3]),
+            () => Trombone(F1_Sharp, beat[5], volume: _[0.7])
         );
 
         FluentOutlet RippleBassMelody1 => _[0];
