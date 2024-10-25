@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             => PlayMono(
                 () => Echo(MetallophoneJingle),
                 duration: 1.2 + NoteDuration + EchoTime,
-                volume: _[0.3]);
+                volume: 0.3);
 
         [TestMethod]
         public void Additive_Metallophone_Note() => new AdditiveTests().Additive_Metallophone_Note_RunTest();
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             => PlayMono(
                 () => Echo(Metallophone(F4_Sharp)),
                 duration: NoteDuration + EchoTime,
-                volume: _[0.5]);
+                volume: 0.5);
 
 
         FluentOutlet MetallophoneJingle => Add

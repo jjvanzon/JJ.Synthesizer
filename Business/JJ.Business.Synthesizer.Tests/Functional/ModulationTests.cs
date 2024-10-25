@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
-using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 
@@ -30,12 +29,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest() 
-            => Play(() => DeepEcho(DetunicaJingle), volume: _[0.45], duration: bars[7] + DEEP_ECHO_TIME);
+            => Play(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DEEP_ECHO_TIME);
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest_Mono() 
-            => PlayMono(() => DeepEcho(DetunicaJingle), volume: _[0.15], duration: bars[7] + DEEP_ECHO_TIME);
+            => PlayMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DEEP_ECHO_TIME);
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
@@ -103,7 +102,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         #region Jingles
 
         /// <inheritdoc cref="_vibraphasedocs" />
-        Outlet VibraphaseChord => Add
+        FluentOutlet VibraphaseChord => Add
         (
             Vibraphase(freq: A4, volume: _[0.80]),
             Vibraphase(freq: B4, volume: _[0.70]),
@@ -113,7 +112,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         );
 
         /// <inheritdoc cref="docs._detunica" />
-        Outlet DetunicaJingle => Add
+        FluentOutlet DetunicaJingle => Add
         (
             DetunicaBass(bar[1],              bars[5.25]),
             Detunica2   (bar[2], B4, _[0.70], bars[1.50]),
@@ -126,7 +125,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Notes
 
-        Outlet DetunicaBass(Outlet delay = null, Outlet duration = null) =>
+        FluentOutlet DetunicaBass(FluentOutlet delay = null, FluentOutlet duration = null) =>
             Panbrello(
                 panbrello: (speed: 2, depth: 0.20),
                 sound: Add(
@@ -137,9 +136,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     Detunica5(delay, E4, _[0.001], duration)));
 
         /// <inheritdoc cref="docs._detunica" />
-        Outlet Detunica1(
-            Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
-            Outlet detuneDepth = null, Outlet chorusRate = null)
+        FluentOutlet Detunica1(
+            FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null,
+            FluentOutlet detuneDepth = null, FluentOutlet chorusRate = null)
             => Detunica(
                 delay, freq, volume, duration,
                 vibrato: (_[3], _[0.00010]),
@@ -149,7 +148,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="docs._detunica" />
-        Outlet Detunica2(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet Detunica2(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
             => MildEcho(
                 Detunica(
                     delay, freq, volume, duration,
@@ -161,7 +160,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     panbrello: (_[2.6], _[0.09])));
 
         /// <inheritdoc cref="docs._detunica" />
-        Outlet Detunica3(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet Detunica3(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
             => Detunica(
                 delay, freq, volume, duration,
                 vibrato: (_[05.5], _[0.0005]),
@@ -174,7 +173,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="docs._detunica" />
-        Outlet Detunica4(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet Detunica4(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
             => Detunica(
                 delay, freq, volume, duration,
                 vibrato: (_[7], _[0.0003]),
@@ -185,7 +184,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 panbrello: (_[3.4], _[0.07]));
 
         /// <inheritdoc cref="docs._detunica" />
-        Outlet Detunica5(Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet Detunica5(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
             => Detunica(
                 delay, freq, volume, duration,
                 vibrato: (_[5.5], _[0.00005]),
@@ -200,12 +199,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         #region Instruments
 
         /// <inheritdoc cref="docs._detunica" />
-        internal Outlet Detunica(
-            Outlet delay = default, Outlet freq = default, Outlet volume = default, Outlet duration = default,
-            (Outlet speed, Outlet depth) vibrato = default, 
-            (Outlet speed, Outlet depth) tremolo = default,
-            Outlet detuneDepth = null, Outlet churnRate = null, Outlet interferenceRate = null, Outlet chorusRate = null,
-            Outlet panning = default, (Outlet speed, Outlet depth) panbrello = default,
+        internal FluentOutlet Detunica(
+            FluentOutlet delay = default, FluentOutlet freq = default, 
+            FluentOutlet volume = default, FluentOutlet duration = default,
+            (FluentOutlet speed, FluentOutlet depth) vibrato = default, 
+            (FluentOutlet speed, FluentOutlet depth) tremolo = default,
+            FluentOutlet detuneDepth = null, FluentOutlet churnRate = null, 
+            FluentOutlet interferenceRate = null, FluentOutlet chorusRate = null,
+            FluentOutlet panning = default, (FluentOutlet speed, FluentOutlet depth) panbrello = default,
             int envelopeVariation = 1)
         {
             duration = duration ?? _[1];
@@ -213,7 +214,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             if (vibrato != default) freq    = VibratoOverPitch(freq, vibrato);
             var    baseHarmonics            = BaseHarmonics(freq);
             var    detunedHarmonics         = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
-            Outlet sound                    = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
+            FluentOutlet sound                    = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
             if (tremolo != default) sound   = Tremolo(sound, tremolo);
             if (panning != null) sound      = Panning(sound, panning);
             if (panbrello != default) sound = Panbrello(sound, panbrello);
@@ -240,13 +241,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
-        Outlet Vibraphase(
-            Outlet delay = null, Outlet freq = null, Outlet volume = null, Outlet duration = null,
-            Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
+        FluentOutlet Vibraphase(
+            FluentOutlet delay = null, FluentOutlet freq = null, 
+            FluentOutlet volume = null, FluentOutlet duration = null,
+            FluentOutlet depthAdjust1 = null, FluentOutlet depthAdjust2 = null)
         {
             var saw       = SemiSaw(freq);
             var jittered  = Jitter(saw, depthAdjust1, depthAdjust2);
-            var enveloped = _[jittered].Multiply(VibraphaseVolumeCurve.Stretch(duration));
+            var enveloped = jittered.Multiply(VibraphaseVolumeCurve.Stretch(duration));
             var note      = enveloped.StrikeNote(delay, volume);
             return note;
         }
@@ -256,37 +258,37 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         #region WaveForms
 
         /// <inheritdoc cref="_semisawdocs" />
-        Outlet SemiSaw(Outlet freq)
+        FluentOutlet SemiSaw(FluentOutlet freq)
         {
             freq = freq ?? A4;
 
             return Add
             (
-                _[freq].Times(1).Sine * 1.0,
-                _[freq].Times(2).Sine * 0.5,
-                _[freq].Times(3).Sine * 0.3, 
-                _[freq].Times(4).Sine * 0.2
+                freq.Times(1).Sine * 1.0,
+                freq.Times(2).Sine * 0.5,
+                freq.Times(3).Sine * 0.3, 
+                freq.Times(4).Sine * 0.2
             );
         }
 
-        Outlet BaseHarmonics(Outlet freq)
+        FluentOutlet BaseHarmonics(FluentOutlet freq)
         {
             freq = freq ?? A4;
 
             return Add
             (
-                _[freq].Times(1).Sine * 1.00,
-                _[freq].Times(2).Sine * 0.30,
-                _[freq].Times(5).Sine * 0.15,
-                _[freq].Times(7).Sine * 0.08,
-                _[freq].Times(9).Sine * 0.10
+                freq.Times(1).Sine * 1.00,
+                freq.Times(2).Sine * 0.30,
+                freq.Times(5).Sine * 0.15,
+                freq.Times(7).Sine * 0.08,
+                freq.Times(9).Sine * 0.10
             );
         }
 
         /// <inheritdoc cref="_detunedocs" />
-        Outlet DetunedHarmonics(
-            Outlet freq, Outlet duration,
-            Outlet churnRate = null, Outlet interferenceRate = null, Outlet chorusRate = null)
+        FluentOutlet DetunedHarmonics(
+            FluentOutlet freq, FluentOutlet duration,
+            FluentOutlet churnRate = null, FluentOutlet interferenceRate = null, FluentOutlet chorusRate = null)
         {
             freq = freq ?? A4;
              
@@ -305,55 +307,55 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         #region Effects
 
         /// <inheritdoc cref="_detunedocs" />
-        Outlet DetuneFreq(
-            Outlet freq, Outlet harmonic, Outlet duration,
-            Outlet churnRate = null, Outlet interfereRate = null, Outlet chorusRate = null)
+        FluentOutlet DetuneFreq(
+            FluentOutlet freq, FluentOutlet harmonic, FluentOutlet duration,
+            FluentOutlet churnRate = null, FluentOutlet interfereRate = null, FluentOutlet chorusRate = null)
         {
-            var detunedFreq = _[freq];
+            var detunedFreq = freq;
 
             // Add to harmonic number = churn / heavy interference
             if (churnRate != null)
             {
-                var detunedHarmonic = _[harmonic] + _[churnRate].Stretch(duration);
+                var detunedHarmonic = harmonic + churnRate.Stretch(duration);
                 detunedFreq *= detunedHarmonic;
             }
 
             // Add Hz = light interference
             if (interfereRate != null)
             {
-                detunedFreq += _[interfereRate].Stretch(duration);
+                detunedFreq += interfereRate.Stretch(duration);
             }
 
             // Multiply by 1 + rate = chorus
             if (chorusRate != null)
             {
-                detunedFreq *= 1 + _[chorusRate].Stretch(duration);
+                detunedFreq *= 1 + chorusRate.Stretch(duration);
             }
 
             return detunedFreq;
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
-        Outlet Jitter(Outlet sound, Outlet depthAdjust1 = null, Outlet depthAdjust2 = null)
+        FluentOutlet Jitter(FluentOutlet sound, FluentOutlet depthAdjust1 = null, FluentOutlet depthAdjust2 = null)
         {
             depthAdjust1 = depthAdjust1 ?? _[0.005];
             depthAdjust2 = depthAdjust2 ?? _[0.250];
 
-            var tremoloWave1 = Sine(5.5) * _[depthAdjust1].Add(1); // 5.5 Hz _tremolo
+            var tremoloWave1 = Sine(5.5) * depthAdjust1.Add(1); // 5.5 Hz _tremolo
             sound *= tremoloWave1;
 
-            var tremoloWave2 = Sine(4.0) * _[depthAdjust2].Add(1); // 4 Hz _tremolo
+            var tremoloWave2 = Sine(4.0) * depthAdjust2.Add(1); // 4 Hz _tremolo
             sound *= tremoloWave2;
 
             return sound;
         }
 
         /// <inheritdoc cref="_echodocs" />
-        Outlet MildEcho(Outlet sound)
+        FluentOutlet MildEcho(FluentOutlet sound)
             => Echo(sound, count: MILD_ECHO_COUNT, magnitude: 0.25, delay: MILD_ECHO_DELAY);
 
         /// <inheritdoc cref="_echodocs" />
-        internal Outlet DeepEcho(Outlet sound)
+        internal FluentOutlet DeepEcho(FluentOutlet sound)
         {
             switch (Channel)
             {
@@ -447,7 +449,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <summary>
         /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
         /// </summary>
-        /// <returns> An <see cref="Outlet" /> representing the semi-sawtooth waveform. </returns>
+        /// <returns> An <see cref="FluentOutlet" /> representing the semi-sawtooth waveform. </returns>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         [UsedImplicitly] object _semisawdocs;
 
@@ -463,7 +465,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Applies an echo effect to the given sound.
         /// </summary>
         /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
-        /// <returns> An <see cref="Outlet" /> representing the sound with the applied echo effect. </returns>
+        /// <returns> An <see cref="FluentOutlet" /> representing the sound with the applied echo effect. </returns>
         [UsedImplicitly] object _echodocs;
 
         #endregion

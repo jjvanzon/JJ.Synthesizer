@@ -180,16 +180,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Panned, amplified sine
             Outlet getSignal()
             {
-                var sine      = Sine(_[frequency]);
-                var amplified = Multiply(sine, _[VOLUME]);
-                var panned    = Panning(amplified, _[PANNING]);
+                var sine      = Sine(frequency);
+                var amplified = Multiply(sine, VOLUME);
+                var panned    = Panning(amplified, PANNING);
                 return panned;
             }
 
             // Save to file
             AudioFileOutput audioFileOutput1 =
-                SaveAudio(getSignal, DURATION, volume: default,
-                          speakerSetupEnum,  sampleDataTypeEnum, audioFileFormatEnum, samplingRate, 
+                SaveAudio(getSignal,         DURATION,           volume: null,
+                          speakerSetupEnum,  sampleDataTypeEnum, audioFileFormatEnum, samplingRate,
                           fileName: default, callerMemberName).Data;
 
             // Use sample operator
@@ -212,9 +212,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Save to file again
             AudioFileOutput audioFileOutput2 =
-                SaveAudio(() => getSample(), DURATION2, volume: default,
-                                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRate,
-                                fileName: $"{callerMemberName}_Reloaded").Data;
+                SaveAudio(getSample,        DURATION2,          volume: null,
+                          speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRate,
+                          fileName: $"{callerMemberName}_Reloaded").Data;
 
             // Assert AudioFileOutput Entities
 
