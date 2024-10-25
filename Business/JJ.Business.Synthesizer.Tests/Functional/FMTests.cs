@@ -16,15 +16,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class FMTests : SynthWishes
     {
-        const double DEFAULT_VOLUME = 0.5;
-        
-        const int    MILD_ECHO_COUNT = 4;
-        const double MILD_ECHO_DELAY = 0.33;
-        const double MILD_ECHO_TIME  = MILD_ECHO_DELAY * (MILD_ECHO_COUNT - 1);
-
-        const int    DEEP_ECHO_COUNT = 4;
-        const double DEEP_ECHO_DELAY = 0.5;
-        const double DEEP_ECHO_TIME  = 0.5 * (DEEP_ECHO_COUNT - 1);
+        FluentOutlet DefaultVolume => _[0.5];
+        int          MildEchoCount => 4;
+        FluentOutlet MildEchoDelay => _[0.33];
+        FluentOutlet MildEchoTime  => MildEchoDelay * (MildEchoCount - 1);
+        int          DeepEchoCount => 4;
+        FluentOutlet DeepEchoDelay => _[0.5];
+        FluentOutlet DeepEchoTime  => DeepEchoDelay * (DeepEchoCount - 1);
 
         public FMTests()
             : base(beat: 0.45, bar: 4 * 0.45)
@@ -36,163 +34,163 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Long Running
         internal void FM_Jingle_RunTest()
-            => PlayMono(() => DeepEcho(Jingle()), volume: 0.18, duration: t[bar: 9, beat: 2] + DEEP_ECHO_TIME);
+            => PlayMono(() => DeepEcho(Jingle()), volume: 0.18, duration: t[bar: 9, beat: 2] + DeepEchoTime);
 
         [TestMethod]
         public void FM_Flute_Melody1() => new FMTests().FM_Flute_Melody1_RunTest();
 
         void FM_Flute_Melody1_RunTest()
-            => PlayMono(() => MildEcho(FluteMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(FluteMelody1), volume: 0.6, duration: bars[4] + MildEchoTime);
 
         [TestMethod]
         public void FM_Flute_Melody2() => new FMTests().FM_Flute_Melody2_RunTest();
 
         void FM_Flute_Melody2_RunTest()
-            => PlayMono(() => MildEcho(FluteMelody2), volume: 0.3, duration: bars[2.5] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(FluteMelody2), volume: 0.3, duration: bars[2.5] + MildEchoTime);
 
         [TestMethod]
         public void FM_Flute1() => new FMTests().FM_Flute1_RunTest();
 
         void FM_Flute1_RunTest()
-            => PlayMono(() => MildEcho(Flute1()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Flute1()), duration: 1 + MildEchoTime, DefaultVolume);
 
         [TestMethod]
         public void FM_Flute2() => new FMTests().FM_Flute2_RunTest();
 
         void FM_Flute2_RunTest()
-            => PlayMono(() => MildEcho(Flute2()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Flute2()), duration: 1 + MildEchoTime, DefaultVolume);
 
         [TestMethod]
         public void FM_Flute3() => new FMTests().FM_Flute3_RunTest();
 
         void FM_Flute3_RunTest()
-            => PlayMono(() => MildEcho(Flute3()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Flute3()), duration: 1 + MildEchoTime, DefaultVolume);
 
         [TestMethod]
         public void FM_Flute4() => new FMTests().FM_Flute4_RunTest();
 
         void FM_Flute4_RunTest()
-            => PlayMono(() => MildEcho(Flute4()), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Flute4()), duration: 1 + MildEchoTime, DefaultVolume);
 
         [TestMethod]
         public void FM_Organ() => new FMTests().FM_Organ_RunTest();
 
         void FM_Organ_RunTest()
-            => SaveAudioMono(() => MildEcho(Organ(duration: bars[8])), duration: bars[8] + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => SaveAudioMono(() => MildEcho(Organ(duration: bars[8])), duration: bars[8] + MildEchoTime, DefaultVolume);
 
         [TestMethod]
         public void FM_Organ_Chords() => new FMTests().FM_Organ_Chords_RunTest();
 
         void FM_Organ_Chords_RunTest()
-            => PlayMono(() => MildEcho(OrganChords), volume: 0.22, duration: bars[8] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(OrganChords), volume: 0.22, duration: bars[8] + MildEchoTime);
 
         [TestMethod]
         public void FM_Pad() => new FMTests().FM_Pad_RunTest();
 
         void FM_Pad_RunTest()
-            => PlayMono(() => MildEcho(Pad()), duration: bars[8] + MILD_ECHO_TIME, volume: 0.2);
+            => PlayMono(() => MildEcho(Pad()), duration: bars[8] + MildEchoTime, volume: 0.2);
 
         [TestMethod]
         public void FM_Pad_Chords() => new FMTests().FM_Pad_Chords_RunTest();
 
         void FM_Pad_Chords_RunTest()
-            => PlayMono(() => MildEcho(PadChords), volume: 0.15, duration: bars[8] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(PadChords), volume: 0.15, duration: bars[8] + MildEchoTime);
 
         [TestMethod]
         public void FM_Trombone() => new FMTests().FM_Trombone_RunTest();
 
         void FM_Trombone_RunTest()
-            => PlayMono(() => MildEcho(Trombone(E2)), duration: 2, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Trombone(E2)), duration: 2, DefaultVolume);
 
         [TestMethod]
         public void FM_Horn() => new FMTests().FM_Horn_RunTest();
 
         void FM_Horn_RunTest()
-            => PlayMono(() => MildEcho(Horn(duration: _[1])), duration: 1 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(Horn(duration: _[1])), duration: 1 + MildEchoTime, DefaultVolume);
 
         [TestMethod]
         public void FM_Trombone_Melody1() => new FMTests().FM_Trombone_Melody1_RunTest();
 
         void FM_Trombone_Melody1_RunTest()
-            => PlayMono(() => MildEcho(TromboneMelody1), volume: 0.45, duration: bars[4] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(TromboneMelody1), volume: 0.45, duration: bars[4] + MildEchoTime);
 
         [TestMethod]
         public void FM_Trombone_Melody2() => new FMTests().FM_Trombone_Melody2_RunTest();
 
         void FM_Trombone_Melody2_RunTest()
-            => PlayMono(() => MildEcho(TromboneMelody2), volume: 0.75, duration: bars[3.5] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(TromboneMelody2), volume: 0.75, duration: bars[3.5] + MildEchoTime);
 
         [TestMethod]
         public void FM_Trombone_Melody3() => new FMTests().FM_Trombone_Melody3_RunTest();
 
         void FM_Trombone_Melody3_RunTest()
-            => PlayMono(() => MildEcho(TromboneMelody3), duration: bars[1.5] + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => MildEcho(TromboneMelody3), duration: bars[1.5] + MildEchoTime, DefaultVolume);
 
         [TestMethod]
         public void FM_Horn_Melody1() => new FMTests().FM_Horn_Melody1_RunTest();
 
         void FM_Horn_Melody1_RunTest()
-            => PlayMono(() => MildEcho(HornMelody1), volume: 0.6, duration: bars[4] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(HornMelody1), volume: 0.6, duration: bars[4] + MildEchoTime);
 
         [TestMethod]
         public void FM_Horn_Melody2() => new FMTests().FM_Horn_Melody2_RunTest();
 
         void FM_Horn_Melody2_RunTest()
-            => PlayMono(() => MildEcho(HornMelody2), volume: 0.6, duration: bars[3.5] + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(HornMelody2), volume: 0.6, duration: bars[3.5] + MildEchoTime);
 
         [TestMethod]
         public void FM_ElectricNote() => new FMTests().FM_ElectricNote_RunTest();
 
         void FM_ElectricNote_RunTest()
-            => SaveAudioMono(() => MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MILD_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => SaveAudioMono(() => MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MildEchoTime, DefaultVolume);
 
         [TestMethod]
         public void FM_RippleBass() => new FMTests().FM_RippleBass_RunTest();
 
         void FM_RippleBass_RunTest()
-            => PlayMono(() => DeepEcho(RippleBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => DeepEcho(RippleBass(duration: _[3])), duration: 3 + DeepEchoTime, DefaultVolume);
 
         [TestMethod]
         public void FM_RippleBass_Melody1() => new FMTests().FM_RippleBass_Melody1_RunTest();
 
         void FM_RippleBass_Melody1_RunTest()
-            => SaveAudioMono(() => DeepEcho(RippleBassMelody1), volume: 0.3, duration: bars[5] + DEEP_ECHO_TIME);
+            => SaveAudioMono(() => DeepEcho(RippleBassMelody1), volume: 0.3, duration: bars[5] + DeepEchoTime);
 
         [TestMethod]
         public void FM_RippleBass_Melody2() => new FMTests().FM_RippleBass_Melody2_RunTest();
 
         void FM_RippleBass_Melody2_RunTest()
-            => PlayMono(() => DeepEcho(RippleBassMelody2), volume: 0.3, duration: bars[4] + DEEP_ECHO_TIME);
+            => PlayMono(() => DeepEcho(RippleBassMelody2), volume: 0.3, duration: bars[4] + DeepEchoTime);
 
         [TestMethod]
         public void FM_RippleNote_SharpMetallic() => new FMTests().FM_RippleNote_SharpMetallic_RunTest();
 
         void FM_RippleNote_SharpMetallic_RunTest()
-            => PlayMono(() => DeepEcho(RippleNote_SharpMetallic(duration: _[2.2])), duration: 2.2 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => DeepEcho(RippleNote_SharpMetallic(duration: _[2.2])), duration: 2.2 + DeepEchoTime, DefaultVolume);
 
         [TestMethod]
         public void FM_RippleSound_Clean() => new FMTests().FM_RippleSound_Clean_RunTest();
 
         void FM_RippleSound_Clean_RunTest()
-            => PlayMono(() => DeepEcho(RippleSound_Clean(duration: _[4])), duration: 4 + DEEP_ECHO_TIME, volume: DEFAULT_VOLUME);
+            => PlayMono(() => DeepEcho(RippleSound_Clean(duration: _[4])), duration: 4 + DeepEchoTime, DefaultVolume);
 
         [TestMethod]
         public void FM_RippleSound_FantasyEffect() => new FMTests().FM_RippleSound_FantasyEffect_RunTest();
 
         void FM_RippleSound_FantasyEffect_RunTest()
-            => PlayMono(() => DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DEEP_ECHO_TIME, volume: 0.10);
+            => PlayMono(() => DeepEcho(RippleSound_FantasyEffect(duration: _[4])), duration: 4 + DeepEchoTime, volume: 0.10);
 
         [TestMethod]
         public void FM_RippleSound_CoolDouble() => new FMTests().FM_RippleSound_CoolDouble_RunTest();
 
         void FM_RippleSound_CoolDouble_RunTest()
-            => PlayMono(() => DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.10);
+            => PlayMono(() => DeepEcho(RippleSound_CoolDouble(duration: _[3])), duration: 3 + DeepEchoTime, volume: 0.10);
 
         [TestMethod]
         public void FM_Noise_Beating() => new FMTests().FM_Noise_Beating_RunTest();
 
         void FM_Noise_Beating_RunTest()
-            => SaveAudioMono(() => MildEcho(Create_FM_Noise_Beating(A4)), duration: 5, volume: DEFAULT_VOLUME);
+            => SaveAudioMono(() => MildEcho(Create_FM_Noise_Beating(A4)), duration: 5, DefaultVolume);
 
         #endregion
 
@@ -626,19 +624,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
         {
-            var modulator = Add(1, Multiply(Sine(modSpeed), modDepth));
-            var sound     = Sine(Multiply(soundFreq, modulator));
+            var modulator = 1 + Sine(modSpeed) * modDepth;
+            var sound     = Sine(_[soundFreq].Multiply(modulator));
             return sound;
         }
 
-        Outlet MildEcho(Outlet outlet)
-            => Echo(outlet, count: MILD_ECHO_COUNT, magnitude: 0.25, delay: MILD_ECHO_DELAY);
+        Outlet MildEcho(Outlet outlet) => Echo(outlet, MildEchoCount, 0.25, MildEchoDelay);
 
         /// <summary> Applies a deep echo effect to the specified sound. </summary>
         /// <param name="melody"> The original sound to which the echo effect will be applied. </param>
         /// <returns> An <see cref="Outlet" /> representing the sound with the deep echo effect applied. </returns>
-        Outlet DeepEcho(Outlet melody)
-            => Echo(melody, count: DEEP_ECHO_COUNT, magnitude: 0.5, delay: DEEP_ECHO_DELAY);
+        Outlet DeepEcho(Outlet melody) => Echo(melody, DeepEchoCount, 0.5, DeepEchoDelay);
 
         #endregion
 

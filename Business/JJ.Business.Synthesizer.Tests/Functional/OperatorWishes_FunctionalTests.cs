@@ -298,7 +298,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             Outlet envelope = Curve("Envelope", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(B4), envelope);
-            Outlet echoes   = EchoAdditive(sound, magnitude: 0.66, delay: 0.25, count: 16);
+            Outlet echoes   = EchoAdditive(sound, count: 16, magnitude: 0.66, delay: 0.25);
 
             SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono     (() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
@@ -321,7 +321,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Outlet delay = Curve("Delay Curve", (0, 0.25), (4, 0.35));
 
-            Outlet echoes = EchoAdditive(sound, magnitude, delay, count: 16);
+            Outlet echoes = EchoAdditive(sound, count: 16, magnitude, delay);
 
             SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav");
             SaveAudioMono(() => magnitude, duration: 4,   fileName: Name() + "_Magnitude.wav");
@@ -337,7 +337,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet envelope = Curve("Envelope", (0, 1), (0.2, 0));
             Outlet sound    = Multiply(Sine(F5), envelope);
 
-            Outlet echoes = EchoFeedBack(sound, magnitude: 0.66, delay: 0.25, count: 16);
+            Outlet echoes = EchoFeedBack(sound, count: 16, magnitude: 0.66, delay: 0.25);
 
             SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
@@ -360,7 +360,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Outlet delay = Curve("Delay Curve", (0, 0.25), (4, 0.35));
 
-            Outlet echoes = EchoFeedBack(sound, magnitude, delay, count: 16);
+            Outlet echoes = EchoFeedBack(sound, count: 16, magnitude, delay);
 
             SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav"    );
             SaveAudioMono(() => magnitude, duration: 4.5, fileName: Name() + "_Magnitude.wav");

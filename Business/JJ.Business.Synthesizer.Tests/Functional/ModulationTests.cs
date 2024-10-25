@@ -12,13 +12,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class ModulationTests : SynthWishes
     {
-        const int    MILD_ECHO_COUNT   = 4;
-        const double MILD_ECHO_DELAY   = 0.33;
-        const double MILD_ECHO_TIME    = MILD_ECHO_DELAY * (MILD_ECHO_COUNT - 1);
-        const int    DEEP_ECHO_COUNT   = 4;
-        const double DEEP_ECHO_DELAY_L = 0.5;
-        const double DEEP_ECHO_DELAY_R = 0.53;
-        const double DEEP_ECHO_TIME    = DEEP_ECHO_DELAY_R * (DEEP_ECHO_COUNT - 1);
+        int          MildEchoCount      => 4;
+        FluentOutlet MildEchoDelay      => _[0.33];
+        FluentOutlet MildEchoTime       => MildEchoDelay * (MildEchoCount - 1);
+        int          DeepEchoCount      => 4;
+        FluentOutlet DeepEchoDelayL  => _[0.5];
+        FluentOutlet DeepEchoDelayR => _[0.53];
+        FluentOutlet DeepEchoTime       => DeepEchoDelayR * (DeepEchoCount - 1);
 
         public ModulationTests()
             : base(beat: 0.55, bar: 2.2)
@@ -29,17 +29,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest() 
-            => Play(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DEEP_ECHO_TIME);
+            => Play(() => DeepEcho(DetunicaJingle), volume: 0.45, duration: bars[7] + DeepEchoTime);
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest_Mono() 
-            => PlayMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DEEP_ECHO_TIME);
+            => PlayMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DeepEchoTime);
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass_RunTest()
-            => Play(() => DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DEEP_ECHO_TIME, volume: 0.9);
+            => Play(() => DeepEcho(DetunicaBass(duration: _[3])), duration: 3 + DeepEchoTime, volume: 0.9);
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         void Detunica1_RunTest()
-            => Play(() => DeepEcho(Detunica1(freq: E2, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.15);
+            => Play(() => DeepEcho(Detunica1(freq: E2, duration: _[3])), 3 + DeepEchoTime, volume: 0.15);
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         void Detunica2_RunTest()
-            => Play(() => DeepEcho(Detunica2(freq: B4, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.2);
+            => Play(() => DeepEcho(Detunica2(freq: B4, duration: _[3])), 3 + DeepEchoTime, volume: 0.2);
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         void Detunica3_RunTest()
-            => Play(() => DeepEcho(Detunica3(freq: C5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.4);
+            => Play(() => DeepEcho(Detunica3(freq: C5, duration: _[3])), 3 + DeepEchoTime, volume: 0.4);
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         void Detunica4_RunTest()
-            => Play(() => DeepEcho(Detunica4(freq: D5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.25);
+            => Play(() => DeepEcho(Detunica4(freq: D5, duration: _[3])), 3 + DeepEchoTime, volume: 0.25);
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         void Detunica5_RunTest()
-            => Play(() => DeepEcho(Detunica5(freq: E5, duration: _[3])), 3 + DEEP_ECHO_TIME, volume: 0.3);
+            => Play(() => DeepEcho(Detunica5(freq: E5, duration: _[3])), 3 + DeepEchoTime, volume: 0.3);
 
         /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => PlayMono(() => MildEcho(VibraphaseChord), volume: 0.25, duration: 1 + MILD_ECHO_TIME);
+            => PlayMono(() => MildEcho(VibraphaseChord), volume: 0.25, duration: 1 + MildEchoTime);
 
         /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()
-            => PlayMono(() => MildEcho(Vibraphase(freq: E5)), duration: 1 + MILD_ECHO_TIME, volume: 0.5);
+            => PlayMono(() => MildEcho(Vibraphase(freq: E5)), duration: 1 + MildEchoTime, volume: 0.5);
 
         #endregion
 
@@ -351,8 +351,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="_echodocs" />
-        FluentOutlet MildEcho(FluentOutlet sound)
-            => Echo(sound, count: MILD_ECHO_COUNT, magnitude: 0.25, delay: MILD_ECHO_DELAY);
+        FluentOutlet MildEcho(FluentOutlet sound) => Echo(sound, MildEchoCount, 0.25, MildEchoDelay);
 
         /// <inheritdoc cref="_echodocs" />
         internal FluentOutlet DeepEcho(FluentOutlet sound)
@@ -360,13 +359,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             switch (Channel)
             {
                 case ChannelEnum.Single:
-                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: 1 / 2.0, delay: DEEP_ECHO_DELAY_L);
+                    return sound.Echo(DeepEchoCount, 1 / 2.0, DeepEchoDelayL);
                 
                 case ChannelEnum.Left:
-                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: 1 / 2.1, delay: DEEP_ECHO_DELAY_L);
+                    return sound.Echo(DeepEchoCount, 1 / 2.1, DeepEchoDelayL);
                 
                 case ChannelEnum.Right:
-                    return Echo(sound, count: DEEP_ECHO_COUNT, magnitude: 1 / 2.0, delay: DEEP_ECHO_DELAY_R);
+                    return sound.Echo(DeepEchoCount, 1 / 2.0, DeepEchoDelayR);
                 
                 default:
                     throw new ValueNotSupportedException(Channel);

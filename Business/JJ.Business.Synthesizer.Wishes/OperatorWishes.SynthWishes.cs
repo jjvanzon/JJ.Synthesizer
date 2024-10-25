@@ -537,21 +537,20 @@ namespace JJ.Business.Synthesizer.Wishes
             double referenceFrequency, double referencePanning)
             => PitchPan(actualFrequency, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
         
-        public FluentOutlet Echo(Outlet signal, Outlet magnitude = default, Outlet delay = default, int count = 8)
-            => EchoFeedBack(signal, magnitude, delay, count);
+        public FluentOutlet Echo(Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default)
+            => EchoFeedBack(signal, count, magnitude, delay);
 
-        public FluentOutlet Echo(Outlet signal, Outlet magnitude, double delay, int count = 8)
-            => Echo(signal, magnitude, _[delay], count);
+        public FluentOutlet Echo(Outlet signal, int count, Outlet magnitude, double delay)
+            => Echo(signal, count, magnitude, _[delay]);
 
-        public FluentOutlet Echo(Outlet signal, double magnitude, Outlet delay = default, int count = 8)
-            => Echo(signal, _[magnitude], delay, count);
+        public FluentOutlet Echo(Outlet signal, int count, double magnitude, Outlet delay = default)
+            => Echo(signal, count, _[magnitude], delay);
         
-        public FluentOutlet Echo(Outlet signal, double magnitude, double delay, int count = 8)
-            => Echo(signal, _[magnitude], _[delay], count);
+        public FluentOutlet Echo(Outlet signal, int count, double magnitude, double delay)
+            => Echo(signal, count, _[magnitude], _[delay]);
 
         public FluentOutlet EchoAdditive(
-            Outlet signal,
-            Outlet magnitude = default, Outlet delay = default, int count = 8)
+            Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default)
         {
             Outlet cumulativeMagnitude = _[1];
             Outlet cumulativeDelay     = _[0];
@@ -573,14 +572,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return adder;
         }
 
-        public FluentOutlet EchoAdditive(Outlet signal, Outlet magnitude, double delay, int count = 8)
-            => EchoAdditive(signal, magnitude, _[delay], count);
+        public FluentOutlet EchoAdditive(Outlet signal, int count, Outlet magnitude, double delay)
+            => EchoAdditive(signal, count, magnitude, _[delay]);
 
-        public FluentOutlet EchoAdditive(Outlet signal, double magnitude, Outlet delay = default, int count = 8)
-            => EchoAdditive(signal, _[magnitude], delay, count);
+        public FluentOutlet EchoAdditive(Outlet signal, int count, double magnitude, Outlet delay = default)
+            => EchoAdditive(signal, count, _[magnitude], delay);
         
-        public FluentOutlet EchoAdditive(Outlet signal, double magnitude, double delay, int count = 8)
-            => EchoAdditive(signal, _[magnitude], _[delay], count);
+        public FluentOutlet EchoAdditive(Outlet signal, int count, double magnitude, double delay)
+            => EchoAdditive(signal, count, _[magnitude], _[delay]);
         
         /// <summary>
         /// Applies an echo effect using a feedback loop.
@@ -591,8 +590,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Keeping it in here just to have an optimization option for later.
         /// </summary>
         public FluentOutlet EchoFeedBack(
-            Outlet signal,
-            Outlet magnitude = default, Outlet delay = default, int count = 8)
+            Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             if (magnitude == null) magnitude = _[0.66];
@@ -618,14 +616,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return _[cumulativeSignal];
         }
         
-        public FluentOutlet EchoFeedBack(Outlet signal, Outlet magnitude, double delay, int count = 8)
-            => EchoFeedBack(signal, magnitude, _[delay], count);
+        public FluentOutlet EchoFeedBack(Outlet signal, int count, Outlet magnitude, double delay)
+            => EchoFeedBack(signal, count, magnitude, _[delay]);
 
-        public FluentOutlet EchoFeedBack(Outlet signal, double magnitude, Outlet delay = default, int count = 8)
-            => EchoFeedBack(signal, _[magnitude], delay, count);
+        public FluentOutlet EchoFeedBack(Outlet signal, int count, double magnitude, Outlet delay = default)
+            => EchoFeedBack(signal, count, _[magnitude], delay);
         
-        public FluentOutlet EchoFeedBack(Outlet signal, double magnitude, double delay, int count = 8)
-            => EchoFeedBack(signal, _[magnitude], _[delay], count);
+        public FluentOutlet EchoFeedBack(Outlet signal, int count, double magnitude, double delay)
+            => EchoFeedBack(signal, count, _[magnitude], _[delay]);
 
         // ValueIndexer
 

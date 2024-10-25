@@ -180,41 +180,41 @@ namespace JJ.Business.Synthesizer.Wishes
         public Outlet PitchPan(double centerFrequency, double referenceFrequency, double referencePanning)
             => _synthWishes.PitchPan(_thisOutlet, centerFrequency, referenceFrequency, referencePanning);
 
-        public FluentOutlet Echo(Outlet magnitude = default, Outlet delay = default, int count = 8)
-            => _synthWishes.Echo(_thisOutlet, magnitude, delay, count);
+        public FluentOutlet Echo(int count = 4, Outlet magnitude = default, Outlet delay = default)
+            => _synthWishes.Echo(_thisOutlet, count, magnitude, delay);
 
-        public FluentOutlet Echo(Outlet magnitude, double delay, int count = 8)
-            => _synthWishes.Echo(_thisOutlet, magnitude, delay, count);
+        public FluentOutlet Echo(int count, Outlet magnitude, double delay)
+            => _synthWishes.Echo(_thisOutlet, count, magnitude, delay);
 
-        public FluentOutlet Echo(double magnitude, Outlet delay, int count = 8)
-            => _synthWishes.Echo(_thisOutlet, magnitude, delay, count);
+        public FluentOutlet Echo(int count, double magnitude, Outlet delay)
+            => _synthWishes.Echo(_thisOutlet, count, magnitude, delay);
 
-        public FluentOutlet Echo(double magnitude = default, double delay = default, int count = 8)
-            => _synthWishes.Echo(_thisOutlet, magnitude, delay, count);
+        public FluentOutlet Echo(int count = 4, double magnitude = default, double delay = default)
+            => _synthWishes.Echo(_thisOutlet, count, magnitude, delay);
 
-        public FluentOutlet EchoAdditive(Outlet magnitude = default, Outlet delay = default, int count = 8)
-            => _synthWishes.EchoAdditive(_thisOutlet, magnitude, delay, count);
+        public FluentOutlet EchoAdditive(int count = 8, Outlet magnitude = default, Outlet delay = default)
+            => _synthWishes.EchoAdditive(_thisOutlet, count, magnitude, delay);
 
-        public FluentOutlet EchoAdditive(Outlet magnitude, double delay, int count = 8)
-            => _synthWishes.EchoAdditive(_thisOutlet, magnitude, delay, count);
+        public FluentOutlet EchoAdditive(int count, Outlet magnitude, double delay)
+            => _synthWishes.EchoAdditive(_thisOutlet, count, magnitude, delay);
 
-        public FluentOutlet EchoAdditive(double magnitude, Outlet delay, int count = 8)
-            => _synthWishes.EchoAdditive(_thisOutlet, magnitude, delay, count);
+        public FluentOutlet EchoAdditive(int count, double magnitude, Outlet delay)
+            => _synthWishes.EchoAdditive(_thisOutlet, count, magnitude, delay);
 
-        public FluentOutlet EchoAdditive(double magnitude = default, double delay = default, int count = 8)
-            => _synthWishes.EchoAdditive(_thisOutlet, magnitude, delay, count);
+        public FluentOutlet EchoAdditive(int count = 8, double magnitude = default, double delay = default)
+            => _synthWishes.EchoAdditive(_thisOutlet, count, magnitude, delay);
 
-        public FluentOutlet EchoFeedBack(Outlet magnitude = default, Outlet delay = default, int count = 8)
-            => _synthWishes.EchoFeedBack(_thisOutlet, magnitude, delay, count);
+        public FluentOutlet EchoFeedBack(int count = 8, Outlet magnitude = default, Outlet delay = default)
+            => _synthWishes.EchoFeedBack(_thisOutlet, count, magnitude, delay);
 
-        public FluentOutlet EchoFeedBack(Outlet magnitude, double delay, int count = 8)
-            => _synthWishes.EchoFeedBack(_thisOutlet, magnitude, delay, count);
+        public FluentOutlet EchoFeedBack(int count, Outlet magnitude, double delay)
+            => _synthWishes.EchoFeedBack(_thisOutlet, count, magnitude, delay);
 
-        public FluentOutlet EchoFeedBack(double magnitude, Outlet delay, int count = 8)
-            => _synthWishes.EchoFeedBack(_thisOutlet, magnitude, delay, count);
+        public FluentOutlet EchoFeedBack(int count, double magnitude, Outlet delay)
+            => _synthWishes.EchoFeedBack(_thisOutlet, count, magnitude, delay);
 
         public FluentOutlet EchoFeedBack(double magnitude = default, double delay = default, int count = 8)
-            => _synthWishes.EchoFeedBack(_thisOutlet, magnitude, delay, count);
+            => _synthWishes.EchoFeedBack(_thisOutlet, count, magnitude, delay);
 
         // Curve Chaining Methods
 
