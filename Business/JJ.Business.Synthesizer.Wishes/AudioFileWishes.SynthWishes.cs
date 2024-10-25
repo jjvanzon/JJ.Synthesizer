@@ -22,6 +22,7 @@ using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 // ReSharper disable UseObjectOrCollectionInitializer
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -43,6 +44,72 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Parallelization
 
+        /// <summary>
+        /// Same as ParallelAdd, but plays the sounds generated in the parallel loop,
+        /// and the samples are reloaded from the files and played again, all for testing purposes.
+        /// Also, doesn't clean up the files. Also for testing purposes.
+        /// </summary>
+        public FluentOutlet ParallelPlay(params Func<SynthWishes, Outlet>[] funcs)
+            => ParallelPlay((IList<Func<SynthWishes, Outlet>>)funcs);
+
+        public FluentOutlet ParallelPlay(Outlet duration, params Func<SynthWishes, Outlet>[] funcs)
+            => ParallelPlay(duration, (IList<Func<SynthWishes, Outlet>>)funcs);
+
+        public FluentOutlet ParallelPlay(IList<Func<SynthWishes, Outlet>> funcs)
+            => ParallelPlay(duration: _[1], funcs);
+
+        public FluentOutlet ParallelPlay(Outlet duration, IList<Func<SynthWishes, Outlet>> funcs)
+        { 
+            int i = 0;
+            var guid = Guid.NewGuid();
+            var lck = new object();
+            var filePaths = new List<string>();
+            var reloadedSamples = new List<Outlet>();
+            var exceptions = new List<Exception>();
+
+            Parallel.ForEach(funcs, func =>
+            {
+                try
+                {
+                    // Context isn't thread-safe. I really have to start disposing contexts, don't I?
+                    var x = new SynthWishes();
+
+                    // Think of a name
+                    Interlocked.Increment(ref i);
+                    string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
+
+                    // Save to File
+                    string filePath = x.PlayMono(() => func(x), duration, fileName: name).Data.FilePath;
+
+                    // Add to list
+                    lock (lck) filePaths.Add(filePath);
+                }
+                catch (Exception ex)
+                {
+                    lock (lck) exceptions.Add(ex);
+                }
+            });
+
+            // Reload Samples
+            foreach (string filePath in filePaths)
+            {
+                Outlet sample = Sample(filePath);
+                reloadedSamples.Add(sample);
+
+                // Save and play to test the sample loading
+                string reloadedFilePath = filePath.CutLeft(".wav") + "_Reloaded.wav";
+                
+                PlayMono(() => sample, duration, fileName: reloadedFilePath);
+            }
+
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException(exceptions);
+            }
+
+            return Add(reloadedSamples);
+        }
+
         public FluentOutlet ParallelAdd(params Func<SynthWishes, Outlet>[] funcs)
             => ParallelAdd((IList<Func<SynthWishes, Outlet>>)funcs);
 
@@ -60,95 +127,84 @@ namespace JJ.Business.Synthesizer.Wishes
             var filePaths = new List<string>();
             var reloadedSamples = new List<Outlet>();
             var exceptions = new List<Exception>();
-            // TODO: Remove Non-Working Code
-            {
-                //var reloadedFilePaths = new List<string>();
-            }
 
-            Parallel.ForEach(funcs, func =>
+            try
             {
-                try
+                Parallel.ForEach(funcs, func =>
                 {
-                    // Context isn't thread-safe. I really have to start disposing contexts, don't I?
-                    var x = new SynthWishes();
-
-                    // Think of a name
-                    Interlocked.Increment(ref i);
-                    string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
-
-                    // Save to File
-                    string filePath = x.PlayMono(() => func(x), duration, fileName: name).Data.FilePath;
-
-                    // Hypothesis:
-                    // Operator creation methods not thread-safe.
-                    // Operator creation cannot work in parallel,
-                    // While the graph is changing; it uses the graph.
-
-                    // TODO: Remove Non-Working Code
+                    try
                     {
-                        // Save and play to test the sample loading
-                        //Outlet sample = x.Sample(filePath);
-                        //string reloadedFileName = filePath.CutLeft(".wav") + "_Reloaded.wav";
-                        //PlayMono(() => sample, duration, fileName: reloadedFileName );
-                    }
+                        // Context isn't thread-safe. I really have to start disposing contexts, don't I?
+                        var x = new SynthWishes();
 
-                    // Add to list
-                    lock (lck)
-                    {
-                        filePaths.Add(filePath);
+                        // Think of a name
+                        Interlocked.Increment(ref i);
+                        string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
+
+                        // Save to File
+                        string filePath = x.SaveAudioMono(() => func(x), duration, fileName: name).Data.FilePath;
+
+                        // Hypothesis:
+                        // Operator creation methods not thread-safe.
+                        // Operator creation cannot work in parallel,
+                        // While the graph is changing; it uses the graph.
 
                         // TODO: Remove Non-Working Code
                         {
-                            //reloadedSamples.Add(sample);
+                            // Save and play to test the sample loading
+                            //Outlet sample = x.Sample(filePath);
+                            //string reloadedFileName = filePath.CutLeft(".wav") + "_Reloaded.wav";
+                            //PlayMono(() => sample, duration, fileName: reloadedFileName );
+                        }
+
+                        // Add to list
+                        lock (lck)
+                        {
+                            filePaths.Add(filePath);
+
+                            // TODO: Remove Non-Working Code
+                            {
+                                //reloadedSamples.Add(sample);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        lock (lck)
+                        {
+                            exceptions.Add(ex);
+                        }
+                    }
+                });
+
+                // Reload Samples
+                for (var j = 0; j < filePaths.Count; j++)
+                {
+                    string filePath = filePaths[j];
+                    Outlet sample = Sample(filePath);
+                    reloadedSamples.Add(sample);
+                }
+            }
+            finally
+            {
+                // Clean-up
+                foreach (string filePath in filePaths)
+                {
+                    try
+                    {
+                        if (File.Exists(filePath))
+                        {
+                            File.Delete(filePath);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        lock (lck)
+                        {
+                            exceptions.Add(ex);
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    lock (lck)
-                    {
-                        exceptions.Add(ex);
-                    }
-                }
-            });
-
-            // Reload Samples
-            foreach (string filePath in filePaths)
-            {
-                Outlet sample = Sample(filePath);
-
-                // TODO: Make configurable
-                {
-                    //// Save and play to test the sample loading
-                    //string reloadedFilePath = filePath.CutLeft(".wav") + "_Reloaded.wav";
-                    //PlayMono(() => sample, duration, fileName: reloadedFilePath);
-                    //reloadedFilePaths.Add(reloadedFilePath);
-                }
-                
-                reloadedSamples.Add(sample);
-            }
-
-            // TODO: Make configurable
-            {
-                //// Clean-up
-                //
-                //foreach (string filePath in filePaths.Union(reloadedFilePaths))
-                //{
-                //    try
-                //    {
-                //        if (File.Exists(filePath))
-                //        {
-                //            File.Delete(filePath);
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        lock (lck)
-                //        {
-                //            exceptions.Add(ex);
-                //        }
-                //    }
-                //}
             }
 
             if (exceptions.Count > 0)
