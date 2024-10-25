@@ -226,123 +226,165 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator +(FluentOutlet a, FluentOutlet b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-
-            a = a ?? synthWishes._[0];
-            b = b ?? synthWishes._[0];
-            
-            return a.Plus(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            b = b ?? x._[0];
+            return x._[a].Plus(b);
         }
         
+        public static FluentOutlet operator +(FluentOutlet a, Outlet b)
+        {
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            b = b ?? x._[0];
+            return x._[a].Plus(b);
+        }
+
+        public static FluentOutlet operator +(Outlet a, FluentOutlet b)
+        {
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            b = b ?? x._[0];
+            return x._[a].Plus(b);
+        }
+                
         public static FluentOutlet operator +(FluentOutlet a, double b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-            
-            a = a ?? synthWishes._[0];
-            
-            return a.Plus(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            return x._[a].Plus(b);
         }
-        
+
         public static FluentOutlet operator +(double a, FluentOutlet b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-
-            if (b == null) b = synthWishes._[0];
-            
-            return synthWishes._[a].Plus(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            b = b ?? x._[0];
+            return x._[a].Plus(b);
         }
 
         // Operator -
         
         public static FluentOutlet operator -(FluentOutlet a, FluentOutlet b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-
-            a = a ?? synthWishes._[0];
-            b = b ?? synthWishes._[0];
-
-            return a.Minus(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            b = b ?? x._[0];
+            return x._[a].Minus(b);
+        }
+        
+        public static FluentOutlet operator -(FluentOutlet a, Outlet b)
+        {
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            b = b ?? x._[0];
+            return x._[a].Minus(b);
+        }
+        
+        public static FluentOutlet operator -(Outlet a, FluentOutlet b)
+        {
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            b = b ?? x._[0];
+            return x._[a].Minus(b);
         }
         
         public static FluentOutlet operator -(FluentOutlet a, double b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-
-            a = a ?? synthWishes._[0];
-            
-            return a.Minus(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            return x._[a].Minus(b);
         }
         
         public static FluentOutlet operator -(double a, FluentOutlet b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-            
-            b = b ?? synthWishes._[0];
-
-            return synthWishes._[a].Minus(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            b = b ?? x._[0];
+            return x._[a].Minus(b);
         }
 
         // Operator *
         
         public static FluentOutlet operator *(FluentOutlet a, FluentOutlet b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-            
-            a = a ?? synthWishes._[1];
-            b = b ?? synthWishes._[1];
-
-            return a.Times(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[1];
+            b = b ?? x._[1];
+            return x._[a].Times(b);
+        }
+        
+        public static FluentOutlet operator *(FluentOutlet a, Outlet b)
+        {
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[1];
+            b = b ?? x._[1];
+            return x._[a].Times(b);
+        }
+        
+        public static FluentOutlet operator *(Outlet a, FluentOutlet b)
+        {
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[1];
+            b = b ?? x._[1];
+            return x._[a].Times(b);
         }
         
         public static FluentOutlet operator *(FluentOutlet a, double b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-            
-            a = a ?? synthWishes._[1];
-            
-            return a.Times(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[1];
+            return x._[a].Times(b);
         }
         
         public static FluentOutlet operator *(double a, FluentOutlet b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-            
-            b = b ?? synthWishes._[1];
-
-            return synthWishes._[a].Times(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            b = b ?? x._[1];
+            return x._[a].Times(b);
         }
 
         // Operator /
         
         public static FluentOutlet operator /(FluentOutlet a, FluentOutlet b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-            
-            a = a ?? synthWishes._[0];
-            b = b ?? synthWishes._[1];
-
-            return a.Divide(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            b = b ?? x._[1];
+            return x._[a].Divide(b);
+        }
+        
+        public static FluentOutlet operator /(FluentOutlet a, Outlet b)
+        {
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            b = b ?? x._[1];
+            return x._[a].Divide(b);
+        }
+                
+        public static FluentOutlet operator /(Outlet a, FluentOutlet b)
+        {
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            b = b ?? x._[1];
+            return x._[a].Divide(b);
         }
         
         public static FluentOutlet operator /(FluentOutlet a, double b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-            
-            a = a ?? synthWishes._[0];
-            
-            return a.Divide(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            a = a ?? x._[0];
+            return x._[a].Divide(b);
         }
         
         public static FluentOutlet operator /(double a, FluentOutlet b)
         {
-            var synthWishes = GetSynthWishesOrThrow(a, b);
-            
-            b = b ?? synthWishes._[1];
-            
-            return synthWishes._[a].Divide(b);
+            var x = GetSynthWishesOrThrow(a, b);
+            b = b ?? x._[1];
+            return x._[a].Divide(b);
         }
     
         // Defaults SynthWishes preventing most exceptions in the C# operators.
+
+        // ReSharper disable UnusedParameter.Local
 
         private static SynthWishes GetSynthWishesOrThrow(FluentOutlet a, FluentOutlet b) 
             => a?._synthWishes ?? b?._synthWishes ?? throw new Exception(noSynthWishesMessage);
@@ -351,6 +393,12 @@ namespace JJ.Business.Synthesizer.Wishes
             => a?._synthWishes ?? throw new Exception(noSynthWishesMessage);
 
         private static SynthWishes GetSynthWishesOrThrow(double a, FluentOutlet b) 
+            => b?._synthWishes ?? throw new Exception(noSynthWishesMessage);
+
+        private static SynthWishes GetSynthWishesOrThrow(FluentOutlet a, Outlet b) 
+            => a?._synthWishes ?? throw new Exception(noSynthWishesMessage);
+
+        private static SynthWishes GetSynthWishesOrThrow(Outlet a, FluentOutlet b) 
             => b?._synthWishes ?? throw new Exception(noSynthWishesMessage);
 
         private const string noSynthWishesMessage = 

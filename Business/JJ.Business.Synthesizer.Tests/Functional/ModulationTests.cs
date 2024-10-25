@@ -327,7 +327,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Multiply by 1 + rate = chorus
             if (chorusRate != null)
             {
-                detunedFreq *= _[1] + _[chorusRate].Stretch(duration);
+                detunedFreq *= 1 + _[chorusRate].Stretch(duration);
             }
 
             return detunedFreq;
@@ -340,10 +340,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             depthAdjust2 = depthAdjust2 ?? _[0.250];
 
             var tremoloWave1 = Sine(5.5) * _[depthAdjust1].Add(1); // 5.5 Hz _tremolo
-            sound = _[sound] * _[tremoloWave1];
+            sound *= tremoloWave1;
 
             var tremoloWave2 = Sine(4.0) * _[depthAdjust2].Add(1); // 4 Hz _tremolo
-            sound = _[sound] * _[tremoloWave2];
+            sound *= tremoloWave2;
 
             return sound;
         }
