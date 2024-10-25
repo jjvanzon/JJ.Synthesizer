@@ -468,7 +468,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             var added = ParallelAdd
             (
-                _[duration],
+                _[duration], 
                 () => Sine(Value(freq.Value) * 1) * 1.0,
                 () => Sine(Value(freq.Value) * 2) * 0.2,
                 () => Sine(Value(freq.Value) * 3) * 0.7
@@ -505,9 +505,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var tolerance = 0.001;
 
             // Act to Create Entities
-            var adder = ParallelPlay
+            var adder = ParallelAdd
             (
-                _[duration],
+                _[duration], 
                 // Values higher than 1 seem to be clipped.
                 () => Curve("Const Curve 0.1", 0.1, 0.1),
                 () => Curve("Const Curve 0.2", 0.2, 0.2),
@@ -596,7 +596,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             var added = ParallelPlay
             (
-                _[duration],
+                _[duration], 
                 () => Sine(Value(freq.Value) * 1) * 1.0,
                 () => Sine(Value(freq.Value) * 2) * 0.2,
                 () => Sine(Value(freq.Value) * 3) * 0.7

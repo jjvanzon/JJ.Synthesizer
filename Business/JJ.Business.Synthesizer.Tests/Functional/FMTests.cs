@@ -16,6 +16,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     public class FMTests : SynthWishes
     {
         FluentOutlet DefaultVolume => _[0.5];
+        FluentOutlet JingleVolume => _[0.19];
+
         int          MildEchoCount => 4;
         FluentOutlet MildEchoDelay => _[0.33];
         FluentOutlet MildEchoTime  => MildEchoDelay * (MildEchoCount - 1);
@@ -33,7 +35,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Long Running
         internal void FM_Jingle_RunTest()
-            => PlayMono(() => DeepEcho(Jingle()), volume: 0.18, duration: t[bar: 9, beat: 2] + DeepEchoTime);
+        {
+            PlayMono(() => DeepEcho(Jingle()), t[bar: 9, beat: 2] + DeepEchoTime);
+        }
 
         [TestMethod]
         public void FM_Flute_Melody1() => new FMTests().FM_Flute_Melody1_RunTest();
@@ -203,29 +207,28 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double hornVolume       = 0.6;
             double rippleBassVolume = 0.7;
 
-            var pattern1 = ParallelAdd
-            (
-                duration: bars[4],
+            var pattern1 = ParallelAdd(
+                bars[4], JingleVolume,
                 () => Multiply(fluteVolume,      FluteMelody1),
-                () => Multiply(chordsVolume,     PadChords),
                 () => Multiply(tromboneVolume,   TromboneMelody1),
                 () => Multiply(hornVolume,       HornMelody1),
-                () => Multiply(rippleBassVolume, RippleBassMelody1)
+                () => Multiply(rippleBassVolume, RippleBassMelody1));
+
+            var pattern2 = ParallelAdd
+            (
+                bars[4], JingleVolume,
+                () => Multiply(fluteVolume,      FluteMelody2),
+                () => Multiply(tromboneVolume,   TromboneMelody2),
+                () => Multiply(hornVolume,       HornMelody2),
+                () => Multiply(rippleBassVolume, RippleBassMelody2)
             );
 
-            var pattern2 = Add
+            var composition = ParallelAdd
             (
-                Multiply(fluteVolume,      FluteMelody2),
-                Multiply(tromboneVolume,   TromboneMelody2),
-                Multiply(hornVolume,       HornMelody2),
-                Multiply(rippleBassVolume, RippleBassMelody2)
-            );
-
-            var composition = Add
-            (
-                pattern1,
-                Delay(pattern2, bar[5])//,
-                //() => RippleSound_Clean(A4, delay: bar[3], volume: _[0.50], duration: bars[2])
+                bars[8],
+                () => Multiply(chordsVolume,     PadChords) * JingleVolume,
+                () => pattern1,
+                () => Delay(pattern2, bars[4])
             );
 
             return composition;

@@ -44,21 +44,21 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Parallelization
 
+        public FluentOutlet ParallelPlay(Outlet duration, params Func<Outlet>[] funcs)
+            => ParallelPlay(duration, _[1], (IList<Func<Outlet>>)funcs);
+
         /// <summary>
         /// Same as ParallelAdd, but plays the sounds generated in the parallel loop,
         /// and the samples are reloaded from the files and played again, all for testing purposes.
         /// Also, doesn't clean up the files. Also for testing purposes.
         /// </summary>
-        public FluentOutlet ParallelPlay(params Func<Outlet>[] funcs)
-            => ParallelPlay((IList<Func<Outlet>>)funcs);
-
-        public FluentOutlet ParallelPlay(Outlet duration, params Func<Outlet>[] funcs)
-            => ParallelPlay(duration, (IList<Func<Outlet>>)funcs);
-
-        public FluentOutlet ParallelPlay(IList<Func<Outlet>> funcs)
-            => ParallelPlay(duration: _[1], funcs);
+        public FluentOutlet ParallelPlay(Outlet duration, Outlet volume, params Func<Outlet>[] funcs)
+            => ParallelPlay(duration, volume, (IList<Func<Outlet>>)funcs);
 
         public FluentOutlet ParallelPlay(Outlet duration, IList<Func<Outlet>> funcs)
+            => ParallelPlay(duration, _[1], funcs);
+
+        public FluentOutlet ParallelPlay(Outlet duration, Outlet volume, IList<Func<Outlet>> funcs)
         {
             int i = 0;
             var guid = Guid.NewGuid();
@@ -68,17 +68,14 @@ namespace JJ.Business.Synthesizer.Wishes
 
             Parallel.ForEach(funcs, func =>
             {
-                // Context isn't thread-safe. I really have to start disposing contexts, don't I?
-                var x = new SynthWishes();
-
                 // Think of a name
                 Interlocked.Increment(ref i);
                 string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
 
-                // Save to File
-                string filePath = x.PlayMono(func, duration, fileName: name).Data.FilePath;
+                // Save to a file
+                string filePath = PlayMono(func, duration, volume, fileName: name).Data.FilePath;
 
-                // Add to list
+                // Add to a list
                 lock (lck) filePaths.Add(filePath);
             });
 
@@ -97,16 +94,16 @@ namespace JJ.Business.Synthesizer.Wishes
             return Add(reloadedSamples);
         }
 
-        public FluentOutlet ParallelAdd(params Func<Outlet>[] funcs)
-            => ParallelAdd((IList<Func<Outlet>>)funcs);
-
         public FluentOutlet ParallelAdd(Outlet duration, params Func<Outlet>[] funcs)
-            => ParallelAdd(duration, (IList<Func<Outlet>>)funcs);
-
-        public FluentOutlet ParallelAdd(IList<Func<Outlet>> funcs)
-           => ParallelAdd(duration: _[1], funcs);
+            => ParallelAdd(duration, _[1], (IList<Func<Outlet>>)funcs);
 
         public FluentOutlet ParallelAdd(Outlet duration, IList<Func<Outlet>> funcs)
+           => ParallelAdd(duration, _[1], funcs);
+
+        public FluentOutlet ParallelAdd(Outlet duration, Outlet volume, params Func<Outlet>[] funcs)
+            => ParallelAdd(duration, volume, (IList<Func<Outlet>>)funcs);
+
+        public FluentOutlet ParallelAdd(Outlet duration, Outlet volume, IList<Func<Outlet>> funcs)
         {
             int i = 0;
             var guid = Guid.NewGuid();
@@ -122,10 +119,10 @@ namespace JJ.Business.Synthesizer.Wishes
                     Interlocked.Increment(ref i);
                     string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
 
-                    // Save to File
-                    string filePath = SaveAudioMono(func, duration, fileName: name).Data.FilePath;
+                    // Save to a file
+                    string filePath = SaveAudioMono(func, duration, volume, fileName: name).Data.FilePath;
 
-                    // Add to list
+                    // Add to a list
                     lock (lck)
                     {
                         filePaths.Add(filePath);
