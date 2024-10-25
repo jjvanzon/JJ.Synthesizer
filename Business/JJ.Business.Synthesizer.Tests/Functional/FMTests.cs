@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public void FM_ElectricNote() => new FMTests().FM_ElectricNote_RunTest();
 
         void FM_ElectricNote_RunTest()
-            => SaveAudioMono(() => MildEcho(ElectricNote(duration: _[1.5])), duration: 1.5 + MildEchoTime, DefaultVolume);
+            => PlayMono(() => MildEcho(ElectricNote(duration: _[1.5])), 1.5 + MildEchoTime, 0.20);
 
         [TestMethod]
         public void FM_RippleBass() => new FMTests().FM_RippleBass_RunTest();
@@ -501,18 +501,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             freq   = freq ?? A4;
             volume = volume ?? _[1];
 
-            var modDepth = Multiply(0.02, Stretch(LineDownCurve, duration));
+            var modDepth = 0.02 * Stretch(LineDownCurve, duration);
             var fmSignal = Add
             (
-                FMAroundFreq(freq, Multiply(freq, 1.5), modDepth),
-                FMAroundFreq(freq, Multiply(freq, 2.0), modDepth)
+                FMAroundFreq(freq, freq * 1.5, modDepth),
+                FMAroundFreq(freq, freq * 2.0, modDepth)
             );
 
-            var envelope       = Stretch(DampedBlockCurve, duration);
-            var modulatedSound = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume, 0.6);
+            var modulatedSound = fmSignal.Curve(DampedBlockCurve.Stretch(duration));
+            var adjustedVolume = volume * 0.6;
             var note           = StrikeNote(modulatedSound, delay, adjustedVolume);
-
+            
             return note;
         }
 
@@ -522,10 +521,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet RippleBass(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A1;
-
-            var fmSignal = FMAroundFreq(Multiply(freq, 8), Divide(freq, 2), _[0.005]);
+            var fmSignal = FMAroundFreq(freq * 8, freq / 2, _[0.005]);
             var note     = ShapeRippleSound(fmSignal, delay, volume, duration);
-
             return note;
         }
 
@@ -535,7 +532,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet RippleNote_SharpMetallic(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A3;
-            var fmSignal = FMInHertz(freq, Divide(freq, 2), _[10]);
+            var fmSignal = FMInHertz(freq, freq / 2, _[10]);
             var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
             return sound;
         }
@@ -544,10 +541,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet RippleSound_Clean(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
-
             var fmSignal = FMAroundFreq(freq, _[20], _[0.005]);
             var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
-
             return sound;
         }
 
@@ -557,10 +552,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet RippleSound_FantasyEffect(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A5;
-
             var fmSignal = FMAroundFreq(freq, _[10], _[0.02]);
             var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
-
             return sound;
         }
 
@@ -569,10 +562,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet RippleSound_CoolDouble(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A5;
-
             var fmSignal = FMAroundFreq(freq, _[10], _[0.05]);
             var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
-
             return sound;
         }
 
@@ -580,11 +571,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <param name="fmSignal"> A ripple sound to be shaped </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet ShapeRippleSound(FluentOutlet fmSignal, FluentOutlet delay, FluentOutlet volume, FluentOutlet duration)
+        FluentOutlet ShapeRippleSound(FluentOutlet input, FluentOutlet delay, FluentOutlet volume, FluentOutlet duration)
         {
             duration = duration ?? _[2.5];
             var envelope = Stretch(RippleCurve, duration);
-            var sound    = Multiply(fmSignal, envelope);
+            var sound    = input * envelope;
             var strike   = StrikeNote(sound, delay, volume);
             return strike;
         }
@@ -605,8 +596,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         FluentOutlet FMInHertz(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
-            var modulator = Multiply(Sine(modSpeed), modDepth);
-            var sound     = Sine(Add(soundFreq, modulator));
+            var modulator = Sine(modSpeed) * modDepth;
+            var sound     = Sine(soundFreq + modulator);
             return sound;
         }
 
@@ -614,8 +605,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         FluentOutlet FMAround0(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
-            var modulator = Multiply(Sine(modSpeed), modDepth);
-            var sound     = Sine(Multiply(soundFreq, modulator));
+            var modulator = Sine(modSpeed) * modDepth;
+            var sound     = Sine(soundFreq * modulator);
             return sound;
         }
 
@@ -624,15 +615,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet FMAroundFreq(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
             var modulator = 1 + Sine(modSpeed) * modDepth;
-            var sound     = Sine(_[soundFreq].Multiply(modulator));
+            var sound     = Sine(soundFreq * modulator);
             return sound;
         }
 
         FluentOutlet MildEcho(FluentOutlet outlet) => Echo(outlet, MildEchoCount, 0.25, MildEchoDelay);
 
-        /// <summary> Applies a deep echo effect to the specified sound. </summary>
-        /// <param name="melody"> The original sound to which the echo effect will be applied. </param>
-        /// <returns> An <see cref="FluentOutlet" /> representing the sound with the deep echo effect applied. </returns>
         FluentOutlet DeepEcho(FluentOutlet melody) => Echo(melody, DeepEchoCount, 0.5, DeepEchoDelay);
 
         #endregion

@@ -218,6 +218,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Curve Chaining Methods
 
+        public FluentOutlet Curve(Outlet curve)
+            => _thisOutlet * _synthWishes._[curve];
+
         public FluentOutlet Curve(string name, IList<NodeInfo> nodeInfos)
             => _thisOutlet * _synthWishes.Curve(name, nodeInfos);
 
