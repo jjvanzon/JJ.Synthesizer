@@ -13,6 +13,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Framework.Testing.AssertHelper;
+// ReSharper disable UnusedVariable
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -368,7 +370,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void Test_ParallelAdd_ConstSignal()
+        public void Test_ParallelAdd_WithConstSignal()
         {
             // Arrange
             var duration = 0.1;
@@ -379,9 +381,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             (
                 _[duration],
                 // Values higher than 1 seem to be clipped.
-                x => x.Curve("Const Curve 0.1", 0.1, 0.1),
-                x => x.Curve("Const Curve 0.2", 0.2, 0.2),
-                x => x.Curve("Const Curve 0.3", 0.3, 0.3)
+                () => Curve("Const Curve 0.1", 0.1, 0.1),
+                () => Curve("Const Curve 0.2", 0.2, 0.2),
+                () => Curve("Const Curve 0.3", 0.3, 0.3)
             );
 
             // Assert Entities
@@ -441,9 +443,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Calculate Values
             double adderResult = adder.Calculate(duration / 2);
             
-            double operandValue1 = addOperands[0].Calculate(duration / 2);;
-            double operandValue2 = addOperands[1].Calculate(duration / 2);;
-            double operandValue3 = addOperands[2].Calculate(duration / 2);;
+            double operandValue1 = addOperands[0].Calculate(duration / 2);
+            double operandValue2 = addOperands[1].Calculate(duration / 2);
+            double operandValue3 = addOperands[2].Calculate(duration / 2);
 
             var operandValuesSorted = new [] { operandValue1, operandValue2, operandValue3 }.OrderBy(x => x).ToArray();
 
@@ -458,7 +460,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_ParallelAdd_SinePartials()
+        public void Test_ParallelAdd_WithSinePartials()
         {
             var freq     = A4;
             var volume   = 1 / 1.5;
@@ -467,9 +469,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var added = ParallelAdd
             (
                 _[duration],
-                x => x.Sine(x.Value(freq.Value) * 1) * 1.0,
-                x => x.Sine(x.Value(freq.Value) * 2) * 0.2,
-                x => x.Sine(x.Value(freq.Value) * 3) * 0.7
+                () => Sine(Value(freq.Value) * 1) * 1.0,
+                () => Sine(Value(freq.Value) * 2) * 0.2,
+                () => Sine(Value(freq.Value) * 3) * 0.7
             );
 
             PlayMono(() => added, duration, volume);
@@ -496,7 +498,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void Test_ParallelPlay_ConstSignal()
+        public void Test_ParallelPlay_WithConstSignal()
         {
             // Arrange
             var duration = 0.1;
@@ -507,9 +509,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             (
                 _[duration],
                 // Values higher than 1 seem to be clipped.
-                x => x.Curve("Const Curve 0.1", 0.1, 0.1),
-                x => x.Curve("Const Curve 0.2", 0.2, 0.2),
-                x => x.Curve("Const Curve 0.3", 0.3, 0.3)
+                () => Curve("Const Curve 0.1", 0.1, 0.1),
+                () => Curve("Const Curve 0.2", 0.2, 0.2),
+                () => Curve("Const Curve 0.3", 0.3, 0.3)
             );
 
             // Assert Entities
@@ -569,9 +571,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Act to Calculate Values
             double adderResult = adder.Calculate(duration / 2);
             
-            double operandValue1 = addOperands[0].Calculate(duration / 2);;
-            double operandValue2 = addOperands[1].Calculate(duration / 2);;
-            double operandValue3 = addOperands[2].Calculate(duration / 2);;
+            double operandValue1 = addOperands[0].Calculate(duration / 2);
+            double operandValue2 = addOperands[1].Calculate(duration / 2);
+            double operandValue3 = addOperands[2].Calculate(duration / 2);
 
             var operandValuesSorted = new [] { operandValue1, operandValue2, operandValue3 }.OrderBy(x => x).ToArray();
 
@@ -586,7 +588,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_ParallelPlay_SinePartials()
+        public void Test_ParallelPlay_WithSinePartials()
         {
             var freq     = A4;
             var volume   = 1 / 1.5;
@@ -595,13 +597,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var added = ParallelPlay
             (
                 _[duration],
-                x => x.Sine(x.Value(freq.Value) * 1) * 1.0,
-                x => x.Sine(x.Value(freq.Value) * 2) * 0.2,
-                x => x.Sine(x.Value(freq.Value) * 3) * 0.7
+                () => Sine(Value(freq.Value) * 1) * 1.0,
+                () => Sine(Value(freq.Value) * 2) * 0.2,
+                () => Sine(Value(freq.Value) * 3) * 0.7
             );
 
             PlayMono(() => added, duration, volume);
-            
         }
     }
 }

@@ -49,27 +49,27 @@ namespace JJ.Business.Synthesizer.Wishes
         /// and the samples are reloaded from the files and played again, all for testing purposes.
         /// Also, doesn't clean up the files. Also for testing purposes.
         /// </summary>
-        public FluentOutlet ParallelPlay(params Func<SynthWishes, Outlet>[] funcs)
-            => ParallelPlay((IList<Func<SynthWishes, Outlet>>)funcs);
+        public FluentOutlet ParallelPlay(params Func<Outlet>[] funcs)
+            => ParallelPlay((IList<Func<Outlet>>)funcs);
 
-        public FluentOutlet ParallelPlay(Outlet duration, params Func<SynthWishes, Outlet>[] funcs)
-            => ParallelPlay(duration, (IList<Func<SynthWishes, Outlet>>)funcs);
+        public FluentOutlet ParallelPlay(Outlet duration, params Func<Outlet>[] funcs)
+            => ParallelPlay(duration, (IList<Func<Outlet>>)funcs);
 
-        public FluentOutlet ParallelPlay(IList<Func<SynthWishes, Outlet>> funcs)
+        public FluentOutlet ParallelPlay(IList<Func<Outlet>> funcs)
             => ParallelPlay(duration: _[1], funcs);
 
-        public FluentOutlet ParallelPlay(Outlet duration, IList<Func<SynthWishes, Outlet>> funcs)
+        public FluentOutlet ParallelPlay(Outlet duration, IList<Func<Outlet>> funcs)
         { 
             int i = 0;
             var guid = Guid.NewGuid();
             var lck = new object();
             var filePaths = new List<string>();
             var reloadedSamples = new List<Outlet>();
-            var exceptions = new List<Exception>();
+            //var exceptions = new List<Exception>();
 
             Parallel.ForEach(funcs, func =>
             {
-                try
+                //try
                 {
                     // Context isn't thread-safe. I really have to start disposing contexts, don't I?
                     var x = new SynthWishes();
@@ -79,16 +79,21 @@ namespace JJ.Business.Synthesizer.Wishes
                     string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
 
                     // Save to File
-                    string filePath = x.PlayMono(() => func(x), duration, fileName: name).Data.FilePath;
+                    string filePath = x.PlayMono(func, duration, fileName: name).Data.FilePath;
 
                     // Add to list
                     lock (lck) filePaths.Add(filePath);
                 }
-                catch (Exception ex)
-                {
-                    lock (lck) exceptions.Add(ex);
-                }
+                //catch (Exception ex)
+                //{
+                //    lock (lck) exceptions.Add(ex);
+                //}
             });
+            
+            //if (exceptions.Count > 0)
+            //{
+            //    throw new AggregateException(exceptions);
+            //}
 
             // Reload Samples
             foreach (string filePath in filePaths)
@@ -102,47 +107,39 @@ namespace JJ.Business.Synthesizer.Wishes
                 PlayMono(() => sample, duration, fileName: reloadedFilePath);
             }
 
-            if (exceptions.Count > 0)
-            {
-                throw new AggregateException(exceptions);
-            }
-
             return Add(reloadedSamples);
         }
 
-        public FluentOutlet ParallelAdd(params Func<SynthWishes, Outlet>[] funcs)
-            => ParallelAdd((IList<Func<SynthWishes, Outlet>>)funcs);
+        public FluentOutlet ParallelAdd(params Func<Outlet>[] funcs)
+            => ParallelAdd((IList<Func<Outlet>>)funcs);
 
-        public FluentOutlet ParallelAdd(Outlet duration, params Func<SynthWishes, Outlet>[] funcs)
-            => ParallelAdd(duration, (IList<Func<SynthWishes, Outlet>>)funcs);
+        public FluentOutlet ParallelAdd(Outlet duration, params Func<Outlet>[] funcs)
+            => ParallelAdd(duration, (IList<Func<Outlet>>)funcs);
 
-        public FluentOutlet ParallelAdd(IList<Func<SynthWishes, Outlet>> funcs)
+        public FluentOutlet ParallelAdd(IList<Func<Outlet>> funcs)
            => ParallelAdd(duration: _[1], funcs);
         
-        public FluentOutlet ParallelAdd(Outlet duration, IList<Func<SynthWishes, Outlet>> funcs)
+        public FluentOutlet ParallelAdd(Outlet duration, IList<Func<Outlet>> funcs)
         {
             int i = 0;
             var guid = Guid.NewGuid();
             var lck = new object();
             var filePaths = new List<string>();
             var reloadedSamples = new List<Outlet>();
-            var exceptions = new List<Exception>();
+            //var exceptions = new List<Exception>();
 
             try
             {
                 Parallel.ForEach(funcs, func =>
                 {
-                    try
+                    //try
                     {
-                        // Context isn't thread-safe. I really have to start disposing contexts, don't I?
-                        var x = new SynthWishes();
-
                         // Think of a name
                         Interlocked.Increment(ref i);
                         string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
 
                         // Save to File
-                        string filePath = x.SaveAudioMono(() => func(x), duration, fileName: name).Data.FilePath;
+                        string filePath = SaveAudioMono(func, duration, fileName: name).Data.FilePath;
 
                         // Hypothesis:
                         // Operator creation methods not thread-safe.
@@ -168,14 +165,16 @@ namespace JJ.Business.Synthesizer.Wishes
                             }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        lock (lck)
-                        {
-                            exceptions.Add(ex);
-                        }
-                    }
+                    //catch (Exception ex)
+                    //{
+                    //    lock (lck) exceptions.Add(ex);
+                    //}
                 });
+                
+                //if (exceptions.Count > 0)
+                //{
+                //    throw new AggregateException(exceptions);
+                //}
 
                 // Reload Samples
                 for (var j = 0; j < filePaths.Count; j++)
@@ -190,26 +189,18 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Clean-up
                 foreach (string filePath in filePaths)
                 {
-                    try
-                    {
+                    //try
+                    //{
                         if (File.Exists(filePath))
                         {
                             File.Delete(filePath);
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        lock (lck)
-                        {
-                            exceptions.Add(ex);
-                        }
-                    }
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    lock (lck) exceptions.Add(ex);
+                    //}
                 }
-            }
-
-            if (exceptions.Count > 0)
-            {
-                throw new AggregateException(exceptions);
             }
 
             return Add(reloadedSamples);
@@ -578,7 +569,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SamplingRate = ResolveSamplingRate(samplingRateOverride);
             audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum);
             audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum);
-            audioFileOutput.SetSpeakerSetup_WithSideEffects(channelInputs.Count);
+            audioFileOutput.SetSpeakerSetup_WithSideEffects(channelInputs.Count, Context);
             for (int i = 0; i < channelInputs.Count; i++)
             {
                 audioFileOutput.AudioFileOutputChannels[i].Outlet = channelInputs[i];
