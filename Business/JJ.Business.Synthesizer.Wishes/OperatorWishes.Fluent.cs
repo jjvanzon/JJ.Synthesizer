@@ -217,7 +217,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public void PlayMono()
         {
-            _synthWishes.Channel = _synthWishes.Single;
+            _synthWishes.Channel = ChannelEnum.Single;
             _synthWishes.PlayMono(() => _thisOutlet);
         }
         
