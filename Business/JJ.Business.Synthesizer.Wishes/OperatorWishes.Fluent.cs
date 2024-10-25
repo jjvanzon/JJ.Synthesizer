@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Swift Conversion Back to Outlet
         
         public static implicit operator Outlet(FluentOutlet fluentOutlet) 
-            => fluentOutlet._thisOutlet;
+            => fluentOutlet?._thisOutlet;
 
         public Outlet Outlet => _thisOutlet;
 
