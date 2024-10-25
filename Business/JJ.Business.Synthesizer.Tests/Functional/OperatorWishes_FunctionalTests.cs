@@ -227,12 +227,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var referencePanning   = _[1];
             Console.WriteLine($"Input: {new { centerFrequency, referenceFrequency, referencePanning }}");
 
-            Outlet e4 = E4;
-            Outlet g4 = G4;
+            var e4 = E4;
+            var g4 = G4;
 
             // Act
-            Outlet panningOpE4 = PitchPan(e4, centerFrequency, referenceFrequency, referencePanning);
-            Outlet panningOpG4 = PitchPan(g4, centerFrequency, referenceFrequency, referencePanning);
+            var panningOpE4 = PitchPan(e4, centerFrequency, referenceFrequency, referencePanning);
+            var panningOpG4 = PitchPan(g4, centerFrequency, referenceFrequency, referencePanning);
 
             double panningValueE4 = panningOpE4.Calculate(time: 0);
             double panningValueG4 = panningOpG4.Calculate(time: 0);
@@ -282,8 +282,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_Old_RunTest()
         {
-            Outlet envelope = Curve("Envelope", (0, 1), (0.2, 0));
-            Outlet sound    = Multiply(Sine(G4), envelope);
+            var envelope = Curve("Envelope", (0, 1), (0.2, 0));
+            var sound    = Multiply(Sine(G4), envelope);
             Outlet echoes   = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
 
             SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
@@ -296,9 +296,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_FixedValues_RunTest()
         {
-            Outlet envelope = Curve("Envelope", (0, 1), (0.2, 0));
-            Outlet sound    = Multiply(Sine(B4), envelope);
-            Outlet echoes   = EchoAdditive(sound, count: 16, magnitude: 0.66, delay: 0.25);
+            var envelope = Curve("Envelope", (0, 1), (0.2, 0));
+            var sound    = Multiply(Sine(B4), envelope);
+            var echoes   = EchoAdditive(sound, count: 16, magnitude: 0.66, delay: 0.25);
 
             SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono     (() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
@@ -309,19 +309,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_DynamicParameters_RunTest()
         {
-            Outlet envelope = Curve("Volume Curve", (0, 1), (0.2, 0));
-            Outlet sound    = Multiply(Sine(D5), envelope);
+            var envelope = Curve("Volume Curve", (0, 1), (0.2, 0));
+            var sound    = Multiply(Sine(D5), envelope);
 
-            Outlet magnitude = Curve("Magnitude Curve",
+            var magnitude = Curve("Magnitude Curve",
                                        (0.0, 0.66),
                                        (0.5, 0.90),
                                        (3.0, 1.00),
                                        (4.0, 0.80),
                                        (5.0, 0.25));
 
-            Outlet delay = Curve("Delay Curve", (0, 0.25), (4, 0.35));
+            var delay = Curve("Delay Curve", (0, 0.25), (4, 0.35));
 
-            Outlet echoes = EchoAdditive(sound, count: 16, magnitude, delay);
+            var echoes = EchoAdditive(sound, count: 16, magnitude, delay);
 
             SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav");
             SaveAudioMono(() => magnitude, duration: 4,   fileName: Name() + "_Magnitude.wav");
@@ -334,10 +334,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_FeedBack_FixedValues_RunTest()
         {
-            Outlet envelope = Curve("Envelope", (0, 1), (0.2, 0));
-            Outlet sound    = Multiply(Sine(F5), envelope);
+            var envelope = Curve("Envelope", (0, 1), (0.2, 0));
+            var sound    = Multiply(Sine(F5), envelope);
 
-            Outlet echoes = EchoFeedBack(sound, count: 16, magnitude: 0.66, delay: 0.25);
+            var echoes = EchoFeedBack(sound, count: 16, magnitude: 0.66, delay: 0.25);
 
             SaveAudioMono(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
             PlayMono(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
@@ -348,19 +348,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_FeedBack_DynamicParameters_RunTest()
         {
-            Outlet envelope = Curve("Volume Curve", (0, 1), (0.2, 0));
-            Outlet sound    = Multiply(Sine(D5), envelope);
+            var envelope = Curve("Volume Curve", (0, 1), (0.2, 0));
+            var sound    = Multiply(Sine(D5), envelope);
 
-            Outlet magnitude = Curve("Magnitude Curve",
+            var magnitude = Curve("Magnitude Curve",
                                        (0.0, 0.66),
                                        (0.5, 0.90),
                                        (3.0, 1.00),
                                        (4.0, 0.80),
                                        (5.0, 0.25));
 
-            Outlet delay = Curve("Delay Curve", (0, 0.25), (4, 0.35));
+            var delay = Curve("Delay Curve", (0, 0.25), (4, 0.35));
 
-            Outlet echoes = EchoFeedBack(sound, count: 16, magnitude, delay);
+            var echoes = EchoFeedBack(sound, count: 16, magnitude, delay);
 
             SaveAudioMono(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav"    );
             SaveAudioMono(() => magnitude, duration: 4.5, fileName: Name() + "_Magnitude.wav");

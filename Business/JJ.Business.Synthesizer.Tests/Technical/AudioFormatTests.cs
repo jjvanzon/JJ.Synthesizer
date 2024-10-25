@@ -195,7 +195,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Use sample operator
             Outlet getSample()
             {
-                Outlet outlet = Sample(audioFileOutput1.FilePath, interpolationTypeEnum);
+                var outlet = Sample(audioFileOutput1.FilePath, interpolationTypeEnum);
                 Sample sample = outlet.GetSample();
 
                 if (audioFileFormatEnum == Raw)
