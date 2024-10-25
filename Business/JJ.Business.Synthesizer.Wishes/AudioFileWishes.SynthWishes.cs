@@ -50,16 +50,20 @@ namespace JJ.Business.Synthesizer.Wishes
             => ParallelAdd(duration, (IList<Func<SynthWishes, Outlet>>)funcs);
 
         public FluentOutlet ParallelAdd(IList<Func<SynthWishes, Outlet>> funcs)
-           => ParallelAdd(_[1], funcs);
+           => ParallelAdd(duration: _[1], funcs);
         
         public FluentOutlet ParallelAdd(Outlet duration, IList<Func<SynthWishes, Outlet>> funcs)
         {
             int i = 0;
             var guid = Guid.NewGuid();
             var lck = new object();
-            var audioFileOutputFilePaths = new List<string>();
+            var filePaths = new List<string>();
             var reloadedSamples = new List<Outlet>();
             var exceptions = new List<Exception>();
+            // TODO: Remove Non-Working Code
+            {
+                //var reloadedFilePaths = new List<string>();
+            }
 
             Parallel.ForEach(funcs, func =>
             {
@@ -73,20 +77,30 @@ namespace JJ.Business.Synthesizer.Wishes
                     string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
 
                     // Save to File
-                    AudioFileOutput audioFileOutput = x.PlayMono(() => func(x), duration, fileName: name).Data;
+                    string filePath = x.PlayMono(() => func(x), duration, fileName: name).Data.FilePath;
 
-                    // Hypothesis: Operator creation methods not thread-safe.
-                    
-                    //Outlet sample = x.Sample(audioFileOutput.FilePath);
+                    // Hypothesis:
+                    // Operator creation methods not thread-safe.
+                    // Operator creation cannot work in parallel,
+                    // While the graph is changing; it uses the graph.
 
-                    //// Save and play to test the sample loading
-                    //x.PlayMono(() => sample, duration, fileName: name + "_Reloaded");
+                    // TODO: Remove Non-Working Code
+                    {
+                        // Save and play to test the sample loading
+                        //Outlet sample = x.Sample(filePath);
+                        //string reloadedFileName = filePath.CutLeft(".wav") + "_Reloaded.wav";
+                        //PlayMono(() => sample, duration, fileName: reloadedFileName );
+                    }
 
                     // Add to list
                     lock (lck)
                     {
-                        audioFileOutputFilePaths.Add(audioFileOutput.FilePath);
-                        //samples.Add(sample);
+                        filePaths.Add(filePath);
+
+                        // TODO: Remove Non-Working Code
+                        {
+                            //reloadedSamples.Add(sample);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -98,44 +112,49 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             });
 
-            // Reload Samples.
-            foreach (string filePath in audioFileOutputFilePaths)
+            // Reload Samples
+            foreach (string filePath in filePaths)
             {
                 Outlet sample = Sample(filePath);
 
-                // Save and play to test the sample loading
-                string reloadedFileName = Path.GetFileNameWithoutExtension(filePath) + "_Reloaded" + Path.GetExtension(filePath);
-                PlayMono(() => sample, duration, fileName: reloadedFileName );
-
+                // TODO: Make configurable
+                {
+                    //// Save and play to test the sample loading
+                    //string reloadedFilePath = filePath.CutLeft(".wav") + "_Reloaded.wav";
+                    //PlayMono(() => sample, duration, fileName: reloadedFilePath);
+                    //reloadedFilePaths.Add(reloadedFilePath);
+                }
+                
                 reloadedSamples.Add(sample);
             }
 
-            //foreach (string outputFilePath in outputFilePaths)
-            //{
-            //    try
-            //    {
-            //        if (File.Exists(outputFilePath))
-            //        {
-            //            File.Delete(outputFilePath);
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        lock (lck)
-            //        {
-            //            exceptions.Add(ex);
-            //        }
-            //    }
-            //}
+            // TODO: Make configurable
+            {
+                //// Clean-up
+                //
+                //foreach (string filePath in filePaths.Union(reloadedFilePaths))
+                //{
+                //    try
+                //    {
+                //        if (File.Exists(filePath))
+                //        {
+                //            File.Delete(filePath);
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        lock (lck)
+                //        {
+                //            exceptions.Add(ex);
+                //        }
+                //    }
+                //}
+            }
 
             if (exceptions.Count > 0)
             {
                 throw new AggregateException(exceptions);
             }
-            
-            
-            // Load from File
-            //samples = outputFilePaths.Select(x => Sample(x).Outlet).ToList();
 
             return Add(reloadedSamples);
         }

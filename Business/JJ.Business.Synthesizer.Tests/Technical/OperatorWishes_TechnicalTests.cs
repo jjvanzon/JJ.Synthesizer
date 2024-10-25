@@ -461,22 +461,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Test_ParallelAdd_SinePartials()
         {
             var freq     = A4;
-            var volume   = 0.33;
-            var duration = 0.5;
+            var volume   = 1 / 1.5;
+            var duration = 0.6;
             
             var added = ParallelAdd
             (
                 _[duration],
                 x => x.Sine(x.Value(freq.Value) * 1) * 1.0,
-                x => x.Sine(x.Value(freq.Value) * 2) * 0.1,
-                x => x.Sine(x.Value(freq.Value) * 3) * 0.5
+                x => x.Sine(x.Value(freq.Value) * 2) * 0.2,
+                x => x.Sine(x.Value(freq.Value) * 3) * 0.7
             );
 
             PlayMono(() => added, duration, volume);
             
-            // Hypothesis:
-            // Operator creation cannot work in parallel,
-            // While the graph is changing; it uses the graph.
         }
     }
 }
