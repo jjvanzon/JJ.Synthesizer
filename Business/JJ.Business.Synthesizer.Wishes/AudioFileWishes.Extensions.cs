@@ -420,78 +420,78 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetHeaderLength(entity.AudioFileOutput);
         }
         
-        // Setters with Side-Effects
+        //// Setters with Side-Effects
         
-        // AudioFileOutputChannel.GetSpeakerSetup
+        //// AudioFileOutputChannel.GetSpeakerSetup
 
-        public static SpeakerSetup GetSpeakerSetup(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.SpeakerSetup;
-        }
+        //public static SpeakerSetup GetSpeakerSetup(this AudioFileOutputChannel entity)
+        //{
+        //    if (entity == null) throw new ArgumentNullException(nameof(entity));
+        //    if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
+        //    return entity.AudioFileOutput.SpeakerSetup;
+        //}
 
-        public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.GetSpeakerSetupEnum();
-        }
+        //public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioFileOutputChannel entity)
+        //{
+        //    if (entity == null) throw new ArgumentNullException(nameof(entity));
+        //    if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
+        //    return entity.AudioFileOutput.GetSpeakerSetupEnum();
+        //}
 
         // AudioFileOutput.SetSpeakerSetup_WithSideEffects
 
-        /// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
-        public static void SetSpeakerSetup_WithSideEffects(this AudioFileOutput audioFileOutput, SpeakerSetup speakerSetup, IContext context = null)
-        {
-            CreateAudioFileOutputManager(context ?? CreateContext()).SetSpeakerSetup(audioFileOutput, speakerSetup);
-        }
+        ///// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
+        //public static void SetSpeakerSetup_WithSideEffects(this AudioFileOutput audioFileOutput, SpeakerSetup speakerSetup, IContext context = null)
+        //{
+        //    CreateAudioFileOutputManager(context ?? CreateContext()).SetSpeakerSetup(audioFileOutput, speakerSetup);
+        //}
 
-        /// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
-        public static void SetSpeakerSetup_WithSideEffects(this AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum, IContext context = null)
-        {
-            CreateAudioFileOutputManager(context ?? CreateContext()).SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
-        }
+        ///// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
+        //public static void SetSpeakerSetup_WithSideEffects(this AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum, IContext context = null)
+        //{
+        //    CreateAudioFileOutputManager(context ?? CreateContext()).SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
+        //}
         
-        /// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
-        public static void SetSpeakerSetup_WithSideEffects(this AudioFileOutput audioFileOutput, int channelCount, IContext context = null)
-            => SetSpeakerSetup_WithSideEffects(audioFileOutput, channelCount.ToSpeakerSetupEnum(), context);
+        ///// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
+        //public static void SetSpeakerSetup_WithSideEffects(this AudioFileOutput audioFileOutput, int channelCount, IContext context = null)
+        //    => SetSpeakerSetup_WithSideEffects(audioFileOutput, channelCount.ToSpeakerSetupEnum(), context);
         
         // Alternative Entry-Point AudioFileOutputChannel
         
-        /// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
-        public static void SetSpeakerSetup_WithSideEffects(this AudioFileOutputChannel entity, SpeakerSetup speakerSetup, IContext context = null)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetSpeakerSetup_WithSideEffects(speakerSetup, context);
-        }
+        ///// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
+        //public static void SetSpeakerSetup_WithSideEffects(this AudioFileOutputChannel entity, SpeakerSetup speakerSetup, IContext context = null)
+        //{
+        //    if (entity == null) throw new ArgumentNullException(nameof(entity));
+        //    if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
+        //    entity.AudioFileOutput.SetSpeakerSetup_WithSideEffects(speakerSetup, context);
+        //}
 
-        /// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
-        public static void SetSpeakerSetupEnum_WithSideEffects(this AudioFileOutputChannel entity, SpeakerSetupEnum speakerSetupEnum, IContext context = null)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetSpeakerSetup_WithSideEffects(speakerSetupEnum, context);
-        }
+        ///// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
+        //public static void SetSpeakerSetupEnum_WithSideEffects(this AudioFileOutputChannel entity, SpeakerSetupEnum speakerSetupEnum, IContext context = null)
+        //{
+        //    if (entity == null) throw new ArgumentNullException(nameof(entity));
+        //    if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
+        //    entity.AudioFileOutput.SetSpeakerSetup_WithSideEffects(speakerSetupEnum, context);
+        //}
 
-        /// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
-        public static void SetSpeakerSetupEnum_WithSideEffects(this AudioFileOutputChannel entity, int channelCount, IContext context = null)
-            => SetSpeakerSetupEnum_WithSideEffects(entity, channelCount.ToSpeakerSetupEnum(), context);
+        ///// <inheritdoc cref="docs._setspeakersetup_withsideeffects"/>
+        //public static void SetSpeakerSetupEnum_WithSideEffects(this AudioFileOutputChannel entity, int channelCount, IContext context = null)
+        //    => SetSpeakerSetupEnum_WithSideEffects(entity, channelCount.ToSpeakerSetupEnum(), context);
         
         // AudioFileOutputChannel.GetSpeakerSetupChannel
 
-        public static SpeakerSetupChannel GetSpeakerSetupChannel(this AudioFileOutputChannel audioFileOutputChannel)
-        {
-            IList<SpeakerSetupChannel> speakerSetupChannels =
-                audioFileOutputChannel.GetSpeakerSetup()
-                                      .SpeakerSetupChannels;
+        //public static SpeakerSetupChannel GetSpeakerSetupChannel(this AudioFileOutputChannel audioFileOutputChannel)
+        //{
+        //    IList<SpeakerSetupChannel> speakerSetupChannels =
+        //        audioFileOutputChannel.GetSpeakerSetup()
+        //                              .SpeakerSetupChannels;
             
-            SpeakerSetupChannel speakerSetupChannel =
-                speakerSetupChannels.Single(x => x.Index == audioFileOutputChannel.Index);
+        //    SpeakerSetupChannel speakerSetupChannel =
+        //        speakerSetupChannels.Single(x => x.Index == audioFileOutputChannel.Index);
 
-            speakerSetupChannel.Channel.SpeakerSetupChannels = speakerSetupChannels;
+        //    speakerSetupChannel.Channel.SpeakerSetupChannels = speakerSetupChannels;
 
-            return speakerSetupChannel;
-        }
+        //    return speakerSetupChannel;
+        //}
     }
 }
