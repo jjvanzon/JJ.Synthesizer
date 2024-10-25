@@ -203,13 +203,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double hornVolume       = 0.6;
             double rippleBassVolume = 0.7;
 
-            var pattern1 = Add
+            var pattern1 = ParallelAdd
             (
-                Multiply(fluteVolume,      FluteMelody1),
-                Multiply(chordsVolume,     PadChords),
-                Multiply(tromboneVolume,   TromboneMelody1),
-                Multiply(hornVolume,       HornMelody1),
-                Multiply(rippleBassVolume, RippleBassMelody1)
+                duration: bars[4],
+                () => Multiply(fluteVolume,      FluteMelody1),
+                () => Multiply(chordsVolume,     PadChords),
+                () => Multiply(tromboneVolume,   TromboneMelody1),
+                () => Multiply(hornVolume,       HornMelody1),
+                () => Multiply(rippleBassVolume, RippleBassMelody1)
             );
 
             var pattern2 = Add
@@ -224,7 +225,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (
                 pattern1,
                 Delay(pattern2, bar[5])//,
-                //RippleSound_Clean(A4, delay: bar[3], volume: _[0.50], duration: bars[2])
+                //() => RippleSound_Clean(A4, delay: bar[3], volume: _[0.50], duration: bars[2])
             );
 
             return composition;
