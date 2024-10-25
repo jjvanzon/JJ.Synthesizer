@@ -438,9 +438,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 var lines = new List<string> { "" };
 
                 string realTimeMessage = FormatRealTimeMessage(durationValue, stopWatch);
-                string sep = realTimeMessage != default ? ", " : "";
+                string sep = realTimeMessage != default ? " | " : "";
                 
-                lines.Add($"{realTimeMessage}{sep}Complexity O({complexity})");
+                lines.Add($"{realTimeMessage}{sep}Complexity Ｏ ( {complexity} )");
                 lines.Add("");
 
                 lines.Add($"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s");
