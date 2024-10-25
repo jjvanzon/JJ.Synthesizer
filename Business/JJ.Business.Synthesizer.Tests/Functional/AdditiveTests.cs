@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
-using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 
@@ -14,10 +13,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class AdditiveTests : SynthWishes
     {
-        const double NOTE_DURATION = 2.5;
-        const int    ECHO_COUNT = 4;
-        const double ECHO_DELAY = 0.66;
-        const double ECHO_TIME  = ECHO_DELAY * (ECHO_COUNT - 1);
+        int EchoCount => 4;
+        FluentOutlet NoteDuration => _[2.5];
+        FluentOutlet EchoDelay => _[0.66];
+        FluentOutlet EchoTime => EchoDelay * (EchoCount - 1);
 
         public AdditiveTests()
             : base(beat: 0.4, bar: 1.6)
@@ -33,8 +32,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Additive_Metallophone_Jingle_RunTest()
             => PlayMono(
                 () => Echo(MetallophoneJingle),
-                duration: 1.2 + NOTE_DURATION + ECHO_TIME,
-                volume: 0.3);
+                duration: 1.2 + NoteDuration + EchoTime,
+                volume: _[0.3]);
 
         [TestMethod]
         public void Additive_Metallophone_Note() => new AdditiveTests().Additive_Metallophone_Note_RunTest();
@@ -42,19 +41,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Additive_Metallophone_Note_RunTest()
             => PlayMono(
                 () => Echo(Metallophone(F4_Sharp)),
-                duration: NOTE_DURATION + ECHO_TIME,
-                volume: 0.5);
+                duration: NoteDuration + EchoTime,
+                volume: _[0.5]);
 
-        //[TestMethod]
-        //public void Additive_Metallophone_SamplePartial() => new AdditiveTests().Additive_Metallophone_SamplePartial_RunTest();
 
-        //void Additive_Metallophone_SamplePartial_RunTest()
-        //    => PlayMono(
-        //        () => Echo(SamplePartial(_[F4_Sharp].Times(7), volume: _[5.0], SampleEnvelope.Stretch(NOTE_DURATION))),
-        //        duration: NOTE_DURATION + ECHO_TIME,
-        //        volume: 0.5);
-
-        Outlet MetallophoneJingle => Add
+        FluentOutlet MetallophoneJingle => Add
         (
             Metallophone(A4,       delay: t[bar: 1, beat: 1.0], volume: _[0.9]),
             Metallophone(E5,       delay: t[bar: 1, beat: 1.5], volume: _[1.0]),
@@ -65,47 +56,48 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Metallophone(Outlet frequency = default, Outlet volume = default, Outlet delay = default, Outlet duration = default)
+        FluentOutlet Metallophone(
+            FluentOutlet frequency = default,
+            FluentOutlet volume = default, 
+            FluentOutlet delay = default,
+            FluentOutlet duration = default)
         {
             frequency = frequency ?? A4;
-            duration  = duration ?? _[NOTE_DURATION];
+            duration  = duration ?? NoteDuration;
 
             var sound = Add
             (
-                SinePartial  (  frequency,           volume: _[1.0] * Sine1Envelope.Stretch(duration)),
-                SinePartial  (_[frequency].Times(2), volume: _[0.7] * Sine2Envelope.Stretch(duration)),
-                SinePartial  (_[frequency].Times(5), volume: _[0.4] * Sine3Envelope.Stretch(duration)),
-                SamplePartial(_[frequency].Times(2), volume: _[3.0], duration),
-                SamplePartial(_[frequency].Times(7), volume: _[5.0], duration)
+                1.0 * Sine(1 * frequency) * Stretch(Sine1Envelope, duration),
+                0.7 * Sine(2 * frequency) * Stretch(Sine2Envelope, duration),
+                0.4 * Sine(5 * frequency) * Stretch(Sine3Envelope, duration),
+                3.0 * SamplePartial(2 * frequency, duration),
+                5.0 * SamplePartial(7 * frequency, duration)
             );
 
             return StrikeNote(sound, delay, volume);
         }
 
-        Outlet SinePartial(Outlet frequency, Outlet volume)
-            => Multiply(Sine(frequency), volume);
-
-        Outlet SamplePartial(Outlet frequency, Outlet volume, Outlet duration)
+        FluentOutlet SamplePartial(FluentOutlet frequency, FluentOutlet duration)
         {
-            var sound = MySample * volume * SampleEnvelope.Stretch(duration);
+            var sound = GetSample * SampleEnvelope.Stretch(duration);
             var faster = SpeedUp(sound, factor: frequency / A4);
             return faster;
         }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Echo(Outlet sound) => Echo(sound, count: ECHO_COUNT, magnitude: 0.33, delay: ECHO_DELAY);
+        FluentOutlet Echo(FluentOutlet sound) => Echo(sound, count: EchoCount, magnitude: 0.33, delay: EchoDelay);
 
-        FluentOutlet _mySample;
+        FluentOutlet _sample;
 
         /// <summary>
         /// Load a sample, skip some old header's bytes, maximize volume and tune to 440Hz.
         /// Returns the initialized Sample if already loaded.
         /// </summary>
-        FluentOutlet MySample
+        FluentOutlet GetSample
         {
             get
             {
-                if (_mySample != null) return _mySample;
+                if (_sample != null) return _sample;
 
                 // Skip over Header (from some other file format, that slipped into the audio data).
                 int bytesToSkip = 62;
@@ -122,9 +114,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 double fineTuneFactor = 0.94;
                 double speedFactor    = octaveFactor * intervalFactor * fineTuneFactor;
 
-                _mySample = Sample(GetViolin16BitMono44100WavStream(), default, amplifier, speedFactor, bytesToSkip);
+                _sample = Sample(GetViolin16BitMono44100WavStream(), default, amplifier, speedFactor, bytesToSkip);
 
-                return _mySample;
+                return _sample;
             }
         }
         
@@ -136,7 +128,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// </summary>
         FluentOutlet Sine1Envelope => Curve
         (
-            "Sine1Envelope",
             0.00, 0.80, 1.00, null, null, null, null, null,
             0.25, null, null, null, null, null, null, null,
             0.10, null, null, 0.02, null, null, null, 0.00
@@ -148,7 +139,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// </summary>
         FluentOutlet Sine2Envelope => Curve
         (
-            "Sine2Envelope",
             0.00, 1.00, 0.80, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.05, null, null, 0.01, null, null, null, 0.00
@@ -161,7 +151,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// </summary>
         FluentOutlet Sine3Envelope => Curve
         (
-            "Sine3Envelope",
             0.30, 1.00, 0.30, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.15, null, null, 0.05, null, null, null, 0.00
@@ -172,7 +161,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// and quickly diminishing to a lower level.
         /// </summary>
         FluentOutlet SampleEnvelope => Curve(
-            "SampleEnvelope",
             1.00, 0.50, 0.20, null, null, null, null, 0.00,
             null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null
