@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
@@ -196,7 +195,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Jingle
 
-        Outlet Jingle()
+        FluentOutlet Jingle()
         {
             double fluteVolume      = 1.2;
             double chordsVolume     = 0.5;
@@ -235,7 +234,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Melodies
 
-        Outlet FluteMelody1 => Add
+        FluentOutlet FluteMelody1 => Add
         (
             Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
             Flute1(F4, t[bar: 1, beat: 2.5], volume: _[0.70], beats[2.17]),
@@ -247,7 +246,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Flute1(G4, t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
         );
 
-        Outlet FluteMelody2 => Add
+        FluentOutlet FluteMelody2 => Add
         (
             Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
             Flute2(F4, t[bar: 1, beat: 2.5], volume: _[0.68], beats[1.0]),
@@ -258,7 +257,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Flute4(A4, t[bar: 3, beat: 1.0], volume: _[1.00], _[1.66])
         );
 
-        Outlet OrganChords =>
+        FluentOutlet OrganChords =>
             Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
@@ -270,7 +269,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 )
             );
 
-        Outlet PadChords => Multiply
+        FluentOutlet PadChords => Multiply
         (
             Stretch(ChordVolumeCurve, bars[1]),
             Add
@@ -281,7 +280,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             )
         );
 
-        Outlet HornMelody1 => Add
+        FluentOutlet HornMelody1 => Add
         (
             //Horn(A2, Beat[01], duration: Beats[2]),
             //Horn(E3, Beat[02]),
@@ -293,7 +292,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             //Horn(D3, Beat[15])
         );
 
-        Outlet HornMelody2 => Add
+        FluentOutlet HornMelody2 => Add
         (
             Horn(A2, beat[1], duration: beat[3], volume: _[0.75]),
             //Horn(E3, Beat[3]),
@@ -302,7 +301,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Horn(A1, beat[9], duration: beat[5], volume: _[1.0])
         );
 
-        Outlet TromboneMelody1 => Add
+        FluentOutlet TromboneMelody1 => Add
         (
             //Trombone(A3, Beat[00]),
             //Trombone(E4, Beat[02]),
@@ -314,7 +313,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             //Trombone(B3, Beat[14])
         );
 
-        Outlet TromboneMelody2 => Add
+        FluentOutlet TromboneMelody2 => Add
         (
             //Trombone(A2, Beat[1]),
             Trombone(E4, beat[3], durationFactor: _[1.4]),
@@ -323,17 +322,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             //Trombone(A3, Beat[9])
         );
 
-        Outlet TromboneMelody3 => Add
+        FluentOutlet TromboneMelody3 => Add
         (
             Trombone(A1,       beat[1]),
             Trombone(E2,       beat[3]),
             Trombone(F1_Sharp, beat[5], volume: _[0.7])
         );
 
-        Outlet RippleBassMelody1 => _[0];
+        FluentOutlet RippleBassMelody1 => _[0];
         //RippleBass(A2, delay: Bar[1], duration: Bars[2]);
 
-        Outlet RippleBassMelody2 =>
+        FluentOutlet RippleBassMelody2 =>
             RippleBass(A1, delay: bar[3.5], duration: bars[0.8]);
 
         #endregion
@@ -342,7 +341,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Flute1(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet Flute1(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
 
@@ -356,7 +355,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Flute2(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet Flute2(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
             volume = volume ?? _[1];
@@ -372,7 +371,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Flute3(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet Flute3(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
             volume = volume ?? _[1];
@@ -388,7 +387,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Flute4(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet Flute4(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
             volume = volume ?? _[1];
@@ -403,7 +402,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Organ(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet Organ(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq     = freq ?? A4;
             duration = duration ?? _[1];
@@ -421,7 +420,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Pad(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet Pad(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq     = freq ?? A4;
             duration = duration ?? beats[1];
@@ -454,7 +453,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
         /// <param name="durationFactor"> Duration varies with pitch, but can be multiplied by this factor (default is 1). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Trombone(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet durationFactor = null)
+        FluentOutlet Trombone(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet durationFactor = null)
         {
             freq           = freq ?? A1;
             durationFactor = durationFactor ?? _[1];
@@ -482,7 +481,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A2/110Hz). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet Horn(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet Horn(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A2;
 
@@ -497,7 +496,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet ElectricNote(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet ElectricNote(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
             volume = volume ?? _[1];
@@ -520,7 +519,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet RippleBass(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet RippleBass(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A1;
 
@@ -533,7 +532,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A3/220Hz). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet RippleNote_SharpMetallic(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet RippleNote_SharpMetallic(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A3;
             var fmSignal = FMInHertz(freq, Divide(freq, 2), _[10]);
@@ -542,7 +541,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-        Outlet RippleSound_Clean(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet RippleSound_Clean(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
 
@@ -555,7 +554,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet RippleSound_FantasyEffect(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet RippleSound_FantasyEffect(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A5;
 
@@ -567,7 +566,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.05 </summary>
         /// <inheritdoc cref="ShapeRippleSound" />
-        Outlet RippleSound_CoolDouble(Outlet freq = null, Outlet delay = null, Outlet volume = null, Outlet duration = null)
+        FluentOutlet RippleSound_CoolDouble(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq = freq ?? A5;
 
@@ -581,7 +580,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
         /// <param name="fmSignal"> A ripple sound to be shaped </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet ShapeRippleSound(Outlet fmSignal, Outlet delay, Outlet volume, Outlet duration)
+        FluentOutlet ShapeRippleSound(FluentOutlet fmSignal, FluentOutlet delay, FluentOutlet volume, FluentOutlet duration)
         {
             duration = duration ?? _[2.5];
             var envelope = Stretch(RippleCurve, duration);
@@ -594,7 +593,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Beating audible further along the sound.
         /// Mod speed much below sound freq, changes sound freq drastically * [0.5, 1.5]
         /// </summary>
-        Outlet Create_FM_Noise_Beating(Outlet pitch = null)
+        FluentOutlet Create_FM_Noise_Beating(FluentOutlet pitch = null)
             => FMAroundFreq(pitch ?? A4, _[55], _[0.5]);
 
         #endregion
@@ -604,7 +603,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <summary> FM sound synthesis modulating with addition. Modulates sound freq to +/- a number of Hz. </summary>
         /// <param name="modDepth"> In Hz </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet FMInHertz(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
+        FluentOutlet FMInHertz(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
             var modulator = Multiply(Sine(modSpeed), modDepth);
             var sound     = Sine(Add(soundFreq, modulator));
@@ -613,7 +612,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <summary> FM with (faulty) multiplication around 0. </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet FMAround0(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
+        FluentOutlet FMAround0(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
             var modulator = Multiply(Sine(modSpeed), modDepth);
             var sound     = Sine(Multiply(soundFreq, modulator));
@@ -622,25 +621,25 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <summary> FM with multiplication around 1. </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        Outlet FMAroundFreq(Outlet soundFreq, Outlet modSpeed, Outlet modDepth)
+        FluentOutlet FMAroundFreq(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
             var modulator = 1 + Sine(modSpeed) * modDepth;
             var sound     = Sine(_[soundFreq].Multiply(modulator));
             return sound;
         }
 
-        Outlet MildEcho(Outlet outlet) => Echo(outlet, MildEchoCount, 0.25, MildEchoDelay);
+        FluentOutlet MildEcho(FluentOutlet outlet) => Echo(outlet, MildEchoCount, 0.25, MildEchoDelay);
 
         /// <summary> Applies a deep echo effect to the specified sound. </summary>
         /// <param name="melody"> The original sound to which the echo effect will be applied. </param>
-        /// <returns> An <see cref="Outlet" /> representing the sound with the deep echo effect applied. </returns>
-        Outlet DeepEcho(Outlet melody) => Echo(melody, DeepEchoCount, 0.5, DeepEchoDelay);
+        /// <returns> An <see cref="FluentOutlet" /> representing the sound with the deep echo effect applied. </returns>
+        FluentOutlet DeepEcho(FluentOutlet melody) => Echo(melody, DeepEchoCount, 0.5, DeepEchoDelay);
 
         #endregion
 
         #region Curves
 
-        Outlet FluteCurve => Curve
+        FluentOutlet FluteCurve => Curve
         (
             (time: 0.00, value: 0.0),
             (time: 0.05, value: 0.8),
@@ -649,7 +648,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0.0)
         );
 
-        Outlet BrassCurve => Curve
+        FluentOutlet BrassCurve => Curve
         (
             (time: 0.00, value: 0),
             (time: 0.07, value: 1),
@@ -657,7 +656,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0)
         );
 
-        Outlet RippleCurve => Curve
+        FluentOutlet RippleCurve => Curve
         (
             (time: 0.00, value: 0.00),
             (time: 0.01, value: 0.75),
@@ -666,7 +665,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0.00)
         );
 
-        Outlet DampedBlockCurve => Curve
+        FluentOutlet DampedBlockCurve => Curve
         (
             (time: 0.00, value: 0),
             (time: 0.01, value: 1),
@@ -674,7 +673,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0)
         );
 
-        Outlet LineDownCurve => Curve
+        FluentOutlet LineDownCurve => Curve
         (
             (time: 0, value: 1),
             (time: 1, value: 0)
@@ -685,13 +684,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// In this version of FM synthesis, the modulation depth accumulates over time without such taming.
         /// This is because of a lack of time tracking in the oscillators in this version.
         /// </summary>
-        Outlet ModTamingCurve => Curve(0.3, 1.0, 0.3, 0.0);
+        FluentOutlet ModTamingCurve => Curve(0.3, 1.0, 0.3, 0.0);
 
         /// <inheritdoc cref="ModTamingCurve" />
-        Outlet ModTamingCurve2 => Curve(1.0, 0.5, 0.2, 0.0);
+        FluentOutlet ModTamingCurve2 => Curve(1.0, 0.5, 0.2, 0.0);
 
         /// <inheritdoc cref="ModTamingCurve" />
-        Outlet ModTamingCurve8Times => Curve
+        FluentOutlet ModTamingCurve8Times => Curve
         (
             0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0,
@@ -704,7 +703,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         );
 
         /// <summary> When harmonics thicken near the center, this curve can even out the volume over time. </summary>
-        Outlet EvenOutCurve => Curve
+        FluentOutlet EvenOutCurve => Curve
         (
             (time: 0.00, value: 1.0),
             (time: 0.33, value: 0.6),
@@ -713,7 +712,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 1.0)
         );
 
-        Outlet ChordVolumeCurve => Curve
+        FluentOutlet ChordVolumeCurve => Curve
         (
             (0.0, 0.0), (0.05, 0.0), (0.98, 0.5),
             (1.0, 0.0), (1.05, 0.6), (1.98, 0.6),
@@ -741,17 +740,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (8.0, E4, A5, E5)
         };
 
-        Outlet ChordPitchCurve1 => Curve(
+        FluentOutlet ChordPitchCurve1 => Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.freq1.Value,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        Outlet ChordPitchCurve2 => Curve(
+        FluentOutlet ChordPitchCurve2 => Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.freq2.Value,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        Outlet ChordPitchCurve3 => Curve(
+        FluentOutlet ChordPitchCurve3 => Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.freq3.Value,
                                                        NodeTypeEnum.Block)).ToArray());
