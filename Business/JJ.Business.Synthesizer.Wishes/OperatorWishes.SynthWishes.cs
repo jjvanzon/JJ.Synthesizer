@@ -647,7 +647,14 @@ namespace JJ.Business.Synthesizer.Wishes
             public FluentOutlet this[double value] => new FluentOutlet(_parent, _parent._operatorFactory.Value(value));
 
             /// <inheritdoc cref="docs._valueindexer" />
-            public FluentOutlet this[Outlet outlet] => new FluentOutlet(_parent, outlet);
+            public FluentOutlet this[Outlet outlet]
+            {
+                get
+                {
+                    if (outlet == null) return null;
+                    return new FluentOutlet(_parent, outlet); 
+                }
+            }
         }
      
         // Helpers
