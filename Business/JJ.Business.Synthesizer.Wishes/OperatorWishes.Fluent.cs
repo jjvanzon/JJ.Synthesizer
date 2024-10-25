@@ -7,16 +7,22 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class FluentOutlet
     {
         private readonly SynthWishes _synthWishes;
         private readonly Outlet _thisOutlet;
 
+        private string DebuggerDisplay => $"{{{GetType().Name}}} {Stringify(true)}";
+        
         public FluentOutlet(SynthWishes synthWishes, Outlet firstFirstOperand)
         {
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
