@@ -48,33 +48,33 @@ namespace JJ.Business.Synthesizer.Wishes
             if (operands == null) throw new ArgumentNullException(nameof(operands));
             
             // Flatten Nested Sums
-            IList<Outlet> term = FlattenTerms(operands);
+            IList<Outlet> terms = FlattenTerms(operands);
             
             // Consts
-            IList<Outlet> vars = term.Where(y => y.IsVar()).ToArray();
-            double constant = term.Sum(y => y.AsConst() ?? 0);
+            IList<Outlet> vars = terms.Where(y => y.IsVar()).ToArray();
+            double constant = terms.Sum(y => y.AsConst() ?? 0);
             
             if (constant != 0)  // Skip Identity 0
             {
-                term = vars.Concat(new [] { (Outlet)_[constant] }).ToArray();
+                terms = vars.Concat(new [] { (Outlet)_[constant] }).ToArray();
             }
 
-            switch (term.Count)
+            switch (terms.Count)
             {
                 case 0:
                     return _[_[0]];
                 
                 case 1:
                     // Return single term
-                    return _[term[0]];
+                    return _[terms[0]];
                 
                 case 2:
                     // Simple Add for 2 Operands
-                    return _[_operatorFactory.Add(term[0], term[1])];
+                    return _[_operatorFactory.Add(terms[0], terms[1])];
                 
                 default:
                     // Make Normal Adder
-                    return _[_operatorFactory.Adder(term)];
+                    return _[_operatorFactory.Adder(terms)];
             }
         }
 

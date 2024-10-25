@@ -342,5 +342,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             PlayMono(() => chain2);
             PlayMono(() => chain3, duration: 2);
         }
+
+        [TestMethod]
+        public void Test_ParallelAdd()
+        {
+            var freq = A4;
+            var volume = 0.2;
+
+            var added = ParallelAdd
+            (
+                x => x.Sine(x.Value(freq.Value) * 1) * 1.0 * volume,
+                x => x.Sine(x.Value(freq.Value) * 2) * 0.1 * volume,
+                x => x.Sine(x.Value(freq.Value) * 3) * 0.5 * volume,
+                x => x.Sine(x.Value(freq.Value) * 4) * 0.2 * volume,
+                x => x.Sine(x.Value(freq.Value) * 5) * 0.3 * volume
+            );
+
+            PlayMono(() => added);
+        }
     }
 }

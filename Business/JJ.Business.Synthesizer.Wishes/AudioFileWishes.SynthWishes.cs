@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Media;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Enums;
@@ -16,7 +19,6 @@ using JJ.Persistence.Synthesizer;
 using static System.Console;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
-using static JJ.Business.Synthesizer.Enums.SampleDataTypeEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
@@ -39,6 +41,89 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private AudioFileOutputManager _audioFileOutputManager;
         private SampleManager _sampleManager;
+
+        // Parallelization
+
+        public FluentOutlet ParallelAdd(params Func<SynthWishes, Outlet>[] funcs)
+            => ParallelAdd((IList<Func<SynthWishes, Outlet>>)funcs);
+
+        public FluentOutlet ParallelAdd(Outlet duration, params Func<SynthWishes, Outlet>[] funcs)
+            => ParallelAdd(duration, (IList<Func<SynthWishes, Outlet>>)funcs);
+
+        public FluentOutlet ParallelAdd(IList<Func<SynthWishes, Outlet>> funcs)
+           => ParallelAdd(_[1], funcs);
+        
+        public FluentOutlet ParallelAdd(Outlet duration, IList<Func<SynthWishes, Outlet>> funcs)
+        {
+            int i = 0;
+            var guid = Guid.NewGuid();
+            var lck = new object();
+            var samples = new List<Outlet>();
+            var outputFilePaths = new List<string>();
+            var exceptions = new List<Exception>();
+
+            Parallel.ForEach(funcs, func =>
+            {
+                try
+                {
+                    // Context isn't thread-safe. I really have to start disposing contexts, don't I?
+                    var x = new SynthWishes();
+
+                    // Think of a name
+                    Interlocked.Increment(ref i);
+                    string name = $"{nameof(ParallelAdd)}_{guid}_{i}";
+
+                    // Save to File
+                    AudioFileOutput audioFileOutput = x.PlayMono(() => func(x), duration, fileName: name).Data;
+
+                    // Load from File
+                    Outlet sample = x.Sample(audioFileOutput.FilePath);
+
+                    // Save and play to test the sample loading
+                    AudioFileOutput audioFileOutput2 = x.PlayMono(() => sample, duration, fileName: name + "_Reloaded").Data;
+
+                    // Add to list
+                    lock (lck)
+                    {
+                        outputFilePaths.Add(audioFileOutput.FilePath);
+                        outputFilePaths.Add(audioFileOutput2.FilePath);
+                        samples.Add(sample);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    lock (lck)
+                    {
+                        exceptions.Add(ex);
+                    }
+                }
+            });
+
+            //foreach (string outputFilePath in outputFilePaths)
+            //{
+            //    try
+            //    {
+            //        if (File.Exists(outputFilePath))
+            //        {
+            //            File.Delete(outputFilePath);
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        lock (lck)
+            //        {
+            //            exceptions.Add(ex);
+            //        }
+            //    }
+            //}
+
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException(exceptions);
+            }
+            
+            return Add(samples);
+        }
 
         // Sample
         
