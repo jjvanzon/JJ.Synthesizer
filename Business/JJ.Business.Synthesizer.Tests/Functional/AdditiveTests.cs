@@ -75,7 +75,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             volume = volume ?? _[1];
             duration  = duration ?? NoteDuration;
 
-            var sound = ParallelPlay
+            if (PreviewPartials) WithPreviewParallels();
+            
+            var sound = ParallelAdd
             (   duration, volume * 0.2,
                 () => 1.0 * Sine(1 * frequency) * Stretch(Sine1Envelope, duration),
                 () => 0.7 * Sine(2 * frequency) * Stretch(Sine2Envelope, duration),

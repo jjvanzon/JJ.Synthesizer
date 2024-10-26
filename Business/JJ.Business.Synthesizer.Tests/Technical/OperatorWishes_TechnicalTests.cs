@@ -505,6 +505,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var tolerance = 0.001;
 
             // Act to Create Entities
+
+            WithPreviewParallels();
+            
             var adder = ParallelAdd
             (
                 _[duration], 
@@ -594,7 +597,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var volume   = 1 / 1.5;
             var duration = 0.6;
             
-            var added = ParallelPlay
+            WithPreviewParallels();
+            
+            var added = ParallelAdd
             (
                 _[duration], 
                 () => Sine(Value(freq.Value) * 1) * 1.0,
