@@ -72,6 +72,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             FluentOutlet duration = default)
         {
             frequency = frequency ?? A4;
+            volume = volume ?? _[1];
             duration  = duration ?? NoteDuration;
 
             var sound = ParallelPlay
