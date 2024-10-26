@@ -59,44 +59,47 @@ namespace JJ.Business.Synthesizer.Wishes
                 return ParallelAddWithPreviewParallels(duration, volume, funcs);
             }
 
-            int i = 0;
-            var guid = Guid.NewGuid();
+            //int i = 0;
+            int count = funcs.Count;
+            var guidString = $"{Guid.NewGuid()}";
+            var reloadedSamples = new Outlet[count];
             var lck = new object();
-            var filePaths = new List<string>();
-            var reloadedSamples = new List<Outlet>();
+
+            string baseName = UseName();
+            if (string.IsNullOrWhiteSpace(baseName))
+            {
+                baseName = nameof(ParallelAdd);
+            }
+
+            var filePaths = new string[count];
 
             try
             {
-                Parallel.ForEach(funcs, func =>
+                Parallel.For(0, count, i =>
                 {
-                    // Think of a name
-                    Interlocked.Increment(ref i);
-                    string name = $"{nameof(ParallelAdd)}({i}) {guid}";
+                    // Get a name
+                    string name = $"{baseName}({i + 1}) {guidString}";
 
                     // Save to a file
-                    string filePath = SaveAudioMono(func, duration, volume, fileName: name).Data.FilePath;
+                    string filePath = SaveAudioMono(funcs[i], duration, volume, fileName: name).Data.FilePath;
 
                     // Add to a list
-                    lock (lck) filePaths.Add(filePath);
+                    lock (lck) filePaths[i] = filePath;
                 });
 
                 // Reload Samples
-                for (var j = 0; j < filePaths.Count; j++)
+                for (var i = 0; i < count; i++)
                 {
-                    string filePath = filePaths[j];
-                    Outlet sample = Sample(filePath);
-                    reloadedSamples.Add(sample);
+                    reloadedSamples[i] = Sample(filePaths[i]);
                 }
             }
             finally
             {
                 // Clean-up
-                foreach (string filePath in filePaths)
+                for (var j = 0; j < filePaths.Length; j++)
                 {
-                    if (File.Exists(filePath))
-                    {
-                        File.Delete(filePath);
-                    }
+                    string filePath = filePaths[j];
+                    if (File.Exists(filePath)) File.Delete(filePath);
                 }
             }
 
@@ -122,29 +125,36 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         private FluentOutlet ParallelAddWithPreviewParallels(Outlet duration, Outlet volume, IList<Func<Outlet>> funcs)
         {
-            int i = 0;
-            var guid = Guid.NewGuid();
+            int count = funcs.Count;
+            var guidString = $"{Guid.NewGuid()}";
             var lck = new object();
             var filePaths = new List<string>();
             var reloadedSamples = new List<Outlet>();
-
-            Parallel.ForEach(funcs, func =>
+            
+            string baseName = UseName();
+            if (string.IsNullOrWhiteSpace(baseName))
+            {
+                baseName = nameof(ParallelAdd);
+            }
+            
+            Parallel.For(0, count, i =>
             {
                 // Think of a name
-                Interlocked.Increment(ref i);
-                string name = $"{nameof(ParallelAdd)}({i}) {guid}";
+                string name = $"{baseName}({i + 1}) {guidString}";
 
                 // Save to a file
-                string filePath = PlayMono(func, duration, volume, fileName: name).Data.FilePath;
+                string filePath = PlayMono(funcs[i], duration, volume, fileName: name).Data.FilePath;
 
                 // Add to a list
                 lock (lck) filePaths.Add(filePath);
+
             });
 
             // Reload Samples
-            for (var j = 0; j < filePaths.Count; j++)
+            for (var i = 0; i < count; i++)
             {
-                string filePath = filePaths[j];
+                string filePath = filePaths[i];
+                
                 Outlet sample = Sample(filePath);
                 reloadedSamples.Add(sample);
 

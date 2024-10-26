@@ -16,13 +16,26 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public SynthWishes(IContext context)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
-
-            Context = context;
+            Context = context ?? throw new ArgumentNullException(nameof(context));
 
             InitializeAudioFileWishes(context);
             InitializeCurveWishes(context);
             InitializeOperatorWishes(context);
+        }
+
+        private string PickedName { get; set; }
+
+        public SynthWishes WithName(string name)
+        {
+            PickedName = name;
+            return this;
+        }
+ 
+        private string UseName()
+        {
+            var name = PickedName;
+            PickedName = default;
+            return name;
         }
     }
 }
