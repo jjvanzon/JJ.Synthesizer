@@ -12,30 +12,30 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         public static string GetAssemblyName<TType>() => typeof(TType).Assembly.GetName().Name;
             
-        public static string GetPrettyTitle(string fileName)
+        public static string GetPrettyTitle(string uglyName)
         {
-            string title = GetPrettyName(fileName);
+            string title = GetPrettyName(uglyName);
 
             string dashes = "".PadRight(title.Length, '-');
 
             return title + NewLine + dashes;
         }
 
-        public static string GetPrettyName(string fileName)
+        public static string GetPrettyName(string uglyName)
         {
             string name;
-            if (string.IsNullOrWhiteSpace(fileName))
+            if (string.IsNullOrWhiteSpace(uglyName))
             {
                 name = "Untitled";
             }
             else
             {
-                name = fileName.CutRightUntil(".") // Removing file extension
-                                .CutRight(".")
-                                .Replace("RunTest", "")
-                                .Replace("Test", "")
-                                .Replace("_", " ")
-                                .Trim();
+                name = uglyName.CutRightUntil(".") // Removing file extension
+                               .CutRight(".")
+                               .Replace("RunTest", "")
+                               .Replace("Test", "")
+                               .Replace("_", " ")
+                               .Trim();
             }
 
             return name;

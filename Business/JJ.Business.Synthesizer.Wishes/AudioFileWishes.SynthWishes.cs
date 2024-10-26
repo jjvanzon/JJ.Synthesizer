@@ -578,15 +578,14 @@ namespace JJ.Business.Synthesizer.Wishes
             lines.Add(GetPrettyTitle(fileName));
             lines.Add("");
 
-            lines.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
-
             string realTimeMessage = FormatRealTimeMessage(durationValue, stopWatch);
             string sep = realTimeMessage != default ? " | " : "";
-
             lines.Add($"{realTimeMessage}{sep}Complexity Ｏ ( {complexity} )");
             lines.Add("");
 
             lines.Add($"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s");
+            lines.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
+            lines.Add("");
             lines.Add($"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
             lines.Add("");
 
@@ -797,7 +796,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (samplingRateForNCrunch.Data.HasValue)
                 {
                     result.Data = samplingRateForNCrunch.Data.Value;
-                    result.ValidationMessages.Add($"Sampling rate: {samplingRateForNCrunch}".ToCanonical());
+                    result.ValidationMessages.Add($"Sampling rate: {result.Data}".ToCanonical());
                     return result;
                 }
             }
@@ -808,7 +807,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (samplingRateForAzurePipelines.Data.HasValue)
                 {
                     result.Data = samplingRateForAzurePipelines.Data.Value;
-                    result.ValidationMessages.Add($"Sampling rate: {samplingRateForAzurePipelines}".ToCanonical());
+                    result.ValidationMessages.Add($"Sampling rate: {result.Data}".ToCanonical());
                     return result;
                 }
             }
