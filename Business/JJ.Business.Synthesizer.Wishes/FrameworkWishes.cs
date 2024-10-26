@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using static System.Environment;
 
-namespace JJ.Business.Synthesizer.Wishes.Helpers
+namespace JJ.Business.Synthesizer.Wishes
 {
     internal static class FrameworkWishes
     { 
@@ -33,6 +33,16 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             }
 
             return count;
+        }
+
+        public static string PrettyTimeSpan(TimeSpan timeSpan)
+        {
+            if (timeSpan.TotalMilliseconds < 0.0001) return $"{timeSpan.TotalMilliseconds / 1000:F1} ns";
+            if (timeSpan.TotalSeconds < 1) return $"{timeSpan.TotalMilliseconds:F1} ms";
+            if (timeSpan.TotalMinutes < 1) return $"{timeSpan.TotalSeconds:F1} s";
+            if (timeSpan.TotalHours < 1) return $"{timeSpan.TotalMinutes:F1} min";
+            if (timeSpan.TotalDays < 1) return $"{timeSpan.TotalHours:F1} h";
+            return $"{timeSpan.TotalDays} d";
         }
     }
     
@@ -79,7 +89,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         public override string ToString() => _sb.ToString();
     }
-
 
     internal static class CopiedFromFramework
     {

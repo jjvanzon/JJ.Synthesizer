@@ -24,6 +24,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Tests
 {
+    [TestCategory("Classic")]
     [TestClass]
     public class SampleTests
     {

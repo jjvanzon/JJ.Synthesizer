@@ -9,7 +9,7 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    public struct docs
+    internal struct docs
     {
         /// <param name="freq"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
         /// <param name="frequency"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
@@ -281,6 +281,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public object _stringify;
 
         /// <returns> <see cref="ValueWrapper"/> which can also be used as an Outlet or a <see langword="double"/>. </returns>
-        private object _timeindexer;
+        public object _timeindexer;
     }
 }

@@ -7,9 +7,7 @@ using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
-    /// <summary>
-    /// Additional tests written upon retro-actively isolating older synthesizer versions.
-    /// </summary>
+    /// <inheritdoc cref="_metallophone" />
     [TestClass]
     [TestCategory("Functional")]
     public class AdditiveTests : SynthWishes
@@ -19,10 +17,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet EchoDelay => _[0.66];
         FluentOutlet EchoTime => EchoDelay * (EchoCount - 1);
          
+    /// <inheritdoc cref="_metallophone" />
         public AdditiveTests()
             : base(beat: 0.4, bar: 1.6)
         { }
 
+        /// <inheritdoc cref="_metallophone"/>
         [TestMethod]
         public void Additive_Metallophone_Jingle() => new AdditiveTests().Additive_Metallophone_Jingle_RunTest();
 
@@ -36,6 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 duration: 1.2 + NoteDuration + EchoTime,
                 volume: 0.3);
 
+        /// <inheritdoc cref="_metallophone"/>
         [TestMethod]
         public void Additive_Metallophone_Note() => new AdditiveTests().Additive_Metallophone_Note_RunTest();
 
@@ -44,6 +45,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 () => Echo(Metallophone(frequency: F4_Sharp)),
                 duration: NoteDuration + EchoTime);
 
+        /// <inheritdoc cref="_metallophone"/>
         FluentOutlet MetallophoneJingle => Add
         (
             //duration: bars[1], volume: _[0.5],
@@ -54,11 +56,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             /*() => */Metallophone(t[bar: 1, beat: 4.0], F4_Sharp, _[0.4])
         );
 
-        /// <param name="delay"> </param>
-        /// <param name="frequency"> </param>
-        /// <param name="volume"> </param>
-        /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        bool PreviewPartials { get; set; }
+
+        AdditiveTests WithPreviewPartials()
+        {
+            PreviewPartials = true;
+            return this;
+        }
+
+        /// <inheritdoc cref="_default" />
         FluentOutlet Metallophone(
             FluentOutlet delay = default,
             FluentOutlet frequency = default,
@@ -87,7 +93,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return faster;
         }
 
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_default" />
         FluentOutlet Echo(FluentOutlet sound) => Echo(sound, EchoCount, 0.33, EchoDelay);
 
         FluentOutlet _mySample;

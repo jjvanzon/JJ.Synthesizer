@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using JJ.Framework.Persistence;
 using System.Linq;
 using JetBrains.Annotations;
-using static JJ.Business.Synthesizer.Wishes.Helpers.CopiedFromFramework;
+using static JJ.Business.Synthesizer.Wishes.CopiedFromFramework;
 
 // ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable MemberCanBeProtected.Global
@@ -718,9 +718,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 get
                 {
                     if (outlet == null) throw new Exception(
-                        "Outlet is null in the capture indexer like _[myOutlet]. " +
+                        "Outlet is null in the capture indexer _[myOutlet]. " +
                         "This indexer is meant to wrap something into a FluentOutlet so you can " +
-                        "use fluent notation / method chaining and C# operator overloads.");
+                        "use fluent method chaining and C# operator overloads.");
                     
                     return new FluentOutlet(_parent, outlet); 
                 }

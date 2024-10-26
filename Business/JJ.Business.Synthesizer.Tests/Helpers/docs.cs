@@ -8,7 +8,7 @@
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    public struct docs
+    internal struct docs
     {
         /// <summary>
         /// A detuned note characterized by a rich and slightly eerie sound due to the detuned harmonics.
@@ -30,9 +30,16 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// 2 gives the newer with a move even fade in and out.
         /// </param>
         /// <inheritdoc cref="docs._default" />
-        public object _detunica;
+        public static object _detunica;
 
         /// <inheritdoc cref="wishes.docs._default" />
-        public object _default;
+        public static object _default;
+
+        /// <summary>
+        /// An airy sound with harmonics, a high-pitch sample for attack,
+        /// separate curves for each partial, triggers a wav header auto-detect.
+        /// </summary>
+        /// <inheritdoc cref="docs._default" />
+        public static object _metallophone;
     }
 }

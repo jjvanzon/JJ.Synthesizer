@@ -21,6 +21,7 @@ using JJ.Business.Synthesizer.Infos;
 
 namespace JJ.Business.Synthesizer.Tests
 {
+    [TestCategory("Classic")]
     [TestClass]
     public class CurveTests
     {

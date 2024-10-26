@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private static string GetNoFluentOutletMessage(object a, char op, object b)
         {
             string aString = a == null ? "null" : $"{a}";
-            string bString = a == null ? "null" : $"{a}";
+            string bString = b == null ? "null" : $"{b}";
             string opString = $"{aString} {op} {bString}";
             return $"Cannot evaluate ({opString}). " +
                    "A FluentOutlet operand is needed " +

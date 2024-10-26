@@ -19,7 +19,7 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
-using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkWishes;
+using static JJ.Business.Synthesizer.Wishes.FrameworkWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable ForCanBeConvertedToForeach
@@ -581,7 +581,7 @@ namespace JJ.Business.Synthesizer.Wishes
             lines.Add($"{realTimeMessage}{sep}Complexity Ｏ ( {complexity} )");
             lines.Add("");
 
-            lines.Add($"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s");
+            lines.Add($"Calculation time: {PrettyTimeSpan(stopWatch.Elapsed)}");
             lines.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
             lines.Add("");
             lines.Add($"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
@@ -829,7 +829,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
                 else
                 { 
-                    realTimeStatusGlyph = "✔️";
+                    realTimeStatusGlyph = "✔";
                 }
 
                 var realTimeMessage = $"{realTimeStatusGlyph} {realTimePercent:F0} % Real Time";

@@ -27,6 +27,7 @@ using JJ.Business.Synthesizer.Wishes;
 
 namespace JJ.Business.Synthesizer.Tests
 {
+    [TestCategory("Classic")]
     [TestClass]
     public class SynthesizerTests
     {
