@@ -14,6 +14,7 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
+using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
@@ -218,14 +219,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Assert AudioFileOutput Entities
 
-            string expectedFilePath1 = $"{callerMemberName}" + audioFileFormatEnum.GetFileExtension();
+            string expectedFilePath1 = GetPrettyName(callerMemberName) + audioFileFormatEnum.GetFileExtension();
             
             AssertAudioFileOutputEntities(
                 audioFileOutput1,
                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, samplingRate,
                 expectedFilePath1, DURATION);
 
-            string expectedFilePath2 = $"{callerMemberName}_Reloaded" + audioFileFormatEnum.GetFileExtension();
+            string expectedFilePath2 = GetPrettyName($"{callerMemberName}_Reloaded") + audioFileFormatEnum.GetFileExtension();
             
             AssertAudioFileOutputEntities(
                 audioFileOutput2,
@@ -511,7 +512,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNull(() => sampleOperator.AsValueOperator);
             IsNotNull(() => sampleOperator.AsSampleOperator);
             {
-                string expectedName = GetFileNameWithoutExtension($"{callerMemberName}{default(string)}");
+                string expectedName = GetPrettyName(callerMemberName);
                 NotNullOrEmpty(() => sampleOperator.Name);
                 AreEqual(expectedName, () => sampleOperator.Name);
             }
@@ -583,7 +584,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 NotNullOrEmpty(() => sample.Location);
                 AreEqual(expectedLocation, () => sample.Location);
 
-                string expectedName = GetFileNameWithoutExtension($"{callerMemberName}{default(string)}");
+                string expectedName = GetPrettyName(callerMemberName);
                 NotNullOrEmpty(() => sample.Name);
                 AreEqual(expectedName, () => sample.Name);
             }
@@ -602,7 +603,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
             AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
         }
-
 
         // Helpers
 
