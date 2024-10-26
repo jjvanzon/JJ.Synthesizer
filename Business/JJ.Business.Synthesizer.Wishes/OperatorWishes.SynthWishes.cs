@@ -596,9 +596,9 @@ namespace JJ.Business.Synthesizer.Wishes
             if (magnitude == null) magnitude = _[0.66];
             if (delay == null) delay         = _[0.25];
 
-            Outlet cumulativeSignal    = signal;
-            Outlet cumulativeMagnitude = magnitude;
-            Outlet cumulativeDelay     = delay;
+            var cumulativeSignal    = _[signal];
+            var cumulativeMagnitude = _[magnitude];
+            var cumulativeDelay     = _[delay];
 
             int loopCount = Log(count, 2);
 
@@ -616,6 +616,32 @@ namespace JJ.Business.Synthesizer.Wishes
             return _[cumulativeSignal];
         }
         
+        //public FluentOutlet EchoFeedBack(
+        //    Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default)
+        //{
+        //    if (signal    == null) throw new ArgumentNullException(nameof(signal));
+        //    if (magnitude == null) magnitude = _[0.66];
+        //    if (delay     == null) delay     = _[0.25];
+
+        //    var cumulativeSignal    = _[signal];
+        //    var cumulativeMagnitude = _[magnitude];
+        //    var cumulativeDelay     = _[delay];
+
+        //    int loopCount = Log(count, 2);
+
+        //    for (int i = 0; i < loopCount; i++)
+        //    {
+        //        var quieter = cumulativeSignal * cumulativeMagnitude;
+        //        var shifted = quieter          * cumulativeDelay;
+
+        //        cumulativeSignal += shifted;
+                
+        //        cumulativeMagnitude *= cumulativeMagnitude;
+        //        cumulativeDelay     += cumulativeDelay;
+        //    }
+
+        //    return cumulativeSignal;
+        //}
         public FluentOutlet EchoFeedBack(Outlet signal, int count, Outlet magnitude, double delay)
             => EchoFeedBack(signal, count, magnitude, _[delay]);
 

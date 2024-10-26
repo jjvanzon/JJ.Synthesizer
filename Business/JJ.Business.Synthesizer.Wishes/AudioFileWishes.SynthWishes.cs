@@ -225,7 +225,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, 
                 fileName, callerMemberName);
         
-        
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> Play(
             Func<Outlet> outletFunc, Outlet duration, double volume,
