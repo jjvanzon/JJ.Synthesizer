@@ -1,7 +1,9 @@
-﻿using JJ.Business.Synthesizer.Wishes;
+﻿using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
+using static JJ.Business.Synthesizer.Tests.Helpers.docs;
 
 // ReSharper disable LocalizableElement
 
@@ -26,24 +28,25 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [TestMethod]
         public void Additive_Metallophone_Jingle() => new AdditiveTests().Additive_Metallophone_Jingle_RunTest();
 
-        /// <summary>
-        /// Arpeggio sound with harmonics, a high-pitch sample for attack,
-        /// separate curves for each partial, triggers a wav header auto-detect.
-        /// </summary>
+        /// <inheritdoc cref="_metallophone"/>
+        [TestMethod]
+        public void Additive_Metallophone_Jingle_WithPreviewPartials() => new AdditiveTests().WithPreviewPartials().Additive_Metallophone_Jingle_RunTest();
+
+        /// <inheritdoc cref="_metallophone"/>
         void Additive_Metallophone_Jingle_RunTest()
-            => PlayMono(
-                () => Echo(MetallophoneJingle),
-                duration: 1.2 + NoteDuration + EchoTime,
-                volume: 0.3);
+            => PlayMono(() => Echo(MetallophoneJingle), beat[4] + NoteDuration + EchoTime, volume: 0.3);
 
         /// <inheritdoc cref="_metallophone"/>
         [TestMethod]
         public void Additive_Metallophone_Note() => new AdditiveTests().Additive_Metallophone_Note_RunTest();
 
+        /// <inheritdoc cref="_metallophone"/>
+        [TestMethod]
+        public void Additive_Metallophone_Note_WithPreviewPartials() => new AdditiveTests().WithPreviewPartials().Additive_Metallophone_Note_RunTest();
+
+        /// <inheritdoc cref="_metallophone"/>
         void Additive_Metallophone_Note_RunTest()
-            => PlayMono(
-                () => Echo(Metallophone(frequency: F4_Sharp)),
-                duration: NoteDuration + EchoTime);
+            => PlayMono(() => Echo(Metallophone(F4_Sharp)), NoteDuration + EchoTime);
 
         /// <inheritdoc cref="_metallophone"/>
         FluentOutlet MetallophoneJingle => Add
@@ -74,7 +77,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             frequency = frequency ?? A4;
             volume = volume ?? _[1];
             duration  = duration ?? NoteDuration;
-
+            
             if (PreviewPartials) WithPreviewParallels();
             
             var sound = ParallelAdd
