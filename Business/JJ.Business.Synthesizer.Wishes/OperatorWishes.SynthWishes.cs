@@ -538,7 +538,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => PitchPan(actualFrequency, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
         
         public FluentOutlet Echo(Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default)
-            => EchoFeedBack(signal, count, magnitude, delay);
+            => EchoAdditive(signal, count, magnitude, delay);
 
         public FluentOutlet Echo(Outlet signal, int count, Outlet magnitude, double delay)
             => Echo(signal, count, magnitude, _[delay]);
@@ -549,26 +549,94 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Echo(Outlet signal, int count, double magnitude, double delay)
             => Echo(signal, count, _[magnitude], _[delay]);
 
+        public FluentOutlet EchoParallel4Times(
+            Outlet signal, Outlet duration, Outlet volume, Outlet magnitude = default, Outlet delay = default)
+        {
+            volume = volume ?? _[1];
+            
+            var cumulativeMagnitude = _[1];
+            var cumulativeDelay     = _[0];
+
+            const int count = 4;
+            int i = 0;
+            
+            var repeats = new Outlet[count];
+
+            {
+                var quieter = signal * cumulativeMagnitude;
+                var shifted = Delay(quieter, cumulativeDelay);
+
+                repeats[i] = shifted;
+
+                cumulativeMagnitude *= magnitude;
+                cumulativeDelay += delay;
+
+                i++;
+            }
+            {
+                var quieter = signal * cumulativeMagnitude;
+                var shifted = Delay(quieter, cumulativeDelay);
+
+                repeats[i] = shifted;
+
+                cumulativeMagnitude *= magnitude;
+                cumulativeDelay += delay;
+
+                i++;
+            }
+            {
+                var quieter = signal * cumulativeMagnitude;
+                var shifted = Delay(quieter, cumulativeDelay);
+
+                repeats[i] = shifted;
+
+                cumulativeMagnitude *= magnitude;
+                cumulativeDelay += delay;
+
+                i++;
+            }
+            {
+                var quieter = signal * cumulativeMagnitude;
+                var shifted = Delay(quieter, cumulativeDelay);
+
+                repeats[i] = shifted;
+
+                cumulativeMagnitude *= magnitude;
+                cumulativeDelay += delay;
+
+                i++;
+            }
+
+            //return Add(repeats);
+            return ParallelAdd(
+                duration, volume,
+                () => repeats[0], 
+                () => repeats[1], 
+                () => repeats[2],
+                () => repeats[3]);
+        }
+
         public FluentOutlet EchoAdditive(
             Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default)
         {
-            Outlet cumulativeMagnitude = _[1];
-            Outlet cumulativeDelay     = _[0];
+            var cumulativeMagnitude = _[1];
+            var cumulativeDelay     = _[0];
 
             IList<Outlet> repeats = new List<Outlet>(count);
 
             for (int i = 0; i < count; i++)
             {
-                Outlet divide  = Multiply(signal, cumulativeMagnitude);
-                Outlet timeAdd = Delay(divide, cumulativeDelay);
+                var divide  = signal * cumulativeMagnitude;
+                var timeAdd = Delay(divide, cumulativeDelay);
                 
                 repeats.Add(timeAdd);
 
-                cumulativeMagnitude = Multiply(cumulativeMagnitude, magnitude);
-                cumulativeDelay     = Add(cumulativeDelay, delay);
+                cumulativeMagnitude *= magnitude;
+                cumulativeDelay += delay;
             }
 
             var adder = Add(repeats);
+            
             return adder;
         }
 
@@ -604,44 +672,18 @@ namespace JJ.Business.Synthesizer.Wishes
 
             for (int i = 0; i < loopCount; i++)
             {
-                Outlet quieter = Multiply(cumulativeSignal, cumulativeMagnitude);
-                Outlet shifted = Delay(quieter, cumulativeDelay);
+                var quieter = cumulativeSignal * cumulativeMagnitude;
+                var shifted = Delay(quieter, cumulativeDelay);
 
-                cumulativeSignal = Add(cumulativeSignal, shifted);
+                cumulativeSignal += shifted;
                 
-                cumulativeMagnitude = Multiply(cumulativeMagnitude, cumulativeMagnitude);
-                cumulativeDelay = Add(cumulativeDelay, cumulativeDelay);
+                cumulativeMagnitude *= cumulativeMagnitude;
+                cumulativeDelay += cumulativeDelay;
             }
 
             return _[cumulativeSignal];
         }
-        
-        //public FluentOutlet EchoFeedBack(
-        //    Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default)
-        //{
-        //    if (signal    == null) throw new ArgumentNullException(nameof(signal));
-        //    if (magnitude == null) magnitude = _[0.66];
-        //    if (delay     == null) delay     = _[0.25];
 
-        //    var cumulativeSignal    = _[signal];
-        //    var cumulativeMagnitude = _[magnitude];
-        //    var cumulativeDelay     = _[delay];
-
-        //    int loopCount = Log(count, 2);
-
-        //    for (int i = 0; i < loopCount; i++)
-        //    {
-        //        var quieter = cumulativeSignal * cumulativeMagnitude;
-        //        var shifted = quieter          * cumulativeDelay;
-
-        //        cumulativeSignal += shifted;
-                
-        //        cumulativeMagnitude *= cumulativeMagnitude;
-        //        cumulativeDelay     += cumulativeDelay;
-        //    }
-
-        //    return cumulativeSignal;
-        //}
         public FluentOutlet EchoFeedBack(Outlet signal, int count, Outlet magnitude, double delay)
             => EchoFeedBack(signal, count, magnitude, _[delay]);
 

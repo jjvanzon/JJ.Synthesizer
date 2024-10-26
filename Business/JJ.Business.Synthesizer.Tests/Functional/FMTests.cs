@@ -38,14 +38,20 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         internal void FM_Jingle_RunTest()
         {
-            PlayMono(() => DeepEcho(Jingle()), t[bar: 9, beat: 2] + DeepEchoTime);
+            var duration = t[bar: 9, beat: 2] + DeepEchoTime;
+            
+            PlayMono(() => DeepEchoParallel(Jingle(), duration), duration);
         }
 
         [TestMethod]
         public void FM_Flute_Melody1() => new FMTests().FM_Flute_Melody1_RunTest();
 
         void FM_Flute_Melody1_RunTest()
-            => PlayMono(() => MildEcho(FluteMelody1), volume: 0.6, duration: bars[4] + MildEchoTime);
+        {
+            var duration = bars[4] + MildEchoTime;
+            
+            PlayMono(() => MildEchoParallel(FluteMelody1, duration, _[0.6]), duration);
+        }
 
         [TestMethod]
         public void FM_Flute_Melody2() => new FMTests().FM_Flute_Melody2_RunTest();
@@ -629,9 +635,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        FluentOutlet MildEcho(FluentOutlet outlet) => Echo(outlet, MildEchoCount, 0.25, MildEchoDelay);
+        FluentOutlet MildEcho(FluentOutlet sound) => Echo(sound, MildEchoCount, _[0.25], MildEchoDelay);
+        FluentOutlet MildEchoParallel(FluentOutlet sound, FluentOutlet duration, FluentOutlet volume = null) => EchoParallel4Times(sound, duration, volume, _[0.25], MildEchoDelay);
 
-        FluentOutlet DeepEcho(FluentOutlet melody) => Echo(melody, DeepEchoCount, 0.5, DeepEchoDelay);
+        FluentOutlet DeepEcho(FluentOutlet sound) => Echo(sound, DeepEchoCount, _[0.5], DeepEchoDelay);
+        FluentOutlet DeepEchoParallel(FluentOutlet sound, FluentOutlet duration, FluentOutlet volume = null) => EchoParallel4Times(sound, duration, volume, _[0.5], DeepEchoDelay);
 
         #endregion
 
