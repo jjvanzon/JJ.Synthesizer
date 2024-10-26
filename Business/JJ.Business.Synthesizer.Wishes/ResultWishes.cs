@@ -62,6 +62,18 @@ namespace JJ.Business.Synthesizer.Wishes
             return validator.ValidationMessages.ToResult(validator.IsValid);
         }
 
+        public static CanonicalModel.Result ToResult(
+            this IList<string> messages, bool successful = true)
+        {
+            if (messages == null) throw new ArgumentNullException(nameof(messages));
+            
+            return new CanonicalModel.Result
+            {
+                ValidationMessages = ToCanonical(messages),
+                Successful = successful
+            };
+        }
+
 
         // ToCanonical
 
@@ -99,5 +111,58 @@ namespace JJ.Business.Synthesizer.Wishes
                 throw new Exception(formattedMessages);
             }
         }
+        
+        // Combine
+
+        public static CanonicalModel.Result<Data> Combine<Data>(
+            this CanonicalModel.Result<Data> result1,
+            CanonicalModel.Result result2)
+        {
+            if (result1 == null) throw new ArgumentNullException(nameof(result1));
+            if (result2 == null) throw new ArgumentNullException(nameof(result2));
+
+            var result = new CanonicalModel.Result<Data>
+            {
+                Successful = result1.Successful && result2.Successful,
+                ValidationMessages = result1.ValidationMessages.Concat(result2.ValidationMessages).ToList(),
+                Data = result1.Data
+            };
+
+            return result;
+        }
+
+        public static CanonicalModel.Result<Data> Combine<Data>(
+            this CanonicalModel.Result result1,
+            CanonicalModel.Result result2)
+        {
+            if (result1 == null) throw new ArgumentNullException(nameof(result1));
+            if (result2 == null) throw new ArgumentNullException(nameof(result2));
+
+            var result = new CanonicalModel.Result<Data>
+            {
+                Successful = result1.Successful && result2.Successful,
+                ValidationMessages = result1.ValidationMessages.Concat(result2.ValidationMessages).ToList()
+            };
+
+            return result;
+        }
+
+        public static CanonicalModel.Result<bool> Combine(
+            this CanonicalModel.Result<bool> result1,
+            CanonicalModel.Result<bool> result2)
+        {
+            if (result1 == null) throw new ArgumentNullException(nameof(result1));
+            if (result2 == null) throw new ArgumentNullException(nameof(result2));
+
+            var result = new CanonicalModel.Result<bool>
+            {
+                Successful = result1.Successful && result2.Successful,
+                ValidationMessages = result1.ValidationMessages.Concat(result2.ValidationMessages).ToList(),
+                Data = result1.Data && result2.Data
+            };
+
+            return result;
+        }
+
     }
 }

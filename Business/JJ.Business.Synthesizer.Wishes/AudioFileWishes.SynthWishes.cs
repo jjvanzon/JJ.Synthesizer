@@ -16,7 +16,6 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using static System.Console;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
@@ -262,14 +261,16 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             (outletFunc, duration) = ApplyLeadingSilence(outletFunc, duration);
 
-            var result =
+            var saveResult =
                 SaveAudio(
                     outletFunc, duration, volume,
                     speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
                     fileName, callerMemberName);
-            
-            PlayIfAllowed(result.Data);
-            
+
+            var playResult = PlayIfAllowed(saveResult.Data);
+
+            var result = saveResult.Combine(playResult);
+
             return result;
         }
 
@@ -497,10 +498,6 @@ namespace JJ.Business.Synthesizer.Wishes
             int channelCount = channelInputs.Count;
             var speakerSetupEnum = channelCount.ToSpeakerSetupEnum();
 
-            WriteLine();
-            WriteLine(GetPrettyTitle(fileName));
-            WriteLine();
-            
             // Validate Input Data
             var warnings = new List<string>();
             foreach (Outlet channelInput in channelInputs)
@@ -517,35 +514,41 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.Amplifier = volumeValue * sampleDataTypeEnum.GetMaxAmplitude();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = durationValue;
-            audioFileOutput.SamplingRate = ResolveSamplingRate(samplingRateOverride);
             audioFileOutput.FilePath = fileName;
             audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum);
             audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum);
+
+            var samplingRateResult = ResolveSamplingRate(samplingRateOverride);
+            audioFileOutput.SamplingRate = samplingRateResult.Data;
+            
             SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
             CreateOrRemoveChannels(audioFileOutput, channelCount);
 
             switch (speakerSetupEnum)
             {
-                case Mono: 
+                case Mono:
                     audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
                     break;
-                
+
                 case Stereo:
                     audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
                     audioFileOutput.AudioFileOutputChannels[1].Outlet = channelInputs[1];
                     break;
-                
+
                 default:
                     throw new InvalidValueException(speakerSetupEnum);
             }
 
             // Validate AudioFileOutput
             warnings.AddRange(audioFileOutput.GetWarnings());
+
+            #if DEBUG
             Result validationResult = audioFileOutput.Validate();
             if (!validationResult.Successful)
             {
                 validationResult.Assert();
             }
+            #endif
 
             // Calculate
             var calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
@@ -554,67 +557,68 @@ namespace JJ.Business.Synthesizer.Wishes
             stopWatch.Stop();
 
             // Report
+
+            // Get Info
+            var channelStrings = new List<string>();
+            int complexity = 0;
+
+            foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
             {
-                // Get Info
-                var channelStrings = new List<string>();
-                int complexity = 0;
+                string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
+                channelStrings.Add(stringify);
 
-                foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
-                {
-                    string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
-                    channelStrings.Add(stringify);
-
-                    int stringifyLines = CountLines(stringify);
-                    complexity += stringifyLines;
-                }
-
-                // Gather Lines
-                var lines = new List<string> { "" };
-
-                string realTimeMessage = FormatRealTimeMessage(durationValue, stopWatch);
-                string sep = realTimeMessage != default ? " | " : "";
-                
-                lines.Add($"{realTimeMessage}{sep}Complexity Ｏ ( {complexity} )");
-                lines.Add("");
-
-                lines.Add($"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s");
-                lines.Add($"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
-                lines.Add("");
-
-                if (warnings.Any())
-                {
-                    lines.Add("Warnings:");
-                    lines.AddRange(warnings.Select(warning => $"- {warning}"));
-                    lines.Add("");
-                }
-
-                for (var i = 0; i <  audioFileOutput.AudioFileOutputChannels.Count; i++)
-                {
-                    var channelString = channelStrings[i];
-
-                    lines.Add($"Calculation Channel {i + 1}:");
-                    lines.Add("");
-                    lines.Add(channelString);
-                    lines.Add("");
-                }
-                
-                // Write Lines
-                lines.ForEach(WriteLine);
+                int stringifyLines = CountLines(stringify);
+                complexity += stringifyLines;
             }
 
-            var result = warnings.ToResult(audioFileOutput);
+            // Gather Lines
+            var lines = new List<string>();
+
+            lines.Add("");
+            lines.Add(GetPrettyTitle(fileName));
+            lines.Add("");
+
+            lines.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
+
+            string realTimeMessage = FormatRealTimeMessage(durationValue, stopWatch);
+            string sep = realTimeMessage != default ? " | " : "";
+
+            lines.Add($"{realTimeMessage}{sep}Complexity Ｏ ( {complexity} )");
+            lines.Add("");
+
+            lines.Add($"Calculation time: {stopWatch.Elapsed.TotalSeconds:F3}s");
+            lines.Add($"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
+            lines.Add("");
+
+            if (warnings.Any())
+            {
+                lines.Add("Warnings:");
+                lines.AddRange(warnings.Select(warning => $"- {warning}"));
+                lines.Add("");
+            }
+
+            for (var i = 0; i < audioFileOutput.AudioFileOutputChannels.Count; i++)
+            {
+                var channelString = channelStrings[i];
+
+                lines.Add($"Calculation Channel {i + 1}:");
+                lines.Add("");
+                lines.Add(channelString);
+                lines.Add("");
+            }
+
+            // Write Lines
+            lines.ForEach(Console.WriteLine);
+
+            // Return
+            var result = lines.ToResult(audioFileOutput);
 
             return result;
         }
 
         private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum)
         {
-            //audioFileOutput.SetSpeakerSetup_WithSideEffects(channelInputs.Count, Context);
-            //audioFileOutput.SetSpeakerSetupEnum(speakerSetupEnum, speakerSetupRepository);
-            //var speakerSetupRepository = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(Context);
-            //audioFileOutput.SpeakerSetup = speakerSetupRepository.Get((int)speakerSetupEnum);
-
-            // (Using a lower abstraction layer, to circumvent error-prone syncing code in back-end).
+            // Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
 
             var channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(Context);
             
@@ -727,28 +731,42 @@ namespace JJ.Business.Synthesizer.Wishes
             return (func2, duration2);
         }
 
-        private void PlayIfAllowed(AudioFileOutput audioFileOutput)
+        private Result PlayIfAllowed(AudioFileOutput audioFileOutput)
         {
-            if (ToolingHelper.PlayAllowed(audioFileOutput.GetFileExtension()))
+            var lines = new List<string>();
+
+            var playAllowed = ToolingHelper.PlayAllowed(audioFileOutput.GetFileExtension());
+            
+            lines.AddRange(playAllowed.ValidationMessages.Select(x => x.Text));
+            
+            if (playAllowed.Data)
             {
-                WriteLine("Playing audio...");
+                lines.Add("Playing audio...");
                 new SoundPlayer(audioFileOutput.FilePath).PlaySync();
-                WriteLine();
+                lines.Add("");
             }
 
-            WriteLine("Done.");
-            WriteLine();
+            lines.Add("Done.");
+            lines.Add("");
+
+            // Write Lines
+            lines.ForEach(x => Console.WriteLine(x ?? ""));
+
+            return lines.ToResult();
         }
 
         private string ResolveFileName(string fileName, AudioFileFormatEnum audioFileFormatEnum, string callerMemberName)
         {
-            string fileExtension = audioFileFormatEnum.GetFileExtension();
-
             if (string.IsNullOrWhiteSpace(fileName))
             {
-                return $"{callerMemberName}{fileExtension}";
+                fileName = $"{GetPrettyName(callerMemberName)}";
+            }
+            else
+            {
+                fileName = GetPrettyName(fileName);
             }
 
+            string fileExtension = audioFileFormatEnum.GetFileExtension();
             if (!fileName.EndsWith(fileExtension))
             {
                 fileName += fileExtension;
@@ -757,39 +775,53 @@ namespace JJ.Business.Synthesizer.Wishes
             return fileName;
         }
 
-        private int ResolveSamplingRate(int samplingRateOverride)
+        private Result<int> ResolveSamplingRate(int samplingRateOverride)
         {
+            var result = new Result<int>
+            {
+                Successful = true,
+                ValidationMessages = new List<ValidationMessage>()
+            };
+
             if (samplingRateOverride != default)
             {
-                WriteLine($"Sampling rate override: {samplingRateOverride}");
-                return samplingRateOverride;
+                result.ValidationMessages.Add($"Sampling rate override: {samplingRateOverride}".ToCanonical());
+                result.Data = samplingRateOverride;
+                return result;
             }
 
             {
-                int? samplingRate = ToolingHelper.TryGetSamplingRateForNCrunch();
-                if (samplingRate != null)
+                var samplingRateForNCrunch = ToolingHelper.TryGetSamplingRateForNCrunch();
+                result.ValidationMessages.AddRange(samplingRateForNCrunch.ValidationMessages);
+                
+                if (samplingRateForNCrunch.Data.HasValue)
                 {
-                    WriteLine($"Sampling rate: {samplingRate}");
-                    return samplingRate.Value;
+                    result.Data = samplingRateForNCrunch.Data.Value;
+                    result.ValidationMessages.Add($"Sampling rate: {samplingRateForNCrunch}".ToCanonical());
+                    return result;
                 }
             }
-
             {
-                int? samplingRate = ToolingHelper.TryGetSamplingRateForAzurePipelines();
-                if (samplingRate != null)
+                var samplingRateForAzurePipelines = ToolingHelper.TryGetSamplingRateForAzurePipelines();
+                result.ValidationMessages.AddRange(samplingRateForAzurePipelines.ValidationMessages);
+                
+                if (samplingRateForAzurePipelines.Data.HasValue)
                 {
-                    WriteLine($"Sampling rate: {samplingRate}");
-                    return samplingRate.Value;
+                    result.Data = samplingRateForAzurePipelines.Data.Value;
+                    result.ValidationMessages.Add($"Sampling rate: {samplingRateForAzurePipelines}".ToCanonical());
+                    return result;
                 }
             }
 
-            WriteLine($"Sampling rate: {ConfigHelper.DefaultSamplingRate}");
-            return ConfigHelper.DefaultSamplingRate;
+            result.ValidationMessages.Add($"Sampling rate: {ConfigHelper.DefaultSamplingRate}".ToCanonical());
+            result.Data = ConfigHelper.DefaultSamplingRate;
+            return result;
         }
-        
+
         private static string FormatRealTimeMessage(double duration, Stopwatch stopWatch)
         {
-            if (!ToolingHelper.IsRunningInTooling)
+            var isRunningInTooling = ToolingHelper.IsRunningInTooling; // Omitting messages from result, sorry.
+            if (!isRunningInTooling.Data)
             {
                 double realTimePercent = duration / stopWatch.Elapsed.TotalSeconds * 100;
                 

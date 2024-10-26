@@ -14,23 +14,31 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
         public static string GetPrettyTitle(string fileName)
         {
-            string title;
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                title = "Untitled";
-            }
-            else
-            {
-                title = fileName.CutRightUntil(".") // Removing file extension
-                                .CutRight(".")
-                                .Replace("_RunTest", "")
-                                .Replace("_Test", "")
-                                .Replace("_", " ");
-            }
-            
+            string title = GetPrettyName(fileName);
+
             string dashes = "".PadRight(title.Length, '-');
 
             return title + NewLine + dashes;
+        }
+
+        public static string GetPrettyName(string fileName)
+        {
+            string name;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                name = "Untitled";
+            }
+            else
+            {
+                name = fileName.CutRightUntil(".") // Removing file extension
+                                .CutRight(".")
+                                .Replace("RunTest", "")
+                                .Replace("Test", "")
+                                .Replace("_", " ")
+                                .Trim();
+            }
+
+            return name;
         }
     }
 }
