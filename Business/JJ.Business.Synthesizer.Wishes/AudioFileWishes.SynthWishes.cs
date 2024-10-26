@@ -304,7 +304,7 @@ namespace JJ.Business.Synthesizer.Wishes
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
             => PlayMono(
-                outletFunc, _[duration], _[volume],
+                outletFunc, _[duration], volume,
                 sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
                 fileName, callerMemberName);
 
