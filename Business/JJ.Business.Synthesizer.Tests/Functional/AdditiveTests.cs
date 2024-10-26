@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 
@@ -41,16 +42,16 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Additive_Metallophone_Note_RunTest()
             => PlayMono(
                 () => Echo(Metallophone(frequency: F4_Sharp)),
-                duration: NoteDuration + EchoTime,
-                volume: 0.5);
+                duration: NoteDuration + EchoTime);
 
         FluentOutlet MetallophoneJingle => Add
         (
-            Metallophone(t[bar: 1, beat: 1.0], A4      , _[0.9]),
-            Metallophone(t[bar: 1, beat: 1.5], E5      , _[1.0]),
-            Metallophone(t[bar: 1, beat: 2.0], B4      , _[0.5]),
-            Metallophone(t[bar: 1, beat: 2.5], C5_Sharp, _[0.7]),
-            Metallophone(t[bar: 1, beat: 4.0], F4_Sharp, _[0.4])
+            //duration: bars[1], volume: _[0.5],
+            /*() => */Metallophone(t[bar: 1, beat: 1.0], A4      , _[0.9]),
+            /*() => */Metallophone(t[bar: 1, beat: 1.5], E5      , _[1.0]),
+            /*() => */Metallophone(t[bar: 1, beat: 2.0], B4      , _[0.5]),
+            /*() => */Metallophone(t[bar: 1, beat: 2.5], C5_Sharp, _[0.7]),
+            /*() => */Metallophone(t[bar: 1, beat: 4.0], F4_Sharp, _[0.4])
         );
 
         /// <param name="delay"> </param>
@@ -67,13 +68,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             frequency = frequency ?? A4;
             duration  = duration ?? NoteDuration;
 
-            var sound = Add
-            (
-                1.0 * Sine(1 * frequency) * Stretch(Sine1Envelope, duration),
-                0.7 * Sine(2 * frequency) * Stretch(Sine2Envelope, duration),
-                0.4 * Sine(5 * frequency) * Stretch(Sine3Envelope, duration),
-                3.0 * SamplePartial(2 * frequency, duration),
-                5.0 * SamplePartial(7 * frequency, duration)
+            var sound = ParallelPlay
+            (   duration, volume * 0.2,
+                () => 1.0 * Sine(1 * frequency) * Stretch(Sine1Envelope, duration),
+                () => 0.7 * Sine(2 * frequency) * Stretch(Sine2Envelope, duration),
+                () => 0.4 * Sine(5 * frequency) * Stretch(Sine3Envelope, duration),
+                () => 3.0 * SamplePartial(2 * frequency, duration),
+                () => 5.0 * SamplePartial(7 * frequency, duration)
             );
 
             return StrikeNote(sound, delay, volume);
@@ -130,6 +131,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// </summary>
         FluentOutlet Sine1Envelope => Curve
         (
+            NameHelper.Name(),
             0.00, 0.80, 1.00, null, null, null, null, null,
             0.25, null, null, null, null, null, null, null,
             0.10, null, null, 0.02, null, null, null, 0.00
@@ -141,6 +143,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// </summary>
         FluentOutlet Sine2Envelope => Curve
         (
+            NameHelper.Name(),
             0.00, 1.00, 0.80, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.05, null, null, 0.01, null, null, null, 0.00
@@ -153,6 +156,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// </summary>
         FluentOutlet Sine3Envelope => Curve
         (
+            NameHelper.Name(),
             0.30, 1.00, 0.30, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.15, null, null, 0.05, null, null, null, 0.00
@@ -163,6 +167,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// and quickly diminishing to a lower level.
         /// </summary>
         FluentOutlet SampleEnvelope => Curve(
+            NameHelper.Name(),
             1.00, 0.50, 0.20, null, null, null, null, 0.00,
             null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null

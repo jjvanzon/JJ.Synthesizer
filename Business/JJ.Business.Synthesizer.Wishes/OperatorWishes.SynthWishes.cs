@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private void InitializeOperatorWishes(IContext context)
         {
             _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
-            _ = new ValueIndexer(this);
+            _ = new CaptureIndexer(this);
         }
 
         public ChannelEnum Channel { get; set; }
@@ -695,29 +695,33 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // ValueIndexer
 
-        /// <inheritdoc cref="docs._valueindexer" />
-        public ValueIndexer _;
+        /// <inheritdoc cref="docs._captureindexer" />
+        public CaptureIndexer _;
 
-        /// <inheritdoc cref="docs._valueindexer" />
-        public class ValueIndexer
+        /// <inheritdoc cref="docs._captureindexer" />
+        public class CaptureIndexer
         {
             private readonly SynthWishes _parent;
 
-            /// <inheritdoc cref="docs._valueindexer" />
-            internal ValueIndexer(SynthWishes parent)
+            /// <inheritdoc cref="docs._captureindexer" />
+            internal CaptureIndexer(SynthWishes parent)
             {
                 _parent = parent;
             }
 
-            /// <inheritdoc cref="docs._valueindexer" />
+            /// <inheritdoc cref="docs._captureindexer" />
             public FluentOutlet this[double value] => new FluentOutlet(_parent, _parent._operatorFactory.Value(value));
 
-            /// <inheritdoc cref="docs._valueindexer" />
+            /// <inheritdoc cref="docs._captureindexer" />
             public FluentOutlet this[Outlet outlet]
             {
                 get
                 {
-                    if (outlet == null) return null;
+                    if (outlet == null) throw new Exception(
+                        "Outlet is null in the capture indexer like _[myOutlet]. " +
+                        "This indexer is meant to wrap something into a FluentOutlet so you can " +
+                        "use fluent notation / method chaining and C# operator overloads.");
+                    
                     return new FluentOutlet(_parent, outlet); 
                 }
             }

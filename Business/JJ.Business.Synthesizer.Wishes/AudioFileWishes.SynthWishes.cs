@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 // Think of a name
                 Interlocked.Increment(ref i);
-                string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
+                string name = $"{nameof(ParallelAdd)}({i}) {guid}";
 
                 // Save to a file
                 string filePath = PlayMono(func, duration, volume, fileName: name).Data.FilePath;
@@ -79,14 +79,15 @@ namespace JJ.Business.Synthesizer.Wishes
             });
 
             // Reload Samples
-            foreach (string filePath in filePaths)
+            for (var j = 0; j < filePaths.Count; j++)
             {
+                string filePath = filePaths[j];
                 Outlet sample = Sample(filePath);
                 reloadedSamples.Add(sample);
 
                 // Save and play to test the sample loading
                 string reloadedFilePath = filePath.CutLeft(".wav") + "_Reloaded.wav";
-                
+
                 PlayMono(() => sample, duration, fileName: reloadedFilePath);
             }
 
@@ -116,16 +117,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     // Think of a name
                     Interlocked.Increment(ref i);
-                    string name = $"{nameof(ParallelAdd)}_{i}_{guid}";
+                    string name = $"{nameof(ParallelAdd)}({i}) {guid}";
 
                     // Save to a file
                     string filePath = SaveAudioMono(func, duration, volume, fileName: name).Data.FilePath;
 
                     // Add to a list
-                    lock (lck)
-                    {
-                        filePaths.Add(filePath);
-                    }
+                    lock (lck) filePaths.Add(filePath);
                 });
 
                 // Reload Samples
@@ -331,7 +329,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return result;
         }
         
-        // Save
+        // Save Audio
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> SaveAudioMono(
@@ -353,7 +351,7 @@ namespace JJ.Business.Synthesizer.Wishes
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
             => SaveAudioMono(
-                outletFunc, _[duration], _[volume],
+                outletFunc, duration, _[volume],
                 sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
                 fileName, callerMemberName);
 
@@ -365,7 +363,7 @@ namespace JJ.Business.Synthesizer.Wishes
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
             => SaveAudioMono(
-                outletFunc, _[duration], _[volume],
+                outletFunc, _[duration], volume,
                 sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
                 fileName, callerMemberName);
 
@@ -407,7 +405,7 @@ namespace JJ.Business.Synthesizer.Wishes
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
             => SaveAudio(
-                func, _[duration], _[volume],
+                func, duration, _[volume],
                 speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
                 samplingRateOverride, fileName, callerMemberName);
 
@@ -422,7 +420,7 @@ namespace JJ.Business.Synthesizer.Wishes
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
             => SaveAudio(
-                func, _[duration], _[volume],
+                func, _[duration], volume,
                 speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
                 samplingRateOverride, fileName, callerMemberName);
 
@@ -717,7 +715,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private (Func<Outlet> func, Outlet duration) ApplyLeadingSilence(Func<Outlet> func, Outlet duration = default)
         {
-            if (duration == default) duration = _[1];
+            duration = duration ?? _[1];
             
             Outlet duration2 = Add(duration, ConfigHelper.PlayLeadingSilence + ConfigHelper.PlayTrailingSilence);
                 

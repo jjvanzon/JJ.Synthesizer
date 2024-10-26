@@ -170,10 +170,10 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// Sometimes capturing goes automatically, so only use it, if it otherwise won't take it.
         /// </summary>
         /// <returns>
-        /// <see cref="ValueWrapper"/> also usable as an <see cref="Outlet"/>.
-        /// Or the fluent notation starter <see cref="FluentOutlet"/>.
+        /// <see cref="FluentOutlet"/> also usable as an <see cref="Outlet"/>.
+        /// or as a fluent notation starter <see cref="FluentOutlet"/>.
         /// </returns>
-        public object _valueindexer;
+        public object _captureindexer;
 
         /// <summary>
         /// Outputs audio to a WAV file and plays it if needed.<br />

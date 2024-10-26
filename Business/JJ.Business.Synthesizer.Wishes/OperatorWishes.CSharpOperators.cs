@@ -35,6 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 
         public static FluentOutlet operator +(FluentOutlet a, double b)
         {
+            if (a == null) throw new ArgumentNullException(nameof(a));
             var x = GetSynthWishesOrThrow(a, b);
             a = a ?? x._[0];
             return x._[a].Plus(b);
@@ -42,6 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static FluentOutlet operator +(double a, FluentOutlet b)
         {
+            if (b == null) throw new ArgumentNullException(nameof(b));
             var x = GetSynthWishesOrThrow(a, b);
             b = b ?? x._[0];
             return x._[a].Plus(b);
@@ -75,6 +77,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator -(FluentOutlet a, double b)
         {
+            if (a == null) throw new ArgumentNullException(nameof(a));
             var x = GetSynthWishesOrThrow(a, b);
             a = a ?? x._[0];
             return x._[a].Minus(b);
@@ -82,6 +85,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator -(double a, FluentOutlet b)
         {
+            if (b == null) throw new ArgumentNullException(nameof(b));
             var x = GetSynthWishesOrThrow(a, b);
             b = b ?? x._[0];
             return x._[a].Minus(b);
@@ -115,6 +119,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator *(FluentOutlet a, double b)
         {
+            if (a == null) throw new Exception($"* operand a is null, while b was {b}. " +
+                                               "At least one FluentOutlet object is needed " +
+                                               "to keep new operators in the same context.");
             var x = GetSynthWishesOrThrow(a, b);
             a = a ?? x._[1];
             return x._[a].Times(b);
@@ -122,6 +129,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator *(double a, FluentOutlet b)
         {
+            if (b == null) throw new ArgumentNullException(nameof(b));
             var x = GetSynthWishesOrThrow(a, b);
             b = b ?? x._[1];
             return x._[a].Times(b);
@@ -155,6 +163,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator /(FluentOutlet a, double b)
         {
+            if (a == null) throw new ArgumentNullException(nameof(a));
             var x = GetSynthWishesOrThrow(a, b);
             a = a ?? x._[0];
             return x._[a].Divide(b);
@@ -162,6 +171,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static FluentOutlet operator /(double a, FluentOutlet b)
         {
+            if (b == null) throw new ArgumentNullException(nameof(b));
             var x = GetSynthWishesOrThrow(a, b);
             b = b ?? x._[1];
             return x._[a].Divide(b);
@@ -172,22 +182,22 @@ namespace JJ.Business.Synthesizer.Wishes
         // ReSharper disable UnusedParameter.Local
 
         private static SynthWishes GetSynthWishesOrThrow(FluentOutlet a, FluentOutlet b) 
-            => a?._synthWishes ?? b?._synthWishes ?? throw new Exception(noSynthWishesMessage);
+            => a?._synthWishes ?? b?._synthWishes ?? throw new Exception(NO_SYNTH_WISHES_MESSAGE);
 
         private static SynthWishes GetSynthWishesOrThrow(FluentOutlet a, double b) 
-            => a?._synthWishes ?? throw new Exception(noSynthWishesMessage);
+            => a?._synthWishes ?? throw new Exception(NO_SYNTH_WISHES_MESSAGE);
 
         private static SynthWishes GetSynthWishesOrThrow(double a, FluentOutlet b) 
-            => b?._synthWishes ?? throw new Exception(noSynthWishesMessage);
+            => b?._synthWishes ?? throw new Exception(NO_SYNTH_WISHES_MESSAGE);
 
         private static SynthWishes GetSynthWishesOrThrow(FluentOutlet a, Outlet b) 
-            => a?._synthWishes ?? throw new Exception(noSynthWishesMessage);
+            => a?._synthWishes ?? throw new Exception(NO_SYNTH_WISHES_MESSAGE);
 
         private static SynthWishes GetSynthWishesOrThrow(Outlet a, FluentOutlet b) 
-            => b?._synthWishes ?? throw new Exception(noSynthWishesMessage);
+            => b?._synthWishes ?? throw new Exception(NO_SYNTH_WISHES_MESSAGE);
 
-        private const string noSynthWishesMessage = 
+        private const string NO_SYNTH_WISHES_MESSAGE = 
             "Cannot perform math operator when no Outlet is involved "+
-            "to provide the Context in which to create more Outlets.";
+            "to provide the Context in which convert doubles to more Outlets.";
     }
 }
