@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     public class FMTests : SynthWishes
     {
         FluentOutlet DefaultVolume => _[0.5];
-        FluentOutlet JingleVolume => _[0.19];
+        FluentOutlet JingleVolume => _[0.18];
 
         int          MildEchoCount => 4;
         FluentOutlet MildEchoDelay => _[0.33];
