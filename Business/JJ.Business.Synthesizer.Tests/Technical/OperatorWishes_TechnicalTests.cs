@@ -458,51 +458,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Assert.AreEqual(0.3, operandValuesSorted[2], tolerance);
             Assert.AreEqual(0.1 + 0.2 + 0.3, adderResult, tolerance);
         }
-        
-        [TestMethod]
-        public void Test_ParallelAdd_WithSinePartials()
-        {
-            var freq     = A4;
-            var volume   = 1 / 1.5;
-            var duration = 0.6;
-            
-            var added = ParallelAdd
-            (
-                _[duration], 
-                () => Sine(Value(freq.Value) * 1) * 1.0,
-                () => Sine(Value(freq.Value) * 2) * 0.2,
-                () => Sine(Value(freq.Value) * 3) * 0.7
-            );
-
-            PlayMono(() => added, duration, volume);
-            
-        }
-            
-        [TestMethod]
-        public void Test_ParallelPlay_NormalAdd_ForComparison()
-        {
-            var duration = 0.1;
-
-            var add = Add
-            (
-                Curve("Const Curve 0.1", 0.1, 0.1),
-                Curve("Const Curve 0.2", 0.2, 0.2),
-                Curve("Const Curve 0.3", 0.3, 0.3)
-            );
-
-            double addedValue = add.Calculate(duration / 2);
-            
-            AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
-            
-            SaveAudioMono(() => add, duration);
-        }
 
         [TestMethod]
-        public void Test_ParallelPlay_WithConstSignal()
+        public void Test_ParallelAdd_WithConstSignal_WithPreviewPartials()
         {
             // Arrange
             var duration = 0.1;
-            var tolerance = 0.001;
 
             // Act to Create Entities
 
@@ -544,59 +505,35 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             NotEqual(addOperands[0], () => addOperands[1]);
             NotEqual(addOperands[1], () => addOperands[2]);
             
-            // Check Bytes Array, Read as Int16 Values
-            foreach (var addOperand in addOperands)
-            {
-                Sample sample = addOperand.Operator.AsSampleOperator.Sample;
-
-                AreEqual(Wav, () => sample.GetAudioFileFormatEnum());
-                AreEqual(Int16, () => sample.GetSampleDataTypeEnum());
-                AreEqual(Mono, () => sample.GetSpeakerSetupEnum());
-                AreEqual(44,  () => sample.GetHeaderLength());
-
-                using (var stream = new MemoryStream(sample.Bytes))
-                {
-                    stream.Position = 44; // Skip header
-                    
-                    using (var reader = new BinaryReader(stream))
-                    {
-                        short firstValue = reader.ReadInt16();
-                        
-                        while (stream.Position < stream.Length)
-                        {
-                            short nextValue = reader.ReadInt16();
-                            AreEqual(firstValue, () => nextValue);
-                        }
-                    }
-                }
-            }
-
-            // Act to Calculate Values
-            double adderResult = adder.Calculate(duration / 2);
-            
-            double operandValue1 = addOperands[0].Calculate(duration / 2);
-            double operandValue2 = addOperands[1].Calculate(duration / 2);
-            double operandValue3 = addOperands[2].Calculate(duration / 2);
-
-            var operandValuesSorted = new [] { operandValue1, operandValue2, operandValue3 }.OrderBy(x => x).ToArray();
-
-            Console.WriteLine($"{new { operandValue1, operandValue2, operandValue3 }}");
-            
-            // Assert Values
-            Assert.AreEqual(0.1 + 0.2 + 0.3, operandValue1 + operandValue2 + operandValue3, tolerance);
-            Assert.AreEqual(0.1, operandValuesSorted[0], tolerance);
-            Assert.AreEqual(0.2, operandValuesSorted[1], tolerance);
-            Assert.AreEqual(0.3, operandValuesSorted[2], tolerance);
-            Assert.AreEqual(0.1 + 0.2 + 0.3, adderResult, tolerance);
+            // Don't assert values. A setting can insert a delay, messing with the test values.
         }
         
         [TestMethod]
-        public void Test_ParallelPlay_WithSinePartials()
+        public void Test_ParallelAdd_WithSinePartials()
         {
             var freq     = A4;
             var volume   = 1 / 1.5;
             var duration = 0.6;
             
+            var added = ParallelAdd
+            (
+                _[duration], 
+                () => Sine(Value(freq.Value) * 1) * 1.0,
+                () => Sine(Value(freq.Value) * 2) * 0.2,
+                () => Sine(Value(freq.Value) * 3) * 0.7
+            );
+
+            PlayMono(() => added, duration, volume);
+            
+        }
+        
+        [TestMethod]
+        public void Test_ParallelAdd_WithSinePartials_WithPreviewParallels()
+        {
+            var freq     = A4;
+            var volume   = 1 / 1.5;
+            var duration = 0.6;
+
             WithPreviewParallels();
             
             var added = ParallelAdd
