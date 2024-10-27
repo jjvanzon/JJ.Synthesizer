@@ -12,11 +12,8 @@ using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
-using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.PersistenceHelper;
-using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 // ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable once PossibleLossOfFraction

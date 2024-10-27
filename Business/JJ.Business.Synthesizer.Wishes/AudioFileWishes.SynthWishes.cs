@@ -15,9 +15,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
-using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.FrameworkWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 // ReSharper disable UseObjectOrCollectionInitializer
@@ -29,11 +27,6 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        // Want my static usings, but clashes with System type names.
-        public const SampleDataTypeEnum Int16 = SampleDataTypeEnum.Int16;
-        public const SampleDataTypeEnum Byte = SampleDataTypeEnum.Byte;
-        public const ChannelEnum Single = ChannelEnum.Single;
-
         private void InitializeAudioFileWishes(IContext context)
         {
             _sampleManager = ServiceFactory.CreateSampleManager(context);
@@ -43,31 +36,73 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Fluent Configuration
         
+        
+        public ChannelEnum Channel { get; set; }
+
+        public int ChannelIndex => Channel.ToIndex();
+        
+        public SynthWishes WithChannel(ChannelEnum channel)
+        {
+            Channel = channel;
+            return this;
+        }
+
+        public SynthWishes Left() => WithChannel(ChannelEnum.Left);
+        public SynthWishes Right() => WithChannel(ChannelEnum.Right);
+        public SynthWishes Center() => WithChannel(ChannelEnum.Single);
+
+        // SpeakerSetup
+
         public SpeakerSetupEnum SpeakerSetup { get; set; } = SpeakerSetupEnum.Mono;
 
-        public SynthWishes WithSpeakerSetup(SpeakerSetupEnum speakerSetupEnum)
+        public SynthWishes WithSpeakerSetup(SpeakerSetupEnum speakerSetup)
         {
-            SpeakerSetup = speakerSetupEnum;
+            SpeakerSetup = speakerSetup;
             return this;
         }
 
-        public SynthWishes Mono()
+        public SynthWishes Mono() => WithSpeakerSetup(SpeakerSetupEnum.Mono);
+        public SynthWishes Stereo() => WithSpeakerSetup(SpeakerSetupEnum.Stereo);
+        
+        // BitDepth
+        
+        public SampleDataTypeEnum BitDepth { get; set; } = SampleDataTypeEnum.Int16;
+
+        public SynthWishes WithBitDepth(SampleDataTypeEnum bitDepth)
         {
-            SpeakerSetup = SpeakerSetupEnum.Mono;
+            BitDepth = bitDepth;
             return this;
         }
 
-        public SynthWishes Stereo()
+        public SynthWishes _16Bit() => WithBitDepth(SampleDataTypeEnum.Int16);
+        public SynthWishes _8Bit() => WithBitDepth(SampleDataTypeEnum.Byte);
+        
+        // AudioFormat
+        
+        public AudioFileFormatEnum AudioFormat { get; set; } = AudioFileFormatEnum.Wav;
+
+        public SynthWishes WithAudioFormat(AudioFileFormatEnum audioFormat)
         {
-            SpeakerSetup = SpeakerSetupEnum.Stereo;
+            AudioFormat = audioFormat;
             return this;
         }
 
-        //public static implicit operator SpeakerSetupEnum(SynthWishes synthWishes)
-        //{
-        //    return synthWishes.SpeakerSetup;
-        //}
+        public SynthWishes AsWav() => WithAudioFormat(AudioFileFormatEnum.Wav);
+        public SynthWishes AsRaw() => WithAudioFormat(AudioFileFormatEnum.Raw);
+        
+        // Interpolation
+        
+        public InterpolationTypeEnum Interpolation { get; set; } = InterpolationTypeEnum.Line;
 
+        public SynthWishes WithInterpolation(InterpolationTypeEnum interpolationEnum)
+        {
+            Interpolation = interpolationEnum;
+            return this;
+        }
+
+        public SynthWishes Linear() => WithInterpolation(InterpolationTypeEnum.Line);
+        public SynthWishes Blocky() => WithInterpolation(InterpolationTypeEnum.Block);
+        
         // Parallelization
 
         public FluentOutlet ParallelAdd(Outlet duration, params Func<Outlet>[] funcs)
@@ -174,42 +209,36 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
             byte[] bytes, 
-            InterpolationTypeEnum interpolationTypeEnum = default,
             double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
-            => SampleBase(new MemoryStream(bytes), default, interpolationTypeEnum, amplifier, speedFactor, bytesToSkip);
+            => SampleBase(new MemoryStream(bytes), default, amplifier, speedFactor, bytesToSkip);
         
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
             Stream stream,
-            InterpolationTypeEnum interpolationTypeEnum = default,
             double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
-            => SampleBase(stream, default, interpolationTypeEnum, amplifier, speedFactor, bytesToSkip);
+            => SampleBase(stream, default, amplifier, speedFactor, bytesToSkip);
 
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
             string filePath,
-            InterpolationTypeEnum interpolationTypeEnum = default,
             double amplifier = 1, double speedFactor = 1, int bytesToSkip = 0)
         {
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                return SampleBase(stream, filePath, interpolationTypeEnum, amplifier, speedFactor, bytesToSkip);
+                return SampleBase(stream, filePath, amplifier, speedFactor, bytesToSkip);
         }
 
         /// <inheritdoc cref="docs._sample"/>
         private FluentOutlet SampleBase(
             Stream stream, string filePath,
-            InterpolationTypeEnum interpolationTypeEnum,
             double amplifier, double speedFactor, int bytesToSkip)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
-            if (interpolationTypeEnum == default) interpolationTypeEnum = InterpolationTypeEnum.Line;
-            
             Sample sample = _sampleManager.CreateSample(stream);
             sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude() * amplifier;
             sample.TimeMultiplier = 1 / speedFactor;
             sample.BytesToSkip = bytesToSkip;
-            sample.SetInterpolationTypeEnum(interpolationTypeEnum, Context);
+            sample.SetInterpolationTypeEnum(Interpolation, Context);
 
             if (!string.IsNullOrWhiteSpace(filePath))
             {
@@ -237,55 +266,35 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<Outlet> outletFunc,
             double duration,
             double volume,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default,
             [CallerMemberName] string callerMemberName = null)
-            => Play(
-                outletFunc, _[duration], _[volume], 
-                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, 
-                fileName, callerMemberName);
+            => Play(outletFunc, _[duration], _[volume], samplingRateOverride, fileName, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> Play(
             Func<Outlet> outletFunc, Outlet duration, double volume,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => Play(
-                outletFunc, _[duration], _[volume], 
-                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, 
-                fileName, callerMemberName);
+            => Play(outletFunc, _[duration], _[volume], samplingRateOverride, fileName, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> Play(
             Func<Outlet> outletFunc, double duration, Outlet volume = null,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => Play(
-                outletFunc, _[duration], volume, 
-                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, 
-                fileName, callerMemberName);
+            => Play(outletFunc, _[duration], volume, samplingRateOverride, fileName, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> Play(
             Func<Outlet> outletFunc, Outlet duration = default, Outlet volume = default,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
         {
             (outletFunc, duration) = ApplyLeadingSilence(outletFunc, duration);
 
             var saveResult =
-                SaveAudio(
-                    outletFunc, duration, volume,
-                    sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
-                    fileName, callerMemberName);
+                SaveAudio(outletFunc, duration, volume, samplingRateOverride, fileName, callerMemberName);
 
             var playResult = PlayIfAllowed(saveResult.Data);
 
@@ -301,50 +310,33 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<Outlet> func,
             double duration,
             double volume,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => SaveAudio(
-                func, _[duration], _[volume],
-                sampleDataTypeEnum, audioFileFormatEnum,
-                samplingRateOverride, fileName, callerMemberName);
+            => SaveAudio(func, _[duration], _[volume], samplingRateOverride, fileName, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func,
             Outlet duration,
             double volume,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => SaveAudio(
-                func, duration, _[volume],
-                sampleDataTypeEnum, audioFileFormatEnum,
-                samplingRateOverride, fileName, callerMemberName);
+            => SaveAudio(func, duration, _[volume], samplingRateOverride, fileName, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func,
             double duration,
             Outlet volume = null,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => SaveAudio(
-                func, _[duration], volume,
-                sampleDataTypeEnum, audioFileFormatEnum,
-                samplingRateOverride, fileName, callerMemberName);
+            => SaveAudio(func, _[duration], volume, samplingRateOverride, fileName, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func,
             Outlet duration = default,
             Outlet volume = default,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
         {
@@ -354,22 +346,18 @@ namespace JJ.Business.Synthesizer.Wishes
                 switch (SpeakerSetup)
                 {
                     case SpeakerSetupEnum.Mono:
-                        Channel = Single; var monoOutlet = func();
+                        Center(); var monoOutlet = func();
                         
                         return SaveAudioBase(
-                            new[] { monoOutlet },
-                            duration, volume,
-                            sampleDataTypeEnum, audioFileFormatEnum,
+                            new[] { monoOutlet }, duration, volume,
                             samplingRateOverride, fileName, callerMemberName);
 
                     case SpeakerSetupEnum.Stereo:
-                        Channel = Left; var leftOutlet = func();
-                        Channel = Right; var rightOutlet = func();
+                        Left(); var leftOutlet = func();
+                        Right(); var rightOutlet = func();
                         
                         return SaveAudioBase(
-                            new[] { leftOutlet, rightOutlet },
-                            duration, volume,
-                            sampleDataTypeEnum, audioFileFormatEnum,
+                            new[] { leftOutlet, rightOutlet }, duration, volume,
                             samplingRateOverride, fileName, callerMemberName);
                     default:
                         throw new ValueNotSupportedException(SpeakerSetup);
@@ -386,8 +374,6 @@ namespace JJ.Business.Synthesizer.Wishes
             IList<Outlet> channelInputs,
             Outlet duration,
             Outlet volume,
-            SampleDataTypeEnum sampleDataTypeEnum,
-            AudioFileFormatEnum audioFileFormatEnum,
             int samplingRateOverride,
             string fileName, string callerMemberName)
         {
@@ -404,7 +390,7 @@ namespace JJ.Business.Synthesizer.Wishes
             double volumeValue = volume.Calculate();
             if (volumeValue == 0) volumeValue = 1;
 
-            fileName = ResolveFileName(fileName, audioFileFormatEnum, callerMemberName);
+            fileName = ResolveFileName(fileName, AudioFormat, callerMemberName);
 
             int channelCount = channelInputs.Count;
             var speakerSetupEnum = channelCount.ToSpeakerSetupEnum();
@@ -417,17 +403,15 @@ namespace JJ.Business.Synthesizer.Wishes
                 warnings.AddRange(channelInput.GetWarnings());
             }
 
-            // Configure AudioFileOutput
-            // Avoid backend:
-            //AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
+            // Configure AudioFileOutput (avoid backend)
             var audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
-            audioFileOutput.Amplifier = volumeValue * sampleDataTypeEnum.GetMaxAmplitude();
+            audioFileOutput.Amplifier = volumeValue * BitDepth.GetMaxAmplitude();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = durationValue;
             audioFileOutput.FilePath = fileName;
-            audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum);
-            audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum);
+            audioFileOutput.SetSampleDataTypeEnum(BitDepth);
+            audioFileOutput.SetAudioFileFormatEnum(AudioFormat);
             audioFileOutput.Name = UseName() ?? callerMemberName;
 
             var samplingRateResult = ResolveSamplingRate(samplingRateOverride);
@@ -549,7 +533,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     {
                         ID = 1,
                         Index = 0,
-                        Channel = channelRepository.Get((int)Single),
+                        Channel = channelRepository.Get((int)ChannelEnum.Single),
                     };
 
                     audioFileOutput.SpeakerSetup = speakerSetupMono;
@@ -570,7 +554,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         ID = 2,
                         Index = 0,
                         SpeakerSetup = audioFileOutput.SpeakerSetup,
-                        Channel = channelRepository.Get((int)Left),
+                        Channel = channelRepository.Get((int)ChannelEnum.Left),
                     };
 
                     var speakerSetupChannelRight = new SpeakerSetupChannel
@@ -578,7 +562,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         ID = 3,
                         Index = 1,
                         SpeakerSetup = audioFileOutput.SpeakerSetup,
-                        Channel = channelRepository.Get((int)Right),
+                        Channel = channelRepository.Get((int)ChannelEnum.Right),
                     };
 
                     audioFileOutput.SpeakerSetup = speakerSetupStereo;

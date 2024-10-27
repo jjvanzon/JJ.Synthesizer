@@ -273,7 +273,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var freq = E4;
 
-            Channel = Single;
+            Center();
             
             Multiply
             (
@@ -421,7 +421,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Sample sample = addOperand.Operator.AsSampleOperator.Sample;
 
                 AreEqual(Wav, () => sample.GetAudioFileFormatEnum());
-                AreEqual(Int16, () => sample.GetSampleDataTypeEnum());
+                AreEqual(SampleDataTypeEnum.Int16, () => sample.GetSampleDataTypeEnum());
                 AreEqual(SpeakerSetupEnum.Mono, () => sample.GetSpeakerSetupEnum());
                 AreEqual(44,  () => sample.GetHeaderLength());
 

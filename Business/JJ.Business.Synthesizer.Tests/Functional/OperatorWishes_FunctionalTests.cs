@@ -1,4 +1,5 @@
 ﻿using System;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Testing;
@@ -56,8 +57,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Arrange
             Outlet fixedValues()
             {
-                if (Channel == Left) return _[0.8];
-                if (Channel == Right) return _[0.6];
+                if (Channel == ChannelEnum.Left) return _[0.8];
+                if (Channel == ChannelEnum.Right) return _[0.6];
                 return default;
             }
 
@@ -65,11 +66,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet panned;
 
             // Act
-            Channel = Left;
+            Left();
             panned  = Panning(fixedValues(), panning);
             double outputLeftValue = panned.Calculate(time: 0);
 
-            Channel = Right;
+            Right();
             panned  = Panning(fixedValues(), panning);
             double outputRightValue = panned.Calculate(time: 0);
 
@@ -80,7 +81,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             AssertHelper.AreEqual(expectedRight, () => outputRightValue);
 
             // Diagnostics (get code coverage)
-            Channel = Single;
+            Center();
             Assert.IsNull(fixedValues());
         }
 
@@ -96,9 +97,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             {
                 switch (Channel)
                 {
-                    case Left:  return _[0.8];
-                    case Right: return _[0.6];
-                    default:    return default;
+                    case ChannelEnum.Left:  return _[0.8];
+                    case ChannelEnum.Right: return _[0.6];
+                    default:                return default;
                 }
             }
 
@@ -108,11 +109,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Outlet panned;
 
-            Channel = Left;
+            Left();
             panned  = Panning(TestSignal(), panningValue);
             double leftValue = panned.Calculate(time: 0);
 
-            Channel = Right;
+            Right();
             panned  = Panning(TestSignal(), panningValue);
             double rightValue = panned.Calculate(time: 0);
 
@@ -123,7 +124,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             AssertHelper.AreEqual(expectedRightValue, () => rightValue);
 
             // Diagnostics (get code coverage)
-            Channel = Single;
+            Center();
             Assert.IsNull(TestSignal());
         }
 
@@ -143,12 +144,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Outlet panned;
 
-            Channel = Left;
+            Left();
             panned  = Panning(sine, panning);
             double maxValueLeft = panned.Calculate(time: 0.25 / (double)freq);
             double minValueLeft = panned.Calculate(time: 0.75 / (double)freq);
 
-            Channel = Right;
+            Right();
             panned  = Panning(sine, panning);
             double maxValueRight = panned.Calculate(time: 0.25 / (double)freq);
             double minValueRight = panned.Calculate(time: 0.75 / (double)freq);

@@ -3,8 +3,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
-using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Framework.Testing.AssertHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -44,7 +42,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Wav Extensions
             {
-                AudioFileOutput audioFileOutputWav = SaveAudio(() => Sine(), audioFileFormatEnum: Wav).Data;
+                AudioFileOutput audioFileOutputWav = AsWav().SaveAudio(() => Sine()).Data;
                 IsNotNull(() => audioFileOutputWav);
                 IsNotNull(() => audioFileOutputWav.AudioFileFormat);
                 AreEqual(".wav", () => audioFileOutputWav.AudioFileFormat.GetFileExtension());
@@ -55,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Raw Extensions
             {
-                AudioFileOutput audioFileOutputRaw = SaveAudio(() => Sine(), audioFileFormatEnum: Raw).Data;
+                AudioFileOutput audioFileOutputRaw = AsRaw().SaveAudio(() => Sine()).Data;
                 IsNotNull(() => audioFileOutputRaw);
                 IsNotNull(() => audioFileOutputRaw.AudioFileFormat);
                 AreEqual(".raw", () => audioFileOutputRaw.AudioFileFormat.GetFileExtension());
@@ -65,10 +63,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // 16-Bit Helpers
-            AreEqual(Int16, () => SpecialEnumWishes.GetSampleDataTypeEnum<short>());
+            AreEqual(SampleDataTypeEnum.Int16, () => SpecialEnumWishes.GetSampleDataTypeEnum<short>());
 
             // 8-Bit Helpers
-            AreEqual(Byte, () => SpecialEnumWishes.GetSampleDataTypeEnum<byte>());
+            AreEqual(SampleDataTypeEnum.Byte, () => SpecialEnumWishes.GetSampleDataTypeEnum<byte>());
 
             //// AudioFileOutputChannel Extensions for Missing Model Properties
             //{

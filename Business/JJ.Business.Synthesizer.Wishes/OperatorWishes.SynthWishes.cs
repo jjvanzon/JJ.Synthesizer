@@ -26,10 +26,6 @@ namespace JJ.Business.Synthesizer.Wishes
             _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
             _ = new CaptureIndexer(this);
         }
-
-        public ChannelEnum Channel { get; set; }
-
-        public int ChannelIndex => Channel.ToIndex();
         
         // Start Chaining
         
