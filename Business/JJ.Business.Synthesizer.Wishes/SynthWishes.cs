@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 
 // ReSharper disable MemberCanBeProtected.Global
@@ -25,9 +27,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private string PickedName { get; set; }
 
-        public SynthWishes WithName(string name)
+        public SynthWishes WithName([CallerMemberName] string name = null)
         {
-            PickedName = name;
+            PickedName = NameHelper.GetPrettyName(name);
             return this;
         }
  

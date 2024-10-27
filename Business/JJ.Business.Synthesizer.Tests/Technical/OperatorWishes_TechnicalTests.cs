@@ -465,7 +465,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Arrange
             var duration = 0.1;
 
-            // Act to Create Entities
+            // Act
 
             WithPreviewParallels();
             
@@ -478,7 +478,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 () => Curve("Const Curve 0.3", 0.3, 0.3)
             );
 
-            // Assert Entities
+            // Assert
             IsNotNull(() => adder);
             IsNotNull(() => adder.Outlet);
             IsNotNull(() => adder.Outlet.Operator);
@@ -528,13 +528,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_ParallelAdd_WithSinePartials_WithPreviewParallels()
+        public void Test_ParallelAdd_SinePartials_PreviewParallels()
         {
             var freq     = A4;
             var volume   = 1 / 1.5;
             var duration = 0.6;
 
-            WithPreviewParallels();
+            WithName().WithPreviewParallels();
             
             var added = ParallelAdd
             (
