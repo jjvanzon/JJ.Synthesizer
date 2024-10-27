@@ -22,6 +22,66 @@ namespace JJ.Business.Synthesizer.Wishes
     /// </summary>
     public static class OperatorExtensionsWishes
     {
+        // Name
+
+        public static Outlet WithName(this Outlet entity, string name)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.Operator.WithName(name);
+            return entity;
+        }
+
+        public static Operator WithName(this Operator op, string name)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            
+            if (string.IsNullOrWhiteSpace(name)) return op;
+            
+            op.Name = name;
+
+            if (op.AsCurveIn?.Curve != null)
+            {
+                op.AsCurveIn.Curve.Name = name;
+            }
+
+            if (op.AsSampleOperator?.Sample != null)
+            {
+                op.AsSampleOperator.Sample.Name = name;
+            }
+
+            return op;
+        }
+
+        public static Inlet WithName(this Inlet entity, string name)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.Input.WithName(name);
+            return entity;
+        }
+        
+        public static OperatorWrapperBase WithName(this OperatorWrapperBase wrapper, string name)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            wrapper.Operator.WithName(name);
+            return wrapper;
+        }
+        
+        // Missing
+        
+        public static Operator Operator(this SampleOperatorWrapper wrapper)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            if (wrapper.Result == null) throw new NullException(() => wrapper.Result);
+            return wrapper.Result.Operator;
+        }
+        
+        public static Operator Operator(this CurveInWrapper wrapper)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            if (wrapper.Result == null) throw new NullException(() => wrapper.Result);
+            return wrapper.Result.Operator;
+        }
+
         // Calculate
 
         public static double Calculate(this Outlet outlet, double time, ChannelEnum channelEnum)

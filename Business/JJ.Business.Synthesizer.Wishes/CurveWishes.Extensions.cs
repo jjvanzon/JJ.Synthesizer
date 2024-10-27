@@ -11,6 +11,26 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public static class CurveExtensionWishes
     {
+        // Name
+
+        public static Curve WithName(this Curve entity, string name)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.Name = name;
+            return entity;
+        }
+                
+        public static CurveInWrapper WithName(this CurveInWrapper wrapper, string name)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            if (wrapper.Operator() == null) throw new ArgumentNullException("wrapper.Operator()");
+            
+            wrapper.Operator().WithName(name);
+            wrapper.Curve.WithName(name);
+
+            return wrapper;
+        }
+
         // Calculation
 
         public static double Calculate(this Curve curve, double time)

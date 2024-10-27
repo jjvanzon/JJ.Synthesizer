@@ -59,19 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (string.IsNullOrWhiteSpace(name)) return this;
             
-            if (_thisOutlet.Operator == null) throw new NullException(() => _thisOutlet.Operator);
-
-            _thisOutlet.Operator.Name = name;
-
-            if (_thisOutlet.Operator.AsCurveIn?.Curve != null)
-            {
-                _thisOutlet.Operator.AsCurveIn.Curve.Name = name;
-            }
-
-            if (_thisOutlet.Operator.AsSampleOperator?.Sample != null)
-            {
-                _thisOutlet.Operator.AsSampleOperator.Sample.Name = name;
-            }
+            _thisOutlet.WithName(name);
 
             return this;
         }
