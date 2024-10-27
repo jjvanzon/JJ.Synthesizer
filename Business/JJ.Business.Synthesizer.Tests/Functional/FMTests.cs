@@ -296,7 +296,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 () => Multiply(hornVolume,       HornMelody1)
             );
 
-            var pattern2 = WithName("Jingle Pattern 1").ParallelAdd
+            var pattern2 = WithName("Jingle Pattern 2").ParallelAdd
             (
                 bars[4], JingleVolume,
                 () => Multiply(fluteVolume,      FluteMelody2),
@@ -371,17 +371,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 )
             );
 
-        FluentOutlet HornMelody1 => Add
+        FluentOutlet HornMelody1 => WithName().ParallelAdd
         (
-            Horn(C2, beat[09], duration: beats[3], volume: _[0.7]),
-            Horn(G1, beat[13], duration: beats[4], volume: _[0.5])
+            duration: beat[13 + 4],
+            () => Horn(C2, beat[09], duration: beats[3], volume: _[0.7]),
+            () => Horn(G1, beat[13], duration: beats[4], volume: _[0.5])
         );
 
-        FluentOutlet HornMelody2 => Add
+        FluentOutlet HornMelody2 => WithName().ParallelAdd
         (
-            Horn(A2, beat[1], duration: beat[3], volume: _[0.75]),
-            Horn(F2, beat[5], duration: beat[3], volume: _[0.85]),
-            Horn(A1, beat[9], duration: beat[5], volume: _[1.0])
+            duration: beat[9 + 5],
+            () => Horn(A2, beat[1], duration: beat[3], volume: _[0.75]),
+            () => Horn(F2, beat[5], duration: beat[3], volume: _[0.85]),
+            () => Horn(A1, beat[9], duration: beat[5], volume: _[1.0])
         );
         
         FluentOutlet TromboneMelody1 => WithName().ParallelAdd
@@ -392,10 +394,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => Trombone(F1_Sharp, beat[5], volume: _[0.7])
         );
 
-        FluentOutlet TromboneMelody2 => Add
+        FluentOutlet TromboneMelody2 => WithName().ParallelAdd
         (
-            Trombone(E4, beat[3], durationFactor: _[1.4]),
-            Trombone(C4, beat[7], durationFactor: _[1.4])
+            beats[8],
+            () => Trombone(E4, beat[3], durationFactor: _[1.4]),
+            () => Trombone(C4, beat[7], durationFactor: _[1.4])
         );
 
         FluentOutlet RippleBassMelody2 =>
@@ -654,7 +657,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var signal = FMAroundFreq(pitch ?? A4, _[55], _[0.5]);
             
-            var curve = Curve(0.0, 1.00, 0.2, 1.00, 
+            var curve = Curve(0.0, 1.00, 0.2, 1.10, 
                               0.4, 0.90, 0.4, 0.90, 
                               0.5, 0.85, 0.6, 0.80, 
                               0.5, 0.80, 0.4, 0.85, 
@@ -804,17 +807,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (8.0, E4, A5, E5)
         };
 
-        FluentOutlet ChordPitchCurve1 => Curve(
+        FluentOutlet ChordPitchCurve1 => WithName().Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.freq1.Value,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        FluentOutlet ChordPitchCurve2 => Curve(
+        FluentOutlet ChordPitchCurve2 => WithName().Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.freq2.Value,
                                                        NodeTypeEnum.Block)).ToArray());
 
-        FluentOutlet ChordPitchCurve3 => Curve(
+        FluentOutlet ChordPitchCurve3 => WithName().Curve(
             _chordFrequencies.Select(x => new NodeInfo(x.time,
                                                        x.freq3.Value,
                                                        NodeTypeEnum.Block)).ToArray());
