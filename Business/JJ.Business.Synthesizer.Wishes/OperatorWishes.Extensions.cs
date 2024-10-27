@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -9,9 +10,11 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
+using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
+// ReSharper disable NotResolvedInText
 
 // ReSharper disable RedundantIfElseBlock
 
@@ -149,6 +152,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public static double Calculate(this CurveInWrapper wrapper, double time = 0, int channelIndex = 0)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            
+            
             return Calculate(wrapper.Result, time, channelIndex);
         }
 
@@ -382,4 +387,4 @@ namespace JJ.Business.Synthesizer.Wishes
             return HasOperatorTypeName(inlet.Input, operatorTypeName);
         }
     }
-}
+        }

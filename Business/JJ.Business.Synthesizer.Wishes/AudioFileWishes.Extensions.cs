@@ -164,12 +164,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return SizeOf(entity.SampleDataType);
         }
 
-        public static int SizeOfSampleDataType(this SampleOperator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SizeOfSampleDataType(entity.Sample);
-        }
-
+        
         public static int SizeOfSampleDataType(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -209,12 +204,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetBits(entity.SampleDataType);
         }
 
-        public static int GetBits(this SampleOperator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetBits(entity.Sample);
-        }
-
+        
         public static int GetBits(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -250,12 +240,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return SizeOfSampleDataType(entity) * entity.GetChannelCount();
         }
 
-        public static int GetFrameSize(this SampleOperator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetFrameSize(entity.Sample);
-        }
-
+        
         public static int GetFrameSize(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -281,12 +266,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity.Bytes.Length - GetHeaderLength(entity) / GetFrameSize(entity);
         }
 
-        public static int GetFrameCount(this SampleOperator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetFrameCount(entity.Sample);
-        }
-
+        
         public static int GetFrameCount(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -320,13 +300,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetFileExtension(entity.AudioFileFormat);
         }
 
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string GetFileExtension(this SampleOperator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetFileExtension(entity.Sample);
-        }
-
+        
         /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this SampleOperatorWrapper wrapper)
         {
@@ -368,12 +342,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetMaxAmplitude(entity.SampleDataType);
         }
 
-        public static double GetMaxAmplitude(this SampleOperator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetMaxAmplitude(entity.Sample);
-        }
-
+        
         public static double GetMaxAmplitude(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -419,12 +388,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity.GetAudioFileFormatEnum().GetHeaderLength();
         }
 
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this SampleOperator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetHeaderLength(entity.Sample);
-        }
 
         /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this SampleOperatorWrapper wrapper)

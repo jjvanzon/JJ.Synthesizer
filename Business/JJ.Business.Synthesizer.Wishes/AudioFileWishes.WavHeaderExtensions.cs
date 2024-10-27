@@ -186,8 +186,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public static WavHeaderStruct GetWavHeader(this Sample sample)
             => WavHeaderExtensionWishes_GetInfo.GetInfo(sample).GetWavHeader();
 
-        public static WavHeaderStruct GetWavHeader(this SampleOperator sampleOperator)
-            => WavHeaderExtensionWishes_GetInfo.GetInfo(sampleOperator).GetWavHeader();
 
         public static WavHeaderStruct GetWavHeader(this SampleOperatorWrapper wrapper)
             => WavHeaderExtensionWishes_GetInfo.GetInfo(wrapper).GetWavHeader();
@@ -311,11 +309,6 @@ namespace JJ.Business.Synthesizer.Wishes
             };
         }
 
-        public static AudioFileInfoWish GetInfo(this SampleOperator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetInfo(entity.Sample);
-        }
 
         public static AudioFileInfoWish GetInfo(this SampleOperatorWrapper wrapper)
         {
