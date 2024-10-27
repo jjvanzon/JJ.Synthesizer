@@ -22,7 +22,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     /// <inheritdoc cref="_metallophone" />
         public AdditiveTests()
             : base(beat: 0.4, bar: 1.6)
-        { }
+        {
+            Mono();
+        }
 
         /// <inheritdoc cref="_metallophone"/>
         [TestMethod]
@@ -34,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_metallophone"/>
         void Additive_Metallophone_Jingle_RunTest()
-            => PlayMono(() => Echo(MetallophoneJingle), beat[4] + NoteDuration + EchoTime, volume: 0.3);
+            => Play(() => Echo(MetallophoneJingle), beat[4] + NoteDuration + EchoTime, volume: 0.3);
 
         /// <inheritdoc cref="_metallophone"/>
         [TestMethod]
@@ -46,7 +48,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_metallophone"/>
         void Additive_Metallophone_Note_RunTest()
-            => PlayMono(() => Echo(Metallophone(F4_Sharp)), NoteDuration + EchoTime);
+            => Play(() => Echo(Metallophone(F4_Sharp)), NoteDuration + EchoTime);
 
         /// <inheritdoc cref="_metallophone"/>
         FluentOutlet MetallophoneJingle => Add

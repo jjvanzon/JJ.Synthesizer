@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Accessors;
@@ -346,9 +347,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var chain2 = Sine(A4).Times(Curve(0, 1, 0));
             var chain3 = Sine(B4) * Curve(0, 1, 0).Stretch(2);
              
-            PlayMono(() => chain1);
-            PlayMono(() => chain2);
-            PlayMono(() => chain3, duration: 2);
+            Mono().Play(() => chain1);
+            Mono().Play(() => chain2);
+            Mono().Play(() => chain3, duration: 2);
         }
         
         [TestMethod]
@@ -367,7 +368,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
             
-            SaveAudioMono(() => add, duration);
+            Mono().SaveAudio(() => add, duration);
         }
 
         [TestMethod]
@@ -421,7 +422,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 AreEqual(Wav, () => sample.GetAudioFileFormatEnum());
                 AreEqual(Int16, () => sample.GetSampleDataTypeEnum());
-                AreEqual(Mono, () => sample.GetSpeakerSetupEnum());
+                AreEqual(SpeakerSetupEnum.Mono, () => sample.GetSpeakerSetupEnum());
                 AreEqual(44,  () => sample.GetHeaderLength());
 
                 using (var stream = new MemoryStream(sample.Bytes))
@@ -524,7 +525,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 () => Sine(Value(freq.Value) * 3) * 0.7
             );
 
-            PlayMono(() => added, duration, volume);
+            Mono().Play(() => added, duration, volume);
             
         }
         
@@ -545,7 +546,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 () => Sine(Value(freq.Value) * 3) * 0.7
             );
 
-            PlayMono(() => added, duration, volume);
+            Mono().Play(() => added, duration, volume);
         }
     }
 }

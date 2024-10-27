@@ -41,6 +41,33 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private SampleManager _sampleManager;
         
+        // Fluent Configuration
+        
+        public SpeakerSetupEnum SpeakerSetup { get; set; } = SpeakerSetupEnum.Mono;
+
+        public SynthWishes WithSpeakerSetup(SpeakerSetupEnum speakerSetupEnum)
+        {
+            SpeakerSetup = speakerSetupEnum;
+            return this;
+        }
+
+        public SynthWishes Mono()
+        {
+            SpeakerSetup = SpeakerSetupEnum.Mono;
+            return this;
+        }
+
+        public SynthWishes Stereo()
+        {
+            SpeakerSetup = SpeakerSetupEnum.Stereo;
+            return this;
+        }
+
+        //public static implicit operator SpeakerSetupEnum(SynthWishes synthWishes)
+        //{
+        //    return synthWishes.SpeakerSetup;
+        //}
+
         // Parallelization
 
         public FluentOutlet ParallelAdd(Outlet duration, params Func<Outlet>[] funcs)
@@ -67,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
             try
             {
                 // Save to files
-                Parallel.For(0, count, i => SaveAudioMono(funcs[i], duration, volume, fileName: fileNames[i]));
+                Parallel.For(0, count, i => SaveAudio(funcs[i], duration, volume, fileName: fileNames[i]));
 
                 // Reload Samples
                 for (int i = 0; i < count; i++)
@@ -113,7 +140,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string[] fileNames = GetParallelAddFileNames(count);
 
             // Save and play files
-            Parallel.For(0, count, i => PlayMono(funcs[i], duration, volume, fileName: fileNames[i]));
+            Parallel.For(0, count, i => Play(funcs[i], duration, volume, fileName: fileNames[i]));
 
             for (var i = 0; i < count; i++)
             {
@@ -121,7 +148,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 reloadedSamples[i] = Sample(fileNames[i]);
 
                 // Save and play to test the sample loading
-                PlayMono(() => reloadedSamples[i], duration, fileName: fileNames[i] + "_Reloaded.wav");
+                Play(() => reloadedSamples[i], duration, fileName: fileNames[i] + "_Reloaded.wav");
             }
 
             return Add(reloadedSamples);
@@ -210,7 +237,6 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<Outlet> outletFunc,
             double duration,
             double volume,
-            SpeakerSetupEnum speakerSetupEnum = Stereo,
             SampleDataTypeEnum sampleDataTypeEnum = Int16,
             AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
@@ -218,39 +244,36 @@ namespace JJ.Business.Synthesizer.Wishes
             [CallerMemberName] string callerMemberName = null)
             => Play(
                 outletFunc, _[duration], _[volume], 
-                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, 
+                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, 
                 fileName, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> Play(
             Func<Outlet> outletFunc, Outlet duration, double volume,
-            SpeakerSetupEnum speakerSetupEnum = Stereo,
             SampleDataTypeEnum sampleDataTypeEnum = Int16,
             AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
             => Play(
                 outletFunc, _[duration], _[volume], 
-                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, 
+                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, 
                 fileName, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> Play(
             Func<Outlet> outletFunc, double duration, Outlet volume = null,
-            SpeakerSetupEnum speakerSetupEnum = Stereo,
             SampleDataTypeEnum sampleDataTypeEnum = Int16,
             AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
             => Play(
-                outletFunc, _[duration], _[volume], 
-                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, 
+                outletFunc, _[duration], volume, 
+                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride, 
                 fileName, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> Play(
             Func<Outlet> outletFunc, Outlet duration = default, Outlet volume = default,
-            SpeakerSetupEnum speakerSetupEnum = Stereo,
             SampleDataTypeEnum sampleDataTypeEnum = Int16,
             AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
@@ -261,7 +284,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var saveResult =
                 SaveAudio(
                     outletFunc, duration, volume,
-                    speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
+                    sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
                     fileName, callerMemberName);
 
             var playResult = PlayIfAllowed(saveResult.Data);
@@ -270,127 +293,21 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return result;
         }
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<AudioFileOutput> PlayMono(
-            Func<Outlet> outletFunc, double duration, double volume,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
-            int samplingRateOverride = default,
-            string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => PlayMono(
-                outletFunc, _[duration], _[volume],
-                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
-                fileName, callerMemberName);
-        
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<AudioFileOutput> PlayMono(
-            Func<Outlet> outletFunc, Outlet duration, double volume,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
-            int samplingRateOverride = default,
-            string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => PlayMono(
-                outletFunc, _[duration], _[volume],
-                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
-                fileName, callerMemberName);
-        
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<AudioFileOutput> PlayMono(
-            Func<Outlet> outletFunc, double duration, Outlet volume = default,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
-            int samplingRateOverride = default,
-            string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => PlayMono(
-                outletFunc, _[duration], volume,
-                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
-                fileName, callerMemberName);
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<AudioFileOutput> PlayMono(
-            Func<Outlet> outletFunc, Outlet duration = default, Outlet volume = default,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
-            int samplingRateOverride = default,
-            string fileName = default, [CallerMemberName] string callerMemberName = null)
-        {
-            (outletFunc, duration) = ApplyLeadingSilence(outletFunc, duration);
-
-            var result =
-                SaveAudioMono(
-                    outletFunc, duration, volume,
-                    sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
-                    fileName, callerMemberName);
-            
-            PlayIfAllowed(result.Data);
-
-            return result;
-        }
         
         // Save Audio
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<AudioFileOutput> SaveAudioMono(
-            Func<Outlet> outletFunc, double duration, double volume,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
-            int samplingRateOverride = default,
-            string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => SaveAudioMono(
-                outletFunc, _[duration], _[volume],
-                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
-                fileName, callerMemberName);
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<AudioFileOutput> SaveAudioMono(
-            Func<Outlet> outletFunc, Outlet duration, double volume,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
-            int samplingRateOverride = default,
-            string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => SaveAudioMono(
-                outletFunc, duration, _[volume],
-                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
-                fileName, callerMemberName);
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<AudioFileOutput> SaveAudioMono(
-            Func<Outlet> outletFunc, double duration, Outlet volume = default,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
-            int samplingRateOverride = default,
-            string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => SaveAudioMono(
-                outletFunc, _[duration], volume,
-                sampleDataTypeEnum, audioFileFormatEnum, samplingRateOverride,
-                fileName, callerMemberName);
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<AudioFileOutput> SaveAudioMono(
-            Func<Outlet> outletFunc, Outlet duration = default, Outlet volume = default,
-            SampleDataTypeEnum sampleDataTypeEnum = Int16,
-            AudioFileFormatEnum audioFileFormatEnum = Wav,
-            int samplingRateOverride = default,
-            string fileName = default, [CallerMemberName] string callerMemberName = null)
-            => SaveAudio(outletFunc,
-                         duration, volume,
-                         Mono, sampleDataTypeEnum, audioFileFormatEnum,
-                         samplingRateOverride, fileName, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func,
             double duration,
             double volume,
-            SpeakerSetupEnum speakerSetupEnum = Stereo,
             SampleDataTypeEnum sampleDataTypeEnum = Int16,
             AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
             => SaveAudio(
                 func, _[duration], _[volume],
-                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
+                sampleDataTypeEnum, audioFileFormatEnum,
                 samplingRateOverride, fileName, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -398,14 +315,13 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<Outlet> func,
             Outlet duration,
             double volume,
-            SpeakerSetupEnum speakerSetupEnum = Stereo,
             SampleDataTypeEnum sampleDataTypeEnum = Int16,
             AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
             => SaveAudio(
                 func, duration, _[volume],
-                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
+                sampleDataTypeEnum, audioFileFormatEnum,
                 samplingRateOverride, fileName, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -413,14 +329,13 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<Outlet> func,
             double duration,
             Outlet volume = null,
-            SpeakerSetupEnum speakerSetupEnum = Stereo,
             SampleDataTypeEnum sampleDataTypeEnum = Int16,
             AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
             string fileName = default, [CallerMemberName] string callerMemberName = null)
             => SaveAudio(
                 func, _[duration], volume,
-                speakerSetupEnum, sampleDataTypeEnum, audioFileFormatEnum,
+                sampleDataTypeEnum, audioFileFormatEnum,
                 samplingRateOverride, fileName, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -428,7 +343,6 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<Outlet> func,
             Outlet duration = default,
             Outlet volume = default,
-            SpeakerSetupEnum speakerSetupEnum = Stereo,
             SampleDataTypeEnum sampleDataTypeEnum = Int16,
             AudioFileFormatEnum audioFileFormatEnum = Wav,
             int samplingRateOverride = default,
@@ -437,9 +351,9 @@ namespace JJ.Business.Synthesizer.Wishes
             var originalChannel = Channel;
             try
             {
-                switch (speakerSetupEnum)
+                switch (SpeakerSetup)
                 {
-                    case Mono:
+                    case SpeakerSetupEnum.Mono:
                         Channel = Single; var monoOutlet = func();
                         
                         return SaveAudioBase(
@@ -448,7 +362,7 @@ namespace JJ.Business.Synthesizer.Wishes
                             sampleDataTypeEnum, audioFileFormatEnum,
                             samplingRateOverride, fileName, callerMemberName);
 
-                    case Stereo:
+                    case SpeakerSetupEnum.Stereo:
                         Channel = Left; var leftOutlet = func();
                         Channel = Right; var rightOutlet = func();
                         
@@ -458,7 +372,7 @@ namespace JJ.Business.Synthesizer.Wishes
                             sampleDataTypeEnum, audioFileFormatEnum,
                             samplingRateOverride, fileName, callerMemberName);
                     default:
-                        throw new ValueNotSupportedException(speakerSetupEnum);
+                        throw new ValueNotSupportedException(SpeakerSetup);
                 }
             }
             finally
@@ -526,11 +440,11 @@ namespace JJ.Business.Synthesizer.Wishes
             
             switch (speakerSetupEnum)
             {
-                case Mono:
+                case SpeakerSetupEnum.Mono:
                     audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
                     break;
 
-                case Stereo:
+                case SpeakerSetupEnum.Stereo:
                     audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
                     audioFileOutput.AudioFileOutputChannels[1].Outlet = channelInputs[1];
                     break;
@@ -623,12 +537,12 @@ namespace JJ.Business.Synthesizer.Wishes
             
             switch (speakerSetupEnum)
             {
-                case Mono:
+                case SpeakerSetupEnum.Mono:
                 {
                     var speakerSetupMono = new SpeakerSetup
                     {
-                        ID = (int)Mono,
-                        Name = $"{Mono}",
+                        ID = (int)SpeakerSetupEnum.Mono,
+                        Name = $"{SpeakerSetupEnum.Mono}",
                     };
 
                     var speakerSetupChannelSingle = new SpeakerSetupChannel
@@ -643,12 +557,12 @@ namespace JJ.Business.Synthesizer.Wishes
                     break;
                 }
 
-                case Stereo:
+                case SpeakerSetupEnum.Stereo:
                 {
                     var speakerSetupStereo = new SpeakerSetup
                     {
-                        ID = (int)Stereo,
-                        Name = $"{Stereo}",
+                        ID = (int)SpeakerSetupEnum.Stereo,
+                        Name = $"{SpeakerSetupEnum.Stereo}",
                     };
 
                     var speakerSetupChannelLeft = new SpeakerSetupChannel

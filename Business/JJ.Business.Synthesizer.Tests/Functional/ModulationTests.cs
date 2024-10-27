@@ -22,7 +22,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         public ModulationTests()
             : base(beat: 0.55, bar: 2.2)
-        { }
+        {
+            Stereo();
+        }
 
         #region Tests
 
@@ -34,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest_Mono() 
-            => PlayMono(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DeepEchoTime);
+            => Mono().Play(() => DeepEcho(DetunicaJingle), volume: 0.15, duration: bars[7] + DeepEchoTime);
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
@@ -87,7 +89,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => PlayMono(() => MildEcho(VibraphaseChord), volume: 0.25, duration: 1 + MildEchoTime);
+            => Mono().Play(() => MildEcho(VibraphaseChord), volume: 0.25, duration: 1 + MildEchoTime);
 
         /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
@@ -95,7 +97,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()
-            => PlayMono(() => MildEcho(Vibraphase(freq: E5)), duration: 1 + MildEchoTime, volume: 0.5);
+            => Mono().Play(() => MildEcho(Vibraphase(freq: E5)), duration: 1 + MildEchoTime, volume: 0.5);
 
         #endregion
 

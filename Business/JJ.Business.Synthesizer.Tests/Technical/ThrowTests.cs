@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             //ThrowsException(() => accessor.GetOrCreateCurveIn(null, () => Curve(0)));
 
             // AudioFileWishes.SynthesizerSugar.SaveAudio SpeakerSetupNotSupported
-            ThrowsException(() => SaveAudio(() => Sine(), speakerSetupEnum: SpeakerSetupEnum.Undefined));
+            ThrowsException(() => WithSpeakerSetup(SpeakerSetupEnum.Undefined).SaveAudio(() => Sine()));
 
             // AudioFileWishes.Extensions.GetChannelCount SpeakerSetupNotSupported
             ThrowsException(() => SpeakerSetupEnum.Undefined.GetChannelCount());

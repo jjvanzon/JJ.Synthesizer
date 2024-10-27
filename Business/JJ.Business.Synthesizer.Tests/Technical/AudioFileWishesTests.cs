@@ -1,10 +1,10 @@
-﻿using JJ.Business.Synthesizer.Extensions;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
-using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Framework.Testing.AssertHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -23,23 +23,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void AudioFileExtensionWishes_RunTest()
         {
             // Channel Count => Speaker Setup
-            AreEqual(Mono,   () => 1.ToSpeakerSetupEnum());
-            AreEqual(Stereo, () => 2.ToSpeakerSetupEnum());
+            AreEqual(SpeakerSetupEnum.Mono,   () => 1.ToSpeakerSetupEnum());
+            AreEqual(SpeakerSetupEnum.Stereo, () => 2.ToSpeakerSetupEnum());
 
             // Mono Extensions
             {
-                AudioFileOutput audioFileOutputMono = SaveAudio(() => Sine(), speakerSetupEnum: Mono).Data;
+                AudioFileOutput audioFileOutputMono = Mono().SaveAudio(() => Sine()).Data;
                 IsNotNull(() => audioFileOutputMono);
                 IsNotNull(() => audioFileOutputMono.SpeakerSetup);
-                AreEqual(Mono, () => audioFileOutputMono.SpeakerSetup.ToEnum());
+                AreEqual(SpeakerSetupEnum.Mono, () => audioFileOutputMono.SpeakerSetup.ToEnum());
             }
 
             // Stereo Extensions
             {
-                AudioFileOutput audioFileOutputStereo = SaveAudio(() => Sine(), speakerSetupEnum: Stereo).Data;
+                AudioFileOutput audioFileOutputStereo = Stereo().SaveAudio(() => Sine()).Data;
                 IsNotNull(() => audioFileOutputStereo);
                 IsNotNull(() => audioFileOutputStereo.SpeakerSetup);
-                AreEqual(Stereo, () => audioFileOutputStereo.SpeakerSetup.ToEnum());
+                AreEqual(SpeakerSetupEnum.Stereo, () => audioFileOutputStereo.SpeakerSetup.ToEnum());
             }
 
             // Wav Extensions
