@@ -60,21 +60,9 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             // Prep variables
-            string guidString = $"{Guid.NewGuid()}";
             int count = funcs.Count;
             var reloadedSamples = new Outlet[count];
-
-            string baseName = UseName();
-            if (string.IsNullOrWhiteSpace(baseName))
-            {
-                baseName = nameof(ParallelAdd);
-            }
-
-            var fileNames = new string[count];
-            for (int i = 0; i < count; i++)
-            {
-                fileNames[i] = $"{baseName}({i + 1}) {guidString}.wav";
-            }
+            string[] fileNames = GetParallelAddFileNames(count);
 
             try
             {
@@ -120,21 +108,9 @@ namespace JJ.Business.Synthesizer.Wishes
         private FluentOutlet ParallelAddWithPreviewParallels(Outlet duration, Outlet volume, IList<Func<Outlet>> funcs)
         {
             // Prep variables
-            string guidString = $"{Guid.NewGuid()}";
             int count = funcs.Count;
             var reloadedSamples = new Outlet[count];
-
-            string baseName = UseName();
-            if (string.IsNullOrWhiteSpace(baseName))
-            {
-                baseName = nameof(ParallelAdd);
-            }
-
-            var fileNames = new string[count];
-            for (int i = 0; i < count; i++)
-            {
-                fileNames[i] = $"{baseName}({i + 1}) {guidString}.wav";
-            }
+            string[] fileNames = GetParallelAddFileNames(count);
 
             // Save and play files
             Parallel.For(0, count, i => PlayMono(funcs[i], duration, volume, fileName: fileNames[i]));
@@ -149,6 +125,21 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             return Add(reloadedSamples);
+        }
+
+        private string[] GetParallelAddFileNames(int count)
+        {
+            string name = UseName();
+            string guidString = $"{Guid.NewGuid()}";
+
+            var fileNames = new string[count];
+            for (int i = 0; i < count; i++)
+            {
+                string sep = string.IsNullOrWhiteSpace(name) ? default : " ";
+                fileNames[i] = $"{name}{sep}{nameof(ParallelAdd)} ({i + 1}) {guidString}.wav";
+            }
+
+            return fileNames;
         }
 
         // Sample
