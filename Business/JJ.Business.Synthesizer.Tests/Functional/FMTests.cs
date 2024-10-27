@@ -339,7 +339,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet TromboneMelody3 => ParallelAdd
         (
-            beats[5.5],
+            beats[6],
             () => Trombone(A1,       beat[1]),
             () => Trombone(E2,       beat[3]),
             () => Trombone(F1_Sharp, beat[5], volume: _[0.7])
