@@ -59,11 +59,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 return ParallelAddWithPreviewParallels(duration, volume, funcs);
             }
 
-            //int i = 0;
+            // Prep variables
+            string guidString = $"{Guid.NewGuid()}";
             int count = funcs.Count;
-            var guidString = $"{Guid.NewGuid()}";
             var reloadedSamples = new Outlet[count];
-            var lck = new object();
 
             string baseName = UseName();
             if (string.IsNullOrWhiteSpace(baseName))
@@ -71,34 +70,29 @@ namespace JJ.Business.Synthesizer.Wishes
                 baseName = nameof(ParallelAdd);
             }
 
-            var filePaths = new string[count];
+            var fileNames = new string[count];
+            for (int i = 0; i < count; i++)
+            {
+                fileNames[i] = $"{baseName}({i + 1}) {guidString}.wav";
+            }
 
             try
             {
-                Parallel.For(0, count, i =>
-                {
-                    // Get a name
-                    string name = $"{baseName}({i + 1}) {guidString}";
-
-                    // Save to a file
-                    string filePath = SaveAudioMono(funcs[i], duration, volume, fileName: name).Data.FilePath;
-
-                    // Add to a list
-                    lock (lck) filePaths[i] = filePath;
-                });
+                // Save to files
+                Parallel.For(0, count, i => SaveAudioMono(funcs[i], duration, volume, fileName: fileNames[i]));
 
                 // Reload Samples
-                for (var i = 0; i < count; i++)
+                for (int i = 0; i < count; i++)
                 {
-                    reloadedSamples[i] = Sample(filePaths[i]);
+                    reloadedSamples[i] = Sample(fileNames[i]);
                 }
             }
             finally
             {
                 // Clean-up
-                for (var j = 0; j < filePaths.Length; j++)
+                for (var j = 0; j < fileNames.Length; j++)
                 {
-                    string filePath = filePaths[j];
+                    string filePath = fileNames[j];
                     if (File.Exists(filePath)) File.Delete(filePath);
                 }
             }
@@ -128,7 +122,7 @@ namespace JJ.Business.Synthesizer.Wishes
             int count = funcs.Count;
             var guidString = $"{Guid.NewGuid()}";
             var lck = new object();
-            var filePaths = new List<string>();
+            var fileNames = new List<string>();
             var reloadedSamples = new List<Outlet>();
             
             string baseName = UseName();
@@ -146,14 +140,14 @@ namespace JJ.Business.Synthesizer.Wishes
                 string filePath = PlayMono(funcs[i], duration, volume, fileName: name).Data.FilePath;
 
                 // Add to a list
-                lock (lck) filePaths.Add(filePath);
+                lock (lck) fileNames.Add(filePath);
 
             });
 
             // Reload Samples
             for (var i = 0; i < count; i++)
             {
-                string filePath = filePaths[i];
+                string filePath = fileNames[i];
                 
                 Outlet sample = Sample(filePath);
                 reloadedSamples.Add(sample);
