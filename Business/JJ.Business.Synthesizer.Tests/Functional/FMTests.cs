@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 // ReSharper disable FieldCanBeMadeReadOnly.Local
+// ReSharper disable ExplicitCallerInfoArgument
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
@@ -209,14 +210,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var hornVolume       = _[0.6];
             var rippleBassVolume = _[0.7];
 
-            var pattern1 = ParallelAdd
+            var pattern1 = WithName("Jingle Pattern 1").ParallelAdd
             (
                 bars[4], JingleVolume,
                 () => Multiply(fluteVolume,      FluteMelody1),
                 () => Multiply(hornVolume,       HornMelody1)
             );
 
-            var pattern2 = ParallelAdd
+            var pattern2 = WithName("Jingle Pattern 1").ParallelAdd
             (
                 bars[4], JingleVolume,
                 () => Multiply(fluteVolume,      FluteMelody2),
@@ -225,7 +226,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 () => Multiply(rippleBassVolume, RippleBassMelody2)
             );
 
-            var composition = ParallelAdd
+            var composition = WithName("Composition").ParallelAdd
             (
                 bars[8],
                 () => PadChords(chordsVolume) * JingleVolume,
@@ -240,7 +241,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Melodies
 
-        FluentOutlet FluteMelody1 => ParallelAdd
+        FluentOutlet FluteMelody1 => WithName().ParallelAdd
         (
             bars[4],
             () => Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
@@ -253,7 +254,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => Flute1(G4, t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
         );
 
-        FluentOutlet FluteMelody2 => ParallelAdd
+        FluentOutlet FluteMelody2 => WithName().ParallelAdd
         (
             bars[4],
             () => Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
@@ -269,7 +270,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
-                ParallelAdd
+                WithName().ParallelAdd
                 (
                     bars[8],
                     () => Organ(ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]),
@@ -282,7 +283,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             => Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
-                ParallelAdd
+                WithName().ParallelAdd
                 (
                     bars[8] + DeepEchoTime, volume,
                     () => Pad(ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]),
@@ -304,7 +305,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Horn(A1, beat[9], duration: beat[5], volume: _[1.0])
         );
         
-        FluentOutlet TromboneMelody1 => ParallelAdd
+        FluentOutlet TromboneMelody1 => WithName().ParallelAdd
         (
             beats[6],
             () => Trombone(A1,       beat[1]),

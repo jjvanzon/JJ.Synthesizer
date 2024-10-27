@@ -607,8 +607,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 i++;
             }
 
-            //return Add(repeats);
-            return ParallelAdd(
+            return WithName().ParallelAdd(
                 duration, volume,
                 () => repeats[0], 
                 () => repeats[1], 

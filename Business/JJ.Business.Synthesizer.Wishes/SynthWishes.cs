@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
             PickedName = NameHelper.GetPrettyName(name);
             return this;
         }
- 
+
         private string UseName()
         {
             var name = PickedName;
