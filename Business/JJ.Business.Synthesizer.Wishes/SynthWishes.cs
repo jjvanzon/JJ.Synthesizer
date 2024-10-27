@@ -27,16 +27,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private string PickedName { get; set; }
 
-        public SynthWishes WithName([CallerMemberName] string name = null)
+        public SynthWishes WithName([CallerMemberName] string uglyName = null)
         {
-            PickedName = NameHelper.GetPrettyName(name);
+            PickedName = NameHelper.GetPrettyName(uglyName);
             return this;
         }
 
         private string UseName()
         {
             var name = PickedName;
-            PickedName = default;
+            PickedName = null;
             return name;
         }
     }

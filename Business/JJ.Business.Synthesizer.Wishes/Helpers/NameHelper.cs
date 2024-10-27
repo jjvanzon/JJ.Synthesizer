@@ -30,7 +30,9 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             }
             else
             {
-                name = uglyName.CutRightUntil(".") // Removing file extension
+                name = uglyName.CutLeft("get_")
+                               .CutLeft("set_")
+                               .CutRightUntil(".") // Removing file extension
                                .CutRight(".")
                                .Replace("RunTest", "")
                                .Replace("Test", "")
