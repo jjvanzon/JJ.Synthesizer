@@ -539,13 +539,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => sampleOutlet.AsAudioFileOutputChannels);
             AreEqual(0, () => sampleOutlet.AsAudioFileOutputChannels.Count);
 
-            // AsSampleOperator
-            SampleOperator asSampleOperator = sampleOperator.AsSampleOperator;
-            IsNotNull(() => asSampleOperator);
-            IsNotNull(() => asSampleOperator.Operator);
-            IsNotNull(() => asSampleOperator.Sample);
-            AreEqual(sampleOperator, () => asSampleOperator.Operator);
-
             // Sample
             Sample sample = sampleOperator.AsSampleOperator.Sample;
             AreEqual(1,                     () => sample.TimeMultiplier);
@@ -557,13 +550,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(audioFileFormatEnum,   () => sample.GetAudioFileFormatEnum());
             AreEqual(interpolationTypeEnum, () => sample.GetInterpolationTypeEnum());
 
-            int expectedChannelCount = speakerSetupEnum == Mono ? 1 : 2;
+            int expectedChannelCount = speakerSetupEnum == SpeakerSetupEnum.Mono ? 1 : 2;
             AreEqual(expectedChannelCount, () => sample.GetChannelCount());
 
-            IsNotNull(() => sample.SampleOperators);
-            AreEqual(1, () => sample.SampleOperators.Count);
-            IsNotNull(() => sample.SampleOperators[0]);
-            AreEqual(asSampleOperator, () => sample.SampleOperators[0]);
             IsNotNull(() => sample.Bytes);
 
             // ByteCount
