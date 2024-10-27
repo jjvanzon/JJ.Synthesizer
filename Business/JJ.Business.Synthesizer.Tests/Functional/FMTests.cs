@@ -74,13 +74,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public void FM_Flute1() => new FMTests().FM_Flute1_RunTest();
 
         void FM_Flute1_RunTest() 
-            => Play(() => MildEcho(Flute1(E4), DefaultVolume));
+            => Play(() => MildEcho(Flute1(E4)));
 
         [TestMethod]
         public void FM_Flute2() => new FMTests().FM_Flute2_RunTest();
 
         void FM_Flute2_RunTest()
-            => Play(() => MildEcho(Flute2(F4), DefaultVolume));
+            => Play(() => MildEcho(Flute2(F4)));
 
         [TestMethod]
         public void FM_Flute3() => new FMTests().FM_Flute3_RunTest();
@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // TODO: Weird notation                        
             var duration = bars[3];
             WithDuration(duration);
-            Play(() => MildEcho(Organ(duration: duration), DefaultVolume));
+            Play(() => MildEcho(Organ(duration: duration)));
         }
 
         [TestMethod]
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Horn_RunTest()
         {
-            Play(() => MildEcho(Horn(), DefaultVolume));
+            Play(() => MildEcho(Horn()));
         }
 
         [TestMethod]
@@ -173,7 +173,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Trombone_RunTest()
         {
-            WithDuration(2).Play(() => MildEcho(Trombone(E2), DefaultVolume));
+            WithDuration(2).Play(() => MildEcho(Trombone(E2)));
         }
         
         [TestMethod]
@@ -255,7 +255,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = _[3];
             WithDuration(duration + DeepEchoTime);
-            Play(() => DeepEcho(RippleBass(duration: duration), DefaultVolume));
+            Play(() => DeepEcho(RippleBass(duration: duration)));
         }
 
         [TestMethod]
@@ -285,7 +285,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = _[4];
             var withEcho = duration + DeepEchoTime;
-            WithDuration(withEcho).Play(() => DeepEcho(RippleSound_Clean(duration: duration), DefaultVolume));
+            WithDuration(withEcho).Play(() => DeepEcho(RippleSound_Clean(duration: duration)));
         }
 
         [TestMethod]
