@@ -550,7 +550,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (magnitude == null) magnitude = _[0.66];
             if (delay == null) delay = _[0.25];
             
-
             var cumulativeMagnitude = _[1];
             var cumulativeDelay     = _[0];
 
@@ -604,7 +603,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 i++;
             }
 
-            return WithName().ParallelAdd(
+            cumulativeDelay -= delay;
+
+            return WithName().AddDuration(cumulativeDelay).ParallelAdd(
                 volume,
                 () => repeats[0], 
                 () => repeats[1], 
