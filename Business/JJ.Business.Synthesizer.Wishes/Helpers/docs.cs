@@ -292,8 +292,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// Then <see cref="ParallelAdd">ParallelAdd</see> returns
         /// a normal non-parallel <see cref="Add">Add</see> operator,
         /// that will add up all the <see cref="Sample">Samples</see>.<br/>
-        /// Set the volume to something that doesn't make the partials go over the max.<br/>
-        /// (Volume is applied to partials, not totals.)
+        /// Please set the volume to something that doesn't make the partials go over the max.<br/>
+        /// You also need to call the fluent WithDuration or AddDuration to set the buffer size.
         /// </summary>
         /// <param name="funcs">Lambdas each returning a term for the addition.</param>
         /// <returns>
