@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Wishes
             for (int i = 0; i < count; i++)
             {
                 string sep = string.IsNullOrWhiteSpace(name) ? default : " ";
-                fileNames[i] = $"{name}{sep}{nameof(ParallelAdd)} ({i + 1}) {guidString}.wav";
+                fileNames[i] = $"{name}{sep}{nameof(ParallelAdd)} (Term {i + 1}) {guidString}.wav";
             }
 
             return fileNames;
