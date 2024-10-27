@@ -31,24 +31,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public void Additive_Metallophone_Jingle() => new AdditiveTests().Additive_Metallophone_Jingle_RunTest();
 
         /// <inheritdoc cref="_metallophone"/>
-        [TestMethod]
-        public void Additive_Metallophone_Jingle_WithPreviewPartials() => new AdditiveTests().WithPreviewPartials().Additive_Metallophone_Jingle_RunTest();
-
-        /// <inheritdoc cref="_metallophone"/>
-        void Additive_Metallophone_Jingle_RunTest()
-            => Play(() => Echo(MetallophoneJingle), beat[4] + NoteDuration + EchoTime, volume: 0.3);
+        public void Additive_Metallophone_Jingle_RunTest()
+        {
+            var duration = beat[4] + NoteDuration + EchoTime;
+            WithDuration(duration).Play(() => Echo(MetallophoneJingle), volume: 0.3);
+        }
 
         /// <inheritdoc cref="_metallophone"/>
         [TestMethod]
         public void Additive_Metallophone_Note() => new AdditiveTests().Additive_Metallophone_Note_RunTest();
 
         /// <inheritdoc cref="_metallophone"/>
-        [TestMethod]
-        public void Additive_Metallophone_Note_WithPreviewPartials() => new AdditiveTests().WithPreviewPartials().Additive_Metallophone_Note_RunTest();
-
-        /// <inheritdoc cref="_metallophone"/>
-        void Additive_Metallophone_Note_RunTest()
-            => Play(() => Echo(Metallophone(F4_Sharp)), NoteDuration + EchoTime);
+        public void Additive_Metallophone_Note_RunTest()
+            => WithDuration(NoteDuration + EchoTime).Play(() => Echo(Metallophone(F4_Sharp)));
 
         /// <inheritdoc cref="_metallophone"/>
         FluentOutlet MetallophoneJingle => Add
@@ -63,7 +58,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         bool PreviewPartials { get; set; }
 
-        AdditiveTests WithPreviewPartials()
+        public AdditiveTests WithPreviewPartials()
         {
             PreviewPartials = true;
             return this;
@@ -78,12 +73,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             frequency = frequency ?? A4;
             volume = volume ?? _[1];
-            duration  = duration ?? NoteDuration;
             
             if (PreviewPartials) WithPreviewParallels();
-            
+
+            WithDuration(duration ?? NoteDuration);
+
             var sound = ParallelAdd
-            (   duration, volume * 0.2,
+            (
+                volume: (volume * 0.2).Value,
                 () => 1.0 * Sine(1 * frequency) * Stretch(Sine1Envelope, duration),
                 () => 0.7 * Sine(2 * frequency) * Stretch(Sine2Envelope, duration),
                 () => 0.4 * Sine(5 * frequency) * Stretch(Sine3Envelope, duration),
@@ -123,7 +120,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 bytesToSkip += 1000;
 
                 // Maximize Volume
-                double amplifier = 1.467;
+                double volume = 1.467;
 
                 // Tune to A 440Hz
                 double octaveFactor   = 0.5;
@@ -131,7 +128,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 double fineTuneFactor = 0.94;
                 double speedFactor    = octaveFactor * intervalFactor * fineTuneFactor;
 
-                _mySample = Sample(GetViolin16BitMono44100WavStream(), amplifier, speedFactor, bytesToSkip);
+                _mySample = Sample(GetViolin16BitMono44100WavStream(), volume, speedFactor, bytesToSkip);
 
                 return _mySample;
             }

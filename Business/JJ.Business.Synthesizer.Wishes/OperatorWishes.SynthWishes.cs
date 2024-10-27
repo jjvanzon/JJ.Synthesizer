@@ -545,11 +545,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Echo(Outlet signal, int count, double magnitude, double delay)
             => Echo(signal, count, _[magnitude], _[delay]);
 
-        public FluentOutlet EchoParallel4Times(
-            Outlet signal, Outlet duration, Outlet volume, Outlet magnitude = default, Outlet delay = default)
+        public FluentOutlet EchoParallel4Times(Outlet signal, double volume, Outlet magnitude = default, Outlet delay = default)
         {
-            volume = volume ?? _[1];
+            if (magnitude == null) magnitude = _[0.66];
+            if (delay == null) delay = _[0.25];
             
+
             var cumulativeMagnitude = _[1];
             var cumulativeDelay     = _[0];
 
@@ -604,7 +605,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             return WithName().ParallelAdd(
-                duration, volume,
+                volume,
                 () => repeats[0], 
                 () => repeats[1], 
                 () => repeats[2],
@@ -614,6 +615,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet EchoAdditive(
             Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default)
         {
+            if (magnitude == null) magnitude = _[0.66];
+            if (delay == null) delay         = _[0.25];
+
             var cumulativeMagnitude = _[1];
             var cumulativeDelay     = _[0];
 

@@ -282,5 +282,24 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         /// <returns> <see cref="ValueWrapper"/> which can also be used as an Outlet or a <see langword="double"/>. </returns>
         public object _timeindexer;
+
+        /// <summary>
+        /// Performs an addition in parallel to improve performance.<br/>
+        /// It uses a trick to make use of existing functions.<br/>
+        /// It saves each term to an audio file.<br/>
+        /// Then it reloads each using a
+        /// <see cref="Sample">Sample</see><see cref="Operator">Operator</see>.<br/>
+        /// Then <see cref="ParallelAdd">ParallelAdd</see> returns
+        /// a normal non-parallel <see cref="Add">Add</see> operator,
+        /// that will add up all the <see cref="Sample">Samples</see>.<br/>
+        /// Set the volume to something that doesn't make the partials go over the max.<br/>
+        /// (Volume is applied to partials, not totals.)
+        /// </summary>
+        /// <param name="funcs">Lambdas each returning a term for the addition.</param>
+        /// <returns>
+        /// A normal <see cref="Add">Add</see> <see cref="Operator">Operator's</see>
+        /// <see cref="Outlet">Outlet</see> (as <see cref="FluentOutlet">FluentOutlet</see>).
+        /// </returns>
+        public object _paralleladd;
     }
 }

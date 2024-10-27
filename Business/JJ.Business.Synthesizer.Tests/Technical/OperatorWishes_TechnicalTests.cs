@@ -349,7 +349,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
              
             Mono().Play(() => chain1);
             Mono().Play(() => chain2);
-            Mono().Play(() => chain3, duration: 2);
+            Mono().WithDuration(2).Play(() => chain3);
         }
         
         [TestMethod]
@@ -368,7 +368,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
             
-            Mono().SaveAudio(() => add, duration);
+            Mono().WithDuration(duration).SaveAudio(() => add);
         }
 
         [TestMethod]
@@ -379,9 +379,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var tolerance = 0.001;
 
             // Create Entities
-            var adder = ParallelAdd
+            var adder = WithDuration(duration).ParallelAdd
             (
-                _[duration],
                 // Values higher than 1 seem to be clipped.
                 () => WithName("Const Curve 0.1").Curve(0.1, 0.1),
                 () => WithName("Const Curve 0.2").Curve(0.2, 0.2),
@@ -471,9 +470,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             WithPreviewParallels();
             
-            var adder = ParallelAdd
+            var adder = WithDuration(duration).ParallelAdd
             (
-                _[duration], 
                 // Values higher than 1 seem to be clipped.
                 () => WithName("Const Curve 0.1").Curve(0.1, 0.1),
                 () => WithName("Const Curve 0.2").Curve(0.2, 0.2),
@@ -513,19 +511,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_ParallelAdd_WithSinePartials()
         {
-            var freq     = A4;
-            var volume   = 1 / 1.5;
-            var duration = 0.6;
+            var freq = A4;
+
+            WithDuration(0.6);
             
             var added = ParallelAdd
             (
-                _[duration], 
+                volume: 1 / 1.5,
                 () => Sine(Value(freq.Value) * 1) * 1.0,
                 () => Sine(Value(freq.Value) * 2) * 0.2,
                 () => Sine(Value(freq.Value) * 3) * 0.7
             );
 
-            Mono().Play(() => added, duration, volume);
+            Mono().Play(() => added);
             
         }
         
@@ -536,17 +534,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var volume   = 1 / 1.5;
             var duration = 0.6;
 
-            WithName().WithPreviewParallels();
+            WithDuration(duration).WithName().WithPreviewParallels();
             
             var added = ParallelAdd
             (
-                _[duration], 
+                volume,
                 () => Sine(Value(freq.Value) * 1) * 1.0,
                 () => Sine(Value(freq.Value) * 2) * 0.2,
                 () => Sine(Value(freq.Value) * 3) * 0.7
             );
 
-            Mono().Play(() => added, duration, volume);
+            Mono().Play(() => added);
         }
     }
 }

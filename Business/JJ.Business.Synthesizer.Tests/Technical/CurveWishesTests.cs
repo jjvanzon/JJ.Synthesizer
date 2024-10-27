@@ -12,24 +12,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void AsciiCurves_WithoutRange()
         {
             var curve = CreateAsciiCurve_WithoutRange();
-            Mono().SaveAudio(() => curve, duration: 4);
+            Mono().WithDuration(4).SaveAudio(() => curve);
         }
 
         [TestMethod]
         public void AsciiCurves_WithRange()
         {
             var curve = CreateAsciiCurve_WithRange();
-            Mono().SaveAudio(() => curve, duration: 4);
+            Mono().WithDuration(4).SaveAudio(() => curve);
         }
 
-        Outlet CreateAsciiCurve_WithoutRange() => Curve(@"
+        Outlet CreateAsciiCurve_WithoutRange() => WithName().Curve(@"
                o                 
              o   o               
                                  
                        o         
             o                   o");
 
-        Outlet CreateAsciiCurve_WithRange() => Curve(
+        Outlet CreateAsciiCurve_WithRange() => WithName().Curve(
             x: (start: 1, end: 3), y: (min: -1, max: 0.5), @"
 
                o                 

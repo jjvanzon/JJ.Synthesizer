@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 // ReSharper disable JoinDeclarationAndInitializer
 // ReSharper disable ExplicitCallerInfoArgument
@@ -31,9 +30,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="Wishes.Helpers.docs._vibrato" />
         void Vibrato_RunTest()
-            => Mono().Play(
-                () => VibratoOverPitch(A4).Sine * Envelope.Stretch(2),
-                volume: 0.9, duration: 2);
+            => WithDuration(2).Mono().Play(() => VibratoOverPitch(A4).Sine * Envelope.Stretch(2), volume:0.9);
 
         [TestMethod]
         /// <inheritdoc cref="docs._tremolo" />
@@ -41,9 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="Wishes.Helpers.docs._tremolo" />
         void Tremolo_RunTest()
-            => Mono().Play(
-                () => Sine(C5).Tremolo(4, 0.5) * Envelope.Stretch(2),
-                volume: 0.30, duration: 2);
+            => WithDuration(2).Mono().Play(() => Sine(C5).Tremolo(4, 0.5) * Envelope.Stretch(2), volume: 0.3);
 
         // Panning Tests
 
@@ -299,10 +294,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             
             var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(G4), envelope);
-            Outlet echoes   = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
+            var echoes = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
 
-            SaveAudio(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
-            Play     (() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
+            WithDuration(0.2).SaveAudio(() => sound,  fileName: Name() + "_Input.wav");
+            WithDuration(4.0).Play     (() => echoes, fileName: Name() + "_Output.wav");
         }
 
         [TestMethod]
@@ -314,10 +309,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
             var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(B4), envelope);
-            var echoes   = EchoAdditive(sound, count: 16, magnitude: 0.66, delay: 0.25);
+            var echoes = EchoAdditive(sound, count: 16, magnitude: 0.66, delay: 0.25);
 
-            SaveAudio(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
-            Play     (() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
+            WithDuration(0.2).SaveAudio(() => sound,  fileName: Name() + "_Input.wav");
+            WithDuration(4.0).Play     (() => echoes, fileName: Name() + "_Output.wav");
         }
 
         [TestMethod]
@@ -341,10 +336,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var echoes = EchoAdditive(sound, count: 16, magnitude, delay);
 
-            SaveAudio(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav");
-            SaveAudio(() => magnitude, duration: 4,   fileName: Name() + "_Magnitude.wav");
-            SaveAudio(() => delay,     duration: 4,   fileName: Name() + "_Delay.wav");
-            Play(     () => echoes,    duration: 4,   fileName: Name() + "_Output.wav");
+            WithDuration(0.2).SaveAudio(() => sound,     fileName: Name() + "_Input.wav");
+            WithDuration(4.0).SaveAudio(() => magnitude, fileName: Name() + "_Magnitude.wav");
+            WithDuration(4.0).SaveAudio(() => delay,     fileName: Name() + "_Delay.wav");
+            WithDuration(4.0).Play     (() => echoes,  fileName: Name() + "_Output.wav");
         }
 
         [TestMethod]
@@ -356,11 +351,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(F5), envelope);
-
             var echoes = EchoFeedBack(sound, count: 16, magnitude: 0.66, delay: 0.25);
 
-            SaveAudio(() => sound,  duration: 0.2, fileName: Name() + "_Input.wav");
-            Play(() => echoes, duration: 4.0, fileName: Name() + "_Output.wav");
+            WithDuration(0.2).SaveAudio(() => sound,  fileName: Name() + "_Input.wav");
+            WithDuration(4.0).Play     (() => echoes, fileName: Name() + "_Output.wav");
         }
 
         [TestMethod]
@@ -384,10 +378,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var echoes = EchoFeedBack(sound, count: 16, magnitude, delay);
 
-            SaveAudio(() => sound,     duration: 0.2, fileName: Name() + "_Input.wav"    );
-            SaveAudio(() => magnitude, duration: 4.5, fileName: Name() + "_Magnitude.wav");
-            SaveAudio(() => delay,     duration: 4.5, fileName: Name() + "_Delay.wav"    );
-            Play(     () => echoes,    duration: 4.5, fileName: Name() + "_Output.wav"   );
+            WithDuration(0.2).SaveAudio(() => sound,     fileName: Name() + "_Input.wav");
+            WithDuration(4.5).SaveAudio(() => magnitude, fileName: Name() + "_Magnitude.wav");
+            WithDuration(4.5).SaveAudio(() => delay,     fileName: Name() + "_Delay.wav");
+            WithDuration(4.5).Play     (() => echoes,    fileName: Name() + "_Output.wav");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
@@ -26,6 +27,8 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Overloads with NodeInfo
+
+        public FluentOutlet Curve(IEnumerable<NodeInfo> nodeInfos) => Curve(nodeInfos.ToArray());
 
         public FluentOutlet Curve(IList<NodeInfo> nodeInfos)
         {

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
+using JJ.Persistence.Synthesizer;
+// ReSharper disable RedundantIfElseBlock
 
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -38,6 +41,23 @@ namespace JJ.Business.Synthesizer.Wishes
             var name = PickedName;
             PickedName = null;
             return name;
+        }
+
+        // Duration
+
+        private FluentOutlet _duration;
+        public FluentOutlet Duration
+        {
+            get => _duration ?? _[1];
+            set => _duration = value ?? _[1];
+        }
+
+        public SynthWishes WithDuration(Outlet duration) => WithDuration(_[duration]);
+        public SynthWishes WithDuration(double duration) => WithDuration(_[duration]);
+        public SynthWishes WithDuration(FluentOutlet duration)
+        {
+            Duration = duration ?? _[1];
+            return this;
         }
     }
 }
