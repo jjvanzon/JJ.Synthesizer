@@ -102,10 +102,16 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             => PlayMono(() => MildEcho(Pad()), duration: bars[8] + MildEchoTime, volume: 0.2);
 
         [TestMethod]
+        public void FM_Pad_Chords_Distortion() => new FMTests().FM_Pad_Chords_Distortion_RunTest();
+
+        void FM_Pad_Chords_Distortion_RunTest()
+            => PlayMono(() => MildEcho(PadChords(volume: _[0.95])), volume: 0.15, duration: bars[8] + MildEchoTime);
+
+        [TestMethod]
         public void FM_Pad_Chords() => new FMTests().FM_Pad_Chords_RunTest();
 
         void FM_Pad_Chords_RunTest()
-            => PlayMono(() => MildEcho(PadChords), volume: 0.15, duration: bars[8] + MildEchoTime);
+            => PlayMono(() => MildEcho(PadChords(volume: _[0.15])), duration: bars[8] + MildEchoTime);
 
         [TestMethod]
         public void FM_Trombone() => new FMTests().FM_Trombone_RunTest();
@@ -132,12 +138,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             => PlayMono(() => MildEcho(TromboneMelody2), volume: 0.75, duration: bars[3.5] + MildEchoTime);
 
         [TestMethod]
-        public void FM_Trombone_Melody3() => new FMTests().FM_Trombone_Melody3_RunTest();
-
-        void FM_Trombone_Melody3_RunTest()
-            => PlayMono(() => MildEcho(TromboneMelody3), duration: bars[1.5] + MildEchoTime, DefaultVolume);
-
-        [TestMethod]
         public void FM_Horn_Melody1() => new FMTests().FM_Horn_Melody1_RunTest();
 
         void FM_Horn_Melody1_RunTest()
@@ -160,12 +160,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleBass_RunTest()
             => PlayMono(() => DeepEcho(RippleBass(duration: _[3])), duration: 3 + DeepEchoTime, DefaultVolume);
-
-        [TestMethod]
-        public void FM_RippleBass_Melody1() => new FMTests().FM_RippleBass_Melody1_RunTest();
-
-        void FM_RippleBass_Melody1_RunTest()
-            => SaveAudioMono(() => DeepEcho(RippleBassMelody1), volume: 0.3, duration: bars[5] + DeepEchoTime);
 
         [TestMethod]
         public void FM_RippleBass_Melody2() => new FMTests().FM_RippleBass_Melody2_RunTest();
@@ -209,18 +203,18 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet Jingle()
         {
-            double fluteVolume      = 1.2;
-            double chordsVolume     = 0.5;
-            double tromboneVolume   = 0.7;
-            double hornVolume       = 0.6;
-            double rippleBassVolume = 0.7;
+            var fluteVolume      = _[1.2];
+            var chordsVolume     = _[0.5];
+            var tromboneVolume   = _[0.7];
+            var hornVolume       = _[0.6];
+            var rippleBassVolume = _[0.7];
 
-            var pattern1 = ParallelAdd(
+            var pattern1 = ParallelAdd
+            (
                 bars[4], JingleVolume,
                 () => Multiply(fluteVolume,      FluteMelody1),
-                () => Multiply(tromboneVolume,   TromboneMelody1),
-                () => Multiply(hornVolume,       HornMelody1),
-                () => Multiply(rippleBassVolume, RippleBassMelody1));
+                () => Multiply(hornVolume,       HornMelody1)
+            );
 
             var pattern2 = ParallelAdd
             (
@@ -234,7 +228,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var composition = ParallelAdd
             (
                 bars[8],
-                () => Multiply(chordsVolume, PadChords) * JingleVolume,
+                () => PadChords(chordsVolume) * JingleVolume,
                 () => pattern1,
                 () => Delay(pattern2, bars[4])
             );
@@ -254,7 +248,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => Flute1(G4, t[bar: 1, beat: 4.0], volume: _[0.60], beats[1.00]),
             () => Flute1(A4, t[bar: 2, beat: 1.0], volume: _[0.80], beats[2.33]),
             () => Flute2(B4, t[bar: 2, beat: 2.5], volume: _[0.50], beats[1.00]),
-            () => Flute2(A3, t[bar: 2, beat: 4.0], volume: _[0.50], beats[1.67]), // Flute1 would appear delayed because of destructive interference?
+            () => Flute2(A3, t[bar: 2, beat: 4.0], volume: _[0.50], beats[1.67]),
             () => Flute3(G3, t[bar: 3, beat: 1.0], volume: _[0.85], beats[2.00]),
             () => Flute1(G4, t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
         );
@@ -278,66 +272,39 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 ParallelAdd
                 (
                     bars[8],
-                    () => Organ(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
-                    () => Organ(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
-                    () => Organ(Stretch(ChordPitchCurve3, bars[1]), duration: bars[8])
+                    () => Organ(ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]),
+                    () => Organ(ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]),
+                    () => Organ(ChordPitchCurve3.Stretch(bars[1]), duration: bars[8])
                 )
             );
 
-        FluentOutlet PadChords => Multiply
-        (
-            Stretch(ChordVolumeCurve, bars[1]),
-            Add
+        FluentOutlet PadChords(FluentOutlet volume)
+            => Multiply
             (
-                Pad(Stretch(ChordPitchCurve1, bars[1]), duration: bars[8]),
-                Pad(Stretch(ChordPitchCurve2, bars[1]), duration: bars[8]),
-                Pad(Stretch(ChordPitchCurve3, bars[1]), duration: bars[8])
-            )
-        );
+                Stretch(ChordVolumeCurve, bars[1]),
+                ParallelAdd
+                (
+                    bars[8] + DeepEchoTime, volume,
+                    () => Pad(ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]),
+                    () => Pad(ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]),
+                    () => Pad(ChordPitchCurve3.Stretch(bars[1]), duration: bars[8])
+                )
+            );
 
         FluentOutlet HornMelody1 => Add
         (
-            //Horn(A2, Beat[01], duration: Beats[2]),
-            //Horn(E3, Beat[02]),
-            //Horn(F2, Beat[05], duration: Beats[3]),
-            //Horn(C3, Beat[07]),
             Horn(C2, beat[09], duration: beats[3], volume: _[0.7]),
-            //Horn(G2, Beat[11]),
-            Horn(G1, beat[13], duration: beats[4], volume: _[0.5]) //,
-            //Horn(D3, Beat[15])
+            Horn(G1, beat[13], duration: beats[4], volume: _[0.5])
         );
 
         FluentOutlet HornMelody2 => Add
         (
             Horn(A2, beat[1], duration: beat[3], volume: _[0.75]),
-            //Horn(E3, Beat[3]),
             Horn(F2, beat[5], duration: beat[3], volume: _[0.85]),
-            //Horn(C3, Beat[7]),
             Horn(A1, beat[9], duration: beat[5], volume: _[1.0])
         );
-
-        FluentOutlet TromboneMelody1 => Add
-        (
-            //Trombone(A3, Beat[00]),
-            //Trombone(E4, Beat[02]),
-            //Trombone(F3, Beat[04]),
-            //Trombone(C4, Beat[06]),
-            //Trombone(C3, Beat[08]),
-            //Trombone(G3, Beat[10]),
-            //Trombone(G2, Beat[12]),
-            //Trombone(B3, Beat[14])
-        );
-
-        FluentOutlet TromboneMelody2 => Add
-        (
-            //Trombone(A2, Beat[1]),
-            Trombone(E4, beat[3], durationFactor: _[1.4]),
-            //Trombone(F2, Beat[5]),
-            Trombone(C4, beat[7], durationFactor: _[1.4]) //,
-            //Trombone(A3, Beat[9])
-        );
-
-        FluentOutlet TromboneMelody3 => ParallelAdd
+        
+        FluentOutlet TromboneMelody1 => ParallelAdd
         (
             beats[6],
             () => Trombone(A1,       beat[1]),
@@ -345,8 +312,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => Trombone(F1_Sharp, beat[5], volume: _[0.7])
         );
 
-        FluentOutlet RippleBassMelody1 => _[0];
-        //RippleBass(A2, delay: Bar[1], duration: Bars[2]);
+        FluentOutlet TromboneMelody2 => Add
+        (
+            Trombone(E4, beat[3], durationFactor: _[1.4]),
+            Trombone(C4, beat[7], durationFactor: _[1.4])
+        );
 
         FluentOutlet RippleBassMelody2 =>
             RippleBass(A1, delay: bar[3.5], duration: bars[0.8]);
