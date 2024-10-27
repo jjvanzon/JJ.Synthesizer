@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes.Helpers;
-using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
@@ -53,7 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        // Name
+        // Fluent Configuration
                 
         public FluentOutlet WithName(string name)
         {
@@ -64,6 +63,18 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
         
+        public FluentOutlet WithDuration(FluentOutlet newDuration)
+        {
+            _synthWishes.WithDuration(newDuration);
+            return this;
+        }
+
+        public FluentOutlet AddDuration(FluentOutlet additionalDuration)
+        {
+            _synthWishes.AddDuration(additionalDuration);
+            return this;
+        }
+
         // Basic Operators
         
         public FluentOutlet Add(IList<Outlet> operands) => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
@@ -275,10 +286,11 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Misc Chaining Methods
 
-        public void PlayMono()
+        public FluentOutlet PlayMono(double volume = default)
         {
             _synthWishes.Channel = ChannelEnum.Single;
-            _synthWishes.Mono().Play(() => _thisOutlet);
+            _synthWishes.Mono().Play(() => _thisOutlet, volume);
+            return this;
         }
 
         // Delegate to Extension Methods

@@ -59,5 +59,12 @@ namespace JJ.Business.Synthesizer.Wishes
             Duration = duration ?? _[1];
             return this;
         }
+        
+        public SynthWishes AddDuration(Outlet duration) => AddDuration(_[duration]);
+        public SynthWishes AddDuration(double duration) => AddDuration(_[duration]);
+        public SynthWishes AddDuration(FluentOutlet additionalDuration)
+        {
+            return WithDuration(Duration + additionalDuration);
+        }
     }
 }
