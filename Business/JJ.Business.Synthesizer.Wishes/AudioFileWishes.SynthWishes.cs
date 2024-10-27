@@ -187,14 +187,20 @@ namespace JJ.Business.Synthesizer.Wishes
             if (!string.IsNullOrWhiteSpace(filePath))
             {
                 sample.Location = Path.GetFullPath(filePath);
-                sample.Name = Path.GetFileNameWithoutExtension(filePath);
             }
 
             var wrapper = _operatorFactory.Sample(sample);
-            Outlet outlet = wrapper.Result;
-            outlet.Operator.Name = sample.Name;
 
-            return _[outlet];
+            string name = UseName();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = GetPrettyName(filePath);
+            }
+            
+            sample.Name = name;
+            wrapper.Result.Operator.Name = name;
+
+            return _[wrapper.Result];
         }
 
         // Play
@@ -508,13 +514,16 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.FilePath = fileName;
             audioFileOutput.SetSampleDataTypeEnum(sampleDataTypeEnum);
             audioFileOutput.SetAudioFileFormatEnum(audioFileFormatEnum);
+            audioFileOutput.Name = UseName() ?? callerMemberName;
 
             var samplingRateResult = ResolveSamplingRate(samplingRateOverride);
             audioFileOutput.SamplingRate = samplingRateResult.Data;
-            
+
+
             SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
             CreateOrRemoveChannels(audioFileOutput, channelCount);
 
+            
             switch (speakerSetupEnum)
             {
                 case Mono:

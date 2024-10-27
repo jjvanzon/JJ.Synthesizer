@@ -376,7 +376,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Curves
 
-        FluentOutlet PatchyEnvelope => Curve(Name(), @"
+        FluentOutlet PatchyEnvelope => WithName().Curve(@"
                          o                             
                     
                               o                         
@@ -387,7 +387,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         o                                       o ");
 
-        FluentOutlet EvenEnvelope => Curve(Name(), @"
+        FluentOutlet EvenEnvelope => WithName().Curve(@"
                           o                             
                    
                                                         
@@ -398,25 +398,25 @@ namespace JJ.Business.Synthesizer.Tests.Functional
            
         o                                       o ");
 
-        FluentOutlet DetuneRateCurve1 => Curve(Name(), @"
+        FluentOutlet DetuneRateCurve1 => WithName().Curve(@"
                     o          
                                 
                                 
         o                   o");
 
-        FluentOutlet DetuneRateCurve2 => Curve(Name(), @"
+        FluentOutlet DetuneRateCurve2 => WithName().Curve(@"
              o                 
                                 
                                 
         o                   o ");
 
-        FluentOutlet DetuneRateCurve3 => Curve(Name(), @"
+        FluentOutlet DetuneRateCurve3 => WithName().Curve(@"
                   o            
                                 
                                 
         o                   o ");
 
-        FluentOutlet VibraphaseVolumeCurve => Curve(Name(), @"
+        FluentOutlet VibraphaseVolumeCurve => WithName().Curve(@"
            o                   
          o   o                 
                                 

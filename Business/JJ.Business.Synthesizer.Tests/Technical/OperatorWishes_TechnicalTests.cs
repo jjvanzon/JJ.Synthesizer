@@ -14,6 +14,7 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Framework.Testing.AssertHelper;
 // ReSharper disable UnusedVariable
+// ReSharper disable ExplicitCallerInfoArgument
 #pragma warning disable CS0618 // Type or member is obsolete
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -26,14 +27,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void TestNestedSumFlattening()
         {
             // Arrange
-            var var1 = Curve("Curve1", 1, 1);
-            var var2 = Curve("Curve2", 2, 2);
-            var var3 = Curve("Curve3", 3, 3);
-            var var4 = Curve("Curve4", 4, 4);
-            var var5 = Curve("Curve5", 5, 5);
-            var var6 = Curve("Curve6", 6, 6);
-            var var7 = Curve("Curve7", 7, 7);
-            var var8 = Curve("Curve8", 8, 8);
+            var var1 = Curve(1, 1).WithName("Curve1");
+            var var2 = Curve(2, 2).WithName("Curve2");
+            var var3 = Curve(3, 3).WithName("Curve3");
+            var var4 = Curve(4, 4).WithName("Curve4");
+            var var5 = Curve(5, 5).WithName("Curve5");
+            var var6 = Curve(6, 6).WithName("Curve6");
+            var var7 = Curve(7, 7).WithName("Curve7");
+            var var8 = Curve(8, 8).WithName("Curve8");
             var const9 = _[9];
             var const10 = _[10];
 
@@ -157,13 +158,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             // Arrange
             var const1 = _[1];
-            var var2 = Curve("Curve2", 2, 2);
+            var var2 = WithName("Curve2").Curve(2, 2).WithName("Curve2");
             var const3 = _[3];
-            var var4 = Curve("Curve4", 4, 4);
+            var var4 = WithName("Curve4").Curve(4, 4);
             var const5 = _[5];
-            var var6 = Curve("Curve6", 6, 6);
-            var var7 = Curve("Curve7", 7, 7);
-            var var8 = Curve("Curve8", 8, 8);
+            var var6 = WithName("Curve6").Curve(6, 6);
+            var var7 = WithName("Curve7").Curve(7, 7);
+            var var8 = WithName("Curve8").Curve(8, 8);
 
             IsNotNull(() => const1);
             IsNotNull(() => var2);
@@ -357,9 +358,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             var add = Add
             (
-                Curve("Const Curve 0.1", 0.1, 0.1),
-                Curve("Const Curve 0.2", 0.2, 0.2),
-                Curve("Const Curve 0.3", 0.3, 0.3)
+                Curve(0.1, 0.1).WithName("Const Curve 0.1"),
+                Curve(0.2, 0.2).WithName("Const Curve 0.2"),
+                Curve(0.3, 0.3).WithName("Const Curve 0.3")
             );
 
             double addedValue = add.Calculate(duration / 2);
@@ -381,9 +382,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             (
                 _[duration],
                 // Values higher than 1 seem to be clipped.
-                () => Curve("Const Curve 0.1", 0.1, 0.1),
-                () => Curve("Const Curve 0.2", 0.2, 0.2),
-                () => Curve("Const Curve 0.3", 0.3, 0.3)
+                () => WithName("Const Curve 0.1").Curve(0.1, 0.1),
+                () => WithName("Const Curve 0.2").Curve(0.2, 0.2),
+                () => WithName("Const Curve 0.3").Curve(0.3, 0.3)
             );
 
             // Assert Entities
@@ -473,9 +474,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             (
                 _[duration], 
                 // Values higher than 1 seem to be clipped.
-                () => Curve("Const Curve 0.1", 0.1, 0.1),
-                () => Curve("Const Curve 0.2", 0.2, 0.2),
-                () => Curve("Const Curve 0.3", 0.3, 0.3)
+                () => WithName("Const Curve 0.1").Curve(0.1, 0.1),
+                () => WithName("Const Curve 0.2").Curve(0.2, 0.2),
+                () => WithName("Const Curve 0.3").Curve(0.3, 0.3)
             );
 
             // Assert

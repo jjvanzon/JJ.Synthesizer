@@ -141,9 +141,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Creates a curve representing the volume modulation for the first sine partial.
         /// Starts quietly, peaks at a strong volume, and then fades gradually.
         /// </summary>
-        FluentOutlet Sine1Envelope => Curve
+        FluentOutlet Sine1Envelope => WithName().Curve
         (
-            NameHelper.Name(),
             0.00, 0.80, 1.00, null, null, null, null, null,
             0.25, null, null, null, null, null, null, null,
             0.10, null, null, 0.02, null, null, null, 0.00
@@ -153,9 +152,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Creates a curve for volume modulation of the second sine partial.
         /// Begins with a quick rise, reaches a high peak, and then slightly drops before fading.
         /// </summary>
-        FluentOutlet Sine2Envelope => Curve
+        FluentOutlet Sine2Envelope => WithName().Curve
         (
-            NameHelper.Name(),
             0.00, 1.00, 0.80, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.05, null, null, 0.01, null, null, null, 0.00
@@ -166,9 +164,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Starts at a moderate volume, dips to a very low level,
         /// and then has a slight resurgence before fading out.
         /// </summary>
-        FluentOutlet Sine3Envelope => Curve
+        FluentOutlet Sine3Envelope => WithName().Curve
         (
-            NameHelper.Name(),
             0.30, 1.00, 0.30, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.15, null, null, 0.05, null, null, null, 0.00
@@ -178,8 +175,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Generates a volume curve for the sample, starting at full volume
         /// and quickly diminishing to a lower level.
         /// </summary>
-        FluentOutlet SampleEnvelope => Curve(
-            NameHelper.Name(),
+        FluentOutlet SampleEnvelope => WithName().Curve(
             1.00, 0.50, 0.20, null, null, null, null, 0.00,
             null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null

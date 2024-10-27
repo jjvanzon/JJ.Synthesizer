@@ -4,12 +4,12 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
@@ -51,6 +51,29 @@ namespace JJ.Business.Synthesizer.Wishes
                 double calculated = _thisOutlet.Calculate(time: 0);
                 return calculated;
             }
+        }
+
+        // Name
+                
+        public FluentOutlet WithName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return this;
+            
+            if (_thisOutlet.Operator == null) throw new NullException(() => _thisOutlet.Operator);
+
+            _thisOutlet.Operator.Name = name;
+
+            if (_thisOutlet.Operator.AsCurveIn?.Curve != null)
+            {
+                _thisOutlet.Operator.AsCurveIn.Curve.Name = name;
+            }
+
+            if (_thisOutlet.Operator.AsSampleOperator?.Sample != null)
+            {
+                _thisOutlet.Operator.AsSampleOperator.Sample.Name = name;
+            }
+
+            return this;
         }
         
         // Basic Operators
@@ -227,14 +250,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(Outlet curve)
             => _thisOutlet * _synthWishes._[curve];
 
-        public FluentOutlet Curve(string name, IList<NodeInfo> nodeInfos)
-            => _thisOutlet * _synthWishes.Curve(name, nodeInfos);
-
         public FluentOutlet Curve(IList<NodeInfo> nodeInfos)
             => _thisOutlet * _synthWishes.Curve(nodeInfos);
-
-        public FluentOutlet Curve(string name, params NodeInfo[] nodeInfos)
-            => _thisOutlet * _synthWishes.Curve(name, nodeInfos);
 
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
             => _thisOutlet * _synthWishes.Curve(nodeInfos);
@@ -248,18 +265,10 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(params double?[] values)
             => _thisOutlet * _synthWishes.Curve(values);
-        
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
-        public FluentOutlet Curve(string name, IList<(double time, double value)> nodeTuples)
-            => _thisOutlet * _synthWishes.Curve(name, nodeTuples);
 
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FluentOutlet Curve(IList<(double time, double value)> nodeTuples)
             => _thisOutlet * _synthWishes.Curve(nodeTuples);
-
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
-        public FluentOutlet Curve(string name, params (double time, double value)[] nodeTuples)
-            => _thisOutlet * _synthWishes.Curve(name, nodeTuples);
 
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
@@ -268,18 +277,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public FluentOutlet Curve(string text) 
             => _thisOutlet * _synthWishes.Curve(text);
-
-        /// <inheritdoc cref="docs._createcurvefromstring" />
-        public FluentOutlet Curve(string name, string text)
-            => _thisOutlet * _synthWishes.Curve(name, text);
-
-        /// <inheritdoc cref="docs._createcurvefromstring" />
-        public FluentOutlet Curve(
-            string name,
-            (double start, double end) x,
-            (double min, double max) y,
-            string text)
-            => _thisOutlet * _synthWishes.Curve(name, x, y, text);
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public FluentOutlet Curve(

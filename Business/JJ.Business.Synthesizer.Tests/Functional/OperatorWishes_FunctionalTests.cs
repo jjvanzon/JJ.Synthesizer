@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 // ReSharper disable JoinDeclarationAndInitializer
+// ReSharper disable ExplicitCallerInfoArgument
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
@@ -195,16 +196,16 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var sound = Sine(E5) * Envelope;
 
-            var speed = Curve(
-                "Speed", x: (0, 3), y: (0, 8), @"
+            var speed = WithName("Speed").Curve(
+                x: (0, 3), y: (0, 8), @"
                                 * *
                             *
                         *
                     *
                 *                              ");
 
-            var depth = Curve(
-                "Depth", x: (0, 3), y: (0, 1), @"
+            var depth = WithName("Depth").Curve(
+                x: (0, 3), y: (0, 1), @"
                 *
                     *
                         *
@@ -282,7 +283,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_Old_RunTest()
         {
-            var envelope = Curve("Envelope", (0, 1), (0.2, 0));
+            var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(G4), envelope);
             Outlet echoes   = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
 
@@ -296,7 +297,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_FixedValues_RunTest()
         {
-            var envelope = Curve("Envelope", (0, 1), (0.2, 0));
+            var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(B4), envelope);
             var echoes   = EchoAdditive(sound, count: 16, magnitude: 0.66, delay: 0.25);
 
@@ -309,17 +310,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_DynamicParameters_RunTest()
         {
-            var envelope = Curve("Volume Curve", (0, 1), (0.2, 0));
+            var envelope = WithName("Volume Curve").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(D5), envelope);
 
-            var magnitude = Curve("Magnitude Curve",
-                                       (0.0, 0.66),
-                                       (0.5, 0.90),
-                                       (3.0, 1.00),
-                                       (4.0, 0.80),
-                                       (5.0, 0.25));
+            var magnitude = WithName("Magnitude Curve").Curve(
+                (0.0, 0.66),
+                (0.5, 0.90),
+                (3.0, 1.00),
+                (4.0, 0.80),
+                (5.0, 0.25));
 
-            var delay = Curve("Delay Curve", (0, 0.25), (4, 0.35));
+            var delay = WithName("Delay Curve").Curve((0, 0.25), (4, 0.35));
 
             var echoes = EchoAdditive(sound, count: 16, magnitude, delay);
 
@@ -334,7 +335,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_FeedBack_FixedValues_RunTest()
         {
-            var envelope = Curve("Envelope", (0, 1), (0.2, 0));
+            var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(F5), envelope);
 
             var echoes = EchoFeedBack(sound, count: 16, magnitude: 0.66, delay: 0.25);
@@ -348,17 +349,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_FeedBack_DynamicParameters_RunTest()
         {
-            var envelope = Curve("Volume Curve", (0, 1), (0.2, 0));
+            var envelope = WithName("Volume Curve").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(D5), envelope);
 
-            var magnitude = Curve("Magnitude Curve",
-                                       (0.0, 0.66),
-                                       (0.5, 0.90),
-                                       (3.0, 1.00),
-                                       (4.0, 0.80),
-                                       (5.0, 0.25));
+            var magnitude = WithName("Magnitude Curve").Curve(
+                (0.0, 0.66),
+                (0.5, 0.90),
+                (3.0, 1.00),
+                (4.0, 0.80),
+                (5.0, 0.25));
 
-            var delay = Curve("Delay Curve", (0, 0.25), (4, 0.35));
+            var delay = WithName("Delay Curve").Curve((0, 0.25), (4, 0.35));
 
             var echoes = EchoFeedBack(sound, count: 16, magnitude, delay);
 
