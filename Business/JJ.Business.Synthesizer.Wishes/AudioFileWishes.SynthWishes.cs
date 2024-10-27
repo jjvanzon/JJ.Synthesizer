@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
@@ -24,6 +23,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable ForCanBeConvertedToForeach
 // ReSharper disable ArrangeStaticMemberQualifier
+// ReSharper disable AccessToModifiedClosure
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -119,43 +119,33 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         private FluentOutlet ParallelAddWithPreviewParallels(Outlet duration, Outlet volume, IList<Func<Outlet>> funcs)
         {
+            // Prep variables
+            string guidString = $"{Guid.NewGuid()}";
             int count = funcs.Count;
-            var guidString = $"{Guid.NewGuid()}";
-            var lck = new object();
-            var fileNames = new List<string>();
-            var reloadedSamples = new List<Outlet>();
-            
+            var reloadedSamples = new Outlet[count];
+
             string baseName = UseName();
             if (string.IsNullOrWhiteSpace(baseName))
             {
                 baseName = nameof(ParallelAdd);
             }
-            
-            Parallel.For(0, count, i =>
+
+            var fileNames = new string[count];
+            for (int i = 0; i < count; i++)
             {
-                // Think of a name
-                string name = $"{baseName}({i + 1}) {guidString}";
+                fileNames[i] = $"{baseName}({i + 1}) {guidString}.wav";
+            }
 
-                // Save to a file
-                string filePath = PlayMono(funcs[i], duration, volume, fileName: name).Data.FilePath;
+            // Save and play files
+            Parallel.For(0, count, i => PlayMono(funcs[i], duration, volume, fileName: fileNames[i]));
 
-                // Add to a list
-                lock (lck) fileNames.Add(filePath);
-
-            });
-
-            // Reload Samples
             for (var i = 0; i < count; i++)
             {
-                string filePath = fileNames[i];
-                
-                Outlet sample = Sample(filePath);
-                reloadedSamples.Add(sample);
+                // Reload sample
+                reloadedSamples[i] = Sample(fileNames[i]);
 
                 // Save and play to test the sample loading
-                string reloadedFilePath = filePath.CutLeft(".wav") + "_Reloaded.wav";
-
-                PlayMono(() => sample, duration, fileName: reloadedFilePath);
+                PlayMono(() => reloadedSamples[i], duration, fileName: fileNames[i] + "_Reloaded.wav");
             }
 
             return Add(reloadedSamples);
