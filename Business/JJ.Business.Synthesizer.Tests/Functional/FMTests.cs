@@ -242,10 +242,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_ElectricNote_RunTest()
         {
-            var noteDuration = _[1.5];
-            WithDuration(noteDuration + MildEchoTime);
+            var duration = _[1.5];
+            WithDuration(duration);
             
-            Play(() => MildEcho(ElectricNote(duration: noteDuration), volume: 0.2));
+            Play(() => MildEcho(ElectricNote(duration: duration), volume: 0.2));
         }
 
         [TestMethod]
@@ -254,7 +254,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_RippleBass_RunTest()
         {
             var duration = _[3];
-            WithDuration(duration + DeepEchoTime);
+            WithDuration(duration);
             Play(() => DeepEcho(RippleBass(duration: duration)));
         }
 
@@ -263,8 +263,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleBass_Melody2_RunTest()
         {
-            WithDuration(bars[4] + DeepEchoTime);
-            Play(() => DeepEcho(RippleBassMelody2, 0.3));
+            WithDuration(bars[4]).Play(() => DeepEcho(RippleBassMelody2, 0.3));
         }
 
         [TestMethod]
@@ -273,9 +272,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_RippleNote_SharpMetallic_RunTest()
         {
             var duration = _[2.2];
-            WithDuration(duration + DeepEchoTime);
-            
-            Play(() => DeepEcho(RippleNote_SharpMetallic(duration: duration), 0.3));
+            WithDuration(duration);
+            Play(() => DeepEcho(RippleNote_SharpMetallic(duration: duration), volume: 0.3));
         }
 
         [TestMethod]
@@ -284,8 +282,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_RippleSound_Clean_RunTest()
         {
             var duration = _[4];
-            var withEcho = duration + DeepEchoTime;
-            WithDuration(withEcho).Play(() => DeepEcho(RippleSound_Clean(duration: duration)));
+            WithDuration(duration).Play(() => DeepEcho(RippleSound_Clean(duration: duration)));
         }
 
         [TestMethod]
@@ -294,8 +291,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_RippleSound_FantasyEffect_RunTest()
         {
             var duration = _[4];
-            var withEcho = duration + DeepEchoTime;
-            WithDuration(withEcho).Play(() => DeepEcho(RippleSound_FantasyEffect(duration: duration), volume: 0.33));
+            WithDuration(duration).Play(() => DeepEcho(RippleSound_FantasyEffect(duration: duration), volume: 0.33));
         }
 
         [TestMethod]
@@ -304,8 +300,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_RippleSound_CoolDouble_RunTest()
         {
             var duration = _[3];
-            var withEcho = duration + DeepEchoTime;
-            WithDuration(withEcho).Play(() => DeepEcho(RippleSound_CoolDouble(duration:duration), volume: 0.3));
+            WithDuration(duration).Play(() => DeepEcho(RippleSound_CoolDouble(duration:duration), volume: 0.3));
         }
 
         [TestMethod]
@@ -314,8 +309,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_Noise_Beating_RunTest()
         {
             var duration = _[5];
-            var withEcho = duration + MildEchoTime;
-            WithDuration(withEcho).Play(() => MildEcho(Create_FM_Noise_Beating(A4, duration), volume: 0.25));
+            WithDuration(duration).Play(() => MildEcho(Create_FM_Noise_Beating(A4, duration), volume: 0.25));
         }
 
         #endregion
