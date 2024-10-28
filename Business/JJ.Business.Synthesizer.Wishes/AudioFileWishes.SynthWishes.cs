@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 for (var j = 0; j < fileNames.Length; j++)
                 {
                     string filePath = fileNames[j];
-                    if (File.Exists(filePath)) File.Delete(filePath);
+                    if (File.Exists(filePath)) File.Delete(filePath); // TODO: Try-catch over File.Delete, so you can keep open file in apps.
                 }
             }
 
