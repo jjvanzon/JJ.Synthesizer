@@ -685,6 +685,10 @@ namespace JJ.Business.Synthesizer.Wishes
                     return new FluentOutlet(_parent, outlet); 
                 }
             }
+            
+            /// <inheritdoc cref="docs._captureindexer" />
+            public FluentOutlet this[FluentOutlet t, FluentOutlet sound, FluentOutlet volume] 
+                => _parent.StrikeNote(sound, t, volume);
         }
      
         // Helpers
