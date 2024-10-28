@@ -41,14 +41,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         internal void FM_Jingle_RunTest()
         {
-            WithDuration(t[bar: 9, beat: 2] + DeepEchoTime);
+            WithDuration(bars[8]);
             
             Play(() => DeepEcho(Jingle(), 1));
         }
-                                        
-        //                          _
-        // WAS HERE (going upwards /|\ )
-        //                          |
 
         [TestMethod]
         public void FM_Flute_Melody1() => new FMTests().FM_Flute_Melody1_RunTest();
