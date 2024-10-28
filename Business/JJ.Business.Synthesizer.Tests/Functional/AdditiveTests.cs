@@ -40,17 +40,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // TODO: This might be possible more fluently?
             var audioLength = NoteDuration + EchoDelay * (EchoCount - 1);
             
-            WithAudioLength(audioLength).Play(() => Echo(Metallophone(F4_Sharp)), volume: 0.5);
+            WithAudioLength(audioLength).Play(() => Echo(Metallophone(Fs4)), volume: 0.5);
         }
-
-        //FluentOutlet Jingle => Notes
-        //(
-        //    _[t[bar: 1, beat: 1.0], Metallophone, A4      , 0.9],
-        //    _[t[bar: 1, beat: 1.5], Metallophone, E5      , 1.0],
-        //    _[t[bar: 1, beat: 2.0], Metallophone, B4      , 0.5],
-        //    _[t[bar: 1, beat: 2.5], Metallophone, C5_Sharp, 0.7],
-        //    _[t[bar: 1, beat: 4.0], Metallophone, F4_Sharp, 0.4]
-        //);
 
         //FluentOutlet Jingle => Notes
         //(
@@ -59,15 +50,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         //    _[t[1, 2.0], Metallophone, B4      , 0.5],
         //    _[t[1, 2.5], Metallophone, C5_Sharp, 0.7],
         //    _[t[1, 4.0], Metallophone, F4_Sharp, 0.4]
-        //);
-
-        //FluentOutlet Jingle => Notes
-        //(
-        //    _[_[1, 1.0], Metallophone, A4      , 0.9],
-        //    _[_[1, 1.5], Metallophone, E5      , 1.0],
-        //    _[_[1, 2.0], Metallophone, B4      , 0.5],
-        //    _[_[1, 2.5], Metallophone, C5_Sharp, 0.7],
-        //    _[_[1, 4.0], Metallophone, F4_Sharp, 0.4]
         //);
 
         //FluentOutlet Jingle => Notes
@@ -81,32 +63,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Cs Ds Fs Gs As
         // Cb Db Fb Gb Ab
-        
-        //FluentOutlet Jingle => Notes
-        //(
-        //    _[ 1, 1.0, Metallophone, A4 , 0.9 ],
-        //    _[ 1, 1.5, Metallophone, E5 , 1.0 ],
-        //    _[ 1, 2.0, Metallophone, B4 , 0.5 ],
-        //    _[ 1, 2.5, Metallophone, Cs5, 0.7 ],
-        //    _[ 1, 4.0, Metallophone, Fs4, 0.4 ]
-        //);
-
-        //FluentOutlet Jingle => Notes
-        //(
-        //    _[ 1, 1.0, Metallophone(A4) , 0.9 ],
-        //    _[ 1, 1.5, Metallophone(E5) , 1.0 ],
-        //    _[ 1, 2.0, Metallophone(B4) , 0.5 ],
-        //    _[ 1, 2.5, Metallophone(Cs5), 0.7 ],
-        //    _[ 1, 4.0, Metallophone(Fs4), 0.4 ]
-        //);
 
         FluentOutlet MetallophoneJingle => Add
         (
-            _[ t[1, 1.0], Metallophone(A4      ), _[0.9] ],
-            _[ t[1, 1.5], Metallophone(E5      ), _[1.0] ],
-            _[ t[1, 2.0], Metallophone(B4      ), _[0.5] ],
-            _[ t[1, 2.5], Metallophone(C5_Sharp), _[0.7] ],
-            _[ t[1, 4.0], Metallophone(F4_Sharp), _[0.4] ]
+            _[ t[1, 1.0], Metallophone(A4 ), 0.9 ],
+            _[ t[1, 1.5], Metallophone(E5 ), 1.0 ],
+            _[ t[1, 2.0], Metallophone(B4 ), 0.5 ],
+            _[ t[1, 2.5], Metallophone(Cs5), 0.7 ],
+            _[ t[1, 4.0], Metallophone(Fs4), 0.4 ]
         );  
         
         /// <inheritdoc cref="_default" />

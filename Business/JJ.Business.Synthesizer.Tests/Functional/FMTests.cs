@@ -383,9 +383,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         FluentOutlet TromboneMelody1 => WithName().WithAudioLength(beats[6]).ParallelAdd
         (
-            () => Trombone(A1,       beat[1]),
-            () => Trombone(E2,       beat[3]),
-            () => Trombone(F1_Sharp, beat[5], volume: _[0.7])
+            () => Trombone(A1 , beat[1]),
+            () => Trombone(E2 , beat[3]),
+            () => Trombone(Fs1, beat[5], volume: _[0.7])
         );
 
         internal FluentOutlet TromboneMelody2 => WithName().WithAudioLength(beats[8]).ParallelAdd
