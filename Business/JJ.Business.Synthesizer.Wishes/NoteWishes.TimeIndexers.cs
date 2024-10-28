@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
+using JJ.Persistence.Synthesizer;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable MemberCanBeProtected.Global
@@ -159,8 +160,18 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 get
                 {
-                    double value = (bar - 1) * _barLength + (beat - 1) * _beatLength;
-                    return _parent._[value];
+                    var result = (bar - 1) * _barLength + (beat - 1) * _beatLength;
+                    return _parent._[result];
+                }
+            }
+
+            /// <inheritdoc cref="TimeIndexer" />
+            public FluentOutlet this[FluentOutlet bar, FluentOutlet beat]
+            {
+                get
+                {
+                    var result = (bar - 1) * _barLength + (beat - 1) * _beatLength;
+                    return result;
                 }
             }
         }

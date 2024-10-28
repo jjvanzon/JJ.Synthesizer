@@ -63,15 +63,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         //FluentOutlet Jingle => Notes
         //(
-        //    _[_[bar: 1, beat: 1.0], Metallophone, A4      , 0.9],
-        //    _[_[bar: 1, beat: 1.5], Metallophone, E5      , 1.0],
-        //    _[_[bar: 1, beat: 2.0], Metallophone, B4      , 0.5],
-        //    _[_[bar: 1, beat: 2.5], Metallophone, C5_Sharp, 0.7],
-        //    _[_[bar: 1, beat: 4.0], Metallophone, F4_Sharp, 0.4]
-        //);
-
-        //FluentOutlet Jingle => Notes
-        //(
         //    _[_[1, 1.0], Metallophone, A4      , 0.9],
         //    _[_[1, 1.5], Metallophone, E5      , 1.0],
         //    _[_[1, 2.0], Metallophone, B4      , 0.5],
@@ -93,6 +84,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         //FluentOutlet Jingle => Notes
         //(
+        //    _[ 1, 1.0, Metallophone, A4 , 0.9 ],
+        //    _[ 1, 1.5, Metallophone, E5 , 1.0 ],
+        //    _[ 1, 2.0, Metallophone, B4 , 0.5 ],
+        //    _[ 1, 2.5, Metallophone, Cs5, 0.7 ],
+        //    _[ 1, 4.0, Metallophone, Fs4, 0.4 ]
+        //);
+
+        //FluentOutlet Jingle => Notes
+        //(
         //    _[ 1, 1.0, Metallophone(A4) , 0.9 ],
         //    _[ 1, 1.5, Metallophone(E5) , 1.0 ],
         //    _[ 1, 2.0, Metallophone(B4) , 0.5 ],
@@ -100,41 +100,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         //    _[ 1, 4.0, Metallophone(Fs4), 0.4 ]
         //);
 
-        //FluentOutlet Jingle => Notes
-        //(
-        //    _[ 1, 1.0, Metallophone, A4 , 0.9 ],
-        //    _[ 1, 1.5, Metallophone, E5 , 1.0 ],
-        //    _[ 1, 2.0, Metallophone, B4 , 0.5 ],
-        //    _[ 1, 2.5, Metallophone, Cs5, 0.7 ],
-        //    _[ 1, 4.0, Metallophone, Fs4, 0.4 ]
-        //);
-        
-        ///// <inheritdoc cref="_metallophone"/>
-        //FluentOutlet MetallophoneJingle_Org => Add
-        //(
-        //    Metallophone(t[bar: 1, beat: 1.0], A4      , _[0.9]),
-        //    Metallophone(t[bar: 1, beat: 1.5], E5      , _[1.0]),
-        //    Metallophone(t[bar: 1, beat: 2.0], B4      , _[0.5]),
-        //    Metallophone(t[bar: 1, beat: 2.5], C5_Sharp, _[0.7]),
-        //    Metallophone(t[bar: 1, beat: 4.0], F4_Sharp, _[0.4])
-        //);
-
-        //FluentOutlet MetallophoneJingle_Org2 => Add
-        //(
-        //    StrikeNote(Metallophone(A4      ), t[bar: 1, beat: 1.0], _[0.9]),
-        //    StrikeNote(Metallophone(E5      ), t[bar: 1, beat: 1.5], _[1.0]),
-        //    StrikeNote(Metallophone(B4      ), t[bar: 1, beat: 2.0], _[0.5]),
-        //    StrikeNote(Metallophone(C5_Sharp), t[bar: 1, beat: 2.5], _[0.7]),
-        //    StrikeNote(Metallophone(F4_Sharp), t[bar: 1, beat: 4.0], _[0.4])
-        //);
-
         FluentOutlet MetallophoneJingle => Add
         (
-            _[ t[bar: 1, beat: 1.0], Metallophone(A4      ), _[0.9] ],
-            _[ t[bar: 1, beat: 1.5], Metallophone(E5      ), _[1.0] ],
-            _[ t[bar: 1, beat: 2.0], Metallophone(B4      ), _[0.5] ],
-            _[ t[bar: 1, beat: 2.5], Metallophone(C5_Sharp), _[0.7] ],
-            _[ t[bar: 1, beat: 4.0], Metallophone(F4_Sharp), _[0.4] ]
+            _[ t[1, 1.0], Metallophone(A4      ), _[0.9] ],
+            _[ t[1, 1.5], Metallophone(E5      ), _[1.0] ],
+            _[ t[1, 2.0], Metallophone(B4      ), _[0.5] ],
+            _[ t[1, 2.5], Metallophone(C5_Sharp), _[0.7] ],
+            _[ t[1, 4.0], Metallophone(F4_Sharp), _[0.4] ]
         );  
         
         /// <inheritdoc cref="_default" />

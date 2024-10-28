@@ -652,6 +652,18 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public FluentOutlet EchoFeedBack(Outlet signal, int count, double magnitude, double delay)
             => EchoFeedBack(signal, count, _[magnitude], _[delay]);
+                    
+        // Helpers
+
+        /// <summary>
+        /// Uses the channel specified by the <see cref="SynthWishes.Channel"/> property.
+        /// Or you can call e.g. <c>Outlet.Calculate(time, ChannelEnum.Right)</c>
+        /// </summary>
+        public double Calculate(Outlet outlet, double time)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            return outlet.Calculate(time, ChannelIndex);
+        }
 
         // ValueIndexer
 
@@ -669,9 +681,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 _parent = parent;
             }
 
+            // For Value Operators
+            
             /// <inheritdoc cref="docs._captureindexer" />
             public FluentOutlet this[double value] => new FluentOutlet(_parent, _parent._operatorFactory.Value(value));
 
+            // Turn Outlet into FluentOutlet
+            
             /// <inheritdoc cref="docs._captureindexer" />
             public FluentOutlet this[Outlet outlet]
             {
@@ -686,21 +702,19 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
             
+            // For Note Arrangements
+            
             /// <inheritdoc cref="docs._captureindexer" />
             public FluentOutlet this[FluentOutlet t, FluentOutlet sound, FluentOutlet volume] 
                 => _parent.StrikeNote(sound, t, volume);
-        }
-     
-        // Helpers
-
-        /// <summary>
-        /// Uses the channel specified by the <see cref="SynthWishes.Channel"/> property.
-        /// Or you can call e.g. <c>Outlet.Calculate(time, ChannelEnum.Right)</c>
-        /// </summary>
-        public double Calculate(Outlet outlet, double time)
-        {
-            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            return outlet.Calculate(time, ChannelIndex);
+            
+            /// <inheritdoc cref="docs._captureindexer" />
+            public FluentOutlet this[FluentOutlet bar, FluentOutlet beat, FluentOutlet sound, FluentOutlet volume] 
+                => _parent.StrikeNote(sound, _parent.t[bar, beat], volume);
+            
+            /// <inheritdoc cref="docs._captureindexer" />
+            public FluentOutlet this[double bar, double beat, FluentOutlet sound, FluentOutlet volume] 
+                => _parent.StrikeNote(sound, _parent.t[bar, beat], volume);
         }
     }
 }
