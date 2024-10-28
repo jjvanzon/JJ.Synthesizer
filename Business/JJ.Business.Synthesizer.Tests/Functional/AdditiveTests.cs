@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // TODO: This might be possible more fluently?
             var audioLength = NoteDuration + EchoDelay * (EchoCount - 1);
             
-            WithAudioLength(audioLength).Play(() => Echo(Metallophone(F4_Sharp)));
+            WithAudioLength(audioLength).Play(() => Echo(Metallophone(frequency: F4_Sharp)), volume: 0.5);
         }
 
         /// <inheritdoc cref="_metallophone"/>
