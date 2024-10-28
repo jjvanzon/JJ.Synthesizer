@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         internal void FM_Jingle_RunTest()
         {
-            WithAudioLength(bars[8] + 1); // BUG: Without the + 1 the last note is missing.
+            WithAudioLength(bars[8] + 1); // HACK: Without the + 1 the last note is missing.
             
             Play(() => DeepEcho(Jingle(), 1));
         }
@@ -368,17 +368,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 )
             );
 
-        FluentOutlet HornMelody1 => WithName().WithAudioLength(beat[13 + 4]).ParallelAdd
+        FluentOutlet HornMelody1 => WithAudioLength(beat[13 + 4]).WithName().ParallelAdd
         (
-            () => _[ beat[09], Horn(C2, l[3]), 0.7 ],
-            () => _[ beat[13], Horn(G1, l[4]), 0.5 ]
+            () => _[ beat[09], Horn(C2, length[3]), 0.7 ],
+            () => _[ beat[13], Horn(G1, length[4]), 0.5 ]
         );
 
-        FluentOutlet HornMelody2 => WithName().WithAudioLength(beat[9 + 4]).ParallelAdd
+        FluentOutlet HornMelody2 => WithAudioLength(beat[9 + 4]).WithName().ParallelAdd
         (
-            () => _[ beat[1], Horn(A2, l[2]), 0.75 ],
-            () => _[ beat[5], Horn(F2, l[2]), 0.85 ],
-            () => _[ beat[9], Horn(A1, l[4]), 1.00 ]
+            () => _[ b[1], A2, Horn, 0.75, l[2] ],
+            () => _[ b[5], F2, Horn, 0.85, l[2] ],
+            () => _[ b[9], A1, Horn, 1.00, l[4] ]
         );
         
         FluentOutlet TromboneMelody1 => WithName().WithAudioLength(beats[6]).ParallelAdd

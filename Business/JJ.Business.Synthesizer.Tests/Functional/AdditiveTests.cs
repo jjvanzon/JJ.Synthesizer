@@ -40,15 +40,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="_metallophone" />
         FluentOutlet MetallophoneJingle => Add
         (
-            _[ t[1, 1.0], Metallophone(A4 ), 0.9 ],
-            _[ t[1, 1.5], Metallophone(E5 ), 1.0 ],
-            _[ t[1, 2.0], Metallophone(B4 ), 0.5 ],
-            _[ t[1, 2.5], Metallophone(Cs5), 0.7 ],
-            _[ t[1, 4.0], Metallophone(Fs4), 0.4 ]
-        );  
-        
+            _[ t[1, 1.0], A4 , Metallophone, 0.9 ],
+            _[ t[1, 1.5], E5 , Metallophone, 1.0 ],
+            _[ t[1, 2.0], B4 , Metallophone, 0.5 ],
+            _[ t[1, 2.5], Cs5, Metallophone, 0.7 ],
+            _[ t[1, 4.0], Fs4, Metallophone, 0.4 ]
+        );
+
         /// <inheritdoc cref="_default" />
-        FluentOutlet Metallophone(FluentOutlet freq = default, FluentOutlet duration = null)
+        FluentOutlet Metallophone(FluentOutlet freq, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
             duration = duration ?? NoteDuration;

@@ -26,9 +26,12 @@ namespace JJ.Business.Synthesizer.Wishes
             bar = new BarIndexer(this, barDuration);
             bars = new BarsIndexer(this, barDuration);
             beat = new BeatIndexer(this, beatDuration);
+            b = new BeatIndexer(this, beatDuration);
             beats = new BeatsIndexer(this, beatDuration);
+            l = new BeatsIndexer(this, beatDuration);
+            len = new BeatsIndexer(this, beatDuration);
+            length = new BeatsIndexer(this, beatDuration);
             t = new TimeIndexer(this, barDuration, beatDuration);
-            l = new NoteLengthIndexer(this, beatDuration);
         }
 
         /// <inheritdoc cref="BarIndexer" />
@@ -40,14 +43,23 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="BeatIndexer" />
         public BeatIndexer beat { get; private set; }
 
+        /// <inheritdoc cref="BeatIndexer" />
+        public BeatIndexer b { get; private set; }
+
         /// <inheritdoc cref="BeatsIndexer" />
         public BeatsIndexer beats { get; private set; }
 
         /// <inheritdoc cref="TimeIndexer" />
         public TimeIndexer t { get; private set; }
 
-        /// <inheritdoc cref="NoteLengthIndexer" />
-        public NoteLengthIndexer l { get; private set; }
+        /// <inheritdoc cref="BeatsIndexer" />
+        public BeatsIndexer l { get; private set; }
+
+        /// <inheritdoc cref="BeatsIndexer" />
+        public BeatsIndexer len { get; private set; }
+
+        /// <inheritdoc cref="BeatsIndexer" />
+        public BeatsIndexer length { get; private set; }
 
         /// <summary>
         /// Returns the time in seconds of the start of a bar.
@@ -182,26 +194,6 @@ namespace JJ.Business.Synthesizer.Wishes
                     return result;
                 }
             }
-        }
-
-        public class NoteLengthIndexer
-        { 
-            private readonly SynthWishes x;
-            private readonly double _beatLength;
-
-            internal NoteLengthIndexer(SynthWishes parent, double beatLength)
-            {
-                x = parent;
-                _beatLength = beatLength;
-            }
-            
-            // l[3] alternative for beats[4], for shorter duration notation.
-
-            /// <inheritdoc cref="TimeIndexer" />
-            public FluentOutlet this[double beats] => x.beats[beats];
-
-            /// <inheritdoc cref="TimeIndexer" />
-            public FluentOutlet this[FluentOutlet beats] => x.beats[beats];
         }
     }
 }
