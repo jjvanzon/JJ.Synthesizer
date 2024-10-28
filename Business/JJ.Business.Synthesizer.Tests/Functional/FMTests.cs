@@ -18,10 +18,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     {
         private  int          MildEchoCount   => 7;
         private  FluentOutlet MildEchoDelay   => _[0.33];
-        //internal FluentOutlet MildEchoTime    => MildEchoDelay * (MildEchoCount - 1);
         private  int          DeepEchoCount   => 7;
         private  FluentOutlet DeepEchoDelay   => _[0.5];
-        //private  FluentOutlet DeepEchoTime    => DeepEchoDelay * (DeepEchoCount - 1);
         private  FluentOutlet DefaultDuration => _[1];
         private  double       DefaultVolume   => 0.5;
         private  FluentOutlet JingleVolume    => _[0.18];
@@ -320,27 +318,27 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Melodies
 
-        FluentOutlet FluteMelody1 => WithName().WithAudioLength(bars[4]).ParallelAdd
+        FluentOutlet FluteMelody1 => WithAudioLength(bars[4]).WithName().ParallelAdd
         (
-            () => Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
-            () => Flute1(F4, t[bar: 1, beat: 2.5], volume: _[0.70], beats[2.17]),
-            () => Flute1(G4, t[bar: 1, beat: 4.0], volume: _[0.60], beats[1.00]),
-            () => Flute1(A4, t[bar: 2, beat: 1.0], volume: _[0.80], beats[2.33]),
-            () => Flute2(B4, t[bar: 2, beat: 2.5], volume: _[0.50], beats[1.00]),
-            () => Flute2(A3, t[bar: 2, beat: 4.0], volume: _[0.50], beats[1.67]),
-            () => Flute3(G3, t[bar: 3, beat: 1.0], volume: _[0.85], beats[2.00]),
-            () => Flute1(G4, t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
+            () => _[ t[1,1.0], E4, Flute1, 0.80, l[2.00] ],
+            () => _[ t[1,2.5], F4, Flute1, 0.70, l[2.17] ],
+            () => _[ t[1,4.0], G4, Flute1, 0.60, l[1.00] ],
+            () => _[ t[2,1.0], A4, Flute1, 0.80, l[2.33] ],
+            () => _[ t[2,2.5], B4, Flute2, 0.50, l[1.00] ],
+            () => _[ t[2,4.0], A3, Flute2, 0.50, l[1.67] ],
+            () => _[ t[3,1.0], G3, Flute3, 0.85, l[2.00] ],
+            () => _[ t[3,2.5], G4, Flute1, 0.80, l[2.50] ]
         );
 
-        FluentOutlet FluteMelody2 => WithName().WithAudioLength(bars[4]).ParallelAdd
+        FluentOutlet FluteMelody2 => WithAudioLength(bars[4]).WithName().ParallelAdd
         (
-            () => Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
-            () => Flute2(F4, t[bar: 1, beat: 2.5], volume: _[0.68], beats[1.0]),
-            () => Flute1(G4, t[bar: 1, beat: 4.0], volume: _[0.74], beats[0.6]),
-            () => Flute2(A4, t[bar: 2, beat: 1.0], volume: _[0.82], beats[2.0]),
-            () => Flute3(B4, t[bar: 2, beat: 2.5], volume: _[0.74], beats[1.0]),
-            () => Flute2(G4, t[bar: 2, beat: 4.0], volume: _[0.90], beats[0.4]),
-            () => Flute4(A4, t[bar: 3, beat: 1.0], volume: _[1.00], _[1.66])
+            () => _[ t[1,1.0], E4, Flute1, 0.59, l[1.8]  ],
+            () => _[ t[1,2.5], F4, Flute2, 0.68, l[1.0]  ],
+            () => _[ t[1,4.0], G4, Flute1, 0.74, l[0.6]  ],
+            () => _[ t[2,1.0], A4, Flute2, 0.82, l[2.0]  ],
+            () => _[ t[2,2.5], B4, Flute3, 0.74, l[1.0]  ],
+            () => _[ t[2,4.0], G4, Flute2, 0.90, l[0.4]  ],
+            () => _[ t[3,1.0], A4, Flute4, 1.00, _[1.66] ]
         );
 
         FluentOutlet OrganChords => 
@@ -381,21 +379,21 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => _[ b[9], A1, Horn, 1.00, l[4] ]
         );
         
-        FluentOutlet TromboneMelody1 => WithName().WithAudioLength(beats[6]).ParallelAdd
+        FluentOutlet TromboneMelody1 => WithAudioLength(beats[6]).WithName().ParallelAdd
         (
-            () => Trombone(A1 , beat[1]),
-            () => Trombone(E2 , beat[3]),
-            () => Trombone(Fs1, beat[5], volume: _[0.7])
+            () => _[ b[1], A1 , Trombone      ],
+            () => _[ b[3], E2 , Trombone      ],
+            () => _[ b[5], Fs1, Trombone, 0.7 ]
         );
 
-        internal FluentOutlet TromboneMelody2 => WithName().WithAudioLength(beats[8]).ParallelAdd
+        FluentOutlet TromboneMelody2 => WithAudioLength(beats[8]).WithName().ParallelAdd
         (
-            () => Trombone(E4, beat[3], durationFactor: _[1.4]),
-            () => Trombone(C4, beat[7], durationFactor: _[1.4])
+            () => _[ beat[3], E4, Trombone, 1, _[1.4] ],
+            () => _[ beat[7], C4, Trombone, 1, _[1.4] ]
         );
 
         FluentOutlet RippleBassMelody2 =>
-            RippleBass(A1, delay: bar[3.5], duration: bars[0.8]);
+            _[ bar[3.5], A1, RippleBass, 1, bars[0.8] ];
 
         #endregion
 
@@ -403,64 +401,57 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet Flute1(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet Flute1(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
 
-            var fmSignal       = FMAround0(Divide(freq, 2), freq, _[0.005]);
-            var envelope       = Stretch(FluteCurve, duration);
-            var modulatedSound = Multiply(fmSignal, envelope);
-            var note           = StrikeNote(modulatedSound, delay, volume);
-
+            var fmSignal = FMAround0(Divide(freq, 2), freq, _[0.005]);
+            var envelope = Stretch(FluteCurve, duration);
+            var note     = Multiply(fmSignal, envelope);
+            
             return note;
         }
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet Flute2(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet Flute2(FluentOutlet freq = null, FluentOutlet duration = null)
         {
-            freq   = freq ?? A4;
-            volume = volume ?? _[1];
+            freq = freq ?? A4;
 
             var fmSignal       = FMAroundFreq(freq, Multiply(freq, 2), _[0.005]);
             var envelope       = Stretch(FluteCurve, duration);
             var modulatedSound = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume,   0.85);
-            var note           = StrikeNote(modulatedSound, delay, adjustedVolume);
+            var adjustedVolume = Multiply(modulatedSound, 0.85);
 
-            return note;
+            return adjustedVolume;
         }
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet Flute3(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet Flute3(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
-            volume = volume ?? _[1];
 
             var fmSignal       = FMAroundFreq(freq, Multiply(freq, 4), _[0.005]);
             var envelope       = Stretch(FluteCurve, duration);
             var sound          = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume, 0.8);
-            var note           = StrikeNote(sound, delay, adjustedVolume);
+            var adjustedVolume = Multiply(sound, 0.8);
 
-            return note;
+            return adjustedVolume;
         }
 
         /// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet Flute4(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet Flute4(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
-            volume = volume ?? _[1];
 
             var fmSignal       = FMAround0(Multiply(freq, 2), freq, _[0.005]);
             var envelope       = Stretch(FluteCurve, duration);
             var sound          = Multiply(fmSignal, envelope);
-            var adjustedVolume = Multiply(volume, 0.70);
-            var note           = StrikeNote(sound, delay, adjustedVolume);
+            var adjustedVolume = Multiply(sound, 0.70);
 
-            return note;
+            return adjustedVolume;
         }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
@@ -515,7 +506,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
         /// <param name="durationFactor"> Duration varies with pitch, but can be multiplied by this factor (default is 1). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet Trombone(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet durationFactor = null)
+        FluentOutlet Trombone(FluentOutlet freq = null, FluentOutlet durationFactor = null)
         {
             freq           = freq ?? A1;
             durationFactor = durationFactor ?? _[1];
@@ -530,9 +521,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var envelope = Stretch(BrassCurve, transformedDuration);
             var sound    = Multiply(fmSignal, envelope);
-            var note     = StrikeNote(sound, delay, volume);
 
-            return note;
+            return sound;
         }
 
         /// <summary>
@@ -557,10 +547,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet ElectricNote(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet ElectricNote(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
-            volume = volume ?? _[1];
 
             var modDepth = 0.02 * Stretch(LineDownCurve, duration);
             var fmSignal = Add
@@ -570,61 +559,60 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             );
 
             var modulatedSound = fmSignal.Curve(DampedBlockCurve.Stretch(duration));
-            var adjustedVolume = volume * 0.6;
-            var note           = StrikeNote(modulatedSound, delay, adjustedVolume);
+            var adjustedVolume = modulatedSound * 0.6;
             
-            return note;
+            return adjustedVolume;
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet RippleBass(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet RippleBass(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A1;
             var fmSignal = FMAroundFreq(freq * 8, freq / 2, _[0.005]);
-            var note     = ShapeRippleSound(fmSignal, delay, volume, duration);
+            var note     = ShapeRippleSound(fmSignal, duration);
             return note;
         }
 
         /// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A3/220Hz). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet RippleNote_SharpMetallic(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet RippleNote_SharpMetallic(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A3;
             var fmSignal = FMInHertz(freq, freq / 2, _[10]);
-            var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
+            var sound    = ShapeRippleSound(fmSignal, duration);
             return sound;
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-        FluentOutlet RippleSound_Clean(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet RippleSound_Clean(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
             var fmSignal = FMAroundFreq(freq, _[20], _[0.005]);
-            var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
+            var sound    = ShapeRippleSound(fmSignal, duration);
             return sound;
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
         /// <param name="duration"> The audioLength of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet RippleSound_FantasyEffect(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet RippleSound_FantasyEffect(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A5;
             var fmSignal = FMAroundFreq(freq, _[10], _[0.02]);
-            var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
+            var sound    = ShapeRippleSound(fmSignal, duration);
             return sound;
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.05 </summary>
         /// <inheritdoc cref="ShapeRippleSound" />
-        FluentOutlet RippleSound_CoolDouble(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet RippleSound_CoolDouble(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A5;
             var fmSignal = FMAroundFreq(freq, _[10], _[0.05]);
-            var sound    = ShapeRippleSound(fmSignal, delay, volume, duration);
+            var sound    = ShapeRippleSound(fmSignal, duration);
             return sound;
         }
 
@@ -632,13 +620,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <param name="duration"> The audioLength of the sound in seconds (default is 2.5). </param>
         /// <param name="fmSignal"> A ripple sound to be shaped </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet ShapeRippleSound(FluentOutlet input, FluentOutlet delay, FluentOutlet volume, FluentOutlet duration)
+        FluentOutlet ShapeRippleSound(FluentOutlet input, FluentOutlet duration)
         {
             duration = duration ?? _[2.5];
             var envelope = Stretch(RippleCurve, duration);
             var sound    = input * envelope;
-            var strike   = StrikeNote(sound, delay, volume);
-            return strike;
+            return sound;
         }
 
         /// <summary>

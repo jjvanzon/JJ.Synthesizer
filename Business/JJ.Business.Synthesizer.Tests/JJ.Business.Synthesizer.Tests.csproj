@@ -131,7 +131,6 @@
     <Compile Include="Accessors\SynthWishesAccessor.cs" />
     <Compile Include="Accessors\WavHeaderStructToAudioFileInfoConverterAccessor.cs" />
     <Compile Include="Technical\EnumWishesTests.cs" />
-    <Compile Include="Technical\FMTests_Technical.cs" />
     <Compile Include="Technical\OperatorWishes_TechnicalTests.cs" />
     <Compile Include="Technical\ThrowTests.cs" />
     <Compile Include="Functional\OperatorWishes_FunctionalTests.cs" />

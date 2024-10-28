@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
-    [TestClass]      
+    [TestClass]
     [TestCategory("Technical")]
     public class FMTests_Technical
     {
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void FM_Trombone_Melody2_Notation_WithAudioLength_AudioLengthPlusMildEchoTime() 
+        public void FM_Trombone_Melody2_Notation_WithAudioLength_AudioLengthPlusMildEchoTime()
             => new FMTests_Technical().FM_Trombone_Melody2_Notation_WithAudioLength_AudioLengthPlusMildEchoTime_RunTest();
 
         void FM_Trombone_Melody2_Notation_WithAudioLength_AudioLengthPlusMildEchoTime_RunTest()
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void FM_Trombone_Melody2_Issue_MelodyOverridesEchoTimeAudioLength_RunTest()
         {
             var mildEchoTime = _x._[0.75];
-            
+
             _x.WithAudioLength(_x.beats[8] + mildEchoTime);
 
             _x.Play(() => _x.MildEcho(_x.TromboneMelody2, volume: 0.75));
