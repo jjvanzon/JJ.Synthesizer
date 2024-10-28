@@ -16,13 +16,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class FMTests : SynthWishes
     {
-        private  int          MildEchoCount   => 7;
-        private  FluentOutlet MildEchoDelay   => _[0.33];
-        private  int          DeepEchoCount   => 7;
-        private  FluentOutlet DeepEchoDelay   => _[0.5];
-        private  FluentOutlet DefaultDuration => _[1];
-        private  double       DefaultVolume   => 0.5;
-        private  FluentOutlet JingleVolume    => _[0.18];
+        private int          MildEchoCount   => 7;
+        private FluentOutlet MildEchoDelay   => _[0.33];
+        private int          DeepEchoCount   => 7;
+        private FluentOutlet DeepEchoDelay   => _[0.5];
+        private FluentOutlet DefaultDuration => _[1];
+        private double       DefaultVolume   => 0.5;
+        private FluentOutlet JingleVolume    => _[0.18];
 
         public FMTests() : base(beat: 0.45, bar: 4 * 0.45)
         {
@@ -92,10 +92,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Organ_RunTest()
         {
-            // TODO: Weird notation                        
-            var duration = bars[3];
-            WithAudioLength(duration);
-            Play(() => MildEcho(Organ(duration: duration)));
+            WithAudioLength(bars[3]).Play(() => MildEcho(Organ()));
         }
 
         [TestMethod]
@@ -111,10 +108,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Pad_RunTest()
         {
-            // TODO: Weird notation
-            var duration = bars[3];
-            WithAudioLength(duration);
-            Play(() => MildEcho(Pad(duration: duration), volume: 0.2));
+            WithAudioLength(bars[3]).Play(() => MildEcho(Pad(), volume: 0.2));
         }
 
         [TestMethod]
@@ -186,10 +180,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_ElectricNote_RunTest()
         {
-            var duration = _[1.5];
-            WithAudioLength(duration);
-            
-            Play(() => MildEcho(ElectricNote(duration: duration), volume: 0.2));
+            WithAudioLength(_[1.5]).Play(() => MildEcho(ElectricNote(), volume: 0.2));
         }
 
         [TestMethod]
@@ -197,9 +188,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleBass_RunTest()
         {
-            var duration = _[3];
-            WithAudioLength(duration);
-            Play(() => DeepEcho(RippleBass(duration: duration)));
+            WithAudioLength(3).Play(() => DeepEcho(RippleBass()));
         }
 
         [TestMethod]
@@ -215,9 +204,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleNote_SharpMetallic_RunTest()
         {
-            var duration = _[2.2];
-            WithAudioLength(duration);
-            Play(() => DeepEcho(RippleNote_SharpMetallic(duration: duration), volume: 0.3));
+            WithAudioLength(2.2).Play(() => DeepEcho(RippleNote_SharpMetallic(), volume: 0.3));
         }
 
         [TestMethod]
@@ -225,8 +212,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleSound_Clean_RunTest()
         {
-            var duration = _[4];
-            WithAudioLength(duration).Play(() => DeepEcho(RippleSound_Clean(duration: duration)));
+            WithAudioLength(4).Play(() => DeepEcho(RippleSound_Clean()));
         }
 
         [TestMethod]
@@ -234,8 +220,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleSound_FantasyEffect_RunTest()
         {
-            var duration = _[4];
-            WithAudioLength(duration).Play(() => DeepEcho(RippleSound_FantasyEffect(duration: duration), volume: 0.33));
+            WithAudioLength(4).Play(() => DeepEcho(RippleSound_FantasyEffect(), volume: 0.33));
         }
 
         [TestMethod]
@@ -243,8 +228,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleSound_CoolDouble_RunTest()
         {
-            var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(RippleSound_CoolDouble(duration:duration), volume: 0.3));
+            WithAudioLength(3).Play(() => DeepEcho(RippleSound_CoolDouble(), volume: 0.3));
         }
 
         [TestMethod]
@@ -252,8 +236,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Noise_Beating_RunTest()
         {
-            var duration = _[5];
-            WithAudioLength(duration).Play(() => MildEcho(Create_FM_Noise_Beating(A4, duration), volume: 0.25));
+            WithAudioLength(5).Play(() => MildEcho(Create_FM_Noise_Beating(A4), volume: 0.25));
         }
 
         #endregion
@@ -458,7 +441,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet Organ(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq     = freq ?? A4;
-            duration = duration ?? _[1];
+            //duration = duration ?? _[1];
+            duration = duration ?? AudioLength;
 
             var modCurve = Stretch(ModTamingCurve, duration);
             var modDepth = Multiply(0.0001, modCurve);
@@ -476,7 +460,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet Pad(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq     = freq ?? A4;
-            duration = duration ?? beats[1];
+            //duration = duration ?? beats[1];
+            duration = duration ?? AudioLength;
 
             // Tame modulation
             var modCurve = Stretch(ModTamingCurve8Times, duration);
@@ -550,6 +535,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet ElectricNote(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
+            duration = duration ?? AudioLength;
 
             var modDepth = 0.02 * Stretch(LineDownCurve, duration);
             var fmSignal = Add
@@ -622,7 +608,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         FluentOutlet ShapeRippleSound(FluentOutlet input, FluentOutlet duration)
         {
-            duration = duration ?? _[2.5];
+            duration = duration ?? AudioLength; // _[2.5];
             var envelope = Stretch(RippleCurve, duration);
             var sound    = input * envelope;
             return sound;
@@ -634,6 +620,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// </summary>
         FluentOutlet Create_FM_Noise_Beating(FluentOutlet pitch = null, FluentOutlet duration = null)
         {
+            duration = duration ?? AudioLength;
+            
             var signal = FMAroundFreq(pitch ?? A4, _[55], _[0.5]);
             
             var curve = Curve(0.0, 1.00, 0.2, 1.10, 
