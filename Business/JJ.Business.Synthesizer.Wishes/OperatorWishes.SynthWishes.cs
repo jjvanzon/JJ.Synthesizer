@@ -553,27 +553,20 @@ namespace JJ.Business.Synthesizer.Wishes
             var cumulativeMagnitude = _[1];
             var cumulativeDelay     = _[0];
 
-            var repeats = new Outlet[count];
+            var echoTasks = new Func<Outlet>[count];
 
             for (int i = 0; i < count; i++)
             {
                 var quieter = signal * cumulativeMagnitude;
                 var shifted = Delay(quieter, cumulativeDelay);
 
-                repeats[i] = shifted;
+                echoTasks[i] = () => shifted;
 
                 cumulativeMagnitude *= magnitude;
                 cumulativeDelay += delay;
             }
 
-            cumulativeDelay -= delay;
-
-            return WithName().AddAudioLength(cumulativeDelay).ParallelAdd(
-                volume,
-                () => repeats[0], 
-                () => repeats[1], 
-                () => repeats[2],
-                () => repeats[3]);
+            return WithName().AddAudioLength(cumulativeDelay - delay).ParallelAdd(volume, echoTasks);
         }
 
         public FluentOutlet EchoAdditive(
@@ -598,9 +591,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay += delay;
             }
 
-            var adder = Add(repeats);
-            
-            return adder;
+            // Add some audio length
+            AddAudioLength(cumulativeDelay - delay);
+
+            return Add(repeats);
         }
 
         public FluentOutlet EchoAdditive(Outlet signal, int count, Outlet magnitude, double delay)
@@ -643,6 +637,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeMagnitude *= cumulativeMagnitude;
                 cumulativeDelay += cumulativeDelay;
             }
+
+            // Add some audio length
+            AddAudioLength(cumulativeDelay - delay);
 
             return _[cumulativeSignal];
         }
