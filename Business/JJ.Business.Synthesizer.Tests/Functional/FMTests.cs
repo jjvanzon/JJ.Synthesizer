@@ -262,8 +262,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     () => Multiply(fluteVolume, FluteMelody1),
                     () => Multiply(hornVolume,  HornMelody1)
                 );
-
-                //Play(() => MildEcho(pattern1), volume: 1);
                 
                 WithAudioLength(bars[4]);
 
@@ -275,8 +273,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     () => Multiply(hornVolume,       HornMelody2),
                     () => Multiply(rippleBassVolume, RippleBassMelody2)
                 );
-
-                //Play(() => MildEcho(pattern2), volume: 1);
 
                 WithAudioLength(bars[8]);
 

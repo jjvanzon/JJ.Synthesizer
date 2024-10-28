@@ -138,7 +138,7 @@
     <None Include=".editorconfig" />
     <Content Include="app.config.example.xml" />
     <Compile Include="OperatorWishes.SynthWishes.cs" />
-    <Compile Include="OperatorWishes.Fluent.cs" />
+    <Compile Include="OperatorWishes.FluentOutlet.cs" />
     <Compile Include="OperatorWishes.CSharpOperators.cs" />
     <None Include="packages.config" />
     <Compile Include="SynthWishes.FluentConfiguration.cs" />
