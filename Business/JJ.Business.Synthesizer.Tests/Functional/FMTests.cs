@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         internal void FM_Jingle_RunTest()
         {
-            WithAudioLength(bars[8]);
+            WithAudioLength(bars[8] + 1);
             
             Play(() => DeepEcho(Jingle(), 1));
         }
@@ -265,9 +265,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet Jingle()
         {
-            var originalDuration = AudioLength;
-            try
-            {
+            //var originalDuration = AudioLength;
+            //try
+            //{
                 var fluteVolume      = _[1.2];
                 var chordsVolume     = _[0.5];
                 var tromboneVolume   = _[0.7];
@@ -304,15 +304,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 (
                     () => pattern1,
                     () => Delay(pattern2, bars[4]),
-                    () => PadChords(chordsVolume)/*.PlayMono(0.3)*/ * JingleVolume
+                    //() => PadChords(chordsVolume)/*.PlayMono(0.3)*/ * JingleVolume
+                    // HACK: Not sure why the chords are off, but delaying them for now...
+                    () => PadChords(chordsVolume).Delay(beats[4]) * JingleVolume 
                 );
 
                 return composition;
-            }
-            finally
-            {
-                AudioLength = originalDuration;
-            }
+            //}
+            //finally
+            //{
+            //    AudioLength = originalDuration;
+            //}
         }
 
         #endregion
