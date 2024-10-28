@@ -711,18 +711,6 @@ namespace JJ.Business.Synthesizer.Wishes
             /// <inheritdoc cref="docs._captureindexer" />
             public FluentOutlet this[FluentOutlet t, FluentOutlet sound, double volume] 
                 => _parent.StrikeNote(sound, t, volume);
-            
-            ///// <inheritdoc cref="docs._captureindexer" />
-            //public FluentOutlet this[FluentOutlet bar, FluentOutlet beat, FluentOutlet sound, FluentOutlet volume] 
-            //    => _parent.StrikeNote(sound, _parent.t[bar, beat], volume);
-            
-            ///// <inheritdoc cref="docs._captureindexer" />
-            //public FluentOutlet this[double bar, double beat, FluentOutlet sound, FluentOutlet volume] 
-            //    => _parent.StrikeNote(sound, _parent.t[bar, beat], volume);
-            
-            ///// <inheritdoc cref="docs._captureindexer" />
-            //public FluentOutlet this[double bar, double beat, FluentOutlet sound, double volume] 
-            //    => _parent.StrikeNote(sound, _parent.t[bar, beat], volume);
         }
     }
 }

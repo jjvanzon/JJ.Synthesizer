@@ -24,10 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="_metallophone"/>
         public void Additive_Metallophone_Jingle_RunTest()
         {
-            // TODO: This might be possible more fluently?
-            var audioLength = beat[4] + NoteDuration + EchoDelay * (EchoCount - 1);
-            
-            WithAudioLength(audioLength).Play(() => Echo(MetallophoneJingle), volume: 0.3);
+            WithAudioLength(beat[4] + NoteDuration).Play(() => Echo(MetallophoneJingle), volume: 0.3);
         }
 
         /// <inheritdoc cref="_metallophone"/>
@@ -37,33 +34,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="_metallophone"/>
         public void Additive_Metallophone_Note_RunTest()
         {
-            // TODO: This might be possible more fluently?
-            var audioLength = NoteDuration + EchoDelay * (EchoCount - 1);
-            
-            WithAudioLength(audioLength).Play(() => Echo(Metallophone(Fs4)), volume: 0.5);
+            WithAudioLength(NoteDuration).Play(() => Echo(Metallophone(Fs4)), volume: 0.5);
         }
 
-        //FluentOutlet Jingle => Notes
-        //(
-        //    _[t[1, 1.0], Metallophone, A4      , 0.9],
-        //    _[t[1, 1.5], Metallophone, E5      , 1.0],
-        //    _[t[1, 2.0], Metallophone, B4      , 0.5],
-        //    _[t[1, 2.5], Metallophone, C5_Sharp, 0.7],
-        //    _[t[1, 4.0], Metallophone, F4_Sharp, 0.4]
-        //);
-
-        //FluentOutlet Jingle => Notes
-        //(
-        //    _[1, 1.0, Metallophone, A4 , 0.9],
-        //    _[1, 1.5, Metallophone, E5 , 1.0],
-        //    _[1, 2.0, Metallophone, B4 , 0.5],
-        //    _[1, 2.5, Metallophone, Cs5, 0.7],
-        //    _[1, 4.0, Metallophone, Fs4, 0.4]
-        //);
-
-        // Cs Ds Fs Gs As
-        // Cb Db Fb Gb Ab
-
+        /// <inheritdoc cref="_metallophone" />
         FluentOutlet MetallophoneJingle => Add
         (
             _[ t[1, 1.0], Metallophone(A4 ), 0.9 ],
