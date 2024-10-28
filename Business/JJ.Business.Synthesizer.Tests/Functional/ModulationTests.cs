@@ -14,11 +14,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     {
         int          MildEchoCount  => 4;
         FluentOutlet MildEchoDelay  => _[0.33];
-        //FluentOutlet MildEchoTime   => MildEchoDelay * (MildEchoCount - 1);
         int          DeepEchoCount  => 4;
         FluentOutlet DeepEchoDelayL => _[0.5];
         FluentOutlet DeepEchoDelayR => _[0.53];
-        //FluentOutlet DeepEchoTime   => DeepEchoDelayR * (DeepEchoCount - 1);
         FluentOutlet DefaultDuration => _[1];
 
         public ModulationTests() 
@@ -108,7 +106,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => Mono().WithAudioLength(DefaultDuration).Play(() => MildEcho(VibraphaseChord), volume: 0.25);
+            => Mono().WithAudioLength(DefaultDuration).Play(() => MildEcho(VibraphaseChord), volume: 0.22);
 
         /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
