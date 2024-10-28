@@ -704,72 +704,27 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // For Note Arrangements
             
-            // _[ t[1, 1], MyEnvelope, Flute(A4, l[1]) ]
-            // _[ t[1, 3], MyEnvelope, Flute(C4, l[2]) ]
+            // _[ t[1, 1], Flute(A4, l[1], fx: _[0.14]), MyEnvelope ]
+            // _[ t[1, 3], Flute(C4, l[2], fx: _[0.25]), MyEnvelope ]
             
             public FluentOutlet this[FluentOutlet t, FluentOutlet sound, FluentOutlet volume = null] 
                 => _parent.StrikeNote(sound, t, volume);
 
-            // _[ t[1, 1], 0.8, Flute(A4, l[1]) ]
-            // _[ t[1, 2], 1.0, Flute(C4, l[2]) ]
+            // _[ t[1, 1], Flute(A4, l[1], _[0.14]), 0.8 ]
+            // _[ t[1, 2], Flute(C4, l[2], _[0.25]), 1.0 ]
 
             public FluentOutlet this[FluentOutlet t, FluentOutlet sound, double volume = default] 
                 => _parent.StrikeNote(sound, t, volume);
-        
-            //// _[ t[1, 1], Flute, A4, MyEnvelope ]
-            //// _[ t[1, 2], Flute, C4, MyEnvelope ]
-
-            //public FluentOutlet this[
-            //    FluentOutlet t, Func<FluentOutlet, FluentOutlet> sound, FluentOutlet a, FluentOutlet volume] 
-            //    => _parent.StrikeNote(sound(a), t, volume);
-        
-            //// _[ t[1, 1], Flute, A4, 0.8 ]
-            //// _[ t[1, 2], Flute, C4, 1.0 ]
-
-            //public FluentOutlet this[
-            //    FluentOutlet t, Func<FluentOutlet, FluentOutlet> sound, FluentOutlet a, double volume] 
-            //    => _parent.StrikeNote(sound(a), t, volume);
-        
-                    
-            //// _[ t[1, 1], Flute, A4, l(0.5), MyEnvelope ]
-            //// _[ t[1, 2], Flute, C4, l(1.0), MyEnvelope ]
-
-            //public FluentOutlet this[
-            //    FluentOutlet t, Func<FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet a, FluentOutlet b, FluentOutlet volume] 
-            //    => _parent.StrikeNote(sound(a, b), t, volume);
-        
-            //// _[ t[1, 1], Flute, A4, l(0.5), 0.8 ]
-            //// _[ t[1, 2], Flute, C4, l(1.0), 1.0 ]
-
-            //public FluentOutlet this[
-            //    FluentOutlet t, Func<FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet a, FluentOutlet b, double volume] 
-            //    => _parent.StrikeNote(sound(a, b), t, volume);
-
-                                
-            //// _[ t[1, 1], Flute, A4, l(0.5), _[0.14], MyEnvelope ]
-            //// _[ t[1, 2], Flute, C4, l(1.0), _[0.25], MyEnvelope ]
-
-            //public FluentOutlet this[
-            //    FluentOutlet t, Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet a, FluentOutlet b, FluentOutlet c, FluentOutlet volume] 
-            //    => _parent.StrikeNote(sound(a, b, c), t, volume);
-        
-            //// _[ t[1, 1], Flute, A4, l(0.5), _[0.14], 0.8 ]
-            //// _[ t[1, 2], Flute, C4, l(1.0), _[0.25], 1.0 ]
-
-            //public FluentOutlet this[
-            //    FluentOutlet t, Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet a, FluentOutlet b, FluentOutlet c, double volume] 
-            //    => _parent.StrikeNote(sound(a, b, c), t, volume);
-
             
-            // _[ t[1, 1], A4, Flute, MyEnvelope, l(0.5), _[0.14] ]
-            // _[ t[1, 2], C4, Flute, MyEnvelope, l(1.0), _[0.25] ]
+            // _[ t[1, 1], A4, Flute, MyEnvelope, l[0.5] ]
+            // _[ t[1, 2], C4, Flute, MyEnvelope, l[1.0] ]
 
             public FluentOutlet this[
                 FluentOutlet t, FluentOutlet freq, Func<FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet vol = null, FluentOutlet param2 = null] 
                 => _parent.StrikeNote(sound(freq, param2), t, vol);
 
-            // _[ t[1, 1], A4, Flute, 0.8, l(0.5), _[0.14] ]
-            // _[ t[1, 2], C4, Flute, 1.0, l(1.0), _[0.14] ]
+            // _[ t[1, 1], A4, Flute, 0.8, l(0.5) ]
+            // _[ t[1, 2], C4, Flute, 1.0, l(1.0) ]
 
             public FluentOutlet this[
                 FluentOutlet t, FluentOutlet freq, Func<FluentOutlet, FluentOutlet, FluentOutlet> sound, double vol = default, FluentOutlet param2 = null] 
