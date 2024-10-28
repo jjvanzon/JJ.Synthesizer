@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                                .Replace("RunTest", "")
                                .Replace("Test", "")
                                .Replace("_", " ")
-                               .Trim();
+                               .RemoveExcessiveWhiteSpace();
             }
 
             return name;
