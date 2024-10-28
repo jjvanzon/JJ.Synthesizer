@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-// ReSharper disable once UnusedMember.Local
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable ExplicitCallerInfoArgument
 
@@ -17,13 +16,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class FMTests : SynthWishes
     {
-        private  int          MildEchoCount   => 4;
+        private  int          MildEchoCount   => 5;
         private  FluentOutlet MildEchoDelay   => _[0.33];
-        internal FluentOutlet MildEchoTime    => MildEchoDelay * (MildEchoCount - 1);
-        private  int          DeepEchoCount   => 4;
+        //internal FluentOutlet MildEchoTime    => MildEchoDelay * (MildEchoCount - 1);
+        private  int          DeepEchoCount   => 5;
         private  FluentOutlet DeepEchoDelay   => _[0.5];
-        private  FluentOutlet DeepEchoTime    => DeepEchoDelay * (DeepEchoCount - 1);
-        private  FluentOutlet DefaultDuration => 1 + MildEchoTime;
+        //private  FluentOutlet DeepEchoTime    => DeepEchoDelay * (DeepEchoCount - 1);
+        private  FluentOutlet DefaultDuration => _[1];
         private  double       DefaultVolume   => 0.5;
         private  FluentOutlet JingleVolume    => _[0.18];
 
@@ -693,10 +692,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         internal FluentOutlet MildEcho(FluentOutlet sound, double? volume = null)
-            => AddAudioLength(MildEchoTime).EchoParallel(sound, volume ?? DefaultVolume, count: 8, magnitude: _[0.25], MildEchoDelay);
+            => EchoParallel(sound, volume ?? DefaultVolume, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
 
         FluentOutlet DeepEcho(FluentOutlet sound, double? volume = null) 
-            => AddAudioLength(DeepEchoTime).EchoParallel(sound, volume ?? DefaultVolume, count: 8, magnitude: _[0.5], DeepEchoDelay);
+            => EchoParallel(sound, volume ?? DefaultVolume, DeepEchoCount, magnitude: _[0.5], DeepEchoDelay);
         
         #endregion
 
