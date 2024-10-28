@@ -27,13 +27,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         private  double       DefaultVolume   => 0.5;
         private  FluentOutlet JingleVolume    => _[0.18];
 
-        public FMTests()
-            : base(beat: 0.45, bar: 4 * 0.45)
+        public FMTests() : base(beat: 0.45, bar: 4 * 0.45)
         {
             Mono();
             WithDuration(DefaultDuration);
-            
-            _chordFrequencies = CreateChordFrequencies();
+            _chordFreqs = CreateChordFreqs();
         }
 
         #region Tests
@@ -43,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         internal void FM_Jingle_RunTest()
         {
-            //WithDuration(t[bar: 9, beat: 2] + DeepEchoTime);
+            WithDuration(t[bar: 9, beat: 2] + DeepEchoTime);
             
             Play(() => DeepEcho(Jingle(), 1));
         }
@@ -792,9 +790,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (8.0, 0.0)
         );
 
-        (double time, FluentOutlet freq1, FluentOutlet freq2, FluentOutlet freq3)[] _chordFrequencies;
+        (double time, FluentOutlet freq1, FluentOutlet freq2, FluentOutlet freq3)[] _chordFreqs;
 
-        (double time, FluentOutlet freq1, FluentOutlet freq2, FluentOutlet freq3)[] CreateChordFrequencies() => new[]
+        (double time, FluentOutlet freq1, FluentOutlet freq2, FluentOutlet freq3)[] CreateChordFreqs() => new[]
         {
             (0.0, E4, A4, C5),
             (1.0, F4, A4, C5),
@@ -808,17 +806,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         };
 
         FluentOutlet ChordPitchCurve1 => WithName().Curve(
-            _chordFrequencies.Select(x => new NodeInfo(x.time,
+            _chordFreqs.Select(x => new NodeInfo(x.time,
                                                        x.freq1.Value,
                                                        NodeTypeEnum.Block)).ToArray());
 
         FluentOutlet ChordPitchCurve2 => WithName().Curve(
-            _chordFrequencies.Select(x => new NodeInfo(x.time, 
+            _chordFreqs.Select(x => new NodeInfo(x.time, 
                                                        x.freq2.Value,
                                                        NodeTypeEnum.Block)).ToArray());
 
         FluentOutlet ChordPitchCurve3 => WithName().Curve(
-            _chordFrequencies.Select(x => new NodeInfo(x.time, 
+            _chordFreqs.Select(x => new NodeInfo(x.time, 
                                                        x.freq3.Value, 
                                                        NodeTypeEnum.Block)).ToArray());
 
