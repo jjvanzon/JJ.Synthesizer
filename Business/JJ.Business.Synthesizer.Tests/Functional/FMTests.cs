@@ -265,9 +265,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet Jingle()
         {
-            //var originalDuration = AudioLength;
-            //try
-            //{
+            var originalAudioLength = AudioLength;
+            try
+            {
                 var fluteVolume      = _[1.2];
                 var chordsVolume     = _[0.5];
                 var tromboneVolume   = _[0.7];
@@ -310,11 +310,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 );
 
                 return composition;
-            //}
-            //finally
-            //{
-            //    AudioLength = originalDuration;
-            //}
+            }
+            finally
+            {
+                AudioLength = originalAudioLength;
+            }
         }
 
         #endregion
@@ -693,10 +693,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         internal FluentOutlet MildEcho(FluentOutlet sound, double? volume = null)
-            => AddAudioLength(MildEchoTime).EchoParallel4Times(sound, volume ?? DefaultVolume, _[0.25], MildEchoDelay);
+            => AddAudioLength(MildEchoTime).EchoParallelTimes4(sound, volume ?? DefaultVolume, _[0.25], MildEchoDelay);
 
         FluentOutlet DeepEcho(FluentOutlet sound, double? volume = null) 
-            => AddAudioLength(DeepEchoTime).EchoParallel4Times(sound, volume ?? DefaultVolume, _[0.5], DeepEchoDelay);
+            => AddAudioLength(DeepEchoTime).EchoParallelTimes4(sound, volume ?? DefaultVolume, _[0.5], DeepEchoDelay);
         
         #endregion
 
