@@ -20,8 +20,23 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly SynthWishes _synthWishes;
         private readonly Outlet _thisOutlet;
 
-        private string DebuggerDisplay => $"{{{GetType().Name}}} {Stringify(true)}";
-        
+        private string DebuggerDisplay
+        {
+            get
+            {
+                var text = "";
+                                
+                if (!_thisOutlet.IsConst())
+                { 
+                    text += $"{Calculate()} = ";
+                }
+
+                text += $"{Stringify(true)} {{ {GetType().Name} }}";
+
+                return text;
+            }
+        }
+
         public FluentOutlet(SynthWishes synthWishes, Outlet firstFirstOperand)
         {
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
