@@ -274,7 +274,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var originalAudioLength = AudioLength;
             try
             {
-                (outletFunc, AudioLength) = ApplyLeadingSilence(outletFunc, AudioLength);
+                (outletFunc, AudioLength) = AddPadding(outletFunc, AudioLength);
 
                 var saveResult = SaveAudio(outletFunc, volume, samplingRateOverride, fileName, callerMemberName);
 
@@ -562,7 +562,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
         
-        private (Func<Outlet> func, FluentOutlet audioLength) ApplyLeadingSilence(Func<Outlet> func, FluentOutlet audioLength = default)
+        private (Func<Outlet> func, FluentOutlet audioLength) AddPadding(Func<Outlet> func, FluentOutlet audioLength = default)
         {
             audioLength = audioLength ?? _[1];
             
