@@ -17,10 +17,8 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
 using static JJ.Business.Synthesizer.Wishes.FrameworkWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
-// ReSharper disable UseObjectOrCollectionInitializer
-// ReSharper disable ForCanBeConvertedToForeach
-// ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable AccessToModifiedClosure
+
 #pragma warning disable IDE0028
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -34,75 +32,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private SampleManager _sampleManager;
         
-        // Fluent Configuration
-        
-        
-        public ChannelEnum Channel { get; set; }
-
-        public int ChannelIndex => Channel.ToIndex();
-        
-        public SynthWishes WithChannel(ChannelEnum channel)
-        {
-            Channel = channel;
-            return this;
-        }
-
-        public SynthWishes Left() => WithChannel(ChannelEnum.Left);
-        public SynthWishes Right() => WithChannel(ChannelEnum.Right);
-        public SynthWishes Center() => WithChannel(ChannelEnum.Single);
-
-        // SpeakerSetup
-
-        public SpeakerSetupEnum SpeakerSetup { get; set; } = SpeakerSetupEnum.Mono;
-
-        public SynthWishes WithSpeakerSetup(SpeakerSetupEnum speakerSetup)
-        {
-            SpeakerSetup = speakerSetup;
-            return this;
-        }
-
-        public SynthWishes Mono() => WithSpeakerSetup(SpeakerSetupEnum.Mono);
-        public SynthWishes Stereo() => WithSpeakerSetup(SpeakerSetupEnum.Stereo);
-        
-        // BitDepth
-        
-        public SampleDataTypeEnum BitDepth { get; set; } = SampleDataTypeEnum.Int16;
-
-        public SynthWishes WithBitDepth(SampleDataTypeEnum bitDepth)
-        {
-            BitDepth = bitDepth;
-            return this;
-        }
-
-        public SynthWishes _16Bit() => WithBitDepth(SampleDataTypeEnum.Int16);
-        public SynthWishes _8Bit() => WithBitDepth(SampleDataTypeEnum.Byte);
-        
-        // AudioFormat
-        
-        public AudioFileFormatEnum AudioFormat { get; set; } = AudioFileFormatEnum.Wav;
-
-        public SynthWishes WithAudioFormat(AudioFileFormatEnum audioFormat)
-        {
-            AudioFormat = audioFormat;
-            return this;
-        }
-
-        public SynthWishes AsWav() => WithAudioFormat(AudioFileFormatEnum.Wav);
-        public SynthWishes AsRaw() => WithAudioFormat(AudioFileFormatEnum.Raw);
-        
-        // Interpolation
-        
-        public InterpolationTypeEnum Interpolation { get; set; } = InterpolationTypeEnum.Line;
-
-        public SynthWishes WithInterpolation(InterpolationTypeEnum interpolationEnum)
-        {
-            Interpolation = interpolationEnum;
-            return this;
-        }
-
-        public SynthWishes Linear() => WithInterpolation(InterpolationTypeEnum.Line);
-        public SynthWishes Blocky() => WithInterpolation(InterpolationTypeEnum.Block);
-
         // Parallelization
 
         /// <inheritdoc cref="docs._paralleladd" />
@@ -130,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             int count = funcs.Count;
             var reloadedSamples = new Outlet[count];
-            string[] fileNames = GetParallelAddFileNames(count);
+            string[] fileNames = GetParallelAdd_FileNames(count);
 
             try
             {
@@ -178,7 +107,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Prep variables
             int count = funcs.Count;
             var reloadedSamples = new Outlet[count];
-            string[] fileNames = GetParallelAddFileNames(count);
+            string[] fileNames = GetParallelAdd_FileNames(count);
 
             // Save and play files
             Parallel.For(0, count, i => Play(funcs[i], volume,  fileName: fileNames[i]));
@@ -195,7 +124,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Add(reloadedSamples);
         }
 
-        private string[] GetParallelAddFileNames(int count)
+        private string[] GetParallelAdd_FileNames(int count)
         {
             string name = UseName();
             string guidString = $"{Guid.NewGuid()}";

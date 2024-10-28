@@ -141,6 +141,7 @@
     <Compile Include="OperatorWishes.Fluent.cs" />
     <Compile Include="OperatorWishes.CSharpOperators.cs" />
     <None Include="packages.config" />
+    <Compile Include="SynthWishes.FluentConfiguration.cs" />
   </ItemGroup>
   <ItemGroup />
   <Choose>
