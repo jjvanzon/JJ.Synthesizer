@@ -370,15 +370,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet HornMelody1 => WithName().WithAudioLength(beat[13 + 4]).ParallelAdd
         (
-            () => Horn(C2, beat[09], duration: beats[3], volume: _[0.7]),
-            () => Horn(G1, beat[13], duration: beats[4], volume: _[0.5])
+            () => _[ beat[09], Horn(C2, l[3]), 0.7 ],
+            () => _[ beat[13], Horn(G1, l[4]), 0.5 ]
         );
 
         FluentOutlet HornMelody2 => WithName().WithAudioLength(beat[9 + 4]).ParallelAdd
         (
-            () => Horn(A2, beat[1], duration: beat[3], volume: _[0.75]),
-            () => Horn(F2, beat[5], duration: beat[3], volume: _[0.85]),
-            () => Horn(A1, beat[9], duration: beat[5], volume: _[1.0])
+            () => _[ beat[1], Horn(A2, l[2]), 0.75 ],
+            () => _[ beat[5], Horn(F2, l[2]), 0.85 ],
+            () => _[ beat[9], Horn(A1, l[4]), 1.00 ]
         );
         
         FluentOutlet TromboneMelody1 => WithName().WithAudioLength(beats[6]).ParallelAdd
@@ -543,7 +543,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A2/110Hz). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        FluentOutlet Horn(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet Horn(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A2;
 
@@ -552,9 +552,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var fmSignal = FMInHertz(Multiply(freq, 2), freq, tamedMod);
             var envelope = Stretch(BrassCurve, duration);
             var sound    = Multiply(fmSignal, envelope);
-            var note     = StrikeNote(sound, delay, volume);
 
-            return note;
+            return sound;
         }
 
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
