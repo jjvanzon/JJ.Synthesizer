@@ -349,7 +349,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
              
             Mono().Play(() => chain1);
             Mono().Play(() => chain2);
-            Mono().WithDuration(2).Play(() => chain3);
+            Mono().WithAudioLength(2).Play(() => chain3);
         }
         
         [TestMethod]
@@ -368,7 +368,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
             
-            Mono().WithDuration(duration).SaveAudio(() => add);
+            Mono().WithAudioLength(duration).SaveAudio(() => add);
         }
 
         [TestMethod]
@@ -379,7 +379,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var tolerance = 0.001;
 
             // Create Entities
-            var adder = WithDuration(duration).ParallelAdd
+            var adder = WithAudioLength(duration).ParallelAdd
             (
                 // Values higher than 1 seem to be clipped.
                 () => WithName("Const Curve 0.1").Curve(0.1, 0.1),
@@ -470,7 +470,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             WithPreviewParallels();
             
-            var adder = WithDuration(duration).ParallelAdd
+            var adder = WithAudioLength(duration).ParallelAdd
             (
                 // Values higher than 1 seem to be clipped.
                 () => WithName("Const Curve 0.1").Curve(0.1, 0.1),
@@ -513,7 +513,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var freq = A4;
 
-            WithDuration(0.6);
+            WithAudioLength(0.6);
             
             var added = ParallelAdd
             (
@@ -534,7 +534,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var volume   = 1 / 1.5;
             var duration = 0.6;
 
-            WithDuration(duration).WithName().WithPreviewParallels();
+            WithAudioLength(duration).WithName().WithPreviewParallels();
             
             var added = ParallelAdd
             (

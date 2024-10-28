@@ -32,12 +32,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest() 
-            => WithDuration(bars[7] + DeepEchoTime).Play(() => DeepEcho(DetunicaJingle), volume: 0.45);
+            => WithAudioLength(bars[7] + DeepEchoTime).Play(() => DeepEcho(DetunicaJingle), volume: 0.45);
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest_Mono() 
-            => Mono().WithDuration(bars[7] + DeepEchoTime).Play(() => DeepEcho(DetunicaJingle), volume: 0.15);
+            => Mono().WithAudioLength(bars[7] + DeepEchoTime).Play(() => DeepEcho(DetunicaJingle), volume: 0.15);
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = _[3];
             var withEcho = duration + DeepEchoTime;
-            WithDuration(withEcho).Play(() => DeepEcho(DetunicaBass(duration: duration)), volume: 0.9);
+            WithAudioLength(withEcho).Play(() => DeepEcho(DetunicaBass(duration: duration)), volume: 0.9);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = _[3];
             var withEcho = duration + DeepEchoTime;
-            WithDuration(withEcho).Play(() => DeepEcho(Detunica1(freq: E2, duration: duration)), volume: 0.15);
+            WithAudioLength(withEcho).Play(() => DeepEcho(Detunica1(freq: E2, duration: duration)), volume: 0.15);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = _[3];
             var withEcho = duration + DeepEchoTime;
-            WithDuration(withEcho).Play(() => DeepEcho(Detunica2(freq: B4, duration: duration)), volume: 0.2);
+            WithAudioLength(withEcho).Play(() => DeepEcho(Detunica2(freq: B4, duration: duration)), volume: 0.2);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = _[3];
             var withEcho = duration + DeepEchoTime;
-            WithDuration(withEcho).Play(() => DeepEcho(Detunica3(freq: C5, duration: duration)), volume: 0.4);
+            WithAudioLength(withEcho).Play(() => DeepEcho(Detunica3(freq: C5, duration: duration)), volume: 0.4);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = _[3];
             var withEcho = duration + DeepEchoTime;
-            WithDuration(withEcho).Play(() => DeepEcho(Detunica4(freq: D5, duration: duration)), volume: 0.25);
+            WithAudioLength(withEcho).Play(() => DeepEcho(Detunica4(freq: D5, duration: duration)), volume: 0.25);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = _[3];
             var withEcho = duration + DeepEchoTime;
-            WithDuration(withEcho).Play(() => DeepEcho(Detunica5(freq: E5, duration: duration)), volume: 0.3);
+            WithAudioLength(withEcho).Play(() => DeepEcho(Detunica5(freq: E5, duration: duration)), volume: 0.3);
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => Mono().WithDuration(DefaultDuration).Play(() => MildEcho(VibraphaseChord), volume: 0.25);
+            => Mono().WithAudioLength(DefaultDuration).Play(() => MildEcho(VibraphaseChord), volume: 0.25);
 
         /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()
-            => Mono().WithDuration(DefaultDuration).Play(() => MildEcho(Vibraphase(freq: E5)), volume: 0.5);
+            => Mono().WithAudioLength(DefaultDuration).Play(() => MildEcho(Vibraphase(freq: E5)), volume: 0.5);
 
         #endregion
 
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet DetunicaBass(FluentOutlet delay = null, FluentOutlet duration = null) =>
             Panbrello(
                 panbrello: (speed: 2, depth: 0.20),
-                sound: /*WithDuration(duration + DeepEchoTime).*/Add
+                sound: /*WithAudioLength(audioLength + DeepEchoTime).*/Add
                 (
                     Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
                     Detunica2(delay, E1, _[0.800], duration),

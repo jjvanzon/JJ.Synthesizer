@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public FMTests() : base(beat: 0.45, bar: 4 * 0.45)
         {
             Mono();
-            WithDuration(DefaultDuration);
+            WithAudioLength(DefaultDuration);
             _chordFreqs = CreateChordFreqs();
         }
 
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         internal void FM_Jingle_RunTest()
         {
-            WithDuration(bars[8]);
+            WithAudioLength(bars[8]);
             
             Play(() => DeepEcho(Jingle(), 1));
         }
@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             // TODO: Weird notation                        
             var duration = bars[3];
-            WithDuration(duration);
+            WithAudioLength(duration);
             Play(() => MildEcho(Organ(duration: duration)));
         }
 
@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             // TODO: Weird notation
             var duration = bars[3];
-            WithDuration(duration);
+            WithAudioLength(duration);
             Play(() => MildEcho(Pad(duration: duration), volume: 0.2));
         }
 
@@ -165,7 +165,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Trombone_RunTest()
         {
-            WithDuration(2).Play(() => MildEcho(Trombone(E2)));
+            WithAudioLength(2).Play(() => MildEcho(Trombone(E2)));
         }
         
         [TestMethod]
@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_ElectricNote_RunTest()
         {
             var duration = _[1.5];
-            WithDuration(duration);
+            WithAudioLength(duration);
             
             Play(() => MildEcho(ElectricNote(duration: duration), volume: 0.2));
         }
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_RippleBass_RunTest()
         {
             var duration = _[3];
-            WithDuration(duration);
+            WithAudioLength(duration);
             Play(() => DeepEcho(RippleBass(duration: duration)));
         }
 
@@ -210,7 +210,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleBass_Melody2_RunTest()
         {
-            WithDuration(bars[4]).Play(() => DeepEcho(RippleBassMelody2, 0.3));
+            WithAudioLength(bars[4]).Play(() => DeepEcho(RippleBassMelody2, 0.3));
         }
 
         [TestMethod]
@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_RippleNote_SharpMetallic_RunTest()
         {
             var duration = _[2.2];
-            WithDuration(duration);
+            WithAudioLength(duration);
             Play(() => DeepEcho(RippleNote_SharpMetallic(duration: duration), volume: 0.3));
         }
 
@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_RippleSound_Clean_RunTest()
         {
             var duration = _[4];
-            WithDuration(duration).Play(() => DeepEcho(RippleSound_Clean(duration: duration)));
+            WithAudioLength(duration).Play(() => DeepEcho(RippleSound_Clean(duration: duration)));
         }
 
         [TestMethod]
@@ -238,7 +238,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_RippleSound_FantasyEffect_RunTest()
         {
             var duration = _[4];
-            WithDuration(duration).Play(() => DeepEcho(RippleSound_FantasyEffect(duration: duration), volume: 0.33));
+            WithAudioLength(duration).Play(() => DeepEcho(RippleSound_FantasyEffect(duration: duration), volume: 0.33));
         }
 
         [TestMethod]
@@ -247,7 +247,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_RippleSound_CoolDouble_RunTest()
         {
             var duration = _[3];
-            WithDuration(duration).Play(() => DeepEcho(RippleSound_CoolDouble(duration:duration), volume: 0.3));
+            WithAudioLength(duration).Play(() => DeepEcho(RippleSound_CoolDouble(duration:duration), volume: 0.3));
         }
 
         [TestMethod]
@@ -256,7 +256,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_Noise_Beating_RunTest()
         {
             var duration = _[5];
-            WithDuration(duration).Play(() => MildEcho(Create_FM_Noise_Beating(A4, duration), volume: 0.25));
+            WithAudioLength(duration).Play(() => MildEcho(Create_FM_Noise_Beating(A4, duration), volume: 0.25));
         }
 
         #endregion
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet Jingle()
         {
-            var originalDuration = Duration;
+            var originalDuration = AudioLength;
             try
             {
                 var fluteVolume      = _[1.2];
@@ -274,7 +274,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 var hornVolume       = _[0.6];
                 var rippleBassVolume = _[0.7];
 
-                WithDuration(bars[4]);
+                WithAudioLength(bars[4]);
 
                 var pattern1 = WithName("Jingle Pattern 1").ParallelAdd
                 (
@@ -285,7 +285,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
                 //Play(() => MildEcho(pattern1), volume: 1);
                 
-                WithDuration(bars[4]);
+                WithAudioLength(bars[4]);
 
                 var pattern2 = WithName("Jingle Pattern 2").ParallelAdd
                 (
@@ -298,7 +298,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
                 //Play(() => MildEcho(pattern2), volume: 1);
 
-                WithDuration(bars[8]);
+                WithAudioLength(bars[8]);
 
                 var composition = WithName("Composition").ParallelAdd
                 (
@@ -311,7 +311,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             }
             finally
             {
-                Duration = originalDuration;
+                AudioLength = originalDuration;
             }
         }
 
@@ -319,7 +319,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Melodies
 
-        FluentOutlet FluteMelody1 => WithName().WithDuration(bars[4]).ParallelAdd
+        FluentOutlet FluteMelody1 => WithName().WithAudioLength(bars[4]).ParallelAdd
         (
             () => Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.80], beats[2.00]),
             () => Flute1(F4, t[bar: 1, beat: 2.5], volume: _[0.70], beats[2.17]),
@@ -331,7 +331,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => Flute1(G4, t[bar: 3, beat: 2.5], volume: _[0.80], beats[2.50])
         );
 
-        FluentOutlet FluteMelody2 => WithName().WithDuration(bars[4]).ParallelAdd
+        FluentOutlet FluteMelody2 => WithName().WithAudioLength(bars[4]).ParallelAdd
         (
             () => Flute1(E4, t[bar: 1, beat: 1.0], volume: _[0.59], beats[1.8]),
             () => Flute2(F4, t[bar: 1, beat: 2.5], volume: _[0.68], beats[1.0]),
@@ -346,7 +346,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
-                WithDuration(bars[8]).WithName().ParallelAdd
+                WithAudioLength(bars[8]).WithName().ParallelAdd
                 (
                     () => Organ(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]),
                     () => Organ(bar[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]),
@@ -358,7 +358,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             => Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
-                WithName().WithDuration(bars[8]).ParallelAdd
+                WithName().WithAudioLength(bars[8]).ParallelAdd
                 (
                     volume.Value,
                     () => Pad(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]),
@@ -367,27 +367,27 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 )
             );
 
-        FluentOutlet HornMelody1 => WithName().WithDuration(beat[13 + 4]).ParallelAdd
+        FluentOutlet HornMelody1 => WithName().WithAudioLength(beat[13 + 4]).ParallelAdd
         (
             () => Horn(C2, beat[09], duration: beats[3], volume: _[0.7]),
             () => Horn(G1, beat[13], duration: beats[4], volume: _[0.5])
         );
 
-        FluentOutlet HornMelody2 => WithName().WithDuration(beat[9 + 4]).ParallelAdd
+        FluentOutlet HornMelody2 => WithName().WithAudioLength(beat[9 + 4]).ParallelAdd
         (
             () => Horn(A2, beat[1], duration: beat[3], volume: _[0.75]),
             () => Horn(F2, beat[5], duration: beat[3], volume: _[0.85]),
             () => Horn(A1, beat[9], duration: beat[5], volume: _[1.0])
         );
         
-        FluentOutlet TromboneMelody1 => WithName().WithDuration(beats[6]).ParallelAdd
+        FluentOutlet TromboneMelody1 => WithName().WithAudioLength(beats[6]).ParallelAdd
         (
             () => Trombone(A1,       beat[1]),
             () => Trombone(E2,       beat[3]),
             () => Trombone(F1_Sharp, beat[5], volume: _[0.7])
         );
 
-        internal FluentOutlet TromboneMelody2 => WithName().WithDuration(beats[8]).ParallelAdd
+        internal FluentOutlet TromboneMelody2 => WithName().WithAudioLength(beats[8]).ParallelAdd
         (
             () => Trombone(E4, beat[3], durationFactor: _[1.4]),
             () => Trombone(C4, beat[7], durationFactor: _[1.4])
@@ -608,7 +608,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
-        /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
+        /// <param name="duration"> The audioLength of the sound in seconds (default is 2.5). </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         FluentOutlet RippleSound_FantasyEffect(FluentOutlet freq = null, FluentOutlet delay = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
@@ -628,8 +628,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <summary> Shapes a ripple effect sound giving it a volume envelope and a delay, volume and duration. </summary>
-        /// <param name="duration"> The duration of the sound in seconds (default is 2.5). </param>
+        /// <summary> Shapes a ripple effect sound giving it a volume envelope and a delay, volume and audioLength. </summary>
+        /// <param name="duration"> The audioLength of the sound in seconds (default is 2.5). </param>
         /// <param name="fmSignal"> A ripple sound to be shaped </param>
         /// <inheritdoc cref="Wishes.Helpers.docs._default" />
         FluentOutlet ShapeRippleSound(FluentOutlet input, FluentOutlet delay, FluentOutlet volume, FluentOutlet duration)
@@ -691,10 +691,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         internal FluentOutlet MildEcho(FluentOutlet sound, double? volume = null)
-            => AddDuration(MildEchoTime).EchoParallel4Times(sound, volume ?? DefaultVolume, _[0.25], MildEchoDelay);
+            => AddAudioLength(MildEchoTime).EchoParallel4Times(sound, volume ?? DefaultVolume, _[0.25], MildEchoDelay);
 
         FluentOutlet DeepEcho(FluentOutlet sound, double? volume = null) 
-            => AddDuration(DeepEchoTime).EchoParallel4Times(sound, volume ?? DefaultVolume, _[0.5], DeepEchoDelay);
+            => AddAudioLength(DeepEchoTime).EchoParallel4Times(sound, volume ?? DefaultVolume, _[0.5], DeepEchoDelay);
         
         #endregion
 

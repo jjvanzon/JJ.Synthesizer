@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public void Additive_Metallophone_Jingle_RunTest()
         {
             var duration = beat[4] + NoteDuration + EchoTime;
-            WithDuration(duration).Play(() => Echo(MetallophoneJingle), volume: 0.3);
+            WithAudioLength(duration).Play(() => Echo(MetallophoneJingle), volume: 0.3);
         }
 
         /// <inheritdoc cref="_metallophone"/>
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_metallophone"/>
         public void Additive_Metallophone_Note_RunTest()
-            => WithDuration(NoteDuration + EchoTime).Play(() => Echo(Metallophone(F4_Sharp)));
+            => WithAudioLength(NoteDuration + EchoTime).Play(() => Echo(Metallophone(F4_Sharp)));
 
         /// <inheritdoc cref="_metallophone"/>
         FluentOutlet MetallophoneJingle => Add
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             
             if (PreviewPartials) WithPreviewParallels();
 
-            WithDuration(duration ?? NoteDuration);
+            WithAudioLength(duration ?? NoteDuration);
 
             var sound = ParallelAdd
             (

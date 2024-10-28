@@ -7,7 +7,6 @@ using System.Media;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
@@ -15,6 +14,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
 using static JJ.Business.Synthesizer.Wishes.FrameworkWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 // ReSharper disable UseObjectOrCollectionInitializer
@@ -270,10 +270,10 @@ namespace JJ.Business.Synthesizer.Wishes
             string fileName = default, 
             [CallerMemberName] string callerMemberName = null)
         {
-            var originalDuration = Duration;
+            var originalAudioLength = AudioLength;
             try
             {
-                (outletFunc, Duration) = ApplyLeadingSilence(outletFunc, Duration);
+                (outletFunc, AudioLength) = ApplyLeadingSilence(outletFunc, AudioLength);
 
                 var saveResult = SaveAudio(outletFunc, volume, samplingRateOverride, fileName, callerMemberName);
 
@@ -285,7 +285,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             finally
             {
-                Duration = originalDuration;
+                AudioLength = originalAudioLength;
             }
         }
         
@@ -358,7 +358,7 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Amplifier = volume * BitDepth.GetMaxAmplitude();
             audioFileOutput.TimeMultiplier = 1;
-            audioFileOutput.Duration = Duration.Calculate();
+            audioFileOutput.Duration = AudioLength.Calculate();
             audioFileOutput.FilePath = fileName;
             audioFileOutput.SetSampleDataTypeEnum(BitDepth);
             audioFileOutput.SetAudioFileFormatEnum(AudioFormat);
@@ -366,12 +366,10 @@ namespace JJ.Business.Synthesizer.Wishes
             
             var samplingRateResult = ResolveSamplingRate(samplingRateOverride);
             audioFileOutput.SamplingRate = samplingRateResult.Data;
-
             
             SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
             CreateOrRemoveChannels(audioFileOutput, channelCount);
 
-            
             switch (speakerSetupEnum)
             {
                 case SpeakerSetupEnum.Mono:
@@ -399,7 +397,7 @@ namespace JJ.Business.Synthesizer.Wishes
             #endif
 
             // Calculate
-            var calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
+            var calculator = CreateAudioFileOutputCalculator(audioFileOutput);
             var stopWatch = Stopwatch.StartNew();
             calculator.Execute();
             stopWatch.Stop();
@@ -426,7 +424,7 @@ namespace JJ.Business.Synthesizer.Wishes
             lines.Add(GetPrettyTitle(fileName));
             lines.Add("");
 
-            string realTimeMessage = FormatRealTimeMessage(Duration.Value, stopWatch);
+            string realTimeMessage = FormatRealTimeMessage(AudioLength.Value, stopWatch);
             string sep = realTimeMessage != default ? " | " : "";
             lines.Add($"{realTimeMessage}{sep}Complexity Ｏ ( {complexity} )");
             lines.Add("");
@@ -473,33 +471,33 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 case SpeakerSetupEnum.Mono:
                 {
-                    var speakerSetupMono = new SpeakerSetup
+                    var mono = new SpeakerSetup
                     {
                         ID = (int)SpeakerSetupEnum.Mono,
                         Name = $"{SpeakerSetupEnum.Mono}",
                     };
 
-                    var speakerSetupChannelSingle = new SpeakerSetupChannel
+                    var single = new SpeakerSetupChannel
                     {
                         ID = 1,
                         Index = 0,
                         Channel = channelRepository.Get((int)ChannelEnum.Single),
                     };
 
-                    audioFileOutput.SpeakerSetup = speakerSetupMono;
-                    audioFileOutput.SpeakerSetup.SpeakerSetupChannels = new List<SpeakerSetupChannel> { speakerSetupChannelSingle };
+                    audioFileOutput.SpeakerSetup = mono;
+                    audioFileOutput.SpeakerSetup.SpeakerSetupChannels = new List<SpeakerSetupChannel> { single };
                     break;
                 }
 
                 case SpeakerSetupEnum.Stereo:
                 {
-                    var speakerSetupStereo = new SpeakerSetup
+                    var stereo = new SpeakerSetup
                     {
                         ID = (int)SpeakerSetupEnum.Stereo,
                         Name = $"{SpeakerSetupEnum.Stereo}",
                     };
 
-                    var speakerSetupChannelLeft = new SpeakerSetupChannel
+                    var left = new SpeakerSetupChannel
                     {
                         ID = 2,
                         Index = 0,
@@ -507,7 +505,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         Channel = channelRepository.Get((int)ChannelEnum.Left),
                     };
 
-                    var speakerSetupChannelRight = new SpeakerSetupChannel
+                    var right = new SpeakerSetupChannel
                     {
                         ID = 3,
                         Index = 1,
@@ -515,8 +513,8 @@ namespace JJ.Business.Synthesizer.Wishes
                         Channel = channelRepository.Get((int)ChannelEnum.Right),
                     };
 
-                    audioFileOutput.SpeakerSetup = speakerSetupStereo;
-                    audioFileOutput.SpeakerSetup.SpeakerSetupChannels = new List<SpeakerSetupChannel> { speakerSetupChannelLeft, speakerSetupChannelRight };
+                    audioFileOutput.SpeakerSetup = stereo;
+                    audioFileOutput.SpeakerSetup.SpeakerSetupChannels = new List<SpeakerSetupChannel> { left, right };
                     break;
                 }
 
@@ -563,19 +561,20 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
         
-        private (Func<Outlet> func, FluentOutlet duration) ApplyLeadingSilence(Func<Outlet> func, FluentOutlet duration = default)
+        private (Func<Outlet> func, FluentOutlet audioLength) ApplyLeadingSilence(Func<Outlet> func, FluentOutlet audioLength = default)
         {
-            duration = duration ?? _[1];
+            audioLength = audioLength ?? _[1];
             
-            FluentOutlet duration2 = Add(duration, ConfigHelper.PlayLeadingSilence + ConfigHelper.PlayTrailingSilence);
+            FluentOutlet audioLength2 = Add(audioLength, ConfigHelper.PlayLeadingSilence + ConfigHelper.PlayTrailingSilence);
                 
             if (ConfigHelper.PlayLeadingSilence == 0)
             {
-                return (func, duration2);
+                return (func, audioLength2);
             }
 
             Outlet func2() => Delay(func(), _[ConfigHelper.PlayLeadingSilence]);
-            return (func2, duration2);
+            
+            return (func2, audioLength2);
         }
 
         private Result PlayIfAllowed(AudioFileOutput audioFileOutput)

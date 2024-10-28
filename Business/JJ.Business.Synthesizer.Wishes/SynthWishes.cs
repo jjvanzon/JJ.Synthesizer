@@ -45,26 +45,26 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Duration
 
-        private FluentOutlet _duration;
-        public FluentOutlet Duration
+        private FluentOutlet _audioLength;
+        public FluentOutlet AudioLength
         {
-            get => _duration ?? _[1];
-            set => _duration = value ?? _[1];
+            get => _audioLength ?? _[1];
+            set => _audioLength = value ?? _[1];
         }
 
-        public SynthWishes WithDuration(Outlet duration) => WithDuration(_[duration]);
-        public SynthWishes WithDuration(double duration) => WithDuration(_[duration]);
-        public SynthWishes WithDuration(FluentOutlet duration)
+        public SynthWishes WithAudioLength(Outlet audioLength) => WithAudioLength(_[audioLength]);
+        public SynthWishes WithAudioLength(double audioLength) => WithAudioLength(_[audioLength]);
+        public SynthWishes WithAudioLength(FluentOutlet audioLength)
         {
-            Duration = duration ?? _[1];
+            AudioLength = audioLength ?? _[1];
             return this;
         }
         
-        public SynthWishes AddDuration(Outlet duration) => AddDuration(_[duration]);
-        public SynthWishes AddDuration(double duration) => AddDuration(_[duration]);
-        public SynthWishes AddDuration(FluentOutlet additionalDuration)
+        public SynthWishes AddAudioLength(Outlet audioLength) => AddAudioLength(_[audioLength]);
+        public SynthWishes AddAudioLength(double audioLength) => AddAudioLength(_[audioLength]);
+        public SynthWishes AddAudioLength(FluentOutlet addedLength)
         {
-            return WithDuration(Duration + additionalDuration);
+            return WithAudioLength(AudioLength + addedLength);
         }
     }
 }

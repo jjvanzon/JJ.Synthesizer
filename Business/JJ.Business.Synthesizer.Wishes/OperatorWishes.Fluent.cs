@@ -63,15 +63,15 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
         
-        public FluentOutlet WithDuration(FluentOutlet newDuration)
+        public FluentOutlet WithAudioLength(FluentOutlet newLength)
         {
-            _synthWishes.WithDuration(newDuration);
+            _synthWishes.WithAudioLength(newLength);
             return this;
         }
 
-        public FluentOutlet AddDuration(FluentOutlet additionalDuration)
+        public FluentOutlet AddAudioLength(FluentOutlet additionalLength)
         {
-            _synthWishes.AddDuration(additionalDuration);
+            _synthWishes.AddAudioLength(additionalLength);
             return this;
         }
 

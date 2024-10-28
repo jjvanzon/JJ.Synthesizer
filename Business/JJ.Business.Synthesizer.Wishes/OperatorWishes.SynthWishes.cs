@@ -605,7 +605,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             cumulativeDelay -= delay;
 
-            return WithName().AddDuration(cumulativeDelay).ParallelAdd(
+            return WithName().AddAudioLength(cumulativeDelay).ParallelAdd(
                 volume,
                 () => repeats[0], 
                 () => repeats[1], 
