@@ -17,17 +17,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class FMTests : SynthWishes
     {
-        double DefaultVolume => 0.5;
-        FluentOutlet JingleVolume => _[0.18];
-
-        int          MildEchoCount => 4;
-        FluentOutlet MildEchoDelay => _[0.33];
-        FluentOutlet MildEchoTime  => MildEchoDelay * (MildEchoCount - 1);
-        int          DeepEchoCount => 4;
-        FluentOutlet DeepEchoDelay => _[0.5];
-        FluentOutlet DeepEchoTime  => DeepEchoDelay * (DeepEchoCount - 1);
-
-        FluentOutlet DefaultDuration => 1 + MildEchoTime;
+        private  int          MildEchoCount   => 4;
+        private  FluentOutlet MildEchoDelay   => _[0.33];
+        internal FluentOutlet MildEchoTime    => MildEchoDelay * (MildEchoCount - 1);
+        private  int          DeepEchoCount   => 4;
+        private  FluentOutlet DeepEchoDelay   => _[0.5];
+        private  FluentOutlet DeepEchoTime    => DeepEchoDelay * (DeepEchoCount - 1);
+        private  FluentOutlet DefaultDuration => 1 + MildEchoTime;
+        private  double       DefaultVolume   => 0.5;
+        private  FluentOutlet JingleVolume    => _[0.18];
 
         public FMTests()
             : base(beat: 0.45, bar: 4 * 0.45)
@@ -191,51 +189,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             Play(() => MildEcho(TromboneMelody2, volume: 0.75));
         }
-
-        #region Experiments
-        
-        [TestMethod]
-        [TestCategory("Technical")]
-        public void FM_Trombone_Melody2_Notation_MildEcho_AddsTheDuration() => new FMTests().FM_Trombone_Melody2_Notation_MildEcho_AddsTheDuration_RunTest();
-
-        void FM_Trombone_Melody2_Notation_MildEcho_AddsTheDuration_RunTest()
-        {
-            Play(() => MildEcho(TromboneMelody2, volume: 0.75));
-        }
-
-        [TestMethod]
-        [TestCategory("Technical")]
-        public void FM_Trombone_Melody2_Notation_AddDuration_MildEchoTime()
-            => new FMTests().FM_Trombone_Melody2_Notation_AddDuration_MildEchoTime_RunTest();
-
-        void FM_Trombone_Melody2_Notation_AddDuration_MildEchoTime_RunTest()
-        {
-            Play(() => MildEcho(TromboneMelody2.AddDuration(MildEchoTime), volume: 0.75));
-        }
-
-        [TestMethod]
-        [TestCategory("Technical")]
-        public void FM_Trombone_Melody2_Notation_WithDuration_DurationPlusMildEchoTime() 
-            => new FMTests().FM_Trombone_Melody2_Notation_WithDuration_DurationPlusMildEchoTime_RunTest();
-
-        void FM_Trombone_Melody2_Notation_WithDuration_DurationPlusMildEchoTime_RunTest()
-        {
-            Play(() => MildEcho(TromboneMelody2.WithDuration(Duration + MildEchoTime), volume: 0.75));
-        }
-
-        [TestMethod]
-        [TestCategory("Technical")]
-        public void FM_Trombone_Melody2_Issue_MelodyOverridesEchoTimeDuration() 
-            => new FMTests().FM_Trombone_Melody2_Issue_MelodyOverridesEchoTimeDuration_RunTest();
-
-        void FM_Trombone_Melody2_Issue_MelodyOverridesEchoTimeDuration_RunTest()
-        {
-            WithDuration(beats[8] + MildEchoTime);
-
-            Play(() => MildEcho(TromboneMelody2, volume: 0.75));
-        }
-        
-        #endregion
 
         [TestMethod]
         public void FM_ElectricNote() => new FMTests().FM_ElectricNote_RunTest();
@@ -440,7 +393,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => Trombone(F1_Sharp, beat[5], volume: _[0.7])
         );
 
-        FluentOutlet TromboneMelody2 => WithName().WithDuration(beats[8]).ParallelAdd
+        internal FluentOutlet TromboneMelody2 => WithName().WithDuration(beats[8]).ParallelAdd
         (
             () => Trombone(E4, beat[3], durationFactor: _[1.4]),
             () => Trombone(C4, beat[7], durationFactor: _[1.4])
@@ -743,7 +696,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        FluentOutlet MildEcho(FluentOutlet sound, double? volume = null)
+        internal FluentOutlet MildEcho(FluentOutlet sound, double? volume = null)
             => AddDuration(MildEchoTime).EchoParallel4Times(sound, volume ?? DefaultVolume, _[0.25], MildEchoDelay);
 
         FluentOutlet DeepEcho(FluentOutlet sound, double? volume = null) 
