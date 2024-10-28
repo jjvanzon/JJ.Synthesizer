@@ -545,7 +545,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Echo(Outlet signal, int count, double magnitude, double delay)
             => Echo(signal, count, _[magnitude], _[delay]);
 
-        public FluentOutlet EchoParallelTimes4(Outlet signal, double volume, Outlet magnitude = default, Outlet delay = default)
+        public FluentOutlet EchoParallel(Outlet signal, double volume, int count = 8, Outlet magnitude = default, Outlet delay = default)
         {
             if (magnitude == null) magnitude = _[0.66];
             if (delay == null) delay = _[0.25];
@@ -553,11 +553,9 @@ namespace JJ.Business.Synthesizer.Wishes
             var cumulativeMagnitude = _[1];
             var cumulativeDelay     = _[0];
 
-            const int count = 4;
-            int i = 0;
-            
             var repeats = new Outlet[count];
 
+            for (int i = 0; i < count; i++)
             {
                 var quieter = signal * cumulativeMagnitude;
                 var shifted = Delay(quieter, cumulativeDelay);
@@ -566,41 +564,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 cumulativeMagnitude *= magnitude;
                 cumulativeDelay += delay;
-
-                i++;
-            }
-            {
-                var quieter = signal * cumulativeMagnitude;
-                var shifted = Delay(quieter, cumulativeDelay);
-
-                repeats[i] = shifted;
-
-                cumulativeMagnitude *= magnitude;
-                cumulativeDelay += delay;
-
-                i++;
-            }
-            {
-                var quieter = signal * cumulativeMagnitude;
-                var shifted = Delay(quieter, cumulativeDelay);
-
-                repeats[i] = shifted;
-
-                cumulativeMagnitude *= magnitude;
-                cumulativeDelay += delay;
-
-                i++;
-            }
-            {
-                var quieter = signal * cumulativeMagnitude;
-                var shifted = Delay(quieter, cumulativeDelay);
-
-                repeats[i] = shifted;
-
-                cumulativeMagnitude *= magnitude;
-                cumulativeDelay += delay;
-
-                i++;
             }
 
             cumulativeDelay -= delay;

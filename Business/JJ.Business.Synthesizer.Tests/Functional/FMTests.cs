@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         internal void FM_Jingle_RunTest()
         {
-            WithAudioLength(bars[8] + 1);
+            WithAudioLength(bars[8]);
             
             Play(() => DeepEcho(Jingle(), 1));
         }
@@ -693,10 +693,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         internal FluentOutlet MildEcho(FluentOutlet sound, double? volume = null)
-            => AddAudioLength(MildEchoTime).EchoParallelTimes4(sound, volume ?? DefaultVolume, _[0.25], MildEchoDelay);
+            => AddAudioLength(MildEchoTime).EchoParallel(sound, volume ?? DefaultVolume, count: 8, magnitude: _[0.25], MildEchoDelay);
 
         FluentOutlet DeepEcho(FluentOutlet sound, double? volume = null) 
-            => AddAudioLength(DeepEchoTime).EchoParallelTimes4(sound, volume ?? DefaultVolume, _[0.5], DeepEchoDelay);
+            => AddAudioLength(DeepEchoTime).EchoParallel(sound, volume ?? DefaultVolume, count: 8, magnitude: _[0.5], DeepEchoDelay);
         
         #endregion
 
