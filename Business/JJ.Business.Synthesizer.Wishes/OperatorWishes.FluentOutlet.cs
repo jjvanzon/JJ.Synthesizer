@@ -50,24 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public Outlet Outlet => _thisOutlet;
 
-        // Value
-        
-        public static explicit operator double(FluentOutlet fluentOutlet) 
-            => fluentOutlet.Value;
-
-        public double Value 
-        {
-            get
-            {
-                double? constant = _thisOutlet.AsConst();
-                if (constant != null) return constant.Value;
-
-                double calculated = _thisOutlet.Calculate(time: 0);
-                return calculated;
-            }
-        }
-
-        // Fluent Configuration
+        // Name
                 
         public FluentOutlet WithName(string name)
         {
@@ -75,18 +58,6 @@ namespace JJ.Business.Synthesizer.Wishes
             
             _thisOutlet.WithName(name);
 
-            return this;
-        }
-        
-        public FluentOutlet WithAudioLength(FluentOutlet newLength)
-        {
-            _synthWishes.WithAudioLength(newLength);
-            return this;
-        }
-
-        public FluentOutlet AddAudioLength(FluentOutlet additionalLength)
-        {
-            _synthWishes.AddAudioLength(additionalLength);
             return this;
         }
 
@@ -302,34 +273,59 @@ namespace JJ.Business.Synthesizer.Wishes
             string text)
             => _thisOutlet * _synthWishes.Curve(x, y, text);
         
-        // Misc Chaining Methods
+                
+        // Value / Calculate
+        
+        public static explicit operator double(FluentOutlet fluentOutlet) 
+            => fluentOutlet.Value;
 
-        public FluentOutlet PlayMono(double volume = default)
+        public double Value 
         {
-            _synthWishes.Channel = ChannelEnum.Single;
-            _synthWishes.Mono().Play(() => _thisOutlet, volume);
-            return this;
-        }
+            get
+            {
+                double? constant = AsConst;
+                if (constant != null) return constant.Value;
 
-        // Delegate to Extension Methods
+                double calculated = Calculate(time: 0);
+                return calculated;
+            }
+        }
 
         public double Calculate(double time, ChannelEnum channelEnum) 
             => _thisOutlet.Calculate(time, channelEnum);
         
         public double Calculate(double time = 0, int channelIndex = 0)  
             => _thisOutlet.Calculate(time, channelIndex);
-
-        public string Stringify(bool singleLine = false)
-            => _thisOutlet.Stringify(singleLine);
-
-        public Result Validate(bool recursive = true)
-            => _thisOutlet.Validate(recursive);
-
-        public void Assert(bool recursive = true)
-            => _thisOutlet.Assert(recursive);
         
-        public IList<string> GetWarnings(bool recursive = true)
-            => _thisOutlet.GetWarnings(recursive);
+        // Stringify
+        
+        public string Stringify(bool singleLine = false) => _thisOutlet.Stringify(singleLine);
+
+        // Validation
+
+        public Result Validate(bool recursive = true) => _thisOutlet.Validate(recursive);
+        public void Assert(bool recursive = true) => _thisOutlet.Assert(recursive);
+        public IList<string> GetWarnings(bool recursive = true) => _thisOutlet.GetWarnings(recursive);
+
+        // Is/As
+        
+        public double? AsConst => _thisOutlet.AsConst();
+        public bool IsConst => _thisOutlet.IsConst();
+        public bool IsVar => _thisOutlet.IsVar();
+        public bool IsAdd => _thisOutlet.IsAdd();
+        public bool IsSubtract => _thisOutlet.IsSubtract();
+        public bool IsMultiply => _thisOutlet.IsMultiply();
+        public bool IsDivide => _thisOutlet.IsDivide();
+        public bool IsPower => _thisOutlet.IsPower();
+        public bool IsSine => _thisOutlet.IsSine();
+        public bool IsDelay => _thisOutlet.IsDelay();
+        public bool IsSkip => _thisOutlet.IsSkip();
+        public bool IsStretch => _thisOutlet.IsStretch();
+        public bool IsSpeedUp => _thisOutlet.IsSpeedUp();
+        public bool IsTimePower => _thisOutlet.IsTimePower();
+        internal bool IsAdder => _thisOutlet.IsAdder();
+
+        // Related Object
 
         public Sample GetSample() => _thisOutlet.GetSample();
 
@@ -338,35 +334,28 @@ namespace JJ.Business.Synthesizer.Wishes
         public Curve GetCurve() => _thisOutlet.GetCurve();
 
         public CurveInWrapper GetCurveWrapper() => _thisOutlet.GetCurveWrapper();
+            
+        // Fluent Configuration
         
-        public double? AsConst => _thisOutlet.AsConst();
-        
-        public bool IsConst => _thisOutlet.IsConst();
-        
-        public bool IsVar => _thisOutlet.IsVar();
-        
-        public bool IsAdd => _thisOutlet.IsAdd();
-        
-        public bool IsSubtract => _thisOutlet.IsSubtract();
-        
-        public bool IsMultiply => _thisOutlet.IsMultiply();
-        
-        public bool IsDivide => _thisOutlet.IsDivide();
-        
-        public bool IsPower => _thisOutlet.IsPower();
-        
-        public bool IsSine => _thisOutlet.IsSine();
-        
-        public bool IsDelay => _thisOutlet.IsDelay();
-        
-        public bool IsSkip => _thisOutlet.IsSkip();
-        
-        public bool IsStretch => _thisOutlet.IsStretch();
-        
-        public bool IsSpeedUp => _thisOutlet.IsSpeedUp();
-        
-        public bool IsTimePower => _thisOutlet.IsTimePower();
-        
-        internal bool IsAdder => _thisOutlet.IsAdder();
+        public FluentOutlet WithAudioLength(FluentOutlet newLength)
+        {
+            _synthWishes.WithAudioLength(newLength);
+            return this;
+        }
+
+        public FluentOutlet AddAudioLength(FluentOutlet additionalLength)
+        {
+            _synthWishes.AddAudioLength(additionalLength);
+            return this;
+        }
+
+        // Misc Chaining Methods
+
+        public FluentOutlet PlayMono(double volume = default)
+        {
+            _synthWishes.Channel = ChannelEnum.Single;
+            _synthWishes.Mono().Play(() => _thisOutlet, volume);
+            return this;
+        }
     }
 }
