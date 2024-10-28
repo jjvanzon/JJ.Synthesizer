@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // TODO: This might be possible more fluently?
             var audioLength = NoteDuration + EchoDelay * (EchoCount - 1);
             
-            WithAudioLength(audioLength).Play(() => Echo(Metallophone(frequency: F4_Sharp)), volume: 0.5);
+            WithAudioLength(audioLength).Play(() => Echo(Metallophone(F4_Sharp)), volume: 0.5);
         }
 
         //FluentOutlet Jingle => Notes
@@ -121,35 +121,27 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet MetallophoneJingle => Add
         (
-            StrikeNote(Metallophone(_[0], A4      ), t[bar: 1, beat: 1.0], _[0.9]),
-            StrikeNote(Metallophone(_[0], E5      ), t[bar: 1, beat: 1.5], _[1.0]),
-            StrikeNote(Metallophone(_[0], B4      ), t[bar: 1, beat: 2.0], _[0.5]),
-            StrikeNote(Metallophone(_[0], C5_Sharp), t[bar: 1, beat: 2.5], _[0.7]),
-            StrikeNote(Metallophone(_[0], F4_Sharp), t[bar: 1, beat: 4.0], _[0.4])
+            StrikeNote(Metallophone(A4      ), t[bar: 1, beat: 1.0], _[0.9]),
+            StrikeNote(Metallophone(E5      ), t[bar: 1, beat: 1.5], _[1.0]),
+            StrikeNote(Metallophone(B4      ), t[bar: 1, beat: 2.0], _[0.5]),
+            StrikeNote(Metallophone(C5_Sharp), t[bar: 1, beat: 2.5], _[0.7]),
+            StrikeNote(Metallophone(F4_Sharp), t[bar: 1, beat: 4.0], _[0.4])
         );
-
-
+        
         /// <inheritdoc cref="_default" />
-        FluentOutlet Metallophone(
-            FluentOutlet delay = default,
-            FluentOutlet frequency = default,
-            FluentOutlet volume = default,
-            FluentOutlet duration = default)
+        FluentOutlet Metallophone(FluentOutlet freq = default)
         {
-            frequency = frequency ?? A4;
-            volume = volume ?? _[1];
-            duration = duration ?? NoteDuration;
+            freq = freq ?? A4;
+            var duration = NoteDuration;
 
-            var sound = Add
+            return Add
             (
-                1.0 * Sine(1 * frequency) * Stretch(SineEnvelope1, duration),
-                0.7 * Sine(2 * frequency) * Stretch(SineEnvelope2, duration),
-                0.4 * Sine(5 * frequency) * Stretch(SineEnvelope3, duration),
-                3.0 * SamplePartial(2 * frequency, duration),
-                5.0 * SamplePartial(7 * frequency, duration)
+                1.0 * Sine(1 * freq) * Stretch(SineEnvelope1, duration),
+                0.7 * Sine(2 * freq) * Stretch(SineEnvelope2, duration),
+                0.4 * Sine(5 * freq) * Stretch(SineEnvelope3, duration),
+                3.0 * SamplePartial(2 * freq, duration),
+                5.0 * SamplePartial(7 * freq, duration)
             );
-
-            return StrikeNote(sound, delay, volume);
         }
 
         FluentOutlet SamplePartial(FluentOutlet frequency, FluentOutlet duration)
