@@ -68,7 +68,7 @@
     <Compile Include="OperatorWishes.Extensions.cs" />
     <Compile Include="CurveWishes.CurveFactory.cs" />
     <Compile Include="Helpers\docs.cs" />
-    <Compile Include="NoteWishes.TimeIndexers.cs" />
+    <Compile Include="SynthWishes.Indexers.cs" />
     <Compile Include="CurveWishes.SynthWishes.cs" />
     <Compile Include="AudioFileWishes.SynthWishes.cs" />
     <Compile Include="AudioFileWishes.Extensions.cs" />
