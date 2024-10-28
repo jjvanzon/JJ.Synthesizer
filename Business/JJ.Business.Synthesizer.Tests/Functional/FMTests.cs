@@ -16,10 +16,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class FMTests : SynthWishes
     {
-        private  int          MildEchoCount   => 5;
+        private  int          MildEchoCount   => 7;
         private  FluentOutlet MildEchoDelay   => _[0.33];
         //internal FluentOutlet MildEchoTime    => MildEchoDelay * (MildEchoCount - 1);
-        private  int          DeepEchoCount   => 5;
+        private  int          DeepEchoCount   => 7;
         private  FluentOutlet DeepEchoDelay   => _[0.5];
         //private  FluentOutlet DeepEchoTime    => DeepEchoDelay * (DeepEchoCount - 1);
         private  FluentOutlet DefaultDuration => _[1];
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         internal void FM_Jingle_RunTest()
         {
-            WithAudioLength(bars[8]);
+            WithAudioLength(bars[8] + 1); // BUG: Without the + 1 the last note is missing.
             
             Play(() => DeepEcho(Jingle(), 1));
         }
