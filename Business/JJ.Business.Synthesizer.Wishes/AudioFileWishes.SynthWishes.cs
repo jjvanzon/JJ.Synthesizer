@@ -21,6 +21,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 // ReSharper disable ForCanBeConvertedToForeach
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable AccessToModifiedClosure
+#pragma warning disable IDE0028
 
 namespace JJ.Business.Synthesizer.Wishes
 {

@@ -1,11 +1,7 @@
-﻿using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Helpers;
+﻿using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 using static JJ.Business.Synthesizer.Tests.Helpers.docs;
-
-// ReSharper disable LocalizableElement
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
@@ -17,14 +13,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         int EchoCount => 4;
         FluentOutlet NoteDuration => _[2.5];
         FluentOutlet EchoDelay => _[0.66];
-        FluentOutlet EchoTime => EchoDelay * (EchoCount - 1);
-         
-    /// <inheritdoc cref="_metallophone" />
-        public AdditiveTests()
-            : base(beat: 0.4, bar: 1.6)
-        {
-            Mono();
-        }
+
+        /// <inheritdoc cref="_metallophone" />
+        public AdditiveTests() : base(beat: 0.4, bar: 1.6) => Mono();
 
         /// <inheritdoc cref="_metallophone"/>
         [TestMethod]
@@ -33,8 +24,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="_metallophone"/>
         public void Additive_Metallophone_Jingle_RunTest()
         {
-            var duration = beat[4] + NoteDuration + EchoTime;
-            WithAudioLength(duration).Play(() => Echo(MetallophoneJingle), volume: 0.3);
+            // TODO: This might be possible more fluently?
+            var audioLength = beat[4] + NoteDuration + EchoDelay * (EchoCount - 1);
+            
+            WithAudioLength(audioLength).Play(() => Echo(MetallophoneJingle), volume: 0.3);
         }
 
         /// <inheritdoc cref="_metallophone"/>
@@ -43,26 +36,22 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_metallophone"/>
         public void Additive_Metallophone_Note_RunTest()
-            => WithAudioLength(NoteDuration + EchoTime).Play(() => Echo(Metallophone(F4_Sharp)));
+        {
+            // TODO: This might be possible more fluently?
+            var audioLength = NoteDuration + EchoDelay * (EchoCount - 1);
+            
+            WithAudioLength(audioLength).Play(() => Echo(Metallophone(F4_Sharp)));
+        }
 
         /// <inheritdoc cref="_metallophone"/>
         FluentOutlet MetallophoneJingle => Add
         (
-            //duration: bars[1], volume: _[0.5],
-            /*() => */Metallophone(t[bar: 1, beat: 1.0], A4      , _[0.9]),
-            /*() => */Metallophone(t[bar: 1, beat: 1.5], E5      , _[1.0]),
-            /*() => */Metallophone(t[bar: 1, beat: 2.0], B4      , _[0.5]),
-            /*() => */Metallophone(t[bar: 1, beat: 2.5], C5_Sharp, _[0.7]),
-            /*() => */Metallophone(t[bar: 1, beat: 4.0], F4_Sharp, _[0.4])
+            Metallophone(t[bar: 1, beat: 1.0], A4      , _[0.9]),
+            Metallophone(t[bar: 1, beat: 1.5], E5      , _[1.0]),
+            Metallophone(t[bar: 1, beat: 2.0], B4      , _[0.5]),
+            Metallophone(t[bar: 1, beat: 2.5], C5_Sharp, _[0.7]),
+            Metallophone(t[bar: 1, beat: 4.0], F4_Sharp, _[0.4])
         );
-
-        bool PreviewPartials { get; set; }
-
-        public AdditiveTests WithPreviewPartials()
-        {
-            PreviewPartials = true;
-            return this;
-        }
 
         /// <inheritdoc cref="_default" />
         FluentOutlet Metallophone(
@@ -73,19 +62,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             frequency = frequency ?? A4;
             volume = volume ?? _[1];
-            
-            if (PreviewPartials) WithPreviewParallels();
+            duration = duration ?? NoteDuration;
 
-            WithAudioLength(duration ?? NoteDuration);
-
-            var sound = ParallelAdd
+            var sound = Add
             (
-                volume: (volume * 0.2).Value,
-                () => 1.0 * Sine(1 * frequency) * Stretch(Sine1Envelope, duration),
-                () => 0.7 * Sine(2 * frequency) * Stretch(Sine2Envelope, duration),
-                () => 0.4 * Sine(5 * frequency) * Stretch(Sine3Envelope, duration),
-                () => 3.0 * SamplePartial(2 * frequency, duration),
-                () => 5.0 * SamplePartial(7 * frequency, duration)
+                1.0 * Sine(1 * frequency) * Stretch(SineEnvelope1, duration),
+                0.7 * Sine(2 * frequency) * Stretch(SineEnvelope2, duration),
+                0.4 * Sine(5 * frequency) * Stretch(SineEnvelope3, duration),
+                3.0 * SamplePartial(2 * frequency, duration),
+                5.0 * SamplePartial(7 * frequency, duration)
             );
 
             return StrikeNote(sound, delay, volume);
@@ -99,7 +84,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="_default" />
-        FluentOutlet Echo(FluentOutlet sound) => Echo(sound, EchoCount, 0.33, EchoDelay);
+        FluentOutlet Echo(FluentOutlet sound) => Echo(sound, EchoCount, magnitude: 0.33, EchoDelay);
 
         FluentOutlet _mySample;
 
@@ -140,7 +125,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Creates a curve representing the volume modulation for the first sine partial.
         /// Starts quietly, peaks at a strong volume, and then fades gradually.
         /// </summary>
-        FluentOutlet Sine1Envelope => WithName().Curve
+        FluentOutlet SineEnvelope1 => WithName().Curve
         (
             0.00, 0.80, 1.00, null, null, null, null, null,
             0.25, null, null, null, null, null, null, null,
@@ -151,7 +136,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Creates a curve for volume modulation of the second sine partial.
         /// Begins with a quick rise, reaches a high peak, and then slightly drops before fading.
         /// </summary>
-        FluentOutlet Sine2Envelope => WithName().Curve
+        FluentOutlet SineEnvelope2 => WithName().Curve
         (
             0.00, 1.00, 0.80, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
@@ -163,7 +148,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// Starts at a moderate volume, dips to a very low level,
         /// and then has a slight resurgence before fading out.
         /// </summary>
-        FluentOutlet Sine3Envelope => WithName().Curve
+        FluentOutlet SineEnvelope3 => WithName().Curve
         (
             0.30, 1.00, 0.30, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
