@@ -62,13 +62,13 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             double totalNanoseconds = timeSpan.TotalMilliseconds * 1000;
     
-            if (timeSpan.TotalDays >= 1) return $"{timeSpan.TotalDays:F2} d";
-            if (timeSpan.TotalHours >= 1) return $"{timeSpan.TotalHours:F2} h";
-            if (timeSpan.TotalMinutes >= 1) return $"{timeSpan.TotalMinutes:F2} min";
-            if (timeSpan.TotalSeconds >= 1) return $"{timeSpan.TotalSeconds:F2} s";
-            if (timeSpan.TotalMilliseconds >= 1) return $"{timeSpan.TotalMilliseconds:F2} ms";
+            if (timeSpan.TotalDays >= 1) return $"{timeSpan.TotalDays:0.00} d";
+            if (timeSpan.TotalHours >= 1) return $"{timeSpan.TotalHours:0.00} h";
+            if (timeSpan.TotalMinutes >= 1) return $"{timeSpan.TotalMinutes:0.00} min";
+            if (timeSpan.TotalSeconds >= 1) return $"{timeSpan.TotalSeconds:0.00} s";
+            if (timeSpan.TotalMilliseconds >= 1) return $"{timeSpan.TotalMilliseconds:0.00} ms";
     
-            return $"{totalNanoseconds:F2} ns";
+            return $"{totalNanoseconds:0.00} ns";
         }
     }
     
