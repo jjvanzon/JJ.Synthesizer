@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(IList<NodeInfo> nodeInfos)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos));
-            string name = UseName() ?? new StackFrame(1).GetMethod().Name;
+            string name = FetchName() ?? new StackFrame(1).GetMethod().Name;
             AssignNames(wrapper, name);
             return _[wrapper];
         }
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos));
-            string name = UseName() ?? new StackFrame(1).GetMethod().Name;
+            string name = FetchName() ?? new StackFrame(1).GetMethod().Name;
             AssignNames(wrapper, name);
             return _[wrapper];
         }
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(params double?[] values)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values));
-            string name = UseName() ?? new StackFrame(1).GetMethod().Name;
+            string name = FetchName() ?? new StackFrame(1).GetMethod().Name;
             AssignNames(wrapper, name);
             return _[wrapper];
         }
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(IList<(double time, double value)> nodeTuples)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples));
-            string name = UseName() ?? new StackFrame(1).GetMethod().Name;
+            string name = FetchName() ?? new StackFrame(1).GetMethod().Name;
             AssignNames(wrapper, name);
             return _[wrapper];
         }
@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples));
-            string name = UseName() ?? new StackFrame(1).GetMethod().Name;
+            string name = FetchName() ?? new StackFrame(1).GetMethod().Name;
             AssignNames(wrapper, name);
             return _[wrapper];
         }
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(string text)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(text));
-            string name = UseName() ?? new StackFrame(1).GetMethod().Name;
+            string name = FetchName() ?? new StackFrame(1).GetMethod().Name;
             AssignNames(wrapper, name);
             return _[wrapper];
         }
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string text)
         {
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, text));
-            string name = UseName() ?? new StackFrame(1).GetMethod().Name;
+            string name = FetchName() ?? new StackFrame(1).GetMethod().Name;
             AssignNames(wrapper, name);
             return _[wrapper];
         }

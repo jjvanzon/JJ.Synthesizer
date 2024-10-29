@@ -66,11 +66,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 
                 case 2:
                     // Simple Add for 2 Operands
-                    return _[_operatorFactory.Add(terms[0], terms[1])].WithName(UseName());
+                    return _[_operatorFactory.Add(terms[0], terms[1])].WithName(FetchName());
                 
                 default:
                     // Make Normal Adder
-                    return _[_operatorFactory.Adder(terms)].WithName(UseName());
+                    return _[_operatorFactory.Adder(terms)].WithName(FetchName());
             }
         }
 
@@ -126,11 +126,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Overloads
 
-        public FluentOutlet Subtract(Outlet a, Outlet b) => _[_operatorFactory.Substract(a, b)].WithName(UseName());
+        public FluentOutlet Subtract(Outlet a, Outlet b) => _[_operatorFactory.Substract(a, b)].WithName(FetchName());
 
-        public FluentOutlet Subtract(Outlet a, double b) => _[_operatorFactory.Substract(a, _[b])].WithName(UseName());
+        public FluentOutlet Subtract(Outlet a, double b) => _[_operatorFactory.Substract(a, _[b])].WithName(FetchName());
 
-        public FluentOutlet Subtract(double a, Outlet b) => _[_operatorFactory.Substract(_[a], b)].WithName(UseName());
+        public FluentOutlet Subtract(double a, Outlet b) => _[_operatorFactory.Substract(_[a], b)].WithName(FetchName());
 
         /// <inheritdoc cref="docs._multiply"/>
         public FluentOutlet Multiply(Outlet a, Outlet b)
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 case 0:
                     // Return identity 1
-                    return _[_[1]].WithName(UseName());
+                    return _[_[1]].WithName(FetchName());
                 
                 case 1:
                     // Return single number
@@ -163,11 +163,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 
                 case 2:
                     // Simple Multiply for 2 Operands
-                    return _[_operatorFactory.Multiply(factors[0], factors[1])].WithName(UseName());
+                    return _[_operatorFactory.Multiply(factors[0], factors[1])].WithName(FetchName());
                 
                 default:
                     // Re-nest remaining factors
-                    return _[NestMultiplications(factors)].WithName(UseName());
+                    return _[NestMultiplications(factors)].WithName(FetchName());
             }
         }
 
@@ -229,41 +229,41 @@ namespace JJ.Business.Synthesizer.Wishes
             return _operatorFactory.Multiply(firstFactor, NestMultiplications(remainingFactors));
         }
         
-        public FluentOutlet Divide(Outlet a, Outlet b) => _[_operatorFactory.Divide(a, b)].WithName(UseName());
+        public FluentOutlet Divide(Outlet a, Outlet b) => _[_operatorFactory.Divide(a, b)].WithName(FetchName());
 
         public FluentOutlet Divide(Outlet a, double b) => Divide(a, _[b]);
         
         public FluentOutlet Divide(double a, Outlet b) => Divide(_[a], b);
 
-        public FluentOutlet Power(Outlet @base, Outlet exponent) => _[_operatorFactory.Power(@base, exponent)].WithName(UseName());
+        public FluentOutlet Power(Outlet @base, Outlet exponent) => _[_operatorFactory.Power(@base, exponent)].WithName(FetchName());
         
         public FluentOutlet Power(Outlet @base, double exponent) => Power(@base, _[exponent]);
 
         public FluentOutlet Power(double @base, Outlet exponent) => Power(_[@base], exponent);
 
         /// <inheritdoc cref="docs._sine" />
-        public FluentOutlet Sine(Outlet pitch = null) => _[_operatorFactory.Sine(_[1], pitch ?? _[1])].WithName(UseName());
+        public FluentOutlet Sine(Outlet pitch = null) => _[_operatorFactory.Sine(_[1], pitch ?? _[1])].WithName(FetchName());
 
         /// <inheritdoc cref="docs._sine" />
         public FluentOutlet Sine(double pitch) => Sine(_[pitch]);
         
-        public FluentOutlet Delay(Outlet signal, Outlet delay) => _[_operatorFactory.TimeAdd(signal, delay ?? _[0])].WithName(UseName());
+        public FluentOutlet Delay(Outlet signal, Outlet delay) => _[_operatorFactory.TimeAdd(signal, delay ?? _[0])].WithName(FetchName());
 
         public FluentOutlet Delay(Outlet signal, double delay) => Delay(signal, _[delay]);
         
-        public FluentOutlet Skip(Outlet signal, Outlet skip) => _[_operatorFactory.TimeSubstract(signal, skip ?? _[1])].WithName(UseName());
+        public FluentOutlet Skip(Outlet signal, Outlet skip) => _[_operatorFactory.TimeSubstract(signal, skip ?? _[1])].WithName(FetchName());
 
         public FluentOutlet Skip(Outlet signal, double skip) => Skip(signal, _[skip]);
         
-        public FluentOutlet Stretch(Outlet signal, Outlet timeScale) => _[_operatorFactory.TimeMultiply(signal, timeScale ?? _[1])].WithName(UseName());
+        public FluentOutlet Stretch(Outlet signal, Outlet timeScale) => _[_operatorFactory.TimeMultiply(signal, timeScale ?? _[1])].WithName(FetchName());
 
         public FluentOutlet Stretch(Outlet signal, double timeScale) => Stretch(signal, _[timeScale]);
 
-        public FluentOutlet SpeedUp(Outlet signal, Outlet factor) => _[_operatorFactory.TimeDivide(signal, factor)].WithName(UseName());
+        public FluentOutlet SpeedUp(Outlet signal, Outlet factor) => _[_operatorFactory.TimeDivide(signal, factor)].WithName(FetchName());
 
         public FluentOutlet SpeedUp(Outlet signal, double factor) => SpeedUp(signal, _[factor]);
 
-        public FluentOutlet TimePower(Outlet signal, Outlet exponent) => _[_operatorFactory.TimePower(signal, exponent)].WithName(UseName());
+        public FluentOutlet TimePower(Outlet signal, Outlet exponent) => _[_operatorFactory.TimePower(signal, exponent)].WithName(FetchName());
 
         public FluentOutlet TimePower(Outlet signal, double exponent) => TimePower(signal, _[exponent]);
         

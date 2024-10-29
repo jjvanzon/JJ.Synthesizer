@@ -9,18 +9,19 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Name
         
-        public string PickedName { get; private set; }
+        public string Name { get; private set; }
 
         public SynthWishes WithName([CallerMemberName] string uglyName = null)
         {
-            PickedName = NameHelper.GetPrettyName(uglyName);
+            if (string.IsNullOrWhiteSpace(uglyName)) return this;
+            Name = NameHelper.GetPrettyName(uglyName);
             return this;
         }
 
-        private string UseName()
+        private string FetchName()
         {
-            var name = PickedName;
-            PickedName = null;
+            var name = Name;
+            Name = null;
             return name;
         }
 

@@ -175,7 +175,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private string[] GetParallelAdd_FileNames(int count)
         {
-            string name = UseName();
+            string name = FetchName();
             string guidString = $"{Guid.NewGuid()}";
 
             var fileNames = new string[count];
@@ -227,7 +227,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             var wrapper = _operatorFactory.Sample(sample);
 
-            string name = UseName();
+            string name = FetchName();
             if (string.IsNullOrWhiteSpace(name))
             {
                 name = GetPrettyName(filePath);
@@ -282,7 +282,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         
                         return SaveAudioBase(
                             new[] { monoOutlet }, 
-                            volume, UseName(), samplingRateOverride, callerMemberName);
+                            volume, FetchName(), samplingRateOverride, callerMemberName);
 
                     case SpeakerSetupEnum.Stereo:
                         Left(); var leftOutlet = func();
@@ -290,7 +290,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         
                         return SaveAudioBase(
                             new[] { leftOutlet, rightOutlet },
-                            volume, UseName(), samplingRateOverride, callerMemberName);
+                            volume, FetchName(), samplingRateOverride, callerMemberName);
                     default:
                         throw new ValueNotSupportedException(SpeakerSetup);
                 }
@@ -336,7 +336,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.FilePath = fileName;
             audioFileOutput.SetSampleDataTypeEnum(BitDepth);
             audioFileOutput.SetAudioFileFormatEnum(AudioFormat);
-            audioFileOutput.Name = UseName() ?? callerMemberName;
+            audioFileOutput.Name = FetchName() ?? callerMemberName;
             
             var samplingRateResult = ResolveSamplingRate(samplingRateOverride);
             audioFileOutput.SamplingRate = samplingRateResult.Data;
@@ -581,7 +581,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (string.IsNullOrWhiteSpace(fileName))
             {
-                fileName = UseName();
+                fileName = FetchName();
             }
 
             if (string.IsNullOrWhiteSpace(fileName))
