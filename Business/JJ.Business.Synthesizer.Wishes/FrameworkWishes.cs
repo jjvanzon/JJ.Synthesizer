@@ -34,29 +34,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return count;
         }
-
-        //public static string PrettyTimeSpan(TimeSpan timeSpan)
-        //{
-        //    if (timeSpan.TotalMilliseconds < 0.0001) return $"{timeSpan.TotalMilliseconds / 1000:F1} ns";
-        //    if (timeSpan.TotalSeconds < 1) return $"{timeSpan.TotalMilliseconds:F1} ms";
-        //    if (timeSpan.TotalMinutes < 1) return $"{timeSpan.TotalSeconds:F1} s";
-        //    if (timeSpan.TotalHours < 1) return $"{timeSpan.TotalMinutes:F1} min";
-        //    if (timeSpan.TotalDays < 1) return $"{timeSpan.TotalHours:F1} h";
-        //    return $"{timeSpan.TotalDays} d";
-        //}
-
-        //public static string PrettyTimeSpan(TimeSpan timeSpan)
-        //{
-        //    double totalNanoseconds = timeSpan.TotalMilliseconds / 1000;
-            
-        //    if (timeSpan.TotalHours > 1) return $"{timeSpan.TotalDays:F2} h";
-        //    if (timeSpan.TotalMinutes > 1) return $"{timeSpan.TotalHours:F2} min";
-        //    if (timeSpan.TotalSeconds > 1) return $"{timeSpan.TotalMinutes:F2} s";
-        //    if (timeSpan.TotalMilliseconds > 1) return $"{timeSpan.TotalSeconds:F2} s";
-        //    if (totalNanoseconds > 1) return $"{timeSpan.TotalMilliseconds:F2} ms";
-
-        //    return $"{totalNanoseconds:F2} ns";
-        //}
         
         public static string PrettyTimeSpan(TimeSpan timeSpan)
         {
