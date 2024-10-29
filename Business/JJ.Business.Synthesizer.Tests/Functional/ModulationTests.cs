@@ -29,19 +29,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest() 
-            => WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle, volume: 0.44));
+            => WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle), volume: 0.6);
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest_Mono() 
-            => Mono().WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle, volume: 0.15));
+            => Mono().WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle), volume: 0.15);
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(DetunicaBass(duration: duration), volume: 0.9));
+            WithAudioLength(duration).Play(() => DeepEcho(DetunicaBass(duration: duration)), volume: 0.9);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica1_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica1(freq: E2, duration: duration), volume: 0.15));
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica1(freq: E2, duration: duration)), volume: 0.15);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica2_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica2(freq: B4, duration: duration), volume: 1));
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica2(freq: B4, duration: duration)), volume: 1);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica3_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica3(freq: C5, duration: duration), volume: 1));
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica3(freq: C5, duration: duration)), volume: 1);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica4_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica4(freq: D5, duration: duration), volume: 0.25));
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica4(freq: D5, duration: duration)), volume: 0.25);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica5_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica5(freq: E5, duration: duration), volume: 0.3));
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica5(freq: E5, duration: duration)), volume: 0.3);
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => Mono().Play(() => MildEcho(VibraphaseChord, volume: 0.22));
+            => Mono().Play(() => MildEcho(VibraphaseChord), volume: 0.22);
 
         /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()
-            => Mono().Play(() => MildEcho(Vibraphase(freq: E5), volume: 0.5));
+            => Mono().Play(() => MildEcho(Vibraphase(freq: E5)), volume: 0.5);
 
         #endregion
 
@@ -177,7 +177,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     detuneDepth: _[1.0],
                     churnRate: Multiply(0.10, DetuneRateCurve2),
                     panning: _[0.4],
-                    panbrello: (_[2.6], _[0.09])), volume: 0.7) / 0.7;
+                    panbrello: (_[2.6], _[0.09])));
 
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica3(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
@@ -371,25 +371,30 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="_echodocs" />
-        //FluentOutlet MildEcho(FluentOutlet sound) => Echo(sound, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
-        FluentOutlet MildEcho(FluentOutlet sound, double volume) => EchoParallel(sound, volume: volume, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
+        FluentOutlet MildEcho(FluentOutlet sound) 
+            => WithName().EchoParallel(sound, volume: 0.33, MildEchoCount, magnitude: _[0.25], MildEchoDelay) / 0.33;
+        //FluentOutlet MildEcho(FluentOutlet sound)
+        //    => Echo(sound, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
 
         /// <inheritdoc cref="_echodocs" />
-        internal FluentOutlet DeepEcho(FluentOutlet sound, double volume)
+        internal FluentOutlet DeepEcho(FluentOutlet sound)
         {
+            WithName();
             switch (Channel)
             {
-                case ChannelEnum.Single: 
-                    return sound.EchoParallel(volume, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL);
-                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) * volume;
+                case ChannelEnum.Single:
+                    return sound.EchoParallel(volume: 0.18, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) / 0.18;
+                    return sound.EchoParallel(volume: 0.20, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) / 0.20;
+                    return sound.EchoParallel(volume: 0.25, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) / 0.25;
+                    return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL);
                 
                 case ChannelEnum.Left:
-                    return sound.EchoParallel(volume, DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL);
-                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL) * volume;
+                    return sound.EchoParallel(volume: 0.5, DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL) / 0.5;
+                    return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL);
                 
                 case ChannelEnum.Right: 
-                    return sound.EchoParallel(volume, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR);
-                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR) * volume;
+                    return sound.EchoParallel(volume: 0.5, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR) / 0.5;
+                    return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR);
                 
                 default: 
                     throw new ValueNotSupportedException(Channel);
