@@ -29,19 +29,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest() 
-            => WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle), volume: 0.45);
+            => WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle, volume: 0.45));
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest_Mono() 
-            => Mono().WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle), volume: 0.15);
+            => Mono().WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle, volume: 0.15));
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(DetunicaBass(duration: duration)), volume: 0.9);
+            WithAudioLength(duration).Play(() => DeepEcho(DetunicaBass(duration: duration), volume: 0.9));
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica1_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica1(freq: E2, duration: duration)), volume: 0.15);
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica1(freq: E2, duration: duration), volume: 0.15));
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica4_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica4(freq: D5, duration: duration)), volume: 0.25);
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica4(freq: D5, duration: duration), volume: 0.25));
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica5_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica5(freq: E5, duration: duration)), volume: 0.3);
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica5(freq: E5, duration: duration), volume: 0.3));
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -374,18 +374,21 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet MildEcho(FluentOutlet sound) => Echo(sound, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
 
         /// <inheritdoc cref="_echodocs" />
-        internal FluentOutlet DeepEcho(FluentOutlet sound)
+        internal FluentOutlet DeepEcho(FluentOutlet sound, double volume = 1)
         {
             switch (Channel)
             {
                 case ChannelEnum.Single: 
-                    return sound.Echo(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL);
+                    return sound.EchoParallel(volume, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL);
+                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) * volume;
                 
                 case ChannelEnum.Left:
-                    return sound.Echo(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL);
+                    return sound.EchoParallel(volume, DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL);
+                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL) * volume;
                 
                 case ChannelEnum.Right: 
-                    return sound.Echo(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR);
+                    return sound.EchoParallel(volume, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR);
+                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR) * volume;
                 
                 default: 
                     throw new ValueNotSupportedException(Channel);

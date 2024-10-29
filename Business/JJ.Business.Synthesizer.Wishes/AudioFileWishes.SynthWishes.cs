@@ -47,6 +47,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet ParallelAdd(double volume, params Func<Outlet>[] funcs)
             => ParallelAdd(volume, (IList<Func<Outlet>>)funcs);
 
+        private object _channelLock = new object();
+        
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(double volume, IList<Func<Outlet>> funcs)
         {
@@ -64,19 +66,32 @@ namespace JJ.Business.Synthesizer.Wishes
             string[] fileNames = GetParallelAdd_FileNames(parallelsCount);
             var reloadedSamples = new Outlet[parallelsCount];
 
+            // TODO: lock () after all?
+            // TODO: Switch the indices: channels first. Makes locking per channel less problematic?
+
             // Get outlets first before going parallel.
             var outlets = new Outlet[parallelsCount][];
-            for (int i = 0; i < parallelsCount; i++)
+
+            lock (_channelLock)
             {
-                outlets[i] = new Outlet[channelCount];
-                
-                for (int j = 0; j < channelCount; j++)
+                ChannelEnum originalChannel = Channel;
+                for (int i = 0; i < parallelsCount; i++)
                 {
-                    // Here's the thread-unsafe part, but the property is handy against parameteritis.
-                    ChannelIndex = j; 
-                    
-                    outlets[i][j] = funcs[i]();
+                    outlets[i] = new Outlet[channelCount];
+
+                    for (int j = 0; j < channelCount; j++)
+                    {
+                        //lock (_channelLock) // Didn't help
+                        //{
+                        // Here's the thread-unsafe part, but the property is handy against parameteritis.
+                        ChannelIndex = j;
+
+                        outlets[i][j] = funcs[i]();
+                        //}
+                    }
                 }
+
+                Channel = originalChannel;
             }
 
             try
