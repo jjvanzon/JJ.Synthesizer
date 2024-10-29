@@ -18,16 +18,5 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
         public void Test_DetunicaBass() => new ModulationTests().DetunicaBass_RunTest();
-    
-        // Parallel Don't Work Yet for Metallophone
-        ///// <inheritdoc cref="_metallophone"/>
-        //[TestMethod]
-        //public void Additive_Metallophone_Jingle_WithPreviewPartials() 
-        //    => new AdditiveTests().WithPreviewPartials().Additive_Metallophone_Jingle_RunTest();
-    
-        ///// <inheritdoc cref="_metallophone"/>
-        //[TestMethod]
-        //public void Additive_Metallophone_Note_WithPreviewPartials() 
-        //    => new AdditiveTests().WithPreviewPartials().Additive_Metallophone_Note_RunTest();
     }
 }
