@@ -422,9 +422,9 @@ namespace JJ.Business.Synthesizer.Wishes
             lines.Add("");
 
             lines.Add($"Calculation time: {PrettyTimeSpan(stopWatch.Elapsed)}");
+            lines.Add("Audio length: " + PrettyTimeSpan(TimeSpan.FromSeconds(audioFileOutput.Duration)));
             lines.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
-            lines.Add("");
-            lines.Add($"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
+            lines.Add($"{speakerSetupEnum}");
             lines.Add("");
 
             if (warnings.Any())
@@ -443,6 +443,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add(channelString);
                 lines.Add("");
             }
+
+            lines.Add($"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
+            lines.Add("");
 
             // Write Lines
             lines.ForEach(Console.WriteLine);
