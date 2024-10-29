@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest() 
-            => WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle, volume: 0.45));
+            => WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle, volume: 0.44));
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
@@ -170,15 +170,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica2(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
             => MildEcho(
-                volume: 1,
-                sound: Detunica(
+                Detunica(
                     delay, freq, volume, duration,
                     vibrato: (_[10], _[0.00020]),
                     tremolo: (_[12], _[0.10]),
                     detuneDepth: _[1.0],
                     churnRate: Multiply(0.10, DetuneRateCurve2),
-                    panning: _[0.4], 
-                    panbrello: (_[2.6], _[0.09])));
+                    panning: _[0.4],
+                    panbrello: (_[2.6], _[0.09])), volume: 0.7) / 0.7;
 
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica3(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
