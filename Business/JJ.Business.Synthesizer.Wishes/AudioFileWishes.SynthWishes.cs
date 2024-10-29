@@ -72,27 +72,30 @@ namespace JJ.Business.Synthesizer.Wishes
             // Get outlets first before going parallel.
             var outlets = new Outlet[parallelsCount][];
 
-            lock (_channelLock)
-            {
-                ChannelEnum originalChannel = Channel;
+            //lock (_channelLock)
+            //{
+            //    ChannelEnum originalChannel = Channel;
                 for (int i = 0; i < parallelsCount; i++)
                 {
                     outlets[i] = new Outlet[channelCount];
 
                     for (int j = 0; j < channelCount; j++)
                     {
-                        //lock (_channelLock) // Didn't help
-                        //{
-                        // Here's the thread-unsafe part, but the property is handy against parameteritis.
-                        ChannelIndex = j;
-
-                        outlets[i][j] = funcs[i]();
-                        //}
+                        lock (_channelLock)
+                        {
+                            ChannelEnum originalChannel = Channel;
+                            
+                            // Here's the thread-unsafe part, but the property is handy against parameteritis.
+                            ChannelIndex = j;
+                            outlets[i][j] = funcs[i]();
+                            
+                            Channel = originalChannel;
+                        }
                     }
                 }
 
-                Channel = originalChannel;
-            }
+            //    Channel = originalChannel;
+            //}
 
             try
             {
