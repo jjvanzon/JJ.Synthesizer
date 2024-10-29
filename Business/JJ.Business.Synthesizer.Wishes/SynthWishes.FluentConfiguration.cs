@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Name
         
-        private string PickedName { get; set; }
+        public string PickedName { get; private set; }
 
         public SynthWishes WithName([CallerMemberName] string uglyName = null)
         {
@@ -57,8 +57,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public ChannelEnum Channel { get; set; }
 
-        public int ChannelIndex => Channel.ToIndex();
-        
+        public int ChannelIndex
+        {
+            get => Channel.ToIndex();
+            set => Channel = value.ToChannelEnum(SpeakerSetup);
+        }
+
         public SynthWishes WithChannel(ChannelEnum channel)
         {
             Channel = channel;

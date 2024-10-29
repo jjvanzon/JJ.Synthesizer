@@ -516,6 +516,24 @@ namespace JJ.Business.Synthesizer.Wishes
             return channel.Index;
         }
 
+        public static ChannelEnum ToChannelEnum(this int channelIndex, SpeakerSetupEnum speakerSetupEnum)
+        {
+            switch (speakerSetupEnum)
+            {
+                case SpeakerSetupEnum.Mono:
+                    if (channelIndex == 0) return ChannelEnum.Single;
+                    break;
+                
+                case SpeakerSetupEnum.Stereo:
+                    if (channelIndex == 0) return ChannelEnum.Left;
+                    if (channelIndex == 1) return ChannelEnum.Right;
+                    break;
+            }
+            
+            throw new NotSupportedException(
+                "Unsupported combination of values: " + new { speakerSetupEnum, channelIndex });
+        }
+
         // SpeakerSetupChannel by ChannelEnum
 
         public static SpeakerSetupChannel TryGetSpeakerSetupChannel(
