@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica2_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica2(freq: B4, duration: duration)));
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica2(freq: B4, duration: duration), volume: 1));
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica3_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica3(freq: C5, duration: duration)));
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica3(freq: C5, duration: duration), volume: 1));
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => Mono().Play(() => MildEcho(VibraphaseChord), volume: 0.22);
+            => Mono().Play(() => MildEcho(VibraphaseChord, volume: 0.22));
 
         /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()
-            => Mono().Play(() => MildEcho(Vibraphase(freq: E5)), volume: 0.5);
+            => Mono().Play(() => MildEcho(Vibraphase(freq: E5), volume: 0.5));
 
         #endregion
 
@@ -170,7 +170,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica2(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
             => MildEcho(
-                Detunica(
+                volume: 1,
+                sound: Detunica(
                     delay, freq, volume, duration,
                     vibrato: (_[10], _[0.00020]),
                     tremolo: (_[12], _[0.10]),
@@ -371,10 +372,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="_echodocs" />
-        FluentOutlet MildEcho(FluentOutlet sound) => Echo(sound, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
+        //FluentOutlet MildEcho(FluentOutlet sound) => Echo(sound, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
+        FluentOutlet MildEcho(FluentOutlet sound, double volume) => EchoParallel(sound, volume: volume, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
 
         /// <inheritdoc cref="_echodocs" />
-        internal FluentOutlet DeepEcho(FluentOutlet sound, double volume = 1)
+        internal FluentOutlet DeepEcho(FluentOutlet sound, double volume)
         {
             switch (Channel)
             {
