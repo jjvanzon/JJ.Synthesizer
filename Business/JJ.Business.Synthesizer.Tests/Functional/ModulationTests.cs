@@ -146,7 +146,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet DetunicaBass(FluentOutlet delay = null, FluentOutlet duration = null) =>
             Panbrello(
                 panbrello: (speed: 2, depth: 0.20),
-                sound: /*WithAudioLength(audioLength + DeepEchoTime).*/Add
+                sound: Add
                 (
                     Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
                     Detunica2(delay, E1, _[0.800], duration),

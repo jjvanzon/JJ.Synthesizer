@@ -192,13 +192,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // Save to file
-            var audioFileOutput1 =
+            AudioFileOutput audioFileOutput1 =
                 WithAudioLength(DURATION).SaveAudio(getSignal, volume: default, samplingRate, callerMemberName).Data;
 
             // Use sample operator
             Outlet getSample()
             {
-                var    outlet = Sample(audioFileOutput1.FilePath);
+                var outlet = Sample(audioFileOutput1.FilePath);
                 Sample sample = outlet.GetSample();
 
                 if (audioFileFormatEnum == Raw)
@@ -212,9 +212,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 return outlet;
             }
-
+            
             // Save to file again
-            var audioFileOutput2 =
+            AudioFileOutput audioFileOutput2 =
                 WithAudioLength(DURATION2).SaveAudio(getSample, volume: default, samplingRate, $"{callerMemberName}_Reloaded").Data;
             
             // Assert AudioFileOutput Entities
