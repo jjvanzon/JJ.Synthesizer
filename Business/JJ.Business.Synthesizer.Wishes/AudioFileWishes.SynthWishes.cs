@@ -51,17 +51,19 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet ParallelAdd(
             double volume, IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
         {
-            if (funcs == null) throw new ArgumentNullException(nameof(funcs));
+            string name = FetchName(callerMemberName);
 
+            if (funcs == null) throw new ArgumentNullException(nameof(funcs));
+            
             if (PreviewParallels)
             {
-                return ParallelAdd_WithPreviewParallels(volume, funcs, callerMemberName);
+                return ParallelAdd_WithPreviewParallels(volume, funcs, name);
             }
 
             // Prep variables
             int termCount = funcs.Count;
             int channelCount = SpeakerSetup.GetChannelCount();
-            string[] fileNames = GetParallelAdd_FileNames(termCount, callerMemberName);
+            string[] fileNames = GetParallelAdd_FileNames(termCount, name);
             var reloadedSamples = new Outlet[termCount];
             var outlets = new Outlet[termCount][];
             for (int i = 0; i < termCount; i++)
@@ -91,7 +93,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         Channel = originalChannel;
                     }
 
-                    SaveAudioBase(outlets[i], fileNames[i], default);
+                    SaveAudioBase(outlets[i], fileNames[i]);
                     
                     Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
                 });
@@ -131,14 +133,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._withpreviewparallels"/>
         private FluentOutlet ParallelAdd_WithPreviewParallels(
-            double volume, IList<Func<Outlet>> funcs, string callerMemberName)
+            double volume, IList<Func<Outlet>> funcs, string name)
         {
             // Arguments already checked in public method
             
             // Prep variables
             int termCount = funcs.Count;
             int channelCount = SpeakerSetup.GetChannelCount();
-            string[] fileNames = GetParallelAdd_FileNames(termCount, callerMemberName);
+            string[] fileNames = GetParallelAdd_FileNames(termCount, name);
             var reloadedSamples = new Outlet[termCount];
             var outlets = new Outlet[termCount][];
             for (int i = 0; i < termCount; i++)
@@ -214,9 +216,9 @@ namespace JJ.Business.Synthesizer.Wishes
             Stream stream, string filePath, double volume, double speedFactor, int bytesToSkip,
             string callerMemberName)
         {
-            if (stream == null) throw new ArgumentNullException(nameof(stream));
-
             string name = FetchName(filePath, callerMemberName);
+            
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
 
             Sample sample = _sampleManager.CreateSample(stream);
             sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude() * volume;
@@ -243,12 +245,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public Result<AudioFileOutput> Play(
             Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
         {
+            string name = FetchName(callerMemberName);
+
             var originalAudioLength = AudioLength;
             try
             {
                 (outletFunc, AudioLength) = AddPadding(outletFunc, AudioLength);
 
-                var saveResult = SaveAudio(outletFunc, callerMemberName);
+                var saveResult = SaveAudio(outletFunc, name);
 
                 var playResult = PlayIfAllowed(saveResult.Data);
 
@@ -279,14 +283,14 @@ namespace JJ.Business.Synthesizer.Wishes
                         Center(); var monoOutlet = func();
                         
                         return SaveAudioBase(
-                            new[] { monoOutlet }, name, callerMemberName);
+                            new[] { monoOutlet }, name);
 
                     case SpeakerSetupEnum.Stereo:
                         Left(); var leftOutlet = func();
                         Right(); var rightOutlet = func();
                         
                         return SaveAudioBase(
-                            new[] { leftOutlet, rightOutlet }, name, callerMemberName);
+                            new[] { leftOutlet, rightOutlet }, name);
                     default:
                         throw new ValueNotSupportedException(SpeakerSetup);
                 }
@@ -298,15 +302,12 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        private Result<AudioFileOutput> SaveAudioBase(
-            IList<Outlet> channelInputs, string fileName, [CallerMemberName] string callerMemberName = null)
+        private Result<AudioFileOutput> SaveAudioBase(IList<Outlet> channelInputs, string name)
         {
             // Process Parameters
             if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
             if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
             if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
-            
-            fileName = ResolveAudioFileName(fileName, AudioFormat, callerMemberName);
             
             int channelCount = channelInputs.Count;
             var speakerSetupEnum = channelCount.ToSpeakerSetupEnum();
@@ -325,10 +326,10 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.Amplifier = BitDepth.GetMaxAmplitude();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = AudioLength.Calculate();
-            audioFileOutput.FilePath = fileName;
+            audioFileOutput.FilePath = FormatAudioFileName(name, AudioFormat);;
             audioFileOutput.SetSampleDataTypeEnum(BitDepth);
             audioFileOutput.SetAudioFileFormatEnum(AudioFormat);
-            audioFileOutput.Name = FetchName() ?? callerMemberName;
+            audioFileOutput.Name = name;
             
             var samplingRateResult = ResolveSamplingRate(SamplingRateOverride);
             audioFileOutput.SamplingRate = samplingRateResult.Data;
@@ -387,7 +388,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var lines = new List<string>();
 
             lines.Add("");
-            lines.Add(GetPrettyTitle(fileName));
+            lines.Add(GetPrettyTitle(name));
             lines.Add("");
 
             string realTimeMessage = FormatRealTimeMessage(AudioLength.Value, stopWatch);
@@ -617,29 +618,22 @@ namespace JJ.Business.Synthesizer.Wishes
             return result;
         }
 
-        private string ResolveAudioFileName(
-            string explicitFileName, 
-            AudioFileFormatEnum audioFileFormatEnum, 
-            string callerMemberName)
+        private string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
         {
-            string fileName = FetchName(callerMemberName, explicitName: explicitFileName);
+            string fileName = Path.GetFileNameWithoutExtension(name);
             string fileExtension = audioFileFormatEnum.GetFileExtension();
-            if (!fileName.EndsWith(fileExtension))
-            {
-                fileName += fileExtension;
-            }
-
+            fileName += fileExtension;
             return fileName;
         }
         
-        private string[] GetParallelAdd_FileNames(int count, string callerMemberName)
+        private string[] GetParallelAdd_FileNames(int count, string name)
         {
-            string name = FetchName(callerMemberName);
             string guidString = $"{Guid.NewGuid()}";
 
             var fileNames = new string[count];
             for (int i = 0; i < count; i++)
             {
+                // TODO: Prepare more outside of loop.
                 string sep = string.IsNullOrWhiteSpace(name) ? default : " ";
                 fileNames[i] = $"{name}{sep}{nameof(ParallelAdd)} (Term {i + 1}) {guidString}.wav";
             }
