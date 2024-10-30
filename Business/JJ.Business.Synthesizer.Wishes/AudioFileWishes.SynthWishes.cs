@@ -175,6 +175,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 reloadedSamples[i] = Sample(fileNames[i]);
 
                 // Save and play to test the sample loading
+                // TODO: This doesn't actuall save the reloaded samples. replace outlets[i] by a repeat of reloaded samples.
                 var saveResult = SaveAudioBase(outlets[i], fileNames[i] + "_Reloaded.wav");
                 PlayIfAllowed(saveResult.Data);
             }
