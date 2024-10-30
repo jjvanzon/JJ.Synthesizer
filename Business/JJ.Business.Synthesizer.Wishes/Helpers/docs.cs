@@ -293,9 +293,10 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// a normal non-parallel <see cref="Add">Add</see> operator,
         /// that will add up all the <see cref="Sample">Samples</see>.<br/>
         /// Please set the volume to something that doesn't make the partials go over the max.<br/>
-        /// You also need to call the fluent WithAudioLength or AddAudioLength to set the buffer size.
+        /// You also need to call the fluent <see cref="SynthWishes.WithAudioLength">WithAudioLength</see>
+        /// or <see cref="SynthWishes.AddAudioLength">AddAudioLength</see> methods to set the buffer size.
         /// </summary>
-        /// <param name="funcs">Lambdas each returning a term for the addition.</param>
+        /// <param name="funcs">Lambdas <c>() => ...</c> each returning a term for the addition.</param>
         /// <returns>
         /// A normal <see cref="Add">Add</see> <see cref="Operator">Operator's</see>
         /// <see cref="Outlet">Outlet</see> (as <see cref="FluentOutlet">FluentOutlet</see>).
@@ -304,5 +305,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         /// <summary> Overrides the default sampling rate from the config file, for testing purposes. </summary>
         public object _samplingrateoverride;
+
+        /// <summary>
+        /// When PreviewParallels is set, ParallelAdd plays the sounds generated in the parallel loop,
+        /// and the samples are reloaded from the files and played again, all for testing purposes.
+        /// Also, doesn't clean up the files. Also for testing purposes.
+        /// </summary>
+        public object _withpreviewparallels;
     }
 }
