@@ -238,10 +238,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Curve Chaining Methods
 
-        /// <summary>
-        /// Paired with an operator, this method creates a curve serving as a volume envelope,
-        /// which makes the operator gets multiplied by the curve for it to serve as the volume.
-        /// </summary>
+        /// <inheritdoc cref="_curvewithoperator"/>
         public FluentOutlet Curve(Outlet curve)
             => _thisOutlet * _synthWishes._[curve];
 
@@ -251,12 +248,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
             => _thisOutlet * _synthWishes.Curve(nodeInfos);
 
-        /// <inheritdoc cref="CurveFactory.CreateCurve(double, double?[])" />
         /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(string name, params double?[] values)
             => _thisOutlet * _synthWishes.Curve(values);
 
-        /// <inheritdoc cref="CurveFactory.CreateCurve(double, double?[])" />
         /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(params double?[] values)
             => _thisOutlet * _synthWishes.Curve(values);
@@ -335,32 +330,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Related Object
 
-        /// <summary>
-        /// If this is a sample operator, this will return the underlying Sample entity,
-        /// with configuration, byte array, etc. If it's not a sample operator,
-        /// it will throw an exception.
-        /// </summary>
+        /// <inheritdoc cref="docs._getsample" />
         public Sample GetSample() => _thisOutlet.GetSample();
 
-        /// <summary>
-        /// If this is a sample operator, this will return a sample operator wrapper,
-        /// which serves as a helper for retrieving specifics from the underlying Operator
-        /// and Sample entities.
-        /// </summary>
+        /// <inheritdoc cref="docs._getsamplewrapper" />
         public SampleOperatorWrapper GetSampleWrapper() => _thisOutlet.GetSampleWrapper();
 
-        /// <summary>
-        /// If this is a curve operator, this will return the underlying Curve entity,
-        /// that contains specifics about the nodes and how they are connected.
-        /// If it's called on something that isn't a Curve, an exception will be thrown.
-        /// </summary>
+        /// <inheritdoc cref="docs._getcurve" />"/>
         public Curve GetCurve() => _thisOutlet.GetCurve();
 
-        /// <summary>
-        /// If this is a sample operator, this will return a curve operator wrapper,
-        /// which serves as a helper for retrieving specifics from the underlying Operator
-        /// and Curve entities.
-        /// </summary>
+        /// <inheritdoc cref="docs._getcurvewrapper"/>
         public CurveInWrapper GetCurveWrapper() => _thisOutlet.GetCurveWrapper();
             
         // Fluent Configuration

@@ -16,40 +16,6 @@ using static JJ.Business.Synthesizer.PersistenceHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    //public static class MissingChannelEnumExtensionWishes
-    //{
-    //    public static ChannelEnum GetChannelEnum(this SpeakerSetupChannel entity)
-    //    {
-    //        if (entity == null) throw new ArgumentNullException(nameof(entity));
-    //        if (entity.Channel == null) return ChannelEnum.Undefined;
-    //        return (ChannelEnum)entity.Channel.ID;
-    //    }
-
-    //    public static void SetChannelEnum(
-    //        this SpeakerSetupChannel entity, ChannelEnum channelEnum, IChannelRepository channelRepository)
-    //    {
-    //        if (channelRepository == null) throw new NullException(() => channelRepository);
-    //        entity.Channel = channelRepository.Get((int)channelEnum);
-    //    }
-
-    //    public static SpeakerSetupEnum GetSpeakerSetupEnum(this SpeakerSetupChannel entity)
-    //    {
-    //        if (entity == null) throw new ArgumentNullException(nameof(entity));
-    //        if (entity.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
-    //        return (SpeakerSetupEnum)entity.SpeakerSetup.ID;
-    //    }
-
-    //    public static SpeakerSetupEnum SetSpeakerSetupEnum(
-    //        this SpeakerSetupChannel entity, 
-    //        SpeakerSetupEnum speakerSetupEnum, 
-    //        ISpeakerSetupRepository speakerSetupRepository)
-    //    {
-    //        if (entity == null) throw new ArgumentNullException(nameof(entity));
-    //        entity.SpeakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
-    //        return (SpeakerSetupEnum)entity.SpeakerSetup.ID;
-    //    }
-    //}
-
     public static class EntityToEnumWishes
     {
         public static AudioFileFormatEnum ToEnum(this AudioFileFormat enumEntity)
@@ -128,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    /// <summary> With optional Context. </summary>
+    /// <inheritdoc cref="docs._setenumwishes"/>
     public static class SetEnumWishes
     {
         // AudioFileOutput
@@ -180,25 +146,9 @@ namespace JJ.Business.Synthesizer.Wishes
             var repository = CreateRepository<ISpeakerSetupRepository>(context);
             entity.SetSpeakerSetupEnum(enumValue, repository);
         }
-
-        //// SpeakerSetupChannel
-
-        //public static void SetChannelEnum(
-        //    this SpeakerSetupChannel entity, ChannelEnum enumValue, IContext context = null)
-        //{
-        //    var repository = CreateRepository<IChannelRepository>(context);
-        //    entity.SetChannelEnum(enumValue, repository);
-        //}
-
-        //public static void SetSpeakerSetupEnum(
-        //    this SpeakerSetupChannel entity, SpeakerSetupEnum enumValue, IContext context = null)
-        //{
-        //    var repository = CreateRepository<ISpeakerSetupRepository>(context);
-        //    entity.SetSpeakerSetupEnum(enumValue, repository);
-        //}
     }
 
-    /// <summary> Additional entity entry-points for enum-related extension. </summary>
+    /// <inheritdoc cref="docs._alternativeentrypointenumextensionwishes"/>
     public static class AlternativeEntryPointEnumExtensionWishes
     {
         // AudioFileOutputChannel.AudioFileFormat
@@ -630,16 +580,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // SetNodeTypeEnum for whole Curve
 
-        /// <summary>
-        /// Sets the node type (the type of interpolation) for a curve as a whole.
-        /// This sets the node type of all the curve nodes.
-        /// </summary>
+        /// <inheritdoc cref="docs._setnodetype"/>
         public static void SetNodeType(this Curve curve, NodeType nodeType)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
             curve.Nodes.ForEach(x => x.NodeType = nodeType);
         }
 
+        /// <inheritdoc cref="docs._setnodetype"/>
         public static void SetNodeTypeEnum(this Curve curve, NodeTypeEnum nodeTypeEnum, IContext context = null)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
@@ -647,11 +595,7 @@ namespace JJ.Business.Synthesizer.Wishes
             curve.Nodes.ForEach(x => x.SetNodeTypeEnum(nodeTypeEnum, nodeTypeRepository));
         }
 
-        /// <summary>
-        /// Gets the node type (the type of interpolation) for a curve as a whole.
-        /// This only works if all (but the last) node are set to the same node type.
-        /// Otherwise, NodeTypeEnum.Undefined is returned.
-        /// </summary>
+        /// <inheritdoc cref="docs._trygetnodetype"/>
         public static NodeType TryGetNodeType(this Curve curve)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
@@ -670,6 +614,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
+        /// <inheritdoc cref="docs._trygetnodetype"/>
         public static NodeTypeEnum TryGetNodeTypeEnum(this Curve curve)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));

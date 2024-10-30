@@ -12,6 +12,103 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     internal struct docs
     {
+        /// <summary>
+        /// Adds two <see cref="Outlet"/> operands, optimizing for constant values if possible.
+        /// </summary>
+        public object _add;
+
+        /// <summary>
+        /// Additional entity entry-points for enum-related extension.
+        /// </summary>
+        public object _alternativeentrypointenumextensionwishes;
+            
+        /// <summary>
+        /// Tries getting a constant value from an operator or outlet.
+        /// If it is dynamic, so no constant value, null is returned.
+        /// </summary>
+        public object _asconst;
+
+        /// <summary>
+        /// Replacement Wish version of AudioFileInfo with more intuitive member names.
+        /// </summary>
+        public object _audiofileinfowish;
+
+        /// <summary>
+        /// Returns the time in seconds of the start of a bar.
+        /// </summary>
+        public object _barindexer;
+
+        /// <summary>
+        /// Returns duration of a number of bars in seconds.
+        /// </summary>
+        public object _barsindexer;
+
+        /// <summary>
+        /// Returns the start time of a beat in seconds.
+        /// </summary>
+        public object _beatindexer;
+        
+        /// <summary>
+        /// Returns duration of a number of beats in seconds.
+        /// </summary>
+        public object _beatsindexer;
+            
+        /// <summary>
+        /// Colloquially called the "capture" operator.
+        /// Allows capturing double values into the synthesizer,
+        /// and can be used to start fluent notation / method chaining.
+        /// Double values can be captured as follows: <c>_[440]</c>
+        /// It wraps a literal number inside a Value <see cref="Operator"/>, 
+        /// so that can always be substituted by a whole formula /
+        /// graph / calculation / curve that varies over time for added flexibility.
+        /// Here is an example of using it to start fluent notation / method chaining:
+        /// <c>_[freq].Sine.Multiply(2)</c>
+        /// Sometimes capturing goes automatically, so only use it, if it otherwise won't take it.
+        /// </summary>
+        /// <returns>
+        /// <see cref="FluentOutlet"/> also usable as an <see cref="Outlet"/>.
+        /// or as a fluent notation starter <see cref="FluentOutlet"/>.
+        /// </returns>
+        public object _captureindexer;
+
+        /// <param name="curveFactory">
+        /// The factory used to create the <see cref="Curve" />
+        /// </param>
+        /// <param name="nodeTuples">
+        /// A list of tuples representing the nodes,
+        /// where each tuple contains the x and y coordinates of a node.
+        /// </param>
+        /// <param name="values">
+        /// When a value is null, a node will not be created at that point in time.
+        /// </param>
+        /// <returns> A curve populated with the specified data. </returns>
+        public object _createcurve;
+
+        /// <summary>
+        /// Create a Curve from a list of strings, that 'ASCII-encode' the curve. Putting the strings under each other, they create
+        /// a block of space with time on the horizontal axis and values on the vertical axis. The background character is usually
+        /// just a space character, but any other background character is possible and automatically recognized. Any character
+        /// other than the background character is seen as a data point. That way you can creatively choose your own characters.
+        /// White space is trimmed off of the top, bottom, left and right, leaving only the block of characters that contains data.
+        /// <br />
+        /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
+        /// </summary>
+        /// <inheritdoc cref="_createcurve" />
+        public object _createcurvefromstring;
+
+        /// <summary>
+        /// Create a curve from a list of tuples like (0, 0), (0.1, 0.2), (0.2, 1.0).<br />
+        /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
+        /// </summary>
+        /// <inheritdoc cref="_createcurve" />
+        public object _createcurvewithtuples;
+
+        /// <summary>
+        /// Paired with an operator, this method creates a curve serving as a volume envelope,
+        /// which makes the operator gets multiplied by the curve for it to serve as the volume.
+        /// </summary>
+        public object _curvewithoperator;
+        
         /// <param name="freq"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
         /// <param name="frequency"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
         /// <param name="delay"> The time delay in seconds before the sound starts (default is 0). </param>
@@ -48,70 +145,97 @@ namespace JJ.Business.Synthesizer.Wishes
         public object _default;
 
         /// <summary>
-        /// Applies vibrato modulation to a given frequency by modulating it with a sine wave.<br />
-        /// NOTE: Due to the lack of phase tracking, the vibrato depth tends to accumulate over time.
+        /// Applies an echo effect using a feedback loop.
+        /// The goal is to make it more efficient than an additive approach by reusing double echoes 
+        /// to generate quadruple echoes, so 4 echoes take 2 iterations, and 8 echoes take 3 iterations.
+        /// However, since values from the same formula are not yet reused within the final calculation,
+        /// this optimization is currently ineffective. Future versions may improve on this.
+        /// Keeping it in here just to have an optimization option for later.
         /// </summary>
-        /// <param name="freq"> The base frequency to which vibrato will be applied. </param>
-        /// <returns> An <see cref="Outlet" /> object representing the frequency modulated with vibrato. </returns>
-        /// <inheritdoc cref="_default" />
-        public object _vibrato;
-
-        /// <summary> Apply _tremolo by modulating amplitude over time using an oscillator. </summary>
-        /// <inheritdoc cref="_default" />
-        public object _tremolo;
+        public object _echofeedback;
 
         /// <summary>
-        /// Create a Curve from a list of strings, that 'ASCII-encode' the curve. Putting the strings under each other, they create
-        /// a block of space with time on the horizontal axis and values on the vertical axis. The background character is usually
-        /// just a space character, but any other background character is possible and automatically recognized. Any character
-        /// other than the background character is seen as a data point. That way you can creatively choose your own characters.
-        /// White space is trimmed off of the top, bottom, left and right, leaving only the block of characters that contains data.
-        /// <br />
-        /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
+        /// Gets the name chose by the user with the WithName method and then resets it to null
+        /// after it retrieves it. If nothing was in it, it uses the fallback name supplied.
+        /// Also, if an explicitName is passed, it will override all the other options.
         /// </summary>
-        /// <inheritdoc cref="_createcurve" />
-        public object _createcurvefromstring;
+        public object _fetchname;
+            
+        /// <summary>
+        /// Alternative entry point (Operator) Outlet (used in tests).
+        /// </summary>
+        public object _flattenfactorswithmultiplyoutlet;
 
         /// <summary>
-        /// Create a curve from a list of tuples like (0, 0), (0.1, 0.2), (0.2, 1.0).<br />
-        /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
+        /// Alternative entry point (Operator) Outlet (used in tests).
         /// </summary>
-        /// <inheritdoc cref="_createcurve" />
-        public object _createcurvewithtuples;
+        public object _flattentermswithsumoradd;
+            
+        /// <summary>
+        /// If this is a curve operator, this will return the underlying Curve entity,
+        /// that contains specifics about the nodes and how they are connected.
+        /// If it's called on something that isn't a Curve, an exception will be thrown.
+        /// </summary>
+        public object _getcurve;
 
         /// <summary>
-        /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter about caching.
+        /// If this is a sample operator, this will return a curve operator wrapper,
+        /// which serves as a helper for retrieving specifics from the underlying Operator
+        /// and Curve entities.
         /// </summary>
-        /// <param name="curveFactory"> The factory used to create the <see cref="Curve" />. </param>
-        /// <param name="nodeTuples">
-        /// A list of tuples representing the nodes,
-        /// where each tuple contains the x and y coordinates of a node.
-        /// </param>
-        /// <param name="key">
-        /// The cache key for the curve.
-        /// Using the same key for two different curves won't work.
-        /// If you don't specify a key yourself, the calling member's name may be used.
-        /// If no key at all can be resolved, an exception is thrown.
-        /// </param>
-        /// <returns> A curve populated with the specified data. </returns>
-        public object _createcurve;
-
-        /// <summary>
-        /// Tries getting a constant value from an operator or outlet.
-        /// If it is dynamic, so no constant value, null is returned.
-        /// </summary>
-        public object _asconst;
+        public object _getcurvewrapper;
         
         /// <summary>
-        /// Generates a sine wave signal with the specified pitch.<br />
-        /// Simpler variation on the one in the original OperatorFactory
-        /// with pitch as the first and only parameter.
+        /// If this is a sample operator, this will return the underlying Sample entity,
+        /// with configuration, byte array, etc. If it's not a sample operator,
+        /// it will throw an exception.
         /// </summary>
-        /// <param name="pitch"> The frequency in Hz of the sine wave. Defaults to 1 Hz.</param>
-        /// <returns> An <see cref="Outlet" /> representing the sine wave signal. </returns>
-        /// <inheritdoc cref="_default" />
-        public object _sine;
+        public object _getsample;
+
+        /// <summary>
+        /// If this is a sample operator, this will return a sample operator wrapper,
+        /// which serves as a helper for retrieving specifics from the underlying Operator
+        /// and Sample entities.
+        /// </summary>
+        public object _getsamplewrapper;
+            
+        /// <summary>
+        /// Retrieves the file extension associated with the specified audio file.
+        /// </summary>
+        /// <param name="enumValue">The audio file format enumeration value.</param>
+        /// <returns>
+        /// The file extension corresponding to the provided audio file format.
+        /// A period (.) is included.
+        /// </returns>
+        public object _fileextension;
+
+        /// <summary>
+        /// A.k.a. SampleCount
+        /// </summary>
+        public object _framecount;
         
+        /// <returns>
+        /// Length of a file header in bytes.
+        /// </returns>
+        public object _headerLength;
+
+        /// <summary>
+        /// Multiplies two <see cref="Outlet"/> operands, optimizing for constant values if possible.
+        /// </summary>
+        public object _multiply;
+
+        /// <summary>
+        /// Extensions that are wishes for the back-end related to the Operator entity.
+        /// </summary>
+        public object _operatorextensionwishes;
+        
+        /// <summary>
+        /// Applies a panbrello effect to a stereo signal by modulating the panning
+        /// with a sine wave based on the specified speed and depth.
+        /// </summary>
+        /// <inheritdoc cref="_default" />
+        public object _panbrello;
+
         /// <summary>
         /// Applies panning to a stereo signal by adjusting the left and right
         /// channel volumes based on the specified panning value.
@@ -126,12 +250,25 @@ namespace JJ.Business.Synthesizer.Wishes
         public object _panning;
 
         /// <summary>
-        /// Applies a panbrello effect to a stereo signal by modulating the panning
-        /// with a sine wave based on the specified speed and depth.
+        /// Performs an addition in parallel to improve performance.<br/>
+        /// It uses a trick to make use of existing functions.<br/>
+        /// It saves each term to an audio file.<br/>
+        /// Then it reloads each using a
+        /// <see cref="Sample">Sample</see><see cref="Operator">Operator</see>.<br/>
+        /// Then <see cref="ParallelAdd">ParallelAdd</see> returns
+        /// a normal non-parallel <see cref="Add">Add</see> operator,
+        /// that will add up all the <see cref="Sample">Samples</see>.<br/>
+        /// Please set the volume to something that doesn't make the partials go over the max.<br/>
+        /// You also need to call the fluent <see cref="SynthWishes.WithAudioLength">WithAudioLength</see>
+        /// or <see cref="SynthWishes.AddAudioLength">AddAudioLength</see> methods to set the buffer size.
         /// </summary>
-        /// <inheritdoc cref="_default" />
-        public object _panbrello;
-        
+        /// <param name="funcs">Lambdas <c>() => ...</c> each returning a term for the addition.</param>
+        /// <returns>
+        /// A normal <see cref="Add">Add</see> <see cref="Operator">Operator's</see>
+        /// <see cref="Outlet">Outlet</see> (as <see cref="FluentOutlet">FluentOutlet</see>).
+        /// </returns>
+        public object _paralleladd;
+
         /// <summary>
         /// Returns a panning based on the pitch,
         /// to spread different notes across a stereo field.
@@ -159,22 +296,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public object _pitchpan;
 
         /// <summary>
-        /// Colloquially called the "capture" operator.
-        /// Allows capturing double values into the synthesizer,
-        /// and can be used to start fluent notation / method chaining.
-        /// Double values can be captured as follows: <c>_[440]</c>
-        /// It wraps a literal number inside a Value <see cref="Operator"/>, 
-        /// so that can always be substituted by a whole formula /
-        /// graph / calculation / curve that varies over time for added flexibility.
-        /// Here is an example of using it to start fluent notation / method chaining:
-        /// <c>_[freq].Sine.Multiply(2)</c>
-        /// Sometimes capturing goes automatically, so only use it, if it otherwise won't take it.
+        /// Creates a Sample by reading the file at the given <paramref name="filePath" /> or Stream or Byte array.
         /// </summary>
-        /// <returns>
-        /// <see cref="FluentOutlet"/> also usable as an <see cref="Outlet"/>.
-        /// or as a fluent notation starter <see cref="FluentOutlet"/>.
-        /// </returns>
-        public object _captureindexer;
+        /// <param name="filePath"> The file path of the audio sample to load. </param>
+        /// <returns> <see cref="SampleOperatorWrapper" />  that can be used as an <see cref="Outlet" /> too. </returns>
+        public object _sample;
+
+        /// <summary>
+        /// Overrides the default sampling rate from the config file, for testing purposes.
+        /// </summary>
+        public object _samplingrateoverride;
 
         /// <summary>
         /// Outputs audio to a WAV file and plays it if needed.<br />
@@ -230,25 +361,15 @@ namespace JJ.Business.Synthesizer.Wishes
         /// containing resultant data, like the file path and validation messages (warnings).
         /// </returns>
         public object _saveorplay;
-    
+
+        /// <summary> With optional Context. </summary>
+        public object _setenumwishes;
+
         /// <summary>
-        /// Retrieves the file extension associated with the specified audio file.
+        /// Sets the node type (the type of interpolation) for a curve as a whole.
+        /// This sets the node type of all the curve nodes at once.
         /// </summary>
-        /// <param name="enumValue">The audio file format enumeration value.</param>
-        /// <returns>
-        /// The file extension corresponding to the provided audio file format.
-        /// A period (.) is included.
-        /// </returns>
-        public object _fileextension;
-
-        /// <returns> Length of a file header in bytes. </returns>
-        public object _headerLength;
-
-        /// <summary> Adds two <see cref="Outlet"/> operands, optimizing for constant values if possible. </summary>
-        public object _add;
-
-        /// <summary> Multiplies two <see cref="Outlet"/> operands, optimizing for constant values if possible. </summary>
-        public object _multiply;
+        public object _setnodetype;
 
         /// <summary>
         /// Sets the speaker setup for the specified <see cref="AudioFileOutput"/>.
@@ -266,11 +387,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public object _setspeakersetup_withsideeffects;
 
         /// <summary>
-        /// Creates a Sample by reading the file at the given <paramref name="filePath" /> or Stream or Byte array.
+        /// Generates a sine wave signal with the specified pitch.<br />
+        /// Simpler variation on the one in the original OperatorFactory
+        /// with pitch as the first and only parameter.
         /// </summary>
-        /// <param name="filePath"> The file path of the audio sample to load. </param>
-        /// <returns> <see cref="SampleOperatorWrapper" />  that can be used as an <see cref="Outlet" /> too. </returns>
-        public object _sample;
+        /// <param name="pitch"> The frequency in Hz of the sine wave. Defaults to 1 Hz.</param>
+        /// <returns> An <see cref="Outlet" /> representing the sine wave signal. </returns>
+        /// <inheritdoc cref="_default" />
+        public object _sine;
 
         /// <summary>
         /// Turns an <see cref="Operator"/> graph into a string,
@@ -281,31 +405,40 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         public object _stringify;
 
-        /// <returns> <see cref="ValueWrapper"/> which can also be used as an Outlet or a <see langword="double"/>. </returns>
+        /// <summary>
+        /// This TimeIndexer provides shorthand for specifying bar and beat in a musical sense.
+        /// Access by bar and beat to get time-based value.
+        /// Example usage: t[bar: 2, beat: 1.5] will return the number of seconds.
+        /// The numbers are 1-based, so the first bar is bar 1, the first beat is beat 1.
+        /// </summary>
         public object _timeindexer;
 
-        /// <summary>
-        /// Performs an addition in parallel to improve performance.<br/>
-        /// It uses a trick to make use of existing functions.<br/>
-        /// It saves each term to an audio file.<br/>
-        /// Then it reloads each using a
-        /// <see cref="Sample">Sample</see><see cref="Operator">Operator</see>.<br/>
-        /// Then <see cref="ParallelAdd">ParallelAdd</see> returns
-        /// a normal non-parallel <see cref="Add">Add</see> operator,
-        /// that will add up all the <see cref="Sample">Samples</see>.<br/>
-        /// Please set the volume to something that doesn't make the partials go over the max.<br/>
-        /// You also need to call the fluent <see cref="SynthWishes.WithAudioLength">WithAudioLength</see>
-        /// or <see cref="SynthWishes.AddAudioLength">AddAudioLength</see> methods to set the buffer size.
-        /// </summary>
-        /// <param name="funcs">Lambdas <c>() => ...</c> each returning a term for the addition.</param>
-        /// <returns>
-        /// A normal <see cref="Add">Add</see> <see cref="Operator">Operator's</see>
-        /// <see cref="Outlet">Outlet</see> (as <see cref="FluentOutlet">FluentOutlet</see>).
-        /// </returns>
-        public object _paralleladd;
+        /// <summary> Apply _tremolo by modulating amplitude over time using an oscillator. </summary>
+        /// <inheritdoc cref="_default" />
+        public object _tremolo;
 
-        /// <summary> Overrides the default sampling rate from the config file, for testing purposes. </summary>
-        public object _samplingrateoverride;
+        /// <summary>
+        /// Prep Data: Split into unique lines and determine the window where there are characters.
+        /// White space is trimmed off of the top, bottom, left and right,
+        /// leaving only the block of characters that contains data.
+        /// </summary>
+        public object _trimasciicurves;
+
+        /// <summary>
+        /// Gets the node type (the type of interpolation) for a curve as a whole.
+        /// This only works if all (but the last) node are set to the same node type.
+        /// Otherwise, NodeTypeEnum.Undefined is returned.
+        /// </summary>
+        public object _trygetnodetype;
+        
+        /// <summary>
+        /// Applies vibrato modulation to a given frequency by modulating it with a sine wave.<br />
+        /// NOTE: Due to the lack of phase tracking, the vibrato depth tends to accumulate over time.
+        /// </summary>
+        /// <param name="freq"> The base frequency to which vibrato will be applied. </param>
+        /// <returns> An <see cref="Outlet" /> object representing the frequency modulated with vibrato. </returns>
+        /// <inheritdoc cref="_default" />
+        public object _vibrato;
 
         /// <summary>
         /// When PreviewParallels is set, ParallelAdd plays the sounds generated in the parallel loop,

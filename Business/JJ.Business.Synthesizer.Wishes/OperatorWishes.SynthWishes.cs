@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._add"/>
         public FluentOutlet Add(double a, Outlet b) => Add(_[a], b);
 
-        /// <summary> Alternative entry point (Operator) Outlet (used in tests). </summary>
+        /// <inheritdoc cref="docs._flattentermswithsumoradd"/>
         [UsedImplicitly]
         private IList<Outlet> FlattenTerms(Outlet sumOrAdd)
         {
@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._multiply"/>
         public FluentOutlet Multiply(double a, Outlet b) => Multiply(_[a], b);
 
-        /// <summary> Alternative entry point (Operator) Outlet (used in tests). </summary>
+        /// <inheritdoc cref="docs._flattenfactorswithmultiplyoutlet"/>
         [UsedImplicitly]
         public IList<Outlet> FlattenFactors(Outlet multiplyOutlet)
         {
@@ -428,6 +428,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Panning(sound, zeroToOne, channel);
         }
 
+        /// <inheritdoc cref="docs._panbrello" />
         public FluentOutlet Panbrello(
             Outlet sound, (Outlet speed, double depth) panbrello, ChannelEnum channel = default)
         {
@@ -437,6 +438,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Panbrello(sound, panbrello2, channel);
         }
 
+        /// <inheritdoc cref="docs._panbrello" />
         public FluentOutlet Panbrello(
             Outlet sound, (double speed, Outlet depth) panbrello, ChannelEnum channel = default)
         {
@@ -446,6 +448,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Panbrello(sound, panbrello2, channel);
         }
 
+        /// <inheritdoc cref="docs._panbrello" />
         public FluentOutlet Panbrello(
             Outlet sound, (double speed, double depth) panbrello, ChannelEnum channel = default)
         {
@@ -529,6 +532,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return newPanning;
         }
 
+        /// <inheritdoc cref="docs._pitchpan" />
         public Outlet PitchPan(
             Outlet actualFrequency, double centerFrequency,
             double referenceFrequency, double referencePanning)
@@ -621,14 +625,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet EchoAdditive(Outlet signal, int count, double magnitude, double delay)
             => EchoAdditive(signal, count, _[magnitude], _[delay]);
         
-        /// <summary>
-        /// Applies an echo effect using a feedback loop.
-        /// The goal is to make it more efficient than an additive approach by reusing double echoes 
-        /// to generate quadruple echoes, so 4 echoes take 2 iterations, and 8 echoes take 3 iterations.
-        /// However, since values from the same formula are not yet reused within the final calculation,
-        /// this optimization is currently ineffective. Future versions may improve on this.
-        /// Keeping it in here just to have an optimization option for later.
-        /// </summary>
+        /// <inheritdoc cref="docs._echofeedback"/>
         public FluentOutlet EchoFeedBack(
             Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default)
         {
@@ -659,12 +656,15 @@ namespace JJ.Business.Synthesizer.Wishes
             return _[cumulativeSignal];
         }
 
+        /// <inheritdoc cref="docs._echofeedback"/>
         public FluentOutlet EchoFeedBack(Outlet signal, int count, Outlet magnitude, double delay)
             => EchoFeedBack(signal, count, magnitude, _[delay]);
 
+        /// <inheritdoc cref="docs._echofeedback"/>
         public FluentOutlet EchoFeedBack(Outlet signal, int count, double magnitude, Outlet delay = default)
             => EchoFeedBack(signal, count, _[magnitude], delay);
         
+        /// <inheritdoc cref="docs._echofeedback"/>
         public FluentOutlet EchoFeedBack(Outlet signal, int count, double magnitude, double delay)
             => EchoFeedBack(signal, count, _[magnitude], _[delay]);
                     

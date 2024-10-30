@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 
@@ -85,18 +84,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return curveFactory.CreateCurve(nodes);
         }
 
-        /// <summary>
-        /// Prep Data: Split into unique lines and determine the window where there are characters.
-        /// White space is trimmed off of the top, bottom, left and right,
-        /// leaving only the block of characters that contains data.
-        /// </summary>
+        /// <inheritdoc cref="docs._trimasciicurves" />
         private static IList<string> TrimAsciiCurve(string text) => TrimAsciiCurve(new [] { text });
 
-        /// <summary>
-        /// Prep Data: Split into unique lines and determine the window where there are characters.
-        /// White space is trimmed off of the top, bottom, left and right,
-        /// leaving only the block of characters that contains data.
-        /// </summary>
+        /// <inheritdoc cref="docs._trimasciicurves" />
         private static IList<string> TrimAsciiCurve(IList<string> lines)
         {
             var lines2 = lines;

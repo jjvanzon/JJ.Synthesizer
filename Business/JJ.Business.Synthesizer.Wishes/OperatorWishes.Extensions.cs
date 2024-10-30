@@ -7,21 +7,17 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
-// ReSharper disable NotResolvedInText
 
-// ReSharper disable RedundantIfElseBlock
+// ReSharper disable NotResolvedInText
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    /// <summary>
-    /// Extensions that are wishes for the back-end related to the Operator entity.
-    /// </summary>
+    /// <inheritdoc cref="docs._operatorextensionwishes"/>
     public static class OperatorExtensionsWishes
     {
         // Name

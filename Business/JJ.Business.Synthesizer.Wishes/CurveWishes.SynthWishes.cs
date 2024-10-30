@@ -29,11 +29,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Overloads with NodeInfo
 
+        /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(IEnumerable<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
         {
             return Curve(nodeInfos.ToArray(), callerMemberName);
         }
 
+        /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
         {
             string name = FetchName(callerMemberName, GetCallerNameFromStack());
@@ -42,6 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return _[wrapper];
         }
 
+        /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
         {
             string name = FetchName(GetCallerNameFromStack());
@@ -52,7 +55,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Overloads with doubles
 
-        /// <inheritdoc cref="CurveFactory.CreateCurve(double, double?[])" />
         /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(params double?[] values)
         {

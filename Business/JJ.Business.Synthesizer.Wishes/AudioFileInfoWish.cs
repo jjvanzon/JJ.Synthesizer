@@ -1,12 +1,12 @@
 ﻿namespace JJ.Business.Synthesizer.Wishes
 {
-    /// <summary> Replacement Wish version of AudioFileInfo with more intuitive member names. </summary>
+    /// <inheritdoc cref="docs._audiofileinfowish"/>
     public class AudioFileInfoWish
     {
         public int Bits { get; set; }
         public int ChannelCount { get; set; }
         public int SamplingRate { get; set; }
-        /// <summary> A.k.a. SampleCount </summary>
+        /// <inheritdoc cref="docs._framecount"/>
         public int FrameCount { get; set; }
     }
 }

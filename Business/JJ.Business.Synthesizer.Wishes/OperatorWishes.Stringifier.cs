@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Persistence.Synthesizer;
-using JJ.Business.Synthesizer.Wishes.Helpers;
+﻿using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -90,6 +86,24 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
+        private void BuildStringRecursive(Inlet inlet)
+        {
+            if (inlet?.Input?.Operator == null) return;
+
+            if (!inlet.IsConst())
+            {
+                _sb.Indent();
+                _sb.AppendLine();
+            }
+
+            BuildStringRecursive(inlet.Input.Operator);
+
+            if (!inlet.IsConst())
+            {
+                _sb.Outdent();
+            }
+        }
+ 
         private static readonly string[] _curveSynonyms = { "Curve", "Envelope", "Bend" };
         private static readonly string[] _sampleSynonyms = { "Sample", "Audio", "Wav" };
 
@@ -112,24 +126,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             return formattedName;
-        }
-
-        private void BuildStringRecursive(Inlet inlet)
-        {
-            if (inlet?.Input?.Operator == null) return;
-
-            if (!inlet.IsConst())
-            {
-                _sb.Indent();
-                _sb.AppendLine();
-            }
-
-            BuildStringRecursive(inlet.Input.Operator);
-
-            if (!inlet.IsConst())
-            {
-                _sb.Outdent();
-            }
         }
     }
 }
