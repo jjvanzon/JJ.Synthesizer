@@ -66,24 +66,36 @@ namespace JJ.Business.Synthesizer.Wishes
             string[] fileNames = GetParallelAdd_FileNames(parallelsCount);
             var reloadedSamples = new Outlet[parallelsCount];
             var outlets = new Outlet[parallelsCount][];
-
-            // Get outlets first before going parallel.
             for (int i = 0; i < parallelsCount; i++)
-            {
+            { 
                 outlets[i] = new Outlet[channelCount];
-                for (int j = 0; j < channelCount; j++)
-                {
-                    ChannelIndex = j;
-                    outlets[i][j] = funcs[i](); // TODO: This runs parallels, because the funcs contain another parallel add.
-                }
             }
-            
+
             try
             {
                 // Save to files
                 Parallel.For(0, parallelsCount, i =>
                 {
                     Debug.WriteLine($"Start in Parallel: {fileNames[i]}", "SynthWishes");
+                                
+                    // Get outlets first (before going parallel ?)
+                    ChannelEnum originalChannel = Channel;
+                    try
+                    {
+                        //for (int i = 0; i < parallelsCount; i++)
+                        //{
+                        for (int j = 0; j < channelCount; j++)
+                        {
+                            ChannelIndex = j;
+                            outlets[i][j] = funcs[i](); // TODO: This runs parallels, because the funcs contain another parallel add.
+                        }
+                        //}
+                    }
+                    finally
+                    {
+                        Channel = originalChannel;
+                    }
+
                     SaveAudioBase(outlets[i], volume, fileName: fileNames[i], default, default);
                 });
 
@@ -137,21 +149,34 @@ namespace JJ.Business.Synthesizer.Wishes
             string[] fileNames = GetParallelAdd_FileNames(parallelsCount);
             var reloadedSamples = new Outlet[parallelsCount];
             var outlets = new Outlet[parallelsCount][];
-
-            // Get outlets first before going parallel.
             for (int i = 0; i < parallelsCount; i++)
-            {
+            { 
                 outlets[i] = new Outlet[channelCount];
-                for (int j = 0; j < channelCount; j++)
-                {
-                    ChannelIndex = j;
-                    outlets[i][j] = funcs[i]();
-                }
             }
 
             // Save and play files
             Parallel.For(0, parallelsCount, i =>
             {
+                Debug.WriteLine($"Start in Parallel: {fileNames[i]}", "SynthWishes");
+                
+                // Get outlets first (before going parallel?)
+                ChannelEnum originalChannel = Channel;
+                try
+                {
+                    //for (int i = 0; i < parallelsCount; i++)
+                    //{
+                    for (int j = 0; j < channelCount; j++)
+                    {
+                        ChannelIndex = j;
+                        outlets[i][j] = funcs[i]();
+                    }
+                    //}
+                }
+                finally
+                {
+                    Channel = originalChannel;
+                }
+
                 var saveResult = SaveAudioBase(outlets[i], volume, fileName: fileNames[i], default, default);
                 PlayIfAllowed(saveResult.Data);
             });

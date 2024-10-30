@@ -386,6 +386,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_echodocs" />
         FluentOutlet MildEcho(FluentOutlet sound) 
+            //=> WithName().EchoAdditive(sound, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
             => WithName().EchoParallel(sound, volume: 0.25, MildEchoCount, magnitude: _[0.25], MildEchoDelay) / 0.25;
 
         /// <inheritdoc cref="_echodocs" />
@@ -395,12 +396,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             switch (Channel)
             {
                 case ChannelEnum.Single:
+                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL);
                     return sound.EchoParallel(volume: 0.18, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) / 0.18;
                 
                 case ChannelEnum.Left:
+                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL);
                     return sound.EchoParallel(volume: 0.4, DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL) / 0.4;
                 
                 case ChannelEnum.Right: 
+                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR);
                     return sound.EchoParallel(volume: 0.4, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR) / 0.4;
                 
                 default: 
