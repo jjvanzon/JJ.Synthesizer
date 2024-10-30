@@ -155,18 +155,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             duration = duration ?? AudioLength;
 
-            return Panbrello(
-                panbrello: (speed: 2, depth: 0.20),
-                sound: WithName().ParallelAdd
-                (
-                    volume: 0.5,
-                    () => 0.600 * Detunica1(freq *  1, duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
-                    () => 0.800 * Detunica2(freq *  2, duration),
-                    () => 1.000 * Detunica3(freq *  4, duration),
-                    () => 0.015 * Detunica4(freq *  8, duration),
-                    () => 0.001 * Detunica5(freq * 16, duration)
-                ) / 0.5
-            );
+            return WithName().ParallelAdd
+            (
+                volume: 0.5,
+                () => 0.600 * Detunica1(freq * 1, duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
+                () => 0.800 * Detunica2(freq * 2, duration),
+                () => 1.000 * Detunica3(freq * 4, duration),
+                () => 0.015 * Detunica4(freq * 8, duration),
+                () => 0.001 * Detunica5(freq * 16, duration)
+            ).Divide(0.5).Panbrello(2, 0.2);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -431,7 +428,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Curves
 
-        FluentOutlet PatchyEnvelope => WithName().Curve(@"
+        FluentOutlet PatchyEnvelope => Curve(@"
                          o                             
                     
                               o                         
@@ -442,7 +439,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         o                                       o ");
 
-        FluentOutlet EvenEnvelope => WithName().Curve(@"
+        FluentOutlet EvenEnvelope => Curve(@"
                           o                             
                    
                                                         
@@ -453,19 +450,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
            
         o                                       o ");
 
-        FluentOutlet RateCurve1 => WithName().Curve(@"
+        FluentOutlet RateCurve1 => Curve(@"
                     o          
                                 
                                 
         o                   o");
 
-        FluentOutlet RateCurve2 => WithName().Curve(@"
+        FluentOutlet RateCurve2 => Curve(@"
              o                 
                                 
                                 
         o                   o ");
 
-        FluentOutlet RateCurve3 => WithName().Curve(@"
+        FluentOutlet RateCurve3 => Curve(@"
                   o            
                                 
                                 
