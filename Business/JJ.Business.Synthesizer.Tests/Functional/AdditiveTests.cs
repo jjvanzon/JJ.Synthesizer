@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_default" />
         FluentOutlet Echo(FluentOutlet sound) 
-            => WithName().EchoParallel(sound, EchoCount, magnitude: _[0.33], EchoDelay);
+            => EchoParallel(sound, EchoCount, magnitude: _[0.33], EchoDelay);
 
         FluentOutlet _mySample;
 

@@ -772,20 +772,20 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (8.0, E4, A5, E5)
         };
 
-        FluentOutlet ChordPitchCurve1 => WithName().Curve(
+        FluentOutlet ChordPitchCurve1 => Curve(
             _chordFreqs.Select(x => new NodeInfo(x.time,
-                                                       x.freq1.Value,
-                                                       NodeTypeEnum.Block)).ToArray());
+                                                 x.freq1.Value,
+                                                 NodeTypeEnum.Block)).ToList());
 
-        FluentOutlet ChordPitchCurve2 => WithName().Curve(
-            _chordFreqs.Select(x => new NodeInfo(x.time, 
-                                                       x.freq2.Value,
-                                                       NodeTypeEnum.Block)).ToArray());
+        FluentOutlet ChordPitchCurve2 => Curve(
+            _chordFreqs.Select(x => new NodeInfo(x.time,
+                                                 x.freq2.Value,
+                                                 NodeTypeEnum.Block)).ToList());
 
-        FluentOutlet ChordPitchCurve3 => WithName().Curve(
-            _chordFreqs.Select(x => new NodeInfo(x.time, 
-                                                       x.freq3.Value, 
-                                                       NodeTypeEnum.Block)).ToArray());
+        FluentOutlet ChordPitchCurve3 => Curve(
+            _chordFreqs.Select(x => new NodeInfo(x.time,
+                                                 x.freq3.Value,
+                                                 NodeTypeEnum.Block)).ToList());
 
         #endregion
     }
