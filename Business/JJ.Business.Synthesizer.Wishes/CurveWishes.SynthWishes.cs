@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private void AssignNames(CurveInWrapper wrapper, string uglyName)
         {
-            uglyName = GetPrettyName(uglyName);
+            uglyName = PrettifyName(uglyName);
             
             wrapper.Curve.Name = uglyName;
             wrapper.Result.Operator.Name = uglyName;

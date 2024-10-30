@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes WithName([CallerMemberName] string uglyName = null)
         {
             if (string.IsNullOrWhiteSpace(uglyName)) return this;
-            Name = NameHelper.GetPrettyName(uglyName);
+            Name = NameHelper.PrettifyName(uglyName);
             return this;
         }
 

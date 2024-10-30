@@ -57,12 +57,12 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             // Prep variables
-            int parallelsCount = funcs.Count;
+            int termCount = funcs.Count;
             int channelCount = SpeakerSetup.GetChannelCount();
-            string[] fileNames = GetParallelAdd_FileNames(parallelsCount);
-            var reloadedSamples = new Outlet[parallelsCount];
-            var outlets = new Outlet[parallelsCount][];
-            for (int i = 0; i < parallelsCount; i++)
+            string[] fileNames = GetParallelAdd_FileNames(termCount);
+            var reloadedSamples = new Outlet[termCount];
+            var outlets = new Outlet[termCount][];
+            for (int i = 0; i < termCount; i++)
             { 
                 outlets[i] = new Outlet[channelCount];
             }
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes
             try
             {
                 // Save to files
-                Parallel.For(0, parallelsCount, i =>
+                Parallel.For(0, termCount, i =>
                 {
                     Debug.WriteLine($"Start in Parallel: {fileNames[i]}", "SynthWishes");
                                 
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 });
 
                 // Reload Samples
-                for (int i = 0; i < parallelsCount; i++)
+                for (int i = 0; i < termCount; i++)
                 {
                     reloadedSamples[i] = Sample(fileNames[i]);
                 }
@@ -131,18 +131,18 @@ namespace JJ.Business.Synthesizer.Wishes
             // Arguments already checked in public method
             
             // Prep variables
-            int parallelsCount = funcs.Count;
+            int termCount = funcs.Count;
             int channelCount = SpeakerSetup.GetChannelCount();
-            string[] fileNames = GetParallelAdd_FileNames(parallelsCount);
-            var reloadedSamples = new Outlet[parallelsCount];
-            var outlets = new Outlet[parallelsCount][];
-            for (int i = 0; i < parallelsCount; i++)
+            string[] fileNames = GetParallelAdd_FileNames(termCount);
+            var reloadedSamples = new Outlet[termCount];
+            var outlets = new Outlet[termCount][];
+            for (int i = 0; i < termCount; i++)
             { 
                 outlets[i] = new Outlet[channelCount];
             }
 
             // Save and play files
-            Parallel.For(0, parallelsCount, i =>
+            Parallel.For(0, termCount, i =>
             {
                 Debug.WriteLine($"Start in Parallel: {fileNames[i]}", "SynthWishes");
                 
@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Wishes
             });
 
             // Reload sample
-            for (int i = 0; i < parallelsCount; i++)
+            for (int i = 0; i < termCount; i++)
             {
                 reloadedSamples[i] = Sample(fileNames[i]);
 
@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = FetchName();
             if (string.IsNullOrWhiteSpace(name))
             {
-                name = GetPrettyName(filePath);
+                name = PrettifyName(filePath);
             }
             
             sample.Name = name;
@@ -311,7 +311,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
             if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
             
-            fileName = ResolveFileName(fileName, AudioFormat, callerMemberName);
+            fileName = ResolveAudioFileName(fileName, AudioFormat, callerMemberName);
             
             int channelCount = channelInputs.Count;
             var speakerSetupEnum = channelCount.ToSpeakerSetupEnum();
@@ -579,7 +579,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return lines.ToResult();
         }
 
-        private string ResolveFileName(
+        private string ResolveAudioFileName(
             string explicitFileName, 
             AudioFileFormatEnum audioFileFormatEnum, 
             string callerMemberName)
@@ -593,7 +593,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (string.IsNullOrWhiteSpace(fileName))
             {
-                fileName = $"{GetPrettyName(callerMemberName)}";
+                fileName = $"{PrettifyName(callerMemberName)}";
             }
 
             if (string.IsNullOrWhiteSpace(fileName))

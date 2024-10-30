@@ -7,21 +7,21 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     public static class NameHelper
     {
         /// <summary> Returns the current method name or current property name. </summary>
-        public static string Name([CallerMemberName] string calledMemberName = null) 
+        public static string MemberName([CallerMemberName] string calledMemberName = null) 
             => calledMemberName.CutLeft("get_").CutLeft("set_");
 
         public static string GetAssemblyName<TType>() => typeof(TType).Assembly.GetName().Name;
             
         public static string GetPrettyTitle(string uglyName)
         {
-            string title = GetPrettyName(uglyName);
+            string title = PrettifyName(uglyName);
 
             string dashes = "".PadRight(title.Length, '-');
 
             return title + NewLine + dashes;
         }
 
-        public static string GetPrettyName(string uglyName)
+        public static string PrettifyName(string uglyName)
         {
             string name;
             if (string.IsNullOrWhiteSpace(uglyName))

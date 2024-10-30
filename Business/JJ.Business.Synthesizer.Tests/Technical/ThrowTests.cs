@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported
             {
-                string fileName = NameHelper.Name() + "_AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported.wav";
+                string fileName = NameHelper.MemberName() + "_AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported.wav";
                 WithName(fileName).SaveAudio(() => Sine());
                 AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(Context);
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();

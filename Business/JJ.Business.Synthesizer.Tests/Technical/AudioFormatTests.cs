@@ -223,14 +223,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Assert AudioFileOutput Entities
 
-            string expectedFilePath1 = GetPrettyName(callerMemberName) + audioFileFormatEnum.GetFileExtension();
+            string expectedFilePath1 = PrettifyName(callerMemberName) + audioFileFormatEnum.GetFileExtension();
             
             AssertAudioFileOutputEntities(
                 audioFileOutput1,
                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, samplingRate,
                 expectedFilePath1, DURATION);
 
-            string expectedFilePath2 = GetPrettyName($"{callerMemberName}_Reloaded") + audioFileFormatEnum.GetFileExtension();
+            string expectedFilePath2 = PrettifyName($"{callerMemberName}_Reloaded") + audioFileFormatEnum.GetFileExtension();
             
             AssertAudioFileOutputEntities(
                 audioFileOutput2,
@@ -516,7 +516,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNull(() => sampleOperator.AsValueOperator);
             IsNotNull(() => sampleOperator.AsSampleOperator);
             {
-                string expectedName = GetPrettyName(callerMemberName);
+                string expectedName = PrettifyName(callerMemberName);
                 NotNullOrEmpty(() => sampleOperator.Name);
                 AreEqual(expectedName, () => sampleOperator.Name);
             }
@@ -577,7 +577,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 NotNullOrEmpty(() => sample.Location);
                 AreEqual(expectedLocation, () => sample.Location);
 
-                string expectedName = GetPrettyName(callerMemberName);
+                string expectedName = PrettifyName(callerMemberName);
                 NotNullOrEmpty(() => sample.Name);
                 AreEqual(expectedName, () => sample.Name);
             }
