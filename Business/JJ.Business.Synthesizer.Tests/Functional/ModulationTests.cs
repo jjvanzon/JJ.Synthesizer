@@ -129,11 +129,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="_vibraphasedocs" />
         FluentOutlet VibraphaseChord => Add // Parallel gives different sound at the moment.
         (
-            _[ _[0], A4, Vibraphase, _[0.80] ],
-            _[ _[0], B4, Vibraphase, _[0.70] ],
-            _[ _[0], C5, Vibraphase, _[0.85] ],
-            _[ _[0], D5, Vibraphase, _[0.75] ],
-            _[ _[0], E5, Vibraphase, _[0.90] ]
+            Vibraphase(A4) * 0.80,
+            Vibraphase(B4) * 0.70,
+            Vibraphase(C5) * 0.85,
+            Vibraphase(D5) * 0.75,
+            Vibraphase(E5) * 0.90
         );
 
         /// <inheritdoc cref="docs._detunica" />
