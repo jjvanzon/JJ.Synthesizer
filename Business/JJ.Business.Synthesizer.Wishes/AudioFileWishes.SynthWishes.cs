@@ -616,23 +616,7 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileFormatEnum audioFileFormatEnum, 
             string callerMemberName)
         {
-            string fileName = explicitFileName;
-
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                fileName = FetchName();
-            }
-
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                fileName = $"{PrettifyName(callerMemberName)}";
-            }
-
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                fileName = $"{nameof(AudioFileOutput)} {DateTime.Now:yyyy-MM-dd HH-mm-ss}.{DateTime.Now.Millisecond:000}";
-            }
-
+            string fileName = FetchName(explicitFileName, callerMemberName);
             string fileExtension = audioFileFormatEnum.GetFileExtension();
             if (!fileName.EndsWith(fileExtension))
             {
@@ -655,7 +639,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             return fileNames;
-        }
+        } 
 
         private static string FormatRealTimeMessage(double duration, Stopwatch stopWatch)
         {

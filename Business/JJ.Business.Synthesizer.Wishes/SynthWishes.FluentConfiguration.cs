@@ -22,14 +22,32 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes WithName([CallerMemberName] string uglyName = null)
         {
             if (string.IsNullOrWhiteSpace(uglyName)) return this;
-            Name = NameHelper.PrettifyName(uglyName);
+            Name = uglyName;
             return this;
         }
 
-        private string FetchName()
+        /// <summary>
+        /// Gets the name chose by the user with the WithName method and then resets it to null
+        /// after it retrieves it. If nothing was in it, it uses the fallback name supplied.
+        /// Also, if an explicitName is passed, it will override all the other options.
+        /// </summary>
+        private string FetchName(string explicitName = null, string fallbackName = null)
         {
+            if (!string.IsNullOrWhiteSpace(explicitName))
+            {
+                // Not sure if it should be prettified too...
+                return explicitName;
+            }
+
             string name = Name;
             Name = null;
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = fallbackName;
+            }
+
+            name = NameHelper.PrettifyName(name);
             return name;
         }
 
