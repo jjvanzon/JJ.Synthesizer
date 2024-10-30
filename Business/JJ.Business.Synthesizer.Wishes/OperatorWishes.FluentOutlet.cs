@@ -230,8 +230,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet EchoFeedBack(double magnitude = default, double delay = default, int count = 8)
             => _synthWishes.EchoFeedBack(_thisOutlet, count, magnitude, delay);
 
-        public FluentOutlet EchoParallel(double volume, int count = 8, Outlet magnitude = default, Outlet delay = default)
-            => _synthWishes.EchoParallel(_thisOutlet, volume, count, magnitude, delay);
+        public FluentOutlet EchoParallel(double volume, int count = 8, Outlet magnitude = default, Outlet delay = default, bool mustAddAudioLength = true)
+            => _synthWishes.EchoParallel(_thisOutlet, volume, count, magnitude, delay, mustAddAudioLength);
 
         // Curve Chaining Methods
 

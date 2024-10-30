@@ -296,7 +296,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            return Add
+            return WithName().ParallelAdd
             (
                 () => freq.Times(1).Sine * 1.0,
                 () => freq.Times(2).Sine * 0.5,
@@ -309,14 +309,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            return Add
+            return WithName().ParallelAdd
             (
-                freq.Times(1).Sine * 1.00,
-                freq.Times(2).Sine * 0.30,
-                freq.Times(5).Sine * 0.15,
-                freq.Times(7).Sine * 0.08,
-                freq.Times(9).Sine * 0.10
-            );
+                0.8,
+                () => freq.Times(1).Sine * 1.00,
+                () => freq.Times(2).Sine * 0.30,
+                () => freq.Times(5).Sine * 0.15,
+                () => freq.Times(7).Sine * 0.08,
+                () => freq.Times(9).Sine * 0.10
+            ) / 0.8;
         }
 
         /// <inheritdoc cref="_detunedocs" />
@@ -384,32 +385,68 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <inheritdoc cref="_echodocs" />
-        FluentOutlet MildEcho(FluentOutlet sound) 
-            //=> WithName().EchoAdditive(sound, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
-            => WithName().EchoParallel(sound, volume: 0.25, MildEchoCount, magnitude: _[0.25], MildEchoDelay) / 0.25;
 
+        bool _mildEchoAudioLengthWasAdded;
+        //int _mildEchoCallCount;
+
+        /// <inheritdoc cref="_echodocs" />
+        FluentOutlet MildEcho(FluentOutlet sound)
+        {
+            bool mustAddAudioLength = !_mildEchoAudioLengthWasAdded;
+            
+            var echoed = WithName().EchoParallel(sound, volume: 0.25, MildEchoCount, magnitude: _[0.25], MildEchoDelay, mustAddAudioLength) / 0.25;
+
+            _mildEchoAudioLengthWasAdded = true;
+            // Correct back for parallel echo invocations adding to audio length again and again.
+            //if (_mildEchoCallCount != 0)
+            //{
+            //    AudioLength = _[AudioLength.Value - (MildEchoCount - 1) * MildEchoDelay.Value];
+            //}
+            //_mildEchoCallCount++;
+
+            return echoed;
+        }
+
+        bool _deepEchoAudioLengthWasAdded;
+        int _deepEchoCallCount;
+            
         /// <inheritdoc cref="_echodocs" />
         internal FluentOutlet DeepEcho(FluentOutlet sound)
         {
+            FluentOutlet echoed;
+            bool mustAddAudioLength = !_deepEchoAudioLengthWasAdded;
+
             WithName();
+            
             switch (Channel)
             {
                 case ChannelEnum.Single:
-                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL);
-                    return sound.EchoParallel(volume: 0.18, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) / 0.18;
+                    echoed = sound.EchoParallel(volume: 0.18, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL, mustAddAudioLength) / 0.18;
+                    break;
                 
                 case ChannelEnum.Left:
-                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL);
-                    return sound.EchoParallel(volume: 0.4, DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL) / 0.4;
+                    echoed = sound.EchoParallel(volume: 0.4, DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL, mustAddAudioLength) / 0.4;
+                    break;
                 
-                case ChannelEnum.Right: 
-                    //return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR);
-                    return sound.EchoParallel(volume: 0.4, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR) / 0.4;
+                case ChannelEnum.Right:
+                    echoed = sound.EchoParallel(volume: 0.4, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR, mustAddAudioLength) / 0.4;
+                    break;
                 
                 default: 
                     throw new ValueNotSupportedException(Channel);
             }
+
+            _deepEchoAudioLengthWasAdded = true;
+            
+            //// Correct back for parallel echo invocations adding to audio length again and again.
+            //if (_deepEchoCallCount != 0)
+            //{
+            //    AudioLength = _[AudioLength.Value - (DeepEchoCount - 1) * Math.Max(DeepEchoDelayL.Value, DeepEchoDelayR.Value)];
+            //}
+            //_deepEchoCallCount++;
+            
+            return echoed;
+
         }
 
         #endregion
