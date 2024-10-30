@@ -65,12 +65,9 @@ namespace JJ.Business.Synthesizer.Wishes
             int channelCount = SpeakerSetup.GetChannelCount();
             string[] fileNames = GetParallelAdd_FileNames(parallelsCount);
             var reloadedSamples = new Outlet[parallelsCount];
-
-            // TODO: Switch the indices: channels first. Makes locking per channel less problematic?
-
-            // Get outlets first before going parallel.
             var outlets = new Outlet[parallelsCount][];
 
+            // Get outlets first before going parallel.
             lock (_channelLock)
             {
                 ChannelEnum originalChannel = Channel;
@@ -78,19 +75,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 for (int i = 0; i < parallelsCount; i++)
                 {
                     outlets[i] = new Outlet[channelCount];
-
                     for (int j = 0; j < channelCount; j++)
                     {
-                        //lock (_channelLock)
-                        //{
-                        //    ChannelEnum originalChannel = Channel;
-
-                        // Here's the thread-unsafe part, but the property is handy against parameteritis.
+                        // Here's the thread-unsafe part.
                         ChannelIndex = j;
                         outlets[i][j] = funcs[i]();
-
-                        //    Channel = originalChannel;
-                        //}
                     }
                 }
 
@@ -154,26 +143,25 @@ namespace JJ.Business.Synthesizer.Wishes
             int channelCount = SpeakerSetup.GetChannelCount();
             string[] fileNames = GetParallelAdd_FileNames(parallelsCount);
             var reloadedSamples = new Outlet[parallelsCount];
+            var outlets = new Outlet[parallelsCount][];
 
             // Get outlets first before going parallel.
-            var outlets = new Outlet[parallelsCount][];
-            for (int i = 0; i < parallelsCount; i++)
+            lock (_channelLock)
             {
-                outlets[i] = new Outlet[channelCount];
-                
-                for (int j = 0; j < channelCount; j++)
-                {
-                    lock (_channelLock)
-                    {
-                        ChannelEnum originalChannel = Channel;
+                ChannelEnum originalChannel = Channel;
 
-                        // Here's the thread-unsafe part, but the property is handy against parameteritis.
+                for (int i = 0; i < parallelsCount; i++)
+                {
+                    outlets[i] = new Outlet[channelCount];
+                    for (int j = 0; j < channelCount; j++)
+                    {
+                        // Here's the thread-unsafe part.
                         ChannelIndex = j;
                         outlets[i][j] = funcs[i]();
-                        
-                        Channel = originalChannel;
                     }
                 }
+
+                Channel = originalChannel;
             }
 
             // Save and play files
