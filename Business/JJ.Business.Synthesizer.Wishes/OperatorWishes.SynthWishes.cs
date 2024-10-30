@@ -569,7 +569,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // BUG: If you nest ParallelAdds, every time you pass this method, it adds more audio length.
             AddAudioLength(cumulativeDelay - delay);
             
-            return WithName().ParallelAdd(volume, echoTasks);
+            return ParallelAdd(volume, echoTasks);
         }
 
         public FluentOutlet EchoAdditive(
