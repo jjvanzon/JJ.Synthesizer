@@ -11,7 +11,13 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Name
         
-        public string Name { get; private set; }
+        private readonly ThreadLocal<string> _name = new ThreadLocal<string>();
+
+        public string Name
+        {
+            get => _name.Value;
+            private set => _name.Value = value;
+        }
 
         public SynthWishes WithName([CallerMemberName] string uglyName = null)
         {
@@ -22,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private string FetchName()
         {
-            var name = Name;
+            string name = Name;
             Name = null;
             return name;
         }
