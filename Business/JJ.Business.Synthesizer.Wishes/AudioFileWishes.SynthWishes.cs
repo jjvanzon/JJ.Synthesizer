@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 reloadedSamples[i] = Sample(fileNames[i]);
 
                 // Save and play to test the sample loading
-                // TODO: This doesn't actuall save the reloaded samples. replace outlets[i] by a repeat of reloaded samples.
+                // TODO: This doesn't actually save the reloaded samples. replace outlets[i] by a repeat of reloaded samples.
                 var saveResult = SaveAudioBase(outlets[i], fileNames[i] + "_Reloaded.wav");
                 PlayIfAllowed(saveResult.Data);
             }
@@ -203,23 +203,22 @@ namespace JJ.Business.Synthesizer.Wishes
             => SampleBase(stream, bytesToSkip, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(
-            string filePath, int bytesToSkip = 0,
-            [CallerMemberName] string callerMemberName = null)
+        public FluentOutlet Sample(string fileName = null, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
         {
-            string name = FetchName(callerMemberName, explicitName: filePath);
-            filePath = FormatAudioFileName(name, AudioFormat);
+            string name = FetchName(callerMemberName, explicitName: fileName);
+            name = Path.GetFileNameWithoutExtension(name);
+            string filePath = FormatAudioFileName(name, AudioFormat);
 
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                return SampleBase(stream, bytesToSkip, filePath, name, callerMemberName);
+                return SampleBase(stream, bytesToSkip, name, callerMemberName);
         }
 
         /// <inheritdoc cref="docs._sample"/>
-        private FluentOutlet SampleBase(
-            Stream stream, int bytesToSkip, string callerMemberName, string filePath = null, string name = null)
+        private FluentOutlet SampleBase(Stream stream, int bytesToSkip, string name1, string name2 = null)
         {
-            name = FetchName(name, callerMemberName, explicitName: filePath);
+            string name = FetchName(name1, name2);
             name = Path.GetFileNameWithoutExtension(name);
+            string filePath = FormatAudioFileName(name, AudioFormat);
 
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
