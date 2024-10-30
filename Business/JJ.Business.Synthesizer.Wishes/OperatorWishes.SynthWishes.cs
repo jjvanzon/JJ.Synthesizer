@@ -545,7 +545,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Echo(Outlet signal, int count, double magnitude, double delay)
             => Echo(signal, count, _[magnitude], _[delay]);
 
-        public FluentOutlet EchoParallel(Outlet signal, double volume, int count = 8, Outlet magnitude = default, Outlet delay = default, bool mustAddAudioLength = true)
+        public FluentOutlet EchoParallel(
+            Outlet signal, double volume, int count = 8, Outlet magnitude = default, Outlet delay = default, 
+            bool mustAddAudioLength = true)
         {
             if (magnitude == null) magnitude = _[0.66];
             if (delay == null) delay = _[0.25];

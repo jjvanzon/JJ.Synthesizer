@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => Mono().Play(() => MildEcho(VibraphaseChord), volume: 0.22);
+            => Mono().Play(() => MildEcho(VibraphaseChord), volume: 0.28);
 
         /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
@@ -129,11 +129,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="_vibraphasedocs" />
         FluentOutlet VibraphaseChord => Add // Parallel gives different sound at the moment.
         (
-            Vibraphase(freq: A4, volume: _[0.80]),
-            Vibraphase(freq: B4, volume: _[0.70]),
-            Vibraphase(freq: C5, volume: _[0.85]),
-            Vibraphase(freq: D5, volume: _[0.75]),
-            Vibraphase(freq: E5, volume: _[0.90])
+            _[ _[0], A4, Vibraphase, _[0.80] ],
+            _[ _[0], B4, Vibraphase, _[0.70] ],
+            _[ _[0], C5, Vibraphase, _[0.85] ],
+            _[ _[0], D5, Vibraphase, _[0.75] ],
+            _[ _[0], E5, Vibraphase, _[0.90] ]
         );
 
         /// <inheritdoc cref="docs._detunica" />
@@ -276,15 +276,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         FluentOutlet Vibraphase(
-            FluentOutlet delay = null, FluentOutlet freq = null, 
-            FluentOutlet volume = null, FluentOutlet duration = null,
+            FluentOutlet freq = null, 
+            FluentOutlet duration = null,
             FluentOutlet depthAdjust1 = null, FluentOutlet depthAdjust2 = null)
         {
             var saw       = SemiSaw(freq);
             var jittered  = Jitter(saw, depthAdjust1, depthAdjust2);
             var enveloped = jittered.Multiply(VibraphaseVolumeCurve.Stretch(duration));
-            var note      = enveloped.StrikeNote(delay, volume);
-            return note;
+            return enveloped;
         }
 
         #endregion

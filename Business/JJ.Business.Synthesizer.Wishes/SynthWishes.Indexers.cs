@@ -264,15 +264,38 @@ namespace JJ.Business.Synthesizer.Wishes
             // _[ t[1, 2], C4, Flute, MyEnvelope, l(1.0), _[0.25] ]
 
             public FluentOutlet this[
-                FluentOutlet t, FluentOutlet freq, Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet vol = null, FluentOutlet param2 = null, FluentOutlet param3 = null] 
+                FluentOutlet t, FluentOutlet freq, 
+                Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet vol = null, 
+                FluentOutlet param2 = null, FluentOutlet param3 = null] 
                 => _parent.StrikeNote(sound(freq, param2, param3), t, vol);
 
             // _[ t[1, 1], A4, Flute, 0.8, l(0.5), _[0.14] ]
             // _[ t[1, 2], C4, Flute, 1.0, l(1.0), _[0.14] ]
 
             public FluentOutlet this[
-                FluentOutlet t, FluentOutlet freq, Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, double vol, FluentOutlet param2 = null, FluentOutlet param3 = null] 
+                FluentOutlet t, FluentOutlet freq, 
+                Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, double vol, 
+                FluentOutlet param2 = null, FluentOutlet param3 = null] 
                 => _parent.StrikeNote(sound(freq, param2, param3), t, vol);
+
+        
+            // _[ t[1, 1], A4, Flute, MyEnvelope, l(0.5), _[0.14], _[1.08] ]
+            // _[ t[1, 2], C4, Flute, MyEnvelope, l(1.0), _[0.25] ]
+
+            public FluentOutlet this[
+                FluentOutlet t, FluentOutlet freq, 
+                Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet vol = null,
+                FluentOutlet param2 = null, FluentOutlet param3 = null, FluentOutlet param4 = null] 
+                => _parent.StrikeNote(sound(freq, param2, param3, param4), t, vol);
+
+            // _[ t[1, 1], A4, Flute, 0.8, l(0.5), _[0.14], _[1.08] ]
+            // _[ t[1, 2], C4, Flute, 1.0, l(1.0), _[0.14], _[1.02]]
+
+            public FluentOutlet this[
+                FluentOutlet t, FluentOutlet freq, 
+                Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, double vol, 
+                FluentOutlet param2 = null, FluentOutlet param3 = null, FluentOutlet param4 = null] 
+                => _parent.StrikeNote(sound(freq, param2, param3, param4), t, vol);
         }
     }
 }
