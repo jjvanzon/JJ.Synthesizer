@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet DeepEchoDelayR => _[0.53];
 
         public ModulationTests() 
-            : base(beat: 0.55, bar: 2.2)
+            : base(beat: 2.2, bar: 2.2)
         {
             Stereo();
         }
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass_RunTest()
         {
-            WithAudioLength(3).Play(() => DeepEcho(DetunicaBass(duration: _[3])), volume: 0.9);
+            WithAudioLength(3).Play(() => DeepEcho(DetunicaBass(E0, duration: _[3])), volume: 0.9);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -140,18 +140,18 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet DetunicaJingle => WithName().ParallelAdd
         (
             volume: 0.26,
-            () => DetunicaBass(bar[1],              bars[5.25]),
-            () => Detunica2   (bar[2], B4, _[0.70], bars[1.50]),
-            () => Detunica3   (bar[3], C5, _[0.75], bars[1.60]),
-            () => Detunica4   (bar[4], D5, _[0.90], bars[1.50]),
-            () => Detunica5   (bar[5], E5, _[1.00], bars[3.00])
+            () => _[ beat[1], E0, DetunicaBass, 1.00, l[5.25] ],
+            () => _[ beat[2], B4, Detunica2   , 0.70, l[1.50] ],
+            () => _[ beat[3], C5, Detunica3   , 0.75, l[1.60] ],
+            () => _[ beat[4], D5, Detunica4   , 0.90, l[1.50] ],
+            () => _[ beat[5], E5, Detunica5   , 1.00, l[3.00] ]
         ) / 0.26;
 
         #endregion
 
         #region Notes
 
-        FluentOutlet DetunicaBass(FluentOutlet delay = null, FluentOutlet duration = null)
+        FluentOutlet DetunicaBass(FluentOutlet freq, FluentOutlet duration = null)
         {
             duration = duration ?? AudioLength;
 
@@ -160,21 +160,21 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 sound: WithName().ParallelAdd
                 (
                     volume: 0.5,
-                    () => Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
-                    () => Detunica2(delay, E1, _[0.800], duration),
-                    () => Detunica3(delay, E2, _[1.000], duration),
-                    () => Detunica4(delay, E3, _[0.015], duration),
-                    () => Detunica5(delay, E4, _[0.001], duration)
+                    () => 0.600 * Detunica1(freq *  1, duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
+                    () => 0.800 * Detunica2(freq *  2, duration),
+                    () => 1.000 * Detunica3(freq *  4, duration),
+                    () => 0.015 * Detunica4(freq *  8, duration),
+                    () => 0.001 * Detunica5(freq * 16, duration)
                 ) / 0.5
             );
         }
 
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica1(
-            FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null,
+            FluentOutlet freq = null, FluentOutlet duration = null,
             FluentOutlet detuneDepth = null, FluentOutlet chorusRate = null)
             => Detunica(
-                delay, freq, volume, duration,
+                freq, duration,
                 vibrato: (_[3], _[0.00010]),
                 tremolo: (_[1], _[0.03]),
                 detuneDepth: detuneDepth ?? _[0.8],
@@ -182,10 +182,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica2(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet Detunica2(FluentOutlet freq = null, FluentOutlet duration = null)
             => MildEcho(
                 Detunica(
-                    delay, freq, volume, duration,
+                    freq, duration,
                     vibrato: (_[10], _[0.00020]),
                     tremolo: (_[12], _[0.10]),
                     detuneDepth: _[1.0],
@@ -194,9 +194,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     panbrello: (_[2.6], _[0.09])));
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica3(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet Detunica3(FluentOutlet freq = null, FluentOutlet duration = null)
             => Detunica(
-                delay, freq, volume, duration,
+                freq, duration,
                 vibrato: (_[05.5], _[0.0005]),
                 tremolo: (_[15.0], _[0.06]),
                 detuneDepth: _[0.5],
@@ -207,9 +207,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 envelopeVariation: 2);
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica4(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet Detunica4(FluentOutlet freq = null, FluentOutlet duration = null)
             => Detunica(
-                delay, freq, volume, duration,
+                freq, duration,
                 vibrato: (_[7], _[0.0003]),
                 tremolo: (_[10], _[0.08]),
                 detuneDepth: _[0.5],
@@ -218,9 +218,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 panbrello: (_[3.4], _[0.07]));
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica5(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FluentOutlet Detunica5(FluentOutlet freq = null, FluentOutlet duration = null)
             => Detunica(
-                delay, freq, volume, duration,
+                freq, duration,
                 vibrato: (_[5.5], _[0.00005]),
                 tremolo: (_[3.0], _[0.25]),
                 detuneDepth: _[0.8],
@@ -234,8 +234,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         internal FluentOutlet Detunica(
-            FluentOutlet delay = default, FluentOutlet freq = default, 
-            FluentOutlet volume = default, FluentOutlet duration = default,
+            FluentOutlet freq = default, FluentOutlet duration = default,
             (FluentOutlet speed, FluentOutlet depth) vibrato = default, 
             (FluentOutlet speed, FluentOutlet depth) tremolo = default,
             FluentOutlet detuneDepth = null, FluentOutlet churnRate = null, 
@@ -268,10 +267,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     throw new Exception($"{nameof(envelopeVariation)} value '{envelopeVariation}' not supported.");
             }
 
-            // Apply velocity and delay
-            var note = StrikeNote(sound, delay, volume);
-
-            return note;
+            return sound;
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
