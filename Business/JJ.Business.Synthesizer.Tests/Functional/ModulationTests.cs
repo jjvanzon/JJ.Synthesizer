@@ -372,9 +372,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_echodocs" />
         FluentOutlet MildEcho(FluentOutlet sound) 
-            => WithName().EchoParallel(sound, volume: 0.33, MildEchoCount, magnitude: _[0.25], MildEchoDelay) / 0.33;
-        //FluentOutlet MildEcho(FluentOutlet sound)
-        //    => Echo(sound, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
+            => WithName().EchoParallel(sound, volume: 0.25, MildEchoCount, magnitude: _[0.25], MildEchoDelay) / 0.25;
 
         /// <inheritdoc cref="_echodocs" />
         internal FluentOutlet DeepEcho(FluentOutlet sound)
@@ -384,17 +382,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             {
                 case ChannelEnum.Single:
                     return sound.EchoParallel(volume: 0.18, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) / 0.18;
-                    return sound.EchoParallel(volume: 0.20, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) / 0.20;
-                    return sound.EchoParallel(volume: 0.25, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) / 0.25;
-                    return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL);
                 
                 case ChannelEnum.Left:
-                    return sound.EchoParallel(volume: 0.5, DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL) / 0.5;
-                    return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL);
+                    return sound.EchoParallel(volume: 0.4, DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL) / 0.4;
                 
                 case ChannelEnum.Right: 
-                    return sound.EchoParallel(volume: 0.5, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR) / 0.5;
-                    return sound.EchoAdditive(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR);
+                    return sound.EchoParallel(volume: 0.4, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR) / 0.4;
                 
                 default: 
                     throw new ValueNotSupportedException(Channel);
