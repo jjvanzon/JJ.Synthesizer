@@ -6,4 +6,4 @@ packages
 .vscode
 *.ncrunchsolution
 *.ncrunchproject
-/.NCrunch_Synthesizer
+/.NCrunch*
