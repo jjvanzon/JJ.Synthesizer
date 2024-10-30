@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     detuneDepth: detuneDepth ?? _[0.8],
                     chorusRate: (chorusRate ?? _[0.03]) * RateCurve1,
                     envelopeVariation: 2
-                    )
+                )
                 .Tremolo(1, 0.03);
 
         /// <inheritdoc cref="docs._detunica" />
@@ -242,22 +242,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal FluentOutlet Detunica(
             FluentOutlet freq = default, FluentOutlet duration = default,
-            (FluentOutlet speed, FluentOutlet depth) vibrato = default, 
-            (FluentOutlet speed, FluentOutlet depth) tremolo = default,
             FluentOutlet detuneDepth = null, FluentOutlet churnRate = null, 
             FluentOutlet interferenceRate = null, FluentOutlet chorusRate = null,
-            FluentOutlet panning = default, (FluentOutlet speed, FluentOutlet depth) panbrello = default,
             int envelopeVariation = 1)
         {
             duration = duration ?? _[1];
 
-            if (vibrato != default) freq    = VibratoOverPitch(freq, vibrato);
-            var baseHarmonics               = BaseHarmonics(freq);
-            var detunedHarmonics            = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
-            var sound                       = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
-            if (tremolo != default) sound   = Tremolo(sound, tremolo);
-            if (panning != null) sound      = Panning(sound, panning);
-            if (panbrello != default) sound = Panbrello(sound, panbrello);
+            var baseHarmonics    = BaseHarmonics(freq);
+            var detunedHarmonics = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
+            var sound            = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
             
             // Apply volume curve
             switch (envelopeVariation)
