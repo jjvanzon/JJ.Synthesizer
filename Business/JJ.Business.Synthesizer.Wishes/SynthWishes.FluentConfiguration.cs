@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// after it retrieves it. If nothing was in it, it uses the fallback name supplied.
         /// Also, if an explicitName is passed, it will override all the other options.
         /// </summary>
-        private string FetchName(string fallbackName = null, string explicitName = null, [CallerMemberName] string callerMemberName = null)
+        public string FetchName(string fallbackName1 = null, string fallbackName2 = null, string explicitName = null, [CallerMemberName] string callerMemberName = null)
         {
             if (!string.IsNullOrWhiteSpace(explicitName))
             {
@@ -55,7 +55,17 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                name = fallbackName;
+                name = fallbackName1;
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = fallbackName2;
+            }
+            
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = callerMemberName;
             }
 
             name = NameHelper.PrettifyName(name);

@@ -190,27 +190,33 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
-            byte[] bytes, 
-            double volume = 1, double speedFactor = 1, int bytesToSkip = 0)
-            => SampleBase(new MemoryStream(bytes), default, volume, speedFactor, bytesToSkip);
+            byte[] bytes, double volume = 1, double speedFactor = 1, int bytesToSkip = 0, 
+            [CallerMemberName] string callerMemberName = null)
+            => SampleBase(new MemoryStream(bytes), default, volume, speedFactor, bytesToSkip, callerMemberName);
         
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
-            Stream stream, 
-            double volume = 1, double speedFactor = 1, int bytesToSkip = 0)
-            => SampleBase(stream, default, volume, speedFactor, bytesToSkip);
+            Stream stream, double volume = 1, double speedFactor = 1, int bytesToSkip = 0,
+            [CallerMemberName] string callerMemberName = null)
+            => SampleBase(stream, default, volume, speedFactor, bytesToSkip, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(string filePath, double volume = 1, double speedFactor = 1, int bytesToSkip = 0)
+        public FluentOutlet Sample(
+            string filePath, double volume = 1, double speedFactor = 1, int bytesToSkip = 0,
+            [CallerMemberName] string callerMemberName = null)
         {
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                return SampleBase(stream, filePath, volume, speedFactor, bytesToSkip);
+                return SampleBase(stream, filePath, volume, speedFactor, bytesToSkip, callerMemberName);
         }
 
         /// <inheritdoc cref="docs._sample"/>
-        private FluentOutlet SampleBase(Stream stream, string filePath, double volume, double speedFactor, int bytesToSkip)
+        private FluentOutlet SampleBase(
+            Stream stream, string filePath, double volume, double speedFactor, int bytesToSkip,
+            string callerMemberName)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+            string name = FetchName(filePath, callerMemberName);
 
             Sample sample = _sampleManager.CreateSample(stream);
             sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude() * volume;
@@ -224,12 +230,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             var wrapper = _operatorFactory.Sample(sample);
-
-            string name = FetchName();
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = PrettifyName(filePath);
-            }
             
             sample.Name = name;
             wrapper.Result.Operator.Name = name;
@@ -268,6 +268,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
         {
+            string name = FetchName(callerMemberName);
+            
             var originalChannel = Channel;
             try
             {
@@ -277,14 +279,14 @@ namespace JJ.Business.Synthesizer.Wishes
                         Center(); var monoOutlet = func();
                         
                         return SaveAudioBase(
-                            new[] { monoOutlet }, FetchName(), callerMemberName);
+                            new[] { monoOutlet }, name, callerMemberName);
 
                     case SpeakerSetupEnum.Stereo:
                         Left(); var leftOutlet = func();
                         Right(); var rightOutlet = func();
                         
                         return SaveAudioBase(
-                            new[] { leftOutlet, rightOutlet }, FetchName(), callerMemberName);
+                            new[] { leftOutlet, rightOutlet }, name, callerMemberName);
                     default:
                         throw new ValueNotSupportedException(SpeakerSetup);
                 }

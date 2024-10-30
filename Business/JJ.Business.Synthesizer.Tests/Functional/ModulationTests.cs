@@ -3,6 +3,8 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Business.Synthesizer.Wishes.Helpers;
+using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
@@ -371,7 +373,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet MildEcho(FluentOutlet sound)
         {
             bool mustAddAudioLength = !_mildEchoAudioLengthWasAdded;
-            
+         
+            // TODO: Test without doing anything with the name (hoping CallerMemberName will be used.
+            // Test WithName()
             var echoed = WithName().EchoParallel(sound * 0.25, MildEchoCount, magnitude: _[0.25], MildEchoDelay, mustAddAudioLength) / 0.25;
 
             _mildEchoAudioLengthWasAdded = true;
@@ -386,22 +390,24 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             bool mustAddAudioLength = !_deepEchoAudioLengthWasAdded;
 
-            WithName();
-
             FluentOutlet echoed;
 
             switch (Channel)
             {
                 case ChannelEnum.Single:
+                    // Test WithName
+                    WithName();
                     echoed = (sound * 0.18).EchoParallel(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL, mustAddAudioLength) / 0.18;
                     break;
                 
                 case ChannelEnum.Left:
-                    echoed = (sound * 0.4).EchoParallel(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL, mustAddAudioLength) / 0.4;
+                    // Test FetchName
+                    echoed = (sound * 0.4).EchoParallel(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL, mustAddAudioLength, FetchName()) / 0.4;
                     break;
                 
                 case ChannelEnum.Right:
-                    echoed = (sound * 0.4).EchoParallel(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR, mustAddAudioLength) / 0.4;
+                    // Test MemberName
+                    echoed = (sound * 0.4).EchoParallel(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR, mustAddAudioLength, MemberName()) / 0.4;
                     break;
                 
                 default: 

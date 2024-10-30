@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
@@ -232,8 +233,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FluentOutlet EchoParallel(
             int count = 8, Outlet magnitude = default, Outlet delay = default, 
-            bool mustAddAudioLength = true)
-            => _synthWishes.EchoParallel(_thisOutlet, count, magnitude, delay, mustAddAudioLength);
+            bool mustAddAudioLength = true, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.EchoParallel(_thisOutlet, count, magnitude, delay, mustAddAudioLength, callerMemberName);
 
         // Curve Chaining Methods
 

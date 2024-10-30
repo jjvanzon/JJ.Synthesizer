@@ -552,7 +552,7 @@ namespace JJ.Business.Synthesizer.Wishes
             bool mustAddAudioLength = true, [CallerMemberName] string callerMemberName = null)
         {
             // Fetch (user-chosen) name before anything else does.
-            string name = FetchName();
+            string name = FetchName(callerMemberName);
             
             if (magnitude == null) magnitude = _[0.66];
             if (delay == null) delay = _[0.25];
@@ -579,7 +579,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 AddAudioLength(cumulativeDelay - delay);
             }
 
-            WithName(name, callerMemberName, MemberName());
+            //WithName(name, callerMemberName, MemberName());
+            WithName(name);
             
             return ParallelAdd(echoTasks);
         }
