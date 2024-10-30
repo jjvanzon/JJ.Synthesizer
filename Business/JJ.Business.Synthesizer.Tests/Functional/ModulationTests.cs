@@ -38,11 +38,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
-        internal void DetunicaBass_RunTest()
-        {
-            var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(DetunicaBass(duration: duration)), volume: 0.9);
-        }
+        internal void DetunicaBass_RunTest() 
+            => WithAudioLength(3).Play(() => DeepEcho(DetunicaBass(duration: _[3])), volume: 0.9);
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
