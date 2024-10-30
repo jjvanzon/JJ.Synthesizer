@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 double fineTuneFactor = 0.94;
                 double speedFactor    = octaveFactor * intervalFactor * fineTuneFactor;
 
-                _mySample = Sample(GetViolin16BitMono44100WavStream(), volume, speedFactor, bytesToSkip);
+                _mySample = Sample(GetViolin16BitMono44100WavStream(), bytesToSkip).SpeedUp(speedFactor) * volume;
 
                 return _mySample;
             }

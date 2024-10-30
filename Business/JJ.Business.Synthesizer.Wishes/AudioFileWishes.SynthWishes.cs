@@ -192,37 +192,40 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
-            byte[] bytes, double volume = 1, double speedFactor = 1, int bytesToSkip = 0, 
+            byte[] bytes, int bytesToSkip = 0, 
             [CallerMemberName] string callerMemberName = null)
-            => SampleBase(new MemoryStream(bytes), default, volume, speedFactor, bytesToSkip, callerMemberName);
+            => SampleBase(new MemoryStream(bytes), bytesToSkip, callerMemberName);
         
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
-            Stream stream, double volume = 1, double speedFactor = 1, int bytesToSkip = 0,
+            Stream stream, int bytesToSkip = 0,
             [CallerMemberName] string callerMemberName = null)
-            => SampleBase(stream, default, volume, speedFactor, bytesToSkip, callerMemberName);
+            => SampleBase(stream, bytesToSkip, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
-            string filePath, double volume = 1, double speedFactor = 1, int bytesToSkip = 0,
+            string filePath, int bytesToSkip = 0,
             [CallerMemberName] string callerMemberName = null)
         {
+            string name = FetchName(callerMemberName, explicitName: filePath);
+            filePath = FormatAudioFileName(name, AudioFormat);
+
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                return SampleBase(stream, filePath, volume, speedFactor, bytesToSkip, callerMemberName);
+                return SampleBase(stream, bytesToSkip, filePath, name, callerMemberName);
         }
 
         /// <inheritdoc cref="docs._sample"/>
         private FluentOutlet SampleBase(
-            Stream stream, string filePath, double volume, double speedFactor, int bytesToSkip,
-            string callerMemberName)
+            Stream stream, int bytesToSkip, string callerMemberName, string filePath = null, string name = null)
         {
-            string name = FetchName(filePath, callerMemberName);
-            
+            name = FetchName(name, callerMemberName, explicitName: filePath);
+            name = Path.GetFileNameWithoutExtension(name);
+
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
             Sample sample = _sampleManager.CreateSample(stream);
-            sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude() * volume;
-            sample.TimeMultiplier = 1 / speedFactor;
+            sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
+            sample.TimeMultiplier = 1;
             sample.BytesToSkip = bytesToSkip;
             sample.SetInterpolationTypeEnum(Interpolation, Context);
 

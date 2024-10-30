@@ -11,7 +11,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using static JJ.Business.Synthesizer.Wishes.CopiedFromFramework;
-using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 
 // ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable MemberCanBeProtected.Global
