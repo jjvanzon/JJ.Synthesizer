@@ -10,13 +10,5 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
         public void Test_Detunica_Jingle() => new ModulationTests().Detunica_Jingle_RunTest();
-    
-        /// <inheritdoc cref="docs._detunica" />
-        [TestMethod]
-        public void Test_Detunica_Jingle_Mono() => new ModulationTests().Detunica_Jingle_RunTest_Mono();
-
-        /// <inheritdoc cref="docs._detunica" />
-        [TestMethod]
-        public void Test_DetunicaBass() => new ModulationTests().DetunicaBass_RunTest();
     }
 }
