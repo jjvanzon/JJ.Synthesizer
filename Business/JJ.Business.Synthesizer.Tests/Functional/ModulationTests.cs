@@ -401,7 +401,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         bool _deepEchoAudioLengthWasAdded;
-        int _deepEchoCallCount;
             
         /// <inheritdoc cref="_echodocs" />
         internal FluentOutlet DeepEcho(FluentOutlet sound)
