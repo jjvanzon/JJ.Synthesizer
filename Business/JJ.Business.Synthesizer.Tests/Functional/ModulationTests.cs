@@ -195,16 +195,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica3(FluentOutlet freq = null, FluentOutlet duration = null)
-            => Detunica(
-                freq, duration,
-                vibrato: (_[05.5], _[0.0005]),
-                tremolo: (_[15.0], _[0.06]),
-                detuneDepth: _[0.5],
-                interferenceRate: Multiply(0.002, DetuneRateCurve1),
-                chorusRate: Multiply(0.002,       DetuneRateCurve1),
-                panning: Stretch(Curve(0.7, 0.3), duration),
-                panbrello: (_[4.8], _[0.05]),
-                envelopeVariation: 2);
+            => Detunica
+                (
+                    (freq ?? A4).VibratoOverPitch(5.5, 0.0005),
+                    duration,
+                    detuneDepth: _[0.5],
+                    interferenceRate: Multiply(0.002, DetuneRateCurve1),
+                    chorusRate:       Multiply(0.002, DetuneRateCurve1),
+                    envelopeVariation: 2
+                ).Tremolo(15, 0.06)
+                 .Panning(Stretch(Curve(0.7, 0.3), duration))
+                 .Panbrello(4.8, 0.05);
 
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica4(FluentOutlet freq = null, FluentOutlet duration = null)
