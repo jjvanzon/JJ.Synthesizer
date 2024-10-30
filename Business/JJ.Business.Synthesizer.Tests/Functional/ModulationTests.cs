@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica2_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica2(freq: B4, duration: duration)), volume: 1);
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica2(freq: B4, duration: duration)), volume: 0.9);
         }
 
         /// <inheritdoc cref="docs._detunica" />
