@@ -16,18 +16,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class FMTests : SynthWishes
     {
-        private int          MildEchoCount   => 7;
-        private FluentOutlet MildEchoDelay   => _[0.33];
-        private int          DeepEchoCount   => 7;
-        private FluentOutlet DeepEchoDelay   => _[0.5];
-        private FluentOutlet DefaultDuration => _[1];
-        private double       DefaultVolume   => 0.5;
-        private FluentOutlet JingleVolume    => _[0.18];
+        FluentOutlet JingleVolume => _[0.18];
+
+        FluentOutlet MildEcho(FluentOutlet sound)
+            => EchoParallel(sound * 0.3, count: 7, magnitude: _[0.25], delay: _[0.33]) / 0.3;
+
+        FluentOutlet DeepEcho(FluentOutlet sound) 
+            => EchoParallel(sound * 0.4, count: 7, magnitude: _[0.50], delay: _[0.50]) / 0.4;
 
         public FMTests() : base(beat: 0.45, bar: 4 * 0.45)
         {
             Mono();
-            WithAudioLength(DefaultDuration);
             _chordFreqs = CreateChordFreqs();
         }
 
@@ -40,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             WithAudioLength(bars[8] + 2); // HACK: Without the + something the last note is missing.
             
-            Play(() => DeepEcho(Jingle(), 1));
+            Play(() => DeepEcho(Jingle()) * 1);
         }
 
         [TestMethod]
@@ -48,7 +47,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Flute_Melody1_RunTest()
         {
-            Play(() => MildEcho(FluteMelody1, volume: 0.6));
+            Play(() => MildEcho(FluteMelody1) * 0.6);
         }
 
         [TestMethod]
@@ -56,27 +55,27 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Flute_Melody2_RunTest()
         {
-            Play(() => MildEcho(FluteMelody2, 0.3));
+            Play(() => MildEcho(FluteMelody2) * 0.4);
         }
 
         [TestMethod]
         public void FM_Flute1() => new FMTests().FM_Flute1_RunTest();
 
         void FM_Flute1_RunTest() 
-            => Play(() => MildEcho(Flute1(E4)));
+            => Play(() => MildEcho(Flute1(E4)) * 0.5);
 
         [TestMethod]
         public void FM_Flute2() => new FMTests().FM_Flute2_RunTest();
 
         void FM_Flute2_RunTest()
-            => Play(() => MildEcho(Flute2(F4)));
+            => Play(() => MildEcho(Flute2(F4))* 0.5);
 
         [TestMethod]
         public void FM_Flute3() => new FMTests().FM_Flute3_RunTest();
 
         void FM_Flute3_RunTest()
         {
-            Play(() => MildEcho(Flute3(G4)));
+            Play(() => MildEcho(Flute3(G4))* 0.5);
         }
 
         [TestMethod]
@@ -84,7 +83,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Flute4_RunTest()
         {
-            Play(() => MildEcho(Flute4(A4)));
+            Play(() => MildEcho(Flute4(A4))* 0.5);
         }
 
         [TestMethod]
@@ -92,7 +91,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Organ_RunTest()
         {
-            WithAudioLength(bars[3]).Play(() => MildEcho(Organ()));
+            WithAudioLength(bars[3]).Play(() => MildEcho(Organ()) * 0.5);
         }
 
         [TestMethod]
@@ -100,7 +99,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Organ_Chords_RunTest()
         {
-            Play(() => MildEcho(OrganChords, volume: 0.22));
+            Play(() => MildEcho(OrganChords) * 0.2);
         }
         
         [TestMethod]
@@ -108,7 +107,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Pad_RunTest()
         {
-            WithAudioLength(bars[3]).Play(() => MildEcho(Pad(), volume: 0.2));
+            WithAudioLength(bars[3]).Play(() => MildEcho(Pad()) * 0.4);
         }
 
         [TestMethod]
@@ -116,7 +115,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Pad_Chords_RunTest()
         {
-            Play(() => MildEcho(PadChords(volume: _[0.15]), volume: 1));
+            Play(() => MildEcho(PadChords(volume: _[0.15])) * 0.6);
         }
 
         [TestMethod]
@@ -124,7 +123,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Pad_Chords_Distortion_RunTest()
         {
-            Play(() => MildEcho(PadChords(volume: _[0.92]), volume: 0.15));
+            Play(() => MildEcho(PadChords(volume: _[0.92]) * 0.15));
         }
 
         [TestMethod]
@@ -132,7 +131,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Horn_RunTest()
         {
-            Play(() => MildEcho(Horn()));
+            Play(() => MildEcho(Horn())* 0.5);
         }
 
         [TestMethod]
@@ -140,7 +139,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Horn_Melody1_RunTest()
         {
-            Play(() => MildEcho(HornMelody1, volume: 0.6));
+            Play(() => MildEcho(HornMelody1) * 0.6);
         }
 
         [TestMethod]
@@ -148,7 +147,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Horn_Melody2_RunTest()
         {
-            Play(() => MildEcho(HornMelody2, volume: 0.6));
+            Play(() => MildEcho(HornMelody2) * 0.6);
         }
         
         [TestMethod]
@@ -156,7 +155,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Trombone_RunTest()
         {
-            WithAudioLength(2).Play(() => MildEcho(Trombone(E2)));
+            WithAudioLength(2).Play(() => MildEcho(Trombone(E2))* 0.5);
         }
         
         [TestMethod]
@@ -164,7 +163,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Trombone_Melody1_RunTest()
         {
-            Play(() => MildEcho(TromboneMelody1, volume: 0.45));
+            Play(() => MildEcho(TromboneMelody1) * 0.45);
         }
 
         [TestMethod]
@@ -172,7 +171,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Trombone_Melody2_RunTest()
         {
-            Play(() => MildEcho(TromboneMelody2, volume: 0.75));
+            Play(() => MildEcho(TromboneMelody2) * 0.75);
         }
 
         [TestMethod]
@@ -180,7 +179,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_ElectricNote_RunTest()
         {
-            WithAudioLength(_[1.5]).Play(() => MildEcho(ElectricNote(), volume: 0.2));
+            WithAudioLength(_[1.5]).Play(() => MildEcho(ElectricNote()) * 0.2);
         }
 
         [TestMethod]
@@ -188,7 +187,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleBass_RunTest()
         {
-            WithAudioLength(3).Play(() => DeepEcho(RippleBass()));
+            WithAudioLength(3).Play(() => DeepEcho(RippleBass())* 0.5);
         }
 
         [TestMethod]
@@ -196,7 +195,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleBass_Melody2_RunTest()
         {
-            WithAudioLength(bars[4]).Play(() => DeepEcho(RippleBassMelody2, 0.3));
+            WithAudioLength(bars[4]).Play(() => DeepEcho(RippleBassMelody2) * 0.3);
         }
 
         [TestMethod]
@@ -204,7 +203,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleNote_SharpMetallic_RunTest()
         {
-            WithAudioLength(2.2).Play(() => DeepEcho(RippleNote_SharpMetallic(), volume: 0.3));
+            WithAudioLength(2.2).Play(() => DeepEcho(RippleNote_SharpMetallic()) * 0.3);
         }
 
         [TestMethod]
@@ -212,7 +211,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleSound_Clean_RunTest()
         {
-            WithAudioLength(4).Play(() => DeepEcho(RippleSound_Clean()));
+            WithAudioLength(4).Play(() => DeepEcho(RippleSound_Clean())* 0.5);
         }
 
         [TestMethod]
@@ -220,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleSound_FantasyEffect_RunTest()
         {
-            WithAudioLength(4).Play(() => DeepEcho(RippleSound_FantasyEffect(), volume: 0.33));
+            WithAudioLength(4).Play(() => DeepEcho(RippleSound_FantasyEffect()) * 0.33);
         }
 
         [TestMethod]
@@ -228,7 +227,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleSound_CoolDouble_RunTest()
         {
-            WithAudioLength(3).Play(() => DeepEcho(RippleSound_CoolDouble(), volume: 0.3));
+            WithAudioLength(3).Play(() => DeepEcho(RippleSound_CoolDouble()) * 0.3);
         }
 
         [TestMethod]
@@ -236,7 +235,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Noise_Beating_RunTest()
         {
-            WithAudioLength(5).Play(() => MildEcho(Create_FM_Noise_Beating(A4), volume: 0.25));
+            WithAudioLength(5).Play(() => MildEcho(Create_FM_Noise_Beating(A4)) * 0.25);
         }
 
         #endregion
@@ -660,12 +659,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var sound     = Sine(soundFreq * modulator);
             return sound;
         }
-
-        internal FluentOutlet MildEcho(FluentOutlet sound, double? volume = null)
-            => EchoParallel(sound * (volume ?? DefaultVolume), MildEchoCount, magnitude: _[0.25], MildEchoDelay);
-
-        FluentOutlet DeepEcho(FluentOutlet sound, double? volume = null) 
-            => EchoParallel(sound * (volume ?? DefaultVolume), DeepEchoCount, magnitude: _[0.5], DeepEchoDelay);
         
         #endregion
 
