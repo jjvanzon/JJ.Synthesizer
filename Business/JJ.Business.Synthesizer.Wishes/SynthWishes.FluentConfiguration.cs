@@ -19,10 +19,21 @@ namespace JJ.Business.Synthesizer.Wishes
             private set => _name.Value = value;
         }
 
-        public SynthWishes WithName([CallerMemberName] string uglyName = null)
+        public SynthWishes WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (string.IsNullOrWhiteSpace(uglyName)) return this;
-            Name = uglyName;
+            string name = uglyName;
+            
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = fallbackName;
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = callerMemberName;
+            }
+            
+            Name = name;
             return this;
         }
 
@@ -31,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// after it retrieves it. If nothing was in it, it uses the fallback name supplied.
         /// Also, if an explicitName is passed, it will override all the other options.
         /// </summary>
-        private string FetchName(string explicitName = null, string fallbackName = null)
+        private string FetchName(string fallbackName = null, string explicitName = null, [CallerMemberName] string callerMemberName = null)
         {
             if (!string.IsNullOrWhiteSpace(explicitName))
             {

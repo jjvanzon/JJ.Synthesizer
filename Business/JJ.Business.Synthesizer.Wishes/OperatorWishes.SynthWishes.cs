@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using JJ.Framework.Persistence;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using static JJ.Business.Synthesizer.Wishes.CopiedFromFramework;
+using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 
 // ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable MemberCanBeProtected.Global
@@ -547,8 +549,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FluentOutlet EchoParallel(
             Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default, 
-            bool mustAddAudioLength = true)
+            bool mustAddAudioLength = true, [CallerMemberName] string callerMemberName = null)
         {
+            // Fetch (user-chosen) name before anything else does.
+            string name = FetchName();
+            
             if (magnitude == null) magnitude = _[0.66];
             if (delay == null) delay = _[0.25];
             
@@ -574,6 +579,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 AddAudioLength(cumulativeDelay - delay);
             }
 
+            WithName(name, callerMemberName, MemberName());
+            
             return ParallelAdd(echoTasks);
         }
 

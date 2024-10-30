@@ -16,6 +16,11 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             string title = PrettifyName(uglyName);
 
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                title = "Untitled";
+            }
+
             string dashes = "".PadRight(title.Length, '-');
 
             return title + NewLine + dashes;

@@ -617,7 +617,7 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileFormatEnum audioFileFormatEnum, 
             string callerMemberName)
         {
-            string fileName = FetchName(explicitFileName, callerMemberName);
+            string fileName = FetchName(callerMemberName, explicitName: explicitFileName);
             string fileExtension = audioFileFormatEnum.GetFileExtension();
             if (!fileName.EndsWith(fileExtension))
             {
