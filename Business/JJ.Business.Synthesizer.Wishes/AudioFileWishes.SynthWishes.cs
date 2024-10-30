@@ -39,27 +39,29 @@ namespace JJ.Business.Synthesizer.Wishes
             => ParallelAdd(1, (IList<Func<Outlet>>)funcs);
 
         /// <inheritdoc cref="docs._paralleladd" />
-        public FluentOutlet ParallelAdd(IList<Func<Outlet>> funcs)
-            => ParallelAdd(1, funcs);
+        public FluentOutlet ParallelAdd(
+            IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
+            => ParallelAdd(1, funcs, callerMemberName);
 
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(double volume, params Func<Outlet>[] funcs)
             => ParallelAdd(volume, (IList<Func<Outlet>>)funcs);
         
         /// <inheritdoc cref="docs._paralleladd" />
-        public FluentOutlet ParallelAdd(double volume, IList<Func<Outlet>> funcs)
+        public FluentOutlet ParallelAdd(
+            double volume, IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
         {
             if (funcs == null) throw new ArgumentNullException(nameof(funcs));
 
             if (PreviewParallels)
             {
-                return ParallelAdd_WithPreviewParallels(volume, funcs);
+                return ParallelAdd_WithPreviewParallels(volume, funcs, callerMemberName);
             }
 
             // Prep variables
             int termCount = funcs.Count;
             int channelCount = SpeakerSetup.GetChannelCount();
-            string[] fileNames = GetParallelAdd_FileNames(termCount);
+            string[] fileNames = GetParallelAdd_FileNames(termCount, callerMemberName);
             var reloadedSamples = new Outlet[termCount];
             var outlets = new Outlet[termCount][];
             for (int i = 0; i < termCount; i++)
@@ -128,14 +130,15 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._withpreviewparallels"/>
-        private FluentOutlet ParallelAdd_WithPreviewParallels(double volume, IList<Func<Outlet>> funcs)
+        private FluentOutlet ParallelAdd_WithPreviewParallels(
+            double volume, IList<Func<Outlet>> funcs, string callerMemberName)
         {
             // Arguments already checked in public method
             
             // Prep variables
             int termCount = funcs.Count;
             int channelCount = SpeakerSetup.GetChannelCount();
-            string[] fileNames = GetParallelAdd_FileNames(termCount);
+            string[] fileNames = GetParallelAdd_FileNames(termCount, callerMemberName);
             var reloadedSamples = new Outlet[termCount];
             var outlets = new Outlet[termCount][];
             for (int i = 0; i < termCount; i++)
@@ -627,9 +630,9 @@ namespace JJ.Business.Synthesizer.Wishes
             return fileName;
         }
         
-        private string[] GetParallelAdd_FileNames(int count)
+        private string[] GetParallelAdd_FileNames(int count, string callerMemberName)
         {
-            string name = FetchName();
+            string name = FetchName(callerMemberName);
             string guidString = $"{Guid.NewGuid()}";
 
             var fileNames = new string[count];
