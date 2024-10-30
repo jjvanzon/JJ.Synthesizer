@@ -10,9 +10,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class AdditiveTests : SynthWishes
     {
-        int EchoCount => 4;
         FluentOutlet NoteDuration => _[2.5];
-        FluentOutlet EchoDelay => _[0.66];
+
+        /// <inheritdoc cref="_default" />
+        FluentOutlet Echo(FluentOutlet sound) 
+            => EchoParallel(sound, 4, magnitude: _[0.33], _[0.66]);
 
         /// <inheritdoc cref="_metallophone" />
         public AdditiveTests() : base(beat: 0.4, bar: 1.6) => Mono();
@@ -69,10 +71,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var faster = SpeedUp(sound, factor: frequency / A4);
             return faster;
         }
-
-        /// <inheritdoc cref="_default" />
-        FluentOutlet Echo(FluentOutlet sound) 
-            => EchoParallel(sound, EchoCount, magnitude: _[0.33], EchoDelay);
 
         FluentOutlet _mySample;
 

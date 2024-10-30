@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         internal void FM_Jingle_RunTest()
         {
-            WithAudioLength(bars[8] + 2); // HACK: Without the + something the last note is missing.
+            WithAudioLength(bars[8] + 1); // HACK: Without the + something, sometimes last note is missing.
             
             Play(() => DeepEcho(Jingle()) * 1);
         }
