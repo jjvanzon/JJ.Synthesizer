@@ -82,14 +82,11 @@ namespace JJ.Business.Synthesizer.Wishes
                     ChannelEnum originalChannel = Channel;
                     try
                     {
-                        //for (int i = 0; i < parallelsCount; i++)
-                        //{
                         for (int j = 0; j < channelCount; j++)
                         {
                             ChannelIndex = j;
-                            outlets[i][j] = funcs[i](); // TODO: This runs parallels, because the funcs contain another parallel add.
+                            outlets[i][j] = funcs[i](); // This runs parallels, because the funcs can contain another parallel add.
                         }
-                        //}
                     }
                     finally
                     {
@@ -163,14 +160,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 ChannelEnum originalChannel = Channel;
                 try
                 {
-                    //for (int i = 0; i < parallelsCount; i++)
-                    //{
                     for (int j = 0; j < channelCount; j++)
                     {
                         ChannelIndex = j;
-                        outlets[i][j] = funcs[i]();
+                        outlets[i][j] = funcs[i](); // This runs parallels, because the funcs can contain another parallel add.
                     }
-                    //}
                 }
                 finally
                 {

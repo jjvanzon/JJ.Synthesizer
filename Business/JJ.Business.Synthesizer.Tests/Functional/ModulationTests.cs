@@ -387,7 +387,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
 
         bool _mildEchoAudioLengthWasAdded;
-        //int _mildEchoCallCount;
 
         /// <inheritdoc cref="_echodocs" />
         FluentOutlet MildEcho(FluentOutlet sound)
@@ -397,12 +396,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var echoed = WithName().EchoParallel(sound, volume: 0.25, MildEchoCount, magnitude: _[0.25], MildEchoDelay, mustAddAudioLength) / 0.25;
 
             _mildEchoAudioLengthWasAdded = true;
-            // Correct back for parallel echo invocations adding to audio length again and again.
-            //if (_mildEchoCallCount != 0)
-            //{
-            //    AudioLength = _[AudioLength.Value - (MildEchoCount - 1) * MildEchoDelay.Value];
-            //}
-            //_mildEchoCallCount++;
 
             return echoed;
         }
@@ -437,13 +430,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             }
 
             _deepEchoAudioLengthWasAdded = true;
-            
-            //// Correct back for parallel echo invocations adding to audio length again and again.
-            //if (_deepEchoCallCount != 0)
-            //{
-            //    AudioLength = _[AudioLength.Value - (DeepEchoCount - 1) * Math.Max(DeepEchoDelayL.Value, DeepEchoDelayR.Value)];
-            //}
-            //_deepEchoCallCount++;
             
             return echoed;
 
