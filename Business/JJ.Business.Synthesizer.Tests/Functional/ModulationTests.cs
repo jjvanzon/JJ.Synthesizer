@@ -309,15 +309,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            return WithName().ParallelAdd
+            return Add
             (
-                0.8,
-                () => freq.Times(1).Sine * 1.00,
-                () => freq.Times(2).Sine * 0.30,
-                () => freq.Times(5).Sine * 0.15,
-                () => freq.Times(7).Sine * 0.08,
-                () => freq.Times(9).Sine * 0.10
-            ) / 0.8;
+                freq.Times(1).Sine * 1.00,
+                freq.Times(2).Sine * 0.30,
+                freq.Times(5).Sine * 0.15,
+                freq.Times(7).Sine * 0.08,
+                freq.Times(9).Sine * 0.10
+            );
         }
 
         /// <inheritdoc cref="_detunedocs" />
