@@ -196,27 +196,30 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica3(FluentOutlet freq = null, FluentOutlet duration = null)
             => Detunica
-                (
-                    (freq ?? A4).VibratoOverPitch(5.5, 0.0005),
-                    duration,
-                    detuneDepth: _[0.5],
-                    interferenceRate: Multiply(0.002, DetuneRateCurve1),
-                    chorusRate:       Multiply(0.002, DetuneRateCurve1),
-                    envelopeVariation: 2
-                ).Tremolo(15, 0.06)
-                 .Panning(Stretch(Curve(0.7, 0.3), duration))
-                 .Panbrello(4.8, 0.05);
+               (
+                   (freq ?? A4).VibratoOverPitch(5.5, 0.0005),
+                   duration,
+                   detuneDepth: _[0.5],
+                   interferenceRate: Multiply(0.002, DetuneRateCurve1),
+                   chorusRate: Multiply(0.002,       DetuneRateCurve1),
+                   envelopeVariation: 2
+               )
+               .Tremolo(15, 0.06)
+               .Panning(Stretch(Curve(0.7, 0.3), duration))
+               .Panbrello(4.8, 0.05);
 
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica4(FluentOutlet freq = null, FluentOutlet duration = null)
-            => Detunica(
-                freq, duration,
-                vibrato: (_[7], _[0.0003]),
-                tremolo: (_[10], _[0.08]),
-                detuneDepth: _[0.5],
-                interferenceRate: Multiply(0.003, DetuneRateCurve3),
-                panning: Stretch(Curve(0.2, 0.8), duration),
-                panbrello: (_[3.4], _[0.07]));
+            => Detunica
+               (
+                   (freq ?? A4).VibratoOverPitch(7, 0.0003),
+                   duration,
+                   detuneDepth: _[0.5],
+                   interferenceRate: Multiply(0.003, DetuneRateCurve3)
+               )
+               .Tremolo(10, 0.08)
+               .Panning(Stretch(Curve(0.2, 0.8), duration))
+               .Panbrello(3.4, 0.07);
 
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica5(FluentOutlet freq = null, FluentOutlet duration = null)
