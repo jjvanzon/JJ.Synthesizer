@@ -87,10 +87,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         void ExceptionsInTests()
         {
-
-            // ModulationTests.Detunica EnvelopeVariationNotSupported
-            ThrowsException(() => new ModulationTests().Detunica(envelopeVariation: -1));
-        
             // ModulationTests.DeepEcho ChannelEnumNotSupported
             ThrowsException(() => new ModulationTests().DeepEcho(Sine()));
             

@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     freq.VibratoOverPitch(3, 0.00010), duration,
                     detuneDepth: detuneDepth ?? _[0.8],
                     chorusRate: (chorusRate ?? _[0.03]) * RateCurve1,
-                    envelopeVariation: 2
+                    patchyEnvelope: false
                 )
                 .Tremolo(1, 0.03);
 
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                    detuneDepth: _[0.5],
                    interferenceRate: Multiply(0.002, RateCurve1),
                    chorusRate: Multiply(0.002,       RateCurve1),
-                   envelopeVariation: 2
+                   patchyEnvelope: false
                )
                .Tremolo(15, 0.06)
                .Panning(Stretch(Curve(0.7, 0.3), duration))
@@ -244,28 +244,16 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             FluentOutlet freq = default, FluentOutlet duration = default,
             FluentOutlet detuneDepth = null, FluentOutlet churnRate = null, 
             FluentOutlet interferenceRate = null, FluentOutlet chorusRate = null,
-            int envelopeVariation = 1)
+            bool patchyEnvelope = true)
         {
             duration = duration ?? _[1];
 
             var baseHarmonics    = BaseHarmonics(freq);
             var detunedHarmonics = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
-            var sound            = Add(baseHarmonics, Multiply(detunedHarmonics, detuneDepth));
+            var sound            = baseHarmonics + detunedHarmonics * detuneDepth;
+            var envelope         = patchyEnvelope ? PatchyEnvelope : EvenEnvelope;
             
-            // Apply volume curve
-            switch (envelopeVariation)
-            {
-                case 1:
-                    sound = Multiply(sound, PatchyEnvelope.Stretch(duration));
-                    break;
-
-                case 2:
-                    sound = Multiply(sound, EvenEnvelope.Stretch(duration));
-                    break;
-
-                default:
-                    throw new Exception($"{nameof(envelopeVariation)} value '{envelopeVariation}' not supported.");
-            }
+            sound *= envelope.Stretch(duration);
 
             return sound;
         }
@@ -278,7 +266,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var saw       = SemiSaw(freq);
             var jittered  = Jitter(saw, depthAdjust1, depthAdjust2);
-            var enveloped = jittered.Multiply(VibraphaseVolumeCurve.Stretch(duration));
+            var enveloped = jittered * VibraphaseEnvelope.Stretch(duration);
             return enveloped;
         }
 
@@ -399,11 +387,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="_echodocs" />
         internal FluentOutlet DeepEcho(FluentOutlet sound)
         {
-            FluentOutlet echoed;
             bool mustAddAudioLength = !_deepEchoAudioLengthWasAdded;
 
             WithName();
-            
+
+            FluentOutlet echoed;
+
             switch (Channel)
             {
                 case ChannelEnum.Single:
@@ -472,7 +461,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                                 
         o                   o ");
 
-        FluentOutlet VibraphaseVolumeCurve => WithName().Curve(@"
+        FluentOutlet VibraphaseEnvelope => WithName().Curve(@"
            o                   
          o   o                 
                                 
