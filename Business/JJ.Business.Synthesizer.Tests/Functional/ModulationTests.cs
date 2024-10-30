@@ -143,17 +143,23 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         #region Notes
 
-        FluentOutlet DetunicaBass(FluentOutlet delay = null, FluentOutlet duration = null) =>
-            Panbrello(
+        FluentOutlet DetunicaBass(FluentOutlet delay = null, FluentOutlet duration = null)
+        {
+            duration = duration ?? AudioLength;
+
+            return Panbrello(
                 panbrello: (speed: 2, depth: 0.20),
-                sound: Add
+                sound: WithName().ParallelAdd
                 (
-                    Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
-                    Detunica2(delay, E1, _[0.800], duration),
-                    Detunica3(delay, E2, _[1.000], duration),
-                    Detunica4(delay, E3, _[0.015], duration),
-                    Detunica5(delay, E4, _[0.001], duration))
-                );
+                    volume: 0.5,
+                    () => Detunica1(delay, E0, _[0.600], duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
+                    () => Detunica2(delay, E1, _[0.800], duration),
+                    () => Detunica3(delay, E2, _[1.000], duration),
+                    () => Detunica4(delay, E3, _[0.015], duration),
+                    () => Detunica5(delay, E4, _[0.001], duration)
+                ) / 0.5
+            );
+        }
 
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica1(
