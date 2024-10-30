@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Save to file again
             AudioFileOutput audioFileOutput2 =
-                WithAudioLength(DURATION2).SaveAudio(getSample, $"{callerMemberName}_Reloaded").Data;
+                WithAudioLength(DURATION2).WithName($"{callerMemberName}_Reloaded").SaveAudio(getSample).Data;
             
             // Assert AudioFileOutput Entities
 

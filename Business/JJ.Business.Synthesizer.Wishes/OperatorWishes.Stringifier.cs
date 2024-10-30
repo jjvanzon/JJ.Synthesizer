@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Helpers;
-
-// ReSharper disable RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -65,7 +64,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return;
             }
 
-            _sb.Append($"{op.Name ?? op.OperatorTypeName}");
+            _sb.Append(FormatName(op));
 
             if (op.Inlets.Count != 0)
             {
@@ -91,15 +90,36 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
+        private static readonly string[] _curveSynonyms = { "Curve", "Envelope", "Bend" };
+        private static readonly string[] _sampleSynonyms = { "Sample", "Audio", "Wav" };
+
+        private static string FormatName(Operator op)
+        {
+            if (op == null) return "null";
+            
+            var formattedName = op.Name ?? op.OperatorTypeName;
+
+            // Curves
+            if (op.IsCurve() & !Contains(formattedName, _curveSynonyms))
+            { 
+                formattedName += " Curve";
+            }
+
+            // Samples
+            if (op.IsSample() & !Contains(formattedName, _sampleSynonyms))
+            { 
+                formattedName += " Sample";
+            }
+
+            return formattedName;
+        }
+
+        public static bool Contains(string name, string[] words) 
+            => words.Any(x => name.IndexOf(x, StringComparison.OrdinalIgnoreCase) >= 0);
+
         private void BuildStringRecursive(Inlet inlet)
         {
             if (inlet?.Input?.Operator == null) return;
-
-            //bool mustIncludeName = MustIncludeInletName(inlet);
-            //if (mustIncludeName)
-            //{
-            //    Append($"{inlet.Name}=");
-            //}
 
             if (!inlet.IsConst())
             {
@@ -114,29 +134,5 @@ namespace JJ.Business.Synthesizer.Wishes
                 _sb.Outdent();
             }
         }
-        
-        //private readonly string[] _simpleOperatorTypeNames =
-        //    { "Adder", "Add", "Multiply", "Divide", "Substract" };
-
-        //private bool MustIncludeInletName(Inlet inlet)
-        //{
-        //    bool isAlone = inlet?.Operator?.Inlets?.Count > 1;
-        //    if (isAlone)
-        //    {
-        //        return false;
-        //    }
-        //
-        //    bool isSimple = _simpleOperatorTypeNames.Contains(inlet?.Input?.Operator.OperatorTypeName) ||
-        //                    _simpleOperatorTypeNames.Contains(inlet?.Input?.Operator.Name);
-        //    if (isSimple)
-        //    {
-        //        return false;
-        //    }
-        //
-        //    return true;
-        //}
-
-        // String Builder
-
     }
 }

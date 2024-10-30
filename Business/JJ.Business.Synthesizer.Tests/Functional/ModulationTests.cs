@@ -260,14 +260,22 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         FluentOutlet Vibraphase(
-            FluentOutlet freq = null, 
+            FluentOutlet freq = null,
             FluentOutlet duration = null,
             FluentOutlet depthAdjust1 = null, FluentOutlet depthAdjust2 = null)
         {
-            var saw       = SemiSaw(freq);
-            var jittered  = Jitter(saw, depthAdjust1, depthAdjust2);
-            var enveloped = jittered * VibraphaseEnvelope.Stretch(duration);
-            return enveloped;
+            var saw      = SemiSaw(freq);
+            var jittered = Jitter(saw, depthAdjust1, depthAdjust2);
+            var envelope = Curve(@"
+               o                   
+             o   o                 
+                                    
+                       o           
+            o                   o");
+
+            var sound = jittered * envelope.Stretch(duration);
+
+            return sound;
         }
 
         #endregion
@@ -294,11 +302,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return Add
             (
-                freq.Times(1).Sine * 1.00,
-                freq.Times(2).Sine * 0.30,
-                freq.Times(5).Sine * 0.15,
-                freq.Times(7).Sine * 0.08,
-                freq.Times(9).Sine * 0.10
+                1.00 * Sine(freq * 1),
+                0.30 * Sine(freq * 2),
+                0.15 * Sine(freq * 5),
+                0.08 * Sine(freq * 7),
+                0.10 * Sine(freq * 9)
             );
         }
 
@@ -374,9 +382,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             bool mustAddAudioLength = !_mildEchoAudioLengthWasAdded;
          
-            // TODO: Test without doing anything with the name (hoping CallerMemberName will be used.
-            // Test WithName()
-            var echoed = WithName().EchoParallel(sound * 0.25, MildEchoCount, magnitude: _[0.25], MildEchoDelay, mustAddAudioLength) / 0.25;
+            // Test without name (defaults to caller member name 'MildEcho')
+            var echoed = EchoParallel(sound * 0.25, MildEchoCount, magnitude: _[0.25], MildEchoDelay, mustAddAudioLength) / 0.25;
 
             _mildEchoAudioLengthWasAdded = true;
 
@@ -462,13 +469,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                   o            
                                 
                                 
-        o                   o ");
-
-        FluentOutlet VibraphaseEnvelope => WithName().Curve(@"
-           o                   
-         o   o                 
-                                
-                   o           
         o                   o ");
 
         #endregion
