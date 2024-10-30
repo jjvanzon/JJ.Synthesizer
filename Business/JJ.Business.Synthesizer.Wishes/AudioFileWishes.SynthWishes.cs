@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet ParallelAdd(double volume, params Func<Outlet>[] funcs)
             => ParallelAdd(volume, (IList<Func<Outlet>>)funcs);
 
-        private object _channelLock = new object();
+        private readonly object _channelLock = new object();
         
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(double volume, IList<Func<Outlet>> funcs)
@@ -66,36 +66,36 @@ namespace JJ.Business.Synthesizer.Wishes
             string[] fileNames = GetParallelAdd_FileNames(parallelsCount);
             var reloadedSamples = new Outlet[parallelsCount];
 
-            // TODO: lock () after all?
             // TODO: Switch the indices: channels first. Makes locking per channel less problematic?
 
             // Get outlets first before going parallel.
             var outlets = new Outlet[parallelsCount][];
 
-            //lock (_channelLock)
-            //{
-            //    ChannelEnum originalChannel = Channel;
+            lock (_channelLock)
+            {
+                ChannelEnum originalChannel = Channel;
+
                 for (int i = 0; i < parallelsCount; i++)
                 {
                     outlets[i] = new Outlet[channelCount];
 
                     for (int j = 0; j < channelCount; j++)
                     {
-                        lock (_channelLock)
-                        {
-                            ChannelEnum originalChannel = Channel;
-                            
-                            // Here's the thread-unsafe part, but the property is handy against parameteritis.
-                            ChannelIndex = j;
-                            outlets[i][j] = funcs[i]();
-                            
-                            Channel = originalChannel;
-                        }
+                        //lock (_channelLock)
+                        //{
+                        //    ChannelEnum originalChannel = Channel;
+
+                        // Here's the thread-unsafe part, but the property is handy against parameteritis.
+                        ChannelIndex = j;
+                        outlets[i][j] = funcs[i]();
+
+                        //    Channel = originalChannel;
+                        //}
                     }
                 }
 
-            //    Channel = originalChannel;
-            //}
+                Channel = originalChannel;
+            }
 
             try
             {
@@ -163,10 +163,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 
                 for (int j = 0; j < channelCount; j++)
                 {
-                    // Here's the thread-unsafe part, but the property is handy against parameteritis.
-                    ChannelIndex = j; 
-                    
-                    outlets[i][j] = funcs[i]();
+                    lock (_channelLock)
+                    {
+                        ChannelEnum originalChannel = Channel;
+
+                        // Here's the thread-unsafe part, but the property is handy against parameteritis.
+                        ChannelIndex = j;
+                        outlets[i][j] = funcs[i]();
+                        
+                        Channel = originalChannel;
+                    }
                 }
             }
 
@@ -423,8 +429,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
             lines.Add($"Calculation time: {PrettyTimeSpan(stopWatch.Elapsed)}");
             lines.Add("Audio length: " + PrettyTimeSpan(TimeSpan.FromSeconds(audioFileOutput.Duration)));
+
+            // Sum up audio properties
             lines.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
-            lines.Add($"{speakerSetupEnum}");
+            lines[lines.Count - 1] += $" {BitDepth} {speakerSetupEnum}"; 
+            
             lines.Add("");
 
             if (warnings.Any())
