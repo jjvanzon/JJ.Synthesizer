@@ -546,7 +546,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => Echo(signal, count, _[magnitude], _[delay]);
 
         public FluentOutlet EchoParallel(
-            Outlet signal, double volume, int count = 8, Outlet magnitude = default, Outlet delay = default, 
+            Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default, 
             bool mustAddAudioLength = true)
         {
             if (magnitude == null) magnitude = _[0.66];
@@ -574,7 +574,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 AddAudioLength(cumulativeDelay - delay);
             }
 
-            return ParallelAdd(volume, echoTasks);
+            return ParallelAdd(echoTasks);
         }
 
         public FluentOutlet EchoAdditive(

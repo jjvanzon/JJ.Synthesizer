@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="Wishes.Helpers.docs._vibrato" />
         void Vibrato_RunTest()
-            => WithAudioLength(2).Mono().Play(() => VibratoOverPitch(A4).Sine * Envelope.Stretch(2), volume:0.9);
+            => WithAudioLength(2).Mono().Play(() => VibratoOverPitch(A4).Sine * Envelope.Stretch(2) * 0.9);
 
         [TestMethod]
         /// <inheritdoc cref="docs._tremolo" />
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="Wishes.Helpers.docs._tremolo" />
         void Tremolo_RunTest()
-            => WithAudioLength(2).Mono().Play(() => Sine(C5).Tremolo(4, 0.5) * Envelope.Stretch(2), volume: 0.3);
+            => WithAudioLength(2).Mono().Play(() => Sine(C5).Tremolo(4, 0.5) * Envelope.Stretch(2) * 0.3);
 
         // Panning Tests
 

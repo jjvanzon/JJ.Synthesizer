@@ -662,10 +662,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         internal FluentOutlet MildEcho(FluentOutlet sound, double? volume = null)
-            => EchoParallel(sound, volume ?? DefaultVolume, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
+            => EchoParallel(sound * (volume ?? DefaultVolume), MildEchoCount, magnitude: _[0.25], MildEchoDelay);
 
         FluentOutlet DeepEcho(FluentOutlet sound, double? volume = null) 
-            => EchoParallel(sound, volume ?? DefaultVolume, DeepEchoCount, magnitude: _[0.5], DeepEchoDelay);
+            => EchoParallel(sound * (volume ?? DefaultVolume), DeepEchoCount, magnitude: _[0.5], DeepEchoDelay);
         
         #endregion
 

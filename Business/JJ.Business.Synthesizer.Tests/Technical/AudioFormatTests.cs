@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Save to file
             AudioFileOutput audioFileOutput1 =
-                WithAudioLength(DURATION).SaveAudio(getSignal, volume: default, samplingRate, callerMemberName).Data;
+                WithAudioLength(DURATION).SaveAudio(getSignal, samplingRate, callerMemberName).Data;
 
             // Use sample operator
             Outlet getSample()
@@ -215,7 +215,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Save to file again
             AudioFileOutput audioFileOutput2 =
-                WithAudioLength(DURATION2).SaveAudio(getSample, volume: default, samplingRate, $"{callerMemberName}_Reloaded").Data;
+                WithAudioLength(DURATION2).SaveAudio(getSample, samplingRate, $"{callerMemberName}_Reloaded").Data;
             
             // Assert AudioFileOutput Entities
 

@@ -231,9 +231,9 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.EchoFeedBack(_thisOutlet, count, magnitude, delay);
 
         public FluentOutlet EchoParallel(
-            double volume, int count = 8, Outlet magnitude = default, Outlet delay = default, 
+            int count = 8, Outlet magnitude = default, Outlet delay = default, 
             bool mustAddAudioLength = true)
-            => _synthWishes.EchoParallel(_thisOutlet, volume, count, magnitude, delay, mustAddAudioLength);
+            => _synthWishes.EchoParallel(_thisOutlet, count, magnitude, delay, mustAddAudioLength);
 
         // Curve Chaining Methods
 
@@ -356,7 +356,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet PlayMono(double volume = default)
         {
             _synthWishes.Channel = ChannelEnum.Single;
-            _synthWishes.Mono().Play(() => _thisOutlet, volume);
+            _synthWishes.Mono().Play(() => _synthWishes.Multiply(_thisOutlet, volume));
             return this;
         }
     }

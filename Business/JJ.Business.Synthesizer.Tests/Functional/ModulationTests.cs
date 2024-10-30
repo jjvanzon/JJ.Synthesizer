@@ -1,10 +1,8 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-// ReSharper disable UnusedMember.Local
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
@@ -18,7 +16,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet DeepEchoDelayL => _[0.5];
         FluentOutlet DeepEchoDelayR => _[0.53];
 
-        public ModulationTests() 
+        public ModulationTests()
             : base(beat: 2.2, bar: 2.2)
         {
             Stereo();
@@ -29,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest() 
-            => WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle), volume: 0.6);
+            => WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle) * 0.6);
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
@@ -38,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest_Mono()
         {
-            Mono().WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle), volume: 0.15);
+            Mono().WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle) * 0.15);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -48,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass_RunTest()
         {
-            WithAudioLength(3).Play(() => DeepEcho(DetunicaBass(E0, _[3])), volume: 0.9);
+            WithAudioLength(3).Play(() => DeepEcho(DetunicaBass(E0, _[3])) * 0.9);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -59,7 +57,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica1_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica1(E2, duration)), volume: 0.15);
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica1(E2, duration)) * 0.15);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -70,7 +68,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica2_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica2(freq: B4, duration: duration)), volume: 0.9);
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica2(freq: B4, duration: duration)) * 0.9);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -81,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica3_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica3(freq: C5, duration: duration)), volume: 1);
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica3(freq: C5, duration: duration)));
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -92,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica4_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica4(freq: D5, duration: duration)), volume: 0.25);
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica4(freq: D5, duration: duration)) * 0.25);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -103,7 +101,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica5_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica5(freq: E5, duration: duration)), volume: 0.3);
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica5(freq: E5, duration: duration)) * 0.3);
         }
 
         /// <inheritdoc cref="_vibraphasedocs" />
@@ -112,7 +110,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_Chord_RunTest()
-            => Mono().Play(() => MildEcho(VibraphaseChord), volume: 0.28);
+            => Mono().Play(() => MildEcho(VibraphaseChord) * 0.28);
 
         /// <inheritdoc cref="_vibraphasedocs" />
         [TestMethod]
@@ -120,7 +118,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibraphasedocs" />
         void Vibraphase_RunTest()
-            => Mono().Play(() => MildEcho(Vibraphase(freq: E5)), volume: 0.5);
+            => Mono().Play(() => MildEcho(Vibraphase(freq: E5)) * 0.5);
 
         #endregion
 
@@ -367,7 +365,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-
         bool _mildEchoAudioLengthWasAdded;
 
         /// <inheritdoc cref="_echodocs" />
@@ -375,7 +372,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             bool mustAddAudioLength = !_mildEchoAudioLengthWasAdded;
             
-            var echoed = WithName().EchoParallel(sound, volume: 0.25, MildEchoCount, magnitude: _[0.25], MildEchoDelay, mustAddAudioLength) / 0.25;
+            var echoed = WithName().EchoParallel(sound * 0.25, MildEchoCount, magnitude: _[0.25], MildEchoDelay, mustAddAudioLength) / 0.25;
 
             _mildEchoAudioLengthWasAdded = true;
 
@@ -396,15 +393,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             switch (Channel)
             {
                 case ChannelEnum.Single:
-                    echoed = sound.EchoParallel(volume: 0.18, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL, mustAddAudioLength) / 0.18;
+                    echoed = (sound * 0.18).EchoParallel(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL, mustAddAudioLength) / 0.18;
                     break;
                 
                 case ChannelEnum.Left:
-                    echoed = sound.EchoParallel(volume: 0.4, DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL, mustAddAudioLength) / 0.4;
+                    echoed = (sound * 0.4).EchoParallel(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL, mustAddAudioLength) / 0.4;
                     break;
                 
                 case ChannelEnum.Right:
-                    echoed = sound.EchoParallel(volume: 0.4, DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR, mustAddAudioLength) / 0.4;
+                    echoed = (sound * 0.4).EchoParallel(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR, mustAddAudioLength) / 0.4;
                     break;
                 
                 default: 

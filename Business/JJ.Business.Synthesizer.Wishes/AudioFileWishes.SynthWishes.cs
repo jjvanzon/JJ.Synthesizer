@@ -18,7 +18,6 @@ using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutpu
 using static JJ.Business.Synthesizer.Wishes.FrameworkWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 // ReSharper disable AccessToModifiedClosure
-// ReSharper disable ForCanBeConvertedToForeach
 
 #pragma warning disable IDE0028
 
@@ -46,14 +45,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(double volume, params Func<Outlet>[] funcs)
             => ParallelAdd(volume, (IList<Func<Outlet>>)funcs);
-
-        //private readonly object _channelLock = new object();
         
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(double volume, IList<Func<Outlet>> funcs)
         {
             if (funcs == null) throw new ArgumentNullException(nameof(funcs));
-            volume = volume == default ? 1 : volume;
 
             if (PreviewParallels)
             {
@@ -85,7 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         for (int j = 0; j < channelCount; j++)
                         {
                             ChannelIndex = j;
-                            outlets[i][j] = funcs[i](); // This runs parallels, because the funcs can contain another parallel add.
+                            outlets[i][j] = Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
                         }
                     }
                     finally
@@ -93,7 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         Channel = originalChannel;
                     }
 
-                    SaveAudioBase(outlets[i], volume, fileName: fileNames[i], default, default);
+                    SaveAudioBase(outlets[i], fileName: fileNames[i], default, default);
                 });
 
                 // Reload Samples
@@ -163,7 +159,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     for (int j = 0; j < channelCount; j++)
                     {
                         ChannelIndex = j;
-                        outlets[i][j] = funcs[i](); // This runs parallels, because the funcs can contain another parallel add.
+                        outlets[i][j] = Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
                     }
                 }
                 finally
@@ -171,7 +167,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     Channel = originalChannel;
                 }
 
-                var saveResult = SaveAudioBase(outlets[i], volume, fileName: fileNames[i], default, default);
+                var saveResult = SaveAudioBase(outlets[i], fileName: fileNames[i], default, default);
                 PlayIfAllowed(saveResult.Data);
             });
 
@@ -181,7 +177,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 reloadedSamples[i] = Sample(fileNames[i]);
 
                 // Save and play to test the sample loading
-                var saveResult = SaveAudioBase(outlets[i], volume, fileName: fileNames[i] + "_Reloaded.wav", default, default);
+                var saveResult = SaveAudioBase(outlets[i], fileName: fileNames[i] + "_Reloaded.wav", default, default);
                 PlayIfAllowed(saveResult.Data);
             }
 
@@ -258,7 +254,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> Play(
-            Func<Outlet> outletFunc, double volume = default, int samplingRateOverride = default,
+            Func<Outlet> outletFunc, int samplingRateOverride = default,
             [CallerMemberName] string callerMemberName = null)
         {
             var originalAudioLength = AudioLength;
@@ -266,7 +262,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 (outletFunc, AudioLength) = AddPadding(outletFunc, AudioLength);
 
-                var saveResult = SaveAudio(outletFunc, volume, samplingRateOverride, callerMemberName);
+                var saveResult = SaveAudio(outletFunc, samplingRateOverride, callerMemberName);
 
                 var playResult = PlayIfAllowed(saveResult.Data);
 
@@ -284,7 +280,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> SaveAudio(
-            Func<Outlet> func, double volume = default, int samplingRateOverride = default, 
+            Func<Outlet> func, int samplingRateOverride = default, 
             [CallerMemberName] string callerMemberName = null)
         {
             var originalChannel = Channel;
@@ -297,7 +293,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         
                         return SaveAudioBase(
                             new[] { monoOutlet }, 
-                            volume, FetchName(), samplingRateOverride, callerMemberName);
+                            FetchName(), samplingRateOverride, callerMemberName);
 
                     case SpeakerSetupEnum.Stereo:
                         Left(); var leftOutlet = func();
@@ -305,7 +301,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         
                         return SaveAudioBase(
                             new[] { leftOutlet, rightOutlet },
-                            volume, FetchName(), samplingRateOverride, callerMemberName);
+                            FetchName(), samplingRateOverride, callerMemberName);
                     default:
                         throw new ValueNotSupportedException(SpeakerSetup);
                 }
@@ -319,7 +315,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         private Result<AudioFileOutput> SaveAudioBase(
             IList<Outlet> channelInputs,
-            double volume,
             string fileName,
             int samplingRateOverride, string callerMemberName)
         {
@@ -327,7 +322,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
             if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
             if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
-            if (volume == default) volume = 1;
             
             fileName = ResolveFileName(fileName, AudioFormat, callerMemberName);
             
@@ -345,7 +339,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Configure AudioFileOutput (avoid backend)
             var audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
-            audioFileOutput.Amplifier = volume * BitDepth.GetMaxAmplitude();
+            audioFileOutput.Amplifier = BitDepth.GetMaxAmplitude();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = AudioLength.Calculate();
             audioFileOutput.FilePath = fileName;
