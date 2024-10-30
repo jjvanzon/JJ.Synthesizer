@@ -202,7 +202,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Use sample operator
             Outlet getSample()
             {
-                var outlet = Sample(audioFileOutput1.FilePath);
+                var    outlet = WithName(audioFileOutput1.FilePath).Sample();
                 Sample sample = outlet.GetSample();
 
                 if (audioFileFormatEnum == Raw)
