@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Save to files
                 Parallel.For(0, termCount, i =>
                 {
-                    Debug.WriteLine($"Start in Parallel: {fileNames[i]}", "SynthWishes");
+                    Debug.WriteLine($"Start parallel task: {fileNames[i]}", "SynthWishes");
                                 
                     // Get outlets first (before going parallel ?)
                     ChannelEnum originalChannel = Channel;
@@ -90,6 +90,8 @@ namespace JJ.Business.Synthesizer.Wishes
                     }
 
                     SaveAudioBase(outlets[i], fileNames[i], default);
+                    
+                    Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
                 });
 
                 // Reload Samples
@@ -144,7 +146,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Save and play files
             Parallel.For(0, termCount, i =>
             {
-                Debug.WriteLine($"Start in Parallel: {fileNames[i]}", "SynthWishes");
+                Debug.WriteLine($"Start parallel task: {fileNames[i]}", "SynthWishes");
                 
                 // Get outlets first (before going parallel?)
                 ChannelEnum originalChannel = Channel;
@@ -163,6 +165,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 var saveResult = SaveAudioBase(outlets[i], fileNames[i]);
                 PlayIfAllowed(saveResult.Data);
+            
+                Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
             });
 
             // Reload sample
