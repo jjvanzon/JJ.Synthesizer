@@ -1,5 +1,6 @@
 ﻿using JJ.Business.CanonicalModel;
 using JJ.Persistence.Synthesizer;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
@@ -7,7 +8,7 @@ using JJ.Persistence.Synthesizer;
 #pragma warning disable CS0649
 #pragma warning disable CS0169 // Field is never used
 
-namespace JJ.Business.Synthesizer.Wishes.Helpers
+namespace JJ.Business.Synthesizer.Wishes
 {
     internal struct docs
     {
