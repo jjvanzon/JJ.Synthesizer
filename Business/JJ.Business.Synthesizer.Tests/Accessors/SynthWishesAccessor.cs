@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Tests.Helpers;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
@@ -27,6 +28,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public IList<Outlet> FlattenFactors(Outlet multiply)
         {
             return (IList<Outlet>)_accessor.InvokeMethod(nameof(FlattenFactors), multiply);
+        }
+
+        /// <inheritdoc cref="docs._samplingrateoverride"/>
+        public SynthWishes WithSamplingRateOverride(int? samplingRate)
+        {
+            return (SynthWishes)_accessor.InvokeMethod(nameof(WithSamplingRateOverride), samplingRate);
         }
     }
 }

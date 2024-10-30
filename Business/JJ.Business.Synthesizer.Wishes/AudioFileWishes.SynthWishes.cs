@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         Channel = originalChannel;
                     }
 
-                    SaveAudioBase(outlets[i], fileName: fileNames[i], default, default);
+                    SaveAudioBase(outlets[i], fileNames[i], default);
                 });
 
                 // Reload Samples
@@ -167,7 +167,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     Channel = originalChannel;
                 }
 
-                var saveResult = SaveAudioBase(outlets[i], fileName: fileNames[i], default, default);
+                var saveResult = SaveAudioBase(outlets[i], fileNames[i]);
                 PlayIfAllowed(saveResult.Data);
             });
 
@@ -177,7 +177,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 reloadedSamples[i] = Sample(fileNames[i]);
 
                 // Save and play to test the sample loading
-                var saveResult = SaveAudioBase(outlets[i], fileName: fileNames[i] + "_Reloaded.wav", default, default);
+                var saveResult = SaveAudioBase(outlets[i], fileNames[i] + "_Reloaded.wav");
                 PlayIfAllowed(saveResult.Data);
             }
 
@@ -254,15 +254,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> Play(
-            Func<Outlet> outletFunc, int samplingRateOverride = default,
-            [CallerMemberName] string callerMemberName = null)
+            Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
         {
             var originalAudioLength = AudioLength;
             try
             {
                 (outletFunc, AudioLength) = AddPadding(outletFunc, AudioLength);
 
-                var saveResult = SaveAudio(outletFunc, samplingRateOverride, callerMemberName);
+                var saveResult = SaveAudio(outletFunc, callerMemberName);
 
                 var playResult = PlayIfAllowed(saveResult.Data);
 
@@ -280,8 +279,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<AudioFileOutput> SaveAudio(
-            Func<Outlet> func, int samplingRateOverride = default, 
-            [CallerMemberName] string callerMemberName = null)
+            Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
         {
             var originalChannel = Channel;
             try
@@ -292,16 +290,14 @@ namespace JJ.Business.Synthesizer.Wishes
                         Center(); var monoOutlet = func();
                         
                         return SaveAudioBase(
-                            new[] { monoOutlet }, 
-                            FetchName(), samplingRateOverride, callerMemberName);
+                            new[] { monoOutlet }, FetchName(), callerMemberName);
 
                     case SpeakerSetupEnum.Stereo:
                         Left(); var leftOutlet = func();
                         Right(); var rightOutlet = func();
                         
                         return SaveAudioBase(
-                            new[] { leftOutlet, rightOutlet },
-                            FetchName(), samplingRateOverride, callerMemberName);
+                            new[] { leftOutlet, rightOutlet }, FetchName(), callerMemberName);
                     default:
                         throw new ValueNotSupportedException(SpeakerSetup);
                 }
@@ -314,9 +310,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         private Result<AudioFileOutput> SaveAudioBase(
-            IList<Outlet> channelInputs,
-            string fileName,
-            int samplingRateOverride, string callerMemberName)
+            IList<Outlet> channelInputs, string fileName, [CallerMemberName] string callerMemberName = null)
         {
             // Process Parameters
             if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
@@ -347,7 +341,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SetAudioFileFormatEnum(AudioFormat);
             audioFileOutput.Name = FetchName() ?? callerMemberName;
             
-            var samplingRateResult = ResolveSamplingRate(samplingRateOverride);
+            var samplingRateResult = ResolveSamplingRate(SamplingRateOverride);
             audioFileOutput.SamplingRate = samplingRateResult.Data;
             
             SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
@@ -618,7 +612,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return fileName;
         }
 
-        private Result<int> ResolveSamplingRate(int samplingRateOverride)
+        private Result<int> ResolveSamplingRate(int? samplingRateOverride)
         {
             var result = new Result<int>
             {
@@ -626,10 +620,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 ValidationMessages = new List<ValidationMessage>()
             };
 
-            if (samplingRateOverride != default)
+            if (samplingRateOverride.HasValue && samplingRateOverride.Value != 0)
             {
                 result.ValidationMessages.Add($"Sampling rate override: {samplingRateOverride}".ToCanonical());
-                result.Data = samplingRateOverride;
+                result.Data = samplingRateOverride.Value;
                 return result;
             }
 

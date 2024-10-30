@@ -41,5 +41,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// </summary>
         /// <inheritdoc cref="docs._default" />
         public static object _metallophone;
+
+        /// <inheritdoc cref="wishes.docs._samplingrateoverride" />
+        public static object _samplingrateoverride;
     }
 }

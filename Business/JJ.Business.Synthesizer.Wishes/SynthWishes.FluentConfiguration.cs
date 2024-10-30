@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using JetBrains.Annotations;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -138,5 +139,18 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes Linear() => WithInterpolation(InterpolationTypeEnum.Line);
         
         public SynthWishes Blocky() => WithInterpolation(InterpolationTypeEnum.Block);
+
+        // SamplingRateOverride
+
+        /// <inheritdoc cref="docs._samplingrateoverride"/>
+        internal int? SamplingRateOverride { get; private set; }
+
+        /// <inheritdoc cref="docs._samplingrateoverride"/>
+        [UsedImplicitly]
+        internal SynthWishes WithSamplingRateOverride(int? value)
+        {
+            SamplingRateOverride = value;
+            return this;
+        }
     }
 }

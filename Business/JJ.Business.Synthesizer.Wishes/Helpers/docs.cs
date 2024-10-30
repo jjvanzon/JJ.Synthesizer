@@ -301,5 +301,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// <see cref="Outlet">Outlet</see> (as <see cref="FluentOutlet">FluentOutlet</see>).
         /// </returns>
         public object _paralleladd;
+
+        /// <summary> Overrides the default sampling rate from the config file, for testing purposes. </summary>
+        public object _samplingrateoverride;
     }
 }

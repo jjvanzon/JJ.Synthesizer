@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -172,15 +173,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             bool aligned,
             [CallerMemberName] string callerMemberName = null)
         {
+
+            // Arrange
+            int samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
+            double frequency = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
+
             WithSpeakerSetup(speakerSetupEnum);
             WithBitDepth(sampleDataTypeEnum);
             WithInterpolation(interpolationTypeEnum);
             WithAudioFormat(audioFileFormatEnum);
             
-            // Arrange
-
-            int samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
-            double frequency = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
+            new SynthWishesAccessor(this).WithSamplingRateOverride(samplingRate);
 
             // Panned, amplified sine
             Outlet getSignal()
@@ -192,8 +195,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // Save to file
+
             AudioFileOutput audioFileOutput1 =
-                WithAudioLength(DURATION).SaveAudio(getSignal, samplingRate, callerMemberName).Data;
+                WithAudioLength(DURATION).SaveAudio(getSignal, callerMemberName).Data;
 
             // Use sample operator
             Outlet getSample()
@@ -215,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Save to file again
             AudioFileOutput audioFileOutput2 =
-                WithAudioLength(DURATION2).SaveAudio(getSample, samplingRate, $"{callerMemberName}_Reloaded").Data;
+                WithAudioLength(DURATION2).SaveAudio(getSample, $"{callerMemberName}_Reloaded").Data;
             
             // Assert AudioFileOutput Entities
 
