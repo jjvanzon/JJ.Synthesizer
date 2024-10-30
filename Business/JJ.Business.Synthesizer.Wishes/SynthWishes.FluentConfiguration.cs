@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -55,8 +56,15 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Channel
-        
-        public ChannelEnum Channel { get; set; }
+
+        private readonly ThreadLocal<ChannelEnum> _channel = new ThreadLocal<ChannelEnum>();
+        //private ChannelEnum _channel;
+
+        public ChannelEnum Channel
+        {
+            get => _channel.Value;
+            set => _channel.Value = value;
+        }
 
         public int ChannelIndex
         {

@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet ParallelAdd(double volume, params Func<Outlet>[] funcs)
             => ParallelAdd(volume, (IList<Func<Outlet>>)funcs);
 
-        private readonly object _channelLock = new object();
+        //private readonly object _channelLock = new object();
         
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(double volume, IList<Func<Outlet>> funcs)
@@ -68,29 +68,33 @@ namespace JJ.Business.Synthesizer.Wishes
             var outlets = new Outlet[parallelsCount][];
 
             // Get outlets first before going parallel.
-            lock (_channelLock)
+
+            for (int i = 0; i < parallelsCount; i++)
             {
-                ChannelEnum originalChannel = Channel;
-
-                for (int i = 0; i < parallelsCount; i++)
+                outlets[i] = new Outlet[channelCount];
+                for (int j = 0; j < channelCount; j++)
                 {
-                    outlets[i] = new Outlet[channelCount];
-                    for (int j = 0; j < channelCount; j++)
-                    {
-                        // Here's the thread-unsafe part.
-                        ChannelIndex = j;
-                        outlets[i][j] = funcs[i]();
-                    }
+                    //lock (_channelLock)
+                    //{
+                    //    Debug.WriteLine("Locked the Channel property.", "SynthWishes");
+                    //    ChannelEnum originalChannel = Channel;
+
+                    // Here's the thread-unsafe part.
+                    ChannelIndex = j;
+                    outlets[i][j] = funcs[i](); // TODO: This runs parallels, because the funcs contain another parallel add.
+
+                    //    Channel = originalChannel;
+                    //    Debug.WriteLine("Unlocking the Channel property.", "SynthWishes");
+                    //}
                 }
-
-                Channel = originalChannel;
             }
-
+            
             try
             {
                 // Save to files
                 Parallel.For(0, parallelsCount, i =>
                 {
+                    Debug.WriteLine($"Start in Parallel: {fileNames[i]}", "SynthWishes");
                     SaveAudioBase(outlets[i], volume, fileName: fileNames[i], default, default);
                 });
 
@@ -146,23 +150,23 @@ namespace JJ.Business.Synthesizer.Wishes
             var outlets = new Outlet[parallelsCount][];
 
             // Get outlets first before going parallel.
-            lock (_channelLock)
+            //lock (_channelLock)
+            //{
+            //    ChannelEnum originalChannel = Channel;
+
+            for (int i = 0; i < parallelsCount; i++)
             {
-                ChannelEnum originalChannel = Channel;
-
-                for (int i = 0; i < parallelsCount; i++)
+                outlets[i] = new Outlet[channelCount];
+                for (int j = 0; j < channelCount; j++)
                 {
-                    outlets[i] = new Outlet[channelCount];
-                    for (int j = 0; j < channelCount; j++)
-                    {
-                        // Here's the thread-unsafe part.
-                        ChannelIndex = j;
-                        outlets[i][j] = funcs[i]();
-                    }
+                    // Here's the thread-unsafe part.
+                    ChannelIndex = j;
+                    outlets[i][j] = funcs[i]();
                 }
-
-                Channel = originalChannel;
             }
+
+            //    Channel = originalChannel;
+            //}
 
             // Save and play files
             
@@ -420,7 +424,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Sum up audio properties
             lines.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
-            lines[lines.Count - 1] += $" {BitDepth} {speakerSetupEnum}"; 
+            lines[lines.Count - 1] += $" | {BitDepth} | {speakerSetupEnum}"; 
             
             lines.Add("");
 
