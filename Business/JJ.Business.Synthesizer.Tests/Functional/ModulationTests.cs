@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass_RunTest()
         {
-            WithAudioLength(3).Play(() => DeepEcho(DetunicaBass(E0, duration: _[3])), volume: 0.9);
+            WithAudioLength(3).Play(() => DeepEcho(DetunicaBass(E0, _[3])), volume: 0.9);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica1_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).Play(() => DeepEcho(Detunica1(freq: E2, duration: duration)), volume: 0.15);
+            WithAudioLength(duration).Play(() => DeepEcho(Detunica1(E2, duration)), volume: 0.15);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -171,37 +171,39 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet Detunica1(
-            FluentOutlet freq = null, FluentOutlet duration = null,
+            FluentOutlet freq, FluentOutlet duration = null,
             FluentOutlet detuneDepth = null, FluentOutlet chorusRate = null)
-            => Detunica(
-                freq, duration,
-                vibrato: (_[3], _[0.00010]),
-                tremolo: (_[1], _[0.03]),
-                detuneDepth: detuneDepth ?? _[0.8],
-                chorusRate: Multiply(chorusRate ?? _[0.03], DetuneRateCurve1),
-                envelopeVariation: 2);
+            => Detunica
+                (
+                    freq.VibratoOverPitch(3, 0.00010), duration,
+                    detuneDepth: detuneDepth ?? _[0.8],
+                    chorusRate: (chorusRate ?? _[0.03]) * RateCurve1,
+                    envelopeVariation: 2
+                    )
+                .Tremolo(1, 0.03);
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica2(FluentOutlet freq = null, FluentOutlet duration = null)
-            => MildEcho(
+        FluentOutlet Detunica2(FluentOutlet freq, FluentOutlet duration = null)
+            => MildEcho
+            (
                 Detunica(
-                    freq, duration,
-                    vibrato: (_[10], _[0.00020]),
-                    tremolo: (_[12], _[0.10]),
-                    detuneDepth: _[1.0],
-                    churnRate: Multiply(0.10, DetuneRateCurve2),
-                    panning: _[0.4],
-                    panbrello: (_[2.6], _[0.09])));
+                        freq.VibratoOverPitch(10, 0.00020), duration,
+                        detuneDepth: _[1.0],
+                        churnRate: 0.1 * RateCurve2)
+                    .Tremolo(12, 0.1)
+                    .Panning(0.4)
+                    .Panbrello(2.6, 0.09)
+            );
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica3(FluentOutlet freq = null, FluentOutlet duration = null)
+        FluentOutlet Detunica3(FluentOutlet freq, FluentOutlet duration = null)
             => Detunica
                (
-                   (freq ?? A4).VibratoOverPitch(5.5, 0.0005),
+                   freq.VibratoOverPitch(5.5, 0.0005),
                    duration,
                    detuneDepth: _[0.5],
-                   interferenceRate: Multiply(0.002, DetuneRateCurve1),
-                   chorusRate: Multiply(0.002,       DetuneRateCurve1),
+                   interferenceRate: Multiply(0.002, RateCurve1),
+                   chorusRate: Multiply(0.002,       RateCurve1),
                    envelopeVariation: 2
                )
                .Tremolo(15, 0.06)
@@ -209,28 +211,29 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                .Panbrello(4.8, 0.05);
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica4(FluentOutlet freq = null, FluentOutlet duration = null)
+        FluentOutlet Detunica4(FluentOutlet freq, FluentOutlet duration = null)
             => Detunica
                (
-                   (freq ?? A4).VibratoOverPitch(7, 0.0003),
+                   freq.VibratoOverPitch(7, 0.0003),
                    duration,
                    detuneDepth: _[0.5],
-                   interferenceRate: Multiply(0.003, DetuneRateCurve3)
+                   interferenceRate: 0.003 * RateCurve3
                )
                .Tremolo(10, 0.08)
-               .Panning(Stretch(Curve(0.2, 0.8), duration))
+               .Panning(Curve(0.2, 0.8).Stretch(duration))
                .Panbrello(3.4, 0.07);
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica5(FluentOutlet freq = null, FluentOutlet duration = null)
-            => Detunica(
-                freq, duration,
-                vibrato: (_[5.5], _[0.00005]),
-                tremolo: (_[3.0], _[0.25]),
-                detuneDepth: _[0.8],
-                churnRate: Multiply(0.001, DetuneRateCurve1),
-                chorusRate: _[0.001],
-                panning: _[0.48]);
+        FluentOutlet Detunica5(FluentOutlet freq, FluentOutlet duration = null)
+            => Detunica
+               (
+                   freq.VibratoOverPitch(5.5, 0.00005), duration,
+                   detuneDepth: _[0.8],
+                   churnRate: 0.001 * RateCurve1,
+                   chorusRate: _[0.001]
+               )
+               .Tremolo(3, 0.25)
+               .Panning(0.48);
 
         #endregion
 
@@ -458,19 +461,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
            
         o                                       o ");
 
-        FluentOutlet DetuneRateCurve1 => WithName().Curve(@"
+        FluentOutlet RateCurve1 => WithName().Curve(@"
                     o          
                                 
                                 
         o                   o");
 
-        FluentOutlet DetuneRateCurve2 => WithName().Curve(@"
+        FluentOutlet RateCurve2 => WithName().Curve(@"
              o                 
                                 
                                 
         o                   o ");
 
-        FluentOutlet DetuneRateCurve3 => WithName().Curve(@"
+        FluentOutlet RateCurve3 => WithName().Curve(@"
                   o            
                                 
                                 
