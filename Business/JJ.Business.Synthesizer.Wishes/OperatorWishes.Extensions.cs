@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -387,4 +386,4 @@ namespace JJ.Business.Synthesizer.Wishes
             return HasOperatorTypeName(inlet.Input, operatorTypeName);
         }
     }
-        }
+}

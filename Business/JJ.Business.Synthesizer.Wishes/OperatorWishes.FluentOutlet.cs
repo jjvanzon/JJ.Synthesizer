@@ -238,11 +238,15 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Curve Chaining Methods
 
+        /// <summary>
+        /// Paired with an operator, this method creates a curve serving as a volume envelope,
+        /// which makes the operator gets multiplied by the curve for it to serve as the volume.
+        /// </summary>
         public FluentOutlet Curve(Outlet curve)
             => _thisOutlet * _synthWishes._[curve];
 
-        public FluentOutlet Curve(IList<NodeInfo> nodeInfos)
-            => _thisOutlet * _synthWishes.Curve(nodeInfos);
+        public FluentOutlet Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
+            => _thisOutlet * _synthWishes.Curve(nodeInfos, callerMemberName);
 
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
             => _thisOutlet * _synthWishes.Curve(nodeInfos);
@@ -258,23 +262,24 @@ namespace JJ.Business.Synthesizer.Wishes
             => _thisOutlet * _synthWishes.Curve(values);
 
         /// <inheritdoc cref="docs._createcurvewithtuples" />
-        public FluentOutlet Curve(IList<(double time, double value)> nodeTuples)
-            => _thisOutlet * _synthWishes.Curve(nodeTuples);
+        public FluentOutlet Curve(
+            IList<(double time, double value)> nodeTuples, [CallerMemberName] string callerMemberName = null)
+            => _thisOutlet * _synthWishes.Curve(nodeTuples, callerMemberName);
 
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
             => _thisOutlet * _synthWishes.Curve(nodeTuples);
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
-        public FluentOutlet Curve(string text) 
-            => _thisOutlet * _synthWishes.Curve(text);
+        public FluentOutlet Curve(string text, [CallerMemberName] string callerMemberName = null)
+            => _thisOutlet * _synthWishes.Curve(text, callerMemberName);
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public FluentOutlet Curve(
             (double start, double end) x,
             (double min, double max) y,
-            string text)
-            => _thisOutlet * _synthWishes.Curve(x, y, text);
+            string text, [CallerMemberName] string callerMemberName = null)
+            => _thisOutlet * _synthWishes.Curve(x, y, text, callerMemberName);
         
                 
         // Value / Calculate
@@ -330,12 +335,32 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Related Object
 
+        /// <summary>
+        /// If this is a sample operator, this will return the underlying Sample entity,
+        /// with configuration, byte array, etc. If it's not a sample operator,
+        /// it will throw an exception.
+        /// </summary>
         public Sample GetSample() => _thisOutlet.GetSample();
 
+        /// <summary>
+        /// If this is a sample operator, this will return a sample operator wrapper,
+        /// which serves as a helper for retrieving specifics from the underlying Operator
+        /// and Sample entities.
+        /// </summary>
         public SampleOperatorWrapper GetSampleWrapper() => _thisOutlet.GetSampleWrapper();
 
+        /// <summary>
+        /// If this is a curve operator, this will return the underlying Curve entity,
+        /// that contains specifics about the nodes and how they are connected.
+        /// If it's called on something that isn't a Curve, an exception will be thrown.
+        /// </summary>
         public Curve GetCurve() => _thisOutlet.GetCurve();
 
+        /// <summary>
+        /// If this is a sample operator, this will return a curve operator wrapper,
+        /// which serves as a helper for retrieving specifics from the underlying Operator
+        /// and Curve entities.
+        /// </summary>
         public CurveInWrapper GetCurveWrapper() => _thisOutlet.GetCurveWrapper();
             
         // Fluent Configuration
