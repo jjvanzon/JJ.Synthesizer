@@ -58,7 +58,6 @@ namespace JJ.Business.Synthesizer.Wishes
         // Channel
 
         private readonly ThreadLocal<ChannelEnum> _channel = new ThreadLocal<ChannelEnum>();
-        //private ChannelEnum _channel;
 
         public ChannelEnum Channel
         {

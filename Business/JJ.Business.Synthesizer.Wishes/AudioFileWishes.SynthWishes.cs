@@ -68,24 +68,13 @@ namespace JJ.Business.Synthesizer.Wishes
             var outlets = new Outlet[parallelsCount][];
 
             // Get outlets first before going parallel.
-
             for (int i = 0; i < parallelsCount; i++)
             {
                 outlets[i] = new Outlet[channelCount];
                 for (int j = 0; j < channelCount; j++)
                 {
-                    //lock (_channelLock)
-                    //{
-                    //    Debug.WriteLine("Locked the Channel property.", "SynthWishes");
-                    //    ChannelEnum originalChannel = Channel;
-
-                    // Here's the thread-unsafe part.
                     ChannelIndex = j;
                     outlets[i][j] = funcs[i](); // TODO: This runs parallels, because the funcs contain another parallel add.
-
-                    //    Channel = originalChannel;
-                    //    Debug.WriteLine("Unlocking the Channel property.", "SynthWishes");
-                    //}
                 }
             }
             
@@ -150,26 +139,17 @@ namespace JJ.Business.Synthesizer.Wishes
             var outlets = new Outlet[parallelsCount][];
 
             // Get outlets first before going parallel.
-            //lock (_channelLock)
-            //{
-            //    ChannelEnum originalChannel = Channel;
-
             for (int i = 0; i < parallelsCount; i++)
             {
                 outlets[i] = new Outlet[channelCount];
                 for (int j = 0; j < channelCount; j++)
                 {
-                    // Here's the thread-unsafe part.
                     ChannelIndex = j;
                     outlets[i][j] = funcs[i]();
                 }
             }
 
-            //    Channel = originalChannel;
-            //}
-
             // Save and play files
-            
             Parallel.For(0, parallelsCount, i =>
             {
                 var saveResult = SaveAudioBase(outlets[i], volume, fileName: fileNames[i], default, default);
