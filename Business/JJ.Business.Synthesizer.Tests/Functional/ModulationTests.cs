@@ -36,16 +36,20 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public void Test_Detunica_Jingle_Mono() => new ModulationTests().Detunica_Jingle_RunTest_Mono();
 
         /// <inheritdoc cref="docs._detunica" />
-        internal void Detunica_Jingle_RunTest_Mono() 
-            => Mono().WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle), volume: 0.15);
-        
+        internal void Detunica_Jingle_RunTest_Mono()
+        {
+            Mono().WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle), volume: 0.15);
+        }
+
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
         public void Test_DetunicaBass() => new ModulationTests().DetunicaBass_RunTest();
 
         /// <inheritdoc cref="docs._detunica" />
-        internal void DetunicaBass_RunTest() 
-            => WithAudioLength(3).Play(() => DeepEcho(DetunicaBass(duration: _[3])), volume: 0.9);
+        internal void DetunicaBass_RunTest()
+        {
+            WithAudioLength(3).Play(() => DeepEcho(DetunicaBass(duration: _[3])), volume: 0.9);
+        }
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
@@ -133,14 +137,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         );
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet DetunicaJingle => Add
+        FluentOutlet DetunicaJingle => WithName().ParallelAdd
         (
-            DetunicaBass(bar[1],              bars[5.25]),
-            Detunica2   (bar[2], B4, _[0.70], bars[1.50]),
-            Detunica3   (bar[3], C5, _[0.75], bars[1.60]),
-            Detunica4   (bar[4], D5, _[0.90], bars[1.50]),
-            Detunica5   (bar[5], E5, _[1.00], bars[3.00])
-        );
+            volume: 0.26,
+            () => DetunicaBass(bar[1],              bars[5.25]),
+            () => Detunica2   (bar[2], B4, _[0.70], bars[1.50]),
+            () => Detunica3   (bar[3], C5, _[0.75], bars[1.60]),
+            () => Detunica4   (bar[4], D5, _[0.90], bars[1.50]),
+            () => Detunica5   (bar[5], E5, _[1.00], bars[3.00])
+        ) / 0.26;
 
         #endregion
 
