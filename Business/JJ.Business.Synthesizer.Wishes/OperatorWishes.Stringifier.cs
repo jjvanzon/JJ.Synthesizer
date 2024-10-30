@@ -100,22 +100,19 @@ namespace JJ.Business.Synthesizer.Wishes
             var formattedName = op.Name ?? op.OperatorTypeName;
 
             // Curves
-            if (op.IsCurve() & !Contains(formattedName, _curveSynonyms))
+            if (op.IsCurve() & !formattedName.Contains(_curveSynonyms))
             { 
                 formattedName += " Curve";
             }
 
             // Samples
-            if (op.IsSample() & !Contains(formattedName, _sampleSynonyms))
+            if (op.IsSample() & !formattedName.Contains(_sampleSynonyms))
             { 
                 formattedName += " Sample";
             }
 
             return formattedName;
         }
-
-        public static bool Contains(string name, string[] words) 
-            => words.Any(x => name.IndexOf(x, StringComparison.OrdinalIgnoreCase) >= 0);
 
         private void BuildStringRecursive(Inlet inlet)
         {

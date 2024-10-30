@@ -34,7 +34,22 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return count;
         }
-        
+
+        public static bool Contains(this string str, string substring, bool ignoreCase = false)
+        {
+            if (str == null) throw new ArgumentNullException(nameof(str));
+            return str.IndexOf(substring, ToStringComparison(ignoreCase)) >= 0;
+        }
+
+        public static bool Contains(this string name, string[] words, bool ignoreCase = false)
+        {
+            if (name == null) throw new ArgumentNullException(nameof(name));
+            return words.Any(x => name.IndexOf(x, ToStringComparison(ignoreCase)) >= 0);
+        }
+
+        private static StringComparison ToStringComparison(bool ignoreCase) 
+            => ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+
         public static string PrettyTimeSpan(TimeSpan timeSpan)
         {
             double totalNanoseconds = timeSpan.TotalMilliseconds * 1000;

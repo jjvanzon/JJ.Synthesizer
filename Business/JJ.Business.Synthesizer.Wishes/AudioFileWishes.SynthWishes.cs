@@ -627,17 +627,20 @@ namespace JJ.Business.Synthesizer.Wishes
             fileName += fileExtension;
             return fileName;
         }
-        
+
         private string[] GetParallelAdd_FileNames(int count, string name)
         {
             string guidString = $"{Guid.NewGuid()}";
 
+            if (!name.Contains(nameof(ParallelAdd), ignoreCase: true))
+            {
+                name += " " + nameof(ParallelAdd);
+            }
+
             var fileNames = new string[count];
             for (int i = 0; i < count; i++)
             {
-                // TODO: Prepare more outside of loop.
-                string sep = string.IsNullOrWhiteSpace(name) ? default : " ";
-                fileNames[i] = $"{name}{sep}{nameof(ParallelAdd)} (Term {i + 1}) {guidString}.wav";
+                fileNames[i] = $"{name} (Term {i + 1}) {guidString}.wav";
             }
 
             return fileNames;
