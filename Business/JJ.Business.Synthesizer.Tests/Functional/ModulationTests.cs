@@ -127,15 +127,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         #region Jingles
 
         /// <inheritdoc cref="_vibraphasedocs" />
-        FluentOutlet VibraphaseChord => WithName().ParallelAdd
+        FluentOutlet VibraphaseChord => Add // Parallel gives different sound at the moment.
         (
-            0.8,
-            () => Vibraphase(freq: A4, volume: _[0.80]),
-            () => Vibraphase(freq: B4, volume: _[0.70]),
-            () => Vibraphase(freq: C5, volume: _[0.85]),
-            () => Vibraphase(freq: D5, volume: _[0.75]),
-            () => Vibraphase(freq: E5, volume: _[0.90])
-        ) / 0.8;
+            Vibraphase(freq: A4, volume: _[0.80]),
+            Vibraphase(freq: B4, volume: _[0.70]),
+            Vibraphase(freq: C5, volume: _[0.85]),
+            Vibraphase(freq: D5, volume: _[0.75]),
+            Vibraphase(freq: E5, volume: _[0.90])
+        );
 
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet DetunicaJingle => WithName().ParallelAdd
@@ -299,10 +298,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return Add
             (
-                freq.Times(1).Sine * 1.0,
-                freq.Times(2).Sine * 0.5,
-                freq.Times(3).Sine * 0.3, 
-                freq.Times(4).Sine * 0.2
+                () => freq.Times(1).Sine * 1.0,
+                () => freq.Times(2).Sine * 0.5,
+                () => freq.Times(3).Sine * 0.3, 
+                () => freq.Times(4).Sine * 0.2
             );
         }
 
