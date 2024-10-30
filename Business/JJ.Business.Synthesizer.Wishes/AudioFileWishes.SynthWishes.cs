@@ -178,21 +178,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return Add(reloadedSamples);
         }
 
-        private string[] GetParallelAdd_FileNames(int count)
-        {
-            string name = FetchName();
-            string guidString = $"{Guid.NewGuid()}";
-
-            var fileNames = new string[count];
-            for (int i = 0; i < count; i++)
-            {
-                string sep = string.IsNullOrWhiteSpace(name) ? default : " ";
-                fileNames[i] = $"{name}{sep}{nameof(ParallelAdd)} (Term {i + 1}) {guidString}.wav";
-            }
-
-            return fileNames;
-        }
-
         // Sample
         
         /// <inheritdoc cref="docs._sample"/>
@@ -578,38 +563,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return lines.ToResult();
         }
-
-        private string ResolveAudioFileName(
-            string explicitFileName, 
-            AudioFileFormatEnum audioFileFormatEnum, 
-            string callerMemberName)
-        {
-            string fileName = explicitFileName;
-
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                fileName = FetchName();
-            }
-
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                fileName = $"{PrettifyName(callerMemberName)}";
-            }
-
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                fileName = $"{nameof(AudioFileOutput)} {DateTime.Now:yyyy-MM-dd HH-mm-ss}.{DateTime.Now.Millisecond:000}";
-            }
-
-            string fileExtension = audioFileFormatEnum.GetFileExtension();
-            if (!fileName.EndsWith(fileExtension))
-            {
-                fileName += fileExtension;
-            }
-
-            return fileName;
-        }
-
+        
         private Result<int> ResolveSamplingRate(int? samplingRateOverride)
         {
             var result = new Result<int>
@@ -651,6 +605,52 @@ namespace JJ.Business.Synthesizer.Wishes
             result.ValidationMessages.Add($"Sampling rate: {ConfigHelper.DefaultSamplingRate}".ToCanonical());
             result.Data = ConfigHelper.DefaultSamplingRate;
             return result;
+        }
+
+        private string ResolveAudioFileName(
+            string explicitFileName, 
+            AudioFileFormatEnum audioFileFormatEnum, 
+            string callerMemberName)
+        {
+            string fileName = explicitFileName;
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                fileName = FetchName();
+            }
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                fileName = $"{PrettifyName(callerMemberName)}";
+            }
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                fileName = $"{nameof(AudioFileOutput)} {DateTime.Now:yyyy-MM-dd HH-mm-ss}.{DateTime.Now.Millisecond:000}";
+            }
+
+            string fileExtension = audioFileFormatEnum.GetFileExtension();
+            if (!fileName.EndsWith(fileExtension))
+            {
+                fileName += fileExtension;
+            }
+
+            return fileName;
+        }
+        
+        private string[] GetParallelAdd_FileNames(int count)
+        {
+            string name = FetchName();
+            string guidString = $"{Guid.NewGuid()}";
+
+            var fileNames = new string[count];
+            for (int i = 0; i < count; i++)
+            {
+                string sep = string.IsNullOrWhiteSpace(name) ? default : " ";
+                fileNames[i] = $"{name}{sep}{nameof(ParallelAdd)} (Term {i + 1}) {guidString}.wav";
+            }
+
+            return fileNames;
         }
 
         private static string FormatRealTimeMessage(double duration, Stopwatch stopWatch)
