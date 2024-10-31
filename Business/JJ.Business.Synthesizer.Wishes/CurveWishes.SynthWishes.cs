@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
-using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable MemberCanBeProtected.Global

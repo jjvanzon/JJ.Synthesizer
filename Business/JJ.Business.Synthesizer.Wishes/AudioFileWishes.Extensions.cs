@@ -22,32 +22,6 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public static class AudioFileExtensionWishes
     {
-        // Name
-
-        public static Sample WithName(this Sample entity, string name)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Name = name;
-            return entity;
-        }
-
-        public static AudioFileOutput WithName(this AudioFileOutput entity, string name)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Name = name;
-            return entity;
-        }
-
-        public static SampleOperatorWrapper WithName(this SampleOperatorWrapper wrapper, string name)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            if (wrapper.Operator() == null) throw new ArgumentNullException("wrapper.Operator()");
-            
-            wrapper.Operator().WithName(name);
-            wrapper.Sample.WithName(name);
-            
-            return wrapper;
-        }
 
         // Is / As
         

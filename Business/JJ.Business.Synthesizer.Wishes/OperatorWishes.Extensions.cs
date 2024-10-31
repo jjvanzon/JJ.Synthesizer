@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Business.Synthesizer.Warnings;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
-using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable NotResolvedInText
@@ -21,50 +13,6 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="_operatorextensionwishes"/>
     public static class OperatorExtensionsWishes
     {
-        // Name
-
-        public static Outlet WithName(this Outlet entity, string name)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Operator.WithName(name);
-            return entity;
-        }
-
-        public static Operator WithName(this Operator op, string name)
-        {
-            if (op == null) throw new ArgumentNullException(nameof(op));
-            
-            if (string.IsNullOrWhiteSpace(name)) return op;
-            
-            op.Name = name;
-
-            if (op.AsCurveIn?.Curve != null)
-            {
-                op.AsCurveIn.Curve.Name = name;
-            }
-
-            if (op.AsSampleOperator?.Sample != null)
-            {
-                op.AsSampleOperator.Sample.Name = name;
-            }
-
-            return op;
-        }
-
-        public static Inlet WithName(this Inlet entity, string name)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Input.WithName(name);
-            return entity;
-        }
-        
-        public static OperatorWrapperBase WithName(this OperatorWrapperBase wrapper, string name)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            wrapper.Operator.WithName(name);
-            return wrapper;
-        }
-        
         // Missing
         
         public static Operator Operator(this SampleOperatorWrapper wrapper)

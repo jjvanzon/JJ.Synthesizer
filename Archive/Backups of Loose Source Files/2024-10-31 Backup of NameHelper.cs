@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿// Moved
+
+using System.Runtime.CompilerServices;
 using JJ.Framework.Common;
 using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.docs;

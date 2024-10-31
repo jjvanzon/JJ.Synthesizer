@@ -10,65 +10,6 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        // Name
-        
-        private readonly ThreadLocal<string> _name = new ThreadLocal<string>();
-
-        public string Name
-        {
-            get => _name.Value;
-            private set => _name.Value = value;
-        }
-
-        public SynthWishes WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = uglyName;
-            
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = fallbackName;
-            }
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = callerMemberName;
-            }
-            
-            Name = name;
-            return this;
-        }
-
-        /// <inheritdoc cref="_fetchname"/>
-        public string FetchName(string fallbackName1 = null, string fallbackName2 = null, string explicitName = null, [CallerMemberName] string callerMemberName = null)
-        {
-            if (!string.IsNullOrWhiteSpace(explicitName))
-            {
-                // Not sure if it should be prettified too...
-                return explicitName;
-            }
-
-            string name = Name;
-            Name = null;
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = fallbackName1;
-            }
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = fallbackName2;
-            }
-            
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = callerMemberName;
-            }
-
-            name = NameHelper.PrettifyName(name);
-            return name;
-        }
-
         // AudioLength
 
         private FluentOutlet _audioLength;

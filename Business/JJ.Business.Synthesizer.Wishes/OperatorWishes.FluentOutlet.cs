@@ -34,17 +34,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public Outlet Outlet => _thisOutlet;
 
-        // Name
-                
-        public FluentOutlet WithName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) return this;
-            
-            _thisOutlet.WithName(name);
-
-            return this;
-        }
-
         // Value (Calculate)
         
         public static explicit operator double(FluentOutlet fluentOutlet)
