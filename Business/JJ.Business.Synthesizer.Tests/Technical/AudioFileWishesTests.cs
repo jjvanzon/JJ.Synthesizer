@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Business.Synthesizer.Tests.docs;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -11,10 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class AudioFileWishesTests : SynthWishes
     {
-        /// <summary>
-        /// Testing extension methods in <see cref="AudioFileExtensionWishes" />
-        /// that didn't get any coverage elsewhere.
-        /// </summary>
+        /// <inheritdoc cref="_testaudiofileextensionwishes"/>
         [TestMethod]
         public void Test_AudioFileExtensionWishes() => new AudioFileWishesTests().AudioFileExtensionWishes_RunTest();
 

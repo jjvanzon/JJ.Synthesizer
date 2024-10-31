@@ -2,7 +2,6 @@
 using System.IO;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
@@ -17,6 +16,7 @@ using static JJ.Business.Synthesizer.Calculation.Samples.SampleCalculatorFactory
 using static JJ.Business.Synthesizer.Tests.Helpers.CopiedFromFramework;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Business.Synthesizer.Tests.docs;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable once NotAccessedField.Local
@@ -24,7 +24,7 @@ using static JJ.Framework.Testing.AssertHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
-    /// <summary> Aims to test rare exception for code coverage. </summary>
+    /// <inheritdoc cref="_throwtests"/>
     [TestClass]
     [TestCategory("Technical")]
     public class ThrowTests : SynthWishes
@@ -52,13 +52,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // OperatorWishes.SynthesizerSugar.Panning Dynamic_InvalidChannelEnum
             ThrowsException(() => Panning(Sine(), Curve((0, 0), (0, 1))));
-
-            //// CurveWishes.SynthesizerSugar.GetCurve NotFound
-            //ThrowsException(() => GetCurve("Curve"));
-
-            // CurveWishes.SynthesizerSugar.GetOrCreateCurveIn Internal_CacheKeyUnresolvableFromContext
-            //var accessor = new SynthWishesAccessor(this);
-            //ThrowsException(() => accessor.GetOrCreateCurveIn(null, () => Curve(0)));
 
             // AudioFileWishes.SynthesizerSugar.SaveAudio SpeakerSetupNotSupported
             ThrowsException(() => WithSpeakerSetup(SpeakerSetupEnum.Undefined).SaveAudio(() => Sine()));

@@ -12,7 +12,6 @@ using static System.IO.Path;
 using static System.Math;
 using static System.MidpointRounding;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
-using static JJ.Business.Synthesizer.Enums.ChannelEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
 using static JJ.Framework.Testing.AssertHelper;

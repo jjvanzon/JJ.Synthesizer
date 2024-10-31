@@ -166,7 +166,18 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="fmSignal"> A ripple sound to be shaped </param>
         /// <inheritdoc cref="_default" />
         public static object _shaperipplesound;
-            
+
+        /// <summary>
+        /// Testing extension methods in <see cref="AudioFileExtensionWishes" />
+        /// that didn't get any coverage elsewhere.
+        /// </summary>
+        public static object _testaudiofileextensionwishes;
+
+        /// <summary>
+        /// Aims to test rare exception for code coverage.
+        /// </summary>
+        public static object _throwtests;
+        
         /// <summary>
         /// Sounds like Trombone at beginning.
         /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
