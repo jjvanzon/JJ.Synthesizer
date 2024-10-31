@@ -1,11 +1,11 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
-using static JJ.Business.Synthesizer.Tests.Helpers.docs;
+using static JJ.Business.Synthesizer.Tests.docs;
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
-    /// <inheritdoc cref="_metallophone" />
+    /// <inheritdoc cref="_metallophone"/>
     [TestClass]
     [TestCategory("Functional")]
     public class AdditiveTests : SynthWishes
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             WithAudioLength(NoteDuration).Play(() => Echo(Metallophone(Fs4) * 0.5));
         }
 
-        /// <inheritdoc cref="_metallophone" />
+        /// <inheritdoc cref="_metallophone"/>
         FluentOutlet MetallophoneJingle => Add
         (
             _[ t[1, 1.0], A4 , Metallophone, 0.9 ],
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             _[ t[1, 4.0], Fs4, Metallophone, 0.4 ]
         );
 
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="_metallophone"/>
         FluentOutlet Metallophone(FluentOutlet freq, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
@@ -72,12 +72,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return faster;
         }
 
+        /// <inheritdoc cref="_mysample"/>
         FluentOutlet _mySample;
 
-        /// <summary>
-        /// Load a sample, skip some old header's bytes, maximize volume and tune to 440Hz.
-        /// Returns the initialized Sample if already loaded.
-        /// </summary>
+        /// <inheritdoc cref="_mysample"/>
         FluentOutlet MySample
         {
             get
@@ -107,10 +105,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         // Curves
 
-        /// <summary>
-        /// Creates a curve representing the volume modulation for the first sine partial.
-        /// Starts quietly, peaks at a strong volume, and then fades gradually.
-        /// </summary>
         FluentOutlet SineEnvelope1 => WithName().Curve
         (
             0.00, 0.80, 1.00, null, null, null, null, null,
@@ -118,10 +112,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             0.10, null, null, 0.02, null, null, null, 0.00
         );
 
-        /// <summary>
-        /// Creates a curve for volume modulation of the second sine partial.
-        /// Begins with a quick rise, reaches a high peak, and then slightly drops before fading.
-        /// </summary>
         FluentOutlet SineEnvelope2 => WithName().Curve
         (
             0.00, 1.00, 0.80, null, null, null, null, null,
@@ -129,11 +119,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             0.05, null, null, 0.01, null, null, null, 0.00
         );
 
-        /// <summary>
-        /// Constructs a volume curve for the third sine partial.
-        /// Starts at a moderate volume, dips to a very low level,
-        /// and then has a slight resurgence before fading out.
-        /// </summary>
         FluentOutlet SineEnvelope3 => WithName().Curve
         (
             0.30, 1.00, 0.30, null, null, null, null, null,
@@ -141,10 +126,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             0.15, null, null, 0.05, null, null, null, 0.00
         );
 
-        /// <summary>
-        /// Generates a volume curve for the sample, starting at full volume
-        /// and quickly diminishing to a lower level.
-        /// </summary>
         FluentOutlet SampleEnvelope => WithName().Curve(
             1.00, 0.50, 0.20, null, null, null, null, 0.00,
             null, null, null, null, null, null, null, null,

@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static JJ.Business.Synthesizer.Tests.docs;
+
 // ReSharper disable ReplaceWithSingleCallToAny
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    /// <summary> Copied from newer JJ.Framework version. </summary>
+    /// <inheritdoc cref="_copiedfromframework"/>
     internal static class CopiedFromFramework
     {
         public static void ThrowsException_OrInnerException(Action statement, Type expectedExceptionType, string expectedMessage)

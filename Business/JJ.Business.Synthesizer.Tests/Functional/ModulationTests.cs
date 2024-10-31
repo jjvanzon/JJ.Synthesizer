@@ -3,8 +3,8 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
+using static JJ.Business.Synthesizer.Tests.docs;
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
@@ -24,109 +24,111 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Stereo();
         }
 
-        #region Tests
+        // Tests
 
         // Long Running
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         internal void Detunica_Jingle_RunTest() 
             => WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle) * 0.6);
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         [TestMethod]
         public void Test_Detunica_Jingle_Mono() => new ModulationTests().Detunica_Jingle_RunTest_Mono();
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         internal void Detunica_Jingle_RunTest_Mono()
         {
             Mono().WithAudioLength(bars[7]).Play(() => DeepEcho(DetunicaJingle) * 0.15);
         }
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         [TestMethod]
         public void Test_DetunicaBass() => new ModulationTests().DetunicaBass_RunTest();
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         internal void DetunicaBass_RunTest()
         {
             WithAudioLength(3).Play(() => DeepEcho(DetunicaBass(E0, _[3])) * 0.9);
         }
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         [TestMethod]
         public void Test_Detunica1() => new ModulationTests().Detunica1_RunTest();
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         void Detunica1_RunTest()
         {
             var duration = _[3];
             WithAudioLength(duration).Play(() => DeepEcho(Detunica1(E2, duration)) * 0.15);
         }
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         [TestMethod]
         public void Test_Detunica2() => new ModulationTests().Detunica2_RunTest();
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         void Detunica2_RunTest()
         {
             var duration = _[3];
             WithAudioLength(duration).Play(() => DeepEcho(Detunica2(freq: B4, duration: duration)) * 0.9);
         }
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         [TestMethod]
         public void Test_Detunica3() => new ModulationTests().Detunica3_RunTest();
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         void Detunica3_RunTest()
         {
             var duration = _[3];
             WithAudioLength(duration).Play(() => DeepEcho(Detunica3(freq: C5, duration: duration)));
         }
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         [TestMethod]
         public void Test_Detunica4() => new ModulationTests().Detunica4_RunTest();
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         void Detunica4_RunTest()
         {
             var duration = _[3];
             WithAudioLength(duration).Play(() => DeepEcho(Detunica4(freq: D5, duration: duration)) * 0.25);
         }
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         [TestMethod]
         public void Test_Detunica5() => new ModulationTests().Detunica5_RunTest();
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         void Detunica5_RunTest()
         {
             var duration = _[3];
             WithAudioLength(duration).Play(() => DeepEcho(Detunica5(freq: E5, duration: duration)) * 0.3);
         }
 
-        /// <inheritdoc cref="_vibraphasedocs" />
+        /// <inheritdoc cref="_vibraphase" />
         [TestMethod]
         public void Test_Vibraphase_Chord() => new ModulationTests().Vibraphase_Chord_RunTest();
 
-        /// <inheritdoc cref="_vibraphasedocs" />
+        /// <inheritdoc cref="_vibraphase" />
         void Vibraphase_Chord_RunTest()
-            => Mono().Play(() => MildEcho(VibraphaseChord) * 0.28);
+        {
+            Mono().Play(() => MildEcho(VibraphaseChord) * 0.28);
+        }
 
-        /// <inheritdoc cref="_vibraphasedocs" />
+        /// <inheritdoc cref="_vibraphase" />
         [TestMethod]
         public void Test_Vibraphase() => new ModulationTests().Vibraphase_RunTest();
 
-        /// <inheritdoc cref="_vibraphasedocs" />
+        /// <inheritdoc cref="_vibraphase" />
         void Vibraphase_RunTest()
-            => Mono().Play(() => MildEcho(Vibraphase(freq: E5)) * 0.5);
+        {
+            Mono().Play(() => MildEcho(Vibraphase(freq: E5)) * 0.5);
+        }
 
-        #endregion
+        // Jingles
 
-        #region Jingles
-
-        /// <inheritdoc cref="_vibraphasedocs" />
+        /// <inheritdoc cref="_vibraphase" />
         FluentOutlet VibraphaseChord => Add // Parallel gives different sound at the moment.
         (
             Vibraphase(A4) * 0.80,
@@ -136,7 +138,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Vibraphase(E5) * 0.90
         );
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FluentOutlet DetunicaJingle => WithName().ParallelAdd
         (
             volume: 0.26,
@@ -147,9 +149,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => _[ beat[5], E5, Detunica5   , 1.00, l[3.00] ]
         ) / 0.26;
 
-        #endregion
-
-        #region Notes
+        // Notes
 
         FluentOutlet DetunicaBass(FluentOutlet freq, FluentOutlet duration = null)
         {
@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             ).Divide(0.5).Panbrello(2, 0.2);
         }
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FluentOutlet Detunica1(
             FluentOutlet freq, FluentOutlet duration = null,
             FluentOutlet detuneDepth = null, FluentOutlet chorusRate = null)
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 )
                 .Tremolo(1, 0.03);
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FluentOutlet Detunica2(FluentOutlet freq, FluentOutlet duration = null)
             => MildEcho
             (
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     .Panbrello(2.6, 0.09)
             );
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FluentOutlet Detunica3(FluentOutlet freq, FluentOutlet duration = null)
             => Detunica
                (
@@ -207,7 +207,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                .Panning(Stretch(Curve(0.7, 0.3), duration))
                .Panbrello(4.8, 0.05);
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FluentOutlet Detunica4(FluentOutlet freq, FluentOutlet duration = null)
             => Detunica
                (
@@ -220,7 +220,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                .Panning(Curve(0.2, 0.8).Stretch(duration))
                .Panbrello(3.4, 0.07);
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FluentOutlet Detunica5(FluentOutlet freq, FluentOutlet duration = null)
             => Detunica
                (
@@ -232,11 +232,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                .Tremolo(3, 0.25)
                .Panning(0.48);
 
-        #endregion
+        // Instruments
 
-        #region Instruments
-
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         internal FluentOutlet Detunica(
             FluentOutlet freq = default, FluentOutlet duration = default,
             FluentOutlet detuneDepth = null, FluentOutlet churnRate = null, 
@@ -255,7 +253,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <inheritdoc cref="_vibraphasedocs" />
+        /// <inheritdoc cref="_vibraphase" />
         FluentOutlet Vibraphase(
             FluentOutlet freq = null,
             FluentOutlet duration = null,
@@ -275,11 +273,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        #endregion
+        // WaveForms
 
-        #region WaveForms
-
-        /// <inheritdoc cref="_semisawdocs" />
+        /// <inheritdoc cref="_semisaw" />
         FluentOutlet SemiSaw(FluentOutlet freq)
         {
             freq = freq ?? A4;
@@ -307,7 +303,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             );
         }
 
-        /// <inheritdoc cref="_detunedocs" />
+        /// <inheritdoc cref="_detune" />
         FluentOutlet DetunedHarmonics(
             FluentOutlet freq, FluentOutlet duration,
             FluentOutlet churnRate = null, FluentOutlet interferenceRate = null, FluentOutlet chorusRate = null)
@@ -324,11 +320,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             );
         }
 
-        #endregion
+        // Effects
 
-        #region Effects
-
-        /// <inheritdoc cref="_detunedocs" />
+        /// <inheritdoc cref="_detune" />
         FluentOutlet DetuneFreq(
             FluentOutlet freq, FluentOutlet harmonic, FluentOutlet duration,
             FluentOutlet churnRate = null, FluentOutlet interfereRate = null, FluentOutlet chorusRate = null)
@@ -357,7 +351,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return detunedFreq;
         }
 
-        /// <inheritdoc cref="_vibraphasedocs" />
+        /// <inheritdoc cref="_vibraphase" />
         FluentOutlet Jitter(FluentOutlet sound, FluentOutlet depthAdjust1 = null, FluentOutlet depthAdjust2 = null)
         {
             depthAdjust1 = depthAdjust1 ?? _[0.005];
@@ -374,7 +368,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         bool _mildEchoAudioLengthWasAdded;
 
-        /// <inheritdoc cref="_echodocs" />
+        /// <inheritdoc cref="_echo" />
         FluentOutlet MildEcho(FluentOutlet sound)
         {
             bool mustAddAudioLength = !_mildEchoAudioLengthWasAdded;
@@ -389,7 +383,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         bool _deepEchoAudioLengthWasAdded;
             
-        /// <inheritdoc cref="_echodocs" />
+        /// <inheritdoc cref="_echo" />
         internal FluentOutlet DeepEcho(FluentOutlet sound)
         {
             bool mustAddAudioLength = !_deepEchoAudioLengthWasAdded;
@@ -424,9 +418,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         }
 
-        #endregion
-
-        #region Curves
+        // Curves
 
         FluentOutlet PatchyEnvelope => Curve(@"
                          o                             
@@ -468,50 +460,5 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                                 
         o                   o ");
 
-        #endregion
-
-        #region Docs
-
-        #pragma warning disable CS0649
-        #pragma warning disable IDE0044
-        #pragma warning disable CS0169 // Field is never used
-
-        // ReSharper disable InconsistentNaming
-
-        /// <summary>
-        /// Applies a jitter effect to notes, with adjustable depths.
-        /// Basically with an extreme double _tremolo effect, that goes into the negative.
-        /// That can also cause a phasing effect due to constructive and destructive interference
-        /// when playing multiple notes at the same time.
-        /// </summary>
-        /// <param name="sound"> The sound to apply the jitter effect to. </param>
-        /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
-        /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        [UsedImplicitly] object _vibraphasedocs;
-
-        /// <summary>
-        /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
-        /// </summary>
-        /// <returns> An <see cref="FluentOutlet" /> representing the semi-sawtooth waveform. </returns>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        [UsedImplicitly] object _semisawdocs;
-
-        /// <summary> Generates a detuned harmonic sound by altering the frequencies slightly. </summary>
-        /// <param name="detuneRate">
-        /// The depth of the detuning applied to the harmonics.
-        /// If not provided, a default value is used.
-        /// </param>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
-        [UsedImplicitly] object _detunedocs;
-
-        /// <summary>
-        /// Applies an echo effect to the given sound.
-        /// </summary>
-        /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
-        /// <returns> An <see cref="FluentOutlet" /> representing the sound with the applied echo effect. </returns>
-        [UsedImplicitly] object _echodocs;
-
-        #endregion
     }
 }

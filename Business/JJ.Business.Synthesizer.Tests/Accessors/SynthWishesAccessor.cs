@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using JJ.Business.Synthesizer.Tests.Helpers;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {

@@ -3,15 +3,13 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Tests.docs;
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable ExplicitCallerInfoArgument
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
-    /// <summary>
-    /// NOTE: Version 0.0.250 does not have time tracking in its oscillator,
-    /// making the FM synthesis behave differently.
-    /// </summary>
+    /// <inheritdoc cref="_fmtests"/>
     [TestClass]
     [TestCategory("Functional")]
     public class FMTests : SynthWishes
@@ -24,13 +22,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet DeepEcho(FluentOutlet sound) 
             => EchoParallel(sound * 0.4, count: 7, magnitude: _[0.50], delay: _[0.50]) / 0.4;
 
+        /// <inheritdoc cref="_fmtests"/>
         public FMTests() : base(beat: 0.45, bar: 4 * 0.45)
         {
             Mono();
             _chordFreqs = CreateChordFreqs();
         }
 
-        #region Tests
+        // Tests
 
         [TestMethod]
         public void FM_Jingle() => new FMTests().FM_Jingle_RunTest();
@@ -126,49 +125,61 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Play(() => MildEcho(PadChords(volume: _[0.92]) * 0.15));
         }
 
+        /// <inheritdoc cref="_horn" />
         [TestMethod]
         public void FM_Horn() => new FMTests().FM_Horn_RunTest();
 
+        /// <inheritdoc cref="_horn" />
         void FM_Horn_RunTest()
         {
             Play(() => MildEcho(Horn())* 0.5);
         }
 
+        /// <inheritdoc cref="_horn" />
         [TestMethod]
         public void FM_Horn_Melody1() => new FMTests().FM_Horn_Melody1_RunTest();
 
+        /// <inheritdoc cref="_horn" />
         void FM_Horn_Melody1_RunTest()
         {
             Play(() => MildEcho(HornMelody1) * 0.6);
         }
 
+        /// <inheritdoc cref="_horn" />
         [TestMethod]
         public void FM_Horn_Melody2() => new FMTests().FM_Horn_Melody2_RunTest();
 
+        /// <inheritdoc cref="_horn" />
         void FM_Horn_Melody2_RunTest()
         {
             Play(() => MildEcho(HornMelody2) * 0.6);
         }
         
+        /// <inheritdoc cref="_trombone" />
         [TestMethod]
         public void FM_Trombone() => new FMTests().FM_Trombone_RunTest();
 
+        /// <inheritdoc cref="_trombone" />
         void FM_Trombone_RunTest()
         {
             WithAudioLength(2).Play(() => MildEcho(Trombone(E2))* 0.5);
         }
         
+        /// <inheritdoc cref="_trombone" />
         [TestMethod]
         public void FM_Trombone_Melody1() => new FMTests().FM_Trombone_Melody1_RunTest();
 
+        /// <inheritdoc cref="_trombone" />
         void FM_Trombone_Melody1_RunTest()
         {
             Play(() => MildEcho(TromboneMelody1) * 0.45);
         }
 
+        /// <inheritdoc cref="_trombone" />
         [TestMethod]
         public void FM_Trombone_Melody2() => new FMTests().FM_Trombone_Melody2_RunTest();
 
+        /// <inheritdoc cref="_trombone" />
         void FM_Trombone_Melody2_RunTest()
         {
             Play(() => MildEcho(TromboneMelody2) * 0.75);
@@ -238,9 +249,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             WithAudioLength(5).Play(() => MildEcho(Create_FM_Noise_Beating(A4)) * 0.25);
         }
 
-        #endregion
-
-        #region Jingle
+        // Jingle
 
         FluentOutlet Jingle()
         {
@@ -292,9 +301,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             }
         }
 
-        #endregion
-
-        #region Melodies
+        // Melodies
 
         FluentOutlet FluteMelody1 => WithAudioLength(bars[4]).WithName().ParallelAdd
         (
@@ -344,12 +351,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 )
             );
 
+        /// <inheritdoc cref="_horn" />
         FluentOutlet HornMelody1 => WithAudioLength(beat[13 + 4]).WithName().ParallelAdd
         (
             () => _[ beat[09], Horn(C2, length[3]), 0.7 ],
             () => _[ beat[13], Horn(G1, length[4]), 0.5 ]
         );
 
+        /// <inheritdoc cref="_horn" />
         FluentOutlet HornMelody2 => WithAudioLength(beat[9 + 4]).WithName().ParallelAdd
         (
             () => _[ b[1], A2, Horn, 0.75, l[2] ],
@@ -357,6 +366,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => _[ b[9], A1, Horn, 1.00, l[4] ]
         );
         
+        /// <inheritdoc cref="_trombone" />
         FluentOutlet TromboneMelody1 => WithAudioLength(beats[6]).WithName().ParallelAdd
         (
             () => _[ b[1], A1 , Trombone      ],
@@ -364,6 +374,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => _[ b[5], Fs1, Trombone, 0.7 ]
         );
 
+        /// <inheritdoc cref="_trombone" />
         FluentOutlet TromboneMelody2 => WithAudioLength(beats[8]).WithName().ParallelAdd
         (
             () => _[ beat[3], E4, Trombone, 1, _[1.4] ],
@@ -373,12 +384,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet RippleBassMelody2 =>
             _[ bar[3.5], A1, RippleBass, 1, bars[0.8] ];
 
-        #endregion
+        
+        // Instruments
 
-        #region Instruments
-
-        /// <summary> High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_flute1" />
         FluentOutlet Flute1(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
@@ -390,8 +399,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note;
         }
 
-        /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_flute2" />
         FluentOutlet Flute2(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
@@ -404,8 +412,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume;
         }
 
-        /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_flute3" />
         FluentOutlet Flute3(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
@@ -418,8 +425,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume;
         }
 
-        /// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_flute4" />
         FluentOutlet Flute4(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
@@ -432,7 +438,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume;
         }
 
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_default" />
         FluentOutlet Organ(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq     = freq ?? A4;
@@ -451,7 +457,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note;
         }
 
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_default" />
         FluentOutlet Pad(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq     = freq ?? A4;
@@ -477,15 +483,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note;
         }
 
-        /// <summary>
-        /// Sounds like Trombone at beginning.
-        /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
-        /// Volume curve is applied.
-        /// Higher notes are shorter, lower notes are much longer.
-        /// </summary>
-        /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
-        /// <param name="durationFactor"> Duration varies with pitch, but can be multiplied by this factor (default is 1). </param>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_trombone" />
         FluentOutlet Trombone(FluentOutlet freq = null, FluentOutlet durationFactor = null)
         {
             freq           = freq ?? A1;
@@ -505,14 +503,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <summary>
-        /// Sounds like Horn.
-        /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
-        /// Volume curve is applied.
-        /// FM modulator is attempted to be tamed with curves.
-        /// </summary>
-        /// <param name="freq"> The base frequency of the sound in Hz (default A2/110Hz). </param>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_horn" />
         FluentOutlet Horn(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A2;
@@ -526,7 +517,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_default" />
         FluentOutlet ElectricNote(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
@@ -545,9 +536,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume;
         }
 
-        /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-        /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_ripplebass" />
         FluentOutlet RippleBass(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A1;
@@ -556,9 +545,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note;
         }
 
-        /// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
-        /// <param name="freq"> The base frequency of the sound in Hz (default A3/220Hz). </param>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_ripplenotesharpmetallic" />
         FluentOutlet RippleNote_SharpMetallic(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A3;
@@ -567,7 +554,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
+        /// <inheritdoc cref="_ripplesoundclean" />
         FluentOutlet RippleSound_Clean(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
@@ -576,9 +563,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
-        /// <param name="duration"> The audioLength of the sound in seconds (default is 2.5). </param>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_ripplesoundfantasyeffect" />
         FluentOutlet RippleSound_FantasyEffect(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A5;
@@ -587,8 +572,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.05 </summary>
-        /// <inheritdoc cref="ShapeRippleSound" />
+        /// <inheritdoc cref="_ripplesoundcooldouble" />
         FluentOutlet RippleSound_CoolDouble(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A5;
@@ -597,10 +581,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <summary> Shapes a ripple effect sound giving it a volume envelope and a delay, volume and audioLength. </summary>
-        /// <param name="duration"> The audioLength of the sound in seconds (default is 2.5). </param>
-        /// <param name="fmSignal"> A ripple sound to be shaped </param>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_shaperipplesound" />
         FluentOutlet ShapeRippleSound(FluentOutlet input, FluentOutlet duration)
         {
             duration = duration ?? AudioLength; // _[2.5];
@@ -609,10 +590,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <summary>
-        /// Beating audible further along the sound.
-        /// Mod speed much below sound freq, changes sound freq drastically * [0.5, 1.5]
-        /// </summary>
+        /// <inheritdoc cref="_createfmnoisebeating" />
         FluentOutlet Create_FM_Noise_Beating(FluentOutlet pitch = null, FluentOutlet duration = null)
         {
             duration = duration ?? AudioLength;
@@ -628,13 +606,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return signal * curve.Skip(duration / 16).Stretch(duration);
         }
 
-        #endregion
-
-        #region Algorithms
-
-        /// <summary> FM sound synthesis modulating with addition. Modulates sound freq to +/- a number of Hz. </summary>
-        /// <param name="modDepth"> In Hz </param>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        // Algorithms
+        
+        /// <inheritdoc cref="_fminhertz" />
         FluentOutlet FMInHertz(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
             var modulator = Sine(modSpeed) * modDepth;
@@ -642,8 +616,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <summary> FM with (faulty) multiplication around 0. </summary>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_fmaround0" />
         FluentOutlet FMAround0(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
             var modulator = Sine(modSpeed) * modDepth;
@@ -651,8 +624,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
 
-        /// <summary> FM with multiplication around 1. </summary>
-        /// <inheritdoc cref="Wishes.Helpers.docs._default" />
+        /// <inheritdoc cref="_fmaroundfreq" />
         FluentOutlet FMAroundFreq(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
             var modulator = 1 + Sine(modSpeed) * modDepth;
@@ -660,9 +632,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound;
         }
         
-        #endregion
-
-        #region Curves
+        // Curves
+        
+        // TODO: Name them? Or does GetCallerNameFromStack do it?
 
         FluentOutlet FluteCurve => Curve
         (
@@ -704,17 +676,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1, value: 0)
         );
 
-        /// <summary>
-        /// A curve that can be applied to the modulator depth to tame the modulation.
-        /// In this version of FM synthesis, the modulation depth accumulates over time without such taming.
-        /// This is because of a lack of time tracking in the oscillators in this version.
-        /// </summary>
+        /// <inheritdoc cref="_modtamingcurve"/>
         FluentOutlet ModTamingCurve => Curve(0.3, 1.0, 0.3, 0.0);
 
-        /// <inheritdoc cref="ModTamingCurve" />
+        /// <inheritdoc cref="_modtamingcurve"/>
         FluentOutlet ModTamingCurve2 => Curve(1.0, 0.5, 0.2, 0.0);
 
-        /// <inheritdoc cref="ModTamingCurve" />
+        /// <inheritdoc cref="_modtamingcurve"/>
         FluentOutlet ModTamingCurve8Times => Curve
         (
             0.3, 1.0, 0.3, 0.0,
@@ -726,8 +694,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0
         );
-
-        /// <summary> When harmonics thicken near the center, this curve can even out the volume over time. </summary>
+            
+        /// <inheritdoc cref="_evenoutcurve"/>
         FluentOutlet EvenOutCurve => Curve
         (
             (time: 0.00, value: 1.0),
@@ -779,7 +747,5 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             _chordFreqs.Select(x => new NodeInfo(x.time,
                                                  x.freq3.Value,
                                                  NodeTypeEnum.Block)).ToList());
-
-        #endregion
     }
 }

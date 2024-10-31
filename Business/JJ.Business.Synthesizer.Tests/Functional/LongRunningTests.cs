@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Business.Synthesizer.Tests.Helpers;
+using static JJ.Business.Synthesizer.Tests.docs;
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Long")]
     public class LongRunningTests
     {
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         [TestMethod]
         public void Test_Detunica_Jingle() => new ModulationTests().Detunica_Jingle_RunTest();
     }

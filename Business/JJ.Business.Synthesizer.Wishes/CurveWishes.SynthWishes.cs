@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
         {
-            string name = FetchName() ?? new StackFrame(1).GetMethod().Name;
+            string name = FetchName(GetCallerNameFromStack());
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples));
             AssignNames(wrapper, name);
             return _[wrapper];
