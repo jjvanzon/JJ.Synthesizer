@@ -264,10 +264,6 @@ namespace JJ.Business.Synthesizer.Wishes
             string text, [CallerMemberName] string callerMemberName = null)
             => _thisOutlet * _synthWishes.Curve(x, y, text, callerMemberName);
 
-        // Stringify
-
-        public string Stringify(bool singleLine = false) => _thisOutlet.Stringify(singleLine);
-
         // Related Object
 
         /// <inheritdoc cref="_getsample" />

@@ -1,6 +1,5 @@
 ﻿using System;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.docs;
@@ -28,39 +27,5 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Result.Operator;
         }
 
-        // String
-
-        /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this Outlet entity, bool singleLine = false)
-            => new OperatorStringifier().StringifyRecursive(entity, singleLine);
-
-        /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this Operator entity, bool singleLine = false)
-            => new OperatorStringifier().StringifyRecursive(entity, singleLine);
-
-        /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this Inlet entity, bool singleLine = false)
-            => new OperatorStringifier().StringifyRecursive(entity, singleLine);
-
-        /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this OperatorWrapperBase wrapper, bool singleLine = false)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier().StringifyRecursive(wrapper.Operator, singleLine);
-        }
-
-        /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this SampleOperatorWrapper wrapper, bool singleLine = false)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier().StringifyRecursive(wrapper.Result, singleLine);
-        }
-
-        /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this CurveInWrapper wrapper, bool singleLine = false)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier().StringifyRecursive(wrapper.Result, singleLine);
-        }
     }
 }

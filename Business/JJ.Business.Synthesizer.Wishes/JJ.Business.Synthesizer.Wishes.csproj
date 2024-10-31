@@ -63,8 +63,8 @@
     <Compile Include="Helpers\ToolingHelper.cs" />
     <Compile Include="IsAsWishes.cs" />
     <Compile Include="NameWishes.cs" />
-    <Compile Include="OperatorWishes.Stringifier.cs" />
-    <Compile Include="AudioFileWishes.WavHeaderExtensions.cs" />
+    <Compile Include="StringifyWishes.cs" />
+    <Compile Include="WavHeaderWishes.cs" />
     <Compile Include="NoteWishes.SynthWishes.cs" />
     <Compile Include="OperatorWishes.Extensions.cs" />
     <Compile Include="CurveWishes.CurveFactory.cs" />
