@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Moved
+
+using System;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
@@ -26,6 +28,5 @@ namespace JJ.Business.Synthesizer.Wishes
             if (wrapper.Result == null) throw new NullException(() => wrapper.Result);
             return wrapper.Result.Operator;
         }
-
     }
 }

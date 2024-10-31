@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public int FrameCount { get; set; }
     }
 
-        public static class AudioFileExtensionWishes
+    public static class AudioFileExtensionWishes
     {
         // Derived Fields
 
@@ -308,6 +308,16 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetHeaderLength(entity.AudioFileOutput);
+        }
+    }
+        
+    public partial class FluentOutlet
+    {
+        public FluentOutlet PlayMono(double volume = default)
+        {
+            _synthWishes.Channel = ChannelEnum.Single;
+            _synthWishes.Mono().Play(() => _synthWishes.Multiply(_thisOutlet, volume));
+            return this;
         }
     }
 

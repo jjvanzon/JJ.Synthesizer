@@ -1,7 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using JetBrains.Annotations;
 using static JJ.Business.Synthesizer.Wishes.docs;
@@ -10,6 +8,23 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     // Fluent Configuration
     
+    public partial class FluentOutlet
+    {
+        // Fluent Configuration
+        
+        public FluentOutlet WithAudioLength(FluentOutlet newLength)
+        {
+            _synthWishes.WithAudioLength(newLength);
+            return this;
+        }
+
+        public FluentOutlet AddAudioLength(FluentOutlet additionalLength)
+        {
+            _synthWishes.AddAudioLength(additionalLength);
+            return this;
+        }
+    }
+
     public partial class SynthWishes
     {
         // AudioLength

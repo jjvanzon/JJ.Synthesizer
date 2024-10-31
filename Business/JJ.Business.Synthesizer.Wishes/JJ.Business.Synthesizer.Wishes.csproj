@@ -62,20 +62,18 @@
     <Compile Include="Helpers\ToolingHelper.cs" />
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
+    <Compile Include="RelatedObjectWishes.cs" />
     <Compile Include="StringifyWishes.cs" />
     <Compile Include="WavHeaderWishes.cs" />
-    <Compile Include="OperatorWishes.Extensions.cs" />
     <Compile Include="CurveWishes.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="IndexerWishes.cs" />
-    <Compile Include="CurveWishes.SynthWishes.cs" />
     <Compile Include="AudioFileWishes.cs" />
     <Compile Include="NoteWishes.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
     <Compile Include="Obsolete.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResultWishes.cs" />
     <Compile Include="SynthWishes.cs" />
     <Compile Include="ValidationWishes.cs" />
   </ItemGroup>
@@ -140,11 +138,10 @@
   <ItemGroup>
     <None Include=".editorconfig" />
     <Content Include="app.config.example.xml" />
-    <Compile Include="OperatorWishes.SynthWishes.cs" />
     <Compile Include="OperatorWishes.cs" />
-    <Compile Include="CSharpOperatorsWishes.cs" />
+    <Compile Include="CSharpOperatorWishes.cs" />
     <None Include="packages.config" />
-    <Compile Include="ConfigurationWishes.cs" />
+    <Compile Include="FluentConfigurationWishes.cs" />
   </ItemGroup>
   <ItemGroup />
   <Choose>
