@@ -10,8 +10,6 @@ using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Names
-
     // Helper
     
     public static class NameHelper
@@ -126,7 +124,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class NameExtensionWishes
     {
-        // Curve
+        // Curves
 
         public static Curve WithName(this Curve entity, string name)
         {
@@ -146,7 +144,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper;
         }
 
-        // Sample / AudioFileOutput
+        // Samples / AudioFileOutput
 
         public static Sample WithName(this Sample entity, string name)
         {

@@ -1,4 +1,6 @@
-﻿using JJ.Business.CanonicalModel;
+﻿// Moved
+
+using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Validation.Entities;

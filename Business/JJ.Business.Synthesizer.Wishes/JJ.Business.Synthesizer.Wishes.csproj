@@ -54,15 +54,14 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CalculationWishes.cs" />
-    <Compile Include="CurveWishes.Extensions.cs" />
     <Compile Include="AudioFileInfoWish.cs" />
     <Compile Include="EnumWishes.Extensions.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\ConfigSection.cs" />
     <Compile Include="FrameworkWishes.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
-    <Compile Include="Helpers\~NameHelper.cs" />
     <Compile Include="Helpers\ToolingHelper.cs" />
+    <Compile Include="IsAsWishes.cs" />
     <Compile Include="NameWishes.cs" />
     <Compile Include="OperatorWishes.Stringifier.cs" />
     <Compile Include="AudioFileWishes.WavHeaderExtensions.cs" />

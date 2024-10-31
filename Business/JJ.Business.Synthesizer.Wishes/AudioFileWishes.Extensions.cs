@@ -23,54 +23,6 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class AudioFileExtensionWishes
     {
 
-        // Is / As
-        
-        public static bool IsSample(this Outlet entity) 
-            => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(SampleOperator));
-
-        public static bool IsSample(this Operator entity) 
-            => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(SampleOperator));
-
-        public static bool IsSample(this Inlet entity) 
-            => OperatorExtensionsWishes.HasOperatorTypeName(entity, nameof(SampleOperator));
-
-        internal static Sample GetSample(this Inlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetSample(entity.Input);
-        }
-
-        public static Sample GetSample(this Outlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetSample(entity.Operator);
-        }
-
-        public static Sample GetSample(this Operator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AsSampleOperator == null) throw new NullException(() => entity.AsSampleOperator);
-            return entity.AsSampleOperator.Sample;
-        }
-
-        public static SampleOperatorWrapper GetSampleWrapper(this Inlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetSampleWrapper(entity.Input);
-        }
-
-        public static SampleOperatorWrapper GetSampleWrapper(this Outlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetSampleWrapper(entity.Operator);
-        }
-
-        public static SampleOperatorWrapper GetSampleWrapper(this Operator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return new SampleOperatorWrapper(entity.AsSampleOperator);
-        }
-
         // Derived Fields
 
         public static int SizeOf(Type sampleDataType)

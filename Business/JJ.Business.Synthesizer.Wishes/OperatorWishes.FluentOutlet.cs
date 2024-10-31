@@ -1,5 +1,4 @@
-﻿using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.EntityWrappers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Persistence.Synthesizer;
@@ -26,16 +25,16 @@ namespace JJ.Business.Synthesizer.Wishes
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _thisOutlet = firstFirstOperand ?? throw new ArgumentNullException(nameof(firstFirstOperand));
         }
-        
+
         // Swift Conversion Back to Outlet
-        
-        public static implicit operator Outlet(FluentOutlet fluentOutlet) 
+
+        public static implicit operator Outlet(FluentOutlet fluentOutlet)
             => fluentOutlet?._thisOutlet;
 
         public Outlet Outlet => _thisOutlet;
 
         // Value (Calculate)
-        
+
         public static explicit operator double(FluentOutlet fluentOutlet)
             => fluentOutlet.Value;
 
@@ -52,18 +51,18 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Basic Operators
-        
+
         public FluentOutlet Add(IList<Outlet> operands) => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
-        
+
         public FluentOutlet Add(params Outlet[] operands) => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
 
         public FluentOutlet Add(Outlet b) => _synthWishes.Add(_thisOutlet, b);
 
         public FluentOutlet Add(double b) => _synthWishes.Add(_thisOutlet, b);
-        
+
         public FluentOutlet Plus(params Outlet[] operands) => Add(operands);
 
-        public FluentOutlet Plus(IList<Outlet> operands) =>  Add(operands);
+        public FluentOutlet Plus(IList<Outlet> operands) => Add(operands);
 
         public FluentOutlet Plus(Outlet b) => Add(b);
 
@@ -78,9 +77,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Minus(double b) => Subtract(b);
 
         public FluentOutlet Multiply(Outlet b) => _synthWishes.Multiply(_thisOutlet, b);
-            
+
         public FluentOutlet Multiply(double b) => _synthWishes.Multiply(_thisOutlet, b);
-        
+
         public FluentOutlet Times(Outlet b) => Multiply(b);
 
         public FluentOutlet Times(double b) => Multiply(b);
@@ -103,19 +102,19 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Skip(Outlet skip) => _synthWishes.Skip(_thisOutlet, skip);
 
         public FluentOutlet Skip(double skip) => _synthWishes.Skip(_thisOutlet, skip);
-        
+
         public FluentOutlet Stretch(Outlet timeScale) => _synthWishes.Stretch(_thisOutlet, timeScale);
-        
+
         public FluentOutlet Stretch(double timeScale) => _synthWishes.Stretch(_thisOutlet, timeScale);
-        
+
         public FluentOutlet SpeedUp(Outlet speed) => _synthWishes.SpeedUp(_thisOutlet, speed);
-        
+
         public FluentOutlet SpeedUp(double speed) => _synthWishes.SpeedUp(_thisOutlet, speed);
-        
+
         public FluentOutlet TimePower(Outlet exponent) => _synthWishes.TimePower(_thisOutlet, exponent);
-        
+
         public FluentOutlet TimePower(double exponent) => _synthWishes.TimePower(_thisOutlet, exponent);
-        
+
         // Derived Operators
 
         public FluentOutlet StrikeNote(Outlet delay = null, Outlet volume = default)
@@ -123,7 +122,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FluentOutlet StrikeNote(Outlet delay, double volume)
             => _synthWishes.StrikeNote(_thisOutlet, delay, volume);
-        
+
         public FluentOutlet StrikeNote(double delay, Outlet volume = default)
             => _synthWishes.StrikeNote(_thisOutlet, delay, volume);
 
@@ -159,23 +158,23 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FluentOutlet Panning(double panning, ChannelEnum channel = default)
             => _synthWishes.Panning(_thisOutlet, panning, channel);
-        
+
         /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(Outlet speed = default, Outlet depth = default, ChannelEnum channel = default)
             => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
-        
+
         /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(Outlet speed, double depth, ChannelEnum channel = default)
             => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
-        
+
         /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(double speed, Outlet depth, ChannelEnum channel = default)
             => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
 
         /// <inheritdoc cref="_panbrello" />
-        public FluentOutlet Panbrello(double speed, double depth, ChannelEnum channel = default) 
+        public FluentOutlet Panbrello(double speed, double depth, ChannelEnum channel = default)
             => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
-        
+
         /// <inheritdoc cref="_pitchpan" />
         public Outlet PitchPan(Outlet centerFrequency, Outlet referenceFrequency, Outlet referencePanning)
             => _synthWishes.PitchPan(_thisOutlet, centerFrequency, referenceFrequency, referencePanning);
@@ -221,7 +220,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.EchoFeedBack(_thisOutlet, count, magnitude, delay);
 
         public FluentOutlet EchoParallel(
-            int count = 8, Outlet magnitude = default, Outlet delay = default, 
+            int count = 8, Outlet magnitude = default, Outlet delay = default,
             bool mustAddAudioLength = true, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.EchoParallel(_thisOutlet, count, magnitude, delay, mustAddAudioLength, callerMemberName);
 
@@ -264,29 +263,10 @@ namespace JJ.Business.Synthesizer.Wishes
             (double min, double max) y,
             string text, [CallerMemberName] string callerMemberName = null)
             => _thisOutlet * _synthWishes.Curve(x, y, text, callerMemberName);
-        
-        
-        // Stringify
-        
-        public string Stringify(bool singleLine = false) => _thisOutlet.Stringify(singleLine);
 
-        // Is/As
-        
-        public double? AsConst => _thisOutlet.AsConst();
-        public bool IsConst => _thisOutlet.IsConst();
-        public bool IsVar => _thisOutlet.IsVar();
-        public bool IsAdd => _thisOutlet.IsAdd();
-        public bool IsSubtract => _thisOutlet.IsSubtract();
-        public bool IsMultiply => _thisOutlet.IsMultiply();
-        public bool IsDivide => _thisOutlet.IsDivide();
-        public bool IsPower => _thisOutlet.IsPower();
-        public bool IsSine => _thisOutlet.IsSine();
-        public bool IsDelay => _thisOutlet.IsDelay();
-        public bool IsSkip => _thisOutlet.IsSkip();
-        public bool IsStretch => _thisOutlet.IsStretch();
-        public bool IsSpeedUp => _thisOutlet.IsSpeedUp();
-        public bool IsTimePower => _thisOutlet.IsTimePower();
-        public bool IsAdder => _thisOutlet.IsAdder();
+        // Stringify
+
+        public string Stringify(bool singleLine = false) => _thisOutlet.Stringify(singleLine);
 
         // Related Object
 
