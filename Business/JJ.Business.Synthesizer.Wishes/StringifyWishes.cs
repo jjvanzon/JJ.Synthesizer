@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_stringify"/>
-        public string Stringify(bool singleLine = false) => _thisOutlet.Stringify(singleLine);
+        public string Stringify(bool singleLine = false) => _this.Stringify(singleLine);
     }
 
     // Stringify Extensions

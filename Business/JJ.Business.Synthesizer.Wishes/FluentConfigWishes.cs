@@ -12,13 +12,13 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public FluentOutlet WithAudioLength(FluentOutlet newLength)
         {
-            _synthWishes.WithAudioLength(newLength);
+            x.WithAudioLength(newLength);
             return this;
         }
 
         public FluentOutlet AddAudioLength(FluentOutlet additionalLength)
         {
-            _synthWishes.AddAudioLength(additionalLength);
+            x.AddAudioLength(additionalLength);
             return this;
         }
     }

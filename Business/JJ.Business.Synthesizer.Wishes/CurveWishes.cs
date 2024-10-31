@@ -260,40 +260,40 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="_curvewithoperator"/>
         public FluentOutlet Curve(Outlet curve)
-            => _thisOutlet * _synthWishes._[curve];
+            => _this * x._[curve];
 
         public FluentOutlet Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
-            => _thisOutlet * _synthWishes.Curve(nodeInfos, callerMemberName);
+            => _this * x.Curve(nodeInfos, callerMemberName);
 
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
-            => _thisOutlet * _synthWishes.Curve(nodeInfos);
+            => _this * x.Curve(nodeInfos);
 
         /// <inheritdoc cref="_createcurve" />
         public FluentOutlet Curve(string name, params double?[] values)
-            => _thisOutlet * _synthWishes.Curve(values);
+            => _this * x.Curve(values);
 
         /// <inheritdoc cref="_createcurve" />
         public FluentOutlet Curve(params double?[] values)
-            => _thisOutlet * _synthWishes.Curve(values);
+            => _this * x.Curve(values);
 
         /// <inheritdoc cref="_createcurvewithtuples" />
         public FluentOutlet Curve(
             IList<(double time, double value)> nodeTuples, [CallerMemberName] string callerMemberName = null)
-            => _thisOutlet * _synthWishes.Curve(nodeTuples, callerMemberName);
+            => _this * x.Curve(nodeTuples, callerMemberName);
 
         /// <inheritdoc cref="_createcurvewithtuples" />
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
-            => _thisOutlet * _synthWishes.Curve(nodeTuples);
+            => _this * x.Curve(nodeTuples);
 
         /// <inheritdoc cref="_createcurvefromstring" />
         public FluentOutlet Curve(string text, [CallerMemberName] string callerMemberName = null)
-            => _thisOutlet * _synthWishes.Curve(text, callerMemberName);
+            => _this * x.Curve(text, callerMemberName);
 
         /// <inheritdoc cref="_createcurvefromstring" />
         public FluentOutlet Curve(
             (double start, double end) x,
             (double min, double max) y,
             string text, [CallerMemberName] string callerMemberName = null)
-            => _thisOutlet * _synthWishes.Curve(x, y, text, callerMemberName);
+            => _this * this.x.Curve(x, y, text, callerMemberName);
     }
 }

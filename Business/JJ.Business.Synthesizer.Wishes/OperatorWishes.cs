@@ -61,16 +61,16 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_tremolo" />
-        public FluentOutlet Tremolo(Outlet speed = default, Outlet depth = default) => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
+        public FluentOutlet Tremolo(Outlet speed = default, Outlet depth = default) => x.Tremolo(_this, (speed, depth));
 
         /// <inheritdoc cref="_tremolo" />
-        public FluentOutlet Tremolo(double speed, Outlet depth = default) => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
+        public FluentOutlet Tremolo(double speed, Outlet depth = default) => x.Tremolo(_this, (speed, depth));
 
         /// <inheritdoc cref="_tremolo" />
-        public FluentOutlet Tremolo(Outlet speed, double depth) => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
+        public FluentOutlet Tremolo(Outlet speed, double depth) => x.Tremolo(_this, (speed, depth));
 
         /// <inheritdoc cref="_tremolo" />
-        public FluentOutlet Tremolo(double speed, double depth) => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
+        public FluentOutlet Tremolo(double speed, double depth) => x.Tremolo(_this, (speed, depth));
     }
 
     // Vibrato SynthWishes 
@@ -113,16 +113,16 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_vibrato" />
-        public FluentOutlet VibratoOverPitch(Outlet speed = default, Outlet depth = default) => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
+        public FluentOutlet VibratoOverPitch(Outlet speed = default, Outlet depth = default) => x.VibratoOverPitch(_this, (speed, depth));
 
         /// <inheritdoc cref="_vibrato" />
-        public FluentOutlet VibratoOverPitch(double speed, Outlet depth = default) => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
+        public FluentOutlet VibratoOverPitch(double speed, Outlet depth = default) => x.VibratoOverPitch(_this, (speed, depth));
 
         /// <inheritdoc cref="_vibrato" />
-        public FluentOutlet VibratoOverPitch(Outlet speed, double depth) => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
+        public FluentOutlet VibratoOverPitch(Outlet speed, double depth) => x.VibratoOverPitch(_this, (speed, depth));
 
         /// <inheritdoc cref="_vibrato" />
-        public FluentOutlet VibratoOverPitch(double speed, double depth) => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
+        public FluentOutlet VibratoOverPitch(double speed, double depth) => x.VibratoOverPitch(_this, (speed, depth));
     }
     
     // OperatorWishes FluentOutlet
@@ -130,13 +130,13 @@ namespace JJ.Business.Synthesizer.Wishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class FluentOutlet
     {
-        private readonly SynthWishes _synthWishes;
-        private readonly Outlet _thisOutlet;
+        private readonly SynthWishes x;
+        private readonly Outlet _this;
 
         public FluentOutlet(SynthWishes synthWishes, Outlet firstFirstOperand)
         {
-            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-            _thisOutlet = firstFirstOperand ?? throw new ArgumentNullException(nameof(firstFirstOperand));
+            x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+            _this = firstFirstOperand ?? throw new ArgumentNullException(nameof(firstFirstOperand));
         }
 
         private string DebuggerDisplay => GetDebuggerDisplay(this);
@@ -144,9 +144,9 @@ namespace JJ.Business.Synthesizer.Wishes
         // Swift Conversion Back to Outlet
 
         public static implicit operator Outlet(FluentOutlet fluentOutlet)
-            => fluentOutlet?._thisOutlet;
+            => fluentOutlet?._this;
 
-        public Outlet Outlet => _thisOutlet;
+        public Outlet Outlet => _this;
 
         // Value (Calculate)
 
@@ -167,13 +167,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Basic Operators
 
-        public FluentOutlet Add(IList<Outlet> operands) => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
+        public FluentOutlet Add(IList<Outlet> operands) => x.Add(new[] { _this }.Concat(operands).ToArray());
 
-        public FluentOutlet Add(params Outlet[] operands) => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
+        public FluentOutlet Add(params Outlet[] operands) => x.Add(new[] { _this }.Concat(operands).ToArray());
 
-        public FluentOutlet Add(Outlet b) => _synthWishes.Add(_thisOutlet, b);
+        public FluentOutlet Add(Outlet b) => x.Add(_this, b);
 
-        public FluentOutlet Add(double b) => _synthWishes.Add(_thisOutlet, b);
+        public FluentOutlet Add(double b) => x.Add(_this, b);
 
         public FluentOutlet Plus(params Outlet[] operands) => Add(operands);
 
@@ -183,137 +183,137 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FluentOutlet Plus(double b) => Add(b);
 
-        public FluentOutlet Subtract(Outlet b) => _synthWishes.Subtract(_thisOutlet, b);
+        public FluentOutlet Subtract(Outlet b) => x.Subtract(_this, b);
 
-        public FluentOutlet Subtract(double b) => _synthWishes.Subtract(_thisOutlet, b);
+        public FluentOutlet Subtract(double b) => x.Subtract(_this, b);
 
         public FluentOutlet Minus(Outlet b) => Subtract(b);
 
         public FluentOutlet Minus(double b) => Subtract(b);
 
-        public FluentOutlet Multiply(Outlet b) => _synthWishes.Multiply(_thisOutlet, b);
+        public FluentOutlet Multiply(Outlet b) => x.Multiply(_this, b);
 
-        public FluentOutlet Multiply(double b) => _synthWishes.Multiply(_thisOutlet, b);
+        public FluentOutlet Multiply(double b) => x.Multiply(_this, b);
 
         public FluentOutlet Times(Outlet b) => Multiply(b);
 
         public FluentOutlet Times(double b) => Multiply(b);
 
-        public FluentOutlet Divide(Outlet b) => _synthWishes.Divide(_thisOutlet, b);
+        public FluentOutlet Divide(Outlet b) => x.Divide(_this, b);
 
-        public FluentOutlet Divide(double b) => _synthWishes.Divide(_thisOutlet, b);
+        public FluentOutlet Divide(double b) => x.Divide(_this, b);
 
-        public FluentOutlet Power(Outlet exponent) => _synthWishes.Power(_thisOutlet, exponent);
+        public FluentOutlet Power(Outlet exponent) => x.Power(_this, exponent);
 
-        public FluentOutlet Power(double exponent) => _synthWishes.Power(_thisOutlet, exponent);
+        public FluentOutlet Power(double exponent) => x.Power(_this, exponent);
 
         /// <inheritdoc cref="_sine" />
-        public FluentOutlet Sine => _synthWishes.Sine(_thisOutlet);
+        public FluentOutlet Sine => x.Sine(_this);
 
-        public FluentOutlet Delay(Outlet delay) => _synthWishes.Delay(_thisOutlet, delay);
+        public FluentOutlet Delay(Outlet delay) => x.Delay(_this, delay);
 
-        public FluentOutlet Delay(double delay) => _synthWishes.Delay(_thisOutlet, delay);
+        public FluentOutlet Delay(double delay) => x.Delay(_this, delay);
 
-        public FluentOutlet Skip(Outlet skip) => _synthWishes.Skip(_thisOutlet, skip);
+        public FluentOutlet Skip(Outlet skip) => x.Skip(_this, skip);
 
-        public FluentOutlet Skip(double skip) => _synthWishes.Skip(_thisOutlet, skip);
+        public FluentOutlet Skip(double skip) => x.Skip(_this, skip);
 
-        public FluentOutlet Stretch(Outlet timeScale) => _synthWishes.Stretch(_thisOutlet, timeScale);
+        public FluentOutlet Stretch(Outlet timeScale) => x.Stretch(_this, timeScale);
 
-        public FluentOutlet Stretch(double timeScale) => _synthWishes.Stretch(_thisOutlet, timeScale);
+        public FluentOutlet Stretch(double timeScale) => x.Stretch(_this, timeScale);
 
-        public FluentOutlet SpeedUp(Outlet speed) => _synthWishes.SpeedUp(_thisOutlet, speed);
+        public FluentOutlet SpeedUp(Outlet speed) => x.SpeedUp(_this, speed);
 
-        public FluentOutlet SpeedUp(double speed) => _synthWishes.SpeedUp(_thisOutlet, speed);
+        public FluentOutlet SpeedUp(double speed) => x.SpeedUp(_this, speed);
 
-        public FluentOutlet TimePower(Outlet exponent) => _synthWishes.TimePower(_thisOutlet, exponent);
+        public FluentOutlet TimePower(Outlet exponent) => x.TimePower(_this, exponent);
 
-        public FluentOutlet TimePower(double exponent) => _synthWishes.TimePower(_thisOutlet, exponent);
+        public FluentOutlet TimePower(double exponent) => x.TimePower(_this, exponent);
 
         // Derived Operators
 
         public FluentOutlet StrikeNote(Outlet delay = null, Outlet volume = default)
-            => _synthWishes.StrikeNote(_thisOutlet, delay, volume);
+            => x.StrikeNote(_this, delay, volume);
 
         public FluentOutlet StrikeNote(Outlet delay, double volume)
-            => _synthWishes.StrikeNote(_thisOutlet, delay, volume);
+            => x.StrikeNote(_this, delay, volume);
 
         public FluentOutlet StrikeNote(double delay, Outlet volume = default)
-            => _synthWishes.StrikeNote(_thisOutlet, delay, volume);
+            => x.StrikeNote(_this, delay, volume);
 
         public FluentOutlet StrikeNote(double delay, double volume)
-            => _synthWishes.StrikeNote(_thisOutlet, delay, volume);
+            => x.StrikeNote(_this, delay, volume);
 
         public FluentOutlet Panning(Outlet panning, ChannelEnum channel = default)
-            => _synthWishes.Panning(_thisOutlet, panning, channel);
+            => x.Panning(_this, panning, channel);
 
         public FluentOutlet Panning(double panning, ChannelEnum channel = default)
-            => _synthWishes.Panning(_thisOutlet, panning, channel);
+            => x.Panning(_this, panning, channel);
 
         /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(Outlet speed = default, Outlet depth = default, ChannelEnum channel = default)
-            => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
+            => x.Panbrello(_this, (speed, depth), channel);
 
         /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(Outlet speed, double depth, ChannelEnum channel = default)
-            => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
+            => x.Panbrello(_this, (speed, depth), channel);
 
         /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(double speed, Outlet depth, ChannelEnum channel = default)
-            => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
+            => x.Panbrello(_this, (speed, depth), channel);
 
         /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(double speed, double depth, ChannelEnum channel = default)
-            => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
+            => x.Panbrello(_this, (speed, depth), channel);
 
         /// <inheritdoc cref="_pitchpan" />
         public Outlet PitchPan(Outlet centerFrequency, Outlet referenceFrequency, Outlet referencePanning)
-            => _synthWishes.PitchPan(_thisOutlet, centerFrequency, referenceFrequency, referencePanning);
+            => x.PitchPan(_this, centerFrequency, referenceFrequency, referencePanning);
 
         /// <inheritdoc cref="_pitchpan" />
         public Outlet PitchPan(double centerFrequency, double referenceFrequency, double referencePanning)
-            => _synthWishes.PitchPan(_thisOutlet, centerFrequency, referenceFrequency, referencePanning);
+            => x.PitchPan(_this, centerFrequency, referenceFrequency, referencePanning);
 
         public FluentOutlet Echo(int count = 4, Outlet magnitude = default, Outlet delay = default)
-            => _synthWishes.Echo(_thisOutlet, count, magnitude, delay);
+            => x.Echo(_this, count, magnitude, delay);
 
         public FluentOutlet Echo(int count, Outlet magnitude, double delay)
-            => _synthWishes.Echo(_thisOutlet, count, magnitude, delay);
+            => x.Echo(_this, count, magnitude, delay);
 
         public FluentOutlet Echo(int count, double magnitude, Outlet delay)
-            => _synthWishes.Echo(_thisOutlet, count, magnitude, delay);
+            => x.Echo(_this, count, magnitude, delay);
 
         public FluentOutlet Echo(int count = 4, double magnitude = default, double delay = default)
-            => _synthWishes.Echo(_thisOutlet, count, magnitude, delay);
+            => x.Echo(_this, count, magnitude, delay);
 
         public FluentOutlet EchoAdditive(int count = 8, Outlet magnitude = default, Outlet delay = default)
-            => _synthWishes.EchoAdditive(_thisOutlet, count, magnitude, delay);
+            => x.EchoAdditive(_this, count, magnitude, delay);
 
         public FluentOutlet EchoAdditive(int count, Outlet magnitude, double delay)
-            => _synthWishes.EchoAdditive(_thisOutlet, count, magnitude, delay);
+            => x.EchoAdditive(_this, count, magnitude, delay);
 
         public FluentOutlet EchoAdditive(int count, double magnitude, Outlet delay)
-            => _synthWishes.EchoAdditive(_thisOutlet, count, magnitude, delay);
+            => x.EchoAdditive(_this, count, magnitude, delay);
 
         public FluentOutlet EchoAdditive(int count = 8, double magnitude = default, double delay = default)
-            => _synthWishes.EchoAdditive(_thisOutlet, count, magnitude, delay);
+            => x.EchoAdditive(_this, count, magnitude, delay);
 
         public FluentOutlet EchoFeedBack(int count = 8, Outlet magnitude = default, Outlet delay = default)
-            => _synthWishes.EchoFeedBack(_thisOutlet, count, magnitude, delay);
+            => x.EchoFeedBack(_this, count, magnitude, delay);
 
         public FluentOutlet EchoFeedBack(int count, Outlet magnitude, double delay)
-            => _synthWishes.EchoFeedBack(_thisOutlet, count, magnitude, delay);
+            => x.EchoFeedBack(_this, count, magnitude, delay);
 
         public FluentOutlet EchoFeedBack(int count, double magnitude, Outlet delay)
-            => _synthWishes.EchoFeedBack(_thisOutlet, count, magnitude, delay);
+            => x.EchoFeedBack(_this, count, magnitude, delay);
 
         public FluentOutlet EchoFeedBack(double magnitude = default, double delay = default, int count = 8)
-            => _synthWishes.EchoFeedBack(_thisOutlet, count, magnitude, delay);
+            => x.EchoFeedBack(_this, count, magnitude, delay);
 
         public FluentOutlet EchoParallel(
             int count = 8, Outlet magnitude = default, Outlet delay = default,
             bool mustAddAudioLength = true, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoParallel(_thisOutlet, count, magnitude, delay, mustAddAudioLength, callerMemberName);
+            => x.EchoParallel(_this, count, magnitude, delay, mustAddAudioLength, callerMemberName);
     }
     
     // OperatorWishes SynthWishes

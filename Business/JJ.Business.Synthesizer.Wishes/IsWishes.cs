@@ -13,21 +13,21 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FluentOutlet
     {
-        public double? AsConst => _thisOutlet.AsConst();
-        public bool IsConst => _thisOutlet.IsConst();
-        public bool IsVar => _thisOutlet.IsVar();
-        public bool IsAdd => _thisOutlet.IsAdd();
-        public bool IsSubtract => _thisOutlet.IsSubtract();
-        public bool IsMultiply => _thisOutlet.IsMultiply();
-        public bool IsDivide => _thisOutlet.IsDivide();
-        public bool IsPower => _thisOutlet.IsPower();
-        public bool IsSine => _thisOutlet.IsSine();
-        public bool IsDelay => _thisOutlet.IsDelay();
-        public bool IsSkip => _thisOutlet.IsSkip();
-        public bool IsStretch => _thisOutlet.IsStretch();
-        public bool IsSpeedUp => _thisOutlet.IsSpeedUp();
-        public bool IsTimePower => _thisOutlet.IsTimePower();
-        public bool IsAdder => _thisOutlet.IsAdder();
+        public double? AsConst => _this.AsConst();
+        public bool IsConst => _this.IsConst();
+        public bool IsVar => _this.IsVar();
+        public bool IsAdd => _this.IsAdd();
+        public bool IsSubtract => _this.IsSubtract();
+        public bool IsMultiply => _this.IsMultiply();
+        public bool IsDivide => _this.IsDivide();
+        public bool IsPower => _this.IsPower();
+        public bool IsSine => _this.IsSine();
+        public bool IsDelay => _this.IsDelay();
+        public bool IsSkip => _this.IsSkip();
+        public bool IsStretch => _this.IsStretch();
+        public bool IsSpeedUp => _this.IsSpeedUp();
+        public bool IsTimePower => _this.IsTimePower();
+        public bool IsAdder => _this.IsAdder();
     }
 
     public static class IsAsExtensionWishes

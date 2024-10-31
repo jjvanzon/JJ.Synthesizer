@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (string.IsNullOrWhiteSpace(name)) return this;
             
-            _thisOutlet.WithName(name);
+            _this.WithName(name);
 
             return this;
         }

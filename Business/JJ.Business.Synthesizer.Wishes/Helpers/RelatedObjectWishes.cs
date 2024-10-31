@@ -34,15 +34,15 @@ namespace JJ.Business.Synthesizer.Wishes
         // Related Object
 
         /// <inheritdoc cref="_getsample" />
-        public Sample GetSample() => _thisOutlet.GetSample();
+        public Sample GetSample() => _this.GetSample();
 
         /// <inheritdoc cref="_getsamplewrapper" />
-        public SampleOperatorWrapper GetSampleWrapper() => _thisOutlet.GetSampleWrapper();
+        public SampleOperatorWrapper GetSampleWrapper() => _this.GetSampleWrapper();
 
         /// <inheritdoc cref="_getcurve" />"/>
-        public Curve GetCurve() => _thisOutlet.GetCurve();
+        public Curve GetCurve() => _this.GetCurve();
 
         /// <inheritdoc cref="_getcurvewrapper"/>
-        public CurveInWrapper GetCurveWrapper() => _thisOutlet.GetCurveWrapper();
+        public CurveInWrapper GetCurveWrapper() => _this.GetCurveWrapper();
     }
 }
