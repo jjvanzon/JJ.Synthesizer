@@ -12,7 +12,6 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
-using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Framework.Testing.AssertHelper;
 // ReSharper disable UnusedVariable
 // ReSharper disable ExplicitCallerInfoArgument
