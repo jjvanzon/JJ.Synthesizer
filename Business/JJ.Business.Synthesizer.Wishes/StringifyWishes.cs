@@ -12,9 +12,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
+        /// <inheritdoc cref="_stringify"/>
         public string Stringify(bool singleLine = false) => _thisOutlet.Stringify(singleLine);
     }
 
+    // Stringify Extensions
+    
     public static class StringifyExtensionWishes
     { 
         // Operators
@@ -155,6 +158,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
  
+        // Name Formatting
+        
         private static readonly string[] _curveSynonyms = { "Curve", "Envelope", "Bend" };
         private static readonly string[] _sampleSynonyms = { "Sample", "Audio", "Wav" };
 

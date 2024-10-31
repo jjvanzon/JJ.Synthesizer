@@ -17,10 +17,11 @@ using JJ.Persistence.Synthesizer;
 namespace JJ.Business.Synthesizer.Wishes
 {
     // Validation
+    
+    // FluentOutlet Validation
 
     public partial class FluentOutlet
     {
-
         public Result Validate(bool recursive = true) => _thisOutlet.Validate(recursive);
         public void Assert(bool recursive = true) => _thisOutlet.Assert(recursive);
         public IList<string> GetWarnings(bool recursive = true) => _thisOutlet.GetWarnings(recursive);
@@ -28,27 +29,29 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class ValidationExtensionWishes
     {
-        // Validation
-
-        public static Result Validate(this Sample sample)
-            => new SampleValidator(sample).ToResult();
-
+        // AudioFileOutput Validation
+        
         public static Result Validate(this AudioFileOutput audioFileOutput)
             => new AudioFileOutputValidator(audioFileOutput).ToResult();
-
-        public static void Assert(this Sample sample)
-            => new SampleValidator(sample).Verify();
 
         public static void Assert(this AudioFileOutput audioFileOutput)
             => new AudioFileOutputValidator(audioFileOutput).Verify();
 
-        public static IList<string> GetWarnings(this Sample sample)
-            => new SampleWarningValidator(sample).ValidationMessages.Select(x => x.Text).ToList();
-
         public static IList<string> GetWarnings(this AudioFileOutput audioFileOutput)
             => new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text).ToList();
 
-        // Validation
+        // Sample Validation
+
+        public static Result Validate(this Sample sample)
+            => new SampleValidator(sample).ToResult();
+
+        public static void Assert(this Sample sample)
+            => new SampleValidator(sample).Verify();
+
+        public static IList<string> GetWarnings(this Sample sample)
+            => new SampleWarningValidator(sample).ValidationMessages.Select(x => x.Text).ToList();
+
+        // Curve Validation
 
         public static void Assert(this Curve curve)
             => new CurveValidator(curve).Verify();
@@ -62,7 +65,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Result Validate(this Node node)
             => new NodeValidator(node).ToResult();
 
-        // Validation
+        // Operator Validation
 
         public static Result Validate(this Outlet entity, bool recursive = true)
         {
@@ -165,6 +168,8 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 }
+
+// Result Wrapping
 
 namespace JJ.Business.CanonicalModel
 {
