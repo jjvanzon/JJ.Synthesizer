@@ -54,25 +54,22 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CalculationWishes.cs" />
-    <Compile Include="AudioFileInfoWish.cs" />
     <Compile Include="EnumWishes.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\ConfigSection.cs" />
     <Compile Include="FrameworkWishes.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Helpers\ToolingHelper.cs" />
-    <Compile Include="IsAsWishes.cs" />
+    <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
     <Compile Include="StringifyWishes.cs" />
     <Compile Include="WavHeaderWishes.cs" />
-    <Compile Include="NoteWishes.SynthWishes.cs" />
     <Compile Include="OperatorWishes.Extensions.cs" />
-    <Compile Include="CurveWishes.CurveFactory.cs" />
+    <Compile Include="CurveWishes.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="IndexerWishes.cs" />
     <Compile Include="CurveWishes.SynthWishes.cs" />
-    <Compile Include="AudioFileWishes.SynthWishes.cs" />
-    <Compile Include="AudioFileWishes.Extensions.cs" />
+    <Compile Include="AudioFileWishes.cs" />
     <Compile Include="NoteWishes.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
@@ -147,7 +144,7 @@
     <Compile Include="OperatorWishes.cs" />
     <Compile Include="CSharpOperatorsWishes.cs" />
     <None Include="packages.config" />
-    <Compile Include="ConfigWishes.cs" />
+    <Compile Include="ConfigurationWishes.cs" />
   </ItemGroup>
   <ItemGroup />
   <Choose>

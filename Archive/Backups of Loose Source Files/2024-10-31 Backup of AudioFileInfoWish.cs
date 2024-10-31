@@ -1,4 +1,6 @@
-﻿using static JJ.Business.Synthesizer.Wishes.docs;
+﻿// Moved
+
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {

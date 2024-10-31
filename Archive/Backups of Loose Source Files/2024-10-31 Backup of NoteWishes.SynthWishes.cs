@@ -1,4 +1,6 @@
-﻿// ReSharper disable UnusedMember.Global
+﻿// Moved
+
+// ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
 
 namespace JJ.Business.Synthesizer.Wishes
