@@ -21,6 +21,110 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    // Tremolo SynthWishes
+    
+    public partial class SynthWishes
+    { 
+        /// <inheritdoc cref="_tremolo" />
+        public FluentOutlet Tremolo(Outlet sound, (Outlet speed, Outlet depth) tremolo = default)
+        {
+            var speed = tremolo.speed ?? _[8];
+            var depth = tremolo.depth ?? _[0.33];
+            return sound * (1 + Sine(speed) * depth);
+        }
+
+        /// <inheritdoc cref="_tremolo" />
+        public FluentOutlet Tremolo(Outlet sound, (Outlet speed, double depth) tremolo)
+        {
+            var depth = tremolo.depth == default ? default : _[tremolo.depth];
+            return Tremolo(sound, (tremolo.speed, depth));
+        }
+
+        /// <inheritdoc cref="_tremolo" />
+        public FluentOutlet Tremolo(Outlet sound, (double speed, Outlet depth) tremolo)
+        {
+            var speed = tremolo.speed == default ? default : _[tremolo.speed];
+            return Tremolo(sound, (speed, tremolo.depth));
+        }
+
+        /// <inheritdoc cref="_tremolo" />
+        public FluentOutlet Tremolo(Outlet sound, (double speed, double depth) tremolo)
+        {
+            var speed = tremolo.speed == default ? default : _[tremolo.speed];
+            var depth = tremolo.depth == default ? default : _[tremolo.depth];
+            return Tremolo(sound, (speed, depth));
+        }
+    }
+
+    // Tremolo FluentOutlet
+
+    public partial class FluentOutlet
+    {
+        /// <inheritdoc cref="_tremolo" />
+        public FluentOutlet Tremolo(Outlet speed = default, Outlet depth = default) => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
+
+        /// <inheritdoc cref="_tremolo" />
+        public FluentOutlet Tremolo(double speed, Outlet depth = default) => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
+
+        /// <inheritdoc cref="_tremolo" />
+        public FluentOutlet Tremolo(Outlet speed, double depth) => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
+
+        /// <inheritdoc cref="_tremolo" />
+        public FluentOutlet Tremolo(double speed, double depth) => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
+    }
+
+    // Vibrato SynthWishes 
+
+    public partial class SynthWishes
+    { 
+        /// <inheritdoc cref="_vibrato" />
+        public FluentOutlet VibratoOverPitch(Outlet freq, (Outlet speed, Outlet depth) vibrato = default)
+        {
+            var speed = vibrato.speed ?? _[5.5];
+            var depth = vibrato.depth ?? _[0.0005];
+            return freq * (1 + Sine(speed) * depth);
+        }
+        
+        /// <inheritdoc cref="_vibrato" />
+        public FluentOutlet VibratoOverPitch(Outlet freq, (Outlet speed, double depth) vibrato)
+        {
+            var depth = vibrato.depth == default ? default : _[vibrato.depth];
+            return VibratoOverPitch(freq, (vibrato.speed, depth));
+        }
+
+        /// <inheritdoc cref="_vibrato" />
+        public FluentOutlet VibratoOverPitch(Outlet freq, (double speed, Outlet depth) vibrato)
+        {
+            var speed = vibrato.speed == default ? default : _[vibrato.speed];
+            return VibratoOverPitch(freq, (speed, vibrato.depth));
+        }
+
+        /// <inheritdoc cref="_vibrato" />
+        public FluentOutlet VibratoOverPitch(Outlet freq, (double speed, double depth) vibrato)
+        {
+            var speed = vibrato.speed == default ? default : _[vibrato.speed];
+            var depth = vibrato.depth == default ? default : _[vibrato.depth];
+            return VibratoOverPitch(freq, (speed, depth));
+        }
+    }
+    
+    // Vibrato FluentOutlet
+
+    public partial class FluentOutlet
+    {
+        /// <inheritdoc cref="_vibrato" />
+        public FluentOutlet VibratoOverPitch(Outlet speed = default, Outlet depth = default) => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
+
+        /// <inheritdoc cref="_vibrato" />
+        public FluentOutlet VibratoOverPitch(double speed, Outlet depth = default) => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
+
+        /// <inheritdoc cref="_vibrato" />
+        public FluentOutlet VibratoOverPitch(Outlet speed, double depth) => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
+
+        /// <inheritdoc cref="_vibrato" />
+        public FluentOutlet VibratoOverPitch(double speed, double depth) => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
+    }
+    
     // OperatorWishes FluentOutlet
 
     [DebuggerDisplay("{DebuggerDisplay}")]
@@ -139,30 +243,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FluentOutlet StrikeNote(double delay, double volume)
             => _synthWishes.StrikeNote(_thisOutlet, delay, volume);
-
-        public FluentOutlet VibratoOverPitch(Outlet speed = default, Outlet depth = default)
-            => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
-
-        public FluentOutlet VibratoOverPitch(Outlet speed, double depth)
-            => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
-
-        public FluentOutlet VibratoOverPitch(double speed, Outlet depth = default)
-            => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
-
-        public FluentOutlet VibratoOverPitch(double speed, double depth)
-            => _synthWishes.VibratoOverPitch(_thisOutlet, (speed, depth));
-
-        public FluentOutlet Tremolo(Outlet speed, Outlet depth)
-            => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
-
-        public FluentOutlet Tremolo(Outlet speed, double depth)
-            => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
-
-        public FluentOutlet Tremolo(double speed, Outlet depth)
-            => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
-
-        public FluentOutlet Tremolo(double speed, double depth)
-            => _synthWishes.Tremolo(_thisOutlet, (speed, depth));
 
         public FluentOutlet Panning(Outlet panning, ChannelEnum channel = default)
             => _synthWishes.Panning(_thisOutlet, panning, channel);
@@ -514,78 +594,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_default" />
         public FluentOutlet StrikeNote(Outlet sound, double delay, double volume)
             =>  StrikeNote(sound, _[delay], _[volume]);
-        
-        /// <inheritdoc cref="_vibrato" />
-        public FluentOutlet VibratoOverPitch(Outlet freq, (Outlet speed, Outlet depth) vibrato = default)
-        {
-            vibrato.speed = vibrato.speed ?? _[5.5];
-            vibrato.depth = vibrato.depth ?? _[0.0005];
-
-            return Multiply(freq, Add(_[1], Multiply(Sine(vibrato.speed), vibrato.depth)));
-        }
-        
-        /// <inheritdoc cref="_vibrato" />
-        public FluentOutlet VibratoOverPitch(Outlet freq, (Outlet speed, double depth) vibrato)
-        {
-            (Outlet speed, Outlet depth) vibrato2 = default;
-            if (vibrato.speed != default) vibrato2.speed = vibrato.speed;
-            if (vibrato.depth != default) vibrato2.depth = _[vibrato.depth];
-            return VibratoOverPitch(freq, vibrato2);
-        }
-
-        /// <inheritdoc cref="_vibrato" />
-        public FluentOutlet VibratoOverPitch(Outlet freq, (double speed, Outlet depth) vibrato)
-        {
-            (Outlet speed, Outlet depth) vibrato2 = default;
-            if (vibrato.speed != default) vibrato2.speed = _[vibrato.speed];
-            if (vibrato.depth != default) vibrato2.depth = vibrato.depth;
-            return VibratoOverPitch(freq, vibrato2);
-        }
-
-        /// <inheritdoc cref="_vibrato" />
-        public FluentOutlet VibratoOverPitch(Outlet freq, (double speed, double depth) vibrato)
-        {
-            (Outlet speed, Outlet depth) vibrato2 = default;
-            if (vibrato.speed != default) vibrato2.speed = _[vibrato.speed];
-            if (vibrato.depth != default) vibrato2.depth = _[vibrato.depth];
-            return VibratoOverPitch(freq, vibrato2);
-        }
-
-        /// <inheritdoc cref="_tremolo" />
-        public FluentOutlet Tremolo(Outlet sound, (Outlet speed, Outlet depth) tremolo = default)
-        {
-            tremolo.speed = tremolo.speed ?? _[8];
-            tremolo.depth = tremolo.depth ?? _[0.33];
-
-            return Multiply(sound, Add(Multiply(Sine(tremolo.speed), tremolo.depth), _[1]));
-        }
-
-        /// <inheritdoc cref="_tremolo" />
-        public FluentOutlet Tremolo(Outlet sound, (Outlet speed, double depth) tremolo)
-        {
-            (Outlet speed, Outlet depth) tremolo2 = default;
-            if (tremolo.speed != default) tremolo2.speed = tremolo.speed;
-            if (tremolo.depth != default) tremolo2.depth = _[tremolo.depth];
-            return VibratoOverPitch(sound, tremolo2);
-        }
-
-        /// <inheritdoc cref="_tremolo" />
-        public FluentOutlet Tremolo(Outlet sound, (double speed, Outlet depth) tremolo)
-        {
-            (Outlet speed, Outlet depth) tremolo2 = default;
-            if (tremolo.speed != default) tremolo2.speed = _[tremolo.speed];
-            if (tremolo.depth != default) tremolo2.depth = tremolo.depth;
-            return VibratoOverPitch(sound, tremolo2);
-        }
-        
-        /// <inheritdoc cref="_tremolo" />
-        public FluentOutlet Tremolo(Outlet sound, (double speed, double depth) tremolo)
-        {
-            (Outlet speed, Outlet depth) tremolo2 = default;
-            if (tremolo.speed != default) tremolo2.speed = _[tremolo.speed];
-            if (tremolo.depth != default) tremolo2.depth = _[tremolo.depth];
-            return VibratoOverPitch(sound, tremolo2);
-        }
 
         /// <inheritdoc cref="_panning" />
         public FluentOutlet Panning(Outlet sound, Outlet panning, ChannelEnum channel = default)
