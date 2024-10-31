@@ -1,4 +1,6 @@
-﻿namespace JJ.Business.Synthesizer.Wishes
+﻿using static JJ.Business.Synthesizer.Wishes.docs;
+
+namespace JJ.Business.Synthesizer.Wishes
 {
     /// <inheritdoc cref="docs._audiofileinfowish"/>
     public class AudioFileInfoWish

@@ -12,12 +12,13 @@ using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable NotResolvedInText
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    /// <inheritdoc cref="docs._operatorextensionwishes"/>
+    /// <inheritdoc cref="_operatorextensionwishes"/>
     public static class OperatorExtensionsWishes
     {
         // Name
@@ -154,33 +155,33 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // String
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this Outlet entity, bool singleLine = false)
             => new OperatorStringifier().StringifyRecursive(entity, singleLine);
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this Operator entity, bool singleLine = false)
             => new OperatorStringifier().StringifyRecursive(entity, singleLine);
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this Inlet entity, bool singleLine = false)
             => new OperatorStringifier().StringifyRecursive(entity, singleLine);
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this OperatorWrapperBase wrapper, bool singleLine = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return new OperatorStringifier().StringifyRecursive(wrapper.Operator, singleLine);
         }
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this SampleOperatorWrapper wrapper, bool singleLine = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return new OperatorStringifier().StringifyRecursive(wrapper.Result, singleLine);
         }
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this CurveInWrapper wrapper, bool singleLine = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -291,22 +292,22 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // As/Is
 
-        /// <inheritdoc cref="docs._asconst"/>
+        /// <inheritdoc cref="_asconst"/>
         public static double? AsConst(this Inlet inlet) => inlet?.Input?.AsConst();
 
-        /// <inheritdoc cref="docs._asconst"/>
+        /// <inheritdoc cref="_asconst"/>
         public static double? AsConst(this Outlet outlet) => outlet?.Operator?.AsConst();
 
-        /// <inheritdoc cref="docs._asconst"/>
+        /// <inheritdoc cref="_asconst"/>
         public static double? AsConst(this Operator op) => op?.AsValueOperator?.Value;
 
-        /// <inheritdoc cref="docs._asconst"/>
+        /// <inheritdoc cref="_asconst"/>
         public static bool IsConst(this Inlet inlet) => inlet?.AsConst() != null;
 
-        /// <inheritdoc cref="docs._asconst"/>
+        /// <inheritdoc cref="_asconst"/>
         public static bool IsConst(this Outlet outlet) => outlet?.AsConst() != null;
 
-        /// <inheritdoc cref="docs._asconst"/>
+        /// <inheritdoc cref="_asconst"/>
         public static bool IsConst(this Operator op) => op?.AsConst() != null;
         
         public static bool IsVar(this Inlet inlet)

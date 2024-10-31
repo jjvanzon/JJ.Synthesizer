@@ -4,6 +4,7 @@ using JJ.Persistence.Synthesizer;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using JetBrains.Annotations;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -37,7 +38,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
 
-        /// <inheritdoc cref="docs._fetchname"/>
+        /// <inheritdoc cref="_fetchname"/>
         public string FetchName(string fallbackName1 = null, string fallbackName2 = null, string explicitName = null, [CallerMemberName] string callerMemberName = null)
         {
             if (!string.IsNullOrWhiteSpace(explicitName))
@@ -183,10 +184,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // SamplingRateOverride
 
-        /// <inheritdoc cref="docs._samplingrateoverride"/>
+        /// <inheritdoc cref="_samplingrateoverride"/>
         internal int? SamplingRateOverride { get; private set; }
 
-        /// <inheritdoc cref="docs._samplingrateoverride"/>
+        /// <inheritdoc cref="_samplingrateoverride"/>
         [UsedImplicitly]
         internal SynthWishes WithSamplingRateOverride(int? value)
         {

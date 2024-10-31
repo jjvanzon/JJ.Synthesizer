@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using System;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable MemberCanBeProtected.Global
@@ -34,83 +35,83 @@ namespace JJ.Business.Synthesizer.Wishes
             t = new TimeIndexer(this, barDuration, beatDuration);
         }
 
-        /// <inheritdoc cref="docs._barindexer"/>
+        /// <inheritdoc cref="_barindexer"/>
         public BarIndexer bar { get; private set; }
 
-        /// <inheritdoc cref="docs._barsindexer"/>
+        /// <inheritdoc cref="_barsindexer"/>
         public BarsIndexer bars { get; private set; }
 
-        /// <inheritdoc cref="docs._beatindexer"/>
+        /// <inheritdoc cref="_beatindexer"/>
         public BeatIndexer beat { get; private set; }
 
-        /// <inheritdoc cref="docs._beatindexer"/>
+        /// <inheritdoc cref="_beatindexer"/>
         public BeatIndexer b { get; private set; }
 
-        /// <inheritdoc cref="docs._beatsindexer"/>
+        /// <inheritdoc cref="_beatsindexer"/>
         public BeatsIndexer beats { get; private set; }
 
-        /// <inheritdoc cref="docs._timeindexer"/>
+        /// <inheritdoc cref="_timeindexer"/>
         public TimeIndexer t { get; private set; }
 
-        /// <inheritdoc cref="docs._beatsindexer"/>
+        /// <inheritdoc cref="_beatsindexer"/>
         public BeatsIndexer l { get; private set; }
 
-        /// <inheritdoc cref="docs._beatsindexer"/>
+        /// <inheritdoc cref="_beatsindexer"/>
         public BeatsIndexer len { get; private set; }
 
-        /// <inheritdoc cref="docs._beatsindexer"/>
+        /// <inheritdoc cref="_beatsindexer"/>
         public BeatsIndexer length { get; private set; }
 
-        /// <inheritdoc cref="docs._barindexer"/>
+        /// <inheritdoc cref="_barindexer"/>
         public class BarIndexer
         {
             private readonly SynthWishes _parent;
             private readonly double _barDuration;
 
-            /// <inheritdoc cref="docs._barindexer"/>
+            /// <inheritdoc cref="_barindexer"/>
             internal BarIndexer(SynthWishes parent, double barDuration)
             {
                 _parent = parent;
                 _barDuration = barDuration;
             }
 
-            /// <inheritdoc cref="docs._barindexer"/>
+            /// <inheritdoc cref="_barindexer"/>
             public FluentOutlet this[double count]
                 => _parent._[(count - 1) * _barDuration];
         }
 
-        /// <inheritdoc cref="docs._barsindexer"/>
+        /// <inheritdoc cref="_barsindexer"/>
         public class BarsIndexer
         {
             private readonly SynthWishes _parent;
             private readonly double _barDuration;
 
-            /// <inheritdoc cref="docs._barsindexer"/>
+            /// <inheritdoc cref="_barsindexer"/>
             internal BarsIndexer(SynthWishes parent, double barDuration)
             {
                 _parent = parent;
                 _barDuration = barDuration;
             }
 
-            /// <inheritdoc cref="docs._barsindexer"/>
+            /// <inheritdoc cref="_barsindexer"/>
             public FluentOutlet this[double count]
                 => _parent._[count * _barDuration];
         }
 
-        /// <inheritdoc cref="docs._beatindexer"/>
+        /// <inheritdoc cref="_beatindexer"/>
         public class BeatIndexer
         {
             private readonly SynthWishes x;
             private readonly double _beatDuration;
 
-            /// <inheritdoc cref="docs._beatindexer"/>
+            /// <inheritdoc cref="_beatindexer"/>
             internal BeatIndexer(SynthWishes parent, double beatDuration)
             {
                 x = parent;
                 _beatDuration = beatDuration;
             }
 
-            /// <inheritdoc cref="docs._beatindexer"/>
+            /// <inheritdoc cref="_beatindexer"/>
             public FluentOutlet this[double count]
             {
                 get
@@ -121,36 +122,36 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="docs._beatsindexer"/>
+        /// <inheritdoc cref="_beatsindexer"/>
         public class BeatsIndexer
         {
             private readonly SynthWishes x;
             private readonly double _beatLength;
 
-            /// <inheritdoc cref="docs._beatsindexer"/>
+            /// <inheritdoc cref="_beatsindexer"/>
             internal BeatsIndexer(SynthWishes parent, double beatLength)
             {
                 x = parent;
                 _beatLength = beatLength;
             }
 
-            /// <inheritdoc cref="docs._beatsindexer"/>
+            /// <inheritdoc cref="_beatsindexer"/>
             public FluentOutlet this[double count]
                 => x._[count * _beatLength];
 
-            /// <inheritdoc cref="docs._beatsindexer"/>
+            /// <inheritdoc cref="_beatsindexer"/>
             public FluentOutlet this[FluentOutlet count]
                 => count * _beatLength;
         }
 
-        /// <inheritdoc cref="docs._timeindexer"/>
+        /// <inheritdoc cref="_timeindexer"/>
         public class TimeIndexer
         {
             private readonly SynthWishes x;
             private readonly double _barLength;
             private readonly double _beatLength;
 
-            /// <inheritdoc cref="docs._timeindexer"/>
+            /// <inheritdoc cref="_timeindexer"/>
             internal TimeIndexer(SynthWishes parent, double barLength, double beatLength)
             {
                 x = parent;
@@ -158,7 +159,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 _beatLength = beatLength;
             }
 
-            /// <inheritdoc cref="docs._timeindexer"/>
+            /// <inheritdoc cref="_timeindexer"/>
             public FluentOutlet this[double bar, double beat]
             {
                 get
@@ -168,7 +169,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
 
-            /// <inheritdoc cref="docs._timeindexer"/>
+            /// <inheritdoc cref="_timeindexer"/>
             public FluentOutlet this[FluentOutlet bar, FluentOutlet beat]
             {
                 get
@@ -179,15 +180,15 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
                         
-        /// <inheritdoc cref="docs._captureindexer" />
+        /// <inheritdoc cref="_captureindexer" />
         public CaptureIndexer _;
 
-        /// <inheritdoc cref="docs._captureindexer" />
+        /// <inheritdoc cref="_captureindexer" />
         public class CaptureIndexer
         {
             private readonly SynthWishes _parent;
 
-            /// <inheritdoc cref="docs._captureindexer" />
+            /// <inheritdoc cref="_captureindexer" />
             internal CaptureIndexer(SynthWishes parent)
             {
                 _parent = parent;
@@ -195,12 +196,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // For Value Operators
             
-            /// <inheritdoc cref="docs._captureindexer" />
+            /// <inheritdoc cref="_captureindexer" />
             public FluentOutlet this[double value] => new FluentOutlet(_parent, _parent._operatorFactory.Value(value));
 
             // Turn Outlet into FluentOutlet
             
-            /// <inheritdoc cref="docs._captureindexer" />
+            /// <inheritdoc cref="_captureindexer" />
             public FluentOutlet this[Outlet outlet]
             {
                 get

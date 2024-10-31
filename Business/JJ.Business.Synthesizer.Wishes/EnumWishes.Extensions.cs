@@ -10,6 +10,7 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.PersistenceHelper;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable RedundantIfElseBlock
@@ -94,7 +95,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    /// <inheritdoc cref="docs._setenumwishes"/>
+    /// <inheritdoc cref="_setenumwishes"/>
     public static class SetEnumWishes
     {
         // AudioFileOutput
@@ -148,7 +149,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    /// <inheritdoc cref="docs._alternativeentrypointenumextensionwishes"/>
+    /// <inheritdoc cref="_alternativeentrypointenumextensionwishes"/>
     public static class AlternativeEntryPointEnumExtensionWishes
     {
         // AudioFileOutputChannel.AudioFileFormat
@@ -580,14 +581,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // SetNodeTypeEnum for whole Curve
 
-        /// <inheritdoc cref="docs._setnodetype"/>
+        /// <inheritdoc cref="_setnodetype"/>
         public static void SetNodeType(this Curve curve, NodeType nodeType)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
             curve.Nodes.ForEach(x => x.NodeType = nodeType);
         }
 
-        /// <inheritdoc cref="docs._setnodetype"/>
+        /// <inheritdoc cref="_setnodetype"/>
         public static void SetNodeTypeEnum(this Curve curve, NodeTypeEnum nodeTypeEnum, IContext context = null)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
@@ -595,7 +596,7 @@ namespace JJ.Business.Synthesizer.Wishes
             curve.Nodes.ForEach(x => x.SetNodeTypeEnum(nodeTypeEnum, nodeTypeRepository));
         }
 
-        /// <inheritdoc cref="docs._trygetnodetype"/>
+        /// <inheritdoc cref="_trygetnodetype"/>
         public static NodeType TryGetNodeType(this Curve curve)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
@@ -614,7 +615,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="docs._trygetnodetype"/>
+        /// <inheritdoc cref="_trygetnodetype"/>
         public static NodeTypeEnum TryGetNodeTypeEnum(this Curve curve)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));

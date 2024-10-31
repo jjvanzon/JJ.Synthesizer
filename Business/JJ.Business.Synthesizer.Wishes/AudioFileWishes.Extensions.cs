@@ -10,10 +10,10 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Warnings.Entities;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable once PossibleLossOfFraction
@@ -266,7 +266,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetFrameCount(wrapper.Sample);
         }
 
-        /// <inheritdoc cref="docs._fileextension"/>
+        /// <inheritdoc cref="_fileextension"/>
         public static string GetFileExtension(this AudioFileFormatEnum enumValue)
         {
             switch (enumValue)
@@ -278,36 +278,36 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="docs._fileextension"/>
+        /// <inheritdoc cref="_fileextension"/>
         public static string GetFileExtension(this AudioFileFormat enumEntity)
             => EntityToEnumWishes.ToEnum(enumEntity).GetFileExtension();
 
-        /// <inheritdoc cref="docs._fileextension"/>
+        /// <inheritdoc cref="_fileextension"/>
         public static string GetFileExtension(this WavHeaderStruct wavHeader)
             => GetFileExtension(AudioFileFormatEnum.Wav);
 
-        /// <inheritdoc cref="docs._fileextension"/>
+        /// <inheritdoc cref="_fileextension"/>
         public static string GetFileExtension(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetFileExtension(entity.AudioFileFormat);
         }
 
-        /// <inheritdoc cref="docs._fileextension"/>
+        /// <inheritdoc cref="_fileextension"/>
         public static string GetFileExtension(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return GetFileExtension(wrapper.Sample);
         }
 
-        /// <inheritdoc cref="docs._fileextension"/>
+        /// <inheritdoc cref="_fileextension"/>
         public static string GetFileExtension(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetFileExtension(entity.AudioFileFormat);
         }
 
-        /// <inheritdoc cref="docs._fileextension"/>
+        /// <inheritdoc cref="_fileextension"/>
         public static string GetFileExtension(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -352,7 +352,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetMaxAmplitude(entity.AudioFileOutput);
         }
 
-        /// <inheritdoc cref="docs._headerlength"/>
+        /// <inheritdoc cref="_headerlength"/>
         public static int GetHeaderLength(this AudioFileFormatEnum enumValue)
         {
             switch (enumValue)
@@ -364,36 +364,36 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="docs._headerlength"/>
+        /// <inheritdoc cref="_headerlength"/>
         public static int GetHeaderLength(this AudioFileFormat enumEntity)
             => EntityToEnumWishes.ToEnum(enumEntity).GetHeaderLength();
 
-        /// <inheritdoc cref="docs._headerlength"/>
+        /// <inheritdoc cref="_headerlength"/>
         public static int GetHeaderLength(this WavHeaderStruct wavHeader)
             => GetHeaderLength(AudioFileFormatEnum.Wav);
 
-        /// <inheritdoc cref="docs._headerlength"/>
+        /// <inheritdoc cref="_headerlength"/>
         public static int GetHeaderLength(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return entity.GetAudioFileFormatEnum().GetHeaderLength();
         }
 
-        /// <inheritdoc cref="docs._headerlength"/>
+        /// <inheritdoc cref="_headerlength"/>
         public static int GetHeaderLength(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return GetHeaderLength(wrapper.Sample);
         }
 
-        /// <inheritdoc cref="docs._headerlength"/>
+        /// <inheritdoc cref="_headerlength"/>
         public static int GetHeaderLength(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return entity.GetAudioFileFormatEnum().GetHeaderLength();
         }
 
-        /// <inheritdoc cref="docs._headerlength"/>
+        /// <inheritdoc cref="_headerlength"/>
         public static int GetHeaderLength(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));

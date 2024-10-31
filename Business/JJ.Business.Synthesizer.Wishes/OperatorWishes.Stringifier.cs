@@ -1,15 +1,16 @@
 ﻿using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    /// <inheritdoc cref="docs._stringify"/>
+    /// <inheritdoc cref="_stringify"/>
     internal class OperatorStringifier
     {
         private StringBuilderWithIndentation _sb;
 
         // Entry Points
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public string StringifyRecursive(Operator entity, bool singleLine = false)
         {
             _sb = CreateStringBuilder(singleLine);
@@ -17,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return _sb.ToString();
         }
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public string StringifyRecursive(Inlet entity, bool singleLine = false)
         {
             _sb = CreateStringBuilder(singleLine);
@@ -25,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return _sb.ToString();
         }
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public string StringifyRecursive(Outlet outlet, bool singleLine = false)
         {
             _sb = CreateStringBuilder(singleLine);

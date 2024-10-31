@@ -17,6 +17,7 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
 using static JJ.Business.Synthesizer.Wishes.FrameworkWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.docs;
 // ReSharper disable AccessToModifiedClosure
 
 #pragma warning disable IDE0028
@@ -34,20 +35,20 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Parallelization
 
-        /// <inheritdoc cref="docs._paralleladd" />
+        /// <inheritdoc cref="_paralleladd" />
         public FluentOutlet ParallelAdd(params Func<Outlet>[] funcs)
             => ParallelAdd(1, (IList<Func<Outlet>>)funcs);
 
-        /// <inheritdoc cref="docs._paralleladd" />
+        /// <inheritdoc cref="_paralleladd" />
         public FluentOutlet ParallelAdd(
             IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
             => ParallelAdd(1, funcs, callerMemberName);
 
-        /// <inheritdoc cref="docs._paralleladd" />
+        /// <inheritdoc cref="_paralleladd" />
         public FluentOutlet ParallelAdd(double volume, params Func<Outlet>[] funcs)
             => ParallelAdd(volume, (IList<Func<Outlet>>)funcs);
         
-        /// <inheritdoc cref="docs._paralleladd" />
+        /// <inheritdoc cref="_paralleladd" />
         public FluentOutlet ParallelAdd(
             double volume, IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
         {
@@ -121,17 +122,17 @@ namespace JJ.Business.Synthesizer.Wishes
             return Add(reloadedSamples);
         }
         
-        /// <inheritdoc cref="docs._withpreviewparallels"/>
+        /// <inheritdoc cref="_withpreviewparallels"/>
         public bool PreviewParallels { get; private set; }
 
-        /// <inheritdoc cref="docs._withpreviewparallels"/>
+        /// <inheritdoc cref="_withpreviewparallels"/>
         public SynthWishes WithPreviewParallels()
         {
             PreviewParallels = true;
             return this;
         }
         
-        /// <inheritdoc cref="docs._withpreviewparallels"/>
+        /// <inheritdoc cref="_withpreviewparallels"/>
         private FluentOutlet ParallelAdd_WithPreviewParallels(
             double volume, IList<Func<Outlet>> funcs, string name)
         {
@@ -190,19 +191,19 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Sample
         
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         public FluentOutlet Sample(
             byte[] bytes, int bytesToSkip = 0, 
             [CallerMemberName] string callerMemberName = null)
             => SampleBase(new MemoryStream(bytes), bytesToSkip, callerMemberName);
         
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         public FluentOutlet Sample(
             Stream stream, int bytesToSkip = 0,
             [CallerMemberName] string callerMemberName = null)
             => SampleBase(stream, bytesToSkip, callerMemberName);
 
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         public FluentOutlet Sample(string fileName = null, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
         {
             string name = FetchName(callerMemberName, explicitName: fileName);
@@ -213,7 +214,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return SampleBase(stream, bytesToSkip, name, callerMemberName);
         }
 
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         private FluentOutlet SampleBase(Stream stream, int bytesToSkip, string name1, string name2 = null)
         {
             string name = FetchName(name1, name2);
@@ -243,7 +244,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Play
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="_saveorplay" />
         public Result<AudioFileOutput> Play(
             Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
         {
@@ -270,7 +271,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Save Audio
 
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="_saveorplay" />
         public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
         {
@@ -303,7 +304,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="_saveorplay" />
         private Result<AudioFileOutput> SaveAudioBase(IList<Outlet> channelInputs, string name)
         {
             // Process Parameters

@@ -15,43 +15,43 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary>
         /// Adds two <see cref="Outlet"/> operands, optimizing for constant values if possible.
         /// </summary>
-        public object _add;
+        public static object _add;
 
         /// <summary>
         /// Additional entity entry-points for enum-related extension.
         /// </summary>
-        public object _alternativeentrypointenumextensionwishes;
+        public static object _alternativeentrypointenumextensionwishes;
             
         /// <summary>
         /// Tries getting a constant value from an operator or outlet.
         /// If it is dynamic, so no constant value, null is returned.
         /// </summary>
-        public object _asconst;
+        public static object _asconst;
 
         /// <summary>
         /// Replacement Wish version of AudioFileInfo with more intuitive member names.
         /// </summary>
-        public object _audiofileinfowish;
+        public static object _audiofileinfowish;
 
         /// <summary>
         /// Returns the time in seconds of the start of a bar.
         /// </summary>
-        public object _barindexer;
+        public static object _barindexer;
 
         /// <summary>
         /// Returns duration of a number of bars in seconds.
         /// </summary>
-        public object _barsindexer;
+        public static object _barsindexer;
 
         /// <summary>
         /// Returns the start time of a beat in seconds.
         /// </summary>
-        public object _beatindexer;
+        public static object _beatindexer;
         
         /// <summary>
         /// Returns duration of a number of beats in seconds.
         /// </summary>
-        public object _beatsindexer;
+        public static object _beatsindexer;
             
         /// <summary>
         /// Colloquially called the "capture" operator.
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <see cref="FluentOutlet"/> also usable as an <see cref="Outlet"/>.
         /// or as a fluent notation starter <see cref="FluentOutlet"/>.
         /// </returns>
-        public object _captureindexer;
+        public static object _captureindexer;
 
         /// <param name="curveFactory">
         /// The factory used to create the <see cref="Curve" />
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// When a value is null, a node will not be created at that point in time.
         /// </param>
         /// <returns> A curve populated with the specified data. </returns>
-        public object _createcurve;
+        public static object _createcurve;
 
         /// <summary>
         /// Create a Curve from a list of strings, that 'ASCII-encode' the curve. Putting the strings under each other, they create
@@ -94,20 +94,20 @@ namespace JJ.Business.Synthesizer.Wishes
         /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
         /// </summary>
         /// <inheritdoc cref="_createcurve" />
-        public object _createcurvefromstring;
+        public static object _createcurvefromstring;
 
         /// <summary>
         /// Create a curve from a list of tuples like (0, 0), (0.1, 0.2), (0.2, 1.0).<br />
         /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
         /// </summary>
         /// <inheritdoc cref="_createcurve" />
-        public object _createcurvewithtuples;
+        public static object _createcurvewithtuples;
 
         /// <summary>
         /// Paired with an operator, this method creates a curve serving as a volume envelope,
         /// which makes the operator gets multiplied by the curve for it to serve as the volume.
         /// </summary>
-        public object _curvewithoperator;
+        public static object _curvewithoperator;
         
         /// <param name="freq"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
         /// <param name="frequency"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// If not provided, they will default to 1.
         /// </param>
         /// <returns> An Outlet representing the output sound. </returns>
-        public object _default;
+        public static object _default;
 
         /// <summary>
         /// Applies an echo effect using a feedback loop.
@@ -152,52 +152,52 @@ namespace JJ.Business.Synthesizer.Wishes
         /// this optimization is currently ineffective. Future versions may improve on this.
         /// Keeping it in here just to have an optimization option for later.
         /// </summary>
-        public object _echofeedback;
+        public static object _echofeedback;
 
         /// <summary>
         /// Gets the name chose by the user with the WithName method and then resets it to null
         /// after it retrieves it. If nothing was in it, it uses the fallback name supplied.
         /// Also, if an explicitName is passed, it will override all the other options.
         /// </summary>
-        public object _fetchname;
+        public static object _fetchname;
             
         /// <summary>
         /// Alternative entry point (Operator) Outlet (used in tests).
         /// </summary>
-        public object _flattenfactorswithmultiplyoutlet;
+        public static object _flattenfactorswithmultiplyoutlet;
 
         /// <summary>
         /// Alternative entry point (Operator) Outlet (used in tests).
         /// </summary>
-        public object _flattentermswithsumoradd;
+        public static object _flattentermswithsumoradd;
             
         /// <summary>
         /// If this is a curve operator, this will return the underlying Curve entity,
         /// that contains specifics about the nodes and how they are connected.
         /// If it's called on something that isn't a Curve, an exception will be thrown.
         /// </summary>
-        public object _getcurve;
+        public static object _getcurve;
 
         /// <summary>
         /// If this is a sample operator, this will return a curve operator wrapper,
         /// which serves as a helper for retrieving specifics from the underlying Operator
         /// and Curve entities.
         /// </summary>
-        public object _getcurvewrapper;
+        public static object _getcurvewrapper;
         
         /// <summary>
         /// If this is a sample operator, this will return the underlying Sample entity,
         /// with configuration, byte array, etc. If it's not a sample operator,
         /// it will throw an exception.
         /// </summary>
-        public object _getsample;
+        public static object _getsample;
 
         /// <summary>
         /// If this is a sample operator, this will return a sample operator wrapper,
         /// which serves as a helper for retrieving specifics from the underlying Operator
         /// and Sample entities.
         /// </summary>
-        public object _getsamplewrapper;
+        public static object _getsamplewrapper;
             
         /// <summary>
         /// Retrieves the file extension associated with the specified audio file.
@@ -207,34 +207,34 @@ namespace JJ.Business.Synthesizer.Wishes
         /// The file extension corresponding to the provided audio file format.
         /// A period (.) is included.
         /// </returns>
-        public object _fileextension;
+        public static object _fileextension;
 
         /// <summary>
         /// A.k.a. SampleCount
         /// </summary>
-        public object _framecount;
+        public static object _framecount;
         
         /// <returns>
         /// Length of a file header in bytes.
         /// </returns>
-        public object _headerLength;
+        public static object _headerLength;
 
         /// <summary>
         /// Multiplies two <see cref="Outlet"/> operands, optimizing for constant values if possible.
         /// </summary>
-        public object _multiply;
+        public static object _multiply;
 
         /// <summary>
         /// Extensions that are wishes for the back-end related to the Operator entity.
         /// </summary>
-        public object _operatorextensionwishes;
+        public static object _operatorextensionwishes;
         
         /// <summary>
         /// Applies a panbrello effect to a stereo signal by modulating the panning
         /// with a sine wave based on the specified speed and depth.
         /// </summary>
         /// <inheritdoc cref="_default" />
-        public object _panbrello;
+        public static object _panbrello;
 
         /// <summary>
         /// Applies panning to a stereo signal by adjusting the left and right
@@ -247,7 +247,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// which indicates the current channel.
         /// </param>
         /// <inheritdoc cref="_default" />
-        public object _panning;
+        public static object _panning;
 
         /// <summary>
         /// Performs an addition in parallel to improve performance.<br/>
@@ -267,7 +267,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// A normal <see cref="Add">Add</see> <see cref="Operator">Operator's</see>
         /// <see cref="Outlet">Outlet</see> (as <see cref="FluentOutlet">FluentOutlet</see>).
         /// </returns>
-        public object _paralleladd;
+        public static object _paralleladd;
 
         /// <summary>
         /// Returns a panning based on the pitch,
@@ -293,19 +293,19 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </param>
         /// <returns> The adjusted panning value based on the pitch. </returns>
         /// <inheritdoc cref="_default" />
-        public object _pitchpan;
+        public static object _pitchpan;
 
         /// <summary>
         /// Creates a Sample by reading the file at the given <paramref name="filePath" /> or Stream or Byte array.
         /// </summary>
         /// <param name="filePath"> The file path of the audio sample to load. </param>
         /// <returns> <see cref="SampleOperatorWrapper" />  that can be used as an <see cref="Outlet" /> too. </returns>
-        public object _sample;
+        public static object _sample;
 
         /// <summary>
         /// Overrides the default sampling rate from the config file, for testing purposes.
         /// </summary>
-        public object _samplingrateoverride;
+        public static object _samplingrateoverride;
 
         /// <summary>
         /// Outputs audio to a WAV file and plays it if needed.<br />
@@ -360,16 +360,16 @@ namespace JJ.Business.Synthesizer.Wishes
         /// A <see cref="Result"/> with the <see cref="AudioFileOutput"/> entity in it,
         /// containing resultant data, like the file path and validation messages (warnings).
         /// </returns>
-        public object _saveorplay;
+        public static object _saveorplay;
 
         /// <summary> With optional Context. </summary>
-        public object _setenumwishes;
+        public static object _setenumwishes;
 
         /// <summary>
         /// Sets the node type (the type of interpolation) for a curve as a whole.
         /// This sets the node type of all the curve nodes at once.
         /// </summary>
-        public object _setnodetype;
+        public static object _setnodetype;
 
         /// <summary>
         /// Sets the speaker setup for the specified <see cref="AudioFileOutput"/>.
@@ -384,7 +384,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// If one isn't provided, a brand new one will be created,
         /// which depending on the situation, could cause problems or not.
         /// </param>
-        public object _setspeakersetup_withsideeffects;
+        public static object _setspeakersetup_withsideeffects;
 
         /// <summary>
         /// Generates a sine wave signal with the specified pitch.<br />
@@ -394,7 +394,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="pitch"> The frequency in Hz of the sine wave. Defaults to 1 Hz.</param>
         /// <returns> An <see cref="Outlet" /> representing the sine wave signal. </returns>
         /// <inheritdoc cref="_default" />
-        public object _sine;
+        public static object _sine;
 
         /// <summary>
         /// Turns an <see cref="Operator"/> graph into a string,
@@ -403,7 +403,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// the complexity can be expressed as the number of lines.
         /// Optionally, it can be output in a single line.
         /// </summary>
-        public object _stringify;
+        public static object _stringify;
 
         /// <summary>
         /// This TimeIndexer provides shorthand for specifying bar and beat in a musical sense.
@@ -411,25 +411,25 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Example usage: t[bar: 2, beat: 1.5] will return the number of seconds.
         /// The numbers are 1-based, so the first bar is bar 1, the first beat is beat 1.
         /// </summary>
-        public object _timeindexer;
+        public static object _timeindexer;
 
         /// <summary> Apply _tremolo by modulating amplitude over time using an oscillator. </summary>
         /// <inheritdoc cref="_default" />
-        public object _tremolo;
+        public static object _tremolo;
 
         /// <summary>
         /// Prep Data: Split into unique lines and determine the window where there are characters.
         /// White space is trimmed off of the top, bottom, left and right,
         /// leaving only the block of characters that contains data.
         /// </summary>
-        public object _trimasciicurves;
+        public static object _trimasciicurves;
 
         /// <summary>
         /// Gets the node type (the type of interpolation) for a curve as a whole.
         /// This only works if all (but the last) node are set to the same node type.
         /// Otherwise, NodeTypeEnum.Undefined is returned.
         /// </summary>
-        public object _trygetnodetype;
+        public static object _trygetnodetype;
         
         /// <summary>
         /// Applies vibrato modulation to a given frequency by modulating it with a sine wave.<br />
@@ -438,13 +438,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="freq"> The base frequency to which vibrato will be applied. </param>
         /// <returns> An <see cref="Outlet" /> object representing the frequency modulated with vibrato. </returns>
         /// <inheritdoc cref="_default" />
-        public object _vibrato;
+        public static object _vibrato;
 
         /// <summary>
         /// When PreviewParallels is set, ParallelAdd plays the sounds generated in the parallel loop,
         /// and the samples are reloaded from the files and played again, all for testing purposes.
         /// Also, doesn't clean up the files. Also for testing purposes.
         /// </summary>
-        public object _withpreviewparallels;
+        public static object _withpreviewparallels;
     }
 }

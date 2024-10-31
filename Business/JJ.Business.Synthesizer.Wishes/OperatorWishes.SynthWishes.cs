@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using static JJ.Business.Synthesizer.Wishes.CopiedFromFramework;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable MemberCanBeProtected.Global
@@ -35,11 +36,11 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Basic Operators
 
-        /// <inheritdoc cref="docs._add"/>
+        /// <inheritdoc cref="_add"/>
         public FluentOutlet Add(params Outlet[] operands) 
             => Add((IList<Outlet>)operands);
 
-        /// <inheritdoc cref="docs._add"/>
+        /// <inheritdoc cref="_add"/>
         public FluentOutlet Add(IList<Outlet> operands)
         {
             if (operands == null) throw new ArgumentNullException(nameof(operands));
@@ -75,16 +76,16 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="docs._add"/>
+        /// <inheritdoc cref="_add"/>
         public FluentOutlet Add(double a, double b) => Add(_[a], _[b]);
 
-        /// <inheritdoc cref="docs._add"/>
+        /// <inheritdoc cref="_add"/>
         public FluentOutlet Add(Outlet a, double b) => Add(a, _[b]);
 
-        /// <inheritdoc cref="docs._add"/>
+        /// <inheritdoc cref="_add"/>
         public FluentOutlet Add(double a, Outlet b) => Add(_[a], b);
 
-        /// <inheritdoc cref="docs._flattentermswithsumoradd"/>
+        /// <inheritdoc cref="_flattentermswithsumoradd"/>
         [UsedImplicitly]
         private IList<Outlet> FlattenTerms(Outlet sumOrAdd)
         {
@@ -133,7 +134,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FluentOutlet Subtract(double a, Outlet b) => _[_operatorFactory.Substract(_[a], b)].WithName(FetchName());
 
-        /// <inheritdoc cref="docs._multiply"/>
+        /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Multiply(Outlet a, Outlet b)
         {
             // Reverse operands increasing likelihood to have a 0-valued (volume) curve first.
@@ -172,13 +173,13 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="docs._multiply"/>
+        /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Multiply(Outlet a, double b) => Multiply(a, _[b]);
 
-        /// <inheritdoc cref="docs._multiply"/>
+        /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Multiply(double a, Outlet b) => Multiply(_[a], b);
 
-        /// <inheritdoc cref="docs._flattenfactorswithmultiplyoutlet"/>
+        /// <inheritdoc cref="_flattenfactorswithmultiplyoutlet"/>
         [UsedImplicitly]
         public IList<Outlet> FlattenFactors(Outlet multiplyOutlet)
         {
@@ -242,10 +243,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FluentOutlet Power(double @base, Outlet exponent) => Power(_[@base], exponent);
 
-        /// <inheritdoc cref="docs._sine" />
+        /// <inheritdoc cref="_sine" />
         public FluentOutlet Sine(Outlet pitch = null) => _[_operatorFactory.Sine(_[1], pitch ?? _[1])].WithName(FetchName());
 
-        /// <inheritdoc cref="docs._sine" />
+        /// <inheritdoc cref="_sine" />
         public FluentOutlet Sine(double pitch) => Sine(_[pitch]);
         
         public FluentOutlet Delay(Outlet signal, Outlet delay) => _[_operatorFactory.TimeAdd(signal, delay ?? _[0])].WithName(FetchName());
@@ -270,7 +271,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Derived Operators
 
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="_default" />
         public FluentOutlet StrikeNote(Outlet sound, Outlet delay = default, Outlet volume = default)
         {
             // A little optimization, because so slow...
@@ -283,19 +284,19 @@ namespace JJ.Business.Synthesizer.Wishes
             return _[sound];
         }
 
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="_default" />
         public FluentOutlet StrikeNote(Outlet sound, Outlet delay, double volume)
             =>  StrikeNote(sound, delay, _[volume]);
 
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="_default" />
         public FluentOutlet StrikeNote(Outlet sound, double delay, Outlet volume = default)
             =>  StrikeNote(sound, _[delay], volume);
                 
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="_default" />
         public FluentOutlet StrikeNote(Outlet sound, double delay, double volume)
             =>  StrikeNote(sound, _[delay], _[volume]);
         
-        /// <inheritdoc cref="docs._vibrato" />
+        /// <inheritdoc cref="_vibrato" />
         public FluentOutlet VibratoOverPitch(Outlet freq, (Outlet speed, Outlet depth) vibrato = default)
         {
             vibrato.speed = vibrato.speed ?? _[5.5];
@@ -304,7 +305,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Multiply(freq, Add(_[1], Multiply(Sine(vibrato.speed), vibrato.depth)));
         }
         
-        /// <inheritdoc cref="docs._vibrato" />
+        /// <inheritdoc cref="_vibrato" />
         public FluentOutlet VibratoOverPitch(Outlet freq, (Outlet speed, double depth) vibrato)
         {
             (Outlet speed, Outlet depth) vibrato2 = default;
@@ -313,7 +314,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return VibratoOverPitch(freq, vibrato2);
         }
 
-        /// <inheritdoc cref="docs._vibrato" />
+        /// <inheritdoc cref="_vibrato" />
         public FluentOutlet VibratoOverPitch(Outlet freq, (double speed, Outlet depth) vibrato)
         {
             (Outlet speed, Outlet depth) vibrato2 = default;
@@ -322,7 +323,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return VibratoOverPitch(freq, vibrato2);
         }
 
-        /// <inheritdoc cref="docs._vibrato" />
+        /// <inheritdoc cref="_vibrato" />
         public FluentOutlet VibratoOverPitch(Outlet freq, (double speed, double depth) vibrato)
         {
             (Outlet speed, Outlet depth) vibrato2 = default;
@@ -331,7 +332,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return VibratoOverPitch(freq, vibrato2);
         }
 
-        /// <inheritdoc cref="docs._tremolo" />
+        /// <inheritdoc cref="_tremolo" />
         public FluentOutlet Tremolo(Outlet sound, (Outlet speed, Outlet depth) tremolo = default)
         {
             tremolo.speed = tremolo.speed ?? _[8];
@@ -340,7 +341,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Multiply(sound, Add(Multiply(Sine(tremolo.speed), tremolo.depth), _[1]));
         }
 
-        /// <inheritdoc cref="docs._tremolo" />
+        /// <inheritdoc cref="_tremolo" />
         public FluentOutlet Tremolo(Outlet sound, (Outlet speed, double depth) tremolo)
         {
             (Outlet speed, Outlet depth) tremolo2 = default;
@@ -349,7 +350,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return VibratoOverPitch(sound, tremolo2);
         }
 
-        /// <inheritdoc cref="docs._tremolo" />
+        /// <inheritdoc cref="_tremolo" />
         public FluentOutlet Tremolo(Outlet sound, (double speed, Outlet depth) tremolo)
         {
             (Outlet speed, Outlet depth) tremolo2 = default;
@@ -358,7 +359,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return VibratoOverPitch(sound, tremolo2);
         }
         
-        /// <inheritdoc cref="docs._tremolo" />
+        /// <inheritdoc cref="_tremolo" />
         public FluentOutlet Tremolo(Outlet sound, (double speed, double depth) tremolo)
         {
             (Outlet speed, Outlet depth) tremolo2 = default;
@@ -367,7 +368,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return VibratoOverPitch(sound, tremolo2);
         }
 
-        /// <inheritdoc cref="docs._panning" />
+        /// <inheritdoc cref="_panning" />
         public FluentOutlet Panning(Outlet sound, Outlet panning, ChannelEnum channel = default)
         {
             if (channel == default) channel = Channel;
@@ -391,7 +392,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="docs._panning" />
+        /// <inheritdoc cref="_panning" />
         public FluentOutlet Panning(Outlet sound, double panning, ChannelEnum channel = default)
         {
             if (channel == default) channel = Channel;
@@ -411,7 +412,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Panbrello
         
-        /// <inheritdoc cref="docs._panbrello" />
+        /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(
             Outlet sound, (Outlet speed, Outlet depth) panbrello = default, ChannelEnum channel = default)
         {
@@ -428,7 +429,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Panning(sound, zeroToOne, channel);
         }
 
-        /// <inheritdoc cref="docs._panbrello" />
+        /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(
             Outlet sound, (Outlet speed, double depth) panbrello, ChannelEnum channel = default)
         {
@@ -438,7 +439,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Panbrello(sound, panbrello2, channel);
         }
 
-        /// <inheritdoc cref="docs._panbrello" />
+        /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(
             Outlet sound, (double speed, Outlet depth) panbrello, ChannelEnum channel = default)
         {
@@ -448,7 +449,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Panbrello(sound, panbrello2, channel);
         }
 
-        /// <inheritdoc cref="docs._panbrello" />
+        /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(
             Outlet sound, (double speed, double depth) panbrello, ChannelEnum channel = default)
         {
@@ -460,7 +461,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // PitchPan
 
-        /// <inheritdoc cref="docs._pitchpan" />
+        /// <inheritdoc cref="_pitchpan" />
         public Outlet PitchPan(
             Outlet actualFrequency, Outlet centerFrequency,
             Outlet referenceFrequency, Outlet referencePanning)
@@ -505,7 +506,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return newPanning;
         }
         
-        /// <inheritdoc cref="docs._pitchpan" />
+        /// <inheritdoc cref="_pitchpan" />
         public double PitchPan(
             double actualFrequency, double centerFrequency,
             double referenceFrequency, double referencePanning)
@@ -532,7 +533,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return newPanning;
         }
 
-        /// <inheritdoc cref="docs._pitchpan" />
+        /// <inheritdoc cref="_pitchpan" />
         public Outlet PitchPan(
             Outlet actualFrequency, double centerFrequency,
             double referenceFrequency, double referencePanning)
@@ -625,7 +626,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet EchoAdditive(Outlet signal, int count, double magnitude, double delay)
             => EchoAdditive(signal, count, _[magnitude], _[delay]);
         
-        /// <inheritdoc cref="docs._echofeedback"/>
+        /// <inheritdoc cref="_echofeedback"/>
         public FluentOutlet EchoFeedBack(
             Outlet signal, int count = 8, Outlet magnitude = default, Outlet delay = default)
         {
@@ -656,15 +657,15 @@ namespace JJ.Business.Synthesizer.Wishes
             return _[cumulativeSignal];
         }
 
-        /// <inheritdoc cref="docs._echofeedback"/>
+        /// <inheritdoc cref="_echofeedback"/>
         public FluentOutlet EchoFeedBack(Outlet signal, int count, Outlet magnitude, double delay)
             => EchoFeedBack(signal, count, magnitude, _[delay]);
 
-        /// <inheritdoc cref="docs._echofeedback"/>
+        /// <inheritdoc cref="_echofeedback"/>
         public FluentOutlet EchoFeedBack(Outlet signal, int count, double magnitude, Outlet delay = default)
             => EchoFeedBack(signal, count, _[magnitude], delay);
         
-        /// <inheritdoc cref="docs._echofeedback"/>
+        /// <inheritdoc cref="_echofeedback"/>
         public FluentOutlet EchoFeedBack(Outlet signal, int count, double magnitude, double delay)
             => EchoFeedBack(signal, count, _[magnitude], _[delay]);
                     

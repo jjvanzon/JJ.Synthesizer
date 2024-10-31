@@ -1,15 +1,14 @@
 ﻿using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
@@ -104,7 +103,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FluentOutlet Power(double exponent) => _synthWishes.Power(_thisOutlet, exponent);
 
-        /// <inheritdoc cref="docs._sine" />
+        /// <inheritdoc cref="_sine" />
         public FluentOutlet Sine => _synthWishes.Sine(_thisOutlet);
 
         public FluentOutlet Delay(Outlet delay) => _synthWishes.Delay(_thisOutlet, delay);
@@ -171,27 +170,27 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Panning(double panning, ChannelEnum channel = default)
             => _synthWishes.Panning(_thisOutlet, panning, channel);
         
-        /// <inheritdoc cref="docs._panbrello" />
+        /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(Outlet speed = default, Outlet depth = default, ChannelEnum channel = default)
             => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
         
-        /// <inheritdoc cref="docs._panbrello" />
+        /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(Outlet speed, double depth, ChannelEnum channel = default)
             => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
         
-        /// <inheritdoc cref="docs._panbrello" />
+        /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(double speed, Outlet depth, ChannelEnum channel = default)
             => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
 
-        /// <inheritdoc cref="docs._panbrello" />
+        /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(double speed, double depth, ChannelEnum channel = default) 
             => _synthWishes.Panbrello(_thisOutlet, (speed, depth), channel);
         
-        /// <inheritdoc cref="docs._pitchpan" />
+        /// <inheritdoc cref="_pitchpan" />
         public Outlet PitchPan(Outlet centerFrequency, Outlet referenceFrequency, Outlet referencePanning)
             => _synthWishes.PitchPan(_thisOutlet, centerFrequency, referenceFrequency, referencePanning);
 
-        /// <inheritdoc cref="docs._pitchpan" />
+        /// <inheritdoc cref="_pitchpan" />
         public Outlet PitchPan(double centerFrequency, double referenceFrequency, double referencePanning)
             => _synthWishes.PitchPan(_thisOutlet, centerFrequency, referenceFrequency, referencePanning);
 
@@ -248,28 +247,28 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
             => _thisOutlet * _synthWishes.Curve(nodeInfos);
 
-        /// <inheritdoc cref="docs._createcurve" />
+        /// <inheritdoc cref="_createcurve" />
         public FluentOutlet Curve(string name, params double?[] values)
             => _thisOutlet * _synthWishes.Curve(values);
 
-        /// <inheritdoc cref="docs._createcurve" />
+        /// <inheritdoc cref="_createcurve" />
         public FluentOutlet Curve(params double?[] values)
             => _thisOutlet * _synthWishes.Curve(values);
 
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        /// <inheritdoc cref="_createcurvewithtuples" />
         public FluentOutlet Curve(
             IList<(double time, double value)> nodeTuples, [CallerMemberName] string callerMemberName = null)
             => _thisOutlet * _synthWishes.Curve(nodeTuples, callerMemberName);
 
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        /// <inheritdoc cref="_createcurvewithtuples" />
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
             => _thisOutlet * _synthWishes.Curve(nodeTuples);
 
-        /// <inheritdoc cref="docs._createcurvefromstring" />
+        /// <inheritdoc cref="_createcurvefromstring" />
         public FluentOutlet Curve(string text, [CallerMemberName] string callerMemberName = null)
             => _thisOutlet * _synthWishes.Curve(text, callerMemberName);
 
-        /// <inheritdoc cref="docs._createcurvefromstring" />
+        /// <inheritdoc cref="_createcurvefromstring" />
         public FluentOutlet Curve(
             (double start, double end) x,
             (double min, double max) y,
@@ -330,16 +329,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Related Object
 
-        /// <inheritdoc cref="docs._getsample" />
+        /// <inheritdoc cref="_getsample" />
         public Sample GetSample() => _thisOutlet.GetSample();
 
-        /// <inheritdoc cref="docs._getsamplewrapper" />
+        /// <inheritdoc cref="_getsamplewrapper" />
         public SampleOperatorWrapper GetSampleWrapper() => _thisOutlet.GetSampleWrapper();
 
-        /// <inheritdoc cref="docs._getcurve" />"/>
+        /// <inheritdoc cref="_getcurve" />"/>
         public Curve GetCurve() => _thisOutlet.GetCurve();
 
-        /// <inheritdoc cref="docs._getcurvewrapper"/>
+        /// <inheritdoc cref="_getcurvewrapper"/>
         public CurveInWrapper GetCurveWrapper() => _thisOutlet.GetCurveWrapper();
             
         // Fluent Configuration
