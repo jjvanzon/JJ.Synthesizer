@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Wishes;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Validation;
 using JJ.Framework.Reflection;
 

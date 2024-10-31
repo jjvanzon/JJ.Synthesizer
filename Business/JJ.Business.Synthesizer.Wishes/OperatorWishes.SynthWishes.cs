@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using static JJ.Business.Synthesizer.Wishes.CopiedFromFramework;
 using static JJ.Business.Synthesizer.Wishes.docs;
+using static JJ.Framework.Mathematics.Maths;
 
 // ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable MemberCanBeProtected.Global
@@ -668,17 +669,5 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_echofeedback"/>
         public FluentOutlet EchoFeedBack(Outlet signal, int count, double magnitude, double delay)
             => EchoFeedBack(signal, count, _[magnitude], _[delay]);
-                    
-        // Helpers
-
-        /// <summary>
-        /// Uses the channel specified by the <see cref="SynthWishes.Channel"/> property.
-        /// Or you can call e.g. <c>Outlet.Calculate(time, ChannelEnum.Right)</c>
-        /// </summary>
-        public double Calculate(Outlet outlet, double time)
-        {
-            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            return outlet.Calculate(time, ChannelIndex);
-        }
    }
 }

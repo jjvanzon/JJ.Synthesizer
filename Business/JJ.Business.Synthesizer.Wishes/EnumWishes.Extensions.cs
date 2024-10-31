@@ -4,12 +4,13 @@ using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using static JJ.Business.Synthesizer.PersistenceHelper;
+using static JJ.Business.Synthesizer.Wishes.Helpers.PersistenceHelper;
 using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable InvokeAsExtensionMethod

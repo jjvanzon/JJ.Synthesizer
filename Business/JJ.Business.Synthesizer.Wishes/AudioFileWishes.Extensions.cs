@@ -49,40 +49,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper;
         }
 
-        // Calculation
-
-        public static double Calculate(this Sample sample, double time, Channel channel)
-        {
-            if (channel == null) throw new ArgumentNullException(nameof(channel));
-            return Calculate(sample, time, channel.Index);
-        }
-
-        public static double Calculate(this Sample sample, double time, ChannelEnum channelEnum)
-            => Calculate(sample, time, channelEnum.ToIndex());
-
-        public static double Calculate(this Sample sample, double time, int channelIndex)
-            => SampleCalculatorFactory.CreateSampleCalculator(sample).CalculateValue(channelIndex, time);
-
-        // Validation
-
-        public static Result Validate(this Sample sample)
-            => new SampleValidator(sample).ToResult();
-
-        public static Result Validate(this AudioFileOutput audioFileOutput)
-            => new AudioFileOutputValidator(audioFileOutput).ToResult();
-
-        public static void Assert(this Sample sample)
-            => new SampleValidator(sample).Verify();
-
-        public static void Assert(this AudioFileOutput audioFileOutput)
-            => new AudioFileOutputValidator(audioFileOutput).Verify();
-
-        public static IList<string> GetWarnings(this Sample sample)
-            => new SampleWarningValidator(sample).ValidationMessages.Select(x => x.Text).ToList();
-
-        public static IList<string> GetWarnings(this AudioFileOutput audioFileOutput)
-            => new AudioFileOutputWarningValidator(audioFileOutput).ValidationMessages.Select(x => x.Text).ToList();
-                
         // Is / As
         
         public static bool IsSample(this Outlet entity) 

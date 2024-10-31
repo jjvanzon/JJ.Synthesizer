@@ -31,25 +31,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper;
         }
 
-        // Calculation
-
-        public static double Calculate(this Curve curve, double time)
-            => new CurveCalculator(curve).CalculateValue(time);
-
-        // Validation
-
-        public static void Assert(this Curve curve)
-            => new CurveValidator(curve).Verify();
-
-        public static void Assert(this Node node)
-            => new NodeValidator(node).Verify();
-
-        public static Result Validate(this Curve curve)
-            => new CurveValidator(curve).ToResult();
-
-        public static Result Validate(this Node node)
-            => new NodeValidator(node).ToResult();
-
         // Is / As
 
         public static bool IsCurve(this Outlet entity)

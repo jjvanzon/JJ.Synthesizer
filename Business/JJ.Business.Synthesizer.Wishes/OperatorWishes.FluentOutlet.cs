@@ -45,6 +45,23 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
 
+        // Value (Calculate)
+        
+        public static explicit operator double(FluentOutlet fluentOutlet)
+            => fluentOutlet.Value;
+
+        public double Value
+        {
+            get
+            {
+                double? constant = AsConst;
+                if (constant != null) return constant.Value;
+
+                double calculated = Calculate(time: 0);
+                return calculated;
+            }
+        }
+
         // Basic Operators
         
         public FluentOutlet Add(IList<Outlet> operands) => _synthWishes.Add(new[] { _thisOutlet }.Concat(operands).ToArray());
@@ -259,39 +276,10 @@ namespace JJ.Business.Synthesizer.Wishes
             string text, [CallerMemberName] string callerMemberName = null)
             => _thisOutlet * _synthWishes.Curve(x, y, text, callerMemberName);
         
-                
-        // Value / Calculate
-        
-        public static explicit operator double(FluentOutlet fluentOutlet) 
-            => fluentOutlet.Value;
-
-        public double Value 
-        {
-            get
-            {
-                double? constant = AsConst;
-                if (constant != null) return constant.Value;
-
-                double calculated = Calculate(time: 0);
-                return calculated;
-            }
-        }
-
-        public double Calculate(double time, ChannelEnum channelEnum) 
-            => _thisOutlet.Calculate(time, channelEnum);
-        
-        public double Calculate(double time = 0, int channelIndex = 0)  
-            => _thisOutlet.Calculate(time, channelIndex);
         
         // Stringify
         
         public string Stringify(bool singleLine = false) => _thisOutlet.Stringify(singleLine);
-
-        // Validation
-
-        public Result Validate(bool recursive = true) => _thisOutlet.Validate(recursive);
-        public void Assert(bool recursive = true) => _thisOutlet.Assert(recursive);
-        public IList<string> GetWarnings(bool recursive = true) => _thisOutlet.GetWarnings(recursive);
 
         // Is/As
         

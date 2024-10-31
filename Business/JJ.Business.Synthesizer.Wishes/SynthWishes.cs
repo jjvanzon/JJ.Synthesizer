@@ -1,4 +1,5 @@
 ﻿using System;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 
 namespace JJ.Business.Synthesizer.Wishes

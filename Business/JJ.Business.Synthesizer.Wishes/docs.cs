@@ -71,6 +71,12 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns>
         public static object _captureindexer;
 
+        /// <summary>
+        /// This ConfigurationHelper internally handles null-tolerance for the data missing from the app.config file.
+        /// It returns defaults if config items are missing, to make it easier to use SynthWishes.
+        /// </summary>
+        public static object _confighelper;
+
         /// <param name="curveFactory">
         /// The factory used to create the <see cref="Curve" />
         /// </param>
@@ -103,6 +109,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_createcurve" />
         public static object _createcurvewithtuples;
 
+        /// <summary>
+        /// Creates a new repository, of the given interface type TInterface.
+        /// If the context isn't provided, a brand new one is created, based on the settings from the config file.
+        /// Depending on the use-case, creating a new context like that each time can be problematic.
+        /// </summary>
+        public static object _createrepository;
+        
         /// <summary>
         /// Paired with an operator, this method creates a curve serving as a volume envelope,
         /// which makes the operator gets multiplied by the curve for it to serve as the volume.
@@ -220,6 +233,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _headerLength;
 
         /// <summary>
+        /// Returns the current method name or current property name.
+        /// </summary>
+        public static object _membername;
+
+        /// <summary>
         /// Multiplies two <see cref="Outlet"/> operands, optimizing for constant values if possible.
         /// </summary>
         public static object _multiply;
@@ -269,6 +287,12 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns>
         public static object _paralleladd;
 
+        /// <summary>
+        /// Can get persistence configuration from config, or otherwise falls back
+        /// to default in-memory persistence.
+        /// </summary>
+        public static object _persistencehelper;
+            
         /// <summary>
         /// Returns a panning based on the pitch,
         /// to spread different notes across a stereo field.
@@ -362,7 +386,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns>
         public static object _saveorplay;
 
-        /// <summary> With optional Context. </summary>
+        /// <summary>
+        /// With optional Context.
+        /// </summary>
         public static object _setenumwishes;
 
         /// <summary>
@@ -406,6 +432,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _stringify;
 
         /// <summary>
+        /// Uses the channel specified by the <see cref="SynthWishes.Channel"/> property.
+        /// Or you can call e.g. <c>Outlet.Calculate(time, ChannelEnum.Right)</c>
+        /// </summary>
+        public static object _synthwishescalculate;
+            
+        /// <summary>
         /// This TimeIndexer provides shorthand for specifying bar and beat in a musical sense.
         /// Access by bar and beat to get time-based value.
         /// Example usage: t[bar: 2, beat: 1.5] will return the number of seconds.
@@ -413,7 +445,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         public static object _timeindexer;
 
-        /// <summary> Apply _tremolo by modulating amplitude over time using an oscillator. </summary>
+        /// <summary>
+        /// Apply _tremolo by modulating amplitude over time using an oscillator.
+        /// </summary>
         /// <inheritdoc cref="_default" />
         public static object _tremolo;
 
@@ -431,6 +465,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         public static object _trygetnodetype;
         
+        /// <summary>
+        /// This null-tolerant version is missing in JJ.Framework.Configuration for now.
+        /// </summary>
+        public static object _trygetsection;
+
         /// <summary>
         /// Applies vibrato modulation to a given frequency by modulating it with a sine wave.<br />
         /// NOTE: Due to the lack of phase tracking, the vibrato depth tends to accumulate over time.

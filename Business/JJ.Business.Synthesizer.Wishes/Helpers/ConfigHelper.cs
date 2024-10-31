@@ -1,13 +1,12 @@
 ﻿using System;
 using JJ.Framework.Configuration;
+using static JJ.Business.Synthesizer.Wishes.docs;
+
 // ReSharper disable MemberHidesStaticFromOuterClass
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    /// <summary>
-    /// This ConfigurationHelper internally handles null-tolerance for the data missing from the app.config file.
-    /// It returns defaults if config items are missing, to make it easier to use SynthWishes.
-    /// </summary>
+    /// <inheritdoc cref="_confighelper"/>
     public static class ConfigHelper
     {
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
@@ -45,7 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             public bool Pretend                 => _baseConfig.Pretend                 ?? false;
         }
         
-        /// <summary> This null-tolerant version is missing in JJ.Framework.Configuration for now. </summary>
+        /// <inheritdoc cref="_trygetsection"/>
         public static T TryGetSection<T>()
             where T: class, new()
         {

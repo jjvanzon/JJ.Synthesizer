@@ -18,6 +18,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 
 namespace JJ.Business.Synthesizer.Tests
 {

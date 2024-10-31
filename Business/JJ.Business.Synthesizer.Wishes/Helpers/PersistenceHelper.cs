@@ -1,15 +1,9 @@
-﻿using JJ.Business.Synthesizer.Wishes.Helpers;
-using JJ.Framework.Persistence;
-// ReSharper disable CheckNamespace
-// ReSharper disable RedundantNameQualifier
-#pragma warning disable IDE0001 // RedundantNameQualifier
+﻿using JJ.Framework.Persistence;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
-namespace JJ.Business.Synthesizer
+namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    /// <summary>
-    /// Can get persistence configuration from config, or otherwise falls back
-    /// to default in-memory persistence.
-    /// </summary>
+    /// <inheritdoc cref="_persistencehelper"/>
     public static class PersistenceHelper
     {
         private static readonly PersistenceConfiguration _config = 
@@ -21,11 +15,7 @@ namespace JJ.Business.Synthesizer
             return ContextFactory.CreateContextFromConfiguration(_config);
         }
 
-        /// <summary>
-        /// Creates a new repository, of the given interface type TInterface.
-        /// If the context isn't provided, a brand new one is created, based on the settings from the config file.
-        /// Depending on the use-case, creating a new context like that each time can be problematic.
-        /// </summary>
+        /// <inheritdoc cref="_createrepository"/>
         public static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context = null)
         {
             return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context ?? CreateContext(), _config);

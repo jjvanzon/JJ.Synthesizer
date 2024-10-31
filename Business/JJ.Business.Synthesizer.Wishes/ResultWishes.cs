@@ -74,7 +74,6 @@ namespace JJ.Business.Synthesizer.Wishes
             };
         }
 
-
         // ToCanonical
 
         public static List<CanonicalModel.ValidationMessage> ToCanonical(this IList<string> messages)

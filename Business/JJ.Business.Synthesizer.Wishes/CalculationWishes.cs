@@ -1,0 +1,126 @@
+﻿using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Samples;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Persistence.Synthesizer;
+using System;
+using static JJ.Business.Synthesizer.Wishes.docs;
+
+namespace JJ.Business.Synthesizer.Wishes
+{
+    // Calculation
+
+    public partial class SynthWishes
+    {
+        /// <inheritdoc cref="_synthwishescalculate"/>
+        public double Calculate(Outlet outlet, double time)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            return outlet.Calculate(time, ChannelIndex);
+        }
+    }
+
+    public partial class FluentOutlet
+    {
+        public double Calculate(double time, ChannelEnum channelEnum)
+            => _thisOutlet.Calculate(time, channelEnum);
+
+        public double Calculate(double time = 0, int channelIndex = 0)
+            => _thisOutlet.Calculate(time, channelIndex);
+    }
+
+    public static class CalculationExtensionWishes
+    {
+        // Curve
+
+        public static double Calculate(this Curve curve, double time)
+            => new CurveCalculator(curve).CalculateValue(time);
+
+        // Sample
+
+        public static double Calculate(this Sample sample, double time, Channel channel)
+        {
+            if (channel == null) throw new ArgumentNullException(nameof(channel));
+            return Calculate(sample, time, channel.Index);
+        }
+
+        public static double Calculate(this Sample sample, double time, ChannelEnum channelEnum)
+            => Calculate(sample, time, channelEnum.ToIndex());
+
+        public static double Calculate(this Sample sample, double time, int channelIndex)
+            => SampleCalculatorFactory.CreateSampleCalculator(sample).CalculateValue(channelIndex, time);
+
+        // Operator
+
+        public static double Calculate(this Outlet outlet, double time, ChannelEnum channelEnum)
+            => Calculate(outlet, time, channelEnum.ToIndex());
+
+        public static double Calculate(this Outlet outlet, double time = 0, int channelIndex = 0) 
+            => new OperatorCalculator(channelIndex).CalculateValue(outlet, time);
+
+        public static double Calculate(this Operator op, double time, ChannelEnum channelEnum)
+            => Calculate(op, time, channelEnum.ToIndex());
+
+        public static double Calculate(this Operator op, double time = 0, int channelIndex = 0)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+
+            Outlet outlet;
+            switch (op.Outlets.Count)
+            { 
+                case 1: 
+                    outlet = op.Outlets[0]; 
+                    break;
+
+                default: 
+                    throw new Exception(
+                        $"{nameof(Calculate)} can only be called on "+
+                        $"{nameof(Operator)}s with exactly one {nameof(Outlet)}. " +
+                        $"Consider calling {nameof(Operator)}.{nameof(Outlet)}.{nameof(Calculate)}() instead. " +
+                        $"({nameof(op.OperatorTypeName)} = '{op.OperatorTypeName}')");
+            }
+
+            return Calculate(outlet, time, channelIndex);
+        }
+
+        public static double Calculate(this Inlet inlet, double time, ChannelEnum channelEnum)
+            => Calculate(inlet, time, channelEnum.ToIndex());
+        
+        public static double Calculate(this Inlet inlet, double time = 0, int channelIndex = 0)
+        {
+            if (inlet == null) throw new ArgumentNullException(nameof(inlet));
+            var calculator = new OperatorCalculator(channelIndex);
+            return calculator.CalculateValue(inlet.Input, time);
+        }
+
+        public static double Calculate(this OperatorWrapperBase wrapper, double time, ChannelEnum channelEnum)
+            => Calculate(wrapper, time, channelEnum.ToIndex());
+
+        public static double Calculate(this OperatorWrapperBase wrapper, double time = 0, int channelIndex = 0)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return Calculate(wrapper.Operator, time, channelIndex);
+        }
+
+        public static double Calculate(this SampleOperatorWrapper wrapper, double time, ChannelEnum channelEnum)
+            => Calculate(wrapper, time, channelEnum.ToIndex());
+
+        public static double Calculate(this SampleOperatorWrapper wrapper, double time = 0, int channelIndex = 0)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return Calculate(wrapper.Result, time, channelIndex);
+        }
+
+        public static double Calculate(this CurveInWrapper wrapper, double time, ChannelEnum channelEnum)
+            => Calculate(wrapper, time, channelEnum.ToIndex());
+
+        public static double Calculate(this CurveInWrapper wrapper, double time = 0, int channelIndex = 0)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            
+            
+            return Calculate(wrapper.Result, time, channelIndex);
+        }
+
+    }
+}
