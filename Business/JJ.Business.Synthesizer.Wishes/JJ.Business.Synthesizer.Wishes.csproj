@@ -59,6 +59,7 @@
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\ConfigSection.cs" />
     <Compile Include="FrameworkWishes.cs" />
+    <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="Helpers\ToolingHelper.cs" />
     <Compile Include="Helpers\ValueWrapper.cs" />
