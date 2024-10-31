@@ -6,11 +6,10 @@ using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Fluent Configuration
+    // Fluent Configuration FluentOutlet
     
     public partial class FluentOutlet
     {
-        // Fluent Configuration
         
         public FluentOutlet WithAudioLength(FluentOutlet newLength)
         {
@@ -24,6 +23,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
     }
+
+    // Fluent Configuration SynthWishes
 
     public partial class SynthWishes
     {

@@ -1,0 +1,74 @@
+﻿using JJ.Persistence.Synthesizer;
+using System;
+using System.IO;
+using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Framework.Persistence;
+
+namespace JJ.Business.Synthesizer.Wishes
+{
+    // Sample SynthWishes
+    
+    public partial class SynthWishes
+    {
+        private void InitializeSampleWishes(IContext context)
+        {
+            _sampleManager = ServiceFactory.CreateSampleManager(context);
+        }
+
+        private SampleManager _sampleManager;
+
+        /// <inheritdoc cref="_sample"/>
+        public FluentOutlet Sample(
+            byte[] bytes, int bytesToSkip = 0, 
+            [CallerMemberName] string callerMemberName = null)
+            => SampleBase(new MemoryStream(bytes), bytesToSkip, callerMemberName);
+        
+        /// <inheritdoc cref="_sample"/>
+        public FluentOutlet Sample(
+            Stream stream, int bytesToSkip = 0,
+            [CallerMemberName] string callerMemberName = null)
+            => SampleBase(stream, bytesToSkip, callerMemberName);
+
+        /// <inheritdoc cref="_sample"/>
+        public FluentOutlet Sample(string fileName = null, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
+        {
+            string name = FetchName(callerMemberName, explicitName: fileName);
+            name = Path.GetFileNameWithoutExtension(name);
+            string filePath = FormatAudioFileName(name, AudioFormat);
+
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                return SampleBase(stream, bytesToSkip, name, callerMemberName);
+        }
+
+        /// <inheritdoc cref="_sample"/>
+        private FluentOutlet SampleBase(Stream stream, int bytesToSkip, string name1, string name2 = null)
+        {
+            string name = FetchName(name1, name2);
+            name = Path.GetFileNameWithoutExtension(name);
+            string filePath = FormatAudioFileName(name, AudioFormat);
+
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+            Sample sample = _sampleManager.CreateSample(stream);
+            sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
+            sample.TimeMultiplier = 1;
+            sample.BytesToSkip = bytesToSkip;
+            sample.SetInterpolationTypeEnum(Interpolation, Context);
+
+            if (!string.IsNullOrWhiteSpace(filePath))
+            {
+                sample.Location = Path.GetFullPath(filePath);
+            }
+
+            var wrapper = _operatorFactory.Sample(sample);
+            
+            sample.Name = name;
+            wrapper.Result.Operator.Name = name;
+
+            return _[wrapper.Result];
+        }
+
+    }
+}

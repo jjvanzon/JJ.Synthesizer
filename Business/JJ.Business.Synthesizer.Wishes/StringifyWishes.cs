@@ -1,5 +1,6 @@
 ﻿using System;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.docs;
 

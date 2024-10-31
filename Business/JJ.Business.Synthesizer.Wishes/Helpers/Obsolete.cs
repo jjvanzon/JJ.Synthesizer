@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
+// ReSharper disable once CheckNamespace
 namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes

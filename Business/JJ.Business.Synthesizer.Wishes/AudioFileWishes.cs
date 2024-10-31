@@ -3,25 +3,22 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Media;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
-using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
-using static JJ.Business.Synthesizer.Wishes.FrameworkWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
+
 // ReSharper disable AccessToModifiedClosure
 // ReSharper disable once PossibleLossOfFraction
 
@@ -310,264 +307,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetHeaderLength(entity.AudioFileOutput);
         }
     }
-        
-    public partial class FluentOutlet
-    {
-        public FluentOutlet PlayMono(double volume = default)
-        {
-            _synthWishes.Channel = ChannelEnum.Single;
-            _synthWishes.Mono().Play(() => _synthWishes.Multiply(_thisOutlet, volume));
-            return this;
-        }
-    }
 
+    // AudioFileWishes SynthWishes
+    
     public partial class SynthWishes
     {
-        private void InitializeAudioFileWishes(IContext context)
-        {
-            _sampleManager = ServiceFactory.CreateSampleManager(context);
-        }
-
-        private SampleManager _sampleManager;
-        
-        // Parallelization
-
-        /// <inheritdoc cref="_paralleladd" />
-        public FluentOutlet ParallelAdd(params Func<Outlet>[] funcs)
-            => ParallelAdd(1, (IList<Func<Outlet>>)funcs);
-
-        /// <inheritdoc cref="_paralleladd" />
-        public FluentOutlet ParallelAdd(
-            IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
-            => ParallelAdd(1, funcs, callerMemberName);
-
-        /// <inheritdoc cref="_paralleladd" />
-        public FluentOutlet ParallelAdd(double volume, params Func<Outlet>[] funcs)
-            => ParallelAdd(volume, (IList<Func<Outlet>>)funcs);
-        
-        /// <inheritdoc cref="_paralleladd" />
-        public FluentOutlet ParallelAdd(
-            double volume, IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(callerMemberName);
-
-            if (funcs == null) throw new ArgumentNullException(nameof(funcs));
-            
-            if (PreviewParallels)
-            {
-                return ParallelAdd_WithPreviewParallels(volume, funcs, name);
-            }
-
-            // Prep variables
-            int termCount = funcs.Count;
-            int channelCount = SpeakerSetup.GetChannelCount();
-            string[] fileNames = GetParallelAdd_FileNames(termCount, name);
-            var reloadedSamples = new Outlet[termCount];
-            var outlets = new Outlet[termCount][];
-            for (int i = 0; i < termCount; i++)
-            { 
-                outlets[i] = new Outlet[channelCount];
-            }
-
-            try
-            {
-                // Save to files
-                Parallel.For(0, termCount, i =>
-                {
-                    Debug.WriteLine($"Start parallel task: {fileNames[i]}", "SynthWishes");
-                                
-                    // Get outlets first (before going parallel ?)
-                    ChannelEnum originalChannel = Channel;
-                    try
-                    {
-                        for (int j = 0; j < channelCount; j++)
-                        {
-                            ChannelIndex = j;
-                            outlets[i][j] = Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
-                        }
-                    }
-                    finally
-                    {
-                        Channel = originalChannel;
-                    }
-
-                    SaveAudioBase(outlets[i], fileNames[i]);
-                    
-                    Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
-                });
-
-                // Reload Samples
-                for (int i = 0; i < termCount; i++)
-                {
-                    reloadedSamples[i] = Sample(fileNames[i]);
-                }
-            }
-            finally
-            {
-                // Clean-up
-                for (var j = 0; j < fileNames.Length; j++)
-                {
-                    string filePath = fileNames[j];
-                    if (File.Exists(filePath))
-                    {
-                        try { File.Delete(filePath); }
-                        catch { /* Ignore file delete exception, so you can keep open file in apps.*/ }
-                    }
-                }
-            }
-
-            return Add(reloadedSamples);
-        }
-        
-        /// <inheritdoc cref="_withpreviewparallels"/>
-        public bool PreviewParallels { get; private set; }
-
-        /// <inheritdoc cref="_withpreviewparallels"/>
-        public SynthWishes WithPreviewParallels()
-        {
-            PreviewParallels = true;
-            return this;
-        }
-        
-        /// <inheritdoc cref="_withpreviewparallels"/>
-        private FluentOutlet ParallelAdd_WithPreviewParallels(
-            double volume, IList<Func<Outlet>> funcs, string name)
-        {
-            // Arguments already checked in public method
-            
-            // Prep variables
-            int termCount = funcs.Count;
-            int channelCount = SpeakerSetup.GetChannelCount();
-            string[] fileNames = GetParallelAdd_FileNames(termCount, name);
-            var reloadedSamples = new Outlet[termCount];
-            var outlets = new Outlet[termCount][];
-            for (int i = 0; i < termCount; i++)
-            { 
-                outlets[i] = new Outlet[channelCount];
-            }
-
-            // Save and play files
-            Parallel.For(0, termCount, i =>
-            {
-                Debug.WriteLine($"Start parallel task: {fileNames[i]}", "SynthWishes");
-                
-                // Get outlets first (before going parallel?)
-                ChannelEnum originalChannel = Channel;
-                try
-                {
-                    for (int j = 0; j < channelCount; j++)
-                    {
-                        ChannelIndex = j;
-                        outlets[i][j] = Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
-                    }
-                }
-                finally
-                {
-                    Channel = originalChannel;
-                }
-
-                var saveResult = SaveAudioBase(outlets[i], fileNames[i]);
-                PlayIfAllowed(saveResult.Data);
-            
-                Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
-            });
-
-            // Reload sample
-            for (int i = 0; i < termCount; i++)
-            {
-                reloadedSamples[i] = Sample(fileNames[i]);
-
-                // Save and play to test the sample loading
-                // TODO: This doesn't actually save the reloaded samples. replace outlets[i] by a repeat of reloaded samples.
-                var saveResult = SaveAudioBase(outlets[i], fileNames[i] + "_Reloaded.wav");
-                PlayIfAllowed(saveResult.Data);
-            }
-
-            return Add(reloadedSamples);
-        }
-
-        // Sample
-        
-        /// <inheritdoc cref="_sample"/>
-        public FluentOutlet Sample(
-            byte[] bytes, int bytesToSkip = 0, 
-            [CallerMemberName] string callerMemberName = null)
-            => SampleBase(new MemoryStream(bytes), bytesToSkip, callerMemberName);
-        
-        /// <inheritdoc cref="_sample"/>
-        public FluentOutlet Sample(
-            Stream stream, int bytesToSkip = 0,
-            [CallerMemberName] string callerMemberName = null)
-            => SampleBase(stream, bytesToSkip, callerMemberName);
-
-        /// <inheritdoc cref="_sample"/>
-        public FluentOutlet Sample(string fileName = null, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(callerMemberName, explicitName: fileName);
-            name = Path.GetFileNameWithoutExtension(name);
-            string filePath = FormatAudioFileName(name, AudioFormat);
-
-            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                return SampleBase(stream, bytesToSkip, name, callerMemberName);
-        }
-
-        /// <inheritdoc cref="_sample"/>
-        private FluentOutlet SampleBase(Stream stream, int bytesToSkip, string name1, string name2 = null)
-        {
-            string name = FetchName(name1, name2);
-            name = Path.GetFileNameWithoutExtension(name);
-            string filePath = FormatAudioFileName(name, AudioFormat);
-
-            if (stream == null) throw new ArgumentNullException(nameof(stream));
-
-            Sample sample = _sampleManager.CreateSample(stream);
-            sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
-            sample.TimeMultiplier = 1;
-            sample.BytesToSkip = bytesToSkip;
-            sample.SetInterpolationTypeEnum(Interpolation, Context);
-
-            if (!string.IsNullOrWhiteSpace(filePath))
-            {
-                sample.Location = Path.GetFullPath(filePath);
-            }
-
-            var wrapper = _operatorFactory.Sample(sample);
-            
-            sample.Name = name;
-            wrapper.Result.Operator.Name = name;
-
-            return _[wrapper.Result];
-        }
-
-        // Play
-        
-        /// <inheritdoc cref="_saveorplay" />
-        public Result<AudioFileOutput> Play(
-            Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(callerMemberName);
-
-            var originalAudioLength = AudioLength;
-            try
-            {
-                (outletFunc, AudioLength) = AddPadding(outletFunc, AudioLength);
-
-                var saveResult = SaveAudio(outletFunc, name);
-
-                var playResult = PlayIfAllowed(saveResult.Data);
-
-                var result = saveResult.Combine(playResult);
-
-                return result;
-            }
-            finally
-            {
-                AudioLength = originalAudioLength;
-            }
-        }
-        
-        // Save Audio
-
         /// <inheritdoc cref="_saveorplay" />
         public Result<AudioFileOutput> SaveAudio(
             Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
@@ -834,47 +578,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
         
-        private (Func<Outlet> func, FluentOutlet audioLength) 
-            AddPadding(Func<Outlet> func, FluentOutlet audioLength = default)
-        {
-            audioLength = audioLength ?? _[1];
-            
-            FluentOutlet audioLength2 = Add(audioLength, ConfigHelper.PlayLeadingSilence + ConfigHelper.PlayTrailingSilence);
-                
-            if (ConfigHelper.PlayLeadingSilence == 0)
-            {
-                return (func, audioLength2);
-            }
-
-            Outlet func2() => Delay(func(), _[ConfigHelper.PlayLeadingSilence]);
-            
-            return (func2, audioLength2);
-        }
-
-        private Result PlayIfAllowed(AudioFileOutput audioFileOutput)
-        {
-            var lines = new List<string>();
-
-            var playAllowed = ToolingHelper.PlayAllowed(audioFileOutput.GetFileExtension());
-            
-            lines.AddRange(playAllowed.ValidationMessages.Select(x => x.Text));
-            
-            if (playAllowed.Data)
-            {
-                lines.Add("Playing audio...");
-                new SoundPlayer(audioFileOutput.FilePath).PlaySync();
-                lines.Add("");
-            }
-
-            lines.Add("Done.");
-            lines.Add("");
-
-            // Write Lines
-            lines.ForEach(x => Console.WriteLine(x ?? ""));
-
-            return lines.ToResult();
-        }
-        
         private Result<int> ResolveSamplingRate(int? samplingRateOverride)
         {
             var result = new Result<int>
@@ -925,24 +628,6 @@ namespace JJ.Business.Synthesizer.Wishes
             fileName += fileExtension;
             return fileName;
         }
-
-        private string[] GetParallelAdd_FileNames(int count, string name)
-        {
-            string guidString = $"{Guid.NewGuid()}";
-
-            if (!name.Contains(nameof(ParallelAdd), ignoreCase: true))
-            {
-                name += " " + nameof(ParallelAdd);
-            }
-
-            var fileNames = new string[count];
-            for (int i = 0; i < count; i++)
-            {
-                fileNames[i] = $"{name} (Term {i + 1}) {guidString}.wav";
-            }
-
-            return fileNames;
-        } 
 
         private static string FormatRealTimeMessage(double duration, Stopwatch stopWatch)
         {

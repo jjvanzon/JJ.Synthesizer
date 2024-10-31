@@ -57,12 +57,15 @@
     <Compile Include="EnumWishes.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\ConfigSection.cs" />
-    <Compile Include="FrameworkWishes.cs" />
+    <Compile Include="Helpers\FrameworkWishes.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Helpers\ToolingHelper.cs" />
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
-    <Compile Include="RelatedObjectWishes.cs" />
+    <Compile Include="Helpers\RelatedObjectWishes.cs" />
+    <Compile Include="ParallelWishes.cs" />
+    <Compile Include="PlayWishes.cs" />
+    <Compile Include="SampleWishes.cs" />
     <Compile Include="StringifyWishes.cs" />
     <Compile Include="WavHeaderWishes.cs" />
     <Compile Include="CurveWishes.cs" />
@@ -72,7 +75,7 @@
     <Compile Include="NoteWishes.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
-    <Compile Include="Obsolete.cs" />
+    <Compile Include="Helpers\Obsolete.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynthWishes.cs" />
     <Compile Include="ValidationWishes.cs" />

@@ -13,7 +13,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FluentOutlet
     {
-
         public double? AsConst => _thisOutlet.AsConst();
         public bool IsConst => _thisOutlet.IsConst();
         public bool IsVar => _thisOutlet.IsVar();
@@ -33,7 +32,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class IsAsExtensionWishes
     {
-        
         // Curves
 
         public static bool IsCurve(this Outlet entity)

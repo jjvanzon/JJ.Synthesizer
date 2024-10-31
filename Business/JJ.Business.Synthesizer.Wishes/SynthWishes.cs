@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
 
-            InitializeAudioFileWishes(context);
+            InitializeSampleWishes(context);
             InitializeCurveWishes(context);
             InitializeOperatorWishes(context);
         }

@@ -118,7 +118,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             
-            
             return Calculate(wrapper.Result, time, channelIndex);
         }
 
