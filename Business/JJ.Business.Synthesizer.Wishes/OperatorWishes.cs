@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
-using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
@@ -13,9 +12,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
-using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
+// ReSharper disable AssignmentInsteadOfDiscard
+// ReSharper disable ParameterHidesMember
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 double? constant = AsConst;
                 if (constant != null) return constant.Value;
 
-                double calculated = Calculate(time: 0);
+                double calculated = this.Calculate(time: 0);
                 return calculated;
             }
         }

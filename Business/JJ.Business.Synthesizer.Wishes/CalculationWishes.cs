@@ -10,6 +10,8 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     // Calculation
 
+    // SynthWishes
+    
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_synthwishescalculate"/>
@@ -20,17 +22,16 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    public partial class FluentOutlet
-    {
-        public double Calculate(double time, ChannelEnum channelEnum)
-            => _thisOutlet.Calculate(time, channelEnum);
-
-        public double Calculate(double time = 0, int channelIndex = 0)
-            => _thisOutlet.Calculate(time, channelIndex);
-    }
-
     public static class CalculationExtensionWishes
     {
+        // FluentOutlet
+
+        public static double Calculate(this FluentOutlet fluentOutlet, double time, ChannelEnum channelEnum)
+            => fluentOutlet.Outlet.Calculate(time, channelEnum);
+
+        public static double Calculate(this FluentOutlet fluentOutlet, double time = 0, int channelIndex = 0)
+            => fluentOutlet.Outlet.Calculate(time, channelIndex);
+        
         // Curve
 
         public static double Calculate(this Curve curve, double time)
