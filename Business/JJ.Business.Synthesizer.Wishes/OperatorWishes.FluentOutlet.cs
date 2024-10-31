@@ -325,7 +325,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool IsStretch => _thisOutlet.IsStretch();
         public bool IsSpeedUp => _thisOutlet.IsSpeedUp();
         public bool IsTimePower => _thisOutlet.IsTimePower();
-        internal bool IsAdder => _thisOutlet.IsAdder();
+        public bool IsAdder => _thisOutlet.IsAdder();
 
         // Related Object
 

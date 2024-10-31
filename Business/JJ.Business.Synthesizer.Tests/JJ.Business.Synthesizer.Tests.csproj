@@ -122,7 +122,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Accessors\OperatorExtensionsWishesAccessor.cs" />
     <Compile Include="Functional\LongRunningTests.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Technical\AudioFileWishesTests.cs" />
