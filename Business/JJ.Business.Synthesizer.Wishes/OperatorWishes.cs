@@ -60,6 +60,501 @@ namespace JJ.Business.Synthesizer.Wishes
         public Outlet Outlet => _this;
     }
 
+    // Value FluentOutlet
+
+    public partial class FluentOutlet
+    {
+        public static explicit operator double(FluentOutlet fluentOutlet)
+            => fluentOutlet.Value;
+
+        public double Value
+        {
+            get
+            {
+                double? constant = AsConst;
+                if (constant != null) return constant.Value;
+
+                double calculated = this.Calculate(time: 0);
+                return calculated;
+            }
+        }
+    }
+    
+    // Add SynthWishes
+
+    public partial class SynthWishes
+    {
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Add(params Outlet[] operands)
+            => Add((IList<Outlet>)operands);
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Add(IList<Outlet> operands)
+        {
+            if (operands == null) throw new ArgumentNullException(nameof(operands));
+
+            // Flatten Nested Sums
+            IList<Outlet> terms = FlattenTerms(operands);
+
+            // Consts
+            IList<Outlet> vars = terms.Where(y => y.IsVar()).ToArray();
+            double constant = terms.Sum(y => y.AsConst() ?? 0);
+
+            if (constant != 0) // Skip Identity 0
+            {
+                terms = vars.Concat(new[] { (Outlet)_[constant] }).ToArray();
+            }
+
+            switch (terms.Count)
+            {
+                case 0:
+                    return _[_[0]];
+
+                case 1:
+                    // Return single term
+                    return _[terms[0]];
+
+                case 2:
+                    // Simple Add for 2 Operands
+                    return _[_operatorFactory.Add(terms[0], terms[1])].WithName(FetchName());
+
+                default:
+                    // Make Normal Adder
+                    return _[_operatorFactory.Adder(terms)].WithName(FetchName());
+            }
+        }
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Add(double a, double b) => Add(_[a], _[b]);
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Add(Outlet a, double b) => Add(a, _[b]);
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Add(double a, Outlet b) => Add(_[a], b);
+
+        /// <inheritdoc cref="_flattentermswithsumoradd"/>
+        [UsedImplicitly]
+        private IList<Outlet> FlattenTerms(Outlet sumOrAdd)
+        {
+            if (sumOrAdd == null) throw new ArgumentNullException(nameof(sumOrAdd));
+
+            if (sumOrAdd.IsAdd())
+            {
+                var add = new Add(sumOrAdd.Operator);
+                return FlattenTerms(add.OperandA, add.OperandB);
+            }
+
+            if (sumOrAdd.IsAdder())
+            {
+                var sum = new Adder(sumOrAdd.Operator);
+                return FlattenTerms(sum.Operands);
+            }
+
+            throw new Exception("sumOrAdd is not a Sum / Adder or Add operator.");
+        }
+
+        private IList<Outlet> FlattenTerms(params Outlet[] operands)
+            => FlattenTerms((IList<Outlet>)operands);
+
+        private IList<Outlet> FlattenTerms(IList<Outlet> operands)
+        {
+            return operands.SelectMany(x =>
+            {
+                if (x.IsAdder() || x.IsAdd())
+                {
+                    var wrapper = new Adder(x.Operator);
+                    return FlattenTerms(wrapper.Operands);
+                }
+                else
+                {
+                    // Wrap the single operand in a list
+                    return new List<Outlet> { x };
+                }
+            }).ToList();
+        }
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Plus(params Outlet[] operands) => Add(operands);
+        
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Plus(IList<Outlet> operands) => Add(operands);
+        
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Plus(double a, double b) => Add(a, b);
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Plus(Outlet a, double b) => Add(a, b);
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Plus(double a, Outlet b) => Add(a, b);
+    }
+
+    // Add FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Add(IList<Outlet> operands) => x.Add(new[] { _this }.Concat(operands).ToArray());
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Add(params Outlet[] operands) => x.Add(new[] { _this }.Concat(operands).ToArray());
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Add(Outlet b) => x.Add(_this, b);
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Add(double b) => x.Add(_this, b);
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Plus(params Outlet[] operands) => Add(operands);
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Plus(IList<Outlet> operands) => Add(operands);
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Plus(Outlet b) => Add(b);
+
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Plus(double b) => Add(b);
+    }
+    
+    // Subtract SynthWishes
+    
+    public partial class SynthWishes
+    {
+        public FluentOutlet Subtract(Outlet a, Outlet b) => _[_operatorFactory.Substract(a, b)].WithName(FetchName());
+
+        public FluentOutlet Subtract(Outlet a, double b) => _[_operatorFactory.Substract(a, _[b])].WithName(FetchName());
+
+        public FluentOutlet Subtract(double a, Outlet b) => _[_operatorFactory.Substract(_[a], b)].WithName(FetchName());
+    }
+
+    // Subtract FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        public FluentOutlet Subtract(Outlet b) => x.Subtract(_this, b);
+
+        public FluentOutlet Subtract(double b) => x.Subtract(_this, b);
+
+        public FluentOutlet Minus(Outlet b) => Subtract(b);
+
+        public FluentOutlet Minus(double b) => Subtract(b);
+    }
+    
+    // Multiply SynthWishes
+    
+    public partial class SynthWishes
+    {
+        /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Multiply(Outlet a, Outlet b)
+        {
+            // Reverse operands increasing likelihood to have a 0-valued (volume) curve first.
+            (a, b) = (b, a);
+
+            // Flatten Nested Sums
+            IList<Outlet> flattenedFactors = FlattenFactors(a, b);
+
+            // Consts
+            IList<Outlet> vars = flattenedFactors.Where(y => y.IsVar()).ToArray();
+            double constant = flattenedFactors.Product(y => y.AsConst() ?? 1);
+
+            IList<Outlet> factors = new List<Outlet>(vars);
+            if (constant != 1) // Skip Identity 1
+            {
+                factors.Add(_[constant]);
+            }
+
+            switch (factors.Count)
+            {
+                case 0:
+                    // Return identity 1
+                    return _[_[1]].WithName(FetchName());
+
+                case 1:
+                    // Return single number
+                    return _[factors[0]];
+
+                case 2:
+                    // Simple Multiply for 2 Operands
+                    return _[_operatorFactory.Multiply(factors[0], factors[1])].WithName(FetchName());
+
+                default:
+                    // Re-nest remaining factors
+                    return _[NestMultiplications(factors)].WithName(FetchName());
+            }
+        }
+
+        /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Multiply(Outlet a, double b) => Multiply(a, _[b]);
+
+        /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Multiply(double a, Outlet b) => Multiply(_[a], b);
+
+        /// <inheritdoc cref="_flattenfactorswithmultiplyoutlet"/>
+        [UsedImplicitly]
+        public IList<Outlet> FlattenFactors(Outlet multiplyOutlet)
+        {
+            if (multiplyOutlet == null) throw new ArgumentNullException(nameof(multiplyOutlet));
+
+            if (!multiplyOutlet.IsMultiply())
+            {
+                throw new Exception($"{nameof(multiplyOutlet)} parameter is not a Multiply operator.");
+            }
+
+            var multiplyWrapper = new Multiply(multiplyOutlet.Operator);
+            return FlattenFactors(multiplyWrapper.OperandA, multiplyWrapper.OperandB);
+        }
+
+        public IList<Outlet> FlattenFactors(params Outlet[] operands)
+            => FlattenFactors((IList<Outlet>)operands);
+
+        public IList<Outlet> FlattenFactors(IList<Outlet> operands)
+        {
+            return operands.SelectMany(x =>
+            {
+                if (x.IsMultiply())
+                {
+                    var multiplyWrapper = new Multiply(x.Operator);
+                    return FlattenFactors(multiplyWrapper.OperandA, multiplyWrapper.OperandB);
+                }
+                else
+                {
+                    // Wrap the single operand in a list
+                    return new List<Outlet> { x };
+                }
+            }).ToList();
+        }
+
+        private Outlet NestMultiplications(IList<Outlet> flattenedFactors)
+        {
+            // Base case: If there's only one factor, return it
+            // Also stops the recursion
+            if (flattenedFactors.Count == 1)
+            {
+                return flattenedFactors[0];
+            }
+
+            // Recursive case: Nest the first factor with the result of nesting the rest
+            var firstFactor = flattenedFactors[0];
+            var remainingFactors = flattenedFactors.Skip(1).ToList();
+
+            // Recursively nest the remaining factors and multiply with the first
+            return _operatorFactory.Multiply(firstFactor, NestMultiplications(remainingFactors));
+        }
+    }
+
+    // Multiply FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        public FluentOutlet Multiply(Outlet b) => x.Multiply(_this, b);
+
+        public FluentOutlet Multiply(double b) => x.Multiply(_this, b);
+
+        public FluentOutlet Times(Outlet b) => Multiply(b);
+
+        public FluentOutlet Times(double b) => Multiply(b);
+    }
+    
+    // Divide SynthWishes
+    
+    public partial class SynthWishes
+    {
+        public FluentOutlet Divide(Outlet a, Outlet b) => _[_operatorFactory.Divide(a, b)].WithName(FetchName());
+
+        public FluentOutlet Divide(Outlet a, double b) => Divide(a, _[b]);
+
+        public FluentOutlet Divide(double a, Outlet b) => Divide(_[a], b);
+    }
+
+    // Divide FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        public FluentOutlet Divide(Outlet b) => x.Divide(_this, b);
+
+        public FluentOutlet Divide(double b) => x.Divide(_this, b);
+    }
+
+    // Power FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        public FluentOutlet Power(Outlet exponent) => x.Power(_this, exponent);
+
+        public FluentOutlet Power(double exponent) => x.Power(_this, exponent);
+    }
+    
+    // Power SynthWishes
+    
+    public partial class SynthWishes
+    {
+        public FluentOutlet Power(Outlet @base, Outlet exponent) => _[_operatorFactory.Power(@base, exponent)].WithName(FetchName());
+
+        public FluentOutlet Power(Outlet @base, double exponent) => Power(@base, _[exponent]);
+
+        public FluentOutlet Power(double @base, Outlet exponent) => Power(_[@base], exponent);
+    }
+
+    // Sine SynthWishes
+    
+    public partial class SynthWishes
+    {
+        /// <inheritdoc cref="_sine" />
+        public FluentOutlet Sine(Outlet pitch = null) => _[_operatorFactory.Sine(_[1], pitch ?? _[1])].WithName(FetchName());
+
+        /// <inheritdoc cref="_sine" />
+        public FluentOutlet Sine(double pitch) => Sine(_[pitch]);
+    }
+
+    // Sine FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        /// <inheritdoc cref="_sine" />
+        public FluentOutlet Sine => x.Sine(_this);
+    }
+        
+    // Delay SynthWishes
+
+    public partial class SynthWishes
+    {
+        public FluentOutlet Delay(Outlet signal, Outlet delay) => _[_operatorFactory.TimeAdd(signal, delay ?? _[0])].WithName(FetchName());
+
+        public FluentOutlet Delay(Outlet signal, double delay) => Delay(signal, _[delay]);
+    }
+
+    // Delay FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        public FluentOutlet Delay(Outlet delay) => x.Delay(_this, delay);
+
+        public FluentOutlet Delay(double delay) => x.Delay(_this, delay);
+    }
+    
+    // Skip SynthWishes
+    
+    public partial class SynthWishes
+    {
+        public FluentOutlet Skip(Outlet signal, Outlet skip) => _[_operatorFactory.TimeSubstract(signal, skip ?? _[1])].WithName(FetchName());
+
+        public FluentOutlet Skip(Outlet signal, double skip) => Skip(signal, _[skip]);
+    }
+
+    // Skip FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+
+        public FluentOutlet Skip(Outlet skip) => x.Skip(_this, skip);
+
+        public FluentOutlet Skip(double skip) => x.Skip(_this, skip);
+    }
+        
+    // Stretch SynthWishes
+
+    public partial class SynthWishes
+    {
+        public FluentOutlet Stretch(Outlet signal, Outlet timeScale) => _[_operatorFactory.TimeMultiply(signal, timeScale ?? _[1])].WithName(FetchName());
+
+        public FluentOutlet Stretch(Outlet signal, double timeScale) => Stretch(signal, _[timeScale]);
+    }
+
+    // Stretch FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+
+        public FluentOutlet Stretch(Outlet timeScale) => x.Stretch(_this, timeScale);
+
+        public FluentOutlet Stretch(double timeScale) => x.Stretch(_this, timeScale);
+    }
+        
+    // SpeedUp SynthWishes
+
+    public partial class SynthWishes
+    {
+        public FluentOutlet SpeedUp(Outlet signal, Outlet factor) => _[_operatorFactory.TimeDivide(signal, factor)].WithName(FetchName());
+
+        public FluentOutlet SpeedUp(Outlet signal, double factor) => SpeedUp(signal, _[factor]);
+    }
+
+    // SpeedUp FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        public FluentOutlet SpeedUp(Outlet speed) => x.SpeedUp(_this, speed);
+
+        public FluentOutlet SpeedUp(double speed) => x.SpeedUp(_this, speed);
+    }
+    
+    // TimePower SynthWishes
+    
+    public partial class SynthWishes
+    {
+        public FluentOutlet TimePower(Outlet signal, Outlet exponent) => _[_operatorFactory.TimePower(signal, exponent)].WithName(FetchName());
+
+        public FluentOutlet TimePower(Outlet signal, double exponent) => TimePower(signal, _[exponent]);
+    }
+
+    // TimePower FluentOutlet
+
+    public partial class FluentOutlet
+    {
+        public FluentOutlet TimePower(Outlet exponent) => x.TimePower(_this, exponent);
+
+        public FluentOutlet TimePower(double exponent) => x.TimePower(_this, exponent);
+    }
+    // StrikeNote SynthWishes
+    
+    public partial class SynthWishes
+    {
+        /// <inheritdoc cref="_default" />
+        public FluentOutlet StrikeNote(Outlet sound, Outlet delay = default, Outlet volume = default)
+        {
+            // A little optimization, because so slow...
+            bool delayFilledIn = delay != null && delay.AsConst() != 0;
+            bool volumeFilledIn = volume != null && volume.AsConst() != 1;
+
+            if (delayFilledIn) sound = Delay(sound, delay);
+            if (volumeFilledIn) sound = Multiply(sound, volume);
+
+            return _[sound];
+        }
+
+        /// <inheritdoc cref="_default" />
+        public FluentOutlet StrikeNote(Outlet sound, Outlet delay, double volume)
+            => StrikeNote(sound, delay, _[volume]);
+
+        /// <inheritdoc cref="_default" />
+        public FluentOutlet StrikeNote(Outlet sound, double delay, Outlet volume = default)
+            => StrikeNote(sound, _[delay], volume);
+
+        /// <inheritdoc cref="_default" />
+        public FluentOutlet StrikeNote(Outlet sound, double delay, double volume)
+            => StrikeNote(sound, _[delay], _[volume]);
+    }
+
+    // StrikeNote FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        public FluentOutlet StrikeNote(Outlet delay = null, Outlet volume = default)
+            => x.StrikeNote(_this, delay, volume);
+
+        public FluentOutlet StrikeNote(Outlet delay, double volume)
+            => x.StrikeNote(_this, delay, volume);
+
+        public FluentOutlet StrikeNote(double delay, Outlet volume = default)
+            => x.StrikeNote(_this, delay, volume);
+
+        public FluentOutlet StrikeNote(double delay, double volume)
+            => x.StrikeNote(_this, delay, volume);
+    }
+    
     // Tremolo SynthWishes
 
     public partial class SynthWishes
@@ -163,579 +658,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_vibrato" />
         public FluentOutlet VibratoOverPitch(double speed, double depth) => x.VibratoOverPitch(_this, (speed, depth));
     }
-
-    // Value FluentOutlet
-
-    public partial class FluentOutlet
-    {
-        public static explicit operator double(FluentOutlet fluentOutlet)
-            => fluentOutlet.Value;
-
-        public double Value
-        {
-            get
-            {
-                double? constant = AsConst;
-                if (constant != null) return constant.Value;
-
-                double calculated = this.Calculate(time: 0);
-                return calculated;
-            }
-        }
-    }
-
-    // Add FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-        // Basic Operators
-
-        public FluentOutlet Add(IList<Outlet> operands) => x.Add(new[] { _this }.Concat(operands).ToArray());
-
-        public FluentOutlet Add(params Outlet[] operands) => x.Add(new[] { _this }.Concat(operands).ToArray());
-
-        public FluentOutlet Add(Outlet b) => x.Add(_this, b);
-
-        public FluentOutlet Add(double b) => x.Add(_this, b);
-
-        public FluentOutlet Plus(params Outlet[] operands) => Add(operands);
-
-        public FluentOutlet Plus(IList<Outlet> operands) => Add(operands);
-
-        public FluentOutlet Plus(Outlet b) => Add(b);
-
-        public FluentOutlet Plus(double b) => Add(b);
-    }
-
-    // Subtract FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-
-        public FluentOutlet Subtract(Outlet b) => x.Subtract(_this, b);
-
-        public FluentOutlet Subtract(double b) => x.Subtract(_this, b);
-
-        public FluentOutlet Minus(Outlet b) => Subtract(b);
-
-        public FluentOutlet Minus(double b) => Subtract(b);
-    }
-
-    // Multiply FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-        public FluentOutlet Multiply(Outlet b) => x.Multiply(_this, b);
-
-        public FluentOutlet Multiply(double b) => x.Multiply(_this, b);
-
-        public FluentOutlet Times(Outlet b) => Multiply(b);
-
-        public FluentOutlet Times(double b) => Multiply(b);
-    }
-
-    // Divide FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-        public FluentOutlet Divide(Outlet b) => x.Divide(_this, b);
-
-        public FluentOutlet Divide(double b) => x.Divide(_this, b);
-    }
-
-    // Power FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-        public FluentOutlet Power(Outlet exponent) => x.Power(_this, exponent);
-
-        public FluentOutlet Power(double exponent) => x.Power(_this, exponent);
-    }
-
-    // Sine FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-        /// <inheritdoc cref="_sine" />
-        public FluentOutlet Sine => x.Sine(_this);
-    }
-
-    // Delay FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-        public FluentOutlet Delay(Outlet delay) => x.Delay(_this, delay);
-
-        public FluentOutlet Delay(double delay) => x.Delay(_this, delay);
-    }
-
-    // SkipFluentOutlet
-    
-    public partial class FluentOutlet
-    {
-
-        public FluentOutlet Skip(Outlet skip) => x.Skip(_this, skip);
-
-        public FluentOutlet Skip(double skip) => x.Skip(_this, skip);
-    }
-
-    // Stretch FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-
-        public FluentOutlet Stretch(Outlet timeScale) => x.Stretch(_this, timeScale);
-
-        public FluentOutlet Stretch(double timeScale) => x.Stretch(_this, timeScale);
-    }
-
-    // SpeedUp FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-        public FluentOutlet SpeedUp(Outlet speed) => x.SpeedUp(_this, speed);
-
-        public FluentOutlet SpeedUp(double speed) => x.SpeedUp(_this, speed);
-    }
-
-    // TimePower FluentOutlet
-
-    public partial class FluentOutlet
-    {
-        public FluentOutlet TimePower(Outlet exponent) => x.TimePower(_this, exponent);
-
-        public FluentOutlet TimePower(double exponent) => x.TimePower(_this, exponent);
-    }
-
-    // Derived Operators
-
-    // StrikeNote FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-        public FluentOutlet StrikeNote(Outlet delay = null, Outlet volume = default)
-            => x.StrikeNote(_this, delay, volume);
-
-        public FluentOutlet StrikeNote(Outlet delay, double volume)
-            => x.StrikeNote(_this, delay, volume);
-
-        public FluentOutlet StrikeNote(double delay, Outlet volume = default)
-            => x.StrikeNote(_this, delay, volume);
-
-        public FluentOutlet StrikeNote(double delay, double volume)
-            => x.StrikeNote(_this, delay, volume);
-    }
-
-    // Panning Fluent Outlet
-    
-    public partial class FluentOutlet
-    {
-        public FluentOutlet Panning(Outlet panning, ChannelEnum channel = default)
-            => x.Panning(_this, panning, channel);
-
-        public FluentOutlet Panning(double panning, ChannelEnum channel = default)
-            => x.Panning(_this, panning, channel);
-    }
-
-    // Panbrello Fluent Outlet
-    
-    public partial class FluentOutlet
-    {
-        /// <inheritdoc cref="_panbrello" />
-        public FluentOutlet Panbrello(Outlet speed = default, Outlet depth = default, ChannelEnum channel = default)
-            => x.Panbrello(_this, (speed, depth), channel);
-
-        /// <inheritdoc cref="_panbrello" />
-        public FluentOutlet Panbrello(Outlet speed, double depth, ChannelEnum channel = default)
-            => x.Panbrello(_this, (speed, depth), channel);
-
-        /// <inheritdoc cref="_panbrello" />
-        public FluentOutlet Panbrello(double speed, Outlet depth, ChannelEnum channel = default)
-            => x.Panbrello(_this, (speed, depth), channel);
-
-        /// <inheritdoc cref="_panbrello" />
-        public FluentOutlet Panbrello(double speed, double depth, ChannelEnum channel = default)
-            => x.Panbrello(_this, (speed, depth), channel);
-    }
-
-    // PitchPan FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-        /// <inheritdoc cref="_pitchpan" />
-        public Outlet PitchPan(Outlet centerFrequency, Outlet referenceFrequency, Outlet referencePanning)
-            => x.PitchPan(_this, centerFrequency, referenceFrequency, referencePanning);
-
-        /// <inheritdoc cref="_pitchpan" />
-        public Outlet PitchPan(double centerFrequency, double referenceFrequency, double referencePanning)
-            => x.PitchPan(_this, centerFrequency, referenceFrequency, referencePanning);
-    }
-
-    // Echo FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-        public FluentOutlet Echo(int count = 4, Outlet magnitude = default, Outlet delay = default)
-            => x.Echo(_this, count, magnitude, delay);
-
-        public FluentOutlet Echo(int count, Outlet magnitude, double delay)
-            => x.Echo(_this, count, magnitude, delay);
-
-        public FluentOutlet Echo(int count, double magnitude, Outlet delay)
-            => x.Echo(_this, count, magnitude, delay);
-
-        public FluentOutlet Echo(int count = 4, double magnitude = default, double delay = default)
-            => x.Echo(_this, count, magnitude, delay);
-
-        public FluentOutlet EchoAdditive(int count = 8, Outlet magnitude = default, Outlet delay = default)
-            => x.EchoAdditive(_this, count, magnitude, delay);
-
-        public FluentOutlet EchoAdditive(int count, Outlet magnitude, double delay)
-            => x.EchoAdditive(_this, count, magnitude, delay);
-
-        public FluentOutlet EchoAdditive(int count, double magnitude, Outlet delay)
-            => x.EchoAdditive(_this, count, magnitude, delay);
-
-        public FluentOutlet EchoAdditive(int count = 8, double magnitude = default, double delay = default)
-            => x.EchoAdditive(_this, count, magnitude, delay);
-
-        public FluentOutlet EchoFeedBack(int count = 8, Outlet magnitude = default, Outlet delay = default)
-            => x.EchoFeedBack(_this, count, magnitude, delay);
-
-        public FluentOutlet EchoFeedBack(int count, Outlet magnitude, double delay)
-            => x.EchoFeedBack(_this, count, magnitude, delay);
-
-        public FluentOutlet EchoFeedBack(int count, double magnitude, Outlet delay)
-            => x.EchoFeedBack(_this, count, magnitude, delay);
-
-        public FluentOutlet EchoFeedBack(double magnitude = default, double delay = default, int count = 8)
-            => x.EchoFeedBack(_this, count, magnitude, delay);
-
-        public FluentOutlet EchoParallel(
-            int count = 8, Outlet magnitude = default, Outlet delay = default,
-            bool mustAddAudioLength = true, [CallerMemberName] string callerMemberName = null)
-            => x.EchoParallel(_this, count, magnitude, delay, mustAddAudioLength, callerMemberName);
-    }
-
-    // Basic Operators
-
-    // Add SynthWishes
-
-    public partial class SynthWishes
-    {
-        /// <inheritdoc cref="_add"/>
-        public FluentOutlet Add(params Outlet[] operands)
-            => Add((IList<Outlet>)operands);
-
-        /// <inheritdoc cref="_add"/>
-        public FluentOutlet Add(IList<Outlet> operands)
-        {
-            if (operands == null) throw new ArgumentNullException(nameof(operands));
-
-            // Flatten Nested Sums
-            IList<Outlet> terms = FlattenTerms(operands);
-
-            // Consts
-            IList<Outlet> vars = terms.Where(y => y.IsVar()).ToArray();
-            double constant = terms.Sum(y => y.AsConst() ?? 0);
-
-            if (constant != 0) // Skip Identity 0
-            {
-                terms = vars.Concat(new[] { (Outlet)_[constant] }).ToArray();
-            }
-
-            switch (terms.Count)
-            {
-                case 0:
-                    return _[_[0]];
-
-                case 1:
-                    // Return single term
-                    return _[terms[0]];
-
-                case 2:
-                    // Simple Add for 2 Operands
-                    return _[_operatorFactory.Add(terms[0], terms[1])].WithName(FetchName());
-
-                default:
-                    // Make Normal Adder
-                    return _[_operatorFactory.Adder(terms)].WithName(FetchName());
-            }
-        }
-
-        /// <inheritdoc cref="_add"/>
-        public FluentOutlet Add(double a, double b) => Add(_[a], _[b]);
-
-        /// <inheritdoc cref="_add"/>
-        public FluentOutlet Add(Outlet a, double b) => Add(a, _[b]);
-
-        /// <inheritdoc cref="_add"/>
-        public FluentOutlet Add(double a, Outlet b) => Add(_[a], b);
-
-        /// <inheritdoc cref="_flattentermswithsumoradd"/>
-        [UsedImplicitly]
-        private IList<Outlet> FlattenTerms(Outlet sumOrAdd)
-        {
-            if (sumOrAdd == null) throw new ArgumentNullException(nameof(sumOrAdd));
-
-            if (sumOrAdd.IsAdd())
-            {
-                var add = new Add(sumOrAdd.Operator);
-                return FlattenTerms(add.OperandA, add.OperandB);
-            }
-
-            if (sumOrAdd.IsAdder())
-            {
-                var sum = new Adder(sumOrAdd.Operator);
-                return FlattenTerms(sum.Operands);
-            }
-
-            throw new Exception("sumOrAdd is not a Sum / Adder or Add operator.");
-        }
-
-        private IList<Outlet> FlattenTerms(params Outlet[] operands)
-            => FlattenTerms((IList<Outlet>)operands);
-
-        private IList<Outlet> FlattenTerms(IList<Outlet> operands)
-        {
-            return operands.SelectMany(x =>
-            {
-                if (x.IsAdder() || x.IsAdd())
-                {
-                    var wrapper = new Adder(x.Operator);
-                    return FlattenTerms(wrapper.Operands);
-                }
-                else
-                {
-                    // Wrap the single operand in a list
-                    return new List<Outlet> { x };
-                }
-            }).ToList();
-        }
-    }
-
-    // Subtract SynthWishes
-    
-    public partial class SynthWishes
-    {
-        public FluentOutlet Subtract(Outlet a, Outlet b) => _[_operatorFactory.Substract(a, b)].WithName(FetchName());
-
-        public FluentOutlet Subtract(Outlet a, double b) => _[_operatorFactory.Substract(a, _[b])].WithName(FetchName());
-
-        public FluentOutlet Subtract(double a, Outlet b) => _[_operatorFactory.Substract(_[a], b)].WithName(FetchName());
-    }
-
-    // Multiply SynthWishes
-    
-    public partial class SynthWishes
-    {
-        /// <inheritdoc cref="_multiply"/>
-        public FluentOutlet Multiply(Outlet a, Outlet b)
-        {
-            // Reverse operands increasing likelihood to have a 0-valued (volume) curve first.
-            (a, b) = (b, a);
-
-            // Flatten Nested Sums
-            IList<Outlet> flattenedFactors = FlattenFactors(a, b);
-
-            // Consts
-            IList<Outlet> vars = flattenedFactors.Where(y => y.IsVar()).ToArray();
-            double constant = flattenedFactors.Product(y => y.AsConst() ?? 1);
-
-            IList<Outlet> factors = new List<Outlet>(vars);
-            if (constant != 1) // Skip Identity 1
-            {
-                factors.Add(_[constant]);
-            }
-
-            switch (factors.Count)
-            {
-                case 0:
-                    // Return identity 1
-                    return _[_[1]].WithName(FetchName());
-
-                case 1:
-                    // Return single number
-                    return _[factors[0]];
-
-                case 2:
-                    // Simple Multiply for 2 Operands
-                    return _[_operatorFactory.Multiply(factors[0], factors[1])].WithName(FetchName());
-
-                default:
-                    // Re-nest remaining factors
-                    return _[NestMultiplications(factors)].WithName(FetchName());
-            }
-        }
-
-        /// <inheritdoc cref="_multiply"/>
-        public FluentOutlet Multiply(Outlet a, double b) => Multiply(a, _[b]);
-
-        /// <inheritdoc cref="_multiply"/>
-        public FluentOutlet Multiply(double a, Outlet b) => Multiply(_[a], b);
-
-        /// <inheritdoc cref="_flattenfactorswithmultiplyoutlet"/>
-        [UsedImplicitly]
-        public IList<Outlet> FlattenFactors(Outlet multiplyOutlet)
-        {
-            if (multiplyOutlet == null) throw new ArgumentNullException(nameof(multiplyOutlet));
-
-            if (!multiplyOutlet.IsMultiply())
-            {
-                throw new Exception($"{nameof(multiplyOutlet)} parameter is not a Multiply operator.");
-            }
-
-            var multiplyWrapper = new Multiply(multiplyOutlet.Operator);
-            return FlattenFactors(multiplyWrapper.OperandA, multiplyWrapper.OperandB);
-        }
-
-        public IList<Outlet> FlattenFactors(params Outlet[] operands)
-            => FlattenFactors((IList<Outlet>)operands);
-
-        public IList<Outlet> FlattenFactors(IList<Outlet> operands)
-        {
-            return operands.SelectMany(x =>
-            {
-                if (x.IsMultiply())
-                {
-                    var multiplyWrapper = new Multiply(x.Operator);
-                    return FlattenFactors(multiplyWrapper.OperandA, multiplyWrapper.OperandB);
-                }
-                else
-                {
-                    // Wrap the single operand in a list
-                    return new List<Outlet> { x };
-                }
-            }).ToList();
-        }
-
-        private Outlet NestMultiplications(IList<Outlet> flattenedFactors)
-        {
-            // Base case: If there's only one factor, return it
-            // Also stops the recursion
-            if (flattenedFactors.Count == 1)
-            {
-                return flattenedFactors[0];
-            }
-
-            // Recursive case: Nest the first factor with the result of nesting the rest
-            var firstFactor = flattenedFactors[0];
-            var remainingFactors = flattenedFactors.Skip(1).ToList();
-
-            // Recursively nest the remaining factors and multiply with the first
-            return _operatorFactory.Multiply(firstFactor, NestMultiplications(remainingFactors));
-        }
-    }
-
-    // Divide SynthWishes
-    
-    public partial class SynthWishes
-    {
-        public FluentOutlet Divide(Outlet a, Outlet b) => _[_operatorFactory.Divide(a, b)].WithName(FetchName());
-
-        public FluentOutlet Divide(Outlet a, double b) => Divide(a, _[b]);
-
-        public FluentOutlet Divide(double a, Outlet b) => Divide(_[a], b);
-    }
-
-    // Power SynthWishes
-    
-    public partial class SynthWishes
-    {
-        public FluentOutlet Power(Outlet @base, Outlet exponent) => _[_operatorFactory.Power(@base, exponent)].WithName(FetchName());
-
-        public FluentOutlet Power(Outlet @base, double exponent) => Power(@base, _[exponent]);
-
-        public FluentOutlet Power(double @base, Outlet exponent) => Power(_[@base], exponent);
-    }
-
-    // Sine SynthWishes
-    
-    public partial class SynthWishes
-    {
-        /// <inheritdoc cref="_sine" />
-        public FluentOutlet Sine(Outlet pitch = null) => _[_operatorFactory.Sine(_[1], pitch ?? _[1])].WithName(FetchName());
-
-        /// <inheritdoc cref="_sine" />
-        public FluentOutlet Sine(double pitch) => Sine(_[pitch]);
-    }
-    
-    // Delay SynthWishes
-
-    public partial class SynthWishes
-    {
-        public FluentOutlet Delay(Outlet signal, Outlet delay) => _[_operatorFactory.TimeAdd(signal, delay ?? _[0])].WithName(FetchName());
-
-        public FluentOutlet Delay(Outlet signal, double delay) => Delay(signal, _[delay]);
-    }
-
-    // Skip SynthWishes
-    
-    public partial class SynthWishes
-    {
-        public FluentOutlet Skip(Outlet signal, Outlet skip) => _[_operatorFactory.TimeSubstract(signal, skip ?? _[1])].WithName(FetchName());
-
-        public FluentOutlet Skip(Outlet signal, double skip) => Skip(signal, _[skip]);
-    }
-    
-    // Stretch SynthWishes
-
-    public partial class SynthWishes
-    {
-        public FluentOutlet Stretch(Outlet signal, Outlet timeScale) => _[_operatorFactory.TimeMultiply(signal, timeScale ?? _[1])].WithName(FetchName());
-
-        public FluentOutlet Stretch(Outlet signal, double timeScale) => Stretch(signal, _[timeScale]);
-    }
-    
-    // SpeedUp SynthWishes
-
-    public partial class SynthWishes
-    {
-        public FluentOutlet SpeedUp(Outlet signal, Outlet factor) => _[_operatorFactory.TimeDivide(signal, factor)].WithName(FetchName());
-
-        public FluentOutlet SpeedUp(Outlet signal, double factor) => SpeedUp(signal, _[factor]);
-    }
-
-    // TimePower SynthWishes
-    
-    public partial class SynthWishes
-    {
-        public FluentOutlet TimePower(Outlet signal, Outlet exponent) => _[_operatorFactory.TimePower(signal, exponent)].WithName(FetchName());
-
-        public FluentOutlet TimePower(Outlet signal, double exponent) => TimePower(signal, _[exponent]);
-    }
-
-    // Derived Operators
-
-    // StrikeNote SynthWishes
-    
-    public partial class SynthWishes
-    {
-        /// <inheritdoc cref="_default" />
-        public FluentOutlet StrikeNote(Outlet sound, Outlet delay = default, Outlet volume = default)
-        {
-            // A little optimization, because so slow...
-            bool delayFilledIn = delay != null && delay.AsConst() != 0;
-            bool volumeFilledIn = volume != null && volume.AsConst() != 1;
-
-            if (delayFilledIn) sound = Delay(sound, delay);
-            if (volumeFilledIn) sound = Multiply(sound, volume);
-
-            return _[sound];
-        }
-
-        /// <inheritdoc cref="_default" />
-        public FluentOutlet StrikeNote(Outlet sound, Outlet delay, double volume)
-            => StrikeNote(sound, delay, _[volume]);
-
-        /// <inheritdoc cref="_default" />
-        public FluentOutlet StrikeNote(Outlet sound, double delay, Outlet volume = default)
-            => StrikeNote(sound, _[delay], volume);
-
-        /// <inheritdoc cref="_default" />
-        public FluentOutlet StrikeNote(Outlet sound, double delay, double volume)
-            => StrikeNote(sound, _[delay], _[volume]);
-    }
     
     // Panning SynthWishes
 
@@ -783,7 +705,18 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
     }
+
+    // Panning Fluent Outlet
     
+    public partial class FluentOutlet
+    {
+        public FluentOutlet Panning(Outlet panning, ChannelEnum channel = default)
+            => x.Panning(_this, panning, channel);
+
+        public FluentOutlet Panning(double panning, ChannelEnum channel = default)
+            => x.Panning(_this, panning, channel);
+    }
+        
     // Panbrello SynthWishes
 
     public partial class SynthWishes
@@ -836,6 +769,40 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
+    // Panbrello Fluent Outlet
+    
+    public partial class FluentOutlet
+    {
+        /// <inheritdoc cref="_panbrello" />
+        public FluentOutlet Panbrello(Outlet speed = default, Outlet depth = default, ChannelEnum channel = default)
+            => x.Panbrello(_this, (speed, depth), channel);
+
+        /// <inheritdoc cref="_panbrello" />
+        public FluentOutlet Panbrello(Outlet speed, double depth, ChannelEnum channel = default)
+            => x.Panbrello(_this, (speed, depth), channel);
+
+        /// <inheritdoc cref="_panbrello" />
+        public FluentOutlet Panbrello(double speed, Outlet depth, ChannelEnum channel = default)
+            => x.Panbrello(_this, (speed, depth), channel);
+
+        /// <inheritdoc cref="_panbrello" />
+        public FluentOutlet Panbrello(double speed, double depth, ChannelEnum channel = default)
+            => x.Panbrello(_this, (speed, depth), channel);
+    }
+
+    // PitchPan FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        /// <inheritdoc cref="_pitchpan" />
+        public Outlet PitchPan(Outlet centerFrequency, Outlet referenceFrequency, Outlet referencePanning)
+            => x.PitchPan(_this, centerFrequency, referenceFrequency, referencePanning);
+
+        /// <inheritdoc cref="_pitchpan" />
+        public Outlet PitchPan(double centerFrequency, double referenceFrequency, double referencePanning)
+            => x.PitchPan(_this, centerFrequency, referenceFrequency, referencePanning);
+    }
+    
     // PitchPan SynthWishes
     
     public partial class SynthWishes
@@ -1052,5 +1019,51 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_echofeedback"/>
         public FluentOutlet EchoFeedBack(Outlet signal, int count, double magnitude, double delay)
             => EchoFeedBack(signal, count, _[magnitude], _[delay]);
+    }
+
+    // Echo FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        public FluentOutlet Echo(int count = 4, Outlet magnitude = default, Outlet delay = default)
+            => x.Echo(_this, count, magnitude, delay);
+
+        public FluentOutlet Echo(int count, Outlet magnitude, double delay)
+            => x.Echo(_this, count, magnitude, delay);
+
+        public FluentOutlet Echo(int count, double magnitude, Outlet delay)
+            => x.Echo(_this, count, magnitude, delay);
+
+        public FluentOutlet Echo(int count = 4, double magnitude = default, double delay = default)
+            => x.Echo(_this, count, magnitude, delay);
+
+        public FluentOutlet EchoAdditive(int count = 8, Outlet magnitude = default, Outlet delay = default)
+            => x.EchoAdditive(_this, count, magnitude, delay);
+
+        public FluentOutlet EchoAdditive(int count, Outlet magnitude, double delay)
+            => x.EchoAdditive(_this, count, magnitude, delay);
+
+        public FluentOutlet EchoAdditive(int count, double magnitude, Outlet delay)
+            => x.EchoAdditive(_this, count, magnitude, delay);
+
+        public FluentOutlet EchoAdditive(int count = 8, double magnitude = default, double delay = default)
+            => x.EchoAdditive(_this, count, magnitude, delay);
+
+        public FluentOutlet EchoFeedBack(int count = 8, Outlet magnitude = default, Outlet delay = default)
+            => x.EchoFeedBack(_this, count, magnitude, delay);
+
+        public FluentOutlet EchoFeedBack(int count, Outlet magnitude, double delay)
+            => x.EchoFeedBack(_this, count, magnitude, delay);
+
+        public FluentOutlet EchoFeedBack(int count, double magnitude, Outlet delay)
+            => x.EchoFeedBack(_this, count, magnitude, delay);
+
+        public FluentOutlet EchoFeedBack(double magnitude = default, double delay = default, int count = 8)
+            => x.EchoFeedBack(_this, count, magnitude, delay);
+
+        public FluentOutlet EchoParallel(
+            int count = 8, Outlet magnitude = default, Outlet delay = default,
+            bool mustAddAudioLength = true, [CallerMemberName] string callerMemberName = null)
+            => x.EchoParallel(_this, count, magnitude, delay, mustAddAudioLength, callerMemberName);
     }
 }
