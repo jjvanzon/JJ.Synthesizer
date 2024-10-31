@@ -14,6 +14,10 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    // OperatorWishes
+    
+    // FluentOutlet
+    
     [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class FluentOutlet
     {

@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="CalculationWishes.cs" />
     <Compile Include="AudioFileInfoWish.cs" />
-    <Compile Include="EnumWishes.Extensions.cs" />
+    <Compile Include="EnumWishes.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\ConfigSection.cs" />
     <Compile Include="FrameworkWishes.cs" />
@@ -69,14 +69,14 @@
     <Compile Include="OperatorWishes.Extensions.cs" />
     <Compile Include="CurveWishes.CurveFactory.cs" />
     <Compile Include="docs.cs" />
-    <Compile Include="SynthWishes.Indexers.cs" />
+    <Compile Include="IndexerWishes.cs" />
     <Compile Include="CurveWishes.SynthWishes.cs" />
     <Compile Include="AudioFileWishes.SynthWishes.cs" />
     <Compile Include="AudioFileWishes.Extensions.cs" />
-    <Compile Include="NoteWishes.Notes.cs" />
+    <Compile Include="NoteWishes.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
-    <Compile Include="SynthWishes.Obsolete.cs" />
+    <Compile Include="Obsolete.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultWishes.cs" />
     <Compile Include="SynthWishes.cs" />
@@ -144,10 +144,10 @@
     <None Include=".editorconfig" />
     <Content Include="app.config.example.xml" />
     <Compile Include="OperatorWishes.SynthWishes.cs" />
-    <Compile Include="OperatorWishes.FluentOutlet.cs" />
-    <Compile Include="OperatorWishes.CSharpOperators.cs" />
+    <Compile Include="OperatorWishes.cs" />
+    <Compile Include="CSharpOperatorsWishes.cs" />
     <None Include="packages.config" />
-    <Compile Include="SynthWishes.FluentConfiguration.cs" />
+    <Compile Include="ConfigWishes.cs" />
   </ItemGroup>
   <ItemGroup />
   <Choose>

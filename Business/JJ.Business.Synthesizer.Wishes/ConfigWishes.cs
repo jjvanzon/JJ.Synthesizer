@@ -8,6 +8,8 @@ using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    // Fluent Configuration
+    
     public partial class SynthWishes
     {
         // AudioLength
