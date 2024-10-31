@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
             InitializeOperatorWishes(context);
             InitializeAudioFileWishes();
             InitializeParallelWishes();
+            InitializePlayWishes();
         }
     }
 }
