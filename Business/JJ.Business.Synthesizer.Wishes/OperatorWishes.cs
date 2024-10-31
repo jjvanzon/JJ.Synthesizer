@@ -614,16 +614,16 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_panning" />
-        public FluentOutlet Panning(Outlet sound, Outlet panning, ChannelEnum channel = default)
+        public FluentOutlet Panning(Outlet sound, Outlet panning)
         {
-            if (channel == default) channel = Channel;
+            ChannelEnum channel = Channel;
 
             // Some optimization in case of a constant value
             {
                 double? constPanning = panning.AsConst();
                 if (constPanning != null)
                 {
-                    return Panning(sound, constPanning.Value, channel);
+                    return Panning(sound, constPanning.Value);
                 }
             }
 
@@ -638,9 +638,9 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="_panning" />
-        public FluentOutlet Panning(Outlet sound, double panning, ChannelEnum channel = default)
+        public FluentOutlet Panning(Outlet sound, double panning)
         {
-            if (channel == default) channel = Channel;
+            ChannelEnum channel = Channel;
 
             if (panning < 0) panning = 0;
             if (panning > 1) panning = 1;
@@ -661,9 +661,9 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_panning" />
-        public FluentOutlet Panning(Outlet panning, ChannelEnum channel = default) => x.Panning(_this, panning, channel);
+        public FluentOutlet Panning(Outlet panning) => x.Panning(_this, panning);
         /// <inheritdoc cref="_panning" />
-        public FluentOutlet Panning(double panning, ChannelEnum channel = default) => x.Panning(_this, panning, channel);
+        public FluentOutlet Panning(double panning) => x.Panning(_this, panning);
     }
         
     // Panbrello SynthWishes
@@ -671,10 +671,8 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_panbrello" />
-        public FluentOutlet Panbrello(Outlet sound, (Outlet speed, Outlet depth) panbrello = default, ChannelEnum channel = default)
+        public FluentOutlet Panbrello(Outlet sound, (Outlet speed, Outlet depth) panbrello = default)
         {
-            if (channel == default) channel = Channel;
-
             panbrello.speed = panbrello.speed ?? _[1];
             panbrello.depth = panbrello.depth ?? _[1];
 
@@ -683,32 +681,32 @@ namespace JJ.Business.Synthesizer.Wishes
             var halfSine = Multiply(_[0.5], sine); // [-0.5,+0.5]
             var zeroToOne = Add(_[0.5], halfSine); // [0,1]
 
-            return Panning(sound, zeroToOne, channel);
+            return Panning(sound, zeroToOne);
         }
 
         /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(
-            Outlet sound, (Outlet speed, double depth) panbrello, ChannelEnum channel = default)
+            Outlet sound, (Outlet speed, double depth) panbrello)
         {
             var depth = panbrello.depth == default ? default : _[panbrello.depth];
-            return Panbrello(sound, (panbrello.speed, depth), channel);
+            return Panbrello(sound, (panbrello.speed, depth));
         }
 
         /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(
-            Outlet sound, (double speed, Outlet depth) panbrello, ChannelEnum channel = default)
+            Outlet sound, (double speed, Outlet depth) panbrello)
         {
             var speed = panbrello.speed == default ? default : _[panbrello.speed];
-            return Panbrello(sound, (speed, panbrello.depth), channel);
+            return Panbrello(sound, (speed, panbrello.depth));
         }
 
         /// <inheritdoc cref="_panbrello" />
         public FluentOutlet Panbrello(
-            Outlet sound, (double speed, double depth) panbrello, ChannelEnum channel = default)
+            Outlet sound, (double speed, double depth) panbrello)
         {
             var speed = panbrello.speed == default ? default : _[panbrello.speed];
             var depth = panbrello.depth == default ? default : _[panbrello.depth];
-            return Panbrello(sound, (speed, depth), channel);
+            return Panbrello(sound, (speed, depth));
         }
     }
 
@@ -717,20 +715,20 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_panbrello" />
-        public FluentOutlet Panbrello(Outlet speed = default, Outlet depth = default, ChannelEnum channel = default)
-            => x.Panbrello(_this, (speed, depth), channel);
+        public FluentOutlet Panbrello(Outlet speed = default, Outlet depth = default)
+            => x.Panbrello(_this, (speed, depth));
 
         /// <inheritdoc cref="_panbrello" />
-        public FluentOutlet Panbrello(Outlet speed, double depth, ChannelEnum channel = default)
-            => x.Panbrello(_this, (speed, depth), channel);
+        public FluentOutlet Panbrello(Outlet speed, double depth)
+            => x.Panbrello(_this, (speed, depth));
 
         /// <inheritdoc cref="_panbrello" />
-        public FluentOutlet Panbrello(double speed, Outlet depth, ChannelEnum channel = default)
-            => x.Panbrello(_this, (speed, depth), channel);
+        public FluentOutlet Panbrello(double speed, Outlet depth)
+            => x.Panbrello(_this, (speed, depth));
 
         /// <inheritdoc cref="_panbrello" />
-        public FluentOutlet Panbrello(double speed, double depth, ChannelEnum channel = default)
-            => x.Panbrello(_this, (speed, depth), channel);
+        public FluentOutlet Panbrello(double speed, double depth)
+            => x.Panbrello(_this, (speed, depth));
     }
     
     // PitchPan SynthWishes
