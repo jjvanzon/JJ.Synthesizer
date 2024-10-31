@@ -15,176 +15,194 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_paralleladd" />
+        private ParallelWishes _parallelWishes;
+
+        private void InitializeParallelWishes()
+        {
+            _parallelWishes = new ParallelWishes(this);
+        }
+
+        /// <inheritdoc cref="_paralleladd" />
         public FluentOutlet ParallelAdd(params Func<Outlet>[] funcs)
             => ParallelAdd(1, (IList<Func<Outlet>>)funcs);
 
         /// <inheritdoc cref="_paralleladd" />
-        public FluentOutlet ParallelAdd(
-            IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
+        public FluentOutlet ParallelAdd(IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
             => ParallelAdd(1, funcs, callerMemberName);
 
         /// <inheritdoc cref="_paralleladd" />
         public FluentOutlet ParallelAdd(double volume, params Func<Outlet>[] funcs)
             => ParallelAdd(volume, (IList<Func<Outlet>>)funcs);
+
+        public FluentOutlet ParallelAdd(double volume, IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
+            => _parallelWishes.ParallelAdd(volume, funcs, callerMemberName);
         
         /// <inheritdoc cref="_paralleladd" />
-        public FluentOutlet ParallelAdd(
-            double volume, IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
+        private class ParallelWishes
         {
-            string name = FetchName(callerMemberName);
+            private readonly SynthWishes x;
 
-            if (funcs == null) throw new ArgumentNullException(nameof(funcs));
-            
-            if (PreviewParallels)
+            /// <inheritdoc cref="_paralleladd" />
+            public ParallelWishes(SynthWishes synthWishes)
             {
-                return ParallelAdd_WithPreviewParallels(volume, funcs, name);
+                x = synthWishes;
             }
 
-            // Prep variables
-            int termCount = funcs.Count;
-            int channelCount = SpeakerSetup.GetChannelCount();
-            string[] fileNames = GetParallelAdd_FileNames(termCount, name);
-            var reloadedSamples = new Outlet[termCount];
-            var outlets = new Outlet[termCount][];
-            for (int i = 0; i < termCount; i++)
-            { 
-                outlets[i] = new Outlet[channelCount];
-            }
-
-            try
+            /// <inheritdoc cref="_paralleladd" />
+            public FluentOutlet ParallelAdd(
+                double volume, IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
             {
-                // Save to files
-                Parallel.For(0, termCount, i =>
+                string name = x.FetchName(callerMemberName);
+
+                if (funcs == null) throw new ArgumentNullException(nameof(funcs));
+
+                if (x.PreviewParallels)
                 {
-                    Debug.WriteLine($"Start parallel task: {fileNames[i]}", "SynthWishes");
-                                
-                    // Get outlets first (before going parallel ?)
-                    ChannelEnum originalChannel = Channel;
-                    try
-                    {
-                        for (int j = 0; j < channelCount; j++)
-                        {
-                            ChannelIndex = j;
-                            outlets[i][j] = Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
-                        }
-                    }
-                    finally
-                    {
-                        Channel = originalChannel;
-                    }
+                    return ParallelAdd_WithPreviewParallels(volume, funcs, name);
+                }
 
-                    _saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i]);
-                    
-                    Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
-                });
-
-                // Reload Samples
+                // Prep variables
+                int termCount = funcs.Count;
+                int channelCount = x.SpeakerSetup.GetChannelCount();
+                string[] fileNames = GetParallelAdd_FileNames(termCount, name);
+                var reloadedSamples = new Outlet[termCount];
+                var outlets = new Outlet[termCount][];
                 for (int i = 0; i < termCount; i++)
                 {
-                    reloadedSamples[i] = Sample(fileNames[i]);
+                    outlets[i] = new Outlet[channelCount];
                 }
-            }
-            finally
-            {
-                // Clean-up
-                for (var j = 0; j < fileNames.Length; j++)
-                {
-                    string filePath = fileNames[j];
-                    if (File.Exists(filePath))
-                    {
-                        try { File.Delete(filePath); }
-                        catch { /* Ignore file delete exception, so you can keep open file in apps.*/ }
-                    }
-                }
-            }
 
-            return Add(reloadedSamples);
-        }
-        
-        /// <inheritdoc cref="_withpreviewparallels"/>
-        public bool PreviewParallels { get; private set; }
-
-        /// <inheritdoc cref="_withpreviewparallels"/>
-        public SynthWishes WithPreviewParallels()
-        {
-            PreviewParallels = true;
-            return this;
-        }
-        
-        /// <inheritdoc cref="_withpreviewparallels"/>
-        private FluentOutlet ParallelAdd_WithPreviewParallels(
-            double volume, IList<Func<Outlet>> funcs, string name)
-        {
-            // Arguments already checked in public method
-            
-            // Prep variables
-            int termCount = funcs.Count;
-            int channelCount = SpeakerSetup.GetChannelCount();
-            string[] fileNames = GetParallelAdd_FileNames(termCount, name);
-            var reloadedSamples = new Outlet[termCount];
-            var outlets = new Outlet[termCount][];
-            for (int i = 0; i < termCount; i++)
-            { 
-                outlets[i] = new Outlet[channelCount];
-            }
-
-            // Save and play files
-            Parallel.For(0, termCount, i =>
-            {
-                Debug.WriteLine($"Start parallel task: {fileNames[i]}", "SynthWishes");
-                
-                // Get outlets first (before going parallel?)
-                ChannelEnum originalChannel = Channel;
                 try
                 {
-                    for (int j = 0; j < channelCount; j++)
+                    // Save to files
+                    Parallel.For(0, termCount, i =>
                     {
-                        ChannelIndex = j;
-                        outlets[i][j] = Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
+                        Debug.WriteLine($"Start parallel task: {fileNames[i]}", "SynthWishes");
+
+                        // Get outlets first (before going parallel ?)
+                        ChannelEnum originalChannel = x.Channel;
+                        try
+                        {
+                            for (int j = 0; j < channelCount; j++)
+                            {
+                                x.ChannelIndex = j;
+                                outlets[i][j] = x.Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
+                            }
+                        }
+                        finally
+                        {
+                            x.Channel = originalChannel;
+                        }
+
+                        x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i]);
+
+                        Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
+                    });
+
+                    // Reload Samples
+                    for (int i = 0; i < termCount; i++)
+                    {
+                        reloadedSamples[i] = x.Sample(fileNames[i]);
                     }
                 }
                 finally
                 {
-                    Channel = originalChannel;
+                    // Clean-up
+                    for (var j = 0; j < fileNames.Length; j++)
+                    {
+                        string filePath = fileNames[j];
+                        if (File.Exists(filePath))
+                        {
+                            try
+                            {
+                                File.Delete(filePath);
+                            }
+                            catch
+                            {
+                                /* Ignore file delete exception, so you can keep open file in apps.*/
+                            }
+                        }
+                    }
                 }
 
-                var saveResult = _saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i]);
-                PlayIfAllowed(saveResult.Data);
-            
-                Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
-            });
-
-            // Reload sample
-            for (int i = 0; i < termCount; i++)
-            {
-                reloadedSamples[i] = Sample(fileNames[i]);
-
-                // Save and play to test the sample loading
-                // TODO: This doesn't actually save the reloaded samples. replace outlets[i] by a repeat of reloaded samples.
-                var saveResult = _saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i] + "_Reloaded.wav");
-                PlayIfAllowed(saveResult.Data);
+                return x.Add(reloadedSamples);
             }
 
-            return Add(reloadedSamples);
+            /// <inheritdoc cref="_withpreviewparallels"/>
+            private FluentOutlet ParallelAdd_WithPreviewParallels(
+                double volume, IList<Func<Outlet>> funcs, string name)
+            {
+                // Arguments already checked in public method
+
+                // Prep variables
+                int termCount = funcs.Count;
+                int channelCount = x.SpeakerSetup.GetChannelCount();
+                string[] fileNames = GetParallelAdd_FileNames(termCount, name);
+                var reloadedSamples = new Outlet[termCount];
+                var outlets = new Outlet[termCount][];
+                for (int i = 0; i < termCount; i++)
+                {
+                    outlets[i] = new Outlet[channelCount];
+                }
+
+                // Save and play files
+                Parallel.For(0, termCount, i =>
+                {
+                    Debug.WriteLine($"Start parallel task: {fileNames[i]}", "SynthWishes");
+
+                    // Get outlets first (before going parallel?)
+                    ChannelEnum originalChannel = x.Channel;
+                    try
+                    {
+                        for (int j = 0; j < channelCount; j++)
+                        {
+                            x.ChannelIndex = j;
+                            outlets[i][j] = x.Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
+                        }
+                    }
+                    finally
+                    {
+                        x.Channel = originalChannel;
+                    }
+
+                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i]);
+                    x.PlayIfAllowed(saveResult.Data);
+
+                    Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
+                });
+
+                // Reload sample
+                for (int i = 0; i < termCount; i++)
+                {
+                    reloadedSamples[i] = x.Sample(fileNames[i]);
+
+                    // Save and play to test the sample loading
+                    // TODO: This doesn't actually save the reloaded samples. replace outlets[i] by a repeat of reloaded samples.
+                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i] + "_Reloaded.wav");
+                    x.PlayIfAllowed(saveResult.Data);
+                }
+
+                return x.Add(reloadedSamples);
+            }
+
+            private string[] GetParallelAdd_FileNames(int count, string name)
+            {
+                string guidString = $"{Guid.NewGuid()}";
+
+                if (!name.Contains(nameof(ParallelAdd), ignoreCase: true))
+                {
+                    name += " " + nameof(ParallelAdd);
+                }
+
+                var fileNames = new string[count];
+                for (int i = 0; i < count; i++)
+                {
+                    fileNames[i] = $"{name} (Term {i + 1}) {guidString}.wav";
+                }
+
+                return fileNames;
+            }
+
         }
-
-        private string[] GetParallelAdd_FileNames(int count, string name)
-        {
-            string guidString = $"{Guid.NewGuid()}";
-
-            if (!name.Contains(nameof(ParallelAdd), ignoreCase: true))
-            {
-                name += " " + nameof(ParallelAdd);
-            }
-
-            var fileNames = new string[count];
-            for (int i = 0; i < count; i++)
-            {
-                fileNames[i] = $"{name} (Term {i + 1}) {guidString}.wav";
-            }
-
-            return fileNames;
-        } 
-
     }
 }

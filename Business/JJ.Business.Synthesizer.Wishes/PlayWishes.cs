@@ -10,7 +10,6 @@ using System.Media;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-        
     public partial class FluentOutlet
     {
         public FluentOutlet PlayMono(double volume = default)

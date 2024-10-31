@@ -10,7 +10,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FluentOutlet
     {
-        
         public FluentOutlet WithAudioLength(FluentOutlet newLength)
         {
             _synthWishes.WithAudioLength(newLength);
@@ -28,6 +27,18 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
+        // PreviewParallels
+        
+        /// <inheritdoc cref="_withpreviewparallels"/>
+        public bool PreviewParallels { get; private set; }
+
+        /// <inheritdoc cref="_withpreviewparallels"/>
+        public SynthWishes WithPreviewParallels()
+        {
+            PreviewParallels = true;
+            return this;
+        }
+
         // AudioLength
 
         private FluentOutlet _audioLength;

@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes
             InitializeCurveWishes(context);
             InitializeOperatorWishes(context);
             InitializeAudioFileWishes();
+            InitializeParallelWishes();
         }
     }
 }

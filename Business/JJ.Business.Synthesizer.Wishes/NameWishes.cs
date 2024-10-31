@@ -122,6 +122,8 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
+    // NameWishes Extensions
+    
     public static class NameExtensionWishes
     {
         // NameWishes Curves
@@ -214,6 +216,5 @@ namespace JJ.Business.Synthesizer.Wishes
             wrapper.Operator.WithName(name);
             return wrapper;
         }
-
     }
 }
