@@ -169,7 +169,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         x.Channel = originalChannel;
                     }
 
-                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i]);
+                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i], mustWriteToMemory: false);
                     x._playWishes.PlayIfAllowed(saveResult.Data);
 
                     Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
@@ -182,7 +182,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                     // Save and play to test the sample loading
                     // TODO: This doesn't actually save the reloaded samples. replace outlets[i] by a repeat of reloaded samples.
-                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i] + "_Reloaded.wav");
+                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i] + "_Reloaded.wav", mustWriteToMemory: false);
                     x._playWishes.PlayIfAllowed(saveResult.Data);
                 }
 
