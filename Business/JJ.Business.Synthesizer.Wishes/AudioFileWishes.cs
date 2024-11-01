@@ -39,6 +39,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public class SaveAudioResultData
     {
+
+        public AudioFileOutput AudioFileOutput { get; }
+        /// <summary> Nullable. Only supplied when writeToMemory is true. </summary>
+        public byte[] Bytes { get; }
+        public TimeSpan CalculationTimeSpan { get; }
+
         /// <param name="bytes">Nullable</param>
         public SaveAudioResultData(
             AudioFileOutput audioFileOutput, byte[] bytes, TimeSpan calculationTimeSpan)
@@ -47,11 +53,6 @@ namespace JJ.Business.Synthesizer.Wishes
             Bytes = bytes;
             CalculationTimeSpan = calculationTimeSpan;
         }
-
-        public AudioFileOutput AudioFileOutput { get; }
-        /// <summary> Nullable. Only supplied when writeToMemory is true. </summary>
-        public byte[] Bytes { get; }
-        public TimeSpan CalculationTimeSpan { get; }
     }
 
     // AudioFileWishes SynthWishes
@@ -122,8 +123,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="_saveorplay" />
-            internal Result<SaveAudioResultData> 
-                SaveAudio(IList<Outlet> channelInputs, string name)
+            internal Result<SaveAudioResultData> SaveAudio(IList<Outlet> channelInputs, string name)
                 => SaveAudioBase(channelInputs, name, default);
 
             /// <inheritdoc cref="_saveorplay" />
@@ -158,8 +158,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutput.SetAudioFileFormatEnum(x.AudioFormat);
                 audioFileOutput.Name = name;
 
-                var samplingRateResult = ResolveSamplingRate(x.SamplingRateOverride);
-                audioFileOutput.SamplingRate = samplingRateResult.Data;
+                {
+                    var samplingRateResult = ResolveSamplingRate(x.SamplingRateOverride);
+                    warnings.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
+                    audioFileOutput.SamplingRate = samplingRateResult.Data;
+                }
 
                 SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
                 CreateOrRemoveChannels(audioFileOutput, channelCount);
@@ -234,10 +237,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 lines.Add($"Calculation time: {PrettyTimeSpan(calculationTimeSpan)}");
                 lines.Add("Audio length: " + PrettyTimeSpan(TimeSpan.FromSeconds(audioFileOutput.Duration)));
-
-                // Sum up audio properties
-                lines.AddRange(samplingRateResult.ValidationMessages.Select(m => m.Text));
-                lines[lines.Count - 1] += $" | {audioFileOutput.GetSampleDataTypeEnum()} | {audioFileOutput.GetSpeakerSetupEnum()}";
+                lines.Add($"Sampling rate: { audioFileOutput.SamplingRate } Hz | {audioFileOutput.GetSampleDataTypeEnum()} | {audioFileOutput.GetSpeakerSetupEnum()}");
 
                 lines.Add("");
 
@@ -372,45 +372,47 @@ namespace JJ.Business.Synthesizer.Wishes
 
             private static Result<int> ResolveSamplingRate(int? samplingRateOverride)
             {
-                var result = new Result<int>
-                {
-                    Successful = true,
-                    ValidationMessages = new List<ValidationMessage>()
-                };
-
                 if (samplingRateOverride.HasValue && samplingRateOverride.Value != 0)
                 {
-                    result.ValidationMessages.Add($"Sampling rate override: {samplingRateOverride}".ToCanonical());
-                    result.Data = samplingRateOverride.Value;
-                    return result;
+                    return new Result<int>
+                    {
+                        Data = samplingRateOverride.Value,
+                        ValidationMessages = new List<ValidationMessage> { $"Sampling rate override: {samplingRateOverride}".ToCanonical() },
+                        Successful = true
+                    };
                 }
 
                 {
-                    var samplingRateForNCrunch = ToolingHelper.TryGetSamplingRateForNCrunch();
-                    result.ValidationMessages.AddRange(samplingRateForNCrunch.ValidationMessages);
-
-                    if (samplingRateForNCrunch.Data.HasValue)
+                    var samplingRateForTool = ToolingHelper.TryGetSamplingRateForNCrunch();
+                    if (samplingRateForTool.Data.HasValue)
                     {
-                        result.Data = samplingRateForNCrunch.Data.Value;
-                        result.ValidationMessages.Add($"Sampling rate: {result.Data}".ToCanonical());
-                        return result;
+                        return new Result<int>
+                        {
+                            Data = samplingRateForTool.Data.Value,
+                            ValidationMessages = samplingRateForTool.ValidationMessages,
+                            Successful = true
+                        };
                     }
                 }
                 {
-                    var samplingRateForAzurePipelines = ToolingHelper.TryGetSamplingRateForAzurePipelines();
-                    result.ValidationMessages.AddRange(samplingRateForAzurePipelines.ValidationMessages);
-
-                    if (samplingRateForAzurePipelines.Data.HasValue)
+                    var samplingRateForTool = ToolingHelper.TryGetSamplingRateForAzurePipelines();
+                    if (samplingRateForTool.Data.HasValue)
                     {
-                        result.Data = samplingRateForAzurePipelines.Data.Value;
-                        result.ValidationMessages.Add($"Sampling rate: {result.Data}".ToCanonical());
-                        return result;
+                        return new Result<int>
+                        {
+                            Data = samplingRateForTool.Data.Value,
+                            ValidationMessages = samplingRateForTool.ValidationMessages,
+                            Successful = true
+                        };
                     }
                 }
 
-                result.ValidationMessages.Add($"Sampling rate: {ConfigHelper.DefaultSamplingRate}".ToCanonical());
-                result.Data = ConfigHelper.DefaultSamplingRate;
-                return result;
+                return new Result<int>
+                {
+                    Data = ConfigHelper.DefaultSamplingRate,
+                    ValidationMessages = new List<ValidationMessage>(),
+                    Successful = true
+                };
             }
 
             private static string FormatRealTimeMessage(double duration, TimeSpan calculationTimeSpan)
