@@ -11,7 +11,7 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
-using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Business.Synthesizer.EntityWrappers;

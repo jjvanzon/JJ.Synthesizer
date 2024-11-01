@@ -2,12 +2,14 @@
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Framework.Common;
 using static System.Guid;
+// ReSharper disable ParameterHidesMember
 
 // ReSharper disable ForCanBeConvertedToForeach
 
@@ -64,6 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 int termCount = funcs.Count;
                 int channelCount = x.SpeakerSetup.GetChannelCount();
                 string[] names = GetParallelAddNames(termCount, name);
+                string[] displayNames = names.Select(x => x.WithShortGuids(4)).ToArray();
                 var byteArrays = new byte[termCount][];
                 var reloadedSamples = new Outlet[termCount];
                 var outlets = new Outlet[termCount][];
@@ -77,9 +80,9 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Save to files
                     Parallel.For(0, termCount, i =>
                     {
-                        Debug.WriteLine($"Start parallel task: {names[i]}", "SynthWishes");
+                        Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Start Task: {displayNames[i]}", "SynthWishes");
 
-                        // Get outlets first (before going parallel ?)
+                        // Get outlets first
                         ChannelEnum originalChannel = x.Channel;
                         try
                         {
@@ -97,7 +100,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         var saveAudioResult = x._saveAudioWishes.SaveAudioBase(outlets[i], names[i], mustWriteToMemory: true);
                         byteArrays[i] = saveAudioResult.Data.Bytes;
 
-                        Debug.WriteLine($"End parallel task: {names[i]}", "SynthWishes");
+                        Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
                     });
 
                     // Reload Samples
@@ -132,6 +135,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 int termCount = funcs.Count;
                 int channelCount = x.SpeakerSetup.GetChannelCount();
                 string[] names = GetParallelAddNames(termCount, name);
+                string[] displayNames = names.Select(x => x.WithShortGuids(4)).ToArray();
                 var reloadedSamples = new Outlet[termCount];
                 var outlets = new Outlet[termCount][];
                 for (int i = 0; i < termCount; i++)
@@ -142,7 +146,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Save and play files
                 Parallel.For(0, termCount, i =>
                 {
-                    Debug.WriteLine($"Start parallel task: {names[i]}", "SynthWishes");
+                    Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Start Task: {displayNames[i]}", "SynthWishes");
 
                     // Get outlets first
                     ChannelEnum originalChannel = x.Channel;
@@ -162,7 +166,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], names[i], mustWriteToMemory: false);
                     x._playWishes.PlayIfAllowed(saveResult.Data);
 
-                    Debug.WriteLine($"End parallel task: {names[i]}", "SynthWishes");
+                    Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
                 });
 
                 // Reload sample
@@ -183,15 +187,14 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 string guidString = $"{NewGuid()}";
 
-                if (!name.Contains(nameof(ParallelAdd), ignoreCase: true))
-                {
-                    name += " " + nameof(ParallelAdd);
-                }
+                string sep = " ";
+                if (string.IsNullOrEmpty(name))  sep = "";
+                
 
                 var fileNames = new string[count];
                 for (int i = 0; i < count; i++)
                 {
-                    fileNames[i] = $"{name} Term {i + 1} {guidString}";
+                    fileNames[i] = $"{name}{sep}Term {i + 1} {nameof(ParallelAdd)} {guidString}";
                 }
 
                 return fileNames;

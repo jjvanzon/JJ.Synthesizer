@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    internal static class FrameworkWishes
+    internal static class StringWishes
     { 
         public static int CountLines(string str)
         {
@@ -73,6 +74,19 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             if (byteCount <= 5 * GB) return $"{byteCount / MB:0} MB";
             
             return $"{byteCount / GB:0} GB";
+        }
+        
+        public static string WithShortGuids(this string input, int length)
+        {
+            // Regular expression to find GUIDs in the format `8-4-4-4-12` (e.g., adb97479-aec6-46a5-9767-162bc727bfb8)
+            var guidPattern = new Regex(@"\b[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\b");
+
+            // Replace each matched GUID with a truncated version
+            return guidPattern.Replace(input, match =>
+            {
+                string guid = match.Value;
+                return guid.Substring(0, Math.Min(length, guid.Length));
+            });
         }
     }
     

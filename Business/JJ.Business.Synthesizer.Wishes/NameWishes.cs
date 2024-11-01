@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
@@ -29,6 +30,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 title = "Untitled";
             }
+
+            title = title.WithShortGuids(4);
 
             string dashes = "".PadRight(title.Length, '-');
 

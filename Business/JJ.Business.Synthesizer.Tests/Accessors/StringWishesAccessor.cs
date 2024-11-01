@@ -5,14 +5,14 @@ using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class FrameworkWishesAccessor
+    internal static class StringWishesAccessor
     {
         private static readonly Accessor _accessor;
 
-        static FrameworkWishesAccessor()
+        static StringWishesAccessor()
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
-            string   typeName = "JJ.Business.Synthesizer.Wishes.Helpers.FrameworkWishes";
+            string   typeName = "JJ.Business.Synthesizer.Wishes.Helpers.StringWishes";
             Type     type     = assembly.GetType(typeName, true);
             _accessor = new Accessor(type);
         }
