@@ -266,7 +266,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 if (result.Data.Bytes != null)
                 {
-                    lines.Add($"{result.Data.Bytes.Length} bytes written to memory.");
+                    lines.Add($"{PrettyByteCount(result.Data.Bytes.Length)} written to memory.");
                 }
                 if (File.Exists(result.Data.AudioFileOutput.FilePath))
                 {

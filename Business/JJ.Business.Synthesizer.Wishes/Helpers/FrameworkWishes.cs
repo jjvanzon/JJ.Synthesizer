@@ -61,6 +61,19 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     
             return $"{totalNanoseconds:0.00} ns";
         }
+        
+        public static string PrettyByteCount(int byteCount)
+        {
+            const double KB = 1024;
+            const double MB = KB * 1024;
+            const double GB = MB * 1024;
+
+            if (byteCount >= GB) return $"{byteCount / GB:0.00} GB";
+            if (byteCount >= MB) return $"{byteCount / MB:0.00} MB";
+            if (byteCount >= KB) return $"{byteCount / KB:0.00} kB";
+    
+            return $"{byteCount} bytes";
+        }
     }
     
     internal class StringBuilderWithIndentation
