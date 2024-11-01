@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using static System.Guid;
+using static System.Linq.Enumerable;
 // ReSharper disable ParameterHidesMember
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -54,11 +56,15 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Return a normal Add of the Outlets returned by the funcs.
                     return volume * x.Add(funcs.Select(x => x()).ToArray());
                 }
+                                
+                // Set flags based on 'preview parallels'.
+                bool mustPlayParallels = x.PreviewParallels;
+                bool mustSaveParallels = x.PreviewParallels;
+                bool inMemory = !mustSaveParallels;
 
                 // Prep variables
                 int termCount = funcs.Count;
                 int channelCount = x.SpeakerSetup.GetChannelCount();
-                bool mustWriteToMemory = x.PreviewParallels == false;
                 string[] names = GetParallelAddNames(termCount, name);
                 string[] displayNames = names.Select(x => x.WithShortGuids(4)).ToArray();
                 var saveAudioResults = new Result<SaveAudioResultData>[termCount];
@@ -93,12 +99,12 @@ namespace JJ.Business.Synthesizer.Wishes
                             x.Channel = originalChannel;
                         }
 
-                        // Generate audio bytes or files
-                        var saveAudioResult = x.SaveAudio(outlets[i], names[i], mustWriteToMemory);
+                        // Generate audio
+                        var saveAudioResult = x.SaveAudio(outlets[i], names[i], inMemory);
                         saveAudioResults[i] = saveAudioResult;
                         
-                        // Play audio in case if preview parallels enabled.
-                        if (x.PreviewParallels)
+                        // Play if needed
+                        if (mustPlayParallels)
                         { 
                             x._playWishes.PlayIfAllowed(saveAudioResult.Data);
                         }
@@ -108,17 +114,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
                 finally
                 {
-                    // Clean-up
-                    if (!x.PreviewParallels) // Keep files in case of preview parallels.
+                    // Code unreachable:
+                    // They were never saved, so they don't need to be cleaned up.
+                    if (!inMemory && !mustSaveParallels) 
                     {
                         for (var j = 0; j < names.Length; j++)
                         {
                             string filePath = names[j];
-                            if (File.Exists(filePath))
-                            {
-                                try { File.Delete(filePath); }
-                                catch { /* Ignore file delete exception, so you can keep open file in apps.*/ }
-                            }
+                            if (!File.Exists(filePath)) continue;
+                            try { File.Delete(filePath); }
+                            catch { /* Ignore file delete exception, so you can keep open file in apps.*/ }
                         }
                     }
                 }
@@ -130,33 +135,39 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Reload Samples
                 for (int i = 0; i < termCount; i++)
                 {
-                    // TODO: This can be done more generically.
-                    if (!x.PreviewParallels)
-                    {
-                        reloadedSamples[i] = x.Sample(saveAudioResults[i].Data.Bytes);
+                    var saveAudioResult = saveAudioResults[i];
+                    
+                    if (inMemory)
+                    { 
+                        // Read from bytes
+                        reloadedSamples[i] = x.Sample(saveAudioResult.Data.Bytes);
                     }
                     else
                     {
+                        // Read from file
                         reloadedSamples[i] = x.Sample(names[i]);
                         
-                        // Save and play to test the sample loading
-                        // TODO: This doesn't actually save the reloaded samples. replace outlets[i] by a repeat of reloaded samples.
-                        var saveResult = x.SaveAudio(outlets[i], names[i] + "_Reloaded.wav");
-                        x._playWishes.PlayIfAllowed(saveResult.Data);
+                        // Save reloaded samples again.
+                        if (mustSaveParallels)
+                        {
+                            var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
+                            saveAudioResult = x.SaveAudio(reloadedSampleRepeated, names[i] + "_Reloaded.wav", mustWriteToMemory: false);
+                        }
                     }
+                    
+                    // Play to test the sample loading.
+                    if (mustPlayParallels) x._playWishes.PlayIfAllowed(saveAudioResult.Data);
                 }
                 
                 stopWatch.Stop();
 
                 // Report total real-time and complexity metrics.
-                {
-                    double audioDuration = saveAudioResults.Max(x => x.Data.AudioFileOutput.Duration);
-                    double calculationDuration = stopWatch.Elapsed.TotalSeconds;
-                    int complexity = saveAudioResults.Sum(x => x.Data.Complexity);
-                    string formattedMetrics = x.FormatMetrics(audioDuration, calculationDuration, complexity);
-                    string message = $"Totals {name} Terms: {formattedMetrics}";
-                    Console.WriteLine(message);
-                }
+                double audioDuration = saveAudioResults.Max(x => x.Data.AudioFileOutput.Duration);
+                double calculationDuration = stopWatch.Elapsed.TotalSeconds;
+                int complexity = saveAudioResults.Sum(x => x.Data.Complexity);
+                string formattedMetrics = x.FormatMetrics(audioDuration, calculationDuration, complexity);
+                string message = $"Totals {name} Terms: {formattedMetrics}";
+                Console.WriteLine(message);
                 
                 return x.Add(reloadedSamples);
             }
