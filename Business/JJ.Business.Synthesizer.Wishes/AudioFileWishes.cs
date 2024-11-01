@@ -18,6 +18,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
+using System.Runtime.InteropServices.ComTypes;
 // ReSharper disable UseObjectOrCollectionInitializer
 
 // ReSharper disable AccessToModifiedClosure
@@ -35,6 +36,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_framecount"/>
         public int FrameCount { get; set; }
     }
+
+    //public class SaveAudioResult : Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)>
+    //{ }
 
     // AudioFileWishes SynthWishes
 
@@ -54,11 +58,16 @@ namespace JJ.Business.Synthesizer.Wishes
             fileName += fileExtension;
             return fileName;
         }
+        
+        /// <inheritdoc cref="_saveorplay" />
+        public Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> SaveAudio(
+            Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
+            => _saveAudioWishes.SaveAudio(func, default, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
-        public Result<AudioFileOutput> SaveAudio(
-            Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
-            => _saveAudioWishes.SaveAudio(func, callerMemberName);
+        public Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> SaveAudio(
+            Func<Outlet> func, bool writeToMemory, [CallerMemberName] string callerMemberName = null)
+            => _saveAudioWishes.SaveAudio(func, writeToMemory, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
         private class SaveAudioWishes
@@ -66,14 +75,11 @@ namespace JJ.Business.Synthesizer.Wishes
             private readonly SynthWishes x;
 
             /// <inheritdoc cref="_saveorplay" />
-            public SaveAudioWishes(SynthWishes synthWishes)
-            {
-                x = synthWishes;
-            }
-            
+            public SaveAudioWishes(SynthWishes synthWishes) => x = synthWishes;
+
             /// <inheritdoc cref="_saveorplay" />
-            public Result<AudioFileOutput> SaveAudio(
-                Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
+            public Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> SaveAudio(
+                Func<Outlet> func, bool mustWriteToMemory = false, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
 
@@ -83,20 +89,14 @@ namespace JJ.Business.Synthesizer.Wishes
                     switch (x.SpeakerSetup)
                     {
                         case SpeakerSetupEnum.Mono:
-                            x.Center();
-                            var monoOutlet = func();
-
-                            return SaveAudioBase(
-                                new[] { monoOutlet }, name);
+                            x.Center(); var monoOutlet = func();
+                            return SaveAudioBase(new[] { monoOutlet }, name, mustWriteToMemory);
 
                         case SpeakerSetupEnum.Stereo:
-                            x.Left();
-                            var leftOutlet = func();
-                            x.Right();
-                            var rightOutlet = func();
-
-                            return SaveAudioBase(
-                                new[] { leftOutlet, rightOutlet }, name);
+                            x.Left(); var leftOutlet = func();
+                            x.Right(); var rightOutlet = func();
+                            return SaveAudioBase(new[] { leftOutlet, rightOutlet }, name, mustWriteToMemory);
+                        
                         default:
                             throw new ValueNotSupportedException(x.SpeakerSetup);
                     }
@@ -108,7 +108,13 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="_saveorplay" />
-            public Result<AudioFileOutput> SaveAudioBase(IList<Outlet> channelInputs, string name)
+            internal Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> 
+                SaveAudio(IList<Outlet> channelInputs, string name)
+                => SaveAudioBase(channelInputs, name, default);
+
+            /// <inheritdoc cref="_saveorplay" />
+            internal Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> 
+                SaveAudioBase(IList<Outlet> channelInputs, string name, bool mustWriteToMemory)
             {
                 // Process Parameters
                 if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
@@ -171,10 +177,25 @@ namespace JJ.Business.Synthesizer.Wishes
                 #endif
 
                 // Calculate
+                Stopwatch stopWatch;
                 var calculator = CreateAudioFileOutputCalculator(audioFileOutput);
-                var stopWatch = Stopwatch.StartNew();
-                calculator.Execute();
-                stopWatch.Stop();
+                byte[] bytes = null;
+
+                if (mustWriteToMemory)
+                {
+                    bytes = new byte[audioFileOutput.GetFileLengthNeeded()];
+                    var stream = new MemoryStream(bytes);
+                    new AudioFileOutputCalculatorAccessor(calculator)._stream = stream;
+                    stopWatch = Stopwatch.StartNew();
+                    calculator.Execute();
+                    stopWatch.Stop();
+                }
+                else
+                { 
+                    stopWatch = Stopwatch.StartNew();
+                    calculator.Execute();
+                    stopWatch.Stop();
+                }
 
                 // Report
 
@@ -236,9 +257,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.ForEach(Console.WriteLine);
 
                 // Return
-                var result = lines.ToResult(audioFileOutput);
-
-                return result;
+                return new Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)>
+                {
+                    Data = (audioFileOutput, bytes),
+                    ValidationMessages = lines.ToCanonical()
+                };
             }
 
             private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum)
