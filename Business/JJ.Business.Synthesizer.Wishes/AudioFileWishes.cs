@@ -241,9 +241,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add(GetPrettyTitle(result.Data.AudioFileOutput.Name ?? result.Data.AudioFileOutput.FilePath));
                 lines.Add("");
 
-                string realTimeMessage = FormatRealTimeMessage(result.Data.AudioFileOutput.Duration, result.Data.CalculationTimeSpan);
-                string sep = realTimeMessage != default ? " | " : "";
-                lines.Add($"{realTimeMessage}{sep}Complexity Ｏ ( {complexity} )");
+                string realTimeComplexityMessage = FormatRealTimeAndComplexityMetrics(result.Data.AudioFileOutput.Duration, result.Data.CalculationTimeSpan, complexity);
+                lines.Add(realTimeComplexityMessage);
                 lines.Add("");
 
                 lines.Add($"Calculation time: {PrettyTimeSpan(result.Data.CalculationTimeSpan)}");
@@ -427,6 +426,14 @@ namespace JJ.Business.Synthesizer.Wishes
                     ValidationMessages = new List<ValidationMessage>(),
                     Successful = true
                 };
+            }
+
+            internal string FormatRealTimeAndComplexityMetrics(double audioDuration, TimeSpan calculationTimeSpan, int complexity)
+            {
+                string realTimeMessage = FormatRealTimeMessage(audioDuration, calculationTimeSpan);
+                string sep = realTimeMessage != default ? " | " : "";
+                string realTimeComplexityMessage = $"{realTimeMessage}{sep}Complexity Ｏ ( {complexity} )";
+                return realTimeComplexityMessage;
             }
 
             private static string FormatRealTimeMessage(double duration, TimeSpan calculationTimeSpan)
