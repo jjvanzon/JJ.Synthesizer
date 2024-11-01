@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Mono Extensions
             {
-                AudioFileOutput audioFileOutputMono = Mono().SaveAudio(() => Sine()).Data;
+                AudioFileOutput audioFileOutputMono = Mono().SaveAudio(() => Sine()).Data.AudioFileOutput;
                 IsNotNull(() => audioFileOutputMono);
                 IsNotNull(() => audioFileOutputMono.SpeakerSetup);
                 AreEqual(SpeakerSetupEnum.Mono, () => audioFileOutputMono.SpeakerSetup.ToEnum());
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Stereo Extensions
             {
-                AudioFileOutput audioFileOutputStereo = Stereo().SaveAudio(() => Sine()).Data;
+                AudioFileOutput audioFileOutputStereo = Stereo().SaveAudio(() => Sine()).Data.AudioFileOutput;
                 IsNotNull(() => audioFileOutputStereo);
                 IsNotNull(() => audioFileOutputStereo.SpeakerSetup);
                 AreEqual(SpeakerSetupEnum.Stereo, () => audioFileOutputStereo.SpeakerSetup.ToEnum());
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Wav Extensions
             {
-                AudioFileOutput audioFileOutputWav = AsWav().SaveAudio(() => Sine()).Data;
+                AudioFileOutput audioFileOutputWav = AsWav().SaveAudio(() => Sine()).Data.AudioFileOutput;
                 IsNotNull(() => audioFileOutputWav);
                 IsNotNull(() => audioFileOutputWav.AudioFileFormat);
                 AreEqual(".wav", () => audioFileOutputWav.AudioFileFormat.GetFileExtension());
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Raw Extensions
             {
-                AudioFileOutput audioFileOutputRaw = AsRaw().SaveAudio(() => Sine()).Data;
+                AudioFileOutput audioFileOutputRaw = AsRaw().SaveAudio(() => Sine()).Data.AudioFileOutput;
                 IsNotNull(() => audioFileOutputRaw);
                 IsNotNull(() => audioFileOutputRaw.AudioFileFormat);
                 AreEqual(".raw", () => audioFileOutputRaw.AudioFileFormat.GetFileExtension());
