@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     internal static class StringWishes
     { 
-        public static int CountLines(string str)
+        public static int CountLines(this string str)
         {
             // Less efficient:
             //int count = str.Trim().Split(NewLine).Length;
@@ -89,7 +89,21 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             });
         }
     }
-    
+
+    internal static class CollectionWishes
+    { 
+        public static TimeSpan Sum(this IEnumerable<TimeSpan> timeSpans)
+        {
+            if (timeSpans == null) throw new ArgumentNullException(nameof(timeSpans));
+            return timeSpans.Aggregate((x, y) => x + y);
+        }
+        
+        public static TimeSpan Sum<T>(this IEnumerable<T> source, Func<T, TimeSpan> selector)
+        {
+            return source.Select(selector).Sum();
+        }
+    }
+
     internal class StringBuilderWithIndentation
     {
         private readonly StringBuilder _sb = new StringBuilder();

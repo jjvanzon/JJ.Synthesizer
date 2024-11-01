@@ -230,7 +230,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
                     stringifiedChannels.Add(stringify);
 
-                    int stringifyLines = CountLines(stringify);
+                    int stringifyLines = stringify.CountLines();
                     complexity += stringifyLines;
                 }
 
