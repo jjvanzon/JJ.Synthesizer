@@ -1,6 +1,4 @@
-﻿using System;
-using JJ.Framework.Configuration;
-using static JJ.Business.Synthesizer.Wishes.docs;
+﻿using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable MemberHidesStaticFromOuterClass
 
@@ -9,12 +7,14 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     /// <inheritdoc cref="_confighelper"/>
     public static class ConfigHelper
     {
-        private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
+        private static readonly ConfigSection _section = ConfigWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
 
         public static int    DefaultSamplingRate => _section.DefaultSamplingRate ?? 48000;
         public static bool   PlayEnabled         => _section.PlayEnabled         ?? true;
         public static double PlayLeadingSilence  => _section.PlayLeadingSilence  ?? 0.2;
         public static double PlayTrailingSilence => _section.PlayTrailingSilence ?? 0.2;
+        public static bool   ParallelEnabled     => _section.ParallelEnabled     ?? true;
+        //public static bool   InMemoryProcessing  => _section.InMemoryProcessing  ?? true;
 
         public static string LongRunningTestCategory
         {
@@ -44,33 +44,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             public bool Pretend                 => _baseConfig.Pretend                 ?? false;
         }
         
-        /// <inheritdoc cref="_trygetsection"/>
-        public static T TryGetSection<T>()
-            where T: class, new()
-        {
-            T config = null;
-
-            try
-            {
-                config = CustomConfigurationManager.GetSection<T>();
-            }
-            catch (Exception ex)
-            {
-                // Allow 'Not Found' Exception
-                string configSectionName = NameHelper.GetAssemblyName<T>().ToLower();
-                string allowedMessage = $"Configuration section '{configSectionName}' not found.";
-                bool messageIsAllowed = string.Equals(ex.Message, allowedMessage);
-                bool messageIsAllowed2 = string.Equals(ex.InnerException?.Message, allowedMessage);
-                bool mustThrow = !messageIsAllowed && !messageIsAllowed2;
-                
-                if (mustThrow)
-                {
-                    throw;
-                }
-            }
-
-            return config;
-        }
 
     }
 }

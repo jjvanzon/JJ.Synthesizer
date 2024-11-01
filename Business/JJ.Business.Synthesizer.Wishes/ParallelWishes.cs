@@ -9,7 +9,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Wishes.Helpers;
-using JJ.Framework.Common;
 using static System.Guid;
 // ReSharper disable ParameterHidesMember
 
@@ -48,6 +47,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 string name = x.FetchName(callerMemberName);
 
                 if (funcs == null) throw new ArgumentNullException(nameof(funcs));
+
+                if (!x.ParallelEnabled)
+                { 
+                    return volume * x.Add(funcs.Select(x => x()).ToArray());
+                }
 
                 if (x.PreviewParallels)
                 {

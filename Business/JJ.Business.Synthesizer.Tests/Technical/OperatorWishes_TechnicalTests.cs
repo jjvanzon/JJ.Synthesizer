@@ -354,6 +354,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_ParallelAdd_NormalAdd_ForComparison()
         {
+            WithParallelEnabled();
+            
             var duration = 0.1;
 
             var add = Add
@@ -373,6 +375,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_ParallelAdd_WithConstSignal()
         {
+            WithParallelEnabled();
+            
             // Arrange
             var duration = 0.1;
             var tolerance = 0.001;
@@ -462,6 +466,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_ParallelAdd_WithConstSignal_WithPreviewPartials()
         {
+            WithParallelEnabled();
+            
             // Arrange
             var duration = 0.1;
 
@@ -510,6 +516,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_ParallelAdd_WithSinePartials()
         {
+            WithParallelEnabled();
+            
             var freq = A4;
 
             WithAudioLength(0.6);
@@ -529,6 +537,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_ParallelAdd_SinePartials_PreviewParallels()
         {
+            WithParallelEnabled();
+            
             var freq     = A4;
             var volume   = 1 / 1.5;
             var duration = 0.6;

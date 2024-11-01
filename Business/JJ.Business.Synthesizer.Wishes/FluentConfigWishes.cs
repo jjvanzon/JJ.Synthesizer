@@ -2,6 +2,7 @@
 using JJ.Persistence.Synthesizer;
 using System.Threading;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -164,5 +165,17 @@ namespace JJ.Business.Synthesizer.Wishes
             SamplingRateOverride = value;
             return this;
         }
+        
+        // ParallelEnabled
+
+        private bool? _parallelEnabled;
+
+        public SynthWishes WithParallelEnabled(bool parallelEnabled = true)
+        {
+            _parallelEnabled = parallelEnabled;
+            return this;
+        }
+
+        private bool ParallelEnabled => _parallelEnabled ?? ConfigHelper.ParallelEnabled;
     }
 }

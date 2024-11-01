@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using JJ.Framework.Configuration;
 using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
@@ -106,6 +107,38 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
     }
 
+    /// <inheritdoc cref="_trygetsection"/>
+    internal static class ConfigWishes
+    { 
+        /// <inheritdoc cref="_trygetsection"/>
+        public static T TryGetSection<T>()
+            where T: class, new()
+        {
+            T config = null;
+
+            try
+            {
+                config = CustomConfigurationManager.GetSection<T>();
+            }
+            catch (Exception ex)
+            {
+                // Allow 'Not Found' Exception
+                string configSectionName = NameHelper.GetAssemblyName<T>().ToLower();
+                string allowedMessage = $"Configuration section '{configSectionName}' not found.";
+                bool messageIsAllowed = string.Equals(ex.Message, allowedMessage);
+                bool messageIsAllowed2 = string.Equals(ex.InnerException?.Message, allowedMessage);
+                bool mustThrow = !messageIsAllowed && !messageIsAllowed2;
+                
+                if (mustThrow)
+                {
+                    throw;
+                }
+            }
+
+            return config;
+        }
+    }
+
     internal class StringBuilderWithIndentation
     {
         private readonly StringBuilder _sb = new StringBuilder();
@@ -149,7 +182,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         public override string ToString() => _sb.ToString();
     }
-
+    
     internal static class CopiedFromFramework
     {
         public static bool IsProperty(this MethodBase method)
