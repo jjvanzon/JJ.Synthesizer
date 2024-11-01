@@ -60,21 +60,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        private SaveAudioWishes _saveAudioWishes;
-
-        private void InitializeAudioFileWishes()
-        { 
-            _saveAudioWishes = new SaveAudioWishes(this);
-        }
-                
-        private string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
-        {
-            string fileName = Path.GetFileNameWithoutExtension(name);
-            string fileExtension = audioFileFormatEnum.GetFileExtension();
-            fileName += fileExtension;
-            return fileName;
-        }
-        
         /// <inheritdoc cref="_saveorplay" />
         public Result<SaveAudioResultData> SaveAudio(
             Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
