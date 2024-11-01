@@ -45,15 +45,15 @@ namespace JJ.Business.Synthesizer.Wishes
         public AudioFileOutput AudioFileOutput { get; }
         /// <summary> Nullable. Only supplied when writeToMemory is true. </summary>
         public byte[] Bytes { get; }
-        public TimeSpan CalculationTimeSpan { get; }
+        public double CalculationDuration { get; }
         public int Complexity { get; set; }
 
         /// <param name="bytes">Nullable</param>
-        public SaveAudioResultData(AudioFileOutput audioFileOutput, byte[] bytes, TimeSpan calculationTimeSpan)
+        public SaveAudioResultData(AudioFileOutput audioFileOutput, byte[] bytes, double calculationDuration)
         {
             AudioFileOutput = audioFileOutput ?? throw new ArgumentNullException(nameof(audioFileOutput));
             Bytes = bytes;
-            CalculationTimeSpan = calculationTimeSpan;
+            CalculationDuration = calculationDuration;
         }
     }
 
@@ -195,14 +195,14 @@ namespace JJ.Business.Synthesizer.Wishes
                 var stopWatch = Stopwatch.StartNew();
                 calculator.Execute();
                 stopWatch.Stop();
-                TimeSpan calculationTimeSpan = stopWatch.Elapsed;
+                double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
                 // Result
                 var result = new Result<SaveAudioResultData>
                 {
                     Successful = true,
                     ValidationMessages = warnings.ToCanonical(),
-                    Data = new  SaveAudioResultData(audioFileOutput, bytes, calculationTimeSpan)
+                    Data = new  SaveAudioResultData(audioFileOutput, bytes, calculationDuration)
                 };
 
                 // Report
@@ -237,12 +237,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add(GetPrettyTitle(result.Data.AudioFileOutput.Name ?? result.Data.AudioFileOutput.FilePath));
                 lines.Add("");
 
-                string realTimeComplexityMessage = FormatRealTimeAndComplexityMetrics(result.Data.AudioFileOutput.Duration, result.Data.CalculationTimeSpan, complexity);
+                string realTimeComplexityMessage = x.FormatMetrics(result.Data.AudioFileOutput.Duration, result.Data.CalculationDuration, complexity);
                 lines.Add(realTimeComplexityMessage);
                 lines.Add("");
 
-                lines.Add($"Calculation time: {PrettyTimeSpan(result.Data.CalculationTimeSpan)}");
-                lines.Add("Audio length: " + PrettyTimeSpan(TimeSpan.FromSeconds(result.Data.AudioFileOutput.Duration)));
+                lines.Add($"Calculation time: {PrettyDuration(result.Data.CalculationDuration)}");
+                lines.Add($"Audio length: {PrettyDuration(result.Data.AudioFileOutput.Duration)}");
                 lines.Add($"Sampling rate: { result.Data.AudioFileOutput.SamplingRate } Hz | {result.Data.AudioFileOutput.GetSampleDataTypeEnum()} | {result.Data.AudioFileOutput.GetSpeakerSetupEnum()}");
 
                 lines.Add("");
@@ -422,43 +422,6 @@ namespace JJ.Business.Synthesizer.Wishes
                     ValidationMessages = new List<ValidationMessage>(),
                     Successful = true
                 };
-            }
-
-            internal string FormatRealTimeAndComplexityMetrics(double audioDuration, TimeSpan calculationTimeSpan, int complexity)
-            {
-                string realTimeMessage = FormatRealTimeMessage(audioDuration, calculationTimeSpan);
-                string sep = realTimeMessage != default ? " | " : "";
-                string realTimeComplexityMessage = $"{realTimeMessage}{sep}Complexity Ｏ ( {complexity} )";
-                return realTimeComplexityMessage;
-            }
-
-            private static string FormatRealTimeMessage(double duration, TimeSpan calculationTimeSpan)
-            {
-                var isRunningInTooling = ToolingHelper.IsRunningInTooling;
-                if (isRunningInTooling.Data)
-                {
-                    // If running in tooling, omitting the performance message from the result,
-                    // because it has little meaning with sampling rates  below 150
-                    // that are employed for tooling by default, to keep them running fast.
-                    return default;
-                }
-
-                double realTimePercent = duration / calculationTimeSpan.TotalSeconds * 100;
-
-                string realTimeStatusGlyph;
-                if (realTimePercent < 100)
-                {
-                    realTimeStatusGlyph = "❌";
-                }
-                else
-                {
-                    realTimeStatusGlyph = "✔";
-                }
-
-                var realTimeMessage = $"{realTimeStatusGlyph} {realTimePercent:F0} % Real Time";
-
-                return realTimeMessage;
-
             }
         }
     }

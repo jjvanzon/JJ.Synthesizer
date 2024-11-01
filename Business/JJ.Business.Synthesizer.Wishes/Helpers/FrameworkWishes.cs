@@ -50,6 +50,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         private static StringComparison ToStringComparison(bool ignoreCase) 
             => ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
+        public static string PrettyDuration(double durationInSeconds) => PrettyTimeSpan(TimeSpan.FromSeconds(durationInSeconds));
+        
         public static string PrettyTimeSpan(TimeSpan timeSpan)
         {
             double totalNanoseconds = timeSpan.TotalMilliseconds * 1000;

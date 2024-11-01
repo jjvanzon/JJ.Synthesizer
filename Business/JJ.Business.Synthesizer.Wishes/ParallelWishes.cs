@@ -123,11 +123,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Report total real-time and complexity metrics.
                 {
                     double audioDuration = saveAudioResults.Max(x => x.Data.AudioFileOutput.Duration);
-                    TimeSpan calculationTimeSpan = stopWatch.Elapsed;
-                    int totalComplexity = saveAudioResults.Sum(x => x.Data.Complexity);
-                    string metricsMessage = x._saveAudioWishes.FormatRealTimeAndComplexityMetrics(audioDuration, calculationTimeSpan, totalComplexity);
-                    string metricsLine = $"Totals {name} Terms: {metricsMessage}";
-                    Console.WriteLine(metricsLine);
+                    double calculationDuration = stopWatch.Elapsed.TotalSeconds;
+                    int complexity = saveAudioResults.Sum(x => x.Data.Complexity);
+                    string formattedMetrics = x.FormatMetrics(audioDuration, calculationDuration, complexity);
+                    string message = $"Totals {name} Terms: {formattedMetrics}";
+                    Console.WriteLine(message);
                 }
                 
                 return x.Add(reloadedSamples);

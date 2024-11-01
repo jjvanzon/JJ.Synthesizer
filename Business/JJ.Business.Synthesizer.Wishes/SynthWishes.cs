@@ -40,6 +40,7 @@ namespace JJ.Business.Synthesizer.Wishes
             InitializeOperatorWishes();
         }
 
+        // Helpers
 
         private string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
         {
@@ -48,5 +49,44 @@ namespace JJ.Business.Synthesizer.Wishes
             fileName += fileExtension;
             return fileName;
         }
+        
+        private string FormatMetrics(double audioDuration, double calculationDuration, int complexity)
+        {
+            string realTimeMessage = FormatRealTimeMessage(audioDuration, calculationDuration);
+            string sep = realTimeMessage != default ? " | " : "";
+            string complexityMessage = $"Complexity Ｏ ( {complexity} )";
+            string metricsMessage = $"{realTimeMessage}{sep}{complexityMessage}";
+            return metricsMessage;
+        }
+        
+        private string FormatRealTimeMessage(double audioDuration, double calculationDuration)
+        {
+            var isRunningInTooling = ToolingHelper.IsRunningInTooling;
+            if (isRunningInTooling.Data)
+            {
+                // If running in tooling, omitting the performance message from the result,
+                // because it has little meaning with sampling rates  below 150
+                // that are employed for tooling by default, to keep them running fast.
+                return default;
+            }
+
+            double realTimePercent = audioDuration / calculationDuration* 100;
+
+            string realTimeStatusGlyph;
+            if (realTimePercent < 100)
+            {
+                realTimeStatusGlyph = "❌";
+            }
+            else
+            {
+                realTimeStatusGlyph = "✔";
+            }
+
+            var realTimeMessage = $"{realTimeStatusGlyph} {realTimePercent:F0} % Real Time";
+
+            return realTimeMessage;
+
+        }
+
     }
 }
