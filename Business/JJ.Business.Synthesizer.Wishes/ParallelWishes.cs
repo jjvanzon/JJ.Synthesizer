@@ -62,16 +62,15 @@ namespace JJ.Business.Synthesizer.Wishes
                 var saveAudioResults = new Result<SaveAudioResultData>[termCount];
                 var reloadedSamples = new Outlet[termCount];
                 var outlets = new Outlet[termCount][];
-                var stopWatch = new Stopwatch();
                 for (int i = 0; i < termCount; i++)
                 {
                     outlets[i] = new Outlet[channelCount];
                 }
 
+                var stopWatch = Stopwatch.StartNew();
+
                 try
                 {
-                    stopWatch.Start();
-                    
                     // Save to files
                     Parallel.For(0, termCount, i =>
                     {
@@ -120,24 +119,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
 
                 stopWatch.Stop();
-                
-                // Report total real-time and complexity metrics.
-                double totalAudioDuration = saveAudioResults.Max(x => x.Data.AudioFileOutput.Duration);
-                //TimeSpan totalCalculationTimeSpan = saveAudioResults.Sum(x => x.Data.CalculationTimeSpan);
-                TimeSpan totalCalculationTimeSpan = stopWatch.Elapsed;
-                
-                // TODO: This work was already done. It's a bit of a waste to do it again.
-                // TODO: A separate visitor-like thing?
-                // TODO: Add to SaveAudioResultData?
-                
-                int totalComplexity = saveAudioResults.SelectMany(x => x.Data.AudioFileOutput.AudioFileOutputChannels)
-                                                      .Select(x => x.Outlet?.Stringify() ?? "")
-                                                      .Select(x => x.CountLines())
-                                                      .Sum();
-                string totalRealTimeAndComplexityMessage = x._saveAudioWishes.FormatRealTimeAndComplexityMetrics(totalAudioDuration, totalCalculationTimeSpan, totalComplexity);
 
-                string line = $"Totals {name} Terms: {totalRealTimeAndComplexityMessage}";
-                Console.WriteLine(line);
+                // Report total real-time and complexity metrics.
+                {
+                    double audioDuration = saveAudioResults.Max(x => x.Data.AudioFileOutput.Duration);
+                    TimeSpan calculationTimeSpan = stopWatch.Elapsed;
+                    int totalComplexity = saveAudioResults.Sum(x => x.Data.Complexity);
+                    string metricsMessage = x._saveAudioWishes.FormatRealTimeAndComplexityMetrics(audioDuration, calculationTimeSpan, totalComplexity);
+                    string metricsLine = $"Totals {name} Terms: {metricsMessage}";
+                    Console.WriteLine(metricsLine);
+                }
                 
                 return x.Add(reloadedSamples);
             }

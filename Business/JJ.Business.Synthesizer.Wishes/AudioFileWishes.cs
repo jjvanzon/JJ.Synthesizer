@@ -18,9 +18,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Framework.Reflection;
 // ReSharper disable ParameterHidesMember
-
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable AccessToModifiedClosure
 // ReSharper disable once PossibleLossOfFraction
@@ -48,6 +46,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary> Nullable. Only supplied when writeToMemory is true. </summary>
         public byte[] Bytes { get; }
         public TimeSpan CalculationTimeSpan { get; }
+        public int Complexity { get; set; }
 
         /// <param name="bytes">Nullable</param>
         public SaveAudioResultData(AudioFileOutput audioFileOutput, byte[] bytes, TimeSpan calculationTimeSpan)
@@ -77,9 +76,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_saveorplay" />
         internal Result<SaveAudioResultData> SaveAudio(IList<Outlet> channelInputs, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
             => _saveAudioWishes.SaveAudio(channelInputs, mustWriteToMemory, name, callerMemberName);
-        
-        public List<string> GenerateReport(Result<SaveAudioResultData> saveAudioResult)
-            => _saveAudioWishes.GetReport(saveAudioResult);
 
         /// <inheritdoc cref="_saveorplay" />
         private class SaveAudioWishes
@@ -200,7 +196,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 calculator.Execute();
                 stopWatch.Stop();
                 TimeSpan calculationTimeSpan = stopWatch.Elapsed;
-                
 
                 // Result
                 var result = new Result<SaveAudioResultData>
@@ -211,18 +206,19 @@ namespace JJ.Business.Synthesizer.Wishes
                 };
 
                 // Report
-                var reportLines = GetReport(result);
+                var reportLines = GetReport(result, out int complexity);
+                result.Data.Complexity = complexity;
                 reportLines.ForEach(Console.WriteLine);
 
                 return result;
             }
 
-            public List<string> GetReport(Result<SaveAudioResultData> result)
+            private List<string> GetReport(Result<SaveAudioResultData> result, out int complexity)
             {
                 ResultWishes.Assert(result);
 
                 // Get Info
-                int complexity = 0;
+                complexity = 0;
                 var stringifiedChannels = new List<string>();
 
                 foreach (var audioFileOutputChannel in result.Data.AudioFileOutput.AudioFileOutputChannels)
