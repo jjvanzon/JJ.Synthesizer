@@ -70,17 +70,19 @@ namespace JJ.Business.Synthesizer.Wishes
         public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, bool writeToMemory, [CallerMemberName] string callerMemberName = null)
             => _saveAudioWishes.SaveAudio(func, writeToMemory, callerMemberName);
 
+        public List<string> GenerateReport(Result<SaveAudioResultData> saveAudioResult)
+            => _saveAudioWishes.GetReport(saveAudioResult);
+
         /// <inheritdoc cref="_saveorplay" />
         private class SaveAudioWishes
         {
             private readonly SynthWishes x;
 
             /// <inheritdoc cref="_saveorplay" />
-            public SaveAudioWishes(SynthWishes synthWishes) => x = synthWishes;
+            public SaveAudioWishes(SynthWishes synthWishes) => x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
 
             /// <inheritdoc cref="_saveorplay" />
-            public Result<SaveAudioResultData> SaveAudio(
-                Func<Outlet> func, bool mustWriteToMemory = false, [CallerMemberName] string callerMemberName = null)
+            public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, bool mustWriteToMemory = false, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
 
@@ -209,24 +211,15 @@ namespace JJ.Business.Synthesizer.Wishes
                 return result;
             }
 
-            private static List<string> GetReport(Result<SaveAudioResultData> saveAudioResult)
+            public List<string> GetReport(Result<SaveAudioResultData> result)
             {
-                if (saveAudioResult == null) throw new NullException(() => saveAudioResult);
-                
-                saveAudioResult.Assert();
-                
-                return GetReport(saveAudioResult.Data.AudioFileOutput,
-                                 saveAudioResult.Data.CalculationTimeSpan,
-                                 saveAudioResult.ValidationMessages.Select(x => x.Text).ToArray());
-            }
+                ResultWishes.Assert(result);
 
-            private static List<string> GetReport(AudioFileOutput audioFileOutput, TimeSpan calculationTimeSpan, IList<string> warnings)
-            {
                 // Get Info
-                var stringifiedChannels = new List<string>();
                 int complexity = 0;
+                var stringifiedChannels = new List<string>();
 
-                foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
+                foreach (var audioFileOutputChannel in result.Data.AudioFileOutput.AudioFileOutputChannels)
                 {
                     string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
                     stringifiedChannels.Add(stringify);
@@ -239,20 +232,21 @@ namespace JJ.Business.Synthesizer.Wishes
                 var lines = new List<string>();
 
                 lines.Add("");
-                lines.Add(GetPrettyTitle(audioFileOutput.Name ?? audioFileOutput.FilePath));
+                lines.Add(GetPrettyTitle(result.Data.AudioFileOutput.Name ?? result.Data.AudioFileOutput.FilePath));
                 lines.Add("");
 
-                string realTimeMessage = FormatRealTimeMessage(audioFileOutput.Duration, calculationTimeSpan);
+                string realTimeMessage = FormatRealTimeMessage(result.Data.AudioFileOutput.Duration, result.Data.CalculationTimeSpan);
                 string sep = realTimeMessage != default ? " | " : "";
                 lines.Add($"{realTimeMessage}{sep}Complexity Ｏ ( {complexity} )");
                 lines.Add("");
 
-                lines.Add($"Calculation time: {PrettyTimeSpan(calculationTimeSpan)}");
-                lines.Add("Audio length: " + PrettyTimeSpan(TimeSpan.FromSeconds(audioFileOutput.Duration)));
-                lines.Add($"Sampling rate: { audioFileOutput.SamplingRate } Hz | {audioFileOutput.GetSampleDataTypeEnum()} | {audioFileOutput.GetSpeakerSetupEnum()}");
+                lines.Add($"Calculation time: {PrettyTimeSpan(result.Data.CalculationTimeSpan)}");
+                lines.Add("Audio length: " + PrettyTimeSpan(TimeSpan.FromSeconds(result.Data.AudioFileOutput.Duration)));
+                lines.Add($"Sampling rate: { result.Data.AudioFileOutput.SamplingRate } Hz | {result.Data.AudioFileOutput.GetSampleDataTypeEnum()} | {result.Data.AudioFileOutput.GetSpeakerSetupEnum()}");
 
                 lines.Add("");
 
+                IList<string> warnings = result.ValidationMessages.Select(x => x.Text).ToArray();
                 if (warnings.Any())
                 {
                     lines.Add("Warnings:");
@@ -260,7 +254,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     lines.Add("");
                 }
 
-                for (var i = 0; i < audioFileOutput.AudioFileOutputChannels.Count; i++)
+                for (var i = 0; i < result.Data.AudioFileOutput.AudioFileOutputChannels.Count; i++)
                 {
                     var channelString = stringifiedChannels[i];
 
@@ -270,7 +264,15 @@ namespace JJ.Business.Synthesizer.Wishes
                     lines.Add("");
                 }
 
-                lines.Add($"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
+                if (result.Data.Bytes != null)
+                {
+                    lines.Add($"{result.Data.Bytes.Length} bytes written to memory.");
+                }
+                if (File.Exists(result.Data.AudioFileOutput.FilePath))
+                {
+                    lines.Add($"Output file: {Path.GetFullPath(result.Data.AudioFileOutput.FilePath)}");
+                }
+
                 lines.Add("");
 
                 return lines;
