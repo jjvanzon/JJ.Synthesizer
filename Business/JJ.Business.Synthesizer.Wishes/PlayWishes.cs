@@ -1,12 +1,14 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.CanonicalModel;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using System.Media;
+using JJ.Framework.IO;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -29,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
             _playWishes = new PlayWishes(this);
         }
 
-        public Result<AudioFileOutput> Play(
+        public Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> Play(
             Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             => _playWishes.Play(outletFunc, callerMemberName);
 
@@ -43,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="_saveorplay" />
-            public Result<AudioFileOutput> Play(
+            public Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> Play(
                 Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
@@ -84,18 +86,25 @@ namespace JJ.Business.Synthesizer.Wishes
                 return (func2, audioLength2);
             }
 
-            public Result PlayIfAllowed(AudioFileOutput audioFileOutput)
+            public Result PlayIfAllowed((AudioFileOutput AudioFileOutput, byte[] Bytes) data)
             {
                 var lines = new List<string>();
 
-                var playAllowed = ToolingHelper.PlayAllowed(audioFileOutput.GetFileExtension());
+                var playAllowed = ToolingHelper.PlayAllowed(data.AudioFileOutput.GetFileExtension());
 
                 lines.AddRange(playAllowed.ValidationMessages.Select(x => x.Text));
 
                 if (playAllowed.Data)
                 {
                     lines.Add("Playing audio...");
-                    new SoundPlayer(audioFileOutput.FilePath).PlaySync();
+                    if (data.Bytes != null)
+                    {
+                        new SoundPlayer(new MemoryStream(data.Bytes)).PlaySync();
+                    }
+                    else
+                    {
+                        new SoundPlayer(data.AudioFileOutput.FilePath).PlaySync();
+                    }
                     lines.Add("");
                 }
 
