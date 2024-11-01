@@ -684,5 +684,12 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetHeaderLength(entity.AudioFileOutput);
         }
+
+        public static int GetFileLengthNeeded(this AudioFileOutput entity)
+        {
+            int courtesyBytes = GetFrameSize(entity);
+            return GetHeaderLength(entity) +
+                   GetFrameSize(entity) * (int)(entity.SamplingRate * entity.Duration) + courtesyBytes;
+        }
     }
 }
