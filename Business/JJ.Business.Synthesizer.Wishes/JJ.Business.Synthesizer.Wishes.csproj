@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="CalculationWishes.cs" />
     <Compile Include="EnumWishes.cs" />
+    <Compile Include="Helpers\AudioFileOutputCalculatorAccessor.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\ConfigSection.cs" />
     <Compile Include="Helpers\FrameworkWishes.cs" />
