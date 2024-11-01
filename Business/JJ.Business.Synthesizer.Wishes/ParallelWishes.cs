@@ -2,16 +2,16 @@
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using static System.Guid;
 // ReSharper disable ParameterHidesMember
-
-// ReSharper disable ForCanBeConvertedToForeach
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -59,9 +59,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 int channelCount = x.SpeakerSetup.GetChannelCount();
                 string[] names = GetParallelAddNames(termCount, name);
                 string[] displayNames = names.Select(x => x.WithShortGuids(4)).ToArray();
-                var byteArrays = new byte[termCount][];
+                var saveAudioResults = new Result<SaveAudioResultData>[termCount];
                 var reloadedSamples = new Outlet[termCount];
                 var outlets = new Outlet[termCount][];
+                var stopWatch = new Stopwatch();
                 for (int i = 0; i < termCount; i++)
                 {
                     outlets[i] = new Outlet[channelCount];
@@ -69,6 +70,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 try
                 {
+                    stopWatch.Start();
+                    
                     // Save to files
                     Parallel.For(0, termCount, i =>
                     {
@@ -91,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                         // Generate audio bytes
                         var saveAudioResult = x.SaveAudio(outlets[i], names[i], mustWriteToMemory: true);
-                        byteArrays[i] = saveAudioResult.Data.Bytes;
+                        saveAudioResults[i] = saveAudioResult;
 
                         Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
                     });
@@ -99,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Reload Samples
                     for (int i = 0; i < termCount; i++)
                     {
-                        reloadedSamples[i] = x.Sample(byteArrays[i]);
+                        reloadedSamples[i] = x.Sample(saveAudioResults[i].Data.Bytes);
                     }
                 }
                 finally
@@ -116,6 +119,26 @@ namespace JJ.Business.Synthesizer.Wishes
                     }
                 }
 
+                stopWatch.Stop();
+                
+                // Report total real-time and complexity metrics.
+                double totalAudioDuration = saveAudioResults.Max(x => x.Data.AudioFileOutput.Duration);
+                //TimeSpan totalCalculationTimeSpan = saveAudioResults.Sum(x => x.Data.CalculationTimeSpan);
+                TimeSpan totalCalculationTimeSpan = stopWatch.Elapsed;
+                
+                // TODO: This work was already done. It's a bit of a waste to do it again.
+                // TODO: A separate visitor-like thing?
+                // TODO: Add to SaveAudioResultData?
+                
+                int totalComplexity = saveAudioResults.SelectMany(x => x.Data.AudioFileOutput.AudioFileOutputChannels)
+                                                      .Select(x => x.Outlet?.Stringify() ?? "")
+                                                      .Select(x => x.CountLines())
+                                                      .Sum();
+                string totalRealTimeAndComplexityMessage = x._saveAudioWishes.FormatRealTimeAndComplexityMetrics(totalAudioDuration, totalCalculationTimeSpan, totalComplexity);
+
+                string line = $"Totals {name} Terms: {totalRealTimeAndComplexityMessage}";
+                Console.WriteLine(line);
+                
                 return x.Add(reloadedSamples);
             }
 
