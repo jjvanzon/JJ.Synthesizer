@@ -63,13 +63,21 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
-            => _saveAudioWishes.SaveAudio(func, default, callerMemberName);
+        public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
+            => _saveAudioWishes.SaveAudio(func, mustWriteToMemory, name, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, bool writeToMemory, [CallerMemberName] string callerMemberName = null)
-            => _saveAudioWishes.SaveAudio(func, writeToMemory, callerMemberName);
+        public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
+            => _saveAudioWishes.SaveAudio(func, mustWriteToMemory, name, callerMemberName);
 
+        /// <inheritdoc cref="_saveorplay" />
+        internal Result<SaveAudioResultData> SaveAudio(IList<Outlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
+            => _saveAudioWishes.SaveAudio(channelInputs, mustWriteToMemory, name, callerMemberName);
+
+        /// <inheritdoc cref="_saveorplay" />
+        internal Result<SaveAudioResultData> SaveAudio(IList<Outlet> channelInputs, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
+            => _saveAudioWishes.SaveAudio(channelInputs, mustWriteToMemory, name, callerMemberName);
+        
         public List<string> GenerateReport(Result<SaveAudioResultData> saveAudioResult)
             => _saveAudioWishes.GetReport(saveAudioResult);
 
@@ -82,9 +90,9 @@ namespace JJ.Business.Synthesizer.Wishes
             public SaveAudioWishes(SynthWishes synthWishes) => x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
 
             /// <inheritdoc cref="_saveorplay" />
-            public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, bool mustWriteToMemory = false, [CallerMemberName] string callerMemberName = null)
+            public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, bool mustWriteToMemory = false, string name = null, [CallerMemberName] string callerMemberName = null)
             {
-                string name = x.FetchName(callerMemberName);
+                name = x.FetchName(name, callerMemberName);
 
                 var originalChannel = x.Channel;
                 try
@@ -93,12 +101,12 @@ namespace JJ.Business.Synthesizer.Wishes
                     {
                         case SpeakerSetupEnum.Mono:
                             x.Center(); var monoOutlet = func();
-                            return SaveAudioBase(new[] { monoOutlet }, name, mustWriteToMemory);
+                            return SaveAudio(new[] { monoOutlet }, mustWriteToMemory, name);
 
                         case SpeakerSetupEnum.Stereo:
                             x.Left(); var leftOutlet = func();
                             x.Right(); var rightOutlet = func();
-                            return SaveAudioBase(new[] { leftOutlet, rightOutlet }, name, mustWriteToMemory);
+                            return SaveAudio(new[] { leftOutlet, rightOutlet }, mustWriteToMemory, name);
                         
                         default:
                             throw new ValueNotSupportedException(x.SpeakerSetup);
@@ -111,12 +119,10 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="_saveorplay" />
-            internal Result<SaveAudioResultData> SaveAudio(IList<Outlet> channelInputs, string name)
-                => SaveAudioBase(channelInputs, name, default);
-
-            /// <inheritdoc cref="_saveorplay" />
-            internal Result<SaveAudioResultData> SaveAudioBase(IList<Outlet> channelInputs, string name, bool mustWriteToMemory)
+            internal Result<SaveAudioResultData> SaveAudio(IList<Outlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
             {
+                name = x.FetchName(name, callerMemberName);
+
                 // Process Parameters
                 if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
                 if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));

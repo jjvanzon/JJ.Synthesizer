@@ -97,7 +97,8 @@ namespace JJ.Business.Synthesizer.Wishes
                             x.Channel = originalChannel;
                         }
 
-                        var saveAudioResult = x._saveAudioWishes.SaveAudioBase(outlets[i], names[i], mustWriteToMemory: true);
+                        // Generate audio bytes
+                        var saveAudioResult = x.SaveAudio(outlets[i], names[i], mustWriteToMemory: true);
                         byteArrays[i] = saveAudioResult.Data.Bytes;
 
                         Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
@@ -163,7 +164,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         x.Channel = originalChannel;
                     }
 
-                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], names[i], mustWriteToMemory: false);
+                    var saveResult = x.SaveAudio(outlets[i], names[i]);
                     x._playWishes.PlayIfAllowed(saveResult.Data);
 
                     Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
@@ -176,7 +177,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                     // Save and play to test the sample loading
                     // TODO: This doesn't actually save the reloaded samples. replace outlets[i] by a repeat of reloaded samples.
-                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], names[i] + "_Reloaded.wav", mustWriteToMemory: false);
+                    var saveResult = x.SaveAudio(outlets[i], names[i] + "_Reloaded.wav");
                     x._playWishes.PlayIfAllowed(saveResult.Data);
                 }
 
