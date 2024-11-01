@@ -4,11 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using static System.Guid;
+
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -45,14 +46,10 @@ namespace JJ.Business.Synthesizer.Wishes
             private readonly SynthWishes x;
 
             /// <inheritdoc cref="_paralleladd" />
-            public ParallelWishes(SynthWishes synthWishes)
-            {
-                x = synthWishes;
-            }
+            public ParallelWishes(SynthWishes synthWishes) => x = synthWishes;
 
             /// <inheritdoc cref="_paralleladd" />
-            public FluentOutlet ParallelAdd(
-                double volume, IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
+            public FluentOutlet ParallelAdd(double volume, IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
 
@@ -66,7 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Prep variables
                 int termCount = funcs.Count;
                 int channelCount = x.SpeakerSetup.GetChannelCount();
-                string[] fileNames = GetParallelAdd_FileNames(termCount, name);
+                string[] names = GetParallelAddNames(termCount, name);
                 var byteArrays = new byte[termCount][];
                 var reloadedSamples = new Outlet[termCount];
                 var outlets = new Outlet[termCount][];
@@ -80,7 +77,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Save to files
                     Parallel.For(0, termCount, i =>
                     {
-                        Debug.WriteLine($"Start parallel task: {fileNames[i]}", "SynthWishes");
+                        Debug.WriteLine($"Start parallel task: {names[i]}", "SynthWishes");
 
                         // Get outlets first (before going parallel ?)
                         ChannelEnum originalChannel = x.Channel;
@@ -97,10 +94,10 @@ namespace JJ.Business.Synthesizer.Wishes
                             x.Channel = originalChannel;
                         }
 
-                        var saveAudioResult = x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i], mustWriteToMemory: true);
+                        var saveAudioResult = x._saveAudioWishes.SaveAudioBase(outlets[i], names[i], mustWriteToMemory: true);
                         byteArrays[i] = saveAudioResult.Data.Bytes;
 
-                        Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
+                        Debug.WriteLine($"End parallel task: {names[i]}", "SynthWishes");
                     });
 
                     // Reload Samples
@@ -112,19 +109,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 finally
                 {
                     // Clean-up
-                    for (var j = 0; j < fileNames.Length; j++)
+                    for (var j = 0; j < names.Length; j++)
                     {
-                        string filePath = fileNames[j];
+                        string filePath = names[j];
                         if (File.Exists(filePath))
                         {
-                            try
-                            {
-                                File.Delete(filePath);
-                            }
-                            catch
-                            {
-                                /* Ignore file delete exception, so you can keep open file in apps.*/
-                            }
+                            try { File.Delete(filePath); }
+                            catch { /* Ignore file delete exception, so you can keep open file in apps.*/ }
                         }
                     }
                 }
@@ -133,15 +124,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="_withpreviewparallels"/>
-            private FluentOutlet ParallelAdd_WithPreviewParallels(
-                double volume, IList<Func<Outlet>> funcs, string name)
+            private FluentOutlet ParallelAdd_WithPreviewParallels(double volume, IList<Func<Outlet>> funcs, string name)
             {
                 // Arguments already checked in public method
 
                 // Prep variables
                 int termCount = funcs.Count;
                 int channelCount = x.SpeakerSetup.GetChannelCount();
-                string[] fileNames = GetParallelAdd_FileNames(termCount, name);
+                string[] names = GetParallelAddNames(termCount, name);
                 var reloadedSamples = new Outlet[termCount];
                 var outlets = new Outlet[termCount][];
                 for (int i = 0; i < termCount; i++)
@@ -152,9 +142,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Save and play files
                 Parallel.For(0, termCount, i =>
                 {
-                    Debug.WriteLine($"Start parallel task: {fileNames[i]}", "SynthWishes");
+                    Debug.WriteLine($"Start parallel task: {names[i]}", "SynthWishes");
 
-                    // Get outlets first (before going parallel?)
+                    // Get outlets first
                     ChannelEnum originalChannel = x.Channel;
                     try
                     {
@@ -169,29 +159,29 @@ namespace JJ.Business.Synthesizer.Wishes
                         x.Channel = originalChannel;
                     }
 
-                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i], mustWriteToMemory: false);
+                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], names[i], mustWriteToMemory: false);
                     x._playWishes.PlayIfAllowed(saveResult.Data);
 
-                    Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
+                    Debug.WriteLine($"End parallel task: {names[i]}", "SynthWishes");
                 });
 
                 // Reload sample
                 for (int i = 0; i < termCount; i++)
                 {
-                    reloadedSamples[i] = x.Sample(fileNames[i]);
+                    reloadedSamples[i] = x.Sample(names[i]);
 
                     // Save and play to test the sample loading
                     // TODO: This doesn't actually save the reloaded samples. replace outlets[i] by a repeat of reloaded samples.
-                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i] + "_Reloaded.wav", mustWriteToMemory: false);
+                    var saveResult = x._saveAudioWishes.SaveAudioBase(outlets[i], names[i] + "_Reloaded.wav", mustWriteToMemory: false);
                     x._playWishes.PlayIfAllowed(saveResult.Data);
                 }
 
                 return x.Add(reloadedSamples);
             }
 
-            private string[] GetParallelAdd_FileNames(int count, string name)
+            private string[] GetParallelAddNames(int count, string name)
             {
-                string guidString = $"{Guid.NewGuid()}";
+                string guidString = $"{NewGuid()}";
 
                 if (!name.Contains(nameof(ParallelAdd), ignoreCase: true))
                 {
@@ -201,7 +191,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 var fileNames = new string[count];
                 for (int i = 0; i < count; i++)
                 {
-                    fileNames[i] = $"{name} (Term {i + 1}) {guidString}.wav";
+                    fileNames[i] = $"{name} Term {i + 1} {guidString}";
                 }
 
                 return fileNames;
