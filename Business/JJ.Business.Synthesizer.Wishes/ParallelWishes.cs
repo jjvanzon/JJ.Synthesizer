@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -65,6 +67,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 int termCount = funcs.Count;
                 int channelCount = x.SpeakerSetup.GetChannelCount();
                 string[] fileNames = GetParallelAdd_FileNames(termCount, name);
+                var byteArrays = new byte[termCount][];
                 var reloadedSamples = new Outlet[termCount];
                 var outlets = new Outlet[termCount][];
                 for (int i = 0; i < termCount; i++)
@@ -94,7 +97,8 @@ namespace JJ.Business.Synthesizer.Wishes
                             x.Channel = originalChannel;
                         }
 
-                        x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i]);
+                        var saveAudioResult = x._saveAudioWishes.SaveAudioBase(outlets[i], fileNames[i], mustWriteToMemory: true);
+                        byteArrays[i] = saveAudioResult.Data.Bytes;
 
                         Debug.WriteLine($"End parallel task: {fileNames[i]}", "SynthWishes");
                     });
@@ -102,7 +106,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Reload Samples
                     for (int i = 0; i < termCount; i++)
                     {
-                        reloadedSamples[i] = x.Sample(fileNames[i]);
+                        reloadedSamples[i] = x.Sample(byteArrays[i]);
                     }
                 }
                 finally
