@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet JingleVolume => _[0.18];
 
         FluentOutlet MildEcho(FluentOutlet sound)
-            => EchoParallel(sound * 0.3, count: 7, magnitude: _[0.25], delay: _[0.33]) / 0.3;
+            => EchoParallel(sound * 0.3, count: 6, magnitude: _[0.25], delay: _[0.33]) / 0.3;
 
         FluentOutlet DeepEcho(FluentOutlet sound) 
             => EchoParallel(sound * 0.4, count: 7, magnitude: _[0.50], delay: _[0.50]) / 0.4;
