@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Factories;
+using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -10,7 +13,15 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public IContext Context { get; }
 
+        private readonly OperatorFactory _operatorFactory;
+        private readonly CurveFactory _curveFactory;
+        private readonly SampleManager _sampleManager;
+        /// <inheritdoc cref="_saveorplay" />
         private readonly SaveAudioWishes _saveAudioWishes;
+        /// <inheritdoc cref="_saveorplay" />
+        private readonly PlayWishes _playWishes;
+        /// <inheritdoc cref="_paralleladd" />
+        private readonly ParallelWishes _parallelWishes;
 
         public SynthWishes()
             : this(PersistenceHelper.CreateContext())
@@ -20,12 +31,13 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
 
-            InitializeSampleWishes(context);
-            InitializeCurveWishes(context);
-            InitializeOperatorWishes(context);
+            _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
+            _curveFactory = ServiceFactory.CreateCurveFactory(context);
+            _sampleManager = ServiceFactory.CreateSampleManager(context);
             _saveAudioWishes = new SaveAudioWishes(this);
-            InitializeParallelWishes();
-            InitializePlayWishes();
+            _playWishes = new PlayWishes(this);
+            _parallelWishes = new ParallelWishes(this);
+            InitializeOperatorWishes();
         }
 
 

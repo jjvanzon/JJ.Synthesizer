@@ -25,14 +25,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-            /// <inheritdoc cref="_saveorplay" />
-        private PlayWishes _playWishes;
-
-        private void InitializePlayWishes() => _playWishes = new PlayWishes(this);
-
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveAudioResultData> Play(
-            Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
+        public Result<SaveAudioResultData> Play(Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             => _playWishes.Play(outletFunc, callerMemberName);
 
             /// <inheritdoc cref="_saveorplay" />

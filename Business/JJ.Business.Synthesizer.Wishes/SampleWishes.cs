@@ -2,9 +2,6 @@
 using System;
 using System.IO;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Managers;
-using JJ.Business.Synthesizer.Wishes.Helpers;
-using JJ.Framework.Persistence;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -12,13 +9,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        private void InitializeSampleWishes(IContext context)
-        {
-            _sampleManager = ServiceFactory.CreateSampleManager(context);
-        }
-
-        private SampleManager _sampleManager;
-
         /// <inheritdoc cref="_sample"/>
         public FluentOutlet Sample(
             byte[] bytes, int bytesToSkip = 0, 

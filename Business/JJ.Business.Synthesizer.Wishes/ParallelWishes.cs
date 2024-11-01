@@ -20,14 +20,6 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_paralleladd" />
-        private ParallelWishes _parallelWishes;
-
-        private void InitializeParallelWishes()
-        {
-            _parallelWishes = new ParallelWishes(this);
-        }
-
-        /// <inheritdoc cref="_paralleladd" />
         public FluentOutlet ParallelAdd(params Func<Outlet>[] funcs)
             => ParallelAdd(1, (IList<Func<Outlet>>)funcs);
 

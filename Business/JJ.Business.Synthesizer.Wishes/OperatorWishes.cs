@@ -24,11 +24,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        private OperatorFactory _operatorFactory;
-
-        private void InitializeOperatorWishes(IContext context)
+        private void InitializeOperatorWishes()
         {
-            _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
             _ = new CaptureIndexer(this);
         }
 

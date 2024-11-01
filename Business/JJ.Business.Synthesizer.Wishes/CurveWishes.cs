@@ -45,13 +45,6 @@ namespace JJ.Business.Synthesizer.Wishes
         // This file adds overloads to the OperatorFactory methods,
         // that create a curve, wraps it into an operator, and caches it.
 
-        private CurveFactory _curveFactory;
-
-        private void InitializeCurveWishes(IContext context)
-        {
-            _curveFactory = ServiceFactory.CreateCurveFactory(context);
-        }
-
         // Overloads with NodeInfo
 
         /// <inheritdoc cref="_createcurve" />
