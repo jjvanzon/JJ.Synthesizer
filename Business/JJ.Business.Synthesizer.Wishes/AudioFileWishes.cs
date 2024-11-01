@@ -18,7 +18,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
-using System.Runtime.InteropServices.ComTypes;
+
 // ReSharper disable UseObjectOrCollectionInitializer
 
 // ReSharper disable AccessToModifiedClosure
@@ -37,8 +37,22 @@ namespace JJ.Business.Synthesizer.Wishes
         public int FrameCount { get; set; }
     }
 
-    //public class SaveAudioResult : Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)>
-    //{ }
+    public class SaveAudioResultData
+    {
+        /// <param name="bytes">Nullable</param>
+        public SaveAudioResultData(
+            AudioFileOutput audioFileOutput, byte[] bytes, TimeSpan calculationTimeSpan)
+        {
+            AudioFileOutput = audioFileOutput ?? throw new ArgumentNullException(nameof(audioFileOutput));
+            Bytes = bytes;
+            CalculationTimeSpan = calculationTimeSpan;
+        }
+
+        public AudioFileOutput AudioFileOutput { get; }
+        /// <summary> Nullable. Only supplied when writeToMemory is true. </summary>
+        public byte[] Bytes { get; }
+        public TimeSpan CalculationTimeSpan { get; }
+    }
 
     // AudioFileWishes SynthWishes
 
@@ -60,12 +74,12 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="_saveorplay" />
-        public Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> SaveAudio(
+        public Result<SaveAudioResultData> SaveAudio(
             Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
             => _saveAudioWishes.SaveAudio(func, default, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
-        public Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> SaveAudio(
+        public Result<SaveAudioResultData> SaveAudio(
             Func<Outlet> func, bool writeToMemory, [CallerMemberName] string callerMemberName = null)
             => _saveAudioWishes.SaveAudio(func, writeToMemory, callerMemberName);
 
@@ -78,7 +92,7 @@ namespace JJ.Business.Synthesizer.Wishes
             public SaveAudioWishes(SynthWishes synthWishes) => x = synthWishes;
 
             /// <inheritdoc cref="_saveorplay" />
-            public Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> SaveAudio(
+            public Result<SaveAudioResultData> SaveAudio(
                 Func<Outlet> func, bool mustWriteToMemory = false, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
@@ -108,12 +122,12 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="_saveorplay" />
-            internal Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> 
+            internal Result<SaveAudioResultData> 
                 SaveAudio(IList<Outlet> channelInputs, string name)
                 => SaveAudioBase(channelInputs, name, default);
 
             /// <inheritdoc cref="_saveorplay" />
-            internal Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> 
+            internal Result<SaveAudioResultData> 
                 SaveAudioBase(IList<Outlet> channelInputs, string name, bool mustWriteToMemory)
             {
                 // Process Parameters
@@ -139,7 +153,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutput.TimeMultiplier = 1;
                 audioFileOutput.Duration = x.AudioLength.Calculate();
                 audioFileOutput.FilePath = x.FormatAudioFileName(name, x.AudioFormat);
-                ;
+                
                 audioFileOutput.SetSampleDataTypeEnum(x.BitDepth);
                 audioFileOutput.SetAudioFileFormatEnum(x.AudioFormat);
                 audioFileOutput.Name = name;
@@ -177,36 +191,30 @@ namespace JJ.Business.Synthesizer.Wishes
                 #endif
 
                 // Calculate
-                Stopwatch stopWatch;
-                var calculator = CreateAudioFileOutputCalculator(audioFileOutput);
                 byte[] bytes = null;
-
+                var calculator = CreateAudioFileOutputCalculator(audioFileOutput);
+                
                 if (mustWriteToMemory)
                 {
                     bytes = new byte[audioFileOutput.GetFileLengthNeeded()];
-                    var stream = new MemoryStream(bytes);
-                    new AudioFileOutputCalculatorAccessor(calculator)._stream = stream;
-                    stopWatch = Stopwatch.StartNew();
-                    calculator.Execute();
-                    stopWatch.Stop();
+                    new AudioFileOutputCalculatorAccessor(calculator)._stream = new MemoryStream(bytes);
                 }
-                else
-                { 
-                    stopWatch = Stopwatch.StartNew();
-                    calculator.Execute();
-                    stopWatch.Stop();
-                }
-
+                
+                var stopWatch = Stopwatch.StartNew();
+                calculator.Execute();
+                stopWatch.Stop();
+                TimeSpan calculationTimeSpan = stopWatch.Elapsed;
+                
                 // Report
-
+                
                 // Get Info
-                var channelStrings = new List<string>();
+                var stringifiedChannels = new List<string>();
                 int complexity = 0;
 
                 foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
                 {
                     string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
-                    channelStrings.Add(stringify);
+                    stringifiedChannels.Add(stringify);
 
                     int stringifyLines = CountLines(stringify);
                     complexity += stringifyLines;
@@ -216,20 +224,20 @@ namespace JJ.Business.Synthesizer.Wishes
                 var lines = new List<string>();
 
                 lines.Add("");
-                lines.Add(GetPrettyTitle(name));
+                lines.Add(GetPrettyTitle(audioFileOutput.Name ?? audioFileOutput.FilePath));
                 lines.Add("");
 
-                string realTimeMessage = FormatRealTimeMessage(x.AudioLength.Value, stopWatch);
+                string realTimeMessage = FormatRealTimeMessage(audioFileOutput.Duration, calculationTimeSpan);
                 string sep = realTimeMessage != default ? " | " : "";
                 lines.Add($"{realTimeMessage}{sep}Complexity Ｏ ( {complexity} )");
                 lines.Add("");
 
-                lines.Add($"Calculation time: {PrettyTimeSpan(stopWatch.Elapsed)}");
+                lines.Add($"Calculation time: {PrettyTimeSpan(calculationTimeSpan)}");
                 lines.Add("Audio length: " + PrettyTimeSpan(TimeSpan.FromSeconds(audioFileOutput.Duration)));
 
                 // Sum up audio properties
                 lines.AddRange(samplingRateResult.ValidationMessages.Select(m => m.Text));
-                lines[lines.Count - 1] += $" | {x.BitDepth} | {speakerSetupEnum}";
+                lines[lines.Count - 1] += $" | {audioFileOutput.GetSampleDataTypeEnum()} | {audioFileOutput.GetSpeakerSetupEnum()}";
 
                 lines.Add("");
 
@@ -242,7 +250,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 for (var i = 0; i < audioFileOutput.AudioFileOutputChannels.Count; i++)
                 {
-                    var channelString = channelStrings[i];
+                    var channelString = stringifiedChannels[i];
 
                     lines.Add($"Calculation Channel {i + 1}:");
                     lines.Add("");
@@ -257,9 +265,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.ForEach(Console.WriteLine);
 
                 // Return
-                return new Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)>
+                return new Result<SaveAudioResultData>
                 {
-                    Data = (audioFileOutput, bytes),
+                    Data = new  SaveAudioResultData(audioFileOutput, bytes, calculationTimeSpan),
                     ValidationMessages = lines.ToCanonical()
                 };
             }
@@ -405,7 +413,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return result;
             }
 
-            private static string FormatRealTimeMessage(double duration, Stopwatch stopWatch)
+            private static string FormatRealTimeMessage(double duration, TimeSpan calculationTimeSpan)
             {
                 var isRunningInTooling = ToolingHelper.IsRunningInTooling;
                 if (isRunningInTooling.Data)
@@ -416,7 +424,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return default;
                 }
 
-                double realTimePercent = duration / stopWatch.Elapsed.TotalSeconds * 100;
+                double realTimePercent = duration / calculationTimeSpan.TotalSeconds * 100;
 
                 string realTimeStatusGlyph;
                 if (realTimePercent < 100)

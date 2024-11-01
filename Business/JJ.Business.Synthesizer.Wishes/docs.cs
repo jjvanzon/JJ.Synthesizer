@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _samplingrateoverride;
 
         /// <summary>
-        /// Outputs audio to a WAV file and plays it if needed.<br />
+        /// Outputs audio in WAV file format and plays it if needed.<br />
         /// A single <see cref="Outlet" /> will result in Mono audio.<br />
         /// Use a func returning an <see cref="Outlet" /> e.g. <c> SaveAudio(() => MySound()); </c> <br />
         /// For Stereo it must return a new outlet each time.<br />

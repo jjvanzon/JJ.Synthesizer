@@ -8,7 +8,8 @@ using JJ.Business.CanonicalModel;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using System.Media;
-using JJ.Framework.IO;
+using static JJ.Business.Synthesizer.Wishes.docs;
+// ReSharper disable once ParameterHidesMember
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -24,29 +25,26 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
+            /// <inheritdoc cref="_saveorplay" />
         private PlayWishes _playWishes;
 
-        private void InitializePlayWishes()
-        {
-            _playWishes = new PlayWishes(this);
-        }
+        private void InitializePlayWishes() => _playWishes = new PlayWishes(this);
 
-        public Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> Play(
+        /// <inheritdoc cref="_saveorplay" />
+        public Result<SaveAudioResultData> Play(
             Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             => _playWishes.Play(outletFunc, callerMemberName);
 
+            /// <inheritdoc cref="_saveorplay" />
         private class PlayWishes
         {
             private SynthWishes x;
 
-            public PlayWishes(SynthWishes synthWishes)
-            {
-                x = synthWishes;
-            }
+            /// <inheritdoc cref="_saveorplay" />
+            public PlayWishes(SynthWishes synthWishes) => x = synthWishes;
 
             /// <inheritdoc cref="_saveorplay" />
-            public Result<(AudioFileOutput AudioFileOutput, byte[] Bytes)> Play(
-                Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
+            public Result<SaveAudioResultData> Play(Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
 
@@ -56,9 +54,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     (outletFunc, x.AudioLength) = AddPadding(outletFunc, x.AudioLength);
 
                     var saveResult = x.SaveAudio(outletFunc, name);
-
                     var playResult = PlayIfAllowed(saveResult.Data);
-
                     var result = saveResult.Combine(playResult);
 
                     return result;
@@ -74,7 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 audioLength = audioLength ?? x._[1];
 
-                FluentOutlet audioLength2 = x.Add(audioLength, ConfigHelper.PlayLeadingSilence + ConfigHelper.PlayTrailingSilence);
+                FluentOutlet audioLength2 = audioLength + ConfigHelper.PlayLeadingSilence + ConfigHelper.PlayTrailingSilence;
 
                 if (ConfigHelper.PlayLeadingSilence == 0)
                 {
@@ -86,7 +82,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return (func2, audioLength2);
             }
 
-            public Result PlayIfAllowed((AudioFileOutput AudioFileOutput, byte[] Bytes) data)
+            public Result PlayIfAllowed(SaveAudioResultData data)
             {
                 var lines = new List<string>();
 
