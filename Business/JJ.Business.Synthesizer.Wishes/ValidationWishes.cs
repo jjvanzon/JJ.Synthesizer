@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
+using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 
@@ -254,29 +255,40 @@ namespace JJ.Business.CanonicalModel
 
         // Assert
         
-        public static void Assert(this CanonicalModel.Result result)
+        public static void Assert<TData>(this CanonicalModel.Result<TData> result)
         {
-            if (result == null) throw new ArgumentNullException(nameof(result));
-            Assert(result.ValidationMessages);
-        }
-
-        public static void Assert(this IList<CanonicalModel.ValidationMessage> validationMessages)
-        {
-            if (validationMessages == null) throw new ArgumentNullException(nameof(validationMessages));
-            Assert(validationMessages.Select(x => x.Text).ToArray());
-        }
-
-        public static void Assert(this IList<string> messages)
-        {
-            if (messages == null) throw new ArgumentNullException(nameof(messages));
-
-            if (messages.Count != 0)
+            if (result == null) throw new NullException(() => result);
+            if (result.Data == null) throw new NullException(() => result.Data);
+            if (!result.Successful)
             {
-                string formattedMessages = string.Join(Environment.NewLine, messages);
+                string formattedMessages = Format(result.ValidationMessages);
                 throw new Exception(formattedMessages);
             }
         }
         
+        public static void Assert(this CanonicalModel.Result result)
+        {
+            if (result == null) throw new ArgumentNullException(nameof(result));
+            if (!result.Successful)
+            {
+                string formattedMessages = Format(result.ValidationMessages);
+                throw new Exception(formattedMessages);
+            }
+        }
+
+        public static string Format(this IList<CanonicalModel.ValidationMessage> validationMessages)
+        {
+            if (validationMessages == null) throw new ArgumentNullException(nameof(validationMessages));
+            return Format(validationMessages.Select(x => x.Text).ToArray());
+        }
+
+        public static string Format(this IList<string> messages)
+        {
+            if (messages == null) throw new ArgumentNullException(nameof(messages));
+            string formattedMessages = string.Join(Environment.NewLine, messages);
+            return formattedMessages;
+        }
+
         // Combine
 
         public static CanonicalModel.Result<Data> Combine<Data>(
