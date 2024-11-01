@@ -18,6 +18,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
+using JJ.Framework.Reflection;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
@@ -208,8 +209,35 @@ namespace JJ.Business.Synthesizer.Wishes
                 stopWatch.Stop();
                 TimeSpan calculationTimeSpan = stopWatch.Elapsed;
                 
+
+                // Result
+                var result = new Result<SaveAudioResultData>
+                {
+                    Successful = true,
+                    ValidationMessages = warnings.ToCanonical(),
+                    Data = new  SaveAudioResultData(audioFileOutput, bytes, calculationTimeSpan)
+                };
+
                 // Report
+                var reportLines = GetReport(result);
+                reportLines.ForEach(Console.WriteLine);
+
+                return result;
+            }
+
+            private static List<string> GetReport(Result<SaveAudioResultData> saveAudioResult)
+            {
+                if (saveAudioResult == null) throw new NullException(() => saveAudioResult);
                 
+                saveAudioResult.Assert();
+                
+                return GetReport(saveAudioResult.Data.AudioFileOutput,
+                                 saveAudioResult.Data.CalculationTimeSpan,
+                                 saveAudioResult.ValidationMessages.Select(x => x.Text).ToArray());
+            }
+
+            private static List<string> GetReport(AudioFileOutput audioFileOutput, TimeSpan calculationTimeSpan, IList<string> warnings)
+            {
                 // Get Info
                 var stringifiedChannels = new List<string>();
                 int complexity = 0;
@@ -261,15 +289,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add($"Output file: {Path.GetFullPath(audioFileOutput.FilePath)}");
                 lines.Add("");
 
-                // Write Lines
-                lines.ForEach(Console.WriteLine);
-
-                // Return
-                return new Result<SaveAudioResultData>
-                {
-                    Data = new  SaveAudioResultData(audioFileOutput, bytes, calculationTimeSpan),
-                    ValidationMessages = lines.ToCanonical()
-                };
+                return lines;
             }
 
             private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum)
