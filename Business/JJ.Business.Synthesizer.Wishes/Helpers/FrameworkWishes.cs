@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using static System.Environment;
 
@@ -62,17 +63,17 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return $"{totalNanoseconds:0.00} ns";
         }
         
-        public static string PrettyByteCount(int byteCount)
+        public static string PrettyByteCount(long byteCount)
         {
-            const double KB = 1024;
-            const double MB = KB * 1024;
+            const double kB = 1024;
+            const double MB = kB * 1024;
             const double GB = MB * 1024;
 
-            if (byteCount >= GB) return $"{byteCount / GB:0.00} GB";
-            if (byteCount >= MB) return $"{byteCount / MB:0.00} MB";
-            if (byteCount >= KB) return $"{byteCount / KB:0.00} kB";
-    
-            return $"{byteCount} bytes";
+            if (byteCount < 10 * kB) return $"{byteCount} bytes";
+            if (byteCount < 10 * MB) return $"{byteCount / kB:0} kB";
+            if (byteCount < 10 * GB) return $"{byteCount / MB:0} MB";
+            
+            return $"{byteCount / GB:0} GB";
         }
     }
     
