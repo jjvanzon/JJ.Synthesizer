@@ -13,8 +13,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet NoteDuration => _[2.5];
 
         /// <inheritdoc cref="_default" />
-        FluentOutlet Echo(FluentOutlet sound) 
-            => EchoParallel(sound, 4, magnitude: _[0.33], _[0.66]);
+        FluentOutlet Echo(FluentOutlet sound) => EchoParallel(sound, 4, magnitude: _[0.33], _[0.66]);
 
         /// <inheritdoc cref="_metallophone" />
         public AdditiveTests() : base(beat: 0.4, bar: 1.6) => Mono();
