@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text;
 using static System.Environment;
 
@@ -69,9 +68,9 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             const double MB = kB * 1024;
             const double GB = MB * 1024;
 
-            if (byteCount < 10 * kB) return $"{byteCount} bytes";
-            if (byteCount < 10 * MB) return $"{byteCount / kB:0} kB";
-            if (byteCount < 10 * GB) return $"{byteCount / MB:0} MB";
+            if (byteCount <= 5 * kB) return $"{byteCount} bytes";
+            if (byteCount <= 5 * MB) return $"{byteCount / kB:0} kB";
+            if (byteCount <= 5 * GB) return $"{byteCount / MB:0} MB";
             
             return $"{byteCount / GB:0} GB";
         }
