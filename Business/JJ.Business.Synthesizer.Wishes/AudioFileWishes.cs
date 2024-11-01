@@ -19,15 +19,19 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Framework.Reflection;
+// ReSharper disable ParameterHidesMember
 
 // ReSharper disable UseObjectOrCollectionInitializer
-
 // ReSharper disable AccessToModifiedClosure
 // ReSharper disable once PossibleLossOfFraction
+// ReSharper disable once InvokeAsExtensionMethod
+
 #pragma warning disable IDE0028
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    // Info Types
+    
     /// <inheritdoc cref="_audiofileinfowish"/>
     public class AudioFileInfoWish
     {
@@ -40,15 +44,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public class SaveAudioResultData
     {
-
         public AudioFileOutput AudioFileOutput { get; }
         /// <summary> Nullable. Only supplied when writeToMemory is true. </summary>
         public byte[] Bytes { get; }
         public TimeSpan CalculationTimeSpan { get; }
 
         /// <param name="bytes">Nullable</param>
-        public SaveAudioResultData(
-            AudioFileOutput audioFileOutput, byte[] bytes, TimeSpan calculationTimeSpan)
+        public SaveAudioResultData(AudioFileOutput audioFileOutput, byte[] bytes, TimeSpan calculationTimeSpan)
         {
             AudioFileOutput = audioFileOutput ?? throw new ArgumentNullException(nameof(audioFileOutput));
             Bytes = bytes;
@@ -61,13 +63,11 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveAudioResultData> SaveAudio(
-            Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
+        public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, [CallerMemberName] string callerMemberName = null)
             => _saveAudioWishes.SaveAudio(func, default, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveAudioResultData> SaveAudio(
-            Func<Outlet> func, bool writeToMemory, [CallerMemberName] string callerMemberName = null)
+        public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, bool writeToMemory, [CallerMemberName] string callerMemberName = null)
             => _saveAudioWishes.SaveAudio(func, writeToMemory, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
@@ -113,8 +113,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 => SaveAudioBase(channelInputs, name, default);
 
             /// <inheritdoc cref="_saveorplay" />
-            internal Result<SaveAudioResultData> 
-                SaveAudioBase(IList<Outlet> channelInputs, string name, bool mustWriteToMemory)
+            internal Result<SaveAudioResultData> SaveAudioBase(IList<Outlet> channelInputs, string name, bool mustWriteToMemory)
             {
                 // Process Parameters
                 if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
@@ -277,6 +276,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 return lines;
             }
 
+            // Helpers
+            
             private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum)
             {
                 // Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
@@ -451,11 +452,8 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
     
-    
     public static class AudioFileExtensionWishes
     {
-        // Derived Fields
-
         public static int SizeOf(Type sampleDataType)
         {
             if (sampleDataType == typeof(Byte)) return 1;
