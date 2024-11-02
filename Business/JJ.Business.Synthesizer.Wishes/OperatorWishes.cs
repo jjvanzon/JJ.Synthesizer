@@ -333,13 +333,12 @@ namespace JJ.Business.Synthesizer.Wishes
             // h[g * c]
             if (!h.IsMultiply)
             {
-                throw new Exception("h is not a multiplication");
+                throw new Exception("h is not a multiplication.");
             }
 
-            // Wrapper trick!
-            var hWrapper = new Multiply(h.Outlet.Operator);
-            var g = _[hWrapper.OperandA];
-            var c = _[hWrapper.OperandB];
+            // Grab its operands.
+            var g = h.A;
+            var c = h.B;
             // We now have g and c!
 
             // And we want g to be an addition.
@@ -354,11 +353,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 return h;
             }
 
-            // Wrapper trick!
-            var gWrapper = new Add(g.Outlet.Operator);
-            var f = _[gWrapper.OperandA];
-            var b = _[gWrapper.OperandB];
-            // We now have f and b
+            // Grab the operands.
+            var f = g.A;
+            var b = g.B;
+            // We now have f and b.
 
             // Now we want f to be a multiplication again.
             // f[x * a] + b
@@ -372,13 +370,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 return h;
             }
 
-            // We found the structure:
+            // We found the structure!
             // h[g[f[x * a] + b] * c]
 
-            // Wrapper trick!
-            var fWrapper = new Multiply(f.Outlet.Operator);
-            var x = _[fWrapper.OperandA];
-            var a = _[fWrapper.OperandB];
+            // Grab some operands again!
+            var x = f.A;
+            var a = f.B;
             // We now have x and a!
 
             // Switch if switched

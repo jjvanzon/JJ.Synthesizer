@@ -63,7 +63,7 @@
     <Compile Include="Helpers\ToolingHelper.cs" />
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
-    <Compile Include="Helpers\RelatedObjectWishes.cs" />
+    <Compile Include="RelatedObjectWishes.cs" />
     <Compile Include="ParallelWishes.cs" />
     <Compile Include="PlayWishes.cs" />
     <Compile Include="SampleWishes.cs" />

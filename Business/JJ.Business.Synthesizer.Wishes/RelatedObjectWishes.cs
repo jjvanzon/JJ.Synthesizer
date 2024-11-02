@@ -2,6 +2,8 @@
 using JJ.Persistence.Synthesizer;
 using System;
 using JJ.Framework.Reflection;
+using System.Linq;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -31,8 +33,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FluentOutlet
     {
-        // Related Object
-
         /// <inheritdoc cref="_getsample" />
         public Sample GetSample() => _this.GetSample();
 
@@ -44,5 +44,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="_getcurvewrapper"/>
         public CurveInWrapper GetCurveWrapper() => _this.GetCurveWrapper();
+
+        public FluentOutlet A => _[Outlet.Operator?.Inlets.ElementAtOrDefault(0)?.Input];
+        public FluentOutlet B => _[Outlet.Operator?.Inlets.ElementAtOrDefault(1)?.Input];
     }
 }
