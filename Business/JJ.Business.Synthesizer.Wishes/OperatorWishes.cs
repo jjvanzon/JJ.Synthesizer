@@ -12,9 +12,10 @@ using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 using static JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-
+// ReSharper disable LocalVariableHidesMember
 // ReSharper disable AssignmentInsteadOfDiscard
 // ReSharper disable ParameterHidesMember
+// ReSharper disable RedundantAssignment
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -241,7 +242,7 @@ namespace JJ.Business.Synthesizer.Wishes
     }
     
     // Multiply SynthWishes
-    
+
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_multiply"/>
@@ -250,7 +251,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Reverse operands increasing likelihood to have a 0-valued (volume) curve first.
             (a, b) = (b, a);
 
-            // Flatten Nested Sums
+            // Flatten Nested Products
             IList<Outlet> flattenedFactors = FlattenFactors(a, b);
 
             return Multiply(flattenedFactors);
@@ -281,12 +282,121 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 case 2:
                     // Simple Multiply for 2 Operands
-                    return _[_operatorFactory.Multiply(factors2[0], factors2[1])];
+                    var multiply = _[_operatorFactory.Multiply(factors2[0], factors2[1])];
+
+                    // Fancy math optimization for stuff like:
+                    // ((sin * 0.8) + 1) * 2000 => sin * (0.8 * 2000) + (1 * 2000)
+                    multiply = TryOptimizeMultiplicationByDistributionOverAddition(multiply);
+
+                    return multiply;
 
                 default:
                     // Re-nest remaining factors
                     return _[NestMultiplications(factors2)];
             }
+        }
+
+        /// <param name="h">Is a multiplication operation.</param>
+        private FluentOutlet TryOptimizeMultiplicationByDistributionOverAddition(FluentOutlet h)
+        {
+            // Example:
+            // ((sin * 0.8) + 1) * 2000 => sin * (0.8 * 2000) + (1 * 2000)
+
+            // This kind of pattern occurs a lot, so it might be worth optimizing.
+            // It'll eliminate the outer multiplication if I pre-compute the constants.
+
+            // More generally:
+            //
+            // ((x * a) + b) * c => x * (a * c) + (b * c)
+            //
+            // (Where a, b and c are constants.)
+
+            // If I can find the operations and the constants,
+            // I can transform the expression.
+
+            // Source formula:
+            // ((x * a) + b) * c
+
+            // With function names f, g, and h:
+            // h[g[f[x * a] + b] * c]
+
+            // f is a multiplication
+            // g is an addition
+            // h is a multiplication again
+
+            // one of f's factors is variable.
+            // the others are all constant.
+
+            // I have to analyse from outward to inward.
+
+            // Ensure h is a multiplication.
+            // h[g * c]
+            if (!h.IsMultiply)
+            {
+                throw new Exception("h is not a multiplication");
+            }
+
+            // Wrapper trick!
+            var hWrapper = new Multiply(h.Outlet.Operator);
+            var g = _[hWrapper.OperandA];
+            var c = _[hWrapper.OperandB];
+            // We now have g and c!
+
+            // And we want g to be an addition.
+            // g[f + b] * c
+
+            // Switch if switched
+            if (g.IsConst && c.IsAdd) (g, c) = (c, g);
+
+            // So ensure g is addition and c constant.
+            if (!g.IsAdd || !c.IsConst)
+            {
+                return h;
+            }
+
+            // Wrapper trick!
+            var gWrapper = new Add(g.Outlet.Operator);
+            var f = _[gWrapper.OperandA];
+            var b = _[gWrapper.OperandB];
+            // We now have f and b
+
+            // Now we want f to be a multiplication again.
+            // f[x * a] + b
+
+            // Switch if switched
+            if (f.IsConst && b.IsMultiply) (f, b) = (b, f);
+
+            // Yeah, ensure f is multiply and b is const.
+            if (!f.IsMultiply || !b.IsConst)
+            {
+                return h;
+            }
+
+            // We found the structure:
+            // h[g[f[x * a] + b] * c]
+
+            // Wrapper trick!
+            var fWrapper = new Multiply(f.Outlet.Operator);
+            var x = _[fWrapper.OperandA];
+            var a = _[fWrapper.OperandB];
+            // We now have x and a!
+
+            // Switch if switched
+            if (x.IsConst) (x, a) = (a, x);
+
+            // We're going to assume x is a function,
+            // otherwise a constant should have been precalculated long ago.
+
+            // We now have all our elements resting in variables,
+            // so we can do our calculation:
+            // ((x * a) + b) * c => x * (a * c) + (b * c)
+
+            var l = x * (a.Value * c.Value) + (b.Value * c.Value);
+
+            Console.WriteLine("Multiplication distributed over addition:");
+            Console.WriteLine($"{h.Stringify(true)} => {l.Stringify(true)}");
+
+            return l;
         }
 
         /// <inheritdoc cref="_multiply"/>
@@ -403,7 +513,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (a == null) throw new ArgumentNullException(nameof(a));
             if (b == null) throw new ArgumentNullException(nameof(b));
-            
+
             double? constA = a.AsConst();
             double? constB = b.AsConst();
 
@@ -423,10 +533,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 double fraction = 1 / constB.Value;
                 return Multiply(a, fraction);
             }
-            else
-            {
-                return _[_operatorFactory.Divide(a, b)];
-            }
+            
+            return _[_operatorFactory.Divide(a, b)];
         }
 
         public FluentOutlet Divide(Outlet a, double b) => Divide(a, _[b]);
