@@ -6,11 +6,10 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
-using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.docs;
+// ReSharper disable ParameterHidesMember
 
 namespace JJ.Business.Synthesizer.Wishes
 {

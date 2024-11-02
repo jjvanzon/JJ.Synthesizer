@@ -466,15 +466,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_ParallelAdd_WithConstSignal_WithPreviewPartials()
         {
-            WithParallelEnabled();
-            
             // Arrange
+            WithParallelEnabled();
+            WithPreviewParallels();
+
             var duration = 0.1;
 
             // Act
-
-            WithPreviewParallels();
-            
             var adder = WithAudioLength(duration).ParallelAdd
             (
                 // Values higher than 1 seem to be clipped.

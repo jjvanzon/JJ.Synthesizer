@@ -22,6 +22,8 @@ namespace JJ.Business.Synthesizer.Wishes
             x.AddAudioLength(additionalLength);
             return this;
         }
+
+        // TODO: Add members from SynthWishes
     }
 
     // Fluent Configuration SynthWishes
