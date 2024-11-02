@@ -201,9 +201,30 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public FluentOutlet Subtract(Outlet a, Outlet b) => _[_operatorFactory.Substract(a, b)];
-        public FluentOutlet Subtract(Outlet a, double b) => _[_operatorFactory.Substract(a, _[b])];
-        public FluentOutlet Subtract(double a, Outlet b) => _[_operatorFactory.Substract(_[a], b)];
+        public FluentOutlet Subtract(Outlet a, Outlet b)
+        {
+            if (a == null) throw new ArgumentNullException(nameof(a));
+            if (b == null) throw new ArgumentNullException(nameof(b));
+            
+            double? constA = a.AsConst();
+            double? constB = b.AsConst();
+            
+            if (constA.HasValue & constB.HasValue)
+            {
+                return _[constA.Value - constB.Value];
+            }
+            else if (constB.HasValue && constB.Value == 0) // a - 0 = a
+            {
+                return _[a];
+            }
+            else
+            {
+                return _[_operatorFactory.Substract(a, b)];
+            }
+        }
+
+        public FluentOutlet Subtract(Outlet a, double b) => Subtract(a, _[b]);
+        public FluentOutlet Subtract(double a, Outlet b) => Subtract(_[a], b);
         public FluentOutlet Minus(Outlet a, Outlet b) => Subtract(a, b);
         public FluentOutlet Minus(Outlet a, double b) => Subtract(a, b);
         public FluentOutlet Minus(double a, Outlet b) => Subtract(a, b);
@@ -378,7 +399,36 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public FluentOutlet Divide(Outlet a, Outlet b) => _[_operatorFactory.Divide(a, b)];
+        public FluentOutlet Divide(Outlet a, Outlet b)
+        {
+            if (a == null) throw new ArgumentNullException(nameof(a));
+            if (b == null) throw new ArgumentNullException(nameof(b));
+            
+            double? constA = a.AsConst();
+            double? constB = b.AsConst();
+
+            if (constA.HasValue && constB.HasValue)
+            {
+                // Pre-calculate
+                return _[constA.Value / constB.Value];
+            }
+            else if (constB == 1) // a / 1 = a
+            {
+                // Identity 1
+                return _[a];
+            }
+            else if (constB.HasValue) // a / 4 = a * 1/4 = faster
+            {
+                // Replace division by multiplication
+                double fraction = 1 / constB.Value;
+                return Multiply(a, fraction);
+            }
+            else
+            {
+                return _[_operatorFactory.Divide(a, b)];
+            }
+        }
+
         public FluentOutlet Divide(Outlet a, double b) => Divide(a, _[b]);
         public FluentOutlet Divide(double a, Outlet b) => Divide(_[a], b);
     }
