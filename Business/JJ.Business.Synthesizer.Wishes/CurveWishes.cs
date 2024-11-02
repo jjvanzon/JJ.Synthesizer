@@ -55,7 +55,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_createcurve" />
         public FluentOutlet Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
         {
-            //string name = FetchName(callerMemberName, GetCallerNameFromStack());
             string name = FetchName(callerMemberName);
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos));
             AssignNames(wrapper, name);
@@ -65,7 +64,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_createcurve" />
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
         {
-            //string name = FetchName(GetCallerNameFromStack());
             string name = FetchName();
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos));
             AssignNames(wrapper, name);
@@ -77,7 +75,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_createcurve" />
         public FluentOutlet Curve(params double?[] values)
         {
-            //string name = FetchName(GetCallerNameFromStack());
             string name = FetchName();
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values));
             AssignNames(wrapper, name);
@@ -91,7 +88,6 @@ namespace JJ.Business.Synthesizer.Wishes
             IList<(double time, double value)> nodeTuples, 
             [CallerMemberName] string callerMemberName = null)
         {
-            //string name = FetchName(callerMemberName, GetCallerNameFromStack());
             string name = FetchName(callerMemberName);
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples));
             AssignNames(wrapper, name);
@@ -101,7 +97,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_createcurvewithtuples" />
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
         {
-            //string name = FetchName(GetCallerNameFromStack());
             string name = FetchName();
             var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples));
             AssignNames(wrapper, name);
@@ -110,9 +105,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
         
-        //[MethodImpl(MethodImplOptions.NoInlining)]
-        //private string GetCallerNameFromStack() => new StackFrame(2).GetMethod().Name;
-
         private void AssignNames(CurveInWrapper wrapper, string name)
         {
             wrapper.Curve.Name = name;
