@@ -332,75 +332,65 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Ensure h is a multiplication.
             // h[g * c]
-            if (!h.IsMultiply)
+            if (h.IsMultiply)
             {
-                throw new Exception("h is not a multiplication.");
+                // Grab the operands
+                var g = h.A;
+                var c = h.B;
+
+                // And we want g to be an addition.
+                // g[f + b] * c
+
+                // Switch if switched
+                if (g.IsConst && c.IsAdd) (g, c) = (c, g);
+
+                // So ensure g is addition and c constant.
+                if (g.IsAdd && c.IsConst)
+                {
+                    // Grab its operands
+                    var f = g.A;
+                    var b = g.B;
+
+                    // Now we want f to be a multiplication again.
+                    // f[x * a] + b
+
+                    // Switch if switched
+                    if (f.IsConst && b.IsMultiply) (f, b) = (b, f);
+
+                    // Yeah, ensure f is multiply and b is const.
+                    if (f.IsMultiply && b.IsConst)
+                    {
+                        // Grab its operands
+                        var x = f.A;
+                        var a = f.B;
+
+                        // Switch if switched
+                        if (x.IsConst) (x, a) = (a, x);
+
+                        // A also has to be a constant
+                        if (x.IsVar && a.IsConst)
+                        {
+                            // We found the structure!
+                            // h[g[f[x * a] + b] * c]
+
+                            // We now have all our elements resting in variables,
+                            // so we can do our calculation:
+                            // ((x * a) + b) * c => x * (a * c) + (b * c)
+
+                            var l = x * (a.Value * c.Value) + (b.Value * c.Value);
+
+                            Console.Write($"Distribute * over + :{NewLine}{NewLine}" +
+                                          $"{h.Stringify()}{NewLine}" +
+                                          $"=>{NewLine}" +
+                                          $"{l.Stringify()}{NewLine}{NewLine}");
+
+                            return l;
+                        }
+                    }
+                }
             }
 
-            // Grab its operands.
-            var g = h.A;
-            var c = h.B;
-
-            // And we want g to be an addition.
-            // g[f + b] * c
-
-            // Switch if switched
-            if (g.IsConst && c.IsAdd) (g, c) = (c, g);
-
-            // So ensure g is addition and c constant.
-            if (!g.IsAdd || !c.IsConst)
-            {
-                return h;
-            }
-
-            // Grab the operands.
-            var f = g.A;
-            var b = g.B;
-
-            // Now we want f to be a multiplication again.
-            // f[x * a] + b
-
-            // Switch if switched
-            if (f.IsConst && b.IsMultiply) (f, b) = (b, f);
-
-            // Yeah, ensure f is multiply and b is const.
-            if (!f.IsMultiply || !b.IsConst)
-            {
-                return h;
-            }
-
-            // We found the structure!
-            // h[g[f[x * a] + b] * c]
-
-            // Grab some operands again!
-            var x = f.A;
-            var a = f.B;
-
-            // Switch if switched
-            if (x.IsConst) (x, a) = (a, x);
-
-            // A also has to be a constant
-            if (!a.IsConst)
-            {
-                return h;
-            }
-
-            // We're going to assume x is a function,
-            // otherwise a constant should have been precalculated long ago.
-            //if (!x.IsVar) ...
-
-            // We now have all our elements resting in variables,
-            // so we can do our calculation:
-            // ((x * a) + b) * c => x * (a * c) + (b * c)
-
-            var l = x * (a.Value * c.Value) + (b.Value * c.Value);
-
-            Console.Write($"Distribute * over + :{NewLine}{NewLine}" +
-                          $"{h.Stringify()}{NewLine}" +
-                          $"=>{NewLine}" +
-                          $"{l.Stringify()}{NewLine}{NewLine}");
-                
-            return l;
+            return h;
         }
 
         /// <inheritdoc cref="_multiply"/>
