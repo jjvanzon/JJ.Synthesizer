@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return words.Any(x => name.IndexOf(x, ToStringComparison(ignoreCase)) >= 0);
         }
 
-        private static StringComparison ToStringComparison(bool ignoreCase) 
+        public static StringComparison ToStringComparison(this bool ignoreCase) 
             => ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
         public static string PrettyDuration(double durationInSeconds) => PrettyTimeSpan(TimeSpan.FromSeconds(durationInSeconds));
@@ -105,6 +105,15 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             return source.Select(selector).Sum();
         }
+
+        public static bool Contains(this IList<string> source, string match, bool ignoreCase = false)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            StringComparison stringComparison = ignoreCase.ToStringComparison();
+
+            return source.Any(x => (x ?? "").Equals(match, stringComparison));
+        }
     }
 
     /// <inheritdoc cref="_trygetsection"/>
@@ -145,7 +154,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         private readonly string _tabString;
         private readonly string _enter;
-        private int tabCount;
+        private int _tabCount;
 
         public StringBuilderWithIndentation()
             : this("  ", Environment.NewLine)
@@ -170,15 +179,15 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         private void AppendTabs()
         {
-            for (int i = 0; i < tabCount; i++)
+            for (int i = 0; i < _tabCount; i++)
             {
                 _sb.Append(_tabString);
             }
         }
 
-        public void Outdent() => tabCount--;
+        public void Outdent() => _tabCount--;
 
-        public void Indent() => tabCount++;
+        public void Indent() => _tabCount++;
 
         public override string ToString() => _sb.ToString();
     }

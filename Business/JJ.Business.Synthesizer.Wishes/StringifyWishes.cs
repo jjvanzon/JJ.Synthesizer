@@ -1,19 +1,21 @@
 ﻿using System;
+using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+
 using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // StringifyWishes
+    // Stringify FluentOutlet
     
-    // FluentOutlet
-
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_stringify"/>
-        public string Stringify(bool singleLine = false) => _this.Stringify(singleLine);
+        public string Stringify(bool singleLine = false, bool mustUseShortOperators = false) 
+            => _this.Stringify(singleLine, mustUseShortOperators);
     }
 
     // Stringify Extensions
@@ -23,75 +25,85 @@ namespace JJ.Business.Synthesizer.Wishes
         // Operators
 
         /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this Outlet entity, bool singleLine = false)
-            => new OperatorStringifier().StringifyRecursive(entity, singleLine);
+        public static string Stringify(this Outlet entity, bool singleLine = false, bool mustUseShortOperators = false)
+            => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
 
         /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this Operator entity, bool singleLine = false)
-            => new OperatorStringifier().StringifyRecursive(entity, singleLine);
+        public static string Stringify(this Operator entity, bool singleLine = false, bool mustUseShortOperators = false)
+            => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
 
         /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this Inlet entity, bool singleLine = false)
-            => new OperatorStringifier().StringifyRecursive(entity, singleLine);
+        public static string Stringify(this Inlet entity, bool singleLine = false, bool mustUseShortOperators = false)
+            => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
 
         /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this OperatorWrapperBase wrapper, bool singleLine = false)
+        public static string Stringify(this OperatorWrapperBase wrapper, bool singleLine = false, bool mustUseShortOperators = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier().StringifyRecursive(wrapper.Operator, singleLine);
+            return new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(wrapper.Operator);
         }
 
         /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this SampleOperatorWrapper wrapper, bool singleLine = false)
+        public static string Stringify(this SampleOperatorWrapper wrapper, bool singleLine = false, bool mustUseShortOperators = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier().StringifyRecursive(wrapper.Result, singleLine);
+            return new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(wrapper.Result);
         }
 
         /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this CurveInWrapper wrapper, bool singleLine = false)
+        public static string Stringify(this CurveInWrapper wrapper, bool singleLine = false, bool mustUseShortOperators = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier().StringifyRecursive(wrapper.Result, singleLine);
+            return new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(wrapper.Result);
         }
     }
+
+    // Stringifier
 
     /// <inheritdoc cref="_stringify"/>
     internal class OperatorStringifier
     {
+        private readonly bool _singleLine;
+        private readonly bool _mustUseShortOperators;
         private StringBuilderWithIndentation _sb;
+
+        public OperatorStringifier(bool singleLine = false, bool mustUseShortOperators = false)
+        {
+            _singleLine = singleLine;
+            _mustUseShortOperators = mustUseShortOperators;
+        }
 
         // Entry Points
 
         /// <inheritdoc cref="_stringify"/>
-        public string StringifyRecursive(Operator entity, bool singleLine = false)
+        public string StringifyRecursive(Operator entity)
         {
-            _sb = CreateStringBuilder(singleLine);
+            _sb = CreateStringBuilder();
             BuildStringRecursive(entity);
-            return _sb.ToString();
+            return RemoveOuterBraces(_sb.ToString());
         }
 
         /// <inheritdoc cref="_stringify"/>
-        public string StringifyRecursive(Inlet entity, bool singleLine = false)
+        public string StringifyRecursive(Inlet entity)
         {
-            _sb = CreateStringBuilder(singleLine);
+            _sb = CreateStringBuilder();
             BuildStringRecursive(entity);
-            return _sb.ToString();
+            return RemoveOuterBraces(_sb.ToString());
         }
 
         /// <inheritdoc cref="_stringify"/>
-        public string StringifyRecursive(Outlet outlet, bool singleLine = false)
+        public string StringifyRecursive(Outlet outlet)
         {
-            _sb = CreateStringBuilder(singleLine);
+            _sb = CreateStringBuilder();
             BuildStringRecursive(outlet);
-            return _sb.ToString();
+            return RemoveOuterBraces(_sb.ToString());
         }
 
         // Create StringBuilder
 
-        private StringBuilderWithIndentation CreateStringBuilder(bool singleLine)
+        private StringBuilderWithIndentation CreateStringBuilder()
         {
-            if (singleLine)
+            if (_singleLine)
             {
                 return new StringBuilderWithIndentation("", "");
             }
@@ -108,33 +120,40 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private void BuildStringRecursive(Operator op)
         {
+            bool mustIncludeName = MustIncludeName(op);
+            int filledInletCount = GetFilledInletCount(op);
+            char separator = GetSeparator(op);
+
             if (op.IsConst())
             {
                 _sb.Append(op.AsConst());
                 return;
             }
 
-            _sb.Append(FormatName(op));
+            if (mustIncludeName)
+            {
+                _sb.Append(FormatName(op));
+            }
 
-            if (op.Inlets.Count != 0)
+            if (filledInletCount != 0)
             {
                 _sb.Append('(');
             }
 
-            for (var i = 0; i < op.Inlets.Count; i++)
+            for (var i = 0; i < filledInletCount; i++)
             {
                 Inlet inlet = op.Inlets[i];
 
                 BuildStringRecursive(inlet);
 
-                int isLast = op.Inlets.Count - 1;
+                int isLast = filledInletCount - 1;
                 if (i != isLast)
                 {
-                    _sb.Append(',');
+                    _sb.Append(separator);
                 }
             }
 
-            if (op.Inlets.Count != 0)
+            if (filledInletCount != 0)
             {
                 _sb.Append(')');
             }
@@ -158,6 +177,39 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
  
+        // Operator Notation
+        
+        //private static readonly string[] _simpleArithmeticOperatorNames =
+        //    { "Add", "Substract", "Multiply", "Divide" };
+
+        //private static bool IsSimpleArithmetic(Operator op) 
+        //    => _simpleArithmeticOperatorNames.Contains(op.OperatorTypeName);
+
+        private bool MustIncludeName(Operator op) => !CanUseShortNotation(op);
+
+        private char GetSeparator(Operator op)
+        {
+            if (!CanUseShortNotation(op)) return ',';
+
+            if (op.IsAdd()) return '+';
+            if (op.IsSubtract()) return '-';
+            if (op.IsMultiply()) return '*';
+            if (op.IsDivide()) return '/';
+
+            return ',';
+        }
+
+        private bool CanUseShortNotation(Operator op)
+        {
+            if (!_mustUseShortOperators) return false;
+            if (op.IsAdd() || op.IsSubtract()) return true;
+            if (op.IsMultiply() || op.IsDivide()) return op.Origin() == null;
+            return false;
+        }
+
+        /// <summary> Returns the amount of inlets filled in, leaving out the last ones not filled in. </summary>
+        private int GetFilledInletCount(Operator op) => op.Inlets.TakeWhile(x => x.Input != null).Count();
+
         // Name Formatting
         
         private static readonly string[] _curveSynonyms = { "Curve", "Envelope", "Bend" };
@@ -183,5 +235,19 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return formattedName;
         }
+        
+        // Other Helpers
+        
+        private static string RemoveOuterBraces(string str)
+        {
+            // Cut away outer braces
+            if (str.StartsWith("(") && str.EndsWith(")"))
+            {
+                str = str.CutLeft(1).CutRight(1);
+            }
+
+            return str;
+        }
+
     }
 }

@@ -11,7 +11,7 @@
                 text += $"{obj.Calculate()} = ";
             }
 
-            text += $"{obj.Stringify(true)} {{ {obj.GetType().Name} }}";
+            text += $"{obj.Stringify(true, true)} {{ {obj.GetType().Name} }}";
 
             return text;
         }
