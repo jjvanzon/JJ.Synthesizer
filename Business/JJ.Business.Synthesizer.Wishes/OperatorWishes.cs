@@ -390,14 +390,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
             var l = x * (a.Value * c.Value) + (b.Value * c.Value);
 
-            Console.WriteLine("Multiplication distributed over addition:");
-            Console.WriteLine("");
-            Console.WriteLine(h.Stringify());
-            Console.WriteLine("");
-            Console.WriteLine("=>");
-            Console.WriteLine("");
-            Console.WriteLine(l.Stringify());
-            Console.WriteLine("");
+            Console.Write($"Distribute * over + :{NewLine}{NewLine}" +
+                          $"{h.Stringify()}{NewLine}" +
+                          $"=>{NewLine}" +
+                          $"{l.Stringify()}{NewLine}{NewLine}");
 
             return l;
         }
