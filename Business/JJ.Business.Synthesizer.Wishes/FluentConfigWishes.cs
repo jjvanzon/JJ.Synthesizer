@@ -28,18 +28,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        // PreviewParallels
-        
-        /// <inheritdoc cref="_withpreviewparallels"/>
-        public bool PreviewParallels { get; private set; }
-
-        /// <inheritdoc cref="_withpreviewparallels"/>
-        public SynthWishes WithPreviewParallels()
-        {
-            PreviewParallels = true;
-            return this;
-        }
-
         // AudioLength
 
         private FluentOutlet _audioLength;
@@ -166,7 +154,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
         
-        // ParallelEnabled
+        // Parallel Options
 
         private bool? _parallelEnabled;
 
@@ -177,5 +165,33 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         private bool ParallelEnabled => _parallelEnabled ?? ConfigHelper.ParallelEnabled;
+        
+        /// <inheritdoc cref="_withpreviewparallels"/>
+        public SynthWishes WithPreviewParallels(bool mustPreviewParallels = true)
+        {
+            WithPlayParallels(mustPreviewParallels);
+            WithSaveParallels(mustPreviewParallels);
+            return this;
+        }
+        
+        /// <inheritdoc cref="_withpreviewparallels"/>
+        public bool MustPlayParallels { get; private set; }
+
+        /// <inheritdoc cref="_withpreviewparallels"/>
+        public SynthWishes WithPlayParallels(bool mustPlayParallels = true)
+        {
+            MustPlayParallels = mustPlayParallels;
+            return this;
+        }
+
+        /// <inheritdoc cref="_withpreviewparallels"/>
+        public bool MustSaveParallels { get; private set; }
+
+        /// <inheritdoc cref="_withpreviewparallels"/>
+        public SynthWishes WithSaveParallels(bool mustSaveParallels = true)
+        {
+            MustSaveParallels = mustSaveParallels;
+            return this;
+        }
     }
 }

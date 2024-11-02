@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Flute_Melody1_RunTest()
         {
-            WithPreviewParallels().Play(() => MildEcho(FluteMelody1) * 0.6);
+            WithPlayParallels().Play(() => MildEcho(FluteMelody1) * 0.6);
         }
 
         [TestMethod]

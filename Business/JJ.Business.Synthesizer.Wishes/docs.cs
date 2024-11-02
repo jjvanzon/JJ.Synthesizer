@@ -483,6 +483,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// When PreviewParallels is set, ParallelAdd plays the sounds generated in the parallel loop,
         /// and the samples are reloaded from the files and played again, all for testing purposes.
         /// Also, doesn't clean up the files. Also for testing purposes.
+        /// Can also be controlled through the two separate options WithPlayParallels and WithSaveParallels.
         /// </summary>
         public static object _withpreviewparallels;
     }

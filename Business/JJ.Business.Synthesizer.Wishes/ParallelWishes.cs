@@ -13,6 +13,7 @@ using static System.Guid;
 using static System.Linq.Enumerable;
 // ReSharper disable ParameterHidesMember
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -56,11 +57,9 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Return a normal Add of the Outlets returned by the funcs.
                     return volume * x.Add(funcs.Select(x => x()).ToArray());
                 }
-                                
+                
                 // Set flags based on 'preview parallels'.
-                bool mustPlayParallels = x.PreviewParallels;
-                bool mustSaveParallels = x.PreviewParallels;
-                bool inMemory = !mustSaveParallels;
+                bool inMemory = !x.MustSaveParallels;
 
                 // Prep variables
                 int termCount = funcs.Count;
@@ -104,7 +103,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         saveAudioResults[i] = saveAudioResult;
                         
                         // Play if needed
-                        if (mustPlayParallels)
+                        if (x.MustPlayParallels)
                         { 
                             x._playWishes.PlayIfAllowed(saveAudioResult.Data);
                         }
@@ -114,9 +113,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
                 finally
                 {
-                    // Code unreachable:
-                    // They were never saved, so they don't need to be cleaned up.
-                    if (!inMemory && !mustSaveParallels) 
+                    // Clean up files
+                    if (!inMemory && !x.MustSaveParallels) 
                     {
                         for (var j = 0; j < names.Length; j++)
                         {
@@ -148,15 +146,15 @@ namespace JJ.Business.Synthesizer.Wishes
                         reloadedSamples[i] = x.Sample(names[i]);
                         
                         // Save reloaded samples again.
-                        if (mustSaveParallels)
+                        if (x.MustSaveParallels)
                         {
                             var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
-                            saveAudioResult = x.SaveAudio(reloadedSampleRepeated, names[i] + "_Reloaded.wav", mustWriteToMemory: false);
+                            var saveAudioResult2 = x.SaveAudio(reloadedSampleRepeated, names[i] + "_Reloaded.wav", mustWriteToMemory: false);
+                            
+                            // Play to test the sample loading.
+                            if (x.MustPlayParallels) x._playWishes.PlayIfAllowed(saveAudioResult2.Data);
                         }
                     }
-                    
-                    // Play to test the sample loading.
-                    if (mustPlayParallels) x._playWishes.PlayIfAllowed(saveAudioResult.Data);
                 }
                 
                 stopWatch.Stop();
