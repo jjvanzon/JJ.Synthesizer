@@ -232,17 +232,23 @@ namespace JJ.Business.Synthesizer.Wishes
             // Flatten Nested Sums
             IList<Outlet> flattenedFactors = FlattenFactors(a, b);
 
-            // Consts
-            IList<Outlet> vars = flattenedFactors.Where(y => y.IsVar()).ToArray();
-            double constant = flattenedFactors.Product(y => y.AsConst() ?? 1);
+            return Multiply(flattenedFactors);
+        }
 
-            IList<Outlet> factors = new List<Outlet>(vars);
+        /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Multiply(IList<Outlet> factors)
+        {
+            // Consts
+            IList<Outlet> vars = factors.Where(y => y.IsVar()).ToArray();
+            double constant = factors.Product(y => y.AsConst() ?? 1);
+
+            IList<Outlet> factors2 = new List<Outlet>(vars);
             if (constant != 1) // Skip Identity 1
             {
-                factors.Add(_[constant]);
+                factors2.Add(_[constant]);
             }
 
-            switch (factors.Count)
+            switch (factors2.Count)
             {
                 case 0:
                     // Return identity 1
@@ -250,15 +256,15 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 case 1:
                     // Return single number
-                    return _[factors[0]];
+                    return _[factors2[0]];
 
                 case 2:
                     // Simple Multiply for 2 Operands
-                    return _[_operatorFactory.Multiply(factors[0], factors[1])];
+                    return _[_operatorFactory.Multiply(factors2[0], factors2[1])];
 
                 default:
                     // Re-nest remaining factors
-                    return _[NestMultiplications(factors)];
+                    return _[NestMultiplications(factors2)];
             }
         }
 
@@ -267,11 +273,19 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Multiply(double a, Outlet b) => Multiply(_[a], b);
         /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Multiply(params Outlet[] factors) => Multiply((IList<Outlet>)factors);
+
+        /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Times(Outlet a, Outlet b) => Multiply(a, b);
         /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Times(Outlet a, double b) => Multiply(a, b);
         /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Times(double a, Outlet b) => Multiply(a, b);
+        /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Times(IList<Outlet> factors) => Multiply(factors);
+        /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Times(params Outlet[] factors) => Multiply((IList<Outlet>)factors);
+        
         /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Volume(Outlet a, Outlet b) => Multiply(a, b);
         /// <inheritdoc cref="_multiply"/>
@@ -340,10 +354,20 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Multiply(Outlet b) => x.Multiply(_this, b);
         /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Multiply(double b) => x.Multiply(_this, b);
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Multiply(IList<Outlet> factors) => x.Multiply(new[] { _this }.Concat(factors).ToArray());
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Multiply(params Outlet[] factors) => x.Multiply(new[] { _this }.Concat(factors).ToArray());
+        
         /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Times(Outlet b) => Multiply(b);
         /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Times(double b) => Multiply(b);
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Times(IList<Outlet> factors) => Multiply(factors);
+        /// <inheritdoc cref="_add"/>
+        public FluentOutlet Times(params Outlet[] factors) => Multiply(factors);
+        
         /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Volume(Outlet b) => Multiply(b);
         /// <inheritdoc cref="_multiply"/>
