@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Mono Extensions
             {
-                AudioFileOutput audioFileOutputMono = Mono().SaveAudio(() => Sine()).Data.AudioFileOutput;
+                AudioFileOutput audioFileOutputMono = Mono().Save(() => Sine()).Data.AudioFileOutput;
                 IsNotNull(() => audioFileOutputMono);
                 IsNotNull(() => audioFileOutputMono.SpeakerSetup);
                 AreEqual(SpeakerSetupEnum.Mono, () => audioFileOutputMono.SpeakerSetup.ToEnum());
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Stereo Extensions
             {
-                AudioFileOutput audioFileOutputStereo = Stereo().SaveAudio(() => Sine()).Data.AudioFileOutput;
+                AudioFileOutput audioFileOutputStereo = Stereo().Save(() => Sine()).Data.AudioFileOutput;
                 IsNotNull(() => audioFileOutputStereo);
                 IsNotNull(() => audioFileOutputStereo.SpeakerSetup);
                 AreEqual(SpeakerSetupEnum.Stereo, () => audioFileOutputStereo.SpeakerSetup.ToEnum());
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Wav Extensions
             {
-                AudioFileOutput audioFileOutputWav = AsWav().SaveAudio(() => Sine()).Data.AudioFileOutput;
+                AudioFileOutput audioFileOutputWav = AsWav().Save(() => Sine()).Data.AudioFileOutput;
                 IsNotNull(() => audioFileOutputWav);
                 IsNotNull(() => audioFileOutputWav.AudioFileFormat);
                 AreEqual(".wav", () => audioFileOutputWav.AudioFileFormat.GetFileExtension());
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Raw Extensions
             {
-                AudioFileOutput audioFileOutputRaw = AsRaw().SaveAudio(() => Sine()).Data.AudioFileOutput;
+                AudioFileOutput audioFileOutputRaw = AsRaw().Save(() => Sine()).Data.AudioFileOutput;
                 IsNotNull(() => audioFileOutputRaw);
                 IsNotNull(() => audioFileOutputRaw.AudioFileFormat);
                 AreEqual(".raw", () => audioFileOutputRaw.AudioFileFormat.GetFileExtension());
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             //// AudioFileOutputChannel Extensions for Missing Model Properties
             //{
             //    // Arrange
-            //    AudioFileOutput audioFileOutputMono = SaveAudio(() => Sine(), speakerSetupEnum: Mono).Data;
+            //    AudioFileOutput audioFileOutputMono = Save(() => Sine(), speakerSetupEnum: Mono).Data;
             //    IsNotNull(  () => audioFileOutputMono);
             //    IsNotNull(  () => audioFileOutputMono.AudioFileOutputChannels);
             //    AreEqual(1, () => audioFileOutputMono.AudioFileOutputChannels.Count);
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             //}
             //{
             //    // Arrange
-            //    AudioFileOutput audioFileOutputStereo = SaveAudio(() => Sine(), speakerSetupEnum: Stereo).Data;
+            //    AudioFileOutput audioFileOutputStereo = Save(() => Sine(), speakerSetupEnum: Stereo).Data;
             //    IsNotNull(  () => audioFileOutputStereo);
             //    IsNotNull(  () => audioFileOutputStereo.AudioFileOutputChannels);
             //    AreEqual(2, () => audioFileOutputStereo.AudioFileOutputChannels.Count);

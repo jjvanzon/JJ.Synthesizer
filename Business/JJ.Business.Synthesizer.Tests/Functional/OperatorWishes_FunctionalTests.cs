@@ -297,7 +297,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var sound    = Multiply(Sine(G4), envelope);
             var echoes = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
 
-            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").SaveAudio(() => sound);
+            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
             WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => echoes);
         }
 
@@ -312,7 +312,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var sound    = Multiply(Sine(B4), envelope);
             var echoes = EchoAdditive(sound, count: 16, magnitude: 0.66, delay: 0.25);
 
-            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").SaveAudio(() => sound);
+            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
             WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => echoes);
         }
 
@@ -337,9 +337,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var echoes = EchoAdditive(sound, count: 16, magnitude, delay);
 
-            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").SaveAudio(() => sound);
-            WithAudioLength(4.0).WithName(MemberName() + "_Magnitude.wav").SaveAudio(() => magnitude);
-            WithAudioLength(4.0).WithName(MemberName() + "_Delay.wav").SaveAudio(() => delay);
+            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
+            WithAudioLength(4.0).WithName(MemberName() + "_Magnitude.wav").Save(() => magnitude);
+            WithAudioLength(4.0).WithName(MemberName() + "_Delay.wav").Save(() => delay);
             WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => echoes);
         }
 
@@ -354,7 +354,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var sound    = Multiply(Sine(F5), envelope);
             var echoes = EchoFeedBack(sound, count: 16, magnitude: 0.66, delay: 0.25);
 
-            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").SaveAudio(() => sound);
+            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
             WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => echoes);
         }
 
@@ -379,9 +379,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var echoes = EchoFeedBack(sound, count: 16, magnitude, delay);
 
-            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").SaveAudio(() => sound);
-            WithAudioLength(4.5).WithName(MemberName() + "_Magnitude.wav").SaveAudio(() => magnitude);
-            WithAudioLength(4.5).WithName(MemberName() + "_Delay.wav").SaveAudio(() => delay);
+            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
+            WithAudioLength(4.5).WithName(MemberName() + "_Magnitude.wav").Save(() => magnitude);
+            WithAudioLength(4.5).WithName(MemberName() + "_Delay.wav").Save(() => delay);
             WithAudioLength(4.5).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => echoes);
         }
     }

@@ -53,8 +53,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // OperatorWishes.SynthesizerSugar.Panning Dynamic_InvalidChannelEnum
             ThrowsException(() => Panning(Sine(), Curve((0, 0), (0, 1))));
 
-            // AudioFileWishes.SynthesizerSugar.SaveAudio SpeakerSetupNotSupported
-            ThrowsException(() => WithSpeakerSetup(SpeakerSetupEnum.Undefined).SaveAudio(() => Sine()));
+            // AudioFileWishes.SynthesizerSugar.Save SpeakerSetupNotSupported
+            ThrowsException(() => WithSpeakerSetup(SpeakerSetupEnum.Undefined).Save(() => Sine()));
 
             // AudioFileWishes.Extensions.GetChannelCount SpeakerSetupNotSupported
             ThrowsException(() => SpeakerSetupEnum.Undefined.GetChannelCount());
@@ -182,7 +182,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported
             {
                 string fileName = NameHelper.MemberName() + "_AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported.wav";
-                WithName(fileName).SaveAudio(() => Sine());
+                WithName(fileName).Save(() => Sine());
                 AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(Context);
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
                 audioFileOutput.FilePath = fileName;

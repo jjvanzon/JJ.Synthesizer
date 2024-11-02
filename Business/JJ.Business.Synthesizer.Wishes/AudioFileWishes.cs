@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public int FrameCount { get; set; }
     }
 
-    public class SaveAudioResultData
+    public class SaveResultData
     {
         public AudioFileOutput AudioFileOutput { get; }
         /// <summary> Nullable. Only supplied when writeToMemory is true. </summary>
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public int Complexity { get; set; }
 
         /// <param name="bytes">Nullable</param>
-        public SaveAudioResultData(AudioFileOutput audioFileOutput, byte[] bytes, double calculationDuration)
+        public SaveResultData(AudioFileOutput audioFileOutput, byte[] bytes, double calculationDuration)
         {
             AudioFileOutput = audioFileOutput ?? throw new ArgumentNullException(nameof(audioFileOutput));
             Bytes = bytes;
@@ -62,31 +62,31 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
-            => _saveAudioWishes.SaveAudio(func, mustWriteToMemory, name, callerMemberName);
+        public Result<SaveResultData> Save(Func<Outlet> func, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
+            => _saveWishes.Save(func, mustWriteToMemory, name, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
-            => _saveAudioWishes.SaveAudio(func, mustWriteToMemory, name, callerMemberName);
+        public Result<SaveResultData> Save(Func<Outlet> func, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
+            => _saveWishes.Save(func, mustWriteToMemory, name, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
-        internal Result<SaveAudioResultData> SaveAudio(IList<Outlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
-            => _saveAudioWishes.SaveAudio(channelInputs, mustWriteToMemory, name, callerMemberName);
+        internal Result<SaveResultData> Save(IList<Outlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
+            => _saveWishes.Save(channelInputs, mustWriteToMemory, name, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
-        internal Result<SaveAudioResultData> SaveAudio(IList<Outlet> channelInputs, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
-            => _saveAudioWishes.SaveAudio(channelInputs, mustWriteToMemory, name, callerMemberName);
+        internal Result<SaveResultData> Save(IList<Outlet> channelInputs, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
+            => _saveWishes.Save(channelInputs, mustWriteToMemory, name, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
-        private class SaveAudioWishes
+        private class SaveWishes
         {
             private readonly SynthWishes x;
 
             /// <inheritdoc cref="_saveorplay" />
-            public SaveAudioWishes(SynthWishes synthWishes) => x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+            public SaveWishes(SynthWishes synthWishes) => x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
 
             /// <inheritdoc cref="_saveorplay" />
-            public Result<SaveAudioResultData> SaveAudio(Func<Outlet> func, bool mustWriteToMemory = false, string name = null, [CallerMemberName] string callerMemberName = null)
+            public Result<SaveResultData> Save(Func<Outlet> func, bool mustWriteToMemory = false, string name = null, [CallerMemberName] string callerMemberName = null)
             {
                 name = x.FetchName(name, callerMemberName);
 
@@ -97,12 +97,12 @@ namespace JJ.Business.Synthesizer.Wishes
                     {
                         case SpeakerSetupEnum.Mono:
                             x.Center(); var monoOutlet = func();
-                            return SaveAudio(new[] { monoOutlet }, mustWriteToMemory, name);
+                            return Save(new[] { monoOutlet }, mustWriteToMemory, name);
 
                         case SpeakerSetupEnum.Stereo:
                             x.Left(); var leftOutlet = func();
                             x.Right(); var rightOutlet = func();
-                            return SaveAudio(new[] { leftOutlet, rightOutlet }, mustWriteToMemory, name);
+                            return Save(new[] { leftOutlet, rightOutlet }, mustWriteToMemory, name);
                         
                         default:
                             throw new ValueNotSupportedException(x.SpeakerSetup);
@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="_saveorplay" />
-            internal Result<SaveAudioResultData> SaveAudio(IList<Outlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
+            internal Result<SaveResultData> Save(IList<Outlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
             {
                 name = x.FetchName(name, callerMemberName);
 
@@ -198,11 +198,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
                 // Result
-                var result = new Result<SaveAudioResultData>
+                var result = new Result<SaveResultData>
                 {
                     Successful = true,
                     ValidationMessages = warnings.ToCanonical(),
-                    Data = new  SaveAudioResultData(audioFileOutput, bytes, calculationDuration)
+                    Data = new  SaveResultData(audioFileOutput, bytes, calculationDuration)
                 };
 
                 // Report
@@ -213,7 +213,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return result;
             }
 
-            private List<string> GetReport(Result<SaveAudioResultData> result, out int complexity)
+            private List<string> GetReport(Result<SaveResultData> result, out int complexity)
             {
                 ResultWishes.Assert(result);
 

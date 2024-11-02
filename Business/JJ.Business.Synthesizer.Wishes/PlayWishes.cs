@@ -26,11 +26,11 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveAudioResultData> SaveAndPlay(Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
+        public Result<SaveResultData> SaveAndPlay(Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             => _playWishes.Play(outletFunc, mustWriteToMemory: false, callerMemberName);
         
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveAudioResultData> Play(Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
+        public Result<SaveResultData> Play(Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             => _playWishes.Play(outletFunc, mustWriteToMemory: true, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes
             public PlayWishes(SynthWishes synthWishes) => x = synthWishes;
 
             /// <inheritdoc cref="_saveorplay" />
-            public Result<SaveAudioResultData> Play(Func<Outlet> outletFunc, bool mustWriteToMemory, [CallerMemberName] string callerMemberName = null)
+            public Result<SaveResultData> Play(Func<Outlet> outletFunc, bool mustWriteToMemory, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
 
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     (outletFunc, x.AudioLength) = AddPadding(outletFunc, x.AudioLength);
 
-                    var saveResult = x.SaveAudio(outletFunc, name, mustWriteToMemory);
+                    var saveResult = x.Save(outletFunc, name, mustWriteToMemory);
                     var playResult = PlayIfAllowed(saveResult.Data);
                     var result = saveResult.Combine(playResult);
 
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return (func2, audioLength2);
             }
 
-            public Result PlayIfAllowed(SaveAudioResultData data)
+            public Result PlayIfAllowed(SaveResultData data)
             {
                 var lines = new List<string>();
 

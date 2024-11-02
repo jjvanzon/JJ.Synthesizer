@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 int channelCount = x.SpeakerSetup.GetChannelCount();
                 string[] names = GetParallelNames(termCount, name);
                 string[] displayNames = names.Select(x => x.WithShortGuids(4)).ToArray();
-                var saveAudioResults = new Result<SaveAudioResultData>[termCount];
+                var saveResults = new Result<SaveResultData>[termCount];
                 var reloadedSamples = new Outlet[termCount];
                 var outlets = new Outlet[termCount][];
                 for (int i = 0; i < termCount; i++)
@@ -99,13 +99,13 @@ namespace JJ.Business.Synthesizer.Wishes
                         }
 
                         // Generate audio
-                        var saveAudioResult = x.SaveAudio(outlets[i], names[i], inMemory);
-                        saveAudioResults[i] = saveAudioResult;
+                        var saveResult = x.Save(outlets[i], names[i], inMemory);
+                        saveResults[i] = saveResult;
                         
                         // Play if needed
                         if (x.MustPlayParallels)
                         { 
-                            x._playWishes.PlayIfAllowed(saveAudioResult.Data);
+                            x._playWishes.PlayIfAllowed(saveResult.Data);
                         }
 
                         Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
@@ -118,12 +118,12 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Reload Samples
                     for (int i = 0; i < termCount; i++)
                     {
-                        var saveAudioResult = saveAudioResults[i];
+                        var saveResult = saveResults[i];
                     
                         if (inMemory)
                         { 
                             // Read from bytes
-                            reloadedSamples[i] = x.Sample(saveAudioResult.Data.Bytes);
+                            reloadedSamples[i] = x.Sample(saveResult.Data.Bytes);
                         }
                         else
                         {
@@ -134,10 +134,10 @@ namespace JJ.Business.Synthesizer.Wishes
                             if (x.MustSaveParallels)
                             {
                                 var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
-                                var saveAudioResult2 = x.SaveAudio(reloadedSampleRepeated, names[i] + "_Reloaded.wav", mustWriteToMemory: false);
+                                var saveResult2 = x.Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav", mustWriteToMemory: false);
                             
                                 // Play to test the sample loading.
-                                if (x.MustPlayParallels) x._playWishes.PlayIfAllowed(saveAudioResult2.Data);
+                                if (x.MustPlayParallels) x._playWishes.PlayIfAllowed(saveResult2.Data);
                             }
                         }
                     }
@@ -160,9 +160,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 stopWatch.Stop();
 
                 // Report total real-time and complexity metrics.
-                double audioDuration = saveAudioResults.Max(x => x.Data.AudioFileOutput.Duration);
+                double audioDuration = saveResults.Max(x => x.Data.AudioFileOutput.Duration);
                 double calculationDuration = stopWatch.Elapsed.TotalSeconds;
-                int complexity = saveAudioResults.Sum(x => x.Data.Complexity);
+                int complexity = saveResults.Sum(x => x.Data.Complexity);
                 string formattedMetrics = x.FormatMetrics(audioDuration, calculationDuration, complexity);
                 string message = $"Totals {name} Terms: {formattedMetrics}";
                 Console.WriteLine(message);

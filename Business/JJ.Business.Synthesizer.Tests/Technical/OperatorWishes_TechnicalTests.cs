@@ -369,7 +369,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
             
-            Mono().WithAudioLength(duration).SaveAudio(() => add);
+            Mono().WithAudioLength(duration).Save(() => add);
         }
 
         [TestMethod]
