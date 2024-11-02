@@ -153,7 +153,19 @@ namespace JJ.Business.Synthesizer.Wishes
             SamplingRateOverride = value;
             return this;
         }
+
+        // In-Memory Processing
+
+        private bool? _inMemoryProcessingEnabled;
+
+        public SynthWishes WithInMemoryProcessing(bool enabled = true)
+        {
+            _inMemoryProcessingEnabled = enabled;
+            return this;
+        }
         
+        public bool InMemoryProcessingEnabled => _inMemoryProcessingEnabled ?? ConfigHelper.InMemoryProcessing;
+
         // Parallel Options
 
         private bool? _parallelEnabled;

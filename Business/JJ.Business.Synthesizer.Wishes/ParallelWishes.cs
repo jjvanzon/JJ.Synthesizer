@@ -58,13 +58,12 @@ namespace JJ.Business.Synthesizer.Wishes
                     return volume * x.Add(funcs.Select(x => x()).ToArray());
                 }
                 
-                // Set flags based on 'preview parallels'.
-                bool inMemory = !x.MustSaveParallels;
+                bool inMemory = x.InMemoryProcessingEnabled &&  !x.MustSaveParallels;
 
                 // Prep variables
                 int termCount = funcs.Count;
                 int channelCount = x.SpeakerSetup.GetChannelCount();
-                string[] names = GetParallelAddNames(termCount, name);
+                string[] names = GetParallelNames(termCount, name);
                 string[] displayNames = names.Select(x => x.WithShortGuids(4)).ToArray();
                 var saveAudioResults = new Result<SaveAudioResultData>[termCount];
                 var reloadedSamples = new Outlet[termCount];
@@ -170,7 +169,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return x.Add(reloadedSamples);
             }
 
-            private string[] GetParallelAddNames(int count, string name)
+            private string[] GetParallelNames(int count, string name)
             {
                 string guidString = $"{NewGuid()}";
 

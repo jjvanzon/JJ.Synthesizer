@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public static double PlayLeadingSilence  => _section.PlayLeadingSilence  ?? 0.2;
         public static double PlayTrailingSilence => _section.PlayTrailingSilence ?? 0.2;
         public static bool   ParallelEnabled     => _section.ParallelEnabled     ?? true;
-        //public static bool   InMemoryProcessing  => _section.InMemoryProcessing  ?? true;
+        public static bool   InMemoryProcessing  => _section.InMemoryProcessing  ?? true;
 
         public static string LongRunningTestCategory
         {
