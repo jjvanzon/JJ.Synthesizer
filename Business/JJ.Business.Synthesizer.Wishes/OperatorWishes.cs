@@ -302,32 +302,32 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             // Example:
             // ((sin * 0.8) + 1) * 2000 => sin * (0.8 * 2000) + (1 * 2000)
-
-            // This kind of pattern occurs a lot, so it might be worth optimizing.
-            // It'll eliminate the outer multiplication if I pre-compute the constants.
-
+            //
+            // This kind of pattern occurs quite frequently, so it might be worth optimizing.
+            // It'll eliminate the outer multiplication when we pre-compute the constants.
+            //
             // More generally:
             //
             // ((x * a) + b) * c => x * (a * c) + (b * c)
             //
             // (Where a, b and c are constants.)
-
+            //
             // If I can find the operations and the constants,
             // I can transform the expression.
-
+            //
             // Source formula:
             // ((x * a) + b) * c
-
+            //
             // With function names f, g, and h:
             // h[g[f[x * a] + b] * c]
-
+            //
             // f is a multiplication
             // g is an addition
             // h is a multiplication again
-
+            //
             // one of f's factors is variable.
             // the others are all constant.
-
+            //
             // I have to analyse from outward to inward.
 
             // Ensure h is a multiplication.
@@ -340,7 +340,6 @@ namespace JJ.Business.Synthesizer.Wishes
             // Grab its operands.
             var g = h.A;
             var c = h.B;
-            // We now have g and c!
 
             // And we want g to be an addition.
             // g[f + b] * c
@@ -357,7 +356,6 @@ namespace JJ.Business.Synthesizer.Wishes
             // Grab the operands.
             var f = g.A;
             var b = g.B;
-            // We now have f and b.
 
             // Now we want f to be a multiplication again.
             // f[x * a] + b
@@ -377,13 +375,13 @@ namespace JJ.Business.Synthesizer.Wishes
             // Grab some operands again!
             var x = f.A;
             var a = f.B;
-            // We now have x and a!
 
             // Switch if switched
             if (x.IsConst) (x, a) = (a, x);
 
             // We're going to assume x is a function,
             // otherwise a constant should have been precalculated long ago.
+            //if (!x.IsVar) ...
 
             // We now have all our elements resting in variables,
             // so we can do our calculation:
