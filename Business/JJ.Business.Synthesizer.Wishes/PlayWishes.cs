@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet PlayMono(double volume = default)
         {
             x.Channel = ChannelEnum.Single;
-            x.Mono().Play(() => x.Multiply(_this, volume));
+            x.Mono().SaveAndPlay(() => x.Multiply(_this, volume));
             return this;
         }
     }
@@ -26,10 +26,14 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_saveorplay" />
+        public Result<SaveAudioResultData> SaveAndPlay(Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
+            => _playWishes.Play(outletFunc, mustWriteToMemory: false, callerMemberName);
+        
+        /// <inheritdoc cref="_saveorplay" />
         public Result<SaveAudioResultData> Play(Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
-            => _playWishes.Play(outletFunc, callerMemberName);
+            => _playWishes.Play(outletFunc, mustWriteToMemory: true, callerMemberName);
 
-            /// <inheritdoc cref="_saveorplay" />
+        /// <inheritdoc cref="_saveorplay" />
         private class PlayWishes
         {
             private SynthWishes x;
@@ -38,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes
             public PlayWishes(SynthWishes synthWishes) => x = synthWishes;
 
             /// <inheritdoc cref="_saveorplay" />
-            public Result<SaveAudioResultData> Play(Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
+            public Result<SaveAudioResultData> Play(Func<Outlet> outletFunc, bool mustWriteToMemory, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
 
@@ -47,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     (outletFunc, x.AudioLength) = AddPadding(outletFunc, x.AudioLength);
 
-                    var saveResult = x.SaveAudio(outletFunc, name);
+                    var saveResult = x.SaveAudio(outletFunc, name, mustWriteToMemory);
                     var playResult = PlayIfAllowed(saveResult.Data);
                     var result = saveResult.Combine(playResult);
 

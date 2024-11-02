@@ -223,25 +223,25 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Fluent_Notation1()
         {
-            Play(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+            SaveAndPlay(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
         }
 
         [TestMethod]
         public void Test_Fluent_Notation2()
         {
-            Play(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+            SaveAndPlay(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
         }
 
         [TestMethod]
         public void Test_Fluent_Notation3()
         {
-            Play(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+            SaveAndPlay(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
         }
         
         [TestMethod]
         public void Test_Fluent_Notation4()
         {
-            Play(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9));
+            SaveAndPlay(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9));
         }
 
         [TestMethod]
@@ -249,7 +249,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var freq = C4;
 
-            Play(() => Multiply
+            SaveAndPlay(() => Multiply
                  (
                      Add
                      (
@@ -297,7 +297,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             FluentOutlet freq = G5;
 
-            Play(() => Multiply
+            SaveAndPlay(() => Multiply
                  (
                      Add
                      (
@@ -346,9 +346,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var chain2 = Sine(A4).Times(Curve(0, 1, 0));
             var chain3 = Sine(B4) * Curve(0, 1, 0).Stretch(2);
              
-            Mono().Play(() => chain1);
-            Mono().Play(() => chain2);
-            Mono().WithAudioLength(2).Play(() => chain3);
+            Mono().SaveAndPlay(() => chain1);
+            Mono().SaveAndPlay(() => chain2);
+            Mono().WithAudioLength(2).SaveAndPlay(() => chain3);
         }
         
         [TestMethod]
@@ -530,7 +530,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 () => Sine(Value(freq.Value) * 3) * 0.7
             );
 
-            Mono().Play(() => added);
+            Mono().SaveAndPlay(() => added);
             
         }
         
@@ -553,7 +553,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 () => Sine(Value(freq.Value) * 3) * 0.7
             );
 
-            Mono().Play(() => added);
+            Mono().SaveAndPlay(() => added);
         }
     }
 }

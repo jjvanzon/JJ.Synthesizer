@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_vibrato" />
         void Vibrato_RunTest()
-            => WithAudioLength(2).Mono().Play(() => VibratoOverPitch(A4).Sine * Envelope.Stretch(2) * 0.9);
+            => WithAudioLength(2).Mono().SaveAndPlay(() => VibratoOverPitch(A4).Sine * Envelope.Stretch(2) * 0.9);
 
         /// <inheritdoc cref="_tremolo" />
         [TestMethod]
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="_tremolo" />
         void Tremolo_RunTest()
-            => WithAudioLength(2).Mono().Play(() => Sine(C5).Tremolo(4, 0.5) * Envelope.Stretch(2) * 0.3);
+            => WithAudioLength(2).Mono().SaveAndPlay(() => Sine(C5).Tremolo(4, 0.5) * Envelope.Stretch(2) * 0.3);
 
         // Panning Tests
 
@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double maxValueRight = panned.Calculate(time: 0.25 / (double)freq);
             double minValueRight = panned.Calculate(time: 0.75 / (double)freq);
 
-            Play(() => Panning(sine, panning) * Envelope);
+            SaveAndPlay(() => Panning(sine, panning) * Envelope);
 
             // Assert
             AssertHelper.AreEqual(0.75,  () => maxValueLeft);
@@ -174,7 +174,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 *
             *");
 
-            Stereo().Play(() => Panning(sine, panning));
+            Stereo().SaveAndPlay(() => Panning(sine, panning));
         }
 
         // Panbrello Tests
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Panbrello_DefaultSpeedAndDepth_RunTest()
         {
             var sound = Sine(A4) * Envelope;
-            Stereo().Play(() => Panbrello(sound));
+            Stereo().SaveAndPlay(() => Panbrello(sound));
         }
 
         [TestMethod]
@@ -194,7 +194,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
             var sound = Sine(C5) * Envelope;
-            Stereo().Play(() => Panbrello(sound, (speed: 2.0, depth: 0.75)));
+            Stereo().SaveAndPlay(() => Panbrello(sound, (speed: 2.0, depth: 0.75)));
         }
 
         [TestMethod]
@@ -220,7 +220,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                             *
                                 * *            ");
 
-            Stereo().Play(() => Panbrello(sound, (speed, depth)));
+            Stereo().SaveAndPlay(() => Panbrello(sound, (speed, depth)));
         }
 
         // PitchPan Tests
@@ -298,7 +298,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var echoes = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
 
             WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").SaveAudio(() => sound);
-            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").Play(() => echoes);
+            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => echoes);
         }
 
         [TestMethod]
@@ -313,7 +313,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var echoes = EchoAdditive(sound, count: 16, magnitude: 0.66, delay: 0.25);
 
             WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").SaveAudio(() => sound);
-            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").Play(() => echoes);
+            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => echoes);
         }
 
         [TestMethod]
@@ -340,7 +340,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").SaveAudio(() => sound);
             WithAudioLength(4.0).WithName(MemberName() + "_Magnitude.wav").SaveAudio(() => magnitude);
             WithAudioLength(4.0).WithName(MemberName() + "_Delay.wav").SaveAudio(() => delay);
-            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").Play(() => echoes);
+            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => echoes);
         }
 
         [TestMethod]
@@ -355,7 +355,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var echoes = EchoFeedBack(sound, count: 16, magnitude: 0.66, delay: 0.25);
 
             WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").SaveAudio(() => sound);
-            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").Play(() => echoes);
+            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => echoes);
         }
 
         [TestMethod]
@@ -382,7 +382,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").SaveAudio(() => sound);
             WithAudioLength(4.5).WithName(MemberName() + "_Magnitude.wav").SaveAudio(() => magnitude);
             WithAudioLength(4.5).WithName(MemberName() + "_Delay.wav").SaveAudio(() => delay);
-            WithAudioLength(4.5).WithName(MemberName() + "_Output.wav").Play(() => echoes);
+            WithAudioLength(4.5).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => echoes);
         }
     }
 }
