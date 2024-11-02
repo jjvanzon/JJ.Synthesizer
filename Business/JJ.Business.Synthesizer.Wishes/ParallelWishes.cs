@@ -58,7 +58,8 @@ namespace JJ.Business.Synthesizer.Wishes
                     return volume * x.Add(funcs.Select(x => x()).ToArray());
                 }
                 
-                bool inMemory = x.InMemoryProcessingEnabled &&  !x.MustSaveParallels;
+                bool inMemory = x.InMemoryProcessingEnabled && !x.MustSaveParallels;
+                bool onDisk = !inMemory;
 
                 // Prep variables
                 int termCount = funcs.Count;
@@ -109,11 +110,42 @@ namespace JJ.Business.Synthesizer.Wishes
 
                         Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
                     });
+                                    
+                    // TODO: Moved this out of the parallel loop,
+                    // for consistency with the preview parallels variation of the method.
+                    // But I feel odd about processing less in parallel...
+                
+                    // Reload Samples
+                    for (int i = 0; i < termCount; i++)
+                    {
+                        var saveAudioResult = saveAudioResults[i];
+                    
+                        if (inMemory)
+                        { 
+                            // Read from bytes
+                            reloadedSamples[i] = x.Sample(saveAudioResult.Data.Bytes);
+                        }
+                        else
+                        {
+                            // Read from file
+                            reloadedSamples[i] = x.Sample(names[i]);
+                        
+                            // Save reloaded samples again.
+                            if (x.MustSaveParallels)
+                            {
+                                var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
+                                var saveAudioResult2 = x.SaveAudio(reloadedSampleRepeated, names[i] + "_Reloaded.wav", mustWriteToMemory: false);
+                            
+                                // Play to test the sample loading.
+                                if (x.MustPlayParallels) x._playWishes.PlayIfAllowed(saveAudioResult2.Data);
+                            }
+                        }
+                    }
                 }
                 finally
                 {
                     // Clean up files
-                    if (!inMemory && !x.MustSaveParallels) 
+                    if (onDisk && !x.MustSaveParallels) 
                     {
                         for (var j = 0; j < names.Length; j++)
                         {
@@ -121,37 +153,6 @@ namespace JJ.Business.Synthesizer.Wishes
                             if (!File.Exists(filePath)) continue;
                             try { File.Delete(filePath); }
                             catch { /* Ignore file delete exception, so you can keep open file in apps.*/ }
-                        }
-                    }
-                }
-                
-                // TODO: Moved this out of the parallel loop,
-                // for consistency with the preview parallels variation of the method.
-                // But I feel odd about processing less in parallel...
-                
-                // Reload Samples
-                for (int i = 0; i < termCount; i++)
-                {
-                    var saveAudioResult = saveAudioResults[i];
-                    
-                    if (inMemory)
-                    { 
-                        // Read from bytes
-                        reloadedSamples[i] = x.Sample(saveAudioResult.Data.Bytes);
-                    }
-                    else
-                    {
-                        // Read from file
-                        reloadedSamples[i] = x.Sample(names[i]);
-                        
-                        // Save reloaded samples again.
-                        if (x.MustSaveParallels)
-                        {
-                            var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
-                            var saveAudioResult2 = x.SaveAudio(reloadedSampleRepeated, names[i] + "_Reloaded.wav", mustWriteToMemory: false);
-                            
-                            // Play to test the sample loading.
-                            if (x.MustPlayParallels) x._playWishes.PlayIfAllowed(saveAudioResult2.Data);
                         }
                     }
                 }
@@ -174,13 +175,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 string guidString = $"{NewGuid()}";
 
                 string sep = " ";
-                if (string.IsNullOrEmpty(name))  sep = "";
-                
+                if (string.IsNullOrEmpty(name)) sep = "";
 
                 var fileNames = new string[count];
                 for (int i = 0; i < count; i++)
                 {
-                    fileNames[i] = $"{name}{sep}Term {i + 1} {nameof(ParallelAdd)} {guidString}";
+                    fileNames[i] = $"{name}{sep}Term {i + 1} {nameof(ParallelAdd)} {guidString}.wav";
                 }
 
                 return fileNames;
