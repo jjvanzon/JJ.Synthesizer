@@ -727,8 +727,8 @@ namespace JJ.Business.Synthesizer.Wishes
             switch (channel)
             {
                 case ChannelEnum.Single: return _[sound];
-                case ChannelEnum.Left: return Multiply(sound, _[1 - panning]);
-                case ChannelEnum.Right: return Multiply(sound, _[panning]);
+                case ChannelEnum.Left: return sound * _[1 - panning];
+                case ChannelEnum.Right: return sound * _[panning];
 
                 default: throw new ValueNotSupportedException(channel);
             }
@@ -756,9 +756,9 @@ namespace JJ.Business.Synthesizer.Wishes
             panbrello.depth = panbrello.depth ?? _[1];
 
             // 0.5 is in the middle. 0 is left, 1 is right.
-            var sine = Multiply(Sine(panbrello.speed), panbrello.depth); // [-1,+1]
-            var halfSine = Multiply(_[0.5], sine); // [-0.5,+0.5]
-            var zeroToOne = Add(_[0.5], halfSine); // [0,1]
+            var sine = Sine(panbrello.speed) * panbrello.depth; // [-1,+1]
+            var halfSine = 0.5 * sine; // [-0.5,+0.5]
+            var zeroToOne = 0.5 + halfSine; // [0,1]
 
             return Panning(sound, zeroToOne);
         }
@@ -848,13 +848,13 @@ namespace JJ.Business.Synthesizer.Wishes
             var referenceInterval = Divide(referenceFrequency, centerFrequency);
             var actualInterval = Divide(actualFrequency, centerFrequency);
 
-            var factor = Multiply(actualInterval, referenceInterval);
+            var factor = actualInterval * referenceInterval;
 
             // Calculate panning deviation
             //var newPanningDeviation = Multiply(x, x.Substract(referencePanning, centerPanning), factor);
             // AI's correction:
-            var newPanningDeviation = Multiply(Subtract(referencePanning, centerPanning), Subtract(factor, _[1]));
-            var newPanning = Add(centerPanning, newPanningDeviation);
+            var newPanningDeviation = (referencePanning - centerPanning) * (factor - 1);
+            var newPanning = centerPanning + newPanningDeviation;
 
             return newPanning;
         }
