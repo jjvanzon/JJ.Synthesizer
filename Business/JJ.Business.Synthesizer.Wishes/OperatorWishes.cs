@@ -272,6 +272,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Times(Outlet a, double b) => Multiply(a, b);
         /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Times(double a, Outlet b) => Multiply(a, b);
+        /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Volume(Outlet a, Outlet b) => Multiply(a, b);
+        /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Volume(Outlet a, double b) => Multiply(a, b);
+        /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Volume(double a, Outlet b) => Multiply(a, b);
 
         /// <inheritdoc cref="_flattenfactorswithmultiplyoutlet"/>
         [UsedImplicitly]
@@ -338,6 +344,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Times(Outlet b) => Multiply(b);
         /// <inheritdoc cref="_multiply"/>
         public FluentOutlet Times(double b) => Multiply(b);
+        /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Volume(Outlet b) => Multiply(b);
+        /// <inheritdoc cref="_multiply"/>
+        public FluentOutlet Volume(double b) => Multiply(b);
     }
     
     // Divide SynthWishes

@@ -282,10 +282,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return WithName().ParallelAdd
             (
-                () => freq.Times(1).Sine * 1.0,
-                () => freq.Times(2).Sine * 0.5,
-                () => freq.Times(3).Sine * 0.3, 
-                () => freq.Times(4).Sine * 0.2
+                () => freq.Times(1).Sine.Volume(1.0),
+                () => freq.Times(2).Sine.Volume(0.5),
+                () => freq.Times(3).Sine.Volume(0.3), 
+                () => freq.Times(4).Sine.Volume(0.2)
             );
         }
 
