@@ -379,6 +379,12 @@ namespace JJ.Business.Synthesizer.Wishes
             // Switch if switched
             if (x.IsConst) (x, a) = (a, x);
 
+            // A also has to be a constant
+            if (!a.IsConst)
+            {
+                return h;
+            }
+
             // We're going to assume x is a function,
             // otherwise a constant should have been precalculated long ago.
             //if (!x.IsVar) ...
@@ -393,7 +399,7 @@ namespace JJ.Business.Synthesizer.Wishes
                           $"{h.Stringify()}{NewLine}" +
                           $"=>{NewLine}" +
                           $"{l.Stringify()}{NewLine}{NewLine}");
-
+                
             return l;
         }
 
