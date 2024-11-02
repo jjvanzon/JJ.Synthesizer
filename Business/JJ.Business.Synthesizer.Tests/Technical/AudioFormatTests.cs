@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -16,6 +17,7 @@ using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
 
 // ReSharper disable RedundantArgumentDefaultValue
 
@@ -172,10 +174,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             bool aligned,
             [CallerMemberName] string callerMemberName = null)
         {
-
             // Arrange
-            int samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
-            double frequency = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
+            int    samplingRate      = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
+            double frequency         = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
+            bool   mustWriteToMemory = true;
 
             WithSpeakerSetup(speakerSetupEnum);
             WithBitDepth(sampleDataTypeEnum);
@@ -194,14 +196,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // Save to file
-
-            AudioFileOutput audioFileOutput1 =
-                WithAudioLength(DURATION).Save(getSignal, callerMemberName).Data.AudioFileOutput;
+            Result<SaveResultData> saveResult1      = WithAudioLength(DURATION).WithName(callerMemberName).Save(getSignal, mustWriteToMemory);
+            AudioFileOutput        audioFileOutput1 = saveResult1.Data.AudioFileOutput;
+            byte[]                 bytes            = saveResult1.Data.Bytes;
 
             // Use sample operator
             Outlet getSample()
             {
-                var    outlet = WithName(audioFileOutput1.FilePath).Sample();
+                var    outlet = WithName(audioFileOutput1.FilePath).Sample(bytes);
                 Sample sample = outlet.GetSample();
 
                 if (audioFileFormatEnum == Raw)
@@ -217,8 +219,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             
             // Save to file again
-            AudioFileOutput audioFileOutput2 =
-                WithAudioLength(DURATION2).WithName($"{callerMemberName}_Reloaded").Save(getSample).Data.AudioFileOutput;
+            Result<SaveResultData> saveResult2      = WithAudioLength(DURATION2).Save(getSample, $"{callerMemberName}_Reloaded", mustWriteToMemory);
+            AudioFileOutput        audioFileOutput2 = saveResult2.Data.AudioFileOutput;
             
             // Assert AudioFileOutput Entities
 

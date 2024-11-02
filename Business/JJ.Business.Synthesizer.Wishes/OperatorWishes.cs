@@ -1,10 +1,8 @@
 ﻿using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
-using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
