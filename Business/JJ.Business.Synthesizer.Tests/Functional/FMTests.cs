@@ -633,10 +633,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
         
         // Curves
-        
-        // TODO: Name them? Or does GetCallerNameFromStack do it?
 
-        FluentOutlet FluteCurve => Curve
+        FluentOutlet FluteCurve => WithName().Curve
         (
             (time: 0.00, value: 0.0),
             (time: 0.05, value: 0.8),
@@ -645,7 +643,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0.0)
         );
 
-        FluentOutlet BrassCurve => Curve
+        FluentOutlet BrassCurve => WithName().Curve
         (
             (time: 0.00, value: 0),
             (time: 0.07, value: 1),
@@ -653,7 +651,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0)
         );
 
-        FluentOutlet RippleCurve => Curve
+        FluentOutlet RippleCurve => WithName().Curve
         (
             (time: 0.00, value: 0.00),
             (time: 0.01, value: 0.75),
@@ -662,7 +660,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0.00)
         );
 
-        FluentOutlet DampedBlockCurve => Curve
+        FluentOutlet DampedBlockCurve => WithName().Curve
         (
             (time: 0.00, value: 0),
             (time: 0.01, value: 1),
@@ -670,7 +668,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0)
         );
 
-        FluentOutlet LineDownCurve => Curve
+        FluentOutlet LineDownCurve => WithName().Curve
         (
             (time: 0, value: 1),
             (time: 1, value: 0)
