@@ -1,7 +1,5 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Persistence.Synthesizer;
+﻿using JJ.Persistence.Synthesizer;
 using System;
-using JJ.Framework.Reflection;
 using System.Linq;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using static JJ.Business.Synthesizer.Wishes.docs;
@@ -90,23 +88,22 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="_operand"/>
     public static partial class OperandExtensionWishes
     { 
-        // TODO: Make conditional and throw if operator type does not match?
-        // TODO: Bounds checks?
-
         // A
         
         /// <inheritdoc cref="_operand"/>
         public static Outlet A(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return entity.Inlets.ElementAt(0)?.Input;
+            if (entity.Inlets.Count == 0) throw new ArgumentException("entity.Inlets.Count == 0");
+            return entity.Inlets[0].Input;
         }
 
         /// <inheritdoc cref="_operand"/>
         public static void SetA(this Operator entity, Outlet a)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Inlets.ElementAt(0).Input = a;
+            if (entity.Inlets.Count == 0) throw new ArgumentException("entity.Inlets.Count == 0");
+            entity.Inlets[0].Input = a;
         }
         /// <inheritdoc cref="_operand"/>
         public static Outlet A(this Outlet entity)
@@ -128,14 +125,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Outlet B(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return entity.Inlets.ElementAt(1)?.Input;
+            if (entity.Inlets.Count < 2) throw new ArgumentException("entity.Inlets.Count < 2");
+            return entity.Inlets[1].Input;
         }
 
         /// <inheritdoc cref="_operand"/>
         public static void SetB(this Operator entity, Outlet b)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Inlets.ElementAt(1).Input = b;
+            if (entity.Inlets.Count < 2) throw new ArgumentException("entity.Inlets.Count < 2");
+            entity.Inlets[1].Input = b;
         }
         
         /// <inheritdoc cref="_operand"/>
