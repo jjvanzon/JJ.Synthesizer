@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
@@ -178,17 +177,13 @@ namespace JJ.Business.Synthesizer.Wishes
             => BinaryWriterExtensions.ReadStruct<WavHeaderStruct>(reader);
     }
 
-    public static class WavHeaderExtensionWishes_HeaderFromObjects
+    public static partial class WavHeaderExtensionWishes_HeaderFromObjects
     { 
         public static WavHeaderStruct GetWavHeader(this AudioFileInfoWish info)
             => WavHeaderManager.CreateWavHeaderStruct(info.FromWish());
 
         public static WavHeaderStruct GetWavHeader(this Sample sample)
             => WavHeaderExtensionWishes_GetInfo.GetInfo(sample).GetWavHeader();
-
-
-        public static WavHeaderStruct GetWavHeader(this SampleOperatorWrapper wrapper)
-            => WavHeaderExtensionWishes_GetInfo.GetInfo(wrapper).GetWavHeader();
 
         public static WavHeaderStruct GetWavHeader(this AudioFileOutput audioFileOutput, int frameCount)
             => WavHeaderExtensionWishes_GetInfo.GetInfo(audioFileOutput, frameCount).GetWavHeader();
@@ -197,7 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => WavHeaderExtensionWishes_GetInfo.GetInfo(audioFileOutputChannel, frameCount).GetWavHeader();
     }
 
-    public static class WavHeaderExtensionWishes_GetInfo
+    public static partial class WavHeaderExtensionWishes_GetInfo
     {
         // Create Wish Version
         
@@ -307,13 +302,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 SamplingRate = entity.SamplingRate,
                 FrameCount = entity.GetFrameCount()
             };
-        }
-
-
-        public static AudioFileInfoWish GetInfo(this SampleOperatorWrapper wrapper)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return GetInfo(wrapper.Sample);
         }
 
         public static AudioFileInfoWish GetInfo(this AudioFileOutput entity, int frameCount)

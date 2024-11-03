@@ -14,7 +14,6 @@ using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutpu
 using static JJ.Business.Synthesizer.Wishes.Helpers.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.docs;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
@@ -426,7 +425,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
     
-    public static class AudioFileExtensionWishes
+    public static partial class AudioFileExtensionWishes
     {
         public static int SizeOf(Type sampleDataType)
         {
@@ -454,12 +453,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return SizeOf(entity.SampleDataType);
-        }
-
-        public static int SizeOfSampleDataType(this SampleOperatorWrapper wrapper)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return SizeOfSampleDataType(wrapper.Sample);
         }
 
         public static int SizeOfSampleDataType(this AudioFileOutput entity)
@@ -495,12 +488,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetBits(entity.SampleDataType);
         }
 
-        public static int GetBits(this SampleOperatorWrapper wrapper)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return GetBits(wrapper.Sample);
-        }
-
         public static int GetBits(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -530,12 +517,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return SizeOfSampleDataType(entity) * entity.GetChannelCount();
         }
 
-        public static int GetFrameSize(this SampleOperatorWrapper wrapper)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return GetFrameSize(wrapper.Sample);
-        }
-
         public static int GetFrameSize(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -553,12 +534,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.Bytes == null) throw new ArgumentNullException(nameof(entity.Bytes));
             return entity.Bytes.Length - GetHeaderLength(entity) / GetFrameSize(entity);
-        }
-
-        public static int GetFrameCount(this SampleOperatorWrapper wrapper)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return GetFrameCount(wrapper.Sample);
         }
 
         /// <inheritdoc cref="_fileextension"/>
@@ -586,13 +561,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetFileExtension(entity.AudioFileFormat);
-        }
-
-        /// <inheritdoc cref="_fileextension"/>
-        public static string GetFileExtension(this SampleOperatorWrapper wrapper)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return GetFileExtension(wrapper.Sample);
         }
 
         /// <inheritdoc cref="_fileextension"/>
@@ -627,12 +595,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetMaxAmplitude(entity.SampleDataType);
-        }
-
-        public static double GetMaxAmplitude(this SampleOperatorWrapper wrapper)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return GetMaxAmplitude(wrapper.Sample);
         }
 
         public static double GetMaxAmplitude(this AudioFileOutput entity)
@@ -672,13 +634,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return entity.GetAudioFileFormatEnum().GetHeaderLength();
-        }
-
-        /// <inheritdoc cref="_headerlength"/>
-        public static int GetHeaderLength(this SampleOperatorWrapper wrapper)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return GetHeaderLength(wrapper.Sample);
         }
 
         /// <inheritdoc cref="_headerlength"/>

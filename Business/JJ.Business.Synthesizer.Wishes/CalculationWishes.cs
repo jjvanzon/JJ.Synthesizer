@@ -1,6 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Persistence.Synthesizer;
 using System;
@@ -22,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    public static class CalculationExtensionWishes
+    public static partial class CalculationExtensionWishes
     {
         // FluentOutlet
 
@@ -93,34 +92,5 @@ namespace JJ.Business.Synthesizer.Wishes
             var calculator = new OperatorCalculator(channelIndex);
             return calculator.CalculateValue(inlet.Input, time);
         }
-
-        public static double Calculate(this OperatorWrapperBase wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToIndex());
-
-        public static double Calculate(this OperatorWrapperBase wrapper, double time = 0, int channelIndex = 0)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return Calculate(wrapper.Operator, time, channelIndex);
-        }
-
-        public static double Calculate(this SampleOperatorWrapper wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToIndex());
-
-        public static double Calculate(this SampleOperatorWrapper wrapper, double time = 0, int channelIndex = 0)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return Calculate(wrapper.Result, time, channelIndex);
-        }
-
-        public static double Calculate(this CurveInWrapper wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToIndex());
-
-        public static double Calculate(this CurveInWrapper wrapper, double time = 0, int channelIndex = 0)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            
-            return Calculate(wrapper.Result, time, channelIndex);
-        }
-
     }
 }

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.docs;
 
-// ReSharper disable NotResolvedInText
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -118,12 +116,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FluentOutlet
     {
-        //public string Name
-        //{
-        //    get => _wrappedOutlet.Operator.Name;
-        //    set => SetName(value);
-        //}
-
         /// <inheritdoc cref="docs._names"/>
         public FluentOutlet SetName([CallerMemberName] string name = null)
         {
@@ -144,7 +136,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // NameWishes Extensions
     
-    public static class NameExtensionWishes
+    public static partial class NameExtensionWishes
     {
         // NameWishes Curves
 
@@ -154,18 +146,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             entity.Name = name;
             return entity;
-        }
-                
-        /// <inheritdoc cref="docs._names"/>
-        public static CurveInWrapper SetName(this CurveInWrapper wrapper, string name)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            if (wrapper.Operator() == null) throw new ArgumentNullException("wrapper.Operator()");
-            
-            wrapper.Operator().SetName(name);
-            wrapper.Curve.SetName(name);
-
-            return wrapper;
         }
 
         // NameWishes Samples / AudioFileOutput
@@ -184,18 +164,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             entity.Name = name;
             return entity;
-        }
-
-        /// <inheritdoc cref="docs._names"/>
-        public static SampleOperatorWrapper SetName(this SampleOperatorWrapper wrapper, string name)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            if (wrapper.Operator() == null) throw new ArgumentNullException("wrapper.Operator()");
-            
-            wrapper.Operator().SetName(name);
-            wrapper.Sample.SetName(name);
-            
-            return wrapper;
         }
 
         // NameWishes Operators
@@ -236,14 +204,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             entity.Input.SetName(name);
             return entity;
-        }
-        
-        /// <inheritdoc cref="docs._names"/>
-        public static OperatorWrapperBase SetName(this OperatorWrapperBase wrapper, string name)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            wrapper.Operator.SetName(name);
-            return wrapper;
         }
     }
 }

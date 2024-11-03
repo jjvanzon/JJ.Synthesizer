@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using JJ.Business.Synthesizer.EntityWrappers;
+﻿using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
@@ -21,7 +19,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // Stringify Extensions
     
-    public static class StringifyExtensionWishes
+    public static partial class StringifyExtensionWishes
     { 
         // Operators
 
@@ -36,27 +34,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this Inlet entity, bool singleLine = false, bool mustUseShortOperators = false)
             => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
-
-        /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this OperatorWrapperBase wrapper, bool singleLine = false, bool mustUseShortOperators = false)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(wrapper.Operator);
-        }
-
-        /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this SampleOperatorWrapper wrapper, bool singleLine = false, bool mustUseShortOperators = false)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(wrapper.Result);
-        }
-
-        /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this CurveInWrapper wrapper, bool singleLine = false, bool mustUseShortOperators = false)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(wrapper.Result);
-        }
     }
 
     // Stringifier

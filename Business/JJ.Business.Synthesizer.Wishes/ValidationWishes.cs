@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Entities;
@@ -28,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public IList<string> GetWarnings(bool recursive = true) => _wrappedOutlet.GetWarnings(recursive);
     }
 
-    public static class ValidationExtensionWishes
+    public static partial class ValidationExtensionWishes
     {
         // AudioFileOutput Validation
         
@@ -86,47 +85,11 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        public static Result Validate(this OperatorWrapperBase wrapper, bool recursive = true)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return Validate(wrapper.Operator, recursive);
-        }
-
-        public static Result Validate(this CurveInWrapper wrapper, bool recursive = true)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return Validate(wrapper.Result, recursive);
-        }
-
-        public static Result Validate(this SampleOperatorWrapper wrapper, bool recursive = true)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return Validate(wrapper.Result, recursive);
-        }
-
         public static void Assert(this Outlet entity, bool recursive = true)
             => Validate(entity, recursive).Assert();
 
         public static void Assert(this Operator entity, bool recursive = true)
             => Validate(entity, recursive).Assert();
-
-        public static void Assert(this OperatorWrapperBase wrapper, bool recursive = true)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            Assert(wrapper.Operator, recursive);
-        }
-
-        public static void Assert(this CurveInWrapper wrapper, bool recursive = true)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            Assert(wrapper.Result, recursive);
-        }
-
-        public static void Assert(this SampleOperatorWrapper wrapper, bool recursive = true)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            Assert(wrapper.Result, recursive);
-        }
 
         public static IList<string> GetWarnings(this Operator entity, bool recursive = true)
         {
@@ -148,24 +111,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetWarnings(entity.Operator, recursive);
-        }
-
-        public static IList<string> GetWarnings(this OperatorWrapperBase wrapper, bool recursive = true)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return GetWarnings(wrapper.Operator, recursive);
-        }
-
-        public static IList<string> GetWarnings(this CurveInWrapper wrapper, bool recursive = true)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return GetWarnings(wrapper.Result, recursive);
-        }
-
-        public static IList<string> GetWarnings(this SampleOperatorWrapper wrapper, bool recursive = true)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return GetWarnings(wrapper.Result, recursive);
         }
     }
 }
