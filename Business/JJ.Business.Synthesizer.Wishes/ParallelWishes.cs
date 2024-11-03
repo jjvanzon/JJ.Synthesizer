@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 int termCount = funcs.Count;
                 int channelCount = x.SpeakerSetup.GetChannelCount();
                 string[] names = GetParallelNames(termCount, name);
-                string[] displayNames = names.Select(x => x.WithShortGuids(4)).ToArray();
+                string[] displayNames = names.Select(GetDisplayName).ToArray();
                 var saveResults = new Result<SaveResultData>[termCount];
                 var reloadedSamples = new FluentOutlet[termCount];
                 var outlets = new FluentOutlet[termCount][];
@@ -184,6 +184,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
 
                 return fileNames;
+            }
+            
+            private static string GetDisplayName(string fileName)
+            {
+                if (fileName == null) return null;
+                return Path.GetFileNameWithoutExtension(fileName.WithShortGuids(4));
             }
 
         }
