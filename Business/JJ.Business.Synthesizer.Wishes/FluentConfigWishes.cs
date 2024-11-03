@@ -41,23 +41,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        public FluentOutlet AudioLength
-        {
-            get => x.AudioLength;
-            set => x.AudioLength = value;
-        }
-
-        public FluentOutlet WithAudioLength(FluentOutlet newLength)
-        {
-            x.WithAudioLength(newLength);
-            return this;
-        }
-
-        public FluentOutlet AddAudioLength(FluentOutlet additionalLength)
-        {
-            x.AddAudioLength(additionalLength);
-            return this;
-        }
+        public FluentOutlet AudioLength { get => x.AudioLength; set => x.AudioLength = value; }
+        public FluentOutlet WithAudioLength(FluentOutlet newLength) { x.WithAudioLength(newLength); return this; }
+        public FluentOutlet AddAudioLength(FluentOutlet additionalLength) { x.AddAudioLength(additionalLength); return this; }
     }
 
     // Channel SynthWishes
@@ -95,41 +81,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        public ChannelEnum Channel
-        {
-            get => x.Channel;
-            set => x.Channel = value;
-        }
-
-        public int ChannelIndex
-        {
-            get => x.ChannelIndex;
-            set => x.ChannelIndex = value;
-        }
-
-        public FluentOutlet WithChannel(ChannelEnum channel)
-        {
-            x.WithChannel(channel);
-            return this;
-        }
-
-        public FluentOutlet Left()
-        {
-            x.Left();
-            return this;
-        }
-
-        public FluentOutlet Right()
-        {
-            x.Right();
-            return this;
-        }
-
-        public FluentOutlet Center()
-        {
-            x.Center();
-            return this;
-        }
+        public ChannelEnum Channel { get => x.Channel; set => x.Channel = value; }
+        public int ChannelIndex { get => x.ChannelIndex; set => x.ChannelIndex = value; }
+        public FluentOutlet WithChannel(ChannelEnum channel) { x.WithChannel(channel); return this; }
+        public FluentOutlet Left()  { x.Left(); return this; }
+        public FluentOutlet Right() { x.Right(); return this; }
+        public FluentOutlet Center() { x.Center(); return this; }
     }
     
     // SamplingRate SynthWishes
@@ -152,18 +109,9 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_samplingrate" />
-        public int SamplingRate
-        {
-            get => x.SamplingRate;
-            set => x.SamplingRate = value;
-        }
-
+        public int SamplingRate { get => x.SamplingRate; set => x.SamplingRate = value; }
         /// <inheritdoc cref="_samplingrate" />
-        public FluentOutlet WithSamplingRate(int value)
-        {
-            x.SamplingRate = value;
-            return this;
-        }
+        public FluentOutlet WithSamplingRate(int value) { x.SamplingRate = value; return this; }
     }
     
     // BitDepth SynthWishes
@@ -187,29 +135,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        public SampleDataTypeEnum BitDepth
-        {
-            get => x.BitDepth;
-            set => x.BitDepth = value;
-        }
-
-        public FluentOutlet WithBitDepth(SampleDataTypeEnum bitDepth)
-        {
-            x.WithBitDepth(bitDepth);
-            return this;
-        }
-
-        public FluentOutlet _16Bit()
-        {
-            x._16Bit();
-            return this;
-        }
-
-        public FluentOutlet _8Bit()
-        {
-            x._8Bit();
-            return this;
-        }
+        public SampleDataTypeEnum BitDepth { get => x.BitDepth; set => x.BitDepth = value; }
+        public FluentOutlet WithBitDepth(SampleDataTypeEnum bitDepth) { x.WithBitDepth(bitDepth); return this; }
+        public FluentOutlet _16Bit() { x._16Bit(); return this; }
+        public FluentOutlet _8Bit() { x._8Bit(); return this; }
     }
 
     // SpeakerSetup SynthWishes
@@ -233,29 +162,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        public SpeakerSetupEnum SpeakerSetup
-        {
-            get => x.SpeakerSetup;
-            set => x.SpeakerSetup = value;
-        }
-
-        public FluentOutlet WithSpeakerSetup(SpeakerSetupEnum speakerSetup)
-        {
-            x.SpeakerSetup = speakerSetup;
-            return this;
-        }
-
-        public FluentOutlet Mono()
-        {
-            x.Mono();
-            return this;
-        }
-
-        public FluentOutlet Stereo()
-        {
-            x.Stereo();
-            return this;
-        }
+        public SpeakerSetupEnum SpeakerSetup { get => x.SpeakerSetup; set => x.SpeakerSetup = value; }
+        public FluentOutlet WithSpeakerSetup(SpeakerSetupEnum speakerSetup) { x.SpeakerSetup = speakerSetup; return this; }
+        public FluentOutlet Mono() { x.Mono(); return this; }
+        public FluentOutlet Stereo() { x.Stereo(); return this; }
     }
 
     // AudioFormat SynthWishes
@@ -279,29 +189,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        public AudioFileFormatEnum AudioFormat
-        {
-            get => x.AudioFormat;
-            set => x.AudioFormat = value;
-        }
-
-        public FluentOutlet WithAudioFormat(AudioFileFormatEnum audioFormat)
-        {
-            x.WithAudioFormat(audioFormat);
-            return this;
-        }
-
-        public FluentOutlet AsWav()
-        {
-            x.AsWav();
-            return this;
-        }
-
-        public FluentOutlet AsRaw()
-        {
-            x.AsRaw();
-            return this;
-        }
+        public AudioFileFormatEnum AudioFormat { get => x.AudioFormat; set => x.AudioFormat = value; }
+        public FluentOutlet WithAudioFormat(AudioFileFormatEnum audioFormat) { x.WithAudioFormat(audioFormat); return this; }
+        public FluentOutlet AsWav() { x.AsWav(); return this; }
+        public FluentOutlet AsRaw() { x.AsRaw(); return this; }
     }
 
     // Interpolation SynthWishes
@@ -325,29 +216,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        public InterpolationTypeEnum Interpolation
-        {
-            get => x.Interpolation;
-            set => x.Interpolation = value;
-        }
-
-        public FluentOutlet WithInterpolation(InterpolationTypeEnum interpolationEnum)
-        {
-            x.WithInterpolation(interpolationEnum);
-            return this;
-        }
-
-        public FluentOutlet Linear()
-        {
-            x.Linear();
-            return this;
-        }
-
-        public FluentOutlet Blocky()
-        {
-            x.Blocky();
-            return this;
-        }
+        public InterpolationTypeEnum Interpolation { get => x.Interpolation; set => x.Interpolation = value; }
+        public FluentOutlet WithInterpolation(InterpolationTypeEnum interpolationEnum) { x.WithInterpolation(interpolationEnum); return this; }
+        public FluentOutlet Linear() { x.Linear(); return this; }
+        public FluentOutlet Blocky() { x.Blocky(); return this; }
     }
 
     // SynthWishes In-Memory Processing Enabled
@@ -369,12 +241,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        public FluentOutlet WithInMemoryProcessing(bool? enabled = true)
-        {
-            x.WithInMemoryProcessing(enabled);
-            return this;
-        }
-
+        public FluentOutlet WithInMemoryProcessing(bool? enabled = true) { x.WithInMemoryProcessing(enabled); return this; }
         public bool InMemoryProcessingEnabled => x.InMemoryProcessingEnabled;
     }
 
@@ -397,12 +264,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        public FluentOutlet WithParallelEnabled(bool? parallelEnabled = default)
-        {
-            x.WithParallelEnabled(parallelEnabled);
-            return this;
-        }
-
+        public FluentOutlet WithParallelEnabled(bool? parallelEnabled = default) { x.WithParallelEnabled(parallelEnabled); return this; }
         private bool ParallelEnabled => x.ParallelEnabled;
     }
 
@@ -424,11 +286,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_withpreviewparallels" />
-        public FluentOutlet WithPreviewParallels(bool mustPreviewParallels = true)
-        {
-            x.WithPreviewParallels(mustPreviewParallels);
-            return this;
-        }
+        public FluentOutlet WithPreviewParallels(bool mustPreviewParallels = true) { x.WithPreviewParallels(mustPreviewParallels); return this; }
     }
 
     // SynthWishes PlayParallels
@@ -454,11 +312,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustPlayParallels => x.MustPlayParallels;
 
         /// <inheritdoc cref="_withpreviewparallels" />
-        public FluentOutlet WithPlayParallels(bool mustPlayParallels = true)
-        {
-            x.WithPlayParallels(mustPlayParallels);
-            return this;
-        }
+        public FluentOutlet WithPlayParallels(bool mustPlayParallels = true) { x.WithPlayParallels(mustPlayParallels); return this; }
     }
 
     // SynthWishes SaveParallels
@@ -484,10 +338,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustSaveParallels { get; private set; }
 
         /// <inheritdoc cref="_withpreviewparallels" />
-        public FluentOutlet WithSaveParallels(bool mustSaveParallels = true)
-        {
-            MustSaveParallels = mustSaveParallels;
-            return this;
-        }
+        public FluentOutlet WithSaveParallels(bool mustSaveParallels = true) { MustSaveParallels = mustSaveParallels; return this; }
     }
 }
