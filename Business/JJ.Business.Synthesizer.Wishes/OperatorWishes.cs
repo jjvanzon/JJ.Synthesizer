@@ -918,15 +918,15 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="_pitchpan" />
         public FluentOutlet PitchPan(
-            Outlet actualFrequency, Outlet centerFrequency,
-            Outlet referenceFrequency, Outlet referencePanning)
+            FluentOutlet actualFrequency, FluentOutlet centerFrequency,
+            FluentOutlet referenceFrequency, FluentOutlet referencePanning)
         {
             // Some optimization in case of constants, because things are currently so slow.
             {
-                double? constActualFrequency = actualFrequency?.AsConst();
-                double? constCenterFrequency = centerFrequency?.AsConst();
-                double? constReferenceFrequency = referenceFrequency?.AsConst();
-                double? constReferencePanning = referencePanning?.AsConst();
+                double? constActualFrequency = actualFrequency?.AsConst;
+                double? constCenterFrequency = centerFrequency?.AsConst;
+                double? constReferenceFrequency = referenceFrequency?.AsConst;
+                double? constReferencePanning = referencePanning?.AsConst;
 
                 if (constActualFrequency != null &&
                     constCenterFrequency != null &&
@@ -990,7 +990,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="_pitchpan" />
         public FluentOutlet PitchPan(
-            Outlet actualFrequency, double centerFrequency,
+            FluentOutlet actualFrequency, double centerFrequency,
             double referenceFrequency, double referencePanning)
             => PitchPan(actualFrequency, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
     }
@@ -1000,40 +1000,40 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_pitchpan" />
-        public FluentOutlet PitchPan(Outlet centerFrequency, Outlet referenceFrequency, Outlet referencePanning)
-            => x.PitchPan(_this, centerFrequency, referenceFrequency, referencePanning);
+        public FluentOutlet PitchPan(FluentOutlet centerFrequency, FluentOutlet referenceFrequency, FluentOutlet referencePanning)
+            => x.PitchPan(this, centerFrequency, referenceFrequency, referencePanning);
 
         /// <inheritdoc cref="_pitchpan" />
         public FluentOutlet PitchPan(double centerFrequency, double referenceFrequency, double referencePanning)
-            => x.PitchPan(_this, centerFrequency, referenceFrequency, referencePanning);
+            => x.PitchPan(this, centerFrequency, referenceFrequency, referencePanning);
     }
 
     // Echo SynthWishes
     
     public partial class SynthWishes
     {
-        public FluentOutlet Echo(Outlet signal, int count, double magnitude, double delay)
+        public FluentOutlet Echo(FluentOutlet signal, int count, double magnitude, double delay)
             => Echo(signal, count, _[magnitude], _[delay]);
 
-        public FluentOutlet Echo(Outlet signal, int count, Outlet magnitude, double delay)
+        public FluentOutlet Echo(FluentOutlet signal, int count, FluentOutlet magnitude, double delay)
             => Echo(signal, count, magnitude, _[delay]);
         
-        public FluentOutlet Echo(Outlet signal, int count, double magnitude, Outlet delay = default)
+        public FluentOutlet Echo(FluentOutlet signal, int count, double magnitude, FluentOutlet delay = default)
             => Echo(signal, count, _[magnitude], delay);
 
-        public FluentOutlet Echo(Outlet signal, int count = 4, Outlet magnitude = default, Outlet delay = default)
+        public FluentOutlet Echo(FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
             => EchoAdditive(signal, count, magnitude, delay);
 
-        public FluentOutlet EchoAdditive(Outlet signal, int count, double magnitude, double delay)
+        public FluentOutlet EchoAdditive(FluentOutlet signal, int count, double magnitude, double delay)
             => EchoAdditive(signal, count, _[magnitude], _[delay]);
 
-        public FluentOutlet EchoAdditive(Outlet signal, int count, Outlet magnitude, double delay)
+        public FluentOutlet EchoAdditive(FluentOutlet signal, int count, FluentOutlet magnitude, double delay)
             => EchoAdditive(signal, count, magnitude, _[delay]);
 
-        public FluentOutlet EchoAdditive(Outlet signal, int count, double magnitude, Outlet delay = default)
+        public FluentOutlet EchoAdditive(FluentOutlet signal, int count, double magnitude, FluentOutlet delay = default)
             => EchoAdditive(signal, count, _[magnitude], delay);
         
-        public FluentOutlet EchoAdditive(Outlet signal, int count = 4, Outlet magnitude = default, Outlet delay = default)
+        public FluentOutlet EchoAdditive(FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
         {
             if (magnitude == null) magnitude = _[0.66];
             if (delay == null) delay = _[0.25];
@@ -1061,19 +1061,19 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FluentOutlet EchoFeedBack(Outlet signal, int count, double magnitude, double delay)
+        public FluentOutlet EchoFeedBack(FluentOutlet signal, int count, double magnitude, double delay)
             => EchoFeedBack(signal, count, _[magnitude], _[delay]);
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FluentOutlet EchoFeedBack(Outlet signal, int count, Outlet magnitude, double delay)
+        public FluentOutlet EchoFeedBack(FluentOutlet signal, int count, FluentOutlet magnitude, double delay)
             => EchoFeedBack(signal, count, magnitude, _[delay]);
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FluentOutlet EchoFeedBack(Outlet signal, int count, double magnitude, Outlet delay = default)
+        public FluentOutlet EchoFeedBack(FluentOutlet signal, int count, double magnitude, FluentOutlet delay = default)
             => EchoFeedBack(signal, count, _[magnitude], delay);
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FluentOutlet EchoFeedBack(Outlet signal, int count = 4, Outlet magnitude = default, Outlet delay = default)
+        public FluentOutlet EchoFeedBack(FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             if (magnitude == null) magnitude = _[0.66];
@@ -1103,7 +1103,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     
         public FluentOutlet EchoParallel(
-            Outlet signal, int count = 4, Outlet magnitude = default, Outlet delay = default,
+            FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default,
             bool mustAddAudioLength = true, [CallerMemberName] string callerMemberName = null)
         {
             // Fetch (user-chosen) name before anything else does.
@@ -1145,48 +1145,48 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         public FluentOutlet Echo(int count, double magnitude, double delay)
-            => x.Echo(_this, count, magnitude, delay);
+            => x.Echo(this, count, magnitude, delay);
 
-        public FluentOutlet Echo(int count, Outlet magnitude, double delay)
-            => x.Echo(_this, count, magnitude, delay);
+        public FluentOutlet Echo(int count, FluentOutlet magnitude, double delay)
+            => x.Echo(this, count, magnitude, delay);
 
-        public FluentOutlet Echo(int count, double magnitude, Outlet delay = default)
-            => x.Echo(_this, count, magnitude, delay);
+        public FluentOutlet Echo(int count, double magnitude, FluentOutlet delay = default)
+            => x.Echo(this, count, magnitude, delay);
 
-        public FluentOutlet Echo(int count = 4, Outlet magnitude = default, Outlet delay = default)
-            => x.Echo(_this, count, magnitude, delay);
+        public FluentOutlet Echo(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
+            => x.Echo(this, count, magnitude, delay);
 
         public FluentOutlet EchoAdditive(int count, double magnitude, double delay)
-            => x.EchoAdditive(_this, count, magnitude, delay);
+            => x.EchoAdditive(this, count, magnitude, delay);
 
-        public FluentOutlet EchoAdditive(int count, Outlet magnitude, double delay)
-            => x.EchoAdditive(_this, count, magnitude, delay);
+        public FluentOutlet EchoAdditive(int count, FluentOutlet magnitude, double delay)
+            => x.EchoAdditive(this, count, magnitude, delay);
 
-        public FluentOutlet EchoAdditive(int count, double magnitude, Outlet delay = default)
-            => x.EchoAdditive(_this, count, magnitude, delay);
+        public FluentOutlet EchoAdditive(int count, double magnitude, FluentOutlet delay = default)
+            => x.EchoAdditive(this, count, magnitude, delay);
 
-        public FluentOutlet EchoAdditive(int count = 4, Outlet magnitude = default, Outlet delay = default)
-            => x.EchoAdditive(_this, count, magnitude, delay);
+        public FluentOutlet EchoAdditive(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
+            => x.EchoAdditive(this, count, magnitude, delay);
         
         /// <inheritdoc cref="_echofeedback"/>
         public FluentOutlet EchoFeedBack(int count, double magnitude, double delay)
-            => x.EchoFeedBack(_this, count, magnitude, delay);
+            => x.EchoFeedBack(this, count, magnitude, delay);
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FluentOutlet EchoFeedBack(int count, Outlet magnitude, double delay)
-            => x.EchoFeedBack(_this, count, magnitude, delay);
+        public FluentOutlet EchoFeedBack(int count, FluentOutlet magnitude, double delay)
+            => x.EchoFeedBack(this, count, magnitude, delay);
                 
         /// <inheritdoc cref="_echofeedback"/>
-        public FluentOutlet EchoFeedBack(int count, double magnitude, Outlet delay = default)
-            => x.EchoFeedBack(_this, count, magnitude, delay);
+        public FluentOutlet EchoFeedBack(int count, double magnitude, FluentOutlet delay = default)
+            => x.EchoFeedBack(this, count, magnitude, delay);
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FluentOutlet EchoFeedBack(int count = 4, Outlet magnitude = default, Outlet delay = default)
-            => x.EchoFeedBack(_this, count, magnitude, delay);
+        public FluentOutlet EchoFeedBack(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
+            => x.EchoFeedBack(this, count, magnitude, delay);
 
         public FluentOutlet EchoParallel(
-            int count = 4, Outlet magnitude = default, Outlet delay = default,
+            int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default,
             bool mustAddAudioLength = true, [CallerMemberName] string callerMemberName = null)
-            => x.EchoParallel(_this, count, magnitude, delay, mustAddAudioLength, callerMemberName);
+            => x.EchoParallel(this, count, magnitude, delay, mustAddAudioLength, callerMemberName);
     }
 }
