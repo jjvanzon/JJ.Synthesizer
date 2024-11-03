@@ -183,8 +183,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithBitDepth(sampleDataTypeEnum);
             WithInterpolation(interpolationTypeEnum);
             WithAudioFormat(audioFileFormatEnum);
-            
-            new SynthWishesAccessor(this).WithSamplingRateOverride(samplingRate);
+            WithSamplingRate(samplingRate);
 
             // Panned, amplified sine
             Outlet getSignal()

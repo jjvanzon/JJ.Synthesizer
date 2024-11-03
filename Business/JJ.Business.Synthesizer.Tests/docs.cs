@@ -206,10 +206,10 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc
         ///     cref="wishes.docs._default" />
         public static object _default;
-        
+
         /// <inheritdoc
-        ///     cref="wishes.docs._samplingrateoverride" />
-        public static object _samplingrateoverride;
+        ///     cref="wishes.docs._samplingrate" />
+        public static object _samplingrate;
 
         /// <inheritdoc
         ///     cref="wishes.docs._tremolo" />

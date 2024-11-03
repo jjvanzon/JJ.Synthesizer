@@ -28,11 +28,5 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         {
             return (IList<Outlet>)_accessor.InvokeMethod(nameof(FlattenFactors), multiply);
         }
-
-        /// <inheritdoc cref="docs._samplingrateoverride"/>
-        public SynthWishes WithSamplingRateOverride(int? samplingRate)
-        {
-            return (SynthWishes)_accessor.InvokeMethod(nameof(WithSamplingRateOverride), samplingRate);
-        }
     }
 }

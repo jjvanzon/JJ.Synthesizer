@@ -343,9 +343,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _sample;
 
         /// <summary>
-        /// Overrides the default sampling rate from the config file, for testing purposes.
+        /// Overrides the default sampling rate from the config file (for testing purposes).
+        /// If you set it back to default it will use the config again, e.g. WithSamplingRate(default).
         /// </summary>
-        public static object _samplingrateoverride;
+        public static object _samplingrate;
 
         /// <summary>
         /// Outputs audio in an audio file format and plays it if needed.<br />

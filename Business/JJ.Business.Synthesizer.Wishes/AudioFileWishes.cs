@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutput.Name = name;
 
                 {
-                    var samplingRateResult = ResolveSamplingRate(x.SamplingRateOverride);
+                    var samplingRateResult = ResolveSamplingRate(x.SamplingRate);
                     warnings.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
                     audioFileOutput.SamplingRate = samplingRateResult.Data;
                 }
@@ -379,13 +379,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
 
-            private static Result<int> ResolveSamplingRate(int? samplingRateOverride)
+            private static Result<int> ResolveSamplingRate(int samplingRateOverride)
             {
-                if (samplingRateOverride.HasValue && samplingRateOverride.Value != 0)
+                if (samplingRateOverride != 0)
                 {
                     return new Result<int>
                     {
-                        Data = samplingRateOverride.Value,
+                        Data = samplingRateOverride,
                         ValidationMessages = new List<ValidationMessage> { $"Sampling rate override: {samplingRateOverride}".ToCanonical() },
                         Successful = true
                     };
