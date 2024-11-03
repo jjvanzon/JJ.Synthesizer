@@ -8,6 +8,11 @@ using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    public partial class FluentOutlet 
+    { 
+        public SynthWishes.CaptureIndexer _ => _x._;
+    }
+
     public partial class SynthWishes
     {
         public SynthWishes(IContext context, double beat = 1, double bar = 4)

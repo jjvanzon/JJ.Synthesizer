@@ -17,8 +17,8 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public FluentOutlet PlayMono(double volume = default)
         {
-            x.Channel = ChannelEnum.Single;
-            x.Mono().SaveAndPlay(() => x.Multiply(this, volume));
+            _x.Channel = ChannelEnum.Single;
+            _x.Mono().SaveAndPlay(() => _x.Multiply(this, volume));
             return this;
         }
     }
