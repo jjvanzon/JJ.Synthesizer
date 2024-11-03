@@ -43,19 +43,21 @@ namespace JJ.Business.Synthesizer.Wishes
         public static bool IsCurve(this Inlet entity)
             => HasOperatorTypeName(entity, nameof(CurveIn));
 
-        public static Curve GetCurve(this Inlet entity)
+        // TODO: Put in RelatedObjectWishes.cs?
+
+        public static Curve Curve(this Inlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetCurve(entity.Input);
+            return Curve(entity.Input);
         }
 
-        public static Curve GetCurve(this Outlet entity)
+        public static Curve Curve(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetCurve(entity.Operator);
+            return Curve(entity.Operator);
         }
 
-        public static Curve GetCurve(this Operator entity)
+        public static Curve Curve(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AsCurveIn == null) throw new NullException(() => entity.AsCurveIn);
@@ -91,19 +93,21 @@ namespace JJ.Business.Synthesizer.Wishes
         public static bool IsSample(this Inlet entity) 
             => HasOperatorTypeName(entity, nameof(SampleOperator));
 
-        internal static Sample GetSample(this Inlet entity)
+        // TODO: Put in RelatedObjectWishes.cs?
+
+        internal static Sample Sample(this Inlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetSample(entity.Input);
+            return Sample(entity.Input);
         }
 
-        public static Sample GetSample(this Outlet entity)
+        public static Sample Sample(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetSample(entity.Operator);
+            return Sample(entity.Operator);
         }
 
-        public static Sample GetSample(this Operator entity)
+        public static Sample Sample(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AsSampleOperator == null) throw new NullException(() => entity.AsSampleOperator);
