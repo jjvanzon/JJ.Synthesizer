@@ -264,9 +264,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _operand;
         
         /// <summary>
-        /// Extensions that are wishes for the back-end related to the Operator entity.
+        /// Extensions that are wishes for the back-end related that retrieve related objects like the Operator, Curve or Sample entities.
         /// </summary>
-        public static object _operatorextensionwishes;
+        public static object _relatedobjectextensions;
         
         /// <summary>
         /// Applies a panbrello effect to a stereo signal by modulating the panning

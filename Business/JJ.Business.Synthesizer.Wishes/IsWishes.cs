@@ -43,45 +43,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public static bool IsCurve(this Inlet entity)
             => HasOperatorTypeName(entity, nameof(CurveIn));
 
-        // TODO: Put in RelatedObjectWishes.cs?
-
-        public static Curve Curve(this Inlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return Curve(entity.Input);
-        }
-
-        public static Curve Curve(this Outlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return Curve(entity.Operator);
-        }
-
-        public static Curve Curve(this Operator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AsCurveIn == null) throw new NullException(() => entity.AsCurveIn);
-            return entity.AsCurveIn.Curve;
-        }
-
-        public static CurveInWrapper GetCurveWrapper(this Inlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetCurveWrapper(entity.Input);
-        }
-
-        public static CurveInWrapper GetCurveWrapper(this Outlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetCurveWrapper(entity.Operator);
-        }
-
-        public static CurveInWrapper GetCurveWrapper(this Operator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return new CurveInWrapper(entity.AsCurveIn);
-        }
-
         // Samples / AudioFileOutput
         
         public static bool IsSample(this Outlet entity) 
@@ -92,45 +53,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static bool IsSample(this Inlet entity) 
             => HasOperatorTypeName(entity, nameof(SampleOperator));
-
-        // TODO: Put in RelatedObjectWishes.cs?
-
-        internal static Sample Sample(this Inlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return Sample(entity.Input);
-        }
-
-        public static Sample Sample(this Outlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return Sample(entity.Operator);
-        }
-
-        public static Sample Sample(this Operator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AsSampleOperator == null) throw new NullException(() => entity.AsSampleOperator);
-            return entity.AsSampleOperator.Sample;
-        }
-
-        public static SampleOperatorWrapper GetSampleWrapper(this Inlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetSampleWrapper(entity.Input);
-        }
-
-        public static SampleOperatorWrapper GetSampleWrapper(this Outlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetSampleWrapper(entity.Operator);
-        }
-
-        public static SampleOperatorWrapper GetSampleWrapper(this Operator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return new SampleOperatorWrapper(entity.AsSampleOperator);
-        }
 
         // Operators
         

@@ -10,18 +10,18 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     // Related Object Wishes
     
-    // Operator Extension Method
-
+    // Related Operator
+    
     public partial class FluentOutlet
     {
-        /// <inheritdoc cref="_operatorextensionwishes"/>
+        /// <inheritdoc cref="_relatedobjectextensions"/>
         public Operator Operator => _this.Operator;
     }
-
-    /// <inheritdoc cref="_operatorextensionwishes"/>
+    
+    /// <inheritdoc cref="_relatedobjectextensions"/>
     public static partial class RelatedObjectsExtensionWishes
     {
-        /// <inheritdoc cref="_operatorextensionwishes"/>
+        /// <inheritdoc cref="_relatedobjectextensions"/>
         public static Operator Operator(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Result.Operator;
         }
         
-        /// <inheritdoc cref="_operatorextensionwishes"/>
+        /// <inheritdoc cref="_relatedobjectextensions"/>
         public static Operator Operator(this CurveInWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -38,16 +38,10 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Related Objects in FluentOutlet
-
+    // Related Curve
+        
     public partial class FluentOutlet
     {
-        /// <inheritdoc cref="_getsample" />
-        public Sample Sample() => _this.Sample();
-
-        /// <inheritdoc cref="_getsamplewrapper" />
-        public SampleOperatorWrapper GetSampleWrapper() => _this.GetSampleWrapper();
-
         /// <inheritdoc cref="_getcurve" />"/>
         public Curve Curve() => _this.Curve();
 
@@ -55,7 +49,112 @@ namespace JJ.Business.Synthesizer.Wishes
         public CurveInWrapper GetCurveWrapper() => _this.GetCurveWrapper();
     }
 
-    // Operands
+    /// <inheritdoc cref="_relatedobjectextensions"/>
+    public static partial class RelatedObjectsExtensionWishes
+    {
+        /// <inheritdoc cref="_getcurve" />"/>
+        public static Curve Curve(this Inlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return Curve(entity.Input);
+        }
+
+        /// <inheritdoc cref="_getcurve" />"/>
+        public static Curve Curve(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return Curve(entity.Operator);
+        }
+
+        /// <inheritdoc cref="_getcurve" />"/>
+        public static Curve Curve(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.AsCurveIn == null) throw new NullException(() => entity.AsCurveIn);
+            return entity.AsCurveIn.Curve;
+        }
+
+        /// <inheritdoc cref="_getcurvewrapper"/>
+        public static CurveInWrapper GetCurveWrapper(this Inlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return GetCurveWrapper(entity.Input);
+        }
+
+        /// <inheritdoc cref="_getcurvewrapper"/>
+        public static CurveInWrapper GetCurveWrapper(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return GetCurveWrapper(entity.Operator);
+        }
+
+        /// <inheritdoc cref="_getcurvewrapper"/>
+        public static CurveInWrapper GetCurveWrapper(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return new CurveInWrapper(entity.AsCurveIn);
+        }
+    }
+
+    // Sample
+    
+    public partial class FluentOutlet
+    {
+        /// <inheritdoc cref="_getsample" />
+        public Sample Sample() => _this.Sample();
+
+        /// <inheritdoc cref="_getsamplewrapper" />
+        public SampleOperatorWrapper GetSampleWrapper() => _this.GetSampleWrapper();
+    }
+
+    /// <inheritdoc cref="_relatedobjectextensions"/>
+    public static partial class RelatedObjectsExtensionWishes
+    {
+        /// <inheritdoc cref="_getsample" />
+        public static Sample Sample(this Inlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return Sample(entity.Input);
+        }
+
+        /// <inheritdoc cref="_getsample" />
+        public static Sample Sample(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return Sample(entity.Operator);
+        }
+
+        /// <inheritdoc cref="_getsample" />
+        public static Sample Sample(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.AsSampleOperator == null) throw new NullException(() => entity.AsSampleOperator);
+            return entity.AsSampleOperator.Sample;
+        }
+
+        /// <inheritdoc cref="_getsamplewrapper" />
+        public static SampleOperatorWrapper GetSampleWrapper(this Inlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return GetSampleWrapper(entity.Input);
+        }
+
+        /// <inheritdoc cref="_getsamplewrapper" />
+        public static SampleOperatorWrapper GetSampleWrapper(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return GetSampleWrapper(entity.Operator);
+        }
+
+        /// <inheritdoc cref="_getsamplewrapper" />
+        public static SampleOperatorWrapper GetSampleWrapper(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return new SampleOperatorWrapper(entity.AsSampleOperator);
+        }
+    }
+
+    // Operands in FluentOutlet
 
     public partial class FluentOutlet
     {
@@ -132,7 +231,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOperandList Operands { get; }
     }
 
-
+    // Operands on Entity Objects
+    
+        /// <inheritdoc cref="_relatedobjectextensions"/>
     public static partial class RelatedObjectsExtensionWishes
     { 
         // TODO: Make conditional and throw?
@@ -252,6 +353,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     }
 
+    /// <inheritdoc cref="_relatedobjectextensions"/>
     public static partial class RelatedObjectsExtensionWishes
     { 
         [Obsolete("Rarely used because default origin 0 usually works. " +
