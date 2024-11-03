@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Vibraphase(C5) * 0.85,
             Vibraphase(D5) * 0.75,
             Vibraphase(E5) * 0.90
-        ).WithName();
+        ).SetName();
 
         /// <inheritdoc cref="_detunica" />
         FluentOutlet DetunicaJingle => WithName().ParallelAdd
@@ -176,7 +176,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     chorusRate: (chorusRate ?? _[0.03]) * RateCurve1,
                     patchyEnvelope: false
                 )
-                .Tremolo(1, 0.03).WithName();
+                .Tremolo(1, 0.03).SetName();
 
         /// <inheritdoc cref="_detunica" />
         FluentOutlet Detunica2(FluentOutlet freq, FluentOutlet duration = null)
@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                         churnRate: 0.1 * RateCurve2)
                     .Tremolo(12, 0.1)
                     .Panning(0.4)
-                    .Panbrello(2.6, 0.09).WithName()
+                    .Panbrello(2.6, 0.09).SetName()
             );
 
         /// <inheritdoc cref="_detunica" />
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                )
                .Tremolo(15, 0.06)
                .Panning(Stretch(Curve(0.7, 0.3), duration))
-               .Panbrello(4.8, 0.05).WithName();
+               .Panbrello(4.8, 0.05).SetName();
 
         /// <inheritdoc cref="_detunica" />
         FluentOutlet Detunica4(FluentOutlet freq, FluentOutlet duration = null)
@@ -217,7 +217,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                )
                .Tremolo(10, 0.08)
                .Panning(Curve(0.2, 0.8).Stretch(duration))
-               .Panbrello(3.4, 0.07).WithName();
+               .Panbrello(3.4, 0.07).SetName();
 
         /// <inheritdoc cref="_detunica" />
         FluentOutlet Detunica5(FluentOutlet freq, FluentOutlet duration = null)
@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                    chorusRate: _[0.001]
                )
                .Tremolo(3, 0.25)
-               .Panning(0.48).WithName();
+               .Panning(0.48).SetName();
 
         // Instruments
 
@@ -249,7 +249,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             
             sound *= envelope.Stretch(duration);
 
-            return sound.WithName();
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="_vibraphase" />
@@ -269,7 +269,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var sound = jittered * envelope.Stretch(duration);
 
-            return sound.WithName();
+            return sound.SetName();
         }
 
         // WaveForms
@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 0.15 * Sine(freq * 5),
                 0.08 * Sine(freq * 7),
                 0.10 * Sine(freq * 9)
-            ).WithName();
+            ).SetName();
         }
 
         /// <inheritdoc cref="_detune" />
@@ -316,7 +316,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 0.15 * Sine(DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate)),
                 0.08 * Sine(DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate)),
                 0.10 * Sine(DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate))
-            ).WithName();
+            ).SetName();
         }
 
         // Effects
@@ -347,7 +347,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 detunedFreq *= 1 + chorusRate.Stretch(duration);
             }
 
-            return detunedFreq.WithName();
+            return detunedFreq.SetName();
         }
 
         /// <inheritdoc cref="_vibraphase" />
@@ -362,7 +362,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var tremoloWave2 = Sine(4.0) * depthAdjust2.Add(1); // 4 Hz _tremolo
             sound *= tremoloWave2;
 
-            return sound.WithName();
+            return sound.SetName();
         }
 
         bool _mildEchoAudioLengthWasAdded;

@@ -293,7 +293,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     () => PadChords(chordsVolume).Delay(beats[4]) * JingleVolume 
                 );
 
-                return composition.WithName();
+                return composition.SetName();
             }
             finally
             {
@@ -396,7 +396,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var envelope = Stretch(FluteCurve, duration);
             var note     = Multiply(fmSignal, envelope);
             
-            return note.WithName();
+            return note.SetName();
         }
 
         /// <inheritdoc cref="_flute2" />
@@ -409,7 +409,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var modulatedSound = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(modulatedSound, 0.85);
 
-            return adjustedVolume.WithName();
+            return adjustedVolume.SetName();
         }
 
         /// <inheritdoc cref="_flute3" />
@@ -422,7 +422,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var sound          = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(sound, 0.8);
 
-            return adjustedVolume.WithName();
+            return adjustedVolume.SetName();
         }
 
         /// <inheritdoc cref="_flute4" />
@@ -435,7 +435,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var sound          = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(sound, 0.70);
 
-            return adjustedVolume.WithName();
+            return adjustedVolume.SetName();
         }
 
         /// <inheritdoc cref="_default" />
@@ -454,7 +454,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var note = StrikeNote(soundWithEvenVolume, delay, volume);
 
-            return note.WithName();
+            return note.SetName();
         }
 
         /// <inheritdoc cref="_default" />
@@ -480,7 +480,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var note = StrikeNote(soundWithEvenVolume, delay, volume);
 
-            return note.WithName();
+            return note.SetName();
         }
 
         /// <inheritdoc cref="_trombone" />
@@ -500,7 +500,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var envelope = Stretch(BrassCurve, transformedDuration);
             var sound    = Multiply(fmSignal, envelope);
 
-            return sound.WithName();
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="_horn" />
@@ -514,7 +514,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var envelope = Stretch(BrassCurve, duration);
             var sound    = Multiply(fmSignal, envelope);
 
-            return sound.WithName();
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="_default" />
@@ -533,7 +533,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var modulatedSound = fmSignal.Curve(DampedBlockCurve.Stretch(duration));
             var adjustedVolume = modulatedSound * 0.6;
             
-            return adjustedVolume.WithName();
+            return adjustedVolume.SetName();
         }
 
         /// <inheritdoc cref="_ripplebass" />
@@ -542,7 +542,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             freq = freq ?? A1;
             var fmSignal = FMAroundFreq(freq * 8, freq / 2, _[0.005]);
             var note     = ShapeRippleSound(fmSignal, duration);
-            return note.WithName();
+            return note.SetName();
         }
 
         /// <inheritdoc cref="_ripplenotesharpmetallic" />
@@ -551,7 +551,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             freq = freq ?? A3;
             var fmSignal = FMInHertz(freq, freq / 2, _[10]);
             var sound    = ShapeRippleSound(fmSignal, duration);
-            return sound.WithName();
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="_ripplesoundclean" />
@@ -560,7 +560,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             freq = freq ?? A4;
             var fmSignal = FMAroundFreq(freq, _[20], _[0.005]);
             var sound    = ShapeRippleSound(fmSignal, duration);
-            return sound.WithName();
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="_ripplesoundfantasyeffect" />
@@ -569,7 +569,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             freq = freq ?? A5;
             var fmSignal = FMAroundFreq(freq, _[10], _[0.02]);
             var sound    = ShapeRippleSound(fmSignal, duration);
-            return sound.WithName();
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="_ripplesoundcooldouble" />
@@ -578,7 +578,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             freq = freq ?? A5;
             var fmSignal = FMAroundFreq(freq, _[10], _[0.05]);
             var sound    = ShapeRippleSound(fmSignal, duration);
-            return sound.WithName();
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="_shaperipplesound" />
@@ -587,7 +587,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             duration = duration ?? AudioLength; // _[2.5];
             var envelope = Stretch(RippleCurve, duration);
             var sound    = input * envelope;
-            return sound.WithName();
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="_createfmnoisebeating" />
@@ -605,7 +605,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var shaped = signal * curve.Skip(duration / 16).Stretch(duration);
             
-            return shaped.WithName();
+            return shaped.SetName();
         }
 
         // Algorithms
@@ -615,7 +615,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var modulator = Sine(modSpeed) * modDepth;
             var sound     = Sine(soundFreq + modulator);
-            return sound.WithName();
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="_fmaround0" />
@@ -623,7 +623,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var modulator = Sine(modSpeed) * modDepth;
             var sound     = Sine(soundFreq * modulator);
-            return sound.WithName();
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="_fmaroundfreq" />
@@ -631,7 +631,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var modulator = 1 + Sine(modSpeed) * modDepth;
             var sound     = Sine(soundFreq * modulator);
-            return sound.WithName();
+            return sound.SetName();
         }
         
         // Curves

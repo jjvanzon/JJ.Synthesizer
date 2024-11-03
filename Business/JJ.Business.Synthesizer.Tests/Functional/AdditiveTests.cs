@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             _[ t[1, 2.0], B4 , Metallophone, 0.5 ],
             _[ t[1, 2.5], Cs5, Metallophone, 0.7 ],
             _[ t[1, 4.0], Fs4, Metallophone, 0.4 ]
-        ).WithName();
+        ).SetName();
 
         /// <inheritdoc cref="_metallophone"/>
         FluentOutlet Metallophone(FluentOutlet freq, FluentOutlet duration = null)
@@ -61,14 +61,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 0.4 * Sine(5 * freq) * Stretch(SineEnvelope3, duration),
                 3.0 * SamplePartial(2 * freq, duration),
                 5.0 * SamplePartial(7 * freq, duration)
-            ).WithName();
+            ).SetName();
         }
 
         FluentOutlet SamplePartial(FluentOutlet frequency, FluentOutlet duration)
         {
             var sound = MySample * Stretch(SampleEnvelope, duration);
             var faster = SpeedUp(sound, factor: frequency / A4);
-            return faster.WithName();
+            return faster.SetName();
         }
 
         /// <inheritdoc cref="_mysample"/>

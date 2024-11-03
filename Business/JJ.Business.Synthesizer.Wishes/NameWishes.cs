@@ -115,11 +115,11 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FluentOutlet
     { 
-        public FluentOutlet WithName(string name)
+        public FluentOutlet SetName([CallerMemberName] string name = null)
         {
             if (string.IsNullOrWhiteSpace(name)) return this;
             
-            _this.WithName(name);
+            _this.SetName(name);
 
             return this;
         }
@@ -131,61 +131,61 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // NameWishes Curves
 
-        public static Curve WithName(this Curve entity, string name)
+        public static Curve SetName(this Curve entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             entity.Name = name;
             return entity;
         }
                 
-        public static CurveInWrapper WithName(this CurveInWrapper wrapper, string name)
+        public static CurveInWrapper SetName(this CurveInWrapper wrapper, string name)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Operator() == null) throw new ArgumentNullException("wrapper.Operator()");
             
-            wrapper.Operator().WithName(name);
-            wrapper.Curve.WithName(name);
+            wrapper.Operator().SetName(name);
+            wrapper.Curve.SetName(name);
 
             return wrapper;
         }
 
         // NameWishes Samples / AudioFileOutput
 
-        public static Sample WithName(this Sample entity, string name)
+        public static Sample SetName(this Sample entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             entity.Name = name;
             return entity;
         }
 
-        public static AudioFileOutput WithName(this AudioFileOutput entity, string name)
+        public static AudioFileOutput SetName(this AudioFileOutput entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             entity.Name = name;
             return entity;
         }
 
-        public static SampleOperatorWrapper WithName(this SampleOperatorWrapper wrapper, string name)
+        public static SampleOperatorWrapper SetName(this SampleOperatorWrapper wrapper, string name)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Operator() == null) throw new ArgumentNullException("wrapper.Operator()");
             
-            wrapper.Operator().WithName(name);
-            wrapper.Sample.WithName(name);
+            wrapper.Operator().SetName(name);
+            wrapper.Sample.SetName(name);
             
             return wrapper;
         }
 
         // NameWishes Operators
 
-        public static Outlet WithName(this Outlet entity, string name)
+        public static Outlet SetName(this Outlet entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Operator.WithName(name);
+            entity.Operator.SetName(name);
             return entity;
         }
 
-        public static Operator WithName(this Operator op, string name)
+        public static Operator SetName(this Operator op, string name)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
             
@@ -206,17 +206,17 @@ namespace JJ.Business.Synthesizer.Wishes
             return op;
         }
 
-        public static Inlet WithName(this Inlet entity, string name)
+        public static Inlet SetName(this Inlet entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Input.WithName(name);
+            entity.Input.SetName(name);
             return entity;
         }
         
-        public static OperatorWrapperBase WithName(this OperatorWrapperBase wrapper, string name)
+        public static OperatorWrapperBase SetName(this OperatorWrapperBase wrapper, string name)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            wrapper.Operator.WithName(name);
+            wrapper.Operator.SetName(name);
             return wrapper;
         }
     }

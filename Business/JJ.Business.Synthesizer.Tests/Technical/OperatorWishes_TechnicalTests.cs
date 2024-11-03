@@ -27,14 +27,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void TestNestedSumFlattening()
         {
             // Arrange
-            var var1 = Curve(1, 1).WithName("Curve1");
-            var var2 = Curve(2, 2).WithName("Curve2");
-            var var3 = Curve(3, 3).WithName("Curve3");
-            var var4 = Curve(4, 4).WithName("Curve4");
-            var var5 = Curve(5, 5).WithName("Curve5");
-            var var6 = Curve(6, 6).WithName("Curve6");
-            var var7 = Curve(7, 7).WithName("Curve7");
-            var var8 = Curve(8, 8).WithName("Curve8");
+            var var1 = Curve(1, 1).SetName("Curve1");
+            var var2 = Curve(2, 2).SetName("Curve2");
+            var var3 = Curve(3, 3).SetName("Curve3");
+            var var4 = Curve(4, 4).SetName("Curve4");
+            var var5 = Curve(5, 5).SetName("Curve5");
+            var var6 = Curve(6, 6).SetName("Curve6");
+            var var7 = Curve(7, 7).SetName("Curve7");
+            var var8 = Curve(8, 8).SetName("Curve8");
             var const9 = _[9];
             var const10 = _[10];
 
@@ -158,7 +158,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             // Arrange
             var const1 = _[1];
-            var var2 = WithName("Curve2").Curve(2, 2).WithName("Curve2");
+            var var2 = WithName("Curve2").Curve(2, 2).SetName("Curve2");
             var const3 = _[3];
             var var4 = WithName("Curve4").Curve(4, 4);
             var const5 = _[5];
@@ -360,9 +360,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             var add = Add
             (
-                Curve(0.1, 0.1).WithName("Const Curve 0.1"),
-                Curve(0.2, 0.2).WithName("Const Curve 0.2"),
-                Curve(0.3, 0.3).WithName("Const Curve 0.3")
+                Curve(0.1, 0.1).SetName("Const Curve 0.1"),
+                Curve(0.2, 0.2).SetName("Const Curve 0.2"),
+                Curve(0.3, 0.3).SetName("Const Curve 0.3")
             );
 
             double addedValue = add.Calculate(duration / 2);
