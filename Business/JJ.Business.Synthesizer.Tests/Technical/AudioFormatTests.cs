@@ -246,7 +246,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 var sampleMono = getSample();
                 
                 AssertSampleEntities(
-                    sampleMono.GetSampleWrapper(),
+                    sampleMono,
                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
                 
@@ -260,7 +260,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 var sampleLeft  = getSample();
 
                 AssertSampleEntities(
-                    sampleLeft.GetSampleWrapper(),
+                    sampleLeft,
                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
                 Console.WriteLine();
@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 var sampleRight = getSample();
 
                 AssertSampleEntities(
-                    sampleRight.GetSampleWrapper(),
+                    sampleRight,
                     audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, interpolationTypeEnum, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
                 Console.WriteLine();
@@ -493,7 +493,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         private void AssertSampleEntities(
-            SampleOperatorWrapper sampleWrapper, 
+            FluentOutlet sampleFluentOutlet, 
             AudioFileFormatEnum audioFileFormatEnum, 
             SpeakerSetupEnum speakerSetupEnum, 
             SampleDataTypeEnum sampleDataTypeEnum, 
@@ -504,12 +504,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             string callerMemberName)
         {
             // Sample Wrapper
-            IsNotNull(() => sampleWrapper);
-            IsNotNull(() => sampleWrapper.Sample);
-            IsNotNull(() => sampleWrapper.Result);
+            IsNotNull(() => sampleFluentOutlet);
+            IsNotNull(() => sampleFluentOutlet.Sample());
 
             // Sample Operator
-            Operator sampleOperator = sampleWrapper.Result.Operator;
+            Operator sampleOperator = sampleFluentOutlet.Operator;
             IsNotNull(() => sampleOperator);
             AreEqual("SampleOperator", () => sampleOperator.OperatorTypeName);
             IsNull(() => sampleOperator.AsCurveIn);
@@ -531,7 +530,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => sampleOperator.Outlets[0]);
 
             // Sample Outlet
-            Outlet sampleOutlet = sampleWrapper.Result;
+            Outlet sampleOutlet = sampleFluentOutlet;
             IsNotNull(() => sampleOutlet);
             IsNotNull(() => sampleOutlet.Operator);
             AreEqual(sampleOperator, () => sampleOutlet.Operator);
@@ -587,14 +586,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(expectedDuration, sample.GetDuration(), durationTolerance_RatherHigh);
             
             // Sample Outlet From Different Sources
-            Outlet sampleOutlet_ImplicitConversionFromWrapper = sampleWrapper;
-            Outlet sampleOutlet_FromWrapperResult             = sampleWrapper.Result;
+            //Outlet sampleOutlet_ImplicitConversionFromWrapper = sampleWrapper;
+            //Outlet sampleOutlet_FromWrapperResult             = sampleWrapper.Result;
             Outlet sampleOutlet_FromOperatorOutlets           = sampleOperator.Outlets[0];
-            IsNotNull(() => sampleOutlet_ImplicitConversionFromWrapper);
-            IsNotNull(() => sampleOutlet_FromWrapperResult);
+            //IsNotNull(() => sampleOutlet_ImplicitConversionFromWrapper);
+            //IsNotNull(() => sampleOutlet_FromWrapperResult);
             IsNotNull(() => sampleOutlet_FromOperatorOutlets);
-            AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
-            AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
+            //AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
+            //AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
         }
 
         // Helpers
