@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Stereo();
             
             // Arrange
-            Outlet fixedValues()
+            FluentOutlet fixedValues()
             {
                 if (Channel == ChannelEnum.Left) return _[0.8];
                 if (Channel == ChannelEnum.Right) return _[0.6];
@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Stereo();
             
             // Arrange
-            Outlet TestSignal()
+            FluentOutlet TestSignal()
             {
                 switch (Channel)
                 {
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             // Act
 
-            Outlet panned;
+            FluentOutlet panned;
 
             Left();
             panned  = Panning(TestSignal(), panningValue);
@@ -298,7 +298,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var echoes = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
 
             WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
-            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => echoes);
+            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").SaveAndPlay(() => _[echoes]);
         }
 
         [TestMethod]

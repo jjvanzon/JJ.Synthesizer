@@ -186,7 +186,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithSamplingRate(samplingRate);
 
             // Panned, amplified sine
-            Outlet getSignal()
+            FluentOutlet getSignal()
             {
                 var sine      = Sine(frequency);
                 var amplified = Multiply(sine, VOLUME);
@@ -200,7 +200,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             byte[]                 bytes            = saveResult1.Data.Bytes;
 
             // Use sample operator
-            Outlet getSample()
+            FluentOutlet getSample()
             {
                 var    outlet = WithName(audioFileOutput1.FilePath).Sample(bytes);
                 Sample sample = outlet.GetSample();

@@ -22,18 +22,18 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_paralleladd" />
-        public FluentOutlet ParallelAdd(params Func<Outlet>[] funcs)
-            => ParallelAdd(1, (IList<Func<Outlet>>)funcs);
+        public FluentOutlet ParallelAdd(params Func<FluentOutlet>[] funcs)
+            => ParallelAdd(1, (IList<Func<FluentOutlet>>)funcs);
 
         /// <inheritdoc cref="_paralleladd" />
-        public FluentOutlet ParallelAdd(IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
+        public FluentOutlet ParallelAdd(IList<Func<FluentOutlet>> funcs, [CallerMemberName] string callerMemberName = null)
             => ParallelAdd(1, funcs, callerMemberName);
 
         /// <inheritdoc cref="_paralleladd" />
-        public FluentOutlet ParallelAdd(double volume, params Func<Outlet>[] funcs)
-            => ParallelAdd(volume, (IList<Func<Outlet>>)funcs);
+        public FluentOutlet ParallelAdd(double volume, params Func<FluentOutlet>[] funcs)
+            => ParallelAdd(volume, (IList<Func<FluentOutlet>>)funcs);
 
-        public FluentOutlet ParallelAdd(double volume, IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
+        public FluentOutlet ParallelAdd(double volume, IList<Func<FluentOutlet>> funcs, [CallerMemberName] string callerMemberName = null)
             => _parallelWishes.ParallelAdd(volume, funcs, callerMemberName);
         
         /// <inheritdoc cref="_paralleladd" />
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes
             public ParallelWishes(SynthWishes synthWishes) => x = synthWishes;
 
             /// <inheritdoc cref="_paralleladd" />
-            public FluentOutlet ParallelAdd(double volume, IList<Func<Outlet>> funcs, [CallerMemberName] string callerMemberName = null)
+            public FluentOutlet ParallelAdd(double volume, IList<Func<FluentOutlet>> funcs, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
 
@@ -67,11 +67,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 string[] names = GetParallelNames(termCount, name);
                 string[] displayNames = names.Select(x => x.WithShortGuids(4)).ToArray();
                 var saveResults = new Result<SaveResultData>[termCount];
-                var reloadedSamples = new Outlet[termCount];
-                var outlets = new Outlet[termCount][];
+                var reloadedSamples = new FluentOutlet[termCount];
+                var outlets = new FluentOutlet[termCount][];
                 for (int i = 0; i < termCount; i++)
                 {
-                    outlets[i] = new Outlet[channelCount];
+                    outlets[i] = new FluentOutlet[channelCount];
                 }
 
                 var stopWatch = Stopwatch.StartNew();

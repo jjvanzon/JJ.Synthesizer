@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var x = GetSynthWishesOrThrow(a, '+', b);
             a = a ?? x._[0];
             b = b ?? x._[0];
-            return x._[a].Plus(b);
+            return x._[a].Plus(x._[b]);
         }
 
         public static FluentOutlet operator +(Outlet a, FluentOutlet b)
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var x = GetSynthWishesOrThrow(a, '-', b);
             a = a ?? x._[0];
             b = b ?? x._[0];
-            return x._[a].Minus(b);
+            return x._[a].Minus(x._[b]);
         }
         
         public static FluentOutlet operator -(Outlet a, FluentOutlet b)
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var x = GetSynthWishesOrThrow(a, '*', b);
             a = a ?? x._[1];
             b = b ?? x._[1];
-            return x._[a].Times(b);
+            return x._[a].Times(x._[b]);
         }
         
         public static FluentOutlet operator *(Outlet a, FluentOutlet b)
@@ -143,7 +143,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var x = GetSynthWishesOrThrow(a, '/', b);
             a = a ?? x._[0];
             b = b ?? x._[1];
-            return x._[a].Divide(b);
+            return x._[a].Divide(x._[b]);
         }
                 
         public static FluentOutlet operator /(Outlet a, FluentOutlet b)
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var x = GetSynthWishesOrThrow(a, '/', b);
             a = a ?? x._[0];
             b = b ?? x._[1];
-            return x._[a].Divide(b);
+            return x._[a].Divide(x._[b]);
         }
         
         public static FluentOutlet operator /(FluentOutlet a, double b)

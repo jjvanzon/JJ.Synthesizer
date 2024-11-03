@@ -86,20 +86,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => nestedAdderResult);
 
             // Check Flattened Terms
-            var flattenAdderTerms = new SynthWishesAccessor(this).FlattenTerms(nestedAdder);
+            var flattenAdderTerms = new SynthWishesAccessor(this).FlattenTerms(_[nestedAdder]);
 
             IsNotNull(        () => flattenAdderTerms);
-            AreEqual(10,      () => flattenAdderTerms.Count);
-            AreEqual(var1,    () => flattenAdderTerms[0]);
-            AreEqual(var2,    () => flattenAdderTerms[1]);
-            AreEqual(var3,    () => flattenAdderTerms[2]);
-            AreEqual(var4,    () => flattenAdderTerms[3]);
-            AreEqual(var5,    () => flattenAdderTerms[4]);
-            AreEqual(var6,    () => flattenAdderTerms[5]);
-            AreEqual(var7,    () => flattenAdderTerms[6]);
-            AreEqual(var8,    () => flattenAdderTerms[7]);
-            AreEqual(const9,  () => flattenAdderTerms[8]);
-            AreEqual(const10, () => flattenAdderTerms[9]);
+            AreEqual(10,          () => flattenAdderTerms.Count);
+            AreEqual(var1.Outlet, () => flattenAdderTerms[0].Outlet);
+            AreEqual(var2.Outlet, () => flattenAdderTerms[1].Outlet);
+            AreEqual(var3.Outlet, () => flattenAdderTerms[2].Outlet);
+            AreEqual(var4.Outlet, () => flattenAdderTerms[3].Outlet);
+            AreEqual(var5.Outlet, () => flattenAdderTerms[4].Outlet);
+            AreEqual(var6.Outlet, () => flattenAdderTerms[5].Outlet);
+            AreEqual(var7.Outlet, () => flattenAdderTerms[6].Outlet);
+            AreEqual(var8.Outlet, () => flattenAdderTerms[7].Outlet);
+            AreEqual(const9,      () => flattenAdderTerms[8].Outlet);
+            AreEqual(const10,     () => flattenAdderTerms[9].Outlet);
             
             // Check Nested Sum
             Outlet nestedSumOutlet =
@@ -196,19 +196,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 );
 
             // Check Optimized Factors
-            IList<Outlet> flattenedFactors = new SynthWishesAccessor(this).FlattenFactors(nestedMultiply);
+            IList<FluentOutlet> flattenedFactors = new SynthWishesAccessor(this).FlattenFactors(_[nestedMultiply]);
             
             IsNotNull(() => flattenedFactors);
             AreEqual(6, () => flattenedFactors.Count);
             
             // Operator creation reversed the order.
-            AreEqual(var2,   () => flattenedFactors[4]);
-            AreEqual(var4,   () => flattenedFactors[3]);
-            AreEqual(var6,   () => flattenedFactors[2]);
-            AreEqual(var7,   () => flattenedFactors[1]);
-            AreEqual(var8,   () => flattenedFactors[0]);
+            AreEqual(var2.Outlet, () => flattenedFactors[4].Outlet);
+            AreEqual(var4.Outlet, () => flattenedFactors[3].Outlet);
+            AreEqual(var6.Outlet, () => flattenedFactors[2].Outlet);
+            AreEqual(var7.Outlet, () => flattenedFactors[1].Outlet);
+            AreEqual(var8.Outlet, () => flattenedFactors[0].Outlet);
             
-            double? constant = flattenedFactors[5].AsConst();
+            double? constant = flattenedFactors[5].AsConst;
             IsNotNull(() => constant);
             AreEqual(1 * 3 * 5, () => constant.Value);
             

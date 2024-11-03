@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
-using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
@@ -14,19 +13,19 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             _accessor = new Accessor(obj, typeof(SynthWishes));
         }
 
-        public IList<Outlet> FlattenTerms(Outlet sumOrAdd)
+        public IList<FluentOutlet> FlattenTerms(FluentOutlet sumOrAdd)
         {
-            return (IList<Outlet>)_accessor.InvokeMethod(nameof(FlattenTerms), sumOrAdd);
+            return (IList<FluentOutlet>)_accessor.InvokeMethod(nameof(FlattenTerms), sumOrAdd);
         }
 
-        public IList<Outlet> FlattenFactors(IList<Outlet> operands)
+        public IList<FluentOutlet> FlattenFactors(IList<FluentOutlet> operands)
         { 
-            return (IList<Outlet>)_accessor.InvokeMethod(nameof(FlattenFactors), operands);
+            return (IList<FluentOutlet>)_accessor.InvokeMethod(nameof(FlattenFactors), operands);
         }
 
-        public IList<Outlet> FlattenFactors(Outlet multiply)
+        public IList<FluentOutlet> FlattenFactors(FluentOutlet multiply)
         {
-            return (IList<Outlet>)_accessor.InvokeMethod(nameof(FlattenFactors), multiply);
+            return (IList<FluentOutlet>)_accessor.InvokeMethod(nameof(FlattenFactors), multiply);
         }
     }
 }

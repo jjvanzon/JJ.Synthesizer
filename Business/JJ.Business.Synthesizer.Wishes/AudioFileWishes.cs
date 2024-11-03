@@ -62,19 +62,19 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveResultData> Save(Func<Outlet> func, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
+        public Result<SaveResultData> Save(Func<FluentOutlet> func, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
             => _saveWishes.Save(func, mustWriteToMemory, name, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveResultData> Save(Func<Outlet> func, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
+        public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
             => _saveWishes.Save(func, mustWriteToMemory, name, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
-        internal Result<SaveResultData> Save(IList<Outlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
+        internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
             => _saveWishes.Save(channelInputs, mustWriteToMemory, name, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
-        internal Result<SaveResultData> Save(IList<Outlet> channelInputs, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
+        internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
             => _saveWishes.Save(channelInputs, mustWriteToMemory, name, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Wishes
             public SaveWishes(SynthWishes synthWishes) => x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
 
             /// <inheritdoc cref="_saveorplay" />
-            public Result<SaveResultData> Save(Func<Outlet> func, bool mustWriteToMemory = false, string name = null, [CallerMemberName] string callerMemberName = null)
+            public Result<SaveResultData> Save(Func<FluentOutlet> func, bool mustWriteToMemory = false, string name = null, [CallerMemberName] string callerMemberName = null)
             {
                 name = x.FetchName(name, callerMemberName);
 
@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="_saveorplay" />
-            internal Result<SaveResultData> Save(IList<Outlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
+            internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
             {
                 name = x.FetchName(name, callerMemberName);
 

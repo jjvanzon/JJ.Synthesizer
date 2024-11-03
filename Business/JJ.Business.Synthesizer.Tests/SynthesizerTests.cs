@@ -257,7 +257,8 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet effect = EntityFactory.CreateTimePowerEffectWithEcho(operatorFactory, sampleOperator);
 
                 effect = operatorFactory.Multiply(effect, operatorFactory.Value(1 / 32768.0));
-                new SynthWishes(context).Mono().WithAudioLength(6.5).SaveAndPlay(() => effect);
+                var synthWishes = new SynthWishes(context);
+                synthWishes.Mono().WithAudioLength(6.5).SaveAndPlay(() => synthWishes._[effect]);
                 return;
                 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();

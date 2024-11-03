@@ -22,14 +22,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Mono().WithAudioLength(4).Save(() => curve);
         }
 
-        Outlet CreateAsciiCurve_WithoutRange() => WithName().Curve(@"
+        FluentOutlet CreateAsciiCurve_WithoutRange() => WithName().Curve(@"
                o                 
              o   o               
                                  
                        o         
             o                   o");
 
-        Outlet CreateAsciiCurve_WithRange() => WithName().Curve(
+        FluentOutlet CreateAsciiCurve_WithRange() => WithName().Curve(
             x: (start: 1, end: 3), y: (min: -1, max: 0.5), @"
 
                o                 
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ");
 
         /*
-        CurveInWrapper AsciiCurve_WithArt => CurveFactory.CreateCurve(
+        FluentOutlet AsciiCurve_WithArt => CurveFactory.CreateCurve(
             x:(1,3), y:(-1,0.5), @"
 
               ____________ DETUNICA VOLUME ____________

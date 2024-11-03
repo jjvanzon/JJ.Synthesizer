@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet PlayMono(double volume = default)
         {
             x.Channel = ChannelEnum.Single;
-            x.Mono().SaveAndPlay(() => x.Multiply(_this, volume));
+            x.Mono().SaveAndPlay(() => x.Multiply(this, volume));
             return this;
         }
     }
@@ -26,11 +26,11 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveResultData> SaveAndPlay(Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
+        public Result<SaveResultData> SaveAndPlay(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             => _playWishes.Play(outletFunc, mustWriteToMemory: false, callerMemberName);
         
         /// <inheritdoc cref="_saveorplay" />
-        public Result<SaveResultData> Play(Func<Outlet> outletFunc, [CallerMemberName] string callerMemberName = null)
+        public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             => _playWishes.Play(outletFunc, mustWriteToMemory: true, callerMemberName);
 
         /// <inheritdoc cref="_saveorplay" />
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes
             public PlayWishes(SynthWishes synthWishes) => x = synthWishes;
 
             /// <inheritdoc cref="_saveorplay" />
-            public Result<SaveResultData> Play(Func<Outlet> outletFunc, bool mustWriteToMemory, [CallerMemberName] string callerMemberName = null)
+            public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, bool mustWriteToMemory, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
 
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
 
-            private Func<Outlet> AddPadding(Func<Outlet> func)
+            private Func<FluentOutlet> AddPadding(Func<FluentOutlet> func)
             {
                 x.AddAudioLength(ConfigHelper.PlayLeadingSilence);
                 x.AddAudioLength(ConfigHelper.PlayTrailingSilence);
@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
                 else
                 {
-                    Outlet func2() => x.Delay(func(), x._[ConfigHelper.PlayLeadingSilence]);
+                    FluentOutlet func2() => x.Delay(func(), x._[ConfigHelper.PlayLeadingSilence]);
                     return func2;
                 }
             }

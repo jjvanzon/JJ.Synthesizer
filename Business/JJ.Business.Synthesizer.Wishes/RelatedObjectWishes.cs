@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Persistence.Synthesizer;
 using System;
+using System.Collections.Generic;
 using JJ.Framework.Reflection;
 using System.Linq;
 using static JJ.Business.Synthesizer.Wishes.docs;
@@ -62,16 +63,19 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public FluentOutlet A => _[Outlet.A()];
         public FluentOutlet B => _[Outlet.B()];
+        public IList<FluentOutlet> Operands => Outlet.Operands().Select(x => _[x]).ToList();
     }
 
     public static partial class RelatedObjectsExtensionWishes
     { 
         public static Outlet A(this Outlet outlet) => A(outlet.Operator);
         public static Outlet B(this Outlet outlet) => B(outlet.Operator);
+        public static IList<Outlet> Operands(this Outlet outlet) => Operands(outlet.Operator);
 
         public static Outlet A(this Operator op) => op.Inlets.ElementAtOrDefault(0)?.Input;
         public static Outlet B(this Operator op) => op.Inlets.ElementAtOrDefault(1)?.Input;
         public static Outlet Result(this Operator op) => op.Outlets[0];
+        public static IList<Outlet> Operands(this Operator op) => op.Inlets.Select(x => x.Input).ToList();
     }
 
     // Operand Origin
