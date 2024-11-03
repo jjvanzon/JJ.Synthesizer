@@ -301,13 +301,55 @@ namespace JJ.Business.Synthesizer.Wishes
         // Pitch
         
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Pitch(this Outlet entity) => B(entity);
+        public static Outlet Pitch(this Outlet entity)
+        {
+            AssertHasPitch(entity);
+            return B(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetPitch(this Outlet entity, Outlet b) => SetB(entity, b);
+        public static void SetPitch(this Outlet entity, Outlet b)
+        {
+            AssertHasPitch(entity);
+            SetB(entity, b);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Pitch(this Operator entity) => B(entity);
+        public static Outlet Pitch(this Operator entity)
+        {
+            AssertHasPitch(entity);
+            return B(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetPitch(this Operator entity, Outlet b) => SetB(entity, b);
+        public static void SetPitch(this Operator entity, Outlet b)
+        {
+            AssertHasPitch(entity);
+            SetB(entity, b);
+        }
+        
+        private static void AssertHasPitch(Outlet entity)
+        {
+            if (!HasPitch(entity)) throw new Exception("The Operator does not have a Pitch Inlet.");
+        }
+
+        private static void AssertHasPitch(Operator entity)
+        {
+            if (!HasPitch(entity)) throw new Exception("The Operator does not have a Pitch Inlet.");
+        }
+
+        public static bool HasPitch(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return HasPitch(entity.Operator);
+        }
+
+        public static bool HasPitch(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.IsSine()) return true;
+            return false;
+        }
 
         // Frequency
 
@@ -323,69 +365,327 @@ namespace JJ.Business.Synthesizer.Wishes
         // Signal
 
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Signal(this Outlet entity) => A(entity);
+        public static Outlet Signal(this Outlet entity)
+        {
+            AssertHasSignal(entity);
+            return A(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetSignal(this Outlet entity, Outlet a) => SetA(entity, a);
+        public static void SetSignal(this Outlet entity, Outlet a)
+        {
+            AssertHasSignal(entity);
+            SetA(entity, a);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Signal(this Operator entity) => A(entity);
+        public static Outlet Signal(this Operator entity)
+        {
+            AssertHasSignal(entity);
+            return A(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetSignal(this Operator entity, Outlet a) => SetA(entity, a);
+        public static void SetSignal(this Operator entity, Outlet a)
+        {
+            AssertHasSignal(entity);
+            SetA(entity, a);
+        }
+
+        private static void AssertHasSignal(Outlet entity)
+        {
+            if (!HasSignal(entity)) throw new Exception("The Operator does not have a Signal Inlet.");
+        }
+
+        private static void AssertHasSignal(Operator entity)
+        {
+            if (!HasSignal(entity)) throw new Exception("The Operator does not have a Signal Inlet.");
+        }
+
+        public static bool HasSignal(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return HasSignal(entity.Operator);
+        }
+
+        public static bool HasSignal(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.IsDelay()) return true;
+            if (entity.IsSkip()) return true;
+            if (entity.IsStretch()) return true;
+            if (entity.IsSpeedUp()) return true;
+            if (entity.IsTimePower()) return true;
+            return false;
+        }
 
         // Base
 
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Base(this Outlet entity) => A(entity);
+        public static Outlet Base(this Outlet entity)
+        {
+            AssertHasBase(entity);
+            return A(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetBase(this Outlet entity, Outlet a) => SetA(entity, a);
+        public static void SetBase(this Outlet entity, Outlet a)
+        {
+            AssertHasBase(entity);
+            SetA(entity, a);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Base(this Operator entity) => A(entity);
+        public static Outlet Base(this Operator entity)
+        {
+            AssertHasBase(entity);
+            return A(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetBase(this Operator entity, Outlet a) => SetA(entity, a);
-        
+        public static void SetBase(this Operator entity, Outlet a)
+        {
+            AssertHasBase(entity);
+            SetA(entity, a);
+        }
+
+        private static void AssertHasBase(Outlet entity)
+        {
+            if (!HasBase(entity)) throw new Exception("The Operator does not have a Base Inlet.");
+        }
+
+        private static void AssertHasBase(Operator entity)
+        {
+            if (!HasBase(entity)) throw new Exception("The Operator does not have a Base Inlet.");
+        }
+
+        public static bool HasBase(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return HasBase(entity.Operator);
+        }
+
+        public static bool HasBase(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.IsPower()) return true;
+            return false;
+        }
+
         // Exponent
 
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Exponent(this Outlet entity) => B(entity);
+        public static Outlet Exponent(this Outlet entity)
+        {
+            AssertHasExponent(entity);
+            return B(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetExponent(this Outlet entity, Outlet b) => SetB(entity, b);
+        public static void SetExponent(this Outlet entity, Outlet b)
+        {
+            AssertHasExponent(entity);
+            SetB(entity, b);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Exponent(this Operator entity) => B(entity);
+        public static Outlet Exponent(this Operator entity)
+        {
+            AssertHasExponent(entity);
+            return B(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetExponent(this Operator entity, Outlet b) => SetB(entity, b);
-        
+        public static void SetExponent(this Operator entity, Outlet b)
+        {
+            AssertHasExponent(entity);
+            SetB(entity, b);
+        }
+
+        private static void AssertHasExponent(Outlet entity)
+        {
+            if (!HasExponent(entity)) throw new Exception("The Operator does not have a Exponent Inlet.");
+        }
+
+        private static void AssertHasExponent(Operator entity)
+        {
+            if (!HasExponent(entity)) throw new Exception("The Operator does not have a Exponent Inlet.");
+        }
+
+        public static bool HasExponent(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return HasExponent(entity.Operator);
+        }
+
+        public static bool HasExponent(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.IsPower()) return true;
+            if (entity.IsTimePower()) return true;
+            return false;
+        }
+
         // TimeDifference
 
         /// <inheritdoc cref="_operand"/>
-        public static Outlet TimeDifference(this Outlet entity) => B(entity);
+        public static Outlet TimeDifference(this Outlet entity)
+        {
+            AssertHasTimeDifference(entity);
+            return B(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetTimeDifference(this Outlet entity, Outlet b) => SetB(entity, b);
+        public static void SetTimeDifference(this Outlet entity, Outlet b)
+        {
+            AssertHasTimeDifference(entity);
+            SetB(entity, b);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static Outlet TimeDifference(this Operator entity) => B(entity);
+        public static Outlet TimeDifference(this Operator entity)
+        {
+            AssertHasTimeDifference(entity);
+            return B(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetTimeDifference(this Operator entity, Outlet b) => SetB(entity, b);
-        
+        public static void SetTimeDifference(this Operator entity, Outlet b)
+        {
+            AssertHasTimeDifference(entity);
+            SetB(entity, b);
+        }
+
+        private static void AssertHasTimeDifference(Outlet entity)
+        {
+            if (!HasTimeDifference(entity)) throw new Exception("The Operator does not have a TimeDifference Inlet.");
+        }
+
+        private static void AssertHasTimeDifference(Operator entity)
+        {
+            if (!HasTimeDifference(entity)) throw new Exception("The Operator does not have a TimeDifference Inlet.");
+        }
+
+        public static bool HasTimeDifference(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return HasTimeDifference(entity.Operator);
+        }
+
+        public static bool HasTimeDifference(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.IsDelay()) return true;
+            if (entity.IsSkip()) return true;
+            return false;
+        }
+
         // TimeScale
 
         /// <inheritdoc cref="_operand"/>
-        public static Outlet TimeScale(this Outlet entity) => B(entity);
+        public static Outlet TimeScale(this Outlet entity)
+        {
+            AssertHasTimeScale(entity);
+            return B(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetTimeScale(this Outlet entity, Outlet b) => SetB(entity, b);
+        public static void SetTimeScale(this Outlet entity, Outlet b)
+        {
+            AssertHasTimeScale(entity);
+            SetB(entity, b);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static Outlet TimeScale(this Operator entity) => B(entity);
+        public static Outlet TimeScale(this Operator entity)
+        {
+            AssertHasTimeScale(entity);
+            return B(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetTimeScale(this Operator entity, Outlet b) => SetB(entity, b);
-        
+        public static void SetTimeScale(this Operator entity, Outlet b)
+        {
+            AssertHasTimeScale(entity);
+            SetB(entity, b);
+        }
+
+        private static void AssertHasTimeScale(Outlet entity)
+        {
+            if (!HasTimeScale(entity)) throw new Exception("The Operator does not have a TimeScale Inlet.");
+        }
+
+        private static void AssertHasTimeScale(Operator entity)
+        {
+            if (!HasTimeScale(entity)) throw new Exception("The Operator does not have a TimeScale Inlet.");
+        }
+
+        public static bool HasTimeScale(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return HasTimeScale(entity.Operator);
+        }
+
+        public static bool HasTimeScale(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.IsStretch()) return true;
+            return false;
+        }
+
         // SpeedFactor
 
         /// <inheritdoc cref="_operand"/>
-        public static Outlet SpeedFactor(this Outlet entity) => B(entity);
+        public static Outlet SpeedFactor(this Outlet entity)
+        {
+            AssertHasSpeedFactor(entity);
+            return B(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetSpeedFactor(this Outlet entity, Outlet b) => SetB(entity, b);
+        public static void SetSpeedFactor(this Outlet entity, Outlet b)
+        {
+            AssertHasSpeedFactor(entity);
+            SetB(entity, b);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static Outlet SpeedFactor(this Operator entity) => B(entity);
+        public static Outlet SpeedFactor(this Operator entity)
+        {
+            AssertHasSpeedFactor(entity);
+            return B(entity);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetSpeedFactor(this Operator entity, Outlet b) => SetB(entity, b);
-        
+        public static void SetSpeedFactor(this Operator entity, Outlet b)
+        {
+            AssertHasSpeedFactor(entity);
+            SetB(entity, b);
+        }
+
+        private static void AssertHasSpeedFactor(Outlet entity)
+        {
+            if (!HasSpeedFactor(entity)) throw new Exception("The Operator does not have a SpeedFactor Inlet.");
+        }
+
+        private static void AssertHasSpeedFactor(Operator entity)
+        {
+            if (!HasSpeedFactor(entity)) throw new Exception("The Operator does not have a SpeedFactor Inlet.");
+        }
+
+        public static bool HasSpeedFactor(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return HasSpeedFactor(entity.Operator);
+        }
+
+        public static bool HasSpeedFactor(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.IsSpeedUp()) return true;
+            return false;
+        }
+
         // Result
 
         /// <inheritdoc cref="_operand"/>
