@@ -10,6 +10,25 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class FluentOutlet 
     { 
+        /// <inheritdoc cref="_barindexer"/>
+        public SynthWishes.BarIndexer bar => _x.bar;
+        /// <inheritdoc cref="_barsindexer"/>
+        public SynthWishes.BarsIndexer bars => _x.bars;
+        /// <inheritdoc cref="_beatindexer"/>
+        public SynthWishes.BeatIndexer beat => _x.beat;
+        /// <inheritdoc cref="_beatindexer"/>
+        public SynthWishes.BeatIndexer b => _x.b;
+        /// <inheritdoc cref="_beatsindexer"/>
+        public SynthWishes.BeatsIndexer beats => _x.beats;
+        /// <inheritdoc cref="_timeindexer"/>
+        public SynthWishes.TimeIndexer t => _x.t;
+        /// <inheritdoc cref="_beatsindexer"/>
+        public SynthWishes.BeatsIndexer l => _x.l;
+        /// <inheritdoc cref="_beatsindexer"/>
+        public SynthWishes.BeatsIndexer len => _x.len;
+        /// <inheritdoc cref="_beatsindexer"/>
+        public SynthWishes.BeatsIndexer length  => _x.length;
+        /// <inheritdoc cref="_captureindexer" />
         public SynthWishes.CaptureIndexer _ => _x._;
     }
 
