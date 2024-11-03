@@ -257,7 +257,12 @@ namespace JJ.Business.Synthesizer.Wishes
         /// The names are mostly optional, but they can be useful as a diagnostic tool.
         /// </summary>
         public static object _names;
-            
+
+        /// <summary>
+        /// Returns what's input into an operand of the operator.
+        /// </summary>
+        public static object _operand;
+        
         /// <summary>
         /// Extensions that are wishes for the back-end related to the Operator entity.
         /// </summary>

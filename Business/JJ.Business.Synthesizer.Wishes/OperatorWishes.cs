@@ -43,6 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             _x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _this = firstFirstOperand ?? throw new ArgumentNullException(nameof(firstFirstOperand));
+            Operands = new FluentOperandList(this);
         }
 
         private string DebuggerDisplay => GetDebuggerDisplay(this);
@@ -630,8 +631,8 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FluentOutlet
     {
-        public FluentOutlet SpeedUp(FluentOutlet speed) => _x.SpeedUp(this, speed);
-        public FluentOutlet SpeedUp(double speed) => _x.SpeedUp(this, speed);
+        public FluentOutlet SpeedUp(FluentOutlet factor) => _x.SpeedUp(this, factor);
+        public FluentOutlet SpeedUp(double factor) => _x.SpeedUp(this, factor);
     }
     
     // TimePower SynthWishes

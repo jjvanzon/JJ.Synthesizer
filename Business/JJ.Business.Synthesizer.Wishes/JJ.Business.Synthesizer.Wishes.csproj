@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="CalculationWishes.cs" />
     <Compile Include="EnumWishes.cs" />
+    <Compile Include="Helpers\FluentOperandList.cs" />
     <Compile Include="Helpers\AudioFileOutputCalculatorAccessor.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\ConfigSection.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Helpers\ToolingHelper.cs" />
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
+    <Compile Include="Helpers\OperandList.cs" />
     <Compile Include="RelatedObjectWishes.cs" />
     <Compile Include="ParallelWishes.cs" />
     <Compile Include="PlayWishes.cs" />

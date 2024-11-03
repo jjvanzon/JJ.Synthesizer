@@ -203,7 +203,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             FluentOutlet getSample()
             {
                 var    outlet = WithName(audioFileOutput1.FilePath).Sample(bytes);
-                Sample sample = outlet.GetSample();
+                Sample sample = outlet.Sample();
 
                 if (audioFileFormatEnum == Raw)
                 {
