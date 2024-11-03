@@ -1,6 +1,7 @@
 ﻿using JJ.Persistence.Synthesizer;
 using System;
 using System.Linq;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using static JJ.Business.Synthesizer.Wishes.docs;
 
@@ -103,8 +104,9 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.Inlets.Count == 0) throw new ArgumentException("entity.Inlets.Count == 0");
-            entity.Inlets[0].Input = a;
+            entity.Inlets[0].LinkTo(a);
         }
+        
         /// <inheritdoc cref="_operand"/>
         public static Outlet A(this Outlet entity)
         {
@@ -134,7 +136,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.Inlets.Count < 2) throw new ArgumentException("entity.Inlets.Count < 2");
-            entity.Inlets[1].Input = b;
+            entity.Inlets[1].LinkTo(b);
         }
         
         /// <inheritdoc cref="_operand"/>
@@ -578,7 +580,6 @@ namespace JJ.Business.Synthesizer.Wishes
         [Obsolete("Rarely used because default origin 0 usually works. " +
                   "Otherwise consider use separate operators like Shift and Stretch instead.")]
         public FluentOutlet Origin => _[_wrappedOutlet.Operator?.Inlets.ElementAt(2)?.Input];
-
     }
 
     /// <inheritdoc cref="_operand"/>
