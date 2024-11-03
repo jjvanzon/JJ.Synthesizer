@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable NotResolvedInText
 
@@ -55,12 +56,14 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private readonly ThreadLocal<string> _name = new ThreadLocal<string>();
 
+        /// <inheritdoc cref="_names"/>
         public string Name
         {
             get => _name.Value;
             private set => _name.Value = value;
         }
 
+        /// <inheritdoc cref="_names"/>
         public SynthWishes WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
         {
             string name = uglyName;
@@ -114,13 +117,21 @@ namespace JJ.Business.Synthesizer.Wishes
     // NameWishes FluentOutlet
     
     public partial class FluentOutlet
-    { 
+    {
+        /// <inheritdoc cref="docs._names"/>
         public FluentOutlet SetName([CallerMemberName] string name = null)
         {
             if (string.IsNullOrWhiteSpace(name)) return this;
             
             _this.SetName(name);
 
+            return this;
+        }
+    
+        /// <inheritdoc cref="docs._names"/>
+        public FluentOutlet WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
+        {
+            x.WithName(uglyName, fallbackName, callerMemberName);
             return this;
         }
     }
@@ -131,6 +142,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // NameWishes Curves
 
+        /// <inheritdoc cref="docs._names"/>
         public static Curve SetName(this Curve entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -138,6 +150,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity;
         }
                 
+        /// <inheritdoc cref="docs._names"/>
         public static CurveInWrapper SetName(this CurveInWrapper wrapper, string name)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -151,6 +164,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // NameWishes Samples / AudioFileOutput
 
+        /// <inheritdoc cref="docs._names"/>
         public static Sample SetName(this Sample entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -158,6 +172,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity;
         }
 
+        /// <inheritdoc cref="docs._names"/>
         public static AudioFileOutput SetName(this AudioFileOutput entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -165,6 +180,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity;
         }
 
+        /// <inheritdoc cref="docs._names"/>
         public static SampleOperatorWrapper SetName(this SampleOperatorWrapper wrapper, string name)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -178,6 +194,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // NameWishes Operators
 
+        /// <inheritdoc cref="docs._names"/>
         public static Outlet SetName(this Outlet entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -185,6 +202,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity;
         }
 
+        /// <inheritdoc cref="docs._names"/>
         public static Operator SetName(this Operator op, string name)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
@@ -206,6 +224,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return op;
         }
 
+        /// <inheritdoc cref="docs._names"/>
         public static Inlet SetName(this Inlet entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -213,6 +232,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity;
         }
         
+        /// <inheritdoc cref="docs._names"/>
         public static OperatorWrapperBase SetName(this OperatorWrapperBase wrapper, string name)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));

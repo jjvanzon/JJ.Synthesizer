@@ -394,6 +394,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 case ChannelEnum.Single:
                     // Test WithName
                     WithName();
+                    
                     echoed = (sound * 0.18).EchoParallel(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL, mustAddAudioLength) / 0.18;
                     break;
                 

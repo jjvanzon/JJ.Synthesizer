@@ -243,6 +243,22 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _multiply;
 
         /// <summary>
+        /// <c>WithName()</c> is prefix: it is applied to the next object.<br/>
+        /// <c>SetName()</c> is suffix: it is applied to the object before it.<br/>
+        /// <c>Name</c> returns the last name assigned using WithName(). <br/>
+        /// You can pass the desired name as a parameter, but if you omit it, the name of the current member
+        /// you are in is used. So the place where you code, that method's name, becomes
+        /// the name for the object you're about to create or are calling upon.
+        /// Some methods work without WithName,
+        /// in that they'll automatically pick up the name of the member called from.
+        /// This only does not work with params / variable amount of arguments
+        /// where the parameters separate with commas describe a list of items.
+        /// Calling WithName or SetName explicitly there helps.
+        /// The names are mostly optional, but they can be useful as a diagnostic tool.
+        /// </summary>
+        public static object _names;
+            
+        /// <summary>
         /// Extensions that are wishes for the back-end related to the Operator entity.
         /// </summary>
         public static object _operatorextensionwishes;
