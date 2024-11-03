@@ -13,10 +13,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     {
         private IList<Inlet> _inlets;
         
-        /// <summary> CAN BE NUL!!! </summary>
-        //private SynthWishes _synthWishes;
-
-        internal OperandList(FluentOutlet fluentOutlet) => Initialize(fluentOutlet);
         internal OperandList(Outlet outlet) => Initialize(outlet);
         internal OperandList(Operator op) => Initialize(op);
         
@@ -90,14 +86,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         // Helpers
-        
-        //private void EnsureSynthWishesOrThrowListCannotBeExtended()
-        //{
-        //    if (_synthWishes == null)
-        //    {
-        //        ThrowListCannotBeExtended();
-        //    }
-        //}
 
         private void ThrowListCannotBeExtended()
         {
@@ -108,20 +96,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
 
         // Field Assignment with Null Checks
-
-        private void Initialize(FluentOutlet fluentOutlet)
-        {
-            if (fluentOutlet == null) throw new NullException(() => fluentOutlet);
-            Initialize(fluentOutlet.WrappedOutlet);
-        }
-
-        //private void Initialize(FluentOutlet fluentOutlet, SynthWishes synthWishes)
-        //{
-        //    if (fluentOutlet == null) throw new NullException(() => fluentOutlet);
-        //    Initialize(fluentOutlet.Outlet);
-
-        //    _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-        //}
 
         private void Initialize(Outlet outlet) 
         {
