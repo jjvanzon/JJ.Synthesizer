@@ -123,12 +123,12 @@ namespace JJ.Business.Synthesizer.Wishes
                         if (inMemory)
                         { 
                             // Read from bytes
-                            reloadedSamples[i] = x.Sample(saveResult.Data.Bytes);
+                            reloadedSamples[i] = x.Sample(saveResult.Data.Bytes).SetName(displayNames[i]);
                         }
                         else
                         {
                             // Read from file
-                            reloadedSamples[i] = x.Sample(names[i]);
+                            reloadedSamples[i] = x.Sample(names[i]).SetName(displayNames[i]);
                         
                             // Save reloaded samples again.
                             if (x.MustSaveParallels)
