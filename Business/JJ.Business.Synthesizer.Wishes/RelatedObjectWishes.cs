@@ -8,14 +8,14 @@ using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Related Object Wishes
+    // RelatedObjectWishes
     
-    // Related Operator
+    // Operator
     
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_relatedobjectextensions"/>
-        public Operator Operator => _this.Operator;
+        public Operator Operator => _wrappedOutlet.Operator;
     }
     
     /// <inheritdoc cref="_relatedobjectextensions"/>
@@ -38,15 +38,15 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Related Curve
+    // Curve
         
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_getcurve" />"/>
-        public Curve Curve() => _this.Curve();
+        public Curve Curve() => _wrappedOutlet.Curve();
 
         /// <inheritdoc cref="_getcurvewrapper"/>
-        public CurveInWrapper GetCurveWrapper() => _this.GetCurveWrapper();
+        public CurveInWrapper GetCurveWrapper() => _wrappedOutlet.GetCurveWrapper();
     }
 
     /// <inheritdoc cref="_relatedobjectextensions"/>
@@ -101,10 +101,10 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_getsample" />
-        public Sample Sample() => _this.Sample();
+        public Sample Sample() => _wrappedOutlet.Sample();
 
         /// <inheritdoc cref="_getsamplewrapper" />
-        public SampleOperatorWrapper GetSampleWrapper() => _this.GetSampleWrapper();
+        public SampleOperatorWrapper GetSampleWrapper() => _wrappedOutlet.GetSampleWrapper();
     }
 
     /// <inheritdoc cref="_relatedobjectextensions"/>
@@ -161,71 +161,71 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_operand"/>
         public FluentOutlet A 
         { 
-            get => _[Outlet.A()]; 
-            set => Outlet.SetA(value); 
+            get => _[_wrappedOutlet.A()]; 
+            set => _wrappedOutlet.SetA(value); 
         }
         
         /// <inheritdoc cref="_operand"/>
         public FluentOutlet B
         {
-            get => _[Outlet.B()];
-            set => Outlet.SetB(value);
+            get => _[_wrappedOutlet.B()];
+            set => _wrappedOutlet.SetB(value);
         }
 
         /// <inheritdoc cref="_operand"/>
         public FluentOutlet Frequency
         {
-            get => _[Outlet.Frequency()];
-            set => Outlet.SetFrequency(value);
+            get => _[_wrappedOutlet.Frequency()];
+            set => _wrappedOutlet.SetFrequency(value);
         }
 
         /// <inheritdoc cref="_operand"/>
         public FluentOutlet Pitch
         {
-            get => _[Outlet.Pitch()];
-            set => Outlet.SetPitch(value);
+            get => _[_wrappedOutlet.Pitch()];
+            set => _wrappedOutlet.SetPitch(value);
         }
 
         /// <inheritdoc cref="_operand"/>
         public FluentOutlet Signal
         {
-            get => _[Outlet.Signal()];
-            set => Outlet.SetSignal(value);
+            get => _[_wrappedOutlet.Signal()];
+            set => _wrappedOutlet.SetSignal(value);
         }
 
         /// <inheritdoc cref="_operand"/>
         public FluentOutlet Base
         {
-            get => _[Outlet.Base()];
-            set => Outlet.SetBase(value);
+            get => _[_wrappedOutlet.Base()];
+            set => _wrappedOutlet.SetBase(value);
         }
 
         /// <inheritdoc cref="_operand"/>
         public FluentOutlet Exponent
         {
-            get => _[Outlet.Exponent()];
-            set => Outlet.SetExponent(value);
+            get => _[_wrappedOutlet.Exponent()];
+            set => _wrappedOutlet.SetExponent(value);
         }
 
         /// <inheritdoc cref="_operand"/>
         public FluentOutlet TimeDifference
         {
-            get => _[Outlet.TimeDifference()];
-            set => Outlet.SetTimeDifference(value);
+            get => _[_wrappedOutlet.TimeDifference()];
+            set => _wrappedOutlet.SetTimeDifference(value);
         }
 
         /// <inheritdoc cref="_operand"/>
         public FluentOutlet TimeScale
         {
-            get => _[Outlet.TimeScale()];
-            set => Outlet.SetTimeScale(value);
+            get => _[_wrappedOutlet.TimeScale()];
+            set => _wrappedOutlet.SetTimeScale(value);
         }
 
         /// <inheritdoc cref="_operand"/>
         public FluentOutlet SpeedFactor
         {
-            get => _[Outlet.SpeedFactor()];
-            set => Outlet.SetSpeedFactor(value);
+            get => _[_wrappedOutlet.SpeedFactor()];
+            set => _wrappedOutlet.SetSpeedFactor(value);
         }
 
         public FluentOperandList Operands { get; }
@@ -233,114 +233,189 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // Operands on Entity Objects
     
-        /// <inheritdoc cref="_relatedobjectextensions"/>
+    /// <inheritdoc cref="_relatedobjectextensions"/>
     public static partial class RelatedObjectsExtensionWishes
     { 
-        // TODO: Make conditional and throw?
+        // TODO: Make conditional and throw if operator type does not match?
         // TODO: Bounds checks?
 
-        /// <inheritdoc cref="_operand"/>
-        public static Outlet A(this Outlet entity) => entity.Operator.A();
-        /// <inheritdoc cref="_operand"/>
-        public static void SetA(this Outlet entity, Outlet a) => entity.Operator.SetA(a);
-        /// <inheritdoc cref="_operand"/>
-        public static Outlet A(this Operator entity) => entity.Inlets.ElementAt(0)?.Input;
-        /// <inheritdoc cref="_operand"/>
-        public static void SetA(this Operator entity, Outlet a) => entity.Inlets.ElementAt(0).Input = a;
+        // A
         
         /// <inheritdoc cref="_operand"/>
-        public static Outlet B(this Outlet entity) => entity.Operator.B();
+        public static Outlet A(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return entity.Inlets.ElementAt(0)?.Input;
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetB(this Outlet entity, Outlet b) => entity.Operator.SetB(b);
+        public static void SetA(this Operator entity, Outlet a)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.Inlets.ElementAt(0).Input = a;
+        }
         /// <inheritdoc cref="_operand"/>
-        public static Outlet B(this Operator entity) => entity.Inlets.ElementAt(1)?.Input;
+        public static Outlet A(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return A(entity.Operator);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetB(this Operator entity, Outlet b) => entity.Inlets.ElementAt(1).Input = b;
+        public static void SetA(this Outlet entity, Outlet a)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            SetA(entity.Operator, a);
+        }
+
+        // B
+
+        /// <inheritdoc cref="_operand"/>
+        public static Outlet B(this Operator entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return entity.Inlets.ElementAt(1)?.Input;
+        }
+
+        /// <inheritdoc cref="_operand"/>
+        public static void SetB(this Operator entity, Outlet b)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.Inlets.ElementAt(1).Input = b;
+        }
         
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Pitch(this Outlet entity) => entity.B();
+        public static Outlet B(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return B(entity.Operator);
+        }
+
         /// <inheritdoc cref="_operand"/>
-        public static void SetPitch(this Outlet entity, Outlet b) => entity.SetB(b);
-        /// <inheritdoc cref="_operand"/>
-        public static Outlet Pitch(this Operator entity) => entity.B();
-        /// <inheritdoc cref="_operand"/>
-        public static void SetPitch(this Operator entity, Outlet b) => entity.SetB(b);
+        public static void SetB(this Outlet entity, Outlet b)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            SetB(entity.Operator, b);
+        }
+
+        // Pitch
         
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Frequency(this Outlet entity) => entity.Pitch();
+        public static Outlet Pitch(this Outlet entity) => B(entity);
         /// <inheritdoc cref="_operand"/>
-        public static void SetFrequency(this Outlet entity, Outlet b) => entity.SetPitch(b);
+        public static void SetPitch(this Outlet entity, Outlet b) => SetB(entity, b);
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Frequency(this Operator entity) => entity.Pitch();
+        public static Outlet Pitch(this Operator entity) => B(entity);
         /// <inheritdoc cref="_operand"/>
-        public static void SetFrequency(this Operator entity, Outlet b) => entity.SetPitch(b);
+        public static void SetPitch(this Operator entity, Outlet b) => SetB(entity, b);
+
+        // Frequency
+
+        /// <inheritdoc cref="_operand"/>
+        public static Outlet Frequency(this Outlet entity) => Pitch(entity);
+        /// <inheritdoc cref="_operand"/>
+        public static void SetFrequency(this Outlet entity, Outlet b) => SetPitch(entity, b);
+        /// <inheritdoc cref="_operand"/>
+        public static Outlet Frequency(this Operator entity) => Pitch(entity);
+        /// <inheritdoc cref="_operand"/>
+        public static void SetFrequency(this Operator entity, Outlet b) => SetPitch(entity, b);
+
+        // Signal
+
+        /// <inheritdoc cref="_operand"/>
+        public static Outlet Signal(this Outlet entity) => A(entity);
+        /// <inheritdoc cref="_operand"/>
+        public static void SetSignal(this Outlet entity, Outlet a) => SetA(entity, a);
+        /// <inheritdoc cref="_operand"/>
+        public static Outlet Signal(this Operator entity) => A(entity);
+        /// <inheritdoc cref="_operand"/>
+        public static void SetSignal(this Operator entity, Outlet a) => SetA(entity, a);
+
+        // Base
+
+        /// <inheritdoc cref="_operand"/>
+        public static Outlet Base(this Outlet entity) => A(entity);
+        /// <inheritdoc cref="_operand"/>
+        public static void SetBase(this Outlet entity, Outlet a) => SetA(entity, a);
+        /// <inheritdoc cref="_operand"/>
+        public static Outlet Base(this Operator entity) => A(entity);
+        /// <inheritdoc cref="_operand"/>
+        public static void SetBase(this Operator entity, Outlet a) => SetA(entity, a);
         
+        // Exponent
+
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Signal(this Outlet entity) => entity.A();
+        public static Outlet Exponent(this Outlet entity) => B(entity);
         /// <inheritdoc cref="_operand"/>
-        public static void SetSignal(this Outlet entity, Outlet a) => entity.SetA(a);
+        public static void SetExponent(this Outlet entity, Outlet b) => SetB(entity, b);
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Signal(this Operator entity) => entity.A();
+        public static Outlet Exponent(this Operator entity) => B(entity);
         /// <inheritdoc cref="_operand"/>
-        public static void SetSignal(this Operator entity, Outlet a) => entity.SetA(a);
+        public static void SetExponent(this Operator entity, Outlet b) => SetB(entity, b);
         
+        // TimeDifference
+
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Base(this Outlet entity) => entity.A();
+        public static Outlet TimeDifference(this Outlet entity) => B(entity);
         /// <inheritdoc cref="_operand"/>
-        public static void SetBase(this Outlet entity, Outlet a) => entity.SetA(a);
+        public static void SetTimeDifference(this Outlet entity, Outlet b) => SetB(entity, b);
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Base(this Operator entity) => entity.A();
+        public static Outlet TimeDifference(this Operator entity) => B(entity);
         /// <inheritdoc cref="_operand"/>
-        public static void SetBase(this Operator entity, Outlet a) => entity.SetA(a);
+        public static void SetTimeDifference(this Operator entity, Outlet b) => SetB(entity, b);
         
+        // TimeScale
+
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Exponent(this Outlet entity) => entity.B();
+        public static Outlet TimeScale(this Outlet entity) => B(entity);
         /// <inheritdoc cref="_operand"/>
-        public static void SetExponent(this Outlet entity, Outlet b) => entity.SetB(b);
+        public static void SetTimeScale(this Outlet entity, Outlet b) => SetB(entity, b);
         /// <inheritdoc cref="_operand"/>
-        public static Outlet Exponent(this Operator entity) => entity.B();
+        public static Outlet TimeScale(this Operator entity) => B(entity);
         /// <inheritdoc cref="_operand"/>
-        public static void SetExponent(this Operator entity, Outlet b) => entity.SetB(b);
+        public static void SetTimeScale(this Operator entity, Outlet b) => SetB(entity, b);
         
+        // SpeedFactor
+
         /// <inheritdoc cref="_operand"/>
-        public static Outlet TimeDifference(this Outlet entity) => entity.B();
+        public static Outlet SpeedFactor(this Outlet entity) => B(entity);
         /// <inheritdoc cref="_operand"/>
-        public static void SetTimeDifference(this Outlet entity, Outlet b) => entity.SetB(b);
+        public static void SetSpeedFactor(this Outlet entity, Outlet b) => SetB(entity, b);
         /// <inheritdoc cref="_operand"/>
-        public static Outlet TimeDifference(this Operator entity) => entity.B();
+        public static Outlet SpeedFactor(this Operator entity) => B(entity);
         /// <inheritdoc cref="_operand"/>
-        public static void SetTimeDifference(this Operator entity, Outlet b) => entity.SetB(b);
+        public static void SetSpeedFactor(this Operator entity, Outlet b) => SetB(entity, b);
         
-        /// <inheritdoc cref="_operand"/>
-        public static Outlet TimeScale(this Outlet entity) => entity.B();
-        /// <inheritdoc cref="_operand"/>
-        public static void SetTimeScale(this Outlet entity, Outlet b) => entity.SetB(b);
-        /// <inheritdoc cref="_operand"/>
-        public static Outlet TimeScale(this Operator entity) => entity.B();
-        /// <inheritdoc cref="_operand"/>
-        public static void SetTimeScale(this Operator entity, Outlet b) => entity.SetB(b);
-        
-        /// <inheritdoc cref="_operand"/>
-        public static Outlet SpeedFactor(this Outlet entity) => entity.B();
-        /// <inheritdoc cref="_operand"/>
-        public static void SetSpeedFactor(this Outlet entity, Outlet b) => entity.SetB(b);
-        /// <inheritdoc cref="_operand"/>
-        public static Outlet SpeedFactor(this Operator entity) => entity.B();
-        /// <inheritdoc cref="_operand"/>
-        public static void SetSpeedFactor(this Operator entity, Outlet b) => entity.SetB(b);
-        
-        ///// <inheritdoc cref="_operand"/>
-        public static OperandList Operands(this Outlet entity) => entity.Operator.Operands();
-        ///// <inheritdoc cref="_operand"/>
-        public static OperandList Operands(this Operator entity) => new OperandList(entity);
-        
-        ///// <inheritdoc cref="_operand"/>
-        public static Outlet Operands(this Outlet entity, int index) => entity.Operator.Operands(index);
-        ///// <inheritdoc cref="_operand"/>
-        public static Outlet Operands(this Operator entity, int index) => entity.Inlets[index].Input;
+        // Result
 
         /// <inheritdoc cref="_operand"/>
         public static Outlet Result(this Operator entity) => entity.Outlets[0];
+
+        // OperandsList
+
+        /// <inheritdoc cref="_operand"/>
+        public static OperandList Operands(this Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return Operands(entity.Operator);
+        }
+
+        /// <inheritdoc cref="_operand"/>
+        public static OperandList Operands(this Operator entity) => new OperandList(entity);
+
+        /// <inheritdoc cref="_operand"/>
+        public static Outlet Operands(this Outlet entity, int index)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return Operands(entity.Operator, index);
+        }
+
+        /// <inheritdoc cref="_operand"/>
+        public static Outlet Operands(this Operator entity, int index)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return entity.Inlets[index].Input;
+        }
     }
 
     // Operand Origin
@@ -349,7 +424,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         [Obsolete("Rarely used because default origin 0 usually works. " +
                   "Otherwise consider use separate operators like Shift and Stretch instead.")]
-        public FluentOutlet Origin => _[Outlet.Operator?.Inlets.ElementAt(2)?.Input];
+        public FluentOutlet Origin => _[_wrappedOutlet.Operator?.Inlets.ElementAt(2)?.Input];
 
     }
 

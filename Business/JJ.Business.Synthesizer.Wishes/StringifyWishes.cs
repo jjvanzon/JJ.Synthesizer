@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="_stringify"/>
         public string Stringify(bool singleLine = false, bool mustUseShortOperators = false) 
-            => _this.Stringify(singleLine, mustUseShortOperators);
+            => _wrappedOutlet.Stringify(singleLine, mustUseShortOperators);
     }
 
     // Stringify Extensions

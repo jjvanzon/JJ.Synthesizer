@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         private void Initialize(FluentOutlet fluentOutlet)
         {
             if (fluentOutlet == null) throw new NullException(() => fluentOutlet);
-            Initialize(fluentOutlet.Outlet);
+            Initialize(fluentOutlet.WrappedOutlet);
         }
 
         //private void Initialize(FluentOutlet fluentOutlet, SynthWishes synthWishes)

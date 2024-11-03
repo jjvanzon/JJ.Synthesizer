@@ -90,16 +90,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             IsNotNull(        () => flattenAdderTerms);
             AreEqual(10,          () => flattenAdderTerms.Count);
-            AreEqual(var1.Outlet, () => flattenAdderTerms[0].Outlet);
-            AreEqual(var2.Outlet, () => flattenAdderTerms[1].Outlet);
-            AreEqual(var3.Outlet, () => flattenAdderTerms[2].Outlet);
-            AreEqual(var4.Outlet, () => flattenAdderTerms[3].Outlet);
-            AreEqual(var5.Outlet, () => flattenAdderTerms[4].Outlet);
-            AreEqual(var6.Outlet, () => flattenAdderTerms[5].Outlet);
-            AreEqual(var7.Outlet, () => flattenAdderTerms[6].Outlet);
-            AreEqual(var8.Outlet, () => flattenAdderTerms[7].Outlet);
-            AreEqual(const9,      () => flattenAdderTerms[8].Outlet);
-            AreEqual(const10,     () => flattenAdderTerms[9].Outlet);
+            AreEqual(var1.WrappedOutlet, () => flattenAdderTerms[0].WrappedOutlet);
+            AreEqual(var2.WrappedOutlet, () => flattenAdderTerms[1].WrappedOutlet);
+            AreEqual(var3.WrappedOutlet, () => flattenAdderTerms[2].WrappedOutlet);
+            AreEqual(var4.WrappedOutlet, () => flattenAdderTerms[3].WrappedOutlet);
+            AreEqual(var5.WrappedOutlet, () => flattenAdderTerms[4].WrappedOutlet);
+            AreEqual(var6.WrappedOutlet, () => flattenAdderTerms[5].WrappedOutlet);
+            AreEqual(var7.WrappedOutlet, () => flattenAdderTerms[6].WrappedOutlet);
+            AreEqual(var8.WrappedOutlet, () => flattenAdderTerms[7].WrappedOutlet);
+            AreEqual(const9,      () => flattenAdderTerms[8].WrappedOutlet);
+            AreEqual(const10,     () => flattenAdderTerms[9].WrappedOutlet);
             
             // Check Nested Sum
             Outlet nestedSumOutlet =
@@ -202,11 +202,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(6, () => flattenedFactors.Count);
             
             // Operator creation reversed the order.
-            AreEqual(var2.Outlet, () => flattenedFactors[4].Outlet);
-            AreEqual(var4.Outlet, () => flattenedFactors[3].Outlet);
-            AreEqual(var6.Outlet, () => flattenedFactors[2].Outlet);
-            AreEqual(var7.Outlet, () => flattenedFactors[1].Outlet);
-            AreEqual(var8.Outlet, () => flattenedFactors[0].Outlet);
+            AreEqual(var2.WrappedOutlet, () => flattenedFactors[4].WrappedOutlet);
+            AreEqual(var4.WrappedOutlet, () => flattenedFactors[3].WrappedOutlet);
+            AreEqual(var6.WrappedOutlet, () => flattenedFactors[2].WrappedOutlet);
+            AreEqual(var7.WrappedOutlet, () => flattenedFactors[1].WrappedOutlet);
+            AreEqual(var8.WrappedOutlet, () => flattenedFactors[0].WrappedOutlet);
             
             double? constant = flattenedFactors[5].AsConst;
             IsNotNull(() => constant);
@@ -392,14 +392,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Assert Entities
             IsNotNull(() => adder);
-            IsNotNull(() => adder.Outlet);
-            IsNotNull(() => adder.Outlet.Operator);
-            IsTrue(() => adder.Outlet.IsAdder());
-            IsTrue(() => adder.Outlet.Operator.IsAdder());
-            AreEqual("Adder", () => adder.Outlet.Operator.OperatorTypeName);
+            IsNotNull(() => adder.WrappedOutlet);
+            IsNotNull(() => adder.WrappedOutlet.Operator);
+            IsTrue(() => adder.WrappedOutlet.IsAdder());
+            IsTrue(() => adder.WrappedOutlet.Operator.IsAdder());
+            AreEqual("Adder", () => adder.WrappedOutlet.Operator.OperatorTypeName);
 
-            IsNotNull(() => adder.Outlet.Operator.Inlets);
-            var addOperands = adder.Outlet.Operator.Inlets.Select(x => x.Input).ToList();
+            IsNotNull(() => adder.WrappedOutlet.Operator.Inlets);
+            var addOperands = adder.WrappedOutlet.Operator.Inlets.Select(x => x.Input).ToList();
             AreEqual(3, () => addOperands.Count);
 
             foreach (var addOperand in addOperands)
@@ -483,14 +483,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Assert
             IsNotNull(() => adder);
-            IsNotNull(() => adder.Outlet);
-            IsNotNull(() => adder.Outlet.Operator);
-            IsTrue(() => adder.Outlet.IsAdder());
-            IsTrue(() => adder.Outlet.Operator.IsAdder());
-            AreEqual("Adder", () => adder.Outlet.Operator.OperatorTypeName);
+            IsNotNull(() => adder.WrappedOutlet);
+            IsNotNull(() => adder.WrappedOutlet.Operator);
+            IsTrue(() => adder.WrappedOutlet.IsAdder());
+            IsTrue(() => adder.WrappedOutlet.Operator.IsAdder());
+            AreEqual("Adder", () => adder.WrappedOutlet.Operator.OperatorTypeName);
 
-            IsNotNull(() => adder.Outlet.Operator.Inlets);
-            var addOperands = adder.Outlet.Operator.Inlets.Select(x => x.Input).ToList();
+            IsNotNull(() => adder.WrappedOutlet.Operator.Inlets);
+            var addOperands = adder.WrappedOutlet.Operator.Inlets.Select(x => x.Input).ToList();
             AreEqual(3, () => addOperands.Count);
 
             foreach (var addOperand in addOperands)

@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (string.IsNullOrWhiteSpace(name)) return this;
             
-            _this.SetName(name);
+            _wrappedOutlet.SetName(name);
 
             return this;
         }

@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public FluentOperandList(FluentOutlet parent)
         {
             _parent = parent;
-            _underlyingList = new OperandList(parent.Outlet);
+            _underlyingList = new OperandList(parent.WrappedOutlet);
         }
            
         public int Count => _underlyingList.Count;

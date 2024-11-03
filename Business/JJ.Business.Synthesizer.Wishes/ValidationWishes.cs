@@ -23,9 +23,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        public Result Validate(bool recursive = true) => _this.Validate(recursive);
-        public void Assert(bool recursive = true) => _this.Assert(recursive);
-        public IList<string> GetWarnings(bool recursive = true) => _this.GetWarnings(recursive);
+        public Result Validate(bool recursive = true) => _wrappedOutlet.Validate(recursive);
+        public void Assert(bool recursive = true) => _wrappedOutlet.Assert(recursive);
+        public IList<string> GetWarnings(bool recursive = true) => _wrappedOutlet.GetWarnings(recursive);
     }
 
     public static class ValidationExtensionWishes

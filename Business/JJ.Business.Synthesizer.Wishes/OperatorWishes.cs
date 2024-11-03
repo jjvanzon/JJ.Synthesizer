@@ -37,20 +37,20 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         private readonly SynthWishes _x;
-        private readonly Outlet _this;
+        private readonly Outlet _wrappedOutlet;
 
         public FluentOutlet(SynthWishes synthWishes, Outlet firstFirstOperand)
         {
             _x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-            _this = firstFirstOperand ?? throw new ArgumentNullException(nameof(firstFirstOperand));
+            _wrappedOutlet = firstFirstOperand ?? throw new ArgumentNullException(nameof(firstFirstOperand));
             Operands = new FluentOperandList(this);
         }
 
         private string DebuggerDisplay => GetDebuggerDisplay(this);
 
-        public static implicit operator Outlet(FluentOutlet fluentOutlet) => fluentOutlet?._this;
+        public static implicit operator Outlet(FluentOutlet fluentOutlet) => fluentOutlet?._wrappedOutlet;
 
-        public Outlet Outlet => _this;
+        public Outlet WrappedOutlet => _wrappedOutlet;
     }
 
     // Value FluentOutlet
@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 default:
                     // Make Normal Adder
-                    return _[_operatorFactory.Adder(terms.Select(x => x.Outlet).ToArray())];
+                    return _[_operatorFactory.Adder(terms.Select(x => x.WrappedOutlet).ToArray())];
             }
         }
 
