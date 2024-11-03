@@ -425,7 +425,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
     
-    public static partial class AudioFileExtensionWishes
+    public static class AudioFileExtensionWishes
     {
         public static int SizeOf(Type sampleDataType)
         {

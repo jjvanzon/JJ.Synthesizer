@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public IList<string> GetWarnings(bool recursive = true) => _wrappedOutlet.GetWarnings(recursive);
     }
 
-    public static partial class ValidationExtensionWishes
+    public static class ValidationExtensionWishes
     {
         // AudioFileOutput Validation
         

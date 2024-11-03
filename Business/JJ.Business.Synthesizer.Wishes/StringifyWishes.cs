@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // Stringify Extensions
     
-    public static partial class StringifyExtensionWishes
+    public static class StringifyExtensionWishes
     { 
         // Operators
 

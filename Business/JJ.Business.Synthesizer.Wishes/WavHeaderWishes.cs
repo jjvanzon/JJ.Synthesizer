@@ -177,7 +177,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => BinaryWriterExtensions.ReadStruct<WavHeaderStruct>(reader);
     }
 
-    public static partial class WavHeaderExtensionWishes_HeaderFromObjects
+    public static class WavHeaderExtensionWishes_HeaderFromObjects
     { 
         public static WavHeaderStruct GetWavHeader(this AudioFileInfoWish info)
             => WavHeaderManager.CreateWavHeaderStruct(info.FromWish());
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => WavHeaderExtensionWishes_GetInfo.GetInfo(audioFileOutputChannel, frameCount).GetWavHeader();
     }
 
-    public static partial class WavHeaderExtensionWishes_GetInfo
+    public static class WavHeaderExtensionWishes_GetInfo
     {
         // Create Wish Version
         

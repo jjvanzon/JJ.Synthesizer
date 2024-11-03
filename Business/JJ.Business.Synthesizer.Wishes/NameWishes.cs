@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // NameWishes Extensions
     
-    public static partial class NameExtensionWishes
+    public static class NameExtensionWishes
     {
         // NameWishes Curves
 

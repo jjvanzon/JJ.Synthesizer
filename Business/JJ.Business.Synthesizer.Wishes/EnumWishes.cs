@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Wishes
     }
 
     /// <inheritdoc cref="_alternativeentrypointenumextensionwishes"/>
-    public static partial class AlternativeEntryPointEnumExtensionWishes
+    public static class AlternativeEntryPointEnumExtensionWishes
     {
         // AudioFileOutputChannel.AudioFileFormat
 

@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    public static partial class CalculationExtensionWishes
+    public static class CalculationExtensionWishes
     {
         // FluentOutlet
 
