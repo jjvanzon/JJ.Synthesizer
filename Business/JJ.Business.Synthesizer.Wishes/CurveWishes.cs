@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using JJ.Business.Synthesizer.EntityWrappers;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
@@ -56,18 +54,18 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
         {
             string name = FetchName(callerMemberName);
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos));
-            AssignNames(wrapper, name);
-            return _[wrapper];
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos))];
+            AssignNames(curve, name);
+            return curve;
         }
 
         /// <inheritdoc cref="_createcurve" />
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
         {
             string name = FetchName();
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos));
-            AssignNames(wrapper, name);
-            return _[wrapper];
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos))];
+            AssignNames(curve, name);
+            return curve;
         }
 
         // Overloads with doubles
@@ -76,9 +74,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(params double?[] values)
         {
             string name = FetchName();
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values));
-            AssignNames(wrapper, name);
-            return _[wrapper];
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values))];
+            AssignNames(curve, name);
+            return curve;
         }
 
         // Overload with Tuples
@@ -89,26 +87,26 @@ namespace JJ.Business.Synthesizer.Wishes
             [CallerMemberName] string callerMemberName = null)
         {
             string name = FetchName(callerMemberName);
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples));
-            AssignNames(wrapper, name);
-            return _[wrapper];
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples))];
+            AssignNames(curve, name);
+            return curve;
         }
 
         /// <inheritdoc cref="_createcurvewithtuples" />
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
         {
             string name = FetchName();
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples));
-            AssignNames(wrapper, name);
-            return _[wrapper];
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples))];
+            AssignNames(curve, name);
+            return curve;
         }
 
         // Helpers
         
-        private void AssignNames(CurveInWrapper wrapper, string name)
+        private void AssignNames(FluentOutlet fluentOutlet, string name)
         {
-            wrapper.Curve.Name = name;
-            wrapper.Result.Operator.Name = name;
+            fluentOutlet.Curve().Name = name;
+            fluentOutlet.Operator.Name = name;
         }
     }
     
@@ -224,9 +222,9 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             //string name = FetchName(callerMemberName, GetCallerNameFromStack());
             string name = FetchName(callerMemberName);
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(text));
-            AssignNames(wrapper, name);
-            return _[wrapper];
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(text))];
+            AssignNames(curve, name);
+            return curve;
         }
 
         // Overload with String and Ranges
@@ -239,9 +237,9 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             //string name = FetchName(callerMemberName, GetCallerNameFromStack());
             string name = FetchName(callerMemberName);
-            var wrapper = _operatorFactory.CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, text));
-            AssignNames(wrapper, name);
-            return _[wrapper];
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, text))];
+            AssignNames(curve, name);
+            return curve;
         }
     }
 
@@ -250,8 +248,8 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_curvewithoperator"/>
-        public FluentOutlet Curve(Outlet curve)
-            => _wrappedOutlet * _x._[curve];
+        public FluentOutlet Curve(FluentOutlet curve)
+            => _wrappedOutlet * curve;
 
         public FluentOutlet Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
             => _wrappedOutlet * _x.Curve(nodeInfos, callerMemberName);

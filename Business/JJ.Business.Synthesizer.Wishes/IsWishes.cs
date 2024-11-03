@@ -1,7 +1,7 @@
 ﻿using System;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Names;
 using JJ.Framework.Common;
-using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
@@ -41,12 +41,12 @@ namespace JJ.Business.Synthesizer.Wishes
             => HasOperatorTypeName(entity, nameof(CurveIn));
 
         public static bool IsCurve(this Inlet entity)
-            => HasOperatorTypeName(entity, nameof(CurveIn));
+            => HasOperatorTypeName(entity, PropertyNames.CurveIn);
 
         // Samples / AudioFileOutput
         
         public static bool IsSample(this Outlet entity) 
-            => HasOperatorTypeName(entity, nameof(SampleOperator));
+            => HasOperatorTypeName(entity, PropertyNames.SampleOperator);
 
         public static bool IsSample(this Operator entity) 
             => HasOperatorTypeName(entity, nameof(SampleOperator));

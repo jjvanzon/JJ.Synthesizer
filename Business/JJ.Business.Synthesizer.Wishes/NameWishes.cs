@@ -118,6 +118,12 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FluentOutlet
     {
+        //public string Name
+        //{
+        //    get => _wrappedOutlet.Operator.Name;
+        //    set => SetName(value);
+        //}
+
         /// <inheritdoc cref="docs._names"/>
         public FluentOutlet SetName([CallerMemberName] string name = null)
         {

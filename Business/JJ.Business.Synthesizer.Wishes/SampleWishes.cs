@@ -52,12 +52,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 sample.Location = Path.GetFullPath(filePath);
             }
 
-            var wrapper = _operatorFactory.Sample(sample);
+            var sampleOutlet = _[_operatorFactory.Sample(sample)];
             
             sample.Name = name;
-            wrapper.Result.Operator.Name = name;
+            sampleOutlet.Operator.Name = name;
 
-            return _[wrapper.Result];
+            return sampleOutlet;
         }
 
     }
