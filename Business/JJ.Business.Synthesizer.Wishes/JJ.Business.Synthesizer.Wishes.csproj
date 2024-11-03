@@ -65,6 +65,7 @@
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
     <Compile Include="Helpers\OperandList.cs" />
+    <Compile Include="OperandWishes.cs" />
     <Compile Include="RelatedObjectWishes.cs" />
     <Compile Include="ParallelWishes.cs" />
     <Compile Include="PlayWishes.cs" />
