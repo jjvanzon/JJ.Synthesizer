@@ -49,8 +49,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 var originalAudioLength = x.AudioLength;
                 try
                 {
-                    (outletFunc, x.AudioLength) = AddPadding(outletFunc, x.AudioLength);
-
+                    outletFunc = AddPadding(outletFunc);
                     var saveResult = x.Save(outletFunc, name, mustWriteToMemory);
                     var playResult = PlayIfAllowed(saveResult.Data);
                     var result = saveResult.Combine(playResult);
@@ -59,25 +58,24 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
                 finally
                 {
-                    x.AudioLength = originalAudioLength;
+                    x.WithAudioLength(originalAudioLength);
                 }
             }
 
-            private (Func<Outlet> func, FluentOutlet audioLength)
-                AddPadding(Func<Outlet> func, FluentOutlet audioLength = default)
+            private Func<Outlet> AddPadding(Func<Outlet> func)
             {
-                audioLength = audioLength ?? x._[1];
-
-                FluentOutlet audioLength2 = audioLength + ConfigHelper.PlayLeadingSilence + ConfigHelper.PlayTrailingSilence;
-
+                x.AddAudioLength(ConfigHelper.PlayLeadingSilence);
+                x.AddAudioLength(ConfigHelper.PlayTrailingSilence);
+                
                 if (ConfigHelper.PlayLeadingSilence == 0)
                 {
-                    return (func, audioLength2);
+                    return func;
                 }
-
-                Outlet func2() => x.Delay(func(), x._[ConfigHelper.PlayLeadingSilence]);
-
-                return (func2, audioLength2);
+                else
+                {
+                    Outlet func2() => x.Delay(func(), x._[ConfigHelper.PlayLeadingSilence]);
+                    return func2;
+                }
             }
 
             public Result PlayIfAllowed(SaveResultData data)

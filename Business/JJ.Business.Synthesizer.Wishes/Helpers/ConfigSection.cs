@@ -1,10 +1,16 @@
 ﻿using System.Xml.Serialization;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     internal class ConfigSection
     {
         [XmlAttribute] public int? DefaultSamplingRate { get; set; }
+        [XmlAttribute] public SpeakerSetupEnum? DefaultSpeakerSetup { get; set; }
+        [XmlAttribute] public int? DefaultBitDepth { get; set; }
+        [XmlAttribute] public AudioFileFormatEnum? DefaultAudioFormat { get; set; }
+        [XmlAttribute] public InterpolationTypeEnum? DefaultInterpolation { get; set; }
+        [XmlAttribute] public double? DefaultAudioLength { get; set; }
         [XmlAttribute] public string LongRunningTestCategory { get; set; }
         [XmlAttribute] public bool? PlayEnabled { get; set; }
         [XmlAttribute] public double? PlayLeadingSilence { get; set; }

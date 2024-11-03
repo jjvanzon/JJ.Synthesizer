@@ -53,9 +53,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // OperatorWishes.SynthesizerSugar.Panning Dynamic_InvalidChannelEnum
             ThrowsException(() => Panning(Sine(), Curve((0, 0), (0, 1))));
 
-            // AudioFileWishes.SynthesizerSugar.Save SpeakerSetupNotSupported
-            ThrowsException(() => WithSpeakerSetup(SpeakerSetupEnum.Undefined).Save(() => Sine()));
-
             // AudioFileWishes.Extensions.GetChannelCount SpeakerSetupNotSupported
             ThrowsException(() => SpeakerSetupEnum.Undefined.GetChannelCount());
 

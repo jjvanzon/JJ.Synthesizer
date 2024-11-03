@@ -626,5 +626,16 @@ namespace JJ.Business.Synthesizer.Wishes
             if (distinctNodeTypeEnums.Count == 1) return distinctNodeTypeEnums[0];
             else return NodeTypeEnum.Undefined;
         }
+
+        // Bits to 
+        public static SampleDataTypeEnum ToSampleDataTypeEnum(this int bits)
+        {
+            switch (bits)
+            {
+                case 8: return SampleDataTypeEnum.Byte;
+                case 16: return SampleDataTypeEnum.Int16;
+                default: throw new Exception($"Bits = {bits} not supported.");
+            }
+        }
     }
 }

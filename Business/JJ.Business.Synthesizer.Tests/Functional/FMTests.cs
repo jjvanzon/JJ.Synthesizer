@@ -297,7 +297,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             }
             finally
             {
-                AudioLength = originalAudioLength;
+                WithAudioLength(originalAudioLength);
             }
         }
 
