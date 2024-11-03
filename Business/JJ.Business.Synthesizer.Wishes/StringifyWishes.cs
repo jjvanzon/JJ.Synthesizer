@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
@@ -177,13 +178,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
  
-        // Operator Notation
-        
-        //private static readonly string[] _simpleArithmeticOperatorNames =
-        //    { "Add", "Substract", "Multiply", "Divide" };
-
-        //private static bool IsSimpleArithmetic(Operator op) 
-        //    => _simpleArithmeticOperatorNames.Contains(op.OperatorTypeName);
+        // Short Notation + - * /
 
         private bool MustIncludeName(Operator op) => !CanUseShortNotation(op);
 
@@ -219,23 +214,47 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (op == null) return "null";
             
-            var formattedName = op.Name ?? op.OperatorTypeName;
-
-            // Curves
-            if (op.IsCurve() & !formattedName.Contains(_curveSynonyms))
-            { 
-                formattedName += " Curve";
-            }
-
-            // Samples
-            if (op.IsSample() & !formattedName.Contains(_sampleSynonyms))
-            { 
-                formattedName += " Sample";
+            var formattedName = op.Name;
+            
+            if (!NameMentionsOperatorType(formattedName, op.OperatorTypeName))
+            {
+                formattedName += " " + op.OperatorTypeName;
             }
 
             return formattedName;
         }
-        
+
+        private static bool NameMentionsOperatorType(string name, string operatorTypeName)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return false;
+            }
+
+            if (name.Contains(operatorTypeName, ignoreCase: true))
+            {
+                return true;
+            }
+            
+            string operatorTypeDisplayName = PropertyDisplayNames.ResourceManager.GetString(operatorTypeName);
+            if (name.Contains(operatorTypeDisplayName, ignoreCase: true))
+            {
+                return true;
+            }
+            
+            if (operatorTypeName.Contains(_curveSynonyms) && name.Contains(_curveSynonyms))
+            {
+                return true;
+            }
+            
+            if (operatorTypeName.Contains(_sampleSynonyms) && name.Contains(_sampleSynonyms))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         // Other Helpers
         
         private static string RemoveOuterBraces(string str)
