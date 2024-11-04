@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -100,10 +99,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="_samplingrate" />
+        /// <inheritdoc cref="docs._samplingrate" />
         public int SamplingRate { get; set; }
 
-        /// <inheritdoc cref="_samplingrate" />
+        /// <inheritdoc cref="docs._samplingrate" />
         public SynthWishes WithSamplingRate(int value)
         {
             SamplingRate = value;
@@ -115,9 +114,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        /// <inheritdoc cref="_samplingrate" />
+        /// <inheritdoc cref="docs._samplingrate" />
         public int SamplingRate { get => _x.SamplingRate; set => _x.SamplingRate = value; }
-        /// <inheritdoc cref="_samplingrate" />
+        /// <inheritdoc cref="docs._samplingrate" />
         public FluentOutlet WithSamplingRate(int value) { _x.SamplingRate = value; return this; }
     }
     
@@ -331,7 +330,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="_withpreviewparallels" />
+        /// <inheritdoc cref="docs._withpreviewparallels" />
         public SynthWishes WithPreviewParallels(bool mustPreviewParallels = true)
         {
             WithPlayParallels(mustPreviewParallels);
@@ -344,7 +343,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        /// <inheritdoc cref="_withpreviewparallels" />
+        /// <inheritdoc cref="docs._withpreviewparallels" />
         public FluentOutlet WithPreviewParallels(bool mustPreviewParallels = true) { _x.WithPreviewParallels(mustPreviewParallels); return this; }
     }
 
@@ -352,10 +351,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="_withpreviewparallels" />
+        /// <inheritdoc cref="docs._withpreviewparallels" />
         public bool MustPlayParallels { get; private set; }
 
-        /// <inheritdoc cref="_withpreviewparallels" />
+        /// <inheritdoc cref="docs._withpreviewparallels" />
         public SynthWishes WithPlayParallels(bool mustPlayParallels = true)
         {
             MustPlayParallels = mustPlayParallels;
@@ -367,9 +366,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        /// <inheritdoc cref="_withpreviewparallels" />
+        /// <inheritdoc cref="docs._withpreviewparallels" />
         public bool MustPlayParallels => _x.MustPlayParallels;
-        /// <inheritdoc cref="_withpreviewparallels" />
+        /// <inheritdoc cref="docs._withpreviewparallels" />
         public FluentOutlet WithPlayParallels(bool mustPlayParallels = true) { _x.WithPlayParallels(mustPlayParallels); return this; }
     }
 
@@ -377,10 +376,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="_withpreviewparallels" />
+        /// <inheritdoc cref="docs._withpreviewparallels" />
         public bool MustSaveParallels { get; private set; }
 
-        /// <inheritdoc cref="_withpreviewparallels" />
+        /// <inheritdoc cref="docs._withpreviewparallels" />
         public SynthWishes WithSaveParallels(bool mustSaveParallels = true)
         {
             MustSaveParallels = mustSaveParallels;
@@ -392,9 +391,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        /// <inheritdoc cref="_withpreviewparallels" />
+        /// <inheritdoc cref="docs._withpreviewparallels" />
         public bool MustSaveParallels => _x.MustSaveParallels;
-        /// <inheritdoc cref="_withpreviewparallels" />
+        /// <inheritdoc cref="docs._withpreviewparallels" />
         public FluentOutlet WithSaveParallels(bool mustSaveParallels = true) { _x.WithSaveParallels(mustSaveParallels); return this; }
     }
 }

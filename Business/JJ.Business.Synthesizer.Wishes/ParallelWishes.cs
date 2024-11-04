@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,30 +20,30 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="_paralleladd" />
+        /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(params Func<FluentOutlet>[] funcs)
             => ParallelAdd(1, (IList<Func<FluentOutlet>>)funcs);
 
-        /// <inheritdoc cref="_paralleladd" />
+        /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(IList<Func<FluentOutlet>> funcs, [CallerMemberName] string callerMemberName = null)
             => ParallelAdd(1, funcs, callerMemberName);
 
-        /// <inheritdoc cref="_paralleladd" />
+        /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(double volume, params Func<FluentOutlet>[] funcs)
             => ParallelAdd(volume, (IList<Func<FluentOutlet>>)funcs);
 
         public FluentOutlet ParallelAdd(double volume, IList<Func<FluentOutlet>> funcs, [CallerMemberName] string callerMemberName = null)
             => _parallelWishes.ParallelAdd(volume, funcs, callerMemberName);
         
-        /// <inheritdoc cref="_paralleladd" />
+        /// <inheritdoc cref="docs._paralleladd" />
         private class ParallelWishes
         {
             private readonly SynthWishes x;
 
-            /// <inheritdoc cref="_paralleladd" />
+            /// <inheritdoc cref="docs._paralleladd" />
             public ParallelWishes(SynthWishes synthWishes) => x = synthWishes;
 
-            /// <inheritdoc cref="_paralleladd" />
+            /// <inheritdoc cref="docs._paralleladd" />
             public FluentOutlet ParallelAdd(double volume, IList<Func<FluentOutlet>> funcs, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);

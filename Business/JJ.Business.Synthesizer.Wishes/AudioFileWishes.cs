@@ -13,7 +13,6 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
 using static JJ.Business.Synthesizer.Wishes.Helpers.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
-using static JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
@@ -29,13 +28,13 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     // Info Types
     
-    /// <inheritdoc cref="_audiofileinfowish"/>
+    /// <inheritdoc cref="docs._audiofileinfowish"/>
     public class AudioFileInfoWish
     {
         public int Bits { get; set; }
         public int ChannelCount { get; set; }
         public int SamplingRate { get; set; }
-        /// <inheritdoc cref="_framecount"/>
+        /// <inheritdoc cref="docs._framecount"/>
         public int FrameCount { get; set; }
     }
 
@@ -60,31 +59,31 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="_saveorplay" />
+        /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Save(Func<FluentOutlet> func, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
             => _saveWishes.Save(func, mustWriteToMemory, name, callerMemberName);
 
-        /// <inheritdoc cref="_saveorplay" />
+        /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
             => _saveWishes.Save(func, mustWriteToMemory, name, callerMemberName);
 
-        /// <inheritdoc cref="_saveorplay" />
+        /// <inheritdoc cref="docs._saveorplay" />
         internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
             => _saveWishes.Save(channelInputs, mustWriteToMemory, name, callerMemberName);
 
-        /// <inheritdoc cref="_saveorplay" />
+        /// <inheritdoc cref="docs._saveorplay" />
         internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
             => _saveWishes.Save(channelInputs, mustWriteToMemory, name, callerMemberName);
 
-        /// <inheritdoc cref="_saveorplay" />
+        /// <inheritdoc cref="docs._saveorplay" />
         private class SaveWishes
         {
             private readonly SynthWishes x;
 
-            /// <inheritdoc cref="_saveorplay" />
+            /// <inheritdoc cref="docs._saveorplay" />
             public SaveWishes(SynthWishes synthWishes) => x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
 
-            /// <inheritdoc cref="_saveorplay" />
+            /// <inheritdoc cref="docs._saveorplay" />
             public Result<SaveResultData> Save(Func<FluentOutlet> func, bool mustWriteToMemory = false, string name = null, [CallerMemberName] string callerMemberName = null)
             {
                 name = x.FetchName(name, callerMemberName);
@@ -113,7 +112,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
 
-            /// <inheritdoc cref="_saveorplay" />
+            /// <inheritdoc cref="docs._saveorplay" />
             internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
             {
                 name = x.FetchName(name, callerMemberName);
@@ -141,16 +140,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutput.TimeMultiplier = 1;
                 audioFileOutput.Duration = x.AudioLength.Calculate();
                 audioFileOutput.FilePath = x.FormatAudioFileName(name, x.AudioFormat);
-                
                 audioFileOutput.SetSampleDataTypeEnum(x.BitDepth);
                 audioFileOutput.SetAudioFileFormatEnum(x.AudioFormat);
                 audioFileOutput.Name = name;
 
-                {
-                    var samplingRateResult = ResolveSamplingRate(x.SamplingRate);
-                    warnings.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
-                    audioFileOutput.SamplingRate = samplingRateResult.Data;
-                }
+                var samplingRateResult = ResolveSamplingRate(x.SamplingRate);
+                warnings.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
+                audioFileOutput.SamplingRate = samplingRateResult.Data;
 
                 SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
                 CreateOrRemoveChannels(audioFileOutput, channelCount);
@@ -536,7 +532,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity.Bytes.Length - GetHeaderLength(entity) / GetFrameSize(entity);
         }
 
-        /// <inheritdoc cref="_fileextension"/>
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this AudioFileFormatEnum enumValue)
         {
             switch (enumValue)
@@ -548,29 +544,29 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="_fileextension"/>
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this AudioFileFormat enumEntity)
             => EntityToEnumWishes.ToEnum(enumEntity).GetFileExtension();
 
-        /// <inheritdoc cref="_fileextension"/>
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this WavHeaderStruct wavHeader)
             => GetFileExtension(AudioFileFormatEnum.Wav);
 
-        /// <inheritdoc cref="_fileextension"/>
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetFileExtension(entity.AudioFileFormat);
         }
 
-        /// <inheritdoc cref="_fileextension"/>
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetFileExtension(entity.AudioFileFormat);
         }
 
-        /// <inheritdoc cref="_fileextension"/>
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -609,7 +605,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetMaxAmplitude(entity.AudioFileOutput);
         }
 
-        /// <inheritdoc cref="_headerlength"/>
+        /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this AudioFileFormatEnum enumValue)
         {
             switch (enumValue)
@@ -621,29 +617,29 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="_headerlength"/>
+        /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this AudioFileFormat enumEntity)
             => EntityToEnumWishes.ToEnum(enumEntity).GetHeaderLength();
 
-        /// <inheritdoc cref="_headerlength"/>
+        /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this WavHeaderStruct wavHeader)
             => GetHeaderLength(AudioFileFormatEnum.Wav);
 
-        /// <inheritdoc cref="_headerlength"/>
+        /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return entity.GetAudioFileFormatEnum().GetHeaderLength();
         }
 
-        /// <inheritdoc cref="_headerlength"/>
+        /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return entity.GetAudioFileFormatEnum().GetHeaderLength();
         }
 
-        /// <inheritdoc cref="_headerlength"/>
+        /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));

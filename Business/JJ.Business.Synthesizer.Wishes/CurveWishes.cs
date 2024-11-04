@@ -6,7 +6,6 @@ using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.docs;
 // ReSharper disable ParameterHidesMember
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -18,11 +17,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Curve CreateCurve(this CurveFactory curveFactory, IList<NodeInfo> nodeInfos)
             => curveFactory.CreateCurve(nodeInfos.ToArray());
 
-        /// <inheritdoc cref="_createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         public static Curve CreateCurve(this CurveFactory curveFactory, params (double time, double value)[] nodeTuples)
             => curveFactory.CreateCurve((IList<(double x, double y)>)nodeTuples);
 
-        /// <inheritdoc cref="_createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         public static Curve CreateCurve(this CurveFactory curveFactory, IList<(double time, double value)> nodeTuples)
         {
             if (curveFactory == null) throw new ArgumentNullException(nameof(curveFactory));
@@ -39,13 +38,13 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Overloads with NodeInfo
 
-        /// <inheritdoc cref="_createcurve" />
+        /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(IEnumerable<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
         {
             return Curve(nodeInfos.ToArray(), callerMemberName);
         }
 
-        /// <inheritdoc cref="_createcurve" />
+        /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
         {
             string name = FetchName(callerMemberName);
@@ -54,7 +53,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return curve;
         }
 
-        /// <inheritdoc cref="_createcurve" />
+        /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
         {
             string name = FetchName();
@@ -65,7 +64,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Overloads with doubles
 
-        /// <inheritdoc cref="_createcurve" />
+        /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(params double?[] values)
         {
             string name = FetchName();
@@ -76,7 +75,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Overload with Tuples
 
-        /// <inheritdoc cref="_createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FluentOutlet Curve(
             IList<(double time, double value)> nodeTuples, 
             [CallerMemberName] string callerMemberName = null)
@@ -87,7 +86,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return curve;
         }
 
-        /// <inheritdoc cref="_createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
         {
             string name = FetchName();
@@ -107,14 +106,14 @@ namespace JJ.Business.Synthesizer.Wishes
     
     // ASCII Curves Extensions
     
-    /// <inheritdoc cref="_createcurvefromstring" />
+    /// <inheritdoc cref="docs._createcurvefromstring" />
     public static class AsciiCurveExtensions
     { 
-        /// <inheritdoc cref="_createcurvefromstring" />
+        /// <inheritdoc cref="docs._createcurvefromstring" />
         public static Curve CreateCurve(this CurveFactory curveFactory, string text)
             => curveFactory.CreateCurve(0, 1, 0, 1, text);
 
-        /// <inheritdoc cref="_createcurvefromstring" />
+        /// <inheritdoc cref="docs._createcurvefromstring" />
         public static Curve CreateCurve(
             this CurveFactory curveFactory,
             double start = 0, double end = 1, double min = 0, double max = 1, string text = null)
@@ -165,10 +164,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return curveFactory.CreateCurve(nodes);
         }
 
-        /// <inheritdoc cref="_trimasciicurves" />
+        /// <inheritdoc cref="docs._trimasciicurves" />
         private static IList<string> TrimAsciiCurve(string text) => TrimAsciiCurve(new [] { text });
 
-        /// <inheritdoc cref="_trimasciicurves" />
+        /// <inheritdoc cref="docs._trimasciicurves" />
         private static IList<string> TrimAsciiCurve(IList<string> lines)
         {
             var lines2 = lines;
@@ -210,7 +209,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     { 
-        /// <inheritdoc cref="_createcurvefromstring" />
+        /// <inheritdoc cref="docs._createcurvefromstring" />
         public FluentOutlet Curve(string text, [CallerMemberName] string callerMemberName = null)
         {
             //string name = FetchName(callerMemberName, GetCallerNameFromStack());
@@ -222,7 +221,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Overload with String and Ranges
 
-        /// <inheritdoc cref="_createcurvefromstring" />
+        /// <inheritdoc cref="docs._createcurvefromstring" />
         public FluentOutlet Curve(
             (double start, double end) x,
             (double min, double max) y,
@@ -240,7 +239,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        /// <inheritdoc cref="_curvewithoperator"/>
+        /// <inheritdoc cref="docs._curvewithoperator"/>
         public FluentOutlet Curve(FluentOutlet curve)
             => _wrappedOutlet * curve;
 
@@ -250,28 +249,28 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
             => _wrappedOutlet * _x.Curve(nodeInfos);
 
-        /// <inheritdoc cref="_createcurve" />
+        /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(string name, params double?[] values)
             => _wrappedOutlet * _x.Curve(values);
 
-        /// <inheritdoc cref="_createcurve" />
+        /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(params double?[] values)
             => _wrappedOutlet * _x.Curve(values);
 
-        /// <inheritdoc cref="_createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FluentOutlet Curve(
             IList<(double time, double value)> nodeTuples, [CallerMemberName] string callerMemberName = null)
             => _wrappedOutlet * _x.Curve(nodeTuples, callerMemberName);
 
-        /// <inheritdoc cref="_createcurvewithtuples" />
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
             => _wrappedOutlet * _x.Curve(nodeTuples);
 
-        /// <inheritdoc cref="_createcurvefromstring" />
+        /// <inheritdoc cref="docs._createcurvefromstring" />
         public FluentOutlet Curve(string text, [CallerMemberName] string callerMemberName = null)
             => _wrappedOutlet * _x.Curve(text, callerMemberName);
 
-        /// <inheritdoc cref="_createcurvefromstring" />
+        /// <inheritdoc cref="docs._createcurvefromstring" />
         public FluentOutlet Curve(
             (double start, double end) x,
             (double min, double max) y,

@@ -9,19 +9,19 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="_sample"/>
+        /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
             byte[] bytes, int bytesToSkip = 0, 
             [CallerMemberName] string callerMemberName = null)
             => SampleBase(new MemoryStream(bytes), bytesToSkip, callerMemberName);
         
-        /// <inheritdoc cref="_sample"/>
+        /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
             Stream stream, int bytesToSkip = 0,
             [CallerMemberName] string callerMemberName = null)
             => SampleBase(stream, bytesToSkip, callerMemberName);
 
-        /// <inheritdoc cref="_sample"/>
+        /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(string fileName = null, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
         {
             string name = FetchName(callerMemberName, explicitName: fileName);
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return SampleBase(stream, bytesToSkip, name, callerMemberName);
         }
 
-        /// <inheritdoc cref="_sample"/>
+        /// <inheritdoc cref="docs._sample"/>
         private FluentOutlet SampleBase(Stream stream, int bytesToSkip, string name1, string name2 = null)
         {
             string name = FetchName(name1, name2);

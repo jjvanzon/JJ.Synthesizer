@@ -5,8 +5,6 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
-using static JJ.Business.Synthesizer.Wishes.docs;
-
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -14,7 +12,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class NameHelper
     {
-        /// <inheritdoc cref="_membername"/>
+        /// <inheritdoc cref="docs._membername"/>
         public static string MemberName([CallerMemberName] string calledMemberName = null)
             => calledMemberName.CutLeft("get_").CutLeft("set_");
 
@@ -54,14 +52,14 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private readonly ThreadLocal<string> _name = new ThreadLocal<string>();
 
-        /// <inheritdoc cref="_names"/>
+        /// <inheritdoc cref="docs._names"/>
         public string Name
         {
             get => _name.Value;
             private set => _name.Value = value;
         }
 
-        /// <inheritdoc cref="_names"/>
+        /// <inheritdoc cref="docs._names"/>
         public SynthWishes WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
         {
             string name = uglyName;
@@ -80,7 +78,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
 
-        /// <inheritdoc cref="_fetchname"/>
+        /// <inheritdoc cref="docs._fetchname"/>
         public string FetchName(string fallbackName1 = null, string fallbackName2 = null, string explicitName = null, [CallerMemberName] string callerMemberName = null)
         {
             if (!string.IsNullOrWhiteSpace(explicitName))

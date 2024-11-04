@@ -4,8 +4,6 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
-
-using static JJ.Business.Synthesizer.Wishes.docs;
 #pragma warning disable CS0618 // Type or member is obsolete
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -14,7 +12,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FluentOutlet
     {
-        /// <inheritdoc cref="_stringify"/>
+        /// <inheritdoc cref="docs._stringify"/>
         public string Stringify(bool singleLine = false, bool mustUseShortOperators = false) 
             => _wrappedOutlet.Stringify(singleLine, mustUseShortOperators);
     }
@@ -25,18 +23,18 @@ namespace JJ.Business.Synthesizer.Wishes
     { 
         // Operators
 
-        /// <inheritdoc cref="_stringify"/>
+        /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Outlet entity, bool singleLine = false, bool mustUseShortOperators = false)
             => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
 
-        /// <inheritdoc cref="_stringify"/>
+        /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Operator entity, bool singleLine = false, bool mustUseShortOperators = false)
             => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
     }
 
     // Stringifier
 
-    /// <inheritdoc cref="_stringify"/>
+    /// <inheritdoc cref="docs._stringify"/>
     internal partial class OperatorStringifier
     {
         private readonly bool _singleLine;
@@ -51,7 +49,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Entry Points
 
-        /// <inheritdoc cref="_stringify"/>
+        /// <inheritdoc cref="docs._stringify"/>
         public string StringifyRecursive(Operator entity)
         {
             _sb = CreateStringBuilder();
@@ -59,7 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return RemoveOuterBraces(_sb.ToString());
         }
 
-        /// <inheritdoc cref="_stringify"/>
+        /// <inheritdoc cref="docs._stringify"/>
         public string StringifyRecursive(Outlet outlet)
         {
             _sb = CreateStringBuilder();

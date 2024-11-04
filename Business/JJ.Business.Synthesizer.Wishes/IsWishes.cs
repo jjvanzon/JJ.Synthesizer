@@ -49,16 +49,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Operators
 
-        /// <inheritdoc cref="_asconst"/>
+        /// <inheritdoc cref="docs._asconst"/>
         public static double? AsConst(this Outlet outlet) => outlet?.Operator?.AsConst();
 
-        /// <inheritdoc cref="_asconst"/>
+        /// <inheritdoc cref="docs._asconst"/>
         public static double? AsConst(this Operator op) => op?.AsValueOperator?.Value;
 
-        /// <inheritdoc cref="_asconst"/>
+        /// <inheritdoc cref="docs._asconst"/>
         public static bool IsConst(this Outlet outlet) => outlet?.AsConst() != null;
 
-        /// <inheritdoc cref="_asconst"/>
+        /// <inheritdoc cref="docs._asconst"/>
         public static bool IsConst(this Operator op) => op?.AsConst() != null;
 
         public static bool IsVar(this Outlet outlet)

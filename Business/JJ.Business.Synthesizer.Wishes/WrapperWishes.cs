@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_fileextension"/>
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_headerlength"/>
+        /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -385,7 +385,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class RelatedObjectWrapperExtensions
     {
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_relatedobjectextensions"/>
+        /// <inheritdoc cref="docs._relatedobjectextensions"/>
         public static Operator Operator(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -394,7 +394,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_relatedobjectextensions"/>
+        /// <inheritdoc cref="docs._relatedobjectextensions"/>
         public static Operator Operator(this CurveInWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -403,7 +403,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_getcurvewrapper"/>
+        /// <inheritdoc cref="docs._getcurvewrapper"/>
         public static CurveInWrapper GetCurveWrapper(this Inlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -411,7 +411,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_getcurvewrapper"/>
+        /// <inheritdoc cref="docs._getcurvewrapper"/>
         public static CurveInWrapper GetCurveWrapper(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -419,7 +419,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_getcurvewrapper"/>
+        /// <inheritdoc cref="docs._getcurvewrapper"/>
         public static CurveInWrapper GetCurveWrapper(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -427,7 +427,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_getsamplewrapper" />
+        /// <inheritdoc cref="docs._getsamplewrapper" />
         public static SampleOperatorWrapper GetSampleWrapper(this Inlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -435,7 +435,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_getsamplewrapper" />
+        /// <inheritdoc cref="docs._getsamplewrapper" />
         public static SampleOperatorWrapper GetSampleWrapper(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -443,7 +443,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_getsamplewrapper" />
+        /// <inheritdoc cref="docs._getsamplewrapper" />
         public static SampleOperatorWrapper GetSampleWrapper(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -453,11 +453,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        /// <inheritdoc cref="_getcurvewrapper"/>
+        /// <inheritdoc cref="docs._getcurvewrapper"/>
         [Obsolete(ObsoleteMessage)]
         public CurveInWrapper GetCurveWrapper() => _wrappedOutlet.GetCurveWrapper();
 
-        /// <inheritdoc cref="_getsamplewrapper" />
+        /// <inheritdoc cref="docs._getsamplewrapper" />
         [Obsolete(ObsoleteMessage)]
         public SampleOperatorWrapper GetSampleWrapper() => _wrappedOutlet.GetSampleWrapper();
     }
@@ -468,7 +468,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class StringifyWrapperExtensions
     {
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_stringify"/>
+        /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this OperatorWrapperBase wrapper, bool singleLine = false, bool mustUseShortOperators = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -476,7 +476,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_stringify"/>
+        /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this SampleOperatorWrapper wrapper, bool singleLine = false, bool mustUseShortOperators = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -484,7 +484,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_stringify"/>
+        /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this CurveInWrapper wrapper, bool singleLine = false, bool mustUseShortOperators = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));

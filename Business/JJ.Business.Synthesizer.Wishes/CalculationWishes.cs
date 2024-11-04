@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Persistence.Synthesizer;
 using System;
-using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -13,7 +12,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="_synthwishescalculate"/>
+        /// <inheritdoc cref="docs._synthwishescalculate"/>
         public double Calculate(Outlet outlet, double time)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));

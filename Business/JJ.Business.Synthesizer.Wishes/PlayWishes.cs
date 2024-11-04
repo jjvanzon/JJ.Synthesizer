@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using System.Media;
-using static JJ.Business.Synthesizer.Wishes.docs;
 // ReSharper disable once ParameterHidesMember
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -24,23 +23,23 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="_saveorplay" />
+        /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> SaveAndPlay(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             => _playWishes.Play(outletFunc, mustWriteToMemory: false, callerMemberName);
         
-        /// <inheritdoc cref="_saveorplay" />
+        /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             => _playWishes.Play(outletFunc, mustWriteToMemory: true, callerMemberName);
 
-        /// <inheritdoc cref="_saveorplay" />
+        /// <inheritdoc cref="docs._saveorplay" />
         private class PlayWishes
         {
             private SynthWishes x;
 
-            /// <inheritdoc cref="_saveorplay" />
+            /// <inheritdoc cref="docs._saveorplay" />
             public PlayWishes(SynthWishes synthWishes) => x = synthWishes;
 
-            /// <inheritdoc cref="_saveorplay" />
+            /// <inheritdoc cref="docs._saveorplay" />
             public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, bool mustWriteToMemory, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
@@ -77,7 +76,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
 
-            public Result PlayIfAllowed(SaveResultData data)
+            internal Result PlayIfAllowed(SaveResultData data)
             {
                 var lines = new List<string>();
 

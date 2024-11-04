@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
-using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -16,11 +15,11 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly OperatorFactory _operatorFactory;
         private readonly CurveFactory _curveFactory;
         private readonly SampleManager _sampleManager;
-        /// <inheritdoc cref="_saveorplay" />
+        /// <inheritdoc cref="docs._saveorplay" />
         private readonly SaveWishes _saveWishes;
-        /// <inheritdoc cref="_saveorplay" />
+        /// <inheritdoc cref="docs._saveorplay" />
         private readonly PlayWishes _playWishes;
-        /// <inheritdoc cref="_paralleladd" />
+        /// <inheritdoc cref="docs._paralleladd" />
         private readonly ParallelWishes _parallelWishes;
 
         public SynthWishes()

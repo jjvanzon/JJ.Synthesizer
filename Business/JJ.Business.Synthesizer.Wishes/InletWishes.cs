@@ -49,11 +49,11 @@ namespace JJ.Business.Synthesizer.Wishes
             => HasOperatorTypeName(entity, nameof(PropertyNames.SampleOperator));
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_asconst" />
+        /// <inheritdoc cref="docs._asconst" />
         public static double? AsConst(this Inlet inlet) => inlet?.Input?.AsConst();
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_asconst" />
+        /// <inheritdoc cref="docs._asconst" />
         public static bool IsConst(this Inlet inlet) => inlet?.AsConst() != null;
 
         [Obsolete(ObsoleteMessage)]
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class InletRelatedObjectExtensions 
     {
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_getcurve" />"/>
+        /// <inheritdoc cref="docs._getcurve" />"/>
         public static Curve Curve(this Inlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_getsample" />
+        /// <inheritdoc cref="docs._getsample" />
         public static Sample Sample(this Inlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class InletStringifyExtensions
     {
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="_stringify"/>
+        /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Inlet entity, bool singleLine = false, bool mustUseShortOperators = false)
             => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
     }
