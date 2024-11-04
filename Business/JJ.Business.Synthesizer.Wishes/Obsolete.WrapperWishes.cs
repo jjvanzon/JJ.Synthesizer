@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public const string ObsoleteMessage =
             "Direct use of wrappers is discouraged. " +
             "Put the wrapper inside brackets if you can, like this: _[myWrapper] " +
-            "Otherwise ignore this message.";
+            "Otherwise you can ignore this message.";
     }
 
     [Obsolete(ObsoleteMessage)]
@@ -312,7 +312,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public static NodeType TryGetNodeTypeEnumEntity(this CurveInWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return SpecialEnumWishes.TryGetNodeTypeEnumEntity(wrapper.Curve);
+            if (wrapper.Curve == null) throw new NullException(() => wrapper.Curve);
+            return wrapper.Curve.TryGetNodeTypeEnumEntity();
         }
 
         [Obsolete(ObsoleteMessage)]
@@ -326,7 +327,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public static void SetNodeTypeEnumEntity(this CurveInWrapper wrapper, NodeType nodeType)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            SpecialEnumWishes.SetNodeTypeEnumEntity(wrapper.Curve, nodeType);
+            if (wrapper.Curve == null) throw new NullException(() => wrapper.Curve);
+            wrapper.Curve.SetNodeTypeEnumEntity(nodeType);
         }
 
         [Obsolete(ObsoleteMessage)]

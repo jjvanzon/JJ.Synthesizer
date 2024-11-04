@@ -62,6 +62,7 @@
     <Compile Include="Helpers\FrameworkWishes.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Helpers\ToolingHelper.cs" />
+    <Compile Include="Obsolete.EnumWishes.cs" />
     <Compile Include="Obsolete.InletWishes.cs" />
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />

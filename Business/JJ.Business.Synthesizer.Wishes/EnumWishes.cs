@@ -54,45 +54,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    public static class EnumToEntityWishes
-    {
-        public static AudioFileFormat ToEntity(this AudioFileFormatEnum enumValue, IContext context = null)
-        {
-            var repository = CreateRepository<IAudioFileFormatRepository>(context);
-            return repository.Get((int)enumValue);
-        }
-
-        public static Channel ToEntity(this ChannelEnum enumValue, IContext context = null)
-        {
-            var repository = CreateRepository<IChannelRepository>(context);
-            return repository.Get((int)enumValue);
-        }
-
-        public static InterpolationType ToEntity(this InterpolationTypeEnum enumValue, IContext context = null)
-        {
-            var repository = CreateRepository<IInterpolationTypeRepository>(context);
-            return repository.Get((int)enumValue);
-        }
-
-        public static NodeType ToEntity(this NodeTypeEnum enumValue, IContext context = null)
-        {
-            var repository = CreateRepository<INodeTypeRepository>(context);
-            return repository.Get((int)enumValue);
-        }
-
-        public static SampleDataType ToEntity(this SampleDataTypeEnum enumValue, IContext context = null)
-        {
-            var repository = CreateRepository<ISampleDataTypeRepository>(context);
-            return repository.Get((int)enumValue);
-        }
-
-        public static SpeakerSetup ToEntity(this SpeakerSetupEnum enumValue, IContext context = null)
-        {
-            var repository = CreateRepository<ISpeakerSetupRepository>(context);
-            return repository.Get((int)enumValue);
-        }
-    }
-
     /// <inheritdoc cref="docs._setenumwishes"/>
     public static class SetEnumWishes
     {
@@ -152,26 +113,11 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // AudioFileOutputChannel.AudioFileFormat
 
-        public static AudioFileFormat GetAudioFileFormatEnumEntity(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.AudioFileFormat;
-        }
-
         public static AudioFileFormatEnum GetAudioFormat(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
             return entity.AudioFileOutput.GetAudioFileFormatEnum();
-        }
-
-        public static void SetAudioFileFormatEnumEntity(this AudioFileOutputChannel entity, AudioFileFormat enumEntity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            
-            entity.AudioFileOutput.AudioFileFormat = enumEntity;
         }
 
         public static void SetAudioFormat(
@@ -192,25 +138,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 
         // AudioFileOutputChannel.SampleDataType
 
-        public static SampleDataType GetSampleDataTypeEnumEntity(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.SampleDataType;
-        }
-
         public static SampleDataTypeEnum GetBitDepth(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
             return entity.AudioFileOutput.GetSampleDataTypeEnum();
-        }
-
-        public static void SetSampleDataTypeEnumEntity(this AudioFileOutputChannel entity, SampleDataType enumEntity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SampleDataType = enumEntity;
         }
 
         public static void SetBitDepth(
@@ -302,20 +234,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // SpeakerSetupChannel by ChannelEnum
 
-        public static SpeakerSetupChannel TryGetSpeakerSetupChannel(
-            this SpeakerSetup speakerSetup, Channel channel)
-        {
-            if (channel == null) throw new ArgumentNullException(nameof(channel));
-            return TryGetSpeakerSetupChannel(speakerSetup, channel.ToEnum());
-        }
-
-        public static SpeakerSetupChannel GetSpeakerSetupChannel(
-            this SpeakerSetup speakerSetup, Channel channel)
-        {
-            if (channel == null) throw new ArgumentNullException(nameof(channel));
-            return GetSpeakerSetupChannel(speakerSetup, channel.ToEnum());
-        }
-
         public static SpeakerSetupChannel GetSpeakerSetupChannel(
             this SpeakerSetup parent, ChannelEnum channelEnum)
         {
@@ -355,54 +273,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static AudioFileOutputChannel TryGetAudioFileOutputChannel(
             this AudioFileOutput audioFileOutput, ChannelEnum channelEnum, IContext context = null)
-            => TryGetAudioFileOutputChannel(audioFileOutput, channelEnum.ToEntity(context));
+            => audioFileOutput.TryGetAudioFileOutputChannel(channelEnum.ToEntity(context));
         
         public static AudioFileOutputChannel GetAudioFileOutputChannel(
             this AudioFileOutput audioFileOutput, ChannelEnum channelEnum, IContext context = null)
-            => GetAudioFileOutputChannel(audioFileOutput, channelEnum.ToEntity(context));
-
-        public static AudioFileOutputChannel GetAudioFileOutputChannel(
-            this AudioFileOutput parent, Channel channel)
-        {
-            AudioFileOutputChannel child = TryGetAudioFileOutputChannel(parent, channel);
-
-            if (child == null)
-            {
-                throw new Exception($"{nameof(AudioFileOutputChannel)} not found for "+
-                                    $"{nameof(channel)} '{channel.ToEnum()}'.");
-            }
-
-            return child;
-        }
+            => audioFileOutput.GetAudioFileOutputChannel(channelEnum.ToEntity(context));
         
-        public static AudioFileOutputChannel TryGetAudioFileOutputChannel(
-            this AudioFileOutput parent, Channel channel)
-        {
-            if (parent == null) throw new ArgumentNullException(nameof(parent));
-            if (channel == null) throw new ArgumentNullException(nameof(channel));
-
-            var children = parent.AudioFileOutputChannels
-                                 .Where(x => x.Index == channel.Index)
-                                 .ToArray();
-            
-            switch (children.Length)
-            { 
-                case 1: return children[0];
-                case 0: return null;
-                default:
-                    throw new Exception($"Multiple {nameof(AudioFileOutputChannel)}s not found with " +
-                                        $"{nameof(channel)} '{channel.ToEnum()}'.");
-            }
-        }
-        
-        // SetNodeTypeEnum for whole Curve
-
-        /// <inheritdoc cref="docs._setnodetype"/>
-        public static void SetNodeTypeEnumEntity(this Curve curve, NodeType nodeType)
-        {
-            if (curve == null) throw new ArgumentNullException(nameof(curve));
-            curve.Nodes.ForEach(x => x.NodeType = nodeType);
-        }
+        // SetNodeType for whole Curve
 
         /// <inheritdoc cref="docs._setnodetype"/>
         public static void SetNodeType(this Curve curve, NodeTypeEnum nodeTypeEnum, IContext context = null)
@@ -410,25 +287,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (curve == null) throw new ArgumentNullException(nameof(curve));
             var nodeTypeRepository = CreateRepository<INodeTypeRepository>(context);
             curve.Nodes.ForEach(x => x.SetNodeTypeEnum(nodeTypeEnum, nodeTypeRepository));
-        }
-
-        /// <inheritdoc cref="docs._trygetnodetype"/>
-        public static NodeType TryGetNodeTypeEnumEntity(this Curve curve)
-        {
-            if (curve == null) throw new ArgumentNullException(nameof(curve));
-
-            IList<NodeType> distinctNodeTypes = curve.Nodes.Select(x => x.NodeType)
-                                                     .GroupBy(x => x.ID)
-                                                     .Select(x => x.First())
-                                                     .ToArray();
-            if (distinctNodeTypes.Count == 1)
-            {
-                return distinctNodeTypes[0];
-            }
-            else
-            {
-                return null;
-            }
         }
 
         /// <inheritdoc cref="docs._trygetnodetype"/>
