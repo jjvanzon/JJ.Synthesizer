@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.CanonicalModel;
-using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using System.Media;
 using static JJ.Business.Synthesizer.Wishes.docs;
