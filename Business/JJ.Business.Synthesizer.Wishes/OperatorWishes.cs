@@ -664,7 +664,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (delayFilledIn) sound = Delay(sound, delay);
             if (volumeFilledIn) sound = Multiply(sound, volume);
 
-            return _[sound];
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="_default" />
@@ -694,7 +694,8 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var speed = tremolo.speed ?? _[8];
             var depth = tremolo.depth ?? _[0.33];
-            return sound * (1 + Sine(speed) * depth);
+            var modulated = sound * (1 + Sine(speed) * depth);
+            return modulated.SetName();
         }
 
         /// <inheritdoc cref="_tremolo" />
@@ -743,7 +744,8 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var speed = vibrato.speed ?? _[5.5];
             var depth = vibrato.depth ?? _[0.0005];
-            return freq * (1 + Sine(speed) * depth);
+            var modulated = freq * (1 + Sine(speed) * depth);
+            return modulated.SetName();
         }
 
         /// <inheritdoc cref="_vibrato" />
@@ -804,8 +806,8 @@ namespace JJ.Business.Synthesizer.Wishes
             switch (channel)
             {
                 case ChannelEnum.Single: return _[sound];
-                case ChannelEnum.Left: return Multiply(sound, Subtract(_[1], panning));
-                case ChannelEnum.Right: return Multiply(sound, panning);
+                case ChannelEnum.Left: return Multiply(sound, Subtract(_[1], panning)).SetName();;
+                case ChannelEnum.Right: return Multiply(sound, panning).SetName();;
 
                 default: throw new ValueNotSupportedException(channel);
             }
@@ -822,8 +824,8 @@ namespace JJ.Business.Synthesizer.Wishes
             switch (channel)
             {
                 case ChannelEnum.Single: return _[sound];
-                case ChannelEnum.Left: return sound * _[1 - panning];
-                case ChannelEnum.Right: return sound * _[panning];
+                case ChannelEnum.Left: return (sound * _[1 - panning]).SetName();
+                case ChannelEnum.Right: return (sound * _[panning]).SetName();
 
                 default: throw new ValueNotSupportedException(channel);
             }
@@ -855,7 +857,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var halfSine = 0.5 * sine; // [-0.5,+0.5]
             var zeroToOne = 0.5 + halfSine; // [0,1]
 
-            return Panning(sound, zeroToOne);
+            return Panning(sound, zeroToOne).SetName();
         }
 
         /// <inheritdoc cref="_panbrello" />
@@ -928,7 +930,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     double pitchPan = PitchPan(constActualFrequency.Value, constCenterFrequency.Value,
                                                constReferenceFrequency.Value, constReferencePanning.Value);
-                    return _[pitchPan];
+                    return _[pitchPan].SetName();
                 }
             }
 
@@ -951,7 +953,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var newPanningDeviation = (referencePanning - centerPanning) * (factor - 1);
             var newPanning = centerPanning + newPanningDeviation;
 
-            return newPanning;
+            return newPanning.SetName();
         }
 
         /// <inheritdoc cref="_pitchpan" />
@@ -1050,7 +1052,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Add some audio length
             AddAudioLength(cumulativeDelay - delay);
 
-            return Add(repeats);
+            return Add(repeats).SetName();
         }
 
         /// <inheritdoc cref="_echofeedback"/>
@@ -1092,7 +1094,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Add some audio length
             AddAudioLength(cumulativeDelay - delay);
 
-            return cumulativeSignal;
+            return cumulativeSignal.SetName();
         }
     
         public FluentOutlet EchoParallel(
