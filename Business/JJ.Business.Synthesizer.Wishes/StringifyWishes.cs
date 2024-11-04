@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
@@ -146,23 +147,39 @@ namespace JJ.Business.Synthesizer.Wishes
  
         // Short Notation + - * /
 
-        private bool MustIncludeName(Operator op) => !CanUseShortNotation(op);
+        private bool MustIncludeName(Operator op) => !MustUseShortNotation(op);
 
+        /// <summary>
+        /// Returns usually , but for simple math operations returns + - * / <br/>
+        /// Only if the deprecated Origin operand is used with Multiply or Divide again,
+        /// it falls back to the comma notation.
+        /// </summary>
         private char GetSeparator(Operator op)
         {
-            if (!CanUseShortNotation(op)) return ',';
-
             if (op.IsAdd()) return '+';
             if (op.IsSubtract()) return '-';
-            if (op.IsMultiply()) return '*';
-            if (op.IsDivide()) return '/';
+            if (op.IsMultiply() && op.Origin() == null) return '*';
+            if (op.IsDivide() && op.Origin() == null) return '/';
 
             return ',';
         }
 
-        private bool CanUseShortNotation(Operator op)
+        /// <summary>
+        /// Checks if the option for short notation is on in the first place. <br/>
+        /// Also checks for specific operators that can use short notation: (<c>+ - * /</c>). <br/>
+        /// Also checks if the operator has a specific name assigned, so that stops short notation from happening too,
+        /// so the name will show e.g.<br/>
+        /// <c>Tremolo Multiply( ... , ...)</c>
+        /// </summary>
+        private bool MustUseShortNotation(Operator op)
         {
             if (!_mustUseShortOperators) return false;
+            
+            if (!NameIsOperatorTypeName(op.Name, op.OperatorTypeName))
+            {
+                return false;
+            }
+            
             if (op.IsAdd() || op.IsSubtract()) return true;
             if (op.IsMultiply() || op.IsDivide()) return op.Origin() == null;
             return false;
@@ -214,6 +231,24 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             if (operatorTypeName.Contains(_sampleSynonyms) && name.Contains(_sampleSynonyms))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        
+        private bool NameIsOperatorTypeName(string name, string operatorTypeName)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return false;
+
+            if (string.Equals(name, operatorTypeName))
+            {
+                return true;
+            }
+            
+            string operatorTypeDisplayName = PropertyDisplayNames.ResourceManager.GetString(operatorTypeName);
+            if (string.Equals(name, operatorTypeDisplayName, StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
