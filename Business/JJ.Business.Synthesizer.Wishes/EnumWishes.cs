@@ -108,59 +108,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    /// <inheritdoc cref="docs._alternativeentrypointenumextensionwishes"/>
-    public static class AlternativeEntryPointEnumExtensionWishes
-    {
-        // AudioFileOutputChannel.AudioFileFormat
-
-        public static AudioFileFormatEnum GetAudioFormat(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.GetAudioFileFormatEnum();
-        }
-
-        public static void SetAudioFormat(
-            this AudioFileOutputChannel entity, AudioFileFormatEnum enumValue, IAudioFileFormatRepository repository)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetAudioFileFormatEnum(enumValue, repository);
-        }
-
-        public static void SetAudioFormat(
-            this AudioFileOutputChannel entity, AudioFileFormatEnum enumValue, IContext context = null)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetAudioFormat(enumValue, context);
-        }
-                
-        // AudioFileOutputChannel.SampleDataType
-
-        public static SampleDataTypeEnum GetBitDepth(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.GetSampleDataTypeEnum();
-        }
-
-        public static void SetBitDepth(
-            this AudioFileOutputChannel entity, SampleDataTypeEnum enumValue, ISampleDataTypeRepository repository)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetSampleDataTypeEnum(enumValue, repository);
-        }
-
-        public static void SetBitDepth(
-            this AudioFileOutputChannel entity, SampleDataTypeEnum enumValue, IContext context = null)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetBitDepth(enumValue, context);
-        }
-    }
 
     // To Int/ID
 

@@ -459,12 +459,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return SizeOf(entity.SampleDataType);
         }
 
-        public static int SizeOfSampleDataType(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SizeOfSampleDataType(entity.AudioFileOutput);
-        }
-
         public static int GetBits(this Type sampleDataType)
             => SizeOf(sampleDataType) * 8;
 
@@ -492,12 +486,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetBits(entity.SampleDataType);
         }
 
-        public static int GetBits(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetBits(entity.AudioFileOutput);
-        }
-
         public static int GetFrameSize(WavHeaderStruct wavHeader)
         {
             return SizeOfSampleDataType(wavHeader) * wavHeader.ChannelCount;
@@ -519,12 +507,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return SizeOfSampleDataType(entity) * entity.GetChannelCount();
-        }
-
-        public static int GetFrameSize(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetFrameSize(entity.AudioFileOutput);
         }
 
         public static int GetFrameCount(this Sample entity)
@@ -568,13 +550,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetFileExtension(entity.AudioFileFormat);
         }
 
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string GetFileExtension(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetFileExtension(entity.AudioFileOutput);
-        }
-
         public static double GetMaxAmplitude(this SampleDataTypeEnum enumValue)
         {
             switch (enumValue)
@@ -599,12 +574,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetMaxAmplitude(entity.SampleDataType);
-        }
-
-        public static double GetMaxAmplitude(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetMaxAmplitude(entity.AudioFileOutput);
         }
 
         /// <inheritdoc cref="docs._headerlength"/>
@@ -639,13 +608,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return entity.GetAudioFileFormatEnum().GetHeaderLength();
-        }
-
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetHeaderLength(entity.AudioFileOutput);
         }
 
         public static int GetFileLengthNeeded(this AudioFileOutput entity)

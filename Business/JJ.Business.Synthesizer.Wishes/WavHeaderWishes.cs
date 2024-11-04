@@ -187,9 +187,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static WavHeaderStruct GetWavHeader(this AudioFileOutput audioFileOutput, int frameCount)
             => WavHeaderExtensionWishes_GetInfo.GetInfo(audioFileOutput, frameCount).GetWavHeader();
-
-        public static WavHeaderStruct GetWavHeader(this AudioFileOutputChannel audioFileOutputChannel, int frameCount)
-            => WavHeaderExtensionWishes_GetInfo.GetInfo(audioFileOutputChannel, frameCount).GetWavHeader();
     }
 
     public static class WavHeaderExtensionWishes_GetInfo
@@ -315,15 +312,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 SamplingRate = entity.SamplingRate,
                 FrameCount = frameCount
             };
-            return info;
-        }
-
-        public static AudioFileInfoWish GetInfo(this AudioFileOutputChannel entity, int frameCount)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-            var info = GetInfo(entity.AudioFileOutput, frameCount);
-            info.ChannelCount = 1;
             return info;
         }
     }

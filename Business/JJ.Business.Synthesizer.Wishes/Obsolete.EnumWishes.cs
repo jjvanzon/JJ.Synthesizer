@@ -66,47 +66,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    /// <inheritdoc cref="docs._alternativeentrypointenumextensionwishes" />
-    public static class ObsoleteAlternativeEntryPointEnumExtensionWishes
-    {
-        // AudioFileOutputChannel.AudioFileFormat
-
-        [Obsolete(ObsoleteMessage)]
-        public static AudioFileFormat GetAudioFileFormatEnumEntity(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.AudioFileFormat;
-        }
-
-        [Obsolete(ObsoleteMessage)]
-        public static void SetAudioFileFormatEnumEntity(this AudioFileOutputChannel entity, AudioFileFormat enumEntity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-
-            entity.AudioFileOutput.AudioFileFormat = enumEntity;
-        }
-
-        // AudioFileOutputChannel.SampleDataType
-
-        [Obsolete(ObsoleteMessage)]
-        public static SampleDataType GetSampleDataTypeEnumEntity(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.SampleDataType;
-        }
-
-        [Obsolete(ObsoleteMessage)]
-        public static void SetSampleDataTypeEnumEntity(this AudioFileOutputChannel entity, SampleDataType enumEntity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SampleDataType = enumEntity;
-        }
-    }
-
     [Obsolete(ObsoleteMessage)]
     public static class ObsoleteSpecialEnumWishes
     {

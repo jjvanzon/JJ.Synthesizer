@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CalculationWishes.cs" />
+    <Compile Include="Obsolete.AudioFileOutputChannelExtensions.cs" />
     <Compile Include="EnumWishes.cs" />
     <Compile Include="Helpers\FluentOperandList.cs" />
     <Compile Include="Helpers\AudioFileOutputCalculatorAccessor.cs" />
