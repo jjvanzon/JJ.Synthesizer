@@ -27,13 +27,6 @@ namespace JJ.Business.Synthesizer.Wishes
     public static partial class RelatedObjectExtensionWishes
     {
         /// <inheritdoc cref="_getcurve" />"/>
-        public static Curve Curve(this Inlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return Curve(entity.Input);
-        }
-
-        /// <inheritdoc cref="_getcurve" />"/>
         public static Curve Curve(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -60,13 +53,6 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="_relatedobjectextensions"/>
     public static partial class RelatedObjectExtensionWishes
     {
-        /// <inheritdoc cref="_getsample" />
-        public static Sample Sample(this Inlet entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return Sample(entity.Input);
-        }
-
         /// <inheritdoc cref="_getsample" />
         public static Sample Sample(this Outlet entity)
         {

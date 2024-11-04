@@ -82,15 +82,5 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return Calculate(outlet, time, channelIndex);
         }
-
-        public static double Calculate(this Inlet inlet, double time, ChannelEnum channelEnum)
-            => Calculate(inlet, time, channelEnum.ToIndex());
-        
-        public static double Calculate(this Inlet inlet, double time = 0, int channelIndex = 0)
-        {
-            if (inlet == null) throw new ArgumentNullException(nameof(inlet));
-            var calculator = new OperatorCalculator(channelIndex);
-            return calculator.CalculateValue(inlet.Input, time);
-        }
     }
 }

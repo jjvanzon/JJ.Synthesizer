@@ -197,13 +197,5 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return op;
         }
-
-        /// <inheritdoc cref="docs._names"/>
-        public static Inlet SetName(this Inlet entity, string name)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Input.SetName(name);
-            return entity;
-        }
     }
 }

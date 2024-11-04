@@ -5,6 +5,7 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 
 using static JJ.Business.Synthesizer.Wishes.docs;
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -30,16 +31,12 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this Operator entity, bool singleLine = false, bool mustUseShortOperators = false)
             => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
-
-        /// <inheritdoc cref="_stringify"/>
-        public static string Stringify(this Inlet entity, bool singleLine = false, bool mustUseShortOperators = false)
-            => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
     }
 
     // Stringifier
 
     /// <inheritdoc cref="_stringify"/>
-    internal class OperatorStringifier
+    internal partial class OperatorStringifier
     {
         private readonly bool _singleLine;
         private readonly bool _mustUseShortOperators;
@@ -55,14 +52,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="_stringify"/>
         public string StringifyRecursive(Operator entity)
-        {
-            _sb = CreateStringBuilder();
-            BuildStringRecursive(entity);
-            return RemoveOuterBraces(_sb.ToString());
-        }
-
-        /// <inheritdoc cref="_stringify"/>
-        public string StringifyRecursive(Inlet entity)
         {
             _sb = CreateStringBuilder();
             BuildStringRecursive(entity);
