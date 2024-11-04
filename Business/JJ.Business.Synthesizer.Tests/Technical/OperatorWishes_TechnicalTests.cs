@@ -522,9 +522,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var added = ParallelAdd
             (
                 volume: 1 / 1.5,
-                () => Sine(Value(freq.Value) * 1) * 1.0,
-                () => Sine(Value(freq.Value) * 2) * 0.2,
-                () => Sine(Value(freq.Value) * 3) * 0.7
+                () => Sine(freq * 1) * 1.0,
+                () => Sine(freq * 2) * 0.2,
+                () => Sine(freq * 3) * 0.7
             );
 
             Mono().SaveAndPlay(() => added);
@@ -534,20 +534,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_ParallelAdd_SinePartials_PreviewParallels()
         {
-            WithParallelEnabled();
-            
             var freq     = A4;
             var volume   = 1 / 1.5;
             var duration = 0.6;
 
-            WithAudioLength(duration).WithName().WithPreviewParallels();
+            WithParallelEnabled();
+            WithPreviewParallels();
+            WithAudioLength(duration);
+            WithName();
             
             var added = ParallelAdd
             (
                 volume,
-                () => Sine(Value(freq.Value) * 1) * 1.0,
-                () => Sine(Value(freq.Value) * 2) * 0.2,
-                () => Sine(Value(freq.Value) * 3) * 0.7
+                () => Sine(freq * 1) * 1.0,
+                () => Sine(freq * 2) * 0.2,
+                () => Sine(freq * 3) * 0.7
             );
 
             Mono().SaveAndPlay(() => added);
