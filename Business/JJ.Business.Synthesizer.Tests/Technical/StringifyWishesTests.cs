@@ -3,6 +3,7 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Environment;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+#pragma warning disable CS0612 // Type or member is obsolete
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -49,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var wrapper = new EntityWrappers.Sine(
                 Sine(A4).Curve(0, 1, 0).Volume(2).Operator);
 
-            string actual = wrapper.Stringify();
+            string actual = _[wrapper].Stringify();
 
             // Order changed:
             // It's a commutative multiplication

@@ -9,6 +9,8 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Persistence.Synthesizer;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Structs;
+using static JJ.Business.Synthesizer.Wishes.WrappersObsoleteMessages;
+
 // ReSharper disable NotResolvedInText
 // ReSharper disable InvokeAsExtensionMethod
 
@@ -21,38 +23,46 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // WrapperWishes From AudioFileWishes
 
-    [Obsolete]
+    internal static class WrappersObsoleteMessages
+    {
+        public const string ObsoleteMessage =
+            "Direct use of wrappers is discouraged. " +
+            "Put the wrapper inside brackets if you can, like this: _[myWrapper] " +
+            "Otherwise ignore this message.";
+    }
+
+    [Obsolete(ObsoleteMessage)]
     public static class AudioFileWrapperExtension
     {
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static int SizeOfSampleDataType(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Sample.SizeOfSampleDataType();
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static int GetBits(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Sample.GetBits();
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static int GetFrameSize(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Sample.GetFrameSize();
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static int GetFrameCount(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Sample.GetFrameCount();
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_fileextension"/>
         public static string GetFileExtension(this SampleOperatorWrapper wrapper)
         {
@@ -60,14 +70,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Sample.GetFileExtension();
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static double GetMaxAmplitude(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Sample.GetMaxAmplitude();
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_headerlength"/>
         public static int GetHeaderLength(this SampleOperatorWrapper wrapper)
         {
@@ -78,36 +88,36 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // WrapperWishes From CalculationWishes
 
-    [Obsolete]
+    [Obsolete(ObsoleteMessage)]
     public static class CalculationWrapperExtension
     {
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static double Calculate(this OperatorWrapperBase wrapper, double time, ChannelEnum channelEnum)
             => Calculate(wrapper, time, channelEnum.ToIndex());
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static double Calculate(this OperatorWrapperBase wrapper, double time = 0, int channelIndex = 0)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Operator.Calculate(time, channelIndex);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static double Calculate(this SampleOperatorWrapper wrapper, double time, ChannelEnum channelEnum)
             => Calculate(wrapper, time, channelEnum.ToIndex());
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static double Calculate(this SampleOperatorWrapper wrapper, double time = 0, int channelIndex = 0)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Result.Calculate(time, channelIndex);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static double Calculate(this CurveInWrapper wrapper, double time, ChannelEnum channelEnum)
             => Calculate(wrapper, time, channelEnum.ToIndex());
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static double Calculate(this CurveInWrapper wrapper, double time = 0, int channelIndex = 0)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -117,12 +127,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // WrapperWishes From EnumWishes
 
-    [Obsolete]
+    [Obsolete(ObsoleteMessage)]
     public static class EnumWrapperExtensions
     {
         // SampleOperatorWrapper.AudioFileFormat
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat GetAudioFileFormat(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -130,7 +140,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Sample.AudioFileFormat;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static AudioFileFormatEnum GetAudioFileFormatEnum(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -138,7 +148,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Sample.GetAudioFileFormatEnum();
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetAudioFileFormat(this SampleOperatorWrapper wrapper, AudioFileFormat enumEntity)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -146,7 +156,7 @@ namespace JJ.Business.Synthesizer.Wishes
             wrapper.Sample.AudioFileFormat = enumEntity;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetAudioFileFormatEnum(
             this SampleOperatorWrapper wrapper, AudioFileFormatEnum enumValue, IAudioFileFormatRepository repository)
         {
@@ -155,7 +165,7 @@ namespace JJ.Business.Synthesizer.Wishes
             wrapper.Sample.SetAudioFileFormatEnum(enumValue, repository);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetAudioFileFormatEnum(
             this SampleOperatorWrapper wrapper, AudioFileFormatEnum enumValue, IContext context = null)
         {
@@ -166,7 +176,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // SampleOperatorWrapper.InterpolationType
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static InterpolationType GetInterpolationType(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -174,7 +184,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Sample.InterpolationType;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static InterpolationTypeEnum GetInterpolationTypeEnum(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -182,7 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Sample.GetInterpolationTypeEnum();
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetInterpolationType(this SampleOperatorWrapper wrapper, InterpolationType enumEntity)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -190,7 +200,7 @@ namespace JJ.Business.Synthesizer.Wishes
             wrapper.Sample.InterpolationType = enumEntity;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetInterpolationTypeEnum(
             this SampleOperatorWrapper wrapper, InterpolationTypeEnum enumValue, IInterpolationTypeRepository repository)
         {
@@ -199,7 +209,7 @@ namespace JJ.Business.Synthesizer.Wishes
             wrapper.Sample.SetInterpolationTypeEnum(enumValue, repository);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetInterpolationTypeEnum(
             this SampleOperatorWrapper wrapper, InterpolationTypeEnum enumValue, IContext context = null)
         {
@@ -210,7 +220,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // SampleOperatorWrapper.SampleDataType
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static SampleDataType GetSampleDataType(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -218,7 +228,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Sample.SampleDataType;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static SampleDataTypeEnum GetSampleDataTypeEnum(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -226,7 +236,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Sample.GetSampleDataTypeEnum();
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetSampleDataType(this SampleOperatorWrapper wrapper, SampleDataType enumEntity)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -234,7 +244,7 @@ namespace JJ.Business.Synthesizer.Wishes
             wrapper.Sample.SampleDataType = enumEntity;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetSampleDataTypeEnum(
             this SampleOperatorWrapper wrapper, SampleDataTypeEnum enumValue, ISampleDataTypeRepository repository)
         {
@@ -243,7 +253,7 @@ namespace JJ.Business.Synthesizer.Wishes
             wrapper.Sample.SetSampleDataTypeEnum(enumValue, repository);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetSampleDataTypeEnum(
             this SampleOperatorWrapper wrapper, SampleDataTypeEnum enumValue, IContext context = null)
         {
@@ -254,7 +264,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // SampleOperatorWrapper.SpeakerSetup
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static SpeakerSetup GetSpeakerSetup(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -262,7 +272,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Sample.SpeakerSetup;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static SpeakerSetupEnum GetSpeakerSetupEnum(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -270,7 +280,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Sample.GetSpeakerSetupEnum();
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetSpeakerSetup(this SampleOperatorWrapper wrapper, SpeakerSetup enumEntity)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -278,7 +288,7 @@ namespace JJ.Business.Synthesizer.Wishes
             wrapper.Sample.SpeakerSetup = enumEntity;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetSpeakerSetupEnum(
             this SampleOperatorWrapper wrapper, SpeakerSetupEnum enumValue, ISpeakerSetupRepository repository)
         {
@@ -287,7 +297,7 @@ namespace JJ.Business.Synthesizer.Wishes
             wrapper.Sample.SetSpeakerSetupEnum(enumValue, repository);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetSpeakerSetupEnum(
             this SampleOperatorWrapper wrapper, SpeakerSetupEnum enumValue, IContext context = null)
         {
@@ -298,28 +308,28 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // CurveInWrapper.NodeType
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static NodeType TryGetNodeType(this CurveInWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return SpecialEnumWishes.TryGetNodeType(wrapper.Curve);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static NodeTypeEnum TryGetNodeTypeEnum(this CurveInWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return SpecialEnumWishes.TryGetNodeTypeEnum(wrapper.Curve);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetNodeType(this CurveInWrapper wrapper, NodeType nodeType)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             SpecialEnumWishes.SetNodeType(wrapper.Curve, nodeType);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void SetNodeTypeEnum(
             this CurveInWrapper wrapper, NodeTypeEnum nodeTypeEnum, IContext context = null)
         {
@@ -330,10 +340,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // WrapperWishes From NameWishes
 
-    [Obsolete]
+    [Obsolete(ObsoleteMessage)]
     public static class NameWrapperExtension
     {
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="docs._names"/>
         public static CurveInWrapper SetName(this CurveInWrapper wrapper, string name)
         {
@@ -346,7 +356,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="docs._names"/>
         public static SampleOperatorWrapper SetName(this SampleOperatorWrapper wrapper, string name)
         {
@@ -359,7 +369,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="docs._names"/>
         public static OperatorWrapperBase SetName(this OperatorWrapperBase wrapper, string name)
         {
@@ -371,10 +381,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // WrapperWishes From RelatedObjectsWishes
 
-    [Obsolete]
+    [Obsolete(ObsoleteMessage)]
     public static class RelatedObjectWrapperExtensions
     {
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_relatedobjectextensions"/>
         public static Operator Operator(this SampleOperatorWrapper wrapper)
         {
@@ -383,7 +393,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Result.Operator;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_relatedobjectextensions"/>
         public static Operator Operator(this CurveInWrapper wrapper)
         {
@@ -392,7 +402,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return wrapper.Result.Operator;
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_getcurvewrapper"/>
         public static CurveInWrapper GetCurveWrapper(this Inlet entity)
         {
@@ -400,7 +410,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetCurveWrapper(entity.Input);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_getcurvewrapper"/>
         public static CurveInWrapper GetCurveWrapper(this Outlet entity)
         {
@@ -408,7 +418,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetCurveWrapper(entity.Operator);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_getcurvewrapper"/>
         public static CurveInWrapper GetCurveWrapper(this Operator entity)
         {
@@ -416,7 +426,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return new CurveInWrapper(entity.AsCurveIn);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_getsamplewrapper" />
         public static SampleOperatorWrapper GetSampleWrapper(this Inlet entity)
         {
@@ -424,7 +434,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetSampleWrapper(entity.Input);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_getsamplewrapper" />
         public static SampleOperatorWrapper GetSampleWrapper(this Outlet entity)
         {
@@ -432,7 +442,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetSampleWrapper(entity.Operator);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_getsamplewrapper" />
         public static SampleOperatorWrapper GetSampleWrapper(this Operator entity)
         {
@@ -444,20 +454,20 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="_getcurvewrapper"/>
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public CurveInWrapper GetCurveWrapper() => _wrappedOutlet.GetCurveWrapper();
 
         /// <inheritdoc cref="_getsamplewrapper" />
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public SampleOperatorWrapper GetSampleWrapper() => _wrappedOutlet.GetSampleWrapper();
     }
 
     // WrapperWishes From StringifyWishes
 
-    [Obsolete]
+    [Obsolete(ObsoleteMessage)]
     public static class StringifyWrapperExtensions
     {
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this OperatorWrapperBase wrapper, bool singleLine = false, bool mustUseShortOperators = false)
         {
@@ -465,7 +475,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(wrapper.Operator);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this SampleOperatorWrapper wrapper, bool singleLine = false, bool mustUseShortOperators = false)
         {
@@ -473,7 +483,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(wrapper.Result);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this CurveInWrapper wrapper, bool singleLine = false, bool mustUseShortOperators = false)
         {
@@ -484,66 +494,66 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // WrapperWishes From ValidationWishes
 
-    [Obsolete]
+    [Obsolete(ObsoleteMessage)]
     public static class ValidationWrapperExtension
     {
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static Result Validate(this OperatorWrapperBase wrapper, bool recursive = true)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Operator.Validate(recursive);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static Result Validate(this CurveInWrapper wrapper, bool recursive = true)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Result.Validate(recursive);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static Result Validate(this SampleOperatorWrapper wrapper, bool recursive = true)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Result.Validate(recursive);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void Assert(this OperatorWrapperBase wrapper, bool recursive = true)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             wrapper.Operator.Assert(recursive);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void Assert(this CurveInWrapper wrapper, bool recursive = true)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             wrapper.Result.Assert(recursive);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static void Assert(this SampleOperatorWrapper wrapper, bool recursive = true)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             wrapper.Result.Assert(recursive);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static IList<string> GetWarnings(this OperatorWrapperBase wrapper, bool recursive = true)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Operator.GetWarnings(recursive);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static IList<string> GetWarnings(this CurveInWrapper wrapper, bool recursive = true)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Result.GetWarnings(recursive);
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static IList<string> GetWarnings(this SampleOperatorWrapper wrapper, bool recursive = true)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -553,17 +563,17 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // From WavHeaderWishes
 
-    [Obsolete]
+    [Obsolete(ObsoleteMessage)]
     public static class WavHeaderWrapperExtensions
     {
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static WavHeaderStruct GetWavHeader(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.GetInfo().GetWavHeader();
         }
 
-        [Obsolete]
+        [Obsolete(ObsoleteMessage)]
         public static AudioFileInfoWish GetInfo(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));

@@ -15,7 +15,6 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Framework.Testing.AssertHelper;
 // ReSharper disable UnusedVariable
 // ReSharper disable ExplicitCallerInfoArgument
-#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -82,7 +81,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             IsNotNull(() => nestedAdder);
             AreEqual(4, () => nestedAdder.Operands.Count);
-            double nestedAdderResult = nestedAdder.Calculate();
+            double nestedAdderResult = _[nestedAdder].Calculate();
             AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => nestedAdderResult);
 
             // Check Flattened Terms
@@ -149,7 +148,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => constant);
             AreEqual(9 + 10, () => constant.Value);
             
-            double calculatedNestedSum = sumWrapper.Calculate();
+            double calculatedNestedSum = _[sumWrapper].Calculate();
             AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => calculatedNestedSum);
         }
  
