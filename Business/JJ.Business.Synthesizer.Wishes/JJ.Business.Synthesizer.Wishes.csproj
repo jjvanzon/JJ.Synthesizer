@@ -62,7 +62,7 @@
     <Compile Include="Helpers\FrameworkWishes.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Helpers\ToolingHelper.cs" />
-    <Compile Include="InletWishes.cs" />
+    <Compile Include="Obsolete.InletWishes.cs" />
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
     <Compile Include="Helpers\OperandList.cs" />
@@ -80,11 +80,11 @@
     <Compile Include="NoteWishes.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
-    <Compile Include="Helpers\Obsolete.cs" />
+    <Compile Include="Obsolete.OperatorWishes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynthWishes.cs" />
     <Compile Include="ValidationWishes.cs" />
-    <Compile Include="WrapperWishes.cs" />
+    <Compile Include="Obsolete.WrapperWishes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
