@@ -11,8 +11,6 @@ using static JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Curve Creation
-    
     // Curve Creation Extensions
 
     public static class CurveFactoryExtensions
@@ -39,9 +37,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        // This file adds overloads to the OperatorFactory methods,
-        // that create a curve, wraps it into an operator, and caches it.
-
         // Overloads with NodeInfo
 
         /// <inheritdoc cref="_createcurve" />
@@ -110,8 +105,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
     
-    // ASCII Curves
-
     // ASCII Curves Extensions
     
     /// <inheritdoc cref="_createcurvefromstring" />
@@ -243,7 +236,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Curve Chaining
+    // Curves in FluentOutlet
 
     public partial class FluentOutlet
     {
