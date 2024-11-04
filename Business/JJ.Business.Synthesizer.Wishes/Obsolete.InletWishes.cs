@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Curve Curve(this Inlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return entity.Input.Curve();
+            return entity.Input.UnderlyingCurve();
         }
 
         [Obsolete(ObsoleteMessage)]
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Sample Sample(this Inlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return entity.Input.Sample();
+            return entity.Input.UnderlyingSample();
         }
     }
     

@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private void AssignNames(FluentOutlet fluentOutlet, string name)
         {
-            fluentOutlet.Curve().Name = name;
+            fluentOutlet.UnderlyingCurve().Name = name;
             fluentOutlet.Operator.Name = name;
         }
     }

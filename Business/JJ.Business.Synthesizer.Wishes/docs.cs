@@ -189,7 +189,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// that contains specifics about the nodes and how they are connected.
         /// If it's called on something that isn't a Curve, an exception will be thrown.
         /// </summary>
-        public static object _getcurve;
+        public static object _underlyingcurve;
 
         /// <summary>
         /// If this is a sample operator, this will return a curve operator wrapper,
@@ -203,7 +203,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// with configuration, byte array, etc. If it's not a sample operator,
         /// it will throw an exception.
         /// </summary>
-        public static object _getsample;
+        public static object _underlyingsample;
 
         /// <summary>
         /// If this is a sample operator, this will return a sample operator wrapper,

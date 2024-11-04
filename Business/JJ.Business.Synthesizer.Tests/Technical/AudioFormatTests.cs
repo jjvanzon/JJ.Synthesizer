@@ -203,7 +203,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             FluentOutlet getSample()
             {
                 var    outlet = WithName(audioFileOutput1.FilePath).Sample(bytes);
-                Sample sample = outlet.Sample();
+                Sample sample = outlet.UnderlyingSample();
 
                 if (audioFileFormatEnum == Raw)
                 {
@@ -505,7 +505,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             // Sample Wrapper
             IsNotNull(() => sampleFluentOutlet);
-            IsNotNull(() => sampleFluentOutlet.Sample());
+            IsNotNull(() => sampleFluentOutlet.UnderlyingSample());
 
             // Sample Operator
             Operator sampleOperator = sampleFluentOutlet.Operator;
