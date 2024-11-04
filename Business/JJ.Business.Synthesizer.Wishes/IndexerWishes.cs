@@ -210,18 +210,18 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_captureindexer" />
         public class CaptureIndexer
         {
-            private readonly SynthWishes _parent;
+            private readonly SynthWishes _synthWishes;
 
             /// <inheritdoc cref="_captureindexer" />
-            internal CaptureIndexer(SynthWishes parent)
+            internal CaptureIndexer(SynthWishes synthWishes)
             {
-                _parent = parent;
+                _synthWishes = synthWishes;
             }
 
             // For Value Operators
             
             /// <inheritdoc cref="_captureindexer" />
-            public FluentOutlet this[double value] => new FluentOutlet(_parent, _parent._operatorFactory.Value(value));
+            public FluentOutlet this[double value] => new FluentOutlet(_synthWishes, _synthWishes._operatorFactory.Value(value));
 
             // Turn Outlet into FluentOutlet
             
@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         "This indexer is meant to wrap something into a FluentOutlet so you can " +
                         "use fluent method chaining and C# operator overloads.");
                     
-                    return new FluentOutlet(_parent, outlet); 
+                    return new FluentOutlet(_synthWishes, outlet); 
                 }
             }
             
@@ -245,27 +245,27 @@ namespace JJ.Business.Synthesizer.Wishes
             // _[ t[1, 3], Flute(C4, l[2], fx: _[0.25]), MyEnvelope ]
             
             public FluentOutlet this[FluentOutlet t, FluentOutlet sound, FluentOutlet volume = null] 
-                => _parent.StrikeNote(sound, t, volume);
+                => _synthWishes.StrikeNote(sound, t, volume);
 
             // _[ t[1, 1], Flute(A4, l[1], _[0.14]), 0.8 ]
             // _[ t[1, 2], Flute(C4, l[2], _[0.25]), 1.0 ]
 
             public FluentOutlet this[FluentOutlet t, FluentOutlet sound, double volume] 
-                => _parent.StrikeNote(sound, t, volume);
+                => _synthWishes.StrikeNote(sound, t, volume);
             
             // _[ t[1, 1], A4, Flute, MyEnvelope, l[0.5] ]
             // _[ t[1, 2], C4, Flute, MyEnvelope, l[1.0] ]
 
             public FluentOutlet this[
                 FluentOutlet t, FluentOutlet freq, Func<FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet vol = null, FluentOutlet param2 = null] 
-                => _parent.StrikeNote(sound(freq, param2), t, vol);
+                => _synthWishes.StrikeNote(sound(freq, param2), t, vol);
 
             // _[ t[1, 1], A4, Flute, 0.8, l(0.5) ]
             // _[ t[1, 2], C4, Flute, 1.0, l(1.0) ]
 
             public FluentOutlet this[
                 FluentOutlet t, FluentOutlet freq, Func<FluentOutlet, FluentOutlet, FluentOutlet> sound, double vol, FluentOutlet param2 = null] 
-                => _parent.StrikeNote(sound(freq, param2), t, vol);
+                => _synthWishes.StrikeNote(sound(freq, param2), t, vol);
 
             // _[ t[1, 1], A4, Flute, MyEnvelope, l(0.5), _[0.14] ]
             // _[ t[1, 2], C4, Flute, MyEnvelope, l(1.0), _[0.25] ]
@@ -274,7 +274,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 FluentOutlet t, FluentOutlet freq, 
                 Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet vol = null, 
                 FluentOutlet param2 = null, FluentOutlet param3 = null] 
-                => _parent.StrikeNote(sound(freq, param2, param3), t, vol);
+                => _synthWishes.StrikeNote(sound(freq, param2, param3), t, vol);
 
             // _[ t[1, 1], A4, Flute, 0.8, l(0.5), _[0.14] ]
             // _[ t[1, 2], C4, Flute, 1.0, l(1.0), _[0.14] ]
@@ -283,7 +283,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 FluentOutlet t, FluentOutlet freq, 
                 Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, double vol, 
                 FluentOutlet param2 = null, FluentOutlet param3 = null] 
-                => _parent.StrikeNote(sound(freq, param2, param3), t, vol);
+                => _synthWishes.StrikeNote(sound(freq, param2, param3), t, vol);
 
         
             // _[ t[1, 1], A4, Flute, MyEnvelope, l(0.5), _[0.14], _[1.08] ]
@@ -293,7 +293,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 FluentOutlet t, FluentOutlet freq, 
                 Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet vol = null,
                 FluentOutlet param2 = null, FluentOutlet param3 = null, FluentOutlet param4 = null] 
-                => _parent.StrikeNote(sound(freq, param2, param3, param4), t, vol);
+                => _synthWishes.StrikeNote(sound(freq, param2, param3, param4), t, vol);
 
             // _[ t[1, 1], A4, Flute, 0.8, l(0.5), _[0.14], _[1.08] ]
             // _[ t[1, 2], C4, Flute, 1.0, l(1.0), _[0.14], _[1.02]]
@@ -302,7 +302,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 FluentOutlet t, FluentOutlet freq, 
                 Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, double vol, 
                 FluentOutlet param2 = null, FluentOutlet param3 = null, FluentOutlet param4 = null] 
-                => _parent.StrikeNote(sound(freq, param2, param3, param4), t, vol);
+                => _synthWishes.StrikeNote(sound(freq, param2, param3, param4), t, vol);
         }
     }
 }
