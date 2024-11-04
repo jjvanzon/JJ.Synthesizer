@@ -53,11 +53,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly ThreadLocal<string> _name = new ThreadLocal<string>();
 
         /// <inheritdoc cref="docs._names"/>
-        public string Name
-        {
-            get => _name.Value;
-            private set => _name.Value = value;
-        }
+        public string GetName => _name.Value;
 
         /// <inheritdoc cref="docs._names"/>
         public SynthWishes WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
@@ -74,7 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 name = callerMemberName;
             }
 
-            Name = name;
+            _name.Value = name;
             return this;
         }
 
@@ -87,8 +83,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 return explicitName;
             }
 
-            string name = Name;
-            Name = null;
+            string name = GetName;
+            _name.Value = null;
 
             if (string.IsNullOrWhiteSpace(name))
             {

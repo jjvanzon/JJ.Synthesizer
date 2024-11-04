@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(callerMemberName, explicitName: fileName);
             name = Path.GetFileNameWithoutExtension(name);
-            string filePath = FormatAudioFileName(name, AudioFormat);
+            string filePath = FormatAudioFileName(name, GetAudioFormat);
 
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 return SampleBase(stream, bytesToSkip, name, callerMemberName);
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(name1, name2);
             name = Path.GetFileNameWithoutExtension(name);
-            string filePath = FormatAudioFileName(name, AudioFormat);
+            string filePath = FormatAudioFileName(name, GetAudioFormat);
 
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
             sample.TimeMultiplier = 1;
             sample.BytesToSkip = bytesToSkip;
-            sample.SetInterpolationTypeEnum(Interpolation, Context);
+            sample.SetInterpolationTypeEnum(GetInterpolation, Context);
 
             if (!string.IsNullOrWhiteSpace(filePath))
             {

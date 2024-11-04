@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 string name = x.FetchName(callerMemberName);
 
-                var originalAudioLength = x.AudioLength;
+                var originalAudioLength = x.GetAudioLength;
                 try
                 {
                     outletFunc = AddPadding(outletFunc);

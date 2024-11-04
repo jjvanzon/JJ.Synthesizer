@@ -253,7 +253,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet Jingle()
         {
-            var originalAudioLength = AudioLength;
+            var originalAudioLength = GetAudioLength;
             try
             {
                 var fluteVolume      = _[1.2];
@@ -443,7 +443,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq     = freq ?? A4;
             //duration = duration ?? _[1];
-            duration = duration ?? AudioLength;
+            duration = duration ?? GetAudioLength;
 
             var modCurve = Stretch(ModTamingCurve, duration);
             var modDepth = Multiply(0.0001, modCurve);
@@ -462,7 +462,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq     = freq ?? A4;
             //duration = duration ?? beats[1];
-            duration = duration ?? AudioLength;
+            duration = duration ?? GetAudioLength;
 
             // Tame modulation
             var modCurve = Stretch(ModTamingCurve8Times, duration);
@@ -521,7 +521,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet ElectricNote(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
-            duration = duration ?? AudioLength;
+            duration = duration ?? GetAudioLength;
 
             var modDepth = 0.02 * Stretch(LineDownCurve, duration);
             var fmSignal = Add
@@ -584,7 +584,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="_shaperipplesound" />
         FluentOutlet ShapeRippleSound(FluentOutlet input, FluentOutlet duration)
         {
-            duration = duration ?? AudioLength; // _[2.5];
+            duration = duration ?? GetAudioLength; // _[2.5];
             var envelope = Stretch(RippleCurve, duration);
             var sound    = input * envelope;
             return sound.SetName();
@@ -593,7 +593,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="_createfmnoisebeating" />
         FluentOutlet Create_FM_Noise_Beating(FluentOutlet pitch = null, FluentOutlet duration = null)
         {
-            duration = duration ?? AudioLength;
+            duration = duration ?? GetAudioLength;
             
             var signal = FMAroundFreq(pitch ?? A4, _[55], _[0.5]);
             

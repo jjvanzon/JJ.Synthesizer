@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 var originalChannel = x.Channel;
                 try
                 {
-                    switch (x.SpeakerSetup)
+                    switch (x.GetSpeakerSetup)
                     {
                         case SpeakerSetupEnum.Mono:
                             x.Center(); var monoOutlet = func();
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Wishes
                             return Save(new[] { leftOutlet, rightOutlet }, mustWriteToMemory, name);
                         
                         default:
-                            throw new ValueNotSupportedException(x.SpeakerSetup);
+                            throw new ValueNotSupportedException(x.GetSpeakerSetup);
                     }
                 }
                 finally
@@ -136,15 +136,15 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Configure AudioFileOutput (avoid backend)
                 var audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(x.Context);
                 AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
-                audioFileOutput.Amplifier = x.BitDepth.GetMaxAmplitude();
+                audioFileOutput.Amplifier = x.GetBitDepth.GetMaxAmplitude();
                 audioFileOutput.TimeMultiplier = 1;
-                audioFileOutput.Duration = x.AudioLength.Calculate();
-                audioFileOutput.FilePath = x.FormatAudioFileName(name, x.AudioFormat);
-                audioFileOutput.SetSampleDataTypeEnum(x.BitDepth);
-                audioFileOutput.SetAudioFileFormatEnum(x.AudioFormat);
+                audioFileOutput.Duration = x.GetAudioLength.Calculate();
+                audioFileOutput.FilePath = x.FormatAudioFileName(name, x.GetAudioFormat);
+                audioFileOutput.SetSampleDataTypeEnum(x.GetBitDepth);
+                audioFileOutput.SetAudioFileFormatEnum(x.GetAudioFormat);
                 audioFileOutput.Name = name;
 
-                var samplingRateResult = ResolveSamplingRate(x.SamplingRate);
+                var samplingRateResult = ResolveSamplingRate(x.GetSamplingRate);
                 warnings.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
                 audioFileOutput.SamplingRate = samplingRateResult.Data;
 

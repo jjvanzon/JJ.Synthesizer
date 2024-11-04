@@ -51,18 +51,18 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (funcs == null) throw new ArgumentNullException(nameof(funcs));
 
                 // If parallels disabled
-                if (!x.ParallelEnabled)
+                if (!x.GetParallelEnabled)
                 { 
                     // Return a normal Add of the Outlets returned by the funcs.
                     return volume * x.Add(funcs.Select(x => x()).ToArray());
                 }
                 
-                bool inMemory = x.InMemoryProcessingEnabled && !x.MustSaveParallels;
+                bool inMemory = x.GetInMemoryProcessingEnabled && !x.GetSaveParallels;
                 bool onDisk = !inMemory;
 
                 // Prep variables
                 int termCount = funcs.Count;
-                int channelCount = x.SpeakerSetup.GetChannelCount();
+                int channelCount = x.GetSpeakerSetup.GetChannelCount();
                 string[] names = GetParallelNames(termCount, name);
                 string[] displayNames = names.Select(GetDisplayName).ToArray();
                 var saveResults = new Result<SaveResultData>[termCount];
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         saveResults[i] = saveResult;
                         
                         // Play if needed
-                        if (x.MustPlayParallels)
+                        if (x.GetPlayParallels)
                         { 
                             x._playWishes.PlayIfAllowed(saveResult.Data);
                         }
@@ -130,13 +130,13 @@ namespace JJ.Business.Synthesizer.Wishes
                             reloadedSamples[i] = x.Sample(names[i]).SetName(displayNames[i]);
                         
                             // Save reloaded samples again.
-                            if (x.MustSaveParallels)
+                            if (x.GetSaveParallels)
                             {
                                 var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
                                 var saveResult2 = x.Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav", mustWriteToMemory: false);
                             
                                 // Play to test the sample loading.
-                                if (x.MustPlayParallels) x._playWishes.PlayIfAllowed(saveResult2.Data);
+                                if (x.GetPlayParallels) x._playWishes.PlayIfAllowed(saveResult2.Data);
                             }
                         }
                     }
@@ -144,7 +144,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 finally
                 {
                     // Clean up files
-                    if (onDisk && !x.MustSaveParallels) 
+                    if (onDisk && !x.GetSaveParallels) 
                     {
                         for (var j = 0; j < names.Length; j++)
                         {

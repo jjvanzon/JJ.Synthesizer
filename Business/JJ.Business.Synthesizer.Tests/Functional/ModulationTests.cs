@@ -152,7 +152,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet DetunicaBass(FluentOutlet freq, FluentOutlet duration = null)
         {
-            duration = duration ?? AudioLength;
+            duration = duration ?? GetAudioLength;
 
             return WithName().ParallelAdd
             (
