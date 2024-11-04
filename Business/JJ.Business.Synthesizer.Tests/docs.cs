@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// The depth of the detuning applied to the harmonics.
         /// If not provided, a default value is used.
         /// </param>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _detune;
 
         /// <summary>
@@ -49,14 +49,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// 1 is the default and a more patchy volume envelope.<br />
         /// 2 gives the newer with a move even fade in and out.
         /// </param>
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="docs._docs._default" />
         public static object _detunica;
 
         /// <summary>
         /// Applies an echo effect to the given sound.
         /// </summary>
         /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
-        /// <returns> An <see cref="FluentOutlet" /> representing the sound with the applied echo effect. </returns>
+        /// <returns> An <see cref="docs._FluentOutlet" /> representing the sound with the applied echo effect. </returns>
         public static object _echo;
 
         /// <summary>
@@ -67,32 +67,32 @@ namespace JJ.Business.Synthesizer.Tests
         /// <summary>
         /// High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously)
         /// </summary>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _flute1;
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _flute2;
 
         /// <summary> Yet another flute: mod speed above sound freq, changes sound freq * 1 +/- 0.005 </summary>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _flute3;
 
         /// <summary> Modulated hard flute: mod speed below sound freq, changes sound freq * [-0.005, 0.005] (erroneously) </summary>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _flute4;
 
         /// <summary> FM with (faulty) multiplication around 0. </summary>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _fmaround0;
 
         /// <summary> FM with multiplication around 1. </summary>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _fmaroundfreq;
             
         /// <summary> FM sound synthesis modulating with addition. Modulates sound freq to +/- a number of Hz. </summary>
         /// <param name="modDepth"> In Hz </param>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _fminhertz;
             
         /// <summary>
@@ -108,14 +108,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// FM modulator is attempted to be tamed with curves.
         /// </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A2/110Hz). </param>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _horn;
 
         /// <summary>
         /// An airy sound with harmonics, a high-pitch sample for attack,
         /// separate curves for each partial, triggers a wav header auto-detect.
         /// </summary>
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="docs._docs._default" />
         public static object _metallophone;
 
         /// <summary>
@@ -133,42 +133,42 @@ namespace JJ.Business.Synthesizer.Tests
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _ripplebass;
 
         /// <summary> Mod speed below sound freq, changes sound freq ±10Hz </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A3/220Hz). </param>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _ripplenotesharpmetallic;
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _ripplesoundclean;
 
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.05 </summary>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _ripplesoundcooldouble;
             
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.02 </summary>
         /// <param name="duration"> The audioLength of the sound in seconds (default is 2.5). </param>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _ripplesoundfantasyeffect;
         
         /// <summary>
         /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
         /// </summary>
-        /// <returns> An <see cref="FluentOutlet" /> representing the semi-sawtooth waveform. </returns>
-        /// <inheritdoc cref="_default" />
+        /// <returns> An <see cref="docs._FluentOutlet" /> representing the semi-sawtooth waveform. </returns>
+        /// <inheritdoc cref="docs._default" />
         public static object _semisaw;
 
         /// <summary> Shapes a ripple effect sound giving it a volume envelope and a delay, volume and audioLength. </summary>
         /// <param name="duration"> The audioLength of the sound in seconds (default is 2.5). </param>
         /// <param name="fmSignal"> A ripple sound to be shaped </param>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _shaperipplesound;
 
         /// <summary>
-        /// Testing extension methods in <see cref="AudioFileExtensionWishes" />
+        /// Testing extension methods in <see cref="docs._AudioFileExtensionWishes" />
         /// that didn't get any coverage elsewhere.
         /// </summary>
         public static object _testaudiofileextensionwishes;
@@ -186,7 +186,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
         /// <param name="durationFactor"> Duration varies with pitch, but can be multiplied by this factor (default is 1). </param>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _trombone;
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="sound"> The sound to apply the jitter effect to. </param>
         /// <param name="depthAdjust1"> The first depth adjustment for the jitter effect. Defaults to 0.005 if not provided. </param>
         /// <param name="depthAdjust2"> The second depth adjustment for the jitter effect. Defaults to 0.250 if not provided. </param>
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         public static object _vibraphase;
 
         // Aliases for ones in SynthWishes

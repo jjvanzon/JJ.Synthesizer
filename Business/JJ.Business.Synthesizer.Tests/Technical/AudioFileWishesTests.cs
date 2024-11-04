@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class AudioFileWishesTests : SynthWishes
     {
-        /// <inheritdoc cref="_testaudiofileextensionwishes"/>
+        /// <inheritdoc cref="docs._testaudiofileextensionwishes"/>
         [TestMethod]
         public void Test_AudioFileExtensionWishes() => new AudioFileWishesTests().AudioFileExtensionWishes_RunTest();
 

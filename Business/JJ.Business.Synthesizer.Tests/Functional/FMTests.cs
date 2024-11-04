@@ -3,13 +3,12 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Tests.docs;
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable ExplicitCallerInfoArgument
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
-    /// <inheritdoc cref="_fmtests"/>
+    /// <inheritdoc cref="docs._fmtests"/>
     [TestClass]
     [TestCategory("Functional")]
     public class FMTests : SynthWishes
@@ -22,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet DeepEcho(FluentOutlet sound) 
             => EchoParallel(sound * 0.4, count: 7, magnitude: _[0.50], delay: _[0.50]) / 0.4;
 
-        /// <inheritdoc cref="_fmtests"/>
+        /// <inheritdoc cref="docs._fmtests"/>
         public FMTests() : base(beat: 0.45, bar: 4 * 0.45)
         {
             Mono();
@@ -125,61 +124,61 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             SaveAndPlay(() => MildEcho(PadChords(volume: _[0.92]) * 0.15));
         }
 
-        /// <inheritdoc cref="_horn" />
+        /// <inheritdoc cref="docs._horn" />
         [TestMethod]
         public void FM_Horn() => new FMTests().FM_Horn_RunTest();
 
-        /// <inheritdoc cref="_horn" />
+        /// <inheritdoc cref="docs._horn" />
         void FM_Horn_RunTest()
         {
             SaveAndPlay(() => MildEcho(Horn())* 0.5);
         }
 
-        /// <inheritdoc cref="_horn" />
+        /// <inheritdoc cref="docs._horn" />
         [TestMethod]
         public void FM_Horn_Melody1() => new FMTests().FM_Horn_Melody1_RunTest();
 
-        /// <inheritdoc cref="_horn" />
+        /// <inheritdoc cref="docs._horn" />
         void FM_Horn_Melody1_RunTest()
         {
             SaveAndPlay(() => MildEcho(HornMelody1) * 0.6);
         }
 
-        /// <inheritdoc cref="_horn" />
+        /// <inheritdoc cref="docs._horn" />
         [TestMethod]
         public void FM_Horn_Melody2() => new FMTests().FM_Horn_Melody2_RunTest();
 
-        /// <inheritdoc cref="_horn" />
+        /// <inheritdoc cref="docs._horn" />
         void FM_Horn_Melody2_RunTest()
         {
             SaveAndPlay(() => MildEcho(HornMelody2) * 0.6);
         }
         
-        /// <inheritdoc cref="_trombone" />
+        /// <inheritdoc cref="docs._trombone" />
         [TestMethod]
         public void FM_Trombone() => new FMTests().FM_Trombone_RunTest();
 
-        /// <inheritdoc cref="_trombone" />
+        /// <inheritdoc cref="docs._trombone" />
         void FM_Trombone_RunTest()
         {
             WithAudioLength(2).SaveAndPlay(() => MildEcho(Trombone(E2))* 0.5);
         }
         
-        /// <inheritdoc cref="_trombone" />
+        /// <inheritdoc cref="docs._trombone" />
         [TestMethod]
         public void FM_Trombone_Melody1() => new FMTests().FM_Trombone_Melody1_RunTest();
 
-        /// <inheritdoc cref="_trombone" />
+        /// <inheritdoc cref="docs._trombone" />
         void FM_Trombone_Melody1_RunTest()
         {
             SaveAndPlay(() => MildEcho(TromboneMelody1) * 0.45);
         }
 
-        /// <inheritdoc cref="_trombone" />
+        /// <inheritdoc cref="docs._trombone" />
         [TestMethod]
         public void FM_Trombone_Melody2() => new FMTests().FM_Trombone_Melody2_RunTest();
 
-        /// <inheritdoc cref="_trombone" />
+        /// <inheritdoc cref="docs._trombone" />
         void FM_Trombone_Melody2_RunTest()
         {
             SaveAndPlay(() => MildEcho(TromboneMelody2) * 0.75);
@@ -351,14 +350,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 )
             );
 
-        /// <inheritdoc cref="_horn" />
+        /// <inheritdoc cref="docs._horn" />
         FluentOutlet HornMelody1 => WithAudioLength(beat[13 + 4]).WithName().ParallelAdd
         (
             () => _[ beat[09], Horn(C2, length[3]), 0.7 ],
             () => _[ beat[13], Horn(G1, length[4]), 0.5 ]
         );
 
-        /// <inheritdoc cref="_horn" />
+        /// <inheritdoc cref="docs._horn" />
         FluentOutlet HornMelody2 => WithAudioLength(beat[9 + 4]).WithName().ParallelAdd
         (
             () => _[ b[1], A2, Horn, 0.75, l[2] ],
@@ -366,7 +365,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => _[ b[9], A1, Horn, 1.00, l[4] ]
         );
         
-        /// <inheritdoc cref="_trombone" />
+        /// <inheritdoc cref="docs._trombone" />
         FluentOutlet TromboneMelody1 => WithAudioLength(beats[6]).WithName().ParallelAdd
         (
             () => _[ b[1], A1 , Trombone      ],
@@ -374,7 +373,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             () => _[ b[5], Fs1, Trombone, 0.7 ]
         );
 
-        /// <inheritdoc cref="_trombone" />
+        /// <inheritdoc cref="docs._trombone" />
         FluentOutlet TromboneMelody2 => WithAudioLength(beats[8]).WithName().ParallelAdd
         (
             () => _[ beat[3], E4, Trombone, 1, _[1.4] ],
@@ -387,7 +386,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         // Instruments
 
-        /// <inheritdoc cref="_flute1" />
+        /// <inheritdoc cref="docs._flute1" />
         FluentOutlet Flute1(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
@@ -399,7 +398,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note.SetName();
         }
 
-        /// <inheritdoc cref="_flute2" />
+        /// <inheritdoc cref="docs._flute2" />
         FluentOutlet Flute2(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
@@ -412,7 +411,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume.SetName();
         }
 
-        /// <inheritdoc cref="_flute3" />
+        /// <inheritdoc cref="docs._flute3" />
         FluentOutlet Flute3(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
@@ -425,7 +424,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume.SetName();
         }
 
-        /// <inheritdoc cref="_flute4" />
+        /// <inheritdoc cref="docs._flute4" />
         FluentOutlet Flute4(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
@@ -438,7 +437,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume.SetName();
         }
 
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         FluentOutlet Organ(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq     = freq ?? A4;
@@ -457,7 +456,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note.SetName();
         }
 
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         FluentOutlet Pad(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq     = freq ?? A4;
@@ -483,7 +482,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note.SetName();
         }
 
-        /// <inheritdoc cref="_trombone" />
+        /// <inheritdoc cref="docs._trombone" />
         FluentOutlet Trombone(FluentOutlet freq = null, FluentOutlet durationFactor = null)
         {
             freq           = freq ?? A1;
@@ -503,7 +502,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="_horn" />
+        /// <inheritdoc cref="docs._horn" />
         FluentOutlet Horn(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A2;
@@ -517,7 +516,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         FluentOutlet ElectricNote(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq   = freq ?? A4;
@@ -536,7 +535,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume.SetName();
         }
 
-        /// <inheritdoc cref="_ripplebass" />
+        /// <inheritdoc cref="docs._ripplebass" />
         FluentOutlet RippleBass(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A1;
@@ -545,7 +544,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note.SetName();
         }
 
-        /// <inheritdoc cref="_ripplenotesharpmetallic" />
+        /// <inheritdoc cref="docs._ripplenotesharpmetallic" />
         FluentOutlet RippleNote_SharpMetallic(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A3;
@@ -554,7 +553,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="_ripplesoundclean" />
+        /// <inheritdoc cref="docs._ripplesoundclean" />
         FluentOutlet RippleSound_Clean(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
@@ -563,7 +562,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="_ripplesoundfantasyeffect" />
+        /// <inheritdoc cref="docs._ripplesoundfantasyeffect" />
         FluentOutlet RippleSound_FantasyEffect(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A5;
@@ -572,7 +571,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="_ripplesoundcooldouble" />
+        /// <inheritdoc cref="docs._ripplesoundcooldouble" />
         FluentOutlet RippleSound_CoolDouble(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A5;
@@ -581,7 +580,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="_shaperipplesound" />
+        /// <inheritdoc cref="docs._shaperipplesound" />
         FluentOutlet ShapeRippleSound(FluentOutlet input, FluentOutlet duration)
         {
             duration = duration ?? GetAudioLength; // _[2.5];
@@ -590,7 +589,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="_createfmnoisebeating" />
+        /// <inheritdoc cref="docs._createfmnoisebeating" />
         FluentOutlet Create_FM_Noise_Beating(FluentOutlet pitch = null, FluentOutlet duration = null)
         {
             duration = duration ?? GetAudioLength;
@@ -610,7 +609,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Algorithms
         
-        /// <inheritdoc cref="_fminhertz" />
+        /// <inheritdoc cref="docs._fminhertz" />
         FluentOutlet FMInHertz(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
             var modulator = Sine(modSpeed) * modDepth;
@@ -618,7 +617,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="_fmaround0" />
+        /// <inheritdoc cref="docs._fmaround0" />
         FluentOutlet FMAround0(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
             var modulator = Sine(modSpeed) * modDepth;
@@ -626,7 +625,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="_fmaroundfreq" />
+        /// <inheritdoc cref="docs._fmaroundfreq" />
         FluentOutlet FMAroundFreq(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
         {
             var modulator = 1 + Sine(modSpeed) * modDepth;
@@ -676,13 +675,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1, value: 0)
         );
 
-        /// <inheritdoc cref="_modtamingcurve"/>
+        /// <inheritdoc cref="docs._modtamingcurve"/>
         FluentOutlet ModTamingCurve => WithName().Curve(0.3, 1.0, 0.3, 0.0);
 
-        /// <inheritdoc cref="_modtamingcurve"/>
+        /// <inheritdoc cref="docs._modtamingcurve"/>
         FluentOutlet ModTamingCurve2 => WithName().Curve(1.0, 0.5, 0.2, 0.0);
 
-        /// <inheritdoc cref="_modtamingcurve"/>
+        /// <inheritdoc cref="docs._modtamingcurve"/>
         FluentOutlet ModTamingCurve8Times => WithName().Curve
         (
             0.3, 1.0, 0.3, 0.0,
@@ -695,7 +694,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             0.3, 1.0, 0.3, 0.0
         );
             
-        /// <inheritdoc cref="_evenoutcurve"/>
+        /// <inheritdoc cref="docs._evenoutcurve"/>
         FluentOutlet EvenOutCurve => WithName().Curve
         (
             (time: 0.00, value: 1.0),

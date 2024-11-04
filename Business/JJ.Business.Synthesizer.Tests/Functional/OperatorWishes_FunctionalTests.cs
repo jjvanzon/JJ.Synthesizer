@@ -6,7 +6,6 @@ using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
-using static JJ.Business.Synthesizer.Tests.docs;
 // ReSharper disable JoinDeclarationAndInitializer
 // ReSharper disable ExplicitCallerInfoArgument
 
@@ -25,19 +24,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         // Vibrato/Tremolo Tests
 
-        /// <inheritdoc cref="_vibrato" />
+        /// <inheritdoc cref="docs._vibrato" />
         [TestMethod]
         public void Test_Vibrato() => new OperatorWishes_FunctionalTests().Vibrato_RunTest();
 
-        /// <inheritdoc cref="_vibrato" />
+        /// <inheritdoc cref="docs._vibrato" />
         void Vibrato_RunTest()
             => WithAudioLength(2).Mono().SaveAndPlay(() => VibratoOverPitch(A4).Sine * Envelope.Stretch(2) * 0.9);
 
-        /// <inheritdoc cref="_tremolo" />
+        /// <inheritdoc cref="docs._tremolo" />
         [TestMethod]
         public void Test_Tremolo() => new OperatorWishes_FunctionalTests().Tremolo_RunTest();
 
-        /// <inheritdoc cref="_tremolo" />
+        /// <inheritdoc cref="docs._tremolo" />
         void Tremolo_RunTest()
             => WithAudioLength(2).Mono().SaveAndPlay(() => Sine(C5).Tremolo(4, 0.5) * Envelope.Stretch(2) * 0.3);
 

@@ -24,7 +24,7 @@ using static JJ.Business.Synthesizer.Tests.docs;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
-    /// <inheritdoc cref="_throwtests"/>
+    /// <inheritdoc cref="docs._throwtests"/>
     [TestClass]
     [TestCategory("Technical")]
     public class ThrowTests : SynthWishes

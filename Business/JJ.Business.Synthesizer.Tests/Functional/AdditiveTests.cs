@@ -1,44 +1,43 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
-using static JJ.Business.Synthesizer.Tests.docs;
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
-    /// <inheritdoc cref="_metallophone"/>
+    /// <inheritdoc cref="docs._metallophone"/>
     [TestClass]
     [TestCategory("Functional")]
     public class AdditiveTests : SynthWishes
     {
         FluentOutlet NoteDuration => _[2.5];
 
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc cref="docs._default" />
         FluentOutlet Echo(FluentOutlet sound) => EchoParallel(sound, 4, magnitude: _[0.33], _[0.66]);
 
-        /// <inheritdoc cref="_metallophone" />
+        /// <inheritdoc cref="docs._metallophone" />
         public AdditiveTests() : base(beat: 0.4, bar: 1.6) => Mono();
 
-        /// <inheritdoc cref="_metallophone"/>
+        /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
         public void Additive_Metallophone_Jingle() => new AdditiveTests().Additive_Metallophone_Jingle_RunTest();
 
-        /// <inheritdoc cref="_metallophone"/>
+        /// <inheritdoc cref="docs._metallophone"/>
         public void Additive_Metallophone_Jingle_RunTest()
         {
             WithAudioLength(beat[4] + NoteDuration).SaveAndPlay(() => Echo(MetallophoneJingle * 0.30));
         }
 
-        /// <inheritdoc cref="_metallophone"/>
+        /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
         public void Additive_Metallophone_Note() => new AdditiveTests().Additive_Metallophone_Note_RunTest();
 
-        /// <inheritdoc cref="_metallophone"/>
+        /// <inheritdoc cref="docs._metallophone"/>
         public void Additive_Metallophone_Note_RunTest()
         {
             WithAudioLength(NoteDuration).SaveAndPlay(() => Echo(Metallophone(Fs4) * 0.5));
         }
 
-        /// <inheritdoc cref="_metallophone"/>
+        /// <inheritdoc cref="docs._metallophone"/>
         FluentOutlet MetallophoneJingle => Add
         (
             _[ t[1, 1.0], A4 , Metallophone, 0.9 ],
@@ -48,7 +47,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             _[ t[1, 4.0], Fs4, Metallophone, 0.4 ]
         ).SetName();
 
-        /// <inheritdoc cref="_metallophone"/>
+        /// <inheritdoc cref="docs._metallophone"/>
         FluentOutlet Metallophone(FluentOutlet freq, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
@@ -71,10 +70,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return faster.SetName();
         }
 
-        /// <inheritdoc cref="_mysample"/>
+        /// <inheritdoc cref="docs._mysample"/>
         FluentOutlet _mySample;
 
-        /// <inheritdoc cref="_mysample"/>
+        /// <inheritdoc cref="docs._mysample"/>
         FluentOutlet MySample
         {
             get
