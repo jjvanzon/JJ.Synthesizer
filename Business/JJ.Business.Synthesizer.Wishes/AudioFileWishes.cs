@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
 
                 int channelCount = channelInputs.Count;
-                var speakerSetupEnum = channelCount.ToSpeakerSetupEnum();
+                var speakerSetupEnum = channelCount.ToSpeakerSetup();
 
                 // Validate Input Data
                 var warnings = new List<string>();
@@ -140,8 +140,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutput.TimeMultiplier = 1;
                 audioFileOutput.Duration = x.GetAudioLength.Calculate();
                 audioFileOutput.FilePath = x.FormatAudioFileName(name, x.GetAudioFormat);
-                audioFileOutput.SetSampleDataTypeEnum(x.GetBitDepth);
-                audioFileOutput.SetAudioFileFormatEnum(x.GetAudioFormat);
+                audioFileOutput.SetBitDepth(x.GetBitDepth);
+                audioFileOutput.SetAudioFormat(x.GetAudioFormat);
                 audioFileOutput.Name = name;
 
                 var samplingRateResult = ResolveSamplingRate(x.GetSamplingRate);

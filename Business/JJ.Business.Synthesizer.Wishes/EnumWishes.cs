@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
@@ -99,14 +98,14 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // AudioFileOutput
         
-        public static void SetAudioFileFormatEnum(
+        public static void SetAudioFormat(
             this AudioFileOutput entity, AudioFileFormatEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<IAudioFileFormatRepository>(context);
             entity.SetAudioFileFormatEnum(enumValue, repository);
         }
         
-        public static void SetSampleDataTypeEnum(
+        public static void SetBitDepth(
             this AudioFileOutput entity, SampleDataTypeEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<ISampleDataTypeRepository>(context);
@@ -115,7 +114,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Node
 
-        public static void SetNodeTypeEnum(this Node entity, NodeTypeEnum enumValue, IContext context = null)
+        public static void SetNodeType(this Node entity, NodeTypeEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<INodeTypeRepository>(context);
             entity.SetNodeTypeEnum(enumValue, repository);
@@ -123,25 +122,25 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Sample
 
-        public static void SetAudioFileFormatEnum(this Sample entity, AudioFileFormatEnum enumValue, IContext context = null)
+        public static void SetAudioFormat(this Sample entity, AudioFileFormatEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<IAudioFileFormatRepository>(context);
             entity.SetAudioFileFormatEnum(enumValue, repository);
         }
 
-        public static void SetInterpolationTypeEnum(this Sample entity, InterpolationTypeEnum enumValue, IContext context = null)
+        public static void SetInterpolation(this Sample entity, InterpolationTypeEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<IInterpolationTypeRepository>(context);
             entity.SetInterpolationTypeEnum(enumValue, repository);
         }
 
-        public static void SetSampleDataTypeEnum(this Sample entity, SampleDataTypeEnum enumValue, IContext context = null)
+        public static void SetBitDepth(this Sample entity, SampleDataTypeEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<ISampleDataTypeRepository>(context);
             entity.SetSampleDataTypeEnum(enumValue, repository);
         }
 
-        public static void SetSpeakerSetupEnum(this Sample entity, SpeakerSetupEnum enumValue, IContext context = null)
+        public static void SetSpeakerSetup(this Sample entity, SpeakerSetupEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<ISpeakerSetupRepository>(context);
             entity.SetSpeakerSetupEnum(enumValue, repository);
@@ -153,21 +152,21 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // AudioFileOutputChannel.AudioFileFormat
 
-        public static AudioFileFormat GetAudioFileFormat(this AudioFileOutputChannel entity)
+        public static AudioFileFormat GetAudioFileFormatEnumEntity(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
             return entity.AudioFileOutput.AudioFileFormat;
         }
 
-        public static AudioFileFormatEnum GetAudioFileFormatEnum(this AudioFileOutputChannel entity)
+        public static AudioFileFormatEnum GetAudioFormat(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
             return entity.AudioFileOutput.GetAudioFileFormatEnum();
         }
 
-        public static void SetAudioFileFormat(this AudioFileOutputChannel entity, AudioFileFormat enumEntity)
+        public static void SetAudioFileFormatEnumEntity(this AudioFileOutputChannel entity, AudioFileFormat enumEntity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
@@ -175,7 +174,7 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.AudioFileOutput.AudioFileFormat = enumEntity;
         }
 
-        public static void SetAudioFileFormatEnum(
+        public static void SetAudioFormat(
             this AudioFileOutputChannel entity, AudioFileFormatEnum enumValue, IAudioFileFormatRepository repository)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -183,38 +182,38 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.AudioFileOutput.SetAudioFileFormatEnum(enumValue, repository);
         }
 
-        public static void SetAudioFileFormatEnum(
+        public static void SetAudioFormat(
             this AudioFileOutputChannel entity, AudioFileFormatEnum enumValue, IContext context = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetAudioFileFormatEnum(enumValue, context);
+            entity.AudioFileOutput.SetAudioFormat(enumValue, context);
         }
                 
         // AudioFileOutputChannel.SampleDataType
 
-        public static SampleDataType GetSampleDataType(this AudioFileOutputChannel entity)
+        public static SampleDataType GetSampleDataTypeEnumEntity(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
             return entity.AudioFileOutput.SampleDataType;
         }
 
-        public static SampleDataTypeEnum GetSampleDataTypeEnum(this AudioFileOutputChannel entity)
+        public static SampleDataTypeEnum GetBitDepth(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
             return entity.AudioFileOutput.GetSampleDataTypeEnum();
         }
 
-        public static void SetSampleDataType(this AudioFileOutputChannel entity, SampleDataType enumEntity)
+        public static void SetSampleDataTypeEnumEntity(this AudioFileOutputChannel entity, SampleDataType enumEntity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
             entity.AudioFileOutput.SampleDataType = enumEntity;
         }
 
-        public static void SetSampleDataTypeEnum(
+        public static void SetBitDepth(
             this AudioFileOutputChannel entity, SampleDataTypeEnum enumValue, ISampleDataTypeRepository repository)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -222,12 +221,12 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.AudioFileOutput.SetSampleDataTypeEnum(enumValue, repository);
         }
 
-        public static void SetSampleDataTypeEnum(
+        public static void SetBitDepth(
             this AudioFileOutputChannel entity, SampleDataTypeEnum enumValue, IContext context = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetSampleDataTypeEnum(enumValue, context);
+            entity.AudioFileOutput.SetBitDepth(enumValue, context);
         }
     }
 
@@ -249,7 +248,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // SpeakerSetup Value Conversions
         
-        public static SpeakerSetupEnum ToSpeakerSetupEnum(this int channelCount)
+        public static SpeakerSetupEnum ToSpeakerSetup(this int channelCount)
         {
             switch (channelCount)
             {
@@ -269,21 +268,21 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        public static SampleDataTypeEnum GetSampleDataTypeEnum<TSampleDataType>()
+        public static SampleDataTypeEnum GetBitDepth<TSampleDataType>()
         {
             if (typeof(TSampleDataType) == typeof(short)) return SampleDataTypeEnum.Int16;
             if (typeof(TSampleDataType) == typeof(byte)) return SampleDataTypeEnum.Byte;
             throw new ValueNotSupportedException(typeof(TSampleDataType));
         }
 
-        public static int ToIndex(this ChannelEnum channelEnum, IContext context = null)
+        public static int ToIndex(this ChannelEnum channel, IContext context = null)
         {
-            IChannelRepository channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(context);
-            Channel channel = channelRepository.Get((int)channelEnum);
-            return channel.Index;
+            IChannelRepository channelRepository = CreateRepository<IChannelRepository>(context);
+            Channel channelEnumEntity = channelRepository.Get((int)channel);
+            return channelEnumEntity.Index;
         }
 
-        public static ChannelEnum ToChannelEnum(this int channelIndex, SpeakerSetupEnum speakerSetupEnum)
+        public static ChannelEnum ToChannel(this int channelIndex, SpeakerSetupEnum speakerSetupEnum)
         {
             switch (speakerSetupEnum)
             {
@@ -375,6 +374,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return child;
         }
+        
         public static AudioFileOutputChannel TryGetAudioFileOutputChannel(
             this AudioFileOutput parent, Channel channel)
         {
@@ -398,14 +398,14 @@ namespace JJ.Business.Synthesizer.Wishes
         // SetNodeTypeEnum for whole Curve
 
         /// <inheritdoc cref="docs._setnodetype"/>
-        public static void SetNodeType(this Curve curve, NodeType nodeType)
+        public static void SetNodeTypeEnumEntity(this Curve curve, NodeType nodeType)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
             curve.Nodes.ForEach(x => x.NodeType = nodeType);
         }
 
         /// <inheritdoc cref="docs._setnodetype"/>
-        public static void SetNodeTypeEnum(this Curve curve, NodeTypeEnum nodeTypeEnum, IContext context = null)
+        public static void SetNodeType(this Curve curve, NodeTypeEnum nodeTypeEnum, IContext context = null)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
             var nodeTypeRepository = CreateRepository<INodeTypeRepository>(context);
@@ -413,7 +413,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._trygetnodetype"/>
-        public static NodeType TryGetNodeType(this Curve curve)
+        public static NodeType TryGetNodeTypeEnumEntity(this Curve curve)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
 
@@ -432,7 +432,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._trygetnodetype"/>
-        public static NodeTypeEnum TryGetNodeTypeEnum(this Curve curve)
+        public static NodeTypeEnum TryGetNodeType(this Curve curve)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
 
@@ -443,7 +443,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Bits to 
-        public static SampleDataTypeEnum ToSampleDataTypeEnum(this int bits)
+        public static SampleDataTypeEnum ToBitDepth(this int bits)
         {
             switch (bits)
             {

@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public int ChannelIndex
         {
             get => Channel.ToIndex();
-            set => Channel = value.ToChannelEnum(GetSpeakerSetup);
+            set => Channel = value.ToChannel(GetSpeakerSetup);
         }
 
         public SynthWishes WithChannel(ChannelEnum channel)

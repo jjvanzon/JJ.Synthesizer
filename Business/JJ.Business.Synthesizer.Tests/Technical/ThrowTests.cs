@@ -57,10 +57,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ThrowsException(() => SpeakerSetupEnum.Undefined.GetChannelCount());
 
             // AudioFileWishes.Extensions.GetSpeakerSetupEnum ChannelCountNotSupported
-            ThrowsException(() => 0.ToSpeakerSetupEnum());
+            ThrowsException(() => 0.ToSpeakerSetup());
 
             // AudioFileWishes.Extensions.GetSampleDataTypeEnum SampleDataTypeNotSupported
-            ThrowsException(() => SpecialEnumWishes.GetSampleDataTypeEnum<long>());
+            ThrowsException(() => SpecialEnumWishes.GetBitDepth<long>());
 
             // AudioFileWishes.Extensions.GetFileExtension AudioFileFormatNotSupported
             ThrowsException(() => AudioFileFormatEnum.Undefined.GetFileExtension());

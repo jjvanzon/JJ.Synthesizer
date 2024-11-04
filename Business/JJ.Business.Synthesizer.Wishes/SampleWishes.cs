@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
             sample.TimeMultiplier = 1;
             sample.BytesToSkip = bytesToSkip;
-            sample.SetInterpolationTypeEnum(GetInterpolation, Context);
+            sample.SetInterpolation(GetInterpolation, Context);
 
             if (!string.IsNullOrWhiteSpace(filePath))
             {

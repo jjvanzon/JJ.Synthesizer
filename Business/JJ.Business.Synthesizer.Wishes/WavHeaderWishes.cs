@@ -17,84 +17,84 @@ namespace JJ.Business.Synthesizer.Wishes
         // With BinaryWriter
 
         // With TSampleDataType and SpeakerSetupEnum
-        public static void WriteWavHeader<TSampleDataType>(
-            this BinaryWriter writer, SpeakerSetupEnum speakerSetupEnum, int samplingRate, int frameCount)
+        public static void WriteWavHeader<TDataType>(
+            this BinaryWriter writer, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                writer, WavHeaderExtensionWishes_GetInfo.GetInfo(typeof(TSampleDataType), speakerSetupEnum, samplingRate, frameCount));
+                writer, WavHeaderExtensionWishes_GetInfo.GetInfo(typeof(TDataType), speakerSetup, samplingRate, frameCount));
 
-        // With TSampleDataType
-        public static void WriteWavHeader<TSampleDataType>(
+        // With TDataType
+        public static void WriteWavHeader<TDataType>(
             this BinaryWriter writer, int channelCount, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                writer, WavHeaderExtensionWishes_GetInfo.GetInfo(typeof(TSampleDataType), channelCount, samplingRate, frameCount));
+                writer, WavHeaderExtensionWishes_GetInfo.GetInfo(typeof(TDataType), channelCount, samplingRate, frameCount));
 
-        // With SpeakerSetupEnum
+        // With SpeakerSetup
         public static void WriteWavHeader(
             this BinaryWriter writer,
-            SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum, int samplingRate, int frameCount)
+            SampleDataTypeEnum bitDepth, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                writer, WavHeaderExtensionWishes_GetInfo.GetInfo(sampleDataTypeEnum, speakerSetupEnum, samplingRate, frameCount));
+                writer, WavHeaderExtensionWishes_GetInfo.GetInfo(bitDepth, speakerSetup, samplingRate, frameCount));
 
         // With flat values
         public static void WriteWavHeader(
-            this BinaryWriter writer, SampleDataTypeEnum sampleDataTypeEnum, int channelCount, int samplingRate, int frameCount)
+            this BinaryWriter writer, SampleDataTypeEnum bitDepth, int channelCount, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                writer, WavHeaderExtensionWishes_GetInfo.GetInfo(sampleDataTypeEnum, channelCount, samplingRate, frameCount));
+                writer, WavHeaderExtensionWishes_GetInfo.GetInfo(bitDepth, channelCount, samplingRate, frameCount));
 
         // With Stream
 
-        // With TSampleDataType and SpeakerSetupEnum
-        public static void WriteWavHeader<TSampleDataType>(
-            this Stream stream, SpeakerSetupEnum speakerSetupEnum, int samplingRate, int frameCount)
+        // With TDataType and SpeakerSetup
+        public static void WriteWavHeader<TDataType>(
+            this Stream stream, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                stream, WavHeaderExtensionWishes_GetInfo.GetInfo<TSampleDataType>(speakerSetupEnum, samplingRate, frameCount));
+                stream, WavHeaderExtensionWishes_GetInfo.GetInfo<TDataType>(speakerSetup, samplingRate, frameCount));
             
-        // With TSampleDataType
-        public static void WriteWavHeader<TSampleDataType>(
+        // With TDataType
+        public static void WriteWavHeader<TDataType>(
             this Stream stream, int channelCount, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                stream, WavHeaderExtensionWishes_GetInfo.GetInfo<TSampleDataType>(channelCount, samplingRate, frameCount));
+                stream, WavHeaderExtensionWishes_GetInfo.GetInfo<TDataType>(channelCount, samplingRate, frameCount));
 
-        // With SpeakerSetupEnum
+        // With SpeakerSetup
         public static void WriteWavHeader(
             this Stream stream,
-            SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum, int samplingRate, int frameCount)
+            SampleDataTypeEnum bitDepth, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                stream, WavHeaderExtensionWishes_GetInfo.GetInfo(sampleDataTypeEnum, speakerSetupEnum, samplingRate, frameCount));
+                stream, WavHeaderExtensionWishes_GetInfo.GetInfo(bitDepth, speakerSetup, samplingRate, frameCount));
 
         // With flat values
         public static void WriteWavHeader(
-            this Stream stream, SampleDataTypeEnum sampleDataTypeEnum, int channelCount, int samplingRate, int frameCount)
+            this Stream stream, SampleDataTypeEnum bitDepth, int channelCount, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                stream, WavHeaderExtensionWishes_GetInfo.GetInfo(sampleDataTypeEnum, channelCount, samplingRate, frameCount));
+                stream, WavHeaderExtensionWishes_GetInfo.GetInfo(bitDepth, channelCount, samplingRate, frameCount));
 
         // With FilePath
 
-        // With TSampleDataType and SpeakerSetupEnum
-        public static void WriteWavHeader<TSampleDataType>(
-            this string filePath, SpeakerSetupEnum speakerSetupEnum, int samplingRate, int frameCount)
+        // With TDataType and SpeakerSetup
+        public static void WriteWavHeader<TDataType>(
+            this string filePath, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                filePath, WavHeaderExtensionWishes_GetInfo.GetInfo(typeof(TSampleDataType), speakerSetupEnum, samplingRate, frameCount));
+                filePath, WavHeaderExtensionWishes_GetInfo.GetInfo(typeof(TDataType), speakerSetup, samplingRate, frameCount));
 
-        // With TSampleDataType
-        public static void WriteWavHeader<TSampleDataType>(
+        // With TDataType
+        public static void WriteWavHeader<TDataType>(
             this string filePath, int channelCount, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                filePath, WavHeaderExtensionWishes_GetInfo.GetInfo(typeof(TSampleDataType), channelCount, samplingRate, frameCount));
+                filePath, WavHeaderExtensionWishes_GetInfo.GetInfo(typeof(TDataType), channelCount, samplingRate, frameCount));
 
-        // With SpeakerSetupEnum
+        // With SpeakerSetup
         public static void WriteWavHeader(
             this string filePath,
-            SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum, int samplingRate, int frameCount)
+            SampleDataTypeEnum bitDepth, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                filePath, WavHeaderExtensionWishes_GetInfo.GetInfo(sampleDataTypeEnum, speakerSetupEnum, samplingRate, frameCount));
+                filePath, WavHeaderExtensionWishes_GetInfo.GetInfo(bitDepth, speakerSetup, samplingRate, frameCount));
 
         // With flat values
         public static void WriteWavHeader(
             this string filePath,
-            SampleDataTypeEnum sampleDataTypeEnum, int channelCount, int samplingRate, int frameCount)
+            SampleDataTypeEnum bitDepth, int channelCount, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                filePath, WavHeaderExtensionWishes_GetInfo.GetInfo(sampleDataTypeEnum, channelCount, samplingRate, frameCount));
+                filePath, WavHeaderExtensionWishes_GetInfo.GetInfo(bitDepth, channelCount, samplingRate, frameCount));
     }
 
     public static class WavHeaderExtensionWishes_WriteFromObjects
@@ -225,11 +225,11 @@ namespace JJ.Business.Synthesizer.Wishes
         // From Loose Values
         
         public static AudioFileInfoWish GetInfo
-            <TSampleDataType>(SpeakerSetupEnum speakerSetupEnum, int samplingRate, int frameCount)
+            <TSampleDataType>(SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
             => new AudioFileInfoWish
             {
                 Bits = typeof(TSampleDataType).GetBits(),
-                ChannelCount = speakerSetupEnum.GetChannelCount(),
+                ChannelCount = speakerSetup.GetChannelCount(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
             };
@@ -245,11 +245,11 @@ namespace JJ.Business.Synthesizer.Wishes
             };
         
         public static AudioFileInfoWish GetInfo(
-            Type sampleDataType, SpeakerSetupEnum speakerSetupEnum, int samplingRate, int frameCount)
+            Type sampleDataType, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
             => new AudioFileInfoWish
             {
                 Bits = sampleDataType.GetBits(),
-                ChannelCount = speakerSetupEnum.GetChannelCount(),
+                ChannelCount = speakerSetup.GetChannelCount(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
             };
@@ -275,12 +275,12 @@ namespace JJ.Business.Synthesizer.Wishes
         };
 
         public static AudioFileInfoWish GetInfo(
-            SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum, int samplingRate, int frameCount)
+            SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
         {
             return new AudioFileInfoWish
             {
                 Bits = sampleDataTypeEnum.GetBits(),
-                ChannelCount = speakerSetupEnum.GetChannelCount(),
+                ChannelCount = speakerSetup.GetChannelCount(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
             };

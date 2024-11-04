@@ -19,8 +19,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void AudioFileExtensionWishes_RunTest()
         {
             // Channel Count => Speaker Setup
-            AreEqual(SpeakerSetupEnum.Mono,   () => 1.ToSpeakerSetupEnum());
-            AreEqual(SpeakerSetupEnum.Stereo, () => 2.ToSpeakerSetupEnum());
+            AreEqual(SpeakerSetupEnum.Mono,   () => 1.ToSpeakerSetup());
+            AreEqual(SpeakerSetupEnum.Stereo, () => 2.ToSpeakerSetup());
 
             // Mono Extensions
             {
@@ -61,10 +61,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // 16-Bit Helpers
-            AreEqual(SampleDataTypeEnum.Int16, () => SpecialEnumWishes.GetSampleDataTypeEnum<short>());
+            AreEqual(SampleDataTypeEnum.Int16, () => SpecialEnumWishes.GetBitDepth<short>());
 
             // 8-Bit Helpers
-            AreEqual(SampleDataTypeEnum.Byte, () => SpecialEnumWishes.GetSampleDataTypeEnum<byte>());
+            AreEqual(SampleDataTypeEnum.Byte, () => SpecialEnumWishes.GetBitDepth<byte>());
 
             //// AudioFileOutputChannel Extensions for Missing Model Properties
             //{

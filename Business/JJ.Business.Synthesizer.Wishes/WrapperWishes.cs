@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class AudioFileWrapperExtension
     {
         [Obsolete(ObsoleteMessage)]
-        public static int SizeOfSampleDataType(this SampleOperatorWrapper wrapper)
+        public static int SizeOfBitDepth(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Sample.SizeOfSampleDataType();
@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // SampleOperatorWrapper.AudioFileFormat
 
         [Obsolete(ObsoleteMessage)]
-        public static AudioFileFormat GetAudioFileFormat(this SampleOperatorWrapper wrapper)
+        public static AudioFileFormat GetAudioFormatEnumEntity(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static AudioFileFormatEnum GetAudioFileFormatEnum(this SampleOperatorWrapper wrapper)
+        public static AudioFileFormatEnum GetAudioFormat(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetAudioFileFormat(this SampleOperatorWrapper wrapper, AudioFileFormat enumEntity)
+        public static void SetAudioFormatEnumEntity(this SampleOperatorWrapper wrapper, AudioFileFormat enumEntity)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetAudioFileFormatEnum(
+        public static void SetAudioFormat(
             this SampleOperatorWrapper wrapper, AudioFileFormatEnum enumValue, IAudioFileFormatRepository repository)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -166,18 +166,18 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetAudioFileFormatEnum(
+        public static void SetAudioFormat(
             this SampleOperatorWrapper wrapper, AudioFileFormatEnum enumValue, IContext context = null)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
-            wrapper.Sample.SetAudioFileFormatEnum(enumValue, context);
+            wrapper.Sample.SetAudioFormat(enumValue, context);
         }
 
         // SampleOperatorWrapper.InterpolationType
 
         [Obsolete(ObsoleteMessage)]
-        public static InterpolationType GetInterpolationType(this SampleOperatorWrapper wrapper)
+        public static InterpolationType GetInterpolationEnumEntity(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static InterpolationTypeEnum GetInterpolationTypeEnum(this SampleOperatorWrapper wrapper)
+        public static InterpolationTypeEnum GetInterpolation(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetInterpolationType(this SampleOperatorWrapper wrapper, InterpolationType enumEntity)
+        public static void SetInterpolationEnumEntity(this SampleOperatorWrapper wrapper, InterpolationType enumEntity)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetInterpolationTypeEnum(
+        public static void SetInterpolation(
             this SampleOperatorWrapper wrapper, InterpolationTypeEnum enumValue, IInterpolationTypeRepository repository)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -210,18 +210,18 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetInterpolationTypeEnum(
+        public static void SetInterpolation(
             this SampleOperatorWrapper wrapper, InterpolationTypeEnum enumValue, IContext context = null)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
-            wrapper.Sample.SetInterpolationTypeEnum(enumValue, context);
+            wrapper.Sample.SetInterpolation(enumValue, context);
         }
 
         // SampleOperatorWrapper.SampleDataType
 
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataType GetSampleDataType(this SampleOperatorWrapper wrapper)
+        public static SampleDataType GetBitDepthEnumEntity(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataTypeEnum GetSampleDataTypeEnum(this SampleOperatorWrapper wrapper)
+        public static SampleDataTypeEnum GetBitDepth(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -237,7 +237,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetSampleDataType(this SampleOperatorWrapper wrapper, SampleDataType enumEntity)
+        public static void SetBitDepthEnumEntity(this SampleOperatorWrapper wrapper, SampleDataType enumEntity)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -245,7 +245,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetSampleDataTypeEnum(
+        public static void SetBitDepth(
             this SampleOperatorWrapper wrapper, SampleDataTypeEnum enumValue, ISampleDataTypeRepository repository)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -254,18 +254,18 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetSampleDataTypeEnum(
+        public static void SetBitDepth(
             this SampleOperatorWrapper wrapper, SampleDataTypeEnum enumValue, IContext context = null)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
-            wrapper.Sample.SetSampleDataTypeEnum(enumValue, context);
+            wrapper.Sample.SetBitDepth(enumValue, context);
         }
 
         // SampleOperatorWrapper.SpeakerSetup
 
         [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetup GetSpeakerSetup(this SampleOperatorWrapper wrapper)
+        public static SpeakerSetup GetSpeakerSetupEnumEntity(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -273,7 +273,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetupEnum GetSpeakerSetupEnum(this SampleOperatorWrapper wrapper)
+        public static SpeakerSetupEnum GetSpeakerSetup(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -281,7 +281,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetSpeakerSetup(this SampleOperatorWrapper wrapper, SpeakerSetup enumEntity)
+        public static void SetSpeakerSetupEnumEntity(this SampleOperatorWrapper wrapper, SpeakerSetup enumEntity)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -289,7 +289,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetSpeakerSetupEnum(
+        public static void SetSpeakerSetup(
             this SampleOperatorWrapper wrapper, SpeakerSetupEnum enumValue, ISpeakerSetupRepository repository)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -298,43 +298,43 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetSpeakerSetupEnum(
+        public static void SetSpeakerSetup(
             this SampleOperatorWrapper wrapper, SpeakerSetupEnum enumValue, IContext context = null)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
-            wrapper.Sample.SetSpeakerSetupEnum(enumValue, context);
+            wrapper.Sample.SetSpeakerSetup(enumValue, context);
         }
 
         // CurveInWrapper.NodeType
 
         [Obsolete(ObsoleteMessage)]
-        public static NodeType TryGetNodeType(this CurveInWrapper wrapper)
+        public static NodeType TryGetNodeTypeEnumEntity(this CurveInWrapper wrapper)
+        {
+            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
+            return SpecialEnumWishes.TryGetNodeTypeEnumEntity(wrapper.Curve);
+        }
+
+        [Obsolete(ObsoleteMessage)]
+        public static NodeTypeEnum TryGetNodeType(this CurveInWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return SpecialEnumWishes.TryGetNodeType(wrapper.Curve);
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static NodeTypeEnum TryGetNodeTypeEnum(this CurveInWrapper wrapper)
+        public static void SetNodeTypeEnumEntity(this CurveInWrapper wrapper, NodeType nodeType)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return SpecialEnumWishes.TryGetNodeTypeEnum(wrapper.Curve);
+            SpecialEnumWishes.SetNodeTypeEnumEntity(wrapper.Curve, nodeType);
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetNodeType(this CurveInWrapper wrapper, NodeType nodeType)
-        {
-            if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            SpecialEnumWishes.SetNodeType(wrapper.Curve, nodeType);
-        }
-
-        [Obsolete(ObsoleteMessage)]
-        public static void SetNodeTypeEnum(
+        public static void SetNodeType(
             this CurveInWrapper wrapper, NodeTypeEnum nodeTypeEnum, IContext context = null)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            SpecialEnumWishes.SetNodeTypeEnum(wrapper.Curve, nodeTypeEnum, context);
+            SpecialEnumWishes.SetNodeType(wrapper.Curve, nodeTypeEnum, context);
         }
     }
 

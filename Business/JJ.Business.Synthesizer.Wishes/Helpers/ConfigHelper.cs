@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         // Even the defaults have defaults, to not require a config file.
         public static int                   DefaultSamplingRate  => _section.DefaultSamplingRate  ?? 48000;
         public static SpeakerSetupEnum      DefaultSpeakerSetup  => _section.DefaultSpeakerSetup  ?? SpeakerSetupEnum.Mono;
-        public static SampleDataTypeEnum    DefaultBitDepth      => (_section.DefaultBitDepth ?? 16).ToSampleDataTypeEnum();
+        public static SampleDataTypeEnum    DefaultBitDepth      => (_section.DefaultBitDepth ?? 16).ToBitDepth();
         public static AudioFileFormatEnum   DefaultAudioFormat   => _section.DefaultAudioFormat   ?? AudioFileFormatEnum.Wav;
         public static InterpolationTypeEnum DefaultInterpolation => _section.DefaultInterpolation ?? InterpolationTypeEnum.Line;
         public static double                DefaultAudioLength   => _section.DefaultAudioLength   ?? 1;
