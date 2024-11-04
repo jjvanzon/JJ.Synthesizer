@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             string stringified = fluentOutlet.Stringify(true, true);
             
-            AreEqual("Curve*Sine(1,440)", stringified);
+            AreEqual("Curve * Sine(1,440)", stringified);
         }
         
         [TestMethod]
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             string stringified = outlet.Stringify(true, true);
             
-            AreEqual("Curve*(Sine(1,440)*2)", stringified);
+            AreEqual("Curve * (Sine(1,440) * 2)", stringified);
         }
         
         [TestMethod]
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             string actual = op.Stringify();
 
             string expected = "Multiply(" + NewLine +
-                              "  Curve*" + NewLine +
+                              "  Curve * " + NewLine +
                               "  Sine(1,440))";
             
             AreEqual(expected, actual);
@@ -58,9 +58,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // for higher chance early 0 discovery.
 
             string expected = "Multiply(" + NewLine +
-                              "  Curve*" + NewLine +
+                              "  Curve * " + NewLine +
                               "  Multiply(" + NewLine +
-                              "    Sine(1,440)*2))";
+                              "    Sine(1,440) * 2))";
             
             AreEqual(expected, actual);
         }

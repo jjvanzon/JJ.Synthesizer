@@ -40,13 +40,13 @@ namespace JJ.Business.Synthesizer.Wishes
     internal partial class OperatorStringifier
     {
         private readonly bool _singleLine;
-        private readonly bool _mustUseShortOperators;
+        private readonly bool _canOmitNameForBasicMath;
         private StringBuilderWithIndentation _sb;
 
-        public OperatorStringifier(bool singleLine = false, bool mustUseShortOperators = false)
+        public OperatorStringifier(bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             _singleLine = singleLine;
-            _mustUseShortOperators = mustUseShortOperators;
+            _canOmitNameForBasicMath = canOmitNameForBasicMath;
         }
 
         // Entry Points
@@ -88,37 +88,32 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private void BuildStringRecursive(Operator op)
         {
-            bool mustIncludeName = MustIncludeName(op);
-            int filledInletCount = GetFilledInletCount(op);
-            char separator = GetSeparator(op);
-
             if (op.IsConst())
             {
                 _sb.Append(op.AsConst());
                 return;
             }
 
-            if (mustIncludeName)
+            if (NameIsNeeded(op))
             {
                 _sb.Append(FormatName(op));
             }
 
+            int filledInletCount = GetFilledInletCount(op);
             if (filledInletCount != 0)
             {
                 _sb.Append('(');
             }
 
+            string separator = GetSeparator(op);
+            
             for (var i = 0; i < filledInletCount; i++)
             {
-                Inlet inlet = op.Inlets[i];
+                BuildStringRecursive(op.Inlets[i]);
 
-                BuildStringRecursive(inlet);
-
+                // Conditional separator
                 int isLast = filledInletCount - 1;
-                if (i != isLast)
-                {
-                    _sb.Append(separator);
-                }
+                if (i != isLast) _sb.Append(separator);
             }
 
             if (filledInletCount != 0)
@@ -145,48 +140,85 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
  
-        // Short Notation + - * /
-
-        private bool MustIncludeName(Operator op) => !MustUseShortNotation(op);
+        // Omitting Names (for Basic Math)
 
         /// <summary>
-        /// Returns usually , but for simple math operations returns + - * / <br/>
-        /// Only if the deprecated Origin operand is used with Multiply or Divide again,
-        /// it falls back to the comma notation.
+        /// Checks the option for omitting names for basic maths. <br/>
+        /// Checks if a custom name is assigned: then it must show the name. <br/>
+        /// Then checks for basic operators (<c> + - * / </c>)
+        /// Name shouldn't be needed then.<br/>
+        /// Except when that pesky deprecated origin parameter is filled in.
+        /// Then name is needed again.<br/>
+        /// Can result in notation like this:<br/>
+        /// <c>Tremolo Multiply( ... * ...)</c><br/>
+        /// <c>(Sine(440)*TimeMultiply(Curve,2))</c>
         /// </summary>
-        private char GetSeparator(Operator op)
+        private bool NameIsNeeded(Operator op)
         {
-            if (op.IsAdd()) return '+';
-            if (op.IsSubtract()) return '-';
-            if (op.IsMultiply() && op.Origin() == null) return '*';
-            if (op.IsDivide() && op.Origin() == null) return '/';
+            bool nameIsNeeded = true;
 
-            return ',';
-        }
-
-        /// <summary>
-        /// Checks if the option for short notation is on in the first place. <br/>
-        /// Also checks for specific operators that can use short notation: (<c>+ - * /</c>). <br/>
-        /// Also checks if the operator has a specific name assigned, so that stops short notation from happening too,
-        /// so the name will show e.g.<br/>
-        /// <c>Tremolo Multiply( ... , ...)</c>
-        /// </summary>
-        private bool MustUseShortNotation(Operator op)
-        {
-            if (!_mustUseShortOperators) return false;
-            
-            if (!NameIsOperatorTypeName(op.Name, op.OperatorTypeName))
+            if (HasCustomName(op))
             {
-                return false;
+                return nameIsNeeded;
             }
             
-            if (op.IsAdd() || op.IsSubtract()) return true;
-            if (op.IsMultiply() || op.IsDivide()) return op.Origin() == null;
+            if (!_canOmitNameForBasicMath)
+            {
+                return nameIsNeeded;
+            }
+            
+            if (IsSimpleMath(op))
+            {
+                if (op.Origin() != null)
+                {
+                    return nameIsNeeded;
+                }
+
+                return nameIsNeeded = false;
+            }
+            
+            return nameIsNeeded;
+        }
+
+        private static bool IsSimpleMath(Operator op) 
+            => op.IsAdd() || op.IsSubtract() || op.IsMultiply() || op.IsDivide();
+
+        private bool HasCustomName(Operator op) => !NameIsOperatorTypeName(op.Name, op.OperatorTypeName);
+        
+        private bool NameIsOperatorTypeName(string name, string operatorTypeName)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return false;
+
+            if (string.Equals(name, operatorTypeName))
+            {
+                return true;
+            }
+            
+            string operatorTypeDisplayName = PropertyDisplayNames.ResourceManager.GetString(operatorTypeName);
+            if (string.Equals(name, operatorTypeDisplayName, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
             return false;
         }
 
-        /// <summary> Returns the amount of inlets filled in, leaving out the last ones not filled in. </summary>
-        private int GetFilledInletCount(Operator op) => op.Inlets.TakeWhile(x => x.Input != null).Count();
+        // Separator
+        
+        /// <summary>
+        /// Returns usually ',' but for simple math operations returns + - * or / <br/>
+        /// Only if the deprecated Origin operand is used with Multiply or Divide again,
+        /// it falls back to the comma notation.
+        /// </summary>
+        private string GetSeparator(Operator op)
+        {
+            if (op.IsAdd()) return " + ";
+            if (op.IsSubtract()) return " - ";
+            if (op.IsMultiply() && op.Origin() == null) return " * ";
+            if (op.IsDivide() && op.Origin() == null) return " / ";
+
+            return ",";
+        }
 
         // Name Formatting
         
@@ -237,27 +269,14 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return false;
         }
-        
-        private bool NameIsOperatorTypeName(string name, string operatorTypeName)
-        {
-            if (string.IsNullOrWhiteSpace(name)) return false;
-
-            if (string.Equals(name, operatorTypeName))
-            {
-                return true;
-            }
-            
-            string operatorTypeDisplayName = PropertyDisplayNames.ResourceManager.GetString(operatorTypeName);
-            if (string.Equals(name, operatorTypeDisplayName, StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-
-            return false;
-        }
 
         // Other Helpers
         
+        /// <summary>
+        /// Returns the amount of inlets filled in, leaving out the last ones not filled in.
+        /// </summary>
+        private int GetFilledInletCount(Operator op) => op.Inlets.TakeWhile(x => x.Input != null).Count();
+
         private static string RemoveOuterBraces(string str)
         {
             // Cut away outer braces
