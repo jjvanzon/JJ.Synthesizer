@@ -271,7 +271,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var freq = E4;
 
-            Center();
+            WithCenter();
             
             Multiply
             (
@@ -345,9 +345,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var chain2 = Sine(A4).Times(Curve(0, 1, 0));
             var chain3 = Sine(B4) * Curve(0, 1, 0).Stretch(2);
              
-            Mono().SaveAndPlay(() => chain1);
-            Mono().SaveAndPlay(() => chain2);
-            Mono().WithAudioLength(2).SaveAndPlay(() => chain3);
+            WithMono().SaveAndPlay(() => chain1);
+            WithMono().SaveAndPlay(() => chain2);
+            WithMono().WithAudioLength(2).SaveAndPlay(() => chain3);
         }
         
         [TestMethod]
@@ -368,7 +368,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
             
-            Mono().WithAudioLength(duration).Save(() => add);
+            WithMono().WithAudioLength(duration).Save(() => add);
         }
 
         [TestMethod]
@@ -527,7 +527,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 () => Sine(freq * 3) * 0.7
             );
 
-            Mono().SaveAndPlay(() => added);
+            WithMono().SaveAndPlay(() => added);
             
         }
         
@@ -551,7 +551,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 () => Sine(freq * 3) * 0.7
             );
 
-            Mono().SaveAndPlay(() => added);
+            WithMono().SaveAndPlay(() => added);
         }
     }
 }

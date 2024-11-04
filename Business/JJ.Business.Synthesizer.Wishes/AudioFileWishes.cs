@@ -16,6 +16,8 @@ using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
+using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
+
 // ReSharper disable ParameterHidesMember
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable AccessToModifiedClosure
@@ -93,13 +95,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     switch (x.GetSpeakerSetup)
                     {
-                        case SpeakerSetupEnum.Mono:
-                            x.Center(); var monoOutlet = func();
+                        case Mono:
+                            x.WithCenter(); var monoOutlet = func();
                             return Save(new[] { monoOutlet }, mustWriteToMemory, name);
 
-                        case SpeakerSetupEnum.Stereo:
-                            x.Left(); var leftOutlet = func();
-                            x.Right(); var rightOutlet = func();
+                        case Stereo:
+                            x.WithLeft(); var leftOutlet = func();
+                            x.WithRight(); var rightOutlet = func();
                             return Save(new[] { leftOutlet, rightOutlet }, mustWriteToMemory, name);
                         
                         default:
@@ -153,11 +155,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 switch (speakerSetupEnum)
                 {
-                    case SpeakerSetupEnum.Mono:
+                    case Mono:
                         audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
                         break;
 
-                    case SpeakerSetupEnum.Stereo:
+                    case Stereo:
                         audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
                         audioFileOutput.AudioFileOutputChannels[1].Outlet = channelInputs[1];
                         break;
@@ -284,12 +286,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 switch (speakerSetupEnum)
                 {
-                    case SpeakerSetupEnum.Mono:
+                    case Mono:
                     {
                         var mono = new SpeakerSetup
                         {
-                            ID = (int)SpeakerSetupEnum.Mono,
-                            Name = $"{SpeakerSetupEnum.Mono}",
+                            ID = (int)Mono,
+                            Name = $"{Mono}",
                         };
 
                         var single = new SpeakerSetupChannel
@@ -304,12 +306,12 @@ namespace JJ.Business.Synthesizer.Wishes
                         break;
                     }
 
-                    case SpeakerSetupEnum.Stereo:
+                    case Stereo:
                     {
                         var stereo = new SpeakerSetup
                         {
-                            ID = (int)SpeakerSetupEnum.Stereo,
-                            Name = $"{SpeakerSetupEnum.Stereo}",
+                            ID = (int)Stereo,
+                            Name = $"{Stereo}",
                         };
 
                         var left = new SpeakerSetupChannel

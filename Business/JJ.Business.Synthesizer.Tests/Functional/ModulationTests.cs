@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public ModulationTests()
             : base(beat: 2.2, bar: 2.2)
         {
-            Stereo();
+            WithStereo();
         }
 
         // Tests
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest_Mono()
         {
-            Mono().WithAudioLength(bars[7]).SaveAndPlay(() => DeepEcho(DetunicaJingle) * 0.15);
+            WithMono().WithAudioLength(bars[7]).SaveAndPlay(() => DeepEcho(DetunicaJingle) * 0.15);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_Chord_RunTest()
         {
-            Mono().SaveAndPlay(() => MildEcho(VibraphaseChord) * 0.28);
+            WithMono().SaveAndPlay(() => MildEcho(VibraphaseChord) * 0.28);
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_RunTest()
         {
-            Mono().SaveAndPlay(() => MildEcho(Vibraphase(freq: E5)) * 0.5);
+            WithMono().SaveAndPlay(() => MildEcho(Vibraphase(freq: E5)) * 0.5);
         }
 
         // Jingles

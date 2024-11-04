@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._fmtests"/>
         public FMTests() : base(beat: 0.45, bar: 4 * 0.45)
         {
-            Mono();
+            WithMono();
             _chordFreqs = CreateChordFreqs();
         }
 

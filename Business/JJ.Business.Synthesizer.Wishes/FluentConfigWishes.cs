@@ -76,11 +76,9 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
 
-        public SynthWishes Left() => WithChannel(ChannelEnum.Left);
-        
-        public SynthWishes Right() => WithChannel(ChannelEnum.Right);
-        
-        public SynthWishes Center() => WithChannel(ChannelEnum.Single);
+        public SynthWishes WithLeft() => WithChannel(ChannelEnum.Left);
+        public SynthWishes WithRight() => WithChannel(ChannelEnum.Right);
+        public SynthWishes WithCenter() => WithChannel(ChannelEnum.Single);
     }
 
     // Channel FluentOutlet
@@ -90,9 +88,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public ChannelEnum Channel { get => _x.Channel; set => _x.Channel = value; }
         public int ChannelIndex { get => _x.ChannelIndex; set => _x.ChannelIndex = value; }
         public FluentOutlet WithChannel(ChannelEnum channel) { _x.WithChannel(channel); return this; }
-        public FluentOutlet Left()  { _x.Left(); return this; }
-        public FluentOutlet Right() { _x.Right(); return this; }
-        public FluentOutlet Center() { _x.Center(); return this; }
+        public FluentOutlet WithLeft()  { _x.WithLeft(); return this; }
+        public FluentOutlet WithRight() { _x.WithRight(); return this; }
+        public FluentOutlet WithCenter() { _x.WithCenter(); return this; }
     }
     
     // SamplingRate SynthWishes
@@ -147,9 +145,9 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
 
-        public SynthWishes _16Bit() => WithBitDepth(SampleDataTypeEnum.Int16);
+        public SynthWishes With16Bit() => WithBitDepth(SampleDataTypeEnum.Int16);
         
-        public SynthWishes _8Bit() => WithBitDepth(SampleDataTypeEnum.Byte);
+        public SynthWishes With8Bit() => WithBitDepth(SampleDataTypeEnum.Byte);
     }
 
     // BitDepth FluentOutlet
@@ -158,8 +156,8 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public SampleDataTypeEnum GetBitDepth => _x.GetBitDepth;
         public FluentOutlet WithBitDepth(SampleDataTypeEnum bitDepth) { _x.WithBitDepth(bitDepth); return this; }
-        public FluentOutlet _16Bit() { _x._16Bit(); return this; }
-        public FluentOutlet _8Bit() { _x._8Bit(); return this; }
+        public FluentOutlet With16Bit() { _x.With16Bit(); return this; }
+        public FluentOutlet With8Bit() { _x.With8Bit(); return this; }
     }
 
     // SpeakerSetup SynthWishes
@@ -187,9 +185,9 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
 
-        public SynthWishes Mono() => WithSpeakerSetup(SpeakerSetupEnum.Mono);
+        public SynthWishes WithMono() => WithSpeakerSetup(SpeakerSetupEnum.Mono);
         
-        public SynthWishes Stereo() => WithSpeakerSetup(SpeakerSetupEnum.Stereo);
+        public SynthWishes WithStereo() => WithSpeakerSetup(SpeakerSetupEnum.Stereo);
     }
 
     // SpeakerSetup FluentOutlet
@@ -198,8 +196,8 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public SpeakerSetupEnum GetSpeakerSetup => _x.GetSpeakerSetup;
         public FluentOutlet WithSpeakerSetup(SpeakerSetupEnum speakerSetup) { _x.WithSpeakerSetup(speakerSetup); return this; }
-        public FluentOutlet Mono() { _x.Mono(); return this; }
-        public FluentOutlet Stereo() { _x.Stereo(); return this; }
+        public FluentOutlet WithMono() { _x.WithMono(); return this; }
+        public FluentOutlet WithStereo() { _x.WithStereo(); return this; }
     }
 
     // AudioFormat SynthWishes
@@ -267,9 +265,9 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
 
-        public SynthWishes Linear() => WithInterpolation(InterpolationTypeEnum.Line);
+        public SynthWishes WithLinear() => WithInterpolation(InterpolationTypeEnum.Line);
 
-        public SynthWishes Blocky() => WithInterpolation(InterpolationTypeEnum.Block);
+        public SynthWishes WithBlocky() => WithInterpolation(InterpolationTypeEnum.Block);
     }
 
     // Interpolation FluentOutlet
@@ -278,8 +276,8 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public InterpolationTypeEnum GetInterpolation => _x.GetInterpolation;
         public FluentOutlet WithInterpolation(InterpolationTypeEnum interpolationEnum) { _x.WithInterpolation(interpolationEnum); return this; }
-        public FluentOutlet Linear() { _x.Linear(); return this; }
-        public FluentOutlet Blocky() { _x.Blocky(); return this; }
+        public FluentOutlet WithLinear() { _x.WithLinear(); return this; }
+        public FluentOutlet WithBlocky() { _x.WithBlocky(); return this; }
     }
 
     // SynthWishes In-Memory Processing Enabled

@@ -241,7 +241,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             if (speakerSetupEnum == SpeakerSetupEnum.Mono)
             {
-                Center();
+                WithCenter();
                 
                 var sampleMono = getSample();
                 
@@ -255,7 +255,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             if (speakerSetupEnum == SpeakerSetupEnum.Stereo)
             {
-                Left();
+                WithLeft();
                 
                 var sampleLeft  = getSample();
 
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
                 Console.WriteLine();
 
-                Right();
+                WithRight();
                 
                 var sampleRight = getSample();
 
@@ -284,7 +284,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 // Get Values
 
-                Center();
+                WithCenter();
 
                 var sampleWrapperMono  = getSample();
 
@@ -359,7 +359,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedL = expectedL.Select(RoundValue).ToArray();
 
-                Center();
+                WithCenter();
 
                 var sampleLeft  = getSample();
 
@@ -392,7 +392,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedR = expectedR.Select(RoundValue).ToArray();
 
-                Right();
+                WithRight();
 
                 var sampleWrapperRight = getSample();
 

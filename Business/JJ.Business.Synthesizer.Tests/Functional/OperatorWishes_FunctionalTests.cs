@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         public OperatorWishes_FunctionalTests()
         {
-            Mono();
+            WithMono();
         }
         
         // Vibrato/Tremolo Tests
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._vibrato" />
         void Vibrato_RunTest()
-            => WithAudioLength(2).Mono().SaveAndPlay(() => VibratoOverPitch(A4).Sine * Envelope.Stretch(2) * 0.9);
+            => WithAudioLength(2).WithMono().SaveAndPlay(() => VibratoOverPitch(A4).Sine * Envelope.Stretch(2) * 0.9);
 
         /// <inheritdoc cref="docs._tremolo" />
         [TestMethod]
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._tremolo" />
         void Tremolo_RunTest()
-            => WithAudioLength(2).Mono().SaveAndPlay(() => Sine(C5).Tremolo(4, 0.5) * Envelope.Stretch(2) * 0.3);
+            => WithAudioLength(2).WithMono().SaveAndPlay(() => Sine(C5).Tremolo(4, 0.5) * Envelope.Stretch(2) * 0.3);
 
         // Panning Tests
 
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panning_ConstSignal_ConstPanningAsDouble_RunTest()
         {
-            Stereo();
+            WithStereo();
             
             // Arrange
             FluentOutlet fixedValues()
@@ -61,11 +61,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet panned;
 
             // Act
-            Left();
+            WithLeft();
             panned  = Panning(fixedValues(), panning);
             double outputLeftValue = panned.Calculate(time: 0);
 
-            Right();
+            WithRight();
             panned  = Panning(fixedValues(), panning);
             double outputRightValue = panned.Calculate(time: 0);
 
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             AssertHelper.AreEqual(expectedRight, () => outputRightValue);
 
             // Diagnostics (get code coverage)
-            Center();
+            WithCenter();
             Assert.IsNull(fixedValues());
         }
 
@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panning_ConstSignal_ConstPanningAsOperator_RunTest()
         {
-            Stereo();
+            WithStereo();
             
             // Arrange
             FluentOutlet TestSignal()
@@ -104,11 +104,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             FluentOutlet panned;
 
-            Left();
+            WithLeft();
             panned  = Panning(TestSignal(), panningValue);
             double leftValue = panned.Calculate(time: 0);
 
-            Right();
+            WithRight();
             panned  = Panning(TestSignal(), panningValue);
             double rightValue = panned.Calculate(time: 0);
 
@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             AssertHelper.AreEqual(expectedRightValue, () => rightValue);
 
             // Diagnostics (get code coverage)
-            Center();
+            WithCenter();
             Assert.IsNull(TestSignal());
         }
 
@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Panning_SineWaveSignal_ConstPanningAsDouble_RunTest()
         {
-            Stereo();
+            WithStereo();
             
             // Arrange
             var freq    = E5;
@@ -139,12 +139,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             Outlet panned;
 
-            Left();
+            WithLeft();
             panned  = Panning(sine, panning);
             double maxValueLeft = panned.Calculate(time: 0.25 / (double)freq);
             double minValueLeft = panned.Calculate(time: 0.75 / (double)freq);
 
-            Right();
+            WithRight();
             panned  = Panning(sine, panning);
             double maxValueRight = panned.Calculate(time: 0.25 / (double)freq);
             double minValueRight = panned.Calculate(time: 0.75 / (double)freq);
@@ -173,7 +173,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 *
             *");
 
-            Stereo().SaveAndPlay(() => Panning(sine, panning));
+            WithStereo().SaveAndPlay(() => Panning(sine, panning));
         }
 
         // Panbrello Tests
@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Panbrello_DefaultSpeedAndDepth_RunTest()
         {
             var sound = Sine(A4) * Envelope;
-            Stereo().SaveAndPlay(() => Panbrello(sound));
+            WithStereo().SaveAndPlay(() => Panbrello(sound));
         }
 
         [TestMethod]
@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Panbrello_ConstSpeedAndDepth_RunTest()
         {
             var sound = Sine(C5) * Envelope;
-            Stereo().SaveAndPlay(() => Panbrello(sound, (speed: 2.0, depth: 0.75)));
+            WithStereo().SaveAndPlay(() => Panbrello(sound, (speed: 2.0, depth: 0.75)));
         }
 
         [TestMethod]
@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                             *
                                 * *            ");
 
-            Stereo().SaveAndPlay(() => Panbrello(sound, (speed, depth)));
+            WithStereo().SaveAndPlay(() => Panbrello(sound, (speed, depth)));
         }
 
         // PitchPan Tests
@@ -290,7 +290,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_Old_RunTest()
         {
-            Mono();
+            WithMono();
             
             var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(G4), envelope);
@@ -305,7 +305,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_FixedValues_RunTest()
         {
-            Mono();
+            WithMono();
         
             var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(B4), envelope);
@@ -320,7 +320,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_DynamicParameters_RunTest()
         {
-            Mono();
+            WithMono();
             
             var envelope = WithName("Volume Curve").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(D5), envelope);
@@ -347,7 +347,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_FeedBack_FixedValues_RunTest()
         {
-            Mono();
+            WithMono();
 
             var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(F5), envelope);
@@ -362,7 +362,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_FeedBack_DynamicParameters_RunTest()
         {
-            Mono();
+            WithMono();
 
             var envelope = WithName("Volume Curve").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(D5), envelope);

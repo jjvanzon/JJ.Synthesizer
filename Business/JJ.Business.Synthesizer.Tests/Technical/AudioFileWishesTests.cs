@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Mono Extensions
             {
-                AudioFileOutput audioFileOutputMono = Mono().Save(() => Sine()).Data.AudioFileOutput;
+                AudioFileOutput audioFileOutputMono = WithMono().Save(() => Sine()).Data.AudioFileOutput;
                 IsNotNull(() => audioFileOutputMono);
                 IsNotNull(() => audioFileOutputMono.SpeakerSetup);
                 AreEqual(SpeakerSetupEnum.Mono, () => audioFileOutputMono.SpeakerSetup.ToEnum());
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Stereo Extensions
             {
-                AudioFileOutput audioFileOutputStereo = Stereo().Save(() => Sine()).Data.AudioFileOutput;
+                AudioFileOutput audioFileOutputStereo = WithStereo().Save(() => Sine()).Data.AudioFileOutput;
                 IsNotNull(() => audioFileOutputStereo);
                 IsNotNull(() => audioFileOutputStereo.SpeakerSetup);
                 AreEqual(SpeakerSetupEnum.Stereo, () => audioFileOutputStereo.SpeakerSetup.ToEnum());

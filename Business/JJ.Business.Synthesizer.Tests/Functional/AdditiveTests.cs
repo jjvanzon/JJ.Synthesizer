@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet Echo(FluentOutlet sound) => EchoParallel(sound, 4, magnitude: _[0.33], _[0.66]);
 
         /// <inheritdoc cref="docs._metallophone" />
-        public AdditiveTests() : base(beat: 0.4, bar: 1.6) => Mono();
+        public AdditiveTests() : base(beat: 0.4, bar: 1.6) => WithMono();
 
         /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
