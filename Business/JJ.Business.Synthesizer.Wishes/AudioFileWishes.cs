@@ -622,6 +622,8 @@ namespace JJ.Business.Synthesizer.Wishes
             => SynthWishes.Save(bytes, filePath, callerMemberName);
     }
 
+    // Derived Audio-Related Fields
+    
     public static class AudioFileExtensionWishes
     {
         public static int SizeOf(Type sampleDataType)
