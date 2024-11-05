@@ -202,8 +202,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        private static Result<SaveResultData> WriteAudio(
-            AudioFileOutput audioFileOutput, bool inMemory = false, IList<string> additionalWarnings = null)
+        private static Result<SaveResultData> WriteAudio(AudioFileOutput audioFileOutput, bool inMemory, IList<string> additionalWarnings = null)
         {
             additionalWarnings = additionalWarnings ?? Array.Empty<string>();
             
