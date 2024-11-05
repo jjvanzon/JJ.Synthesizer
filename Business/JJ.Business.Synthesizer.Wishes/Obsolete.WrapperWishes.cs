@@ -576,10 +576,10 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static AudioFileInfoWish GetInfo(this SampleOperatorWrapper wrapper)
+        public static AudioInfoWish GetInfo(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Sample.GetInfo();
+            return wrapper.Sample.GetAudioInfo();
         }
     }
 }

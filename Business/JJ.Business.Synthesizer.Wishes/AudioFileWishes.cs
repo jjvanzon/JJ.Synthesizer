@@ -641,7 +641,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int SizeOfBitDepth(this WavHeaderStruct wavHeader)
             => wavHeader.BitsPerValue * 8;
 
-        public static int SizeOfBitDepth(this AudioFileInfoWish info)
+        public static int SizeOfBitDepth(this AudioInfoWish info)
         {
             if (info == null) throw new ArgumentNullException(nameof(info));
             return info.Bits * 8;
@@ -685,7 +685,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return SizeOfBitDepth(wavHeader) * wavHeader.ChannelCount;
         }
 
-        public static int GetFrameSize(AudioFileInfoWish info)
+        public static int GetFrameSize(AudioInfoWish info)
         {
             if (info == null) throw new ArgumentNullException(nameof(info));
             return SizeOfBitDepth(info) * info.ChannelCount;
@@ -811,8 +811,8 @@ namespace JJ.Business.Synthesizer.Wishes
     
     // Info Types
     
-    /// <inheritdoc cref="docs._audiofileinfowish"/>
-    public class AudioFileInfoWish
+    /// <inheritdoc cref="docs._audioinfowish"/>
+    public class AudioInfoWish
     {
         public int Bits { get; set; }
         public int ChannelCount { get; set; }

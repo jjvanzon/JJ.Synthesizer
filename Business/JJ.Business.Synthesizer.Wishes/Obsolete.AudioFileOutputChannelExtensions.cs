@@ -171,15 +171,15 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.GetInfo(frameCount).GetWavHeader();
+            return entity.AudioFileOutput.GetAudioInfo(frameCount).GetWavHeader();
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static AudioFileInfoWish GetInfo(this AudioFileOutputChannel entity, int frameCount)
+        public static AudioInfoWish GetInfo(this AudioFileOutputChannel entity, int frameCount)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            var info = entity.AudioFileOutput.GetInfo(frameCount);
+            var info = entity.AudioFileOutput.GetAudioInfo(frameCount);
             info.ChannelCount = 1;
             return info;
         }

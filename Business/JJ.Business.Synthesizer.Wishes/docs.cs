@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary>
         /// Replacement Wish version of AudioFileInfo with more intuitive member names.
         /// </summary>
-        public static object _audiofileinfowish;
+        public static object _audioinfowish;
 
         /// <summary>
         /// Returns the time in seconds of the start of a bar.
