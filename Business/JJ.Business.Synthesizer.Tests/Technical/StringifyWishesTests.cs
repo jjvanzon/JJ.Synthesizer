@@ -8,6 +8,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
+    [TestCategory("Technical")]
     public class StringifyWishesTests : SynthWishes
     {
         [TestMethod]

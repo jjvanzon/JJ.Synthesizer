@@ -295,7 +295,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return outlet;
                 }
 
-                Console.WriteLine("Apply padding: leading: {0} s, trailing: {1} s.", ConfigHelper.PlayLeadingSilence, ConfigHelper.PlayTrailingSilence);
+                Console.WriteLine($"{PrettyTime()} Padding a channel: {ConfigHelper.PlayLeadingSilence} s before | {ConfigHelper.PlayTrailingSilence} s after");
 
                 x.AddAudioLength(ConfigHelper.PlayLeadingSilence);
                 x.AddAudioLength(ConfigHelper.PlayTrailingSilence);

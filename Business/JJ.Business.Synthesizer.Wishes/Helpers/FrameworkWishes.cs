@@ -91,6 +91,9 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 return guid.Substring(0, Math.Min(length, guid.Length));
             });
         }
+
+        public static string PrettyTime() => PrettyTime(DateTime.Now);
+        public static string PrettyTime(DateTime dateTime) => $"{dateTime:HH:mm:ss.fff}";
     }
 
     internal static class CollectionWishes

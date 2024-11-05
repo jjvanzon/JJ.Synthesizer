@@ -10,6 +10,8 @@ using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using static System.Guid;
 using static System.Linq.Enumerable;
+using static JJ.Business.Synthesizer.Wishes.Helpers.StringWishes;
+
 // ReSharper disable ParameterHidesMember
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 // ReSharper disable ForCanBeConvertedToForeach
@@ -70,7 +72,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Save to files
                 Parallel.For(0, termCount, i =>
                 {
-                    Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Start Task: {displayNames[i]}", "SynthWishes");
+                    Console.WriteLine($"{PrettyTime()} Start Task: {displayNames[i]}", "SynthWishes");
 
                     // Get outlets first
                     var channelOutlets = new FluentOutlet[channelCount];
@@ -92,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Generate audio
                     cacheResults[i] = x.Cache(channelOutlets, names[i]);
 
-                    Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
+                    Console.WriteLine($"{PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
                 });
                                 
                 // Moved this out of the parallel loop,
@@ -136,7 +138,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 double calculationDuration = stopWatch.Elapsed.TotalSeconds;
                 int complexity = cacheResults.Sum(x => x.Data.Complexity);
                 string formattedMetrics = x.FormatMetrics(audioDuration, calculationDuration, complexity);
-                string message = $"Totals {name} Terms: {formattedMetrics}";
+                string message = $"{PrettyTime()} Totals {name} Terms: {formattedMetrics}";
                 Console.WriteLine(message);
                 
                 return x.Add(reloadedSamples);

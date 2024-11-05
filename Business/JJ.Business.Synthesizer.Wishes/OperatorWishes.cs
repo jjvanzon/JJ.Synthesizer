@@ -11,6 +11,8 @@ using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
+using static JJ.Business.Synthesizer.Wishes.Helpers.StringWishes;
+
 // ReSharper disable LocalVariableHidesMember
 // ReSharper disable AssignmentInsteadOfDiscard
 // ReSharper disable ParameterHidesMember
@@ -373,7 +375,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                             var l = x * (a.Value * c.Value) + (b.Value * c.Value);
 
-                            Console.Write($"Distribute * over + :{NewLine}{NewLine}" +
+                            Console.Write($"{PrettyTime()} Distribute * over +{NewLine}{NewLine}" +
                                           $"{h.Stringify()}{NewLine}" +
                                           $"=>{NewLine}" +
                                           $"{l.Stringify()}{NewLine}{NewLine}");
