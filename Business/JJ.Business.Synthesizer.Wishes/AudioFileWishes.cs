@@ -62,24 +62,20 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null)
-            => _saveWishes.Write(func, inMemory: false, mustPad, name, callerMemberName);
+        public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, [CallerMemberName] string callerMemberName = null)
+            => _saveWishes.Write(func, inMemory: false, mustPad: true, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Cache(Func<FluentOutlet> func, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null)
-        {
-            return _saveWishes.Write(func, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
-        }
+        public Result<SaveResultData> Cache(Func<FluentOutlet> func, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
+            => _saveWishes.Write(func, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null)
-            => _saveWishes.Write(channelInputs, inMemory: false, mustPad, name, callerMemberName);
+        internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, [CallerMemberName] string callerMemberName = null)
+            => _saveWishes.Write(channelInputs, inMemory: false, mustPad: true, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Result<SaveResultData> Cache(IList<FluentOutlet> channelInputs, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null)
-        {
-            return _saveWishes.Write(channelInputs, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
-        }
+        internal Result<SaveResultData> Cache(IList<FluentOutlet> channelInputs, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
+            => _saveWishes.Write(channelInputs, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         private class SaveWishes
@@ -293,6 +289,14 @@ namespace JJ.Business.Synthesizer.Wishes
                     
             private FluentOutlet ApplyPadding(FluentOutlet outlet)
             {
+                if (ConfigHelper.PlayLeadingSilence == 0 &&
+                    ConfigHelper.PlayTrailingSilence == 0)
+                {
+                    return outlet;
+                }
+
+                Console.WriteLine("Apply padding: leading: {0} s, trailing: {1} s.", ConfigHelper.PlayLeadingSilence, ConfigHelper.PlayTrailingSilence);
+
                 x.AddAudioLength(ConfigHelper.PlayLeadingSilence);
                 x.AddAudioLength(ConfigHelper.PlayTrailingSilence);
                 

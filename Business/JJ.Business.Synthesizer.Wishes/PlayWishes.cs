@@ -16,10 +16,10 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class FluentOutlet
     {
-        public FluentOutlet PlayMono(double volume = default)
+        public FluentOutlet PlayMono(double? volume = default)
         {
             _x.Channel = ChannelEnum.Single;
-            _x.WithMono().SaveAndPlay(() => _x.Multiply(this, volume));
+            _x.WithMono().Play(() => Volume(volume ?? 1));
             return this;
         }
     }
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> SaveAndPlay(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
         {
-            var saveResult = Save(outletFunc, callerMemberName, mustPad: true);
+            var saveResult = Save(outletFunc, callerMemberName);
             var playResult = Play(saveResult.Data);
             var result = saveResult.Combine(playResult);
             return result;
