@@ -188,18 +188,10 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Save & Cache in SynthWishes
+    // Save in SynthWishes
 
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Cache(Func<FluentOutlet> func, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
-            => Write(func, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Cache(IList<FluentOutlet> channelInputs, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
-            => Write(channelInputs, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
-
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, [CallerMemberName] string callerMemberName = null)
             => Write(func, inMemory: false, mustPad: true, name, callerMemberName);
