@@ -2,6 +2,10 @@
 using JJ.Persistence.Synthesizer;
 using System.IO;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Framework.Validation;
 using static JJ.Framework.IO.StreamHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -13,21 +17,31 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(byte[] bytes, int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            //return SampleBase(null, bytes, bytesToSkip, callerMemberName);
+            // Back-end will need bytes wrapped in a Stream and will read it back into a byte[] again.
+            return SampleBase(null, bytes, bytesToSkip, callerMemberName);
 
+            // This code would prevent that, but won't kick off the wav header parsing,
+            // which is important as a test.
+            // The WavHeaderWishes to solve both are currently lacking.
+            // Revisit later.
             if (bytes == null) throw new ArgumentNullException(nameof(bytes));
-            
+            FluentOutlet sampleOutlet = SampleFromFluentConfig(name, callerMemberName);
+            Sample sample = sampleOutlet.UnderlyingSample();
+            sample.Bytes = bytes;
+            sample.BytesToSkip = bytesToSkip;
+
+            return sampleOutlet;
+        }
+
+        private FluentOutlet SampleFromFluentConfig(string name = null, [CallerMemberName] string callerMemberName = null) 
+        {
             name = FetchName(name, callerMemberName);
-            
-            // The tests really want a location, even though I don't have one.
             name = Path.GetFileNameWithoutExtension(name);
-            string location = Path.GetFullPath(FormatAudioFileName(name, GetAudioFormat));
+            string location = Path.GetFullPath(FormatAudioFileName(name, GetAudioFormat)); // Back-end wants a path.
 
             Sample sample = _sampleManager.CreateSample();
-            sample.Bytes = bytes;
             sample.Location =  location;
             sample.Amplifier = 1.0 / GetBitDepth.GetMaxAmplitude();
-            sample.BytesToSkip = bytesToSkip;
             sample.SamplingRate = ResolveSamplingRate().Data;
             sample.SetBitDepth(GetBitDepth, Context);
             sample.SetSpeakerSetup(GetSpeakerSetup, Context);
