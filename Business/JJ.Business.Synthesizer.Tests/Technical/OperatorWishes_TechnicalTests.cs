@@ -520,7 +520,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             var added = WithName().ParallelAdd
             (
-                volume: 1 / 1.5,
                 () => Sine(freq * 1) * 1.0,
                 () => Sine(freq * 2) * 0.2,
                 () => Sine(freq * 3) * 0.7
@@ -533,7 +532,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Test_ParallelAdd_SinePartials_PreviewParallels()
         {
             var freq     = A4;
-            var volume   = 1 / 1.5;
             var duration = 0.6;
 
             WithParallelEnabled();
@@ -543,7 +541,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             var added = ParallelAdd
             (
-                volume,
                 () => Sine(freq * 1) * 1.0,
                 () => Sine(freq * 2) * 0.2,
                 () => Sine(freq * 3) * 0.7

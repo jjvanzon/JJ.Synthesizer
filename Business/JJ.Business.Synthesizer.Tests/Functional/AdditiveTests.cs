@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         public void Additive_Metallophone_Jingle_RunTest()
         {
-            WithAudioLength(beat[4] + NoteDuration).Save(() => Echo(MetallophoneJingle * 0.30)).Play();
+            WithAudioLength(beat[4] + NoteDuration).Save(() => Echo(MetallophoneJingle * 0.33)).Play();
         }
 
         /// <inheritdoc cref="docs._metallophone"/>

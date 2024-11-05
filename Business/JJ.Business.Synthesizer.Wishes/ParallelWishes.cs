@@ -23,18 +23,10 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(params Func<FluentOutlet>[] funcs)
-            => ParallelAdd(1, (IList<Func<FluentOutlet>>)funcs);
+            => ParallelAdd((IList<Func<FluentOutlet>>)funcs);
 
-        /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(IList<Func<FluentOutlet>> funcs, [CallerMemberName] string callerMemberName = null)
-            => ParallelAdd(1, funcs, callerMemberName);
-
-        /// <inheritdoc cref="docs._paralleladd" />
-        public FluentOutlet ParallelAdd(double volume, params Func<FluentOutlet>[] funcs)
-            => ParallelAdd(volume, (IList<Func<FluentOutlet>>)funcs);
-
-        public FluentOutlet ParallelAdd(double volume, IList<Func<FluentOutlet>> funcs, [CallerMemberName] string callerMemberName = null)
-            => _parallelWishes.ParallelAdd(volume, funcs, callerMemberName);
+            => _parallelWishes.ParallelAdd(funcs, callerMemberName);
         
         /// <inheritdoc cref="docs._paralleladd" />
         private class ParallelWishes
@@ -45,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes
             public ParallelWishes(SynthWishes synthWishes) => x = synthWishes;
 
             /// <inheritdoc cref="docs._paralleladd" />
-            public FluentOutlet ParallelAdd(double volume, IList<Func<FluentOutlet>> funcs, [CallerMemberName] string callerMemberName = null)
+            public FluentOutlet ParallelAdd(IList<Func<FluentOutlet>> funcs, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
 
@@ -55,7 +47,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (!x.GetParallelEnabled)
                 { 
                     // Return a normal Add of the Outlets returned by the funcs.
-                    return volume * x.Add(funcs.Select(x => x()).ToArray());
+                    return x.Add(funcs.Select(x => x()).ToArray());
+                }
+                else 
+                { 
+                    // Start returning a normal add, but tagged in its Operator name, a recognizable but unique thing with a guid or something, that marks it as parallel (for later processing). something like "| {guid} Parallel {guid} |" but shorter.
+                    // TODO
                 }
 
                 // Prep variables
@@ -82,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                         {
                             x.ChannelIndex = channelIndex;
-                            channelOutlets[channelIndex] = x.Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
+                            channelOutlets[channelIndex] = funcs[i](); // This runs parallels, because the funcs can contain another parallel add.
                         }
                     }
                     finally

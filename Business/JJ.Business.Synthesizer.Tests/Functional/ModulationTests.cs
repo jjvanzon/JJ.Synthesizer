@@ -139,13 +139,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         FluentOutlet DetunicaJingle => WithName().ParallelAdd
         (
-            volume: 0.26,
             () => _[ beat[1], E0, DetunicaBass, 1.00, l[5.25] ],
             () => _[ beat[2], B4, Detunica2   , 0.70, l[1.50] ],
             () => _[ beat[3], C5, Detunica3   , 0.75, l[1.60] ],
             () => _[ beat[4], D5, Detunica4   , 0.90, l[1.50] ],
             () => _[ beat[5], E5, Detunica5   , 1.00, l[3.00] ]
-        ) / 0.26;
+        );
 
         // Notes
 
@@ -155,13 +154,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return WithName().ParallelAdd
             (
-                volume: 0.5,
                 () => 0.600 * Detunica1(freq * 1, duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
                 () => 0.800 * Detunica2(freq * 2, duration),
                 () => 1.000 * Detunica3(freq * 4, duration),
                 () => 0.015 * Detunica4(freq * 8, duration),
                 () => 0.001 * Detunica5(freq * 16, duration)
-            ).Divide(0.5).Panbrello(2, 0.2);
+            ).Divide(0.5).Panbrello(2, 0.2).Volume(0.5);
         }
 
         /// <inheritdoc cref="docs._detunica" />

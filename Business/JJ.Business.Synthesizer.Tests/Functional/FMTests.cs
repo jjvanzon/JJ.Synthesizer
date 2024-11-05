@@ -13,13 +13,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class FMTests : SynthWishes
     {
-        FluentOutlet JingleVolume => _[0.18];
-
         FluentOutlet MildEcho(FluentOutlet sound)
-            => EchoParallel(sound * 0.3, count: 6, magnitude: _[0.25], delay: _[0.33]) / 0.3;
+            => EchoParallel(sound, count: 6, magnitude: _[0.25], delay: _[0.33]);
 
         FluentOutlet DeepEcho(FluentOutlet sound) 
-            => EchoParallel(sound * 0.4, count: 7, magnitude: _[0.50], delay: _[0.50]) / 0.4;
+            => EchoParallel(sound, count: 7, magnitude: _[0.50], delay: _[0.50]);
 
         /// <inheritdoc cref="docs._fmtests"/>
         public FMTests() : base(beat: 0.45, bar: 4 * 0.45)
@@ -35,9 +33,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         internal void FM_Jingle_RunTest()
         {
-            WithAudioLength(bars[8] + 1); // HACK: Without the + something, sometimes last note is missing.
+            WithAudioLength(bars[8] + 1); // HACK: + 1 otherwise last note missing sometimes
             
-            Save(() => DeepEcho(Jingle()) * 1).Play();
+            Save(() => DeepEcho(Jingle()) * 0.3).Play();
         }
 
         [TestMethod]
@@ -45,7 +43,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Flute_Melody1_RunTest()
         {
-            Save(() => MildEcho(FluteMelody1) * 0.6).Play();
+            Save(() => MildEcho(FluteMelody1) * 0.5).Play();
         }
 
         [TestMethod]
@@ -53,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Flute_Melody2_RunTest()
         {
-            Save(() => MildEcho(FluteMelody2) * 0.4).Play();
+            Save(() => MildEcho(FluteMelody2) * 0.5).Play();
         }
 
         [TestMethod]
@@ -66,7 +64,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public void FM_Flute2() => new FMTests().FM_Flute2_RunTest();
 
         void FM_Flute2_RunTest()
-            => Save(() => MildEcho(Flute2(F4))* 0.5).Play();
+            => Save(() => MildEcho(Flute2(F4)) * 0.5).Play();
 
         [TestMethod]
         public void FM_Flute3() => new FMTests().FM_Flute3_RunTest();
@@ -105,7 +103,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Pad_RunTest()
         {
-            WithAudioLength(bars[3]).Save(() => MildEcho(Pad()) * 0.4).Play();
+            WithAudioLength(bars[3]).Save(() => MildEcho(Pad()) * 0.5).Play();
         }
 
         [TestMethod]
@@ -113,7 +111,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Pad_Chords_RunTest()
         {
-            Save(() => MildEcho(PadChords(volume: _[0.15])) * 0.6).Play();
+            Save(() => MildEcho(PadChords()) * 0.09).Play();
         }
 
         [TestMethod]
@@ -121,7 +119,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Pad_Chords_Distortion_RunTest()
         {
-            Save(() => MildEcho(PadChords(volume: _[0.92]) * 0.15)).Play();
+            With16Bit().Save(() => MildEcho(PadChords(volume: _[0.92]) * 0.15)).Play();
         }
 
         /// <inheritdoc cref="docs._horn" />
@@ -141,7 +139,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._horn" />
         void FM_Horn_Melody1_RunTest()
         {
-            Save(() => MildEcho(HornMelody1) * 0.6).Play();
+            Save(() => MildEcho(HornMelody1) * 0.5).Play();
         }
 
         /// <inheritdoc cref="docs._horn" />
@@ -151,7 +149,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._horn" />
         void FM_Horn_Melody2_RunTest()
         {
-            Save(() => MildEcho(HornMelody2) * 0.6).Play();
+            Save(() => MildEcho(HornMelody2) * 0.5).Play();
         }
         
         /// <inheritdoc cref="docs._trombone" />
@@ -171,7 +169,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._trombone" />
         void FM_Trombone_Melody1_RunTest()
         {
-            Save(() => MildEcho(TromboneMelody1) * 0.45).Play();
+            Save(() => MildEcho(TromboneMelody1) * 0.5).Play();
         }
 
         /// <inheritdoc cref="docs._trombone" />
@@ -205,7 +203,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleBass_Melody2_RunTest()
         {
-            WithAudioLength(bars[4]).Save(() => DeepEcho(RippleBassMelody2) * 0.3).Play();
+            WithAudioLength(bars[4]).Save(() => DeepEcho(RippleBassMelody2) * 0.33).Play();
         }
 
         [TestMethod]
@@ -213,7 +211,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleNote_SharpMetallic_RunTest()
         {
-            WithAudioLength(2.2).Save(() => DeepEcho(RippleNote_SharpMetallic()) * 0.3).Play();
+            WithAudioLength(2.2).Save(() => DeepEcho(RippleNote_SharpMetallic()) * 0.33).Play();
         }
 
         [TestMethod]
@@ -221,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleSound_Clean_RunTest()
         {
-            WithAudioLength(4).Save(() => DeepEcho(RippleSound_Clean())* 0.5).Play();
+            WithAudioLength(4).Save(() => DeepEcho(RippleSound_Clean()) * 0.5).Play();
         }
 
         [TestMethod]
@@ -237,7 +235,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_RippleSound_CoolDouble_RunTest()
         {
-            WithAudioLength(3).Save(() => DeepEcho(RippleSound_CoolDouble()) * 0.3).Play();
+            WithAudioLength(3).Save(() => DeepEcho(RippleSound_CoolDouble()) * 0.33).Play();
         }
 
         [TestMethod]
@@ -265,7 +263,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
                 var pattern1 = WithName("Jingle Pattern 1").ParallelAdd
                 (
-                    JingleVolume.Value,
                     () => Multiply(fluteVolume, FluteMelody1),
                     () => Multiply(hornVolume,  HornMelody1)
                 );
@@ -274,7 +271,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
                 var pattern2 = WithName("Jingle Pattern 2").ParallelAdd
                 (
-                    JingleVolume.Value,
                     () => Multiply(fluteVolume,      FluteMelody2),
                     () => Multiply(tromboneVolume,   TromboneMelody2),
                     () => Multiply(hornVolume,       HornMelody2),
@@ -287,9 +283,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 (
                     () => pattern1,
                     () => Delay(pattern2, bars[4]),
-                    //() => PadChords(chordsVolume)/*.PlayMono(0.3)*/ * JingleVolume
+                    //() => PadChords(chordsVolume)/*.PlayMono(0.3)*/
                     // HACK: Not sure why the chords are off, but delaying them for now...
-                    () => PadChords(chordsVolume).Delay(beats[4]) * JingleVolume 
+                    () => PadChords(chordsVolume).Delay(beats[4])
                 );
 
                 return composition.SetName();
@@ -337,18 +333,20 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 )
             );
 
-        FluentOutlet PadChords(FluentOutlet volume)
-            => Multiply
+        /// <param name="volume">Used to promote clipping for distortion (only works for 16-bit, not 32-bit).</param>
+        FluentOutlet PadChords(FluentOutlet volume = null)
+        {
+            return Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
                 WithName().WithAudioLength(bars[8]).ParallelAdd
                 (
-                    volume.Value,
-                    () => Pad(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]),
-                    () => Pad(bar[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]),
-                    () => Pad(bar[0], ChordPitchCurve3.Stretch(bars[1]), duration: bars[8])
+                    () => Pad(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]).Volume(volume),
+                    () => Pad(bar[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]).Volume(volume),
+                    () => Pad(bar[0], ChordPitchCurve3.Stretch(bars[1]), duration: bars[8]).Volume(volume)
                 )
             );
+        }
 
         /// <inheritdoc cref="docs._horn" />
         FluentOutlet HornMelody1 => WithAudioLength(beat[13 + 4]).WithName().ParallelAdd
@@ -441,7 +439,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet Organ(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq     = freq ?? A4;
-            //duration = duration ?? _[1];
             duration = duration ?? GetAudioLength;
 
             var modCurve = Stretch(ModTamingCurve, duration);
@@ -460,7 +457,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FluentOutlet Pad(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
         {
             freq     = freq ?? A4;
-            //duration = duration ?? beats[1];
             duration = duration ?? GetAudioLength;
 
             // Tame modulation
