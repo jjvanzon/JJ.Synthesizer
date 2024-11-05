@@ -28,7 +28,7 @@
 		playLeadingSilence="0.2"
 		playTrailingSilence="0.2"
 		parallelEnabled="true"
-		inMemoryProcesing="true"		
+		cacheToDisk="false"
 		longRunningTestCategory="Long">
 		
 		<nCrunch

@@ -284,23 +284,23 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        private bool? _inMemoryProcessingEnabled;
+        private bool? _mustCacheToDisk;
 
-        public SynthWishes WithInMemoryProcessing(bool? enabled = true)
+        public SynthWishes WithCacheToDisk(bool? enabled = true)
         {
-            _inMemoryProcessingEnabled = enabled;
+            _mustCacheToDisk = enabled;
             return this;
         }
 
-        public bool GetInMemoryProcessingEnabled => _inMemoryProcessingEnabled ?? ConfigHelper.InMemoryProcessing;
+        public bool MustCacheToDisk => _mustCacheToDisk ?? ConfigHelper.CacheToDisk;
     }
 
     // FluentOutlet In-Memory Processing Enabled
 
     public partial class FluentOutlet
     {
-        public FluentOutlet WithInMemoryProcessing(bool? enabled = true) { _x.WithInMemoryProcessing(enabled); return this; }
-        public bool GetInMemoryProcessingEnabled => _x.GetInMemoryProcessingEnabled;
+        public FluentOutlet WithCacheToDisk(bool? enabled = true) { _x.WithCacheToDisk(enabled); return this; }
+        public bool MustCacheToDisk => _x.MustCacheToDisk;
     }
 
     // SynthWishes ParallelEnabled

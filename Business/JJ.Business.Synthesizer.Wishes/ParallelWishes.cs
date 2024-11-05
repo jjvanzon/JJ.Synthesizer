@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
                 
                 // TODO: Refactor out booleans.
-                bool inMemory = x.GetInMemoryProcessingEnabled && !x.MustSaveParallels;
+                bool inMemory = !x.MustCacheToDisk && !x.MustSaveParallels;
                 bool onDisk = !inMemory;
 
                 // Prep variables

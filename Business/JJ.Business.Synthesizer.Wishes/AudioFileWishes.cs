@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(Func<FluentOutlet> func, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null)
         {
-            bool inMemory = GetInMemoryProcessingEnabled && !MustSaveParallels;
+            bool inMemory = !MustCacheToDisk && !MustSaveParallels;
             return _saveWishes.Write(func, inMemory, mustPad, name, callerMemberName);
         }
 
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         internal Result<SaveResultData> Cache(IList<FluentOutlet> channelInputs, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null)
         {
-            bool inMemory = GetInMemoryProcessingEnabled && !MustSaveParallels;
+            bool inMemory = !MustCacheToDisk && !MustSaveParallels;
             return _saveWishes.Write(channelInputs, inMemory, mustPad, name, callerMemberName);
         }
 
