@@ -254,6 +254,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 case 8: return SampleDataTypeEnum.Byte;
                 case 16: return SampleDataTypeEnum.Int16;
+                case 32: return SampleDataTypeEnum.Float32;
                 default: throw new Exception($"Bits = {bits} not supported.");
             }
         }

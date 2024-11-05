@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             Sample sample = _sampleManager.CreateSample();
             sample.Location =  location;
-            sample.Amplifier = 1.0 / GetBitDepth.GetMaxAmplitude();
+            sample.Amplifier = 1.0 / GetBitDepth.GetNominalMax();
             sample.SamplingRate = ResolveSamplingRate().Data;
             sample.SetBitDepth(GetBitDepth, Context);
             sample.SetSpeakerSetup(GetSpeakerSetup, Context);

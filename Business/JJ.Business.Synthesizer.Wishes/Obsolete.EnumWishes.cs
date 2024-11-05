@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     
         public static double GetMaxAmplitude(this SampleDataType enumEntity)
-            => EntityToEnumWishes.ToEnum(enumEntity).GetMaxAmplitude();
+            => EntityToEnumWishes.ToEnum(enumEntity).GetNominalMax();
     }
 
     [Obsolete(ObsoleteMessage)]

@@ -164,7 +164,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             var audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
-            audioFileOutput.Amplifier = GetBitDepth.GetMaxAmplitude();
+            audioFileOutput.Amplifier = GetBitDepth.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = GetAudioLength.Calculate();
             audioFileOutput.FilePath = FormatAudioFileName(name, GetAudioFormat);
@@ -744,27 +744,28 @@ namespace JJ.Business.Synthesizer.Wishes
             return GetFileExtension(entity.AudioFileFormat);
         }
 
-        public static double GetMaxAmplitude(this SampleDataTypeEnum enumValue)
+        public static double GetNominalMax(this SampleDataTypeEnum enumValue)
         {
             switch (enumValue)
             {
                 case SampleDataTypeEnum.Int16: return Int16.MaxValue;
                 case SampleDataTypeEnum.Byte: return Byte.MaxValue / 2;
+                case SampleDataTypeEnum.Float32: return 1;
                 default:
                     throw new ValueNotSupportedException(enumValue);
             }
         }
 
-        public static double GetMaxAmplitude(this Sample entity)
+        public static double GetNominalMax(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetMaxAmplitude(entity.GetSampleDataTypeEnum());
+            return GetNominalMax(entity.GetSampleDataTypeEnum());
         }
 
-        public static double GetMaxAmplitude(this AudioFileOutput entity)
+        public static double GetNominalMax(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetMaxAmplitude(entity.GetSampleDataTypeEnum());
+            return GetNominalMax(entity.GetSampleDataTypeEnum());
         }
 
         /// <inheritdoc cref="docs._headerlength"/>

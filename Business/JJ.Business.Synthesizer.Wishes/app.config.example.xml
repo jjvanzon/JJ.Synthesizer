@@ -20,7 +20,7 @@
 	<jj.business.synthesizer.wishes 
 		defaultSamplingRate="48000"
 		defaultSpeakerSetup="Mono"
-		defaultBitDepth="16"
+		defaultBitDepth="32"
 		defaultAudioFormat="Wav"
 		defaultInterpolation="Line"
 		defaultAudioLength="1"
