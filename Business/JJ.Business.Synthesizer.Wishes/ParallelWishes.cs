@@ -57,7 +57,8 @@ namespace JJ.Business.Synthesizer.Wishes
                     return volume * x.Add(funcs.Select(x => x()).ToArray());
                 }
                 
-                bool inMemory = x.GetInMemoryProcessingEnabled && !x.GetSaveParallels;
+                // TODO: Refactor out booleans.
+                bool inMemory = x.GetInMemoryProcessingEnabled && !x.MustSaveParallels;
                 bool onDisk = !inMemory;
 
                 // Prep variables
@@ -98,13 +99,13 @@ namespace JJ.Business.Synthesizer.Wishes
                         }
 
                         // Generate audio
-                        var saveResult = x.Save(outlets[i], names[i], inMemory);
+                        var saveResult = x.Cache(outlets[i], names[i]);
                         saveResults[i] = saveResult;
                         
                         // Play if needed
-                        if (x.GetPlayParallels)
+                        if (x.MustPlayParallels)
                         { 
-                            x._playWishes.PlayIfAllowed(saveResult.Data);
+                            x._playWishes.Play(saveResult.Data);
                         }
 
                         Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
@@ -130,13 +131,13 @@ namespace JJ.Business.Synthesizer.Wishes
                             reloadedSamples[i] = x.Sample(names[i]).SetName(displayNames[i]);
                         
                             // Save reloaded samples again.
-                            if (x.GetSaveParallels)
+                            if (x.MustSaveParallels)
                             {
                                 var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
-                                var saveResult2 = x.Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav", mustWriteToMemory: false);
+                                var saveResult2 = x.Cache(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
                             
                                 // Play to test the sample loading.
-                                if (x.GetPlayParallels) x._playWishes.PlayIfAllowed(saveResult2.Data);
+                                if (x.MustPlayParallels) x._playWishes.Play(saveResult2.Data);
                             }
                         }
                     }
@@ -144,7 +145,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 finally
                 {
                     // Clean up files
-                    if (onDisk && !x.GetSaveParallels) 
+                    if (onDisk && !x.MustSaveParallels) 
                     {
                         for (var j = 0; j < names.Length; j++)
                         {

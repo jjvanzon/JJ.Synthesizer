@@ -7,6 +7,9 @@ using System.Runtime.CompilerServices;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using System.Media;
+using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
+
 // ReSharper disable once ParameterHidesMember
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -24,12 +27,36 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
+        [Obsolete("Use Save, then Play.")]
         public Result<SaveResultData> SaveAndPlay(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
-            => _playWishes.Play(outletFunc, mustWriteToMemory: false, callerMemberName);
-        
+        {
+            var saveResult = Save(outletFunc, callerMemberName);
+            var playResult = Play(saveResult.Data);
+            var result = saveResult.Combine(playResult);
+            return result;
+        }
+
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
-            => _playWishes.Play(outletFunc, mustWriteToMemory: true, callerMemberName);
+            => _playWishes.Play(outletFunc, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Result Play(Result<SaveResultData> saveResult) => _playWishes.Play(saveResult);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Result Play(SaveResultData saveResultData) => _playWishes.Play(saveResultData);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Result Play(AudioFileOutput audioFileOutput) => _playWishes.Play(audioFileOutput);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Result Play(Sample sample) => _playWishes.Play(sample);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Result Play(byte[] bytes) => _playWishes.Play(bytes);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Result Play(string filePath) => _playWishes.Play(filePath);
 
         /// <inheritdoc cref="docs._saveorplay" />
         private class PlayWishes
@@ -40,7 +67,7 @@ namespace JJ.Business.Synthesizer.Wishes
             public PlayWishes(SynthWishes synthWishes) => x = synthWishes;
 
             /// <inheritdoc cref="docs._saveorplay" />
-            public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, bool mustWriteToMemory, [CallerMemberName] string callerMemberName = null)
+            public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             {
                 string name = x.FetchName(callerMemberName);
 
@@ -48,9 +75,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 try
                 {
                     outletFunc = AddPadding(outletFunc);
-                    var saveResult = x.Save(outletFunc, name, mustWriteToMemory);
-                    var playResult = PlayIfAllowed(saveResult.Data);
-                    var result = saveResult.Combine(playResult);
+                    var cacheResult = x.Cache(outletFunc, name);
+                    var playResult = Play(cacheResult.Data);
+                    var result = cacheResult.Combine(playResult);
 
                     return result;
                 }
@@ -76,25 +103,62 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
 
-            internal Result PlayIfAllowed(SaveResultData data)
+            public Result Play(Result<SaveResultData> saveResult)
+            {
+                if (saveResult == null) throw new ArgumentNullException(nameof(saveResult));
+                return Play(saveResult.Data);
+            }
+
+            public Result Play(SaveResultData data)
+            {
+                if (data == null) throw new ArgumentNullException(nameof(data));
+                if (data.AudioFileOutput == null) throw new NullException(() => data.AudioFileOutput);
+                return Play(data.AudioFileOutput.FilePath, data.Bytes, data.AudioFileOutput.GetFileExtension());
+            }
+
+            public Result Play(AudioFileOutput entity)
+            {
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+                return Play(entity.FilePath, null, entity.GetFileExtension());
+            }
+
+            public Result Play(Sample entity)
+            {
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+                return Play(entity.Location, entity.Bytes, entity.GetFileExtension());
+            }
+
+            public Result Play(byte[] bytes)
+                => Play(null, bytes, null);
+
+            public Result Play(string filePath)
+                => Play(filePath, null, Path.GetExtension(filePath));
+
+            private Result Play(string filePath, byte[] bytes, string fileExtension)
             {
                 var lines = new List<string>();
 
-                var playAllowed = ToolingHelper.PlayAllowed(data.AudioFileOutput.GetFileExtension());
+                var playAllowed = ToolingHelper.PlayAllowed(fileExtension);
 
                 lines.AddRange(playAllowed.ValidationMessages.Select(x => x.Text));
 
                 if (playAllowed.Data)
                 {
                     lines.Add("Playing audio...");
-                    if (data.Bytes != null)
+                    
+                    if (bytes != null && bytes.Length != 0)
                     {
-                        new SoundPlayer(new MemoryStream(data.Bytes)).PlaySync();
+                        new SoundPlayer(new MemoryStream(bytes)).PlaySync();
+                    }
+                    else if (!string.IsNullOrWhiteSpace(filePath))
+                    {
+                        new SoundPlayer(filePath).PlaySync();
                     }
                     else
                     {
-                        new SoundPlayer(data.AudioFileOutput.FilePath).PlaySync();
+                        throw new Exception(nameof(filePath) + " and " + nameof(bytes) + " cannot both be null or empty.");
                     }
+
                     lines.Add("");
                 }
 

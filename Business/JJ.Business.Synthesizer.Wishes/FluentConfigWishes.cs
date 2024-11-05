@@ -352,12 +352,12 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._withpreviewparallels" />
-        public bool GetPlayParallels { get; private set; }
+        public bool MustPlayParallels { get; private set; }
 
         /// <inheritdoc cref="docs._withpreviewparallels" />
         public SynthWishes WithPlayParallels(bool mustPlayParallels = true)
         {
-            GetPlayParallels = mustPlayParallels;
+            MustPlayParallels = mustPlayParallels;
             return this;
         }
     }
@@ -367,7 +367,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="docs._withpreviewparallels" />
-        public bool GetPlayParallels => _x.GetPlayParallels;
+        public bool MustPlayParallels => _x.MustPlayParallels;
         /// <inheritdoc cref="docs._withpreviewparallels" />
         public FluentOutlet WithPlayParallels(bool mustPlayParallels = true) { _x.WithPlayParallels(mustPlayParallels); return this; }
     }
@@ -377,12 +377,12 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._withpreviewparallels" />
-        public bool GetSaveParallels { get; private set; }
+        public bool MustSaveParallels { get; private set; }
 
         /// <inheritdoc cref="docs._withpreviewparallels" />
         public SynthWishes WithSaveParallels(bool mustSaveParallels = true)
         {
-            GetSaveParallels = mustSaveParallels;
+            MustSaveParallels = mustSaveParallels;
             return this;
         }
     }
@@ -392,7 +392,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="docs._withpreviewparallels" />
-        public bool GetSaveParallels => _x.GetSaveParallels;
+        public bool MustSaveParallels => _x.MustSaveParallels;
         /// <inheritdoc cref="docs._withpreviewparallels" />
         public FluentOutlet WithSaveParallels(bool mustSaveParallels = true) { _x.WithSaveParallels(mustSaveParallels); return this; }
     }

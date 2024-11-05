@@ -62,20 +62,26 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Save(Func<FluentOutlet> func, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
-            => _saveWishes.Save(func, mustWriteToMemory, name, callerMemberName);
+        public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, [CallerMemberName] string callerMemberName = null)
+            => _saveWishes.Write(func, inMemory: false, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
-            => _saveWishes.Save(func, mustWriteToMemory, name, callerMemberName);
+        public Result<SaveResultData> Cache(Func<FluentOutlet> func, string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            bool inMemory = GetInMemoryProcessingEnabled && !MustSaveParallels;
+            return _saveWishes.Write(func, inMemory, name, callerMemberName);
+        }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
-            => _saveWishes.Save(channelInputs, mustWriteToMemory, name, callerMemberName);
+        internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, [CallerMemberName] string callerMemberName = null)
+            => _saveWishes.Write(channelInputs, inMemory: false, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, bool mustWriteToMemory = default, [CallerMemberName] string callerMemberName = null)
-            => _saveWishes.Save(channelInputs, mustWriteToMemory, name, callerMemberName);
+        internal Result<SaveResultData> Cache(IList<FluentOutlet> channelInputs, string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            bool inMemory = GetInMemoryProcessingEnabled && !MustSaveParallels;
+            return _saveWishes.Write(channelInputs, inMemory, name, callerMemberName);
+        }
 
         /// <inheritdoc cref="docs._saveorplay" />
         private class SaveWishes
@@ -86,7 +92,7 @@ namespace JJ.Business.Synthesizer.Wishes
             public SaveWishes(SynthWishes synthWishes) => x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
 
             /// <inheritdoc cref="docs._saveorplay" />
-            public Result<SaveResultData> Save(Func<FluentOutlet> func, bool mustWriteToMemory = false, string name = null, [CallerMemberName] string callerMemberName = null)
+            public Result<SaveResultData> Write(Func<FluentOutlet> func, bool inMemory = false, string name = null, [CallerMemberName] string callerMemberName = null)
             {
                 name = x.FetchName(name, callerMemberName);
 
@@ -97,12 +103,12 @@ namespace JJ.Business.Synthesizer.Wishes
                     {
                         case Mono:
                             x.WithCenter(); var monoOutlet = func();
-                            return Save(new[] { monoOutlet }, mustWriteToMemory, name);
+                            return Write(new[] { monoOutlet }, inMemory, name);
 
                         case Stereo:
                             x.WithLeft(); var leftOutlet = func();
                             x.WithRight(); var rightOutlet = func();
-                            return Save(new[] { leftOutlet, rightOutlet }, mustWriteToMemory, name);
+                            return Write(new[] { leftOutlet, rightOutlet }, inMemory, name);
                         
                         default:
                             throw new ValueNotSupportedException(x.GetSpeakerSetup);
@@ -115,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="docs._saveorplay" />
-            internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, bool mustWriteToMemory, string name = null, [CallerMemberName] string callerMemberName = null)
+            internal Result<SaveResultData> Write(IList<FluentOutlet> channelInputs, bool inMemory, string name = null, [CallerMemberName] string callerMemberName = null)
             {
                 name = x.FetchName(name, callerMemberName);
 
@@ -183,7 +189,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 byte[] bytes = null;
                 var calculator = CreateAudioFileOutputCalculator(audioFileOutput);
                 
-                if (mustWriteToMemory)
+                if (inMemory)
                 {
                     bytes = new byte[audioFileOutput.GetFileLengthNeeded()];
                     new AudioFileOutputCalculatorAccessor(calculator)._stream = new MemoryStream(bytes);
