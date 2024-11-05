@@ -15,10 +15,6 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly OperatorFactory _operatorFactory;
         private readonly CurveFactory _curveFactory;
         private readonly SampleManager _sampleManager;
-        /// <inheritdoc cref="docs._saveorplay" />
-        private readonly SaveWishes _saveWishes;
-        /// <inheritdoc cref="docs._saveorplay" />
-        private readonly PlayWishes _playWishes;
         /// <inheritdoc cref="docs._paralleladd" />
         private readonly ParallelWishes _parallelWishes;
 
@@ -33,8 +29,6 @@ namespace JJ.Business.Synthesizer.Wishes
             _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
             _sampleManager = ServiceFactory.CreateSampleManager(context);
-            _saveWishes = new SaveWishes(this);
-            _playWishes = new PlayWishes(this);
             _parallelWishes = new ParallelWishes(this);
             InitializeOperatorWishes();
         }

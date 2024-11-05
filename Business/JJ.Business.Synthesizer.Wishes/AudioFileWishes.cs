@@ -16,7 +16,6 @@ using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 
 // ReSharper disable ParameterHidesMember
@@ -112,12 +111,12 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class SaveExtensions 
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Save(this Result<SaveResultData> result, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.Save(result, filePath, callerMemberName);
+        public static Result Save(this Result<SaveResultData> saveResult, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(saveResult, filePath, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Save(this SaveResultData result, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.Save(result, filePath, callerMemberName);
+        public static Result Save(this SaveResultData saveResultData, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(saveResultData, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result<SaveResultData> Save(this AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
@@ -132,28 +131,30 @@ namespace JJ.Business.Synthesizer.Wishes
             => SynthWishes.Save(bytes, filePath, callerMemberName);
     }
     
-    // Save on SynthWishes Instances (overloading SynthWishes static methods with the same signature)
+    // Save on SynthWishes Instances
 
     /// <inheritdoc cref="docs._saveorplay" />
     public static class SynthWishesSaveExtensions
     {
+        // Make SynthWishes statics available on instances by using extension methods.
+        
         /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Save(this SynthWishes synthWishes, Result<SaveResultData> result, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        public static SynthWishes Save(this SynthWishes synthWishes, Result<SaveResultData> saveResult, string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            if (result == null) throw new ArgumentNullException(nameof(result));
-            filePath = synthWishes.FetchName(result.Data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
-            SynthWishes.Save(result, filePath);
+            if (saveResult == null) throw new ArgumentNullException(nameof(saveResult));
+            filePath = synthWishes.FetchName(saveResult.Data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            SynthWishes.Save(saveResult, filePath);
             return synthWishes;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Save(this SynthWishes synthWishes, SaveResultData resultData, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        public static SynthWishes Save(this SynthWishes synthWishes, SaveResultData saveResultData, string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            if (resultData == null) throw new ArgumentNullException(nameof(resultData));
-            filePath = synthWishes.FetchName(resultData.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
-            SynthWishes.Save(resultData, filePath);
+            if (saveResultData == null) throw new ArgumentNullException(nameof(saveResultData));
+            filePath = synthWishes.FetchName(saveResultData.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            SynthWishes.Save(saveResultData, filePath);
             return synthWishes;
         }
 
@@ -187,25 +188,25 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // AudioFileWishes in SynthWishes
+    // Save & Cache in SynthWishes
 
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(Func<FluentOutlet> func, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
-            => _saveWishes.Write(func, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
+            => Write(func, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(IList<FluentOutlet> channelInputs, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
-            => _saveWishes.Write(channelInputs, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
+            => Write(channelInputs, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, [CallerMemberName] string callerMemberName = null)
-            => _saveWishes.Write(func, inMemory: false, mustPad: true, name, callerMemberName);
+            => Write(func, inMemory: false, mustPad: true, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, [CallerMemberName] string callerMemberName = null)
-            => _saveWishes.Write(channelInputs, inMemory: false, mustPad: true, name, callerMemberName);
+            => Write(channelInputs, inMemory: false, mustPad: true, name, callerMemberName);
 
         // Statics
         
@@ -238,7 +239,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 entity.FilePath = callerMemberName;
             }
 
-            return SaveWishes.Write(entity, inMemory: false);
+            return Write(entity, inMemory: false);
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -263,394 +264,387 @@ namespace JJ.Business.Synthesizer.Wishes
             File.WriteAllBytes(filePath, bytes);
         }
 
+        // Private
+        
         /// <inheritdoc cref="docs._saveorplay" />
-        private class SaveWishes
+        private Result<SaveResultData> Write(
+            Func<FluentOutlet> func, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            private readonly SynthWishes x;
+            name = FetchName(name, callerMemberName);
 
-            /// <inheritdoc cref="docs._saveorplay" />
-            internal SaveWishes(SynthWishes synthWishes) => x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-
-            /// <inheritdoc cref="docs._saveorplay" />
-            internal Result<SaveResultData> Write(
-                Func<FluentOutlet> func, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
+            var originalChannel = Channel;
+            try
             {
-                name = x.FetchName(name, callerMemberName);
-
-                var originalChannel = x.Channel;
-                try
-                {
-                    switch (x.GetSpeakerSetup)
-                    {
-                        case Mono:
-                            x.WithCenter(); var monoOutlet = func();
-                            return Write(new[] { monoOutlet }, inMemory, mustPad, name);
-
-                        case Stereo:
-                            x.WithLeft(); var leftOutlet = func();
-                            x.WithRight(); var rightOutlet = func();
-                            return Write(new[] { leftOutlet, rightOutlet }, inMemory, mustPad,name);
-                        
-                        default:
-                            throw new ValueNotSupportedException(x.GetSpeakerSetup);
-                    }
-                }
-                finally
-                {
-                    x.Channel = originalChannel;
-                }
-            }
-
-            /// <inheritdoc cref="docs._saveorplay" />
-            internal Result<SaveResultData> Write(
-                IList<FluentOutlet> channelInputs, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
-            {
-                name = x.FetchName(name, callerMemberName);
-
-                // Process Parameters
-                if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
-                if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
-                if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
-
-                int channelCount = channelInputs.Count;
-                var speakerSetupEnum = channelCount.ToSpeakerSetup();
-                                                
-                // Apply Padding
-                if (mustPad)
-                {
-                    for (int i = 0; i < channelCount; i++)
-                    {
-                        channelInputs[i] = ApplyPadding(channelInputs[i]);
-                    }
-                }
-
-                // Configure AudioFileOutput (avoid backend)
-                var audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(x.Context);
-                AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
-                audioFileOutput.Amplifier = x.GetBitDepth.GetMaxAmplitude();
-                audioFileOutput.TimeMultiplier = 1;
-                audioFileOutput.Duration = x.GetAudioLength.Calculate();
-                audioFileOutput.FilePath = FormatAudioFileName(name, x.GetAudioFormat);
-                audioFileOutput.SetBitDepth(x.GetBitDepth);
-                audioFileOutput.SetAudioFormat(x.GetAudioFormat);
-                audioFileOutput.Name = name;
-
-                var samplingRateResult = ResolveSamplingRate(x.GetSamplingRate);
-                audioFileOutput.SamplingRate = samplingRateResult.Data;
-
-                SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
-                CreateOrRemoveChannels(audioFileOutput, channelCount);
-
-                switch (speakerSetupEnum)
+                switch (GetSpeakerSetup)
                 {
                     case Mono:
-                        audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
-                        break;
+                        WithCenter(); var monoOutlet = func();
+                        return Write(new[] { monoOutlet }, inMemory, mustPad, name);
 
                     case Stereo:
-                        audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
-                        audioFileOutput.AudioFileOutputChannels[1].Outlet = channelInputs[1];
-                        break;
-
-                    default:
-                        throw new InvalidValueException(speakerSetupEnum);
-                }
-                
-                var result = Write(
-                    audioFileOutput, inMemory, samplingRateResult.ValidationMessages.Select(x => x.Text).ToArray());
-                
-                return result;
-            }
-
-            /// <inheritdoc cref="docs._saveorplay" />
-            internal static Result<SaveResultData> Write(
-                AudioFileOutput audioFileOutput, bool inMemory = false, IList<string> additionalMessages = null)
-            {
-                additionalMessages = additionalMessages ?? Array.Empty<string>();
-                
-                // Assert
-                if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
-                
-                #if DEBUG
-                audioFileOutput.Assert();
-                #endif
-                
-                foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
-                {
-                    audioFileOutputChannel.Outlet?.Assert();
-                }
-                
-                // Warnings
-                var messages = new List<string>();
-                messages.AddRange(additionalMessages);
-                foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
-                {
-                    messages.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
-                }
-                messages.AddRange(audioFileOutput.GetWarnings());
-
-                // Calculate
-                byte[] bytes = null;
-                var calculator = CreateAudioFileOutputCalculator(audioFileOutput);
-                if (inMemory)
-                {
-                    bytes = new byte[audioFileOutput.GetFileLengthNeeded()];
-                    new AudioFileOutputCalculatorAccessor(calculator)._stream = new MemoryStream(bytes);
-                }
-                var stopWatch = Stopwatch.StartNew();
-                calculator.Execute();
-                stopWatch.Stop();
-                double calculationDuration = stopWatch.Elapsed.TotalSeconds;
-
-                // Result
-                var result = new Result<SaveResultData>
-                {
-                    Successful = true,
-                    ValidationMessages = messages.ToCanonical(),
-                    Data = new SaveResultData(audioFileOutput, bytes, calculationDuration)
-                };
-
-                // Report
-                var reportLines = GetReport(result, out int complexity);
-                result.Data.Complexity = complexity;
-                reportLines.ForEach(Console.WriteLine);
-                
-                return result;
-            }
-
-            // Helpers
-
-            private static List<string> GetReport(Result<SaveResultData> result, out int complexity)
-            {
-                ResultWishes.Assert(result);
-
-                // Get Info
-                complexity = 0;
-                var stringifiedChannels = new List<string>();
-
-                foreach (var audioFileOutputChannel in result.Data.AudioFileOutput.AudioFileOutputChannels)
-                {
-                    string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
-                    stringifiedChannels.Add(stringify);
-
-                    int stringifyLines = stringify.CountLines();
-                    complexity += stringifyLines;
-                }
-
-                // Gather Lines
-                var lines = new List<string>();
-
-                lines.Add("");
-                lines.Add(GetPrettyTitle(result.Data.AudioFileOutput.Name ?? result.Data.AudioFileOutput.FilePath));
-                lines.Add("");
-
-                string realTimeComplexityMessage = FormatMetrics(result.Data.AudioFileOutput.Duration, result.Data.CalculationDuration, complexity);
-                lines.Add(realTimeComplexityMessage);
-                lines.Add("");
-
-                lines.Add($"Calculation time: {PrettyDuration(result.Data.CalculationDuration)}");
-                lines.Add($"Audio length: {PrettyDuration(result.Data.AudioFileOutput.Duration)}");
-                lines.Add($"Sampling rate: { result.Data.AudioFileOutput.SamplingRate } Hz | {result.Data.AudioFileOutput.GetSampleDataTypeEnum()} | {result.Data.AudioFileOutput.GetSpeakerSetupEnum()}");
-
-                lines.Add("");
-
-                IList<string> warnings = result.ValidationMessages.Select(x => x.Text).ToArray();
-                if (warnings.Any())
-                {
-                    lines.Add("Warnings:");
-                    lines.AddRange(warnings.Select(warning => $"- {warning}"));
-                    lines.Add("");
-                }
-
-                for (var i = 0; i < result.Data.AudioFileOutput.AudioFileOutputChannels.Count; i++)
-                {
-                    var channelString = stringifiedChannels[i];
-
-                    lines.Add($"Calculation Channel {i + 1}:");
-                    lines.Add("");
-                    lines.Add(channelString);
-                    lines.Add("");
-                }
-
-                if (result.Data.Bytes != null)
-                {
-                    lines.Add($"{PrettyByteCount(result.Data.Bytes.Length)} written to memory.");
-                }
-                if (File.Exists(result.Data.AudioFileOutput.FilePath))
-                {
-                    lines.Add($"Output file: {Path.GetFullPath(result.Data.AudioFileOutput.FilePath)}");
-                }
-
-                lines.Add("");
-
-                return lines;
-            }
+                        WithLeft(); var leftOutlet = func();
+                        WithRight(); var rightOutlet = func();
+                        return Write(new[] { leftOutlet, rightOutlet }, inMemory, mustPad,name);
                     
-            private FluentOutlet ApplyPadding(FluentOutlet outlet)
-            {
-                if (ConfigHelper.PlayLeadingSilence == 0 &&
-                    ConfigHelper.PlayTrailingSilence == 0)
-                {
-                    return outlet;
-                }
-
-                Console.WriteLine($"{PrettyTime()} Padding a channel: {ConfigHelper.PlayLeadingSilence} s before | {ConfigHelper.PlayTrailingSilence} s after");
-
-                x.AddAudioLength(ConfigHelper.PlayLeadingSilence);
-                x.AddAudioLength(ConfigHelper.PlayTrailingSilence);
-                
-                if (ConfigHelper.PlayLeadingSilence == 0)
-                {
-                    return outlet;
-                }
-                else
-                {
-                    return x.Delay(outlet, x._[ConfigHelper.PlayLeadingSilence]);
-                }
-            }
-
-            private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum)
-            {
-                // Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
-
-                var channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(x.Context);
-
-                switch (speakerSetupEnum)
-                {
-                    case Mono:
-                    {
-                        var mono = new SpeakerSetup
-                        {
-                            ID = (int)Mono,
-                            Name = $"{Mono}",
-                        };
-
-                        var single = new SpeakerSetupChannel
-                        {
-                            ID = 1,
-                            Index = 0,
-                            Channel = channelRepository.Get((int)ChannelEnum.Single),
-                        };
-
-                        audioFileOutput.SpeakerSetup = mono;
-                        audioFileOutput.SpeakerSetup.SpeakerSetupChannels = new List<SpeakerSetupChannel> { single };
-                        break;
-                    }
-
-                    case Stereo:
-                    {
-                        var stereo = new SpeakerSetup
-                        {
-                            ID = (int)Stereo,
-                            Name = $"{Stereo}",
-                        };
-
-                        var left = new SpeakerSetupChannel
-                        {
-                            ID = 2,
-                            Index = 0,
-                            SpeakerSetup = audioFileOutput.SpeakerSetup,
-                            Channel = channelRepository.Get((int)ChannelEnum.Left),
-                        };
-
-                        var right = new SpeakerSetupChannel
-                        {
-                            ID = 3,
-                            Index = 1,
-                            SpeakerSetup = audioFileOutput.SpeakerSetup,
-                            Channel = channelRepository.Get((int)ChannelEnum.Right),
-                        };
-
-                        audioFileOutput.SpeakerSetup = stereo;
-                        audioFileOutput.SpeakerSetup.SpeakerSetupChannels = new List<SpeakerSetupChannel> { left, right };
-                        break;
-                    }
-
                     default:
-                        throw new InvalidValueException(speakerSetupEnum);
+                        throw new ValueNotSupportedException(GetSpeakerSetup);
+                }
+            }
+            finally
+            {
+                Channel = originalChannel;
+            }
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        private Result<SaveResultData> Write(
+            IList<FluentOutlet> channelInputs, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            name = FetchName(name, callerMemberName);
+
+            // Process Parameters
+            if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
+            if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
+            if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
+
+            int channelCount = channelInputs.Count;
+            var speakerSetupEnum = channelCount.ToSpeakerSetup();
+                                            
+            // Apply Padding
+            if (mustPad)
+            {
+                for (int i = 0; i < channelCount; i++)
+                {
+                    channelInputs[i] = ApplyPadding(channelInputs[i]);
                 }
             }
 
-            private void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channelCount)
+            // Configure AudioFileOutput (avoid backend)
+            var audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(Context);
+            AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
+            audioFileOutput.Amplifier = GetBitDepth.GetMaxAmplitude();
+            audioFileOutput.TimeMultiplier = 1;
+            audioFileOutput.Duration = GetAudioLength.Calculate();
+            audioFileOutput.FilePath = FormatAudioFileName(name, GetAudioFormat);
+            audioFileOutput.SetBitDepth(GetBitDepth);
+            audioFileOutput.SetAudioFormat(GetAudioFormat);
+            audioFileOutput.Name = name;
+
+            var samplingRateResult = ResolveSamplingRate(GetSamplingRate);
+            audioFileOutput.SamplingRate = samplingRateResult.Data;
+
+            SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
+            CreateOrRemoveChannels(audioFileOutput, channelCount);
+
+            switch (speakerSetupEnum)
             {
-                // (using a lower abstraction layer, to circumvent error-prone syncing code in back-end).
-                var audioFileOutputChannelRepository = PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(x.Context);
+                case Mono:
+                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
+                    break;
 
-                // Create additional channels
-                for (int i = audioFileOutput.AudioFileOutputChannels.Count; i < channelCount; i++)
-                {
-                    // Create
-                    AudioFileOutputChannel audioFileOutputChannel = audioFileOutputChannelRepository.Create();
+                case Stereo:
+                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
+                    audioFileOutput.AudioFileOutputChannels[1].Outlet = channelInputs[1];
+                    break;
 
-                    // Set properties
-                    audioFileOutputChannel.Index = i;
+                default:
+                    throw new InvalidValueException(speakerSetupEnum);
+            }
+            
+            var result = Write(
+                audioFileOutput, inMemory, samplingRateResult.ValidationMessages.Select(x => x.Text).ToArray());
+            
+            return result;
+        }
 
-                    // Link relationship
-                    audioFileOutputChannel.AudioFileOutput = audioFileOutput;
-                    audioFileOutput.AudioFileOutputChannels.Add(audioFileOutputChannel);
-                }
+        /// <inheritdoc cref="docs._saveorplay" />
+        private static Result<SaveResultData> Write(
+            AudioFileOutput audioFileOutput, bool inMemory = false, IList<string> additionalMessages = null)
+        {
+            additionalMessages = additionalMessages ?? Array.Empty<string>();
+            
+            // Assert
+            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            
+            #if DEBUG
+            audioFileOutput.Assert();
+            #endif
+            
+            foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
+            {
+                audioFileOutputChannel.Outlet?.Assert();
+            }
+            
+            // Warnings
+            var messages = new List<string>();
+            messages.AddRange(additionalMessages);
+            foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
+            {
+                messages.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
+            }
+            messages.AddRange(audioFileOutput.GetWarnings());
 
-                // Remove surplus channels
-                for (int i = audioFileOutput.AudioFileOutputChannels.Count - 1; i >= channelCount; i--)
-                {
-                    AudioFileOutputChannel audioFileOutputChannel = audioFileOutput.AudioFileOutputChannels[i];
+            // Calculate
+            byte[] bytes = null;
+            var calculator = CreateAudioFileOutputCalculator(audioFileOutput);
+            if (inMemory)
+            {
+                bytes = new byte[audioFileOutput.GetFileLengthNeeded()];
+                new AudioFileOutputCalculatorAccessor(calculator)._stream = new MemoryStream(bytes);
+            }
+            var stopWatch = Stopwatch.StartNew();
+            calculator.Execute();
+            stopWatch.Stop();
+            double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
-                    // Clear properties
-                    audioFileOutputChannel.Outlet = null;
+            // Result
+            var result = new Result<SaveResultData>
+            {
+                Successful = true,
+                ValidationMessages = messages.ToCanonical(),
+                Data = new SaveResultData(audioFileOutput, bytes, calculationDuration)
+            };
 
-                    // Remove parent-child relationship
-                    audioFileOutputChannel.AudioFileOutput = null;
-                    audioFileOutput.AudioFileOutputChannels.RemoveAt(i);
+            // Report
+            var reportLines = GetReport(result, out int complexity);
+            result.Data.Complexity = complexity;
+            reportLines.ForEach(Console.WriteLine);
+            
+            return result;
+        }
 
-                    // Delete
-                    audioFileOutputChannelRepository.Delete(audioFileOutputChannel);
-                }
+        // Helpers
+
+        private static List<string> GetReport(Result<SaveResultData> result, out int complexity)
+        {
+            ResultWishes.Assert(result);
+
+            // Get Info
+            complexity = 0;
+            var stringifiedChannels = new List<string>();
+
+            foreach (var audioFileOutputChannel in result.Data.AudioFileOutput.AudioFileOutputChannels)
+            {
+                string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
+                stringifiedChannels.Add(stringify);
+
+                int stringifyLines = stringify.CountLines();
+                complexity += stringifyLines;
             }
 
-            private static Result<int> ResolveSamplingRate(int samplingRateOverride)
+            // Gather Lines
+            var lines = new List<string>();
+
+            lines.Add("");
+            lines.Add(GetPrettyTitle(result.Data.AudioFileOutput.Name ?? result.Data.AudioFileOutput.FilePath));
+            lines.Add("");
+
+            string realTimeComplexityMessage = FormatMetrics(result.Data.AudioFileOutput.Duration, result.Data.CalculationDuration, complexity);
+            lines.Add(realTimeComplexityMessage);
+            lines.Add("");
+
+            lines.Add($"Calculation time: {PrettyDuration(result.Data.CalculationDuration)}");
+            lines.Add($"Audio length: {PrettyDuration(result.Data.AudioFileOutput.Duration)}");
+            lines.Add($"Sampling rate: { result.Data.AudioFileOutput.SamplingRate } Hz | {result.Data.AudioFileOutput.GetSampleDataTypeEnum()} | {result.Data.AudioFileOutput.GetSpeakerSetupEnum()}");
+
+            lines.Add("");
+
+            IList<string> warnings = result.ValidationMessages.Select(x => x.Text).ToArray();
+            if (warnings.Any())
             {
-                if (samplingRateOverride != 0)
+                lines.Add("Warnings:");
+                lines.AddRange(warnings.Select(warning => $"- {warning}"));
+                lines.Add("");
+            }
+
+            for (var i = 0; i < result.Data.AudioFileOutput.AudioFileOutputChannels.Count; i++)
+            {
+                var channelString = stringifiedChannels[i];
+
+                lines.Add($"Calculation Channel {i + 1}:");
+                lines.Add("");
+                lines.Add(channelString);
+                lines.Add("");
+            }
+
+            if (result.Data.Bytes != null)
+            {
+                lines.Add($"{PrettyByteCount(result.Data.Bytes.Length)} written to memory.");
+            }
+            if (File.Exists(result.Data.AudioFileOutput.FilePath))
+            {
+                lines.Add($"Output file: {Path.GetFullPath(result.Data.AudioFileOutput.FilePath)}");
+            }
+
+            lines.Add("");
+
+            return lines;
+        }
+                
+        private FluentOutlet ApplyPadding(FluentOutlet outlet)
+        {
+            if (ConfigHelper.PlayLeadingSilence == 0 &&
+                ConfigHelper.PlayTrailingSilence == 0)
+            {
+                return outlet;
+            }
+
+            Console.WriteLine($"{PrettyTime()} Padding a channel: {ConfigHelper.PlayLeadingSilence} s before | {ConfigHelper.PlayTrailingSilence} s after");
+
+            AddAudioLength(ConfigHelper.PlayLeadingSilence);
+            AddAudioLength(ConfigHelper.PlayTrailingSilence);
+            
+            if (ConfigHelper.PlayLeadingSilence == 0)
+            {
+                return outlet;
+            }
+            else
+            {
+                return Delay(outlet, _[ConfigHelper.PlayLeadingSilence]);
+            }
+        }
+
+        private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum)
+        {
+            // Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
+
+            var channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(Context);
+
+            switch (speakerSetupEnum)
+            {
+                case Mono:
                 {
-                    return new Result<int>
+                    var mono = new SpeakerSetup
                     {
-                        Data = samplingRateOverride,
-                        ValidationMessages = new List<ValidationMessage> { $"Sampling rate override: {samplingRateOverride}".ToCanonical() },
-                        Successful = true
+                        ID = (int)Mono,
+                        Name = $"{Mono}",
                     };
+
+                    var single = new SpeakerSetupChannel
+                    {
+                        ID = 1,
+                        Index = 0,
+                        Channel = channelRepository.Get((int)ChannelEnum.Single),
+                    };
+
+                    audioFileOutput.SpeakerSetup = mono;
+                    audioFileOutput.SpeakerSetup.SpeakerSetupChannels = new List<SpeakerSetupChannel> { single };
+                    break;
                 }
 
+                case Stereo:
                 {
-                    var samplingRateForTool = ToolingHelper.TryGetSamplingRateForNCrunch();
-                    if (samplingRateForTool.Data.HasValue)
+                    var stereo = new SpeakerSetup
                     {
-                        return new Result<int>
-                        {
-                            Data = samplingRateForTool.Data.Value,
-                            ValidationMessages = samplingRateForTool.ValidationMessages,
-                            Successful = true
-                        };
-                    }
-                }
-                {
-                    var samplingRateForTool = ToolingHelper.TryGetSamplingRateForAzurePipelines();
-                    if (samplingRateForTool.Data.HasValue)
+                        ID = (int)Stereo,
+                        Name = $"{Stereo}",
+                    };
+
+                    var left = new SpeakerSetupChannel
                     {
-                        return new Result<int>
-                        {
-                            Data = samplingRateForTool.Data.Value,
-                            ValidationMessages = samplingRateForTool.ValidationMessages,
-                            Successful = true
-                        };
-                    }
+                        ID = 2,
+                        Index = 0,
+                        SpeakerSetup = audioFileOutput.SpeakerSetup,
+                        Channel = channelRepository.Get((int)ChannelEnum.Left),
+                    };
+
+                    var right = new SpeakerSetupChannel
+                    {
+                        ID = 3,
+                        Index = 1,
+                        SpeakerSetup = audioFileOutput.SpeakerSetup,
+                        Channel = channelRepository.Get((int)ChannelEnum.Right),
+                    };
+
+                    audioFileOutput.SpeakerSetup = stereo;
+                    audioFileOutput.SpeakerSetup.SpeakerSetupChannels = new List<SpeakerSetupChannel> { left, right };
+                    break;
                 }
 
+                default:
+                    throw new InvalidValueException(speakerSetupEnum);
+            }
+        }
+
+        private void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channelCount)
+        {
+            // (using a lower abstraction layer, to circumvent error-prone syncing code in back-end).
+            var audioFileOutputChannelRepository = PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(Context);
+
+            // Create additional channels
+            for (int i = audioFileOutput.AudioFileOutputChannels.Count; i < channelCount; i++)
+            {
+                // Create
+                AudioFileOutputChannel audioFileOutputChannel = audioFileOutputChannelRepository.Create();
+
+                // Set properties
+                audioFileOutputChannel.Index = i;
+
+                // Link relationship
+                audioFileOutputChannel.AudioFileOutput = audioFileOutput;
+                audioFileOutput.AudioFileOutputChannels.Add(audioFileOutputChannel);
+            }
+
+            // Remove surplus channels
+            for (int i = audioFileOutput.AudioFileOutputChannels.Count - 1; i >= channelCount; i--)
+            {
+                AudioFileOutputChannel audioFileOutputChannel = audioFileOutput.AudioFileOutputChannels[i];
+
+                // Clear properties
+                audioFileOutputChannel.Outlet = null;
+
+                // Remove parent-child relationship
+                audioFileOutputChannel.AudioFileOutput = null;
+                audioFileOutput.AudioFileOutputChannels.RemoveAt(i);
+
+                // Delete
+                audioFileOutputChannelRepository.Delete(audioFileOutputChannel);
+            }
+        }
+
+        private static Result<int> ResolveSamplingRate(int samplingRateOverride)
+        {
+            if (samplingRateOverride != 0)
+            {
                 return new Result<int>
                 {
-                    Data = ConfigHelper.DefaultSamplingRate,
-                    ValidationMessages = new List<ValidationMessage>(),
+                    Data = samplingRateOverride,
+                    ValidationMessages = new List<ValidationMessage> { $"Sampling rate override: {samplingRateOverride}".ToCanonical() },
                     Successful = true
                 };
             }
+
+            {
+                var samplingRateForTool = ToolingHelper.TryGetSamplingRateForNCrunch();
+                if (samplingRateForTool.Data.HasValue)
+                {
+                    return new Result<int>
+                    {
+                        Data = samplingRateForTool.Data.Value,
+                        ValidationMessages = samplingRateForTool.ValidationMessages,
+                        Successful = true
+                    };
+                }
+            }
+            {
+                var samplingRateForTool = ToolingHelper.TryGetSamplingRateForAzurePipelines();
+                if (samplingRateForTool.Data.HasValue)
+                {
+                    return new Result<int>
+                    {
+                        Data = samplingRateForTool.Data.Value,
+                        ValidationMessages = samplingRateForTool.ValidationMessages,
+                        Successful = true
+                    };
+                }
+            }
+
+            return new Result<int>
+            {
+                Data = ConfigHelper.DefaultSamplingRate,
+                ValidationMessages = new List<ValidationMessage>(),
+                Successful = true
+            };
         }
     }
     

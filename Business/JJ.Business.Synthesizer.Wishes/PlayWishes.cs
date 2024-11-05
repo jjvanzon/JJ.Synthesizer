@@ -60,11 +60,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
     }
 
-    // Play on SynthWishes Instances (overloading SynthWishes static methods with the same signature)
+    // Play on SynthWishes Instances
 
     /// <inheritdoc cref="docs._saveorplay" />
     public static class SynthWishesPlayExtensions
     {
+        // Make SynthWishes statics available on instances by using extension methods.
+
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Play(this SynthWishes synthWishes, Result<SaveResultData> result)
         {
@@ -113,10 +115,26 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         // TODO: Overload with IList<Func<Outlet>>?
-        
+
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
-            => _playWishes.Play(outletFunc, callerMemberName);
+        {
+            string name = FetchName(callerMemberName);
+
+            var originalAudioLength = GetAudioLength;
+            try
+            {
+                var cacheResult = Cache(outletFunc, name, mustPad: true);
+                var playResult = SynthWishes.Play(cacheResult.Data);
+                var result = cacheResult.Combine(playResult);
+
+                return result;
+            }
+            finally
+            {
+                WithAudioLength(originalAudioLength);
+            }
+        }
 
         // Statics
         
@@ -132,97 +150,68 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (saveResultData == null) throw new ArgumentNullException(nameof(saveResultData));
             if (saveResultData.AudioFileOutput == null) throw new NullException(() => saveResultData.AudioFileOutput);
-            return PlayWishes.Play(saveResultData.AudioFileOutput.FilePath, saveResultData.Bytes, saveResultData.AudioFileOutput.GetFileExtension());
+            return Play(saveResultData.AudioFileOutput.FilePath, saveResultData.Bytes, saveResultData.AudioFileOutput.GetFileExtension());
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return PlayWishes.Play(entity.FilePath, null, entity.GetFileExtension());
+            return Play(entity.FilePath, null, entity.GetFileExtension());
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return PlayWishes.Play(entity.Location, entity.Bytes, entity.GetFileExtension());
+            return Play(entity.Location, entity.Bytes, entity.GetFileExtension());
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(byte[] bytes)
-            => PlayWishes.Play(null, bytes, null);
+            => Play(null, bytes, null);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(string filePath)
-            => PlayWishes.Play(filePath, null, Path.GetExtension(filePath));
+            => Play(filePath, null, Path.GetExtension(filePath));
 
-        /// <inheritdoc cref="docs._saveorplay" />
-        private class PlayWishes
+        // Private
+        
+        private static Result Play(string filePath, byte[] bytes, string fileExtension)
         {
-            private SynthWishes x;
+            var lines = new List<string>();
 
-            /// <inheritdoc cref="docs._saveorplay" />
-            public PlayWishes(SynthWishes synthWishes) => x = synthWishes;
+            var playAllowed = ToolingHelper.PlayAllowed(fileExtension);
 
-            // TODO: Overload with IList<Func<Outlet>>?
+            lines.AddRange(playAllowed.ValidationMessages.Select(x => x.Text));
 
-            /// <inheritdoc cref="docs._saveorplay" />
-            public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
+            if (playAllowed.Data)
             {
-                string name = x.FetchName(callerMemberName);
-
-                var originalAudioLength = x.GetAudioLength;
-                try
+                lines.Add("Playing audio...");
+                
+                if (bytes != null && bytes.Length != 0)
                 {
-                    var cacheResult = x.Cache(outletFunc, name, mustPad: true);
-                    var playResult = SynthWishes.Play(cacheResult.Data);
-                    var result = cacheResult.Combine(playResult);
-
-                    return result;
+                    new SoundPlayer(new MemoryStream(bytes)).PlaySync();
                 }
-                finally
+                else if (!string.IsNullOrWhiteSpace(filePath))
                 {
-                    x.WithAudioLength(originalAudioLength);
+                    new SoundPlayer(filePath).PlaySync();
                 }
-            }
-
-            internal static Result Play(string filePath, byte[] bytes, string fileExtension)
-            {
-                var lines = new List<string>();
-
-                var playAllowed = ToolingHelper.PlayAllowed(fileExtension);
-
-                lines.AddRange(playAllowed.ValidationMessages.Select(x => x.Text));
-
-                if (playAllowed.Data)
+                else
                 {
-                    lines.Add("Playing audio...");
-                    
-                    if (bytes != null && bytes.Length != 0)
-                    {
-                        new SoundPlayer(new MemoryStream(bytes)).PlaySync();
-                    }
-                    else if (!string.IsNullOrWhiteSpace(filePath))
-                    {
-                        new SoundPlayer(filePath).PlaySync();
-                    }
-                    else
-                    {
-                        throw new Exception(nameof(filePath) + " and " + nameof(bytes) + " cannot both be null or empty.");
-                    }
-
-                    lines.Add("");
+                    throw new Exception(nameof(filePath) + " and " + nameof(bytes) + " cannot both be null or empty.");
                 }
 
-                lines.Add("Done.");
                 lines.Add("");
-
-                // Write Lines
-                lines.ForEach(x => Console.WriteLine(x ?? ""));
-
-                return lines.ToResult();
             }
+
+            lines.Add("Done.");
+            lines.Add("");
+
+            // Write Lines
+            lines.ForEach(x => Console.WriteLine(x ?? ""));
+
+            return lines.ToResult();
         }
     }
 }
