@@ -27,10 +27,9 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        [Obsolete("Use Save, then Play.")]
         public Result<SaveResultData> SaveAndPlay(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
         {
-            var saveResult = Save(outletFunc, callerMemberName);
+            var saveResult = Save(outletFunc, callerMemberName, mustPad: true);
             var playResult = Play(saveResult.Data);
             var result = saveResult.Combine(playResult);
             return result;
@@ -74,8 +73,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 var originalAudioLength = x.GetAudioLength;
                 try
                 {
-                    outletFunc = AddPadding(outletFunc);
-                    var cacheResult = x.Cache(outletFunc, name);
+                    var cacheResult = x.Cache(outletFunc, name, mustPad: true);
                     var playResult = Play(cacheResult.Data);
                     var result = cacheResult.Combine(playResult);
 
@@ -84,22 +82,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 finally
                 {
                     x.WithAudioLength(originalAudioLength);
-                }
-            }
-
-            private Func<FluentOutlet> AddPadding(Func<FluentOutlet> func)
-            {
-                x.AddAudioLength(ConfigHelper.PlayLeadingSilence);
-                x.AddAudioLength(ConfigHelper.PlayTrailingSilence);
-                
-                if (ConfigHelper.PlayLeadingSilence == 0)
-                {
-                    return func;
-                }
-                else
-                {
-                    FluentOutlet func2() => x.Delay(func(), x._[ConfigHelper.PlayLeadingSilence]);
-                    return func2;
                 }
             }
 
@@ -172,5 +154,4 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
     }
-    
 }
