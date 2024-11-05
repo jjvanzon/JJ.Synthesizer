@@ -58,63 +58,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Save on SynthWishes Instances
-
-    /// <inheritdoc cref="docs._saveorplay" />
-    public static class SynthWishesSaveExtensions
-    {
-        // Make SynthWishes statics available on instances by using extension methods.
-        
-        /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Save(this SynthWishes synthWishes, Result<SaveResultData> saveResult, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            if (saveResult == null) throw new ArgumentNullException(nameof(saveResult));
-            filePath = synthWishes.FetchName(saveResult.Data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
-            SynthWishes.Save(saveResult, filePath);
-            return synthWishes;
-        }
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Save(this SynthWishes synthWishes, SaveResultData saveResultData, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            if (saveResultData == null) throw new ArgumentNullException(nameof(saveResultData));
-            filePath = synthWishes.FetchName(saveResultData.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
-            SynthWishes.Save(saveResultData, filePath);
-            return synthWishes;
-        }
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Save(this SynthWishes synthWishes, Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            filePath = synthWishes.FetchName(entity.Location, callerMemberName, explicitName: filePath);
-            SynthWishes.Save(entity, filePath);
-            return synthWishes;
-        }
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Save(this SynthWishes synthWishes, AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            filePath = synthWishes.FetchName(entity.FilePath, callerMemberName, explicitName: filePath);
-            SynthWishes.Save(entity, filePath);
-            return synthWishes;
-        }
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Save(this SynthWishes synthWishes, byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            filePath = synthWishes.FetchName(callerMemberName, explicitName: filePath);
-            SynthWishes.Save(bytes, filePath);
-            return synthWishes;
-        }
-    }
-
     // Save in SynthWishes
 
     public partial class SynthWishes
@@ -579,6 +522,63 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
     
+    // Save on SynthWishes Instances
+
+    /// <inheritdoc cref="docs._saveorplay" />
+    public static class SynthWishesSaveExtensions
+    {
+        // Make SynthWishes statics available on instances by using extension methods.
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static SynthWishes Save(this SynthWishes synthWishes, Result<SaveResultData> saveResult, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (saveResult == null) throw new ArgumentNullException(nameof(saveResult));
+            filePath = synthWishes.FetchName(saveResult.Data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            SynthWishes.Save(saveResult, filePath);
+            return synthWishes;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static SynthWishes Save(this SynthWishes synthWishes, SaveResultData saveResultData, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (saveResultData == null) throw new ArgumentNullException(nameof(saveResultData));
+            filePath = synthWishes.FetchName(saveResultData.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            SynthWishes.Save(saveResultData, filePath);
+            return synthWishes;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static SynthWishes Save(this SynthWishes synthWishes, Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            filePath = synthWishes.FetchName(entity.Location, callerMemberName, explicitName: filePath);
+            SynthWishes.Save(entity, filePath);
+            return synthWishes;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static SynthWishes Save(this SynthWishes synthWishes, AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            filePath = synthWishes.FetchName(entity.FilePath, callerMemberName, explicitName: filePath);
+            SynthWishes.Save(entity, filePath);
+            return synthWishes;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static SynthWishes Save(this SynthWishes synthWishes, byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            filePath = synthWishes.FetchName(callerMemberName, explicitName: filePath);
+            SynthWishes.Save(bytes, filePath);
+            return synthWishes;
+        }
+    }
+
     // Save on FluentOutlet
 
     public partial class FluentOutlet
