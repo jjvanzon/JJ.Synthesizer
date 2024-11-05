@@ -28,36 +28,6 @@ using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Info Types
-    
-    /// <inheritdoc cref="docs._audiofileinfowish"/>
-    public class AudioFileInfoWish
-    {
-        public int Bits { get; set; }
-        public int ChannelCount { get; set; }
-        public int SamplingRate { get; set; }
-        /// <inheritdoc cref="docs._framecount"/>
-        public int FrameCount { get; set; }
-    }
-
-    public class SaveResultData
-    {
-        public AudioFileOutput AudioFileOutput { get; }
-        
-        /// <inheritdoc cref="docs._saveresultbytes"/>
-        public byte[] Bytes { get; }
-        public double CalculationDuration { get; }
-        public int Complexity { get; set; }
-
-        /// <inheritdoc cref="docs._saveresultbytes"/>
-        public SaveResultData(AudioFileOutput audioFileOutput, byte[] bytes, double calculationDuration)
-        {
-            AudioFileOutput = audioFileOutput ?? throw new ArgumentNullException(nameof(audioFileOutput));
-            Bytes = bytes;
-            CalculationDuration = calculationDuration;
-        }
-    }
-
     // Save in SynthWishes
 
     public partial class SynthWishes
@@ -652,7 +622,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static void Save(this byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.Save(bytes, filePath, callerMemberName);
     }
-    
+
     public static class AudioFileExtensionWishes
     {
         public static int SizeOf(Type sampleDataType)
@@ -833,6 +803,36 @@ namespace JJ.Business.Synthesizer.Wishes
             int courtesyBytes = GetFrameSize(entity);
             return GetHeaderLength(entity) +
                    GetFrameSize(entity) * (int)(entity.SamplingRate * entity.Duration) + courtesyBytes;
+        }
+    }
+    
+    // Info Types
+    
+    /// <inheritdoc cref="docs._audiofileinfowish"/>
+    public class AudioFileInfoWish
+    {
+        public int Bits { get; set; }
+        public int ChannelCount { get; set; }
+        public int SamplingRate { get; set; }
+        /// <inheritdoc cref="docs._framecount"/>
+        public int FrameCount { get; set; }
+    }
+
+    public class SaveResultData
+    {
+        public AudioFileOutput AudioFileOutput { get; }
+        
+        /// <inheritdoc cref="docs._saveresultbytes"/>
+        public byte[] Bytes { get; }
+        public double CalculationDuration { get; }
+        public int Complexity { get; set; }
+
+        /// <inheritdoc cref="docs._saveresultbytes"/>
+        public SaveResultData(AudioFileOutput audioFileOutput, byte[] bytes, double calculationDuration)
+        {
+            AudioFileOutput = audioFileOutput ?? throw new ArgumentNullException(nameof(audioFileOutput));
+            Bytes = bytes;
+            CalculationDuration = calculationDuration;
         }
     }
 }
