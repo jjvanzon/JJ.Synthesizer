@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest() 
-            => WithAudioLength(bars[7]).SaveAndPlay(() => DeepEcho(DetunicaJingle) * 0.6);
+            => WithAudioLength(bars[7]).Save(() => DeepEcho(DetunicaJingle) * 0.6).Play();
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest_Mono()
         {
-            WithMono().WithAudioLength(bars[7]).SaveAndPlay(() => DeepEcho(DetunicaJingle) * 0.15);
+            WithMono().WithAudioLength(bars[7]).Save(() => DeepEcho(DetunicaJingle) * 0.15).Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass_RunTest()
         {
-            WithAudioLength(3).SaveAndPlay(() => DeepEcho(DetunicaBass(E0, _[3])) * 0.9);
+            WithAudioLength(3).Save(() => DeepEcho(DetunicaBass(E0, _[3])) * 0.9).Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica1_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).SaveAndPlay(() => DeepEcho(Detunica1(E2, duration)) * 0.15);
+            WithAudioLength(duration).Save(() => DeepEcho(Detunica1(E2, duration)) * 0.15).Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica2_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).SaveAndPlay(() => DeepEcho(Detunica2(freq: B4, duration: duration)) * 0.9);
+            WithAudioLength(duration).Save(() => DeepEcho(Detunica2(freq: B4, duration: duration)) * 0.9).Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica3_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).SaveAndPlay(() => DeepEcho(Detunica3(freq: C5, duration: duration)));
+            WithAudioLength(duration).Save(() => DeepEcho(Detunica3(freq: C5, duration: duration))).Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica4_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).SaveAndPlay(() => DeepEcho(Detunica4(freq: D5, duration: duration)) * 0.25);
+            WithAudioLength(duration).Save(() => DeepEcho(Detunica4(freq: D5, duration: duration)) * 0.25).Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Detunica5_RunTest()
         {
             var duration = _[3];
-            WithAudioLength(duration).SaveAndPlay(() => DeepEcho(Detunica5(freq: E5, duration: duration)) * 0.3);
+            WithAudioLength(duration).Save(() => DeepEcho(Detunica5(freq: E5, duration: duration)) * 0.3).Play();
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_Chord_RunTest()
         {
-            WithMono().SaveAndPlay(() => MildEcho(VibraphaseChord) * 0.28);
+            WithMono().Save(() => MildEcho(VibraphaseChord) * 0.28).Play();
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_RunTest()
         {
-            WithMono().SaveAndPlay(() => MildEcho(Vibraphase(freq: E5)) * 0.5);
+            WithMono().Save(() => MildEcho(Vibraphase(freq: E5)) * 0.5).Play();
         }
 
         // Jingles

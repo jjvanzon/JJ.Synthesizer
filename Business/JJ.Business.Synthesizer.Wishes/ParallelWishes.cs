@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     var cacheResult = cacheResults[i];
 
                     // Play if needed
-                    if (x.MustPlayParallels) x._playWishes.Play(cacheResult.Data);
+                    if (x.MustPlayParallels) x.Play(cacheResult.Data);
 
                     if (!x.MustCacheToDisk)
                     {
@@ -125,7 +125,7 @@ namespace JJ.Business.Synthesizer.Wishes
                             var saveResult2 = x.Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
 
                             // Play to test the sample loading.
-                            if (x.MustPlayParallels) x._playWishes.Play(saveResult2.Data);
+                            if (x.MustPlayParallels) x.Play(saveResult2.Data);
                         }
                     }
                 }

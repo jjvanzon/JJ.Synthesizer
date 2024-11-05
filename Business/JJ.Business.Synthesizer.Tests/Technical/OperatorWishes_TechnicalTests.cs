@@ -222,25 +222,25 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Fluent_Notation1()
         {
-            SaveAndPlay(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+            Save(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9)).Play();
         }
 
         [TestMethod]
         public void Test_Fluent_Notation2()
         {
-            SaveAndPlay(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+            Save(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9)).Play();
         }
 
         [TestMethod]
         public void Test_Fluent_Notation3()
         {
-            SaveAndPlay(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9));
+            Save(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9)).Play();
         }
         
         [TestMethod]
         public void Test_Fluent_Notation4()
         {
-            SaveAndPlay(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9));
+            Save(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9)).Play();
         }
 
         [TestMethod]
@@ -248,7 +248,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var freq = C4;
 
-            SaveAndPlay(() => Multiply
+            Save(() => Multiply
                  (
                      Add
                      (
@@ -263,7 +263,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                                 *
                                         *
                      *                              *")
-                 ));
+                 )).Play();
         }
     
         [TestMethod]
@@ -296,7 +296,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             FluentOutlet freq = G5;
 
-            SaveAndPlay(() => Multiply
+            Save(() => Multiply
                  (
                      Add
                      (
@@ -311,7 +311,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                                 *
                                         *
                      *                              *")
-                 ));
+                 )).Play();
         }
         
         [TestMethod]
@@ -345,9 +345,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var chain2 = Sine(A4).Times(Curve(0, 1, 0));
             var chain3 = Sine(B4) * Curve(0, 1, 0).Stretch(2);
              
-            WithMono().SaveAndPlay(() => chain1);
-            WithMono().SaveAndPlay(() => chain2);
-            WithMono().WithAudioLength(2).SaveAndPlay(() => chain3);
+            WithMono().Save(() => chain1).Play();
+            WithMono().Save(() => chain2).Play();
+            WithMono().WithAudioLength(2).Save(() => chain3).Play();
         }
         
         [TestMethod]

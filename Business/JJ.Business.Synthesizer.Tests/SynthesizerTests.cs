@@ -258,7 +258,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 effect = operatorFactory.Multiply(effect, operatorFactory.Value(1 / 32768.0));
                 var synthWishes = new SynthWishes(context);
-                synthWishes.WithMono().WithAudioLength(6.5).SaveAndPlay(() => synthWishes._[effect]);
+                synthWishes.WithMono().WithAudioLength(6.5).Save(() => synthWishes._[effect]).Play();
                 return;
                 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
