@@ -1,7 +1,7 @@
 ﻿using JJ.Persistence.Synthesizer;
-using System;
 using System.IO;
 using System.Runtime.CompilerServices;
+using static JJ.Framework.IO.StreamHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -10,36 +10,47 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(
-            byte[] bytes, int bytesToSkip = 0, 
-            [CallerMemberName] string callerMemberName = null)
-            => SampleBase(new MemoryStream(bytes), bytesToSkip, callerMemberName);
-        
+        public FluentOutlet Sample(byte[] bytes, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null) 
+            => SampleBase(null, bytes, bytesToSkip, callerMemberName);
+
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(
-            Stream stream, int bytesToSkip = 0,
-            [CallerMemberName] string callerMemberName = null)
-            => SampleBase(stream, bytesToSkip, callerMemberName);
+        public FluentOutlet Sample(Stream stream, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
+            => SampleBase(stream, null, bytesToSkip, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(string fileName = null, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(callerMemberName, explicitName: fileName);
-            name = Path.GetFileNameWithoutExtension(name);
-            string filePath = FormatAudioFileName(name, GetAudioFormat);
-
-            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                return SampleBase(stream, bytesToSkip, name, callerMemberName);
-        }
+            => SampleBase(null, null, bytesToSkip, fileName, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
-        private FluentOutlet SampleBase(Stream stream, int bytesToSkip, string name1, string name2 = null)
+        private FluentOutlet SampleBase(Stream stream, byte[] bytes, int bytesToSkip, string name1, string name2 = null)
         {
+            // Resolve FilePath
             string name = FetchName(name1, name2);
             name = Path.GetFileNameWithoutExtension(name);
             string filePath = FormatAudioFileName(name, GetAudioFormat);
 
-            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            // Resolve a Stream
+            if (stream == null)
+            {
+                if (bytes != null)
+                {
+                    // Load Stream from Bytes
+                    stream = BytesToStream(bytes);
+                }
+                else
+                {
+                    // Load Bytes from File
+                    using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        bytes = StreamToBytes(fileStream);
+                    }
+
+                    // Load Bytes in Memory Stream (unfortunately more resilient).
+                    stream = BytesToStream(bytes);
+                }
+            }
+            
+            // Wrap 
 
             Sample sample = _sampleManager.CreateSample(stream);
             sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();

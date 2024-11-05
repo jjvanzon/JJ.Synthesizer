@@ -467,7 +467,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             // Arrange
             WithParallelEnabled();
-            WithPreviewParallels();
+            WithPlayParallels();
 
             var duration = 0.1;
 
@@ -539,7 +539,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var duration = 0.6;
 
             WithParallelEnabled();
-            WithPreviewParallels();
+            WithPlayParallels();
             WithAudioLength(duration);
             WithName();
             

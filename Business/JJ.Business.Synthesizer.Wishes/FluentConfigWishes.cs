@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
@@ -326,26 +327,25 @@ namespace JJ.Business.Synthesizer.Wishes
         private bool GetParallelEnabled => _x.GetParallelEnabled;
     }
 
-    // SynthWishes PreviewParallels
+    //// SynthWishes PreviewParallels
 
-    public partial class SynthWishes
-    {
-        /// <inheritdoc cref="docs._withpreviewparallels" />
-        public SynthWishes WithPreviewParallels(bool mustPreviewParallels = true)
-        {
-            WithPlayParallels(mustPreviewParallels);
-            WithSaveParallels(mustPreviewParallels);
-            return this;
-        }
-    }
+    //public partial class SynthWishes
+    //{
+    //    /// <inheritdoc cref="docs._withpreviewparallels" />
+    //    public SynthWishes WithPreviewParallels(bool mustPreviewParallels = true)
+    //    {
+    //        WithPlayParallels(mustPreviewParallels);
+    //        return this;
+    //    }
+    //}
 
-    // FluentOutlet PreviewParallels
+    //// FluentOutlet PreviewParallels
 
-    public partial class FluentOutlet
-    {
-        /// <inheritdoc cref="docs._withpreviewparallels" />
-        public FluentOutlet WithPreviewParallels(bool mustPreviewParallels = true) { _x.WithPreviewParallels(mustPreviewParallels); return this; }
-    }
+    //public partial class FluentOutlet
+    //{
+    //    /// <inheritdoc cref="docs._withpreviewparallels" />
+    //    public FluentOutlet WithPreviewParallels(bool mustPreviewParallels = true) { _x.WithPreviewParallels(mustPreviewParallels); return this; }
+    //}
 
     // SynthWishes PlayParallels
 
@@ -372,28 +372,28 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet WithPlayParallels(bool mustPlayParallels = true) { _x.WithPlayParallels(mustPlayParallels); return this; }
     }
 
-    // SynthWishes SaveParallels
+    //// SynthWishes SaveParallels
 
-    public partial class SynthWishes
-    {
-        /// <inheritdoc cref="docs._withpreviewparallels" />
-        public bool MustSaveParallels { get; private set; }
+    //public partial class SynthWishes
+    //{
+    //    /// <inheritdoc cref="docs._withpreviewparallels" />
+    //    public bool MustSaveParallels { get; private set; }
 
-        /// <inheritdoc cref="docs._withpreviewparallels" />
-        public SynthWishes WithSaveParallels(bool mustSaveParallels = true)
-        {
-            MustSaveParallels = mustSaveParallels;
-            return this;
-        }
-    }
+    //    /// <inheritdoc cref="docs._withpreviewparallels" />
+    //    public SynthWishes WithSaveParallels(bool mustSaveParallels = true)
+    //    {
+    //        MustSaveParallels = mustSaveParallels;
+    //        return this;
+    //    }
+    //}
 
-    // FluentOutlet SaveParallels
+    //// FluentOutlet SaveParallels
 
-    public partial class FluentOutlet
-    {
-        /// <inheritdoc cref="docs._withpreviewparallels" />
-        public bool MustSaveParallels => _x.MustSaveParallels;
-        /// <inheritdoc cref="docs._withpreviewparallels" />
-        public FluentOutlet WithSaveParallels(bool mustSaveParallels = true) { _x.WithSaveParallels(mustSaveParallels); return this; }
-    }
+    //public partial class FluentOutlet
+    //{
+    //    /// <inheritdoc cref="docs._withpreviewparallels" />
+    //    public bool MustSaveParallels => _x.MustSaveParallels;
+    //    /// <inheritdoc cref="docs._withpreviewparallels" />
+    //    public FluentOutlet WithSaveParallels(bool mustSaveParallels = true) { _x.WithSaveParallels(mustSaveParallels); return this; }
+    //}
 }

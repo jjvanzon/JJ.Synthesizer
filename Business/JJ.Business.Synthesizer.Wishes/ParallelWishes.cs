@@ -57,16 +57,12 @@ namespace JJ.Business.Synthesizer.Wishes
                     return volume * x.Add(funcs.Select(x => x()).ToArray());
                 }
                 
-                // TODO: Refactor out booleans.
-                bool inMemory = !x.MustCacheToDisk && !x.MustSaveParallels;
-                bool onDisk = !inMemory;
-
                 // Prep variables
                 int termCount = funcs.Count;
                 int channelCount = x.GetSpeakerSetup.GetChannelCount();
                 string[] names = GetParallelNames(termCount, name);
                 string[] displayNames = names.Select(GetDisplayName).ToArray();
-                var saveResults = new Result<SaveResultData>[termCount];
+                var cacheResults = new Result<SaveResultData>[termCount];
                 var reloadedSamples = new FluentOutlet[termCount];
                 var outlets = new FluentOutlet[termCount][];
                 for (int i = 0; i < termCount; i++)
@@ -76,93 +72,72 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 var stopWatch = Stopwatch.StartNew();
 
-                try
+                // Save to files
+                Parallel.For(0, termCount, i =>
                 {
-                    // Save to files
-                    Parallel.For(0, termCount, i =>
+                    Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Start Task: {displayNames[i]}", "SynthWishes");
+
+                    // Get outlets first
+                    var originalChannel = x.Channel;
+                    try
                     {
-                        Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Start Task: {displayNames[i]}", "SynthWishes");
-
-                        // Get outlets first
-                        ChannelEnum originalChannel = x.Channel;
-                        try
+                        for (int j = 0; j < channelCount; j++)
                         {
-                            for (int j = 0; j < channelCount; j++)
-                            {
-                                x.ChannelIndex = j;
-                                outlets[i][j] = x.Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
-                            }
+                            x.ChannelIndex = j;
+                            outlets[i][j] = x.Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
                         }
-                        finally
+                    }
+                    finally
+                    {
+                        x.Channel = originalChannel;
+                    }
+
+                    // Generate audio
+                    cacheResults[i] = x.Cache(outlets[i], names[i]);
+
+                    Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
+                });
+                                
+                // Moved this out of the parallel loop,
+                // but feels to process less in parallel.
+            
+                // Reload Samples
+                for (int i = 0; i < termCount; i++)
+                {
+                    var cacheResult = cacheResults[i];
+
+                    // Play if needed
+                    if (x.MustPlayParallels) x._playWishes.Play(cacheResult.Data);
+
+                    if (!x.MustCacheToDisk)
+                    {
+                        // Read from bytes
+                        reloadedSamples[i] = x.Sample(cacheResult.Data.Bytes).SetName(displayNames[i]);
+                    }
+                    else
+                    {
+                        // Read from file
+                        reloadedSamples[i] = x.Sample(names[i]).SetName(displayNames[i]);
+
+                        // Diagnostic actions
                         {
-                            x.Channel = originalChannel;
-                        }
+                            // Save reloaded samples to disk.
+                            var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
+                            var saveResult2 = x.Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
 
-                        // Generate audio
-                        var saveResult = x.Cache(outlets[i], names[i]);
-                        saveResults[i] = saveResult;
-                        
-                        // Play if needed
-                        if (x.MustPlayParallels)
-                        { 
-                            x._playWishes.Play(saveResult.Data);
+                            // Play to test the sample loading.
+                            if (x.MustPlayParallels) x._playWishes.Play(saveResult2.Data);
                         }
-
-                        Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
-                    });
-                                    
-                    // TODO: Moved this out of the parallel loop,
-                    // for consistency with the preview parallels variation of the method.
-                    // But I feel odd about processing less in parallel...
+                    }
+                }
                 
-                    // Reload Samples
-                    for (int i = 0; i < termCount; i++)
-                    {
-                        var saveResult = saveResults[i];
-                    
-                        if (inMemory)
-                        { 
-                            // Read from bytes
-                            reloadedSamples[i] = x.Sample(saveResult.Data.Bytes).SetName(displayNames[i]);
-                        }
-                        else
-                        {
-                            // Read from file
-                            reloadedSamples[i] = x.Sample(names[i]).SetName(displayNames[i]);
-                        
-                            // Save reloaded samples again.
-                            if (x.MustSaveParallels)
-                            {
-                                var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
-                                var saveResult2 = x.Cache(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
-                            
-                                // Play to test the sample loading.
-                                if (x.MustPlayParallels) x._playWishes.Play(saveResult2.Data);
-                            }
-                        }
-                    }
-                }
-                finally
-                {
-                    // Clean up files
-                    if (onDisk && !x.MustSaveParallels) 
-                    {
-                        for (var j = 0; j < names.Length; j++)
-                        {
-                            string filePath = names[j];
-                            if (!File.Exists(filePath)) continue;
-                            try { File.Delete(filePath); }
-                            catch { /* Ignore file delete exception, so you can keep open file in apps.*/ }
-                        }
-                    }
-                }
                 
                 stopWatch.Stop();
 
                 // Report total real-time and complexity metrics.
-                double audioDuration = saveResults.Max(x => x.Data.AudioFileOutput.Duration);
+                double audioDuration = cacheResults.Max(x => x.Data.AudioFileOutput.Duration);
                 double calculationDuration = stopWatch.Elapsed.TotalSeconds;
-                int complexity = saveResults.Sum(x => x.Data.Complexity);
+                int complexity = cacheResults.Sum(x => x.Data.Complexity);
                 string formattedMetrics = x.FormatMetrics(audioDuration, calculationDuration, complexity);
                 string message = $"Totals {name} Terms: {formattedMetrics}";
                 Console.WriteLine(message);

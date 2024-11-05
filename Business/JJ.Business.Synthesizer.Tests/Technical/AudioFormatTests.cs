@@ -177,7 +177,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Arrange
             int    samplingRate      = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
             double frequency         = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
-            bool   mustWriteToMemory = true;
 
             WithSpeakerSetup(speakerSetupEnum);
             WithBitDepth(sampleDataTypeEnum);
