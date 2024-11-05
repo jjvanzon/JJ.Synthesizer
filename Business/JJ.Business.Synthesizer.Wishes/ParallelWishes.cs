@@ -64,11 +64,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 string[] displayNames = names.Select(GetDisplayName).ToArray();
                 var cacheResults = new Result<SaveResultData>[termCount];
                 var reloadedSamples = new FluentOutlet[termCount];
-                var outlets = new FluentOutlet[termCount][];
-                for (int i = 0; i < termCount; i++)
-                {
-                    outlets[i] = new FluentOutlet[channelCount];
-                }
 
                 var stopWatch = Stopwatch.StartNew();
 
@@ -78,13 +73,15 @@ namespace JJ.Business.Synthesizer.Wishes
                     Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Start Task: {displayNames[i]}", "SynthWishes");
 
                     // Get outlets first
+                    var channelOutlets = new FluentOutlet[channelCount];
+
                     var originalChannel = x.Channel;
                     try
                     {
                         for (int j = 0; j < channelCount; j++)
                         {
                             x.ChannelIndex = j;
-                            outlets[i][j] = x.Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
+                            channelOutlets[j] = x.Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
                         }
                     }
                     finally
@@ -93,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     }
 
                     // Generate audio
-                    cacheResults[i] = x.Cache(outlets[i], names[i]);
+                    cacheResults[i] = x.Cache(channelOutlets, names[i]);
 
                     Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} End Task: {displayNames[i]}", "SynthWishes");
                 });
