@@ -2,7 +2,6 @@
 using JJ.Persistence.Synthesizer;
 using System.IO;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Extensions;
 using static JJ.Framework.IO.StreamHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -14,9 +13,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(byte[] bytes, int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            return SampleBase(null, bytes, bytesToSkip, callerMemberName);
+            //return SampleBase(null, bytes, bytesToSkip, callerMemberName);
 
-            // TODO: Make test pass. Hyp: Is it the header not being parsed?
             if (bytes == null) throw new ArgumentNullException(nameof(bytes));
             
             name = FetchName(name, callerMemberName);
@@ -28,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Sample sample = _sampleManager.CreateSample();
             sample.Bytes = bytes;
             sample.Location =  location;
-            sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
+            sample.Amplifier = 1.0 / GetBitDepth.GetMaxAmplitude();
             sample.BytesToSkip = bytesToSkip;
             sample.SamplingRate = ResolveSamplingRate().Data;
             sample.SetBitDepth(GetBitDepth, Context);
