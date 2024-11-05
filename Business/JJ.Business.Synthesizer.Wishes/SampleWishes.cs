@@ -1,6 +1,8 @@
-﻿using JJ.Persistence.Synthesizer;
+﻿using System;
+using JJ.Persistence.Synthesizer;
 using System.IO;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Extensions;
 using static JJ.Framework.IO.StreamHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -10,8 +12,34 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(byte[] bytes, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null) 
-            => SampleBase(null, bytes, bytesToSkip, callerMemberName);
+        public FluentOutlet Sample(byte[] bytes, int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            return SampleBase(null, bytes, bytesToSkip, callerMemberName);
+
+            // TODO: Make test pass. Hyp: Is it the header not being parsed?
+            if (bytes == null) throw new ArgumentNullException(nameof(bytes));
+            
+            name = FetchName(name, callerMemberName);
+            
+            // The tests really want a location, even though I don't have one.
+            name = Path.GetFileNameWithoutExtension(name);
+            string location = Path.GetFullPath(FormatAudioFileName(name, GetAudioFormat));
+
+            Sample sample = _sampleManager.CreateSample();
+            sample.Bytes = bytes;
+            sample.Location =  location;
+            sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
+            sample.BytesToSkip = bytesToSkip;
+            sample.SamplingRate = ResolveSamplingRate().Data;
+            sample.SetBitDepth(GetBitDepth, Context);
+            sample.SetSpeakerSetup(GetSpeakerSetup, Context);
+            sample.SetAudioFormat(GetAudioFormat, Context);
+            sample.SetInterpolation(GetInterpolation, Context);
+            
+            var sampleOutlet = _[_operatorFactory.Sample(sample)].SetName(name);
+
+            return sampleOutlet;
+        }
 
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(Stream stream, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
@@ -54,7 +82,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             Sample sample = _sampleManager.CreateSample(stream);
             sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
-            sample.TimeMultiplier = 1;
             sample.BytesToSkip = bytesToSkip;
             sample.SetInterpolation(GetInterpolation, Context);
 

@@ -172,7 +172,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SetAudioFormat(GetAudioFormat);
             audioFileOutput.Name = name;
 
-            var samplingRateResult = ResolveSamplingRate(GetSamplingRate);
+            var samplingRateResult = ResolveSamplingRate();
             audioFileOutput.SamplingRate = samplingRateResult.Data;
 
             SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
@@ -445,8 +445,10 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private static Result<int> ResolveSamplingRate(int samplingRateOverride)
+        /// <inheritdoc cref="docs._resolvesamplingrate"/>
+        private Result<int> ResolveSamplingRate()
         {
+            int samplingRateOverride = GetSamplingRate;
             if (samplingRateOverride != 0)
             {
                 return new Result<int>

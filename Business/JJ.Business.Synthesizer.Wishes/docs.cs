@@ -267,6 +267,28 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Extensions that are wishes for the back-end related that retrieve related objects like the Operator, Curve or Sample entities.
         /// </summary>
         public static object _relatedobjectextensions;
+
+        /// <summary>
+        /// Determines the configured sampling rate.
+        /// This can be set in the <c>.config</c> file,
+        /// and can be different depending on the environment.<br/>
+        /// For instance <strong>NCrunch</strong> (a code coverage tool)
+        /// and <strong>Azure Pipelines</strong> can have
+        /// an alternative (lower) sampling rate configured,
+        /// for those tools to perform better.<br/>
+        /// <br/>
+        /// The sampling rate can be overridden in C# using the
+        /// <c>.WithSamplingRate()</c> fluent configuration method.
+        /// This is usually for testing purposes.
+        /// Prefer using the <c>.config</c> file instead.<br/>
+        /// </summary>
+        /// <returns>
+        /// <c>Result&lt;int&gt;</c> with:<br/>
+        /// <c>Result.Data</c> = sampling rate;<br/>
+        /// <c>Result.Successful</c> is always true for now;<br/>
+        /// <c>Result.ValidationMessages</c> can hold info messages to say where the sampling rate came from.
+        /// </returns>
+        public static object _resolvesamplingrate;
         
         /// <summary>
         /// Applies a panbrello effect to a stereo signal by modulating the panning
