@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 });
                                 
                 // Moved this out of the parallel loop,
-                // but feels to process less in parallel.
+                // but feels strange to process less in parallel.
             
                 // Reload Samples
                 for (int i = 0; i < termCount; i++)
@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 double audioDuration = cacheResults.Max(x => x.Data.AudioFileOutput.Duration);
                 double calculationDuration = stopWatch.Elapsed.TotalSeconds;
                 int complexity = cacheResults.Sum(x => x.Data.Complexity);
-                string formattedMetrics = x.FormatMetrics(audioDuration, calculationDuration, complexity);
+                string formattedMetrics = FormatMetrics(audioDuration, calculationDuration, complexity);
                 string message = $"{PrettyTime()} Totals {name} Terms: {formattedMetrics}";
                 Console.WriteLine(message);
                 

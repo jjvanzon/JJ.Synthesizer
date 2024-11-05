@@ -75,7 +75,10 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._fetchname"/>
-        public string FetchName(string fallbackName1 = null, string fallbackName2 = null, string explicitName = null, [CallerMemberName] string callerMemberName = null)
+        public string FetchName(
+            string fallbackName1 = null, string fallbackName2 = null, 
+            string fallbackName3 = null, string explicitName = null,
+            [CallerMemberName] string callerMemberName = null)
         {
             if (!string.IsNullOrWhiteSpace(explicitName))
             {
@@ -94,6 +97,11 @@ namespace JJ.Business.Synthesizer.Wishes
             if (string.IsNullOrWhiteSpace(name))
             {
                 name = fallbackName2;
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = fallbackName3;
             }
 
             if (string.IsNullOrWhiteSpace(name))

@@ -37,6 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class FluentOutlet
     {
+        // TODO: Rename to _synthWishes.
         private readonly SynthWishes _x;
         private readonly Outlet _wrappedOutlet;
 

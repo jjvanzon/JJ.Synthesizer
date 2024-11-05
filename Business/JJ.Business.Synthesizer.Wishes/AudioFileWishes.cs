@@ -16,6 +16,7 @@ using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
+using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 
 // ReSharper disable ParameterHidesMember
@@ -57,25 +58,210 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // AudioFileWishes SynthWishes
+    // Save on FluentOutlet
+
+    public partial class FluentOutlet
+    {
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet SaveMono(string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            _x.Channel = ChannelEnum.Single;
+            _x.WithMono().Save(() => this, filePath, callerMemberName);
+            return this;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet Save(Result<SaveResultData> result, string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            _x.Save(result, filePath, callerMemberName);
+            return this;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet Save(SaveResultData result, string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            _x.Save(result, filePath, callerMemberName);
+            return this;
+        }
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet Save(AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            // TODO: Shouldn't we do something with the output of the FluentOutlet?
+            _x.Save(entity, filePath); 
+            return this; 
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet Save(Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            _x.Save(entity, filePath, callerMemberName); 
+            return this; 
+        }
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet Save(byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            _x.Save(bytes, filePath, callerMemberName); 
+            return this; 
+        }
+    }
+
+    // Save on Entity / Results / Data
+
+    public static class SaveExtensions 
+    {
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result Save(this Result<SaveResultData> result, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(result, filePath, callerMemberName);
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result Save(this SaveResultData result, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(result, filePath, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result<SaveResultData> Save(this AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(entity, filePath, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static void Save(this Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(entity, filePath, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static void Save(this byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(bytes, filePath, callerMemberName);
+    }
+    
+    // Save on SynthWishes Instances (overloading SynthWishes static methods with the same signature)
+
+    /// <inheritdoc cref="docs._saveorplay" />
+    public static class SynthWishesSaveExtensions
+    {
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static SynthWishes Save(this SynthWishes synthWishes, Result<SaveResultData> result, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (result == null) throw new ArgumentNullException(nameof(result));
+            filePath = synthWishes.FetchName(result.Data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            SynthWishes.Save(result, filePath);
+            return synthWishes;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static SynthWishes Save(this SynthWishes synthWishes, SaveResultData resultData, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (resultData == null) throw new ArgumentNullException(nameof(resultData));
+            filePath = synthWishes.FetchName(resultData.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            SynthWishes.Save(resultData, filePath);
+            return synthWishes;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static SynthWishes Save(this SynthWishes synthWishes, Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            filePath = synthWishes.FetchName(entity.Location, callerMemberName, explicitName: filePath);
+            SynthWishes.Save(entity, filePath);
+            return synthWishes;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static SynthWishes Save(this SynthWishes synthWishes, AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            filePath = synthWishes.FetchName(entity.FilePath, callerMemberName, explicitName: filePath);
+            SynthWishes.Save(entity, filePath);
+            return synthWishes;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static SynthWishes Save(this SynthWishes synthWishes, byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            filePath = synthWishes.FetchName(callerMemberName, explicitName: filePath);
+            SynthWishes.Save(bytes, filePath);
+            return synthWishes;
+        }
+    }
+
+    // AudioFileWishes in SynthWishes
 
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, [CallerMemberName] string callerMemberName = null)
-            => _saveWishes.Write(func, inMemory: false, mustPad: true, name, callerMemberName);
-
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(Func<FluentOutlet> func, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
             => _saveWishes.Write(func, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, [CallerMemberName] string callerMemberName = null)
-            => _saveWishes.Write(channelInputs, inMemory: false, mustPad: true, name, callerMemberName);
+        public Result<SaveResultData> Cache(IList<FluentOutlet> channelInputs, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
+            => _saveWishes.Write(channelInputs, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Result<SaveResultData> Cache(IList<FluentOutlet> channelInputs, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
-            => _saveWishes.Write(channelInputs, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
+        public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, [CallerMemberName] string callerMemberName = null)
+            => _saveWishes.Write(func, inMemory: false, mustPad: true, name, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, [CallerMemberName] string callerMemberName = null)
+            => _saveWishes.Write(channelInputs, inMemory: false, mustPad: true, name, callerMemberName);
+
+        // Statics
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result Save(Result<SaveResultData> saveResult, string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            if (saveResult == null) throw new ArgumentNullException(nameof(saveResult));
+            return Save(saveResult.Data, name, callerMemberName);
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result Save(SaveResultData saveResultData, string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            if (saveResultData == null) throw new ArgumentNullException(nameof(saveResultData));
+            return Save(saveResultData.AudioFileOutput, name, callerMemberName);
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result<SaveResultData> Save(AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            if (!string.IsNullOrWhiteSpace(filePath))
+            {
+                entity.FilePath = filePath;
+            }
+
+            if (string.IsNullOrWhiteSpace(entity.FilePath))
+            {
+                entity.FilePath = callerMemberName;
+            }
+
+            return SaveWishes.Write(entity, inMemory: false);
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static void Save(Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            Save(entity.Bytes, filePath, callerMemberName);
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static void Save(byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                filePath = callerMemberName;
+            }
+
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new Exception(nameof(filePath) + " or " + nameof(callerMemberName) + " cannot both be null or white space.");
+            }
+
+            File.WriteAllBytes(filePath, bytes);
+        }
 
         /// <inheritdoc cref="docs._saveorplay" />
         private class SaveWishes
@@ -83,10 +269,11 @@ namespace JJ.Business.Synthesizer.Wishes
             private readonly SynthWishes x;
 
             /// <inheritdoc cref="docs._saveorplay" />
-            public SaveWishes(SynthWishes synthWishes) => x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+            internal SaveWishes(SynthWishes synthWishes) => x = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
 
             /// <inheritdoc cref="docs._saveorplay" />
-            public Result<SaveResultData> Write(Func<FluentOutlet> func, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
+            internal Result<SaveResultData> Write(
+                Func<FluentOutlet> func, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
             {
                 name = x.FetchName(name, callerMemberName);
 
@@ -115,7 +302,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="docs._saveorplay" />
-            public Result<SaveResultData> Write(IList<FluentOutlet> channelInputs, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
+            internal Result<SaveResultData> Write(
+                IList<FluentOutlet> channelInputs, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
             {
                 name = x.FetchName(name, callerMemberName);
 
@@ -136,27 +324,18 @@ namespace JJ.Business.Synthesizer.Wishes
                     }
                 }
 
-                // Validate Input Data
-                var warnings = new List<string>();
-                foreach (Outlet channelInput in channelInputs)
-                {
-                    channelInput.Assert();
-                    warnings.AddRange(channelInput.GetWarnings());
-                }
-
                 // Configure AudioFileOutput (avoid backend)
                 var audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(x.Context);
                 AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
                 audioFileOutput.Amplifier = x.GetBitDepth.GetMaxAmplitude();
                 audioFileOutput.TimeMultiplier = 1;
                 audioFileOutput.Duration = x.GetAudioLength.Calculate();
-                audioFileOutput.FilePath = x.FormatAudioFileName(name, x.GetAudioFormat);
+                audioFileOutput.FilePath = FormatAudioFileName(name, x.GetAudioFormat);
                 audioFileOutput.SetBitDepth(x.GetBitDepth);
                 audioFileOutput.SetAudioFormat(x.GetAudioFormat);
                 audioFileOutput.Name = name;
 
                 var samplingRateResult = ResolveSamplingRate(x.GetSamplingRate);
-                warnings.AddRange(samplingRateResult.ValidationMessages.Select(x => x.Text));
                 audioFileOutput.SamplingRate = samplingRateResult.Data;
 
                 SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
@@ -177,27 +356,47 @@ namespace JJ.Business.Synthesizer.Wishes
                         throw new InvalidValueException(speakerSetupEnum);
                 }
                 
-                // Validate AudioFileOutput
-                warnings.AddRange(audioFileOutput.GetWarnings());
+                var result = Write(
+                    audioFileOutput, inMemory, samplingRateResult.ValidationMessages.Select(x => x.Text).ToArray());
+                
+                return result;
+            }
 
+            /// <inheritdoc cref="docs._saveorplay" />
+            internal static Result<SaveResultData> Write(
+                AudioFileOutput audioFileOutput, bool inMemory = false, IList<string> additionalMessages = null)
+            {
+                additionalMessages = additionalMessages ?? Array.Empty<string>();
+                
+                // Assert
+                if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+                
                 #if DEBUG
-                Result validationResult = audioFileOutput.Validate();
-                if (!validationResult.Successful)
-                {
-                    validationResult.Assert();
-                }
+                audioFileOutput.Assert();
                 #endif
+                
+                foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
+                {
+                    audioFileOutputChannel.Outlet?.Assert();
+                }
+                
+                // Warnings
+                var messages = new List<string>();
+                messages.AddRange(additionalMessages);
+                foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
+                {
+                    messages.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
+                }
+                messages.AddRange(audioFileOutput.GetWarnings());
 
                 // Calculate
                 byte[] bytes = null;
                 var calculator = CreateAudioFileOutputCalculator(audioFileOutput);
-                
                 if (inMemory)
                 {
                     bytes = new byte[audioFileOutput.GetFileLengthNeeded()];
                     new AudioFileOutputCalculatorAccessor(calculator)._stream = new MemoryStream(bytes);
                 }
-                
                 var stopWatch = Stopwatch.StartNew();
                 calculator.Execute();
                 stopWatch.Stop();
@@ -207,19 +406,21 @@ namespace JJ.Business.Synthesizer.Wishes
                 var result = new Result<SaveResultData>
                 {
                     Successful = true,
-                    ValidationMessages = warnings.ToCanonical(),
-                    Data = new  SaveResultData(audioFileOutput, bytes, calculationDuration)
+                    ValidationMessages = messages.ToCanonical(),
+                    Data = new SaveResultData(audioFileOutput, bytes, calculationDuration)
                 };
 
                 // Report
                 var reportLines = GetReport(result, out int complexity);
                 result.Data.Complexity = complexity;
                 reportLines.ForEach(Console.WriteLine);
-
+                
                 return result;
             }
 
-            private List<string> GetReport(Result<SaveResultData> result, out int complexity)
+            // Helpers
+
+            private static List<string> GetReport(Result<SaveResultData> result, out int complexity)
             {
                 ResultWishes.Assert(result);
 
@@ -243,7 +444,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add(GetPrettyTitle(result.Data.AudioFileOutput.Name ?? result.Data.AudioFileOutput.FilePath));
                 lines.Add("");
 
-                string realTimeComplexityMessage = x.FormatMetrics(result.Data.AudioFileOutput.Duration, result.Data.CalculationDuration, complexity);
+                string realTimeComplexityMessage = FormatMetrics(result.Data.AudioFileOutput.Duration, result.Data.CalculationDuration, complexity);
                 lines.Add(realTimeComplexityMessage);
                 lines.Add("");
 
@@ -284,8 +485,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 return lines;
             }
-
-            // Helpers
                     
             private FluentOutlet ApplyPadding(FluentOutlet outlet)
             {

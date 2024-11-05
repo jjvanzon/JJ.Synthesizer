@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
 
-        private string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
+        private static string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
         {
             string fileName = Path.GetFileNameWithoutExtension(name);
             string fileExtension = audioFileFormatEnum.GetFileExtension();
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return fileName;
         }
         
-        private string FormatMetrics(double audioDuration, double calculationDuration, int complexity)
+        private static string FormatMetrics(double audioDuration, double calculationDuration, int complexity)
         {
             string realTimeMessage = FormatRealTimeMessage(audioDuration, calculationDuration);
             string sep = realTimeMessage != default ? " | " : "";
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return metricsMessage;
         }
         
-        private string FormatRealTimeMessage(double audioDuration, double calculationDuration)
+        private static string FormatRealTimeMessage(double audioDuration, double calculationDuration)
         {
             var isRunningInTooling = ToolingHelper.IsRunningInTooling;
             if (isRunningInTooling.Data)

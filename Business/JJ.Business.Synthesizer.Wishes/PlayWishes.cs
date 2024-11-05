@@ -19,10 +19,10 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet PlayMono(double? volume = default)
+        public FluentOutlet PlayMono()
         {
             _x.Channel = ChannelEnum.Single;
-            _x.WithMono().Play(() => Volume(volume ?? 1));
+            _x.WithMono().Play(() => this);
             return this;
         }
     
@@ -31,9 +31,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Play(SaveResultData result) { SynthWishes.Play(result); return this; }
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(Sample entity) { SynthWishes.Play(entity); return this; }
-        /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Play(AudioFileOutput entity) { SynthWishes.Play(entity); return this; }
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet Play(Sample entity) { SynthWishes.Play(entity); return this; }
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Play(byte[] bytes) { SynthWishes.Play(bytes); return this; }
         /// <inheritdoc cref="docs._saveorplay" />
@@ -50,9 +50,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(this SaveResultData result) => SynthWishes.Play(result);
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Play(this Sample entity) => SynthWishes.Play(entity);
-        /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(this AudioFileOutput entity) => SynthWishes.Play(entity);
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result Play(this Sample entity) => SynthWishes.Play(entity);
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(this byte[] bytes) => SynthWishes.Play(bytes);
         /// <inheritdoc cref="docs._saveorplay" />
@@ -73,9 +73,9 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Play(this SynthWishes synthWishes, SaveResultData result)
+        public static SynthWishes Play(this SynthWishes synthWishes, SaveResultData resultData)
         {
-            SynthWishes.Play(result);
+            SynthWishes.Play(resultData);
             return synthWishes;
         }
 
@@ -107,9 +107,13 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes;
         }
     }
+    
+    // PlayWishes in SynthWishes
 
     public partial class SynthWishes
     {
+        // TODO: Overload with IList<Func<Outlet>>?
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
             => _playWishes.Play(outletFunc, callerMemberName);
@@ -124,11 +128,11 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Play(SaveResultData data)
+        public static Result Play(SaveResultData saveResultData)
         {
-            if (data == null) throw new ArgumentNullException(nameof(data));
-            if (data.AudioFileOutput == null) throw new NullException(() => data.AudioFileOutput);
-            return PlayWishes.Play(data.AudioFileOutput.FilePath, data.Bytes, data.AudioFileOutput.GetFileExtension());
+            if (saveResultData == null) throw new ArgumentNullException(nameof(saveResultData));
+            if (saveResultData.AudioFileOutput == null) throw new NullException(() => saveResultData.AudioFileOutput);
+            return PlayWishes.Play(saveResultData.AudioFileOutput.FilePath, saveResultData.Bytes, saveResultData.AudioFileOutput.GetFileExtension());
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -160,6 +164,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
             /// <inheritdoc cref="docs._saveorplay" />
             public PlayWishes(SynthWishes synthWishes) => x = synthWishes;
+
+            // TODO: Overload with IList<Func<Outlet>>?
 
             /// <inheritdoc cref="docs._saveorplay" />
             public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
