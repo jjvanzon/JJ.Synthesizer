@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
@@ -9,6 +10,7 @@ using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Wishes.Helpers.PersistenceHelper;
 using static JJ.Business.Synthesizer.Wishes.ObsoleteEnumWishesMessages;
+// ReSharper disable InvokeAsExtensionMethod
 
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -64,6 +66,24 @@ namespace JJ.Business.Synthesizer.Wishes
             var repository = CreateRepository<ISpeakerSetupRepository>(context);
             return repository.Get((int)enumValue);
         }
+    }
+
+    [Obsolete(ObsoleteMessage)]
+    public static class ObsoleteAudioFileExtensionWishes 
+    { 
+        [Obsolete(ObsoleteMessage)]
+        public static int SizeOf(this SampleDataType enumEntity)
+            => SampleDataTypeHelper.SizeOf(enumEntity);
+
+        [Obsolete(ObsoleteMessage)]
+        public static int GetBits(this SampleDataType enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return EntityToEnumWishes.ToEnum(enumEntity).GetBits();
+        }
+    
+        public static double GetMaxAmplitude(this SampleDataType enumEntity)
+            => EntityToEnumWishes.ToEnum(enumEntity).GetMaxAmplitude();
     }
 
     [Obsolete(ObsoleteMessage)]

@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int SizeOfBitDepth(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Sample.SizeOfSampleDataType();
+            return wrapper.Sample.SizeOfBitDepth();
         }
 
         [Obsolete(ObsoleteMessage)]

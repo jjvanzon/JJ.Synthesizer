@@ -665,29 +665,25 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int SizeOf(this SampleDataTypeEnum enumValue)
             => SampleDataTypeHelper.SizeOf(enumValue);
 
-        // TODO: Move to Obsolete?
-        public static int SizeOf(this SampleDataType enumEntity)
-            => SampleDataTypeHelper.SizeOf(enumEntity);
-
-        public static int SizeOfSampleDataType(this WavHeaderStruct wavHeader)
+        public static int SizeOfBitDepth(this WavHeaderStruct wavHeader)
             => wavHeader.BitsPerValue * 8;
 
-        public static int SizeOfSampleDataType(this AudioFileInfoWish info)
+        public static int SizeOfBitDepth(this AudioFileInfoWish info)
         {
             if (info == null) throw new ArgumentNullException(nameof(info));
             return info.Bits * 8;
         }
 
-        public static int SizeOfSampleDataType(this Sample entity)
+        public static int SizeOfBitDepth(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SizeOf(entity.SampleDataType);
+            return SampleDataTypeHelper.SizeOf(entity.GetSampleDataTypeEnum());
         }
 
-        public static int SizeOfSampleDataType(this AudioFileOutput entity)
+        public static int SizeOfBitDepth(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SizeOf(entity.SampleDataType);
+            return SizeOf(entity.GetSampleDataTypeEnum());
         }
 
         public static int GetBits(this Type sampleDataType)
@@ -696,49 +692,42 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int GetBits(this SampleDataTypeEnum enumValue)
             => enumValue.SizeOf() * 8;
 
-        // TODO: Move to Obsolete?
-        public static int GetBits(this SampleDataType enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return EntityToEnumWishes.ToEnum(enumEntity).GetBits();
-        }
-
         public static int GetBits(this WavHeaderStruct wavHeader)
             => wavHeader.BitsPerValue;
 
         public static int GetBits(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetBits(entity.SampleDataType);
+            return GetBits(entity.GetSampleDataTypeEnum());
         }
 
         public static int GetBits(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetBits(entity.SampleDataType);
+            return GetBits(entity.GetSampleDataTypeEnum());
         }
 
         public static int GetFrameSize(WavHeaderStruct wavHeader)
         {
-            return SizeOfSampleDataType(wavHeader) * wavHeader.ChannelCount;
+            return SizeOfBitDepth(wavHeader) * wavHeader.ChannelCount;
         }
 
         public static int GetFrameSize(AudioFileInfoWish info)
         {
             if (info == null) throw new ArgumentNullException(nameof(info));
-            return SizeOfSampleDataType(info) * info.ChannelCount;
+            return SizeOfBitDepth(info) * info.ChannelCount;
         }
 
         public static int GetFrameSize(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SizeOfSampleDataType(entity) * entity.GetChannelCount();
+            return SizeOfBitDepth(entity) * entity.GetChannelCount();
         }
 
         public static int GetFrameSize(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SizeOfSampleDataType(entity) * entity.GetChannelCount();
+            return SizeOfBitDepth(entity) * entity.GetChannelCount();
         }
 
         public static int GetFrameCount(this Sample entity)
@@ -793,20 +782,16 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        // TODO: Move to Obsolete?
-        public static double GetMaxAmplitude(this SampleDataType enumEntity)
-            => EntityToEnumWishes.ToEnum(enumEntity).GetMaxAmplitude();
-
         public static double GetMaxAmplitude(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetMaxAmplitude(entity.SampleDataType);
+            return GetMaxAmplitude(entity.GetSampleDataTypeEnum());
         }
 
         public static double GetMaxAmplitude(this AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return GetMaxAmplitude(entity.SampleDataType);
+            return GetMaxAmplitude(entity.GetSampleDataTypeEnum());
         }
 
         /// <inheritdoc cref="docs._headerlength"/>
