@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -58,7 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Return a normal Add of the Outlets returned by the funcs.
                     return volume * x.Add(funcs.Select(x => x()).ToArray());
                 }
-                
+
                 // Prep variables
                 int termCount = funcs.Count;
                 int channelCount = x.GetSpeakerSetup.GetChannelCount();

@@ -557,22 +557,22 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet SaveMono(string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            _x.Channel = ChannelEnum.Single;
-            _x.WithMono().Save(() => this, filePath, callerMemberName);
+            _synthWishes.Channel = ChannelEnum.Single;
+            _synthWishes.WithMono().Save(() => this, filePath, callerMemberName);
             return this;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Save(Result<SaveResultData> result, string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            _x.Save(result, filePath, callerMemberName);
+            _synthWishes.Save(result, filePath, callerMemberName);
             return this;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Save(SaveResultData result, string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            _x.Save(result, filePath, callerMemberName);
+            _synthWishes.Save(result, filePath, callerMemberName);
             return this;
         }
         
@@ -580,21 +580,21 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Save(AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             // TODO: Shouldn't we do something with the output of the FluentOutlet?
-            _x.Save(entity, filePath); 
+            _synthWishes.Save(entity, filePath); 
             return this; 
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Save(Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            _x.Save(entity, filePath, callerMemberName); 
+            _synthWishes.Save(entity, filePath, callerMemberName); 
             return this; 
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Save(byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            _x.Save(bytes, filePath, callerMemberName); 
+            _synthWishes.Save(bytes, filePath, callerMemberName); 
             return this; 
         }
     }

@@ -197,8 +197,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet PlayMono()
         {
-            _x.Channel = ChannelEnum.Single;
-            _x.WithMono().Play(() => this);
+            _synthWishes.Channel = ChannelEnum.Single;
+            _synthWishes.WithMono().Play(() => this);
             return this;
         }
     

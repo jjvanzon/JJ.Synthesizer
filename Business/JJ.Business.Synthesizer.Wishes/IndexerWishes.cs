@@ -10,25 +10,25 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet 
     { 
         /// <inheritdoc cref="docs._barindexer"/>
-        public SynthWishes.BarIndexer bar => _x.bar;
+        public SynthWishes.BarIndexer bar => _synthWishes.bar;
         /// <inheritdoc cref="docs._barsindexer"/>
-        public SynthWishes.BarsIndexer bars => _x.bars;
+        public SynthWishes.BarsIndexer bars => _synthWishes.bars;
         /// <inheritdoc cref="docs._beatindexer"/>
-        public SynthWishes.BeatIndexer beat => _x.beat;
+        public SynthWishes.BeatIndexer beat => _synthWishes.beat;
         /// <inheritdoc cref="docs._beatindexer"/>
-        public SynthWishes.BeatIndexer b => _x.b;
+        public SynthWishes.BeatIndexer b => _synthWishes.b;
         /// <inheritdoc cref="docs._beatsindexer"/>
-        public SynthWishes.BeatsIndexer beats => _x.beats;
+        public SynthWishes.BeatsIndexer beats => _synthWishes.beats;
         /// <inheritdoc cref="docs._timeindexer"/>
-        public SynthWishes.TimeIndexer t => _x.t;
+        public SynthWishes.TimeIndexer t => _synthWishes.t;
         /// <inheritdoc cref="docs._beatsindexer"/>
-        public SynthWishes.BeatsIndexer l => _x.l;
+        public SynthWishes.BeatsIndexer l => _synthWishes.l;
         /// <inheritdoc cref="docs._beatsindexer"/>
-        public SynthWishes.BeatsIndexer len => _x.len;
+        public SynthWishes.BeatsIndexer len => _synthWishes.len;
         /// <inheritdoc cref="docs._beatsindexer"/>
-        public SynthWishes.BeatsIndexer length  => _x.length;
+        public SynthWishes.BeatsIndexer length  => _synthWishes.length;
         /// <inheritdoc cref="docs._captureindexer" />
-        public SynthWishes.CaptureIndexer _ => _x._;
+        public SynthWishes.CaptureIndexer _ => _synthWishes._;
     }
 
     public partial class SynthWishes

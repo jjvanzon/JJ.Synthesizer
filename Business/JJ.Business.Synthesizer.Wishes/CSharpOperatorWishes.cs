@@ -172,8 +172,8 @@ namespace JJ.Business.Synthesizer.Wishes
                         
         private static SynthWishes GetSynthWishesOrThrow(object a, char op, object b)
         {
-            if (a is FluentOutlet fluentA) return fluentA._x;
-            if (b is FluentOutlet fluentB) return fluentB._x;
+            if (a is FluentOutlet fluentA) return fluentA._synthWishes;
+            if (b is FluentOutlet fluentB) return fluentB._synthWishes;
             throw new Exception(GetNoFluentOutletMessage(a, op, b));
         }
 

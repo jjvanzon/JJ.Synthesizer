@@ -244,37 +244,37 @@ namespace JJ.Business.Synthesizer.Wishes
             => _wrappedOutlet * curve;
 
         public FluentOutlet Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
-            => _wrappedOutlet * _x.Curve(nodeInfos, callerMemberName);
+            => _wrappedOutlet * _synthWishes.Curve(nodeInfos, callerMemberName);
 
         public FluentOutlet Curve(params NodeInfo[] nodeInfos)
-            => _wrappedOutlet * _x.Curve(nodeInfos);
+            => _wrappedOutlet * _synthWishes.Curve(nodeInfos);
 
         /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(string name, params double?[] values)
-            => _wrappedOutlet * _x.Curve(values);
+            => _wrappedOutlet * _synthWishes.Curve(values);
 
         /// <inheritdoc cref="docs._createcurve" />
         public FluentOutlet Curve(params double?[] values)
-            => _wrappedOutlet * _x.Curve(values);
+            => _wrappedOutlet * _synthWishes.Curve(values);
 
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FluentOutlet Curve(
             IList<(double time, double value)> nodeTuples, [CallerMemberName] string callerMemberName = null)
-            => _wrappedOutlet * _x.Curve(nodeTuples, callerMemberName);
+            => _wrappedOutlet * _synthWishes.Curve(nodeTuples, callerMemberName);
 
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FluentOutlet Curve(params (double time, double value)[] nodeTuples)
-            => _wrappedOutlet * _x.Curve(nodeTuples);
+            => _wrappedOutlet * _synthWishes.Curve(nodeTuples);
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public FluentOutlet Curve(string text, [CallerMemberName] string callerMemberName = null)
-            => _wrappedOutlet * _x.Curve(text, callerMemberName);
+            => _wrappedOutlet * _synthWishes.Curve(text, callerMemberName);
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public FluentOutlet Curve(
             (double start, double end) x,
             (double min, double max) y,
             string text, [CallerMemberName] string callerMemberName = null)
-            => _wrappedOutlet * this._x.Curve(x, y, text, callerMemberName);
+            => _wrappedOutlet * this._synthWishes.Curve(x, y, text, callerMemberName);
     }
 }

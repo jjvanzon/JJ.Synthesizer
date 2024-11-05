@@ -80,17 +80,17 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet CacheMono(string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
         {
-            _x.Channel = ChannelEnum.Single;
-            _x.WithMono().Cache(() => this, name, mustPad, callerMemberName);
+            _synthWishes.Channel = ChannelEnum.Single;
+            _synthWishes.WithMono().Cache(() => this, name, mustPad, callerMemberName);
             return this;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Cache(Result<SaveResultData> result) { _x.Cache(result); return this; }
+        public FluentOutlet Cache(Result<SaveResultData> result) { _synthWishes.Cache(result); return this; }
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Cache(SaveResultData result) { _x.Cache(result); return this; }
+        public FluentOutlet Cache(SaveResultData result) { _synthWishes.Cache(result); return this; }
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Cache(AudioFileOutput entity) { _x.Cache(entity); return this; }
+        public FluentOutlet Cache(AudioFileOutput entity) { _synthWishes.Cache(entity); return this; }
     }
     
     // Cache on Entity / Results / Data

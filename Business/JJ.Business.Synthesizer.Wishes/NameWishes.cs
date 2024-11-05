@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._names"/>
         public FluentOutlet WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
         {
-            _x.WithName(uglyName, fallbackName, callerMemberName);
+            _synthWishes.WithName(uglyName, fallbackName, callerMemberName);
             return this;
         }
     }
