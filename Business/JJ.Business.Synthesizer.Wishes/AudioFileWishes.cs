@@ -57,80 +57,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Save on FluentOutlet
-
-    public partial class FluentOutlet
-    {
-        /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet SaveMono(string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            _x.Channel = ChannelEnum.Single;
-            _x.WithMono().Save(() => this, filePath, callerMemberName);
-            return this;
-        }
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Save(Result<SaveResultData> result, string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            _x.Save(result, filePath, callerMemberName);
-            return this;
-        }
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Save(SaveResultData result, string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            _x.Save(result, filePath, callerMemberName);
-            return this;
-        }
-        
-        /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Save(AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            // TODO: Shouldn't we do something with the output of the FluentOutlet?
-            _x.Save(entity, filePath); 
-            return this; 
-        }
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Save(Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            _x.Save(entity, filePath, callerMemberName); 
-            return this; 
-        }
-        
-        /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Save(byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            _x.Save(bytes, filePath, callerMemberName); 
-            return this; 
-        }
-    }
-
-    // Save on Entity / Results / Data
-
-    public static class SaveExtensions 
-    {
-        /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Save(this Result<SaveResultData> saveResult, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.Save(saveResult, filePath, callerMemberName);
-        
-        /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Save(this SaveResultData saveResultData, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.Save(saveResultData, filePath, callerMemberName);
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public static Result<SaveResultData> Save(this AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.Save(entity, filePath, callerMemberName);
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public static void Save(this Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.Save(entity, filePath, callerMemberName);
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public static void Save(this byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.Save(bytes, filePath, callerMemberName);
-    }
-    
     // Save on SynthWishes Instances
 
     /// <inheritdoc cref="docs._saveorplay" />
@@ -650,6 +576,80 @@ namespace JJ.Business.Synthesizer.Wishes
                 Successful = true
             };
         }
+    }
+    
+    // Save on FluentOutlet
+
+    public partial class FluentOutlet
+    {
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet SaveMono(string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            _x.Channel = ChannelEnum.Single;
+            _x.WithMono().Save(() => this, filePath, callerMemberName);
+            return this;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet Save(Result<SaveResultData> result, string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            _x.Save(result, filePath, callerMemberName);
+            return this;
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet Save(SaveResultData result, string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            _x.Save(result, filePath, callerMemberName);
+            return this;
+        }
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet Save(AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            // TODO: Shouldn't we do something with the output of the FluentOutlet?
+            _x.Save(entity, filePath); 
+            return this; 
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet Save(Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            _x.Save(entity, filePath, callerMemberName); 
+            return this; 
+        }
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public FluentOutlet Save(byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            _x.Save(bytes, filePath, callerMemberName); 
+            return this; 
+        }
+    }
+
+    // Save on Entity / Results / Data
+
+    public static class SaveExtensions 
+    {
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result Save(this Result<SaveResultData> saveResult, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(saveResult, filePath, callerMemberName);
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result Save(this SaveResultData saveResultData, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(saveResultData, filePath, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result<SaveResultData> Save(this AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(entity, filePath, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static void Save(this Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(entity, filePath, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static void Save(this byte[] bytes, string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(bytes, filePath, callerMemberName);
     }
     
     public static class AudioFileExtensionWishes
