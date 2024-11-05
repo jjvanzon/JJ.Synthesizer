@@ -246,6 +246,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._multiply"/>
         public FluentOutlet Multiply(FluentOutlet a, FluentOutlet b)
         {
+            a = a ?? _[1];
+            b = b ?? _[1];
+            
             // Reverse operands increasing likelihood to have a 0-valued (volume) curve first.
             (a, b) = (b, a);
 
