@@ -86,25 +86,11 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Cache(Result<SaveResultData> result)
-        {
-            _x.Cache(result);
-            return this;
-        }
-
+        public FluentOutlet Cache(Result<SaveResultData> result) { _x.Cache(result); return this; }
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Cache(SaveResultData result)
-        {
-            _x.Cache(result);
-            return this;
-        }
-        
+        public FluentOutlet Cache(SaveResultData result) { _x.Cache(result); return this; }
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Cache(AudioFileOutput entity) 
-        {
-            _x.Cache(entity); 
-            return this; 
-        }
+        public FluentOutlet Cache(AudioFileOutput entity) { _x.Cache(entity); return this; }
     }
     
     // Cache on Entity / Results / Data
