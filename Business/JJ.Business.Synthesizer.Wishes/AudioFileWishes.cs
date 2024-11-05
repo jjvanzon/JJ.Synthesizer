@@ -43,12 +43,13 @@ namespace JJ.Business.Synthesizer.Wishes
     public class SaveResultData
     {
         public AudioFileOutput AudioFileOutput { get; }
-        /// <summary> Nullable. Not supplied when cacheToDisk is set. </summary>
+        
+        /// <inheritdoc cref="docs._saveresultbytes"/>
         public byte[] Bytes { get; }
         public double CalculationDuration { get; }
         public int Complexity { get; set; }
 
-        /// <param name="bytes">Nullable. Not supplied when cacheToDisk is set.</param>
+        /// <inheritdoc cref="docs._saveresultbytes"/>
         public SaveResultData(AudioFileOutput audioFileOutput, byte[] bytes, double calculationDuration)
         {
             AudioFileOutput = audioFileOutput ?? throw new ArgumentNullException(nameof(audioFileOutput));

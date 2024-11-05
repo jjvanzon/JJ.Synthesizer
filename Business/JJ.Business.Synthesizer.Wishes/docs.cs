@@ -408,6 +408,10 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns>
         public static object _saveorplay;
 
+        /// <summary> Nullable. Not supplied when cacheToDisk is set. </summary>
+        /// <param name="bytes">Nullable. Not supplied when cacheToDisk is set.</param>
+        public static object _saveresultbytes;
+        
         /// <summary>
         /// With optional Context.
         /// </summary>
