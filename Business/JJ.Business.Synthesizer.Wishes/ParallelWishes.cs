@@ -80,10 +80,10 @@ namespace JJ.Business.Synthesizer.Wishes
                     var originalChannel = x.Channel;
                     try
                     {
-                        for (int j = 0; j < channelCount; j++)
+                        for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                         {
-                            x.ChannelIndex = j;
-                            channelOutlets[j] = x.Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
+                            x.ChannelIndex = channelIndex;
+                            channelOutlets[channelIndex] = x.Multiply(funcs[i](), volume); // This runs parallels, because the funcs can contain another parallel add.
                         }
                     }
                     finally
