@@ -514,12 +514,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Test_ParallelAdd_WithSinePartials()
         {
             WithParallelEnabled();
-            
-            var freq = A4;
-
             WithAudioLength(0.6);
             
-            var added = ParallelAdd
+            var freq = A4;
+            
+            var added = WithName().ParallelAdd
             (
                 volume: 1 / 1.5,
                 () => Sine(freq * 1) * 1.0,
@@ -527,8 +526,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 () => Sine(freq * 3) * 0.7
             );
 
-            WithMono().SaveAndPlay(() => added);
-            
+            WithMono().Play(() => added);
         }
         
         [TestMethod]
@@ -551,7 +549,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 () => Sine(freq * 3) * 0.7
             );
 
-            WithMono().SaveAndPlay(() => added);
+            WithMono().Play(() => added);
         }
     }
 }
