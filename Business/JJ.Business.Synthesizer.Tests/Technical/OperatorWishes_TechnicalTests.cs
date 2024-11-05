@@ -422,7 +422,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Sample sample = addOperand.Operator.AsSampleOperator.Sample;
 
                 AreEqual(Wav, () => sample.GetAudioFileFormatEnum());
-                AreEqual(SampleDataTypeEnum.Int16, () => sample.GetSampleDataTypeEnum());
+                AreEqual(SampleDataTypeEnum.Float32, () => sample.GetSampleDataTypeEnum());
                 AreEqual(SpeakerSetupEnum.Mono, () => sample.GetSpeakerSetupEnum());
                 AreEqual(44,  () => sample.GetHeaderLength());
 
@@ -432,11 +432,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     
                     using (var reader = new BinaryReader(stream))
                     {
-                        short firstValue = reader.ReadInt16();
+                        float firstValue = reader.ReadSingle();
                         
                         while (stream.Position < stream.Length)
                         {
-                            short nextValue = reader.ReadInt16();
+                            float nextValue = reader.ReadSingle();
                             AreEqual(firstValue, () => nextValue);
                         }
                     }
