@@ -34,9 +34,9 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.SetAudioFormat(GetAudioFormat, Context);
             sample.SetInterpolation(GetInterpolation, Context);
             
-            var sampleOutlet = _[_operatorFactory.Sample(sample)].SetName(name);
+            var sampleOutlet = _[_operatorFactory.Sample(sample)];
 
-            return sampleOutlet;
+            return sampleOutlet.SetName(name);
         }
 
         /// <inheritdoc cref="docs._sample"/>
