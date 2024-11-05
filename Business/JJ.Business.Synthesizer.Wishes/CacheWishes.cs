@@ -11,10 +11,10 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(Func<FluentOutlet> func, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
-            => Write(func, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
+            => WriteAudio(func, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(IList<FluentOutlet> channelInputs, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
-            => Write(channelInputs, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
+            => WriteAudio(channelInputs, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
     }
 }

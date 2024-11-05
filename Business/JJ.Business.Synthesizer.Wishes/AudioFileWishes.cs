@@ -34,11 +34,11 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, [CallerMemberName] string callerMemberName = null)
-            => Write(func, inMemory: false, mustPad: true, name, callerMemberName);
+            => WriteAudio(func, inMemory: false, mustPad: true, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, [CallerMemberName] string callerMemberName = null)
-            => Write(channelInputs, inMemory: false, mustPad: true, name, callerMemberName);
+            => WriteAudio(channelInputs, inMemory: false, mustPad: true, name, callerMemberName);
 
         // Statics
         
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 entity.FilePath = callerMemberName;
             }
 
-            return Write(entity, inMemory: false);
+            return WriteAudio(entity, inMemory: false);
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Private
         
         /// <inheritdoc cref="docs._saveorplay" />
-        private Result<SaveResultData> Write(
+        private Result<SaveResultData> WriteAudio(
             Func<FluentOutlet> func, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
         {
             name = FetchName(name, callerMemberName);
@@ -111,12 +111,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     case Mono:
                         WithCenter(); var monoOutlet = func();
-                        return Write(new[] { monoOutlet }, inMemory, mustPad, name);
+                        return WriteAudio(new[] { monoOutlet }, inMemory, mustPad, name);
 
                     case Stereo:
                         WithLeft(); var leftOutlet = func();
                         WithRight(); var rightOutlet = func();
-                        return Write(new[] { leftOutlet, rightOutlet }, inMemory, mustPad,name);
+                        return WriteAudio(new[] { leftOutlet, rightOutlet }, inMemory, mustPad,name);
                     
                     default:
                         throw new ValueNotSupportedException(GetSpeakerSetup);
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        private Result<SaveResultData> Write(
+        private Result<SaveResultData> WriteAudio(
             IList<FluentOutlet> channelInputs, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
         {
             name = FetchName(name, callerMemberName);
@@ -152,7 +152,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var audioFileOutputResult = ConfigureAudioFileOutput(channelInputs, name);
 
             // Write Audio
-            var result = Write(audioFileOutputResult.Data, inMemory, audioFileOutputResult.ValidationMessages.Select(x => x.Text).ToArray());
+            var result = WriteAudio(audioFileOutputResult.Data, inMemory, audioFileOutputResult.ValidationMessages.Select(x => x.Text).ToArray());
             
             return result;
         }
@@ -202,7 +202,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        private static Result<SaveResultData> Write(
+        private static Result<SaveResultData> WriteAudio(
             AudioFileOutput audioFileOutput, bool inMemory = false, IList<string> additionalWarnings = null)
         {
             additionalWarnings = additionalWarnings ?? Array.Empty<string>();
