@@ -472,7 +472,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(speakerSetupEnum,    () => audioFileOutput.GetSpeakerSetupEnum());
 
             IsTrue(audioFileOutput.ID > 0, "audioFileOutput.ID > 0");
-            double expectedAmplifier = sampleDataTypeEnum.GetMaxAmplitude();
+            double expectedAmplifier = sampleDataTypeEnum.GetNominalMax();
             AreEqual(expectedAmplifier, () => audioFileOutput.Amplifier);
             
             // AudioFileOutputChannels
