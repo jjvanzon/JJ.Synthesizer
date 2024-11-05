@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public double CalculationDuration { get; }
         public int Complexity { get; set; }
 
-        /// <param name="bytes">Nullable</param>
+        /// <param name="bytes">Nullable. Not supplied when cacheToDisk is set.</param>
         public SaveResultData(AudioFileOutput audioFileOutput, byte[] bytes, double calculationDuration)
         {
             AudioFileOutput = audioFileOutput ?? throw new ArgumentNullException(nameof(audioFileOutput));
@@ -307,19 +307,29 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
             if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
 
-            int channelCount = channelInputs.Count;
-            var speakerSetupEnum = channelCount.ToSpeakerSetup();
-                                            
             // Apply Padding
             if (mustPad)
             {
-                for (int i = 0; i < channelCount; i++)
+                for (int i = 0; i < channelInputs.Count; i++)
                 {
                     channelInputs[i] = ApplyPadding(channelInputs[i]);
                 }
             }
 
             // Configure AudioFileOutput (avoid backend)
+            var audioFileOutputResult = ConfigureAudioFileOutput(channelInputs, name);
+
+            // Write Audio
+            var result = Write(audioFileOutputResult.Data, inMemory, audioFileOutputResult.ValidationMessages.Select(x => x.Text).ToArray());
+            
+            return result;
+        }
+
+        private Result<AudioFileOutput> ConfigureAudioFileOutput(IList<FluentOutlet> channelInputs, string name)
+        {
+            int channelCount = channelInputs.Count;
+            var speakerSetupEnum = channelCount.ToSpeakerSetup();
+            
             var audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Amplifier = GetBitDepth.GetMaxAmplitude();
@@ -350,18 +360,20 @@ namespace JJ.Business.Synthesizer.Wishes
                 default:
                     throw new InvalidValueException(speakerSetupEnum);
             }
-            
-            var result = Write(
-                audioFileOutput, inMemory, samplingRateResult.ValidationMessages.Select(x => x.Text).ToArray());
-            
-            return result;
+
+            return new Result<AudioFileOutput>
+            {
+                Successful = true,
+                Data = audioFileOutput,
+                ValidationMessages = samplingRateResult.ValidationMessages
+            };
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
         private static Result<SaveResultData> Write(
-            AudioFileOutput audioFileOutput, bool inMemory = false, IList<string> additionalMessages = null)
+            AudioFileOutput audioFileOutput, bool inMemory = false, IList<string> additionalWarnings = null)
         {
-            additionalMessages = additionalMessages ?? Array.Empty<string>();
+            additionalWarnings = additionalWarnings ?? Array.Empty<string>();
             
             // Assert
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
@@ -376,13 +388,13 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             // Warnings
-            var messages = new List<string>();
-            messages.AddRange(additionalMessages);
+            var warnings = new List<string>();
+            warnings.AddRange(additionalWarnings);
             foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
             {
-                messages.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
+                warnings.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
             }
-            messages.AddRange(audioFileOutput.GetWarnings());
+            warnings.AddRange(audioFileOutput.GetWarnings());
 
             // Calculate
             byte[] bytes = null;
@@ -401,7 +413,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var result = new Result<SaveResultData>
             {
                 Successful = true,
-                ValidationMessages = messages.ToCanonical(),
+                ValidationMessages = warnings.ToCanonical(),
                 Data = new SaveResultData(audioFileOutput, bytes, calculationDuration)
             };
 
@@ -414,6 +426,29 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Helpers
+        
+        private FluentOutlet ApplyPadding(FluentOutlet outlet)
+        {
+            if (ConfigHelper.PlayLeadingSilence == 0 &&
+                ConfigHelper.PlayTrailingSilence == 0)
+            {
+                return outlet;
+            }
+
+            Console.WriteLine($"{PrettyTime()} Padding a channel: {ConfigHelper.PlayLeadingSilence} s before | {ConfigHelper.PlayTrailingSilence} s after");
+
+            AddAudioLength(ConfigHelper.PlayLeadingSilence);
+            AddAudioLength(ConfigHelper.PlayTrailingSilence);
+            
+            if (ConfigHelper.PlayLeadingSilence == 0)
+            {
+                return outlet;
+            }
+            else
+            {
+                return Delay(outlet, _[ConfigHelper.PlayLeadingSilence]);
+            }
+        }
 
         private static List<string> GetReport(Result<SaveResultData> result, out int complexity)
         {
@@ -480,37 +515,14 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return lines;
         }
-                
-        private FluentOutlet ApplyPadding(FluentOutlet outlet)
-        {
-            if (ConfigHelper.PlayLeadingSilence == 0 &&
-                ConfigHelper.PlayTrailingSilence == 0)
-            {
-                return outlet;
-            }
 
-            Console.WriteLine($"{PrettyTime()} Padding a channel: {ConfigHelper.PlayLeadingSilence} s before | {ConfigHelper.PlayTrailingSilence} s after");
-
-            AddAudioLength(ConfigHelper.PlayLeadingSilence);
-            AddAudioLength(ConfigHelper.PlayTrailingSilence);
-            
-            if (ConfigHelper.PlayLeadingSilence == 0)
-            {
-                return outlet;
-            }
-            else
-            {
-                return Delay(outlet, _[ConfigHelper.PlayLeadingSilence]);
-            }
-        }
-
-        private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum)
+        private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetup)
         {
             // Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
 
             var channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(Context);
 
-            switch (speakerSetupEnum)
+            switch (speakerSetup)
             {
                 case Mono:
                 {
@@ -562,7 +574,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
 
                 default:
-                    throw new InvalidValueException(speakerSetupEnum);
+                    throw new InvalidValueException(speakerSetup);
             }
         }
 
@@ -660,6 +672,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int SizeOf(this SampleDataTypeEnum enumValue)
             => SampleDataTypeHelper.SizeOf(enumValue);
 
+        // TODO: Move to Obsolete?
         public static int SizeOf(this SampleDataType enumEntity)
             => SampleDataTypeHelper.SizeOf(enumEntity);
 
@@ -690,6 +703,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int GetBits(this SampleDataTypeEnum enumValue)
             => enumValue.SizeOf() * 8;
 
+        // TODO: Move to Obsolete?
         public static int GetBits(this SampleDataType enumEntity)
         {
             if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
@@ -786,6 +800,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
+        // TODO: Move to Obsolete?
         public static double GetMaxAmplitude(this SampleDataType enumEntity)
             => EntityToEnumWishes.ToEnum(enumEntity).GetMaxAmplitude();
 
