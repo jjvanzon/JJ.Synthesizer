@@ -524,7 +524,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => audioFileOutput.SampleDataType);
             IsNotNull(() => audioFileOutput.SpeakerSetup);
             
-            AreEqual(samplingRate,       () => audioFileOutput.SamplingRate);
+            AreEqual(samplingRate,        () => audioFileOutput.SamplingRate);
             AreEqual(expectedFilePath,    () => audioFileOutput.FilePath);
             AreEqual(0,                   () => audioFileOutput.StartTime);
             AreEqual(expectedDuration,    () => audioFileOutput.GetEndTime());

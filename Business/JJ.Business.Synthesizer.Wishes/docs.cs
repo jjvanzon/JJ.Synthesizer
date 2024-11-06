@@ -424,6 +424,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="callerMemberName">
         /// The name of the calling method. This is automatically set by the compiler.
         /// </param>
+        /// <param name="additionalMessages">
+        /// Can be null.<br/>
+        /// Inserts additional text in the result messages
+        /// in an appropriate spot for overview.
+        /// </param>
         /// <returns>
         /// A <see cref="Result"/> with the <see cref="AudioFileOutput"/> entity in it,
         /// containing resultant data, like the file path and validation messages (warnings).
