@@ -82,8 +82,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result<SaveResultData> Cache(
             AudioFileOutput entity, 
-            string name = null, [CallerMemberName] string callerMemberName = null) 
-            => WriteAudio(entity, inMemory: true, name, callerMemberName);
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => WriteAudio(entity, inMemory: true);
     }
 
     // Save on SynthWishes Instances
