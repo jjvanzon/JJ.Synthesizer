@@ -36,10 +36,10 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Save(
-            Func<FluentOutlet> func, 
+            Func<FluentOutlet> channelInputFunc, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => WriteAudio(
-                func, 
+                channelInputFunc, 
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         internal Result<SaveResultData> WriteAudio(
-            Func<FluentOutlet> func, 
+            Func<FluentOutlet> channelInputFunc, 
             bool inMemory, bool mustPad, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
         {
             name = FetchName(name, callerMemberName);
@@ -114,12 +114,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 switch (GetSpeakerSetup)
                 {
                     case Mono:
-                        WithCenter(); var monoOutlet = func();
+                        WithCenter(); var monoOutlet = channelInputFunc();
                         return WriteAudio(new[] { monoOutlet }, inMemory, mustPad, additionalWarnings, name);
 
                     case Stereo:
-                        WithLeft(); var leftOutlet = func();
-                        WithRight(); var rightOutlet = func();
+                        WithLeft(); var leftOutlet = channelInputFunc();
+                        WithRight(); var rightOutlet = channelInputFunc();
                         return WriteAudio(new[] { leftOutlet, rightOutlet }, inMemory, mustPad, additionalWarnings, name);
                     
                     default:

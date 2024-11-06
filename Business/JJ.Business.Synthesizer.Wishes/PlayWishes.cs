@@ -14,90 +14,113 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-        
     // PlayWishes in SynthWishes
 
     public partial class SynthWishes
     {
-        // TODO: Overload with IList<Func<Outlet>>?
+        // Play on Instance
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Play(Func<FluentOutlet> outletFunc, [CallerMemberName] string callerMemberName = null)
+        public Result<SaveResultData> Play(
+            Func<FluentOutlet> channelInputFunc,
+            string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            string name = FetchName(callerMemberName);
+            var writeAudioResult =
+                WriteAudio(
+                    channelInputFunc,
+                    inMemory: !MustCacheToDisk, mustPad: true, null, name, callerMemberName);
 
-            var originalAudioLength = GetAudioLength;
-            try
-            {
-                var cacheResult = Cache(outletFunc, mustPad: true, name);
-                var playResult = SynthWishes.Play(cacheResult.Data);
-                var result = cacheResult.Combine(playResult);
+            var playResult = Play(writeAudioResult);
+            
+            var result = writeAudioResult.Combine(playResult);
 
-                return result;
-            }
-            finally
-            {
-                WithAudioLength(originalAudioLength);
-            }
+            return result;
         }
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Play(IList<FluentOutlet> channelInputs, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(callerMemberName);
-
-            var originalAudioLength = GetAudioLength;
-            try
-            {
-                var cacheResult = Cache(channelInputs, mustPad: true, name);
-                var playResult = SynthWishes.Play(cacheResult.Data);
-                var result = cacheResult.Combine(playResult);
-
-                return result;
-            }
-            finally
-            {
-                WithAudioLength(originalAudioLength);
-            }
-        }
-
-        // Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Play(Result<SaveResultData> saveResult)
+        public Result<SaveResultData> Play(
+            FluentOutlet channelInput, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (saveResult == null) throw new ArgumentNullException(nameof(saveResult));
-            return Play(saveResult.Data);
+            var writeAudioResult =
+                WriteAudio(
+                    channelInput,
+                    inMemory: !MustCacheToDisk, mustPad: true, null, name, callerMemberName);
+            
+            var playResult = Play(writeAudioResult);
+            
+            var result = writeAudioResult.Combine(playResult);
+
+            return result;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Play(SaveResultData saveResultData)
+        public Result<SaveResultData> Play(
+            IList<FluentOutlet> channelInputs, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (saveResultData == null) throw new ArgumentNullException(nameof(saveResultData));
-            if (saveResultData.AudioFileOutput == null) throw new NullException(() => saveResultData.AudioFileOutput);
-            return Play(saveResultData.AudioFileOutput.FilePath, saveResultData.Bytes, saveResultData.AudioFileOutput.GetFileExtension());
+            var writeAudioResult =
+                WriteAudio(
+                    channelInputs,
+                    inMemory: !MustCacheToDisk, mustPad: true, null, name, callerMemberName);
+            
+            var playResult = Play(writeAudioResult);
+            
+            var result = writeAudioResult.Combine(playResult);
+
+            return result;
+        }
+
+        // Play in Statics
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result Play(
+            Result<SaveResultData> result)
+        {
+            if (result == null) throw new ArgumentNullException(nameof(result));
+
+            return Play(result.Data);
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Play(AudioFileOutput entity)
+        public static Result Play(
+            SaveResultData data)
+        {
+            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (data.AudioFileOutput == null) throw new NullException(() => data.AudioFileOutput);
+            
+            return Play(
+                data.AudioFileOutput.FilePath, 
+                data.Bytes,
+                data.AudioFileOutput.GetFileExtension());
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public static Result Play(
+            AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
+            
             return Play(entity.FilePath, null, entity.GetFileExtension());
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Play(Sample entity)
+        public static Result Play(
+            Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
+
             return Play(entity.Location, entity.Bytes, entity.GetFileExtension());
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Play(byte[] bytes)
+        public static Result Play(
+            byte[] bytes)
             => Play(null, bytes, null);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Play(string filePath)
+        public static Result Play(
+            string filePath)
             => Play(filePath, null, Path.GetExtension(filePath));
 
         // Private
@@ -140,50 +163,62 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
     
-    // Play on SynthWishes Instances
+    // Play on Statics Turned Instance
 
     /// <inheritdoc cref="docs._saveorplay" />
-    public static class SynthWishesPlayExtensions
+    public static class SynthWishesPlayStaticsTurnedInstanceExtensions
     {
-        // Make SynthWishes statics available on instances by using extension methods.
+        // Make statics available on instances by using extension methods.
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Play(this SynthWishes synthWishes, Result<SaveResultData> result)
+        public static SynthWishes Play(
+            this SynthWishes synthWishes, 
+            Result<SaveResultData> result)
         {
             SynthWishes.Play(result);
             return synthWishes;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Play(this SynthWishes synthWishes, SaveResultData resultData)
+        public static SynthWishes Play(
+            this SynthWishes synthWishes, 
+            SaveResultData resultData)
         {
             SynthWishes.Play(resultData);
             return synthWishes;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Play(this SynthWishes synthWishes, Sample entity)
+        public static SynthWishes Play(
+            this SynthWishes synthWishes, 
+            Sample entity)
         {
             SynthWishes.Play(entity);
             return synthWishes;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Play(this SynthWishes synthWishes, AudioFileOutput entity)
+        public static SynthWishes Play(
+            this SynthWishes synthWishes, 
+            AudioFileOutput entity)
         {
             SynthWishes.Play(entity);
             return synthWishes;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Play(this SynthWishes synthWishes, byte[] bytes)
+        public static SynthWishes Play(
+            this SynthWishes synthWishes, 
+            byte[] bytes)
         {
             SynthWishes.Play(bytes);
             return synthWishes;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Play(this SynthWishes synthWishes, string filePath)
+        public static SynthWishes Play(
+            this SynthWishes synthWishes, 
+            string filePath)
         {
             SynthWishes.Play(filePath);
             return synthWishes;
@@ -195,42 +230,84 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet PlayMono()
+        public FluentOutlet PlayMono(
+            string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            _synthWishes.Channel = ChannelEnum.Single;
-            _synthWishes.WithMono().Play(() => this);
+            WithMono();
+            WithCenter();
+
+            var writeAudioResult = _synthWishes.WriteAudio(
+                this,
+                inMemory: !MustCacheToDisk, mustPad: true, null, name, callerMemberName);
+
+            Play(writeAudioResult);
+
             return this;
         }
-    
+
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(Result<SaveResultData> result) { SynthWishes.Play(result); return this; }
+        public FluentOutlet Play(Result<SaveResultData> result)
+        {
+            SynthWishes.Play(result);
+            return this;
+        }
+
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(SaveResultData result) { SynthWishes.Play(result); return this; }
+        public FluentOutlet Play(SaveResultData data)
+        {
+            SynthWishes.Play(data);
+            return this;
+        }
+
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(AudioFileOutput entity) { SynthWishes.Play(entity); return this; }
+        public FluentOutlet Play(AudioFileOutput entity)
+        {
+            SynthWishes.Play(entity);
+            return this;
+        }
+
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(Sample entity) { SynthWishes.Play(entity); return this; }
+        public FluentOutlet Play(Sample entity)
+        {
+            SynthWishes.Play(entity);
+            return this;
+        }
+
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(byte[] bytes) { SynthWishes.Play(bytes); return this; }
+        public FluentOutlet Play(byte[] bytes)
+        {
+            SynthWishes.Play(bytes);
+            return this;
+        }
+
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(string filePath) { SynthWishes.Play(filePath); return this; }
+        public FluentOutlet Play(string filePath)
+        {
+            SynthWishes.Play(filePath);
+            return this;
+        }
     }
 
     // Play on Entity / Results / Data
-    
+
     /// <inheritdoc cref="docs._saveorplay" />
     public static class EntityPlayExtensions
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(this Result<SaveResultData> result) => SynthWishes.Play(result);
+
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(this SaveResultData result) => SynthWishes.Play(result);
+
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(this AudioFileOutput entity) => SynthWishes.Play(entity);
+
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(this Sample entity) => SynthWishes.Play(entity);
+
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(this byte[] bytes) => SynthWishes.Play(bytes);
+
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(this string filePath) => SynthWishes.Play(filePath);
     }
