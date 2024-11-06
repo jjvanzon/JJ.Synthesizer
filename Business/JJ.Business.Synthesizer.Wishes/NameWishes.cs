@@ -134,13 +134,32 @@ namespace JJ.Business.Synthesizer.Wishes
             _synthWishes.WithName(uglyName, fallbackName, callerMemberName);
             return this;
         }
+
+        public string Name => _wrappedOutlet.Operator.Name;
+
+        public FluentOutlet AppendName(string nameSuffix = null, [CallerMemberName] string callerMemberName = null)
+        {
+            string suffix = nameSuffix;
+            if (string.IsNullOrWhiteSpace(suffix))
+            {
+                suffix = callerMemberName;
+            }
+            SetName($"{Name}{suffix}");
+
+            return this;
+        }
     }
 
     // NameWishes Extensions
     
     public static class NameExtensionWishes
     {
-        // NameWishes Curves
+        /// <inheritdoc cref="docs._names"/>
+        public static string Name(this FluentOutlet fluentOutlet)
+        {
+            if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
+            return fluentOutlet.Name;
+        }
 
         /// <inheritdoc cref="docs._names"/>
         public static Curve SetName(this Curve entity, string name)
