@@ -73,26 +73,29 @@ namespace JJ.Business.Synthesizer.Wishes
             _name.Value = name;
             return this;
         }
-
+        
         /// <inheritdoc cref="docs._fetchname"/>
         public string FetchName(
-            string fallbackName1 = null, string fallbackName2 = null, 
-            string fallbackName3 = null, string explicitName = null,
-            [CallerMemberName] string callerMemberName = null)
+            string fallbackName1 = null, string fallbackName2 = null, string fallbackName3 = null, 
+            string explicitName = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (!string.IsNullOrWhiteSpace(explicitName))
-            {
-                // Not sure if it should be prettified too...
-                return explicitName;
-            }
-
             string name = GetName;
             _name.Value = null;
 
-            if (string.IsNullOrWhiteSpace(name))
+            return StaticFetchName(name, fallbackName1, fallbackName2, fallbackName3, explicitName, callerMemberName);
+        }
+
+        /// <inheritdoc cref="docs._fetchname"/>
+        private static string StaticFetchName(
+            string fallbackName1, string fallbackName2 = null, string fallbackName3 = null, string fallbackName4 = null,
+            string explicitName = null, [CallerMemberName] string callerMemberName = null)
+        {
+            if (!string.IsNullOrWhiteSpace(explicitName))
             {
-                name = fallbackName1;
+                return explicitName; // Not sure if it should be prettified too...
             }
+
+            string name = fallbackName1;
 
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -102,6 +105,11 @@ namespace JJ.Business.Synthesizer.Wishes
             if (string.IsNullOrWhiteSpace(name))
             {
                 name = fallbackName3;
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = fallbackName4;
             }
 
             if (string.IsNullOrWhiteSpace(name))
