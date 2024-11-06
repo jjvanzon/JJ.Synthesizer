@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         
         public FluentOperandList(FluentOutlet parent)
         {
-            _parent = parent;
+            _parent = parent ?? throw new ArgumentNullException(nameof(parent));
             _underlyingList = new OperandList(parent.WrappedOutlet);
         }
            
@@ -21,15 +21,19 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         public FluentOutlet this[int index]
         {
-            get => _parent._[_underlyingList[index]];
-            set => _underlyingList[index] = value;
+            get
+            {
+                Outlet outlet = _underlyingList[index];
+                return outlet == null ? null : _parent._[outlet];
+            }
+            set => _underlyingList[index] = value?.WrappedOutlet;
         }
 
-        public int IndexOf(FluentOutlet item) => _underlyingList.IndexOf(item);
-        public bool Contains(FluentOutlet item) => _underlyingList.Contains(item);
-        public void Add(FluentOutlet item) => _underlyingList.Add(item);
-        public void Insert(int index, FluentOutlet item) => _underlyingList.Insert(index, item);
-        public bool Remove(FluentOutlet item) => _underlyingList.Remove(item);
+        public int IndexOf(FluentOutlet item) => _underlyingList.IndexOf(item?.WrappedOutlet);
+        public bool Contains(FluentOutlet item) => _underlyingList.Contains(item?.WrappedOutlet);
+        public void Add(FluentOutlet item) => _underlyingList.Add(item?.WrappedOutlet);
+        public void Insert(int index, FluentOutlet item) => _underlyingList.Insert(index, item?.WrappedOutlet);
+        public bool Remove(FluentOutlet item) => _underlyingList.Remove(item?.WrappedOutlet);
         public void RemoveAt(int index) => _underlyingList.RemoveAt(index);
         public void Clear() => _underlyingList.Clear();
         public bool IsReadOnly => _underlyingList.IsReadOnly;
@@ -43,8 +47,11 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             for (int i = 0; i < _underlyingList.Count; i++)
             {
                 Outlet outlet = _underlyingList[i];
-                FluentOutlet fluentOutlet = _parent._[outlet];
-                
+                FluentOutlet fluentOutlet = null;
+                if (outlet != null)
+                {
+                    fluentOutlet = _parent._[outlet];
+                }
                 array[arrayIndex + i] = fluentOutlet;
             }
         }
@@ -52,7 +59,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public IEnumerator<FluentOutlet> GetEnumerator()
         {
             return _underlyingList
-                   .Select(outlet => _parent._[(Outlet)outlet]) // Convert each Outlet to FluentOutlet
+                   // Convert each Outlet to FluentOutlet
+                   .Select(outlet => outlet == null ? null : _parent._[outlet]) 
                    .GetEnumerator();
         }
         
