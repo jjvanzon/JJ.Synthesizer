@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Sample(byte[] bytes, int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
             // Back-end will need bytes wrapped in a Stream and will read it back into a byte[] again.
-            return SampleBase(null, bytes, bytesToSkip, callerMemberName);
+            return SampleBase(null, bytes, bytesToSkip, name, callerMemberName);
 
             // This code would prevent that, but won't kick off the wav header parsing,
             // which is important as a test.
