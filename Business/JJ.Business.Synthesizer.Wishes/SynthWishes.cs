@@ -15,8 +15,6 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly OperatorFactory _operatorFactory;
         private readonly CurveFactory _curveFactory;
         private readonly SampleManager _sampleManager;
-        /// <inheritdoc cref="docs._paralleladd" />
-        private readonly ParallelWishes _parallelWishes;
 
         public SynthWishes()
             : this(PersistenceHelper.CreateContext())
@@ -29,7 +27,6 @@ namespace JJ.Business.Synthesizer.Wishes
             _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
             _sampleManager = ServiceFactory.CreateSampleManager(context);
-            _parallelWishes = new ParallelWishes(this);
             InitializeOperatorWishes();
         }
 
