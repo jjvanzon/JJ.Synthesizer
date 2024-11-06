@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var originalAudioLength = GetAudioLength;
             try
             {
-                var cacheResult = Cache(outletFunc, name, mustPad: true);
+                var cacheResult = Cache(outletFunc, mustPad: true, name);
                 var playResult = SynthWishes.Play(cacheResult.Data);
                 var result = cacheResult.Combine(playResult);
 
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var originalAudioLength = GetAudioLength;
             try
             {
-                var cacheResult = Cache(channelInputs, name, mustPad: true);
+                var cacheResult = Cache(channelInputs, mustPad: true, name);
                 var playResult = SynthWishes.Play(cacheResult.Data);
                 var result = cacheResult.Combine(playResult);
 
