@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -88,40 +88,49 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: true, null, name, callerMemberName);
     }
 
-    // Save on SynthWishes Instances
+    // Cache on Statics Turned Instance
     
     /// <inheritdoc cref="docs._saveorplay" />
     public static class SynthWishesCacheExtensions
     {
-        // Overload SynthWishes statics, to make available on instances, by using extension methods.
+        // Statics made available on instances, by using extension methods.
                 
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Cache(
-            this SynthWishes synthWishes, Result<SaveResultData> saveResult,
+            this SynthWishes synthWishes, 
+            Result<SaveResultData> result,
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            SynthWishes.Cache(saveResult, name, callerMemberName);
+            WriteAudio(
+                result, 
+                inMemory: true, null, name, callerMemberName);
+            
             return synthWishes;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Cache(
-            this SynthWishes synthWishes, SaveResultData saveResultData,
+            this SynthWishes synthWishes, 
+            SaveResultData data,
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            SynthWishes.Cache(saveResultData, name, callerMemberName);
+            WriteAudio(
+                data, 
+                inMemory: true, null, name, callerMemberName);
+
             return synthWishes;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Cache(
-            this SynthWishes synthWishes, AudioFileOutput entity,
+            this SynthWishes synthWishes, 
+            AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            SynthWishes.Cache(entity, name, callerMemberName);
+            WriteAudio(
+                entity, 
+                inMemory: true, null, name, callerMemberName);
+            
             return synthWishes;
         }
     }
@@ -133,14 +142,28 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet CacheMono(
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => CacheMono(mustPad: false, name, callerMemberName);
+        {
+            WithMono();
+            WithCenter();
+
+            _synthWishes.WriteAudio(
+                this, 
+                inMemory: !MustCacheToDisk, mustPad: false, null, name, callerMemberName);
+            
+            return this;
+        }
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet CacheMono(
-            bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
+            bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            _synthWishes.Channel = ChannelEnum.Single;
-            _synthWishes.WithMono().Cache(() => this, mustPad, name, callerMemberName);
+            WithMono();
+            WithCenter();
+            
+            _synthWishes.WriteAudio(
+                this, 
+                inMemory: !MustCacheToDisk, mustPad, null, name, callerMemberName);
+
             return this;
         }
 
@@ -148,19 +171,37 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Cache(
             Result<SaveResultData> result,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            { _synthWishes.Cache(result, name, callerMemberName); return this; }
-        
+            { 
+                WriteAudio(
+                    result, 
+                    inMemory: true, null, name, callerMemberName);
+
+                return this; 
+            }
+
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Cache(
-            SaveResultData result,
-            string name = null, [CallerMemberName] string callerMemberName = null) 
-            { _synthWishes.Cache(result, name, callerMemberName); return this; }
-        
+            SaveResultData data,
+            string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            WriteAudio(
+                data,
+                inMemory: true, null, name, callerMemberName);
+            
+            return this;
+        }
+
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Cache(
             AudioFileOutput entity,
-            string name = null, [CallerMemberName] string callerMemberName = null) 
-            { _synthWishes.Cache(entity, name, callerMemberName); return this; }
+            string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            WriteAudio(
+                entity,
+                inMemory: true, null, name, callerMemberName);
+
+            return this;
+        }
     }
     
     // Cache on Entity / Results / Data
@@ -169,20 +210,26 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Cache(
-            this Result<SaveResultData> saveResult,
+            this Result<SaveResultData> result,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => SynthWishes.Cache(saveResult, name, callerMemberName);
-        
+            => WriteAudio(
+                result, 
+                inMemory: true, null, name, callerMemberName);
+
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Cache(
-            this SaveResultData saveResultData,
+            this SaveResultData data,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => SynthWishes.Cache(saveResultData, name, callerMemberName);
+            => WriteAudio(
+                data, 
+                inMemory: true, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result<SaveResultData> Cache(
             this AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => SynthWishes.Cache(entity, name, callerMemberName);
+            => WriteAudio(
+                entity, 
+                inMemory: true, null, name, callerMemberName);
     }
 }

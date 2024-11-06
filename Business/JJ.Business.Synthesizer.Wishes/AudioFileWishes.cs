@@ -32,6 +32,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
+        // Save on Instance
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, [CallerMemberName] string callerMemberName = null)
             => WriteAudio(func, inMemory: false, mustPad: true, null, name, callerMemberName);
@@ -40,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, [CallerMemberName] string callerMemberName = null)
             => WriteAudio(channelInputs, inMemory: false, mustPad: true, null, name, callerMemberName);
 
-        // Statics
+        // Save Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Save(Result<SaveResultData> saveResult, string name = null, [CallerMemberName] string callerMemberName = null)
@@ -87,7 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // WriteAudio on Instance
         
         /// <inheritdoc cref="docs._saveorplay" />
-        private Result<SaveResultData> WriteAudio(
+        internal Result<SaveResultData> WriteAudio(
             Func<FluentOutlet> func, 
             bool inMemory, bool mustPad, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -118,7 +120,15 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        private Result<SaveResultData> WriteAudio(
+        internal Result<SaveResultData> WriteAudio(
+            FluentOutlet channelInput,
+            bool inMemory, bool mustPad, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
+            => WriteAudio(
+                new[] { channelInput }, 
+                inMemory, mustPad, additionalWarnings, name, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        internal Result<SaveResultData> WriteAudio(
             IList<FluentOutlet> channelInputs,
             bool inMemory, bool mustPad, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -151,7 +161,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return result;
         }
 
-        private Result<AudioFileOutput> ConfigureAudioFileOutput(IList<FluentOutlet> channelInputs, string name)
+        internal Result<AudioFileOutput> ConfigureAudioFileOutput(IList<FluentOutlet> channelInputs, string name)
         {
             // Configure AudioFileOutput (avoid backend)
             
@@ -200,7 +210,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // WriteAudio Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
-        private static Result<SaveResultData> WriteAudio(
+        internal static Result<SaveResultData> WriteAudio(
             AudioFileOutput entity, 
             bool inMemory, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -261,7 +271,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        private static Result<SaveResultData> WriteAudio(
+        internal static Result<SaveResultData> WriteAudio(
             SaveResultData data, 
             bool inMemory, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -273,12 +283,14 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        private static Result<SaveResultData> WriteAudio(
+        internal static Result<SaveResultData> WriteAudio(
             Result<SaveResultData> result, 
             bool inMemory, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
             => WriteAudio(
                 result.Data, 
                 inMemory, additionalWarnings, name, callerMemberName);
+        
+        // Helpers
         
         private FluentOutlet ApplyPadding(FluentOutlet outlet)
         {
