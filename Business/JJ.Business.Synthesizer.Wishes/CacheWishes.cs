@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Wishes
     // Cache on Statics Turned Instance
     
     /// <inheritdoc cref="docs._saveorplay" />
-    public static class SynthWishesCacheExtensions
+    public static class SynthWishesCacheStaticsTurnedInstanceExtensions
     {
         // Statics made available on instances, by using extension methods.
                 
@@ -101,6 +101,10 @@ namespace JJ.Business.Synthesizer.Wishes
             Result<SaveResultData> result,
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            
+            name = synthWishes.FetchName(result?.Data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: name);
+
             WriteAudio(
                 result, 
                 inMemory: true, null, name, callerMemberName);
@@ -114,6 +118,10 @@ namespace JJ.Business.Synthesizer.Wishes
             SaveResultData data,
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            
+            name = synthWishes.FetchName(data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: name);
+
             WriteAudio(
                 data, 
                 inMemory: true, null, name, callerMemberName);
@@ -127,6 +135,10 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            
+            name = synthWishes.FetchName(entity?.FilePath, callerMemberName, explicitName: name);
+
             WriteAudio(
                 entity, 
                 inMemory: true, null, name, callerMemberName);
