@@ -146,8 +146,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
 
+        public SynthWishes With32Bit() => WithBitDepth(SampleDataTypeEnum.Float32);
         public SynthWishes With16Bit() => WithBitDepth(SampleDataTypeEnum.Int16);
-        
         public SynthWishes With8Bit() => WithBitDepth(SampleDataTypeEnum.Byte);
     }
 
@@ -157,6 +157,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public SampleDataTypeEnum GetBitDepth => _synthWishes.GetBitDepth;
         public FluentOutlet WithBitDepth(SampleDataTypeEnum bitDepth) { _synthWishes.WithBitDepth(bitDepth); return this; }
+        public FluentOutlet With32Bit() { _synthWishes.With32Bit(); return this; }
         public FluentOutlet With16Bit() { _synthWishes.With16Bit(); return this; }
         public FluentOutlet With8Bit() { _synthWishes.With8Bit(); return this; }
     }

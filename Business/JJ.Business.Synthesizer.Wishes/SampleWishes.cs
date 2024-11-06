@@ -2,7 +2,6 @@
 using JJ.Persistence.Synthesizer;
 using System.IO;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Validation;
@@ -14,6 +13,8 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
+        // TODO: Overloads with SaveResult, SaveResultData, AudioFileOutput, Stream?
+        
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(byte[] bytes, int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
