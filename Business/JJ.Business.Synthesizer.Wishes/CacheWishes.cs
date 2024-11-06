@@ -16,6 +16,10 @@ namespace JJ.Business.Synthesizer.Wishes
             => WriteAudio(func, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
+        public Result<SaveResultData> Cache(FluentOutlet outlet, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null)
+            => WriteAudio(new[] { outlet }, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
+        
+        /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(IList<FluentOutlet> channelInputs, string name = null, bool mustPad = false, [CallerMemberName] string callerMemberName = null) 
             => WriteAudio(channelInputs, inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
     
