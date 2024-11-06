@@ -11,13 +11,15 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
+        // Cache on Instance
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(
             Func<FluentOutlet> func, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => WriteAudio(
                 func, 
-                inMemory: !MustCacheToDisk, mustPad: false, name, callerMemberName);
+                inMemory: !MustCacheToDisk, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(
@@ -25,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => WriteAudio(
                 func, 
-                inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
+                inMemory: !MustCacheToDisk, mustPad, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(
@@ -33,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => WriteAudio(
                 new[] { outlet }, 
-                inMemory: !MustCacheToDisk, mustPad: false, name, callerMemberName);
+                inMemory: !MustCacheToDisk, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(
@@ -41,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => WriteAudio(
                 new[] { outlet }, 
-                inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
+                inMemory: !MustCacheToDisk, mustPad, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(
@@ -49,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => WriteAudio(
                 channelInputs, 
-                inMemory: !MustCacheToDisk, mustPad: false, name, callerMemberName);
+                inMemory: !MustCacheToDisk, mustPad: false, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Cache(
@@ -57,33 +59,33 @@ namespace JJ.Business.Synthesizer.Wishes
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => WriteAudio(
                 channelInputs, 
-                inMemory: !MustCacheToDisk, mustPad, name, callerMemberName);
+                inMemory: !MustCacheToDisk, mustPad, null, name, callerMemberName);
     
-        // Statics
+        // Cache in Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Cache(
-            Result<SaveResultData> saveResult, 
-            string name = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            if (saveResult == null) throw new ArgumentNullException(nameof(saveResult));
-            return Cache(saveResult.Data, name, callerMemberName);
-        }
+        public static Result<SaveResultData> Cache(
+            Result<SaveResultData> result, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => WriteAudio(
+                result, 
+                inMemory: true, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Cache(
-            SaveResultData saveResultData, 
-            string name = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            if (saveResultData == null) throw new ArgumentNullException(nameof(saveResultData));
-            return Cache(saveResultData.AudioFileOutput, name, callerMemberName);
-        }
+        public static Result<SaveResultData> Cache(
+            SaveResultData data, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => WriteAudio(
+                data, 
+                inMemory: true, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result<SaveResultData> Cache(
             AudioFileOutput entity, 
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => WriteAudio(entity, inMemory: true);
+            => WriteAudio(
+                entity, 
+                inMemory: true, null, name, callerMemberName);
     }
 
     // Save on SynthWishes Instances

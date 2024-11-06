@@ -34,11 +34,11 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Save(Func<FluentOutlet> func, string name = null, [CallerMemberName] string callerMemberName = null)
-            => WriteAudio(func, inMemory: false, mustPad: true, name, callerMemberName);
+            => WriteAudio(func, inMemory: false, mustPad: true, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<SaveResultData> Save(IList<FluentOutlet> channelInputs, string name = null, [CallerMemberName] string callerMemberName = null)
-            => WriteAudio(channelInputs, inMemory: false, mustPad: true, name, callerMemberName);
+            => WriteAudio(channelInputs, inMemory: false, mustPad: true, null, name, callerMemberName);
 
         // Statics
         
@@ -57,22 +57,10 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result<SaveResultData> Save(AudioFileOutput entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-            if (!string.IsNullOrWhiteSpace(filePath))
-            {
-                entity.FilePath = filePath;
-            }
-
-            if (string.IsNullOrWhiteSpace(entity.FilePath))
-            {
-                entity.FilePath = callerMemberName;
-            }
-
-            return WriteAudio(entity, inMemory: false);
-        }
+        public static Result<SaveResultData> Save(
+            AudioFileOutput entity, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => WriteAudio(entity, inMemory: false, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static void Save(Sample entity, string filePath = null, [CallerMemberName] string callerMemberName = null) 
@@ -96,11 +84,12 @@ namespace JJ.Business.Synthesizer.Wishes
             File.WriteAllBytes(filePath, bytes);
         }
 
-        // Private
+        // WriteAudio on Instance
         
         /// <inheritdoc cref="docs._saveorplay" />
         private Result<SaveResultData> WriteAudio(
-            Func<FluentOutlet> func, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
+            Func<FluentOutlet> func, 
+            bool inMemory, bool mustPad, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
         {
             name = FetchName(name, callerMemberName);
 
@@ -111,12 +100,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     case Mono:
                         WithCenter(); var monoOutlet = func();
-                        return WriteAudio(new[] { monoOutlet }, inMemory, mustPad, name);
+                        return WriteAudio(new[] { monoOutlet }, inMemory, mustPad, additionalWarnings, name);
 
                     case Stereo:
                         WithLeft(); var leftOutlet = func();
                         WithRight(); var rightOutlet = func();
-                        return WriteAudio(new[] { leftOutlet, rightOutlet }, inMemory, mustPad,name);
+                        return WriteAudio(new[] { leftOutlet, rightOutlet }, inMemory, mustPad, additionalWarnings, name);
                     
                     default:
                         throw new ValueNotSupportedException(GetSpeakerSetup);
@@ -130,14 +119,17 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         private Result<SaveResultData> WriteAudio(
-            IList<FluentOutlet> channelInputs, bool inMemory, bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
+            IList<FluentOutlet> channelInputs,
+            bool inMemory, bool mustPad, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
         {
-            name = FetchName(name, callerMemberName);
-
             // Process Parameters
             if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
             if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
             if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
+            additionalWarnings = additionalWarnings ?? Array.Empty<string>();
+
+            // Fetch Name
+            name = FetchName(name, callerMemberName);
 
             // Apply Padding
             if (mustPad)
@@ -148,17 +140,21 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
 
-            // Configure AudioFileOutput (avoid backend)
+            // Configure AudioFileOutput
             var audioFileOutputResult = ConfigureAudioFileOutput(channelInputs, name);
 
             // Write Audio
-            var result = WriteAudio(audioFileOutputResult.Data, inMemory, audioFileOutputResult.ValidationMessages.Select(x => x.Text).ToArray());
+            var result = WriteAudio(
+                audioFileOutputResult.Data, 
+                inMemory, additionalWarnings.Union(audioFileOutputResult.ValidationMessages.Select(x => x.Text)).ToArray(), name);
             
             return result;
         }
 
         private Result<AudioFileOutput> ConfigureAudioFileOutput(IList<FluentOutlet> channelInputs, string name)
         {
+            // Configure AudioFileOutput (avoid backend)
+            
             int channelCount = channelInputs.Count;
             var speakerSetupEnum = channelCount.ToSpeakerSetup();
             
@@ -201,19 +197,27 @@ namespace JJ.Business.Synthesizer.Wishes
             };
         }
 
+        // WriteAudio Statics
+        
         /// <inheritdoc cref="docs._saveorplay" />
-        private static Result<SaveResultData> WriteAudio(AudioFileOutput audioFileOutput, bool inMemory, IList<string> additionalWarnings = null)
+        private static Result<SaveResultData> WriteAudio(
+            AudioFileOutput entity, 
+            bool inMemory, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
         {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             additionalWarnings = additionalWarnings ?? Array.Empty<string>();
-            
+
+            name = StaticFetchName(name, callerMemberName);
+            entity.Name = name;
+            entity.FilePath = FormatAudioFileName(name, entity.GetAudioFileFormatEnum());
+
             // Assert
-            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             
             #if DEBUG
-            audioFileOutput.Assert();
+            entity.Assert();
             #endif
             
-            foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
+            foreach (var audioFileOutputChannel in entity.AudioFileOutputChannels)
             {
                 audioFileOutputChannel.Outlet?.Assert();
             }
@@ -221,18 +225,18 @@ namespace JJ.Business.Synthesizer.Wishes
             // Warnings
             var warnings = new List<string>();
             warnings.AddRange(additionalWarnings);
-            foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
+            foreach (var audioFileOutputChannel in entity.AudioFileOutputChannels)
             {
                 warnings.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
             }
-            warnings.AddRange(audioFileOutput.GetWarnings());
+            warnings.AddRange(entity.GetWarnings());
 
             // Calculate
             byte[] bytes = null;
-            var calculator = CreateAudioFileOutputCalculator(audioFileOutput);
+            var calculator = CreateAudioFileOutputCalculator(entity);
             if (inMemory)
             {
-                bytes = new byte[audioFileOutput.GetFileLengthNeeded()];
+                bytes = new byte[entity.GetFileLengthNeeded()];
                 new AudioFileOutputCalculatorAccessor(calculator)._stream = new MemoryStream(bytes);
             }
             var stopWatch = Stopwatch.StartNew();
@@ -245,7 +249,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 Successful = true,
                 ValidationMessages = warnings.ToCanonical(),
-                Data = new SaveResultData(audioFileOutput, bytes, calculationDuration)
+                Data = new SaveResultData(entity, bytes, calculationDuration)
             };
 
             // Report
@@ -256,7 +260,25 @@ namespace JJ.Business.Synthesizer.Wishes
             return result;
         }
 
-        // Helpers
+        /// <inheritdoc cref="docs._saveorplay" />
+        private static Result<SaveResultData> WriteAudio(
+            SaveResultData data, 
+            bool inMemory, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
+        {
+            if (data == null) throw new ArgumentNullException(nameof(data));
+            
+            return WriteAudio(
+                data.AudioFileOutput,
+                inMemory, additionalWarnings, name, callerMemberName);
+        }
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        private static Result<SaveResultData> WriteAudio(
+            Result<SaveResultData> result, 
+            bool inMemory, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
+            => WriteAudio(
+                result.Data, 
+                inMemory, additionalWarnings, name, callerMemberName);
         
         private FluentOutlet ApplyPadding(FluentOutlet outlet)
         {
