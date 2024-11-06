@@ -2,9 +2,6 @@
 using JJ.Persistence.Synthesizer;
 using System.IO;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Validation;
 using static JJ.Framework.IO.StreamHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
