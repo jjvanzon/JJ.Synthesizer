@@ -81,15 +81,20 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         
         public static string WithShortGuids(this string input, int length)
         {
-            // Regular expression to find GUIDs in the format `8-4-4-4-12` (e.g., adb97479-aec6-46a5-9767-162bc727bfb8)
-            var guidPattern = new Regex(@"\b[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\b");
+            // Regular expression to match GUID-like sequences with or without dashes
+            var guidPattern = new Regex(@"\b[a-fA-F0-9]{4,32}\b(-?[a-fA-F0-9]{4,32})*\b", RegexOptions.IgnoreCase);
 
-            // Replace each matched GUID with a truncated version
-            return guidPattern.Replace(input, match =>
+            // Replace each matched GUID-like sequence with a truncated version
+            string output = guidPattern.Replace(input, match =>
             {
-                string guid = match.Value;
+                // Remove dashes from the matched sequence
+                string guid = match.Value.Replace("-", "");
+
+                // Shorten the GUID to the desired length, ensuring it doesn't exceed the original length
                 return guid.Substring(0, Math.Min(length, guid.Length));
             });
+
+            return output;
         }
 
         public static string PrettyTime() => PrettyTime(DateTime.Now);
