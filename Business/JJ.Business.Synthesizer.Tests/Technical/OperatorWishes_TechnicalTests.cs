@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 using static JJ.Framework.Testing.AssertHelper;
 // ReSharper disable UnusedVariable
 // ReSharper disable ExplicitCallerInfoArgument
@@ -23,7 +24,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class OperatorWishes_TechnicalTests : SynthWishes
     {
         [TestMethod]
-        public void TestNestedSumFlattening()
+        public void NestedSumFlatteningTest() => new OperatorWishes_TechnicalTests().NestedSumFlattening();
+
+        private void NestedSumFlattening()
         {
             // Arrange
             var var1 = Curve(1, 1).SetName("Curve1");
@@ -48,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => const10);
 
             // Check Classic Adder
-            OperatorFactory x = TestHelper.CreateOperatorFactory(Context);
+            OperatorFactory x = CreateOperatorFactory(Context);
             Adder nestedAdder =
                 x.Adder
                 (
@@ -151,9 +154,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             double calculatedNestedSum = _[sumWrapper].Calculate();
             AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => calculatedNestedSum);
         }
- 
+
         [TestMethod]
-        public void TestNestedMultiplicationOptimization()
+        public void NestedMultiplicationOptimizationTest() => new OperatorWishes_TechnicalTests().NestedMultiplicationOptimization();
+        
+        private void NestedMultiplicationOptimization()
         {
             // Arrange
             var const1 = _[1];
@@ -218,33 +223,43 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             double calculatedFlattenedFactors = flattenedFactors.Product(x => x.Calculate());
             AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => calculatedFlattenedFactors);
         }
-
+        
         [TestMethod]
-        public void Test_Fluent_Notation1()
+        public void FluentNotationTest1() => new OperatorWishes_TechnicalTests().FluentNotation1();
+
+        private void FluentNotation1()
         {
             Save(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9)).Play();
         }
-
+        
         [TestMethod]
-        public void Test_Fluent_Notation2()
+        public void FluentNotationTest2() => new OperatorWishes_TechnicalTests().FluentNotation2();
+
+        private void FluentNotation2()
         {
             Save(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9)).Play();
         }
 
         [TestMethod]
-        public void Test_Fluent_Notation3()
+        public void FluentNotationTest3() => new OperatorWishes_TechnicalTests().FluentNotation3();
+
+        private void FluentNotation3()
         {
             Save(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9)).Play();
         }
         
         [TestMethod]
-        public void Test_Fluent_Notation4()
+        public void FluentNotationTest4() => new OperatorWishes_TechnicalTests().FluentNotation4();
+
+        private void FluentNotation4()
         {
             Save(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9)).Play();
         }
 
         [TestMethod]
-        public void Test_Fluent_Chaining()
+        public void FluentChainingTest() => new OperatorWishes_TechnicalTests().FluentChaining();
+
+        private void FluentChaining()
         {
             var freq = C4;
 
@@ -267,7 +282,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
     
         [TestMethod]
-        public void Test_Fluent_PlayMono()
+        public void FluentPlayMonoTest() => new OperatorWishes_TechnicalTests().FluentPlayMono();
+
+        private void FluentPlayMono()
         {
             var freq = E4;
 
@@ -292,7 +309,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
  
         [TestMethod]
-        public void Test_Fluent_CSharpOperators()
+        public void FluentCSharpOperatorsTest() => new OperatorWishes_TechnicalTests().FluentCSharpOperators();
+
+        private void FluentCSharpOperators()
         {
             FluentOutlet freq = G5;
 
@@ -315,7 +334,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_Fluent_ValueChaining()
+        public void FluentValueChainingTest() => new OperatorWishes_TechnicalTests().FluentValueChaining();
+
+        private void FluentValueChaining()
         {
             {
                 var sine = A4.Sine;
@@ -339,7 +360,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void Test_Fluent_CurveChaining()
+        public void FluentCurveChainingTest() => new OperatorWishes_TechnicalTests().FluentCurveChaining();
+
+        private void FluentCurveChaining()
         {
             var chain1 = Sine(G4).Curve(0, 1, 0);
             var chain2 = Sine(A4).Times(Curve(0, 1, 0));
@@ -351,7 +374,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_ParallelAdd_NormalAdd_ForComparison()
+        public void ParallelAdd_NormalAdd_ForComparison_Test() => new OperatorWishes_TechnicalTests().ParallelAdd_NormalAdd_ForComparison();
+
+        private void ParallelAdd_NormalAdd_ForComparison()
         {
             WithParallelEnabled();
             
@@ -372,7 +397,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void Test_ParallelAdd_WithConstSignal()
+        public void ParallelAdd_WithConstSignal_Test() => new OperatorWishes_TechnicalTests().ParallelAdd_WithConstSignal();
+
+        private void ParallelAdd_WithConstSignal()
         {
             WithParallelEnabled();
             
@@ -463,7 +490,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void Test_ParallelAdd_WithConstSignal_WithPreviewPartials()
+        public void ParallelAdd_WithConstSignal_WithPreviewPartials_Test() => new OperatorWishes_TechnicalTests().ParallelAdd_WithConstSignal_WithPreviewPartials();
+
+        private void ParallelAdd_WithConstSignal_WithPreviewPartials()
         {
             // Arrange
             WithParallelEnabled();
@@ -511,7 +540,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_ParallelAdd_WithSinePartials()
+        public void ParallelAdd_WithSinePartials_Test() => new OperatorWishes_TechnicalTests().ParallelAdd_WithSinePartials();
+
+        private void ParallelAdd_WithSinePartials()
         {
             WithParallelEnabled();
             WithAudioLength(0.6);
@@ -529,7 +560,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_ParallelAdd_SinePartials_PreviewParallels()
+        public void ParallelAdd_SinePartials_PreviewParallels_Test() => new OperatorWishes_TechnicalTests().ParallelAdd_SinePartials_PreviewParallels();
+
+        private void ParallelAdd_SinePartials_PreviewParallels()
         {
             var freq     = A4;
             var duration = 0.6;
