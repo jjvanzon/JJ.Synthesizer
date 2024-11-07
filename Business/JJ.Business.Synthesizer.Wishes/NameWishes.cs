@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
@@ -126,11 +127,22 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="docs._names"/>
-        public FluentOutlet SetName([CallerMemberName] string name = null)
+        public FluentOutlet SetName(string name = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (string.IsNullOrWhiteSpace(name)) return this;
-            
-            _wrappedOutlet.SetName(name);
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = fallbackName;
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = callerMemberName;
+            }
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                Name = name;
+            }
 
             return this;
         }
@@ -142,18 +154,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
 
-        public string Name => _wrappedOutlet.Operator.Name;
-
-        public FluentOutlet AppendName(string nameSuffix = null, [CallerMemberName] string callerMemberName = null)
+        /// <inheritdoc cref="docs._names"/>
+        public string Name
         {
-            string suffix = nameSuffix;
-            if (string.IsNullOrWhiteSpace(suffix))
-            {
-                suffix = callerMemberName;
-            }
-            SetName($"{Name}{suffix}");
-
-            return this;
+            get => _wrappedOutlet.Operator.Name;
+            set => _wrappedOutlet.Operator.Name = value;
         }
     }
 
