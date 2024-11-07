@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -96,7 +97,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             return output;
         }
-
+        
         public static string PrettyTime() => PrettyTime(DateTime.Now);
         public static string PrettyTime(DateTime dateTime) => $"{dateTime:HH:mm:ss.fff}";
     }
@@ -153,6 +154,57 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             }
 
             return config;
+        }
+    }
+
+    internal static class FileWishes
+    {
+        private static readonly object _numberedFilePathLock = new object();
+
+        /// <summary>
+        /// If the originalFilePath already exists,
+        /// a higher and higher number is inserted into the file name 
+        /// until a file name is encountered that does not exist.
+        /// Then that file path is returned.
+        /// </summary>
+        /// <param name="originalFilePath">
+        /// The absolute path to a file name, that does not yet have a number in it.
+        /// </param>
+        public static string GetNumberedFilePath(
+            string originalFilePath,
+            string numberPrefix = " (",
+            string numberFormatString = "#",
+            string numberSuffix = ")",
+            bool mustNumberFirstFile = false)
+        {
+            if (string.IsNullOrEmpty(originalFilePath)) throw new Exception("originalFilePath is null or empty.");
+
+            string folderPath = Path.GetDirectoryName(originalFilePath)?.TrimEnd('\\'); // Remove slash from root (e.g. @"C:\")
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFilePath);
+            string fileExtension = Path.GetExtension(originalFilePath);
+            string separator = !string.IsNullOrEmpty(folderPath) ? "\\" : "";
+            
+            string filePathFirstPart = $"{folderPath}{separator}{fileNameWithoutExtension}{numberPrefix}";
+            int number = mustNumberFirstFile ? 1 : 2;
+            string filePathLastPart = $"{numberSuffix}{fileExtension}";
+
+            lock (_numberedFilePathLock)
+            {
+                if (!mustNumberFirstFile && !File.Exists(originalFilePath))
+                {
+                    return originalFilePath;
+                }
+
+                string filePath;
+                do
+                {
+                    filePath = $"{filePathFirstPart}{number.ToString(numberFormatString)}{filePathLastPart}";
+                    number++;
+                }
+                while (File.Exists(filePath));
+                
+                return filePath;
+            }
         }
     }
 
