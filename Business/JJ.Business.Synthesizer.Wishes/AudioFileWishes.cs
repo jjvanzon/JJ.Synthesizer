@@ -262,6 +262,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 bytes = new byte[entity.GetFileLengthNeeded()];
                 new AudioFileOutputCalculatorAccessor(calculator)._stream = new MemoryStream(bytes);
             }
+            else 
+            {
+                // Prevent file IO errors
+                entity.FilePath = FileWishes.GetNumberedFilePath(entity.FilePath);
+            }
+
             var stopWatch = Stopwatch.StartNew();
             calculator.Execute();
             stopWatch.Stop();
