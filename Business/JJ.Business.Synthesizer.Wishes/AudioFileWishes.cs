@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         internal Result<SaveResultData> WriteAudio(
             Func<FluentOutlet> channelInputFunc, 
-            bool inMemory, bool mustPad, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             name = FetchName(name, callerMemberName);
 
@@ -115,12 +115,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     case Mono:
                         WithCenter(); var monoOutlet = channelInputFunc();
-                        return WriteAudio(new[] { monoOutlet }, inMemory, mustPad, additionalWarnings, name);
+                        return WriteAudio(new[] { monoOutlet }, inMemory, mustPad, additionalMessages, name);
 
                     case Stereo:
                         WithLeft(); var leftOutlet = channelInputFunc();
                         WithRight(); var rightOutlet = channelInputFunc();
-                        return WriteAudio(new[] { leftOutlet, rightOutlet }, inMemory, mustPad, additionalWarnings, name);
+                        return WriteAudio(new[] { leftOutlet, rightOutlet }, inMemory, mustPad, additionalMessages, name);
                     
                     default:
                         throw new ValueNotSupportedException(GetSpeakerSetup);
@@ -135,21 +135,21 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         internal Result<SaveResultData> WriteAudio(
             FluentOutlet channelInput,
-            bool inMemory, bool mustPad, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
             => WriteAudio(
                 new[] { channelInput }, 
-                inMemory, mustPad, additionalWarnings, name, callerMemberName);
+                inMemory, mustPad, additionalMessages, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         internal Result<SaveResultData> WriteAudio(
             IList<FluentOutlet> channelInputs,
-            bool inMemory, bool mustPad, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             // Process Parameters
             if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
             if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
             if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
-            additionalWarnings = additionalWarnings ?? Array.Empty<string>();
+            additionalMessages = additionalMessages ?? Array.Empty<string>();
 
             // Fetch Name
             name = FetchName(name, callerMemberName);
@@ -169,7 +169,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Write Audio
             var result = WriteAudio(
                 audioFileOutputResult.Data, 
-                inMemory, additionalWarnings.Union(audioFileOutputResult.ValidationMessages.Select(x => x.Text)).ToArray(), name);
+                inMemory, additionalMessages.Union(audioFileOutputResult.ValidationMessages.Select(x => x.Text)).ToArray(), name);
             
             return result;
         }
@@ -225,10 +225,10 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         internal static Result<SaveResultData> WriteAudio(
             AudioFileOutput entity, 
-            bool inMemory, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            additionalWarnings = additionalWarnings ?? Array.Empty<string>();
+            additionalMessages = additionalMessages ?? Array.Empty<string>();
 
             name = StaticFetchName(name, callerMemberName);
             entity.Name = name;
@@ -247,7 +247,10 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Warnings
             var warnings = new List<string>();
-            warnings.AddRange(additionalWarnings);
+            if (additionalMessages != null)
+            {
+                warnings.AddRange(additionalMessages);
+            }
             foreach (var audioFileOutputChannel in entity.AudioFileOutputChannels)
             {
                 warnings.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
@@ -286,22 +289,22 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         internal static Result<SaveResultData> WriteAudio(
             SaveResultData data, 
-            bool inMemory, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
             
             return WriteAudio(
                 data.AudioFileOutput,
-                inMemory, additionalWarnings, name, callerMemberName);
+                inMemory, additionalMessages, name, callerMemberName);
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
         internal static Result<SaveResultData> WriteAudio(
             Result<SaveResultData> result, 
-            bool inMemory, IList<string> additionalWarnings, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
             => WriteAudio(
                 result.Data, 
-                inMemory, additionalWarnings, name, callerMemberName);
+                inMemory, additionalMessages, name, callerMemberName);
         
         // Helpers
         
