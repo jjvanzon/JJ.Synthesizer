@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
@@ -50,10 +49,10 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        private readonly ThreadLocal<string> _name = new ThreadLocal<string>();
+        private string _name;
 
         /// <inheritdoc cref="docs._names"/>
-        public string GetName => _name.Value;
+        public string GetName => _name;
 
         /// <inheritdoc cref="docs._names"/>
         public SynthWishes WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
@@ -70,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 name = callerMemberName;
             }
 
-            _name.Value = name;
+            _name = name;
             return this;
         }
         
@@ -80,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string explicitName = null, [CallerMemberName] string callerMemberName = null)
         {
             string name = GetName;
-            _name.Value = null;
+            _name = null;
 
             return StaticFetchName(name, fallbackName1, fallbackName2, fallbackName3, explicitName, callerMemberName);
         }
