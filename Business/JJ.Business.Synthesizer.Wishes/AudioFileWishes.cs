@@ -247,10 +247,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Warnings
             var warnings = new List<string>();
-            if (additionalMessages != null)
-            {
                 warnings.AddRange(additionalMessages);
-            }
             foreach (var audioFileOutputChannel in entity.AudioFileOutputChannels)
             {
                 warnings.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
