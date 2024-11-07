@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = GetName;
             _name = null;
 
-            return StaticFetchName(name, fallbackName1, fallbackName2, fallbackName3, explicitName, callerMemberName);
+            return StaticFetchName(name, fallbackName1, fallbackName2, fallbackName3, explicitName: explicitName, callerMemberName);
         }
 
         /// <inheritdoc cref="docs._fetchname"/>
