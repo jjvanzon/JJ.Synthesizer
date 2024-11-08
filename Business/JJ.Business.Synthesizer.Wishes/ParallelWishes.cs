@@ -151,5 +151,18 @@ namespace JJ.Business.Synthesizer.Wishes
             return Path.GetFileNameWithoutExtension(fileName.WithShortGuids(4));
         }
 
+        private const string ParallelAddTag = " 678976b885a04c79 Parallel Add 8882a57583e82813";
+
+        private static bool IsParallel(FluentOutlet fluentOutlet) => fluentOutlet.Name != null && fluentOutlet.Name.Contains(ParallelAddTag);
+
+        private static void RemoveParallelAddTag(FluentOutlet fluentOutlet)
+        {
+            fluentOutlet.Name = fluentOutlet.Name?.Replace(ParallelAddTag, " Parallel Add");
+        }
+
+        private string GetParallelTaskName(string addOperatorName, int termIndex, string operandName)
+        {
+            return $"{addOperatorName} (Term {termIndex + 1} - {operandName}).wav";
+        }
     }
 }
