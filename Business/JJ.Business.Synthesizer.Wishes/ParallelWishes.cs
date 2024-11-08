@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private string[] GetParallelNames(int count, string name)
         {
-            string guidString = $"{NewGuid()}";
+            string guidString = $"{NewGuid():N}";
 
             string sep = " ";
             if (string.IsNullOrEmpty(name)) sep = "";
