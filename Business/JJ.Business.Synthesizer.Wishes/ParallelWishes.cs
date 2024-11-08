@@ -25,28 +25,28 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._paralleladd" />
-        public FluentOutlet ParallelAdd(params Func<FluentOutlet>[] funcs)
-            => ParallelAdd((IList<Func<FluentOutlet>>)funcs);
+        public FluentOutlet ParallelAdd(params Func<FluentOutlet>[] termFuncs)
+            => ParallelAdd((IList<Func<FluentOutlet>>)termFuncs);
 
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(
-            IList<Func<FluentOutlet>> funcs, 
+            IList<Func<FluentOutlet>> termFuncs, 
             string name = null,
             [CallerMemberName] string callerMemberName = null)
         {
-            if (funcs == null) throw new ArgumentNullException(nameof(funcs));
+            if (termFuncs == null) throw new ArgumentNullException(nameof(termFuncs));
             
             // If parallels disabled
             if (!GetParallelEnabled)
             { 
-                // Return a normal Add of the Outlets returned by the funcs.
-                return Add(funcs.Select(x => x()).ToArray());
+                // Return a normal Add of the Outlets returned by the termFuncs.
+                return Add(termFuncs.Select(x => x()).ToArray());
             }
             else
             {
                 name = FetchName(name, callerMemberName);
 
-                var add = Add(funcs.Select(termFunc => termFunc()).ToArray());
+                var add = Add(termFuncs.Select(termFunc => termFunc()).ToArray());
                 add.Name = $"{name}{ParallelAddTag} {NewGuid():N}";
 
                 WithName(name);
@@ -56,13 +56,13 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         private FluentOutlet ParallelAdd_MixedGraphBuildUpAndParallelExecution(
-            IList<Func<FluentOutlet>> funcs, 
+            IList<Func<FluentOutlet>> termFuncs, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             name = FetchName(name, callerMemberName);
 
             // Prep variables
-            int termCount = funcs.Count;
+            int termCount = termFuncs.Count;
             int channelCount = GetSpeakerSetup.GetChannelCount();
             string[] names = GetParallelNames(termCount, name);
             string[] displayNames = names.Select(GetDisplayName).ToArray();
@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                     {
                         ChannelIndex = channelIndex;
-                        channelOutlets[channelIndex] = funcs[i](); // This runs parallels, because the funcs can contain another parallel add.
+                        channelOutlets[channelIndex] = termFuncs[i](); // This runs parallels, because the funcs can contain another parallel add.
                     }
                 }
                 finally
