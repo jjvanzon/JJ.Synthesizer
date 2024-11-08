@@ -41,8 +41,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             else 
             { 
-                // Start returning a normal add, but tagged in its Operator name, a recognizable but unique thing with a guid or something, that marks it as parallel (for later processing). something like "| {guid} Parallel {guid} |" but shorter.
-                // TODO
+                name = FetchName(name, callerMemberName);
+
+                var add = Add(funcs.Select(termFunc => termFunc()).ToArray());
+                add.Name = $"{name}{ParallelAddTag} {NewGuid():N}";
+
+                WithName(name);
+
+                return add;
             }
 
             name = FetchName(name, callerMemberName);
