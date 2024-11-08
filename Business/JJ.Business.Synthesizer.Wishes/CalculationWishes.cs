@@ -3,6 +3,9 @@ using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Persistence.Synthesizer;
 using System;
+using System.Linq;
+using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -81,5 +84,33 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return Calculate(outlet, time, channelIndex);
         }
+        
+        // Complexity
+
+        public static int ComplexityNew(this Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+
+            int thisOperatorCount = 1;
+
+            var filedInlets = op.Inlets
+                                .Where(x => x.Input != null)
+                                .UnionRecursive(x => x.Input
+                                                      .Operator
+                                                      .Inlets
+                                                      .Where(y => y.Input != null));
+            
+            int filledInletCount = filedInlets.Select(x => x.Operator).Distinct().Count();
+
+            return thisOperatorCount + filledInletCount;
+        }
+
+        public static int ComplexitySlow(this Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            int complexity = op.Stringify().CountLines();
+            return complexity;
+        }
+
     }
 }
