@@ -26,6 +26,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool IsStretch => _wrappedOutlet.IsStretch();
         public bool IsSpeedUp => _wrappedOutlet.IsSpeedUp();
         public bool IsTimePower => _wrappedOutlet.IsTimePower();
+        public bool IsCurve => _wrappedOutlet.IsCurve();
+        public bool IsSample => _wrappedOutlet.IsSample();
         public bool IsAdder => _wrappedOutlet.IsAdder();
     }
 
