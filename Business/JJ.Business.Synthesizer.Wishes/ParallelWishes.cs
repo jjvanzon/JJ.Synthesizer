@@ -52,7 +52,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 return add;
             }
-
+        }
+        
+        private FluentOutlet ParallelAdd_MixedGraphBuildUpAndParallelism(
+            IList<Func<FluentOutlet>> funcs, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
+        {
             name = FetchName(name, callerMemberName);
 
             // Prep variables
