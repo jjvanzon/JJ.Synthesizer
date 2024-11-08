@@ -26,10 +26,11 @@ namespace JJ.Business.Synthesizer.Wishes
             => ParallelAdd((IList<Func<FluentOutlet>>)funcs);
         
         /// <inheritdoc cref="docs._paralleladd" />
-        public FluentOutlet ParallelAdd(IList<Func<FluentOutlet>> funcs, [CallerMemberName] string callerMemberName = null)
+        public FluentOutlet ParallelAdd(
+            IList<Func<FluentOutlet>> funcs, 
+            string name = null,
+            [CallerMemberName] string callerMemberName = null)
         {
-            string name = FetchName(callerMemberName);
-
             if (funcs == null) throw new ArgumentNullException(nameof(funcs));
 
             // If parallels disabled
@@ -43,6 +44,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Start returning a normal add, but tagged in its Operator name, a recognizable but unique thing with a guid or something, that marks it as parallel (for later processing). something like "| {guid} Parallel {guid} |" but shorter.
                 // TODO
             }
+
+            name = FetchName(name, callerMemberName);
 
             // Prep variables
             int termCount = funcs.Count;
