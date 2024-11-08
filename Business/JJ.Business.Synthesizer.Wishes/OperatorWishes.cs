@@ -1134,9 +1134,17 @@ namespace JJ.Business.Synthesizer.Wishes
                 AddAudioLength(cumulativeDelay - delay);
             }
 
-            WithName(name);
+            string originalName = GetName;
+            try
+            {
+                WithName(name);
 
-            return ParallelAdd(echoTasks);
+                return ParallelAdd(echoTasks);
+            }
+            finally
+            {
+                WithName(originalName);
+            }
         }
     }
 
