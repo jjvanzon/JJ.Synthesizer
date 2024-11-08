@@ -150,48 +150,39 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (!GetParallelEnabled) return;
 
-            _level = 1;
-
-            // Get all the parallel tasks
+            // Gather all tasks with levels
             var tasks = new List<(Task Task, int Level)>();
             for (var i = 0; i < channelOutlets.Count; i++)
             {
-                var taskTuples2 = GetParallelTasksRecursive(channelOutlets[i]);
+                var taskTuples2 = GetParallelTasksRecursive(channelOutlets[i], level: 1);
                 tasks.AddRange(taskTuples2);
             }
 
-            // Group them by nesting level
+            // Group tasks by nesting level
             var levelGroups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
             foreach (var levelGroup in levelGroups)
             {
                 // Execute each nesting level's task simultaneously.
                 Task[] tasksInLevel = levelGroup.Select(x => x.Task).ToArray();
                 tasksInLevel.ForEach(x => x.Start());
-                WaitAll(tasksInLevel);
+                WaitAll(tasksInLevel); // Ensure each level completes before moving up
             }
         }
 
-        private int _level;
-
-        private IList<(Task Task, int Level)> GetParallelTasksRecursive(FluentOutlet op)
+        private IList<(Task Task, int Level)> GetParallelTasksRecursive(FluentOutlet op, int level)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 
             var tasks = new List<(Task, int)>();
             var operands = op.Operands.Where(x => x != null).ToArray();
 
-            // Go deep
-            _level++;
+            // Recursively gather tasks from child nodes
             foreach (var operand in operands)
             {
-                // Recursive call
-                var taskTuples2 = GetParallelTasksRecursive(operand);
-                
-                tasks.AddRange(taskTuples2);
+                tasks.AddRange(GetParallelTasksRecursive(operand, level + 1));
             }
-            _level--;
 
-            // Are we being parallel?
+            // Are we being parallel here?
             if (!IsParallel(op))
             {
                 return tasks;
@@ -200,28 +191,26 @@ namespace JJ.Business.Synthesizer.Wishes
             RemoveParallelAddTag(op);
 
             // Loop through operands
-            for (var index = 0; index < operands.Length; index++)
+            for (var i = 0; i < operands.Length; i++)
             {
-                // Capture the index variable
-                int i = index;
-                
-                var operand = operands[i];
+                int operandIndex = i;
+                var operand = operands[operandIndex];
 
                 // Make a task per operand
                 var task = new Task(() =>
                 {
-                    string name = GetParallelTaskName(op.Name, i, operand.Name);
+                    string name = GetParallelTaskName(op.Name, operandIndex, operand.Name);
                     string displayName = GetDisplayName(name);
                     
-                    Console.WriteLine($"{PrettyTime()} Start Task: {displayName}", nameof(SynthWishes));
+                    Console.WriteLine($"{PrettyTime()} Start Task: {displayName} (Level {level})", nameof(SynthWishes));
 
                     byte[] bytes = Cache(operand, name).Data.Bytes;
-                    op.Operands[i] = Sample(bytes, name: displayName);
+                    op.Operands[operandIndex] = Sample(bytes, name: displayName);
 
-                    Console.WriteLine($"{PrettyTime()} End Task: {displayName}", nameof(SynthWishes));
+                    Console.WriteLine($"{PrettyTime()} End Task: {displayName} (Level {level})", nameof(SynthWishes));
                 });
 
-                tasks.Add((task, _level));
+                tasks.Add((task, level));
             }
             
             return tasks;
