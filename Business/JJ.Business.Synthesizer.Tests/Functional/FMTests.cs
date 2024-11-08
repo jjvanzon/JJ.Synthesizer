@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             => EchoParallel(sound, count: 7, magnitude: _[0.50], delay: _[0.50]);
 
         /// <inheritdoc cref="docs._fmtests"/>
-        public FMTests() : base(beat: 0.45, bar: 4 * 0.45)
+        public FMTests() : base(beat: 0.45, bar: 4 * 0.45) 
         {
             WithMono();
             _chordFreqs = CreateChordFreqs();
@@ -385,7 +385,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Instruments
 
         /// <inheritdoc cref="docs._flute1" />
-        FluentOutlet Flute1(FluentOutlet freq = null, FluentOutlet duration = null)
+        internal FluentOutlet Flute1(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
 

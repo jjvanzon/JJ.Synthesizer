@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Accessors;
+using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
@@ -597,6 +598,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var sample = Sample(GetViolin16BitMono44100WavStream(), bytesToSkip: 64).Stretch(3).Curve(1, 0.9, 0.8, 0.4, 0.2, 0);
             
             WithStereo().Play(() => sample);
+        }
+
+        [TestMethod]
+        public void ComplexityTest()  => new OperatorWishes_TechnicalTests().Complexity();
+        
+        public void Complexity()
+        {
+            var flute1         = new FMTests().Flute1();
+
+            string stringify      = flute1.Operator.Stringify();
+            int    complexitySlow = flute1.Operator.ComplexitySlow();
+            int    complexityNew = flute1.Operator.ComplexityNew();
+            
+            Assert.AreEqual(complexitySlow, complexityNew);
         }
     }
 }
