@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         public SynthWishes(double beat = 1, double bar = 4)
-            : this()
+            : this(null, beat, bar)
         {
             InitializeTimeIndexers(beat, bar);
         }
