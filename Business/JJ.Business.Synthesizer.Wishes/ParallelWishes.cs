@@ -146,7 +146,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Add(reloadedSamples);
         }
 
-        public void RunParallelsRecursive(IList<FluentOutlet> channels) 
+        internal void RunParallelsRecursive(IList<FluentOutlet> channels) 
         {
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Wishes
             WaitAll(tasks);
         }
 
-        private void RunParallelsRecursive(FluentOutlet op)
+        internal void RunParallelsRecursive(FluentOutlet op)
         {
             if (!GetParallelEnabled) return;
 

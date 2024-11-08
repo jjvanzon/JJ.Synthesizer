@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
 
@@ -26,6 +27,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public IList<FluentOutlet> FlattenFactors(FluentOutlet multiply)
         {
             return (IList<FluentOutlet>)_accessor.InvokeMethod(nameof(FlattenFactors), multiply);
+        }
+
+        public void RunParallelsRecursive(FluentOutlet op)
+        {
+            _accessor.InvokeMethod(nameof(RunParallelsRecursive), op);
         }
     }
 }

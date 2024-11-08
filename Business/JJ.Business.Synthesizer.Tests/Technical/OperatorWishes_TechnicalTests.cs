@@ -403,6 +403,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void ParallelAdd_WithConstSignal()
         {
+            var accessor = new SynthWishesAccessor(this);
+
             WithParallelEnabled();
             
             // Arrange
@@ -426,10 +428,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => adder.WrappedOutlet.Operator.IsAdder());
             AreEqual("Adder", () => adder.WrappedOutlet.Operator.OperatorTypeName);
 
+            accessor.RunParallelsRecursive(adder);
+
             IsNotNull(() => adder.WrappedOutlet.Operator.Inlets);
             var addOperands = adder.WrappedOutlet.Operator.Inlets.Select(x => x.Input).ToList();
             AreEqual(3, () => addOperands.Count);
-
+            
             foreach (var addOperand in addOperands)
             {
                 IsNotNull(() => addOperand);
@@ -496,6 +500,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void ParallelAdd_WithConstSignal_WithPreviewPartials()
         {
+            var accessor = new SynthWishesAccessor(this);
+
             // Arrange
             WithParallelEnabled();
             WithPlayParallels();
@@ -518,6 +524,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => adder.WrappedOutlet.IsAdder());
             IsTrue(() => adder.WrappedOutlet.Operator.IsAdder());
             AreEqual("Adder", () => adder.WrappedOutlet.Operator.OperatorTypeName);
+
+            accessor.RunParallelsRecursive(adder);
 
             IsNotNull(() => adder.WrappedOutlet.Operator.Inlets);
             var addOperands = adder.WrappedOutlet.Operator.Inlets.Select(x => x.Input).ToList();
