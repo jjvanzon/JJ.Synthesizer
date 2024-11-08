@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result<SaveResultData> Save(
-            SaveResultData data, 
+            SaveResultData data,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => WriteAudio(
                 data,
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static void Save(
             Sample entity, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => Save(entity.Bytes, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
             filePath = StaticFetchName(callerMemberName, explicitName: filePath);
             File.WriteAllBytes(filePath, bytes);
         }
-
+        
         // WriteAudio on Instance
         
         /// <inheritdoc cref="docs._saveorplay" />
@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 Channel = originalChannel;
             }
         }
-
+        
         /// <inheritdoc cref="docs._saveorplay" />
         internal Result<SaveResultData> WriteAudio(
             FluentOutlet channelInput,
@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
             if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
-
+            
             // Fetch Name
             name = FetchName(name, callerMemberName);
 
@@ -163,12 +163,19 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
 
-            // Configure AudioFileOutput
-            var audioFileOutputResult = ConfigureAudioFileOutput(channelInputs, name);
+            // Run Parallel Processing
+            if (GetParallelEnabled)
+            {
+                // TODO: Call other overload; run 2 channels in parallel?
+                RunParallelsRecursive(channelInputs);
+            }
 
+            // Configure AudioFileOutput (avoid backend)
+            var audioFileOutputResult = ConfigureAudioFileOutput(channelInputs, name);
+            
             // Write Audio
             var result = WriteAudio(
-                audioFileOutputResult.Data, 
+                audioFileOutputResult.Data,
                 inMemory, additionalMessages.Union(audioFileOutputResult.ValidationMessages.Select(x => x.Text)).ToArray(), name);
             
             return result;
@@ -177,7 +184,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal Result<AudioFileOutput> ConfigureAudioFileOutput(IList<FluentOutlet> channelInputs, string name)
         {
             // Configure AudioFileOutput (avoid backend)
-            
+
             int channelCount = channelInputs.Count;
             var speakerSetupEnum = channelCount.ToSpeakerSetup();
             
@@ -230,9 +237,10 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
 
+            //name = StaticFetchName(name, entity.Name, callerMemberName);
             name = StaticFetchName(name, callerMemberName);
             entity.Name = name;
-            entity.FilePath = FormatAudioFileName(name, entity.GetAudioFileFormatEnum());
+            entity.FilePath = FormatAudioFileName(name, entity.GetAudioFileFormatEnum());            
 
             // Assert
             
@@ -247,7 +255,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Warnings
             var warnings = new List<string>();
-                warnings.AddRange(additionalMessages);
+            warnings.AddRange(additionalMessages);
             foreach (var audioFileOutputChannel in entity.AudioFileOutputChannels)
             {
                 warnings.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
@@ -288,7 +296,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return result;
         }
-
+        
         /// <inheritdoc cref="docs._saveorplay" />
         internal static Result<SaveResultData> WriteAudio(
             SaveResultData data, 
@@ -308,9 +316,9 @@ namespace JJ.Business.Synthesizer.Wishes
             => WriteAudio(
                 result.Data, 
                 inMemory, additionalMessages, name, callerMemberName);
-        
+
         // Helpers
-        
+                
         private FluentOutlet ApplyPadding(FluentOutlet outlet)
         {
             if (ConfigHelper.PlayLeadingSilence == 0 &&
@@ -399,7 +407,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return lines;
         }
-
+        
         private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetup)
         {
             // Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
@@ -552,11 +560,11 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class SynthWishesSaveStaticsTurnedInstanceExtensions
     {
         // Make statics available on instances by using extension methods.
-        
+
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Save(
-            this SynthWishes synthWishes, 
-            Result<SaveResultData> result, 
+            this SynthWishes synthWishes,
+            Result<SaveResultData> result,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
@@ -581,16 +589,16 @@ namespace JJ.Business.Synthesizer.Wishes
             filePath = synthWishes.FetchName(data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
             
             SynthWishes.WriteAudio(
-                data,
+                data, 
                 inMemory: false, null, filePath, callerMemberName);
             
             return synthWishes;
         }
-
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Save(
             this SynthWishes synthWishes, 
-            AudioFileOutput entity,
+            AudioFileOutput entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
@@ -603,7 +611,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return synthWishes;
         }
-        
+
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Save(
             this SynthWishes synthWishes, 
@@ -613,12 +621,12 @@ namespace JJ.Business.Synthesizer.Wishes
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
             filePath = synthWishes.FetchName(entity?.Location, callerMemberName, explicitName: filePath);
-
-            SynthWishes.Save(entity, filePath, callerMemberName);
             
+            SynthWishes.Save(entity, filePath, callerMemberName);
+
             return synthWishes;
         }
-
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Save(
             this SynthWishes synthWishes,
@@ -641,11 +649,11 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet SaveMono(
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             WithMono();
             WithCenter();
-            
+
             _synthWishes.WriteAudio(
                 this, 
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
@@ -675,7 +683,7 @@ namespace JJ.Business.Synthesizer.Wishes
             filePath = _synthWishes.FetchName(data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
             
             SynthWishes.WriteAudio(
-                data,
+                data, 
                 inMemory: false, null, filePath, callerMemberName);
 
             return this;
@@ -697,29 +705,29 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Save(
-            Sample entity,
+            Sample entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             filePath = _synthWishes.FetchName(entity?.Location, callerMemberName, explicitName: filePath);
 
             SynthWishes.Save(
                 entity, 
-                filePath, callerMemberName);
+                filePath, callerMemberName); 
             
             return this; 
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Save(
-            byte[] bytes,
+            byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             filePath = _synthWishes.FetchName(callerMemberName, explicitName: filePath);
 
             SynthWishes.Save(
-                bytes, 
+                bytes,
                 filePath, callerMemberName); 
-            
+
             return this; 
         }
     }
@@ -730,7 +738,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Save(
-            this Result<SaveResultData> result, 
+            this Result<SaveResultData> result,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.WriteAudio(
                 result, 
@@ -746,7 +754,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result<SaveResultData> Save(
-            this AudioFileOutput entity, 
+            this AudioFileOutput entity,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.WriteAudio(
                 entity, 
@@ -757,7 +765,7 @@ namespace JJ.Business.Synthesizer.Wishes
             this Sample entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.Save(
-                entity, 
+                entity,
                 filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
