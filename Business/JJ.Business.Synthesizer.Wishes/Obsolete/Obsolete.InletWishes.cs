@@ -4,10 +4,10 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Names;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.InletObsoleteMessages;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.InletObsoleteMessages;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
-namespace JJ.Business.Synthesizer.Wishes
+namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
     internal static class InletObsoleteMessages
     {
@@ -154,16 +154,5 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Inlet entity, bool singleLine = false, bool mustUseShortOperators = false)
             => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
-    }
-
-    internal partial class OperatorStringifier
-    {
-        [Obsolete(ObsoleteMessage)]
-        public string StringifyRecursive(Inlet entity)
-        {
-            _sb = CreateStringBuilder();
-            BuildStringRecursive(entity);
-            return RemoveOuterBraces(_sb.ToString());
-        }
     }
 }

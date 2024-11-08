@@ -2,9 +2,12 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+// ReSharper disable RedundantAssignment
 #pragma warning disable CS0618 // Type or member is obsolete
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
 
 namespace JJ.Business.Synthesizer.Wishes
 {

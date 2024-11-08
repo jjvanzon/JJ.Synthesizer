@@ -3,6 +3,7 @@ using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -61,5 +62,27 @@ namespace JJ.Business.Synthesizer.Wishes
 
         [Obsolete("Prefer other parameters.", true), UsedImplicitly]
         public SampleOperatorWrapper Sample(Sample sample) => throw new NotSupportedException();
+    }
+
+    internal partial class OperatorStringifier
+    {
+        [Obsolete(InletObsoleteMessages.ObsoleteMessage)]
+        public string StringifyRecursive(Inlet entity)
+        {
+            _sb = CreateStringBuilder();
+            BuildStringRecursive(entity);
+            return RemoveOuterBraces(_sb.ToString());
+        }
+    }
+
+    public partial class FluentOutlet
+    {
+        /// <inheritdoc cref="docs._getcurvewrapper"/>
+        [Obsolete(WrappersObsoleteMessages.ObsoleteMessage)]
+        public CurveInWrapper GetCurveWrapper() => _wrappedOutlet.GetCurveWrapper();
+
+        /// <inheritdoc cref="docs._getsamplewrapper" />
+        [Obsolete(WrappersObsoleteMessages.ObsoleteMessage)]
+        public SampleOperatorWrapper GetSampleWrapper() => _wrappedOutlet.GetSampleWrapper();
     }
 }

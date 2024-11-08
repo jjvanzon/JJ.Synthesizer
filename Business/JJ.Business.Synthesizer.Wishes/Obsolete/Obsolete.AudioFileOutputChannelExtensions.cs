@@ -6,9 +6,9 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using static JJ.Business.Synthesizer.Wishes.AudioFileOutputChannel_ExtensionObsoleteMessages;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.AudioFileOutputChannel_ExtensionObsoleteMessages;
 
-namespace JJ.Business.Synthesizer.Wishes
+namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
     internal static class AudioFileOutputChannel_ExtensionObsoleteMessages
     {
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static double GetMaxAmplitude(this AudioFileOutputChannel entity)
+        public static double GetNominalMax(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);

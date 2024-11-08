@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // AudioFileWishes.Extensions.GetFileExtension AudioFileFormatNotSupported
             ThrowsException(() => AudioFileFormatEnum.Undefined.GetFileExtension());
 
-            // AudioFileWishes.Extensions.GetMaxAmplitude SampleDataTypeNotSupported
+            // AudioFileWishes.Extensions.GetNominalMax SampleDataTypeNotSupported
             ThrowsException(() => SampleDataTypeEnum.Undefined.GetNominalMax());
 
             // AudioFileWishes.Extensions.GetHeaderLength AudioFileFormatNotSupported

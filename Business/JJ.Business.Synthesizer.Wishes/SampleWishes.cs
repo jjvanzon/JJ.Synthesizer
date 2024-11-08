@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Wrap 
 
             Sample sample = _sampleManager.CreateSample(stream);
-            sample.Amplifier = 1.0 / sample.SampleDataType.GetMaxAmplitude();
+            sample.Amplifier = 1.0 / sample.GetNominalMax();
             sample.BytesToSkip = bytesToSkip;
             sample.SetInterpolation(GetInterpolation, Context);
 

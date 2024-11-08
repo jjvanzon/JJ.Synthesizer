@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
-using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Wishes.Helpers.PersistenceHelper;
@@ -219,12 +218,12 @@ namespace JJ.Business.Synthesizer.Wishes
         // AudioFileOutputChannel by ChannelEnum
 
         public static AudioFileOutputChannel TryGetAudioFileOutputChannel(
-            this AudioFileOutput audioFileOutput, ChannelEnum channelEnum, IContext context = null)
-            => audioFileOutput.TryGetAudioFileOutputChannel(channelEnum.ToEntity(context));
+            this AudioFileOutput audioFileOutput, ChannelEnum channelEnum)
+            => audioFileOutput.AudioFileOutputChannels.SingleOrDefault(x => x.Index == channelEnum.ToIndex());
         
         public static AudioFileOutputChannel GetAudioFileOutputChannel(
-            this AudioFileOutput audioFileOutput, ChannelEnum channelEnum, IContext context = null)
-            => audioFileOutput.GetAudioFileOutputChannel(channelEnum.ToEntity(context));
+            this AudioFileOutput audioFileOutput, ChannelEnum channelEnum)
+            => audioFileOutput.AudioFileOutputChannels.Single(x => x.Index == channelEnum.ToIndex());
         
         // SetNodeType for whole Curve
 

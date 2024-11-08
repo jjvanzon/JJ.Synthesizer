@@ -272,7 +272,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sample.SamplingRate   = samplingRate;
                     sample.SpeakerSetup   = audioFileOutput1.SpeakerSetup;
                     sample.SampleDataType = audioFileOutput1.SampleDataType;
-                    sample.Amplifier      = 1.0 / audioFileOutput1.SampleDataType.GetMaxAmplitude();
+                    sample.Amplifier      = 1.0 / audioFileOutput1.GetNominalMax();
                 }
 
                 return outlet;

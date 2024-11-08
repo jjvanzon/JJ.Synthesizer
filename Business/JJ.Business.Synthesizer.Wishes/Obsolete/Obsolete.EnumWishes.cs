@@ -5,15 +5,13 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
-using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Wishes.Helpers.PersistenceHelper;
-using static JJ.Business.Synthesizer.Wishes.ObsoleteEnumWishesMessages;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 // ReSharper disable InvokeAsExtensionMethod
 
-
-namespace JJ.Business.Synthesizer.Wishes
+namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
     internal static class ObsoleteEnumWishesMessages
     {
@@ -82,7 +80,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return EntityToEnumWishes.ToEnum(enumEntity).GetBits();
         }
     
-        public static double GetMaxAmplitude(this SampleDataType enumEntity)
+        public static double GetNominalMax(this SampleDataType enumEntity)
             => EntityToEnumWishes.ToEnum(enumEntity).GetNominalMax();
     }
 

@@ -1,20 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Structs;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Persistence.Synthesizer;
-using System.Collections.Generic;
-using JJ.Business.Synthesizer.Structs;
-using static JJ.Business.Synthesizer.Wishes.WrappersObsoleteMessages;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.WrappersObsoleteMessages;
 
 // ReSharper disable NotResolvedInText
 // ReSharper disable InvokeAsExtensionMethod
 
-namespace JJ.Business.Synthesizer.Wishes
+namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
     // WrapperWishes
 
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static double GetMaxAmplitude(this SampleOperatorWrapper wrapper)
+        public static double GetNominalMax(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             return wrapper.Sample.GetNominalMax();
@@ -451,17 +451,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return new SampleOperatorWrapper(entity.AsSampleOperator);
         }
-    }
-
-    public partial class FluentOutlet
-    {
-        /// <inheritdoc cref="docs._getcurvewrapper"/>
-        [Obsolete(ObsoleteMessage)]
-        public CurveInWrapper GetCurveWrapper() => _wrappedOutlet.GetCurveWrapper();
-
-        /// <inheritdoc cref="docs._getsamplewrapper" />
-        [Obsolete(ObsoleteMessage)]
-        public SampleOperatorWrapper GetSampleWrapper() => _wrappedOutlet.GetSampleWrapper();
     }
 
     // WrapperWishes From StringifyWishes
