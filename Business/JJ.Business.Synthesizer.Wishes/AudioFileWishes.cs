@@ -166,15 +166,6 @@ namespace JJ.Business.Synthesizer.Wishes
             // Run Parallel Processing
             if (GetParallelEnabled)
             {
-                //switch (channelInputs.Count)
-                //{
-                //    case 1: RunParallelsRecursive(channelInputs); break;
-                //    case 2:
-                //        Task task1 = Run(() => RunParallelsRecursive(channelInputs[0]));
-                //        Task task2 = Run(() => RunParallelsRecursive(channelInputs[1]));
-                //        WaitAll(task1, task2);
-                //        break;
-                //}
                 RunParallelsRecursive(channelInputs); 
             }
 

@@ -142,10 +142,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public void RunParallelsRecursive(IList<FluentOutlet> channelOutlets)
         {
-            //Task task1 = Run(() => RunParallelsRecursive(channelInputs[0]));
-            //Task task2 = Run(() => RunParallelsRecursive(channelInputs[1]));
-            //WaitAll(task1, task2);
-            
             var tasks = new Task[channelOutlets.Count];
 
             for (var i = 0; i < channelOutlets.Count; i++)
