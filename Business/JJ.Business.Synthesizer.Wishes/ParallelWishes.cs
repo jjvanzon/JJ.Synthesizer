@@ -148,26 +148,26 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public void RunParallelsRecursive(IList<FluentOutlet> channelOutlets)
         {
+            if (!GetParallelEnabled) return;
+
             _level = 1;
 
             // Get all the parallel tasks
-            var taskTuples = new List<(Task Task, int Level)>();
+            var tasks = new List<(Task Task, int Level)>();
             for (var i = 0; i < channelOutlets.Count; i++)
             {
                 var taskTuples2 = GetParallelTasksRecursive(channelOutlets[i]);
-                taskTuples.AddRange(taskTuples2);
+                tasks.AddRange(taskTuples2);
             }
 
             // Group them by nesting level
-            var levelGroups = taskTuples.OrderByDescending(x => x.Level)
-                                        .GroupBy(x => x.Level);
-            
+            var levelGroups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
             foreach (var levelGroup in levelGroups)
             {
                 // Execute each nesting level's task simultaneously.
-                var tasks = levelGroup.Select(x => x.Task).ToArray();
-                tasks.ForEach(x => x.Start());
-                WaitAll(tasks);
+                Task[] tasksInLevel = levelGroup.Select(x => x.Task).ToArray();
+                tasksInLevel.ForEach(x => x.Start());
+                WaitAll(tasksInLevel);
             }
         }
 
@@ -177,55 +177,54 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 
-            var taskTuples = new List<(Task, int)>();
-
-            if (!GetParallelEnabled) return taskTuples;
-            
-            var operands = op.Operands.ToArray();
+            var tasks = new List<(Task, int)>();
+            var operands = op.Operands.Where(x => x != null).ToArray();
 
             // Go deep
             _level++;
-            for (var i = 0; i < operands.Length; i++)
+            foreach (var operand in operands)
             {
-                var operand = operands[i];
-                if (operand == null) continue;
-                
                 // Recursive call
                 var taskTuples2 = GetParallelTasksRecursive(operand);
-                taskTuples.AddRange(taskTuples2);
+                
+                tasks.AddRange(taskTuples2);
             }
             _level--;
 
-            if (!IsParallel(op)) return taskTuples;
+            // Are we being parallel?
+            if (!IsParallel(op))
+            {
+                return tasks;
+            }
             
             RemoveParallelAddTag(op);
 
             // Loop through operands
-            for (var i = 0; i < operands.Length; i++)
+            for (var index = 0; index < operands.Length; index++)
             {
+                // Capture the index variable
+                int i = index;
+                
                 var operand = operands[i];
-                if (operand == null) continue;
-
-                // Prep variables
-                int capturedIndex = i;
-                string taskName = GetParallelTaskName(op.Name, i, operand.Name);
-                string taskDisplayName = GetDisplayName(taskName);
 
                 // Make a task per operand
                 var task = new Task(() =>
                 {
-                    Console.WriteLine($"{PrettyTime()} Start Task: {taskDisplayName}", nameof(SynthWishes));
+                    string name = GetParallelTaskName(op.Name, i, operand.Name);
+                    string displayName = GetDisplayName(name);
+                    
+                    Console.WriteLine($"{PrettyTime()} Start Task: {displayName}", nameof(SynthWishes));
 
-                    byte[] bytes = Cache(operand, taskName).Data.Bytes;
-                    op.Operands[capturedIndex] = Sample(bytes, name: taskDisplayName);
+                    byte[] bytes = Cache(operand, name).Data.Bytes;
+                    op.Operands[i] = Sample(bytes, name: displayName);
 
-                    Console.WriteLine($"{PrettyTime()} End Task: {taskDisplayName}", nameof(SynthWishes));
+                    Console.WriteLine($"{PrettyTime()} End Task: {displayName}", nameof(SynthWishes));
                 });
 
-                taskTuples.Add((task, _level));
+                tasks.Add((task, _level));
             }
             
-            return taskTuples;
+            return tasks;
         }
 
         // Helpers
