@@ -146,17 +146,28 @@ namespace JJ.Business.Synthesizer.Wishes
             return Add(reloadedSamples);
         }
 
-        public void RunParallelsRecursive(IList<FluentOutlet> channelOutlets)
+        public void RunParallelsRecursive(IList<FluentOutlet> channels) 
+        {
+            if (channels == null) throw new ArgumentNullException(nameof(channels));
+            if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
+            if (!GetParallelEnabled) return;
+
+            var tasks = new Task[channels.Count];
+            for (int i = 0; i < channels.Count; i++)
+            {
+                int channelIndex = i;
+                tasks[channelIndex] = Run(() => RunParallelsRecursive(channels[channelIndex]));
+            }
+            
+            WaitAll(tasks);
+        }
+
+        private void RunParallelsRecursive(FluentOutlet op)
         {
             if (!GetParallelEnabled) return;
 
             // Gather all tasks with levels
-            var tasks = new List<(Task Task, int Level)>();
-            for (var i = 0; i < channelOutlets.Count; i++)
-            {
-                var taskTuples2 = GetParallelTasksRecursive(channelOutlets[i], level: 1);
-                tasks.AddRange(taskTuples2);
-            }
+            var tasks = GetParallelTasksRecursive(op, level: 1);
 
             // Group tasks by nesting level
             var levelGroups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
