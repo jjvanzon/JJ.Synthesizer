@@ -23,6 +23,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class OperatorWishes_TechnicalTests : SynthWishes
     {
+        FluentOutlet Envelope => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
+
         [TestMethod]
         public void NestedSumFlatteningTest() => new OperatorWishes_TechnicalTests().NestedSumFlattening();
 
@@ -229,7 +231,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation1()
         {
-            Save(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9)).Play();
+            Save(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Multiply(Envelope)).Play();
         }
         
         [TestMethod]
@@ -237,7 +239,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation2()
         {
-            Save(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9)).Play();
+            Save(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Volume(Envelope)).Play();
         }
 
         [TestMethod]
@@ -245,7 +247,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation3()
         {
-            Save(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9)).Play();
+            Save(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Curve(Envelope)).Play();
         }
         
         [TestMethod]
@@ -253,7 +255,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation4()
         {
-            Save(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9)).Play();
+            Save(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9) * Envelope).Play();
         }
 
         [TestMethod]
@@ -545,11 +547,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         private void ParallelAdd_WithSinePartials()
         {
             WithParallelEnabled();
-            WithAudioLength(0.6);
             
             var freq = A4;
             
-            var added = WithName().ParallelAdd
+            var added = Envelope * WithName().ParallelAdd
             (
                 () => Sine(freq * 1) * 1.0,
                 () => Sine(freq * 2) * 0.2,
@@ -564,15 +565,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void ParallelAdd_SinePartials_PreviewParallels()
         {
-            var freq     = A4;
-            var duration = 0.6;
+            var freq = A4;
 
             WithParallelEnabled();
             WithPlayParallels();
-            WithAudioLength(duration);
             WithName();
             
-            var added = ParallelAdd
+            var added = Envelope * ParallelAdd
             (
                 () => Sine(freq * 1) * 1.0,
                 () => Sine(freq * 2) * 0.2,
@@ -587,7 +586,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void MonoSampleInStereoContext()
         {
-            FluentOutlet sample = Sample(GetViolin16BitMono44100WavStream());
+            var sample = Sample(GetViolin16BitMono44100WavStream(), bytesToSkip: 64).Stretch(3).Curve(1, 0.9, 0.8, 0.4, 0.2, 0);
             
             WithStereo().Play(() => sample);
         }

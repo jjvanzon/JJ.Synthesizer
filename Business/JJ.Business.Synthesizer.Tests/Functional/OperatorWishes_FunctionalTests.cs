@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             
             // Arrange
             var freq    = E5;
-            var sine    = Sine(freq);
+            var sine    = Sine(freq).Curve(1, 1, 0);
             var panning = 0.25;
 
             // Act
