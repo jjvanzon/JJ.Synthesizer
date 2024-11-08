@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using static System.Guid;
 using static System.Linq.Enumerable;
+using static System.Threading.Tasks.Task;
 using static JJ.Business.Synthesizer.Wishes.Helpers.StringWishes;
 
 // ReSharper disable ParameterHidesMember
@@ -141,10 +142,20 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public void RunParallelsRecursive(IList<FluentOutlet> channelOutlets)
         {
-            foreach (FluentOutlet channelOutlet in channelOutlets)
+            //Task task1 = Run(() => RunParallelsRecursive(channelInputs[0]));
+            //Task task2 = Run(() => RunParallelsRecursive(channelInputs[1]));
+            //WaitAll(task1, task2);
+            
+            var tasks = new Task[channelOutlets.Count];
+
+            for (var i = 0; i < channelOutlets.Count; i++)
             {
-                RunParallelsRecursive(channelOutlet);
+                var channelOutlet = channelOutlets[i];
+                var task = Run(() => RunParallelsRecursive(channelOutlet));
+                tasks[i] = task;
             }
+
+            WaitAll(tasks);
         }
 
         private void RunParallelsRecursive(FluentOutlet op)

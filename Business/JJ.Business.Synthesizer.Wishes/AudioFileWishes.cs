@@ -166,8 +166,16 @@ namespace JJ.Business.Synthesizer.Wishes
             // Run Parallel Processing
             if (GetParallelEnabled)
             {
-                // TODO: Call other overload; run 2 channels in parallel?
-                RunParallelsRecursive(channelInputs);
+                //switch (channelInputs.Count)
+                //{
+                //    case 1: RunParallelsRecursive(channelInputs); break;
+                //    case 2:
+                //        Task task1 = Run(() => RunParallelsRecursive(channelInputs[0]));
+                //        Task task2 = Run(() => RunParallelsRecursive(channelInputs[1]));
+                //        WaitAll(task1, task2);
+                //        break;
+                //}
+                RunParallelsRecursive(channelInputs); 
             }
 
             // Configure AudioFileOutput (avoid backend)
