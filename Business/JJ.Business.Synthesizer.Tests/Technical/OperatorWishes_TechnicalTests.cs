@@ -581,5 +581,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             WithMono().Play(() => added);
         }
+
+        [TestMethod]
+        public void MonoSampleInStereoContextTest() => new OperatorWishes_TechnicalTests().MonoSampleInStereoContext();
+
+        private void MonoSampleInStereoContext()
+        {
+            FluentOutlet sample = Sample(GetViolin16BitMono44100WavStream());
+            
+            WithStereo().Play(() => sample);
+        }
     }
 }
