@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Framework.Common;
 using static System.Guid;
 using static System.Linq.Enumerable;
 using static System.Threading.Tasks.Task;
@@ -54,7 +55,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private FluentOutlet ParallelAdd_MixedGraphBuildUpAndParallelism(
+        private FluentOutlet ParallelAdd_MixedGraphBuildUpAndParallelExecution(
             IList<Func<FluentOutlet>> funcs, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -147,67 +148,84 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public void RunParallelsRecursive(IList<FluentOutlet> channelOutlets)
         {
-            var tasks = new Task[channelOutlets.Count];
+            _level = 1;
 
+            // Get all the parallel tasks
+            var taskTuples = new List<(Task Task, int Level)>();
             for (var i = 0; i < channelOutlets.Count; i++)
             {
-                var channelOutlet = channelOutlets[i];
-                var task = Run(() => RunParallelsRecursive(channelOutlet));
-                tasks[i] = task;
+                var taskTuples2 = GetParallelTasksRecursive(channelOutlets[i]);
+                taskTuples.AddRange(taskTuples2);
             }
 
-            WaitAll(tasks);
+            // Group them by nesting level
+            var levelGroups = taskTuples.OrderByDescending(x => x.Level)
+                                        .GroupBy(x => x.Level);
+            
+            foreach (var levelGroup in levelGroups)
+            {
+                // Execute each nesting level's task simultaneously.
+                var tasks = levelGroup.Select(x => x.Task).ToArray();
+                tasks.ForEach(x => x.Start());
+                WaitAll(tasks);
+            }
         }
 
-        private void RunParallelsRecursive(FluentOutlet op)
+        private int _level;
+
+        private IList<(Task Task, int Level)> GetParallelTasksRecursive(FluentOutlet op)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
-            
-            if (!GetParallelEnabled) return;
 
-            var operands = op.Operands.ToArray();
-            int operandCount = operands.Length;
+            var taskTuples = new List<(Task, int)>();
+
+            if (!GetParallelEnabled) return taskTuples;
             
-            // Depth-first
-            for (var i = 0; i < operandCount; i++)
+            var operands = op.Operands.ToArray();
+
+            // Go deep
+            _level++;
+            for (var i = 0; i < operands.Length; i++)
             {
                 var operand = operands[i];
-                if (operand != null)
-                {
-                    RunParallelsRecursive(operand);
-                }
+                if (operand == null) continue;
+                
+                // Recursive call
+                var taskTuples2 = GetParallelTasksRecursive(operand);
+                taskTuples.AddRange(taskTuples2);
             }
+            _level--;
 
-            // Some guard statements
-            bool isParallel = IsParallel(op);
-            if (!isParallel)
-            {
-                return;
-            }
-
-            if (!op.IsAdd && !op.IsAdder && !op.IsSample)
-            {
-                throw new Exception($"FluentOutlet marked as Parallel is not an {PropertyNames.Add}, {PropertyNames.Adder} or {nameof(Sample)} operator. It is: {op.Stringify(true, true)}");
-            }
-
+            if (!IsParallel(op)) return taskTuples;
+            
             RemoveParallelAddTag(op);
 
-            Parallel.For(0, operandCount, i =>
+            // Loop through operands
+            for (var i = 0; i < operands.Length; i++)
             {
                 var operand = operands[i];
-                if (operand != null)
-                {
-                    string taskName = GetParallelTaskName(op.Name, i, operand.Name);
-                    string taskDisplayName = GetDisplayName(taskName);
+                if (operand == null) continue;
 
+                // Prep variables
+                int capturedIndex = i;
+                string taskName = GetParallelTaskName(op.Name, i, operand.Name);
+                string taskDisplayName = GetDisplayName(taskName);
+
+                // Make a task per operand
+                var task = new Task(() =>
+                {
                     Console.WriteLine($"{PrettyTime()} Start Task: {taskDisplayName}", nameof(SynthWishes));
 
                     byte[] bytes = Cache(operand, taskName).Data.Bytes;
-                    op.Operands[i] = Sample(bytes, name: taskDisplayName);
+                    op.Operands[capturedIndex] = Sample(bytes, name: taskDisplayName);
 
                     Console.WriteLine($"{PrettyTime()} End Task: {taskDisplayName}", nameof(SynthWishes));
-                }
-            });
+                });
+
+                taskTuples.Add((task, _level));
+            }
+            
+            return taskTuples;
         }
 
         // Helpers
