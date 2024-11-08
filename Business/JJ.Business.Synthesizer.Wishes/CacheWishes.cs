@@ -14,76 +14,76 @@ namespace JJ.Business.Synthesizer.Wishes
         // Cache on Instance
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Cache(
+        public Result<StreamAudioData> Cache(
             Func<FluentOutlet> func, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
-            => WriteAudio(
+            => StreamAudio(
                 func, 
                 inMemory: !MustCacheToDisk, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Cache(
+        public Result<StreamAudioData> Cache(
             Func<FluentOutlet> func, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
-            => WriteAudio(
+            => StreamAudio(
                 func, 
                 inMemory: !MustCacheToDisk, mustPad, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Cache(
+        public Result<StreamAudioData> Cache(
             FluentOutlet outlet, 
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => WriteAudio(
+            => StreamAudio(
                 new[] { outlet }, 
                 inMemory: !MustCacheToDisk, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Cache(
+        public Result<StreamAudioData> Cache(
             FluentOutlet outlet, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
-            => WriteAudio(
+            => StreamAudio(
                 new[] { outlet }, 
                 inMemory: !MustCacheToDisk, mustPad, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Cache(
+        public Result<StreamAudioData> Cache(
             IList<FluentOutlet> channelInputs, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
-            => WriteAudio(
+            => StreamAudio(
                 channelInputs, 
                 inMemory: !MustCacheToDisk, mustPad: false, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Cache(
+        public Result<StreamAudioData> Cache(
             IList<FluentOutlet> channelInputs, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
-            => WriteAudio(
+            => StreamAudio(
                 channelInputs, 
                 inMemory: !MustCacheToDisk, mustPad, null, name, callerMemberName);
     
         // Cache in Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result<SaveResultData> Cache(
-            Result<SaveResultData> result, 
+        public static Result<StreamAudioData> Cache(
+            Result<StreamAudioData> result, 
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => WriteAudio(
+            => StreamAudio(
                 result, 
                 inMemory: true, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result<SaveResultData> Cache(
-            SaveResultData data, 
+        public static Result<StreamAudioData> Cache(
+            StreamAudioData data, 
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => WriteAudio(
+            => StreamAudio(
                 data, 
                 inMemory: true, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result<SaveResultData> Cache(
+        public static Result<StreamAudioData> Cache(
             AudioFileOutput entity, 
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => WriteAudio(
+            => StreamAudio(
                 entity, 
                 inMemory: true, null, name, callerMemberName);
     }
@@ -98,14 +98,14 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Cache(
             this SynthWishes synthWishes, 
-            Result<SaveResultData> result,
+            Result<StreamAudioData> result,
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
             name = synthWishes.FetchName(result?.Data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: name);
 
-            WriteAudio(
+            StreamAudio(
                 result, 
                 inMemory: true, null, name, callerMemberName);
             
@@ -115,14 +115,14 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Cache(
             this SynthWishes synthWishes, 
-            SaveResultData data,
+            StreamAudioData data,
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
             name = synthWishes.FetchName(data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: name);
 
-            WriteAudio(
+            StreamAudio(
                 data, 
                 inMemory: true, null, name, callerMemberName);
 
@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             name = synthWishes.FetchName(entity?.FilePath, callerMemberName, explicitName: name);
 
-            WriteAudio(
+            StreamAudio(
                 entity, 
                 inMemory: true, null, name, callerMemberName);
             
@@ -158,7 +158,7 @@ namespace JJ.Business.Synthesizer.Wishes
             WithMono();
             WithCenter();
 
-            _synthWishes.WriteAudio(
+            _synthWishes.StreamAudio(
                 this, 
                 inMemory: !MustCacheToDisk, mustPad: false, null, name, callerMemberName);
             
@@ -172,7 +172,7 @@ namespace JJ.Business.Synthesizer.Wishes
             WithMono();
             WithCenter();
             
-            _synthWishes.WriteAudio(
+            _synthWishes.StreamAudio(
                 this, 
                 inMemory: !MustCacheToDisk, mustPad, null, name, callerMemberName);
 
@@ -181,10 +181,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Cache(
-            Result<SaveResultData> result,
+            Result<StreamAudioData> result,
             string name = null, [CallerMemberName] string callerMemberName = null)
             { 
-                WriteAudio(
+                StreamAudio(
                     result, 
                     inMemory: true, null, name, callerMemberName);
 
@@ -193,10 +193,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FluentOutlet Cache(
-            SaveResultData data,
+            StreamAudioData data,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            WriteAudio(
+            StreamAudio(
                 data,
                 inMemory: true, null, name, callerMemberName);
             
@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            WriteAudio(
+            StreamAudio(
                 entity,
                 inMemory: true, null, name, callerMemberName);
 
@@ -222,25 +222,25 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Cache(
-            this Result<SaveResultData> result,
+            this Result<StreamAudioData> result,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => WriteAudio(
+            => StreamAudio(
                 result, 
                 inMemory: true, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Cache(
-            this SaveResultData data,
+            this StreamAudioData data,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => WriteAudio(
+            => StreamAudio(
                 data, 
                 inMemory: true, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result<SaveResultData> Cache(
+        public static Result<StreamAudioData> Cache(
             this AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => WriteAudio(
+            => StreamAudio(
                 entity, 
                 inMemory: true, null, name, callerMemberName);
     }

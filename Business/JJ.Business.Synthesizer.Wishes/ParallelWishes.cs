@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
             int channelCount = GetSpeakerSetup.GetChannelCount();
             string[] names = GetParallelNames(termCount, name);
             string[] displayNames = names.Select(GetDisplayName).ToArray();
-            var cacheResults = new Result<SaveResultData>[termCount];
+            var cacheResults = new Result<StreamAudioData>[termCount];
             var reloadedSamples = new FluentOutlet[termCount];
 
             var stopWatch = Stopwatch.StartNew();

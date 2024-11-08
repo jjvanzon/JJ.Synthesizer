@@ -21,12 +21,12 @@ namespace JJ.Business.Synthesizer.Wishes
         // Play on Instance
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Play(
+        public Result<StreamAudioData> Play(
             Func<FluentOutlet> channelInputFunc,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             var writeAudioResult =
-                WriteAudio(
+                StreamAudio(
                     channelInputFunc,
                     inMemory: !MustCacheToDisk, mustPad: true, null, name, callerMemberName);
 
@@ -38,12 +38,12 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Play(
+        public Result<StreamAudioData> Play(
             FluentOutlet channelInput, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             var writeAudioResult =
-                WriteAudio(
+                StreamAudio(
                     channelInput,
                     inMemory: !MustCacheToDisk, mustPad: true, null, name, callerMemberName);
             
@@ -55,12 +55,12 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public Result<SaveResultData> Play(
+        public Result<StreamAudioData> Play(
             IList<FluentOutlet> channelInputs, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             var writeAudioResult =
-                WriteAudio(
+                StreamAudio(
                     channelInputs,
                     inMemory: !MustCacheToDisk, mustPad: true, null, name, callerMemberName);
             
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(
-            Result<SaveResultData> result)
+            Result<StreamAudioData> result)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));
 
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(
-            SaveResultData data)
+            StreamAudioData data)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
             if (data.AudioFileOutput == null) throw new NullException(() => data.AudioFileOutput);
@@ -173,7 +173,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Play(
             this SynthWishes synthWishes, 
-            Result<SaveResultData> result)
+            Result<StreamAudioData> result)
         {
             SynthWishes.Play(result);
             return synthWishes;
@@ -182,9 +182,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Play(
             this SynthWishes synthWishes, 
-            SaveResultData resultData)
+            StreamAudioData data)
         {
-            SynthWishes.Play(resultData);
+            SynthWishes.Play(data);
             return synthWishes;
         }
 
@@ -236,7 +236,7 @@ namespace JJ.Business.Synthesizer.Wishes
             WithMono();
             WithCenter();
 
-            var writeAudioResult = _synthWishes.WriteAudio(
+            var writeAudioResult = _synthWishes.StreamAudio(
                 this,
                 inMemory: !MustCacheToDisk, mustPad: true, null, name, callerMemberName);
 
@@ -246,14 +246,14 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(Result<SaveResultData> result)
+        public FluentOutlet Play(Result<StreamAudioData> result)
         {
             SynthWishes.Play(result);
             return this;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(SaveResultData data)
+        public FluentOutlet Play(StreamAudioData data)
         {
             SynthWishes.Play(data);
             return this;
@@ -294,10 +294,10 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class EntityPlayExtensions
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Play(this Result<SaveResultData> result) => SynthWishes.Play(result);
+        public static Result Play(this Result<StreamAudioData> result) => SynthWishes.Play(result);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static Result Play(this SaveResultData result) => SynthWishes.Play(result);
+        public static Result Play(this StreamAudioData result) => SynthWishes.Play(result);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(this AudioFileOutput entity) => SynthWishes.Play(entity);
