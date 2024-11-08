@@ -6,6 +6,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using static System.Guid;
 using static System.Linq.Enumerable;
@@ -24,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(params Func<FluentOutlet>[] funcs)
             => ParallelAdd((IList<Func<FluentOutlet>>)funcs);
-        
+
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(
             IList<Func<FluentOutlet>> funcs, 
@@ -32,15 +33,15 @@ namespace JJ.Business.Synthesizer.Wishes
             [CallerMemberName] string callerMemberName = null)
         {
             if (funcs == null) throw new ArgumentNullException(nameof(funcs));
-
+            
             // If parallels disabled
             if (!GetParallelEnabled)
             { 
                 // Return a normal Add of the Outlets returned by the funcs.
                 return Add(funcs.Select(x => x()).ToArray());
             }
-            else 
-            { 
+            else
+            {
                 name = FetchName(name, callerMemberName);
 
                 var add = Add(funcs.Select(termFunc => termFunc()).ToArray());
@@ -90,10 +91,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 Console.WriteLine($"{PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
             });
-                            
+
             // Moved this out of the parallel loop,
             // but feels strange to process less in parallel.
-        
+
             // Reload Samples
             for (int i = 0; i < termCount; i++)
             {
@@ -123,8 +124,8 @@ namespace JJ.Business.Synthesizer.Wishes
                     }
                 }
             }
-            
-            
+
+
             stopWatch.Stop();
 
             // Report total real-time and complexity metrics.
@@ -134,9 +135,70 @@ namespace JJ.Business.Synthesizer.Wishes
             string formattedMetrics = FormatMetrics(audioDuration, calculationDuration, complexity);
             string message = $"{PrettyTime()} Totals {name} Terms: {formattedMetrics}";
             Console.WriteLine(message);
-            
+
             return Add(reloadedSamples);
         }
+
+        public void RunParallelsRecursive(IList<FluentOutlet> channelOutlets)
+        {
+            foreach (FluentOutlet channelOutlet in channelOutlets)
+            {
+                RunParallelsRecursive(channelOutlet);
+            }
+        }
+
+        private void RunParallelsRecursive(FluentOutlet op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            
+            if (!GetParallelEnabled) return;
+
+            var operands = op.Operands.ToArray();
+            int operandCount = operands.Length;
+            
+            // Depth-first
+            for (var i = 0; i < operandCount; i++)
+            {
+                var operand = operands[i];
+                if (operand != null)
+                {
+                    RunParallelsRecursive(operand);
+                }
+            }
+
+            // Some guard statements
+            bool isParallel = IsParallel(op);
+            if (!isParallel)
+            {
+                return;
+            }
+
+            if (!op.IsAdd && !op.IsAdder && !op.IsSample)
+            {
+                throw new Exception($"FluentOutlet marked as Parallel is not an {PropertyNames.Add}, {PropertyNames.Adder} or {nameof(Sample)} operator. It is: {op.Stringify(true, true)}");
+            }
+
+            RemoveParallelAddTag(op);
+
+            Parallel.For(0, operandCount, i =>
+            {
+                var operand = operands[i];
+                if (operand != null)
+                {
+                    string taskName = GetParallelTaskName(op.Name, i, operand.Name);
+                    string taskDisplayName = GetDisplayName(taskName);
+
+                    Console.WriteLine($"{PrettyTime()} Start Task: {taskDisplayName}", nameof(SynthWishes));
+
+                    byte[] bytes = Cache(operand, taskName).Data.Bytes;
+                    op.Operands[i] = Sample(bytes, name: taskDisplayName);
+
+                    Console.WriteLine($"{PrettyTime()} End Task: {taskDisplayName}", nameof(SynthWishes));
+                }
+            });
+        }
+
+        // Helpers
 
         private string[] GetParallelNames(int count, string name)
         {
@@ -153,7 +215,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return fileNames;
         }
-        
+
         private static string GetDisplayName(string fileName)
         {
             if (fileName == null) return null;
