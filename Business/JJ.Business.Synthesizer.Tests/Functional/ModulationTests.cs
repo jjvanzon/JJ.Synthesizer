@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Long Running
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest() 
-            => WithAudioLength(bars[7]).Save(() => DeepEcho(DetunicaJingle) * 0.6).Play();
+            => WithAudioLength(bars[7]).Save(() => DeepEcho(DetunicaJingle) * 0.8).Play();
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest_Mono()
         {
-            WithMono().WithAudioLength(bars[7]).Save(() => DeepEcho(DetunicaJingle) * 0.15).Play();
+            WithMono().WithAudioLength(bars[7]).Save(() => DeepEcho(DetunicaJingle) * 0.25).Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
