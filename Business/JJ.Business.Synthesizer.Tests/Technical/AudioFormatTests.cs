@@ -25,10 +25,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class AudioFormatTests : SynthWishes
     {
-        private const int    ALIGNED_SAMPLING_RATE     = 4096;
+        private const int    ALIGNED_SAMPLING_RATE     = 8192;
         private const double ALIGNED_FREQUENCY         = 64;
-        private const int    NON_ALIGNED_SAMPLING_RATE = 4093;
-        private const double NON_ALIGNED_FREQUENCY = 61;
+        private const int    NON_ALIGNED_SAMPLING_RATE = 8191;
+        private const double NON_ALIGNED_FREQUENCY     = 61;
 
         private const double VOLUME    = 0.50;
         private const double PANNING   = 0.25;
@@ -664,7 +664,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             InterpolationTypeEnum interpolationTypeEnum,
             SampleDataTypeEnum sampleDataTypeEnum)
         {
-            // Worst: Not Aligned, Block
+            // Worst: Blocky, Not Aligned
 
             if (!aligned && interpolationTypeEnum == Block && sampleDataTypeEnum == SampleDataTypeEnum.Byte)
             {
@@ -704,7 +704,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 return 0.0006;
             }
-                        
+            
+            // Float32 Non-Aligned
+            
+            if (!aligned && interpolationTypeEnum == Line && sampleDataTypeEnum == SampleDataTypeEnum.Float32)
+            {
+                return 0.00015;
+            }
+
             // Int16 Aligned
 
             if (aligned && interpolationTypeEnum == Block && sampleDataTypeEnum == SampleDataTypeEnum.Int16)
@@ -717,16 +724,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 return 0.00008;
             }
 
-            // Float32
+            // Float32 Aligned
 
             if (aligned && interpolationTypeEnum == Block && sampleDataTypeEnum == SampleDataTypeEnum.Float32)
             {
                 return 0.000047;
-            }
-            
-            if (!aligned && interpolationTypeEnum == Line && sampleDataTypeEnum == SampleDataTypeEnum.Float32)
-            {
-                return 0.00048;
             }
             
             if (aligned && interpolationTypeEnum == Line && sampleDataTypeEnum == SampleDataTypeEnum.Float32)
