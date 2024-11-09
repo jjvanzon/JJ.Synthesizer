@@ -605,11 +605,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void Complexity()
         {
-            // TODO: FMTestsAccessor
+            var accessor = new FMTestsAccessor(new FMTests());
             
-            Complexity(new FMTests().Flute1());
-            Complexity(new FMTests().FluteMelody1);
-            //Complexity(new FMTests().Jingle());
+            Complexity(accessor.Flute1());
+            Complexity(accessor.FluteMelody1);
+            //Complexity(accessor.Jingle());
         }
 
         private void Complexity(FluentOutlet fluentOutlet)

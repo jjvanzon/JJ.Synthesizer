@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [TestMethod]
         public void FM_Jingle() => new FMTests().FM_Jingle_RunTest();
 
-        internal void FM_Jingle_RunTest()
+        void FM_Jingle_RunTest()
         {
             WithAudioLength(bars[8] + 1); // HACK: + 1 otherwise last note missing sometimes
             
@@ -248,7 +248,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Jingle
 
-        internal FluentOutlet Jingle()
+        FluentOutlet Jingle()
         {
             var originalAudioLength = GetAudioLength;
             try
@@ -298,7 +298,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Melodies
 
-        internal FluentOutlet FluteMelody1 => WithAudioLength(bars[4]).WithName().ParallelAdd
+        FluentOutlet FluteMelody1 => WithAudioLength(bars[4]).WithName().ParallelAdd
         (
             () => _[ t[1,1.0], E4, Flute1, 0.80, l[2.00] ],
             () => _[ t[1,2.5], F4, Flute1, 0.70, l[2.17] ],
@@ -385,7 +385,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Instruments
 
         /// <inheritdoc cref="docs._flute1" />
-        internal FluentOutlet Flute1(FluentOutlet freq = null, FluentOutlet duration = null)
+        FluentOutlet Flute1(FluentOutlet freq = null, FluentOutlet duration = null)
         {
             freq = freq ?? A4;
 
