@@ -603,12 +603,30 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void ComplexityTest() => new OperatorWishes_TechnicalTests().Complexity();
 
+        /// <summary>
+        /// NOTE: Outcommented code lines still fail.
+        /// </summary>
         private void Complexity()
         {
             var accessor = new FMTestsAccessor(new FMTests());
             
             Complexity(accessor.Flute1());
+            Complexity(accessor.Flute2());
+            Complexity(accessor.Flute3());
+            Complexity(accessor.Flute4());
+            //Complexity(accessor.Pad());
+            Complexity(accessor.Horn());
+            Complexity(accessor.Trombone());
+            //Complexity(accessor.ElectricNote());
+            Complexity(accessor.RippleBass());
             Complexity(accessor.FluteMelody1);
+            Complexity(accessor.FluteMelody2);
+            //Complexity(accessor.PadChords());
+            Complexity(accessor.HornMelody1);
+            Complexity(accessor.HornMelody2);
+            Complexity(accessor.TromboneMelody1);
+            Complexity(accessor.TromboneMelody2);
+            Complexity(accessor.RippleBassMelody2);
             //Complexity(accessor.Jingle());
         }
 
