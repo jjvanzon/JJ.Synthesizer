@@ -81,6 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         public FluentOperandList Operands { get; }
+        
     }
 
     // Operands on Entity Objects
@@ -153,42 +154,42 @@ namespace JJ.Business.Synthesizer.Wishes
         // Pitch
         
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Pitch(this Outlet entity) => HasPitch(entity) ? B(entity) : null;
+        public static Outlet Pitch(this Outlet entity) => SupportsPitch(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetPitch(this Outlet entity, Outlet b)
         {
-            AssertHasPitch(entity);
+            AssertSupportsPitch(entity);
             SetB(entity, b);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Pitch(this Operator entity) => HasPitch(entity) ? B(entity) : null;
+        public static Outlet Pitch(this Operator entity) => SupportsPitch(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetPitch(this Operator entity, Outlet b)
         {
-            AssertHasPitch(entity);
+            AssertSupportsPitch(entity);
             SetB(entity, b);
         }
         
-        private static void AssertHasPitch(Outlet entity)
+        private static void AssertSupportsPitch(Outlet entity)
         {
-            if (!HasPitch(entity)) throw new Exception("The Operator does not have a Pitch Inlet.");
+            if (!SupportsPitch(entity)) throw new Exception("The Operator does not have a Pitch Inlet.");
         }
 
-        private static void AssertHasPitch(Operator entity)
+        private static void AssertSupportsPitch(Operator entity)
         {
-            if (!HasPitch(entity)) throw new Exception("The Operator does not have a Pitch Inlet.");
+            if (!SupportsPitch(entity)) throw new Exception("The Operator does not have a Pitch Inlet.");
         }
 
-        public static bool HasPitch(this Outlet entity)
+        public static bool SupportsPitch(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return HasPitch(entity.Operator);
+            return SupportsPitch(entity.Operator);
         }
 
-        public static bool HasPitch(this Operator entity)
+        public static bool SupportsPitch(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsSine()) return true;
@@ -209,42 +210,42 @@ namespace JJ.Business.Synthesizer.Wishes
         // Signal
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Signal(this Outlet entity) => HasSignal(entity) ? A(entity) : null;
+        public static Outlet Signal(this Outlet entity) => SupportsSignal(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSignal(this Outlet entity, Outlet a)
         {
-            AssertHasSignal(entity);
+            AssertSupportsSignal(entity);
             SetA(entity, a);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Signal(this Operator entity) => HasSignal(entity) ? A(entity) : null;
+        public static Outlet Signal(this Operator entity) => SupportsSignal(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSignal(this Operator entity, Outlet a)
         {
-            AssertHasSignal(entity);
+            AssertSupportsSignal(entity);
             SetA(entity, a);
         }
 
-        private static void AssertHasSignal(Outlet entity)
+        private static void AssertSupportsSignal(Outlet entity)
         {
-            if (!HasSignal(entity)) throw new Exception("The Operator does not have a Signal Inlet.");
+            if (!SupportsSignal(entity)) throw new Exception("The Operator does not have a Signal Inlet.");
         }
 
-        private static void AssertHasSignal(Operator entity)
+        private static void AssertSupportsSignal(Operator entity)
         {
-            if (!HasSignal(entity)) throw new Exception("The Operator does not have a Signal Inlet.");
+            if (!SupportsSignal(entity)) throw new Exception("The Operator does not have a Signal Inlet.");
         }
 
-        public static bool HasSignal(this Outlet entity)
+        public static bool SupportsSignal(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return HasSignal(entity.Operator);
+            return SupportsSignal(entity.Operator);
         }
 
-        public static bool HasSignal(this Operator entity)
+        public static bool SupportsSignal(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsDelay()) return true;
@@ -258,42 +259,42 @@ namespace JJ.Business.Synthesizer.Wishes
         // Base
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Base(this Outlet entity) => HasBase(entity) ? A(entity) : null;
+        public static Outlet Base(this Outlet entity) => SupportsBase(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetBase(this Outlet entity, Outlet a)
         {
-            AssertHasBase(entity);
+            AssertSupportsBase(entity);
             SetA(entity, a);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Base(this Operator entity) => HasBase(entity) ? A(entity) : null;
+        public static Outlet Base(this Operator entity) => SupportsBase(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetBase(this Operator entity, Outlet a)
         {
-            AssertHasBase(entity);
+            AssertSupportsBase(entity);
             SetA(entity, a);
         }
 
-        private static void AssertHasBase(Outlet entity)
+        private static void AssertSupportsBase(Outlet entity)
         {
-            if (!HasBase(entity)) throw new Exception("The Operator does not have a Base Inlet.");
+            if (!SupportsBase(entity)) throw new Exception("The Operator does not have a Base Inlet.");
         }
 
-        private static void AssertHasBase(Operator entity)
+        private static void AssertSupportsBase(Operator entity)
         {
-            if (!HasBase(entity)) throw new Exception("The Operator does not have a Base Inlet.");
+            if (!SupportsBase(entity)) throw new Exception("The Operator does not have a Base Inlet.");
         }
 
-        public static bool HasBase(this Outlet entity)
+        public static bool SupportsBase(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return HasBase(entity.Operator);
+            return SupportsBase(entity.Operator);
         }
 
-        public static bool HasBase(this Operator entity)
+        public static bool SupportsBase(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsPower()) return true;
@@ -303,42 +304,42 @@ namespace JJ.Business.Synthesizer.Wishes
         // Exponent
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Exponent(this Outlet entity) => HasExponent(entity) ? B(entity) : null;
+        public static Outlet Exponent(this Outlet entity) => SupportsExponent(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetExponent(this Outlet entity, Outlet b)
         {
-            AssertHasExponent(entity);
+            AssertSupportsExponent(entity);
             SetB(entity, b);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Exponent(this Operator entity) => HasExponent(entity) ? B(entity) : null;
+        public static Outlet Exponent(this Operator entity) => SupportsExponent(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetExponent(this Operator entity, Outlet b)
         {
-            AssertHasExponent(entity);
+            AssertSupportsExponent(entity);
             SetB(entity, b);
         }
 
-        private static void AssertHasExponent(Outlet entity)
+        private static void AssertSupportsExponent(Outlet entity)
         {
-            if (!HasExponent(entity)) throw new Exception("The Operator does not have a Exponent Inlet.");
+            if (!SupportsExponent(entity)) throw new Exception("The Operator does not have a Exponent Inlet.");
         }
 
-        private static void AssertHasExponent(Operator entity)
+        private static void AssertSupportsExponent(Operator entity)
         {
-            if (!HasExponent(entity)) throw new Exception("The Operator does not have a Exponent Inlet.");
+            if (!SupportsExponent(entity)) throw new Exception("The Operator does not have a Exponent Inlet.");
         }
 
-        public static bool HasExponent(this Outlet entity)
+        public static bool SupportsExponent(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return HasExponent(entity.Operator);
+            return SupportsExponent(entity.Operator);
         }
 
-        public static bool HasExponent(this Operator entity)
+        public static bool SupportsExponent(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsPower()) return true;
@@ -349,42 +350,42 @@ namespace JJ.Business.Synthesizer.Wishes
         // TimeDifference
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet TimeDifference(this Outlet entity) => HasTimeDifference(entity) ? B(entity) : null;
+        public static Outlet TimeDifference(this Outlet entity) => SupportsTimeDifference(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeDifference(this Outlet entity, Outlet b)
         {
-            AssertHasTimeDifference(entity);
+            AssertSupportsTimeDifference(entity);
             SetB(entity, b);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet TimeDifference(this Operator entity) => HasTimeDifference(entity) ? B(entity) : null;
+        public static Outlet TimeDifference(this Operator entity) => SupportsTimeDifference(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeDifference(this Operator entity, Outlet b)
         {
-            AssertHasTimeDifference(entity);
+            AssertSupportsTimeDifference(entity);
             SetB(entity, b);
         }
 
-        private static void AssertHasTimeDifference(Outlet entity)
+        private static void AssertSupportsTimeDifference(Outlet entity)
         {
-            if (!HasTimeDifference(entity)) throw new Exception("The Operator does not have a TimeDifference Inlet.");
+            if (!SupportsTimeDifference(entity)) throw new Exception("The Operator does not have a TimeDifference Inlet.");
         }
 
-        private static void AssertHasTimeDifference(Operator entity)
+        private static void AssertSupportsTimeDifference(Operator entity)
         {
-            if (!HasTimeDifference(entity)) throw new Exception("The Operator does not have a TimeDifference Inlet.");
+            if (!SupportsTimeDifference(entity)) throw new Exception("The Operator does not have a TimeDifference Inlet.");
         }
 
-        public static bool HasTimeDifference(this Outlet entity)
+        public static bool SupportsTimeDifference(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return HasTimeDifference(entity.Operator);
+            return SupportsTimeDifference(entity.Operator);
         }
 
-        public static bool HasTimeDifference(this Operator entity)
+        public static bool SupportsTimeDifference(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsDelay()) return true;
@@ -396,42 +397,42 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet TimeScale(this Outlet entity) 
-            => HasTimeScale(entity) ? B(entity) : null;
+            => SupportsTimeScale(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeScale(this Outlet entity, Outlet b)
         {
-            AssertHasTimeScale(entity);
+            AssertSupportsTimeScale(entity);
             SetB(entity, b);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet TimeScale(this Operator entity) => HasTimeScale(entity) ? B(entity) : null;
+        public static Outlet TimeScale(this Operator entity) => SupportsTimeScale(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeScale(this Operator entity, Outlet b)
         {
-            AssertHasTimeScale(entity);
+            AssertSupportsTimeScale(entity);
             SetB(entity, b);
         }
 
-        private static void AssertHasTimeScale(Outlet entity)
+        private static void AssertSupportsTimeScale(Outlet entity)
         {
-            if (!HasTimeScale(entity)) throw new Exception("The Operator does not have a TimeScale Inlet.");
+            if (!SupportsTimeScale(entity)) throw new Exception("The Operator does not have a TimeScale Inlet.");
         }
 
-        private static void AssertHasTimeScale(Operator entity)
+        private static void AssertSupportsTimeScale(Operator entity)
         {
-            if (!HasTimeScale(entity)) throw new Exception("The Operator does not have a TimeScale Inlet.");
+            if (!SupportsTimeScale(entity)) throw new Exception("The Operator does not have a TimeScale Inlet.");
         }
 
-        public static bool HasTimeScale(this Outlet entity)
+        public static bool SupportsTimeScale(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return HasTimeScale(entity.Operator);
+            return SupportsTimeScale(entity.Operator);
         }
 
-        public static bool HasTimeScale(this Operator entity)
+        public static bool SupportsTimeScale(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsStretch()) return true;
@@ -441,42 +442,42 @@ namespace JJ.Business.Synthesizer.Wishes
         // SpeedFactor
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet SpeedFactor(this Outlet entity) => HasSpeedFactor(entity) ? B(entity) : null;
+        public static Outlet SpeedFactor(this Outlet entity) => SupportsSpeedFactor(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSpeedFactor(this Outlet entity, Outlet b)
         {
-            AssertHasSpeedFactor(entity);
+            AssertSupportsSpeedFactor(entity);
             SetB(entity, b);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet SpeedFactor(this Operator entity) => HasSpeedFactor(entity) ? B(entity) : null;
+        public static Outlet SpeedFactor(this Operator entity) => SupportsSpeedFactor(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSpeedFactor(this Operator entity, Outlet b)
         {
-            AssertHasSpeedFactor(entity);
+            AssertSupportsSpeedFactor(entity);
             SetB(entity, b);
         }
 
-        private static void AssertHasSpeedFactor(Outlet entity)
+        private static void AssertSupportsSpeedFactor(Outlet entity)
         {
-            if (!HasSpeedFactor(entity)) throw new Exception("The Operator does not have a SpeedFactor Inlet.");
+            if (!SupportsSpeedFactor(entity)) throw new Exception("The Operator does not have a SpeedFactor Inlet.");
         }
 
-        private static void AssertHasSpeedFactor(Operator entity)
+        private static void AssertSupportsSpeedFactor(Operator entity)
         {
-            if (!HasSpeedFactor(entity)) throw new Exception("The Operator does not have a SpeedFactor Inlet.");
+            if (!SupportsSpeedFactor(entity)) throw new Exception("The Operator does not have a SpeedFactor Inlet.");
         }
 
-        public static bool HasSpeedFactor(this Outlet entity)
+        public static bool SupportsSpeedFactor(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return HasSpeedFactor(entity.Operator);
+            return SupportsSpeedFactor(entity.Operator);
         }
 
-        public static bool HasSpeedFactor(this Operator entity)
+        public static bool SupportsSpeedFactor(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsSpeedUp()) return true;
