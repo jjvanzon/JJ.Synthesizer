@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
@@ -484,7 +485,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             double operandValue2 = addOperands[1].Calculate(duration / 2);
             double operandValue3 = addOperands[2].Calculate(duration / 2);
 
-            var operandValuesSorted = new [] { operandValue1, operandValue2, operandValue3 }.OrderBy(x => x).ToArray();
+            var operandValuesSorted = new[] { operandValue1, operandValue2, operandValue3 }.OrderBy(x => x).ToArray();
 
             Console.WriteLine($"{new { operandValue1, operandValue2, operandValue3 }}");
 
@@ -603,9 +604,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void ComplexityTest() => new OperatorWishes_TechnicalTests().Complexity();
 
-        /// <summary>
-        /// NOTE: Outcommented code lines still fail.
-        /// </summary>
         private void Complexity()
         {
             {
@@ -659,30 +657,50 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             IsNotNull(() => fluentOutlet);
             {
-                string fluentOutletStringify     = fluentOutlet.Stringify();
-                int    fluentOutletComplexityOld = fluentOutletStringify.CountLines();
-                int    fluentOutletComplexity    = fluentOutlet.Complexity;
-                AreEqual(fluentOutletComplexityOld, () => fluentOutletComplexity);
+                string stringify     = fluentOutlet.Stringify();
+                int    complexityOld = stringify.CountLines();
+                int    complexity    = fluentOutlet.Complexity;
+                AreEqual(complexityOld, () => complexity);
             }
 
             IsNotNull(() => fluentOutlet.WrappedOutlet);
             Outlet outlet = fluentOutlet.WrappedOutlet;
             {
-                string outletStringify     = outlet.Stringify();
-                int    outletComplexityOld = outletStringify.CountLines();
-                int    outletComplexity    = outlet.Complexity();
-                AreEqual(outletComplexityOld, () => outletComplexity);
+                string stringify     = outlet.Stringify();
+                int    complexityOld = stringify.CountLines();
+                int    complexity    = outlet.Complexity();
+                AreEqual(complexityOld, () => complexity);
             }
 
             IsNotNull(() => outlet.Operator);
             Operator op = outlet.Operator;
             {
-                string operatorStringify     = op.Stringify();
-                int    operatorComplexityOld = operatorStringify.CountLines();
-                int    operatorComplexity    = fluentOutlet.Operator.Complexity();
-                AreEqual(operatorComplexityOld, () => operatorComplexity);
+                string stringify     = op.Stringify();
+                int    complexityOld = stringify.CountLines();
+                int    complexity    = op.Complexity();
+                AreEqual(complexityOld, () => complexity);
+            }
+            
+            // For the Inlet case: Complexity requires detouring through another operator.
+            var add = Add(fluentOutlet, 1);
+            
+            // Ensure the Add operation and its associated Operator and Inlets are initialized correctly.
+            IsNotNull(() => add);
+            IsNotNull(() => add.Operator);
+            IsNotNull(() => add.Operator.Inlets);
+            Assert.IsTrue(add.Operator.Inlets.Count > 0);
+
+            // Access the first Inlet to evaluate its complexity.
+            Inlet inlet = add.Operator.Inlets[0];
+            {
+                string stringify          = inlet.Stringify();
+                int    complexityOld      = stringify.CountLines();
+                int    complexity         = inlet.Complexity();
+                // The expected complexity excludes 1 line,
+                // as the old method counted an extra line for the added nesting level.
+                int    expectedComplexity = complexityOld - 1; 
+                AreEqual(expectedComplexity, () => complexity);
             }
         }
-
     }
 }
