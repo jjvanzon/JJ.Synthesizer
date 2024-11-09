@@ -248,7 +248,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Jingle
 
-        FluentOutlet Jingle()
+        internal FluentOutlet Jingle()
         {
             var originalAudioLength = GetAudioLength;
             try
@@ -298,7 +298,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Melodies
 
-        FluentOutlet FluteMelody1 => WithAudioLength(bars[4]).WithName().ParallelAdd
+        internal FluentOutlet FluteMelody1 => WithAudioLength(bars[4]).WithName().ParallelAdd
         (
             () => _[ t[1,1.0], E4, Flute1, 0.80, l[2.00] ],
             () => _[ t[1,2.5], F4, Flute1, 0.70, l[2.17] ],

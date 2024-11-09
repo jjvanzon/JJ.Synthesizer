@@ -20,5 +20,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static string PrettyByteCount(long byteCount)
             => (string)_accessor.InvokeMethod(nameof(PrettyByteCount), byteCount);
 
+        public static int CountLines(this string str)
+            => (int)_accessor.InvokeMethod(nameof(CountLines), str);
     }
 }

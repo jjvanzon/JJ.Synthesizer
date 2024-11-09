@@ -155,4 +155,18 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static string Stringify(this Inlet entity, bool singleLine = false, bool mustUseShortOperators = false)
             => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
     }
+    
+    // Inlet Complexity
+
+    [Obsolete(ObsoleteMessage)]
+    public static class InletComplexityExtensions
+    {
+        [Obsolete(ObsoleteMessage)]
+        public static int Complexity(this Inlet inlet)
+        {
+            if (inlet == null) throw new ArgumentNullException(nameof(inlet));
+            return inlet.Input?.Complexity() ?? 0;
+        }
+    }
+
 }

@@ -84,33 +84,35 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return Calculate(outlet, time, channelIndex);
         }
-        
-        // Complexity
 
-        public static int ComplexityNew(this Operator op)
+    }
+
+    // Complexity
+    
+    public static class ComplexityExtensionWishes
+    {
+        public static int Complexity(this Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            return Complexity(outlet.Operator);
+        }
+
+        public static int Complexity(this Operator op)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 
-            int thisOperatorCount = 1;
+            var operators = new[] { op }.UnionRecursive(x => x.Operands()
+                                                              .Where(y => y != null)
+                                                              .Select(y => y.Operator)
+                                                              .Where(y => y.IsVar()));
+            int operatorCount = operators.Distinct().Count();
 
-            var filedInlets = op.Inlets
-                                .Where(x => x.Input != null)
-                                .UnionRecursive(x => x.Input
-                                                      .Operator
-                                                      .Inlets
-                                                      .Where(y => y.Input != null));
-            
-            int filledInletCount = filedInlets.Select(x => x.Operator).Distinct().Count();
-
-            return thisOperatorCount + filledInletCount;
+            return operatorCount;
         }
+    }
 
-        public static int ComplexitySlow(this Operator op)
-        {
-            if (op == null) throw new ArgumentNullException(nameof(op));
-            int complexity = op.Stringify().CountLines();
-            return complexity;
-        }
-
+    public partial class FluentOutlet
+    {
+        public int Complexity => _wrappedOutlet.Complexity();
     }
 }

@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     ),
                     x.Adder
                     (
-                        const9, 
+                        const9,
                         const10
                     )
                 );
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(var8.WrappedOutlet, () => flattenAdderTerms[7].WrappedOutlet);
             AreEqual(const9,      () => flattenAdderTerms[8].WrappedOutlet);
             AreEqual(const10,     () => flattenAdderTerms[9].WrappedOutlet);
-            
+
             // Check Nested Sum
             Outlet nestedSumOutlet =
                 Add
@@ -149,18 +149,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(var6, () => sumWrapper.Operands[5]);
             AreEqual(var7, () => sumWrapper.Operands[6]);
             AreEqual(var8, () => sumWrapper.Operands[7]);
-            
+
             double? constant = sumWrapper.Operands[8].AsConst();
             IsNotNull(() => constant);
             AreEqual(9 + 10, () => constant.Value);
-            
+
             double calculatedNestedSum = _[sumWrapper].Calculate();
             AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => calculatedNestedSum);
         }
 
         [TestMethod]
         public void NestedMultiplicationOptimizationTest() => new OperatorWishes_TechnicalTests().NestedMultiplicationOptimization();
-        
+
         private void NestedMultiplicationOptimization()
         {
             // Arrange
@@ -197,28 +197,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     ),
                     Multiply
                     (
-                        var6, 
+                        var6,
                         Multiply(var7, var8)
                     )
                 );
 
             // Check Optimized Factors
             IList<FluentOutlet> flattenedFactors = new SynthWishesAccessor(this).FlattenFactors(_[nestedMultiply]);
-            
+
             IsNotNull(() => flattenedFactors);
             AreEqual(6, () => flattenedFactors.Count);
-            
+
             // Operator creation reversed the order.
             AreEqual(var2.WrappedOutlet, () => flattenedFactors[4].WrappedOutlet);
             AreEqual(var4.WrappedOutlet, () => flattenedFactors[3].WrappedOutlet);
             AreEqual(var6.WrappedOutlet, () => flattenedFactors[2].WrappedOutlet);
             AreEqual(var7.WrappedOutlet, () => flattenedFactors[1].WrappedOutlet);
             AreEqual(var8.WrappedOutlet, () => flattenedFactors[0].WrappedOutlet);
-            
+
             double? constant = flattenedFactors[5].AsConst;
             IsNotNull(() => constant);
             AreEqual(1 * 3 * 5, () => constant.Value);
-            
+
             IsNotNull(() => nestedMultiply);
             double multiplyResult = nestedMultiply.Calculate(time: 0);
             AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => multiplyResult);
@@ -226,7 +226,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             double calculatedFlattenedFactors = flattenedFactors.Product(x => x.Calculate());
             AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => calculatedFlattenedFactors);
         }
-        
+
         [TestMethod]
         public void FluentNotationTest1() => new OperatorWishes_TechnicalTests().FluentNotation1();
 
@@ -234,7 +234,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             Save(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Multiply(Envelope)).Play();
         }
-        
+
         [TestMethod]
         public void FluentNotationTest2() => new OperatorWishes_TechnicalTests().FluentNotation2();
 
@@ -250,7 +250,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             Save(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Curve(Envelope)).Play();
         }
-        
+
         [TestMethod]
         public void FluentNotationTest4() => new OperatorWishes_TechnicalTests().FluentNotation4();
 
@@ -283,7 +283,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                      *                              *")
                  )).Play();
         }
-    
+
         [TestMethod]
         public void FluentPlayMonoTest() => new OperatorWishes_TechnicalTests().FluentPlayMono();
 
@@ -292,7 +292,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var freq = E4;
 
             WithCenter();
-            
+
             Multiply
             (
                 Add
@@ -310,7 +310,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                  *                              *")
             ).PlayMono();
         }
- 
+
         [TestMethod]
         public void FluentCSharpOperatorsTest() => new OperatorWishes_TechnicalTests().FluentCSharpOperators();
 
@@ -335,7 +335,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                      *                              *")
                  )).Play();
         }
-        
+
         [TestMethod]
         public void FluentValueChainingTest() => new OperatorWishes_TechnicalTests().FluentValueChaining();
 
@@ -370,19 +370,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var chain1 = Sine(G4).Curve(0, 1, 0);
             var chain2 = Sine(A4).Times(Curve(0, 1, 0));
             var chain3 = Sine(B4) * Curve(0, 1, 0).Stretch(2);
-             
+
             WithMono().Save(() => chain1).Play();
             WithMono().Save(() => chain2).Play();
             WithMono().WithAudioLength(2).Save(() => chain3).Play();
         }
-        
+
         [TestMethod]
         public void ParallelAdd_NormalAdd_ForComparison_Test() => new OperatorWishes_TechnicalTests().ParallelAdd_NormalAdd_ForComparison();
 
         private void ParallelAdd_NormalAdd_ForComparison()
         {
             WithParallelEnabled();
-            
+
             var duration = 0.1;
 
             var add = Add
@@ -393,9 +393,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             );
 
             double addedValue = add.Calculate(duration / 2);
-            
+
             AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
-            
+
             WithMono().WithAudioLength(duration).Save(() => add);
         }
 
@@ -407,7 +407,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var accessor = new SynthWishesAccessor(this);
 
             WithParallelEnabled();
-            
+
             // Arrange
             var duration = 0.1;
             var tolerance = 0.001;
@@ -434,7 +434,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => adder.WrappedOutlet.Operator.Inlets);
             var addOperands = adder.WrappedOutlet.Operator.Inlets.Select(x => x.Input).ToList();
             AreEqual(3, () => addOperands.Count);
-            
+
             foreach (var addOperand in addOperands)
             {
                 IsNotNull(() => addOperand);
@@ -449,7 +449,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             NotEqual(addOperands[0], () => addOperands[1]);
             NotEqual(addOperands[1], () => addOperands[2]);
-            
+
             // Check Bytes Array, Read as Int16 Values
             foreach (var addOperand in addOperands)
             {
@@ -463,11 +463,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 using (var stream = new MemoryStream(sample.Bytes))
                 {
                     stream.Position = 44; // Skip header
-                    
+
                     using (var reader = new BinaryReader(stream))
                     {
                         float firstValue = reader.ReadSingle();
-                        
+
                         while (stream.Position < stream.Length)
                         {
                             float nextValue = reader.ReadSingle();
@@ -479,7 +479,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Calculate Values
             double adderResult = adder.Calculate(duration / 2);
-            
+
             double operandValue1 = addOperands[0].Calculate(duration / 2);
             double operandValue2 = addOperands[1].Calculate(duration / 2);
             double operandValue3 = addOperands[2].Calculate(duration / 2);
@@ -487,7 +487,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var operandValuesSorted = new [] { operandValue1, operandValue2, operandValue3 }.OrderBy(x => x).ToArray();
 
             Console.WriteLine($"{new { operandValue1, operandValue2, operandValue3 }}");
-            
+
             // Assert Values
             Assert.AreEqual(0.1 + 0.2 + 0.3, operandValue1 + operandValue2 + operandValue3, tolerance);
             Assert.AreEqual(0.1, operandValuesSorted[0], tolerance);
@@ -546,19 +546,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             NotEqual(addOperands[0], () => addOperands[1]);
             NotEqual(addOperands[1], () => addOperands[2]);
-            
+
             // Don't assert values. A setting can insert a delay, messing with the test values.
         }
-        
+
         [TestMethod]
         public void ParallelAdd_WithSinePartials_Test() => new OperatorWishes_TechnicalTests().ParallelAdd_WithSinePartials();
 
         private void ParallelAdd_WithSinePartials()
         {
             WithParallelEnabled();
-            
+
             var freq = A4;
-            
+
             var added = Envelope * WithName().ParallelAdd
             (
                 () => Sine(freq * 1) * 1.0,
@@ -568,7 +568,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             WithMono().Play(() => added);
         }
-        
+
         [TestMethod]
         public void ParallelAdd_SinePartials_PreviewParallels_Test() => new OperatorWishes_TechnicalTests().ParallelAdd_SinePartials_PreviewParallels();
 
@@ -579,7 +579,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithParallelEnabled();
             WithPlayParallels();
             WithName();
-            
+
             var added = Envelope * ParallelAdd
             (
                 () => Sine(freq * 1) * 1.0,
@@ -596,22 +596,50 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         private void MonoSampleInStereoContext()
         {
             var sample = Sample(GetViolin16BitMono44100WavStream(), bytesToSkip: 64).Stretch(3).Curve(1, 0.9, 0.8, 0.4, 0.2, 0);
-            
+
             WithStereo().Play(() => sample);
         }
 
         [TestMethod]
-        public void ComplexityTest()  => new OperatorWishes_TechnicalTests().Complexity();
-        
-        public void Complexity()
-        {
-            var flute1         = new FMTests().Flute1();
+        public void ComplexityTest() => new OperatorWishes_TechnicalTests().Complexity();
 
-            string stringify      = flute1.Operator.Stringify();
-            int    complexitySlow = flute1.Operator.ComplexitySlow();
-            int    complexityNew = flute1.Operator.ComplexityNew();
+        private void Complexity()
+        {
+            // TODO: FMTestsAccessor
             
-            Assert.AreEqual(complexitySlow, complexityNew);
+            Complexity(new FMTests().Flute1());
+            Complexity(new FMTests().FluteMelody1);
+            //Complexity(new FMTests().Jingle());
         }
+
+        private void Complexity(FluentOutlet fluentOutlet)
+        {
+            IsNotNull(() => fluentOutlet);
+            {
+                string fluentOutletStringify     = fluentOutlet.Stringify();
+                int    fluentOutletComplexityOld = fluentOutletStringify.CountLines();
+                int    fluentOutletComplexity    = fluentOutlet.Complexity;
+                AreEqual(fluentOutletComplexityOld, () => fluentOutletComplexity);
+            }
+
+            IsNotNull(() => fluentOutlet.WrappedOutlet);
+            Outlet outlet = fluentOutlet.WrappedOutlet;
+            {
+                string outletStringify     = outlet.Stringify();
+                int    outletComplexityOld = outletStringify.CountLines();
+                int    outletComplexity    = outlet.Complexity();
+                AreEqual(outletComplexityOld, () => outletComplexity);
+            }
+
+            IsNotNull(() => outlet.Operator);
+            Operator op = outlet.Operator;
+            {
+                string operatorStringify     = op.Stringify();
+                int    operatorComplexityOld = operatorStringify.CountLines();
+                int    operatorComplexity    = fluentOutlet.Operator.Complexity();
+                AreEqual(operatorComplexityOld, () => operatorComplexity);
+            }
+        }
+
     }
 }
