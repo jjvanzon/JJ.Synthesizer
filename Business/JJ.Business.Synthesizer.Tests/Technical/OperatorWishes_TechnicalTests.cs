@@ -32,15 +32,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         private void NestedSumFlattening()
         {
             // Arrange
-            var var1 = Curve(1, 1).SetName("Curve1");
-            var var2 = Curve(2, 2).SetName("Curve2");
-            var var3 = Curve(3, 3).SetName("Curve3");
-            var var4 = Curve(4, 4).SetName("Curve4");
-            var var5 = Curve(5, 5).SetName("Curve5");
-            var var6 = Curve(6, 6).SetName("Curve6");
-            var var7 = Curve(7, 7).SetName("Curve7");
-            var var8 = Curve(8, 8).SetName("Curve8");
-            var const9 = _[9];
+            var var1    = Curve(1, 1).SetName("Curve1");
+            var var2    = Curve(2, 2).SetName("Curve2");
+            var var3    = Curve(3, 3).SetName("Curve3");
+            var var4    = Curve(4, 4).SetName("Curve4");
+            var var5    = Curve(5, 5).SetName("Curve5");
+            var var6    = Curve(6, 6).SetName("Curve6");
+            var var7    = Curve(7, 7).SetName("Curve7");
+            var var8    = Curve(8, 8).SetName("Curve8");
+            var const9  = _[9];
             var const10 = _[10];
 
             IsNotNull(() => var1);
@@ -93,8 +93,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Check Flattened Terms
             var flattenAdderTerms = new SynthWishesAccessor(this).FlattenTerms(_[nestedAdder]);
 
-            IsNotNull(        () => flattenAdderTerms);
-            AreEqual(10,          () => flattenAdderTerms.Count);
+            IsNotNull(() => flattenAdderTerms);
+            AreEqual(10,                 () => flattenAdderTerms.Count);
             AreEqual(var1.WrappedOutlet, () => flattenAdderTerms[0].WrappedOutlet);
             AreEqual(var2.WrappedOutlet, () => flattenAdderTerms[1].WrappedOutlet);
             AreEqual(var3.WrappedOutlet, () => flattenAdderTerms[2].WrappedOutlet);
@@ -103,8 +103,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(var6.WrappedOutlet, () => flattenAdderTerms[5].WrappedOutlet);
             AreEqual(var7.WrappedOutlet, () => flattenAdderTerms[6].WrappedOutlet);
             AreEqual(var8.WrappedOutlet, () => flattenAdderTerms[7].WrappedOutlet);
-            AreEqual(const9,      () => flattenAdderTerms[8].WrappedOutlet);
-            AreEqual(const10,     () => flattenAdderTerms[9].WrappedOutlet);
+            AreEqual(const9,             () => flattenAdderTerms[8].WrappedOutlet);
+            AreEqual(const10,            () => flattenAdderTerms[9].WrappedOutlet);
 
             // Check Nested Sum
             Outlet nestedSumOutlet =
@@ -165,13 +165,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             // Arrange
             var const1 = _[1];
-            var var2 = WithName("Curve2").Curve(2, 2).SetName("Curve2");
+            var var2   = WithName("Curve2").Curve(2, 2).SetName("Curve2");
             var const3 = _[3];
-            var var4 = WithName("Curve4").Curve(4, 4);
+            var var4   = WithName("Curve4").Curve(4, 4);
             var const5 = _[5];
-            var var6 = WithName("Curve6").Curve(6, 6);
-            var var7 = WithName("Curve7").Curve(7, 7);
-            var var8 = WithName("Curve8").Curve(8, 8);
+            var var6   = WithName("Curve6").Curve(6, 6);
+            var var7   = WithName("Curve7").Curve(7, 7);
+            var var8   = WithName("Curve8").Curve(8, 8);
 
             IsNotNull(() => const1);
             IsNotNull(() => var2);
@@ -409,7 +409,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithParallelEnabled();
 
             // Arrange
-            var duration = 0.1;
+            var duration  = 0.1;
             var tolerance = 0.001;
 
             // Create Entities
@@ -455,10 +455,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 Sample sample = addOperand.Operator.AsSampleOperator.Sample;
 
-                AreEqual(Wav, () => sample.GetAudioFileFormatEnum());
+                AreEqual(Wav,                        () => sample.GetAudioFileFormatEnum());
                 AreEqual(SampleDataTypeEnum.Float32, () => sample.GetSampleDataTypeEnum());
-                AreEqual(SpeakerSetupEnum.Mono, () => sample.GetSpeakerSetupEnum());
-                AreEqual(44,  () => sample.GetHeaderLength());
+                AreEqual(SpeakerSetupEnum.Mono,      () => sample.GetSpeakerSetupEnum());
+                AreEqual(44,                         () => sample.GetHeaderLength());
 
                 using (var stream = new MemoryStream(sample.Bytes))
                 {
@@ -490,10 +490,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Assert Values
             Assert.AreEqual(0.1 + 0.2 + 0.3, operandValue1 + operandValue2 + operandValue3, tolerance);
-            Assert.AreEqual(0.1, operandValuesSorted[0], tolerance);
-            Assert.AreEqual(0.2, operandValuesSorted[1], tolerance);
-            Assert.AreEqual(0.3, operandValuesSorted[2], tolerance);
-            Assert.AreEqual(0.1 + 0.2 + 0.3, adderResult, tolerance);
+            Assert.AreEqual(0.1,             operandValuesSorted[0],                        tolerance);
+            Assert.AreEqual(0.2,             operandValuesSorted[1],                        tolerance);
+            Assert.AreEqual(0.3,             operandValuesSorted[2],                        tolerance);
+            Assert.AreEqual(0.1 + 0.2 + 0.3, adderResult,                                   tolerance);
         }
 
         [TestMethod]
