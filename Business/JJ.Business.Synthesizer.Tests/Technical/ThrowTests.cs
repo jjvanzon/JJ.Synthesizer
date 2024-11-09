@@ -78,7 +78,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void ExceptionsInTests()
         {
             // ModulationTests.DeepEcho ChannelEnumNotSupported
-            ThrowsException(() => new ModulationTests().DeepEcho(Sine()));
+            ThrowsException(() =>
+            {
+                var modulationTests = new ModulationTests();
+                modulationTests.WithChannel(ChannelEnum.Undefined);
+                modulationTests.DeepEcho(Sine());
+            });
             
             // AudioFormatTests.GetValueTolerance CombinationOfValuesNotSupported
             ThrowsException(() => new AudioFormatTests().GetValueTolerance(true, InterpolationTypeEnum.Undefined, SampleDataTypeEnum.Undefined));
