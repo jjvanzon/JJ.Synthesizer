@@ -122,6 +122,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Accessors\AdditiveTestsAccessor.cs" />
+    <Compile Include="Accessors\ModulationTestsAccessor.cs" />
     <Compile Include="Accessors\FMTestsAccessor.cs" />
     <Compile Include="Accessors\StringWishesAccessor.cs" />
     <Compile Include="Functional\LongRunningTests.cs" />

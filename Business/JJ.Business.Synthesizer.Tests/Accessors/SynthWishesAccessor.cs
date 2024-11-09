@@ -13,6 +13,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         {
             _accessor = new Accessor(obj, typeof(SynthWishes));
         }
+        
+        /// <inheritdoc cref="docs._captureindexer" />
+        public SynthWishes.CaptureIndexer _ 
+            => (SynthWishes.CaptureIndexer)_accessor.GetFieldValue(nameof(_));
 
         public IList<FluentOutlet> FlattenTerms(FluentOutlet sumOrAdd)
         {

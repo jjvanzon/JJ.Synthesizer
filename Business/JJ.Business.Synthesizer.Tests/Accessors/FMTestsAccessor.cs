@@ -8,17 +8,16 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     internal class FMTestsAccessor
     {
         private readonly Accessor _accessor;
-        private readonly Accessor _baseAccessor;
+        private readonly SynthWishesAccessor _baseAccessor;
             
         public FMTestsAccessor(FMTests obj)
         {
             _accessor     = new Accessor(obj);
-            _baseAccessor = new Accessor(obj, typeof(SynthWishes));
+            _baseAccessor = new SynthWishesAccessor(obj);
         }
 
         /// <inheritdoc cref="docs._captureindexer" />
-        public SynthWishes.CaptureIndexer _ 
-            => (SynthWishes.CaptureIndexer)_baseAccessor.GetFieldValue(nameof(_));
+        public SynthWishes.CaptureIndexer _ => _baseAccessor._;
 
         /// <inheritdoc cref="docs._flute1" />
         public FluentOutlet Flute1(FluentOutlet freq = null, FluentOutlet duration = null)

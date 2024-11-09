@@ -608,33 +608,51 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         /// </summary>
         private void Complexity()
         {
-            var accessor = new FMTestsAccessor(new FMTests());
-            
-            Complexity(accessor.Flute1());
-            Complexity(accessor.Flute2());
-            Complexity(accessor.Flute3());
-            Complexity(accessor.Flute4());
-            Complexity(accessor.Organ());
-            //Complexity(accessor.Pad());
-            Complexity(accessor.Horn());
-            Complexity(accessor.Trombone());
-            //Complexity(accessor.ElectricNote());
-            Complexity(accessor.RippleBass());
-            Complexity(accessor.RippleNote_SharpMetallic());
-            Complexity(accessor.RippleSound_Clean());
-            Complexity(accessor.RippleSound_FantasyEffect());
-            Complexity(accessor.RippleSound_CoolDouble());
-            Complexity(accessor.Create_FM_Noise_Beating());
-            Complexity(accessor.FluteMelody1);
-            Complexity(accessor.FluteMelody2);
-            //Complexity(accessor.OrganChords);
-            //Complexity(accessor.PadChords());
-            Complexity(accessor.HornMelody1);
-            Complexity(accessor.HornMelody2);
-            Complexity(accessor.TromboneMelody1);
-            Complexity(accessor.TromboneMelody2);
-            Complexity(accessor.RippleBassMelody2);
-            //Complexity(accessor.Jingle());
+            {
+                var accessor = new FMTestsAccessor(new FMTests());
+                Complexity(accessor.Flute1());
+                Complexity(accessor.Flute2());
+                Complexity(accessor.Flute3());
+                Complexity(accessor.Flute4());
+                Complexity(accessor.Organ());
+                //Complexity(accessor.Pad());
+                Complexity(accessor.Horn());
+                Complexity(accessor.Trombone());
+                //Complexity(accessor.ElectricNote());
+                Complexity(accessor.RippleBass());
+                Complexity(accessor.RippleNote_SharpMetallic());
+                Complexity(accessor.RippleSound_Clean());
+                Complexity(accessor.RippleSound_FantasyEffect());
+                Complexity(accessor.RippleSound_CoolDouble());
+                Complexity(accessor.Create_FM_Noise_Beating());
+                Complexity(accessor.FluteMelody1);
+                Complexity(accessor.FluteMelody2);
+                //Complexity(accessor.OrganChords);
+                //Complexity(accessor.PadChords());
+                Complexity(accessor.HornMelody1);
+                Complexity(accessor.HornMelody2);
+                Complexity(accessor.TromboneMelody1);
+                Complexity(accessor.TromboneMelody2);
+                Complexity(accessor.RippleBassMelody2);
+                //Complexity(accessor.Jingle());
+            }
+            {
+                var accessor = new ModulationTestsAccessor(new ModulationTests());
+                //Complexity(accessor.Detunica1(A4));
+                //Complexity(accessor.Detunica2());
+                //Complexity(accessor.Detunica3());
+                //Complexity(accessor.Detunica4());
+                //Complexity(accessor.Detunica5());
+                //Complexity(accessor.DetunicaBass());
+                //Complexity(accessor.DetunicaJingle);
+                Complexity(accessor.Vibraphase());
+                Complexity(accessor.VibraphaseChord);
+            }
+            {
+                var accessor = new AdditiveTestsAccessor(new AdditiveTests());
+                //Complexity(accessor.Metallophone(A4));
+                //Complexity(accessor.MetallophoneJingle);
+            }
         }
 
         private void Complexity(FluentOutlet fluentOutlet)
