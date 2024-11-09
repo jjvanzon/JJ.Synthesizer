@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq;
+using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+using static System.Environment;
+
 // ReSharper disable RedundantAssignment
 #pragma warning disable CS0618 // Type or member is obsolete
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
@@ -24,8 +27,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class StringifyExtensionWishes
     { 
-        // Operators
-
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Outlet entity, bool singleLine = false, bool mustUseShortOperators = false)
             => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
@@ -33,6 +34,34 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Operator entity, bool singleLine = false, bool mustUseShortOperators = false)
             => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
+    
+        /// <inheritdoc cref="docs._stringify"/>
+        public static string Stringify(this Result<StreamAudioData> result)
+        {
+            if (result == null) throw new ArgumentNullException(nameof(result));
+            return Stringify(result.Data);
+        }
+        
+        /// <inheritdoc cref="docs._stringify"/>
+        public static string Stringify(this StreamAudioData data)
+        {
+            if (data == null) throw new ArgumentNullException(nameof(data));
+            return Stringify(data.AudioFileOutput);
+        }
+        
+        /// <inheritdoc cref="docs._stringify"/>
+        public static string Stringify(this AudioFileOutput entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return string.Join(NewLine, entity.AudioFileOutputChannels.Select(x => x.Stringify()));
+        }
+        
+        /// <inheritdoc cref="docs._stringify"/>
+        public static string Stringify(this AudioFileOutputChannel entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return entity.Outlet?.Stringify() ?? "";
+        }
     }
 
     // Stringifier

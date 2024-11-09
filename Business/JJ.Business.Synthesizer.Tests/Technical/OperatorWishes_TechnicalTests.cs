@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -602,88 +603,92 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void ComplexityTest() => new OperatorWishes_TechnicalTests().Complexity();
+        public void ComplexityTest() => new OperatorWishes_TechnicalTests().TestComplexity();
 
-        private void Complexity()
+        private void TestComplexity()
         {
             {
+                var accessor = new AdditiveTestsAccessor(new AdditiveTests());
+                TestComplexity(accessor.Metallophone(A4));
+                TestComplexity(accessor.MetallophoneJingle);
+            }
+            {
                 var accessor = new FMTestsAccessor(new FMTests());
-                Complexity(accessor.Flute1());
-                Complexity(accessor.Flute2());
-                Complexity(accessor.Flute3());
-                Complexity(accessor.Flute4());
-                Complexity(accessor.Organ());
-                Complexity(accessor.Pad());
-                Complexity(accessor.Horn());
-                Complexity(accessor.Trombone());
-                Complexity(accessor.ElectricNote());
-                Complexity(accessor.RippleBass());
-                Complexity(accessor.RippleNote_SharpMetallic());
-                Complexity(accessor.RippleSound_Clean());
-                Complexity(accessor.RippleSound_FantasyEffect());
-                Complexity(accessor.RippleSound_CoolDouble());
-                Complexity(accessor.Create_FM_Noise_Beating());
-                Complexity(accessor.FluteMelody1);
-                Complexity(accessor.FluteMelody2);
-                Complexity(accessor.OrganChords);
-                Complexity(accessor.PadChords());
-                Complexity(accessor.HornMelody1);
-                Complexity(accessor.HornMelody2);
-                Complexity(accessor.TromboneMelody1);
-                Complexity(accessor.TromboneMelody2);
-                Complexity(accessor.RippleBassMelody2);
-                Complexity(accessor.Jingle());
+                TestComplexity(accessor.Flute1());
+                TestComplexity(accessor.Flute2());
+                TestComplexity(accessor.Flute3());
+                TestComplexity(accessor.Flute4());
+                TestComplexity(accessor.Organ());
+                TestComplexity(accessor.Pad());
+                TestComplexity(accessor.Horn());
+                TestComplexity(accessor.Trombone());
+                TestComplexity(accessor.ElectricNote());
+                TestComplexity(accessor.RippleBass());
+                TestComplexity(accessor.RippleNote_SharpMetallic());
+                TestComplexity(accessor.RippleSound_Clean());
+                TestComplexity(accessor.RippleSound_FantasyEffect());
+                TestComplexity(accessor.RippleSound_CoolDouble());
+                TestComplexity(accessor.Create_FM_Noise_Beating());
+                TestComplexity(accessor.FluteMelody1);
+                TestComplexity(accessor.FluteMelody2);
+                TestComplexity(accessor.OrganChords);
+                TestComplexity(accessor.PadChords());
+                TestComplexity(accessor.HornMelody1);
+                TestComplexity(accessor.HornMelody2);
+                TestComplexity(accessor.TromboneMelody1);
+                TestComplexity(accessor.TromboneMelody2);
+                TestComplexity(accessor.RippleBassMelody2);
+                TestComplexity(accessor.Jingle());
             }
             {
                 var accessor = new ModulationTestsAccessor(new ModulationTests());
-                Complexity(accessor.Detunica1(A4));
-                Complexity(accessor.Detunica2());
-                Complexity(accessor.Detunica3());
-                Complexity(accessor.Detunica4());
-                Complexity(accessor.Detunica5());
-                Complexity(accessor.DetunicaBass());
-                Complexity(accessor.DetunicaJingle);
-                Complexity(accessor.Vibraphase());
-                Complexity(accessor.VibraphaseChord);
-            }
-            {
-                var accessor = new AdditiveTestsAccessor(new AdditiveTests());
-                Complexity(accessor.Metallophone(A4));
-                Complexity(accessor.MetallophoneJingle);
+                WithStereo();
+                TestComplexity(accessor.Detunica1(A4));
+                TestComplexity(accessor.Detunica2());
+                TestComplexity(accessor.Detunica3());
+                TestComplexity(accessor.Detunica4());
+                TestComplexity(accessor.Detunica5());
+                TestComplexity(accessor.DetunicaBass());
+                TestComplexity(accessor.DetunicaJingle);
+                TestComplexity(accessor.Vibraphase());
+                TestComplexity(accessor.VibraphaseChord);
             }
         }
 
-        private void Complexity(FluentOutlet fluentOutlet)
+        private void TestComplexity(FluentOutlet fluentOutlet)
         {
             IsNotNull(() => fluentOutlet);
             {
-                string stringify     = fluentOutlet.Stringify();
-                int    complexityOld = stringify.CountLines();
-                int    complexity    = fluentOutlet.Complexity;
+                string stringify = fluentOutlet.Stringify();
+                IsNotNull(() => stringify);
+                int complexityOld = stringify.CountLines();
+                int complexity    = fluentOutlet.Complexity;
                 AreEqual(complexityOld, () => complexity);
             }
 
             IsNotNull(() => fluentOutlet.WrappedOutlet);
             Outlet outlet = fluentOutlet.WrappedOutlet;
             {
-                string stringify     = outlet.Stringify();
-                int    complexityOld = stringify.CountLines();
-                int    complexity    = outlet.Complexity();
+                string stringify = outlet.Stringify();
+                IsNotNull(() => stringify);
+                int complexityOld = stringify.CountLines();
+                int complexity    = outlet.Complexity();
                 AreEqual(complexityOld, () => complexity);
             }
 
             IsNotNull(() => outlet.Operator);
             Operator op = outlet.Operator;
             {
-                string stringify     = op.Stringify();
-                int    complexityOld = stringify.CountLines();
-                int    complexity    = op.Complexity();
+                string stringify = op.Stringify();
+                IsNotNull(() => stringify);
+                int complexityOld = stringify.CountLines();
+                int complexity    = op.Complexity();
                 AreEqual(complexityOld, () => complexity);
             }
-            
+
             // For the Inlet case: Complexity requires detouring through another operator.
             var add = Add(fluentOutlet, 1);
-            
+
             // Ensure the Add operation and its associated Operator and Inlets are initialized correctly.
             IsNotNull(() => add);
             IsNotNull(() => add.Operator);
@@ -693,13 +698,56 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Access the first Inlet to evaluate its complexity.
             Inlet inlet = add.Operator.Inlets[0];
             {
-                string stringify          = inlet.Stringify();
-                int    complexityOld      = stringify.CountLines();
-                int    complexity         = inlet.Complexity();
+                string stringify = inlet.Stringify();
+                IsNotNull(() => stringify);
+                int complexityOld = stringify.CountLines();
+                int complexity    = inlet.Complexity();
                 // The expected complexity excludes 1 line,
                 // as the old method counted an extra line for the added nesting level.
-                int    expectedComplexity = complexityOld - 1; 
+                int expectedComplexity = complexityOld - 1;
                 AreEqual(expectedComplexity, () => complexity);
+            }
+
+            Result<StreamAudioData> result = Cache(fluentOutlet);
+            IsNotNull(() => result);
+            {
+                string stringify = result.Stringify();
+                IsNotNull(() => stringify);
+                int complexityOld = stringify.CountLines();
+                int complexity    = result.Complexity();
+                AreEqual(complexityOld, () => complexity);
+            }
+
+            StreamAudioData data = result.Data;
+            IsNotNull(() => data);
+            {
+                string stringify = data.Stringify();
+                IsNotNull(() => stringify);
+                int complexityOld = stringify.CountLines();
+                int complexity    = data.Complexity();
+                AreEqual(complexityOld, () => complexity);
+            }
+
+            AudioFileOutput audioFileOutput = data.AudioFileOutput;
+            IsNotNull(() => audioFileOutput);
+            {
+                string stringify = audioFileOutput.Stringify();
+                IsNotNull(() => stringify);
+                int complexityOld = stringify.CountLines();
+                int complexity    = audioFileOutput.Complexity();
+                AreEqual(complexityOld, () => complexity);
+            }
+
+            IsNotNull(() => audioFileOutput.AudioFileOutputChannels);
+            foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
+            {
+                IsNotNull(() => audioFileOutputChannel);
+                {
+                    string stringify     = audioFileOutputChannel.Stringify();
+                    int    complexityOld = stringify.CountLines();
+                    int    complexity    = audioFileOutputChannel.Complexity();
+                    AreEqual(complexityOld, () => complexity);
+                }
             }
         }
     }
