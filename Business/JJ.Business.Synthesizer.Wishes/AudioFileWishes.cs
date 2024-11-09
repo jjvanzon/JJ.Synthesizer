@@ -285,11 +285,11 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 Successful = true,
                 ValidationMessages = warnings.ToCanonical(),
-                Data = new StreamAudioData(entity, bytes, calculationDuration)
+                Data = new StreamAudioData(entity, bytes)
             };
 
             // Report
-            var reportLines = GetReport(result);
+            var reportLines = GetReport(result, calculationDuration);
             reportLines.ForEach(Console.WriteLine);
             
             return result;
@@ -340,7 +340,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private static List<string> GetReport(Result<StreamAudioData> result)
+        private static List<string> GetReport(Result<StreamAudioData> result, double calculationDuration)
         {
             ResultWishes.Assert(result);
 
@@ -360,11 +360,11 @@ namespace JJ.Business.Synthesizer.Wishes
             lines.Add(GetPrettyTitle(result.Data.AudioFileOutput.Name ?? result.Data.AudioFileOutput.FilePath));
             lines.Add("");
 
-            string realTimeComplexityMessage = FormatMetrics(result.Data.AudioFileOutput.Duration, result.Data.CalculationDuration, result.Complexity());
+            string realTimeComplexityMessage = FormatMetrics(result.Data.AudioFileOutput.Duration, calculationDuration, result.Complexity());
             lines.Add(realTimeComplexityMessage);
             lines.Add("");
 
-            lines.Add($"Calculation time: {PrettyDuration(result.Data.CalculationDuration)}");
+            lines.Add($"Calculation time: {PrettyDuration(calculationDuration)}");
             lines.Add($"Audio length: {PrettyDuration(result.Data.AudioFileOutput.Duration)}");
             lines.Add($"Sampling rate: { result.Data.AudioFileOutput.SamplingRate } Hz | {result.Data.AudioFileOutput.GetSampleDataTypeEnum()} | {result.Data.AudioFileOutput.GetSpeakerSetupEnum()}");
 
@@ -975,14 +975,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveresultbytes"/>
         public byte[] Bytes { get; }
-        public double CalculationDuration { get; }
 
         /// <inheritdoc cref="docs._saveresultbytes"/>
-        public StreamAudioData(AudioFileOutput audioFileOutput, byte[] bytes, double calculationDuration)
+        public StreamAudioData(AudioFileOutput audioFileOutput, byte[] bytes)
         {
             AudioFileOutput = audioFileOutput ?? throw new ArgumentNullException(nameof(audioFileOutput));
             Bytes = bytes;
-            CalculationDuration = calculationDuration;
         }
     }
 }
