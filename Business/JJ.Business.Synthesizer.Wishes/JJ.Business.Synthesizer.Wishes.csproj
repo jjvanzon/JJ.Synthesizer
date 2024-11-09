@@ -74,6 +74,7 @@
     <Compile Include="ParallelWishes.cs" />
     <Compile Include="PlayWishes.cs" />
     <Compile Include="SampleWishes.cs" />
+    <Compile Include="SaveWishes.cs" />
     <Compile Include="StringifyWishes.cs" />
     <Compile Include="WavHeaderWishes.cs" />
     <Compile Include="CurveWishes.cs" />
