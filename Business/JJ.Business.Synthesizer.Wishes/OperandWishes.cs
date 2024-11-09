@@ -153,11 +153,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Pitch
         
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Pitch(this Outlet entity)
-        {
-            if (HasPitch(entity)) return B(entity);
-            return null;
-        }
+        public static Outlet Pitch(this Outlet entity) => HasPitch(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetPitch(this Outlet entity, Outlet b)
@@ -167,11 +163,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Pitch(this Operator entity)
-        {
-            if (HasPitch(entity)) return B(entity);
-            return null;
-        }
+        public static Outlet Pitch(this Operator entity) => HasPitch(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetPitch(this Operator entity, Outlet b)
@@ -217,11 +209,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Signal
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Signal(this Outlet entity)
-        {
-            if (HasSignal(entity)) return A(entity);
-            return null;
-        }
+        public static Outlet Signal(this Outlet entity) => HasSignal(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSignal(this Outlet entity, Outlet a)
@@ -231,11 +219,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Signal(this Operator entity)
-        {
-            if (HasSignal(entity)) return A(entity);
-            return null;
-        }
+        public static Outlet Signal(this Operator entity) => HasSignal(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSignal(this Operator entity, Outlet a)
@@ -274,11 +258,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Base
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Base(this Outlet entity)
-        {
-            if (HasBase(entity)) return A(entity);
-            return null;
-        }
+        public static Outlet Base(this Outlet entity) => HasBase(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetBase(this Outlet entity, Outlet a)
@@ -288,11 +268,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Base(this Operator entity)
-        {
-            if (HasBase(entity)) return A(entity);
-            return null;
-        }
+        public static Outlet Base(this Operator entity) => HasBase(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetBase(this Operator entity, Outlet a)
@@ -327,11 +303,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Exponent
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Exponent(this Outlet entity)
-        {
-            if (HasExponent(entity)) return B(entity);
-            return null;
-        }
+        public static Outlet Exponent(this Outlet entity) => HasExponent(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetExponent(this Outlet entity, Outlet b)
@@ -341,11 +313,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Exponent(this Operator entity)
-        {
-            if (HasExponent(entity)) return B(entity);
-            return null;
-        }
+        public static Outlet Exponent(this Operator entity) => HasExponent(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetExponent(this Operator entity, Outlet b)
@@ -381,11 +349,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // TimeDifference
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet TimeDifference(this Outlet entity)
-        {
-            if (HasTimeDifference(entity)) return B(entity);
-            return null;
-        }
+        public static Outlet TimeDifference(this Outlet entity) => HasTimeDifference(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeDifference(this Outlet entity, Outlet b)
@@ -395,11 +359,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet TimeDifference(this Operator entity)
-        {
-            if (HasTimeDifference(entity)) return B(entity);
-            return null;
-        }
+        public static Outlet TimeDifference(this Operator entity) => HasTimeDifference(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeDifference(this Operator entity, Outlet b)
@@ -435,11 +395,8 @@ namespace JJ.Business.Synthesizer.Wishes
         // TimeScale
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet TimeScale(this Outlet entity)
-        {
-            if (HasTimeScale(entity)) return B(entity);
-            return null;
-        }
+        public static Outlet TimeScale(this Outlet entity) 
+            => HasTimeScale(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeScale(this Outlet entity, Outlet b)
@@ -449,11 +406,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet TimeScale(this Operator entity)
-        {
-            if (HasTimeScale(entity)) return B(entity);
-            return null;
-        }
+        public static Outlet TimeScale(this Operator entity) => HasTimeScale(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeScale(this Operator entity, Outlet b)
@@ -488,11 +441,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // SpeedFactor
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet SpeedFactor(this Outlet entity)
-        {
-            if (HasSpeedFactor(entity)) return B(entity);
-            return null;
-        }
+        public static Outlet SpeedFactor(this Outlet entity) => HasSpeedFactor(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSpeedFactor(this Outlet entity, Outlet b)
@@ -502,11 +451,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet SpeedFactor(this Operator entity)
-        {
-            if (HasSpeedFactor(entity)) return B(entity);
-            return null;
-        }
+        public static Outlet SpeedFactor(this Operator entity) => HasSpeedFactor(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSpeedFactor(this Operator entity, Outlet b)
