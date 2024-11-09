@@ -101,13 +101,11 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 
-            var operators = new[] { op }.UnionRecursive(x => x.Operands()
-                                                              .Where(y => y != null)
-                                                              .Select(y => y.Operator)
-                                                              .Where(y => y.IsVar()));
-            int operatorCount = operators.Distinct().Count();
-
-            return operatorCount;
+            var operators = new[] { op }.SelectRecursive(x => x.Operands()
+                                                               .Where(y => y != null)
+                                                               .Select(y => y.Operator)
+                                                               .Where(y => y.IsVar()));
+            return operators.Count();
         }
     }
 

@@ -615,10 +615,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Complexity(accessor.Flute3());
                 Complexity(accessor.Flute4());
                 Complexity(accessor.Organ());
-                //Complexity(accessor.Pad());
+                Complexity(accessor.Pad());
                 Complexity(accessor.Horn());
                 Complexity(accessor.Trombone());
-                //Complexity(accessor.ElectricNote());
+                Complexity(accessor.ElectricNote());
                 Complexity(accessor.RippleBass());
                 Complexity(accessor.RippleNote_SharpMetallic());
                 Complexity(accessor.RippleSound_Clean());
@@ -627,18 +627,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Complexity(accessor.Create_FM_Noise_Beating());
                 Complexity(accessor.FluteMelody1);
                 Complexity(accessor.FluteMelody2);
-                //Complexity(accessor.OrganChords);
-                //Complexity(accessor.PadChords());
+                Complexity(accessor.OrganChords);
+                Complexity(accessor.PadChords());
                 Complexity(accessor.HornMelody1);
                 Complexity(accessor.HornMelody2);
                 Complexity(accessor.TromboneMelody1);
                 Complexity(accessor.TromboneMelody2);
                 Complexity(accessor.RippleBassMelody2);
-                //Complexity(accessor.Jingle());
+                Complexity(accessor.Jingle());
             }
             {
                 var accessor = new ModulationTestsAccessor(new ModulationTests());
-                //Complexity(accessor.Detunica1(A4));
+                Complexity(accessor.Detunica1(A4));
                 //Complexity(accessor.Detunica2());
                 //Complexity(accessor.Detunica3());
                 //Complexity(accessor.Detunica4());
@@ -650,8 +650,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             {
                 var accessor = new AdditiveTestsAccessor(new AdditiveTests());
-                //Complexity(accessor.Metallophone(A4));
-                //Complexity(accessor.MetallophoneJingle);
+                Complexity(accessor.Metallophone(A4));
+                Complexity(accessor.MetallophoneJingle);
             }
         }
 
