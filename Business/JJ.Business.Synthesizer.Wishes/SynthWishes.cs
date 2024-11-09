@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly CurveFactory _curveFactory;
         private readonly SampleManager _sampleManager;
 
-        public SynthWishes(IContext context = null)
+        public SynthWishes(IContext context)
         {
             Context = context ?? PersistenceHelper.CreateContext();
 
