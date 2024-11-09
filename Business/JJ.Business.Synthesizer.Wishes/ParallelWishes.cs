@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Report total real-time and complexity metrics.
             double audioDuration = cacheResults.Max(x => x.Data.AudioFileOutput.Duration);
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
-            int complexity = cacheResults.Sum(x => x.Data.Complexity);
+            int complexity = cacheResults.Sum(x => x.Complexity());
             string formattedMetrics = FormatMetrics(audioDuration, calculationDuration, complexity);
             string message = $"{PrettyTime()} Totals {name} Terms: {formattedMetrics}";
             Console.WriteLine(message);

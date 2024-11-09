@@ -289,8 +289,7 @@ namespace JJ.Business.Synthesizer.Wishes
             };
 
             // Report
-            var reportLines = GetReport(result, out int complexity);
-            result.Data.Complexity = complexity;
+            var reportLines = GetReport(result);
             reportLines.ForEach(Console.WriteLine);
             
             return result;
@@ -341,21 +340,17 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private static List<string> GetReport(Result<StreamAudioData> result, out int complexity)
+        private static List<string> GetReport(Result<StreamAudioData> result)
         {
             ResultWishes.Assert(result);
 
             // Get Info
-            complexity = 0;
             var stringifiedChannels = new List<string>();
 
             foreach (var audioFileOutputChannel in result.Data.AudioFileOutput.AudioFileOutputChannels)
             {
                 string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
                 stringifiedChannels.Add(stringify);
-
-                int stringifyLines = stringify.CountLines();
-                complexity += stringifyLines;
             }
 
             // Gather Lines
@@ -365,7 +360,7 @@ namespace JJ.Business.Synthesizer.Wishes
             lines.Add(GetPrettyTitle(result.Data.AudioFileOutput.Name ?? result.Data.AudioFileOutput.FilePath));
             lines.Add("");
 
-            string realTimeComplexityMessage = FormatMetrics(result.Data.AudioFileOutput.Duration, result.Data.CalculationDuration, complexity);
+            string realTimeComplexityMessage = FormatMetrics(result.Data.AudioFileOutput.Duration, result.Data.CalculationDuration, result.Complexity());
             lines.Add(realTimeComplexityMessage);
             lines.Add("");
 
@@ -981,7 +976,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveresultbytes"/>
         public byte[] Bytes { get; }
         public double CalculationDuration { get; }
-        public int Complexity { get; set; }
 
         /// <inheritdoc cref="docs._saveresultbytes"/>
         public StreamAudioData(AudioFileOutput audioFileOutput, byte[] bytes, double calculationDuration)
