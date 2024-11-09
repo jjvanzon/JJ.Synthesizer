@@ -32,7 +32,7 @@ public partial class FluentOutlet
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsFrequency => _wrappedOutlet.SupportsFrequency();
+    public bool SupportsFrequency => _wrappedOutlet.FrequencyIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FluentOutlet Pitch
@@ -42,7 +42,7 @@ public partial class FluentOutlet
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsPitch => _wrappedOutlet.SupportsPitch();
+    public bool SupportsPitch => _wrappedOutlet.PitchIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FluentOutlet Signal
@@ -52,7 +52,7 @@ public partial class FluentOutlet
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsSignal => _wrappedOutlet.SupportsSignal();
+    public bool SupportsSignal => _wrappedOutlet.SignalIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FluentOutlet Base
@@ -62,7 +62,7 @@ public partial class FluentOutlet
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsBase => _wrappedOutlet.SupportsBase();
+    public bool SupportsBase => _wrappedOutlet.BaseIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FluentOutlet Exponent
@@ -72,7 +72,7 @@ public partial class FluentOutlet
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsExponent => _wrappedOutlet.SupportsExponent();
+    public bool SupportsExponent => _wrappedOutlet.ExponentIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FluentOutlet TimeDifference
@@ -82,7 +82,7 @@ public partial class FluentOutlet
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsTimeDifference => _wrappedOutlet.SupportsTimeDifference();
+    public bool SupportsTimeDifference => _wrappedOutlet.TimeDifferenceIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FluentOutlet TimeScale
@@ -92,7 +92,7 @@ public partial class FluentOutlet
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsTimeScale => _wrappedOutlet.SupportsTimeScale();
+    public bool SupportsTimeScale => _wrappedOutlet.TimeScaleIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FluentOutlet SpeedFactor
@@ -102,7 +102,7 @@ public partial class FluentOutlet
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsSpeedFactor => _wrappedOutlet.SupportsSpeedFactor();
+    public bool SupportsSpeedFactor => _wrappedOutlet.SpeedFactorIsSupported();
 
     public FluentOperandList Operands { get; }
 }
@@ -177,42 +177,42 @@ public partial class FluentOutlet
         // Pitch
         
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Pitch(this Outlet entity) => SupportsPitch(entity) ? B(entity) : null;
+        public static Outlet Pitch(this Outlet entity) => PitchIsSupported(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetPitch(this Outlet entity, Outlet b)
         {
-            AssertSupportsPitch(entity);
+            AssertPitchIsSupported(entity);
             SetB(entity, b);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Pitch(this Operator entity) => SupportsPitch(entity) ? B(entity) : null;
+        public static Outlet Pitch(this Operator entity) => PitchIsSupported(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetPitch(this Operator entity, Outlet b)
         {
-            AssertSupportsPitch(entity);
+            AssertPitchIsSupported(entity);
             SetB(entity, b);
         }
         
-        private static void AssertSupportsPitch(Outlet entity)
+        private static void AssertPitchIsSupported(Outlet entity)
         {
-            if (!SupportsPitch(entity)) throw new Exception("The Operator does not have a Pitch Inlet.");
+            if (!PitchIsSupported(entity)) throw new Exception("The Operator does not have a Pitch Inlet.");
         }
 
-        private static void AssertSupportsPitch(Operator entity)
+        private static void AssertPitchIsSupported(Operator entity)
         {
-            if (!SupportsPitch(entity)) throw new Exception("The Operator does not have a Pitch Inlet.");
+            if (!PitchIsSupported(entity)) throw new Exception("The Operator does not have a Pitch Inlet.");
         }
 
-        public static bool SupportsPitch(this Outlet entity)
+        public static bool PitchIsSupported(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SupportsPitch(entity.Operator);
+            return PitchIsSupported(entity.Operator);
         }
 
-        public static bool SupportsPitch(this Operator entity)
+        public static bool PitchIsSupported(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsSine()) return true;
@@ -230,49 +230,49 @@ public partial class FluentOutlet
         /// <inheritdoc cref="docs._operand"/>
         public static void SetFrequency(this Operator entity, Outlet b) => SetPitch(entity, b);
         /// <inheritdoc cref="docs._operand"/>
-        public static bool SupportsFrequency(this Outlet entity) => SupportsPitch(entity);
+        public static bool FrequencyIsSupported(this Outlet entity) => PitchIsSupported(entity);
         /// <inheritdoc cref="docs._operand"/>
-        public static bool SupportsFrequency(this Operator entity) => SupportsPitch(entity);
+        public static bool FrequencyIsSupported(this Operator entity) => PitchIsSupported(entity);
 
         // Signal
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Signal(this Outlet entity) => SupportsSignal(entity) ? A(entity) : null;
+        public static Outlet Signal(this Outlet entity) => SignalIsSupported(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSignal(this Outlet entity, Outlet a)
         {
-            AssertSupportsSignal(entity);
+            AssertSignalIsSupported(entity);
             SetA(entity, a);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Signal(this Operator entity) => SupportsSignal(entity) ? A(entity) : null;
+        public static Outlet Signal(this Operator entity) => SignalIsSupported(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSignal(this Operator entity, Outlet a)
         {
-            AssertSupportsSignal(entity);
+            AssertSignalIsSupported(entity);
             SetA(entity, a);
         }
 
-        private static void AssertSupportsSignal(Outlet entity)
+        private static void AssertSignalIsSupported(Outlet entity)
         {
-            if (!SupportsSignal(entity)) throw new Exception("The Operator does not have a Signal Inlet.");
+            if (!SignalIsSupported(entity)) throw new Exception("The Operator does not have a Signal Inlet.");
         }
 
-        private static void AssertSupportsSignal(Operator entity)
+        private static void AssertSignalIsSupported(Operator entity)
         {
-            if (!SupportsSignal(entity)) throw new Exception("The Operator does not have a Signal Inlet.");
+            if (!SignalIsSupported(entity)) throw new Exception("The Operator does not have a Signal Inlet.");
         }
 
-        public static bool SupportsSignal(this Outlet entity)
+        public static bool SignalIsSupported(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SupportsSignal(entity.Operator);
+            return SignalIsSupported(entity.Operator);
         }
 
-        public static bool SupportsSignal(this Operator entity)
+        public static bool SignalIsSupported(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsDelay()) return true;
@@ -286,42 +286,42 @@ public partial class FluentOutlet
         // Base
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Base(this Outlet entity) => SupportsBase(entity) ? A(entity) : null;
+        public static Outlet Base(this Outlet entity) => BaseIsSupported(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetBase(this Outlet entity, Outlet a)
         {
-            AssertSupportsBase(entity);
+            AssertBaseIsSupported(entity);
             SetA(entity, a);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Base(this Operator entity) => SupportsBase(entity) ? A(entity) : null;
+        public static Outlet Base(this Operator entity) => BaseIsSupported(entity) ? A(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetBase(this Operator entity, Outlet a)
         {
-            AssertSupportsBase(entity);
+            AssertBaseIsSupported(entity);
             SetA(entity, a);
         }
 
-        private static void AssertSupportsBase(Outlet entity)
+        private static void AssertBaseIsSupported(Outlet entity)
         {
-            if (!SupportsBase(entity)) throw new Exception("The Operator does not have a Base Inlet.");
+            if (!BaseIsSupported(entity)) throw new Exception("The Operator does not have a Base Inlet.");
         }
 
-        private static void AssertSupportsBase(Operator entity)
+        private static void AssertBaseIsSupported(Operator entity)
         {
-            if (!SupportsBase(entity)) throw new Exception("The Operator does not have a Base Inlet.");
+            if (!BaseIsSupported(entity)) throw new Exception("The Operator does not have a Base Inlet.");
         }
 
-        public static bool SupportsBase(this Outlet entity)
+        public static bool BaseIsSupported(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SupportsBase(entity.Operator);
+            return BaseIsSupported(entity.Operator);
         }
 
-        public static bool SupportsBase(this Operator entity)
+        public static bool BaseIsSupported(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsPower()) return true;
@@ -331,42 +331,42 @@ public partial class FluentOutlet
         // Exponent
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Exponent(this Outlet entity) => SupportsExponent(entity) ? B(entity) : null;
+        public static Outlet Exponent(this Outlet entity) => ExponentIsSupported(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetExponent(this Outlet entity, Outlet b)
         {
-            AssertSupportsExponent(entity);
+            AssertExponentIsSupported(entity);
             SetB(entity, b);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Exponent(this Operator entity) => SupportsExponent(entity) ? B(entity) : null;
+        public static Outlet Exponent(this Operator entity) => ExponentIsSupported(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetExponent(this Operator entity, Outlet b)
         {
-            AssertSupportsExponent(entity);
+            AssertExponentIsSupported(entity);
             SetB(entity, b);
         }
 
-        private static void AssertSupportsExponent(Outlet entity)
+        private static void AssertExponentIsSupported(Outlet entity)
         {
-            if (!SupportsExponent(entity)) throw new Exception("The Operator does not have a Exponent Inlet.");
+            if (!ExponentIsSupported(entity)) throw new Exception("The Operator does not have a Exponent Inlet.");
         }
 
-        private static void AssertSupportsExponent(Operator entity)
+        private static void AssertExponentIsSupported(Operator entity)
         {
-            if (!SupportsExponent(entity)) throw new Exception("The Operator does not have a Exponent Inlet.");
+            if (!ExponentIsSupported(entity)) throw new Exception("The Operator does not have a Exponent Inlet.");
         }
 
-        public static bool SupportsExponent(this Outlet entity)
+        public static bool ExponentIsSupported(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SupportsExponent(entity.Operator);
+            return ExponentIsSupported(entity.Operator);
         }
 
-        public static bool SupportsExponent(this Operator entity)
+        public static bool ExponentIsSupported(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsPower()) return true;
@@ -377,42 +377,42 @@ public partial class FluentOutlet
         // TimeDifference
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet TimeDifference(this Outlet entity) => SupportsTimeDifference(entity) ? B(entity) : null;
+        public static Outlet TimeDifference(this Outlet entity) => TimeDifferenceIsSupported(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeDifference(this Outlet entity, Outlet b)
         {
-            AssertSupportsTimeDifference(entity);
+            AssertTimeDifferenceIsSupported(entity);
             SetB(entity, b);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet TimeDifference(this Operator entity) => SupportsTimeDifference(entity) ? B(entity) : null;
+        public static Outlet TimeDifference(this Operator entity) => TimeDifferenceIsSupported(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeDifference(this Operator entity, Outlet b)
         {
-            AssertSupportsTimeDifference(entity);
+            AssertTimeDifferenceIsSupported(entity);
             SetB(entity, b);
         }
 
-        private static void AssertSupportsTimeDifference(Outlet entity)
+        private static void AssertTimeDifferenceIsSupported(Outlet entity)
         {
-            if (!SupportsTimeDifference(entity)) throw new Exception("The Operator does not have a TimeDifference Inlet.");
+            if (!TimeDifferenceIsSupported(entity)) throw new Exception("The Operator does not have a TimeDifference Inlet.");
         }
 
-        private static void AssertSupportsTimeDifference(Operator entity)
+        private static void AssertTimeDifferenceIsSupported(Operator entity)
         {
-            if (!SupportsTimeDifference(entity)) throw new Exception("The Operator does not have a TimeDifference Inlet.");
+            if (!TimeDifferenceIsSupported(entity)) throw new Exception("The Operator does not have a TimeDifference Inlet.");
         }
 
-        public static bool SupportsTimeDifference(this Outlet entity)
+        public static bool TimeDifferenceIsSupported(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SupportsTimeDifference(entity.Operator);
+            return TimeDifferenceIsSupported(entity.Operator);
         }
 
-        public static bool SupportsTimeDifference(this Operator entity)
+        public static bool TimeDifferenceIsSupported(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsDelay()) return true;
@@ -424,42 +424,42 @@ public partial class FluentOutlet
 
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet TimeScale(this Outlet entity) 
-            => SupportsTimeScale(entity) ? B(entity) : null;
+            => TimeScaleIsSupported(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeScale(this Outlet entity, Outlet b)
         {
-            AssertSupportsTimeScale(entity);
+            AssertTimeScaleIsSupported(entity);
             SetB(entity, b);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet TimeScale(this Operator entity) => SupportsTimeScale(entity) ? B(entity) : null;
+        public static Outlet TimeScale(this Operator entity) => TimeScaleIsSupported(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetTimeScale(this Operator entity, Outlet b)
         {
-            AssertSupportsTimeScale(entity);
+            AssertTimeScaleIsSupported(entity);
             SetB(entity, b);
         }
 
-        private static void AssertSupportsTimeScale(Outlet entity)
+        private static void AssertTimeScaleIsSupported(Outlet entity)
         {
-            if (!SupportsTimeScale(entity)) throw new Exception("The Operator does not have a TimeScale Inlet.");
+            if (!TimeScaleIsSupported(entity)) throw new Exception("The Operator does not have a TimeScale Inlet.");
         }
 
-        private static void AssertSupportsTimeScale(Operator entity)
+        private static void AssertTimeScaleIsSupported(Operator entity)
         {
-            if (!SupportsTimeScale(entity)) throw new Exception("The Operator does not have a TimeScale Inlet.");
+            if (!TimeScaleIsSupported(entity)) throw new Exception("The Operator does not have a TimeScale Inlet.");
         }
 
-        public static bool SupportsTimeScale(this Outlet entity)
+        public static bool TimeScaleIsSupported(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SupportsTimeScale(entity.Operator);
+            return TimeScaleIsSupported(entity.Operator);
         }
 
-        public static bool SupportsTimeScale(this Operator entity)
+        public static bool TimeScaleIsSupported(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsStretch()) return true;
@@ -469,42 +469,42 @@ public partial class FluentOutlet
         // SpeedFactor
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet SpeedFactor(this Outlet entity) => SupportsSpeedFactor(entity) ? B(entity) : null;
+        public static Outlet SpeedFactor(this Outlet entity) => SpeedFactorIsSupported(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSpeedFactor(this Outlet entity, Outlet b)
         {
-            AssertSupportsSpeedFactor(entity);
+            AssertSpeedFactorIsSupported(entity);
             SetB(entity, b);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet SpeedFactor(this Operator entity) => SupportsSpeedFactor(entity) ? B(entity) : null;
+        public static Outlet SpeedFactor(this Operator entity) => SpeedFactorIsSupported(entity) ? B(entity) : null;
 
         /// <inheritdoc cref="docs._operand"/>
         public static void SetSpeedFactor(this Operator entity, Outlet b)
         {
-            AssertSupportsSpeedFactor(entity);
+            AssertSpeedFactorIsSupported(entity);
             SetB(entity, b);
         }
 
-        private static void AssertSupportsSpeedFactor(Outlet entity)
+        private static void AssertSpeedFactorIsSupported(Outlet entity)
         {
-            if (!SupportsSpeedFactor(entity)) throw new Exception("The Operator does not have a SpeedFactor Inlet.");
+            if (!SpeedFactorIsSupported(entity)) throw new Exception("The Operator does not have a SpeedFactor Inlet.");
         }
 
-        private static void AssertSupportsSpeedFactor(Operator entity)
+        private static void AssertSpeedFactorIsSupported(Operator entity)
         {
-            if (!SupportsSpeedFactor(entity)) throw new Exception("The Operator does not have a SpeedFactor Inlet.");
+            if (!SpeedFactorIsSupported(entity)) throw new Exception("The Operator does not have a SpeedFactor Inlet.");
         }
 
-        public static bool SupportsSpeedFactor(this Outlet entity)
+        public static bool SpeedFactorIsSupported(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return SupportsSpeedFactor(entity.Operator);
+            return SpeedFactorIsSupported(entity.Operator);
         }
 
-        public static bool SupportsSpeedFactor(this Operator entity)
+        public static bool SpeedFactorIsSupported(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.IsSpeedUp()) return true;
