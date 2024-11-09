@@ -639,12 +639,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 var accessor = new ModulationTestsAccessor(new ModulationTests());
                 Complexity(accessor.Detunica1(A4));
-                //Complexity(accessor.Detunica2());
-                //Complexity(accessor.Detunica3());
-                //Complexity(accessor.Detunica4());
-                //Complexity(accessor.Detunica5());
-                //Complexity(accessor.DetunicaBass());
-                //Complexity(accessor.DetunicaJingle);
+                Complexity(accessor.Detunica2());
+                Complexity(accessor.Detunica3());
+                Complexity(accessor.Detunica4());
+                Complexity(accessor.Detunica5());
+                Complexity(accessor.DetunicaBass());
+                Complexity(accessor.DetunicaJingle);
                 Complexity(accessor.Vibraphase());
                 Complexity(accessor.VibraphaseChord);
             }

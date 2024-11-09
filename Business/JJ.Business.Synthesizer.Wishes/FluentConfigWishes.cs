@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        private readonly ThreadLocal<ChannelEnum> _channel = new ThreadLocal<ChannelEnum>();
+        private readonly ThreadLocal<ChannelEnum> _channel = new ThreadLocal<ChannelEnum>(() => ChannelEnum.Single);
 
         public ChannelEnum Channel
         {
