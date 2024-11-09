@@ -40,6 +40,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public FluentOutlet Pad(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
             => (FluentOutlet)_accessor.InvokeMethod(MemberName(), delay ?? _[0], freq ?? _[440], volume ?? _[1], duration ?? _[1]);
         
+        public FluentOutlet Organ(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
+            => (FluentOutlet)_accessor.InvokeMethod(MemberName(), delay ?? _[0], freq ?? _[440], volume ?? _[1], duration ?? _[1]);
+
         /// <inheritdoc cref="docs._horn" />
         public FluentOutlet Horn(FluentOutlet freq = null, FluentOutlet duration = null)
             => (FluentOutlet)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
@@ -55,11 +58,34 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         /// <inheritdoc cref="docs._ripplebass" />
         public FluentOutlet RippleBass(FluentOutlet freq = null, FluentOutlet duration = null)
             => (FluentOutlet)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
+        
+        /// <inheritdoc cref="docs._ripplebass" />
+        public FluentOutlet RippleNote_SharpMetallic(FluentOutlet freq = null, FluentOutlet duration = null)
+            => (FluentOutlet)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
+        
+        /// <inheritdoc cref="docs._ripplebass" />
+        public FluentOutlet RippleSound_Clean(FluentOutlet freq = null, FluentOutlet duration = null)
+            => (FluentOutlet)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
+        
+        /// <inheritdoc cref="docs._ripplebass" />
+        public FluentOutlet RippleSound_FantasyEffect(FluentOutlet freq = null, FluentOutlet duration = null)
+            => (FluentOutlet)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
+        
+        /// <inheritdoc cref="docs._ripplebass" />
+        public FluentOutlet RippleSound_CoolDouble(FluentOutlet freq = null, FluentOutlet duration = null)
+            => (FluentOutlet)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
+        
+        /// <inheritdoc cref="docs._ripplebass" />
+        public FluentOutlet Create_FM_Noise_Beating(FluentOutlet freq = null, FluentOutlet duration = null)
+            => (FluentOutlet)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
                         
         public FluentOutlet FluteMelody1
             => (FluentOutlet)_accessor.GetPropertyValue(MemberName());
         
         public FluentOutlet FluteMelody2
+            => (FluentOutlet)_accessor.GetPropertyValue(MemberName());
+
+        public FluentOutlet OrganChords 
             => (FluentOutlet)_accessor.GetPropertyValue(MemberName());
 
         public FluentOutlet PadChords(FluentOutlet volume = null)
