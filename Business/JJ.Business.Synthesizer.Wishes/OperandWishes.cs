@@ -8,81 +8,104 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     // Operands in FluentOutlet
 
-    public partial class FluentOutlet
-    {
-        /// <inheritdoc cref="docs._operand"/>
-        public FluentOutlet A 
-        { 
-            get => _[_wrappedOutlet.A()]; 
-            set => _wrappedOutlet.SetA(value); 
-        }
-        
-        /// <inheritdoc cref="docs._operand"/>
-        public FluentOutlet B
-        {
-            get => _[_wrappedOutlet.B()];
-            set => _wrappedOutlet.SetB(value);
-        }
-
-        /// <inheritdoc cref="docs._operand"/>
-        public FluentOutlet Frequency
-        {
-            get => _[_wrappedOutlet.Frequency()];
-            set => _wrappedOutlet.SetFrequency(value);
-        }
-
-        /// <inheritdoc cref="docs._operand"/>
-        public FluentOutlet Pitch
-        {
-            get => _[_wrappedOutlet.Pitch()];
-            set => _wrappedOutlet.SetPitch(value);
-        }
-
-        /// <inheritdoc cref="docs._operand"/>
-        public FluentOutlet Signal
-        {
-            get => _[_wrappedOutlet.Signal()];
-            set => _wrappedOutlet.SetSignal(value);
-        }
-
-        /// <inheritdoc cref="docs._operand"/>
-        public FluentOutlet Base
-        {
-            get => _[_wrappedOutlet.Base()];
-            set => _wrappedOutlet.SetBase(value);
-        }
-
-        /// <inheritdoc cref="docs._operand"/>
-        public FluentOutlet Exponent
-        {
-            get => _[_wrappedOutlet.Exponent()];
-            set => _wrappedOutlet.SetExponent(value);
-        }
-
-        /// <inheritdoc cref="docs._operand"/>
-        public FluentOutlet TimeDifference
-        {
-            get => _[_wrappedOutlet.TimeDifference()];
-            set => _wrappedOutlet.SetTimeDifference(value);
-        }
-
-        /// <inheritdoc cref="docs._operand"/>
-        public FluentOutlet TimeScale
-        {
-            get => _[_wrappedOutlet.TimeScale()];
-            set => _wrappedOutlet.SetTimeScale(value);
-        }
-
-        /// <inheritdoc cref="docs._operand"/>
-        public FluentOutlet SpeedFactor
-        {
-            get => _[_wrappedOutlet.SpeedFactor()];
-            set => _wrappedOutlet.SetSpeedFactor(value);
-        }
-
-        public FluentOperandList Operands { get; }
-        
+public partial class FluentOutlet
+{
+    /// <inheritdoc cref="docs._operand"/>
+    public FluentOutlet A 
+    { 
+        get => _[_wrappedOutlet.A()]; 
+        set => _wrappedOutlet.SetA(value); 
     }
+    
+    /// <inheritdoc cref="docs._operand"/>
+    public FluentOutlet B
+    {
+        get => _[_wrappedOutlet.B()];
+        set => _wrappedOutlet.SetB(value);
+    }
+
+    /// <inheritdoc cref="docs._operand"/>
+    public FluentOutlet Frequency
+    {
+        get => _[_wrappedOutlet.Frequency()];
+        set => _wrappedOutlet.SetFrequency(value);
+    }
+
+    /// <inheritdoc cref="docs._operand"/>
+    public bool SupportsFrequency => _wrappedOutlet.SupportsFrequency();
+
+    /// <inheritdoc cref="docs._operand"/>
+    public FluentOutlet Pitch
+    {
+        get => _[_wrappedOutlet.Pitch()];
+        set => _wrappedOutlet.SetPitch(value);
+    }
+
+    /// <inheritdoc cref="docs._operand"/>
+    public bool SupportsPitch => _wrappedOutlet.SupportsPitch();
+
+    /// <inheritdoc cref="docs._operand"/>
+    public FluentOutlet Signal
+    {
+        get => _[_wrappedOutlet.Signal()];
+        set => _wrappedOutlet.SetSignal(value);
+    }
+
+    /// <inheritdoc cref="docs._operand"/>
+    public bool SupportsSignal => _wrappedOutlet.SupportsSignal();
+
+    /// <inheritdoc cref="docs._operand"/>
+    public FluentOutlet Base
+    {
+        get => _[_wrappedOutlet.Base()];
+        set => _wrappedOutlet.SetBase(value);
+    }
+
+    /// <inheritdoc cref="docs._operand"/>
+    public bool SupportsBase => _wrappedOutlet.SupportsBase();
+
+    /// <inheritdoc cref="docs._operand"/>
+    public FluentOutlet Exponent
+    {
+        get => _[_wrappedOutlet.Exponent()];
+        set => _wrappedOutlet.SetExponent(value);
+    }
+
+    /// <inheritdoc cref="docs._operand"/>
+    public bool SupportsExponent => _wrappedOutlet.SupportsExponent();
+
+    /// <inheritdoc cref="docs._operand"/>
+    public FluentOutlet TimeDifference
+    {
+        get => _[_wrappedOutlet.TimeDifference()];
+        set => _wrappedOutlet.SetTimeDifference(value);
+    }
+
+    /// <inheritdoc cref="docs._operand"/>
+    public bool SupportsTimeDifference => _wrappedOutlet.SupportsTimeDifference();
+
+    /// <inheritdoc cref="docs._operand"/>
+    public FluentOutlet TimeScale
+    {
+        get => _[_wrappedOutlet.TimeScale()];
+        set => _wrappedOutlet.SetTimeScale(value);
+    }
+
+    /// <inheritdoc cref="docs._operand"/>
+    public bool SupportsTimeScale => _wrappedOutlet.SupportsTimeScale();
+
+    /// <inheritdoc cref="docs._operand"/>
+    public FluentOutlet SpeedFactor
+    {
+        get => _[_wrappedOutlet.SpeedFactor()];
+        set => _wrappedOutlet.SetSpeedFactor(value);
+    }
+
+    /// <inheritdoc cref="docs._operand"/>
+    public bool SupportsSpeedFactor => _wrappedOutlet.SupportsSpeedFactor();
+
+    public FluentOperandList Operands { get; }
+}
 
     // Operands on Entity Objects
     
@@ -206,6 +229,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Outlet Frequency(this Operator entity) => Pitch(entity);
         /// <inheritdoc cref="docs._operand"/>
         public static void SetFrequency(this Operator entity, Outlet b) => SetPitch(entity, b);
+        /// <inheritdoc cref="docs._operand"/>
+        public static bool SupportsFrequency(this Outlet entity) => SupportsPitch(entity);
+        /// <inheritdoc cref="docs._operand"/>
+        public static bool SupportsFrequency(this Operator entity) => SupportsPitch(entity);
 
         // Signal
 
