@@ -94,8 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Outlet A(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.Inlets.Count == 0) throw new ArgumentException("entity.Inlets.Count == 0");
-            return entity.Inlets[0].Input;
+            return entity.Inlets.ElementAtOrDefault(0)?.Input;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -126,8 +125,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Outlet B(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.Inlets.Count < 2) throw new ArgumentException("entity.Inlets.Count < 2");
-            return entity.Inlets[1].Input;
+            return entity.Inlets.ElementAtOrDefault(1)?.Input;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -157,8 +155,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet Pitch(this Outlet entity)
         {
-            AssertHasPitch(entity);
-            return B(entity);
+            if (HasPitch(entity)) return B(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -171,8 +169,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet Pitch(this Operator entity)
         {
-            AssertHasPitch(entity);
-            return B(entity);
+            if (HasPitch(entity)) return B(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -221,8 +219,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet Signal(this Outlet entity)
         {
-            AssertHasSignal(entity);
-            return A(entity);
+            if (HasSignal(entity)) return A(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -235,8 +233,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet Signal(this Operator entity)
         {
-            AssertHasSignal(entity);
-            return A(entity);
+            if (HasSignal(entity)) return A(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -278,8 +276,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet Base(this Outlet entity)
         {
-            AssertHasBase(entity);
-            return A(entity);
+            if (HasBase(entity)) return A(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -292,8 +290,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet Base(this Operator entity)
         {
-            AssertHasBase(entity);
-            return A(entity);
+            if (HasBase(entity)) return A(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -331,8 +329,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet Exponent(this Outlet entity)
         {
-            AssertHasExponent(entity);
-            return B(entity);
+            if (HasExponent(entity)) return B(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -345,8 +343,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet Exponent(this Operator entity)
         {
-            AssertHasExponent(entity);
-            return B(entity);
+            if (HasExponent(entity)) return B(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -385,8 +383,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet TimeDifference(this Outlet entity)
         {
-            AssertHasTimeDifference(entity);
-            return B(entity);
+            if (HasTimeDifference(entity)) return B(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -399,8 +397,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet TimeDifference(this Operator entity)
         {
-            AssertHasTimeDifference(entity);
-            return B(entity);
+            if (HasTimeDifference(entity)) return B(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -439,8 +437,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet TimeScale(this Outlet entity)
         {
-            AssertHasTimeScale(entity);
-            return B(entity);
+            if (HasTimeScale(entity)) return B(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -453,8 +451,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet TimeScale(this Operator entity)
         {
-            AssertHasTimeScale(entity);
-            return B(entity);
+            if (HasTimeScale(entity)) return B(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -492,8 +490,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet SpeedFactor(this Outlet entity)
         {
-            AssertHasSpeedFactor(entity);
-            return B(entity);
+            if (HasSpeedFactor(entity)) return B(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -506,8 +504,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._operand"/>
         public static Outlet SpeedFactor(this Operator entity)
         {
-            AssertHasSpeedFactor(entity);
-            return B(entity);
+            if (HasSpeedFactor(entity)) return B(entity);
+            return null;
         }
 
         /// <inheritdoc cref="docs._operand"/>
@@ -558,14 +556,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public static OperandList Operands(this Operator entity) => new OperandList(entity);
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Operands(this Outlet entity, int index)
+        public static Outlet Operand(this Outlet entity, int index)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return Operands(entity.Operator, index);
+            return Operand(entity.Operator, index);
         }
 
         /// <inheritdoc cref="docs._operand"/>
-        public static Outlet Operands(this Operator entity, int index)
+        public static Outlet Operand(this Operator entity, int index)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return entity.Inlets[index].Input;
@@ -578,7 +576,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         [Obsolete("Rarely used because default origin 0 usually works. " +
                   "Otherwise consider use separate operators like Shift and Stretch instead.")]
-        public FluentOutlet Origin => _[_wrappedOutlet.Operator?.Inlets.ElementAt(2)?.Input];
+        public FluentOutlet Origin => _[_wrappedOutlet.Operator?.Inlets.ElementAtOrDefault(2)?.Input];
     }
 
     /// <inheritdoc cref="docs._operand"/>
@@ -586,6 +584,6 @@ namespace JJ.Business.Synthesizer.Wishes
     { 
         [Obsolete("Rarely used because default origin 0 usually works. " +
                   "Otherwise consider use separate operators like Shift and Stretch instead.")]
-        public static Outlet Origin(this Operator entity) => entity.Inlets.ElementAt(2)?.Input;
+        public static Outlet Origin(this Operator entity) => entity.Inlets.ElementAtOrDefault(2)?.Input;
     }
 }
