@@ -380,7 +380,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet RippleBassMelody2 =>
             _[ bar[3.5], A1, RippleBass, 1, bars[0.8] ];
-
         
         // Instruments
 
@@ -478,6 +477,20 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note.SetName();
         }
 
+        /// <inheritdoc cref="docs._horn" />
+        FluentOutlet Horn(FluentOutlet freq = null, FluentOutlet duration = null)
+        {
+            freq = freq ?? A2;
+
+            var tamedMod = Multiply(5, Stretch(ModTamingCurve2, duration));
+
+            var fmSignal = FMInHertz(Multiply(freq, 2), freq, tamedMod);
+            var envelope = Stretch(BrassCurve, duration);
+            var sound    = Multiply(fmSignal, envelope);
+
+            return sound.SetName();
+        }
+
         /// <inheritdoc cref="docs._trombone" />
         FluentOutlet Trombone(FluentOutlet freq = null, FluentOutlet durationFactor = null)
         {
@@ -493,20 +506,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var transformedDuration = Multiply(baseNoteDuration, Power(ratio, 1.5));
 
             var envelope = Stretch(BrassCurve, transformedDuration);
-            var sound    = Multiply(fmSignal, envelope);
-
-            return sound.SetName();
-        }
-
-        /// <inheritdoc cref="docs._horn" />
-        FluentOutlet Horn(FluentOutlet freq = null, FluentOutlet duration = null)
-        {
-            freq = freq ?? A2;
-
-            var tamedMod = Multiply(5, Stretch(ModTamingCurve2, duration));
-
-            var fmSignal = FMInHertz(Multiply(freq, 2), freq, tamedMod);
-            var envelope = Stretch(BrassCurve, duration);
             var sound    = Multiply(fmSignal, envelope);
 
             return sound.SetName();
