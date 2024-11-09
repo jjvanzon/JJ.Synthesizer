@@ -37,14 +37,13 @@ namespace JJ.Business.Synthesizer.Wishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class FluentOutlet
     {
-        // TODO: Rename to _synthWishes.
         private readonly SynthWishes _synthWishes;
         private readonly Outlet _wrappedOutlet;
 
-        public FluentOutlet(SynthWishes synthWishes, Outlet firstFirstOperand)
+        public FluentOutlet(SynthWishes synthWishes, Outlet firstOperand)
         {
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-            _wrappedOutlet = firstFirstOperand ?? throw new ArgumentNullException(nameof(firstFirstOperand));
+            _wrappedOutlet = firstOperand ?? throw new ArgumentNullException(nameof(firstOperand));
             Operands = new FluentOperandList(this);
         }
 
