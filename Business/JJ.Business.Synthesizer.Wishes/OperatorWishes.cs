@@ -1193,10 +1193,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
             for (int i = 0; i < count; i++)
             {
-                var divide = signal * cumulativeMagnitude;
-                var timeAdd = Delay(divide, cumulativeDelay);
+                var quieter = signal * cumulativeMagnitude;
+                var shifted = Delay(quieter, cumulativeDelay);
 
-                repeats.Add(timeAdd);
+                repeats.Add(shifted);
 
                 cumulativeMagnitude *= magnitude;
                 cumulativeDelay += delay;
