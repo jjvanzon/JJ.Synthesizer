@@ -2,6 +2,10 @@
 using JJ.Persistence.Synthesizer;
 using System.IO;
 using System.Runtime.CompilerServices;
+using JJ.Business.CanonicalModel;
+using JJ.Framework.Common;
+using JJ.Framework.Reflection;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.IO.StreamHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -10,31 +14,73 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        // TODO: Overloads with SaveResult, SaveResultData, AudioFileOutput, Stream?
+        /// <inheritdoc cref="docs._sample"/>
+        public FluentOutlet Sample(
+            byte[] bytes, int bytesToSkip = 0, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => SampleBase(null, bytes, null, bytesToSkip, name, callerMemberName);
+
+        /// <inheritdoc cref="docs._sample"/>
+        public FluentOutlet Sample(Stream stream, int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
+            => SampleBase(stream, null, null, bytesToSkip, name, callerMemberName);
+
+        /// <inheritdoc cref="docs._sample"/>
+        public FluentOutlet Sample(string filePath, int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
+            => SampleBase(null, null, filePath, bytesToSkip, name, callerMemberName);
         
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
-            byte[] bytes, int bytesToSkip = 0,
-            string name = null, [CallerMemberName] string callerMemberName = null)
-            => SampleBase(null, bytes, bytesToSkip, name, callerMemberName);
+            byte[] bytes, string filePath, 
+            int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
+            => SampleBase(
+                null, bytes, filePath, 
+                bytesToSkip, name, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(Stream stream, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
-            => SampleBase(stream, null, bytesToSkip, callerMemberName);
-
-        /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(string fileName = null, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
-            => SampleBase(null, null, bytesToSkip, fileName, callerMemberName);
-
-        /// <inheritdoc cref="docs._sample"/>
-        private FluentOutlet SampleBase(Stream stream, byte[] bytes, int bytesToSkip, string name1, string name2 = null)
+        public FluentOutlet Sample(
+            Result<StreamAudioData> result,
+            int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            // Resolve FilePath
-            string name = FetchName(name1, name2);
-            name = Path.GetFileNameWithoutExtension(name);
-            string filePath = FormatAudioFileName(name, GetAudioFormat);
+            if (result == null) throw new NullException(() => result);
+            return Sample(
+                result.Data,
+                bytesToSkip, name,callerMemberName);
+        }
 
-            // Resolve a Stream
+        /// <inheritdoc cref="docs._sample"/>
+        public FluentOutlet Sample(
+            StreamAudioData data,
+            int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            if (data == null) throw new NullException(() => data);
+            return SampleBase(
+                null, data.Bytes, data.AudioFileOutput?.FilePath, 
+                bytesToSkip, name, callerMemberName);
+        }
+
+        /// <inheritdoc cref="docs._sample"/>
+        private FluentOutlet SampleBase(Stream stream, byte[] bytes, string explicitFilePath, int bytesToSkip, string nameOrFilePath, [CallerMemberName] string callerMemberName = null)
+        {
+            // Resolve Name (with priority given to nameOrFilePath)
+            nameOrFilePath = FetchName(nameOrFilePath, callerMemberName);
+            string name = PrettifyName(nameOrFilePath);
+
+            // Resolve FilePath (with priority given to explicitFilePath)
+            string filePath;
+            if (!string.IsNullOrWhiteSpace(explicitFilePath))
+            {
+                string fileName = FormatAudioFileName(explicitFilePath, GetAudioFormat);
+                string folderPath = Path.GetDirectoryName(explicitFilePath);
+                if (string.IsNullOrWhiteSpace(folderPath)) folderPath = Directory.GetCurrentDirectory();
+                folderPath = Path.GetFullPath(folderPath);
+                filePath = Path.Combine(folderPath, fileName);
+            }
+            else
+            {
+                filePath = Path.GetFullPath(FormatAudioFileName(nameOrFilePath, GetAudioFormat));
+            }
+            
+            // Resolve a Stream (back-end needs it)
             if (stream == null)
             {
                 if (bytes != null)
@@ -60,12 +106,8 @@ namespace JJ.Business.Synthesizer.Wishes
             Sample sample = _sampleManager.CreateSample(stream);
             sample.Amplifier = 1.0 / sample.GetNominalMax();
             sample.BytesToSkip = bytesToSkip;
+            sample.Location = filePath;
             sample.SetInterpolation(GetInterpolation, Context);
-
-            if (!string.IsNullOrWhiteSpace(filePath))
-            {
-                sample.Location = Path.GetFullPath(filePath);
-            }
 
             var sampleOutlet = _[_operatorFactory.Sample(sample)];
             
