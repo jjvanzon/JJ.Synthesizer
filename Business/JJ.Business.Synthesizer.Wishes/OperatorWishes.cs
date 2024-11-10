@@ -1183,8 +1183,8 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public FluentOutlet EchoAdditive(FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
         {
-            if (magnitude == null) magnitude = _[0.66];
-            if (delay == null) delay = _[0.25];
+            magnitude = magnitude ?? _[0.66];
+            delay = delay ?? _[0.25];
 
             var cumulativeMagnitude = _[1];
             var cumulativeDelay = _[0];
@@ -1224,8 +1224,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet EchoFeedBack(FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
-            if (magnitude == null) magnitude = _[0.66];
-            if (delay == null) delay = _[0.25];
+            magnitude = magnitude ?? _[0.66];
+            delay = delay ?? _[0.25];
 
             var cumulativeSignal = signal;
             var cumulativeMagnitude = magnitude;
@@ -1257,8 +1257,8 @@ namespace JJ.Business.Synthesizer.Wishes
             // Fetch (user-chosen) name before anything else does.
             string name = FetchName(callerMemberName);
 
-            if (magnitude == null) magnitude = _[0.66];
-            if (delay == null) delay = _[0.25];
+            magnitude = magnitude ?? _[0.66];
+            delay = delay ?? _[0.25];
 
             var cumulativeMagnitude = _[1];
             var cumulativeDelay = _[0];
