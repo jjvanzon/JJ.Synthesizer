@@ -29,10 +29,16 @@ namespace JJ.Business.Synthesizer.Wishes
         // FluentOutlet
 
         public static double Calculate(this FluentOutlet fluentOutlet, double time, ChannelEnum channelEnum)
-            => fluentOutlet.WrappedOutlet.Calculate(time, channelEnum);
+        {
+            if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
+            return fluentOutlet.WrappedOutlet.Calculate(time, channelEnum);
+        }
 
         public static double Calculate(this FluentOutlet fluentOutlet, double time = 0, int channelIndex = 0)
-            => fluentOutlet.WrappedOutlet.Calculate(time, channelIndex);
+        {
+            if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
+            return fluentOutlet.WrappedOutlet.Calculate(time, channelIndex);
+        }
         
         // Curve
 
