@@ -544,7 +544,41 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public FluentOutlet Power(FluentOutlet @base, FluentOutlet exponent) => _[_operatorFactory.Power(@base, exponent)];
+        public FluentOutlet Power(FluentOutlet @base, FluentOutlet exponent)
+        {
+            @base = @base ?? _[1];
+            exponent = exponent ?? _[1];
+            
+            double? baseConst = @base.AsConst;
+            double? exponentConst = exponent.AsConst;
+            
+            if (baseConst.HasValue && exponentConst.HasValue)
+            {
+                // Compute constant if both are constants
+                return _[Math.Pow(@base.Value, exponent.Value)];
+            }
+            else if (baseConst == 1)
+            { 
+                // 1^x is always 1
+                return _[1];
+            }
+            else if (exponentConst == 0)
+            { 
+                // x^0 is always 1
+                return _[1];
+            }
+            else if (exponentConst == 1)
+            {
+                // x^1 is x (identity)
+                return @base;
+            }
+            else
+            {
+                // Use operator factory only when no constant optimizations apply
+                return _[_operatorFactory.Power(@base, exponent)];
+            }
+        }
+
         public FluentOutlet Power(FluentOutlet @base, double exponent) => Power(@base, _[exponent]);
         public FluentOutlet Power(double @base, FluentOutlet exponent) => Power(_[@base], exponent);
     }
@@ -579,7 +613,25 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        public FluentOutlet Delay(FluentOutlet signal, FluentOutlet delay) => _[_operatorFactory.TimeAdd(signal, delay ?? _[0])];
+        public FluentOutlet Delay(FluentOutlet signal, FluentOutlet delay)
+        {
+            signal = signal ?? _[0];
+            delay = delay ?? _[0];
+
+            if (signal.IsConst)
+            {
+                return signal;
+            }
+            else if (delay.AsConst == 0)
+            {
+                return signal;
+            }
+            else
+            {
+                return _[_operatorFactory.TimeAdd(signal, delay)];
+            }
+        }
+
         public FluentOutlet Delay(FluentOutlet signal, double delay) => Delay(signal, _[delay]);
     }
 
@@ -595,7 +647,25 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public FluentOutlet Skip(FluentOutlet signal, FluentOutlet skip) => _[_operatorFactory.TimeSubstract(signal, skip ?? _[1])];
+        public FluentOutlet Skip(FluentOutlet signal, FluentOutlet skip)
+        {
+            signal = signal ?? _[0];
+            skip = skip ?? _[0];
+
+            if (signal.IsConst)
+            {
+                return signal;
+            }
+            else if (skip.AsConst == 0)
+            {
+                return signal;
+            }
+            else
+            {
+                return _[_operatorFactory.TimeSubstract(signal, skip)];
+            }
+        }
+
         public FluentOutlet Skip(FluentOutlet signal, double skip) => Skip(signal, _[skip]);
     }
 
@@ -611,7 +681,37 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        public FluentOutlet Stretch(FluentOutlet signal, FluentOutlet timeScale) => _[_operatorFactory.TimeMultiply(signal, timeScale ?? _[1])];
+        public FluentOutlet Stretch(FluentOutlet signal, FluentOutlet timeScale)
+        {
+            signal = signal ?? _[0];
+            timeScale = timeScale ?? _[1];
+
+            double? signalConst = signal.AsConst;
+            double? timeScaleConst = timeScale.AsConst;
+            
+            if (signalConst.HasValue)
+            {
+                // If signal is constant, stretching time does nothing.
+                return signal;
+            }
+            else if (timeScaleConst == 1)
+            {
+                // Return signal directly if multiplier is 1 (no change in timing)
+                return signal;
+            }
+            // Outcommented, to have code coverage for TimeMultiply.
+            //else if (timeScaleConst.HasValue)
+            //{
+            //    // SpeedUp slightly faster, because it does a * instead of a / internally.
+            //    return SpeedUp(signal, _[1 / timeScaleConst.Value]);
+            //}
+            else
+            {
+                // Apply TimeMultiply only when the time scale actually modifies timing.
+                return _[_operatorFactory.TimeMultiply(signal, timeScale)];
+            }
+        }
+
         public FluentOutlet Stretch(FluentOutlet signal, double timeScale) => Stretch(signal, _[timeScale]);
     }
 
@@ -627,7 +727,27 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        public FluentOutlet SpeedUp(FluentOutlet signal, FluentOutlet factor) => _[_operatorFactory.TimeDivide(signal, factor)];
+        public FluentOutlet SpeedUp(FluentOutlet signal, FluentOutlet factor)
+        {
+            signal = signal ?? _[0];
+            factor = factor ?? _[1];
+
+            if (signal.IsConst)
+            {
+                // If signal is constant, stretching time does nothing.
+                return signal;
+            }
+            else if (factor.AsConst == 1)
+            {
+                // Return signal directly if multiplier is 1 (no change in timing)
+                return signal;
+            }
+            else
+            {
+                return _[_operatorFactory.TimeDivide(signal, factor)];
+            }
+        }
+
         public FluentOutlet SpeedUp(FluentOutlet signal, double factor) => SpeedUp(signal, _[factor]);
     }
 
@@ -643,7 +763,36 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public FluentOutlet TimePower(FluentOutlet signal, FluentOutlet exponent) => _[_operatorFactory.TimePower(signal, exponent)];
+        public FluentOutlet TimePower(FluentOutlet signal, FluentOutlet exponent)
+        {
+            signal = signal ?? _[0];
+            exponent = exponent ?? _[1];
+
+            double? signalConst = signal.AsConst;
+            double? exponentConst = exponent.AsConst;
+
+            if (signalConst.HasValue)
+            {
+                // If time is constant, the power operation has no effect on timing
+                return signal;
+            }
+            else if (exponentConst == 1)
+            {
+                // Identity case: time raised to the power of 1 keeps timing unchanged
+                return signal;
+            }
+            else if (exponentConst == 0)
+            {
+                // When time is raised to the power of 0, timing is fixed at t=1
+                return _[signal.Calculate(time: 1)];
+            }
+            else
+            {
+                // Apply TimePower when exponent meaningfully transforms timing
+                return _[_operatorFactory.TimePower(signal, exponent)];
+            }
+        }
+
         public FluentOutlet TimePower(FluentOutlet signal, double exponent) => TimePower(signal, _[exponent]);
     }
 
