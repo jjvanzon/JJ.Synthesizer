@@ -959,8 +959,8 @@ namespace JJ.Business.Synthesizer.Wishes
             switch (channel)
             {
                 case ChannelEnum.Single: return _[sound];
-                case ChannelEnum.Left: return Multiply(sound, Subtract(_[1], panning)).SetName();;
-                case ChannelEnum.Right: return Multiply(sound, panning).SetName();;
+                case ChannelEnum.Left: return Multiply(sound, Subtract(_[1], panning)).SetName();
+                case ChannelEnum.Right: return Multiply(sound, panning).SetName();
 
                 default: throw new ValueNotSupportedException(channel);
             }
