@@ -1160,28 +1160,32 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public FluentOutlet Echo(FluentOutlet signal, int count, double magnitude, double delay)
-            => Echo(signal, count, _[magnitude], _[delay]);
+        public FluentOutlet Echo(FluentOutlet signal, int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => Echo(signal, count, _[magnitude], _[delay], callerMemberName);
 
-        public FluentOutlet Echo(FluentOutlet signal, int count, FluentOutlet magnitude, double delay)
-            => Echo(signal, count, magnitude, _[delay]);
+        public FluentOutlet Echo(FluentOutlet signal, int count, FluentOutlet magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => Echo(signal, count, magnitude, _[delay], callerMemberName);
         
-        public FluentOutlet Echo(FluentOutlet signal, int count, double magnitude, FluentOutlet delay = default)
-            => Echo(signal, count, _[magnitude], delay);
+        public FluentOutlet Echo(FluentOutlet signal, int count, double magnitude, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+            => Echo(signal, count, _[magnitude], delay, callerMemberName);
 
-        public FluentOutlet Echo(FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
-            => EchoAdditive(signal, count, magnitude, delay);
+        public FluentOutlet Echo(
+            FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default, 
+            [CallerMemberName] string callerMemberName = null)
+            => EchoParallel(signal, count, magnitude, delay, callerMemberName);
 
-        public FluentOutlet EchoAdditive(FluentOutlet signal, int count, double magnitude, double delay)
-            => EchoAdditive(signal, count, _[magnitude], _[delay]);
+        public FluentOutlet EchoAdditive(FluentOutlet signal, int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => EchoAdditive(signal, count, _[magnitude], _[delay], callerMemberName);
 
-        public FluentOutlet EchoAdditive(FluentOutlet signal, int count, FluentOutlet magnitude, double delay)
-            => EchoAdditive(signal, count, magnitude, _[delay]);
+        public FluentOutlet EchoAdditive(FluentOutlet signal, int count, FluentOutlet magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => EchoAdditive(signal, count, magnitude, _[delay], callerMemberName);
 
-        public FluentOutlet EchoAdditive(FluentOutlet signal, int count, double magnitude, FluentOutlet delay = default)
-            => EchoAdditive(signal, count, _[magnitude], delay);
+        public FluentOutlet EchoAdditive(FluentOutlet signal, int count, double magnitude, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+            => EchoAdditive(signal, count, _[magnitude], delay, callerMemberName);
         
-        public FluentOutlet EchoAdditive(FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
+        public FluentOutlet EchoAdditive(
+            FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default,
+            [CallerMemberName] string callerMemberName = null)
         {
             magnitude = magnitude ?? _[0.66];
             delay = delay ?? _[0.25];
@@ -1209,19 +1213,21 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._echofeedback"/>
-        public FluentOutlet EchoFeedBack(FluentOutlet signal, int count, double magnitude, double delay)
-            => EchoFeedBack(signal, count, _[magnitude], _[delay]);
+        public FluentOutlet EchoFeedBack(FluentOutlet signal, int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => EchoFeedBack(signal, count, _[magnitude], _[delay], callerMemberName);
 
         /// <inheritdoc cref="docs._echofeedback"/>
-        public FluentOutlet EchoFeedBack(FluentOutlet signal, int count, FluentOutlet magnitude, double delay)
-            => EchoFeedBack(signal, count, magnitude, _[delay]);
+        public FluentOutlet EchoFeedBack(FluentOutlet signal, int count, FluentOutlet magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => EchoFeedBack(signal, count, magnitude, _[delay], callerMemberName);
 
         /// <inheritdoc cref="docs._echofeedback"/>
-        public FluentOutlet EchoFeedBack(FluentOutlet signal, int count, double magnitude, FluentOutlet delay = default)
-            => EchoFeedBack(signal, count, _[magnitude], delay);
+        public FluentOutlet EchoFeedBack(FluentOutlet signal, int count, double magnitude, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+            => EchoFeedBack(signal, count, _[magnitude], delay, callerMemberName);
 
         /// <inheritdoc cref="docs._echofeedback"/>
-        public FluentOutlet EchoFeedBack(FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
+        public FluentOutlet EchoFeedBack(
+            FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default,
+            [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             magnitude = magnitude ?? _[0.66];
@@ -1300,45 +1306,48 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FluentOutlet
     {
-        public FluentOutlet Echo(int count, double magnitude, double delay)
-            => _synthWishes.Echo(this, count, magnitude, delay);
+        public FluentOutlet Echo(int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
 
-        public FluentOutlet Echo(int count, FluentOutlet magnitude, double delay)
-            => _synthWishes.Echo(this, count, magnitude, delay);
+        public FluentOutlet Echo(int count, FluentOutlet magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
 
-        public FluentOutlet Echo(int count, double magnitude, FluentOutlet delay = default)
-            => _synthWishes.Echo(this, count, magnitude, delay);
+        public FluentOutlet Echo(int count, double magnitude, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
 
-        public FluentOutlet Echo(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
-            => _synthWishes.Echo(this, count, magnitude, delay);
+        public FluentOutlet Echo(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
 
-        public FluentOutlet EchoAdditive(int count, double magnitude, double delay)
-            => _synthWishes.EchoAdditive(this, count, magnitude, delay);
+        public FluentOutlet EchoAdditive(int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.EchoAdditive(this, count, magnitude, delay, callerMemberName);
 
-        public FluentOutlet EchoAdditive(int count, FluentOutlet magnitude, double delay)
-            => _synthWishes.EchoAdditive(this, count, magnitude, delay);
+        public FluentOutlet EchoAdditive(int count, FluentOutlet magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.EchoAdditive(this, count, magnitude, delay, callerMemberName);
 
-        public FluentOutlet EchoAdditive(int count, double magnitude, FluentOutlet delay = default)
-            => _synthWishes.EchoAdditive(this, count, magnitude, delay);
+        public FluentOutlet EchoAdditive(int count, double magnitude, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.EchoAdditive(this, count, magnitude, delay, callerMemberName);
 
-        public FluentOutlet EchoAdditive(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
-            => _synthWishes.EchoAdditive(this, count, magnitude, delay);
+        public FluentOutlet EchoAdditive(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.EchoAdditive(this, count, magnitude, delay, callerMemberName);
         
         /// <inheritdoc cref="docs._echofeedback"/>
-        public FluentOutlet EchoFeedBack(int count, double magnitude, double delay)
-            => _synthWishes.EchoFeedBack(this, count, magnitude, delay);
+        public FluentOutlet EchoFeedBack(int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, callerMemberName);
 
         /// <inheritdoc cref="docs._echofeedback"/>
-        public FluentOutlet EchoFeedBack(int count, FluentOutlet magnitude, double delay)
-            => _synthWishes.EchoFeedBack(this, count, magnitude, delay);
+        public FluentOutlet EchoFeedBack(int count, FluentOutlet magnitude, double delay, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, callerMemberName);
                 
         /// <inheritdoc cref="docs._echofeedback"/>
-        public FluentOutlet EchoFeedBack(int count, double magnitude, FluentOutlet delay = default)
-            => _synthWishes.EchoFeedBack(this, count, magnitude, delay);
+        public FluentOutlet EchoFeedBack(int count, double magnitude, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, callerMemberName);
 
         /// <inheritdoc cref="docs._echofeedback"/>
-        public FluentOutlet EchoFeedBack(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
-            => _synthWishes.EchoFeedBack(this, count, magnitude, delay);
+        public FluentOutlet EchoFeedBack(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, callerMemberName);
+
+        public FluentOutlet EchoParallel(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.EchoParallel(this, count, magnitude, delay, callerMemberName);
 
         public FluentOutlet EchoParallel(
             int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default,
