@@ -16,17 +16,27 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
-            byte[] bytes, int bytesToSkip = 0, 
-            string name = null, [CallerMemberName] string callerMemberName = null)
-            => SampleBase(null, bytes, null, bytesToSkip, name, callerMemberName);
+            byte[] bytes, 
+            int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
+            => SampleBase(
+                null, bytes, null, 
+                bytesToSkip, name, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(Stream stream, int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
-            => SampleBase(stream, null, null, bytesToSkip, name, callerMemberName);
+        public FluentOutlet Sample(
+            Stream stream, 
+            int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
+            => SampleBase(
+                stream, null, null, 
+                bytesToSkip, name, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(string filePath, int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
-            => SampleBase(null, null, filePath, bytesToSkip, name, callerMemberName);
+        public FluentOutlet Sample(
+            string filePath, 
+            int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
+            => SampleBase(
+                null, null, filePath, 
+                bytesToSkip, name, callerMemberName);
         
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
