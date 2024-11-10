@@ -1276,7 +1276,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay += delay;
             }
 
-            // BUG: If you nest ParallelAdds, every time you pass this method, it adds more audio length.
+            // BUG: If you nest ParallelAdds, every time you pass the EchoParallel method, it adds more audio length.
             if (mustAddAudioLength)
             {
                 AddAudioLength(cumulativeDelay - delay);
