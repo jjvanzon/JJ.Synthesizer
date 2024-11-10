@@ -1,11 +1,13 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
+
 // ReSharper disable JoinDeclarationAndInitializer
 // ReSharper disable ExplicitCallerInfoArgument
 
@@ -21,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             WithMono();
         }
-        
+
         // Vibrato/Tremolo Tests
 
         /// <inheritdoc cref="docs._vibrato" />
@@ -48,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Panning_ConstSignal_ConstPanningAsDouble_RunTest()
         {
             WithStereo();
-            
+
             // Arrange
             FluentOutlet fixedValues()
             {
@@ -62,11 +64,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             // Act
             WithLeft();
-            panned  = Panning(fixedValues(), panning);
+            panned = Panning(fixedValues(), panning);
             double outputLeftValue = panned.Calculate(time: 0);
 
             WithRight();
-            panned  = Panning(fixedValues(), panning);
+            panned = Panning(fixedValues(), panning);
             double outputRightValue = panned.Calculate(time: 0);
 
             // Assert
@@ -86,7 +88,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Panning_ConstSignal_ConstPanningAsOperator_RunTest()
         {
             WithStereo();
-            
+
             // Arrange
             FluentOutlet TestSignal()
             {
@@ -98,18 +100,18 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 }
             }
 
-            double panningValue  = 0.5;
+            double panningValue = 0.5;
 
             // Act
 
             FluentOutlet panned;
 
             WithLeft();
-            panned  = Panning(TestSignal(), panningValue);
+            panned = Panning(TestSignal(), panningValue);
             double leftValue = panned.Calculate(time: 0);
 
             WithRight();
-            panned  = Panning(TestSignal(), panningValue);
+            panned = Panning(TestSignal(), panningValue);
             double rightValue = panned.Calculate(time: 0);
 
             // Assert
@@ -129,7 +131,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Panning_SineWaveSignal_ConstPanningAsDouble_RunTest()
         {
             WithStereo();
-            
+
             // Arrange
             var freq    = E5;
             var sine    = Sine(freq).Curve(1, 1, 0);
@@ -140,12 +142,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Outlet panned;
 
             WithLeft();
-            panned  = Panning(sine, panning);
+            panned = Panning(sine, panning);
             double maxValueLeft = panned.Calculate(time: 0.25 / (double)freq);
             double minValueLeft = panned.Calculate(time: 0.75 / (double)freq);
 
             WithRight();
-            panned  = Panning(sine, panning);
+            panned = Panning(sine, panning);
             double maxValueRight = panned.Calculate(time: 0.25 / (double)freq);
             double minValueRight = panned.Calculate(time: 0.75 / (double)freq);
 
@@ -291,13 +293,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void Echo_Additive_Old_RunTest()
         {
             WithMono();
-            
-            var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
-            var sound    = Multiply(Sine(G4), envelope);
-            var echoes = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
+
+            var envelope     = WithName("Envelope").Curve((0, 1), (0.2, 0));
+            var sound        = Multiply(Sine(G4), envelope);
+            var echoes       = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
+            var echoDuration = EchoDuration(count: 16, _[0.25]);
 
             WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
-            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").Save(() => _[echoes]).Play();
+            WithAudioLength(0.2 + echoDuration).WithName(MemberName() + "_Output.wav").Save(() => _[echoes]).Play();
         }
 
         [TestMethod]
@@ -305,14 +308,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_FixedValues_RunTest()
         {
+            var accessor = new SynthWishesAccessor(this);
+
             WithMono();
-        
-            var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
-            var sound    = Multiply(Sine(B4), envelope);
-            var echoes = EchoAdditive(sound, count: 16, magnitude: 0.66, delay: 0.25);
+
+            var envelope     = WithName("Envelope").Curve((0, 1), (0.2, 0));
+            var sound        = Multiply(Sine(B4), envelope);
+            var echoes       = accessor.EchoAdditive(sound, count: 16, magnitude: 0.66, delay: 0.25);
+            var echoDuration = EchoDuration(count: 16, _[0.25]);
 
             WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
-            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
+            WithAudioLength(0.2 + echoDuration).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
         }
 
         [TestMethod]
@@ -320,8 +326,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_Additive_DynamicParameters_RunTest()
         {
+            var accessor = new SynthWishesAccessor(this);
+
             WithMono();
-            
+
             var envelope = WithName("Volume Curve").Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(D5), envelope);
 
@@ -334,12 +342,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var delay = WithName("Delay Curve").Curve((0, 0.25), (4, 0.35));
 
-            var echoes = EchoAdditive(sound, count: 16, magnitude, delay);
+            var echoes = accessor.EchoAdditive(sound, count: 16, magnitude, delay);
+            var echoDuration = EchoDuration(count: 16, delay);
 
             WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
-            WithAudioLength(4.0).WithName(MemberName() + "_Magnitude.wav").Save(() => magnitude);
-            WithAudioLength(4.0).WithName(MemberName() + "_Delay.wav").Save(() => delay);
-            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
+            WithAudioLength(0.2 + echoDuration).WithName(MemberName() + "_Magnitude.wav").Save(() => magnitude);
+            WithAudioLength(0.2 + echoDuration).WithName(MemberName() + "_Delay.wav").Save(() => delay);
+            WithAudioLength(0.2 + echoDuration).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
         }
 
         [TestMethod]
@@ -347,14 +356,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_FeedBack_FixedValues_RunTest()
         {
+            var accessor = new SynthWishesAccessor(this);
+            
             WithMono();
 
-            var envelope = WithName("Envelope").Curve((0, 1), (0.2, 0));
-            var sound    = Multiply(Sine(F5), envelope);
-            var echoes = EchoFeedBack(sound, count: 16, magnitude: 0.66, delay: 0.25);
+            var envelope     = WithName("Envelope").Curve((0, 1), (0.2, 0));
+            var sound        = Multiply(Sine(F5), envelope);
+            var echoes       = accessor.EchoFeedBack(sound, count: 16, magnitude: 0.66, delay: 0.25);
+            var echoDuration = EchoDuration(count: 16, delay: _[0.25]);
 
             WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
-            WithAudioLength(4.0).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
+            WithAudioLength(echoDuration + 4.0).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
         }
 
         [TestMethod]
@@ -362,6 +374,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void Echo_FeedBack_DynamicParameters_RunTest()
         {
+            var accessor = new SynthWishesAccessor(this);
+            
             WithMono();
 
             var envelope = WithName("Volume Curve").Curve((0, 1), (0.2, 0));
@@ -376,12 +390,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var delay = WithName("Delay Curve").Curve((0, 0.25), (4, 0.35));
 
-            var echoes = EchoFeedBack(sound, count: 16, magnitude, delay);
+            var echoes       = accessor.EchoFeedBack(sound, count: 16, magnitude, delay);
+            var echoDuration = EchoDuration(count: 16, delay);
 
             WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
             WithAudioLength(4.5).WithName(MemberName() + "_Magnitude.wav").Save(() => magnitude);
             WithAudioLength(4.5).WithName(MemberName() + "_Delay.wav").Save(() => delay);
-            WithAudioLength(4.5).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
+            WithAudioLength(echoDuration + 4.5).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
         }
     }
 }

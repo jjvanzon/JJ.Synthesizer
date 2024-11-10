@@ -14,10 +14,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     public class FMTests : SynthWishes
     {
         FluentOutlet MildEcho(FluentOutlet sound)
-            => EchoParallel(sound, count: 6, magnitude: _[0.25], delay: _[0.33]);
+            => Echo(sound, count: 6, magnitude: _[0.25], delay: _[0.33]).AddAudioLength(EchoDuration(6, _[0.33]));
 
         FluentOutlet DeepEcho(FluentOutlet sound) 
-            => EchoParallel(sound, count: 7, magnitude: _[0.50], delay: _[0.50]);
+            => Echo(sound, count: 7, magnitude: _[0.50], delay: _[0.50]).AddAudioLength(EchoDuration(7, _[0.50]));
 
         /// <inheritdoc cref="docs._fmtests"/>
         public FMTests() : base(beat: 0.45, bar: 4 * 0.45) 
@@ -33,9 +33,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Jingle_RunTest()
         {
-            WithAudioLength(bars[8] + 1); // HACK: + 1 otherwise last note missing sometimes
+            WithAudioLength(bars[8]);
             
-            Save(() => DeepEcho(Jingle()) * 0.3).Play();
+            Save(() => DeepEcho(Jingle()) * 0.2).Play();
         }
 
         [TestMethod]
