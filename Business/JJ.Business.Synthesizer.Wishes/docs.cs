@@ -289,7 +289,16 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <c>Result.ValidationMessages</c> can hold info messages to say where the sampling rate came from.
         /// </returns>
         public static object _resolvesamplingrate;
-        
+
+        /// <summary>
+        /// Back-end will need bytes wrapped in a Stream and will read it back into a byte[] again.
+        /// This code would prevent that, but won't kick off the wav header parsing,
+        /// which is important as a test.
+        /// The WavHeaderWishes to solve both are currently lacking.
+        /// Revisit later.
+        /// </summary>
+        public static object _samplefromfluentconfig;
+            
         /// <summary>
         /// Applies a panbrello effect to a stereo signal by modulating the panning
         /// with a sine wave based on the specified speed and depth.
