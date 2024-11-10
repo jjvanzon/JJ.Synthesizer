@@ -69,13 +69,54 @@ namespace JJ.Business.Synthesizer.Wishes
                 bytesToSkip, name, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
-        private FluentOutlet SampleBase(Stream stream, byte[] bytes, string explicitFilePath, int bytesToSkip, string nameOrFilePath, [CallerMemberName] string callerMemberName = null)
+        private FluentOutlet SampleBase(
+            Stream stream, byte[] bytes, string explicitFilePath, 
+            int bytesToSkip, string nameOrFilePath, [CallerMemberName] string callerMemberName = null)
         {
-            // Resolve Name (with priority given to nameOrFilePath)
+            // Resolve where our data comes from
             nameOrFilePath = FetchName(nameOrFilePath, callerMemberName);
             string name = PrettifyName(nameOrFilePath);
+            string filePath = ResolveFilePath(explicitFilePath, nameOrFilePath);
+            stream = ResolveStream(stream, bytes, filePath);
+            
+            // Wrap it in a Sample
+            Sample sample = _sampleManager.CreateSample(stream);
+            sample.Amplifier = 1.0 / sample.GetNominalMax();
+            sample.BytesToSkip = bytesToSkip;
+            sample.Location = filePath;
+            sample.SetInterpolation(GetInterpolation, Context);
 
-            // Resolve FilePath (with priority given to explicitFilePath)
+            var sampleOutlet = _[_operatorFactory.Sample(sample)];
+            
+            sample.Name = name;
+            sampleOutlet.Operator.Name = name;
+
+            return sampleOutlet;
+        }
+
+        private static Stream ResolveStream(Stream stream, byte[] bytes, string filePath)
+        {
+            // Return Stream if supplied
+            if (stream != null)
+            {
+                return stream;
+            }
+
+            // Optionally Load Bytes from File
+            if (bytes == null)
+            { 
+                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    bytes = StreamToBytes(fileStream);
+                }
+            }
+
+            // Create Stream from Bytes
+            return BytesToStream(bytes);
+        }
+
+        private string ResolveFilePath(string explicitFilePath, string nameOrFilePath)
+        {
             string filePath;
             if (!string.IsNullOrWhiteSpace(explicitFilePath))
             {
@@ -89,42 +130,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 filePath = Path.GetFullPath(FormatAudioFileName(nameOrFilePath, GetAudioFormat));
             }
-            
-            // Resolve a Stream (back-end needs it)
-            if (stream == null)
-            {
-                if (bytes != null)
-                {
-                    // Load Stream from Bytes
-                    stream = BytesToStream(bytes);
-                }
-                else
-                {
-                    // Load Bytes from File
-                    using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        bytes = StreamToBytes(fileStream);
-                    }
 
-                    // Load Bytes in Memory Stream (unfortunately more resilient).
-                    stream = BytesToStream(bytes);
-                }
-            }
-            
-            // Wrap 
-
-            Sample sample = _sampleManager.CreateSample(stream);
-            sample.Amplifier = 1.0 / sample.GetNominalMax();
-            sample.BytesToSkip = bytesToSkip;
-            sample.Location = filePath;
-            sample.SetInterpolation(GetInterpolation, Context);
-
-            var sampleOutlet = _[_operatorFactory.Sample(sample)];
-            
-            sample.Name = name;
-            sampleOutlet.Operator.Name = name;
-
-            return sampleOutlet;
+            return filePath;
         }
 
         // SampleFromFluentConfig (currently unused)
