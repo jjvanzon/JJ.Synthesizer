@@ -13,43 +13,10 @@ namespace JJ.Business.Synthesizer.Wishes
         // TODO: Overloads with SaveResult, SaveResultData, AudioFileOutput, Stream?
         
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(byte[] bytes, int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
-        {
-            // Back-end will need bytes wrapped in a Stream and will read it back into a byte[] again.
-            return SampleBase(null, bytes, bytesToSkip, name, callerMemberName);
-
-            // This code would prevent that, but won't kick off the wav header parsing,
-            // which is important as a test.
-            // The WavHeaderWishes to solve both are currently lacking.
-            // Revisit later.
-            if (bytes == null) throw new ArgumentNullException(nameof(bytes));
-            FluentOutlet sampleOutlet = SampleFromFluentConfig(name, callerMemberName);
-            Sample sample = sampleOutlet.UnderlyingSample();
-            sample.Bytes = bytes;
-            sample.BytesToSkip = bytesToSkip;
-
-            return sampleOutlet;
-        }
-
-        private FluentOutlet SampleFromFluentConfig(string name = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            name = FetchName(name, callerMemberName);
-            name = Path.GetFileNameWithoutExtension(name);
-            string location = Path.GetFullPath(FormatAudioFileName(name, GetAudioFormat)); // Back-end wants a path.
-
-            Sample sample = _sampleManager.CreateSample();
-            sample.Location =  location;
-            sample.Amplifier = 1.0 / GetBitDepth.GetNominalMax();
-            sample.SamplingRate = ResolveSamplingRate().Data;
-            sample.SetBitDepth(GetBitDepth, Context);
-            sample.SetSpeakerSetup(GetSpeakerSetup, Context);
-            sample.SetAudioFormat(GetAudioFormat, Context);
-            sample.SetInterpolation(GetInterpolation, Context);
-            
-            var sampleOutlet = _[_operatorFactory.Sample(sample)];
-
-            return sampleOutlet.SetName(name);
-        }
+        public FluentOutlet Sample(
+            byte[] bytes, int bytesToSkip = 0,
+            string nameOrFilePath = null, [CallerMemberName] string callerMemberName = null)
+            => SampleBase(null, bytes, bytesToSkip, nameOrFilePath, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(Stream stream, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
@@ -108,5 +75,42 @@ namespace JJ.Business.Synthesizer.Wishes
             return sampleOutlet;
         }
 
+        // SampleFromFluentConfig (currently unused)
+        
+        /// <inheritdoc cref="docs._samplefromfluentconfig" />
+        private FluentOutlet SampleFromFluentConfig(
+            byte[] bytes, int bytesToSkip = 0, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            if (bytes == null) throw new ArgumentNullException(nameof(bytes));
+            FluentOutlet sampleOutlet = SampleFromFluentConfig(name, callerMemberName);
+            Sample sample = sampleOutlet.UnderlyingSample();
+            sample.Bytes = bytes;
+            sample.BytesToSkip = bytesToSkip;
+
+            return sampleOutlet;
+        }
+
+        /// <inheritdoc cref="docs._samplefromfluentconfig" />
+        private FluentOutlet SampleFromFluentConfig(
+            string name = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            name = FetchName(name, callerMemberName);
+            name = Path.GetFileNameWithoutExtension(name);
+            string location = Path.GetFullPath(FormatAudioFileName(name, GetAudioFormat)); // Back-end wants a path.
+
+            Sample sample = _sampleManager.CreateSample();
+            sample.Location =  location;
+            sample.Amplifier = 1.0 / GetBitDepth.GetNominalMax();
+            sample.SamplingRate = ResolveSamplingRate().Data;
+            sample.SetBitDepth(GetBitDepth, Context);
+            sample.SetSpeakerSetup(GetSpeakerSetup, Context);
+            sample.SetAudioFormat(GetAudioFormat, Context);
+            sample.SetInterpolation(GetInterpolation, Context);
+            
+            var sampleOutlet = _[_operatorFactory.Sample(sample)];
+
+            return sampleOutlet.SetName(name);
+        }
     }
 }
