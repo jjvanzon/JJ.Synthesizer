@@ -18,7 +18,8 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             get
             {
-                if ((_audioLength?.AsConst ?? 0) != 0)
+                if (_audioLength != null && 
+                    _audioLength.Calculate(time: 0) != 0)
                 {
                     return _audioLength;
                 }
