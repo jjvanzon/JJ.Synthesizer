@@ -15,8 +15,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(
             byte[] bytes, int bytesToSkip = 0,
-            string nameOrFilePath = null, [CallerMemberName] string callerMemberName = null)
-            => SampleBase(null, bytes, bytesToSkip, nameOrFilePath, callerMemberName);
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => SampleBase(null, bytes, bytesToSkip, name, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
         public FluentOutlet Sample(Stream stream, int bytesToSkip = 0, [CallerMemberName] string callerMemberName = null)
