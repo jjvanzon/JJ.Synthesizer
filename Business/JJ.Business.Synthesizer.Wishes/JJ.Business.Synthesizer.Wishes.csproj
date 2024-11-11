@@ -150,7 +150,7 @@
     <Compile Include="OperatorWishes.cs" />
     <Compile Include="CSharpOperatorWishes.cs" />
     <None Include="packages.config" />
-    <Compile Include="FluentConfigWishes.cs" />
+    <Compile Include="ConfigWishes.cs" />
   </ItemGroup>
   <ItemGroup />
   <Choose>
