@@ -53,6 +53,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="AudioPropertyWishes.cs" />
     <Compile Include="CacheWishes.cs" />
     <Compile Include="CalculationWishes.cs" />
     <Compile Include="Obsolete\Obsolete.AudioFileOutputChannelExtensions.cs" />
