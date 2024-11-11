@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using static JJ.Business.Synthesizer.Wishes.Helpers.StringWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
 
 // ReSharper disable LocalVariableHidesMember
 // ReSharper disable AssignmentInsteadOfDiscard

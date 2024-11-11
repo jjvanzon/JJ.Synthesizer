@@ -10,13 +10,13 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     {
         private readonly FluentOutlet _parent;
         private readonly OperandList _underlyingList;
-        
+
         public FluentOperandList(FluentOutlet parent)
         {
             _parent = parent ?? throw new ArgumentNullException(nameof(parent));
             _underlyingList = new OperandList(parent.WrappedOutlet);
         }
-           
+
         public int Count => _underlyingList.Count;
 
         public FluentOutlet this[int index]
@@ -37,12 +37,15 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public void RemoveAt(int index) => _underlyingList.RemoveAt(index);
         public void Clear() => _underlyingList.Clear();
         public bool IsReadOnly => _underlyingList.IsReadOnly;
-        
+
         public void CopyTo(FluentOutlet[] array, int arrayIndex)
         {
-            if (array == null) throw new ArgumentNullException(nameof(array));
-            if (arrayIndex < 0) throw new ArgumentOutOfRangeException(nameof(arrayIndex));
-            if (array.Length - arrayIndex < _underlyingList.Count) throw new ArgumentException("The number of elements in the source OperandList is greater than the available space from arrayIndex to the end of the destination array.");
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (arrayIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+            if (array.Length - arrayIndex < _underlyingList.Count)
+                throw new ArgumentException("The number of elements in the source OperandList is greater than the available space from arrayIndex to the end of the destination array.");
 
             for (int i = 0; i < _underlyingList.Count; i++)
             {
@@ -60,10 +63,10 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             return _underlyingList
                    // Convert each Outlet to FluentOutlet
-                   .Select(outlet => outlet == null ? null : _parent._[outlet]) 
+                   .Select(outlet => outlet == null ? null : _parent._[outlet])
                    .GetEnumerator();
         }
-        
+
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

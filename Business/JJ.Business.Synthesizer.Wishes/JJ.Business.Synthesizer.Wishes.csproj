@@ -57,10 +57,7 @@
     <Compile Include="CalculationWishes.cs" />
     <Compile Include="Obsolete\Obsolete.AudioFileOutputChannelExtensions.cs" />
     <Compile Include="EnumWishes.cs" />
-    <Compile Include="Helpers\FluentOperandList.cs" />
     <Compile Include="Helpers\AudioFileOutputCalculatorAccessor.cs" />
-    <Compile Include="Helpers\ConfigHelper.cs" />
-    <Compile Include="Helpers\ConfigSection.cs" />
     <Compile Include="Helpers\FrameworkWishes.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Helpers\ToolingHelper.cs" />
@@ -68,7 +65,6 @@
     <Compile Include="Obsolete\Obsolete.InletWishes.cs" />
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
-    <Compile Include="Helpers\OperandList.cs" />
     <Compile Include="OperandWishes.cs" />
     <Compile Include="OperatorWishes.EchoTape.cs" />
     <Compile Include="RelatedObjectWishes.cs" />

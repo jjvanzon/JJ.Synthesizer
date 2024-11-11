@@ -9,13 +9,13 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    public class OperandList : IList<Outlet> 
+    public class OperandList : IList<Outlet>
     {
         private IList<Inlet> _inlets;
-        
+
         internal OperandList(Outlet outlet) => Initialize(outlet);
         internal OperandList(Operator op) => Initialize(op);
-        
+
         public int Count => _inlets.Count;
 
         public Outlet this[int index]
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             get => _inlets[index].Input;
             set => _inlets[index].LinkTo(value);
         }
-        
+
         public int IndexOf(Outlet item)
         {
             for (var i = 0; i < Count; i++)
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             return -1;
         }
-                
+
         public bool Contains(Outlet item) => _inlets.Any(x => x.Input == item);
 
         public void Add(Outlet item) => ThrowListCannotBeExtended();
@@ -56,16 +56,19 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             return false;
         }
-        
+
         public void RemoveAt(int index) => _inlets[index].LinkTo((Outlet)null);
 
         public void Clear() => _inlets.ForEach(x => LinkToExtensions.LinkTo((Inlet)x, (Outlet)null));
 
         public void CopyTo(Outlet[] array, int arrayIndex)
         {
-            if (array == null) throw new ArgumentNullException(nameof(array));
-            if (arrayIndex < 0) throw new ArgumentOutOfRangeException(nameof(arrayIndex));
-            if (array.Length - arrayIndex < _inlets.Count) throw new ArgumentException("The number of elements in the source OperandList is greater than the available space from arrayIndex to the end of the destination array.");
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (arrayIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+            if (array.Length - arrayIndex < _inlets.Count)
+                throw new ArgumentException("The number of elements in the source OperandList is greater than the available space from arrayIndex to the end of the destination array.");
 
             for (var i = 0; i < _inlets.Count; i++)
             {
@@ -97,15 +100,17 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         // Field Assignment with Null Checks
 
-        private void Initialize(Outlet outlet) 
+        private void Initialize(Outlet outlet)
         {
-            if (outlet == null) throw new NullException(() => outlet);
+            if (outlet == null)
+                throw new NullException(() => outlet);
             Initialize(outlet.Operator);
         }
 
-        private void Initialize(Operator op) 
+        private void Initialize(Operator op)
         {
-            if (op == null) throw new NullException(() => op);
+            if (op == null)
+                throw new NullException(() => op);
             _inlets = op.Inlets;
         }
     }

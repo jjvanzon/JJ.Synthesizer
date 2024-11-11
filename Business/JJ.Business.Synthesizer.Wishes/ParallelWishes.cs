@@ -12,7 +12,7 @@ using JJ.Framework.Common;
 using static System.Guid;
 using static System.Linq.Enumerable;
 using static System.Threading.Tasks.Task;
-using static JJ.Business.Synthesizer.Wishes.Helpers.StringWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
 
 // ReSharper disable ParameterHidesMember
 // ReSharper disable ConditionIsAlwaysTrueOrFalse

@@ -11,7 +11,7 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
-using static JJ.Business.Synthesizer.Wishes.Helpers.StringWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -205,7 +205,7 @@ namespace JJ.Business.Synthesizer.Wishes
             else 
             {
                 // Prevent file IO errors
-                entity.FilePath = FileWishes.GetNumberedFilePath(entity.FilePath);
+                entity.FilePath = FrameworkFileWishes.GetNumberedFilePath(entity.FilePath);
             }
 
             var stopWatch = Stopwatch.StartNew();

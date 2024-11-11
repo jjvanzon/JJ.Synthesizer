@@ -10,7 +10,7 @@ using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    internal static class StringWishes
+    internal static class FrameworkStringWishes
     { 
         public static int CountLines(this string str)
         {
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public static string PrettyTime(DateTime dateTime) => $"{dateTime:HH:mm:ss.fff}";
     }
 
-    internal static class CollectionWishes
+    internal static class FrameworkCollectionWishes
     { 
         public static TimeSpan Sum(this IEnumerable<TimeSpan> timeSpans)
         {
@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     }
 
     /// <inheritdoc cref="_trygetsection"/>
-    internal static class ConfigWishes
+    internal static class FrameworkConfigWishes
     { 
         /// <inheritdoc cref="_trygetsection"/>
         public static T TryGetSection<T>()
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
     }
 
-    internal static class FileWishes
+    internal static class FrameworkFileWishes
     {
         private static readonly object _numberedFilePathLock = new object();
 
@@ -252,7 +252,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public override string ToString() => _sb.ToString();
     }
     
-    internal static class CopiedFromFramework
+    internal static class FrameworkCopied
     {
         public static bool IsProperty(this MethodBase method)
         {

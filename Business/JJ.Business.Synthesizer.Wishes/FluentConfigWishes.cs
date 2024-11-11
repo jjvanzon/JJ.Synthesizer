@@ -1,11 +1,86 @@
 ﻿using System;
 using System.Threading;
+using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    internal class ConfigSection
+    {
+        [XmlAttribute] public int? DefaultSamplingRate { get; set; }
+        [XmlAttribute] public SpeakerSetupEnum? DefaultSpeakerSetup { get; set; }
+        [XmlAttribute] public int? DefaultBitDepth { get; set; }
+        [XmlAttribute] public AudioFileFormatEnum? DefaultAudioFormat { get; set; }
+        [XmlAttribute] public InterpolationTypeEnum? DefaultInterpolation { get; set; }
+        [XmlAttribute] public double? DefaultAudioLength { get; set; }
+        [XmlAttribute] public string LongRunningTestCategory { get; set; }
+        [XmlAttribute] public bool? PlayEnabled { get; set; }
+        [XmlAttribute] public double? PlayLeadingSilence { get; set; }
+        [XmlAttribute] public double? PlayTrailingSilence { get; set; }
+        [XmlAttribute] public bool? ParallelEnabled { get; set; }
+        [XmlAttribute] public bool? CacheToDisk { get; set; }
+
+        public ToolingConfiguration AzurePipelines { get; set; } = new ToolingConfiguration();
+        public ToolingConfiguration NCrunch { get; set; } = new ToolingConfiguration();
+    }
+
+    internal class ToolingConfiguration
+    {
+        [XmlAttribute] public int? SamplingRate { get; set; }
+        [XmlAttribute] public int? SamplingRateLongRunning { get; set; }
+        [XmlAttribute] public bool? PlayEnabled { get; set; }
+        [XmlAttribute] public bool? Pretend { get; set; }
+    }
+
+    /// <inheritdoc cref="docs._confighelper"/>
+    public static class ConfigHelper
+    {
+        private static readonly ConfigSection _section = FrameworkConfigWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
+
+        // Even the defaults have defaults, to not require a config file.
+        public static int                   DefaultSamplingRate  => _section.DefaultSamplingRate  ?? 48000;
+        public static SpeakerSetupEnum      DefaultSpeakerSetup  => _section.DefaultSpeakerSetup  ?? SpeakerSetupEnum.Mono;
+        public static SampleDataTypeEnum    DefaultBitDepth      => (_section.DefaultBitDepth ?? 32).ToBitDepth();
+        public static AudioFileFormatEnum   DefaultAudioFormat   => _section.DefaultAudioFormat   ?? AudioFileFormatEnum.Wav;
+        public static InterpolationTypeEnum DefaultInterpolation => _section.DefaultInterpolation ?? InterpolationTypeEnum.Line;
+        public static double                DefaultAudioLength   => _section.DefaultAudioLength   ?? 1;
+        public static bool                  PlayEnabled          => _section.PlayEnabled          ?? true;
+        public static double                PlayLeadingSilence   => _section.PlayLeadingSilence   ?? 0.2;
+        public static double                PlayTrailingSilence  => _section.PlayTrailingSilence  ?? 0.2;
+        public static bool                  ParallelEnabled      => _section.ParallelEnabled      ?? true;
+        public static bool                  CacheToDisk          => _section.CacheToDisk          ?? false;
+
+        public static string LongRunningTestCategory
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_section.LongRunningTestCategory))
+                {
+                    return _section.LongRunningTestCategory;
+                }
+                
+                return "Long";
+            }
+        }
+
+        public static ToolingConfigWithDefaults AzurePipelines { get; } = new ToolingConfigWithDefaults(_section.AzurePipelines);
+        public static ToolingConfigWithDefaults NCrunch { get; } = new ToolingConfigWithDefaults(_section.NCrunch);
+
+        public class ToolingConfigWithDefaults
+        {
+            private readonly ToolingConfiguration _baseConfig;
+            
+            internal ToolingConfigWithDefaults(ToolingConfiguration baseConfig) => _baseConfig = baseConfig;
+            
+            public int  SamplingRate            => _baseConfig.SamplingRate            ?? 150;
+            public int  SamplingRateLongRunning => _baseConfig.SamplingRateLongRunning ?? 30;
+            public bool PlayEnabled             => _baseConfig.PlayEnabled             ?? false;
+            public bool Pretend                 => _baseConfig.Pretend                 ?? false;
+        }
+    }
+    
     // Fluent Configuration
     
     // AudioLength SynthWishes

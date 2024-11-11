@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     public static class PersistenceHelper
     {
         private static readonly PersistenceConfiguration _config = 
-            ConfigWishes.TryGetSection<PersistenceConfiguration>() ??
+            FrameworkConfigWishes.TryGetSection<PersistenceConfiguration>() ??
             GetDefaultInMemoryConfiguration();
 
         public static IContext CreateContext()
