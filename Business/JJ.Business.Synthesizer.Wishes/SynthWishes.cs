@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public SynthWishes(IContext context)
         {
-            Context = context ?? PersistenceHelper.CreateContext();
+            Context = context ?? ServiceFactory.CreateContext();
 
             _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
             _curveFactory = ServiceFactory.CreateCurveFactory(context);

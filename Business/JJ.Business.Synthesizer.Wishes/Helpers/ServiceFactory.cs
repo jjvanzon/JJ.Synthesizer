@@ -5,37 +5,44 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    internal static class ServiceFactory
+    public static class ServiceFactory
     {
+        public static IContext CreateContext() 
+            => ContextFactory.CreateContextFromConfiguration(ConfigHelper.PersistenceConfiguration);
+
+        /// <inheritdoc cref="_createrepository"/>
+        public static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context = null) 
+            => RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context ?? CreateContext(), ConfigHelper.PersistenceConfiguration);
+
         public static OperatorFactory CreateOperatorFactory(IContext context)
             => new OperatorFactory(
-                PersistenceHelper.CreateRepository<IOperatorRepository>(context),
-                PersistenceHelper.CreateRepository<IInletRepository>(context),
-                PersistenceHelper.CreateRepository<IOutletRepository>(context),
-                PersistenceHelper.CreateRepository<ICurveInRepository>(context),
-                PersistenceHelper.CreateRepository<IValueOperatorRepository>(context),
-                PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context));
+                CreateRepository<IOperatorRepository>(context),
+                CreateRepository<IInletRepository>(context),
+                CreateRepository<IOutletRepository>(context),
+                CreateRepository<ICurveInRepository>(context),
+                CreateRepository<IValueOperatorRepository>(context),
+                CreateRepository<ISampleOperatorRepository>(context));
 
         public static CurveFactory CreateCurveFactory(IContext context)
             => new CurveFactory(
-                PersistenceHelper.CreateRepository<ICurveRepository>(context),
-                PersistenceHelper.CreateRepository<INodeRepository>(context),
-                PersistenceHelper.CreateRepository<INodeTypeRepository>(context));
+                CreateRepository<ICurveRepository>(context),
+                CreateRepository<INodeRepository>(context),
+                CreateRepository<INodeTypeRepository>(context));
 
         public static SampleManager CreateSampleManager(IContext context)
             => new SampleManager(
-                PersistenceHelper.CreateRepository<ISampleRepository>(context),
-                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
-                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context),
-                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context),
-                PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context));
+                CreateRepository<ISampleRepository>(context),
+                CreateRepository<ISampleDataTypeRepository>(context),
+                CreateRepository<ISpeakerSetupRepository>(context),
+                CreateRepository<IAudioFileFormatRepository>(context),
+                CreateRepository<IInterpolationTypeRepository>(context));
 
         public static AudioFileOutputManager CreateAudioFileOutputManager(IContext context)
             => new AudioFileOutputManager(
-                PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(context),
-                PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(context),
-                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
-                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context),
-                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context));
+                CreateRepository<IAudioFileOutputRepository>(context),
+                CreateRepository<IAudioFileOutputChannelRepository>(context),
+                CreateRepository<ISampleDataTypeRepository>(context),
+                CreateRepository<ISpeakerSetupRepository>(context),
+                CreateRepository<IAudioFileFormatRepository>(context));
     }
 }

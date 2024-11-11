@@ -7,7 +7,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using static JJ.Business.Synthesizer.Wishes.Helpers.PersistenceHelper;
+using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 // ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable RedundantIfElseBlock

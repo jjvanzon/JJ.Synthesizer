@@ -79,7 +79,6 @@
     <Compile Include="IndexerWishes.cs" />
     <Compile Include="AudioFileWishes.cs" />
     <Compile Include="NoteWishes.cs" />
-    <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
     <Compile Include="OperatorWishes.Obsolete.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

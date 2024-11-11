@@ -17,6 +17,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
+using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 // ReSharper disable ParameterHidesMember
 // ReSharper disable UseObjectOrCollectionInitializer
@@ -120,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
             int channelCount = channelInputs.Count;
             var speakerSetupEnum = channelCount.ToSpeakerSetup();
             
-            var audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(Context);
+            var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Amplifier = GetBitDepth.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
@@ -339,7 +340,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             // Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
 
-            var channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(Context);
+            var channelRepository = CreateRepository<IChannelRepository>(Context);
 
             switch (speakerSetup)
             {
@@ -400,7 +401,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channelCount)
         {
             // (using a lower abstraction layer, to circumvent error-prone syncing code in back-end).
-            var audioFileOutputChannelRepository = PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(Context);
+            var audioFileOutputChannelRepository = CreateRepository<IAudioFileOutputChannelRepository>(Context);
 
             // Create additional channels
             for (int i = audioFileOutput.AudioFileOutputChannels.Count; i < channelCount; i++)
