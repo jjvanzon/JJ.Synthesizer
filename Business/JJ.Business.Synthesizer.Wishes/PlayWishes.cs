@@ -291,7 +291,7 @@ namespace JJ.Business.Synthesizer.Wishes
     // Play on Entity / Results / Data
 
     /// <inheritdoc cref="docs._saveorplay" />
-    public static class EntityPlayExtensions
+    public static class EntityPlayExtensionWishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Play(this Result<StreamAudioData> result) => SynthWishes.Play(result);

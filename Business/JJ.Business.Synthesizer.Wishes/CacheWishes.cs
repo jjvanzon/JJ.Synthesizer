@@ -218,7 +218,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
     // Cache on Entity / Results / Data
 
-    public static class CacheExtensions
+    public static class CacheExtensionWishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Cache(

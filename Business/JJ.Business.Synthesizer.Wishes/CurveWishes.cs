@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     // Curve Creation Extensions
 
-    public static class CurveFactoryExtensions
+    public static class CurveFactoryExtensionWishes
     {
         public static Curve CreateCurve(this CurveFactory curveFactory, IList<NodeInfo> nodeInfos)
             => curveFactory.CreateCurve(nodeInfos.ToArray());
@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Wishes
     // ASCII Curves Extensions
     
     /// <inheritdoc cref="docs._createcurvefromstring" />
-    public static class AsciiCurveExtensions
+    public static class AsciiCurveExtensionWishes
     { 
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public static Curve CreateCurve(this CurveFactory curveFactory, string text)

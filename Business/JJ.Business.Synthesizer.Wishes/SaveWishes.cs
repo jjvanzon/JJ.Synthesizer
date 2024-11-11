@@ -259,7 +259,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // Save on Entity / Results / Data
 
-    public static class SaveExtensions 
+    public static class SaveExtensionWishes 
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public static Result Save(
