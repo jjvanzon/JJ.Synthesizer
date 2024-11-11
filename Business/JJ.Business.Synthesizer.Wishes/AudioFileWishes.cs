@@ -582,7 +582,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this AudioFileFormat enumEntity)
-            => EntityToEnumWishes.ToEnum(enumEntity).GetFileExtension();
+            => EnumFromEntityWishes.ToEnum(enumEntity).GetFileExtension();
 
         /// <inheritdoc cref="docs._fileextension"/>
         public static string GetFileExtension(this WavHeaderStruct wavHeader)
@@ -640,7 +640,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this AudioFileFormat enumEntity)
-            => EntityToEnumWishes.ToEnum(enumEntity).GetHeaderLength();
+            => EnumFromEntityWishes.ToEnum(enumEntity).GetHeaderLength();
 
         /// <inheritdoc cref="docs._headerlength"/>
         public static int GetHeaderLength(this WavHeaderStruct wavHeader)

@@ -23,11 +23,11 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public bool? ParallelEnabled { get; set; }
         [XmlAttribute] public bool? CacheToDisk { get; set; }
 
-        public ToolingConfiguration AzurePipelines { get; set; } = new ToolingConfiguration();
-        public ToolingConfiguration NCrunch { get; set; } = new ToolingConfiguration();
+        public ConfigToolingElement AzurePipelines { get; set; } = new ConfigToolingElement();
+        public ConfigToolingElement NCrunch { get; set; } = new ConfigToolingElement();
     }
 
-    internal class ToolingConfiguration
+    internal class ConfigToolingElement
     {
         [XmlAttribute] public int? SamplingRate { get; set; }
         [XmlAttribute] public int? SamplingRateLongRunning { get; set; }
@@ -84,22 +84,22 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        public static ToolingConfigWithDefaults AzurePipelines { get; } = new ToolingConfigWithDefaults(_section.AzurePipelines);
-        public static ToolingConfigWithDefaults NCrunch { get; } = new ToolingConfigWithDefaults(_section.NCrunch);
-
-        public class ToolingConfigWithDefaults
-        {
-            private readonly ToolingConfiguration _baseConfig;
-            
-            internal ToolingConfigWithDefaults(ToolingConfiguration baseConfig) => _baseConfig = baseConfig;
-            
-            public int  SamplingRate            => _baseConfig.SamplingRate            ?? 150;
-            public int  SamplingRateLongRunning => _baseConfig.SamplingRateLongRunning ?? 30;
-            public bool PlayEnabled             => _baseConfig.PlayEnabled             ?? false;
-            public bool Pretend                 => _baseConfig.Pretend                 ?? false;
-        }
+        public static ConfigToolingElementWithDefaults AzurePipelines { get; } = new ConfigToolingElementWithDefaults(_section.AzurePipelines);
+        public static ConfigToolingElementWithDefaults NCrunch { get; } = new ConfigToolingElementWithDefaults(_section.NCrunch);
     }
-    
+
+    public class ConfigToolingElementWithDefaults
+    {
+        private readonly ConfigToolingElement _baseConfig;
+            
+        internal ConfigToolingElementWithDefaults(ConfigToolingElement baseConfig) => _baseConfig = baseConfig;
+            
+        public int  SamplingRate            => _baseConfig.SamplingRate            ?? 150;
+        public int  SamplingRateLongRunning => _baseConfig.SamplingRateLongRunning ?? 30;
+        public bool PlayEnabled             => _baseConfig.PlayEnabled             ?? false;
+        public bool Pretend                 => _baseConfig.Pretend                 ?? false;
+    }
+
     // Fluent Configuration
     
     // AudioLength SynthWishes

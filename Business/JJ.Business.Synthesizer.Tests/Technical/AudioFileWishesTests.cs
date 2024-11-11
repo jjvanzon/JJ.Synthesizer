@@ -61,10 +61,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // 16-Bit Helpers
-            AreEqual(SampleDataTypeEnum.Int16, () => SpecialEnumWishes.GetBitDepth<short>());
+            AreEqual(SampleDataTypeEnum.Int16, () => EnumSpecialWishes.GetBitDepth<short>());
 
             // 8-Bit Helpers
-            AreEqual(SampleDataTypeEnum.Byte, () => SpecialEnumWishes.GetBitDepth<byte>());
+            AreEqual(SampleDataTypeEnum.Byte, () => EnumSpecialWishes.GetBitDepth<byte>());
 
             //// AudioFileOutputChannel Extensions for Missing Model Properties
             //{

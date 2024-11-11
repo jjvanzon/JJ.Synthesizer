@@ -14,7 +14,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public static class EntityToEnumWishes
+    public static class EnumFromEntityWishes
     {
         public static AudioFileFormatEnum ToEnum(this AudioFileFormat enumEntity)
         {
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Wishes
     }
 
     /// <inheritdoc cref="docs._setenumwishes"/>
-    public static class SetEnumWishes
+    public static class EnumSetterWishes
     {
         // AudioFileOutput
         
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // To Int/ID
 
-    public static class EnumToIDExtensionWishes
+    public static class EnumToIDWishes
     {
         public static int ToID(this AudioFileFormatEnum enumValue) => (int)enumValue;
         public static int ToID(this ChannelEnum enumValue) => (int)enumValue;
@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // Specials (conversion from one thing to the other / side effects)
 
-    public static class SpecialEnumWishes
+    public static class EnumSpecialWishes
     {
         // SpeakerSetup Value Conversions
         
