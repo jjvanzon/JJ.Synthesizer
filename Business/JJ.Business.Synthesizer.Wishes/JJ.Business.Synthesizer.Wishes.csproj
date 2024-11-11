@@ -78,7 +78,7 @@
     <Compile Include="CurveWishes.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="IndexerWishes.cs" />
-    <Compile Include="AudioFileWishes.cs" />
+    <Compile Include="StreamAudioWishes.cs" />
     <Compile Include="NoteWishes.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
     <Compile Include="Obsolete\Obsolete.OperatorWishes.cs" />
