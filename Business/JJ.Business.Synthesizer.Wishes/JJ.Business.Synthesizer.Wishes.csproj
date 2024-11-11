@@ -80,7 +80,7 @@
     <Compile Include="AudioFileWishes.cs" />
     <Compile Include="NoteWishes.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
-    <Compile Include="OperatorWishes.Obsolete.cs" />
+    <Compile Include="Obsolete\Obsolete.OperatorWishes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynthWishes.cs" />
     <Compile Include="ValidationWishes.cs" />

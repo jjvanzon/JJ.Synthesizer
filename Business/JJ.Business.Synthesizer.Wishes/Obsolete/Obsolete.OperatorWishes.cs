@@ -3,9 +3,8 @@ using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Wishes.Obsolete;
 
-namespace JJ.Business.Synthesizer.Wishes
+namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
     public static class OperatorObsoleteExtensionsWishes
     {
