@@ -166,12 +166,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class NameExtensionWishes
     {
-        /// <inheritdoc cref="docs._names"/>
-        public static string Name(this FluentOutlet fluentOutlet)
-        {
-            if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
-            return fluentOutlet.Name;
-        }
 
         /// <inheritdoc cref="docs._names"/>
         public static Curve SetName(this Curve entity, string name)
