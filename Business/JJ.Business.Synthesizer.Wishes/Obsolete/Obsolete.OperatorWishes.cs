@@ -67,18 +67,6 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static SampleOperatorWrapper Sample(this SynthWishes synthWishes, Sample sample) => throw new NotSupportedException();
     }
 
-    internal static class OperatorStringifierObsoleteExtensions
-    {
-        [Obsolete(InletObsoleteMessages.ObsoleteMessage)]
-        public static string StringifyRecursive(this OperatorStringifier operatorStringifier, Inlet entity)
-        {
-            if (operatorStringifier == null) throw new ArgumentNullException(nameof(operatorStringifier));
-            operatorStringifier._sb = operatorStringifier.CreateStringBuilder();
-            operatorStringifier.BuildStringRecursive(entity);
-            return OperatorStringifier.RemoveOuterBraces(operatorStringifier._sb.ToString());
-        }
-    }
-
     public static class FluentOutletObsoleteExtensions
     {
         /// <inheritdoc cref="docs._getcurvewrapper"/>

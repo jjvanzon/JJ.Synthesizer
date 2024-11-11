@@ -154,8 +154,17 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Inlet entity, bool singleLine = false, bool mustUseShortOperators = false)
             => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
+
+        [Obsolete(InletObsoleteMessages.ObsoleteMessage)]
+        internal static string StringifyRecursive(this OperatorStringifier operatorStringifier, Inlet entity)
+        {
+            if (operatorStringifier == null) throw new ArgumentNullException(nameof(operatorStringifier));
+            operatorStringifier._sb = operatorStringifier.CreateStringBuilder();
+            operatorStringifier.BuildStringRecursive(entity);
+            return OperatorStringifier.RemoveOuterBraces(operatorStringifier._sb.ToString());
+        }
     }
-    
+
     // Inlet Complexity
 
     [Obsolete(ObsoleteMessage)]
