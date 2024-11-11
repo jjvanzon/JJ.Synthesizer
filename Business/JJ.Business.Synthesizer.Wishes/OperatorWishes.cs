@@ -1172,7 +1172,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Echo(
             FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default, 
             [CallerMemberName] string callerMemberName = null)
-            => EchoParallel(signal, count, magnitude, delay, callerMemberName);
+            => EchoTape(signal, count, magnitude, delay, callerMemberName);
 
         public FluentOutlet EchoAdditive(FluentOutlet signal, int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
             => EchoAdditive(signal, count, _[magnitude], _[delay], callerMemberName);
