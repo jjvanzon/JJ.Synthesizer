@@ -3,6 +3,7 @@ using System.Threading;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -35,10 +36,28 @@ namespace JJ.Business.Synthesizer.Wishes
     }
 
     /// <inheritdoc cref="docs._confighelper"/>
-    public static class ConfigHelper
+    internal static class ConfigHelper
     {
         private static readonly ConfigSection _section = FrameworkConfigWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
+        
+        // Defaults for Optional Config
+        public static PersistenceConfiguration PersistenceConfiguration { get; } =
+            FrameworkConfigWishes.TryGetSection<PersistenceConfiguration>() ??
+            GetDefaultInMemoryConfiguration();
 
+        private static PersistenceConfiguration GetDefaultInMemoryConfiguration() => new PersistenceConfiguration
+        {
+            ContextType = "Memory",
+            ModelAssembly = NameHelper.GetAssemblyName<JJ.Persistence.Synthesizer.Operator>(),
+            MappingAssembly = NameHelper.GetAssemblyName<JJ.Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
+            RepositoryAssemblies = new[]
+            {
+                NameHelper.GetAssemblyName<JJ.Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(),
+                NameHelper.GetAssemblyName<JJ.Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
+            }
+        };
+
+        
         // Even the defaults have defaults, to not require a config file.
         public static int                   DefaultSamplingRate  => _section.DefaultSamplingRate  ?? 48000;
         public static SpeakerSetupEnum      DefaultSpeakerSetup  => _section.DefaultSpeakerSetup  ?? SpeakerSetupEnum.Mono;
