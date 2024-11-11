@@ -110,25 +110,18 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Play if needed
                 if (MustPlayParallels) Play(cacheResult.Data);
 
-                if (!MustCacheToDisk)
-                {
-                    // Read from bytes
-                    reloadedSamples[i] = Sample(cacheResult.Data.Bytes).SetName(displayNames[i]);
-                }
-                else
-                {
-                    // Read from file
-                    reloadedSamples[i] = Sample(names[i]).SetName(displayNames[i]);
+                // Read from bytes or file
+                reloadedSamples[i] = Sample(cacheResult, name: displayNames[i]);
 
-                    // Diagnostic actions
-                    {
-                        // Save reloaded samples to disk.
-                        var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
-                        var saveResult2 = Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
+                // Diagnostic actions
+                if (MustCacheToDisk)
+                {
+                    // Save reloaded samples to disk.
+                    var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
+                    var saveResult2 = Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
 
-                        // Play to test the sample loading.
-                        if (MustPlayParallels) Play(saveResult2.Data);
-                    }
+                    // Play to test the sample loading.
+                    if (MustPlayParallels) Play(saveResult2.Data);
                 }
             }
 
@@ -215,8 +208,10 @@ namespace JJ.Business.Synthesizer.Wishes
                     
                     Console.WriteLine($"{PrettyTime()} Start Task: {displayName} (Level {level})", nameof(SynthWishes));
 
-                    byte[] bytes = Cache(operand, name).Data.Bytes;
-                    op.Operands[operandIndex] = Sample(bytes, name: displayName);
+                    var cacheResult = Cache(operand, name);
+                    var sample = Sample(cacheResult, name: displayName);
+                    
+                    op.Operands[operandIndex] = sample;
 
                     Console.WriteLine($"{PrettyTime()} End Task: {displayName} (Level {level})", nameof(SynthWishes));
                 });
