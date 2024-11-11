@@ -67,11 +67,11 @@ namespace JJ.Business.Synthesizer.Wishes
     // Stringifier
 
     /// <inheritdoc cref="docs._stringify"/>
-    internal partial class OperatorStringifier
+    internal class OperatorStringifier
     {
         private readonly bool _singleLine;
         private readonly bool _canOmitNameForBasicMath;
-        private StringBuilderWithIndentation _sb;
+        internal StringBuilderWithIndentation _sb; // Internal for obsolete extension methods
 
         public OperatorStringifier(bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
@@ -99,7 +99,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Create StringBuilder
 
-        private StringBuilderWithIndentation CreateStringBuilder()
+        // Internal for obsolete extension methods
+        internal StringBuilderWithIndentation CreateStringBuilder()
         {
             if (_singleLine)
             {
@@ -152,7 +153,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private void BuildStringRecursive(Inlet inlet)
+        // Internal for obsolete extension methods
+        internal void BuildStringRecursive(Inlet inlet)
         {
             if (inlet?.Input?.Operator == null) return;
 
@@ -307,7 +309,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         private int GetFilledInletCount(Operator op) => op.Inlets.TakeWhile(x => x.Input != null).Count();
 
-        private static string RemoveOuterBraces(string str)
+        // Internal for obsolete extension methods
+        internal static string RemoveOuterBraces(string str)
         {
             // Cut away outer braces
             if (str.StartsWith("(") && str.EndsWith(")"))

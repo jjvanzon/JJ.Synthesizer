@@ -7,82 +7,95 @@ using JJ.Business.Synthesizer.Wishes.Obsolete;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public partial class SynthWishes
+    public static class OperatorObsoleteExtensionsWishes
     {
         [Obsolete("Use _[123] instead."), UsedImplicitly]
-        public FluentOutlet Value(double value = 0) => _[value];
+        public static FluentOutlet Value(this SynthWishes synthWishes, double value = 0)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            return synthWishes._[value];
+        }
 
         [Obsolete("Use " + nameof(Add) + " instead.", true), UsedImplicitly]
-        public Adder Adder(params Outlet[] operands) => throw new NotSupportedException();
+        public static Adder Adder(this SynthWishes synthWishes, params Outlet[] operands) => throw new NotSupportedException();
 
         [Obsolete("Use " + nameof(Add) + " instead.", true), UsedImplicitly]
-        public Adder Adder(IList<Outlet> operands) => throw new NotSupportedException();
+        public static Adder Adder(this SynthWishes synthWishes, IList<Outlet> operands) => throw new NotSupportedException();
         
-        [Obsolete("Typo. Use " + nameof(Subtract) + " instead.", true), UsedImplicitly]
-        public Substract Substract(Outlet operandA = null, Outlet operandB = null) => throw new NotSupportedException();
+        [Obsolete("Typo. Use Subtract instead.", true), UsedImplicitly]
+        public static Substract Substract(this SynthWishes synthWishes, Outlet operandA = null, Outlet operandB = null) => throw new NotSupportedException();
 
         [Obsolete("Origin parameter obsolete.", true), UsedImplicitly]
-        public Outlet Multiply(Outlet operandA, Outlet operandB, Outlet origin) => throw new NotSupportedException();
+        public static Outlet Multiply(this SynthWishes synthWishes, Outlet operandA, Outlet operandB, Outlet origin) => throw new NotSupportedException();
 
         [Obsolete("Origin parameter obsolete.", true), UsedImplicitly]
-        public Divide Divide(Outlet numerator, Outlet denominator, Outlet origin) => throw new NotSupportedException();
+        public static Divide Divide(this SynthWishes synthWishes, Outlet numerator, Outlet denominator, Outlet origin) => throw new NotSupportedException();
 
         [Obsolete("Use Multiply(Sine(pitch), volume) instead of Sine(volume, pitch).", true), UsedImplicitly]
-        public Sine Sine(Outlet volume, Outlet pitch) => throw new NotSupportedException();
+        public static Sine Sine(this SynthWishes synthWishes, Outlet volume, Outlet pitch) => throw new NotSupportedException();
 
         [Obsolete("Use Add(Multiply(Sine(pitch), volume), level) instead of Sine(volume, pitch, level).", true), UsedImplicitly]
-        public Sine Sine(Outlet volume, Outlet pitch, Outlet level) => throw new NotSupportedException();
+        public static Sine Sine(this SynthWishes synthWishes, Outlet volume, Outlet pitch, Outlet level) => throw new NotSupportedException();
 
         [Obsolete("Use Delay(Add(Multiply(Sine(pitch), volume), level), phaseStart) instead of Sine(volume, pitch, level, phaseStart).", true), UsedImplicitly]
-        public Sine Sine(Outlet volume, Outlet pitch, Outlet level, Outlet phaseStart) => throw new NotSupportedException();
+        public static Sine Sine(this SynthWishes synthWishes, Outlet volume, Outlet pitch, Outlet level, Outlet phaseStart) => throw new NotSupportedException();
 
-        [Obsolete("Use " + nameof(Delay) + " instead.", true), UsedImplicitly]
-        public TimeAdd TimeAdd(Outlet signal = null, Outlet timeDifference = null) => throw new NotSupportedException();
+        [Obsolete("Use Delay instead.", true), UsedImplicitly]
+        public static TimeAdd TimeAdd(this SynthWishes synthWishes, Outlet signal = null, Outlet timeDifference = null) => throw new NotSupportedException();
 
         [Obsolete("Origin parameter obsolete.", true), UsedImplicitly]
-        public Outlet Stretch(Outlet signal, Outlet timeFactor, Outlet origin) => throw new NotSupportedException();
+        public static Outlet Stretch(this SynthWishes synthWishes, Outlet signal, Outlet timeFactor, Outlet origin) => throw new NotSupportedException();
         
         [Obsolete("Use " + nameof(Stretch) + " instead.", true), UsedImplicitly]
-        public TimeMultiply TimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null) => throw new NotSupportedException();
+        public static TimeMultiply TimeMultiply(this SynthWishes synthWishes, Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null) => throw new NotSupportedException();
 
         [Obsolete("Origin parameter obsolete.", true), UsedImplicitly]
-        public TimeDivide SpeedUp(Outlet signal, Outlet timeDivider, Outlet origin) => throw new NotSupportedException();
+        public static TimeDivide SpeedUp(this SynthWishes synthWishes, Outlet signal, Outlet timeDivider, Outlet origin) => throw new NotSupportedException();
 
         [Obsolete("Use " + nameof(SpeedUp) + " instead.", true), UsedImplicitly]
-        public TimeDivide TimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null) => throw new NotSupportedException();
+        public static TimeDivide TimeDivide(this SynthWishes synthWishes, Outlet signal = null, Outlet timeDivider = null, Outlet origin = null) => throw new NotSupportedException();
 
-        [Obsolete("Typo. Use " + nameof(Skip) + " instead.", true), UsedImplicitly]
-        public TimeSubstract TimeSubstract(Outlet signal = null, Outlet timeDifference = null) => throw new NotSupportedException();
+        [Obsolete("Typo. Use Skip instead.", true), UsedImplicitly]
+        public static TimeSubstract TimeSubstract(this SynthWishes synthWishes, Outlet signal = null, Outlet timeDifference = null) => throw new NotSupportedException();
         
-        [Obsolete("Use " + nameof(Skip) + " instead.", true), UsedImplicitly]
-        public TimeSubstract TimeSubtract(Outlet signal = null, Outlet timeDifference = null)            => throw new NotSupportedException();
+        [Obsolete("Use Skip instead.", true), UsedImplicitly]
+        public static TimeSubstract TimeSubtract(this SynthWishes synthWishes, Outlet signal = null, Outlet timeDifference = null)            => throw new NotSupportedException();
 
         [Obsolete("Origin parameter obsolete.", true), UsedImplicitly]
-        public TimePower TimePower(Outlet signal, Outlet exponent, Outlet origin) => throw new NotSupportedException();
+        public static TimePower TimePower(this SynthWishes synthWishes, Outlet signal, Outlet exponent, Outlet origin) => throw new NotSupportedException();
 
         [Obsolete("Prefer other parameters.", true), UsedImplicitly]
-        public SampleOperatorWrapper Sample(Sample sample) => throw new NotSupportedException();
+        public static SampleOperatorWrapper Sample(this SynthWishes synthWishes, Sample sample) => throw new NotSupportedException();
     }
 
-    internal partial class OperatorStringifier
+    internal static class OperatorStringifierObsoleteExtensions
     {
         [Obsolete(InletObsoleteMessages.ObsoleteMessage)]
-        public string StringifyRecursive(Inlet entity)
+        public static string StringifyRecursive(this OperatorStringifier operatorStringifier, Inlet entity)
         {
-            _sb = CreateStringBuilder();
-            BuildStringRecursive(entity);
-            return RemoveOuterBraces(_sb.ToString());
+            if (operatorStringifier == null) throw new ArgumentNullException(nameof(operatorStringifier));
+            operatorStringifier._sb = operatorStringifier.CreateStringBuilder();
+            operatorStringifier.BuildStringRecursive(entity);
+            return OperatorStringifier.RemoveOuterBraces(operatorStringifier._sb.ToString());
         }
     }
 
-    public partial class FluentOutlet
+    public static class FluentOutletObsoleteExtensions
     {
         /// <inheritdoc cref="docs._getcurvewrapper"/>
         [Obsolete(WrappersObsoleteMessages.ObsoleteMessage)]
-        public CurveInWrapper GetCurveWrapper() => _wrappedOutlet.GetCurveWrapper();
+        public static CurveInWrapper GetCurveWrapper(this FluentOutlet fluentOutlet )
+        {
+            if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
+            return fluentOutlet.WrappedOutlet.GetCurveWrapper();
+        }
 
         /// <inheritdoc cref="docs._getsamplewrapper" />
         [Obsolete(WrappersObsoleteMessages.ObsoleteMessage)]
-        public SampleOperatorWrapper GetSampleWrapper() => _wrappedOutlet.GetSampleWrapper();
+        public static SampleOperatorWrapper GetSampleWrapper(this FluentOutlet fluentOutlet )
+        {
+            if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
+            return fluentOutlet.WrappedOutlet.GetSampleWrapper();
+        }
     }
 }
