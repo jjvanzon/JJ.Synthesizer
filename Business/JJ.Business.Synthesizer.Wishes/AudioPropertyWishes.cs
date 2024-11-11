@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     // Derived Audio Properties
     
-    public static class AudioFileExtensionWishes
+    public static class AudioPropertyExtensionWishes
     {
         public static int SizeOf(Type sampleDataType)
         {
