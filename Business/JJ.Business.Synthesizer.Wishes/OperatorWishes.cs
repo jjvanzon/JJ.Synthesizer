@@ -1367,11 +1367,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
     internal static class LogHelper
     {
-        public static void LogPreComputeConstant(FluentOutlet a, string mathSymbol, FluentOutlet b, FluentOutlet result)
-            => Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(a)} {mathSymbol} {Stringify(b)} = {Stringify(result)}");
+        public static void LogPreComputeConstant(FluentOutlet a, string mathSymbol, FluentOutlet b, FluentOutlet result, [CallerMemberName] string callerMemberName = null)
+            => Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(mathSymbol, a, b)} = {Stringify(result)}");
 
         public static void LogPreComputeConstants(IList<FluentOutlet> constants, string mathSymbol, double result) 
-            => Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(" " + mathSymbol + " ", constants)} = {result}");
+            => Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(mathSymbol, constants)} = {result}");
 
         public static void LogIdentityOperation(FluentOutlet a, string mathSymbol, FluentOutlet identityValue)
             => Console.WriteLine($"{PrettyTime()} Identity op : {Stringify(a)} {mathSymbol} {Stringify(identityValue)} = {Stringify(a)}");
@@ -1385,36 +1385,35 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string opName = "Add";
             string symbol = "+";
-            string sep = $" {symbol} ";
             
             bool wasFlattened = terms.Count != flattenedTerms.Count;
             if (wasFlattened)
             {
-                Console.WriteLine($"{PrettyTime()} Flatten {symbol} : {Stringify(opName, sep, terms)} => {Stringify(opName, sep, flattenedTerms)}");
+                Console.WriteLine($"{PrettyTime()} Flatten {symbol} : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, flattenedTerms)}");
             }
 
             bool hasConst0 = consts.Count >= 1 && constant == 0;
             if (hasConst0)
             {
-                Console.WriteLine($"{PrettyTime()} Eliminate 0 : {Stringify(opName, sep, terms)} => {Stringify(opName, sep, optimizedTerms)}");
+                Console.WriteLine($"{PrettyTime()} Eliminate 0 : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, optimizedTerms)}");
             }
 
             bool hasMultipleConsts = consts.Count > 1;
             if (hasMultipleConsts)
             {
-                Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(opName, sep, flattenedTerms)} => {Stringify(opName, sep, optimizedTerms)}");
+                Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(opName, symbol, optimizedTerms)}");
             }
             
             bool noTermsLeft = terms.Count != 0 && optimizedTerms.Count == 0;
             if (noTermsLeft)
             {
-                Console.WriteLine($"{PrettyTime()} 0 terms remain : {Stringify(opName, sep, terms)} => 0");
+                Console.WriteLine($"{PrettyTime()} 0 terms remain : {Stringify(opName, symbol, terms)} => 0");
             }
             
             bool oneTermLeft = optimizedTerms.Count == 1;
             if (oneTermLeft)
             {
-                Console.WriteLine($"{PrettyTime()} Eliminate {symbol} : {Stringify(opName, sep, flattenedTerms)} => {Stringify(sep, optimizedTerms)}");
+                Console.WriteLine($"{PrettyTime()} Eliminate {symbol} : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(symbol, optimizedTerms)}");
             }
         }
         
@@ -1424,68 +1423,51 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string opName = "Multiply";
             string symbol = "*";
-            string sep = $" {symbol} ";
 
             bool hasConst1 = consts.Count >= 1 && constant == 1;
             if (hasConst1)
             {
-                Console.WriteLine($"{PrettyTime()} Eliminate 1 : {Stringify(opName, sep, factors)} => {Stringify(opName, sep, optimizedFactors)}");
+                Console.WriteLine($"{PrettyTime()} Eliminate 1 : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
             }
 
             bool hasMultipleConsts = consts.Count > 1;
             if (hasMultipleConsts)
             {
-                Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(opName, sep, factors)} => {Stringify(opName, sep, optimizedFactors)}");
+                Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
             }
 
             bool noFactorsLeft = factors.Count != 0 && optimizedFactors.Count == 0;
             if (noFactorsLeft)
             {
-                Console.WriteLine($"{PrettyTime()} 0 factors remain: {Stringify(opName, sep, factors)} => 1");
+                Console.WriteLine($"{PrettyTime()} 0 factors remain: {Stringify(opName, symbol, factors)} => 1");
             }
             
             bool oneFactorLeft = optimizedFactors.Count == 1;
             if (oneFactorLeft)
             {
-                Console.WriteLine($"{PrettyTime()} Eliminate {symbol} : {Stringify(opName, sep, optimizedFactors)} => {Stringify(sep, optimizedFactors)}");
+                Console.WriteLine($"{PrettyTime()} Eliminate {symbol} : {Stringify(opName, symbol, optimizedFactors)} => {Stringify(symbol, optimizedFactors)}");
             }
         }
-        
-        //public static void LogTermsEliminated(IList<FluentOutlet> termsBefore, IList<FluentOutlet> termAfter)
-        //    => LogEliminationIfNeeded("term(s)", termsBefore, termAfter, "+");
 
-        //public static void LogFactorsEliminated(IList<FluentOutlet> factorsBefore, IList<FluentOutlet> factorsAfter)
-        //    => LogEliminationIfNeeded("factor(s)", factorsBefore, factorsAfter, "*");
-
-        //public static void LogEliminationIfNeeded(string operandName, IList<FluentOutlet> operandsBefore, IList<FluentOutlet> operandsAfter, string mathSymbol)
-        //{
-        //    if (operandsBefore == null) throw new ArgumentNullException(nameof(operandsBefore));
-        //    if (operandsAfter == null) throw new ArgumentNullException(nameof(operandsAfter));
-
-        //    if (operandsBefore.Count != operandsAfter.Count)
-        //    {
-        //        int count = operandsBefore.Count - operandsAfter.Count;
-        //        string sep = " " + mathSymbol + " ";
-        //        Console.WriteLine($"{PrettyTime()} Eliminate {count} {operandName} : {Stringify(sep, operandsBefore)} = {Stringify(sep, operandsAfter)}");
-        //    }
-        //}
-        
         public static void LogDivisionByMultiplication(FluentOutlet a, FluentOutlet b, FluentOutlet result)
             => Console.WriteLine($"{PrettyTime()} / by * : {Stringify(a)} / {Stringify(b)} = {Stringify(result)}");
 
         public static void LogDistributeMultiplyOverAddition(FluentOutlet formulaBefore, FluentOutlet formulaAfter)
             => Console.WriteLine($"{PrettyTime()} Distribute * over + : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
-
+        
+        public static string Stringify(string opName, string mathSymbol, params FluentOutlet[] operands)
+            => Stringify(opName, mathSymbol, (IList<FluentOutlet>)operands);
+        
+        public static string Stringify(string opName, string mathSymbol, IList<FluentOutlet> operands)
+            => $"{opName}({Stringify(mathSymbol, operands)})";
+        
+        public static string Stringify(string mathSymbol, params FluentOutlet[] operands)
+            => Stringify(mathSymbol, (IList<FluentOutlet>)operands);
+        
+        public static string Stringify(string mathSymbol, IList<FluentOutlet> operands)
+            => string.Join(" " + mathSymbol + " ", operands.Select(Stringify));
+        
         public static string Stringify(FluentOutlet operand)
             => operand.Stringify(true);
-
-        //public static string Stringify(string separator, params FluentOutlet[] operands)
-        //    => Stringify(separator, (IList<FluentOutlet>)operands);
-
-        public static string Stringify(string separator, IList<FluentOutlet> operands)
-            => string.Join(separator, operands.Select(Stringify));
-        
-        public static string Stringify(string opName, string separator, IList<FluentOutlet> operands)
-            => $"{opName}({Stringify(separator, operands)})";
     }
 }
