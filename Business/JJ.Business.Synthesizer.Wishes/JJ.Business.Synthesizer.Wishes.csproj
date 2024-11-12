@@ -56,6 +56,7 @@
     <Compile Include="AudioPropertyWishes.cs" />
     <Compile Include="CacheWishes.cs" />
     <Compile Include="CalculationWishes.cs" />
+    <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Obsolete\Obsolete.AudioFileOutputChannelExtensions.cs" />
     <Compile Include="EnumWishes.cs" />
     <Compile Include="Helpers\AudioFileOutputCalculatorAccessor.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
     <Compile Include="OperandWishes.cs" />
-    <Compile Include="OperatorWishes.EchoTape.cs" />
     <Compile Include="RelatedObjectWishes.cs" />
     <Compile Include="ParallelWishes.cs" />
     <Compile Include="PlayWishes.cs" />

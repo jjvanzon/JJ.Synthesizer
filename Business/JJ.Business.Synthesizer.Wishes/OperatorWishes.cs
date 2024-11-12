@@ -10,8 +10,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
-using static JJ.Business.Synthesizer.Wishes.LogHelper;
+using static JJ.Business.Synthesizer.Wishes.Helpers.LogHelper;
 
 // ReSharper disable LocalVariableHidesMember
 // ReSharper disable AssignmentInsteadOfDiscard
@@ -831,6 +830,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet TimePower(FluentOutlet exponent) => _synthWishes.TimePower(this, exponent);
         public FluentOutlet TimePower(double exponent) => _synthWishes.TimePower(this, exponent);
     }
+    
     // StrikeNote SynthWishes
 
     public partial class SynthWishes
@@ -1316,6 +1316,35 @@ namespace JJ.Business.Synthesizer.Wishes
                 WithName(originalName);
             }
         }
+        
+        public FluentOutlet EchoTape(
+            FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default,
+            [CallerMemberName] string callerMemberName = null)
+        {
+            magnitude = magnitude ?? _[0.66];
+            delay = delay ?? _[0.25];
+            
+            var tape = Tape(signal, callerMemberName);
+            
+            var cumulativeMagnitude = _[1];
+            var cumulativeDelay = _[0];
+            
+            var repeats = new List<FluentOutlet>(count);
+            
+            for (int i = 0; i < count; i++)
+            {
+                var quieter = tape * cumulativeMagnitude;
+                var shifted = Delay(quieter, cumulativeDelay);
+                
+                repeats.Add(shifted);
+                
+                cumulativeMagnitude *= magnitude;
+                cumulativeDelay += delay;
+            }
+            
+            // TODO: Go parallel?
+            return Add(repeats).SetName();
+        }
 
         public FluentOutlet EchoDuration(int count = 4, FluentOutlet delay = default)
         {
@@ -1369,144 +1398,42 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet EchoFeedBack(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.EchoFeedBack(this, count, magnitude, delay, callerMemberName);
 
-        public FluentOutlet EchoDuration(int count = 4, FluentOutlet delay = default)
-            => _synthWishes.EchoDuration(count, delay);
-
         public FluentOutlet EchoParallel(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.EchoParallel(this, count, magnitude, delay, callerMemberName);
+        
+        public FluentOutlet EchoTape(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.EchoTape(this, count, magnitude, delay, callerMemberName);
+        
+        public FluentOutlet EchoDuration(int count = 4, FluentOutlet delay = default)
+            => _synthWishes.EchoDuration(count, delay);
+    }
+    
+    // Tape SynthWishes
+    
+    public partial class SynthWishes
+    {
+        
+        public FluentOutlet Tape(FluentOutlet signal, [CallerMemberName] string callerMemberName = null)
+            => Tape(signal, default, callerMemberName);
+        
+        public FluentOutlet Tape(
+            FluentOutlet signal, FluentOutlet duration,
+            [CallerMemberName] string callerMemberName = null)
+        {
+            duration = duration ?? GetAudioLength ?? _[1];
+            
+            var cacheResult = Cache(signal, callerMemberName);
+            var sample = Sample(cacheResult);
+            return sample;
+        }
     }
 
-    internal static class LogHelper
+    // Tape FluentOutlet
+
+    public partial class FluentOutlet
     {
-        public static void LogComputeConstant(
-            FluentOutlet a, string mathSymbol, FluentOutlet b, FluentOutlet result, 
-            [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(opName, a, mathSymbol, b)} => {Stringify(result)}");
-
-        public static void LogIdentityOperation(
-            FluentOutlet a, string mathSymbol, FluentOutlet identityValue,
-            [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{PrettyTime()} Identity op : {Stringify(opName, a, mathSymbol, identityValue)} => {Stringify(a)}");
         
-        public static void LogIdentityOperation(
-            FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
-            [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{PrettyTime()} Identity op ({dimension}) : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
-        
-        public static void LogAlwaysOneOptimization(
-            FluentOutlet a, string mathSymbol, FluentOutlet b,
-            [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{PrettyTime()} Always 1 : {Stringify(opName, a, mathSymbol, b)} => 1");
-        
-        public static void LogAlwaysOneOptimization(
-            FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
-            [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{PrettyTime()} Always 1 ({dimension}) : " +
-                                 $"{Stringify(opName, signal, dimension, mathSymbol, transform)} => " +
-                                 $"{Stringify(opName, signal, dimension, "=", 1)}");
-        
-        public static void LogInvariance(
-            FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
-            [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{PrettyTime()} Invariance ({dimension}) : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
-        
-        public static void LogDivisionByMultiplication(FluentOutlet a, FluentOutlet b, FluentOutlet result)
-            => Console.WriteLine($"{PrettyTime()} / by * : {Stringify(a)} / {Stringify(b)} => {Stringify(result)}");
-        
-        public static void LogDistributeMultiplyOverAddition(FluentOutlet formulaBefore, FluentOutlet formulaAfter)
-            => Console.WriteLine($"{PrettyTime()} Distribute * over + : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
-
-        public static void LogAdditionOptimizations(
-            IList<FluentOutlet> terms, IList<FluentOutlet> flattenedTerms, IList<FluentOutlet> optimizedTerms,
-            IList<FluentOutlet> consts, double constant, [CallerMemberName] string opName = null)
-        {
-            string symbol = "+";
-            
-            bool wasFlattened = terms.Count != flattenedTerms.Count;
-            if (wasFlattened)
-            {
-                Console.WriteLine($"{PrettyTime()} Flatten {symbol} : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, flattenedTerms)}");
-            }
-
-            bool hasConst0 = consts.Count >= 1 && constant == 0;
-            if (hasConst0)
-            {
-                Console.WriteLine($"{PrettyTime()} Eliminate 0 : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, optimizedTerms)}");
-            }
-
-            bool hasMultipleConsts = consts.Count > 1;
-            if (hasMultipleConsts)
-            {
-                Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(opName, symbol, optimizedTerms)}");
-            }
-            
-            bool noTermsLeft = terms.Count != 0 && optimizedTerms.Count == 0;
-            if (noTermsLeft)
-            {
-                Console.WriteLine($"{PrettyTime()} 0 terms remain : {Stringify(opName, symbol, terms)} => 0");
-            }
-            
-            bool oneTermLeft = optimizedTerms.Count == 1;
-            if (oneTermLeft)
-            {
-                Console.WriteLine($"{PrettyTime()} Eliminate {symbol} : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(symbol, optimizedTerms)}");
-            }
-        }
-        
-        public static void LogMultiplicationOptimizations(
-            IList<FluentOutlet> factors, IList<FluentOutlet> optimizedFactors,
-            IList<FluentOutlet> consts, double constant, [CallerMemberName] string opName = null)
-        {
-            string symbol = "*";
-
-            bool hasConst1 = consts.Count >= 1 && constant == 1;
-            if (hasConst1)
-            {
-                Console.WriteLine($"{PrettyTime()} Eliminate 1 : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
-            }
-
-            bool hasMultipleConsts = consts.Count > 1;
-            if (hasMultipleConsts)
-            {
-                Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
-            }
-
-            bool noFactorsLeft = factors.Count != 0 && optimizedFactors.Count == 0;
-            if (noFactorsLeft)
-            {
-                Console.WriteLine($"{PrettyTime()} 0 factors remain: {Stringify(opName, symbol, factors)} => 1");
-            }
-            
-            bool oneFactorLeft = optimizedFactors.Count == 1;
-            if (oneFactorLeft)
-            {
-                Console.WriteLine($"{PrettyTime()} Eliminate {symbol} : {Stringify(opName, symbol, optimizedFactors)} => {Stringify(symbol, optimizedFactors)}");
-            }
-        }
-        
-        // Specialized Stringifications
-        
-        internal static string Stringify(string opName, FluentOutlet a, string mathSymbol, FluentOutlet b)
-            => Stringify(opName, mathSymbol, a, b);
-        
-        internal static string Stringify(string opName, string mathSymbol, params FluentOutlet[] operands)
-            => Stringify(opName, mathSymbol, (IList<FluentOutlet>)operands);
-        
-        internal static string Stringify(string opName, string mathSymbol, IList<FluentOutlet> operands)
-            => $"{opName}({Stringify(mathSymbol, operands)})";
-        
-        internal static string Stringify(string mathSymbol, IList<FluentOutlet> operands)
-            => string.Join(" " + mathSymbol + " ", operands.Select(Stringify));
-        
-        internal static string Stringify(FluentOutlet operand)
-            => operand.Stringify(true);
-        
-        internal static string Stringify(
-            string opName, FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform)
-            => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {Stringify(transform)})";
-        
-        internal static string Stringify(
-            string opName, FluentOutlet signal, string dimension, string mathSymbol, double value)
-            => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {value})";
+        public FluentOutlet Tape(FluentOutlet duration = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Tape(this, duration, callerMemberName);
     }
 }
