@@ -8,9 +8,7 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 
-// ReSharper disable RedundantAssignment
 #pragma warning disable CS0618 // Type or member is obsolete
-// ReSharper disable ConditionIsAlwaysTrueOrFalse
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -187,29 +185,27 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         private bool NameIsNeeded(Operator op)
         {
-            bool nameIsNeeded = true;
-
             if (HasCustomName(op))
             {
-                return nameIsNeeded;
+                return true;
             }
             
             if (!_canOmitNameForBasicMath)
             {
-                return nameIsNeeded;
+                return true;
             }
             
             if (IsSimpleMath(op))
             {
                 if (op.Origin() != null)
                 {
-                    return nameIsNeeded;
+                    return true;
                 }
 
-                return nameIsNeeded = false;
+                return false;
             }
             
-            return nameIsNeeded;
+            return true;
         }
 
         private static bool IsSimpleMath(Operator op) 
