@@ -392,10 +392,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <summary>
         /// Outputs audio in an audio file format and plays it if needed.<br />
-        /// A single <see cref="Outlet" /> will result in Mono audio.<br />
-        /// Use a func returning an <see cref="Outlet" /> e.g. <c> Save(() => MySound()); </c> <br />
+        /// A single <see cref="Outlet">Outlet</see> will result in Mono audio.<br />
+        /// Use a func returning an <see cref="Outlet">Outlet</see> e.g. <c> Save(() => MySound()); </c> <br />
         /// For Stereo it must return a new outlet each time.<br />
-        /// <strong> So call your <see cref="Outlet" />-creation method in the Func! </strong> <br />
+        /// <strong> So call your <see cref="Outlet">Outlet</see>-creation method in the Func! </strong> <br />
         /// If parameters are not provided, defaults will be employed.
         /// Some of these defaults you can set in the configuration file.
         /// Also, the entity data tied to the outlet will be verified.
