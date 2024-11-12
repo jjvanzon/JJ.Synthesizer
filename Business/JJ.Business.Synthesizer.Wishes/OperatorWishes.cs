@@ -799,16 +799,19 @@ namespace JJ.Business.Synthesizer.Wishes
             if (signalConst.HasValue)
             {
                 // If time is constant, the power operation has no effect on timing
+                LogInvariance(signal, "time", "^", exponent);
                 return signal;
             }
             else if (exponentConst == 1)
             {
                 // Identity case: time raised to the power of 1 keeps timing unchanged
+                LogIdentityOperation(signal, "time", "^", exponent);
                 return signal;
             }
             else if (exponentConst == 0)
             {
                 // When time is raised to the power of 0, timing is fixed at t=1
+                LogAlwaysOneOptimization(signal, "time", "^", exponent);
                 return _[signal.Calculate(time: 1)];
             }
             else
@@ -1375,19 +1378,36 @@ namespace JJ.Business.Synthesizer.Wishes
 
     internal static class LogHelper
     {
-        public static void LogComputeConstant(FluentOutlet a, string mathSymbol, FluentOutlet b, FluentOutlet result, [CallerMemberName] string opName = null)
+        public static void LogComputeConstant(
+            FluentOutlet a, string mathSymbol, FluentOutlet b, FluentOutlet result, 
+            [CallerMemberName] string opName = null)
             => Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(opName, a, mathSymbol, b)} = {Stringify(result)}");
 
-        public static void LogIdentityOperation(FluentOutlet a, string mathSymbol, FluentOutlet identityValue, [CallerMemberName] string opName = null)
+        public static void LogIdentityOperation(
+            FluentOutlet a, string mathSymbol, FluentOutlet identityValue,
+            [CallerMemberName] string opName = null)
             => Console.WriteLine($"{PrettyTime()} Identity op : {Stringify(opName, a, mathSymbol, identityValue)} = {Stringify(a)}");
         
-        public static void LogIdentityOperation(FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform, [CallerMemberName] string opName = null)
+        public static void LogIdentityOperation(
+            FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
+            [CallerMemberName] string opName = null)
             => Console.WriteLine($"{PrettyTime()} Identity op ({dimension}) : {Stringify(opName, signal, dimension, mathSymbol, transform)} = {Stringify(signal)}");
         
-        public static void LogAlwaysOneOptimization(FluentOutlet a, string mathSymbol, FluentOutlet b, [CallerMemberName] string opName = null)
+        public static void LogAlwaysOneOptimization(
+            FluentOutlet a, string mathSymbol, FluentOutlet b,
+            [CallerMemberName] string opName = null)
             => Console.WriteLine($"{PrettyTime()} Always 1 : {Stringify(opName, a, mathSymbol, b)} = 1");
         
-        public static void LogInvariance(FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform, [CallerMemberName] string opName = null)
+        public static void LogAlwaysOneOptimization(
+            FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
+            [CallerMemberName] string opName = null)
+            => Console.WriteLine($"{PrettyTime()} Always 1 ({dimension}) : " +
+                                 $"{Stringify(opName, signal, dimension, mathSymbol, transform)} = " +
+                                 $"{Stringify(opName, signal, dimension, "=", 1)}");
+        
+        public static void LogInvariance(
+            FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
+            [CallerMemberName] string opName = null)
             => Console.WriteLine($"{PrettyTime()} Invariance ({dimension}) : {Stringify(opName, signal, dimension, mathSymbol, transform)} = {Stringify(signal)}");
         
         public static void LogDivisionByMultiplication(FluentOutlet a, FluentOutlet b, FluentOutlet result)
@@ -1487,7 +1507,12 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static string Stringify(FluentOutlet operand)
             => operand.Stringify(true);
         
-        internal static string Stringify(string opName, FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform)
+        internal static string Stringify(
+            string opName, FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform)
             => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {Stringify(transform)})";
+        
+        internal static string Stringify(
+            string opName, FluentOutlet signal, string dimension, string mathSymbol, double value)
+            => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {value})";
     }
 }
