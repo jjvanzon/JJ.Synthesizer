@@ -673,10 +673,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (signal.IsConst)
             {
+                LogInvariance(signal, "time", "-", skip);
                 return signal;
             }
             else if (skip.AsConst == 0)
             {
+                LogIdentityOperation(signal, "time", "-", skip);
                 return signal;
             }
             else
@@ -711,11 +713,13 @@ namespace JJ.Business.Synthesizer.Wishes
             if (signalConst.HasValue)
             {
                 // If signal is constant, stretching time does nothing.
+                LogInvariance(signal, "time", "*", timeScale);
                 return signal;
             }
             else if (timeScaleConst == 1)
             {
                 // Return signal directly if multiplier is 1 (no change in timing)
+                LogIdentityOperation(signal, "time", "*", timeScale);
                 return signal;
             }
             // Outcommented, to have code coverage for TimeMultiply.
@@ -754,11 +758,13 @@ namespace JJ.Business.Synthesizer.Wishes
             if (signal.IsConst)
             {
                 // If signal is constant, stretching time does nothing.
+                LogInvariance(signal, "time", "/", factor);
                 return signal;
             }
             else if (factor.AsConst == 1)
             {
                 // Return signal directly if multiplier is 1 (no change in timing)
+                LogIdentityOperation(signal, "time", "/", factor);
                 return signal;
             }
             else
