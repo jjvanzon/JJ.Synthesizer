@@ -198,52 +198,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._add"/>
         public FluentOutlet Plus(double b) => Add(b);
     }
-    
-    // Subtract SynthWishes
-    
-    public partial class SynthWishes
-    {
-        public FluentOutlet Subtract(FluentOutlet a, FluentOutlet b)
-        {
-            if (a == null) throw new ArgumentNullException(nameof(a));
-            if (b == null) throw new ArgumentNullException(nameof(b));
-            
-            double? constA = a.AsConst;
-            double? constB = b.AsConst;
-            
-            if (constA.HasValue & constB.HasValue) // Compute constant
-            {
-                var result = _[constA.Value - constB.Value];
-                LogPreComputeConstant(a, "-", b, result);
-                return result;
-            }
-            else if (constB.HasValue && constB.Value == 0) // a - 0 = a
-            {
-                LogIdentityOperation(a, "-", b);
-                return a;
-            }
-            else
-            {
-                return _[_operatorFactory.Substract(a, b)];
-            }
-        }
-        
-        public FluentOutlet Subtract(FluentOutlet a, double b) => Subtract(a, _[b]);
-        public FluentOutlet Subtract(double a, FluentOutlet b) => Subtract(_[a], b);
-        public FluentOutlet Minus(FluentOutlet a, FluentOutlet b) => Subtract(a, b);
-        public FluentOutlet Minus(FluentOutlet a, double b) => Subtract(a, b);
-        public FluentOutlet Minus(double a, FluentOutlet b) => Subtract(a, b);
-    }
-    
-    // Subtract FluentOutlet
-    
-    public partial class FluentOutlet
-    {
-        public FluentOutlet Subtract(FluentOutlet b) => _synthWishes.Subtract(this, b);
-        public FluentOutlet Subtract(double b) => _synthWishes.Subtract(this, b);
-        public FluentOutlet Minus(FluentOutlet b) => Subtract(b);
-        public FluentOutlet Minus(double b) => Subtract(b);
-    }
 
     // Multiply SynthWishes
 
@@ -500,6 +454,52 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._multiply"/>
         public FluentOutlet Volume(double b) => Multiply(b);
     }
+    
+    // Subtract SynthWishes
+    
+    public partial class SynthWishes
+    {
+        public FluentOutlet Subtract(FluentOutlet a, FluentOutlet b)
+        {
+            if (a == null) throw new ArgumentNullException(nameof(a));
+            if (b == null) throw new ArgumentNullException(nameof(b));
+            
+            double? constA = a.AsConst;
+            double? constB = b.AsConst;
+            
+            if (constA.HasValue & constB.HasValue) // Compute constant
+            {
+                var result = _[constA.Value - constB.Value];
+                LogComputeConstant(a, "-", b, result);
+                return result;
+            }
+            else if (constB.HasValue && constB.Value == 0) // a - 0 = a
+            {
+                LogIdentityOperation(a, "-", b);
+                return a;
+            }
+            else
+            {
+                return _[_operatorFactory.Substract(a, b)];
+            }
+        }
+        
+        public FluentOutlet Subtract(FluentOutlet a, double b) => Subtract(a, _[b]);
+        public FluentOutlet Subtract(double a, FluentOutlet b) => Subtract(_[a], b);
+        public FluentOutlet Minus(FluentOutlet a, FluentOutlet b) => Subtract(a, b);
+        public FluentOutlet Minus(FluentOutlet a, double b) => Subtract(a, b);
+        public FluentOutlet Minus(double a, FluentOutlet b) => Subtract(a, b);
+    }
+    
+    // Subtract FluentOutlet
+    
+    public partial class FluentOutlet
+    {
+        public FluentOutlet Subtract(FluentOutlet b) => _synthWishes.Subtract(this, b);
+        public FluentOutlet Subtract(double b) => _synthWishes.Subtract(this, b);
+        public FluentOutlet Minus(FluentOutlet b) => Subtract(b);
+        public FluentOutlet Minus(double b) => Subtract(b);
+    }
 
     // Divide SynthWishes
 
@@ -517,7 +517,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 // Compute constant
                 var result = _[constA.Value / constB.Value];
-                LogPreComputeConstant(a, "/", b, result);
+                LogComputeConstant(a, "/", b, result);
                 return result;
             }
             else if (constB == 1) // a / 1 = a
@@ -566,7 +566,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 // Compute constant if both are constants
                 var result = _[Math.Pow(@base.Value, exponent.Value)];
-                LogPreComputeConstant(@base, "^", exponent, result);
+                LogComputeConstant(@base, "^", exponent, result);
                 return result;
             }
             else if (baseConst == 1)
@@ -1369,29 +1369,31 @@ namespace JJ.Business.Synthesizer.Wishes
 
     internal static class LogHelper
     {
-        public static void LogPreComputeConstant(FluentOutlet a, string mathSymbol, FluentOutlet b, FluentOutlet result, [CallerMemberName] string callerMemberName = null)
-            => Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(callerMemberName, a, mathSymbol, b)} = {Stringify(result)}");
+        public static void LogComputeConstant(FluentOutlet a, string mathSymbol, FluentOutlet b, FluentOutlet result, [CallerMemberName] string opName = null)
+            => Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(opName, a, mathSymbol, b)} = {Stringify(result)}");
 
-        //public static void LogPreComputeConstants(IList<FluentOutlet> constants, string mathSymbol, double result) 
-        //    => Console.WriteLine($"{PrettyTime()} Compute const : {Stringify(mathSymbol, constants)} = {result}");
-
-        public static void LogIdentityOperation(FluentOutlet a, string mathSymbol, FluentOutlet identityValue, [CallerMemberName] string callerMemberName = null)
-            => Console.WriteLine($"{PrettyTime()} Identity op : {Stringify(callerMemberName, a, mathSymbol, identityValue)} = {Stringify(a)}");
+        public static void LogIdentityOperation(FluentOutlet a, string mathSymbol, FluentOutlet identityValue, [CallerMemberName] string opName = null)
+            => Console.WriteLine($"{PrettyTime()} Identity op : {Stringify(opName, a, mathSymbol, identityValue)} = {Stringify(a)}");
         
-        public static void LogIdentityOperation(FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform, [CallerMemberName] string callerMemberName = null)
-            => Console.WriteLine($"{PrettyTime()} Identity op ({dimension}) : {Stringify(callerMemberName, signal, dimension, mathSymbol, transform)} = {Stringify(signal)}");
+        public static void LogIdentityOperation(FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform, [CallerMemberName] string opName = null)
+            => Console.WriteLine($"{PrettyTime()} Identity op ({dimension}) : {Stringify(opName, signal, dimension, mathSymbol, transform)} = {Stringify(signal)}");
         
-        public static void LogAlwaysOneOptimization(FluentOutlet a, string mathSymbol, FluentOutlet b, [CallerMemberName] string callerMemberName = null)
-            => Console.WriteLine($"{PrettyTime()} Always 1 : {Stringify(callerMemberName, a, mathSymbol, b)} = 1");
+        public static void LogAlwaysOneOptimization(FluentOutlet a, string mathSymbol, FluentOutlet b, [CallerMemberName] string opName = null)
+            => Console.WriteLine($"{PrettyTime()} Always 1 : {Stringify(opName, a, mathSymbol, b)} = 1");
         
-        public static void LogInvariance(FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform, [CallerMemberName] string callerMemberName = null)
-            => Console.WriteLine($"{PrettyTime()} Invariance ({dimension}) : {Stringify(callerMemberName, signal, dimension, mathSymbol, transform)} = {Stringify(signal)}");
+        public static void LogInvariance(FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform, [CallerMemberName] string opName = null)
+            => Console.WriteLine($"{PrettyTime()} Invariance ({dimension}) : {Stringify(opName, signal, dimension, mathSymbol, transform)} = {Stringify(signal)}");
+        
+        public static void LogDivisionByMultiplication(FluentOutlet a, FluentOutlet b, FluentOutlet result)
+            => Console.WriteLine($"{PrettyTime()} / by * : {Stringify(a)} / {Stringify(b)} = {Stringify(result)}");
+        
+        public static void LogDistributeMultiplyOverAddition(FluentOutlet formulaBefore, FluentOutlet formulaAfter)
+            => Console.WriteLine($"{PrettyTime()} Distribute * over + : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
 
         public static void LogAdditionOptimizations(
             IList<FluentOutlet> terms, IList<FluentOutlet> flattenedTerms, IList<FluentOutlet> optimizedTerms,
-            IList<FluentOutlet> consts, double constant, [CallerMemberName] string callerMemberName = null)
+            IList<FluentOutlet> consts, double constant, [CallerMemberName] string opName = null)
         {
-            string opName = callerMemberName;
             string symbol = "+";
             
             bool wasFlattened = terms.Count != flattenedTerms.Count;
@@ -1427,9 +1429,8 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static void LogMultiplicationOptimizations(
             IList<FluentOutlet> factors, IList<FluentOutlet> optimizedFactors,
-            IList<FluentOutlet> consts, double constant, [CallerMemberName] string callerMemberName = null)
+            IList<FluentOutlet> consts, double constant, [CallerMemberName] string opName = null)
         {
-            string opName = callerMemberName;
             string symbol = "*";
 
             bool hasConst1 = consts.Count >= 1 && constant == 1;
@@ -1456,35 +1457,31 @@ namespace JJ.Business.Synthesizer.Wishes
                 Console.WriteLine($"{PrettyTime()} Eliminate {symbol} : {Stringify(opName, symbol, optimizedFactors)} => {Stringify(symbol, optimizedFactors)}");
             }
         }
-
-        public static void LogDivisionByMultiplication(FluentOutlet a, FluentOutlet b, FluentOutlet result)
-            => Console.WriteLine($"{PrettyTime()} / by * : {Stringify(a)} / {Stringify(b)} = {Stringify(result)}");
-
-        public static void LogDistributeMultiplyOverAddition(FluentOutlet formulaBefore, FluentOutlet formulaAfter)
-            => Console.WriteLine($"{PrettyTime()} Distribute * over + : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
         
-        public static string Stringify(string opName, FluentOutlet a, string mathSymbol, FluentOutlet b)
+        // Specialized Stringifications
+        
+        internal static string Stringify(string opName, FluentOutlet a, string mathSymbol, FluentOutlet b)
             => Stringify(opName, mathSymbol, a, b);
         
-        public static string Stringify(string opName, string mathSymbol, params FluentOutlet[] operands)
+        internal static string Stringify(string opName, string mathSymbol, params FluentOutlet[] operands)
             => Stringify(opName, mathSymbol, (IList<FluentOutlet>)operands);
         
-        public static string Stringify(string opName, string mathSymbol, IList<FluentOutlet> operands)
+        internal static string Stringify(string opName, string mathSymbol, IList<FluentOutlet> operands)
             => $"{opName}({Stringify(mathSymbol, operands)})";
         
-        public static string Stringify(FluentOutlet a, string mathSymbol, FluentOutlet b)
+        internal static string Stringify(FluentOutlet a, string mathSymbol, FluentOutlet b)
             => Stringify(mathSymbol, a, b);
         
-        public static string Stringify(string mathSymbol, params FluentOutlet[] operands)
+        internal static string Stringify(string mathSymbol, params FluentOutlet[] operands)
             => Stringify(mathSymbol, (IList<FluentOutlet>)operands);
         
-        public static string Stringify(string mathSymbol, IList<FluentOutlet> operands)
+        internal static string Stringify(string mathSymbol, IList<FluentOutlet> operands)
             => string.Join(" " + mathSymbol + " ", operands.Select(Stringify));
         
-        public static string Stringify(FluentOutlet operand)
+        internal static string Stringify(FluentOutlet operand)
             => operand.Stringify(true);
         
-        public static string Stringify(string opName, FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform)
+        internal static string Stringify(string opName, FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform)
             => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {Stringify(transform)})";
     }
 }
