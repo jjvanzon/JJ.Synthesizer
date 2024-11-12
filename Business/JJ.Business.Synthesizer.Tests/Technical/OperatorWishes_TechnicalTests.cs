@@ -418,9 +418,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var adder = WithAudioLength(duration).ParallelAdd
             (
                 // Values higher than 1 seem to be clipped.
-                () => WithName("Const Curve 0.1").Curve(0.1, 0.1),
-                () => WithName("Const Curve 0.2").Curve(0.2, 0.2),
-                () => WithName("Const Curve 0.3").Curve(0.3, 0.3)
+                WithName("Const Curve 0.1").Curve(0.1, 0.1),
+                WithName("Const Curve 0.2").Curve(0.2, 0.2),
+                WithName("Const Curve 0.3").Curve(0.3, 0.3)
             );
 
             // Assert Entities
@@ -515,9 +515,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var adder = WithAudioLength(duration).ParallelAdd
             (
                 // Values higher than 1 seem to be clipped.
-                () => WithName("Const Curve 0.1").Curve(0.1, 0.1),
-                () => WithName("Const Curve 0.2").Curve(0.2, 0.2),
-                () => WithName("Const Curve 0.3").Curve(0.3, 0.3)
+                WithName("Const Curve 0.1").Curve(0.1, 0.1),
+                WithName("Const Curve 0.2").Curve(0.2, 0.2),
+                WithName("Const Curve 0.3").Curve(0.3, 0.3)
             );
 
             // Assert
@@ -563,9 +563,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             var added = Envelope * WithName().ParallelAdd
             (
-                () => Sine(freq * 1) * 1.0,
-                () => Sine(freq * 2) * 0.2,
-                () => Sine(freq * 3) * 0.7
+                Sine(freq * 1) * 1.0,
+                Sine(freq * 2) * 0.2,
+                Sine(freq * 3) * 0.7
             );
 
             WithMono().Play(() => added);
@@ -584,9 +584,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             var added = Envelope * ParallelAdd
             (
-                () => Sine(freq * 1) * 1.0,
-                () => Sine(freq * 2) * 0.2,
-                () => Sine(freq * 3) * 0.7
+                Sine(freq * 1) * 1.0,
+                Sine(freq * 2) * 0.2,
+                Sine(freq * 3) * 0.7
             );
 
             WithMono().Play(() => added);

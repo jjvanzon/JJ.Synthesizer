@@ -1291,14 +1291,14 @@ namespace JJ.Business.Synthesizer.Wishes
             var cumulativeMagnitude = _[1];
             var cumulativeDelay = _[0];
 
-            var echoTasks = new Func<FluentOutlet>[count];
+            var repeats = new FluentOutlet[count];
 
             for (int i = 0; i < count; i++)
             {
                 var quieter = signal * cumulativeMagnitude;
                 var shifted = Delay(quieter, cumulativeDelay);
 
-                echoTasks[i] = () => shifted;
+                repeats[i] = shifted;
 
                 cumulativeMagnitude *= magnitude;
                 cumulativeDelay += delay;
@@ -1309,7 +1309,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 WithName(name);
 
-                return ParallelAdd(echoTasks);
+                return ParallelAdd(repeats);
             }
             finally
             {

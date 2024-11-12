@@ -271,29 +271,29 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var pattern1 = WithName("Jingle Pattern 1").ParallelAdd
             (
-                () => Multiply(fluteVolume, FluteMelody1),
-                () => Multiply(hornVolume,  HornMelody1)
+                Multiply(fluteVolume, FluteMelody1),
+                Multiply(hornVolume,  HornMelody1)
             );
 
             WithAudioLength(bars[4]);
 
             var pattern2 = WithName("Jingle Pattern 2").ParallelAdd
             (
-                () => Multiply(fluteVolume,      FluteMelody2),
-                () => Multiply(tromboneVolume,   TromboneMelody2),
-                () => Multiply(hornVolume,       HornMelody2),
-                () => Multiply(rippleBassVolume, RippleBassMelody2)
+                Multiply(fluteVolume,      FluteMelody2),
+                Multiply(tromboneVolume,   TromboneMelody2),
+                Multiply(hornVolume,       HornMelody2),
+                Multiply(rippleBassVolume, RippleBassMelody2)
             );
 
             WithAudioLength(bars[8]);
 
             var composition = WithName("Composition").ParallelAdd
             (
-                () => pattern1,
-                () => Delay(pattern2, bars[4]),
-                //() => PadChords(chordsVolume)/*.PlayMono(0.3)*/
+                pattern1,
+                Delay(pattern2, bars[4]),
+                //PadChords(chordsVolume)/*.PlayMono(0.3)*/
                 // HACK: Not sure why the chords are off, but delaying them for now...
-                () => PadChords(chordsVolume).Delay(beats[4])
+                PadChords(chordsVolume).Delay(beats[4])
             );
 
             return composition.SetName();
@@ -303,25 +303,25 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         FluentOutlet FluteMelody1 => WithAudioLength(bars[4]).WithName().ParallelAdd
         (
-            () => _[ t[1,1.0], E4, Flute1, 0.80, l[2.00] ],
-            () => _[ t[1,2.5], F4, Flute1, 0.70, l[2.17] ],
-            () => _[ t[1,4.0], G4, Flute1, 0.60, l[1.00] ],
-            () => _[ t[2,1.0], A4, Flute1, 0.80, l[2.33] ],
-            () => _[ t[2,2.5], B4, Flute2, 0.50, l[1.00] ],
-            () => _[ t[2,4.0], A3, Flute2, 0.50, l[1.67] ],
-            () => _[ t[3,1.0], G3, Flute3, 0.85, l[2.00] ],
-            () => _[ t[3,2.5], G4, Flute1, 0.80, l[2.50] ]
+            _[ t[1,1.0], E4, Flute1, 0.80, l[2.00] ],
+            _[ t[1,2.5], F4, Flute1, 0.70, l[2.17] ],
+            _[ t[1,4.0], G4, Flute1, 0.60, l[1.00] ],
+            _[ t[2,1.0], A4, Flute1, 0.80, l[2.33] ],
+            _[ t[2,2.5], B4, Flute2, 0.50, l[1.00] ],
+            _[ t[2,4.0], A3, Flute2, 0.50, l[1.67] ],
+            _[ t[3,1.0], G3, Flute3, 0.85, l[2.00] ],
+            _[ t[3,2.5], G4, Flute1, 0.80, l[2.50] ]
         );
 
         FluentOutlet FluteMelody2 => WithAudioLength(bars[4]).WithName().ParallelAdd
         (
-            () => _[ t[1,1.0], E4, Flute1, 0.59, l[1.8]  ],
-            () => _[ t[1,2.5], F4, Flute2, 0.68, l[1.0]  ],
-            () => _[ t[1,4.0], G4, Flute1, 0.74, l[0.6]  ],
-            () => _[ t[2,1.0], A4, Flute2, 0.82, l[2.0]  ],
-            () => _[ t[2,2.5], B4, Flute3, 0.74, l[1.0]  ],
-            () => _[ t[2,4.0], G4, Flute2, 0.90, l[0.4]  ],
-            () => _[ t[3,1.0], A4, Flute4, 1.00, _[1.66] ]
+            _[ t[1,1.0], E4, Flute1, 0.59, l[1.8]  ],
+            _[ t[1,2.5], F4, Flute2, 0.68, l[1.0]  ],
+            _[ t[1,4.0], G4, Flute1, 0.74, l[0.6]  ],
+            _[ t[2,1.0], A4, Flute2, 0.82, l[2.0]  ],
+            _[ t[2,2.5], B4, Flute3, 0.74, l[1.0]  ],
+            _[ t[2,4.0], G4, Flute2, 0.90, l[0.4]  ],
+            _[ t[3,1.0], A4, Flute4, 1.00, _[1.66] ]
         );
 
         FluentOutlet OrganChords => 
@@ -330,9 +330,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 Stretch(ChordVolumeCurve, bars[1]),
                 WithAudioLength(bars[8]).WithName().ParallelAdd
                 (
-                    () => Organ(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]),
-                    () => Organ(bar[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]),
-                    () => Organ(bar[0], ChordPitchCurve3.Stretch(bars[1]), duration: bars[8])
+                    Organ(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]),
+                    Organ(bar[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]),
+                    Organ(bar[0], ChordPitchCurve3.Stretch(bars[1]), duration: bars[8])
                 )
             );
 
@@ -344,9 +344,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 Stretch(ChordVolumeCurve, bars[1]),
                 WithName().WithAudioLength(bars[8]).ParallelAdd
                 (
-                    () => Pad(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]).Volume(volume),
-                    () => Pad(bar[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]).Volume(volume),
-                    () => Pad(bar[0], ChordPitchCurve3.Stretch(bars[1]), duration: bars[8]).Volume(volume)
+                    Pad(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]).Volume(volume),
+                    Pad(bar[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]).Volume(volume),
+                    Pad(bar[0], ChordPitchCurve3.Stretch(bars[1]), duration: bars[8]).Volume(volume)
                 )
             );
         }
@@ -354,31 +354,31 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._horn" />
         FluentOutlet HornMelody1 => WithAudioLength(beat[13 + 4]).WithName().ParallelAdd
         (
-            () => _[ beat[09], Horn(C2, length[3]), 0.7 ],
-            () => _[ beat[13], Horn(G1, length[4]), 0.5 ]
+            _[ beat[09], Horn(C2, length[3]), 0.7 ],
+            _[ beat[13], Horn(G1, length[4]), 0.5 ]
         );
 
         /// <inheritdoc cref="docs._horn" />
         FluentOutlet HornMelody2 => WithAudioLength(beat[9 + 4]).WithName().ParallelAdd
         (
-            () => _[ b[1], A2, Horn, 0.75, l[2] ],
-            () => _[ b[5], F2, Horn, 0.85, l[2] ],
-            () => _[ b[9], A1, Horn, 1.00, l[4] ]
+            _[ b[1], A2, Horn, 0.75, l[2] ],
+            _[ b[5], F2, Horn, 0.85, l[2] ],
+            _[ b[9], A1, Horn, 1.00, l[4] ]
         );
         
         /// <inheritdoc cref="docs._trombone" />
         FluentOutlet TromboneMelody1 => WithAudioLength(beats[6]).WithName().ParallelAdd
         (
-            () => _[ b[1], A1 , Trombone      ],
-            () => _[ b[3], E2 , Trombone      ],
-            () => _[ b[5], Fs1, Trombone, 0.7 ]
+            _[ b[1], A1 , Trombone      ],
+            _[ b[3], E2 , Trombone      ],
+            _[ b[5], Fs1, Trombone, 0.7 ]
         );
 
         /// <inheritdoc cref="docs._trombone" />
         FluentOutlet TromboneMelody2 => WithAudioLength(beats[8]).WithName().ParallelAdd
         (
-            () => _[ beat[3], E4, Trombone, 1, _[1.4] ],
-            () => _[ beat[7], C4, Trombone, 1, _[1.4] ]
+            _[ beat[3], E4, Trombone, 1, _[1.4] ],
+            _[ beat[7], C4, Trombone, 1, _[1.4] ]
         );
 
         FluentOutlet RippleBassMelody2 =>

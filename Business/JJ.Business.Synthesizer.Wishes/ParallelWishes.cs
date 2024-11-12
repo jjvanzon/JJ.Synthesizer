@@ -6,7 +6,6 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using static System.Guid;
@@ -25,28 +24,28 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._paralleladd" />
-        public FluentOutlet ParallelAdd(params Func<FluentOutlet>[] termFuncs)
-            => ParallelAdd((IList<Func<FluentOutlet>>)termFuncs);
+        public FluentOutlet ParallelAdd(params FluentOutlet[] termFuncs)
+            => ParallelAdd((IList<FluentOutlet>)termFuncs);
 
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(
-            IList<Func<FluentOutlet>> termFuncs, 
+            IList<FluentOutlet> terms, 
             string name = null,
             [CallerMemberName] string callerMemberName = null)
         {
-            if (termFuncs == null) throw new ArgumentNullException(nameof(termFuncs));
+            if (terms == null) throw new ArgumentNullException(nameof(terms));
             
             // If parallels disabled
             if (!GetParallelEnabled)
             { 
                 // Return a normal Add of the Outlets returned by the termFuncs.
-                return Add(termFuncs.Select(x => x()).ToArray());
+                return Add(terms);
             }
             else
             {
                 name = FetchName(name, callerMemberName);
 
-                var add = Add(termFuncs.Select(termFunc => termFunc()).ToArray());
+                var add = Add(terms);
                 add.Name = $"{name}{ParallelAddTag} {NewGuid():N}";
 
                 WithName(name);
