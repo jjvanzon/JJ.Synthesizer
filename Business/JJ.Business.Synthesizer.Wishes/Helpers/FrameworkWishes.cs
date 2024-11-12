@@ -264,22 +264,22 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return isProperty;
         }
         
-        /// <summary>
-        /// Works similar to Sum, but instead of adding up all the numbers, all the numbers are multiplied.
-        /// </summary>
+        /// <inheritdoc cref="docs._frameworkwishproduct" />
         public static double Product<TSource>(this IEnumerable<TSource> collection, Func<TSource, double> selector)
             => collection.Select(selector).Product();
 
-        /// <summary>
-        /// Works similar to Sum, but instead of adding up all the numbers, all the numbers are multiplied.
-        /// </summary>
+        /// <inheritdoc cref="docs._frameworkwishproduct" />
         public static double Product(this IEnumerable<double> collection)
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));
 
-            double product = collection.FirstOrDefault();
+            var array = collection as double[] ?? collection.ToArray();
+            
+            if (!array.Any()) return 1;
+            
+            double product = array.FirstOrDefault();
 
-            foreach (double value in collection.Skip(1))
+            foreach (double value in array.Skip(1))
             {
                 product *= value;
             }

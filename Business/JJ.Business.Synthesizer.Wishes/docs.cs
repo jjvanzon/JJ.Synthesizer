@@ -183,7 +183,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Alternative entry point (Operator) Outlet (used in tests).
         /// </summary>
         public static object _flattentermswithsumoradd;
-            
+
+        /// <summary>
+        /// Works similar to Sum, but instead of adding up all the numbers, all the numbers are multiplied.
+        /// If the collection is empty, returns 1 (the null-operation for a multiplication).
+        /// </summary>
+        public static object _frameworkwishproduct;
+        
         /// <summary>
         /// If this is a curve operator, this will return the underlying Curve entity,
         /// that contains specifics about the nodes and how they are connected.
