@@ -28,39 +28,39 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class StringifyExtensionWishes
     { 
         /// <inheritdoc cref="docs._stringify"/>
-        public static string Stringify(this Outlet entity, bool singleLine = false, bool mustUseShortOperators = false)
-            => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
+        public static string Stringify(this Outlet entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
+            => new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
 
         /// <inheritdoc cref="docs._stringify"/>
-        public static string Stringify(this Operator entity, bool singleLine = false, bool mustUseShortOperators = false)
-            => new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(entity);
+        public static string Stringify(this Operator entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
+            => new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
     
         /// <inheritdoc cref="docs._stringify"/>
-        public static string Stringify(this Result<StreamAudioData> result)
+        public static string Stringify(this Result<StreamAudioData> result, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));
-            return Stringify(result.Data);
+            return Stringify(result.Data, singleLine, canOmitNameForBasicMath);
         }
         
         /// <inheritdoc cref="docs._stringify"/>
-        public static string Stringify(this StreamAudioData data)
+        public static string Stringify(this StreamAudioData data, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
-            return Stringify(data.AudioFileOutput);
+            return Stringify(data.AudioFileOutput, singleLine, canOmitNameForBasicMath);
         }
         
         /// <inheritdoc cref="docs._stringify"/>
-        public static string Stringify(this AudioFileOutput entity)
+        public static string Stringify(this AudioFileOutput entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return string.Join(NewLine, entity.AudioFileOutputChannels.Select(x => x.Stringify()));
+            return string.Join(NewLine, entity.AudioFileOutputChannels.Select(x => x.Stringify(singleLine, canOmitNameForBasicMath)));
         }
         
         /// <inheritdoc cref="docs._stringify"/>
-        public static string Stringify(this AudioFileOutputChannel entity)
+        public static string Stringify(this AudioFileOutputChannel entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return entity.Outlet?.Stringify() ?? "";
+            return entity.Outlet?.Stringify(singleLine, canOmitNameForBasicMath) ?? "";
         }
     }
 
