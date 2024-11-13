@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return fileName;
         }
         
-        private static string FormatMetrics(double audioDuration, double calculationDuration, int complexity)
+        internal static string FormatMetrics(double audioDuration, double calculationDuration, int complexity)
         {
             string realTimeMessage = FormatRealTimeMessage(audioDuration, calculationDuration);
             string sep = realTimeMessage != default ? " | " : "";
