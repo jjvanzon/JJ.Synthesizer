@@ -296,13 +296,20 @@ namespace JJ.Business.Synthesizer.Wishes
         private string GetParallelTaskName(string addOperatorName, int termIndex, string operandName)
             => $"{addOperatorName} (Term {termIndex + 1} - {operandName}).wav";
 
-        private const string TapeTag = " [Tape eba106eee7b600ca]";
+        private readonly HashSet<Outlet> _tapes = new HashSet<Outlet>();
         
-        private static bool IsTape(FluentOutlet fluentOutlet)
-            => fluentOutlet.Name != null && fluentOutlet.Name.Contains(TapeTag);
+        //private const string TapeTag = " [Tape eba106eee7b600ca]";
         
-        private static void RemoveTapeTag(FluentOutlet fluentOutlet) 
-            => fluentOutlet.Name = fluentOutlet.Name?.Replace(TapeTag, " Tape");
+        private void AddTape(Outlet outlet)
+            => _tapes.Add(outlet);
+        
+        private bool IsTape(Outlet outlet)
+            //=> fluentOutlet.Name != null && fluentOutlet.Name.Contains(TapeTag);
+            => _tapes.Contains(outlet);
+        
+        private void RemoveTapeTag(Outlet outlet) 
+            //=> fluentOutlet.Name = fluentOutlet.Name?.Replace(TapeTag, " Tape");
+            => _tapes.Remove(outlet);
         
         private string GetParallelTaskName(string operatorName) 
             => $"{operatorName}.wav";

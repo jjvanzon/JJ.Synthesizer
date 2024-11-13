@@ -1422,11 +1422,10 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             //duration = duration ?? GetAudioLength ?? _[1];
             
-            string name = FetchName(signal.Name, callerMemberName);
-            signal.Name = name + TapeTag + " " + NewGuid().ToString("N").Left(8);
+            //string name = FetchName(signal.Name, callerMemberName);
+            //signal.Name = name + TapeTag + " " + NewGuid().ToString("N").Left(8);
             
-            //var cacheResult = Cache(signal, callerMemberName);
-            //var sample = Sample(cacheResult);
+            AddTape(signal);
 
             return signal;
         }
