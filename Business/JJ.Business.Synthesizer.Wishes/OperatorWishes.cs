@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
+using static System.Guid;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Helpers.LogHelper;
 
@@ -152,7 +153,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             return operands.SelectMany(x =>
             {
-                if (x.IsAdder || x.IsAdd)
+                if ((x.IsAdder || x.IsAdd) && !IsTape(x))
                 {
                     return FlattenTerms(x.Operands);
                 }
@@ -396,7 +397,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             return operands.SelectMany(x =>
             {
-                if (x.IsMultiply)
+                if (x.IsMultiply && !IsTape(x))
                 {
                     return FlattenFactors(x.A, x.B);
                 }
@@ -1342,7 +1343,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay += delay;
             }
             
-            // TODO: Go parallel?
             return Add(repeats).SetName();
         }
 
@@ -1420,11 +1420,15 @@ namespace JJ.Business.Synthesizer.Wishes
             FluentOutlet signal, FluentOutlet duration,
             [CallerMemberName] string callerMemberName = null)
         {
-            duration = duration ?? GetAudioLength ?? _[1];
+            //duration = duration ?? GetAudioLength ?? _[1];
             
-            var cacheResult = Cache(signal, callerMemberName);
-            var sample = Sample(cacheResult);
-            return sample;
+            string name = FetchName(signal.Name, callerMemberName);
+            signal.Name = name + TapeTag + " " + NewGuid().ToString("N").Left(8);
+            
+            //var cacheResult = Cache(signal, callerMemberName);
+            //var sample = Sample(cacheResult);
+
+            return signal;
         }
     }
 

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
+using JJ.Persistence.Synthesizer;
 using static System.Guid;
 using static System.Linq.Enumerable;
 using static System.Threading.Tasks.Task;
@@ -178,46 +179,83 @@ namespace JJ.Business.Synthesizer.Wishes
 
             var tasks = new List<(Task, int)>();
             var operands = op.Operands.Where(x => x != null).ToArray();
-
+            
             // Recursively gather tasks from child nodes
             foreach (var operand in operands)
             {
                 tasks.AddRange(GetParallelTasksRecursive(operand, level + 1));
             }
-
-            // Are we being parallel here?
-            if (!IsParallel(op))
-            {
-                return tasks;
-            }
             
-            RemoveParallelAddTag(op);
-
-            // Loop through operands
-            for (var i = 0; i < operands.Length; i++)
+            for (var unsafeI = 0; unsafeI < operands.Length; unsafeI++)
             {
-                int operandIndex = i;
-                var operand = operands[operandIndex];
-
-                // Make a task per operand
-                var task = new Task(() =>
+                int i = unsafeI;
+                var operand = operands[i];
+                
+                // Are we being parallel?
+                if (IsTape(operand))
                 {
-                    string name = GetParallelTaskName(op.Name, operandIndex, operand.Name);
-                    string displayName = GetDisplayName(name);
+                    RemoveTapeTag(operand);
                     
-                    Console.WriteLine($"{PrettyTime()} Start Task: {displayName} (Level {level})", nameof(SynthWishes));
+                    var task = new Task(() =>
+                    {
+                        string name = GetParallelTaskName(operand.Name);
+                        string displayName = GetDisplayName(name);
+                        
+                        Console.WriteLine($"{PrettyTime()} Start Task: {displayName} (Level {level})");
+                        
+                        var cacheResult = Cache(operand, name);
+                        var newOperand = Sample(cacheResult, name: displayName);
+                        
+                        op.Operands[i] = newOperand;
 
-                    var cacheResult = Cache(operand, name);
-                    var sample = Sample(cacheResult, name: displayName);
+                        // Replace all references to tape
+                        IList<Operator> connectedOperators = operand.WrappedOutlet.ConnectedInlets.Select(x => x.Operator).ToArray();
+                        foreach (Operator connectedOperator in connectedOperators)
+                        {
+                            OperandList operands2 = connectedOperator.Operands();
+                            int j = operands2.IndexOf(operand);
+                            operands2[j] = newOperand;
+                        }
+
+
+                        Console.WriteLine($"{PrettyTime()} End Task: {displayName} (Level {level})");
+                    });
                     
-                    op.Operands[operandIndex] = sample;
-
-                    Console.WriteLine($"{PrettyTime()} End Task: {displayName} (Level {level})", nameof(SynthWishes));
-                });
-
-                tasks.Add((task, level));
+                    tasks.Add((task, level));
+                }
             }
             
+            // Are we being parallel?
+            if (IsParallelAdd(op))
+            {
+                RemoveParallelAddTag(op);
+                
+                // Loop through operands
+                for (var i = 0; i < operands.Length; i++)
+                {
+                    int operandIndex = i;
+                    var operand = operands[operandIndex];
+                    
+                    // Make a task per operand
+                    var task = new Task(() =>
+                    {
+                        string name = GetParallelTaskName(op.Name, operandIndex, operand.Name);
+                        string displayName = GetDisplayName(name);
+                        
+                        Console.WriteLine($"{PrettyTime()} Start Task: {displayName} (Level {level})", nameof(SynthWishes));
+                        
+                        var cacheResult = Cache(operand, name);
+                        var sample = Sample(cacheResult, name: displayName);
+                        
+                        op.Operands[operandIndex] = sample;
+                        
+                        Console.WriteLine($"{PrettyTime()} End Task: {displayName} (Level {level})", nameof(SynthWishes));
+                    });
+                    
+                    tasks.Add((task, level));
+                }
+            }
+
             return tasks;
         }
 
@@ -244,19 +282,27 @@ namespace JJ.Business.Synthesizer.Wishes
             if (fileName == null) return null;
             return Path.GetFileNameWithoutExtension(fileName.WithShortGuids(4));
         }
-
+        
         private const string ParallelAddTag = " 678976b885a04c79 Parallel Add 8882a57583e82813";
-
-        private static bool IsParallel(FluentOutlet fluentOutlet) => fluentOutlet.Name != null && fluentOutlet.Name.Contains(ParallelAddTag);
-
-        private static void RemoveParallelAddTag(FluentOutlet fluentOutlet)
-        {
-            fluentOutlet.Name = fluentOutlet.Name?.Replace(ParallelAddTag, " Parallel Add");
-        }
-
+        
+        private static bool IsParallelAdd(FluentOutlet fluentOutlet) 
+            => fluentOutlet.Name != null && fluentOutlet.Name.Contains(ParallelAddTag);
+        
+        private static void RemoveParallelAddTag(FluentOutlet fluentOutlet) 
+            => fluentOutlet.Name = fluentOutlet.Name?.Replace(ParallelAddTag, " Parallel Add");
+        
         private string GetParallelTaskName(string addOperatorName, int termIndex, string operandName)
-        {
-            return $"{addOperatorName} (Term {termIndex + 1} - {operandName}).wav";
-        }
+            => $"{addOperatorName} (Term {termIndex + 1} - {operandName}).wav";
+
+        private const string TapeTag = " [Tape eba106eee7b600ca]";
+        
+        private static bool IsTape(FluentOutlet fluentOutlet)
+            => fluentOutlet.Name != null && fluentOutlet.Name.Contains(TapeTag);
+        
+        private static void RemoveTapeTag(FluentOutlet fluentOutlet) 
+            => fluentOutlet.Name = fluentOutlet.Name?.Replace(TapeTag, " Tape");
+        
+        private string GetParallelTaskName(string operatorName) 
+            => $"{operatorName}.wav";
     }
 }
