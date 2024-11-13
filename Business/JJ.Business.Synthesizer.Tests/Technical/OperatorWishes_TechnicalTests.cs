@@ -97,16 +97,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             IsNotNull(() => flattenAdderTerms);
             AreEqual(10,                 () => flattenAdderTerms.Count);
-            AreEqual(var1.WrappedOutlet, () => flattenAdderTerms[0].WrappedOutlet);
-            AreEqual(var2.WrappedOutlet, () => flattenAdderTerms[1].WrappedOutlet);
-            AreEqual(var3.WrappedOutlet, () => flattenAdderTerms[2].WrappedOutlet);
-            AreEqual(var4.WrappedOutlet, () => flattenAdderTerms[3].WrappedOutlet);
-            AreEqual(var5.WrappedOutlet, () => flattenAdderTerms[4].WrappedOutlet);
-            AreEqual(var6.WrappedOutlet, () => flattenAdderTerms[5].WrappedOutlet);
-            AreEqual(var7.WrappedOutlet, () => flattenAdderTerms[6].WrappedOutlet);
-            AreEqual(var8.WrappedOutlet, () => flattenAdderTerms[7].WrappedOutlet);
-            AreEqual(const9,             () => flattenAdderTerms[8].WrappedOutlet);
-            AreEqual(const10,            () => flattenAdderTerms[9].WrappedOutlet);
+            AreEqual(var1.UnderlyingOutlet, () => flattenAdderTerms[0].UnderlyingOutlet);
+            AreEqual(var2.UnderlyingOutlet, () => flattenAdderTerms[1].UnderlyingOutlet);
+            AreEqual(var3.UnderlyingOutlet, () => flattenAdderTerms[2].UnderlyingOutlet);
+            AreEqual(var4.UnderlyingOutlet, () => flattenAdderTerms[3].UnderlyingOutlet);
+            AreEqual(var5.UnderlyingOutlet, () => flattenAdderTerms[4].UnderlyingOutlet);
+            AreEqual(var6.UnderlyingOutlet, () => flattenAdderTerms[5].UnderlyingOutlet);
+            AreEqual(var7.UnderlyingOutlet, () => flattenAdderTerms[6].UnderlyingOutlet);
+            AreEqual(var8.UnderlyingOutlet, () => flattenAdderTerms[7].UnderlyingOutlet);
+            AreEqual(const9,             () => flattenAdderTerms[8].UnderlyingOutlet);
+            AreEqual(const10,            () => flattenAdderTerms[9].UnderlyingOutlet);
 
             // Check Nested Sum
             Outlet nestedSumOutlet =
@@ -211,11 +211,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(6, () => flattenedFactors.Count);
 
             // Operator creation reversed the order.
-            AreEqual(var2.WrappedOutlet, () => flattenedFactors[4].WrappedOutlet);
-            AreEqual(var4.WrappedOutlet, () => flattenedFactors[3].WrappedOutlet);
-            AreEqual(var6.WrappedOutlet, () => flattenedFactors[2].WrappedOutlet);
-            AreEqual(var7.WrappedOutlet, () => flattenedFactors[1].WrappedOutlet);
-            AreEqual(var8.WrappedOutlet, () => flattenedFactors[0].WrappedOutlet);
+            AreEqual(var2.UnderlyingOutlet, () => flattenedFactors[4].UnderlyingOutlet);
+            AreEqual(var4.UnderlyingOutlet, () => flattenedFactors[3].UnderlyingOutlet);
+            AreEqual(var6.UnderlyingOutlet, () => flattenedFactors[2].UnderlyingOutlet);
+            AreEqual(var7.UnderlyingOutlet, () => flattenedFactors[1].UnderlyingOutlet);
+            AreEqual(var8.UnderlyingOutlet, () => flattenedFactors[0].UnderlyingOutlet);
 
             double? constant = flattenedFactors[5].AsConst;
             IsNotNull(() => constant);
@@ -425,16 +425,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Assert Entities
             IsNotNull(() => adder);
-            IsNotNull(() => adder.WrappedOutlet);
-            IsNotNull(() => adder.WrappedOutlet.Operator);
-            IsTrue(() => adder.WrappedOutlet.IsAdder());
-            IsTrue(() => adder.WrappedOutlet.Operator.IsAdder());
-            AreEqual("Adder", () => adder.WrappedOutlet.Operator.OperatorTypeName);
+            IsNotNull(() => adder.UnderlyingOutlet);
+            IsNotNull(() => adder.UnderlyingOutlet.Operator);
+            IsTrue(() => adder.UnderlyingOutlet.IsAdder());
+            IsTrue(() => adder.UnderlyingOutlet.Operator.IsAdder());
+            AreEqual("Adder", () => adder.UnderlyingOutlet.Operator.OperatorTypeName);
 
             accessor.RunParallelsRecursive(adder);
 
-            IsNotNull(() => adder.WrappedOutlet.Operator.Inlets);
-            var addOperands = adder.WrappedOutlet.Operator.Inlets.Select(x => x.Input).ToList();
+            IsNotNull(() => adder.UnderlyingOutlet.Operator.Inlets);
+            var addOperands = adder.UnderlyingOutlet.Operator.Inlets.Select(x => x.Input).ToList();
             AreEqual(3, () => addOperands.Count);
 
             foreach (var addOperand in addOperands)
@@ -522,16 +522,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Assert
             IsNotNull(() => adder);
-            IsNotNull(() => adder.WrappedOutlet);
-            IsNotNull(() => adder.WrappedOutlet.Operator);
-            IsTrue(() => adder.WrappedOutlet.IsAdder());
-            IsTrue(() => adder.WrappedOutlet.Operator.IsAdder());
-            AreEqual("Adder", () => adder.WrappedOutlet.Operator.OperatorTypeName);
+            IsNotNull(() => adder.UnderlyingOutlet);
+            IsNotNull(() => adder.UnderlyingOutlet.Operator);
+            IsTrue(() => adder.UnderlyingOutlet.IsAdder());
+            IsTrue(() => adder.UnderlyingOutlet.Operator.IsAdder());
+            AreEqual("Adder", () => adder.UnderlyingOutlet.Operator.OperatorTypeName);
 
             accessor.RunParallelsRecursive(adder);
 
-            IsNotNull(() => adder.WrappedOutlet.Operator.Inlets);
-            var addOperands = adder.WrappedOutlet.Operator.Inlets.Select(x => x.Input).ToList();
+            IsNotNull(() => adder.UnderlyingOutlet.Operator.Inlets);
+            var addOperands = adder.UnderlyingOutlet.Operator.Inlets.Select(x => x.Input).ToList();
             AreEqual(3, () => addOperands.Count);
 
             foreach (var addOperand in addOperands)
@@ -666,8 +666,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(complexityOld, () => complexity);
             }
 
-            IsNotNull(() => fluentOutlet.WrappedOutlet);
-            Outlet outlet = fluentOutlet.WrappedOutlet;
+            IsNotNull(() => fluentOutlet.UnderlyingOutlet);
+            Outlet outlet = fluentOutlet.UnderlyingOutlet;
             {
                 string stringify = outlet.Stringify();
                 IsNotNull(() => stringify);

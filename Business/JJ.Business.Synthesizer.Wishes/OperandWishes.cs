@@ -674,7 +674,7 @@ public partial class FluentOutlet
         public FluentOperandList(FluentOutlet parent)
         {
             _parent = parent ?? throw new ArgumentNullException(nameof(parent));
-            _underlyingList = new OperandList(parent.WrappedOutlet);
+            _underlyingList = new OperandList(parent.UnderlyingOutlet);
         }
            
         public int Count => _underlyingList.Count;
@@ -686,14 +686,14 @@ public partial class FluentOutlet
                 Outlet outlet = _underlyingList[index];
                 return outlet == null ? null : _parent._[outlet];
             }
-            set => _underlyingList[index] = value?.WrappedOutlet;
+            set => _underlyingList[index] = value?.UnderlyingOutlet;
         }
 
-        public int IndexOf(FluentOutlet item) => _underlyingList.IndexOf(item?.WrappedOutlet);
-        public bool Contains(FluentOutlet item) => _underlyingList.Contains(item?.WrappedOutlet);
-        public void Add(FluentOutlet item) => _underlyingList.Add(item?.WrappedOutlet);
-        public void Insert(int index, FluentOutlet item) => _underlyingList.Insert(index, item?.WrappedOutlet);
-        public bool Remove(FluentOutlet item) => _underlyingList.Remove(item?.WrappedOutlet);
+        public int IndexOf(FluentOutlet item) => _underlyingList.IndexOf(item?.UnderlyingOutlet);
+        public bool Contains(FluentOutlet item) => _underlyingList.Contains(item?.UnderlyingOutlet);
+        public void Add(FluentOutlet item) => _underlyingList.Add(item?.UnderlyingOutlet);
+        public void Insert(int index, FluentOutlet item) => _underlyingList.Insert(index, item?.UnderlyingOutlet);
+        public bool Remove(FluentOutlet item) => _underlyingList.Remove(item?.UnderlyingOutlet);
         public void RemoveAt(int index) => _underlyingList.RemoveAt(index);
         public void Clear() => _underlyingList.Clear();
         public bool IsReadOnly => _underlyingList.IsReadOnly;

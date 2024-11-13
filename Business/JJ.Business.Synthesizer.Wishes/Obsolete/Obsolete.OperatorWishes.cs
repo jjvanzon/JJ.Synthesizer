@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static CurveInWrapper GetCurveWrapper(this FluentOutlet fluentOutlet )
         {
             if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
-            return fluentOutlet.WrappedOutlet.GetCurveWrapper();
+            return fluentOutlet.UnderlyingOutlet.GetCurveWrapper();
         }
 
         /// <inheritdoc cref="docs._getsamplewrapper" />
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static SampleOperatorWrapper GetSampleWrapper(this FluentOutlet fluentOutlet )
         {
             if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
-            return fluentOutlet.WrappedOutlet.GetSampleWrapper();
+            return fluentOutlet.UnderlyingOutlet.GetSampleWrapper();
         }
     }
 }

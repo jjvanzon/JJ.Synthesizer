@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static implicit operator Outlet(FluentOutlet fluentOutlet) => fluentOutlet?._wrappedOutlet;
 
-        public Outlet WrappedOutlet => _wrappedOutlet;
+        public Outlet UnderlyingOutlet => _wrappedOutlet;
     }
 
     // Value FluentOutlet
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 default:
                     // Make Normal Adder
-                    return _[_operatorFactory.Adder(optimizedTerms.Select(x => x.WrappedOutlet).ToArray())];
+                    return _[_operatorFactory.Adder(optimizedTerms.Select(x => x.UnderlyingOutlet).ToArray())];
             }
         }
 

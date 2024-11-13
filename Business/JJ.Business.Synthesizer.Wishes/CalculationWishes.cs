@@ -31,13 +31,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public static double Calculate(this FluentOutlet fluentOutlet, double time, ChannelEnum channelEnum)
         {
             if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
-            return fluentOutlet.WrappedOutlet.Calculate(time, channelEnum);
+            return fluentOutlet.UnderlyingOutlet.Calculate(time, channelEnum);
         }
 
         public static double Calculate(this FluentOutlet fluentOutlet, double time = 0, int channelIndex = 0)
         {
             if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
-            return fluentOutlet.WrappedOutlet.Calculate(time, channelIndex);
+            return fluentOutlet.UnderlyingOutlet.Calculate(time, channelIndex);
         }
         
         // Curve
