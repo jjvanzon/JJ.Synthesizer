@@ -30,9 +30,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._paralleladd" />
         public FluentOutlet ParallelAdd(
-            IList<FluentOutlet> terms, 
+            IList<FluentOutlet> terms/*, 
             string name = null,
-            [CallerMemberName] string callerMemberName = null)
+            [CallerMemberName] string callerMemberName = null*/)
         {
             if (terms == null) throw new ArgumentNullException(nameof(terms));
             
@@ -44,12 +44,17 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             else
             {
-                name = FetchName(name, callerMemberName);
+                //name = FetchName(name, callerMemberName);
 
                 var add = Add(terms);
-                add.Name = $"{name}{ParallelAddTag} {NewGuid():N}";
+                //add.Name = $"{name}{ParallelAddTag} {NewGuid():N}";
 
-                WithName(name);
+                foreach (var term in add.Operands)
+                {
+                    Tape(term);
+                }
+
+                //WithName(name);
 
                 return add;
             }
