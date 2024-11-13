@@ -54,90 +54,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 return add;
             }
         }
-        
-        private FluentOutlet ParallelAdd_MixedGraphBuildUpAndParallelExecution(
-            IList<Func<FluentOutlet>> termFuncs, 
-            string name = null, [CallerMemberName] string callerMemberName = null)
-        {
-            name = FetchName(name, callerMemberName);
-
-            // Prep variables
-            int termCount = termFuncs.Count;
-            int channelCount = GetSpeakerSetup.GetChannelCount();
-            string[] names = GetParallelNames(termCount, name);
-            string[] displayNames = names.Select(GetDisplayName).ToArray();
-            var cacheResults = new Result<StreamAudioData>[termCount];
-            var reloadedSamples = new FluentOutlet[termCount];
-
-            var stopWatch = Stopwatch.StartNew();
-
-            // Save to files
-            Parallel.For(0, termCount, i =>
-            {
-                Console.WriteLine($"{PrettyTime()} Start Task: {displayNames[i]}", "SynthWishes");
-
-                // Get outlets first
-                var channelOutlets = new FluentOutlet[channelCount];
-
-                var originalChannel = Channel;
-                try
-                {
-                    for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
-                    {
-                        ChannelIndex = channelIndex;
-                        channelOutlets[channelIndex] = termFuncs[i](); // This runs parallels, because the funcs can contain another parallel add.
-                    }
-                }
-                finally
-                {
-                    Channel = originalChannel;
-                }
-
-                // Generate audio
-                cacheResults[i] = Cache(channelOutlets, names[i]);
-
-                Console.WriteLine($"{PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
-            });
-
-            // Moved this out of the parallel loop,
-            // but feels strange to process less in parallel.
-
-            // Reload Samples
-            for (int i = 0; i < termCount; i++)
-            {
-                var cacheResult = cacheResults[i];
-
-                // Play if needed
-                if (MustPlayParallels) Play(cacheResult.Data);
-
-                // Read from bytes or file
-                reloadedSamples[i] = Sample(cacheResult, name: displayNames[i]);
-
-                // Diagnostic actions
-                if (MustCacheToDisk)
-                {
-                    // Save reloaded samples to disk.
-                    var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
-                    var saveResult2 = Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
-
-                    // Play to test the sample loading.
-                    if (MustPlayParallels) Play(saveResult2.Data);
-                }
-            }
-
-
-            stopWatch.Stop();
-
-            // Report total real-time and complexity metrics.
-            double audioDuration = cacheResults.Max(x => x.Data.AudioFileOutput.Duration);
-            double calculationDuration = stopWatch.Elapsed.TotalSeconds;
-            int complexity = cacheResults.Sum(x => x.Complexity());
-            string formattedMetrics = FormatMetrics(audioDuration, calculationDuration, complexity);
-            string message = $"{PrettyTime()} Totals {name} Terms: {formattedMetrics}";
-            Console.WriteLine(message);
-
-            return Add(reloadedSamples);
-        }
 
         internal void RunParallelsRecursive(IList<FluentOutlet> channels) 
         {
@@ -257,6 +173,92 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             return tasks;
+        }
+
+        // Old
+        
+        private FluentOutlet ParallelAdd_MixedGraphBuildUpAndParallelExecution(
+            IList<Func<FluentOutlet>> termFuncs, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            name = FetchName(name, callerMemberName);
+
+            // Prep variables
+            int termCount = termFuncs.Count;
+            int channelCount = GetSpeakerSetup.GetChannelCount();
+            string[] names = GetParallelNames(termCount, name);
+            string[] displayNames = names.Select(GetDisplayName).ToArray();
+            var cacheResults = new Result<StreamAudioData>[termCount];
+            var reloadedSamples = new FluentOutlet[termCount];
+
+            var stopWatch = Stopwatch.StartNew();
+
+            // Save to files
+            Parallel.For(0, termCount, i =>
+            {
+                Console.WriteLine($"{PrettyTime()} Start Task: {displayNames[i]}", "SynthWishes");
+
+                // Get outlets first
+                var channelOutlets = new FluentOutlet[channelCount];
+
+                var originalChannel = Channel;
+                try
+                {
+                    for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
+                    {
+                        ChannelIndex = channelIndex;
+                        channelOutlets[channelIndex] = termFuncs[i](); // This runs parallels, because the funcs can contain another parallel add.
+                    }
+                }
+                finally
+                {
+                    Channel = originalChannel;
+                }
+
+                // Generate audio
+                cacheResults[i] = Cache(channelOutlets, names[i]);
+
+                Console.WriteLine($"{PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
+            });
+
+            // Moved this out of the parallel loop,
+            // but feels strange to process less in parallel.
+
+            // Reload Samples
+            for (int i = 0; i < termCount; i++)
+            {
+                var cacheResult = cacheResults[i];
+
+                // Play if needed
+                if (MustPlayParallels) Play(cacheResult.Data);
+
+                // Read from bytes or file
+                reloadedSamples[i] = Sample(cacheResult, name: displayNames[i]);
+
+                // Diagnostic actions
+                if (MustCacheToDisk)
+                {
+                    // Save reloaded samples to disk.
+                    var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
+                    var saveResult2 = Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
+
+                    // Play to test the sample loading.
+                    if (MustPlayParallels) Play(saveResult2.Data);
+                }
+            }
+
+
+            stopWatch.Stop();
+
+            // Report total real-time and complexity metrics.
+            double audioDuration = cacheResults.Max(x => x.Data.AudioFileOutput.Duration);
+            double calculationDuration = stopWatch.Elapsed.TotalSeconds;
+            int complexity = cacheResults.Sum(x => x.Complexity());
+            string formattedMetrics = FormatMetrics(audioDuration, calculationDuration, complexity);
+            string message = $"{PrettyTime()} Totals {name} Terms: {formattedMetrics}";
+            Console.WriteLine(message);
+
+            return Add(reloadedSamples);
         }
 
         // Helpers
