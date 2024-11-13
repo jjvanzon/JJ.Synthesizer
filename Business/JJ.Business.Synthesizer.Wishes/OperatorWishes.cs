@@ -1284,7 +1284,7 @@ namespace JJ.Business.Synthesizer.Wishes
             [CallerMemberName] string callerMemberName = null)
         {
             // Fetch (user-chosen) name before anything else does.
-            string name = FetchName(callerMemberName);
+            //string name = FetchName(callerMemberName);
 
             magnitude = magnitude ?? _[0.66];
             delay = delay ?? _[0.25];
@@ -1305,17 +1305,17 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay += delay;
             }
 
-            string originalName = GetName;
-            try
-            {
-                WithName(name);
+            //string originalName = GetName;
+            //try
+            //{
+            //    WithName(name);
 
                 return ParallelAdd(repeats);
-            }
-            finally
-            {
-                WithName(originalName);
-            }
+            //}
+            //finally
+            //{
+            //    WithName(originalName);
+            //}
         }
         
         public FluentOutlet EchoTape(

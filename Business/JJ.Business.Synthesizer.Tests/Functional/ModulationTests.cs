@@ -139,14 +139,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         ).SetName();
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet DetunicaJingle => WithName().ParallelAdd
+        FluentOutlet DetunicaJingle => ParallelAdd
         (
             _[ beat[1], E0, DetunicaBass, 1.00, l[5.25] ],
             _[ beat[2], B4, Detunica2   , 0.70, l[1.50] ],
             _[ beat[3], C5, Detunica3   , 0.75, l[1.60] ],
             _[ beat[4], D5, Detunica4   , 0.90, l[1.50] ],
             _[ beat[5], E5, Detunica5   , 1.00, l[3.00] ]
-        );
+        ).SetName();
 
         // Notes
 
@@ -154,14 +154,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             duration = duration ?? GetAudioLength;
 
-            return WithName().ParallelAdd
+            return ParallelAdd
             (
                 0.600 * Detunica1(freq * 1, duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
                 0.800 * Detunica2(freq * 2, duration),
                 1.000 * Detunica3(freq * 4, duration),
                 0.015 * Detunica4(freq * 8, duration),
                 0.001 * Detunica5(freq * 16, duration)
-            ).Divide(0.5).Panbrello(2, 0.2).Volume(0.5);
+            ).SetName().Divide(0.5).Panbrello(2, 0.2).Volume(0.5);
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -278,13 +278,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            return WithName().ParallelAdd
+            return ParallelAdd
             (
                 freq.Times(1).Sine.Volume(1.0),
                 freq.Times(2).Sine.Volume(0.5),
                 freq.Times(3).Sine.Volume(0.3), 
                 freq.Times(4).Sine.Volume(0.2)
-            );
+            ).SetName();
         }
 
         FluentOutlet BaseHarmonics(FluentOutlet freq)

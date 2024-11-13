@@ -421,7 +421,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 WithName("Const Curve 0.1").Curve(0.1, 0.1),
                 WithName("Const Curve 0.2").Curve(0.2, 0.2),
                 WithName("Const Curve 0.3").Curve(0.3, 0.3)
-            );
+            ).SetName();
 
             // Assert Entities
             IsNotNull(() => adder);
@@ -518,7 +518,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 WithName("Const Curve 0.1").Curve(0.1, 0.1),
                 WithName("Const Curve 0.2").Curve(0.2, 0.2),
                 WithName("Const Curve 0.3").Curve(0.3, 0.3)
-            );
+            ).SetName();
 
             // Assert
             IsNotNull(() => adder);
@@ -561,12 +561,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             var freq = A4;
 
-            var added = Envelope * WithName().ParallelAdd
+            var added = Envelope * ParallelAdd
             (
                 Sine(freq * 1) * 1.0,
                 Sine(freq * 2) * 0.2,
                 Sine(freq * 3) * 0.7
-            );
+            ).SetName();
 
             WithMono().Play(() => added);
         }
@@ -587,7 +587,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Sine(freq * 1) * 1.0,
                 Sine(freq * 2) * 0.2,
                 Sine(freq * 3) * 0.7
-            );
+            ).SetName();
 
             WithMono().Play(() => added);
         }

@@ -119,13 +119,13 @@ namespace JJ.Business.Synthesizer.Wishes
                     
                     var task = new Task(() =>
                     {
-                        string name = GetParallelTaskName(operand.Name);
-                        string displayName = GetDisplayName(name);
+                        //string name = GetParallelTaskName(operand.Name);
+                        //string displayName = GetDisplayName(name);
                         
-                        Console.WriteLine($"{PrettyTime()} Start Task: {displayName} (Level {level})");
+                        Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
                         
-                        var cacheResult = Cache(operand, name);
-                        var newOperand = Sample(cacheResult, name: displayName);
+                        var cacheResult = Cache(operand, operand.Name);
+                        var newOperand = Sample(cacheResult, name: operand.Name);
                         
                         op.Operands[i] = newOperand;
 
@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         }
 
 
-                        Console.WriteLine($"{PrettyTime()} End Task: {displayName} (Level {level})");
+                        Console.WriteLine($"{PrettyTime()} End Task: {operand.Name} (Level {level})");
                     });
                     
                     tasks.Add((task, level));
