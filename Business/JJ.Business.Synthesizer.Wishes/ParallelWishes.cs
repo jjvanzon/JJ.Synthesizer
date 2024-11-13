@@ -29,35 +29,21 @@ namespace JJ.Business.Synthesizer.Wishes
             => ParallelAdd((IList<FluentOutlet>)termFuncs);
 
         /// <inheritdoc cref="docs._paralleladd" />
-        public FluentOutlet ParallelAdd(
-            IList<FluentOutlet> terms/*, 
-            string name = null,
-            [CallerMemberName] string callerMemberName = null*/)
+        public FluentOutlet ParallelAdd(IList<FluentOutlet> terms)
         {
             if (terms == null) throw new ArgumentNullException(nameof(terms));
             
-            // If parallels disabled
-            if (!GetParallelEnabled)
-            { 
-                // Return a normal Add of the Outlets returned by the termFuncs.
-                return Add(terms);
-            }
-            else
+            var add = Add(terms);
+            
+            if (GetParallelEnabled)
             {
-                //name = FetchName(name, callerMemberName);
-
-                var add = Add(terms);
-                //add.Name = $"{name}{ParallelAddTag} {NewGuid():N}";
-
                 foreach (var term in add.Operands)
                 {
                     Tape(term);
                 }
-
-                //WithName(name);
-
-                return add;
             }
+            
+            return add;
         }
 
         internal void RunParallelsRecursive(IList<FluentOutlet> channels) 
@@ -115,13 +101,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Are we being parallel?
                 if (IsTape(operand))
                 {
-                    RemoveTapeTag(operand);
+                    RemoveTape(operand);
                     
                     var task = new Task(() =>
                     {
-                        //string name = GetParallelTaskName(operand.Name);
-                        //string displayName = GetDisplayName(name);
-                        
                         Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
                         
                         var cacheResult = Cache(operand, operand.Name);
@@ -138,39 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
                             operands2[j] = newOperand;
                         }
 
-
                         Console.WriteLine($"{PrettyTime()} End Task: {operand.Name} (Level {level})");
-                    });
-                    
-                    tasks.Add((task, level));
-                }
-            }
-            
-            // Are we being parallel?
-            if (IsParallelAdd(op))
-            {
-                RemoveParallelAddTag(op);
-                
-                // Loop through operands
-                for (var i = 0; i < operands.Length; i++)
-                {
-                    int operandIndex = i;
-                    var operand = operands[operandIndex];
-                    
-                    // Make a task per operand
-                    var task = new Task(() =>
-                    {
-                        string name = GetParallelTaskName(op.Name, operandIndex, operand.Name);
-                        string displayName = GetDisplayName(name);
-                        
-                        Console.WriteLine($"{PrettyTime()} Start Task: {displayName} (Level {level})", nameof(SynthWishes));
-                        
-                        var cacheResult = Cache(operand, name);
-                        var sample = Sample(cacheResult, name: displayName);
-                        
-                        op.Operands[operandIndex] = sample;
-                        
-                        Console.WriteLine($"{PrettyTime()} End Task: {displayName} (Level {level})", nameof(SynthWishes));
                     });
                     
                     tasks.Add((task, level));
@@ -182,6 +133,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Old
         
+        [Obsolete]
         private FluentOutlet ParallelAdd_MixedGraphBuildUpAndParallelExecution(
             IList<Func<FluentOutlet>> termFuncs, 
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -241,15 +193,15 @@ namespace JJ.Business.Synthesizer.Wishes
                 reloadedSamples[i] = Sample(cacheResult, name: displayNames[i]);
 
                 // Diagnostic actions
-                if (MustCacheToDisk)
-                {
-                    // Save reloaded samples to disk.
-                    var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
-                    var saveResult2 = Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
+                //if (MustCacheToDisk)
+                //{
+                //    // Save reloaded samples to disk.
+                //    var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
+                //    var saveResult2 = Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
 
-                    // Play to test the sample loading.
-                    if (MustPlayParallels) Play(saveResult2.Data);
-                }
+                //    // Play to test the sample loading.
+                //    if (MustPlayParallels) Play(saveResult2.Data);
+                //}
             }
 
 
@@ -268,6 +220,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
 
+        [Obsolete]
         private string[] GetParallelNames(int count, string name)
         {
             string guidString = $"{NewGuid():N}";
@@ -283,40 +236,17 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return fileNames;
         }
-
+        
+        [Obsolete]
         private static string GetDisplayName(string fileName)
         {
             if (fileName == null) return null;
             return Path.GetFileNameWithoutExtension(fileName.WithShortGuids(4));
         }
         
-        private const string ParallelAddTag = " 678976b885a04c79 Parallel Add 8882a57583e82813";
-        
-        private static bool IsParallelAdd(FluentOutlet fluentOutlet) 
-            => fluentOutlet.Name != null && fluentOutlet.Name.Contains(ParallelAddTag);
-        
-        private static void RemoveParallelAddTag(FluentOutlet fluentOutlet) 
-            => fluentOutlet.Name = fluentOutlet.Name?.Replace(ParallelAddTag, " Parallel Add");
-        
-        private string GetParallelTaskName(string addOperatorName, int termIndex, string operandName)
-            => $"{addOperatorName} (Term {termIndex + 1} - {operandName}).wav";
-
         private readonly HashSet<Outlet> _tapes = new HashSet<Outlet>();
-        
-        //private const string TapeTag = " [Tape eba106eee7b600ca]";
-        
-        private void AddTape(Outlet outlet)
-            => _tapes.Add(outlet);
-        
-        private bool IsTape(Outlet outlet)
-            //=> fluentOutlet.Name != null && fluentOutlet.Name.Contains(TapeTag);
-            => _tapes.Contains(outlet);
-        
-        private void RemoveTapeTag(Outlet outlet) 
-            //=> fluentOutlet.Name = fluentOutlet.Name?.Replace(TapeTag, " Tape");
-            => _tapes.Remove(outlet);
-        
-        private string GetParallelTaskName(string operatorName) 
-            => $"{operatorName}.wav";
+        private void AddTape(Outlet outlet) => _tapes.Add(outlet);
+        private bool IsTape(Outlet outlet) => _tapes.Contains(outlet);
+        private void RemoveTape(Outlet outlet) => _tapes.Remove(outlet);
     }
 }
