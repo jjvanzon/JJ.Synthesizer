@@ -105,13 +105,13 @@ namespace JJ.Business.Synthesizer.Wishes
                         Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
                         
                         var cacheResult = Cache(operand, operand.Name);
-                        var newOperand = Sample(cacheResult, name: operand.Name);
+                        var sampleOutlet = Sample(cacheResult, name: operand.Name);
                         
                         // Replace all references to tape
                         IList<Inlet> connectedInlets = operand.UnderlyingOutlet.ConnectedInlets.ToArray();
                         foreach (Inlet inlet in connectedInlets)
                         {
-                            inlet.LinkTo(newOperand);
+                            inlet.LinkTo(sampleOutlet);
                         }
 
                         Console.WriteLine($"{PrettyTime()} End Task: {operand.Name} (Level {level})");
