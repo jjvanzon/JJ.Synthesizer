@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Stringify_LongNotation1()
         {
-            Operator op = Sine(A4).Curve(0, 1, 0).Operator;
+            Operator op = Sine(A4).Curve(0, 1, 0).UnderlyingOperator;
 
             string actual = op.Stringify();
 
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Test_Stringify_LongNotation2()
         {
             var wrapper = new EntityWrappers.Sine(
-                Sine(A4).Curve(0, 1, 0).Volume(2).Operator);
+                Sine(A4).Curve(0, 1, 0).Volume(2).UnderlyingOperator);
 
             string actual = _[wrapper].Stringify();
 

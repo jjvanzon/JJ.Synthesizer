@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var sampleOutlet = _[_operatorFactory.Sample(sample)];
             
             sample.Name = name;
-            sampleOutlet.Operator.Name = name;
+            sampleOutlet.UnderlyingOperator.Name = name;
 
             return sampleOutlet;
         }

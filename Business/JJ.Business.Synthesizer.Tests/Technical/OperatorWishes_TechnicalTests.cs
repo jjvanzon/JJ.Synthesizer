@@ -691,12 +691,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Ensure the Add operation and its associated Operator and Inlets are initialized correctly.
             IsNotNull(() => add);
-            IsNotNull(() => add.Operator);
-            IsNotNull(() => add.Operator.Inlets);
-            Assert.IsTrue(add.Operator.Inlets.Count > 0);
+            IsNotNull(() => add.UnderlyingOperator);
+            IsNotNull(() => add.UnderlyingOperator.Inlets);
+            Assert.IsTrue(add.UnderlyingOperator.Inlets.Count > 0);
 
             // Access the first Inlet to evaluate its complexity.
-            Inlet inlet = add.Operator.Inlets[0];
+            Inlet inlet = add.UnderlyingOperator.Inlets[0];
             {
                 string stringify = inlet.Stringify();
                 IsNotNull(() => stringify);

@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         /// <inheritdoc cref="docs._relatedobjectextensions"/>
-        public Operator Operator => _wrappedOutlet.Operator;
+        public Operator UnderlyingOperator => _wrappedOutlet.Operator;
     }
     
     // Curve

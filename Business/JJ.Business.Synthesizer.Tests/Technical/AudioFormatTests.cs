@@ -569,7 +569,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => sampleFluentOutlet.UnderlyingSample());
 
             // Sample Operator
-            Operator sampleOperator = sampleFluentOutlet.Operator;
+            Operator sampleOperator = sampleFluentOutlet.UnderlyingOperator;
             IsNotNull(() => sampleOperator);
             AreEqual("SampleOperator", () => sampleOperator.OperatorTypeName);
             IsNull(() => sampleOperator.AsCurveIn);
