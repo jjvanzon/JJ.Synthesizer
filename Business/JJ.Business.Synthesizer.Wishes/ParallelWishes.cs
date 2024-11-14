@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Threading.Tasks.Task;
@@ -106,12 +107,18 @@ namespace JJ.Business.Synthesizer.Wishes
                         op.Operands[i] = newOperand;
 
                         // Replace all references to tape
-                        IList<Operator> connectedOperators = operand.UnderlyingOutlet.ConnectedInlets.Select(x => x.Operator).ToArray();
-                        foreach (Operator connectedOperator in connectedOperators)
+                        //IList<Operator> connectedOperators = operand.UnderlyingOutlet.ConnectedInlets.Select(x => x.Operator).ToArray();
+                        //foreach (Operator connectedOperator in connectedOperators)
+                        //{
+                        //    OperandList operands2 = connectedOperator.Operands();
+                        //    int j = operands2.IndexOf(operand);
+                        //    operands2[j] = newOperand;
+                        //}
+                        
+                        IList<Inlet> connectedInlets = operand.UnderlyingOutlet.ConnectedInlets.ToArray();
+                        foreach (Inlet inlet in connectedInlets)
                         {
-                            OperandList operands2 = connectedOperator.Operands();
-                            int j = operands2.IndexOf(operand);
-                            operands2[j] = newOperand;
+                            inlet.LinkTo(newOperand);
                         }
 
                         Console.WriteLine($"{PrettyTime()} End Task: {operand.Name} (Level {level})");
