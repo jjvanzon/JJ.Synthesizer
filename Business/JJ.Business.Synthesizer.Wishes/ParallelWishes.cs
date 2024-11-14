@@ -107,8 +107,16 @@ namespace JJ.Business.Synthesizer.Wishes
                         var cacheResult = Cache(operand, operand.Name);
                         var newOperand = Sample(cacheResult, name: operand.Name);
                         
-                        op.Operands[i] = newOperand;
-
+                        //if (!operand.UnderlyingOutlet.ConnectedInlets.Contains(op.UnderlyingOperator.Inlets[i]))
+                        //{
+                        //    Console.WriteLine(
+                        //        "WARNING: operand.UnderlyingOutlet.ConnectedInlets should have contained op.UnderlyingOperator.Inlets[i]!");
+                        //}
+                        
+                        // Replace this reference to the tape
+                        //op.Operands[i] = newOperand;
+                        //op.UnderlyingOperator.Inlets[i].Input = newOperand; // Should be the same:
+                        
                         // Replace all references to tape
                         IList<Inlet> connectedInlets = operand.UnderlyingOutlet.ConnectedInlets.ToArray();
                         foreach (Inlet inlet in connectedInlets)
