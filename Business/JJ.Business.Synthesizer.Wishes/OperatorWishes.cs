@@ -1351,6 +1351,10 @@ namespace JJ.Business.Synthesizer.Wishes
             var echoDuration = (count - 1) * delay;
             return echoDuration.SetName();
         }
+        
+        
+        public SynthWishes AddEchoDuration(int count = 4, FluentOutlet delay = default) 
+            => AddAudioLength(EchoDuration(count, delay));
     }
 
     // Echo FluentOutlet
@@ -1405,6 +1409,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public FluentOutlet EchoDuration(int count = 4, FluentOutlet delay = default)
             => _synthWishes.EchoDuration(count, delay);
+        
+        public FluentOutlet AddEchoDuration(int count = 4, FluentOutlet delay = default)
+        {
+            _synthWishes.AddEchoDuration(count, delay);
+            return this;
+        }
     }
     
     // Tape SynthWishes
