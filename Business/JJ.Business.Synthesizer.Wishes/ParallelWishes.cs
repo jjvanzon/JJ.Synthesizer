@@ -107,14 +107,6 @@ namespace JJ.Business.Synthesizer.Wishes
                         op.Operands[i] = newOperand;
 
                         // Replace all references to tape
-                        //IList<Operator> connectedOperators = operand.UnderlyingOutlet.ConnectedInlets.Select(x => x.Operator).ToArray();
-                        //foreach (Operator connectedOperator in connectedOperators)
-                        //{
-                        //    OperandList operands2 = connectedOperator.Operands();
-                        //    int j = operands2.IndexOf(operand);
-                        //    operands2[j] = newOperand;
-                        //}
-                        
                         IList<Inlet> connectedInlets = operand.UnderlyingOutlet.ConnectedInlets.ToArray();
                         foreach (Inlet inlet in connectedInlets)
                         {
