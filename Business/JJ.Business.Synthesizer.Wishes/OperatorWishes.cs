@@ -1201,7 +1201,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Echo(
             FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default,
             [CallerMemberName] string callerMemberName = null)
-            => EchoTape(signal, count, magnitude, delay, callerMemberName);
+            => EchoTape(signal, count, magnitude, delay);
 
         public FluentOutlet EchoAdditive(FluentOutlet signal, int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
             => EchoAdditive(signal, count, _[magnitude], _[delay], callerMemberName);
@@ -1319,13 +1319,12 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         public FluentOutlet EchoTape(
-            FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default,
-            [CallerMemberName] string callerMemberName = null)
+            FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default)
         {
             magnitude = magnitude ?? _[0.66];
             delay = delay ?? _[0.25];
             
-            var tape = Tape(signal, callerMemberName);
+            var tape = Tape(signal);
             
             var cumulativeMagnitude = _[1];
             var cumulativeDelay = _[0];
@@ -1402,7 +1401,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.EchoParallel(this, count, magnitude, delay, callerMemberName);
         
         public FluentOutlet EchoTape(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoTape(this, count, magnitude, delay, callerMemberName);
+            => _synthWishes.EchoTape(this, count, magnitude, delay);
         
         public FluentOutlet EchoDuration(int count = 4, FluentOutlet delay = default)
             => _synthWishes.EchoDuration(count, delay);
@@ -1412,13 +1411,10 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
+        public FluentOutlet Tape(FluentOutlet signal)
+            => Tape(signal, default);
         
-        public FluentOutlet Tape(FluentOutlet signal, [CallerMemberName] string callerMemberName = null)
-            => Tape(signal, default, callerMemberName);
-        
-        public FluentOutlet Tape(
-            FluentOutlet signal, FluentOutlet duration,
-            [CallerMemberName] string callerMemberName = null)
+        public FluentOutlet Tape(FluentOutlet signal, FluentOutlet duration)
         {
             //duration = duration ?? GetAudioLength ?? _[1];
             
@@ -1433,7 +1429,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FluentOutlet
     {
         
-        public FluentOutlet Tape(FluentOutlet duration = null, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Tape(this, duration, callerMemberName);
+        public FluentOutlet Tape(FluentOutlet duration = null)
+            => _synthWishes.Tape(this, duration);
     }
 }
