@@ -79,11 +79,12 @@ namespace JJ.Business.Synthesizer.Wishes
             if (op == null) throw new ArgumentNullException(nameof(op));
 
             var tasks = new List<(Task, int)>();
-            var operands = op.Operands.Where(x => x != null).ToArray();
+            var operands = op.Operands.ToArray();
             
             // Recursively gather tasks from child nodes
             foreach (var operand in operands)
             {
+                if (operand == null) continue;
                 tasks.AddRange(GetParallelTasksRecursive(operand, level + 1));
             }
             
@@ -91,6 +92,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 int i = unsafeI;
                 var operand = operands[i];
+                
+                if (operand == null) continue;
                 
                 // Are we being parallel?
                 if (IsTape(operand))
