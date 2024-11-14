@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (!string.IsNullOrWhiteSpace(name))
             {
-                Name = name;
+                Name = NameHelper.PrettifyName(name);
             }
 
             return this;
