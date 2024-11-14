@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -117,7 +117,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 name = callerMemberName;
             }
 
-            name = NameHelper.PrettifyName(name);
+            name = PrettifyName(name);
             return name;
         }
     }
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (!string.IsNullOrWhiteSpace(name))
             {
-                Name = NameHelper.PrettifyName(name);
+                Name = PrettifyName(name);
             }
 
             return this;
