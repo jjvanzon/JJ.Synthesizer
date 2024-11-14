@@ -4,16 +4,26 @@ using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
+    internal static class AdditiveEchoExtensions
+    {
+        const int    count     = 4;
+        const double magnitude = 0.33;
+        const double delay     = 0.66;
+        
+        /// <inheritdoc cref="docs._default" />
+        public static FluentOutlet Echo(this FluentOutlet x)
+            => x.Echo(count, x._[magnitude], x._[delay])
+                .AddEchoDuration(count, x._[delay])
+                .SetName();
+    }
+
     /// <inheritdoc cref="docs._metallophone"/>
     [TestClass]
     [TestCategory("Functional")]
     public class AdditiveTests : SynthWishes
     {
         FluentOutlet NoteDuration => _[2.5];
-
-        /// <inheritdoc cref="docs._default" />
-        FluentOutlet Echo(FluentOutlet sound) => Echo(sound, 4, magnitude: _[0.33], _[0.66]).AddAudioLength(EchoDuration(4, _[0.66]));
-
+        
         /// <inheritdoc cref="docs._metallophone" />
         public AdditiveTests() : base(beat: 0.4, bar: 1.6) => WithMono();
 
@@ -24,7 +34,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         public void Additive_Metallophone_Jingle_RunTest()
         {
-            WithAudioLength(beat[4] + NoteDuration).Save(() => Echo(MetallophoneJingle * 0.33)).Play();
+            WithAudioLength(beat[4] + NoteDuration);
+            Save(() => MetallophoneJingle.Echo() * 0.33).Play();
         }
 
         /// <inheritdoc cref="docs._metallophone"/>
