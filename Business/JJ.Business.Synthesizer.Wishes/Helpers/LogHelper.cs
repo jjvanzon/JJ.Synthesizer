@@ -10,40 +10,40 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public static void LogComputeConstant(
             FluentOutlet a, string mathSymbol, FluentOutlet b, FluentOutlet result,
             [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Compute const : {Stringify(opName, a, mathSymbol, b)} => {Stringify(result)}");
+            => Console.WriteLine($"Compute const : {Stringify(opName, a, mathSymbol, b)} => {Stringify(result)}");
         
         public static void LogIdentityOperation(
             FluentOutlet a, string mathSymbol, FluentOutlet identityValue,
             [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Identity op : {Stringify(opName, a, mathSymbol, identityValue)} => {Stringify(a)}");
+            => Console.WriteLine($"Identity op : {Stringify(opName, a, mathSymbol, identityValue)} => {Stringify(a)}");
         
         public static void LogIdentityOperation(
             FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
             [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Identity op ({dimension}) : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
+            => Console.WriteLine($"Identity op ({dimension}) : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
         
         public static void LogAlwaysOneOptimization(
             FluentOutlet a, string mathSymbol, FluentOutlet b,
             [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Always 1 : {Stringify(opName, a, mathSymbol, b)} => 1");
+            => Console.WriteLine($"Always 1 : {Stringify(opName, a, mathSymbol, b)} => 1");
         
         public static void LogAlwaysOneOptimization(
             FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
             [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Always 1 ({dimension}) : " +
+            => Console.WriteLine($"Always 1 ({dimension}) : " +
                                  $"{Stringify(opName, signal, dimension, mathSymbol, transform)} => " +
                                  $"{Stringify(opName, signal, dimension, "=", 1)}");
         
         public static void LogInvariance(
             FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
             [CallerMemberName] string opName = null)
-            => Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Invariance ({dimension}) : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
+            => Console.WriteLine($"Invariance ({dimension}) : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
         
         public static void LogDivisionByMultiplication(FluentOutlet a, FluentOutlet b, FluentOutlet result)
-            => Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} / by * : {Stringify(a)} / {Stringify(b)} => {Stringify(result)}");
+            => Console.WriteLine($"/ by * : {Stringify(a)} / {Stringify(b)} => {Stringify(result)}");
         
         public static void LogDistributeMultiplyOverAddition(FluentOutlet formulaBefore, FluentOutlet formulaAfter)
-            => Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Distribute * over + : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
+            => Console.WriteLine($"Distribute * over + : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
         
         public static void LogAdditionOptimizations(
             IList<FluentOutlet> terms, IList<FluentOutlet> flattenedTerms, IList<FluentOutlet> optimizedTerms,
@@ -54,31 +54,31 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             bool wasFlattened = terms.Count != flattenedTerms.Count;
             if (wasFlattened)
             {
-                Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Flatten {symbol} : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, flattenedTerms)}");
+                Console.WriteLine($"Flatten {symbol} : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, flattenedTerms)}");
             }
             
             bool hasConst0 = consts.Count >= 1 && constant == 0;
             if (hasConst0)
             {
-                Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Eliminate 0 : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, optimizedTerms)}");
+                Console.WriteLine($"Eliminate 0 : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, optimizedTerms)}");
             }
             
             bool hasMultipleConsts = consts.Count > 1;
             if (hasMultipleConsts)
             {
-                Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Compute const : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(opName, symbol, optimizedTerms)}");
+                Console.WriteLine($"Compute const : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(opName, symbol, optimizedTerms)}");
             }
             
             bool noTermsLeft = terms.Count != 0 && optimizedTerms.Count == 0;
             if (noTermsLeft)
             {
-                Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} 0 terms remain : {Stringify(opName, symbol, terms)} => 0");
+                Console.WriteLine($"0 terms remain : {Stringify(opName, symbol, terms)} => 0");
             }
             
             bool oneTermLeft = optimizedTerms.Count == 1;
             if (oneTermLeft)
             {
-                Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Eliminate {symbol} : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(symbol, optimizedTerms)}");
+                Console.WriteLine($"Eliminate {symbol} : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(symbol, optimizedTerms)}");
             }
         }
         
@@ -91,25 +91,25 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             bool hasConst1 = consts.Count >= 1 && constant == 1;
             if (hasConst1)
             {
-                Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Eliminate 1 : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
+                Console.WriteLine($"Eliminate 1 : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
             }
             
             bool hasMultipleConsts = consts.Count > 1;
             if (hasMultipleConsts)
             {
-                Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Compute const : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
+                Console.WriteLine($"Compute const : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
             }
             
             bool noFactorsLeft = factors.Count != 0 && optimizedFactors.Count == 0;
             if (noFactorsLeft)
             {
-                Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} 0 factors remain: {Stringify(opName, symbol, factors)} => 1");
+                Console.WriteLine($"0 factors remain: {Stringify(opName, symbol, factors)} => 1");
             }
             
             bool oneFactorLeft = optimizedFactors.Count == 1;
             if (oneFactorLeft)
             {
-                Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Eliminate {symbol} : {Stringify(opName, symbol, optimizedFactors)} => {Stringify(symbol, optimizedFactors)}");
+                Console.WriteLine($"Eliminate {symbol} : {Stringify(opName, symbol, optimizedFactors)} => {Stringify(symbol, optimizedFactors)}");
             }
         }
         
