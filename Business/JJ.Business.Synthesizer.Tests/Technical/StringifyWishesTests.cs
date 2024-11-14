@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             string stringified = outlet.Stringify(true, true);
             
-            AreEqual("Curve * (Sine(1,440) * 2)", stringified);
+            AreEqual("Volume Multiply(Curve * (Sine(1,440) * 2))", stringified);
         }
         
         [TestMethod]
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // and curves tend to be shifted upwards,
             // for higher chance early 0 discovery.
 
-            string expected = "Multiply(" + NewLine +
+            string expected = "Volume Multiply(" + NewLine +
                               "  Curve * " + NewLine +
                               "  Multiply(" + NewLine +
                               "    Sine(1,440) * 2))";
