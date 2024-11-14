@@ -1366,7 +1366,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Echo(int count, double magnitude, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
 
-        public FluentOutlet Echo(int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
+        public FluentOutlet Echo(int count, FluentOutlet magnitude = default, FluentOutlet delay = default, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
 
         public FluentOutlet EchoAdditive(int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
