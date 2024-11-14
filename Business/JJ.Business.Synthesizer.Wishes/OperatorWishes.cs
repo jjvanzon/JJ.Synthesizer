@@ -450,9 +450,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Times(params FluentOutlet[] factors) => Multiply(factors);
 
         /// <inheritdoc cref="docs._multiply"/>
-        public FluentOutlet Volume(FluentOutlet b) => Multiply(b);
+        public FluentOutlet Volume(FluentOutlet b) => Multiply(b).SetName();
         /// <inheritdoc cref="docs._multiply"/>
-        public FluentOutlet Volume(double b) => Multiply(b);
+        public FluentOutlet Volume(double b) => Multiply(b).SetName();
     }
     
     // Subtract SynthWishes
