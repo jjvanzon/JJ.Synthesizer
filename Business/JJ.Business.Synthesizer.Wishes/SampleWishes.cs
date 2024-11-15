@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.Amplifier = 1.0 / GetBitDepth.GetNominalMax();
             sample.SamplingRate = ResolveSamplingRate().Data;
             sample.SetBitDepth(GetBitDepth, Context);
-            sample.SetSpeakerSetup(GetSpeakerSetup, Context);
+            sample.SetSpeakerSetup(GetSpeakers, Context);
             sample.SetAudioFormat(GetAudioFormat, Context);
             sample.SetInterpolation(GetInterpolation, Context);
             

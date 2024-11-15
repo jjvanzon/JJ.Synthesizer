@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var originalChannel = Channel;
             try
             {
-                switch (GetSpeakerSetup)
+                switch (GetSpeakers)
                 {
                     case Mono:
                         WithCenter(); var monoOutlet = channelInputFunc();
@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         return StreamAudio(new[] { leftOutlet, rightOutlet }, inMemory, mustPad, additionalMessages, name);
                     
                     default:
-                        throw new ValueNotSupportedException(GetSpeakerSetup);
+                        throw new ValueNotSupportedException(GetSpeakers);
                 }
             }
             finally

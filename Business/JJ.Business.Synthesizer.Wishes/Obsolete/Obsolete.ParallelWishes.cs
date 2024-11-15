@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             
             // Prep variables
             int termCount = termFuncs.Count;
-            int channelCount = synthWishes.GetSpeakerSetup.GetChannelCount();
+            int channelCount = synthWishes.GetSpeakers.GetChannelCount();
             string[] names = GetParallelNames(termCount, name);
             string[] displayNames = names.Select(GetDisplayName).ToArray();
             var cacheResults = new Result<StreamAudioData>[termCount];

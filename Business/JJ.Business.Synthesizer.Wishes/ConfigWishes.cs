@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Wishes
     internal class ConfigSection
     {
         [XmlAttribute] public int? SamplingRate { get; set; }
-        [XmlAttribute] public SpeakerSetupEnum? SpeakerSetup { get; set; }
+        [XmlAttribute] public SpeakerSetupEnum? Speakers { get; set; }
         [XmlAttribute] public int? BitDepth { get; set; }
         [XmlAttribute] public AudioFileFormatEnum? AudioFormat { get; set; }
         [XmlAttribute] public InterpolationTypeEnum? Interpolation { get; set; }
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Even the defaults have defaults, to not require a config file.
         public static int                   SamplingRate     => _section.SamplingRate     ?? 48000;
-        public static SpeakerSetupEnum      SpeakerSetup     => _section.SpeakerSetup     ?? SpeakerSetupEnum.Mono;
+        public static SpeakerSetupEnum      Speakers         => _section.Speakers         ?? SpeakerSetupEnum.Mono;
         public static SampleDataTypeEnum    BitDepth         => (_section.BitDepth ?? 32).ToBitDepth();
         public static AudioFileFormatEnum   AudioFormat      => _section.AudioFormat      ?? AudioFileFormatEnum.Wav;
         public static InterpolationTypeEnum Interpolation    => _section.Interpolation    ?? InterpolationTypeEnum.Line;
@@ -164,7 +164,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public int ChannelIndex
         {
             get => Channel.ToIndex();
-            set => Channel = value.ToChannel(GetSpeakerSetup);
+            set => Channel = value.ToChannel(GetSpeakers);
         }
 
         public SynthWishes WithChannel(ChannelEnum channel)
@@ -258,42 +258,42 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet With8Bit() { _synthWishes.With8Bit(); return this; }
     }
 
-    // SpeakerSetup SynthWishes
+    // Speakes SynthWishes
 
     public partial class SynthWishes
     {
-        private SpeakerSetupEnum _speakerSetup;
+        private SpeakerSetupEnum _speakers;
 
-        public SpeakerSetupEnum GetSpeakerSetup
+        public SpeakerSetupEnum GetSpeakers
         {
             get
             {
-                if (_speakerSetup != SpeakerSetupEnum.Undefined)
+                if (_speakers != SpeakerSetupEnum.Undefined)
                 {
-                    return _speakerSetup;
+                    return _speakers;
                 }
 
-                return ConfigHelper.SpeakerSetup;
+                return ConfigHelper.Speakers;
             }
         }
 
-        public SynthWishes WithSpeakerSetup(SpeakerSetupEnum speakerSetup)
+        public SynthWishes WithSpeakers(SpeakerSetupEnum speakers)
         {
-            _speakerSetup = speakerSetup;
+            _speakers = speakers;
             return this;
         }
 
-        public SynthWishes WithMono() => WithSpeakerSetup(SpeakerSetupEnum.Mono);
+        public SynthWishes WithMono() => WithSpeakers(SpeakerSetupEnum.Mono);
         
-        public SynthWishes WithStereo() => WithSpeakerSetup(SpeakerSetupEnum.Stereo);
+        public SynthWishes WithStereo() => WithSpeakers(SpeakerSetupEnum.Stereo);
     }
 
     // SpeakerSetup FluentOutlet
 
     public partial class FluentOutlet
     {
-        public SpeakerSetupEnum GetSpeakerSetup => _synthWishes.GetSpeakerSetup;
-        public FluentOutlet WithSpeakerSetup(SpeakerSetupEnum speakerSetup) { _synthWishes.WithSpeakerSetup(speakerSetup); return this; }
+        public SpeakerSetupEnum GetSpeakers => _synthWishes.GetSpeakers;
+        public FluentOutlet WithSpeakers(SpeakerSetupEnum speakers) { _synthWishes.WithSpeakers(speakers); return this; }
         public FluentOutlet WithMono() { _synthWishes.WithMono(); return this; }
         public FluentOutlet WithStereo() { _synthWishes.WithStereo(); return this; }
     }

@@ -240,7 +240,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             int    samplingRate      = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
             double frequency         = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
 
-            WithSpeakerSetup(speakerSetupEnum);
+            WithSpeakers(speakerSetupEnum);
             WithBitDepth(sampleDataTypeEnum);
             WithInterpolation(interpolationTypeEnum);
             WithAudioFormat(audioFileFormatEnum);
