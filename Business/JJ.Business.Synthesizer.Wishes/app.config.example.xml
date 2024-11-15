@@ -27,7 +27,7 @@
 		playEnabled="true"
 		leadingSilence="0.2"
 		trailingSilence="0.2"
-		parallel="true"
+		parallels="true"
 		mathOptimization="true"
 		diskCaching="false"
 		longRunningTestCategory="Long">

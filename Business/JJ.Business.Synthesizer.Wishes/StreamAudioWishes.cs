@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             // Run Parallel Processing
-            if (GetParallel)
+            if (GetParallels)
             {
                 RunParallelsRecursive(channelInputs); 
             }

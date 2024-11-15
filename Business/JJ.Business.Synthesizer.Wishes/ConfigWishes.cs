@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public bool? PlayEnabled { get; set; }
         [XmlAttribute] public double? LeadingSilence { get; set; }
         [XmlAttribute] public double? TrailingSilence { get; set; }
-        [XmlAttribute] public bool? Parallel { get; set; }
+        [XmlAttribute] public bool? Parallels { get; set; }
         [XmlAttribute] public bool? MathOptimization { get; set; }
         [XmlAttribute] public bool? DiskCaching { get; set; }
 
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static bool                  PlayEnabled      => _section.PlayEnabled      ?? true;
         public static double                LeadingSilence   => _section.LeadingSilence   ?? 0.2;
         public static double                TrailingSilence  => _section.TrailingSilence  ?? 0.2;
-        public static bool                  Parallel         => _section.Parallel  ?? true;
+        public static bool                  Parallels        => _section.Parallels        ?? true;
         public static bool                  MathOptimization => _section.MathOptimization ?? true;
         public static bool                  DiskCaching      => _section.DiskCaching      ?? false;
 
@@ -401,27 +401,27 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetDiskCaching => _synthWishes.GetDiskCaching;
     }
 
-    // SynthWishes Parallel
+    // SynthWishes Parallels
 
     public partial class SynthWishes
     {
-        private bool? _parallel;
+        private bool? _parallels;
 
-        public SynthWishes WithParallel(bool? enabled = default)
+        public SynthWishes WithParallels(bool? enabled = default)
         {
-            _parallel = enabled;
+            _parallels = enabled;
             return this;
         }
 
-        public bool GetParallel => _parallel ?? ConfigHelper.Parallel;
+        public bool GetParallels => _parallels ?? ConfigHelper.Parallels;
     }
 
     // FluentOutlet Parallel
 
     public partial class FluentOutlet
     {
-        public FluentOutlet WithParallel(bool? enabled = default) { _synthWishes.WithParallel(enabled); return this; }
-        private bool GetParallel => _synthWishes.GetParallel;
+        public FluentOutlet WithParallels(bool? enabled = default) { _synthWishes.WithParallels(enabled); return this; }
+        private bool GetParallels => _synthWishes.GetParallels;
     }
     
     // SynthWishes PlayParallels
