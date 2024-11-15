@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public double? PlayLeadingSilence { get; set; }
         [XmlAttribute] public double? PlayTrailingSilence { get; set; }
         [XmlAttribute] public bool? ParallelEnabled { get; set; }
+        [XmlAttribute] public bool? MathOptimizationEnabled { get; set; }
         [XmlAttribute] public bool? CacheToDisk { get; set; }
 
         public ConfigToolingElement AzurePipelines { get; set; } = new ConfigToolingElement();
@@ -56,20 +57,20 @@ namespace JJ.Business.Synthesizer.Wishes
                 NameHelper.GetAssemblyName<JJ.Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
             }
         };
-
         
         // Even the defaults have defaults, to not require a config file.
-        public static int                   DefaultSamplingRate  => _section.DefaultSamplingRate  ?? 48000;
-        public static SpeakerSetupEnum      DefaultSpeakerSetup  => _section.DefaultSpeakerSetup  ?? SpeakerSetupEnum.Mono;
-        public static SampleDataTypeEnum    DefaultBitDepth      => (_section.DefaultBitDepth ?? 32).ToBitDepth();
-        public static AudioFileFormatEnum   DefaultAudioFormat   => _section.DefaultAudioFormat   ?? AudioFileFormatEnum.Wav;
-        public static InterpolationTypeEnum DefaultInterpolation => _section.DefaultInterpolation ?? InterpolationTypeEnum.Line;
-        public static double                DefaultAudioLength   => _section.DefaultAudioLength   ?? 1;
-        public static bool                  PlayEnabled          => _section.PlayEnabled          ?? true;
-        public static double                PlayLeadingSilence   => _section.PlayLeadingSilence   ?? 0.2;
-        public static double                PlayTrailingSilence  => _section.PlayTrailingSilence  ?? 0.2;
-        public static bool                  ParallelEnabled      => _section.ParallelEnabled      ?? true;
-        public static bool                  CacheToDisk          => _section.CacheToDisk          ?? false;
+        public static int                   DefaultSamplingRate     => _section.DefaultSamplingRate     ?? 48000;
+        public static SpeakerSetupEnum      DefaultSpeakerSetup     => _section.DefaultSpeakerSetup     ?? SpeakerSetupEnum.Mono;
+        public static SampleDataTypeEnum    DefaultBitDepth         => (_section.DefaultBitDepth ?? 32).ToBitDepth();
+        public static AudioFileFormatEnum   DefaultAudioFormat      => _section.DefaultAudioFormat      ?? AudioFileFormatEnum.Wav;
+        public static InterpolationTypeEnum DefaultInterpolation    => _section.DefaultInterpolation    ?? InterpolationTypeEnum.Line;
+        public static double                DefaultAudioLength      => _section.DefaultAudioLength      ?? 1;
+        public static bool                  PlayEnabled             => _section.PlayEnabled             ?? true;
+        public static double                PlayLeadingSilence      => _section.PlayLeadingSilence      ?? 0.2;
+        public static double                PlayTrailingSilence     => _section.PlayTrailingSilence     ?? 0.2;
+        public static bool                  ParallelEnabled         => _section.ParallelEnabled         ?? true;
+        public static bool                  MathOptimizationEnabled => _section.MathOptimizationEnabled ?? true;
+        public static bool                  CacheToDisk             => _section.CacheToDisk             ?? false;
 
         public static string LongRunningTestCategory
         {
@@ -377,7 +378,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet WithBlocky() { _synthWishes.WithBlocky(); return this; }
     }
 
-    // SynthWishes In-Memory Processing Enabled
+    // SynthWishes MustCacheToDisk
 
     public partial class SynthWishes
     {
@@ -392,7 +393,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustCacheToDisk => _mustCacheToDisk ?? ConfigHelper.CacheToDisk;
     }
 
-    // FluentOutlet In-Memory Processing Enabled
+    // FluentOutlet MustCacheToDisk
 
     public partial class FluentOutlet
     {
@@ -422,7 +423,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet WithParallelEnabled(bool? parallelEnabled = default) { _synthWishes.WithParallelEnabled(parallelEnabled); return this; }
         private bool GetParallelEnabled => _synthWishes.GetParallelEnabled;
     }
-
+    
     // SynthWishes PlayParallels
 
     public partial class SynthWishes
@@ -446,5 +447,28 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustPlayParallels => _synthWishes.MustPlayParallels;
         /// <inheritdoc cref="docs._withpreviewparallels" />
         public FluentOutlet WithPlayParallels(bool mustPlayParallels = true) { _synthWishes.WithPlayParallels(mustPlayParallels); return this; }
+    }
+    
+    // SynthWishes MathOptimizationEnabled
+    
+    public partial class SynthWishes
+    {
+        private bool? _mathOptimizationEnabled;
+        
+        public SynthWishes WithMathOptimizationEnabled(bool? mathOptimizationEnabled = default)
+        {
+            _mathOptimizationEnabled = mathOptimizationEnabled;
+            return this;
+        }
+        
+        public bool GetMathOptimizationEnabled => _mathOptimizationEnabled ?? ConfigHelper.MathOptimizationEnabled;
+    }
+    
+    // FluentOutlet MathOptimizationEnabled
+    
+    public partial class FluentOutlet
+    {
+        public FluentOutlet WithMathOptimizationEnabled(bool? mathOptimizationEnabled = default) { _synthWishes.WithMathOptimizationEnabled(mathOptimizationEnabled); return this; }
+        private bool GetMathOptimizationEnabled => _synthWishes.GetMathOptimizationEnabled;
     }
 }

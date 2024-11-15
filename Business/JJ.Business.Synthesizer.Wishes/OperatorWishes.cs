@@ -29,6 +29,24 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         public FluentOutlet Fluent(Outlet outlet) => _[outlet];
+        
+        private bool MathAllowed(params FluentOutlet[] operands)
+            => MathAllowed((IList<FluentOutlet>)operands);
+        
+        private bool MathAllowed(IList<FluentOutlet> operands)
+        {
+            if (!GetMathOptimizationEnabled) return false;
+            
+            foreach (var term in operands)
+            {
+                if (IsTape(term))
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
     }
 
     // OperatorWishes FluentOutlet
@@ -81,23 +99,28 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet Add(IList<FluentOutlet> terms)
         {
             if (terms == null) throw new ArgumentNullException(nameof(terms));
-
-            // Flatten Nested Sums
-            IList<FluentOutlet> flattenedTerms = FlattenTerms(terms);
-
-            // Consts
-            IList<FluentOutlet> vars = flattenedTerms.Where(x => x.IsVar).ToArray();
-            IList<FluentOutlet> consts = flattenedTerms.Where(x => x.IsConst).ToArray();
-            double constant = consts.Sum(x => x.Value);
-
-            IList<FluentOutlet> optimizedTerms = vars.ToList();
-            if (constant != 0) // Skip Identity 0
+            
+            var optimizedTerms = terms;
+            
+            if (MathAllowed(terms))
             {
-                optimizedTerms.Add(_[constant]);
+                // Flatten Nested Sums
+                var flattenedTerms = FlattenTerms(terms);
+                
+                // Consts
+                var vars = flattenedTerms.Where(x => x.IsVar).ToArray();
+                var consts = flattenedTerms.Where(x => x.IsConst).ToArray();
+                double constant = consts.Sum(x => x.Value);
+                
+                optimizedTerms = vars.ToList();
+                if (constant != 0) // Skip Identity 0
+                {
+                    optimizedTerms.Add(_[constant]);
+                }
+                
+                LogAdditionOptimizations(terms, flattenedTerms, optimizedTerms, consts, constant);
             }
-
-            LogAdditionOptimizations(terms, flattenedTerms, optimizedTerms, consts, constant);
-
+            
             switch (optimizedTerms.Count)
             {
                 case 0:
@@ -116,7 +139,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _[_operatorFactory.Adder(optimizedTerms.Select(x => x.UnderlyingOutlet).ToArray())];
             }
         }
-
+        
         /// <inheritdoc cref="docs._add"/>
         public FluentOutlet Add(params FluentOutlet[] operands) => Add((IList<FluentOutlet>)operands);
         /// <inheritdoc cref="docs._add"/>
@@ -152,7 +175,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             return operands.SelectMany(x =>
             {
-                if ((x.IsAdder || x.IsAdd) && !IsTape(x))
+                if ((x.IsAdder || x.IsAdd))
                 {
                     return FlattenTerms(x.Operands);
                 }
@@ -205,6 +228,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._multiply"/>
         public FluentOutlet Multiply(FluentOutlet a, FluentOutlet b)
         {
+            if (!MathAllowed(a, b))
+            {
+                return _[_operatorFactory.Multiply(a, b)];
+            }
+            
             a = a ?? _[1];
             b = b ?? _[1];
 
@@ -220,19 +248,24 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._multiply"/>
         public FluentOutlet Multiply(IList<FluentOutlet> factors)
         {
-            // Consts
-            var vars = factors.Where(x => x.IsVar).ToArray();
-            var consts = factors.Where(x => x.IsConst).ToArray();
-            double constant = consts.Product(x => x.Value);
-
-            var optimizedFactors = new List<FluentOutlet>(vars);
-            if (constant != 1) // Skip Identity 1
+            var optimizedFactors = factors;
+            
+            if (MathAllowed(factors))
             {
-                optimizedFactors.Add(_[constant]);
+                // Consts
+                var vars = factors.Where(x => x.IsVar).ToArray();
+                var consts = factors.Where(x => x.IsConst).ToArray();
+                double constant = consts.Product(x => x.Value);
+                
+                optimizedFactors = new List<FluentOutlet>(vars);
+                if (constant != 1) // Skip Identity 1
+                {
+                    optimizedFactors.Add(_[constant]);
+                }
+                
+                LogMultiplicationOptimizations(factors, optimizedFactors, consts, constant);
             }
             
-            LogMultiplicationOptimizations(factors, optimizedFactors, consts, constant);
-
             switch (optimizedFactors.Count)
             {
                 case 0:
@@ -241,7 +274,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 case 1:
                     // Return single number
-                    return _[optimizedFactors[0]];
+                    return optimizedFactors[0];
 
                 case 2:
                     // Simple Multiply for 2 Operands
@@ -396,7 +429,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             return operands.SelectMany(x =>
             {
-                if (x.IsMultiply && !IsTape(x))
+                if (x.IsMultiply)
                 {
                     return FlattenFactors(x.A, x.B);
                 }
@@ -460,27 +493,28 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public FluentOutlet Subtract(FluentOutlet a, FluentOutlet b)
         {
-            if (a == null) throw new ArgumentNullException(nameof(a));
-            if (b == null) throw new ArgumentNullException(nameof(b));
+            a = a ?? _[0];
+            b = b ?? _[0];
             
-            double? constA = a.AsConst;
-            double? constB = b.AsConst;
+            if (MathAllowed(a, b))
+            {
+                double? constA = a.AsConst;
+                double? constB = b.AsConst;
+                
+                if (constA.HasValue & constB.HasValue) // Compute constant
+                {
+                    var result = _[constA.Value - constB.Value];
+                    LogComputeConstant(a, "-", b, result);
+                    return result;
+                }
+                else if (constB.HasValue && constB.Value == 0) // a - 0 = a
+                {
+                    LogIdentityOperation(a, "-", b);
+                    return a;
+                }
+            }
             
-            if (constA.HasValue & constB.HasValue) // Compute constant
-            {
-                var result = _[constA.Value - constB.Value];
-                LogComputeConstant(a, "-", b, result);
-                return result;
-            }
-            else if (constB.HasValue && constB.Value == 0) // a - 0 = a
-            {
-                LogIdentityOperation(a, "-", b);
-                return a;
-            }
-            else
-            {
-                return _[_operatorFactory.Substract(a, b)];
-            }
+            return _[_operatorFactory.Substract(a, b)];
         }
         
         public FluentOutlet Subtract(FluentOutlet a, double b) => Subtract(a, _[b]);
@@ -506,34 +540,37 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public FluentOutlet Divide(FluentOutlet a, FluentOutlet b)
         {
-            if (a == null) throw new ArgumentNullException(nameof(a));
-            if (b == null) throw new ArgumentNullException(nameof(b));
-
-            double? constA = a.AsConst;
-            double? constB = b.AsConst;
-
-            if (constA.HasValue && constB.HasValue)
+            a = a ?? _[0];
+            b = b ?? _[1];
+            
+            if (MathAllowed(a, b))
             {
-                // Compute constant
-                var result = _[constA.Value / constB.Value];
-                LogComputeConstant(a, "/", b, result);
-                return result;
+                double? constA = a.AsConst;
+                double? constB = b.AsConst;
+                
+                if (constA.HasValue && constB.HasValue)
+                {
+                    // Compute constant
+                    var result = _[constA.Value / constB.Value];
+                    LogComputeConstant(a, "/", b, result);
+                    return result;
+                }
+                else if (constB == 1) // a / 1 = a
+                {
+                    // Identity 1
+                    LogIdentityOperation(a, "/", b);
+                    return _[a];
+                }
+                else if (constB.HasValue) // a / 4 = a * 1/4 = faster
+                {
+                    // Replace division by multiplication
+                    double fraction = 1 / constB.Value;
+                    var result = Multiply(a, fraction);
+                    LogDivisionByMultiplication(a, b, result);
+                    return result;
+                }
             }
-            else if (constB == 1) // a / 1 = a
-            {
-                // Identity 1
-                LogIdentityOperation(a, "/", b);
-                return _[a];
-            }
-            else if (constB.HasValue) // a / 4 = a * 1/4 = faster
-            {
-                // Replace division by multiplication
-                double fraction = 1 / constB.Value;
-                var result = Multiply(a, fraction);
-                LogDivisionByMultiplication(a, b, result);
-                return result;
-            }
-
+            
             return _[_operatorFactory.Divide(a, b)];
         }
 
@@ -557,44 +594,46 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             @base = @base ?? _[1];
             exponent = exponent ?? _[1];
-
-            double? baseConst = @base.AsConst;
-            double? exponentConst = exponent.AsConst;
-
-            if (baseConst.HasValue && exponentConst.HasValue)
+            
+            if (MathAllowed(@base, exponent))
             {
-                // Compute constant if both are constants
-                var result = _[Math.Pow(@base.Value, exponent.Value)];
-                LogComputeConstant(@base, "^", exponent, result);
-                return result;
+                
+                double? baseConst = @base.AsConst;
+                double? exponentConst = exponent.AsConst;
+                
+                if (baseConst.HasValue && exponentConst.HasValue)
+                {
+                    // Compute constant if both are constants
+                    var result = _[Math.Pow(@base.Value, exponent.Value)];
+                    LogComputeConstant(@base, "^", exponent, result);
+                    return result;
+                }
+                else if (baseConst == 1)
+                {
+                    // 1^x is always 1
+                    var result = _[1];
+                    LogAlwaysOneOptimization(@base, "^", exponent);
+                    return result;
+                }
+                else if (exponentConst == 0)
+                {
+                    // x^0 is always 1
+                    var result = _[1];
+                    LogAlwaysOneOptimization(@base, "^", exponent);
+                    return result;
+                }
+                else if (exponentConst == 1)
+                {
+                    // x^1 is x (identity)
+                    LogIdentityOperation(@base, "^", exponent);
+                    return @base;
+                }
             }
-            else if (baseConst == 1)
-            {
-                // 1^x is always 1
-                var result = _[1];
-                LogAlwaysOneOptimization(@base, "^", exponent);
-                return result;
-            }
-            else if (exponentConst == 0)
-            {
-                // x^0 is always 1
-                var result = _[1];
-                LogAlwaysOneOptimization(@base, "^", exponent);
-                return result;
-            }
-            else if (exponentConst == 1)
-            {
-                // x^1 is x (identity)
-                LogIdentityOperation(@base, "^", exponent);
-                return @base;
-            }
-            else
-            {
-                // Use operator factory only when no constant optimizations apply
-                return _[_operatorFactory.Power(@base, exponent)];
-            }
+            
+            // Use operator factory only when no constant optimizations apply
+            return _[_operatorFactory.Power(@base, exponent)];
         }
-
+        
         public FluentOutlet Power(FluentOutlet @base, double exponent) => Power(@base, _[exponent]);
         public FluentOutlet Power(double @base, FluentOutlet exponent) => Power(_[@base], exponent);
     }
@@ -634,20 +673,21 @@ namespace JJ.Business.Synthesizer.Wishes
             signal = signal ?? _[0];
             delay = delay ?? _[0];
 
-            if (signal.IsConst)
+            if (MathAllowed(signal, delay))
             {
-                LogInvariance(signal, "time", "+", delay);
-                return signal;
+                if (signal.IsConst)
+                {
+                    LogInvariance(signal, "time", "+", delay);
+                    return signal;
+                }
+                else if (delay.AsConst == 0)
+                {
+                    LogIdentityOperation(signal, "time", "+", delay);
+                    return signal;
+                }
             }
-            else if (delay.AsConst == 0)
-            {
-                LogIdentityOperation(signal, "time", "+", delay);
-                return signal;
-            }
-            else
-            {
-                return _[_operatorFactory.TimeAdd(signal, delay)];
-            }
+            
+            return _[_operatorFactory.TimeAdd(signal, delay)];
         }
 
         public FluentOutlet Delay(FluentOutlet signal, double delay) => Delay(signal, _[delay]);
@@ -670,20 +710,21 @@ namespace JJ.Business.Synthesizer.Wishes
             signal = signal ?? _[0];
             skip = skip ?? _[0];
 
-            if (signal.IsConst)
+            if (MathAllowed(signal, skip))
             {
-                LogInvariance(signal, "time", "-", skip);
-                return signal;
+                if (signal.IsConst)
+                {
+                    LogInvariance(signal, "time", "-", skip);
+                    return signal;
+                }
+                else if (skip.AsConst == 0)
+                {
+                    LogIdentityOperation(signal, "time", "-", skip);
+                    return signal;
+                }
             }
-            else if (skip.AsConst == 0)
-            {
-                LogIdentityOperation(signal, "time", "-", skip);
-                return signal;
-            }
-            else
-            {
-                return _[_operatorFactory.TimeSubstract(signal, skip)];
-            }
+            
+            return _[_operatorFactory.TimeSubstract(signal, skip)];
         }
 
         public FluentOutlet Skip(FluentOutlet signal, double skip) => Skip(signal, _[skip]);
@@ -705,35 +746,36 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             signal = signal ?? _[0];
             timeScale = timeScale ?? _[1];
-
-            double? signalConst = signal.AsConst;
-            double? timeScaleConst = timeScale.AsConst;
-
-            if (signalConst.HasValue)
+            
+            if (MathAllowed(signal, timeScale))
             {
-                // If signal is constant, stretching time does nothing.
-                LogInvariance(signal, "time", "*", timeScale);
-                return signal;
+                double? signalConst = signal.AsConst;
+                double? timeScaleConst = timeScale.AsConst;
+                
+                if (signalConst.HasValue)
+                {
+                    // If signal is constant, stretching time does nothing.
+                    LogInvariance(signal, "time", "*", timeScale);
+                    return signal;
+                }
+                else if (timeScaleConst == 1)
+                {
+                    // Return signal directly if multiplier is 1 (no change in timing)
+                    LogIdentityOperation(signal, "time", "*", timeScale);
+                    return signal;
+                }
+                // Outcommented, to have code coverage for TimeMultiply.
+                //else if (timeScaleConst.HasValue)
+                //{
+                //    // SpeedUp slightly faster, because it does a * instead of a / internally.
+                //    return SpeedUp(signal, _[1 / timeScaleConst.Value]);
+                //}
             }
-            else if (timeScaleConst == 1)
-            {
-                // Return signal directly if multiplier is 1 (no change in timing)
-                LogIdentityOperation(signal, "time", "*", timeScale);
-                return signal;
-            }
-            // Outcommented, to have code coverage for TimeMultiply.
-            //else if (timeScaleConst.HasValue)
-            //{
-            //    // SpeedUp slightly faster, because it does a * instead of a / internally.
-            //    return SpeedUp(signal, _[1 / timeScaleConst.Value]);
-            //}
-            else
-            {
-                // Apply TimeMultiply only when the time scale actually modifies timing.
-                return _[_operatorFactory.TimeMultiply(signal, timeScale)];
-            }
+            
+            // Apply TimeMultiply only when the time scale actually modifies timing.
+            return _[_operatorFactory.TimeMultiply(signal, timeScale)];
         }
-
+        
         public FluentOutlet Stretch(FluentOutlet signal, double timeScale) => Stretch(signal, _[timeScale]);
     }
 
@@ -754,22 +796,23 @@ namespace JJ.Business.Synthesizer.Wishes
             signal = signal ?? _[0];
             factor = factor ?? _[1];
 
-            if (signal.IsConst)
+            if (MathAllowed(signal, factor))
             {
-                // If signal is constant, stretching time does nothing.
-                LogInvariance(signal, "time", "/", factor);
-                return signal;
+                if (signal.IsConst)
+                {
+                    // If signal is constant, stretching time does nothing.
+                    LogInvariance(signal, "time", "/", factor);
+                    return signal;
+                }
+                else if (factor.AsConst == 1)
+                {
+                    // Return signal directly if multiplier is 1 (no change in timing)
+                    LogIdentityOperation(signal, "time", "/", factor);
+                    return signal;
+                }
             }
-            else if (factor.AsConst == 1)
-            {
-                // Return signal directly if multiplier is 1 (no change in timing)
-                LogIdentityOperation(signal, "time", "/", factor);
-                return signal;
-            }
-            else
-            {
-                return _[_operatorFactory.TimeDivide(signal, factor)];
-            }
+            
+            return _[_operatorFactory.TimeDivide(signal, factor)];
         }
 
         public FluentOutlet SpeedUp(FluentOutlet signal, double factor) => SpeedUp(signal, _[factor]);
@@ -794,30 +837,31 @@ namespace JJ.Business.Synthesizer.Wishes
 
             double? signalConst = signal.AsConst;
             double? exponentConst = exponent.AsConst;
-
-            if (signalConst.HasValue)
+            
+            if (MathAllowed(signal, exponent))
             {
-                // If time is constant, the power operation has no effect on timing
-                LogInvariance(signal, "time", "^", exponent);
-                return signal;
+                if (signalConst.HasValue)
+                {
+                    // If time is constant, the power operation has no effect on timing
+                    LogInvariance(signal, "time", "^", exponent);
+                    return signal;
+                }
+                else if (exponentConst == 1)
+                {
+                    // Identity case: time raised to the power of 1 keeps timing unchanged
+                    LogIdentityOperation(signal, "time", "^", exponent);
+                    return signal;
+                }
+                else if (exponentConst == 0)
+                {
+                    // When time is raised to the power of 0, timing is fixed at t=1
+                    LogAlwaysOneOptimization(signal, "time", "^", exponent);
+                    return _[signal.Calculate(time: 1)];
+                }
             }
-            else if (exponentConst == 1)
-            {
-                // Identity case: time raised to the power of 1 keeps timing unchanged
-                LogIdentityOperation(signal, "time", "^", exponent);
-                return signal;
-            }
-            else if (exponentConst == 0)
-            {
-                // When time is raised to the power of 0, timing is fixed at t=1
-                LogAlwaysOneOptimization(signal, "time", "^", exponent);
-                return _[signal.Calculate(time: 1)];
-            }
-            else
-            {
-                // Apply TimePower when exponent meaningfully transforms timing
-                return _[_operatorFactory.TimePower(signal, exponent)];
-            }
+            
+            // Apply TimePower when exponent meaningfully transforms timing
+            return _[_operatorFactory.TimePower(signal, exponent)];
         }
 
         public FluentOutlet TimePower(FluentOutlet signal, double exponent) => TimePower(signal, _[exponent]);
@@ -986,7 +1030,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             switch (channel)
             {
-                case ChannelEnum.Single: return _[sound];
+                case ChannelEnum.Single: return sound;
                 case ChannelEnum.Left: return Multiply(sound, Subtract(_[1], panning)).SetName();
                 case ChannelEnum.Right: return Multiply(sound, panning).SetName();
 
@@ -1004,7 +1048,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             switch (channel)
             {
-                case ChannelEnum.Single: return _[sound];
+                case ChannelEnum.Single: return sound;
                 case ChannelEnum.Left: return (sound * _[1 - panning]).SetName();
                 case ChannelEnum.Right: return (sound * _[panning]).SetName();
 
@@ -1351,7 +1395,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return echoDuration.SetName();
         }
         
-        
         public SynthWishes AddEchoDuration(int count = 4, FluentOutlet delay = default) 
             => AddAudioLength(EchoDuration(count, delay));
     }
@@ -1437,7 +1480,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FluentOutlet
     {
-        
         public FluentOutlet Tape(FluentOutlet duration = null)
             => _synthWishes.Tape(this, duration);
     }
