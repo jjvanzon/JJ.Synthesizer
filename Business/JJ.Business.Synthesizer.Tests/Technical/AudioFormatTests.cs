@@ -241,7 +241,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             double frequency         = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
 
             WithSpeakers(speakerSetupEnum);
-            WithBitDepth(sampleDataTypeEnum);
+            WithBits(sampleDataTypeEnum.GetBits());
             WithInterpolation(interpolationTypeEnum);
             WithAudioFormat(audioFileFormatEnum);
             WithSamplingRate(samplingRate);

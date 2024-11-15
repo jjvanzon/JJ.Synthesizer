@@ -118,10 +118,10 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             entity.AudioFileOutput.AudioFileFormat = enumEntity;
         }
 
-        // AudioFileOutputChannel BitDepth
+        // AudioFileOutputChannel SampleDataTypeEnum
 
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataTypeEnum GetBitDepth(this AudioFileOutputChannel entity)
+        public static SampleDataTypeEnum GetSampleDataTypeEnum(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetBitDepth(
+        public static void SetSampleDataTypeEnum(
             this AudioFileOutputChannel entity, SampleDataTypeEnum enumValue, ISampleDataTypeRepository repository)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -138,12 +138,12 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetBitDepth(
+        public static void SetSampleDataTypeEnum(
             this AudioFileOutputChannel entity, SampleDataTypeEnum enumValue, IContext context = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetBitDepth(enumValue, context);
+            entity.AudioFileOutput.SetSampleDataTypeEnum(enumValue, context);
         }
     
         [Obsolete(ObsoleteMessage)]

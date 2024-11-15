@@ -121,11 +121,11 @@ namespace JJ.Business.Synthesizer.Wishes
             
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
-            audioFileOutput.Amplifier = GetBitDepth.GetNominalMax();
+            audioFileOutput.Amplifier = GetBits.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = GetAudioLength.Calculate();
             audioFileOutput.FilePath = FormatAudioFileName(name, GetAudioFormat);
-            audioFileOutput.SetBitDepth(GetBitDepth);
+            audioFileOutput.SetBits(GetBits, Context);
             audioFileOutput.SetAudioFormat(GetAudioFormat);
             audioFileOutput.Name = name;
 

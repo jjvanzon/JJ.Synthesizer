@@ -20,7 +20,7 @@
 	<jj.business.synthesizer.wishes 
 		samplingRate="48000"
 		speakers="Mono"
-		bitDepth="32"
+		bits="32"
 		audioFormat="Wav"
 		interpolation="Line"
 		audioLength="1"

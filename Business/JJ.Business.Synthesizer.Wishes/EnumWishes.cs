@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetAudioFileFormatEnum(enumValue, repository);
         }
         
-        public static void SetBitDepth(
+        public static void SetSampleDataTypeEnum(
             this AudioFileOutput entity, SampleDataTypeEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<ISampleDataTypeRepository>(context);
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetInterpolationTypeEnum(enumValue, repository);
         }
 
-        public static void SetBitDepth(this Sample entity, SampleDataTypeEnum enumValue, IContext context = null)
+        public static void SetSampleDataTypeEnum(this Sample entity, SampleDataTypeEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<ISampleDataTypeRepository>(context);
             entity.SetSampleDataTypeEnum(enumValue, repository);
@@ -146,7 +146,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        public static SampleDataTypeEnum GetBitDepth<TSampleDataType>()
+        public static SampleDataTypeEnum GetSampleDataTypeEnum<TSampleDataType>()
         {
             if (typeof(TSampleDataType) == typeof(short)) return SampleDataTypeEnum.Int16;
             if (typeof(TSampleDataType) == typeof(byte)) return SampleDataTypeEnum.Byte;
@@ -245,17 +245,30 @@ namespace JJ.Business.Synthesizer.Wishes
             if (distinctNodeTypeEnums.Count == 1) return distinctNodeTypeEnums[0];
             else return NodeTypeEnum.Undefined;
         }
+        
+        // Bits
 
-        // Bits to 
-        public static SampleDataTypeEnum ToBitDepth(this int bits)
+        public static SampleDataTypeEnum ToSampleDataTypeEnum(this int bits)
         {
             switch (bits)
             {
                 case 8: return SampleDataTypeEnum.Byte;
                 case 16: return SampleDataTypeEnum.Int16;
                 case 32: return SampleDataTypeEnum.Float32;
-                default: throw new Exception($"Bits = {bits} not supported.");
+                default: throw new Exception($"Bits = {bits} not supported. Supported values: 8, 16, 32.");
             }
+        }
+        
+        public static void SetBits(this AudioFileOutput entity, int bits, IContext context = null)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.SetSampleDataTypeEnum(bits.ToSampleDataTypeEnum(), context);
+        }
+        
+        public static void SetBits(this Sample entity, int bits, IContext context = null)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.SetSampleDataTypeEnum(bits.ToSampleDataTypeEnum(), context);
         }
     }
 }

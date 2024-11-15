@@ -18,9 +18,11 @@ namespace JJ.Business.Synthesizer.Wishes
             if (sampleDataType == typeof(Int16)) return 2;
             throw new ValueNotSupportedException(sampleDataType);
         }
-
+        
         public static int SizeOf(this SampleDataTypeEnum enumValue)
             => SampleDataTypeHelper.SizeOf(enumValue);
+        
+        public static int SizeOfBits(this int bits) => bits / 8;
 
         public static int SizeOfBitDepth(this WavHeaderStruct wavHeader)
             => wavHeader.BitsPerValue * 8;
@@ -127,19 +129,22 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetFileExtension(entity.AudioFileFormat);
         }
-
+        
+        public static double GetNominalMax(this int bits) 
+            => bits.ToSampleDataTypeEnum().GetNominalMax();
+        
         public static double GetNominalMax(this SampleDataTypeEnum enumValue)
         {
             switch (enumValue)
             {
+                case SampleDataTypeEnum.Float32: return 1;
                 case SampleDataTypeEnum.Int16: return Int16.MaxValue;
                 case SampleDataTypeEnum.Byte: return Byte.MaxValue / 2;
-                case SampleDataTypeEnum.Float32: return 1;
                 default:
                     throw new ValueNotSupportedException(enumValue);
             }
         }
-
+        
         public static double GetNominalMax(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));

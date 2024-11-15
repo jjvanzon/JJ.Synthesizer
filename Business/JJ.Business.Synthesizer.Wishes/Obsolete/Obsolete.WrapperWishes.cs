@@ -221,7 +221,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         // SampleOperatorWrapper.SampleDataType
 
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataType GetBitDepthEnumEntity(this SampleOperatorWrapper wrapper)
+        public static SampleDataType GetSampleDataTypeEnumEntity(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataTypeEnum GetBitDepth(this SampleOperatorWrapper wrapper)
+        public static SampleDataTypeEnum GetSampleDataTypeEnum(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -237,7 +237,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetBitDepthEnumEntity(this SampleOperatorWrapper wrapper, SampleDataType enumEntity)
+        public static void SetSampleDataTypeEnumEntity(this SampleOperatorWrapper wrapper, SampleDataType enumEntity)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
@@ -245,7 +245,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetBitDepth(
+        public static void SetSampleDataTypeEnum(
             this SampleOperatorWrapper wrapper, SampleDataTypeEnum enumValue, ISampleDataTypeRepository repository)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -254,12 +254,12 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetBitDepth(
+        public static void SetSampleDataTypeEnum(
             this SampleOperatorWrapper wrapper, SampleDataTypeEnum enumValue, IContext context = null)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
-            wrapper.Sample.SetBitDepth(enumValue, context);
+            wrapper.Sample.SetSampleDataTypeEnum(enumValue, context);
         }
 
         // SampleOperatorWrapper.SpeakerSetup

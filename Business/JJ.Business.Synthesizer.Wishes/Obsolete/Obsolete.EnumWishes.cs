@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         public const string ObsoleteMessage = 
             "Direct use of enum-like entities is discourage. " +
-            "Use the enums instead, like AudioFormat/AudioFileFormatEnum and BitDepth/SampleDataTypeEnum.";
+            "Use the enums instead, like AudioFormat/AudioFileFormatEnum and Bits/SampleDataTypeEnum.";
     }
 
     [Obsolete(ObsoleteMessage)]

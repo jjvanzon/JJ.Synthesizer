@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         [XmlAttribute] public int? SamplingRate { get; set; }
         [XmlAttribute] public SpeakerSetupEnum? Speakers { get; set; }
-        [XmlAttribute] public int? BitDepth { get; set; }
+        [XmlAttribute] public int? Bits { get; set; }
         [XmlAttribute] public AudioFileFormatEnum? AudioFormat { get; set; }
         [XmlAttribute] public InterpolationTypeEnum? Interpolation { get; set; }
         [XmlAttribute] public double? AudioLength { get; set; }
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Even the defaults have defaults, to not require a config file.
         public static int                   SamplingRate     => _section.SamplingRate     ?? 48000;
         public static SpeakerSetupEnum      Speakers         => _section.Speakers         ?? SpeakerSetupEnum.Mono;
-        public static SampleDataTypeEnum    BitDepth         => (_section.BitDepth ?? 32).ToBitDepth();
+        public static int                   Bits             => _section.Bits             ?? 32;
         public static AudioFileFormatEnum   AudioFormat      => _section.AudioFormat      ?? AudioFileFormatEnum.Wav;
         public static InterpolationTypeEnum Interpolation    => _section.Interpolation    ?? InterpolationTypeEnum.Line;
         public static double                AudioLength      => _section.AudioLength      ?? 1;
@@ -217,42 +217,42 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet WithSamplingRate(int value) { _synthWishes.WithSamplingRate(value); return this; }
     }
     
-    // BitDepth SynthWishes
+    // Bits SynthWishes
 
     public partial class SynthWishes
     {
-        private SampleDataTypeEnum _bitDepth;
+        private SampleDataTypeEnum _sampleDataTypeEnum;
 
-        public SampleDataTypeEnum GetBitDepth
+        public int GetBits
         {
             get
             {
-                if (_bitDepth != SampleDataTypeEnum.Undefined)
+                if (_sampleDataTypeEnum != default)
                 {
-                    return _bitDepth;
+                    return _sampleDataTypeEnum.GetBits();
                 }
 
-                return ConfigHelper.BitDepth;
+                return ConfigHelper.Bits;
             }
         }
 
-        public SynthWishes WithBitDepth(SampleDataTypeEnum bitDepth)
+        public SynthWishes WithBits(int bits)
         {
-            _bitDepth = bitDepth;
+            _sampleDataTypeEnum = bits.ToSampleDataTypeEnum();
             return this;
         }
 
-        public SynthWishes With32Bit() => WithBitDepth(SampleDataTypeEnum.Float32);
-        public SynthWishes With16Bit() => WithBitDepth(SampleDataTypeEnum.Int16);
-        public SynthWishes With8Bit() => WithBitDepth(SampleDataTypeEnum.Byte);
+        public SynthWishes With32Bit() => WithBits(32);
+        public SynthWishes With16Bit() => WithBits(16);
+        public SynthWishes With8Bit() => WithBits(8);
     }
 
-    // BitDepth FluentOutlet
+    // Bits FluentOutlet
 
     public partial class FluentOutlet
     {
-        public SampleDataTypeEnum GetBitDepth => _synthWishes.GetBitDepth;
-        public FluentOutlet WithBitDepth(SampleDataTypeEnum bitDepth) { _synthWishes.WithBitDepth(bitDepth); return this; }
+        public int GetBits => _synthWishes.GetBits;
+        public FluentOutlet WithBits(int bits) { _synthWishes.WithBits(bits); return this; }
         public FluentOutlet With32Bit() { _synthWishes.With32Bit(); return this; }
         public FluentOutlet With16Bit() { _synthWishes.With16Bit(); return this; }
         public FluentOutlet With8Bit() { _synthWishes.With8Bit(); return this; }

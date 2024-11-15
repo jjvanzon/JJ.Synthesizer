@@ -3,7 +3,6 @@ using JJ.Persistence.Synthesizer;
 using System.IO;
 using System.Runtime.CompilerServices;
 using JJ.Business.CanonicalModel;
-using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.IO.StreamHelper;
@@ -160,9 +159,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
             Sample sample = _sampleManager.CreateSample();
             sample.Location =  location;
-            sample.Amplifier = 1.0 / GetBitDepth.GetNominalMax();
+            sample.Amplifier = 1.0 / GetBits.GetNominalMax();
             sample.SamplingRate = ResolveSamplingRate().Data;
-            sample.SetBitDepth(GetBitDepth, Context);
+            sample.SetBits(GetBits, Context);
             sample.SetSpeakerSetup(GetSpeakers, Context);
             sample.SetAudioFormat(GetAudioFormat, Context);
             sample.SetInterpolation(GetInterpolation, Context);

@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ThrowsException(() => 0.ToSpeakerSetup());
 
             // AudioFileWishes.Extensions.GetSampleDataTypeEnum SampleDataTypeNotSupported
-            ThrowsException(() => EnumSpecialWishes.GetBitDepth<long>());
+            ThrowsException(() => EnumSpecialWishes.GetSampleDataTypeEnum<long>());
 
             // AudioFileWishes.Extensions.GetFileExtension AudioFileFormatNotSupported
             ThrowsException(() => AudioFileFormatEnum.Undefined.GetFileExtension());
