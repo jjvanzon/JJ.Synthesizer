@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public double? PlayLeadingSilence { get; set; }
         [XmlAttribute] public double? PlayTrailingSilence { get; set; }
         [XmlAttribute] public bool? ParallelEnabled { get; set; }
-        [XmlAttribute] public bool? MathOptimizationEnabled { get; set; }
+        [XmlAttribute] public bool? MathOptimization { get; set; }
         [XmlAttribute] public bool? CacheToDisk { get; set; }
 
         public ConfigToolingElement AzurePipelines { get; set; } = new ConfigToolingElement();
@@ -59,18 +59,18 @@ namespace JJ.Business.Synthesizer.Wishes
         };
         
         // Even the defaults have defaults, to not require a config file.
-        public static int                   DefaultSamplingRate     => _section.DefaultSamplingRate     ?? 48000;
-        public static SpeakerSetupEnum      DefaultSpeakerSetup     => _section.DefaultSpeakerSetup     ?? SpeakerSetupEnum.Mono;
-        public static SampleDataTypeEnum    DefaultBitDepth         => (_section.DefaultBitDepth ?? 32).ToBitDepth();
-        public static AudioFileFormatEnum   DefaultAudioFormat      => _section.DefaultAudioFormat      ?? AudioFileFormatEnum.Wav;
-        public static InterpolationTypeEnum DefaultInterpolation    => _section.DefaultInterpolation    ?? InterpolationTypeEnum.Line;
-        public static double                DefaultAudioLength      => _section.DefaultAudioLength      ?? 1;
-        public static bool                  PlayEnabled             => _section.PlayEnabled             ?? true;
-        public static double                PlayLeadingSilence      => _section.PlayLeadingSilence      ?? 0.2;
-        public static double                PlayTrailingSilence     => _section.PlayTrailingSilence     ?? 0.2;
-        public static bool                  ParallelEnabled         => _section.ParallelEnabled         ?? true;
-        public static bool                  MathOptimizationEnabled => _section.MathOptimizationEnabled ?? true;
-        public static bool                  CacheToDisk             => _section.CacheToDisk             ?? false;
+        public static int                   DefaultSamplingRate  => _section.DefaultSamplingRate  ?? 48000;
+        public static SpeakerSetupEnum      DefaultSpeakerSetup  => _section.DefaultSpeakerSetup  ?? SpeakerSetupEnum.Mono;
+        public static SampleDataTypeEnum    DefaultBitDepth      => (_section.DefaultBitDepth ?? 32).ToBitDepth();
+        public static AudioFileFormatEnum   DefaultAudioFormat   => _section.DefaultAudioFormat   ?? AudioFileFormatEnum.Wav;
+        public static InterpolationTypeEnum DefaultInterpolation => _section.DefaultInterpolation ?? InterpolationTypeEnum.Line;
+        public static double                DefaultAudioLength   => _section.DefaultAudioLength   ?? 1;
+        public static bool                  PlayEnabled          => _section.PlayEnabled          ?? true;
+        public static double                PlayLeadingSilence   => _section.PlayLeadingSilence   ?? 0.2;
+        public static double                PlayTrailingSilence  => _section.PlayTrailingSilence  ?? 0.2;
+        public static bool                  ParallelEnabled      => _section.ParallelEnabled      ?? true;
+        public static bool                  MathOptimization     => _section.MathOptimization     ?? true;
+        public static bool                  CacheToDisk          => _section.CacheToDisk          ?? false;
 
         public static string LongRunningTestCategory
         {
@@ -453,22 +453,22 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        private bool? _mathOptimizationEnabled;
+        private bool? _mathOptimization;
         
-        public SynthWishes WithMathOptimizationEnabled(bool? mathOptimizationEnabled = default)
+        public SynthWishes WithMathOptimization(bool? mathOptimizationEnabled = true)
         {
-            _mathOptimizationEnabled = mathOptimizationEnabled;
+            _mathOptimization = mathOptimizationEnabled;
             return this;
         }
         
-        public bool GetMathOptimizationEnabled => _mathOptimizationEnabled ?? ConfigHelper.MathOptimizationEnabled;
+        public bool GetMathOptimizationEnabled => _mathOptimization ?? ConfigHelper.MathOptimization;
     }
     
     // FluentOutlet MathOptimizationEnabled
     
     public partial class FluentOutlet
     {
-        public FluentOutlet WithMathOptimizationEnabled(bool? mathOptimizationEnabled = default) { _synthWishes.WithMathOptimizationEnabled(mathOptimizationEnabled); return this; }
+        public FluentOutlet WithMathOptimization(bool? mathOptimizationEnabled = true) { _synthWishes.WithMathOptimization(mathOptimizationEnabled); return this; }
         private bool GetMathOptimizationEnabled => _synthWishes.GetMathOptimizationEnabled;
     }
 }

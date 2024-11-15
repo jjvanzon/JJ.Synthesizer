@@ -14,16 +14,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Stringify_ShortNotation1()
         {
+            WithMathOptimization(false);
+
             FluentOutlet fluentOutlet = Sine(A4).Curve(0, 1, 0);
 
             string stringified = fluentOutlet.Stringify(true, true);
             
-            AreEqual("Curve * Sine(1,440)", stringified);
+            AreEqual("Sine(1,440) * Curve", stringified);
         }
         
         [TestMethod]
         public void Test_Stringify_ShortNotation2()
         {
+            WithMathOptimization();
+
             Outlet outlet = Sine(A4).Curve(0, 1, 0).Volume(2);
 
             string stringified = outlet.Stringify(true, true);
@@ -34,9 +38,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Stringify_LongNotation1()
         {
+            WithMathOptimization(true);
+            
             Operator op = Sine(A4).Curve(0, 1, 0).UnderlyingOperator;
 
             string actual = op.Stringify();
+            
+            // Order changed:
+            // It's a commutative multiplication
+            // and curves tend to be shifted upwards,
+            // for higher chance early 0 discovery.
 
             string expected = "Multiply(" + NewLine +
                               "  Curve * " + NewLine +
@@ -48,20 +59,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Stringify_LongNotation2()
         {
+            WithMathOptimization(false);
+
             var wrapper = new EntityWrappers.Sine(
                 Sine(A4).Curve(0, 1, 0).Volume(2).UnderlyingOperator);
 
             string actual = _[wrapper].Stringify();
 
-            // Order changed:
-            // It's a commutative multiplication
-            // and curves tend to be shifted upwards,
-            // for higher chance early 0 discovery.
-
             string expected = "Volume Multiply(" + NewLine +
-                              "  Curve * " + NewLine +
-                              "  Multiply(" + NewLine +
-                              "    Sine(1,440) * 2))";
+                              "  Multiply(" + NewLine + 
+                              "    Sine(1,440) * " + NewLine +
+                              "    Curve) * 2)";
             
             AreEqual(expected, actual);
         }

@@ -33,6 +33,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void NestedSumFlattening()
         {
+            WithMathOptimization();
+
             // Arrange
             var var1    = Curve(1, 1).SetName("Curve1");
             var var2    = Curve(2, 2).SetName("Curve2");
@@ -165,6 +167,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void NestedMultiplicationOptimization()
         {
+            WithMathOptimization();
+            
             // Arrange
             var const1 = _[1];
             var var2   = WithName("Curve2").Curve(2, 2).SetName("Curve2");
