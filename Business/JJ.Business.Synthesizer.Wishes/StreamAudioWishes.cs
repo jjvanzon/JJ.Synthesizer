@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.Duration = GetAudioLength.Calculate();
             audioFileOutput.FilePath = FormatAudioFileName(name, GetAudioFormat);
             audioFileOutput.SetBits(GetBits, Context);
-            audioFileOutput.SetAudioFormat(GetAudioFormat);
+            audioFileOutput.SetAudioFormat(GetAudioFormat, Context);
             audioFileOutput.Name = name;
 
             var samplingRateResult = ResolveSamplingRate();
