@@ -20,9 +20,9 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public bool? PlayEnabled { get; set; }
         [XmlAttribute] public double? LeadingSilence { get; set; }
         [XmlAttribute] public double? TrailingSilence { get; set; }
-        [XmlAttribute] public bool? ParallelEnabled { get; set; }
+        [XmlAttribute] public bool? Parallel { get; set; }
         [XmlAttribute] public bool? MathOptimization { get; set; }
-        [XmlAttribute] public bool? CacheToDisk { get; set; }
+        [XmlAttribute] public bool? DiskCaching { get; set; }
 
         public ConfigToolingElement AzurePipelines { get; set; } = new ConfigToolingElement();
         public ConfigToolingElement NCrunch { get; set; } = new ConfigToolingElement();
@@ -68,9 +68,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public static bool                  PlayEnabled      => _section.PlayEnabled      ?? true;
         public static double                LeadingSilence   => _section.LeadingSilence   ?? 0.2;
         public static double                TrailingSilence  => _section.TrailingSilence  ?? 0.2;
-        public static bool                  ParallelEnabled  => _section.ParallelEnabled  ?? true;
+        public static bool                  Parallel         => _section.Parallel  ?? true;
         public static bool                  MathOptimization => _section.MathOptimization ?? true;
-        public static bool                  CacheToDisk      => _section.CacheToDisk      ?? false;
+        public static bool                  DiskCaching      => _section.DiskCaching      ?? false;
 
         public static string LongRunningTestCategory
         {
@@ -378,50 +378,50 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOutlet WithBlocky() { _synthWishes.WithBlocky(); return this; }
     }
 
-    // SynthWishes MustCacheToDisk
+    // SynthWishes DiskCaching
 
     public partial class SynthWishes
     {
-        private bool? _mustCacheToDisk;
+        private bool? _diskCaching;
 
-        public SynthWishes WithCacheToDisk(bool? enabled = true)
+        public SynthWishes WithDiskCaching(bool? enabled = true)
         {
-            _mustCacheToDisk = enabled;
+            _diskCaching = enabled;
             return this;
         }
 
-        public bool MustCacheToDisk => _mustCacheToDisk ?? ConfigHelper.CacheToDisk;
+        public bool GetDiskCaching => _diskCaching ?? ConfigHelper.DiskCaching;
     }
 
-    // FluentOutlet MustCacheToDisk
+    // FluentOutlet DiskCaching
 
     public partial class FluentOutlet
     {
-        public FluentOutlet WithCacheToDisk(bool? enabled = true) { _synthWishes.WithCacheToDisk(enabled); return this; }
-        public bool MustCacheToDisk => _synthWishes.MustCacheToDisk;
+        public FluentOutlet WithDiskCaching(bool? enabled = true) { _synthWishes.WithDiskCaching(enabled); return this; }
+        public bool GetDiskCaching => _synthWishes.GetDiskCaching;
     }
 
-    // SynthWishes ParallelEnabled
+    // SynthWishes Parallel
 
     public partial class SynthWishes
     {
-        private bool? _parallelEnabled;
+        private bool? _parallel;
 
-        public SynthWishes WithParallelEnabled(bool? parallelEnabled = default)
+        public SynthWishes WithParallel(bool? enabled = default)
         {
-            _parallelEnabled = parallelEnabled;
+            _parallel = enabled;
             return this;
         }
 
-        public bool GetParallelEnabled => _parallelEnabled ?? ConfigHelper.ParallelEnabled;
+        public bool GetParallel => _parallel ?? ConfigHelper.Parallel;
     }
 
-    // FluentOutlet ParallelEnabled
+    // FluentOutlet Parallel
 
     public partial class FluentOutlet
     {
-        public FluentOutlet WithParallelEnabled(bool? parallelEnabled = default) { _synthWishes.WithParallelEnabled(parallelEnabled); return this; }
-        private bool GetParallelEnabled => _synthWishes.GetParallelEnabled;
+        public FluentOutlet WithParallel(bool? enabled = default) { _synthWishes.WithParallel(enabled); return this; }
+        private bool GetParallel => _synthWishes.GetParallel;
     }
     
     // SynthWishes PlayParallels

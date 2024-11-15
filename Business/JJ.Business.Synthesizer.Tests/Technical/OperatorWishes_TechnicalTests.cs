@@ -387,7 +387,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void ParallelAdd_NormalAdd_ForComparison()
         {
-            WithParallelEnabled();
+            WithParallel();
 
             var duration = 0.1;
 
@@ -412,7 +412,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var accessor = new SynthWishesAccessor(this);
 
-            WithParallelEnabled();
+            WithParallel();
 
             // Arrange
             var duration  = 0.1;
@@ -510,7 +510,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var accessor = new SynthWishesAccessor(this);
 
             // Arrange
-            WithParallelEnabled();
+            WithParallel();
             WithPlayParallels();
 
             var duration = 0.1;
@@ -561,7 +561,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void ParallelAdd_WithSinePartials()
         {
-            WithParallelEnabled();
+            WithParallel();
 
             var freq = A4;
 
@@ -582,7 +582,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var freq = A4;
 
-            WithParallelEnabled();
+            WithParallel();
             WithPlayParallels();
             WithName();
 

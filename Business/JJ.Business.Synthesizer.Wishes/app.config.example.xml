@@ -27,9 +27,9 @@
 		playEnabled="true"
 		leadingSilence="0.2"
 		trailingSilence="0.2"
-		parallelEnabled="true"
+		parallel="true"
 		mathOptimization="true"
-		cacheToDisk="false"
+		diskCaching="false"
 		longRunningTestCategory="Long">
 		
 		<nCrunch

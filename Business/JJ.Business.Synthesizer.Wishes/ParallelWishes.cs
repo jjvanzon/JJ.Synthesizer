@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             var add = Add(terms);
             
-            if (GetParallelEnabled)
+            if (GetParallel)
             {
                 foreach (var term in add.Operands)
                 {
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
-            if (!GetParallelEnabled) return;
+            if (!GetParallel) return;
 
             var tasks = new Task[channels.Count];
             for (int i = 0; i < channels.Count; i++)
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal void RunParallelsRecursive(FluentOutlet op)
         {
-            if (!GetParallelEnabled) return;
+            if (!GetParallel) return;
             
             // Gather all tasks with levels
             var tasks = GetParallelTasksRecursive(op, level: 1);
