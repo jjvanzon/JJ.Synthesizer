@@ -1,6 +1,8 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
+using static JJ.Business.Synthesizer.Tests.Functional.AdditiveEchoExtensions;
+// ReSharper disable InvokeAsExtensionMethod
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
@@ -10,8 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         const double magnitude = 0.33;
         const double delay     = 0.66;
         
-        /// <inheritdoc cref="docs._default" />
-        public static FluentOutlet Echo(this FluentOutlet x)
+        public static FluentOutlet Echo(this FluentOutlet x) 
             => x.Echo(count, x._[magnitude], x._[delay])
                 .AddEchoDuration(count, x._[delay])
                 .SetName();
@@ -45,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         public void Additive_Metallophone_Note_RunTest()
         {
-            WithAudioLength(NoteDuration).Save(() => Echo(Metallophone(Fs4) * 0.5)).Play();
+            WithAudioLength(NoteDuration).Save(() => Metallophone(Fs4).Echo() * 0.5).Play();
         }
 
         /// <inheritdoc cref="docs._metallophone"/>

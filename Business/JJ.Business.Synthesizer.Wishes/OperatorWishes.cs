@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
-using static System.Guid;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Helpers.LogHelper;
 
@@ -1199,7 +1198,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => Echo(signal, count, _[magnitude], delay, callerMemberName);
 
         public FluentOutlet Echo(
-            FluentOutlet signal, int count = 4, FluentOutlet magnitude = default, FluentOutlet delay = default,
+            FluentOutlet signal, int count, FluentOutlet magnitude = default, FluentOutlet delay = default,
             [CallerMemberName] string callerMemberName = null)
             => EchoTape(signal, count, magnitude, delay);
 
