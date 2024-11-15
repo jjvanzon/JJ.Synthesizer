@@ -18,8 +18,8 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public double? AudioLength { get; set; }
         [XmlAttribute] public string LongRunningTestCategory { get; set; }
         [XmlAttribute] public bool? PlayEnabled { get; set; }
-        [XmlAttribute] public double? PlayLeadingSilence { get; set; }
-        [XmlAttribute] public double? PlayTrailingSilence { get; set; }
+        [XmlAttribute] public double? LeadingSilence { get; set; }
+        [XmlAttribute] public double? TrailingSilence { get; set; }
         [XmlAttribute] public bool? ParallelEnabled { get; set; }
         [XmlAttribute] public bool? MathOptimization { get; set; }
         [XmlAttribute] public bool? CacheToDisk { get; set; }
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public int? SamplingRate { get; set; }
         [XmlAttribute] public int? SamplingRateLongRunning { get; set; }
         [XmlAttribute] public bool? PlayEnabled { get; set; }
-        [XmlAttribute] public bool? Pretend { get; set; }
+        [XmlAttribute] public bool? Impersonate { get; set; }
     }
 
     /// <inheritdoc cref="docs._confighelper"/>
@@ -59,18 +59,18 @@ namespace JJ.Business.Synthesizer.Wishes
         };
         
         // Even the defaults have defaults, to not require a config file.
-        public static int                   SamplingRate         => _section.SamplingRate        ?? 48000;
-        public static SpeakerSetupEnum      SpeakerSetup         => _section.SpeakerSetup        ?? SpeakerSetupEnum.Mono;
-        public static SampleDataTypeEnum    BitDepth             => (_section.BitDepth ?? 32).ToBitDepth();
-        public static AudioFileFormatEnum   AudioFormat          => _section.AudioFormat         ?? AudioFileFormatEnum.Wav;
-        public static InterpolationTypeEnum Interpolation        => _section.Interpolation       ?? InterpolationTypeEnum.Line;
-        public static double                AudioLength          => _section.AudioLength         ?? 1;
-        public static bool                  PlayEnabled          => _section.PlayEnabled         ?? true;
-        public static double                PlayLeadingSilence   => _section.PlayLeadingSilence  ?? 0.2;
-        public static double                PlayTrailingSilence  => _section.PlayTrailingSilence ?? 0.2;
-        public static bool                  ParallelEnabled      => _section.ParallelEnabled     ?? true;
-        public static bool                  MathOptimization     => _section.MathOptimization    ?? true;
-        public static bool                  CacheToDisk          => _section.CacheToDisk         ?? false;
+        public static int                   SamplingRate     => _section.SamplingRate     ?? 48000;
+        public static SpeakerSetupEnum      SpeakerSetup     => _section.SpeakerSetup     ?? SpeakerSetupEnum.Mono;
+        public static SampleDataTypeEnum    BitDepth         => (_section.BitDepth ?? 32).ToBitDepth();
+        public static AudioFileFormatEnum   AudioFormat      => _section.AudioFormat      ?? AudioFileFormatEnum.Wav;
+        public static InterpolationTypeEnum Interpolation    => _section.Interpolation    ?? InterpolationTypeEnum.Line;
+        public static double                AudioLength      => _section.AudioLength      ?? 1;
+        public static bool                  PlayEnabled      => _section.PlayEnabled      ?? true;
+        public static double                LeadingSilence   => _section.LeadingSilence   ?? 0.2;
+        public static double                TrailingSilence  => _section.TrailingSilence  ?? 0.2;
+        public static bool                  ParallelEnabled  => _section.ParallelEnabled  ?? true;
+        public static bool                  MathOptimization => _section.MathOptimization ?? true;
+        public static bool                  CacheToDisk      => _section.CacheToDisk      ?? false;
 
         public static string LongRunningTestCategory
         {
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public int  SamplingRate            => _baseConfig.SamplingRate            ?? 150;
         public int  SamplingRateLongRunning => _baseConfig.SamplingRateLongRunning ?? 30;
         public bool PlayEnabled             => _baseConfig.PlayEnabled             ?? false;
-        public bool Pretend                 => _baseConfig.Pretend                 ?? false;
+        public bool Impersonate             => _baseConfig.Impersonate             ?? false;
     }
 
     // Fluent Configuration

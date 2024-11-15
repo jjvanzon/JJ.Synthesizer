@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             {
                 var lines = new List<string>();
                 
-                if (ConfigHelper.NCrunch.Pretend)
+                if (ConfigHelper.NCrunch.Impersonate)
                 {
                     lines.Add("Pretending to be NCrunch.");
                     SetEnvironmentVariable("NCrunch", "1");
@@ -147,7 +147,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             {
                 var lines = new List<string>();
 
-                if (ConfigHelper.AzurePipelines.Pretend)
+                if (ConfigHelper.AzurePipelines.Impersonate)
                 {
                     lines.Add("Pretending to be Azure Pipelines.");
                     SetEnvironmentVariable("TF_BUILD", "True");

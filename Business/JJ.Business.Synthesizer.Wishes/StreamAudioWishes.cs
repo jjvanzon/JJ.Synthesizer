@@ -251,24 +251,24 @@ namespace JJ.Business.Synthesizer.Wishes
                 
         private FluentOutlet ApplyPadding(FluentOutlet outlet)
         {
-            if (ConfigHelper.PlayLeadingSilence == 0 &&
-                ConfigHelper.PlayTrailingSilence == 0)
+            if (ConfigHelper.LeadingSilence == 0 &&
+                ConfigHelper.TrailingSilence == 0)
             {
                 return outlet;
             }
 
-            Console.WriteLine($"{PrettyTime()} Padding a channel: {ConfigHelper.PlayLeadingSilence} s before | {ConfigHelper.PlayTrailingSilence} s after");
+            Console.WriteLine($"{PrettyTime()} Padding a channel: {ConfigHelper.LeadingSilence} s before | {ConfigHelper.TrailingSilence} s after");
 
-            AddAudioLength(ConfigHelper.PlayLeadingSilence);
-            AddAudioLength(ConfigHelper.PlayTrailingSilence);
+            AddAudioLength(ConfigHelper.LeadingSilence);
+            AddAudioLength(ConfigHelper.TrailingSilence);
             
-            if (ConfigHelper.PlayLeadingSilence == 0)
+            if (ConfigHelper.LeadingSilence == 0)
             {
                 return outlet;
             }
             else
             {
-                return Delay(outlet, _[ConfigHelper.PlayLeadingSilence]);
+                return Delay(outlet, _[ConfigHelper.LeadingSilence]);
             }
         }
 
