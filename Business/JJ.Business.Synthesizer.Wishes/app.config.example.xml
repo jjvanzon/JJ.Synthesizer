@@ -18,12 +18,12 @@
   </jj.framework.persistence>
 
 	<jj.business.synthesizer.wishes 
-		defaultSamplingRate="48000"
-		defaultSpeakerSetup="Mono"
-		defaultBitDepth="32"
-		defaultAudioFormat="Wav"
-		defaultInterpolation="Line"
-		defaultAudioLength="1"
+		samplingRate="48000"
+		speakerSetup="Mono"
+		bitDepth="32"
+		audioFormat="Wav"
+		interpolation="Line"
+		audioLength="1"
 		playEnabled="true"
 		playLeadingSilence="0.2"
 		playTrailingSilence="0.2"

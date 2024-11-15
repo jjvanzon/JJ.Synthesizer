@@ -473,7 +473,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return new Result<int>
             {
-                Data = ConfigHelper.DefaultSamplingRate,
+                Data = ConfigHelper.SamplingRate,
                 ValidationMessages = new List<ValidationMessage>(),
                 Successful = true
             };

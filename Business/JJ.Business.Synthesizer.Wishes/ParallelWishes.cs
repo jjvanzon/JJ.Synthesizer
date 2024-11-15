@@ -55,14 +55,14 @@ namespace JJ.Business.Synthesizer.Wishes
             
             WaitAll(tasks);
         }
-
+        
         internal void RunParallelsRecursive(FluentOutlet op)
         {
             if (!GetParallelEnabled) return;
-
+            
             // Gather all tasks with levels
             var tasks = GetParallelTasksRecursive(op, level: 1);
-
+            
             // Group tasks by nesting level
             var levelGroups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
             foreach (var levelGroup in levelGroups)
@@ -73,7 +73,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 WaitAll(tasksInLevel); // Ensure each level completes before moving up
             }
         }
-
         private IList<(Task Task, int Level)> GetParallelTasksRecursive(FluentOutlet op, int level)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
@@ -123,7 +122,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return tasks;
         }
-
+        
         // Helpers
         
         private readonly HashSet<Outlet> _tapes = new HashSet<Outlet>();

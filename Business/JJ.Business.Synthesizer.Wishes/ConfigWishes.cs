@@ -10,12 +10,12 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     internal class ConfigSection
     {
-        [XmlAttribute] public int? DefaultSamplingRate { get; set; }
-        [XmlAttribute] public SpeakerSetupEnum? DefaultSpeakerSetup { get; set; }
-        [XmlAttribute] public int? DefaultBitDepth { get; set; }
-        [XmlAttribute] public AudioFileFormatEnum? DefaultAudioFormat { get; set; }
-        [XmlAttribute] public InterpolationTypeEnum? DefaultInterpolation { get; set; }
-        [XmlAttribute] public double? DefaultAudioLength { get; set; }
+        [XmlAttribute] public int? SamplingRate { get; set; }
+        [XmlAttribute] public SpeakerSetupEnum? SpeakerSetup { get; set; }
+        [XmlAttribute] public int? BitDepth { get; set; }
+        [XmlAttribute] public AudioFileFormatEnum? AudioFormat { get; set; }
+        [XmlAttribute] public InterpolationTypeEnum? Interpolation { get; set; }
+        [XmlAttribute] public double? AudioLength { get; set; }
         [XmlAttribute] public string LongRunningTestCategory { get; set; }
         [XmlAttribute] public bool? PlayEnabled { get; set; }
         [XmlAttribute] public double? PlayLeadingSilence { get; set; }
@@ -59,18 +59,18 @@ namespace JJ.Business.Synthesizer.Wishes
         };
         
         // Even the defaults have defaults, to not require a config file.
-        public static int                   DefaultSamplingRate  => _section.DefaultSamplingRate  ?? 48000;
-        public static SpeakerSetupEnum      DefaultSpeakerSetup  => _section.DefaultSpeakerSetup  ?? SpeakerSetupEnum.Mono;
-        public static SampleDataTypeEnum    DefaultBitDepth      => (_section.DefaultBitDepth ?? 32).ToBitDepth();
-        public static AudioFileFormatEnum   DefaultAudioFormat   => _section.DefaultAudioFormat   ?? AudioFileFormatEnum.Wav;
-        public static InterpolationTypeEnum DefaultInterpolation => _section.DefaultInterpolation ?? InterpolationTypeEnum.Line;
-        public static double                DefaultAudioLength   => _section.DefaultAudioLength   ?? 1;
-        public static bool                  PlayEnabled          => _section.PlayEnabled          ?? true;
-        public static double                PlayLeadingSilence   => _section.PlayLeadingSilence   ?? 0.2;
-        public static double                PlayTrailingSilence  => _section.PlayTrailingSilence  ?? 0.2;
-        public static bool                  ParallelEnabled      => _section.ParallelEnabled      ?? true;
-        public static bool                  MathOptimization     => _section.MathOptimization     ?? true;
-        public static bool                  CacheToDisk          => _section.CacheToDisk          ?? false;
+        public static int                   SamplingRate         => _section.SamplingRate        ?? 48000;
+        public static SpeakerSetupEnum      SpeakerSetup         => _section.SpeakerSetup        ?? SpeakerSetupEnum.Mono;
+        public static SampleDataTypeEnum    BitDepth             => (_section.BitDepth ?? 32).ToBitDepth();
+        public static AudioFileFormatEnum   AudioFormat          => _section.AudioFormat         ?? AudioFileFormatEnum.Wav;
+        public static InterpolationTypeEnum Interpolation        => _section.Interpolation       ?? InterpolationTypeEnum.Line;
+        public static double                AudioLength          => _section.AudioLength         ?? 1;
+        public static bool                  PlayEnabled          => _section.PlayEnabled         ?? true;
+        public static double                PlayLeadingSilence   => _section.PlayLeadingSilence  ?? 0.2;
+        public static double                PlayTrailingSilence  => _section.PlayTrailingSilence ?? 0.2;
+        public static bool                  ParallelEnabled      => _section.ParallelEnabled     ?? true;
+        public static bool                  MathOptimization     => _section.MathOptimization    ?? true;
+        public static bool                  CacheToDisk          => _section.CacheToDisk         ?? false;
 
         public static string LongRunningTestCategory
         {
@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _audioLength;
                 }
 
-                return _[ConfigHelper.DefaultAudioLength];
+                return _[ConfigHelper.AudioLength];
             }
         }
 
@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _bitDepth;
                 }
 
-                return ConfigHelper.DefaultBitDepth;
+                return ConfigHelper.BitDepth;
             }
         }
 
@@ -273,7 +273,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _speakerSetup;
                 }
 
-                return ConfigHelper.DefaultSpeakerSetup;
+                return ConfigHelper.SpeakerSetup;
             }
         }
 
@@ -313,7 +313,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _audioFormat;
                 }
 
-                return ConfigHelper.DefaultAudioFormat;
+                return ConfigHelper.AudioFormat;
             }
         }
 
@@ -353,7 +353,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _interpolation;
                 }
 
-                return ConfigHelper.DefaultInterpolation;
+                return ConfigHelper.Interpolation;
             }
         }
 
