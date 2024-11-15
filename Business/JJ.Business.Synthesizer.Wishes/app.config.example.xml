@@ -24,7 +24,7 @@
 		audioFormat="Wav"
 		interpolation="Line"
 		audioLength="1"
-		playEnabled="true"
+		audioPlayBack="true"
 		leadingSilence="0.2"
 		trailingSilence="0.2"
 		parallels="true"
@@ -35,13 +35,13 @@
 		<nCrunch
 			samplingRate="150"
 			samplingRateLongRunning="30"
-			playEnabled="false"
+			audioPlayBack="false"
 			impersonate="false" />
 		
 		<azurePipelines
 			samplingRate="1500"
 			samplingRateLongRunning="100"
-			playEnabled="false" 
+			audioPlayBack="false" 
 			impersonate="false"/>
 	</jj.business.synthesizer.wishes>
 	

@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 ValidationMessages = new List<ValidationMessage>()
             };
             
-            if (!ConfigHelper.PlayEnabled)
+            if (!ConfigHelper.AudioPlayBack)
             {
                 result.Data = false;
                 return result;
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             var isRunningInNCrunch = IsRunningInNCrunch;
             result.ValidationMessages.AddRange(isRunningInNCrunch.ValidationMessages);
             
-            if (isRunningInNCrunch.Data && !ConfigHelper.NCrunch.PlayEnabled)
+            if (isRunningInNCrunch.Data && !ConfigHelper.NCrunch.AudioPlayBack)
             {
                 result.ValidationMessages.Add("Audio disabled".ToCanonical());
                 result.Data = false;
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             var isRunningInAzurePipelines = IsRunningInAzurePipelines;
             result.ValidationMessages.AddRange(isRunningInNCrunch.ValidationMessages);
             
-            if (isRunningInAzurePipelines.Data && !ConfigHelper.AzurePipelines.PlayEnabled)
+            if (isRunningInAzurePipelines.Data && !ConfigHelper.AzurePipelines.AudioPlayBack)
             {
                 result.ValidationMessages.Add("Audio disabled".ToCanonical());
                 result.Data = false;

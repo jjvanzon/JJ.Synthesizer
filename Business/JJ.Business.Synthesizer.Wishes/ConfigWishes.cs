@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public InterpolationTypeEnum? Interpolation { get; set; }
         [XmlAttribute] public double? AudioLength { get; set; }
         [XmlAttribute] public string LongRunningTestCategory { get; set; }
-        [XmlAttribute] public bool? PlayEnabled { get; set; }
+        [XmlAttribute] public bool? AudioPlayBack { get; set; }
         [XmlAttribute] public double? LeadingSilence { get; set; }
         [XmlAttribute] public double? TrailingSilence { get; set; }
         [XmlAttribute] public bool? Parallels { get; set; }
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         [XmlAttribute] public int? SamplingRate { get; set; }
         [XmlAttribute] public int? SamplingRateLongRunning { get; set; }
-        [XmlAttribute] public bool? PlayEnabled { get; set; }
+        [XmlAttribute] public bool? AudioPlayBack { get; set; }
         [XmlAttribute] public bool? Impersonate { get; set; }
     }
 
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static AudioFileFormatEnum   AudioFormat      => _section.AudioFormat      ?? AudioFileFormatEnum.Wav;
         public static InterpolationTypeEnum Interpolation    => _section.Interpolation    ?? InterpolationTypeEnum.Line;
         public static double                AudioLength      => _section.AudioLength      ?? 1;
-        public static bool                  PlayEnabled      => _section.PlayEnabled      ?? true;
+        public static bool                  AudioPlayBack    => _section.AudioPlayBack    ?? true;
         public static double                LeadingSilence   => _section.LeadingSilence   ?? 0.2;
         public static double                TrailingSilence  => _section.TrailingSilence  ?? 0.2;
         public static bool                  Parallels        => _section.Parallels        ?? true;
@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
         public int  SamplingRate            => _baseConfig.SamplingRate            ?? 150;
         public int  SamplingRateLongRunning => _baseConfig.SamplingRateLongRunning ?? 30;
-        public bool PlayEnabled             => _baseConfig.PlayEnabled             ?? false;
+        public bool AudioPlayBack           => _baseConfig.AudioPlayBack           ?? false;
         public bool Impersonate             => _baseConfig.Impersonate             ?? false;
     }
 
