@@ -10,9 +10,16 @@ using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    internal static class ToolingHelper
+    internal class ToolingHelper
     {
-        public static Result<bool> PlayAllowed(string fileExtension)
+        private readonly ConfigResolver _configResolver;
+        
+        public ToolingHelper(ConfigResolver configResolver)
+        {
+            _configResolver = configResolver ?? throw new ArgumentNullException(nameof(configResolver));
+        }
+        
+        public Result<bool> PlayAllowed(string fileExtension)
         {
             var result = new Result<bool>
             {
@@ -20,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 ValidationMessages = new List<ValidationMessage>()
             };
             
-            if (!ConfigHelper.AudioPlayBack)
+            if (!_configResolver.GetAudioPlayBack)
             {
                 result.Data = false;
                 return result;

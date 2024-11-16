@@ -24,6 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
             _sampleManager = ServiceFactory.CreateSampleManager(context);
             InitializeOperatorWishes();
+            InitializeConfigWishes();
         }
 
         // Helpers

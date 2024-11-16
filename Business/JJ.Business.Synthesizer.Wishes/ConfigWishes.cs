@@ -8,6 +8,33 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    internal class ConfigResolver
+    {
+        private static readonly ConfigSection _configSection
+            = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
+
+        private const bool DEFAULT_AUDIO_PLAY_BACK = true;
+        private bool? _audioPlayBack;
+        public bool GetAudioPlayBack => _audioPlayBack ?? _configSection.AudioPlayBack ?? DEFAULT_AUDIO_PLAY_BACK;
+        public void WithAudioPlayBack(bool? value) => _audioPlayBack = value;
+    }
+    
+  
+    public partial class SynthWishes
+    {
+        internal static ConfigResolver DefaultConfigResolver { get; } = new ConfigResolver();
+        internal static ToolingHelper DefaultToolingHelper { get; } = new ToolingHelper(DefaultConfigResolver);
+        
+        private readonly ConfigResolver _configResolver = new ConfigResolver();
+        internal ToolingHelper ToolingHelper { get; private set; }
+        
+        private void InitializeConfigWishes()
+        { 
+            ToolingHelper = new ToolingHelper(_configResolver);
+        }
+        
+    }
+    
     internal class ConfigSection
     {
         [XmlAttribute] public int? SamplingRate { get; set; }
@@ -60,7 +87,6 @@ namespace JJ.Business.Synthesizer.Wishes
         };
         
         public static int                   SamplingRate     => _section.SamplingRate     ?? 48000;
-        public static bool                  AudioPlayBack    => _section.AudioPlayBack    ?? true;
         public static double                LeadingSilence   => _section.LeadingSilence   ?? 0.2;
         public static double                TrailingSilence  => _section.TrailingSilence  ?? 0.2;
         public static string LongRunningTestCategory
@@ -105,10 +131,9 @@ namespace JJ.Business.Synthesizer.Wishes
         private const AudioFileFormatEnum   DefaultAudioFormat      = AudioFileFormatEnum.Wav;
         private const InterpolationTypeEnum DefaultInterpolation    = InterpolationTypeEnum.Line;
         private const double                DefaultAudioLength      = 1;
-        private const bool                  DefaultAudioPlayBack    = true;
         private const bool                  DefaultPlayAllTapes     = false;
-        private const double                DefaultLeadingSilence   = 0.2;
-        private const double                DefaultTrailingSilence  = 0.2;
+        private const double                DefaultLeadingSilence   = 0.25;
+        private const double                DefaultTrailingSilence  = 0.25;
         private const bool                  DefaultParallels        = true;
         private const bool                  DefaultMathOptimization = true;
         private const bool                  DefaultDiskCaching      = false;
@@ -305,12 +330,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        public SynthWishes WithInterpolation(InterpolationTypeEnum interpolationEnum)
-        {
-            _interpolation = interpolationEnum;
-            return this;
-        }
-
+        public SynthWishes WithInterpolation(InterpolationTypeEnum interpolationEnum) { _interpolation = interpolationEnum; return this; }
         public SynthWishes WithLinear() => WithInterpolation(InterpolationTypeEnum.Line);
         public SynthWishes WithBlocky() => WithInterpolation(InterpolationTypeEnum.Block);
     }
@@ -321,6 +341,20 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode WithInterpolation(InterpolationTypeEnum interpolationEnum) { _synthWishes.WithInterpolation(interpolationEnum); return this; }
         public FlowNode WithLinear() { _synthWishes.WithLinear(); return this; }
         public FlowNode WithBlocky() { _synthWishes.WithBlocky(); return this; }
+    }
+    
+    // AudioPlayBack
+    
+    public partial class SynthWishes
+    {
+        public SynthWishes WithAudioPlayBack(bool? enabled = true) { _configResolver.WithAudioPlayBack(enabled); return this; }
+        public bool GetAudioPlayBack => _configResolver.GetAudioPlayBack;
+    }
+    
+    public partial class FlowNode
+    {
+        public FlowNode WithAudioPlayBack(bool? enabled = true) { _synthWishes.WithAudioPlayBack(enabled); return this; }
+        public bool GetAudioPlayBack => _synthWishes.GetAudioPlayBack;
     }
 
     // DiskCaching
