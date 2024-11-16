@@ -1001,13 +1001,13 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FlowNode
     {
         /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoOverPitch(FlowNode speed = default, FlowNode depth = default) => _synthWishes.VibratoOverPitch(this, (speed, depth));
+        public FlowNode VibratoFreq(FlowNode speed = default, FlowNode depth = default) => _synthWishes.VibratoOverPitch(this, (speed, depth));
         /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoOverPitch(double speed, FlowNode depth = default) => _synthWishes.VibratoOverPitch(this, (speed, depth));
+        public FlowNode VibratoFreq(double speed, FlowNode depth = default) => _synthWishes.VibratoOverPitch(this, (speed, depth));
         /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoOverPitch(FlowNode speed, double depth) => _synthWishes.VibratoOverPitch(this, (speed, depth));
+        public FlowNode VibratoFreq(FlowNode speed, double depth) => _synthWishes.VibratoOverPitch(this, (speed, depth));
         /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoOverPitch(double speed, double depth) => _synthWishes.VibratoOverPitch(this, (speed, depth));
+        public FlowNode VibratoFreq(double speed, double depth) => _synthWishes.VibratoOverPitch(this, (speed, depth));
     }
 
     // Panning SynthWishes

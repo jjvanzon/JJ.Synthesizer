@@ -1,7 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
-using static JJ.Business.Synthesizer.Tests.Functional.AdditiveEchoExtensions;
 // ReSharper disable InvokeAsExtensionMethod
 
 namespace JJ.Business.Synthesizer.Tests.Functional
@@ -115,31 +114,31 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         // Curves
 
-        FlowNode SineEnvelope1 => WithName().Curve
+        FlowNode SineEnvelope1 => Curve
         (
             0.00, 0.80, 1.00, null, null, null, null, null,
             0.25, null, null, null, null, null, null, null,
             0.10, null, null, 0.02, null, null, null, 0.00
-        );
+        ).SetName();
 
-        FlowNode SineEnvelope2 => WithName().Curve
+        FlowNode SineEnvelope2 => Curve
         (
             0.00, 1.00, 0.80, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.05, null, null, 0.01, null, null, null, 0.00
-        );
+        ).SetName();
 
-        FlowNode SineEnvelope3 => WithName().Curve
+        FlowNode SineEnvelope3 => Curve
         (
             0.30, 1.00, 0.30, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.15, null, null, 0.05, null, null, null, 0.00
-        );
+        ).SetName();
 
-        FlowNode SampleEnvelope => WithName().Curve(
+        FlowNode SampleEnvelope => Curve(
             1.00, 0.50, 0.20, null, null, null, null, 0.00,
             null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null
-        );
+        ).SetName();
     }
 }

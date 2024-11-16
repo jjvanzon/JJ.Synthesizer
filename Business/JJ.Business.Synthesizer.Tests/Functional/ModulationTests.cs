@@ -150,53 +150,57 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Notes
 
+        /// <inheritdoc cref="docs._detunica" />
         FlowNode DetunicaBass(FlowNode freq, FlowNode duration = null)
         {
             duration = duration ?? GetAudioLength;
 
             return ParallelAdd
             (
-                0.600 * Detunica1(freq * 1, duration, detuneDepth: _[0.6], chorusRate: _[0.040]),
+                0.600 * Detunica1(freq * 1, duration, depth: _[0.6], chorusRate: _[0.040]),
                 0.800 * Detunica2(freq * 2, duration),
                 1.000 * Detunica3(freq * 4, duration),
                 0.015 * Detunica4(freq * 8, duration),
                 0.001 * Detunica5(freq * 16, duration)
-            ).SetName().Divide(0.5).Panbrello(2, 0.2).Volume(0.5);
+            ).SetName().Panbrello(2, 0.2);
         }
 
         /// <inheritdoc cref="docs._detunica" />
         FlowNode Detunica1(
             FlowNode freq, FlowNode duration = null,
-            FlowNode detuneDepth = null, FlowNode chorusRate = null)
+            FlowNode depth = null, FlowNode chorusRate = null)
             => Detunica
                 (
-                    freq.VibratoOverPitch(3, 0.00010), duration,
-                    detuneDepth: detuneDepth ?? _[0.8],
+                    freq.VibratoFreq(3, 0.00010), duration,
+                    depth ?? _[0.8],
                     chorusRate: (chorusRate ?? _[0.03]) * RateCurve1,
                     patchyEnvelope: false
                 )
                 .Tremolo(1, 0.03).SetName();
-
+        
         /// <inheritdoc cref="docs._detunica" />
         FlowNode Detunica2(FlowNode freq, FlowNode duration = null)
             => MildEcho
             (
-                Detunica(
-                        freq.VibratoOverPitch(10, 0.00020), duration,
-                        detuneDepth: _[1.0],
-                        churnRate: 0.1 * RateCurve2)
-                    .Tremolo(12, 0.1)
-                    .Panning(0.4)
-                    .Panbrello(2.6, 0.09).SetName()
+                Detunica
+                (
+                    freq.VibratoFreq(10, 0.00020),
+                    duration,
+                    depth: _[1.0],
+                    churnRate: 0.1 * RateCurve2
+                )
+                .Tremolo(12, 0.1)
+                .Panning(0.4)
+                .Panbrello(2.6, 0.09).SetName()
             );
-
+        
         /// <inheritdoc cref="docs._detunica" />
         FlowNode Detunica3(FlowNode freq, FlowNode duration = null)
             => Detunica
                (
-                   freq.VibratoOverPitch(5.5, 0.0005),
+                   freq.VibratoFreq(5.5, 0.0005),
                    duration,
-                   detuneDepth: _[0.5],
+                   depth: _[0.5],
                    interferenceRate: Multiply(0.002, RateCurve1),
                    chorusRate: Multiply(0.002,       RateCurve1),
                    patchyEnvelope: false
@@ -209,9 +213,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FlowNode Detunica4(FlowNode freq, FlowNode duration = null)
             => Detunica
                (
-                   freq.VibratoOverPitch(7, 0.0003),
+                   freq.VibratoFreq(7, 0.0003),
                    duration,
-                   detuneDepth: _[0.5],
+                   depth: _[0.5],
                    interferenceRate: 0.003 * RateCurve3
                )
                .Tremolo(10, 0.08)
@@ -222,8 +226,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FlowNode Detunica5(FlowNode freq, FlowNode duration = null)
             => Detunica
                (
-                   freq.VibratoOverPitch(5.5, 0.00005), duration,
-                   detuneDepth: _[0.8],
+                   freq.VibratoFreq(5.5, 0.00005), duration,
+                   depth: _[0.8],
                    churnRate: 0.001 * RateCurve1,
                    chorusRate: _[0.001]
                )
@@ -235,7 +239,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal FlowNode Detunica(
             FlowNode freq = default, FlowNode duration = default,
-            FlowNode detuneDepth = null, FlowNode churnRate = null, 
+            FlowNode depth = null, FlowNode churnRate = null, 
             FlowNode interferenceRate = null, FlowNode chorusRate = null,
             bool patchyEnvelope = true)
         {
@@ -243,7 +247,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             var baseHarmonics    = BaseHarmonics(freq);
             var detunedHarmonics = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
-            var sound            = baseHarmonics + detunedHarmonics * detuneDepth;
+            var sound            = baseHarmonics + detunedHarmonics * depth;
             var envelope         = patchyEnvelope ? PatchyEnvelope : EvenEnvelope;
             
             sound *= envelope.Stretch(duration);
