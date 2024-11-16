@@ -548,11 +548,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _vibrato;
 
         /// <summary>
-        /// When PreviewParallels is set, ParallelAdd plays the sounds generated in the parallel loop,
-        /// and the samples are reloaded from the files and played again, all for testing purposes.
+        /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
+        /// other parallel tasks for testing purposes.
         /// Also, doesn't clean up the files. Also for testing purposes.
-        /// Can also be controlled through the two separate options WithPlayParallels and WithSaveParallels.
+        /// Can also be controlled through the two separate options WithPlayAllTapes and WithSaveParallels.
         /// </summary>
-        public static object _withpreviewparallels;
+        public static object _parallelsanddiskcaching;
     }
 }

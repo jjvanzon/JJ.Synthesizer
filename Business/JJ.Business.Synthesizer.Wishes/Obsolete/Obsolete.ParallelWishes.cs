@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 var cacheResult = cacheResults[i];
                 
                 // Play if needed
-                if (synthWishes.GetPlayParallels) synthWishes.Play(cacheResult.Data);
+                if (synthWishes.GetPlayAllTapes) synthWishes.Play(cacheResult.Data);
                 
                 // Read from bytes or file
                 reloadedSamples[i] = synthWishes.Sample(cacheResult, name: displayNames[i]);
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 //    var saveResult2 = Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
                 
                 //    // Play to test the sample loading.
-                //    if (MustPlayParallels) Play(saveResult2.Data);
+                //    if (GetPlayAllTapes) Play(saveResult2.Data);
                 //}
             }
             

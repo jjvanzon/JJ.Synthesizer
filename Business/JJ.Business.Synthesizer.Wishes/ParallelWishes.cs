@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         
                         var cacheResult = Cache(operand, operand.Name);
                         var sampleOutlet = Sample(cacheResult, name: operand.Name);
-                        
+
                         // Replace all references to tape
                         IList<Inlet> connectedInlets = operand.UnderlyingOutlet.ConnectedInlets.ToArray();
                         foreach (Inlet inlet in connectedInlets)

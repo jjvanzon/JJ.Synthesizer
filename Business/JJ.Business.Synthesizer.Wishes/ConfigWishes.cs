@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public double? AudioLength { get; set; }
         [XmlAttribute] public string LongRunningTestCategory { get; set; }
         [XmlAttribute] public bool? AudioPlayBack { get; set; }
+        [XmlAttribute] public bool? PlayAllTapes { get; set; }
         [XmlAttribute] public double? LeadingSilence { get; set; }
         [XmlAttribute] public double? TrailingSilence { get; set; }
         [XmlAttribute] public bool? Parallels { get; set; }
@@ -95,7 +96,8 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        private static readonly ConfigSection _configSection = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
+        private static readonly ConfigSection _configSection 
+            = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
 
         private const int                   DefaultSamplingRate     = 48000;
         private const SpeakerSetupEnum      DefaultSpeakers         = SpeakerSetupEnum.Mono;
@@ -104,6 +106,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private const InterpolationTypeEnum DefaultInterpolation    = InterpolationTypeEnum.Line;
         private const double                DefaultAudioLength      = 1;
         private const bool                  DefaultAudioPlayBack    = true;
+        private const bool                  DefaultPlayAllTapes     = false;
         private const double                DefaultLeadingSilence   = 0.2;
         private const double                DefaultTrailingSilence  = 0.2;
         private const bool                  DefaultParallels        = true;
@@ -126,7 +129,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _audioLength;
                 }
                 
-                return _[_configSection?.AudioLength ?? DefaultAudioLength];
+                return _[_configSection.AudioLength ?? DefaultAudioLength];
             }
         }
 
@@ -203,7 +206,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _sampleDataTypeEnum.GetBits();
                 }
 
-                return _configSection?.Bits ?? DefaultBits;
+                return _configSection.Bits ?? DefaultBits;
             }
         }
 
@@ -236,7 +239,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _speakers;
                 }
 
-                return _configSection?.Speakers ?? DefaultSpeakers;
+                return _configSection.Speakers ?? DefaultSpeakers;
             }
         }
 
@@ -267,7 +270,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _audioFormat;
                 }
 
-                return _configSection?.AudioFormat ?? DefaultAudioFormat;
+                return _configSection.AudioFormat ?? DefaultAudioFormat;
             }
         }
 
@@ -298,7 +301,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _interpolation;
                 }
 
-                return _configSection?.Interpolation ?? DefaultInterpolation;
+                return _configSection.Interpolation ?? DefaultInterpolation;
             }
         }
 
@@ -324,14 +327,19 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         private bool? _diskCaching;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public SynthWishes WithDiskCaching(bool? enabled = true) { _diskCaching = enabled; return this; }
-        public bool GetDiskCaching => _diskCaching ?? _configSection?.DiskCaching ?? DefaultDiskCaching;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public bool GetDiskCaching => _diskCaching ?? _configSection.DiskCaching ?? DefaultDiskCaching;
     }
 
     public partial class FlowNode
     {
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public FlowNode WithDiskCaching(bool? enabled = true) { _synthWishes.WithDiskCaching(enabled); return this; }
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public bool GetDiskCaching => _synthWishes.GetDiskCaching;
     }
 
@@ -341,7 +349,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private bool? _parallels;
         public SynthWishes WithParallels(bool? enabled = default) { _parallels = enabled; return this; }
-        public bool GetParallels => _parallels ?? _configSection?.Parallels ?? DefaultParallels;
+        public bool GetParallels => _parallels ?? _configSection.Parallels ?? DefaultParallels;
     }
 
     public partial class FlowNode
@@ -350,22 +358,24 @@ namespace JJ.Business.Synthesizer.Wishes
         private bool GetParallels => _synthWishes.GetParallels;
     }
     
-    // PlayParallels
+    // PlayAllTapes
 
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="docs._withpreviewparallels" />
-        public bool GetPlayParallels { get; private set; }
-        /// <inheritdoc cref="docs._withpreviewparallels" />
-        public SynthWishes WithPlayParallels(bool enabled = true) { GetPlayParallels = enabled; return this; }
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        private bool? _playAllTapes;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public bool GetPlayAllTapes => _playAllTapes ?? _configSection.PlayAllTapes ?? DefaultPlayAllTapes;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public SynthWishes WithPlayAllTapes(bool? enabled = true) { _playAllTapes = enabled; return this; }
     }
 
     public partial class FlowNode
     {
-        /// <inheritdoc cref="docs._withpreviewparallels" />
-        public bool MustPlayParallels => _synthWishes.GetPlayParallels;
-        /// <inheritdoc cref="docs._withpreviewparallels" />
-        public FlowNode WithPlayParallels(bool mustPlayParallels = true) { _synthWishes.WithPlayParallels(mustPlayParallels); return this; }
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public bool GetPlayAllTapes => _synthWishes.GetPlayAllTapes;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public FlowNode WithPlayAllTapes(bool? enabled = true) { _synthWishes.WithPlayAllTapes(enabled); return this; }
     }
     
     // MathOptimization
@@ -374,7 +384,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private bool? _mathOptimization;
         public SynthWishes WithMathOptimization(bool? enabled = true) { _mathOptimization = enabled; return this; }
-        public bool GetMathOptimization => _mathOptimization ?? _configSection?.MathOptimization ?? DefaultMathOptimization;
+        public bool GetMathOptimization => _mathOptimization ?? _configSection.MathOptimization ?? DefaultMathOptimization;
     }
     
     public partial class FlowNode

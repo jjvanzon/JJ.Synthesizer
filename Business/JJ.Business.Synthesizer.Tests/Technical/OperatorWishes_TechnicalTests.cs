@@ -511,7 +511,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Arrange
             WithParallels();
-            WithPlayParallels();
+            WithPlayAllTapes();
 
             var duration = 0.1;
 
@@ -583,7 +583,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var freq = A4;
 
             WithParallels();
-            WithPlayParallels();
+            WithPlayAllTapes();
             WithName();
 
             var added = Envelope * ParallelAdd
