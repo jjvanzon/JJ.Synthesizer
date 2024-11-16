@@ -86,9 +86,9 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         };
         
-        public static int                   SamplingRate     => _section.SamplingRate     ?? 48000;
-        public static double                LeadingSilence   => _section.LeadingSilence   ?? 0.2;
-        public static double                TrailingSilence  => _section.TrailingSilence  ?? 0.2;
+        public static int SamplingRate => _section.SamplingRate ?? 48000;
+        public static double LeadingSilence => _section.LeadingSilence ?? 0.2;
+        public static double TrailingSilence => _section.TrailingSilence ?? 0.2;
         public static string LongRunningTestCategory
         {
             get
