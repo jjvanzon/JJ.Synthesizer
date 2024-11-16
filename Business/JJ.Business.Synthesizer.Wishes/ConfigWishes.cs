@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.ConfigResolver;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -41,12 +42,18 @@ namespace JJ.Business.Synthesizer.Wishes
     
     internal class ConfigResolver
     {
+        internal const string WarningSettingMayNotWork 
+            = "Setting might not work in all contexts " +
+              "where the system is unaware of the SynthWishes object. " +
+              "This is because of a design decision in the software, that might be corrected later.";
+            
         private static readonly ConfigSection _configSection 
             = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
         
         private const bool DEFAULT_AUDIO_PLAY_BACK = true;
         private bool? _audioPlayBack;
         public bool GetAudioPlayBack => _audioPlayBack ?? _configSection.AudioPlayBack ?? DEFAULT_AUDIO_PLAY_BACK;
+        [Obsolete(WarningSettingMayNotWork)]
         public void WithAudioPlayBack(bool? value) => _audioPlayBack = value;
     }
     
@@ -347,12 +354,14 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
+        [Obsolete(WarningSettingMayNotWork)]
         public SynthWishes WithAudioPlayBack(bool? enabled = true) { _configResolver.WithAudioPlayBack(enabled); return this; }
         public bool GetAudioPlayBack => _configResolver.GetAudioPlayBack;
     }
     
     public partial class FlowNode
     {
+        [Obsolete(WarningSettingMayNotWork)]
         public FlowNode WithAudioPlayBack(bool? enabled = true) { _synthWishes.WithAudioPlayBack(enabled); return this; }
         public bool GetAudioPlayBack => _synthWishes.GetAudioPlayBack;
     }
