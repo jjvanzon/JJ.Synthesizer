@@ -15,6 +15,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using JJ.Business.Synthesizer.Extensions;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkFileWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 // ReSharper disable ParameterHidesMember
@@ -193,20 +194,27 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             warnings.AddRange(entity.GetWarnings());
 
-            // Calculate
+            // Inject stream where back-end originally created it internally.
             byte[] bytes = null;
             var calculator = CreateAudioFileOutputCalculator(entity);
+            var calculatorAccessor = new AudioFileOutputCalculatorAccessor(calculator);
             if (inMemory)
             {
+                // Inject an in-memory stream/
                 bytes = new byte[entity.GetFileLengthNeeded()];
-                new AudioFileOutputCalculatorAccessor(calculator)._stream = new MemoryStream(bytes);
+                calculatorAccessor._stream = new MemoryStream(bytes);
             }
             else 
             {
-                // Prevent file IO errors
-                entity.FilePath = FrameworkFileWishes.GetNumberedFilePath(entity.FilePath);
+                // Inject a file stream
+                // (GetConcurrentFileStream numbers files to prevent file name contention
+                //  It does so in a thread-safe, interprocess-safe way.)
+                (string filePath, FileStream fileStream) = CreateConcurrentFileStream(entity.FilePath);
+                calculatorAccessor._stream = fileStream;
+                entity.FilePath = filePath;
             }
 
+            // Calculate
             var stopWatch = Stopwatch.StartNew();
             calculator.Execute();
             stopWatch.Stop();

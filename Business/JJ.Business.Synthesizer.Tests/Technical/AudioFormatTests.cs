@@ -237,8 +237,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             [CallerMemberName] string callerMemberName = null)
         {
             // Arrange
-            int    samplingRate      = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
-            double frequency         = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
+            int    samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
+            double frequency    = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
 
             WithSpeakers(speakerSetupEnum);
             WithBits(sampleDataTypeEnum.GetBits());
@@ -257,8 +257,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Save to file
             Result<StreamAudioData> saveResult1      = WithAudioLength(DURATION).WithName(callerMemberName).Cache(getSignal);
-            AudioFileOutput        audioFileOutput1 = saveResult1.Data.AudioFileOutput;
-            byte[]                 bytes            = saveResult1.Data.Bytes;
+            AudioFileOutput         audioFileOutput1 = saveResult1.Data.AudioFileOutput;
+            byte[]                  bytes            = saveResult1.Data.Bytes;
 
             // Use sample operator
             FluentOutlet getSample()
@@ -280,7 +280,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Save to file again
             Result<StreamAudioData> saveResult2      = WithAudioLength(DURATION2).Cache(getSample, $"{callerMemberName}_Reloaded");
-            AudioFileOutput        audioFileOutput2 = saveResult2.Data.AudioFileOutput;
+            AudioFileOutput         audioFileOutput2 = saveResult2.Data.AudioFileOutput;
             
             // Assert AudioFileOutput Entities
 

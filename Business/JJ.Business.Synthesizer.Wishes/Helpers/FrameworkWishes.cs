@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using JJ.Framework.Configuration;
 using static System.Environment;
 
@@ -159,8 +161,10 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
     internal static class FrameworkFileWishes
     {
-        private static readonly object _numberedFilePathLock = new object();
-
+        private static readonly Mutex _numberedFilePathMutex = CreateMutex();
+        private static Mutex CreateMutex() 
+            => new Mutex(false, "Global\\SynthWishes_NumberedFilePathMutex_7f64fd76542045bb98c2e28a44d2df25");
+        
         /// <summary>
         /// If the originalFilePath already exists,
         /// a higher and higher number is inserted into the file name 
@@ -177,24 +181,17 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             string numberSuffix = ")",
             bool mustNumberFirstFile = false)
         {
-            if (string.IsNullOrEmpty(originalFilePath)) throw new Exception("originalFilePath is null or empty.");
-
-            string folderPath = Path.GetDirectoryName(originalFilePath)?.TrimEnd('\\'); // Remove slash from root (e.g. @"C:\")
-            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFilePath);
-            string fileExtension = Path.GetExtension(originalFilePath);
-            string separator = !string.IsNullOrEmpty(folderPath) ? "\\" : "";
+            (string filePathFirstPart, int number, string filePathLastPart) =
+                GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile);
             
-            string filePathFirstPart = $"{folderPath}{separator}{fileNameWithoutExtension}{numberPrefix}";
-            int number = mustNumberFirstFile ? 1 : 2;
-            string filePathLastPart = $"{numberSuffix}{fileExtension}";
-
-            lock (_numberedFilePathLock)
-            {
+            //_numberedFilePathMutex.WaitOne();
+            //try
+            //{
                 if (!mustNumberFirstFile && !File.Exists(originalFilePath))
                 {
                     return originalFilePath;
                 }
-
+                
                 string filePath;
                 do
                 {
@@ -204,7 +201,90 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 while (File.Exists(filePath));
                 
                 return filePath;
+            //}
+            //finally
+            //{
+            //    _numberedFilePathMutex.ReleaseMutex();
+            //}
+        }
+        
+        /// <summary>
+        /// If the originalFilePath already exists,
+        /// a higher and higher number is inserted into the file name 
+        /// until a file name is encountered that does not exist.
+        /// Then a file stream is returned for writing, so that
+        /// the file immediately locks.
+        /// Be sure to dispose the stream when you're done,
+        /// so the file lock is released.
+        /// </summary>
+        /// <param name="originalFilePath">
+        /// The absolute path to a file name, that does not yet have a number in it.
+        /// </param>
+        public static (string filePath, FileStream) CreateConcurrentFileStream(
+            string originalFilePath,
+            string numberPrefix = " (",
+            string numberFormatString = "#",
+            string numberSuffix = ")",
+            bool mustNumberFirstFile = false)
+        {
+            (string filePathFirstPart, int number, string filePathLastPart) =
+                GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile);
+            
+            _numberedFilePathMutex.WaitOne();
+            try
+            {
+                string filePath = originalFilePath;
+                if (mustNumberFirstFile || File.Exists(filePath))
+                {
+                    do
+                    {
+                        filePath = $"{filePathFirstPart}{number.ToString(numberFormatString)}{filePathLastPart}";
+                        number++;
+                    }
+                    while (File.Exists(filePath));
+                }
+                
+                return (filePath, new FileStream(filePath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.Read));
             }
+            finally
+            {
+                _numberedFilePathMutex.ReleaseMutex();
+            }
+        }
+        
+        /// <summary>
+        /// Splits the original file path into three parts: the first part of the file path, 
+        /// the initial number to be used for numbering, and the last part of the file path.
+        /// This method is used to generate a new file path by inserting a number into the file name 
+        /// if the original file path already exists.
+        /// </summary>
+        /// <param name="originalFilePath">The absolute path to a file name that does not yet have a number in it.</param>
+        /// <param name="numberPrefix">The prefix to be used before the number in the file name.</param>
+        /// <param name="numberSuffix">The suffix to be used after the number in the file name.</param>
+        /// <param name="mustNumberFirstFile">
+        /// A boolean indicating whether the first file should be numbered. 
+        /// If true, numbering starts from 1; otherwise, it starts from 2.
+        /// </param>
+        /// <returns>
+        /// A tuple containing three parts: 
+        /// - The first part of the file path, which includes the directory and the file name up to the number prefix.
+        /// - The initial number to be used for numbering.
+        /// - The last part of the file path, which includes the number suffix and the file extension.
+        /// </returns>
+        /// <exception cref="Exception">Thrown when the original file path is null or empty.</exception>
+        private static (string filePathFirstPart, int number, string filePathLastPart) GetNumberedFilePathParts(string originalFilePath, string numberPrefix, string numberSuffix, bool mustNumberFirstFile)
+        {
+            if (string.IsNullOrEmpty(originalFilePath)) throw new Exception("originalFilePath is null or empty.");
+            
+            string folderPath = Path.GetDirectoryName(originalFilePath)?.TrimEnd('\\'); // Remove slash from root (e.g. @"C:\")
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFilePath);
+            string fileExtension = Path.GetExtension(originalFilePath);
+            string separator = !string.IsNullOrEmpty(folderPath) ? "\\" : "";
+            
+            string filePathFirstPart = $"{folderPath}{separator}{fileNameWithoutExtension}{numberPrefix}";
+            int number = mustNumberFirstFile ? 1 : 2;
+            string filePathLastPart = $"{numberSuffix}{fileExtension}";
+            return (filePathFirstPart, number, filePathLastPart);
         }
     }
 
