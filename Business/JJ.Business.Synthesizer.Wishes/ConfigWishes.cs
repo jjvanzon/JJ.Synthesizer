@@ -50,21 +50,31 @@ namespace JJ.Business.Synthesizer.Wishes
         private static readonly ConfigSection _configSection 
             = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
         
-        public const bool DEFAULT_AUDIO_PLAY_BACK = true;
-        public const double DEFAULT_LEADING_SILENCE = 0.25;
-        public const double DEFAULT_TRAILING_SILENCE = 0.25;
-
+        public const bool                  DefaultAudioPlayBack    = true;
+        public const double                DefaultLeadingSilence   = 0.25;
+        public const double                DefaultTrailingSilence  = 0.25;
+        public const int                   DefaultSamplingRate     = 48000;
+        public const SpeakerSetupEnum      DefaultSpeakers         = SpeakerSetupEnum.Mono;
+        public const int                   DefaultBits             = 32;
+        public const AudioFileFormatEnum   DefaultAudioFormat      = AudioFileFormatEnum.Wav;
+        public const InterpolationTypeEnum DefaultInterpolation    = InterpolationTypeEnum.Line;
+        public const double                DefaultAudioLength      = 1;
+        public const bool                  DefaultPlayAllTapes     = false;
+        public const bool                  DefaultParallels        = true;
+        public const bool                  DefaultMathOptimization = true;
+        public const bool                  DefaultDiskCaching      = false;
+        
         private bool? _audioPlayBack;
         private double? _leadingSilence;
         private double? _trailingSilence;
         
-        public bool GetAudioPlayBack => _audioPlayBack ?? _configSection.AudioPlayBack ?? DEFAULT_AUDIO_PLAY_BACK;
+        public bool GetAudioPlayBack => _audioPlayBack ?? _configSection.AudioPlayBack ?? DefaultAudioPlayBack;
         [Obsolete(WarningSettingMayNotWork)] public void WithAudioPlayBack(bool? value) => _audioPlayBack = value;
         
-        public double GetLeadingSilence => _leadingSilence ?? _configSection.LeadingSilence ?? DEFAULT_LEADING_SILENCE;
+        public double GetLeadingSilence => _leadingSilence ?? _configSection.LeadingSilence ?? DefaultLeadingSilence;
         public void WithLeadingSilence(double? value) => _leadingSilence = value;
         
-        public double GetTrailingSilence => _trailingSilence ?? _configSection.TrailingSilence ?? DEFAULT_TRAILING_SILENCE;
+        public double GetTrailingSilence => _trailingSilence ?? _configSection.TrailingSilence ?? DefaultTrailingSilence;
         public void WithTrailingSilence(double? value) => _trailingSilence = value;
     }
     
@@ -141,16 +151,6 @@ namespace JJ.Business.Synthesizer.Wishes
         private static readonly ConfigSection _configSection 
             = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
 
-        private const int                   DefaultSamplingRate     = 48000;
-        private const SpeakerSetupEnum      DefaultSpeakers         = SpeakerSetupEnum.Mono;
-        private const int                   DefaultBits             = 32;
-        private const AudioFileFormatEnum   DefaultAudioFormat      = AudioFileFormatEnum.Wav;
-        private const InterpolationTypeEnum DefaultInterpolation    = InterpolationTypeEnum.Line;
-        private const double                DefaultAudioLength      = 1;
-        private const bool                  DefaultPlayAllTapes     = false;
-        private const bool                  DefaultParallels        = true;
-        private const bool                  DefaultMathOptimization = true;
-        private const bool                  DefaultDiskCaching      = false;
     }
     
     // AudioLength
@@ -362,14 +362,14 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         [Obsolete(WarningSettingMayNotWork)]
-        public SynthWishes WithAudioPlayBack(bool? enabled = DEFAULT_AUDIO_PLAY_BACK) { _configResolver.WithAudioPlayBack(enabled); return this; }
+        public SynthWishes WithAudioPlayBack(bool? enabled = DefaultAudioPlayBack) { _configResolver.WithAudioPlayBack(enabled); return this; }
         public bool GetAudioPlayBack => _configResolver.GetAudioPlayBack;
     }
     
     public partial class FlowNode
     {
         [Obsolete(WarningSettingMayNotWork)]
-        public FlowNode WithAudioPlayBack(bool? enabled = DEFAULT_AUDIO_PLAY_BACK) { _synthWishes.WithAudioPlayBack(enabled); return this; }
+        public FlowNode WithAudioPlayBack(bool? enabled = DefaultAudioPlayBack) { _synthWishes.WithAudioPlayBack(enabled); return this; }
         public bool GetAudioPlayBack => _synthWishes.GetAudioPlayBack;
     }
     
@@ -377,13 +377,13 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public SynthWishes WithLeadingSilence(double? seconds = DEFAULT_LEADING_SILENCE) { _configResolver.WithLeadingSilence(seconds); return this; }
+        public SynthWishes WithLeadingSilence(double? seconds = DefaultLeadingSilence) { _configResolver.WithLeadingSilence(seconds); return this; }
         public double GetLeadingSilence => _configResolver.GetLeadingSilence;
     }
     
     public partial class FlowNode
     {
-        public FlowNode WithLeadingSilence(double? seconds = DEFAULT_LEADING_SILENCE) { _synthWishes.WithLeadingSilence(seconds); return this; }
+        public FlowNode WithLeadingSilence(double? seconds = DefaultLeadingSilence) { _synthWishes.WithLeadingSilence(seconds); return this; }
         public double GetLeadingSilence => _synthWishes.GetLeadingSilence;
     }
     
@@ -391,13 +391,13 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public SynthWishes WithTrailingSilence(double? seconds = DEFAULT_TRAILING_SILENCE) { _configResolver.WithTrailingSilence(seconds); return this; }
+        public SynthWishes WithTrailingSilence(double? seconds = DefaultTrailingSilence) { _configResolver.WithTrailingSilence(seconds); return this; }
         public double GetTrailingSilence => _configResolver.GetTrailingSilence;
     }
     
     public partial class FlowNode
     {
-        public FlowNode WithTrailingSilence(double? seconds = DEFAULT_TRAILING_SILENCE) { _synthWishes.WithTrailingSilence(seconds); return this; }
+        public FlowNode WithTrailingSilence(double? seconds = DefaultTrailingSilence) { _synthWishes.WithTrailingSilence(seconds); return this; }
         public double GetTrailingSilence => _synthWishes.GetTrailingSilence;
     }
 
