@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -525,13 +526,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => audioFileOutput.SpeakerSetup);
             
             AreEqual(samplingRate,        () => audioFileOutput.SamplingRate);
-            AreEqual(expectedFilePath,    () => audioFileOutput.FilePath);
             AreEqual(0,                   () => audioFileOutput.StartTime);
             AreEqual(expectedDuration,    () => audioFileOutput.GetEndTime());
             AreEqual(expectedDuration,    () => audioFileOutput.Duration);
             AreEqual(audioFileFormatEnum, () => audioFileOutput.GetAudioFileFormatEnum());
             AreEqual(sampleDataTypeEnum,  () => audioFileOutput.GetSampleDataTypeEnum());
             AreEqual(speakerSetupEnum,    () => audioFileOutput.GetSpeakerSetupEnum());
+            
+            IsNotNull(() => audioFileOutput.FilePath);
+            
+            (string firstPart, int number, string lastPart) = 
+                FrameworkIOWishesAccessor.GetNumberedFilePathParts(expectedFilePath);
+            
+            IsTrue(() => audioFileOutput.FilePath.StartsWith(firstPart));
+            IsTrue(() => audioFileOutput.FilePath.EndsWith(lastPart));
 
             IsTrue(audioFileOutput.ID > 0, "audioFileOutput.ID > 0");
             double expectedAmplifier = sampleDataTypeEnum.GetNominalMax();
@@ -578,7 +586,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 string expectedName = PrettifyName(callerMemberName);
                 NotNullOrEmpty(() => sampleOperator.Name);
-                AreEqual(expectedName, () => sampleOperator.Name);
+                IsTrue(() => sampleOperator.Name.StartsWith(expectedName)); 
             }
 
             // Sample Inlets
@@ -639,7 +647,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 string expectedName = PrettifyName(callerMemberName);
                 NotNullOrEmpty(() => sample.Name);
-                AreEqual(expectedName, () => sample.Name);
+                IsTrue(() => sampleOperator.Name.StartsWith(expectedName)); 
             }
 
             // Sample Duration

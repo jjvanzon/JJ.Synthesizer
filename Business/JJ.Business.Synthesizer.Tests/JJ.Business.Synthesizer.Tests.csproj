@@ -124,9 +124,10 @@
   <ItemGroup>
     <Compile Include="Accessors\AdditiveTestsAccessor.cs" />
     <Compile Include="Accessors\FluentOutletAccessor.cs" />
+    <Compile Include="Accessors\FrameworkIOWishesAccessor.cs" />
     <Compile Include="Accessors\ModulationTestsAccessor.cs" />
     <Compile Include="Accessors\FMTestsAccessor.cs" />
-    <Compile Include="Accessors\StringWishesAccessor.cs" />
+    <Compile Include="Accessors\FrameworkStringWishesAccessor.cs" />
     <Compile Include="Functional\LongRunningTests.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Technical\AudioFileWishesTests.cs" />

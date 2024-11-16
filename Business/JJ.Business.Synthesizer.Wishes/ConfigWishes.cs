@@ -39,11 +39,11 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._confighelper"/>
     internal static class ConfigHelper
     {
-        private static readonly ConfigSection _section = FrameworkConfigWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
+        private static readonly ConfigSection _section = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
         
         // Defaults for Optional Config
         public static PersistenceConfiguration PersistenceConfiguration { get; } =
-            FrameworkConfigWishes.TryGetSection<PersistenceConfiguration>() ??
+            FrameworkConfigurationWishes.TryGetSection<PersistenceConfiguration>() ??
             GetDefaultInMemoryConfiguration();
 
         private static PersistenceConfiguration GetDefaultInMemoryConfiguration() => new PersistenceConfiguration

@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private readonly bool _singleLine;
         private readonly bool _canOmitNameForBasicMath;
-        internal StringBuilderWithIndentation _sb; // Internal for obsolete extension methods
+        internal StringBuilderWithIndentationWish _sb; // Internal for obsolete extension methods
 
         public OperatorStringifier(bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
@@ -98,15 +98,15 @@ namespace JJ.Business.Synthesizer.Wishes
         // Create StringBuilder
 
         // Internal for obsolete extension methods
-        internal StringBuilderWithIndentation CreateStringBuilder()
+        internal StringBuilderWithIndentationWish CreateStringBuilder()
         {
             if (_singleLine)
             {
-                return new StringBuilderWithIndentation("", "");
+                return new StringBuilderWithIndentationWish("", "");
             }
             else
             {
-                return new StringBuilderWithIndentation();
+                return new StringBuilderWithIndentationWish();
             }
         }
 

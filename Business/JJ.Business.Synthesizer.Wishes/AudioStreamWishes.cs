@@ -15,7 +15,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using JJ.Business.Synthesizer.Extensions;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
-using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkFileWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkIOWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 // ReSharper disable ParameterHidesMember

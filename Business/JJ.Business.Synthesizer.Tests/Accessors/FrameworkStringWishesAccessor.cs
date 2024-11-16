@@ -5,11 +5,11 @@ using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class StringWishesAccessor
+    internal static class FrameworkStringWishesAccessor
     {
         private static readonly Accessor _accessor;
 
-        static StringWishesAccessor()
+        static FrameworkStringWishesAccessor()
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
             string   typeName = "JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes";

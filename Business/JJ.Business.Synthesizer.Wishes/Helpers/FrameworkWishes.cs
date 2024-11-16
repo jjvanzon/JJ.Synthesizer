@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     }
 
     /// <inheritdoc cref="_trygetsection"/>
-    internal static class FrameworkConfigWishes
+    internal static class FrameworkConfigurationWishes
     { 
         /// <inheritdoc cref="_trygetsection"/>
         public static T TryGetSection<T>()
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
     }
 
-    internal static class FrameworkFileWishes
+    internal static class FrameworkIOWishes
     {
         /// <summary>
         /// If the originalFilePath already exists,
@@ -264,7 +264,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// - The initial number to be used for numbering.
         /// - The last part of the file path, which includes the number suffix and the file extension.
         /// </returns>
-        private static (string filePathFirstPart, int number, string filePathLastPart) GetNumberedFilePathParts(string originalFilePath, string numberPrefix, string numberSuffix, bool mustNumberFirstFile)
+        public static (string filePathFirstPart, int number, string filePathLastPart) 
+            GetNumberedFilePathParts(
+                string originalFilePath, 
+                string numberPrefix = " (", 
+                string numberSuffix = ")", 
+                bool mustNumberFirstFile = false)
         {
             if (string.IsNullOrEmpty(originalFilePath)) throw new Exception("originalFilePath is null or empty.");
             
@@ -279,8 +284,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return (filePathFirstPart, number, filePathLastPart);
         }
     }
-
-    internal class StringBuilderWithIndentation
+    
+    public class StringBuilderWithIndentationWish
     {
         private readonly StringBuilder _sb = new StringBuilder();
 
@@ -288,11 +293,11 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         private readonly string _enter;
         private int _tabCount;
 
-        public StringBuilderWithIndentation()
+        public StringBuilderWithIndentationWish()
             : this("  ", Environment.NewLine)
         { }
 
-        public StringBuilderWithIndentation(string tabString, string enter)
+        public StringBuilderWithIndentationWish(string tabString, string enter)
         {
             _tabString = tabString;
             _enter = enter;
