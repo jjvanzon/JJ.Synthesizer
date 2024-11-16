@@ -42,11 +42,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     internal class ConfigResolver
     {
-        internal const string WarningSettingMayNotWork 
-            = "Setting might not work in all contexts " +
-              "where the system is unaware of the SynthWishes object. " +
-              "This is because of a design decision in the software, that might be corrected later.";
-            
         private static readonly ConfigSection _configSection 
             = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
         
@@ -67,6 +62,8 @@ namespace JJ.Business.Synthesizer.Wishes
         private bool? _audioPlayBack;
         private double? _leadingSilence;
         private double? _trailingSilence;
+        private SpeakerSetupEnum _speakers;
+        private SampleDataTypeEnum _sampleDataTypeEnum;
         
         public bool GetAudioPlayBack => _audioPlayBack ?? _configSection.AudioPlayBack ?? DefaultAudioPlayBack;
         [Obsolete(WarningSettingMayNotWork)] public void WithAudioPlayBack(bool? value) => _audioPlayBack = value;
@@ -76,6 +73,29 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public double GetTrailingSilence => _trailingSilence ?? _configSection.TrailingSilence ?? DefaultTrailingSilence;
         public void WithTrailingSilence(double? value) => _trailingSilence = value;
+        
+        public SpeakerSetupEnum GetSpeakers => _speakers != default ? _speakers : _configSection.Speakers ?? DefaultSpeakers;
+        public void WithSpeakers(SpeakerSetupEnum speakers) => _speakers = speakers; 
+
+        public int GetBits
+        {
+            get
+            {
+                if (_sampleDataTypeEnum != default)
+                {
+                    return _sampleDataTypeEnum.GetBits();
+                }
+                
+                return _configSection.Bits ?? DefaultBits;
+            }
+        }
+        
+        public void WithBits(int bits) => _sampleDataTypeEnum = bits.ToSampleDataTypeEnum();
+        
+        internal const string WarningSettingMayNotWork
+            = "Setting might not work in all contexts " +
+              "where the system is unaware of the SynthWishes object. " +
+              "This is because of a design decision in the software, that might be corrected later.";
     }
     
     public partial class SynthWishes
@@ -114,7 +134,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         };
         
-        public static int SamplingRate => _section.SamplingRate ?? 48000;
+        public static int SamplingRate => _section.SamplingRate ?? DefaultSamplingRate;
         public static string LongRunningTestCategory
         {
             get
@@ -234,22 +254,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        private SampleDataTypeEnum _sampleDataTypeEnum;
-
-        public int GetBits
-        {
-            get
-            {
-                if (_sampleDataTypeEnum != default)
-                {
-                    return _sampleDataTypeEnum.GetBits();
-                }
-
-                return _configSection.Bits ?? DefaultBits;
-            }
-        }
-
-        public SynthWishes WithBits(int bits) { _sampleDataTypeEnum = bits.ToSampleDataTypeEnum(); return this; }
+        public int GetBits => _configResolver.GetBits;
+        public SynthWishes WithBits(int bits) { _configResolver.WithBits(bits); return this; }
         public SynthWishes With32Bit() => WithBits(32);
         public SynthWishes With16Bit() => WithBits(16);
         public SynthWishes With8Bit() => WithBits(8);
@@ -268,21 +274,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        private SpeakerSetupEnum _speakers;
-        public SpeakerSetupEnum GetSpeakers
-        {
-            get
-            {
-                if (_speakers != SpeakerSetupEnum.Undefined)
-                {
-                    return _speakers;
-                }
-
-                return _configSection.Speakers ?? DefaultSpeakers;
-            }
-        }
-
-        public SynthWishes WithSpeakers(SpeakerSetupEnum speakers) { _speakers = speakers; return this; }
+        public SpeakerSetupEnum GetSpeakers => _configResolver.GetSpeakers;
+        public SynthWishes WithSpeakers(SpeakerSetupEnum speakers) { _configResolver.WithSpeakers(speakers); return this; }
         public SynthWishes WithMono() => WithSpeakers(SpeakerSetupEnum.Mono);
         public SynthWishes WithStereo() => WithSpeakers(SpeakerSetupEnum.Stereo);
     }
