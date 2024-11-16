@@ -58,20 +58,10 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         };
         
-        // Even the defaults have defaults, to not require a config file.
         public static int                   SamplingRate     => _section.SamplingRate     ?? 48000;
-        public static SpeakerSetupEnum      Speakers         => _section.Speakers         ?? SpeakerSetupEnum.Mono;
-        public static int                   Bits             => _section.Bits             ?? 32;
-        public static AudioFileFormatEnum   AudioFormat      => _section.AudioFormat      ?? AudioFileFormatEnum.Wav;
-        public static InterpolationTypeEnum Interpolation    => _section.Interpolation    ?? InterpolationTypeEnum.Line;
-        public static double                AudioLength      => _section.AudioLength      ?? 1;
         public static bool                  AudioPlayBack    => _section.AudioPlayBack    ?? true;
         public static double                LeadingSilence   => _section.LeadingSilence   ?? 0.2;
         public static double                TrailingSilence  => _section.TrailingSilence  ?? 0.2;
-        public static bool                  Parallels        => _section.Parallels        ?? true;
-        public static bool                  MathOptimization => _section.MathOptimization ?? true;
-        public static bool                  DiskCaching      => _section.DiskCaching      ?? false;
-
         public static string LongRunningTestCategory
         {
             get
@@ -100,6 +90,26 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool AudioPlayBack           => _baseConfig.AudioPlayBack           ?? false;
         public bool Impersonate             => _baseConfig.Impersonate             ?? false;
     }
+
+    // Defaults
+    
+    public partial class SynthWishes
+    {
+        private static readonly ConfigSection _configSection = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
+
+        private const int                   DefaultSamplingRate     = 48000;
+        private const SpeakerSetupEnum      DefaultSpeakers         = SpeakerSetupEnum.Mono;
+        private const int                   DefaultBits             = 32;
+        private const AudioFileFormatEnum   DefaultAudioFormat      = AudioFileFormatEnum.Wav;
+        private const InterpolationTypeEnum DefaultInterpolation    = InterpolationTypeEnum.Line;
+        private const double                DefaultAudioLength      = 1;
+        private const bool                  DefaultAudioPlayBack    = true;
+        private const double                DefaultLeadingSilence   = 0.2;
+        private const double                DefaultTrailingSilence  = 0.2;
+        private const bool                  DefaultParallels        = true;
+        private const bool                  DefaultMathOptimization = true;
+        private const bool                  DefaultDiskCaching      = false;
+    }
     
     // AudioLength
 
@@ -115,8 +125,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     return _audioLength;
                 }
-
-                return _[ConfigHelper.AudioLength];
+                
+                return _[_configSection?.AudioLength ?? DefaultAudioLength];
             }
         }
 
@@ -193,7 +203,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _sampleDataTypeEnum.GetBits();
                 }
 
-                return ConfigHelper.Bits;
+                return _configSection?.Bits ?? DefaultBits;
             }
         }
 
@@ -226,7 +236,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _speakers;
                 }
 
-                return ConfigHelper.Speakers;
+                return _configSection?.Speakers ?? DefaultSpeakers;
             }
         }
 
@@ -257,7 +267,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _audioFormat;
                 }
 
-                return ConfigHelper.AudioFormat;
+                return _configSection?.AudioFormat ?? DefaultAudioFormat;
             }
         }
 
@@ -288,7 +298,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _interpolation;
                 }
 
-                return ConfigHelper.Interpolation;
+                return _configSection?.Interpolation ?? DefaultInterpolation;
             }
         }
 
@@ -316,7 +326,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private bool? _diskCaching;
         public SynthWishes WithDiskCaching(bool? enabled = true) { _diskCaching = enabled; return this; }
-        public bool GetDiskCaching => _diskCaching ?? ConfigHelper.DiskCaching;
+        public bool GetDiskCaching => _diskCaching ?? _configSection?.DiskCaching ?? DefaultDiskCaching;
     }
 
     public partial class FluentOutlet
@@ -331,7 +341,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private bool? _parallels;
         public SynthWishes WithParallels(bool? enabled = default) { _parallels = enabled; return this; }
-        public bool GetParallels => _parallels ?? ConfigHelper.Parallels;
+        public bool GetParallels => _parallels ?? _configSection?.Parallels ?? DefaultParallels;
     }
 
     public partial class FluentOutlet
@@ -364,7 +374,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private bool? _mathOptimization;
         public SynthWishes WithMathOptimization(bool? enabled = true) { _mathOptimization = enabled; return this; }
-        public bool GetMathOptimization => _mathOptimization ?? ConfigHelper.MathOptimization;
+        public bool GetMathOptimization => _mathOptimization ?? _configSection?.MathOptimization ?? DefaultMathOptimization;
     }
     
     public partial class FluentOutlet
