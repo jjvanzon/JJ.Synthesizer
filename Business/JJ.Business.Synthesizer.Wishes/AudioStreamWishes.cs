@@ -259,24 +259,24 @@ namespace JJ.Business.Synthesizer.Wishes
                 
         private FlowNode ApplyPadding(FlowNode outlet)
         {
-            if (ConfigHelper.LeadingSilence == 0 &&
-                ConfigHelper.TrailingSilence == 0)
+            if (GetLeadingSilence == 0 &&
+                GetTrailingSilence == 0)
             {
                 return outlet;
             }
 
-            Console.WriteLine($"{PrettyTime()} Padding a channel: {ConfigHelper.LeadingSilence} s before | {ConfigHelper.TrailingSilence} s after");
+            Console.WriteLine($"{PrettyTime()} Padding a channel: {GetLeadingSilence} s before | {GetTrailingSilence} s after");
 
-            AddAudioLength(ConfigHelper.LeadingSilence);
-            AddAudioLength(ConfigHelper.TrailingSilence);
+            AddAudioLength(GetLeadingSilence);
+            AddAudioLength(GetTrailingSilence);
             
-            if (ConfigHelper.LeadingSilence == 0)
+            if (GetLeadingSilence == 0)
             {
                 return outlet;
             }
             else
             {
-                return Delay(outlet, _[ConfigHelper.LeadingSilence]);
+                return Delay(outlet, _[GetLeadingSilence]);
             }
         }
 
