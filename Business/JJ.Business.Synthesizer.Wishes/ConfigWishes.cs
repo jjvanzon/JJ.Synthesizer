@@ -8,33 +8,6 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    internal class ConfigResolver
-    {
-        private static readonly ConfigSection _configSection
-            = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
-
-        private const bool DEFAULT_AUDIO_PLAY_BACK = true;
-        private bool? _audioPlayBack;
-        public bool GetAudioPlayBack => _audioPlayBack ?? _configSection.AudioPlayBack ?? DEFAULT_AUDIO_PLAY_BACK;
-        public void WithAudioPlayBack(bool? value) => _audioPlayBack = value;
-    }
-    
-  
-    public partial class SynthWishes
-    {
-        internal static ConfigResolver DefaultConfigResolver { get; } = new ConfigResolver();
-        internal static ToolingHelper DefaultToolingHelper { get; } = new ToolingHelper(DefaultConfigResolver);
-        
-        private readonly ConfigResolver _configResolver = new ConfigResolver();
-        internal ToolingHelper ToolingHelper { get; private set; }
-        
-        private void InitializeConfigWishes()
-        { 
-            ToolingHelper = new ToolingHelper(_configResolver);
-        }
-        
-    }
-    
     internal class ConfigSection
     {
         [XmlAttribute] public int? SamplingRate { get; set; }
@@ -62,6 +35,33 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public int? SamplingRateLongRunning { get; set; }
         [XmlAttribute] public bool? AudioPlayBack { get; set; }
         [XmlAttribute] public bool? Impersonate { get; set; }
+    }
+    
+    // ConfigResolver
+    
+    internal class ConfigResolver
+    {
+        private static readonly ConfigSection _configSection 
+            = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
+        
+        private const bool DEFAULT_AUDIO_PLAY_BACK = true;
+        private bool? _audioPlayBack;
+        public bool GetAudioPlayBack => _audioPlayBack ?? _configSection.AudioPlayBack ?? DEFAULT_AUDIO_PLAY_BACK;
+        public void WithAudioPlayBack(bool? value) => _audioPlayBack = value;
+    }
+    
+    public partial class SynthWishes
+    {
+        internal static ConfigResolver DefaultConfigResolver { get; } = new ConfigResolver();
+        internal static ToolingHelper DefaultToolingHelper { get; } = new ToolingHelper(DefaultConfigResolver);
+        
+        private readonly ConfigResolver _configResolver = new ConfigResolver();
+        internal ToolingHelper ToolingHelper { get; private set; }
+        
+        private void InitializeConfigWishes()
+        {
+            ToolingHelper = new ToolingHelper(_configResolver);
+        }
     }
 
     /// <inheritdoc cref="docs._confighelper"/>
