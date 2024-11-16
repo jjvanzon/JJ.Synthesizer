@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class OperatorWishes_FunctionalTests : SynthWishes
     {
-        FluentOutlet Envelope => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
+        FlowNode Envelope => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
 
         public OperatorWishes_FunctionalTests()
         {
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             WithStereo();
 
             // Arrange
-            FluentOutlet fixedValues()
+            FlowNode fixedValues()
             {
                 if (Channel == ChannelEnum.Left) return _[0.8];
                 if (Channel == ChannelEnum.Right) return _[0.6];
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             WithStereo();
 
             // Arrange
-            FluentOutlet TestSignal()
+            FlowNode TestSignal()
             {
                 switch (Channel)
                 {
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             // Act
 
-            FluentOutlet panned;
+            FlowNode panned;
 
             WithLeft();
             panned = Panning(TestSignal(), panningValue);

@@ -249,7 +249,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithSamplingRate(samplingRate);
 
             // Panned, amplified sine
-            FluentOutlet getSignal()
+            FlowNode getSignal()
             {
                 var sine      = Sine(frequency);
                 var amplified = Multiply(sine, VOLUME);
@@ -263,7 +263,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             byte[]                  bytes            = saveResult1.Data.Bytes;
 
             // Use sample operator
-            FluentOutlet getSample()
+            FlowNode getSample()
             {
                 var    outlet = WithName(audioFileOutput1.FilePath).Sample(bytes);
                 Sample sample = outlet.UnderlyingSample();
@@ -570,7 +570,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         private void AssertSampleEntities(
-            FluentOutlet sampleFluentOutlet, 
+            FlowNode sampleFlowNode, 
             AudioFileFormatEnum audioFileFormatEnum, 
             SpeakerSetupEnum speakerSetupEnum, 
             SampleDataTypeEnum sampleDataTypeEnum, 
@@ -581,11 +581,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             string callerMemberName)
         {
             // Sample Wrapper
-            IsNotNull(() => sampleFluentOutlet);
-            IsNotNull(() => sampleFluentOutlet.UnderlyingSample());
+            IsNotNull(() => sampleFlowNode);
+            IsNotNull(() => sampleFlowNode.UnderlyingSample());
 
             // Sample Operator
-            Operator sampleOperator = sampleFluentOutlet.UnderlyingOperator;
+            Operator sampleOperator = sampleFlowNode.UnderlyingOperator;
             IsNotNull(() => sampleOperator);
             AreEqual("SampleOperator", () => sampleOperator.OperatorTypeName);
             IsNull(() => sampleOperator.AsCurveIn);
@@ -607,7 +607,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => sampleOperator.Outlets[0]);
 
             // Sample Outlet
-            Outlet sampleOutlet = sampleFluentOutlet;
+            Outlet sampleOutlet = sampleFlowNode;
             IsNotNull(() => sampleOutlet);
             IsNotNull(() => sampleOutlet.Operator);
             AreEqual(sampleOperator, () => sampleOutlet.Operator);

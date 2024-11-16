@@ -2,7 +2,7 @@
 {
     internal static class DebuggerDisplayFormatter
     {
-        public static string GetDebuggerDisplay(FluentOutlet obj)
+        public static string GetDebuggerDisplay(FlowNode obj)
         {
             var text = "";
                             

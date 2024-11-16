@@ -4,11 +4,11 @@ using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal class FluentOutletAccessor
+    internal class FlowNodeAccessor
     {
         private readonly Accessor _accessor;
         
-        public FluentOutletAccessor(FluentOutlet obj)
+        public FlowNodeAccessor(FlowNode obj)
         {
             _accessor = new Accessor(obj);
         }

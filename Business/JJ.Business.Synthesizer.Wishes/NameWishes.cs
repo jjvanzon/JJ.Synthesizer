@@ -122,12 +122,12 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // NameWishes FluentOutlet
+    // NameWishes FlowNode
     
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         /// <inheritdoc cref="docs._names"/>
-        public FluentOutlet SetName(string name = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
+        public FlowNode SetName(string name = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     
         /// <inheritdoc cref="docs._names"/>
-        public FluentOutlet WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
+        public FlowNode WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
         {
             _synthWishes.WithName(uglyName, fallbackName, callerMemberName);
             return this;

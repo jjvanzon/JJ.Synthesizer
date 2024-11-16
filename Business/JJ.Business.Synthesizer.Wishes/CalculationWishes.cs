@@ -26,18 +26,18 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class CalculationExtensionWishes
     {
-        // FluentOutlet
+        // FlowNode
 
-        public static double Calculate(this FluentOutlet fluentOutlet, double time, ChannelEnum channelEnum)
+        public static double Calculate(this FlowNode flowNode, double time, ChannelEnum channelEnum)
         {
-            if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
-            return fluentOutlet.UnderlyingOutlet.Calculate(time, channelEnum);
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return flowNode.UnderlyingOutlet.Calculate(time, channelEnum);
         }
 
-        public static double Calculate(this FluentOutlet fluentOutlet, double time = 0, int channelIndex = 0)
+        public static double Calculate(this FlowNode flowNode, double time = 0, int channelIndex = 0)
         {
-            if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
-            return fluentOutlet.UnderlyingOutlet.Calculate(time, channelIndex);
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return flowNode.UnderlyingOutlet.Calculate(time, channelIndex);
         }
         
         // Curve
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         public int Complexity => _wrappedOutlet.Complexity();
     }

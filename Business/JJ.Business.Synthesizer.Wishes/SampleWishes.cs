@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(
+        public FlowNode Sample(
             Result<StreamAudioData> result,
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(
+        public FlowNode Sample(
             StreamAudioData data,
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
                 
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(
+        public FlowNode Sample(
             byte[] bytes, string filePath, 
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
             => SampleBase(
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 bytesToSkip, name, callerMemberName);
         
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(
+        public FlowNode Sample(
             byte[] bytes, 
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
             => SampleBase(
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 bytesToSkip, name, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(
+        public FlowNode Sample(
             string filePath, 
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
             => SampleBase(
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 bytesToSkip, name, callerMemberName);
         
         /// <inheritdoc cref="docs._sample"/>
-        public FluentOutlet Sample(
+        public FlowNode Sample(
             Stream stream, 
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
             => SampleBase(
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 bytesToSkip, name, callerMemberName);
 
         /// <inheritdoc cref="docs._sample"/>
-        private FluentOutlet SampleBase(
+        private FlowNode SampleBase(
             Stream stream, byte[] bytes, string explicitFilePath, 
             int bytesToSkip, string nameOrFilePath, [CallerMemberName] string callerMemberName = null)
         {
@@ -136,12 +136,12 @@ namespace JJ.Business.Synthesizer.Wishes
         // SampleFromFluentConfig (currently unused)
         
         /// <inheritdoc cref="docs._samplefromfluentconfig" />
-        private FluentOutlet SampleFromFluentConfig(
+        private FlowNode SampleFromFluentConfig(
             byte[] bytes, int bytesToSkip = 0, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             if (bytes == null) throw new ArgumentNullException(nameof(bytes));
-            FluentOutlet sampleOutlet = SampleFromFluentConfig(name, callerMemberName);
+            FlowNode sampleOutlet = SampleFromFluentConfig(name, callerMemberName);
             Sample sample = sampleOutlet.UnderlyingSample();
             sample.Bytes = bytes;
             sample.BytesToSkip = bytesToSkip;
@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._samplefromfluentconfig" />
-        private FluentOutlet SampleFromFluentConfig(
+        private FlowNode SampleFromFluentConfig(
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
             name = FetchName(name, callerMemberName);

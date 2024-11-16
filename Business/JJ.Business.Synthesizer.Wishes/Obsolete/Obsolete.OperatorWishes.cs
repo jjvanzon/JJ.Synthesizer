@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     public static class OperatorObsoleteExtensionsWishes
     {
         [Obsolete("Use _[123] instead."), UsedImplicitly]
-        public static FluentOutlet Value(this SynthWishes synthWishes, double value = 0)
+        public static FlowNode Value(this SynthWishes synthWishes, double value = 0)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             return synthWishes._[value];
@@ -67,22 +67,22 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static SampleOperatorWrapper Sample(this SynthWishes synthWishes, Sample sample) => throw new NotSupportedException();
     }
 
-    public static class FluentOutletObsoleteExtensions
+    public static class FlowNodeObsoleteExtensions
     {
         /// <inheritdoc cref="docs._getcurvewrapper"/>
         [Obsolete(WrappersObsoleteMessages.ObsoleteMessage)]
-        public static CurveInWrapper GetCurveWrapper(this FluentOutlet fluentOutlet )
+        public static CurveInWrapper GetCurveWrapper(this FlowNode flowNode )
         {
-            if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
-            return fluentOutlet.UnderlyingOutlet.GetCurveWrapper();
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return flowNode.UnderlyingOutlet.GetCurveWrapper();
         }
 
         /// <inheritdoc cref="docs._getsamplewrapper" />
         [Obsolete(WrappersObsoleteMessages.ObsoleteMessage)]
-        public static SampleOperatorWrapper GetSampleWrapper(this FluentOutlet fluentOutlet )
+        public static SampleOperatorWrapper GetSampleWrapper(this FlowNode flowNode )
         {
-            if (fluentOutlet == null) throw new ArgumentNullException(nameof(fluentOutlet));
-            return fluentOutlet.UnderlyingOutlet.GetSampleWrapper();
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return flowNode.UnderlyingOutlet.GetSampleWrapper();
         }
     }
 }

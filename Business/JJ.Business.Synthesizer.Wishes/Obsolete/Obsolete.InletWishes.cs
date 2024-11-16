@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         public const string ObsoleteMessage =
             "Direct use of Inlets is rare and cumbersome. " +
-            "Use Operators, Outlets, FluentOutlet and SynthWishes instead. " +
+            "Use Operators, Outlets, FlowNode and SynthWishes instead. " +
             "If direct Inlet access is needed for advanced use cases, this message can be ignored.";
     }
     

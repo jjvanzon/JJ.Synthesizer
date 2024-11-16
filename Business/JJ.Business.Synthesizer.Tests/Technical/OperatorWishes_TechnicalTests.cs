@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class OperatorWishes_TechnicalTests : SynthWishes
     {
-        FluentOutlet Envelope => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
+        FlowNode Envelope => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
 
         [TestMethod]
         public void NestedSumFlatteningTest() => new OperatorWishes_TechnicalTests().NestedSumFlattening();
@@ -209,7 +209,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 );
 
             // Check Optimized Factors
-            IList<FluentOutlet> flattenedFactors = new SynthWishesAccessor(this).FlattenFactors(_[nestedMultiply]);
+            IList<FlowNode> flattenedFactors = new SynthWishesAccessor(this).FlattenFactors(_[nestedMultiply]);
 
             IsNotNull(() => flattenedFactors);
             AreEqual(6, () => flattenedFactors.Count);
@@ -322,7 +322,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentCSharpOperators()
         {
-            FluentOutlet freq = G5;
+            FlowNode freq = G5;
 
             Save(() => Multiply
                  (
@@ -359,7 +359,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 var    sine = _[freq].Sine;
             }
             {
-                FluentOutlet freq = A4;
+                FlowNode freq = A4;
                 var          sine = freq.Sine;
             }
             {
@@ -659,19 +659,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
         }
 
-        private void TestComplexity(FluentOutlet fluentOutlet)
+        private void TestComplexity(FlowNode flowNode)
         {
-            IsNotNull(() => fluentOutlet);
+            IsNotNull(() => flowNode);
             {
-                string stringify = fluentOutlet.Stringify();
+                string stringify = flowNode.Stringify();
                 IsNotNull(() => stringify);
                 int complexityOld = stringify.CountLines();
-                int complexity    = fluentOutlet.Complexity;
+                int complexity    = flowNode.Complexity;
                 AreEqual(complexityOld, () => complexity);
             }
 
-            IsNotNull(() => fluentOutlet.UnderlyingOutlet);
-            Outlet outlet = fluentOutlet.UnderlyingOutlet;
+            IsNotNull(() => flowNode.UnderlyingOutlet);
+            Outlet outlet = flowNode.UnderlyingOutlet;
             {
                 string stringify = outlet.Stringify();
                 IsNotNull(() => stringify);
@@ -691,7 +691,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // For the Inlet case: Complexity requires detouring through another operator.
-            var add = Add(fluentOutlet, 1);
+            var add = Add(flowNode, 1);
 
             // Ensure the Add operation and its associated Operator and Inlets are initialized correctly.
             IsNotNull(() => add);
@@ -712,7 +712,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(expectedComplexity, () => complexity);
             }
 
-            Result<StreamAudioData> result = Cache(fluentOutlet);
+            Result<StreamAudioData> result = Cache(flowNode);
             IsNotNull(() => result);
             {
                 string stringify = result.Stringify();

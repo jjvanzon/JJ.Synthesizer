@@ -10,26 +10,26 @@ using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Operands in FluentOutlet
+    // Operands in FlowNode
 
-public partial class FluentOutlet
+public partial class FlowNode
 {
     /// <inheritdoc cref="docs._operand"/>
-    public FluentOutlet A 
+    public FlowNode A 
     { 
         get => _[_wrappedOutlet.A()]; 
         set => _wrappedOutlet.SetA(value); 
     }
     
     /// <inheritdoc cref="docs._operand"/>
-    public FluentOutlet B
+    public FlowNode B
     {
         get => _[_wrappedOutlet.B()];
         set => _wrappedOutlet.SetB(value);
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public FluentOutlet Frequency
+    public FlowNode Frequency
     {
         get => _[_wrappedOutlet.Frequency()];
         set => _wrappedOutlet.SetFrequency(value);
@@ -39,7 +39,7 @@ public partial class FluentOutlet
     public bool SupportsFrequency => _wrappedOutlet.FrequencyIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
-    public FluentOutlet Pitch
+    public FlowNode Pitch
     {
         get => _[_wrappedOutlet.Pitch()];
         set => _wrappedOutlet.SetPitch(value);
@@ -49,7 +49,7 @@ public partial class FluentOutlet
     public bool SupportsPitch => _wrappedOutlet.PitchIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
-    public FluentOutlet Signal
+    public FlowNode Signal
     {
         get => _[_wrappedOutlet.Signal()];
         set => _wrappedOutlet.SetSignal(value);
@@ -59,7 +59,7 @@ public partial class FluentOutlet
     public bool SupportsSignal => _wrappedOutlet.SignalIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
-    public FluentOutlet Base
+    public FlowNode Base
     {
         get => _[_wrappedOutlet.Base()];
         set => _wrappedOutlet.SetBase(value);
@@ -69,7 +69,7 @@ public partial class FluentOutlet
     public bool SupportsBase => _wrappedOutlet.BaseIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
-    public FluentOutlet Exponent
+    public FlowNode Exponent
     {
         get => _[_wrappedOutlet.Exponent()];
         set => _wrappedOutlet.SetExponent(value);
@@ -79,7 +79,7 @@ public partial class FluentOutlet
     public bool SupportsExponent => _wrappedOutlet.ExponentIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
-    public FluentOutlet TimeDifference
+    public FlowNode TimeDifference
     {
         get => _[_wrappedOutlet.TimeDifference()];
         set => _wrappedOutlet.SetTimeDifference(value);
@@ -89,7 +89,7 @@ public partial class FluentOutlet
     public bool SupportsTimeDifference => _wrappedOutlet.TimeDifferenceIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
-    public FluentOutlet TimeScale
+    public FlowNode TimeScale
     {
         get => _[_wrappedOutlet.TimeScale()];
         set => _wrappedOutlet.SetTimeScale(value);
@@ -99,7 +99,7 @@ public partial class FluentOutlet
     public bool SupportsTimeScale => _wrappedOutlet.TimeScaleIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
-    public FluentOutlet SpeedFactor
+    public FlowNode SpeedFactor
     {
         get => _[_wrappedOutlet.SpeedFactor()];
         set => _wrappedOutlet.SetSpeedFactor(value);
@@ -549,11 +549,11 @@ public partial class FluentOutlet
 
     // Operand Origin
 
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         [Obsolete("Rarely used because default origin 0 usually works. " +
                   "Otherwise consider use separate operators like Shift and Stretch instead.")]
-        public FluentOutlet Origin => _[_wrappedOutlet.Operator?.Inlets.ElementAtOrDefault(2)?.Input];
+        public FlowNode Origin => _[_wrappedOutlet.Operator?.Inlets.ElementAtOrDefault(2)?.Input];
     }
 
     /// <inheritdoc cref="docs._operand"/>
@@ -666,12 +666,12 @@ public partial class FluentOutlet
         }
     }
         
-    public class FluentOperandList : IList<FluentOutlet>
+    public class FluentOperandList : IList<FlowNode>
     {
-        private readonly FluentOutlet _parent;
+        private readonly FlowNode _parent;
         private readonly OperandList _underlyingList;
         
-        public FluentOperandList(FluentOutlet parent)
+        public FluentOperandList(FlowNode parent)
         {
             _parent = parent ?? throw new ArgumentNullException(nameof(parent));
             _underlyingList = new OperandList(parent.UnderlyingOutlet);
@@ -679,7 +679,7 @@ public partial class FluentOutlet
            
         public int Count => _underlyingList.Count;
 
-        public FluentOutlet this[int index]
+        public FlowNode this[int index]
         {
             get
             {
@@ -689,16 +689,16 @@ public partial class FluentOutlet
             set => _underlyingList[index] = value?.UnderlyingOutlet;
         }
 
-        public int IndexOf(FluentOutlet item) => _underlyingList.IndexOf(item?.UnderlyingOutlet);
-        public bool Contains(FluentOutlet item) => _underlyingList.Contains(item?.UnderlyingOutlet);
-        public void Add(FluentOutlet item) => _underlyingList.Add(item?.UnderlyingOutlet);
-        public void Insert(int index, FluentOutlet item) => _underlyingList.Insert(index, item?.UnderlyingOutlet);
-        public bool Remove(FluentOutlet item) => _underlyingList.Remove(item?.UnderlyingOutlet);
+        public int IndexOf(FlowNode item) => _underlyingList.IndexOf(item?.UnderlyingOutlet);
+        public bool Contains(FlowNode item) => _underlyingList.Contains(item?.UnderlyingOutlet);
+        public void Add(FlowNode item) => _underlyingList.Add(item?.UnderlyingOutlet);
+        public void Insert(int index, FlowNode item) => _underlyingList.Insert(index, item?.UnderlyingOutlet);
+        public bool Remove(FlowNode item) => _underlyingList.Remove(item?.UnderlyingOutlet);
         public void RemoveAt(int index) => _underlyingList.RemoveAt(index);
         public void Clear() => _underlyingList.Clear();
         public bool IsReadOnly => _underlyingList.IsReadOnly;
         
-        public void CopyTo(FluentOutlet[] array, int arrayIndex)
+        public void CopyTo(FlowNode[] array, int arrayIndex)
         {
             if (array == null) throw new ArgumentNullException(nameof(array));
             if (arrayIndex < 0) throw new ArgumentOutOfRangeException(nameof(arrayIndex));
@@ -707,19 +707,19 @@ public partial class FluentOutlet
             for (int i = 0; i < _underlyingList.Count; i++)
             {
                 Outlet outlet = _underlyingList[i];
-                FluentOutlet fluentOutlet = null;
+                FlowNode flowNode = null;
                 if (outlet != null)
                 {
-                    fluentOutlet = _parent._[outlet];
+                    flowNode = _parent._[outlet];
                 }
-                array[arrayIndex + i] = fluentOutlet;
+                array[arrayIndex + i] = flowNode;
             }
         }
 
-        public IEnumerator<FluentOutlet> GetEnumerator()
+        public IEnumerator<FlowNode> GetEnumerator()
         {
             return _underlyingList
-                   // Convert each Outlet to FluentOutlet
+                   // Convert each Outlet to FlowNode
                    .Select(outlet => outlet == null ? null : _parent._[outlet]) 
                    .GetEnumerator();
         }

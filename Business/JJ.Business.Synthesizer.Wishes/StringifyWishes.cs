@@ -12,9 +12,9 @@ using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Stringify FluentOutlet
+    // Stringify FlowNode
     
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         /// <inheritdoc cref="docs._stringify"/>
         public string Stringify(bool singleLine = false, bool mustUseShortOperators = false) 

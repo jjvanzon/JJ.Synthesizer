@@ -11,10 +11,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     public class ModulationTests : SynthWishes
     {
         int          MildEchoCount  => 4;
-        FluentOutlet MildEchoDelay  => _[0.33];
+        FlowNode MildEchoDelay  => _[0.33];
         int          DeepEchoCount  => 4;
-        FluentOutlet DeepEchoDelayL => _[0.5];
-        FluentOutlet DeepEchoDelayR => _[0.53];
+        FlowNode DeepEchoDelayL => _[0.5];
+        FlowNode DeepEchoDelayR => _[0.53];
 
         public ModulationTests()
             : base(beat: 2.2, bar: 2.2)
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Jingles
 
         /// <inheritdoc cref="docs._vibraphase" />
-        FluentOutlet VibraphaseChord => Add // Parallel gives different sound at the moment.
+        FlowNode VibraphaseChord => Add // Parallel gives different sound at the moment.
         (
             Vibraphase(A4) * 0.80,
             Vibraphase(B4) * 0.70,
@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         ).SetName();
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet DetunicaJingle => ParallelAdd
+        FlowNode DetunicaJingle => ParallelAdd
         (
             _[ beat[1], E0, DetunicaBass, 1.00, l[5.25] ],
             _[ beat[2], B4, Detunica2   , 0.70, l[1.50] ],
@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Notes
 
-        FluentOutlet DetunicaBass(FluentOutlet freq, FluentOutlet duration = null)
+        FlowNode DetunicaBass(FlowNode freq, FlowNode duration = null)
         {
             duration = duration ?? GetAudioLength;
 
@@ -165,9 +165,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica1(
-            FluentOutlet freq, FluentOutlet duration = null,
-            FluentOutlet detuneDepth = null, FluentOutlet chorusRate = null)
+        FlowNode Detunica1(
+            FlowNode freq, FlowNode duration = null,
+            FlowNode detuneDepth = null, FlowNode chorusRate = null)
             => Detunica
                 (
                     freq.VibratoOverPitch(3, 0.00010), duration,
@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 .Tremolo(1, 0.03).SetName();
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica2(FluentOutlet freq, FluentOutlet duration = null)
+        FlowNode Detunica2(FlowNode freq, FlowNode duration = null)
             => MildEcho
             (
                 Detunica(
@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             );
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica3(FluentOutlet freq, FluentOutlet duration = null)
+        FlowNode Detunica3(FlowNode freq, FlowNode duration = null)
             => Detunica
                (
                    freq.VibratoOverPitch(5.5, 0.0005),
@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                .Panbrello(4.8, 0.05).SetName();
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica4(FluentOutlet freq, FluentOutlet duration = null)
+        FlowNode Detunica4(FlowNode freq, FlowNode duration = null)
             => Detunica
                (
                    freq.VibratoOverPitch(7, 0.0003),
@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                .Panbrello(3.4, 0.07).SetName();
 
         /// <inheritdoc cref="docs._detunica" />
-        FluentOutlet Detunica5(FluentOutlet freq, FluentOutlet duration = null)
+        FlowNode Detunica5(FlowNode freq, FlowNode duration = null)
             => Detunica
                (
                    freq.VibratoOverPitch(5.5, 0.00005), duration,
@@ -233,10 +233,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Instruments
 
         /// <inheritdoc cref="docs._detunica" />
-        internal FluentOutlet Detunica(
-            FluentOutlet freq = default, FluentOutlet duration = default,
-            FluentOutlet detuneDepth = null, FluentOutlet churnRate = null, 
-            FluentOutlet interferenceRate = null, FluentOutlet chorusRate = null,
+        internal FlowNode Detunica(
+            FlowNode freq = default, FlowNode duration = default,
+            FlowNode detuneDepth = null, FlowNode churnRate = null, 
+            FlowNode interferenceRate = null, FlowNode chorusRate = null,
             bool patchyEnvelope = true)
         {
             duration = duration ?? _[1];
@@ -252,10 +252,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
-        FluentOutlet Vibraphase(
-            FluentOutlet freq = null,
-            FluentOutlet duration = null,
-            FluentOutlet depthAdjust1 = null, FluentOutlet depthAdjust2 = null)
+        FlowNode Vibraphase(
+            FlowNode freq = null,
+            FlowNode duration = null,
+            FlowNode depthAdjust1 = null, FlowNode depthAdjust2 = null)
         {
             var saw      = SemiSaw(freq);
             var jittered = Jitter(saw, depthAdjust1, depthAdjust2);
@@ -274,7 +274,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // WaveForms
 
         /// <inheritdoc cref="docs._semisaw" />
-        FluentOutlet SemiSaw(FluentOutlet freq)
+        FlowNode SemiSaw(FlowNode freq)
         {
             freq = freq ?? A4;
 
@@ -287,7 +287,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             ).SetName();
         }
 
-        FluentOutlet BaseHarmonics(FluentOutlet freq)
+        FlowNode BaseHarmonics(FlowNode freq)
         {
             freq = freq ?? A4;
 
@@ -302,9 +302,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._detune" />
-        FluentOutlet DetunedHarmonics(
-            FluentOutlet freq, FluentOutlet duration,
-            FluentOutlet churnRate = null, FluentOutlet interferenceRate = null, FluentOutlet chorusRate = null)
+        FlowNode DetunedHarmonics(
+            FlowNode freq, FlowNode duration,
+            FlowNode churnRate = null, FlowNode interferenceRate = null, FlowNode chorusRate = null)
         {
             freq = freq ?? A4;
              
@@ -321,9 +321,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Effects
 
         /// <inheritdoc cref="docs._detune" />
-        FluentOutlet DetuneFreq(
-            FluentOutlet freq, FluentOutlet harmonic, FluentOutlet duration,
-            FluentOutlet churnRate = null, FluentOutlet interfereRate = null, FluentOutlet chorusRate = null)
+        FlowNode DetuneFreq(
+            FlowNode freq, FlowNode harmonic, FlowNode duration,
+            FlowNode churnRate = null, FlowNode interfereRate = null, FlowNode chorusRate = null)
         {
             var detunedFreq = freq;
 
@@ -350,7 +350,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
-        FluentOutlet Jitter(FluentOutlet sound, FluentOutlet depthAdjust1 = null, FluentOutlet depthAdjust2 = null)
+        FlowNode Jitter(FlowNode sound, FlowNode depthAdjust1 = null, FlowNode depthAdjust2 = null)
         {
             depthAdjust1 = depthAdjust1 ?? _[0.005];
             depthAdjust2 = depthAdjust2 ?? _[0.250];
@@ -366,15 +366,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
 
         /// <inheritdoc cref="docs._echo" />
-        FluentOutlet MildEcho(FluentOutlet sound)
+        FlowNode MildEcho(FlowNode sound)
             // Test without name (defaults to caller member name 'MildEcho')
             => Echo(sound, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
 
-        FluentOutlet MildEchoDuration
+        FlowNode MildEchoDuration
             => EchoDuration(MildEchoCount, MildEchoDelay);
 
         /// <inheritdoc cref="docs._echo" />
-        internal FluentOutlet DeepEcho(FluentOutlet sound)
+        internal FlowNode DeepEcho(FlowNode sound)
         {
             switch (Channel)
             {
@@ -396,11 +396,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             }
         }
 
-        FluentOutlet DeepEchoDuration => EchoDuration(DeepEchoCount, DeepEchoDelayR);
+        FlowNode DeepEchoDuration => EchoDuration(DeepEchoCount, DeepEchoDelayR);
 
         // Curves
 
-        FluentOutlet PatchyEnvelope => Curve(@"
+        FlowNode PatchyEnvelope => Curve(@"
                          o                             
                     
                               o                         
@@ -411,7 +411,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         o                                       o ");
 
-        FluentOutlet EvenEnvelope => Curve(@"
+        FlowNode EvenEnvelope => Curve(@"
                           o                             
                    
                                                         
@@ -422,19 +422,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
            
         o                                       o ");
 
-        FluentOutlet RateCurve1 => Curve(@"
+        FlowNode RateCurve1 => Curve(@"
                     o          
                                 
                                 
         o                   o");
 
-        FluentOutlet RateCurve2 => Curve(@"
+        FlowNode RateCurve2 => Curve(@"
              o                 
                                 
                                 
         o                   o ");
 
-        FluentOutlet RateCurve3 => Curve(@"
+        FlowNode RateCurve3 => Curve(@"
                   o            
                                 
                                 

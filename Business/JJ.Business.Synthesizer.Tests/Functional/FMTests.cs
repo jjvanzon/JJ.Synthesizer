@@ -13,16 +13,16 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class FMTests : SynthWishes
     {
-        FluentOutlet MildEcho(FluentOutlet sound)
+        FlowNode MildEcho(FlowNode sound)
             => Echo(sound, count: 6, magnitude: _[0.25], delay: _[0.33]).AddAudioLength(MildEchoDuration);
 
-        FluentOutlet MildEchoDuration 
+        FlowNode MildEchoDuration 
             => EchoDuration(count: 6, delay: _[0.33]);
 
-        FluentOutlet DeepEcho(FluentOutlet sound) 
+        FlowNode DeepEcho(FlowNode sound) 
             => Echo(sound, count: 7, magnitude: _[0.50], delay: _[0.50]).AddAudioLength(DeepEchoDuration);
 
-        FluentOutlet DeepEchoDuration 
+        FlowNode DeepEchoDuration 
             => EchoDuration(count: 7, delay: _[0.50]);
         
         /// <inheritdoc cref="docs._fmtests"/>
@@ -259,7 +259,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Jingle
 
-        FluentOutlet Jingle()
+        FlowNode Jingle()
         {
             var fluteVolume      = _[1.2];
             var chordsVolume     = _[0.5];
@@ -301,7 +301,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Melodies
 
-        FluentOutlet FluteMelody1 => WithAudioLength(bars[4]).ParallelAdd
+        FlowNode FluteMelody1 => WithAudioLength(bars[4]).ParallelAdd
         (
             _[ t[1,1.0], E4, Flute1, 0.80, l[2.00] ],
             _[ t[1,2.5], F4, Flute1, 0.70, l[2.17] ],
@@ -313,7 +313,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             _[ t[3,2.5], G4, Flute1, 0.80, l[2.50] ]
         ).SetName();
 
-        FluentOutlet FluteMelody2 => WithAudioLength(bars[4]).ParallelAdd
+        FlowNode FluteMelody2 => WithAudioLength(bars[4]).ParallelAdd
         (
             _[ t[1,1.0], E4, Flute1, 0.59, l[1.8]  ],
             _[ t[1,2.5], F4, Flute2, 0.68, l[1.0]  ],
@@ -324,7 +324,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             _[ t[3,1.0], A4, Flute4, 1.00, _[1.66] ]
         ).SetName();
 
-        FluentOutlet OrganChords => 
+        FlowNode OrganChords => 
             Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
@@ -337,7 +337,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             ).SetName();
 
         /// <param name="volume">Used to promote clipping for distortion (only works for 16-bit, not 32-bit).</param>
-        FluentOutlet PadChords(FluentOutlet volume = null)
+        FlowNode PadChords(FlowNode volume = null)
         {
             return Multiply
             (
@@ -352,14 +352,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._horn" />
-        FluentOutlet HornMelody1 => WithAudioLength(beat[13 + 4]).ParallelAdd
+        FlowNode HornMelody1 => WithAudioLength(beat[13 + 4]).ParallelAdd
         (
             _[ beat[09], Horn(C2, length[3]), 0.7 ],
             _[ beat[13], Horn(G1, length[4]), 0.5 ]
         ).SetName();
 
         /// <inheritdoc cref="docs._horn" />
-        FluentOutlet HornMelody2 => WithAudioLength(beat[9 + 4]).ParallelAdd
+        FlowNode HornMelody2 => WithAudioLength(beat[9 + 4]).ParallelAdd
         (
             _[ b[1], A2, Horn, 0.75, l[2] ],
             _[ b[5], F2, Horn, 0.85, l[2] ],
@@ -367,7 +367,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         ).SetName();
         
         /// <inheritdoc cref="docs._trombone" />
-        FluentOutlet TromboneMelody1 => WithAudioLength(beats[6]).ParallelAdd
+        FlowNode TromboneMelody1 => WithAudioLength(beats[6]).ParallelAdd
         (
             _[ b[1], A1 , Trombone      ],
             _[ b[3], E2 , Trombone      ],
@@ -375,19 +375,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         ).SetName();
 
         /// <inheritdoc cref="docs._trombone" />
-        FluentOutlet TromboneMelody2 => WithAudioLength(beats[8]).ParallelAdd
+        FlowNode TromboneMelody2 => WithAudioLength(beats[8]).ParallelAdd
         (
             _[ beat[3], E4, Trombone, 1, _[1.4] ],
             _[ beat[7], C4, Trombone, 1, _[1.4] ]
         ).SetName();
 
-        FluentOutlet RippleBassMelody2 =>
+        FlowNode RippleBassMelody2 =>
             _[ bar[3.5], A1, RippleBass, 1, bars[0.8] ].SetName();
         
         // Instruments
 
         /// <inheritdoc cref="docs._flute1" />
-        FluentOutlet Flute1(FluentOutlet freq = null, FluentOutlet duration = null)
+        FlowNode Flute1(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A4;
 
@@ -399,7 +399,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._flute2" />
-        FluentOutlet Flute2(FluentOutlet freq = null, FluentOutlet duration = null)
+        FlowNode Flute2(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A4;
 
@@ -412,7 +412,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._flute3" />
-        FluentOutlet Flute3(FluentOutlet freq = null, FluentOutlet duration = null)
+        FlowNode Flute3(FlowNode freq = null, FlowNode duration = null)
         {
             freq   = freq ?? A4;
 
@@ -425,7 +425,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._flute4" />
-        FluentOutlet Flute4(FluentOutlet freq = null, FluentOutlet duration = null)
+        FlowNode Flute4(FlowNode freq = null, FlowNode duration = null)
         {
             freq   = freq ?? A4;
 
@@ -438,7 +438,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._default" />
-        FluentOutlet Organ(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FlowNode Organ(FlowNode delay = null, FlowNode freq = null, FlowNode volume = null, FlowNode duration = null)
         {
             freq     = freq ?? A4;
             duration = duration ?? GetAudioLength;
@@ -456,7 +456,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._default" />
-        FluentOutlet Pad(FluentOutlet delay = null, FluentOutlet freq = null, FluentOutlet volume = null, FluentOutlet duration = null)
+        FlowNode Pad(FlowNode delay = null, FlowNode freq = null, FlowNode volume = null, FlowNode duration = null)
         {
             freq     = freq ?? A4;
             duration = duration ?? GetAudioLength;
@@ -481,7 +481,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._horn" />
-        FluentOutlet Horn(FluentOutlet freq = null, FluentOutlet duration = null)
+        FlowNode Horn(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A2;
 
@@ -495,7 +495,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._trombone" />
-        FluentOutlet Trombone(FluentOutlet freq = null, FluentOutlet durationFactor = null)
+        FlowNode Trombone(FlowNode freq = null, FlowNode durationFactor = null)
         {
             freq           = freq ?? A1;
             durationFactor = durationFactor ?? _[1];
@@ -515,7 +515,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._default" />
-        FluentOutlet ElectricNote(FluentOutlet freq = null, FluentOutlet duration = null)
+        FlowNode ElectricNote(FlowNode freq = null, FlowNode duration = null)
         {
             freq   = freq ?? A4;
             duration = duration ?? GetAudioLength;
@@ -534,7 +534,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._ripplebass" />
-        FluentOutlet RippleBass(FluentOutlet freq = null, FluentOutlet duration = null)
+        FlowNode RippleBass(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A1;
             var fmSignal = FMAroundFreq(freq * 8, freq / 2, _[0.005]);
@@ -543,7 +543,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._ripplenotesharpmetallic" />
-        FluentOutlet RippleNote_SharpMetallic(FluentOutlet freq = null, FluentOutlet duration = null)
+        FlowNode RippleNote_SharpMetallic(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A3;
             var fmSignal = FMInHertz(freq, freq / 2, _[10]);
@@ -552,7 +552,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._ripplesoundclean" />
-        FluentOutlet RippleSound_Clean(FluentOutlet freq = null, FluentOutlet duration = null)
+        FlowNode RippleSound_Clean(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A4;
             var fmSignal = FMAroundFreq(freq, _[20], _[0.005]);
@@ -561,7 +561,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._ripplesoundfantasyeffect" />
-        FluentOutlet RippleSound_FantasyEffect(FluentOutlet freq = null, FluentOutlet duration = null)
+        FlowNode RippleSound_FantasyEffect(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A5;
             var fmSignal = FMAroundFreq(freq, _[10], _[0.02]);
@@ -570,7 +570,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._ripplesoundcooldouble" />
-        FluentOutlet RippleSound_CoolDouble(FluentOutlet freq = null, FluentOutlet duration = null)
+        FlowNode RippleSound_CoolDouble(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A5;
             var fmSignal = FMAroundFreq(freq, _[10], _[0.05]);
@@ -579,7 +579,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._shaperipplesound" />
-        FluentOutlet ShapeRippleSound(FluentOutlet input, FluentOutlet duration)
+        FlowNode ShapeRippleSound(FlowNode input, FlowNode duration)
         {
             duration = duration ?? GetAudioLength; // _[2.5];
             var envelope = Stretch(RippleCurve, duration);
@@ -588,7 +588,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._createfmnoisebeating" />
-        FluentOutlet Create_FM_Noise_Beating(FluentOutlet pitch = null, FluentOutlet duration = null)
+        FlowNode Create_FM_Noise_Beating(FlowNode pitch = null, FlowNode duration = null)
         {
             duration = duration ?? GetAudioLength;
             
@@ -608,7 +608,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Algorithms
         
         /// <inheritdoc cref="docs._fminhertz" />
-        FluentOutlet FMInHertz(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
+        FlowNode FMInHertz(FlowNode soundFreq, FlowNode modSpeed, FlowNode modDepth)
         {
             var modulator = Sine(modSpeed) * modDepth;
             var sound     = Sine(soundFreq + modulator);
@@ -616,7 +616,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._fmaround0" />
-        FluentOutlet FMAround0(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
+        FlowNode FMAround0(FlowNode soundFreq, FlowNode modSpeed, FlowNode modDepth)
         {
             var modulator = Sine(modSpeed) * modDepth;
             var sound     = Sine(soundFreq * modulator);
@@ -624,7 +624,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._fmaroundfreq" />
-        FluentOutlet FMAroundFreq(FluentOutlet soundFreq, FluentOutlet modSpeed, FluentOutlet modDepth)
+        FlowNode FMAroundFreq(FlowNode soundFreq, FlowNode modSpeed, FlowNode modDepth)
         {
             var modulator = 1 + Sine(modSpeed) * modDepth;
             var sound     = Sine(soundFreq * modulator);
@@ -633,7 +633,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         // Curves
 
-        FluentOutlet FluteCurve => WithName().Curve
+        FlowNode FluteCurve => WithName().Curve
         (
             (time: 0.00, value: 0.0),
             (time: 0.05, value: 0.8),
@@ -642,7 +642,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0.0)
         );
 
-        FluentOutlet BrassCurve => WithName().Curve
+        FlowNode BrassCurve => WithName().Curve
         (
             (time: 0.00, value: 0),
             (time: 0.07, value: 1),
@@ -650,7 +650,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0)
         );
 
-        FluentOutlet RippleCurve => WithName().Curve
+        FlowNode RippleCurve => WithName().Curve
         (
             (time: 0.00, value: 0.00),
             (time: 0.01, value: 0.75),
@@ -659,7 +659,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0.00)
         );
 
-        FluentOutlet DampedBlockCurve => WithName().Curve
+        FlowNode DampedBlockCurve => WithName().Curve
         (
             (time: 0.00, value: 0),
             (time: 0.01, value: 1),
@@ -667,20 +667,20 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 0)
         );
 
-        FluentOutlet LineDownCurve => WithName().Curve
+        FlowNode LineDownCurve => WithName().Curve
         (
             (time: 0, value: 1),
             (time: 1, value: 0)
         );
 
         /// <inheritdoc cref="docs._modtamingcurve"/>
-        FluentOutlet ModTamingCurve => WithName().Curve(0.3, 1.0, 0.3, 0.0);
+        FlowNode ModTamingCurve => WithName().Curve(0.3, 1.0, 0.3, 0.0);
 
         /// <inheritdoc cref="docs._modtamingcurve"/>
-        FluentOutlet ModTamingCurve2 => WithName().Curve(1.0, 0.5, 0.2, 0.0);
+        FlowNode ModTamingCurve2 => WithName().Curve(1.0, 0.5, 0.2, 0.0);
 
         /// <inheritdoc cref="docs._modtamingcurve"/>
-        FluentOutlet ModTamingCurve8Times => WithName().Curve
+        FlowNode ModTamingCurve8Times => WithName().Curve
         (
             0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0,
@@ -693,7 +693,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         );
             
         /// <inheritdoc cref="docs._evenoutcurve"/>
-        FluentOutlet EvenOutCurve => WithName().Curve
+        FlowNode EvenOutCurve => WithName().Curve
         (
             (time: 0.00, value: 1.0),
             (time: 0.33, value: 0.6),
@@ -702,7 +702,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1.00, value: 1.0)
         );
 
-        FluentOutlet ChordVolumeCurve => WithName().Curve
+        FlowNode ChordVolumeCurve => WithName().Curve
         (
             (0.0, 0.0), (0.05, 0.0), (0.98, 0.5),
             (1.0, 0.0), (1.05, 0.6), (1.98, 0.6),
@@ -715,9 +715,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (8.0, 0.0)
         );
 
-        (double time, FluentOutlet freq1, FluentOutlet freq2, FluentOutlet freq3)[] _chordFreqs;
+        (double time, FlowNode freq1, FlowNode freq2, FlowNode freq3)[] _chordFreqs;
 
-        (double time, FluentOutlet freq1, FluentOutlet freq2, FluentOutlet freq3)[] CreateChordFreqs() => new[]
+        (double time, FlowNode freq1, FlowNode freq2, FlowNode freq3)[] CreateChordFreqs() => new[]
         {
             (0.0, E4, A4, C5),
             (1.0, F4, A4, C5),
@@ -730,17 +730,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (8.0, E4, A5, E5)
         };
 
-        FluentOutlet ChordPitchCurve1 => Curve(
+        FlowNode ChordPitchCurve1 => Curve(
             _chordFreqs.Select(x => new NodeInfo(x.time,
                                                  x.freq1.Value,
                                                  NodeTypeEnum.Block)).ToList());
 
-        FluentOutlet ChordPitchCurve2 => Curve(
+        FlowNode ChordPitchCurve2 => Curve(
             _chordFreqs.Select(x => new NodeInfo(x.time,
                                                  x.freq2.Value,
                                                  NodeTypeEnum.Block)).ToList());
 
-        FluentOutlet ChordPitchCurve3 => Curve(
+        FlowNode ChordPitchCurve3 => Curve(
             _chordFreqs.Select(x => new NodeInfo(x.time,
                                                  x.freq3.Value,
                                                  NodeTypeEnum.Block)).ToList());

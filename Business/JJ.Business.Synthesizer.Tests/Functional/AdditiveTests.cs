@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         const double magnitude = 0.33;
         const double delay     = 0.66;
         
-        public static FluentOutlet Echo(this FluentOutlet x) 
+        public static FlowNode Echo(this FlowNode x) 
             => x.Echo(count, x._[magnitude], x._[delay])
                 .AddEchoDuration(count, x._[delay])
                 .SetName();
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     [TestCategory("Functional")]
     public class AdditiveTests : SynthWishes
     {
-        FluentOutlet NoteDuration => _[2.5];
+        FlowNode NoteDuration => _[2.5];
         
         /// <inheritdoc cref="docs._metallophone" />
         public AdditiveTests() : base(beat: 0.4, bar: 1.6) => WithMono();
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._metallophone"/>
-        FluentOutlet MetallophoneJingle => Add
+        FlowNode MetallophoneJingle => Add
         (
             _[ t[1, 1.0], A4 , Metallophone, 0.9 ],
             _[ t[1, 1.5], E5 , Metallophone, 1.0 ],
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         ).SetName();
 
         /// <inheritdoc cref="docs._metallophone"/>
-        FluentOutlet Metallophone(FluentOutlet freq, FluentOutlet duration = null)
+        FlowNode Metallophone(FlowNode freq, FlowNode duration = null)
         {
             freq = freq ?? A4;
             duration = duration ?? NoteDuration;
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             ).SetName();
         }
 
-        FluentOutlet SamplePartial(FluentOutlet frequency, FluentOutlet duration)
+        FlowNode SamplePartial(FlowNode frequency, FlowNode duration)
         {
             var sound = MySample * Stretch(SampleEnvelope, duration);
             var faster = SpeedUp(sound, factor: frequency / A4);
@@ -83,10 +83,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._mysample"/>
-        FluentOutlet _mySample;
+        FlowNode _mySample;
 
         /// <inheritdoc cref="docs._mysample"/>
-        FluentOutlet MySample
+        FlowNode MySample
         {
             get
             {
@@ -115,28 +115,28 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         // Curves
 
-        FluentOutlet SineEnvelope1 => WithName().Curve
+        FlowNode SineEnvelope1 => WithName().Curve
         (
             0.00, 0.80, 1.00, null, null, null, null, null,
             0.25, null, null, null, null, null, null, null,
             0.10, null, null, 0.02, null, null, null, 0.00
         );
 
-        FluentOutlet SineEnvelope2 => WithName().Curve
+        FlowNode SineEnvelope2 => WithName().Curve
         (
             0.00, 1.00, 0.80, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.05, null, null, 0.01, null, null, null, 0.00
         );
 
-        FluentOutlet SineEnvelope3 => WithName().Curve
+        FlowNode SineEnvelope3 => WithName().Curve
         (
             0.30, 1.00, 0.30, null, null, null, null, null,
             0.10, null, null, null, null, null, null, null,
             0.15, null, null, 0.05, null, null, null, 0.00
         );
 
-        FluentOutlet SampleEnvelope => WithName().Curve(
+        FlowNode SampleEnvelope => WithName().Curve(
             1.00, 0.50, 0.20, null, null, null, null, 0.00,
             null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null

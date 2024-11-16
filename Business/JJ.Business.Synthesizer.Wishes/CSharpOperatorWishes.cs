@@ -4,13 +4,13 @@ using System;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         // C# Operators
         
         // Operator +
         
-        public static FluentOutlet operator +(FluentOutlet a, FluentOutlet b)
+        public static FlowNode operator +(FlowNode a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '+', b);
             a = a ?? x._[0];
@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return a.Plus(b);
         }
         
-        public static FluentOutlet operator +(FluentOutlet a, Outlet b)
+        public static FlowNode operator +(FlowNode a, Outlet b)
         {
             var x = GetSynthWishesOrThrow(a, '+', b);
             a = a ?? x._[0];
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return a.Plus(x._[b]);
         }
 
-        public static FluentOutlet operator +(Outlet a, FluentOutlet b)
+        public static FlowNode operator +(Outlet a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '+', b);
             a = a ?? x._[0];
@@ -34,14 +34,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return x._[a].Plus(b);
         }
                 
-        public static FluentOutlet operator +(FluentOutlet a, double b)
+        public static FlowNode operator +(FlowNode a, double b)
         {
             var x = GetSynthWishesOrThrow(a, '+', b);
             a = a ?? x._[0];
             return a.Plus(b);
         }
 
-        public static FluentOutlet operator +(double a, FluentOutlet b)
+        public static FlowNode operator +(double a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '+', b);
             b = b ?? x._[0];
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Operator -
         
-        public static FluentOutlet operator -(FluentOutlet a, FluentOutlet b)
+        public static FlowNode operator -(FlowNode a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '-', b);
             a = a ?? x._[0];
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return a.Minus(b);
         }
         
-        public static FluentOutlet operator -(FluentOutlet a, Outlet b)
+        public static FlowNode operator -(FlowNode a, Outlet b)
         {
             var x = GetSynthWishesOrThrow(a, '-', b);
             a = a ?? x._[0];
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return a.Minus(x._[b]);
         }
         
-        public static FluentOutlet operator -(Outlet a, FluentOutlet b)
+        public static FlowNode operator -(Outlet a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '-', b);
             a = a ?? x._[0];
@@ -74,14 +74,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return x._[a].Minus(b);
         }
         
-        public static FluentOutlet operator -(FluentOutlet a, double b)
+        public static FlowNode operator -(FlowNode a, double b)
         {
             var x = GetSynthWishesOrThrow(a, '-', b);
             a = a ?? x._[0];
             return a.Minus(b);
         }
         
-        public static FluentOutlet operator -(double a, FluentOutlet b)
+        public static FlowNode operator -(double a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '-',b);
             b = b ?? x._[0];
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Operator *
         
-        public static FluentOutlet operator *(FluentOutlet a, FluentOutlet b)
+        public static FlowNode operator *(FlowNode a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '*', b);
             a = a ?? x._[1];
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return a.Times(b);
         }
         
-        public static FluentOutlet operator *(FluentOutlet a, Outlet b)
+        public static FlowNode operator *(FlowNode a, Outlet b)
         {
             var x = GetSynthWishesOrThrow(a, '*', b);
             a = a ?? x._[1];
@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return a.Times(x._[b]);
         }
         
-        public static FluentOutlet operator *(Outlet a, FluentOutlet b)
+        public static FlowNode operator *(Outlet a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '*', b);
             a = a ?? x._[1];
@@ -114,14 +114,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return x._[a].Times(b);
         }
         
-        public static FluentOutlet operator *(FluentOutlet a, double b)
+        public static FlowNode operator *(FlowNode a, double b)
         {
             var x = GetSynthWishesOrThrow(a, '*', b);
             a = a ?? x._[1];
             return a.Times(b);
         }
         
-        public static FluentOutlet operator *(double a, FluentOutlet b)
+        public static FlowNode operator *(double a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '*', b);
             b = b ?? x._[1];
@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Operator /
         
-        public static FluentOutlet operator /(FluentOutlet a, FluentOutlet b)
+        public static FlowNode operator /(FlowNode a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '/', b);
             a = a ?? x._[0];
@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return a.Divide(b);
         }
         
-        public static FluentOutlet operator /(FluentOutlet a, Outlet b)
+        public static FlowNode operator /(FlowNode a, Outlet b)
         {
             var x = GetSynthWishesOrThrow(a, '/', b);
             a = a ?? x._[0];
@@ -146,7 +146,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return a.Divide(x._[b]);
         }
                 
-        public static FluentOutlet operator /(Outlet a, FluentOutlet b)
+        public static FlowNode operator /(Outlet a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '/', b);
             a = a ?? x._[0];
@@ -154,14 +154,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return x._[a].Divide(b);
         }
         
-        public static FluentOutlet operator /(FluentOutlet a, double b)
+        public static FlowNode operator /(FlowNode a, double b)
         {
             var x = GetSynthWishesOrThrow(a, '/', b);
             a = a ?? x._[0];
             return a.Divide(b);
         }
         
-        public static FluentOutlet operator /(double a, FluentOutlet b)
+        public static FlowNode operator /(double a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '/', b);
             b = b ?? x._[1];
@@ -172,18 +172,18 @@ namespace JJ.Business.Synthesizer.Wishes
                         
         private static SynthWishes GetSynthWishesOrThrow(object a, char op, object b)
         {
-            if (a is FluentOutlet fluentA) return fluentA._synthWishes;
-            if (b is FluentOutlet fluentB) return fluentB._synthWishes;
-            throw new Exception(GetNoFluentOutletMessage(a, op, b));
+            if (a is FlowNode fluentA) return fluentA._synthWishes;
+            if (b is FlowNode fluentB) return fluentB._synthWishes;
+            throw new Exception(GetNoFlowNodeMessage(a, op, b));
         }
 
-        private static string GetNoFluentOutletMessage(object a, char op, object b)
+        private static string GetNoFlowNodeMessage(object a, char op, object b)
         {
             string aString = a == null ? "null" : $"{a}";
             string bString = b == null ? "null" : $"{b}";
             string opString = $"{aString} {op} {bString}";
             return $"Cannot evaluate ({opString}). " +
-                   "A FluentOutlet operand is needed " +
+                   "A FlowNode operand is needed " +
                    "for creating new operators.";
         }
     }

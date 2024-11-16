@@ -66,8 +66,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Sometimes capturing goes automatically, so only use it, if it otherwise won't take it.
         /// </summary>
         /// <returns>
-        /// <see cref="FluentOutlet"/> also usable as an <see cref="Outlet"/>.
-        /// or as a fluent notation starter <see cref="FluentOutlet"/>.
+        /// <see cref="FlowNode"/> also usable as an <see cref="Outlet"/>.
+        /// or as a fluent notation starter <see cref="FlowNode"/>.
         /// </returns>
         public static object _captureindexer;
 
@@ -341,7 +341,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="funcs">Lambdas <c>() => ...</c> each returning a term for the addition.</param>
         /// <returns>
         /// A normal <see cref="Add">Add</see> <see cref="Operator">Operator's</see>
-        /// <see cref="Outlet">Outlet</see> (as <see cref="FluentOutlet">FluentOutlet</see>).
+        /// <see cref="Outlet">Outlet</see> (as <see cref="FlowNode">FlowNode</see>).
         /// </returns>
         public static object _paralleladd;
 

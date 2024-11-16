@@ -8,9 +8,9 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     // Is/As
     
-    // FluentOutlet
+    // FlowNode
     
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         public double? AsConst => _wrappedOutlet.AsConst();
         public bool IsConst => _wrappedOutlet.IsConst();

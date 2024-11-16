@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         internal Result<StreamAudioData> StreamAudio(
-            Func<FluentOutlet> channelInputFunc, 
+            Func<FlowNode> channelInputFunc, 
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             name = FetchName(name, callerMemberName);
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         internal Result<StreamAudioData> StreamAudio(
-            FluentOutlet channelInput,
+            FlowNode channelInput,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 new[] { channelInput }, 
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         internal Result<StreamAudioData> StreamAudio(
-            IList<FluentOutlet> channelInputs,
+            IList<FlowNode> channelInputs,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             // Process Parameters
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return result;
         }
 
-        internal Result<AudioFileOutput> ConfigureAudioFileOutput(IList<FluentOutlet> channelInputs, string name)
+        internal Result<AudioFileOutput> ConfigureAudioFileOutput(IList<FlowNode> channelInputs, string name)
         {
             // Configure AudioFileOutput (avoid backend)
 
@@ -257,7 +257,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
                 
-        private FluentOutlet ApplyPadding(FluentOutlet outlet)
+        private FlowNode ApplyPadding(FlowNode outlet)
         {
             if (ConfigHelper.LeadingSilence == 0 &&
                 ConfigHelper.TrailingSilence == 0)

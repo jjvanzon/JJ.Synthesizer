@@ -7,7 +7,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public partial class FluentOutlet 
+    public partial class FlowNode 
     { 
         /// <inheritdoc cref="docs._barindexer"/>
         public SynthWishes.BarIndexer bar => _synthWishes.bar;
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="docs._barindexer"/>
-            public FluentOutlet this[double count]
+            public FlowNode this[double count]
                 => _parent._[(count - 1) * _barDuration];
         }
 
@@ -117,7 +117,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="docs._barsindexer"/>
-            public FluentOutlet this[double count]
+            public FlowNode this[double count]
                 => _parent._[count * _barDuration];
         }
 
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="docs._beatindexer"/>
-            public FluentOutlet this[double count]
+            public FlowNode this[double count]
             {
                 get
                 {
@@ -159,11 +159,11 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="docs._beatsindexer"/>
-            public FluentOutlet this[double count]
+            public FlowNode this[double count]
                 => x._[count * _beatLength];
 
             /// <inheritdoc cref="docs._beatsindexer"/>
-            public FluentOutlet this[FluentOutlet count]
+            public FlowNode this[FlowNode count]
                 => count * _beatLength;
         }
 
@@ -183,7 +183,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="docs._timeindexer"/>
-            public FluentOutlet this[double bar, double beat]
+            public FlowNode this[double bar, double beat]
             {
                 get
                 {
@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             /// <inheritdoc cref="docs._timeindexer"/>
-            public FluentOutlet this[FluentOutlet bar, FluentOutlet beat]
+            public FlowNode this[FlowNode bar, FlowNode beat]
             {
                 get
                 {
@@ -220,21 +220,21 @@ namespace JJ.Business.Synthesizer.Wishes
             // For Value Operators
             
             /// <inheritdoc cref="docs._captureindexer" />
-            public FluentOutlet this[double value] => new FluentOutlet(_synthWishes, _synthWishes._operatorFactory.Value(value));
+            public FlowNode this[double value] => new FlowNode(_synthWishes, _synthWishes._operatorFactory.Value(value));
 
-            // Turn Outlet into FluentOutlet
+            // Turn Outlet into FlowNode
             
             /// <inheritdoc cref="docs._captureindexer" />
-            public FluentOutlet this[Outlet outlet]
+            public FlowNode this[Outlet outlet]
             {
                 get
                 {
                     if (outlet == null) throw new Exception(
                         "Outlet is null in the capture indexer _[myOutlet]. " +
-                        "This indexer is meant to wrap something into a FluentOutlet so you can " +
+                        "This indexer is meant to wrap something into a FlowNode so you can " +
                         "use fluent method chaining and C# operator overloads.");
                     
-                    return new FluentOutlet(_synthWishes, outlet); 
+                    return new FlowNode(_synthWishes, outlet); 
                 }
             }
             
@@ -243,64 +243,64 @@ namespace JJ.Business.Synthesizer.Wishes
             // _[ t[1, 1], Flute(A4, l[1], fx: _[0.14]), MyEnvelope ]
             // _[ t[1, 3], Flute(C4, l[2], fx: _[0.25]), MyEnvelope ]
             
-            public FluentOutlet this[FluentOutlet t, FluentOutlet sound, FluentOutlet volume = null] 
+            public FlowNode this[FlowNode t, FlowNode sound, FlowNode volume = null] 
                 => _synthWishes.StrikeNote(sound, t, volume);
 
             // _[ t[1, 1], Flute(A4, l[1], _[0.14]), 0.8 ]
             // _[ t[1, 2], Flute(C4, l[2], _[0.25]), 1.0 ]
 
-            public FluentOutlet this[FluentOutlet t, FluentOutlet sound, double volume] 
+            public FlowNode this[FlowNode t, FlowNode sound, double volume] 
                 => _synthWishes.StrikeNote(sound, t, volume);
             
             // _[ t[1, 1], A4, Flute, MyEnvelope, l[0.5] ]
             // _[ t[1, 2], C4, Flute, MyEnvelope, l[1.0] ]
 
-            public FluentOutlet this[
-                FluentOutlet t, FluentOutlet freq, Func<FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet vol = null, FluentOutlet param2 = null] 
+            public FlowNode this[
+                FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound, FlowNode vol = null, FlowNode param2 = null] 
                 => _synthWishes.StrikeNote(sound(freq, param2), t, vol);
 
             // _[ t[1, 1], A4, Flute, 0.8, l(0.5) ]
             // _[ t[1, 2], C4, Flute, 1.0, l(1.0) ]
 
-            public FluentOutlet this[
-                FluentOutlet t, FluentOutlet freq, Func<FluentOutlet, FluentOutlet, FluentOutlet> sound, double vol, FluentOutlet param2 = null] 
+            public FlowNode this[
+                FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound, double vol, FlowNode param2 = null] 
                 => _synthWishes.StrikeNote(sound(freq, param2), t, vol);
 
             // _[ t[1, 1], A4, Flute, MyEnvelope, l(0.5), _[0.14] ]
             // _[ t[1, 2], C4, Flute, MyEnvelope, l(1.0), _[0.25] ]
 
-            public FluentOutlet this[
-                FluentOutlet t, FluentOutlet freq, 
-                Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet vol = null, 
-                FluentOutlet param2 = null, FluentOutlet param3 = null] 
+            public FlowNode this[
+                FlowNode t, FlowNode freq, 
+                Func<FlowNode, FlowNode, FlowNode, FlowNode> sound, FlowNode vol = null, 
+                FlowNode param2 = null, FlowNode param3 = null] 
                 => _synthWishes.StrikeNote(sound(freq, param2, param3), t, vol);
 
             // _[ t[1, 1], A4, Flute, 0.8, l(0.5), _[0.14] ]
             // _[ t[1, 2], C4, Flute, 1.0, l(1.0), _[0.14] ]
 
-            public FluentOutlet this[
-                FluentOutlet t, FluentOutlet freq, 
-                Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, double vol, 
-                FluentOutlet param2 = null, FluentOutlet param3 = null] 
+            public FlowNode this[
+                FlowNode t, FlowNode freq, 
+                Func<FlowNode, FlowNode, FlowNode, FlowNode> sound, double vol, 
+                FlowNode param2 = null, FlowNode param3 = null] 
                 => _synthWishes.StrikeNote(sound(freq, param2, param3), t, vol);
 
         
             // _[ t[1, 1], A4, Flute, MyEnvelope, l(0.5), _[0.14], _[1.08] ]
             // _[ t[1, 2], C4, Flute, MyEnvelope, l(1.0), _[0.25] ]
 
-            public FluentOutlet this[
-                FluentOutlet t, FluentOutlet freq, 
-                Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, FluentOutlet vol = null,
-                FluentOutlet param2 = null, FluentOutlet param3 = null, FluentOutlet param4 = null] 
+            public FlowNode this[
+                FlowNode t, FlowNode freq, 
+                Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound, FlowNode vol = null,
+                FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null] 
                 => _synthWishes.StrikeNote(sound(freq, param2, param3, param4), t, vol);
 
             // _[ t[1, 1], A4, Flute, 0.8, l(0.5), _[0.14], _[1.08] ]
             // _[ t[1, 2], C4, Flute, 1.0, l(1.0), _[0.14], _[1.02]]
 
-            public FluentOutlet this[
-                FluentOutlet t, FluentOutlet freq, 
-                Func<FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet, FluentOutlet> sound, double vol, 
-                FluentOutlet param2 = null, FluentOutlet param3 = null, FluentOutlet param4 = null] 
+            public FlowNode this[
+                FlowNode t, FlowNode freq, 
+                Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound, double vol, 
+                FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null] 
                 => _synthWishes.StrikeNote(sound(freq, param2, param3, param4), t, vol);
         }
     }

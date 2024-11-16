@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
     // Operator
     
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         /// <inheritdoc cref="docs._relatedobjectextensions"/>
         public Operator UnderlyingOperator => _wrappedOutlet.Operator;
@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
     // Curve
         
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         /// <inheritdoc cref="docs._underlyingcurve" />"/>
         public Curve UnderlyingCurve() => _wrappedOutlet.UnderlyingCurve();
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // Sample
     
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         /// <inheritdoc cref="docs._underlyingsample" />
         public Sample UnderlyingSample() => _wrappedOutlet.UnderlyingSample();

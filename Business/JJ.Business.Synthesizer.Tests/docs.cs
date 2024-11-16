@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Applies an echo effect to the given sound.
         /// </summary>
         /// <param name="sound"> The original sound to which the echo effect will be applied. </param>
-        /// <returns> An <see cref="docs._FluentOutlet" /> representing the sound with the applied echo effect. </returns>
+        /// <returns> A FlowNode representing the sound with the applied echo effect. </returns>
         public static object _echo;
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// <summary>
         /// Generates a mild sawtooth-like waveform by combining multiple sine waves with different frequencies.
         /// </summary>
-        /// <returns> An <see cref="docs._FluentOutlet" /> representing the semi-sawtooth waveform. </returns>
+        /// <returns> A FlowNode representing the semi-sawtooth waveform. </returns>
         /// <inheritdoc cref="docs._default" />
         public static object _semisaw;
 

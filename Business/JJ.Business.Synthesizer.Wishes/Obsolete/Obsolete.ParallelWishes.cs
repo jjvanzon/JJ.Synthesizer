@@ -14,9 +14,9 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     public static class ObsoleteSynthWishesParallelExtensions
     {
         [Obsolete]
-        private static FluentOutlet ParallelAdd_MixedGraphBuildUpAndParallelExecution(
+        private static FlowNode ParallelAdd_MixedGraphBuildUpAndParallelExecution(
             this SynthWishes synthWishes,
-            IList<Func<FluentOutlet>> termFuncs,
+            IList<Func<FlowNode>> termFuncs,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             name = synthWishes.FetchName(name, callerMemberName);
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string[] names = GetParallelNames(termCount, name);
             string[] displayNames = names.Select(GetDisplayName).ToArray();
             var cacheResults = new Result<StreamAudioData>[termCount];
-            var reloadedSamples = new FluentOutlet[termCount];
+            var reloadedSamples = new FlowNode[termCount];
             
             var stopWatch = Stopwatch.StartNew();
             
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Start Task: {displayNames[i]}", "SynthWishes");
                 
                 // Get outlets first
-                var channelOutlets = new FluentOutlet[channelCount];
+                var channelOutlets = new FlowNode[channelCount];
                 
                 var originalChannel = synthWishes.Channel;
                 try

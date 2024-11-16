@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Play(
-            Func<FluentOutlet> channelInputFunc,
+            Func<FlowNode> channelInputFunc,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             var writeAudioResult =
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Play(
-            FluentOutlet channelInput, 
+            FlowNode channelInput, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             var writeAudioResult =
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Play(
-            IList<FluentOutlet> channelInputs, 
+            IList<FlowNode> channelInputs, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             var writeAudioResult =
@@ -225,12 +225,12 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Play on FluentOutlet
+    // Play on FlowNode
 
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet PlayMono(
+        public FlowNode PlayMono(
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             WithMono();
@@ -246,42 +246,42 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(Result<StreamAudioData> result)
+        public FlowNode Play(Result<StreamAudioData> result)
         {
             SynthWishes.Play(result);
             return this;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(StreamAudioData data)
+        public FlowNode Play(StreamAudioData data)
         {
             SynthWishes.Play(data);
             return this;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(AudioFileOutput entity)
+        public FlowNode Play(AudioFileOutput entity)
         {
             SynthWishes.Play(entity);
             return this;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(Sample entity)
+        public FlowNode Play(Sample entity)
         {
             SynthWishes.Play(entity);
             return this;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(byte[] bytes)
+        public FlowNode Play(byte[] bytes)
         {
             SynthWishes.Play(bytes);
             return this;
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Play(string filePath)
+        public FlowNode Play(string filePath)
         {
             SynthWishes.Play(filePath);
             return this;

@@ -18,9 +18,9 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     // Validation
     
-    // FluentOutlet Validation
+    // FlowNode Validation
 
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         public Result Validate(bool recursive = true) => _wrappedOutlet.Validate(recursive);
         public void Assert(bool recursive = true) => _wrappedOutlet.Assert(recursive);

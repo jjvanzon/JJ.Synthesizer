@@ -16,9 +16,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithMathOptimization(false);
 
-            FluentOutlet fluentOutlet = Sine(A4).Curve(0, 1, 0);
+            FlowNode flowNode = Sine(A4).Curve(0, 1, 0);
 
-            string stringified = fluentOutlet.Stringify(true, true);
+            string stringified = flowNode.Stringify(true, true);
             
             AreEqual("Sine(1,440) * Curve", stringified);
         }

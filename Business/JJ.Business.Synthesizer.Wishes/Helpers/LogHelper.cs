@@ -10,46 +10,46 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         private static string Pad(string text) => (text ?? "").PadRight(19);
         
         public static void LogComputeConstant(
-            FluentOutlet a, string mathSymbol, FluentOutlet b, FluentOutlet result,
+            FlowNode a, string mathSymbol, FlowNode b, FlowNode result,
             [CallerMemberName] string opName = null)
             => Console.WriteLine(Pad("Compute const") + $" : {Stringify(opName, a, mathSymbol, b)} => {Stringify(result)}");
         
         public static void LogIdentityOperation(
-            FluentOutlet a, string mathSymbol, FluentOutlet identityValue,
+            FlowNode a, string mathSymbol, FlowNode identityValue,
             [CallerMemberName] string opName = null)
             => Console.WriteLine(Pad("Identity op") + $" : {Stringify(opName, a, mathSymbol, identityValue)} => {Stringify(a)}");
         
         public static void LogIdentityOperation(
-            FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
+            FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
             => Console.WriteLine(Pad($"Identity op ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
         
         public static void LogAlwaysOneOptimization(
-            FluentOutlet a, string mathSymbol, FluentOutlet b,
+            FlowNode a, string mathSymbol, FlowNode b,
             [CallerMemberName] string opName = null)
             => Console.WriteLine(Pad("Always 1") + $" : {Stringify(opName, a, mathSymbol, b)} => 1");
         
         public static void LogAlwaysOneOptimization(
-            FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
+            FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
             => Console.WriteLine(Pad($"Always 1 ({dimension})") + " : " +
                                  $"{Stringify(opName, signal, dimension, mathSymbol, transform)} => " +
                                  $"{Stringify(opName, signal, dimension, "=", 1)}");
         
         public static void LogInvariance(
-            FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform,
+            FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
             => Console.WriteLine(Pad($"Invariance ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
         
-        public static void LogDivisionByMultiplication(FluentOutlet a, FluentOutlet b, FluentOutlet result)
+        public static void LogDivisionByMultiplication(FlowNode a, FlowNode b, FlowNode result)
             => Console.WriteLine(Pad("Div => mul") + $" : {Stringify(a)} / {Stringify(b)} => {Stringify(result)}");
         
-        public static void LogDistributeMultiplyOverAddition(FluentOutlet formulaBefore, FluentOutlet formulaAfter)
+        public static void LogDistributeMultiplyOverAddition(FlowNode formulaBefore, FlowNode formulaAfter)
             => Console.WriteLine(Pad("Distribute * over +") + $" : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
         
         public static void LogAdditionOptimizations(
-            IList<FluentOutlet> terms, IList<FluentOutlet> flattenedTerms, IList<FluentOutlet> optimizedTerms,
-            IList<FluentOutlet> consts, double constant, [CallerMemberName] string opName = null)
+            IList<FlowNode> terms, IList<FlowNode> flattenedTerms, IList<FlowNode> optimizedTerms,
+            IList<FlowNode> consts, double constant, [CallerMemberName] string opName = null)
         {
             string symbol = "+";
             
@@ -85,8 +85,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
         
         public static void LogMultiplicationOptimizations(
-            IList<FluentOutlet> factors, IList<FluentOutlet> optimizedFactors,
-            IList<FluentOutlet> consts, double constant, [CallerMemberName] string opName = null)
+            IList<FlowNode> factors, IList<FlowNode> optimizedFactors,
+            IList<FlowNode> consts, double constant, [CallerMemberName] string opName = null)
         {
             string symbol = "*";
             
@@ -117,27 +117,27 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         
         // Specialized Stringifications
         
-        internal static string Stringify(string opName, FluentOutlet a, string mathSymbol, FluentOutlet b)
+        internal static string Stringify(string opName, FlowNode a, string mathSymbol, FlowNode b)
             => Stringify(opName, mathSymbol, a, b);
         
-        internal static string Stringify(string opName, string mathSymbol, params FluentOutlet[] operands)
-            => Stringify(opName, mathSymbol, (IList<FluentOutlet>)operands);
+        internal static string Stringify(string opName, string mathSymbol, params FlowNode[] operands)
+            => Stringify(opName, mathSymbol, (IList<FlowNode>)operands);
         
-        internal static string Stringify(string opName, string mathSymbol, IList<FluentOutlet> operands)
+        internal static string Stringify(string opName, string mathSymbol, IList<FlowNode> operands)
             => $"{opName}({Stringify(mathSymbol, operands)})";
         
-        internal static string Stringify(string mathSymbol, IList<FluentOutlet> operands)
+        internal static string Stringify(string mathSymbol, IList<FlowNode> operands)
             => string.Join(" " + mathSymbol + " ", operands.Select(Stringify));
         
-        internal static string Stringify(FluentOutlet operand)
+        internal static string Stringify(FlowNode operand)
             => operand.Stringify(true);
         
         internal static string Stringify(
-            string opName, FluentOutlet signal, string dimension, string mathSymbol, FluentOutlet transform)
+            string opName, FlowNode signal, string dimension, string mathSymbol, FlowNode transform)
             => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {Stringify(transform)})";
         
         internal static string Stringify(
-            string opName, FluentOutlet signal, string dimension, string mathSymbol, double value)
+            string opName, FlowNode signal, string dimension, string mathSymbol, double value)
             => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {value})";
     }
 }

@@ -19,11 +19,11 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._paralleladd" />
-        public FluentOutlet ParallelAdd(params FluentOutlet[] termFuncs)
-            => ParallelAdd((IList<FluentOutlet>)termFuncs);
+        public FlowNode ParallelAdd(params FlowNode[] termFuncs)
+            => ParallelAdd((IList<FlowNode>)termFuncs);
 
         /// <inheritdoc cref="docs._paralleladd" />
-        public FluentOutlet ParallelAdd(IList<FluentOutlet> terms)
+        public FlowNode ParallelAdd(IList<FlowNode> terms)
         {
             if (terms == null) throw new ArgumentNullException(nameof(terms));
             
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return add;
         }
 
-        internal void RunParallelsRecursive(IList<FluentOutlet> channels) 
+        internal void RunParallelsRecursive(IList<FlowNode> channels) 
         {
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes
             WaitAll(tasks);
         }
         
-        internal void RunParallelsRecursive(FluentOutlet op)
+        internal void RunParallelsRecursive(FlowNode op)
         {
             if (!GetParallels) return;
             
@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 WaitAll(tasksInLevel); // Ensure each level completes before moving up
             }
         }
-        private IList<(Task Task, int Level)> GetParallelTasksRecursive(FluentOutlet op, int level)
+        private IList<(Task Task, int Level)> GetParallelTasksRecursive(FlowNode op, int level)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 

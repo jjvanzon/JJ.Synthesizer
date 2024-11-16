@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Save(
-            Func<FluentOutlet> channelInputFunc, 
+            Func<FlowNode> channelInputFunc, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 channelInputFunc, 
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Save(
-            FluentOutlet channelInput, 
+            FlowNode channelInput, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 channelInput,
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Save(
-            IList<FluentOutlet> channelInputs, 
+            IList<FlowNode> channelInputs, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 channelInputs, 
@@ -168,12 +168,12 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Save on FluentOutlet
+    // Save on FlowNode
 
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet SaveMono(
+        public FlowNode SaveMono(
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             WithMono();
@@ -187,7 +187,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Save(
+        public FlowNode Save(
             Result<StreamAudioData> result,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Save(
+        public FlowNode Save(
             StreamAudioData data, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -215,7 +215,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Save(
+        public FlowNode Save(
             AudioFileOutput entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Save(
+        public FlowNode Save(
             Sample entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Save(
+        public FlowNode Save(
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {

@@ -21,12 +21,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public SynthWishes.CaptureIndexer _ => _baseAccessor._;
         
         /// <inheritdoc cref="docs._metallophone"/>
-        public FluentOutlet MetallophoneJingle
-            => (FluentOutlet)_accessor.GetPropertyValue(MemberName());
+        public FlowNode MetallophoneJingle
+            => (FlowNode)_accessor.GetPropertyValue(MemberName());
 
         /// <inheritdoc cref="docs._metallophone"/>
-        public FluentOutlet Metallophone(FluentOutlet freq, FluentOutlet duration = null)
-            => (FluentOutlet)_accessor.InvokeMethod(MemberName(), freq, duration ?? _[1]);
+        public FlowNode Metallophone(FlowNode freq, FlowNode duration = null)
+            => (FlowNode)_accessor.InvokeMethod(MemberName(), freq, duration ?? _[1]);
 
 
     }

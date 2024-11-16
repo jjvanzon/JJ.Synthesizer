@@ -123,7 +123,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Accessors\AdditiveTestsAccessor.cs" />
-    <Compile Include="Accessors\FluentOutletAccessor.cs" />
+    <Compile Include="Accessors\FlowNodeAccessor.cs" />
     <Compile Include="Accessors\FrameworkIOWishesAccessor.cs" />
     <Compile Include="Accessors\ModulationTestsAccessor.cs" />
     <Compile Include="Accessors\FMTestsAccessor.cs" />

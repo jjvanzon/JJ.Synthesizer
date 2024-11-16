@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Cache(
-            Func<FluentOutlet> func, 
+            Func<FlowNode> func, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 func, 
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Cache(
-            Func<FluentOutlet> func, 
+            Func<FlowNode> func, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 func, 
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Cache(
-            FluentOutlet outlet, 
+            FlowNode outlet, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 new[] { outlet }, 
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Cache(
-            FluentOutlet outlet, 
+            FlowNode outlet, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 new[] { outlet }, 
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Cache(
-            IList<FluentOutlet> channelInputs, 
+            IList<FlowNode> channelInputs, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 channelInputs, 
@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Cache(
-            IList<FluentOutlet> channelInputs, 
+            IList<FlowNode> channelInputs, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 channelInputs, 
@@ -147,12 +147,12 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Cache on FluentOutlet
+    // Cache on FlowNode
 
-    public partial class FluentOutlet
+    public partial class FlowNode
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet CacheMono(
+        public FlowNode CacheMono(
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             WithMono();
@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet CacheMono(
+        public FlowNode CacheMono(
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
         {
             WithMono();
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Cache(
+        public FlowNode Cache(
             Result<StreamAudioData> result,
             string name = null, [CallerMemberName] string callerMemberName = null)
             { 
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Cache(
+        public FlowNode Cache(
             StreamAudioData data,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public FluentOutlet Cache(
+        public FlowNode Cache(
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
