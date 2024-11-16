@@ -14,6 +14,7 @@ using static System.MidpointRounding;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
+using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
@@ -535,11 +536,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             IsNotNull(() => audioFileOutput.FilePath);
             
-            (string firstPart, int number, string lastPart) = 
+            (string expectedFilePathFirstPart, int number, string expectedFilePathLastPart) = 
                 FrameworkIOWishesAccessor.GetNumberedFilePathParts(expectedFilePath);
+
+            // Goes wrong in Azure Pipelines. Log extra info.
+            Console.WriteLine(GetText(() => audioFileOutput.FilePath) + " = " + audioFileOutput.FilePath);
+            Console.WriteLine($"{new { expectedFilePathFirstPart, expectedFilePathLastPart }}");
             
-            IsTrue(() => audioFileOutput.FilePath.StartsWith(firstPart));
-            IsTrue(() => audioFileOutput.FilePath.EndsWith(lastPart));
+            IsTrue(() => audioFileOutput.FilePath.StartsWith(expectedFilePathFirstPart));
+            IsTrue(() => audioFileOutput.FilePath.EndsWith(expectedFilePathLastPart));
 
             IsTrue(audioFileOutput.ID > 0, "audioFileOutput.ID > 0");
             double expectedAmplifier = sampleDataTypeEnum.GetNominalMax();
