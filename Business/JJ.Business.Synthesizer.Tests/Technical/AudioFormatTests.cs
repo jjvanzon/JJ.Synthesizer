@@ -534,19 +534,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(sampleDataTypeEnum,  () => audioFileOutput.GetSampleDataTypeEnum());
             AreEqual(speakerSetupEnum,    () => audioFileOutput.GetSpeakerSetupEnum());
             
-            IsNotNull(() => audioFileOutput.FilePath);
+            {
+                IsNotNull(() => audioFileOutput.FilePath);
+                
+                (string expectedFilePathFirstPart, int number, string expectedFilePathLastPart) =
+                    FrameworkIOWishesAccessor.GetNumberedFilePathParts(expectedFilePath, "", "");
+                
+                Console.WriteLine(GetText(() => audioFileOutput.FilePath) + " = " + audioFileOutput.FilePath);
+                Console.WriteLine(GetText(() => expectedFilePathFirstPart) + " = " + expectedFilePathFirstPart);
+                Console.WriteLine(GetText(() => expectedFilePathLastPart) + " = " + expectedFilePathLastPart);
+                Console.WriteLine("");
+                
+                IsTrue(() => audioFileOutput.FilePath.StartsWith(expectedFilePathFirstPart));
+                IsTrue(() => audioFileOutput.FilePath.EndsWith(expectedFilePathLastPart));
+            }
             
-            (string expectedFilePathFirstPart, int number, string expectedFilePathLastPart) = 
-                FrameworkIOWishesAccessor.GetNumberedFilePathParts(expectedFilePath, "", "");
-
-            // Goes wrong in Azure Pipelines. Log extra info.
-            Console.WriteLine(GetText(() => audioFileOutput.FilePath ) + " = " + audioFileOutput.FilePath );
-            Console.WriteLine(GetText(() => expectedFilePathFirstPart) + " = " + expectedFilePathFirstPart);
-            Console.WriteLine(GetText(() => expectedFilePathLastPart ) + " = " + expectedFilePathLastPart );
-            
-            IsTrue(() => audioFileOutput.FilePath.StartsWith(expectedFilePathFirstPart));
-            IsTrue(() => audioFileOutput.FilePath.EndsWith(expectedFilePathLastPart));
-
             IsTrue(audioFileOutput.ID > 0, "audioFileOutput.ID > 0");
             double expectedAmplifier = sampleDataTypeEnum.GetNominalMax();
             AreEqual(expectedAmplifier, () => audioFileOutput.Amplifier);
