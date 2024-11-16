@@ -537,11 +537,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => audioFileOutput.FilePath);
             
             (string expectedFilePathFirstPart, int number, string expectedFilePathLastPart) = 
-                FrameworkIOWishesAccessor.GetNumberedFilePathParts(expectedFilePath);
+                FrameworkIOWishesAccessor.GetNumberedFilePathParts(expectedFilePath, "", "");
 
             // Goes wrong in Azure Pipelines. Log extra info.
-            Console.WriteLine(GetText(() => audioFileOutput.FilePath) + " = " + audioFileOutput.FilePath);
-            Console.WriteLine($"{new { expectedFilePathFirstPart, expectedFilePathLastPart }}");
+            Console.WriteLine(GetText(() => audioFileOutput.FilePath ) + " = " + audioFileOutput.FilePath );
+            Console.WriteLine(GetText(() => expectedFilePathFirstPart) + " = " + expectedFilePathFirstPart);
+            Console.WriteLine(GetText(() => expectedFilePathLastPart ) + " = " + expectedFilePathLastPart );
             
             IsTrue(() => audioFileOutput.FilePath.StartsWith(expectedFilePathFirstPart));
             IsTrue(() => audioFileOutput.FilePath.EndsWith(expectedFilePathLastPart));
