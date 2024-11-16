@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private bool MathAllowed(IList<FluentOutlet> operands)
         {
-            if (!GetMathOptimizationEnabled) return false;
+            if (!GetMathOptimization) return false;
             
             foreach (var term in operands)
             {

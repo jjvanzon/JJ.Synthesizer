@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 var cacheResult = cacheResults[i];
                 
                 // Play if needed
-                if (synthWishes.MustPlayParallels) synthWishes.Play(cacheResult.Data);
+                if (synthWishes.GetPlayParallels) synthWishes.Play(cacheResult.Data);
                 
                 // Read from bytes or file
                 reloadedSamples[i] = synthWishes.Sample(cacheResult, name: displayNames[i]);
