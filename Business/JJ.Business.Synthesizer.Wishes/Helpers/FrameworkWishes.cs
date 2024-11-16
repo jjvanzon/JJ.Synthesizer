@@ -161,10 +161,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
     internal static class FrameworkFileWishes
     {
-        private static readonly Mutex _numberedFilePathMutex = CreateMutex();
-        private static Mutex CreateMutex() 
-            => new Mutex(false, "Global\\SynthWishes_NumberedFilePathMutex_7f64fd76542045bb98c2e28a44d2df25");
-        
         /// <summary>
         /// If the originalFilePath already exists,
         /// a higher and higher number is inserted into the file name 
@@ -172,7 +168,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// Then that file path is returned.
         /// </summary>
         /// <param name="originalFilePath">
-        /// The absolute path to a file name, that does not yet have a number in it.
+        /// The path to a file name, that does not yet have a number in it.
         /// </param>
         public static string GetNumberedFilePath(
             string originalFilePath,
@@ -183,31 +179,27 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             (string filePathFirstPart, int number, string filePathLastPart) =
                 GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile);
+        
+            if (!mustNumberFirstFile && !File.Exists(originalFilePath))
+            {
+                return originalFilePath;
+            }
             
-            //_numberedFilePathMutex.WaitOne();
-            //try
-            //{
-                if (!mustNumberFirstFile && !File.Exists(originalFilePath))
-                {
-                    return originalFilePath;
-                }
-                
-                string filePath;
-                do
-                {
-                    filePath = $"{filePathFirstPart}{number.ToString(numberFormatString)}{filePathLastPart}";
-                    number++;
-                }
-                while (File.Exists(filePath));
-                
-                return filePath;
-            //}
-            //finally
-            //{
-            //    _numberedFilePathMutex.ReleaseMutex();
-            //}
+            string filePath;
+            do
+            {
+                filePath = $"{filePathFirstPart}{number.ToString(numberFormatString)}{filePathLastPart}";
+                number++;
+            }
+            while (File.Exists(filePath));
+            
+            return filePath;
         }
         
+        private static readonly Mutex _createSafeFileStreamMutex = CreateMutex();
+        private static Mutex CreateMutex()
+            => new Mutex(false, "Global\\SynthWishes_CreateSafeFileStreamMutex_7f64fd76542045bb98c2e28a44d2df25");
+
         /// <summary>
         /// If the originalFilePath already exists,
         /// a higher and higher number is inserted into the file name 
@@ -220,7 +212,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// <param name="originalFilePath">
         /// The absolute path to a file name, that does not yet have a number in it.
         /// </param>
-        public static (string filePath, FileStream) CreateConcurrentFileStream(
+        public static (string filePath, FileStream) CreateSafeFileStream(
             string originalFilePath,
             string numberPrefix = " (",
             string numberFormatString = "#",
@@ -230,10 +222,11 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             (string filePathFirstPart, int number, string filePathLastPart) =
                 GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile);
             
-            _numberedFilePathMutex.WaitOne();
+            _createSafeFileStreamMutex.WaitOne();
             try
             {
                 string filePath = originalFilePath;
+                
                 if (mustNumberFirstFile || File.Exists(filePath))
                 {
                     do
@@ -248,7 +241,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             }
             finally
             {
-                _numberedFilePathMutex.ReleaseMutex();
+                _createSafeFileStreamMutex.ReleaseMutex();
             }
         }
         
@@ -258,7 +251,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// This method is used to generate a new file path by inserting a number into the file name 
         /// if the original file path already exists.
         /// </summary>
-        /// <param name="originalFilePath">The absolute path to a file name that does not yet have a number in it.</param>
+        /// <param name="originalFilePath">The path to a file name that does not yet have a number in it.</param>
         /// <param name="numberPrefix">The prefix to be used before the number in the file name.</param>
         /// <param name="numberSuffix">The suffix to be used after the number in the file name.</param>
         /// <param name="mustNumberFirstFile">
@@ -271,7 +264,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// - The initial number to be used for numbering.
         /// - The last part of the file path, which includes the number suffix and the file extension.
         /// </returns>
-        /// <exception cref="Exception">Thrown when the original file path is null or empty.</exception>
         private static (string filePathFirstPart, int number, string filePathLastPart) GetNumberedFilePathParts(string originalFilePath, string numberPrefix, string numberSuffix, bool mustNumberFirstFile)
         {
             if (string.IsNullOrEmpty(originalFilePath)) throw new Exception("originalFilePath is null or empty.");

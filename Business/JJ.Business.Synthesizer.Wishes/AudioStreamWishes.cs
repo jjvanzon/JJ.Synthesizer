@@ -207,9 +207,9 @@ namespace JJ.Business.Synthesizer.Wishes
             else 
             {
                 // Inject a file stream
-                // (GetConcurrentFileStream numbers files to prevent file name contention
+                // (CreateSafeFileStream numbers files to prevent file name contention
                 //  It does so in a thread-safe, interprocess-safe way.)
-                (string filePath, FileStream fileStream) = CreateConcurrentFileStream(entity.FilePath);
+                (string filePath, FileStream fileStream) = CreateSafeFileStream(entity.FilePath);
                 calculatorAccessor._stream = fileStream;
                 entity.FilePath = filePath;
             }
