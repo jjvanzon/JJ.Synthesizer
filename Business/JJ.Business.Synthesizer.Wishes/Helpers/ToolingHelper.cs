@@ -63,13 +63,13 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return result;
         }
 
-        public static Result<int?> TryGetSamplingRateForAzurePipelines()
+        public Result<int?> TryGetSamplingRateForAzurePipelines()
         {
             var isRunningInAzurePipelines = IsRunningInAzurePipelines;
             
             if (isRunningInAzurePipelines.Data)
             {
-                var currentTestIsInCategory = CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory);
+                var currentTestIsInCategory = CurrentTestIsInCategory(_configResolver.GetLongRunningTestCategory);
 
                 var result = isRunningInAzurePipelines.Combine<int?>(currentTestIsInCategory);
 
@@ -93,13 +93,13 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             };
         }
         
-        public static Result<int?> TryGetSamplingRateForNCrunch()
+        public Result<int?> TryGetSamplingRateForNCrunch()
         {
             var isRunningInNCrunch = IsRunningInNCrunch;
             
             if (isRunningInNCrunch.Data)
             {
-                var currentTestIsInCategory = CurrentTestIsInCategory(ConfigHelper.LongRunningTestCategory);
+                var currentTestIsInCategory = CurrentTestIsInCategory(_configResolver.GetLongRunningTestCategory);
 
                 var result = isRunningInNCrunch.Combine<int?>(currentTestIsInCategory);
 

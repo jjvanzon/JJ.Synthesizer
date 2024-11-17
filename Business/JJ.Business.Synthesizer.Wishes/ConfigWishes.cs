@@ -5,6 +5,9 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
+using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.ConfigResolver;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -42,41 +45,43 @@ namespace JJ.Business.Synthesizer.Wishes
     
     internal class ConfigResolver
     {
-        private static readonly ConfigSection _configSection 
+        private static readonly ConfigSection _section 
             = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
         
-        public const bool                  DefaultAudioPlayBack    = true;
-        public const double                DefaultLeadingSilence   = 0.25;
-        public const double                DefaultTrailingSilence  = 0.25;
-        public const int                   DefaultSamplingRate     = 48000;
-        public const SpeakerSetupEnum      DefaultSpeakers         = SpeakerSetupEnum.Mono;
-        public const int                   DefaultBits             = 32;
-        public const AudioFileFormatEnum   DefaultAudioFormat      = AudioFileFormatEnum.Wav;
-        public const InterpolationTypeEnum DefaultInterpolation    = InterpolationTypeEnum.Line;
-        public const double                DefaultAudioLength      = 1;
-        public const bool                  DefaultPlayAllTapes     = false;
-        public const bool                  DefaultParallels        = true;
-        public const bool                  DefaultMathOptimization = true;
-        public const bool                  DefaultDiskCaching      = false;
+        public const bool                  DefaultAudioPlayBack           = true;
+        public const double                DefaultLeadingSilence          = 0.25;
+        public const double                DefaultTrailingSilence         = 0.25;
+        public const int                   DefaultSamplingRate            = 48000;
+        public const SpeakerSetupEnum      DefaultSpeakers                = Mono;
+        public const int                   DefaultBits                    = 32;
+        public const AudioFileFormatEnum   DefaultAudioFormat             = Wav;
+        public const InterpolationTypeEnum DefaultInterpolation           = Line;
+        public const double                DefaultAudioLength             = 1;
+        public const bool                  DefaultPlayAllTapes            = false;
+        public const bool                  DefaultParallels               = true;
+        public const bool                  DefaultMathOptimization        = true;
+        public const bool                  DefaultDiskCaching             = false;
+        public const string                DefaultLongRunningTestCategory = "Long";
         
         private bool? _audioPlayBack;
-        private double? _leadingSilence;
-        private double? _trailingSilence;
-        private SpeakerSetupEnum _speakers;
-        private SampleDataTypeEnum _sampleDataTypeEnum;
-        
-        public bool GetAudioPlayBack => _audioPlayBack ?? _configSection.AudioPlayBack ?? DefaultAudioPlayBack;
+        public bool GetAudioPlayBack => _audioPlayBack ?? _section.AudioPlayBack ?? DefaultAudioPlayBack;
         [Obsolete(WarningSettingMayNotWork)] public void WithAudioPlayBack(bool? value) => _audioPlayBack = value;
         
-        public double GetLeadingSilence => _leadingSilence ?? _configSection.LeadingSilence ?? DefaultLeadingSilence;
+        private double? _leadingSilence;
+        public double GetLeadingSilence => _leadingSilence ?? _section.LeadingSilence ?? DefaultLeadingSilence;
         public void WithLeadingSilence(double? value) => _leadingSilence = value;
         
-        public double GetTrailingSilence => _trailingSilence ?? _configSection.TrailingSilence ?? DefaultTrailingSilence;
+        private double? _trailingSilence;
+        public double GetTrailingSilence => _trailingSilence ?? _section.TrailingSilence ?? DefaultTrailingSilence;
         public void WithTrailingSilence(double? value) => _trailingSilence = value;
         
-        public SpeakerSetupEnum GetSpeakers => _speakers != default ? _speakers : _configSection.Speakers ?? DefaultSpeakers;
-        public void WithSpeakers(SpeakerSetupEnum speakers) => _speakers = speakers; 
+        private SpeakerSetupEnum _speakers;
+        public SpeakerSetupEnum GetSpeakers => _speakers != default ? _speakers : _section.Speakers ?? DefaultSpeakers;
+        public void WithSpeakers(SpeakerSetupEnum speakers) => _speakers = speakers;
+        public void WithMono() => WithSpeakers(Mono);
+        public void WithStereo() => WithSpeakers(Stereo);
 
+        private SampleDataTypeEnum _sampleDataTypeEnum;
         public int GetBits
         {
             get
@@ -86,12 +91,73 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _sampleDataTypeEnum.GetBits();
                 }
                 
-                return _configSection.Bits ?? DefaultBits;
+                return _section.Bits ?? DefaultBits;
             }
         }
         
         public void WithBits(int bits) => _sampleDataTypeEnum = bits.ToSampleDataTypeEnum();
+        public void With32Bit() => WithBits(32);
+        public void With16Bit() => WithBits(16);
+        public void With8Bit() => WithBits(8);
+
+        private string _longRunningTestCategory;
+        public string GetLongRunningTestCategory
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_longRunningTestCategory))
+                {
+                    return _longRunningTestCategory;
+                }
+                
+                if (!string.IsNullOrWhiteSpace(_section.LongRunningTestCategory))
+                {
+                    return _section.LongRunningTestCategory;
+                }
+                
+                return DefaultLongRunningTestCategory;
+            }
+        }
         
+        public void WithLongRunningTestCategory(string category) => _longRunningTestCategory = category;
+        
+        private AudioFileFormatEnum _audioFormat;
+        public AudioFileFormatEnum GetAudioFormat => _audioFormat != default ? _audioFormat : _section.AudioFormat ?? DefaultAudioFormat;
+        public void WithAudioFormat(AudioFileFormatEnum audioFormat) => _audioFormat = audioFormat;
+        public void AsWav() => WithAudioFormat(Wav);
+        public void AsRaw() => WithAudioFormat(Raw);
+        
+        private InterpolationTypeEnum _interpolation;
+        public InterpolationTypeEnum GetInterpolation => _interpolation != default ? _interpolation : _section.Interpolation ?? DefaultInterpolation;
+        public void WithInterpolation(InterpolationTypeEnum interpolation) => _interpolation = interpolation;
+        public void WithLinear() => WithInterpolation(Line);
+        public void WithBlocky() => WithInterpolation(Block);
+        
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        private bool? _diskCaching;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public bool GetDiskCaching => _diskCaching ?? _section.DiskCaching ?? DefaultDiskCaching;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public void WithDiskCaching(bool? enabled = default) =>  _diskCaching = enabled;
+        
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        private bool? _parallels;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public bool GetParallels => _parallels ?? _section.Parallels ?? DefaultParallels;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public void WithParallels(bool? enabled = default) => _parallels = enabled;
+        
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        private bool? _playAllTapes;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public bool GetPlayAllTapes => _playAllTapes ?? _section.PlayAllTapes ?? DefaultPlayAllTapes;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public void WithPlayAllTapes(bool? enabled = true) => _playAllTapes = enabled;
+        
+        private bool? _mathOptimization;
+        public bool GetMathOptimization => _mathOptimization ?? _section.MathOptimization ?? DefaultMathOptimization;
+        public void WithMathOptimization(bool? enabled = default) => _mathOptimization = enabled;
+
         internal const string WarningSettingMayNotWork
             = "Setting might not work in all contexts " +
               "where the system is unaware of the SynthWishes object. " +
@@ -135,18 +201,6 @@ namespace JJ.Business.Synthesizer.Wishes
         };
         
         public static int SamplingRate => _section.SamplingRate ?? DefaultSamplingRate;
-        public static string LongRunningTestCategory
-        {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(_section.LongRunningTestCategory))
-                {
-                    return _section.LongRunningTestCategory;
-                }
-                
-                return "Long";
-            }
-        }
 
         public static ConfigToolingElementWithDefaults AzurePipelines { get; } = new ConfigToolingElementWithDefaults(_section.AzurePipelines);
         public static ConfigToolingElementWithDefaults NCrunch { get; } = new ConfigToolingElementWithDefaults(_section.NCrunch);
@@ -164,13 +218,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool Impersonate             => _baseConfig.Impersonate             ?? false;
     }
 
-    // Defaults
-    
     public partial class SynthWishes
     {
         private static readonly ConfigSection _configSection 
             = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
-
     }
     
     // AudioLength
@@ -256,9 +307,9 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public int GetBits => _configResolver.GetBits;
         public SynthWishes WithBits(int bits) { _configResolver.WithBits(bits); return this; }
-        public SynthWishes With32Bit() => WithBits(32);
-        public SynthWishes With16Bit() => WithBits(16);
-        public SynthWishes With8Bit() => WithBits(8);
+        public SynthWishes With32Bit() { _configResolver.With32Bit(); return this; }
+        public SynthWishes With16Bit() { _configResolver.With16Bit(); return this; }
+        public SynthWishes With8Bit() { _configResolver.With8Bit(); return this; }
     }
 
     public partial class FlowNode
@@ -276,8 +327,8 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public SpeakerSetupEnum GetSpeakers => _configResolver.GetSpeakers;
         public SynthWishes WithSpeakers(SpeakerSetupEnum speakers) { _configResolver.WithSpeakers(speakers); return this; }
-        public SynthWishes WithMono() => WithSpeakers(SpeakerSetupEnum.Mono);
-        public SynthWishes WithStereo() => WithSpeakers(SpeakerSetupEnum.Stereo);
+        public SynthWishes WithMono() { _configResolver.WithMono(); return this; }
+        public SynthWishes WithStereo() { _configResolver.WithStereo(); return this; }
     }
 
     public partial class FlowNode
@@ -292,24 +343,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        private AudioFileFormatEnum _audioFormat;
-        public AudioFileFormatEnum GetAudioFormat
-        {
-            get
-            {
-                if (_audioFormat != AudioFileFormatEnum.Undefined)
-                {
-                    return _audioFormat;
-                }
-
-                return _configSection.AudioFormat ?? DefaultAudioFormat;
-            }
-        }
-
-        public SynthWishes WithAudioFormat(AudioFileFormatEnum audioFormat) { _audioFormat = audioFormat; return this; }
-        public SynthWishes AsWav() => WithAudioFormat(AudioFileFormatEnum.Wav);
-        public SynthWishes AsRaw() => WithAudioFormat(AudioFileFormatEnum.Raw);
-    }
+        public AudioFileFormatEnum GetAudioFormat => _configResolver.GetAudioFormat;
+        public SynthWishes WithAudioFormat(AudioFileFormatEnum audioFormat) { _configResolver.WithAudioFormat(audioFormat); return this; }
+        public SynthWishes AsWav() { _configResolver.AsWav(); return this; }  
+        public SynthWishes AsRaw() { _configResolver.AsRaw(); return this; }
+    } 
 
     public partial class FlowNode
     {
@@ -323,29 +361,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        private InterpolationTypeEnum _interpolation;
-        public InterpolationTypeEnum GetInterpolation
-        {
-            get
-            {
-                if (_interpolation != InterpolationTypeEnum.Undefined)
-                {
-                    return _interpolation;
-                }
-
-                return _configSection.Interpolation ?? DefaultInterpolation;
-            }
-        }
-
-        public SynthWishes WithInterpolation(InterpolationTypeEnum interpolationEnum) { _interpolation = interpolationEnum; return this; }
-        public SynthWishes WithLinear() => WithInterpolation(InterpolationTypeEnum.Line);
-        public SynthWishes WithBlocky() => WithInterpolation(InterpolationTypeEnum.Block);
+        public InterpolationTypeEnum GetInterpolation => _configResolver.GetInterpolation;
+        public SynthWishes WithInterpolation(InterpolationTypeEnum interpolation) { _configResolver.WithInterpolation(interpolation); return this; }
+        public SynthWishes WithLinear() {_configResolver.WithLinear(); return this; }
+        public SynthWishes WithBlocky() { _configResolver.WithBlocky(); return this; }
     }
 
     public partial class FlowNode
     {
         public InterpolationTypeEnum GetInterpolation => _synthWishes.GetInterpolation;
-        public FlowNode WithInterpolation(InterpolationTypeEnum interpolationEnum) { _synthWishes.WithInterpolation(interpolationEnum); return this; }
+        public FlowNode WithInterpolation(InterpolationTypeEnum interpolation) { _synthWishes.WithInterpolation(interpolation); return this; }
         public FlowNode WithLinear() { _synthWishes.WithLinear(); return this; }
         public FlowNode WithBlocky() { _synthWishes.WithBlocky(); return this; }
     }
@@ -355,14 +380,14 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         [Obsolete(WarningSettingMayNotWork)]
-        public SynthWishes WithAudioPlayBack(bool? enabled = DefaultAudioPlayBack) { _configResolver.WithAudioPlayBack(enabled); return this; }
+        public SynthWishes WithAudioPlayBack(bool? enabled = default) { _configResolver.WithAudioPlayBack(enabled); return this; }
         public bool GetAudioPlayBack => _configResolver.GetAudioPlayBack;
     }
     
     public partial class FlowNode
     {
         [Obsolete(WarningSettingMayNotWork)]
-        public FlowNode WithAudioPlayBack(bool? enabled = DefaultAudioPlayBack) { _synthWishes.WithAudioPlayBack(enabled); return this; }
+        public FlowNode WithAudioPlayBack(bool? enabled = default) { _synthWishes.WithAudioPlayBack(enabled); return this; }
         public bool GetAudioPlayBack => _synthWishes.GetAudioPlayBack;
     }
     
@@ -370,13 +395,13 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public SynthWishes WithLeadingSilence(double? seconds = DefaultLeadingSilence) { _configResolver.WithLeadingSilence(seconds); return this; }
+        public SynthWishes WithLeadingSilence(double? seconds = default) { _configResolver.WithLeadingSilence(seconds); return this; }
         public double GetLeadingSilence => _configResolver.GetLeadingSilence;
     }
     
     public partial class FlowNode
     {
-        public FlowNode WithLeadingSilence(double? seconds = DefaultLeadingSilence) { _synthWishes.WithLeadingSilence(seconds); return this; }
+        public FlowNode WithLeadingSilence(double? seconds = default) { _synthWishes.WithLeadingSilence(seconds); return this; }
         public double GetLeadingSilence => _synthWishes.GetLeadingSilence;
     }
     
@@ -384,13 +409,13 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public SynthWishes WithTrailingSilence(double? seconds = DefaultTrailingSilence) { _configResolver.WithTrailingSilence(seconds); return this; }
+        public SynthWishes WithTrailingSilence(double? seconds = default) { _configResolver.WithTrailingSilence(seconds); return this; }
         public double GetTrailingSilence => _configResolver.GetTrailingSilence;
     }
     
     public partial class FlowNode
     {
-        public FlowNode WithTrailingSilence(double? seconds = DefaultTrailingSilence) { _synthWishes.WithTrailingSilence(seconds); return this; }
+        public FlowNode WithTrailingSilence(double? seconds = default) { _synthWishes.WithTrailingSilence(seconds); return this; }
         public double GetTrailingSilence => _synthWishes.GetTrailingSilence;
     }
 
@@ -399,34 +424,35 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        private bool? _diskCaching;
+        public bool GetDiskCaching => _configResolver.GetDiskCaching;
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public SynthWishes WithDiskCaching(bool? enabled = true) { _diskCaching = enabled; return this; }
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public bool GetDiskCaching => _diskCaching ?? _configSection.DiskCaching ?? DefaultDiskCaching;
+        public SynthWishes WithDiskCaching(bool? enabled = default) { _configResolver.WithDiskCaching(enabled); return this; }
     }
 
     public partial class FlowNode
     {
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public FlowNode WithDiskCaching(bool? enabled = true) { _synthWishes.WithDiskCaching(enabled); return this; }
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public bool GetDiskCaching => _synthWishes.GetDiskCaching;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public FlowNode WithDiskCaching(bool? enabled = default) { _synthWishes.WithDiskCaching(enabled); return this; }
     }
 
     // Parallels
 
     public partial class SynthWishes
     {
-        private bool? _parallels;
-        public SynthWishes WithParallels(bool? enabled = default) { _parallels = enabled; return this; }
-        public bool GetParallels => _parallels ?? _configSection.Parallels ?? DefaultParallels;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public bool GetParallels => _configResolver.GetParallels;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public SynthWishes WithParallels(bool? enabled = default) { _configResolver.WithParallels(enabled); return this; }
     }
 
     public partial class FlowNode
     {
-        public FlowNode WithParallels(bool? enabled = default) { _synthWishes.WithParallels(enabled); return this; }
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         private bool GetParallels => _synthWishes.GetParallels;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public FlowNode WithParallels(bool? enabled = default) { _synthWishes.WithParallels(enabled); return this; }
     }
     
     // PlayAllTapes
@@ -434,11 +460,9 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        private bool? _playAllTapes;
+        public bool GetPlayAllTapes => _configResolver.GetPlayAllTapes;
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public bool GetPlayAllTapes => _playAllTapes ?? _configSection.PlayAllTapes ?? DefaultPlayAllTapes;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public SynthWishes WithPlayAllTapes(bool? enabled = true) { _playAllTapes = enabled; return this; }
+        public SynthWishes WithPlayAllTapes(bool? enabled = default) { _configResolver.WithPlayAllTapes(enabled); return this; }
     }
 
     public partial class FlowNode
@@ -446,21 +470,20 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public bool GetPlayAllTapes => _synthWishes.GetPlayAllTapes;
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public FlowNode WithPlayAllTapes(bool? enabled = true) { _synthWishes.WithPlayAllTapes(enabled); return this; }
+        public FlowNode WithPlayAllTapes(bool? enabled = default) { _synthWishes.WithPlayAllTapes(enabled); return this; }
     }
     
     // MathOptimization
     
     public partial class SynthWishes
     {
-        private bool? _mathOptimization;
-        public SynthWishes WithMathOptimization(bool? enabled = true) { _mathOptimization = enabled; return this; }
-        public bool GetMathOptimization => _mathOptimization ?? _configSection.MathOptimization ?? DefaultMathOptimization;
+        public bool GetMathOptimization => _configResolver.GetMathOptimization;
+        public SynthWishes WithMathOptimization(bool? enabled = default) { _configResolver.WithMathOptimization(enabled); return this; }
     }
     
     public partial class FlowNode
     {
-        public FlowNode WithMathOptimization(bool? enabled = true) { _synthWishes.WithMathOptimization(enabled); return this; }
+        public FlowNode WithMathOptimization(bool? enabled = default) { _synthWishes.WithMathOptimization(enabled); return this; }
         private bool GetMathOptimization => _synthWishes.GetMathOptimization;
     }
 }
