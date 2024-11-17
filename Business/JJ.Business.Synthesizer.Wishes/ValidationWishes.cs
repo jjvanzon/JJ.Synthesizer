@@ -242,11 +242,14 @@ namespace JJ.Business.CanonicalModel
         {
             if (result1 == null) throw new ArgumentNullException(nameof(result1));
             if (result2 == null) throw new ArgumentNullException(nameof(result2));
-
+            
+            List<ValidationMessage> validationMessages1 = result1.ValidationMessages ?? new List<ValidationMessage>();
+            List<ValidationMessage> validationMessages2 = result2.ValidationMessages ?? new List<ValidationMessage>();
+            
             var result = new CanonicalModel.Result<Data>
             {
                 Successful = result1.Successful && result2.Successful,
-                ValidationMessages = result1.ValidationMessages.Concat(result2.ValidationMessages).ToList(),
+                ValidationMessages = validationMessages1.Concat(validationMessages2).ToList(),
                 Data = result1.Data
             };
 

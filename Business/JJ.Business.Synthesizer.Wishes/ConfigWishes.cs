@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetMathOptimization => _mathOptimization ?? _section.MathOptimization ?? DefaultMathOptimization;
         public void WithMathOptimization(bool? enabled = default) => _mathOptimization = enabled;
         
-        // Channel has a special role. Custom handling. Not in config file.
+        // Channel has a special role. Custom handling. Not in config file. Transient in nature.
         public ChannelEnum Channel { get; set; } = ChannelEnum.Single;
         public int ChannelIndex { get => Channel.ToIndex(); set => Channel = value.ToChannel(GetSpeakers); }
         public void WithChannel(ChannelEnum channel) => Channel = channel; 
@@ -271,6 +271,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
+        /// <inheritdoc cref="docs._samplingrate" />
         private int _samplingRate;
         /// <inheritdoc cref="docs._samplingrate" />
         public int GetSamplingRate => _samplingRate;

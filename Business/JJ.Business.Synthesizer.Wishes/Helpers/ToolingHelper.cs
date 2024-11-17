@@ -65,23 +65,26 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         public Result<int?> TryGetSamplingRateForAzurePipelines()
         {
+            var result = new Result<int?> { Successful = true, ValidationMessages = new List<ValidationMessage>() };
+
             var isRunningInAzurePipelines = IsRunningInAzurePipelines;
             
             if (isRunningInAzurePipelines.Data)
             {
-                var currentTestIsInCategory = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
+                bool currentTestIsInCategory = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
+                
+                result = result.Combine(isRunningInAzurePipelines);
 
-                var result = isRunningInAzurePipelines.Combine<int?>(currentTestIsInCategory);
-
-                if (currentTestIsInCategory.Data)
+                if (currentTestIsInCategory)
                 {
                     result.Data = ConfigHelper.AzurePipelines.SamplingRateLongRunning;
+                    result.ValidationMessages.AddRange(GetTestIsLongWarnings().ToCanonical());
                 }
                 else
                 {
                     result.Data = ConfigHelper.AzurePipelines.SamplingRate;
                 }
-                
+
                 return result;
             }
 
@@ -95,22 +98,26 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         
         public Result<int?> TryGetSamplingRateForNCrunch()
         {
-            var isRunningInNCrunch = IsRunningInNCrunch;
+            var result = new Result<int?> { Successful = true, ValidationMessages = new List<ValidationMessage>() };
+
+            var underNCrunch = IsRunningInNCrunch;
             
-            if (isRunningInNCrunch.Data)
+            if (underNCrunch.Data)
             {
-                var currentTestIsInCategory = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
+                var testIsLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
 
-                var result = isRunningInNCrunch.Combine<int?>(currentTestIsInCategory);
+                result.Combine(underNCrunch);
 
-                if (currentTestIsInCategory.Data)
+                if (testIsLong)
                 {
                     result.Data = ConfigHelper.NCrunch.SamplingRateLongRunning;
+                    result.ValidationMessages.AddRange(GetTestIsLongWarnings().ToCanonical());
                 }
                 else
                 {
                     result.Data = ConfigHelper.NCrunch.SamplingRate;
                 }
+                
                 
                 return result;
             }
@@ -119,7 +126,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             {
                 Successful = true,
                 Data = null,
-                ValidationMessages = isRunningInNCrunch.ValidationMessages
+                ValidationMessages = underNCrunch.ValidationMessages
             };
         }
 
@@ -174,7 +181,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
 
         // ReSharper disable AssignNullToNotNullAttribute
-        public static Result<bool> CurrentTestIsInCategory(string category)
+        public static bool CurrentTestIsInCategory(string category)
         {
             var methodQuery = new StackTrace().GetFrames().Select(x => x.GetMethod());
 
@@ -190,19 +197,18 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             bool isInCategory = categoryQuery.Any(x => string.Equals(x, category, StringComparison.OrdinalIgnoreCase));
 
-            var result = new Result<bool>
-            {
-                Successful = true,
-                Data = isInCategory,
-                ValidationMessages = new List<ValidationMessage>()
-            };
-
+            return isInCategory;
+        }
+        
+        public IList<string> GetTestIsLongWarnings()
+        {
+            string category = _configResolver.GetLongTestCategory;
+            bool isInCategory = CurrentTestIsInCategory(category);
             if (isInCategory)
             {
-                result.ValidationMessages.Add($"Test has category '{category}'".ToCanonical());
+                return new List<string> { $"Test has category '{category}'" };
             }
-            
-            return result;
+            return new List<string>();
         }
     }
 }
