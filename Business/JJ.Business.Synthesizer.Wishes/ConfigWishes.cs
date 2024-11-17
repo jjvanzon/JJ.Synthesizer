@@ -135,6 +135,14 @@ namespace JJ.Business.Synthesizer.Wishes
         private bool? _mathOptimization;
         public bool GetMathOptimization => _mathOptimization ?? _section.MathOptimization ?? DefaultMathOptimization;
         public void WithMathOptimization(bool? enabled = default) => _mathOptimization = enabled;
+        
+        // Channel has a special role. Custom handling. Not in config file.
+        public ChannelEnum Channel { get; set; } = ChannelEnum.Single;
+        public int ChannelIndex { get => Channel.ToIndex(); set => Channel = value.ToChannel(GetSpeakers); }
+        public void WithChannel(ChannelEnum channel) => Channel = channel; 
+        public void WithLeft() => WithChannel(ChannelEnum.Left);
+        public void WithRight() => WithChannel(ChannelEnum.Right);
+        public void WithCenter() => WithChannel(ChannelEnum.Single);
 
         internal const string WarningSettingMayNotWork
             = "Setting might not work in all contexts " +
@@ -241,12 +249,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        public ChannelEnum Channel { get; set; } = ChannelEnum.Single;
-        public int ChannelIndex { get => Channel.ToIndex(); set => Channel = value.ToChannel(GetSpeakers); }
-        public SynthWishes WithChannel(ChannelEnum channel) { Channel = channel; return this; }
-        public SynthWishes WithLeft() => WithChannel(ChannelEnum.Left);
-        public SynthWishes WithRight() => WithChannel(ChannelEnum.Right);
-        public SynthWishes WithCenter() => WithChannel(ChannelEnum.Single);
+        public ChannelEnum Channel { get => _configResolver.Channel; set => _configResolver.Channel = value; }
+        public int ChannelIndex { get => _configResolver.ChannelIndex; set => _configResolver.ChannelIndex = value; }
+        public SynthWishes WithChannel(ChannelEnum channel) { _configResolver.WithChannel(channel); return this; }
+        public SynthWishes WithLeft() { _configResolver.WithLeft(); return this; }
+        public SynthWishes WithRight()  { _configResolver.WithRight(); return this; }
+        public SynthWishes WithCenter()  { _configResolver.WithCenter(); return this; }
     }
 
     public partial class FlowNode
