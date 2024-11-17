@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
@@ -263,8 +262,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        private readonly ThreadLocal<ChannelEnum> _channel = new ThreadLocal<ChannelEnum>(() => ChannelEnum.Single);
-        public ChannelEnum Channel { get => _channel.Value; set => _channel.Value = value; }
+        public ChannelEnum Channel { get; set; } = ChannelEnum.Single;
         public int ChannelIndex { get => Channel.ToIndex(); set => Channel = value.ToChannel(GetSpeakers); }
         public SynthWishes WithChannel(ChannelEnum channel) { Channel = channel; return this; }
         public SynthWishes WithLeft() => WithChannel(ChannelEnum.Left);
