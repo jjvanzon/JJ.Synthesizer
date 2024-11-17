@@ -8,6 +8,7 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.ConfigResolver;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkConfigurationWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -19,7 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public AudioFileFormatEnum? AudioFormat { get; set; }
         [XmlAttribute] public InterpolationTypeEnum? Interpolation { get; set; }
         [XmlAttribute] public double? AudioLength { get; set; }
-        [XmlAttribute] public string LongRunningTestCategory { get; set; }
+        [XmlAttribute] public string LongTestCategory { get; set; }
         [XmlAttribute] public bool? AudioPlayBack { get; set; }
         [XmlAttribute] public bool? PlayAllTapes { get; set; }
         [XmlAttribute] public double? LeadingSilence { get; set; }
@@ -44,23 +45,22 @@ namespace JJ.Business.Synthesizer.Wishes
     
     internal class ConfigResolver
     {
-        private static readonly ConfigSection _section 
-            = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
+        private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
-        public const bool                  DefaultAudioPlayBack           = true;
-        public const double                DefaultLeadingSilence          = 0.25;
-        public const double                DefaultTrailingSilence         = 0.25;
-        public const int                   DefaultSamplingRate            = 48000;
-        public const SpeakerSetupEnum      DefaultSpeakers                = Mono;
-        public const int                   DefaultBits                    = 32;
-        public const AudioFileFormatEnum   DefaultAudioFormat             = Wav;
-        public const InterpolationTypeEnum DefaultInterpolation           = Line;
-        public const double                DefaultAudioLength             = 1;
-        public const bool                  DefaultPlayAllTapes            = false;
-        public const bool                  DefaultParallels               = true;
-        public const bool                  DefaultMathOptimization        = true;
-        public const bool                  DefaultDiskCaching             = false;
-        public const string                DefaultLongRunningTestCategory = "Long";
+        public const bool                  DefaultAudioPlayBack    = true;
+        public const double                DefaultLeadingSilence   = 0.25;
+        public const double                DefaultTrailingSilence  = 0.25;
+        public const int                   DefaultSamplingRate     = 48000;
+        public const SpeakerSetupEnum      DefaultSpeakers         = Mono;
+        public const int                   DefaultBits             = 32;
+        public const AudioFileFormatEnum   DefaultAudioFormat      = Wav;
+        public const InterpolationTypeEnum DefaultInterpolation    = Line;
+        public const double                DefaultAudioLength      = 1;
+        public const bool                  DefaultPlayAllTapes     = false;
+        public const bool                  DefaultParallels        = true;
+        public const bool                  DefaultMathOptimization = true;
+        public const bool                  DefaultDiskCaching      = false;
+        public const string                DefaultLongTestCategory = "Long";
         
         private bool? _audioPlayBack;
         public bool GetAudioPlayBack => _audioPlayBack ?? _section.AudioPlayBack ?? DefaultAudioPlayBack;
@@ -81,44 +81,23 @@ namespace JJ.Business.Synthesizer.Wishes
         public void WithStereo() => WithSpeakers(Stereo);
 
         private SampleDataTypeEnum _sampleDataTypeEnum;
-        public int GetBits
-        {
-            get
-            {
-                if (_sampleDataTypeEnum != default)
-                {
-                    return _sampleDataTypeEnum.GetBits();
-                }
-                
-                return _section.Bits ?? DefaultBits;
-            }
-        }
-        
+        public int GetBits => _sampleDataTypeEnum != default ? _sampleDataTypeEnum.GetBits() : _section.Bits ?? DefaultBits;
         public void WithBits(int bits) => _sampleDataTypeEnum = bits.ToSampleDataTypeEnum();
         public void With32Bit() => WithBits(32);
         public void With16Bit() => WithBits(16);
         public void With8Bit() => WithBits(8);
 
-        private string _longRunningTestCategory;
-        public string GetLongRunningTestCategory
+        private string _longTestCategory;
+        public void WithLongTestCategory(string category) => _longTestCategory = category;
+        public string GetLongTestCategory
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(_longRunningTestCategory))
-                {
-                    return _longRunningTestCategory;
-                }
-                
-                if (!string.IsNullOrWhiteSpace(_section.LongRunningTestCategory))
-                {
-                    return _section.LongRunningTestCategory;
-                }
-                
-                return DefaultLongRunningTestCategory;
+                if (!string.IsNullOrWhiteSpace(_longTestCategory)) return _longTestCategory;
+                if (!string.IsNullOrWhiteSpace(_section.LongTestCategory)) return _section.LongTestCategory;
+                return DefaultLongTestCategory;
             }
         }
-        
-        public void WithLongRunningTestCategory(string category) => _longRunningTestCategory = category;
         
         private AudioFileFormatEnum _audioFormat;
         public AudioFileFormatEnum GetAudioFormat => _audioFormat != default ? _audioFormat : _section.AudioFormat ?? DefaultAudioFormat;
@@ -180,11 +159,11 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._confighelper"/>
     internal static class ConfigHelper
     {
-        private static readonly ConfigSection _section = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
+        private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
         // Defaults for Optional Config
         public static PersistenceConfiguration PersistenceConfiguration { get; } =
-            FrameworkConfigurationWishes.TryGetSection<PersistenceConfiguration>() ??
+            TryGetSection<PersistenceConfiguration>() ??
             GetDefaultInMemoryConfiguration();
 
         private static PersistenceConfiguration GetDefaultInMemoryConfiguration() => new PersistenceConfiguration
@@ -220,7 +199,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         private static readonly ConfigSection _configSection 
-            = FrameworkConfigurationWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
+            = TryGetSection<ConfigSection>() ?? new ConfigSection();
     }
     
     // AudioLength

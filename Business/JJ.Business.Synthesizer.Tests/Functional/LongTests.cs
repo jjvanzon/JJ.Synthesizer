@@ -4,7 +4,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 {
     [TestClass]
     [TestCategory("Long")]
-    public class LongRunningTests
+    public class  LongTests
     {
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]

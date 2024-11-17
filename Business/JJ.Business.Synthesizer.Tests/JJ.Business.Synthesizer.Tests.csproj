@@ -128,7 +128,7 @@
     <Compile Include="Accessors\ModulationTestsAccessor.cs" />
     <Compile Include="Accessors\FMTestsAccessor.cs" />
     <Compile Include="Accessors\FrameworkStringWishesAccessor.cs" />
-    <Compile Include="Functional\LongRunningTests.cs" />
+    <Compile Include="Functional\LongTests.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Technical\AudioFileWishesTests.cs" />
     <Compile Include="Helpers\CopiedFromFramework.cs" />

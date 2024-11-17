@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             if (isRunningInAzurePipelines.Data)
             {
-                var currentTestIsInCategory = CurrentTestIsInCategory(_configResolver.GetLongRunningTestCategory);
+                var currentTestIsInCategory = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
 
                 var result = isRunningInAzurePipelines.Combine<int?>(currentTestIsInCategory);
 
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             if (isRunningInNCrunch.Data)
             {
-                var currentTestIsInCategory = CurrentTestIsInCategory(_configResolver.GetLongRunningTestCategory);
+                var currentTestIsInCategory = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
 
                 var result = isRunningInNCrunch.Combine<int?>(currentTestIsInCategory);
 
