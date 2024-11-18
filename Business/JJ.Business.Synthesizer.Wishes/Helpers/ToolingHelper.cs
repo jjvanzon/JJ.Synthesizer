@@ -97,8 +97,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                     return true;
                 }
                 
-                string environmentVariable = GetEnvironmentVariable(NCrunchEnvironmentVariableName);
-                bool isUnderNCrunch = string.Equals(environmentVariable, NCrunchEnvironmentVariableValue);
+                bool isUnderNCrunch = EnvironmentVariableIsDefined(NCrunchEnvironmentVariableName, NCrunchEnvironmentVariableValue);
                 return isUnderNCrunch;
             }
         }
@@ -111,9 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 {
                     return true;
                 }                
-                string environmentVariable = GetEnvironmentVariable(AzurePipelinesEnvironmentVariableName);
-                bool isUnderAzurePipelines = string.Equals(environmentVariable, AzurePipelinesEnvironmentVariableValue);
-                
+                bool isUnderAzurePipelines = EnvironmentVariableIsDefined(AzurePipelinesEnvironmentVariableName, AzurePipelinesEnvironmentVariableValue);
                 return isUnderAzurePipelines;
             }
         }
@@ -123,20 +120,22 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             var methodQuery = new StackTrace().GetFrames().Select(x => x.GetMethod());
 
-            var attributeQuery =
-                methodQuery.SelectMany(method => method.GetCustomAttributes()
-                                                       .Union(method.DeclaringType?.GetCustomAttributes()));
-            var categoryQuery =
-                attributeQuery.Where(attr => attr.GetType().Name == "TestCategoryAttribute")
-                              .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr))
-                              .OfType<IEnumerable<string>>()
-                              .SelectMany(x => x);
-
+            var attributeQuery 
+                = methodQuery.SelectMany(method => method.GetCustomAttributes()
+                                                         .Union(method.DeclaringType?.GetCustomAttributes()));
+            var categoryQuery
+                = attributeQuery.Where(attr => attr.GetType().Name == "TestCategoryAttribute")
+                                .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr))
+                                .OfType<IEnumerable<string>>()
+                                .SelectMany(x => x);
 
             bool isInCategory = categoryQuery.Any(x => string.Equals(x, category, StringComparison.OrdinalIgnoreCase));
 
             return isInCategory;
         }
+        
+        private static bool EnvironmentVariableIsDefined(string environmentVariableName, string environmentVariableValue)
+            => string.Equals(GetEnvironmentVariable(environmentVariableName), environmentVariableValue, StringComparison.OrdinalIgnoreCase);
 
         // Warnings
         
