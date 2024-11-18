@@ -62,6 +62,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public const bool                  DefaultDiskCaching      = false;
         public const string                DefaultLongTestCategory = "Long";
         
+        public const int                   DefaultToolingSamplingRate            = 150;
+        public const int                   DefaultToolingSamplingRateLongRunning = 30;
+        public const bool                  DefaultToolingAudioPlayBack           = false;
+        public const bool                  DefaultToolingImpersonate             = false;
+        
         private bool? _audioPlayBack;
         public bool GetAudioPlayBack => _audioPlayBack ?? _section.AudioPlayBack ?? DefaultAudioPlayBack;
         [Obsolete(WarningSettingMayNotWork)] public void WithAudioPlayBack(bool? value) => _audioPlayBack = value;
@@ -168,11 +173,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 
                 if (testIsLong)
                 {
-                    return ConfigHelper.NCrunch.SamplingRateLongRunning;
+                    return _section.NCrunch.SamplingRateLongRunning ?? DefaultToolingSamplingRateLongRunning;
                 }
                 else
                 {
-                    return ConfigHelper.NCrunch.SamplingRate;
+                    return _section.NCrunch.SamplingRate ?? DefaultToolingSamplingRate;
                 }
             }
             
@@ -182,16 +187,34 @@ namespace JJ.Business.Synthesizer.Wishes
                 
                 if (testIsLong)
                 {
-                    return ConfigHelper.AzurePipelines.SamplingRateLongRunning;
+                    return _section.AzurePipelines.SamplingRateLongRunning ?? DefaultToolingSamplingRateLongRunning;
                 }
                 else
                 {
-                    return ConfigHelper.AzurePipelines.SamplingRate;
+                    return _section.AzurePipelines.SamplingRate ?? DefaultToolingSamplingRate;
                 }
             }
             
-            return ConfigHelper.SamplingRate;
+            return _section.SamplingRate ?? DefaultSamplingRate;
         }
+        
+        // Defaults for Optional Config
+        
+        public static PersistenceConfiguration PersistenceConfigurationOrDefault { get; } 
+            = TryGetSection<PersistenceConfiguration>() ?? GetDefaultInMemoryConfiguration();
+        
+        private static PersistenceConfiguration GetDefaultInMemoryConfiguration()
+            => new PersistenceConfiguration
+            {
+                ContextType = "Memory",
+                ModelAssembly = NameHelper.GetAssemblyName<Persistence.Synthesizer.Operator>(),
+                MappingAssembly = NameHelper.GetAssemblyName<Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
+                RepositoryAssemblies = new[]
+                {
+                    NameHelper.GetAssemblyName<Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(),
+                    NameHelper.GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
+                }
+            };
         
         internal const string WarningSettingMayNotWork
             = "Setting might not work in all contexts " +
@@ -218,25 +241,6 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
-        // Defaults for Optional Config
-        public static PersistenceConfiguration PersistenceConfiguration { get; } =
-            TryGetSection<PersistenceConfiguration>() ??
-            GetDefaultInMemoryConfiguration();
-
-        private static PersistenceConfiguration GetDefaultInMemoryConfiguration() => new PersistenceConfiguration
-        {
-            ContextType = "Memory",
-            ModelAssembly = NameHelper.GetAssemblyName<JJ.Persistence.Synthesizer.Operator>(),
-            MappingAssembly = NameHelper.GetAssemblyName<JJ.Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
-            RepositoryAssemblies = new[]
-            {
-                NameHelper.GetAssemblyName<JJ.Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(),
-                NameHelper.GetAssemblyName<JJ.Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
-            }
-        };
-        
-        public static int SamplingRate => _section.SamplingRate ?? DefaultSamplingRate;
-
         public static ConfigToolingElementWithDefaults AzurePipelines { get; } = new ConfigToolingElementWithDefaults(_section.AzurePipelines);
         public static ConfigToolingElementWithDefaults NCrunch { get; } = new ConfigToolingElementWithDefaults(_section.NCrunch);
     }
@@ -246,11 +250,9 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly ConfigToolingElement _baseConfig;
             
         internal ConfigToolingElementWithDefaults(ConfigToolingElement baseConfig) => _baseConfig = baseConfig;
-            
-        public int  SamplingRate            => _baseConfig.SamplingRate            ?? 150;
-        public int  SamplingRateLongRunning => _baseConfig.SamplingRateLongRunning ?? 30;
-        public bool AudioPlayBack           => _baseConfig.AudioPlayBack           ?? false;
-        public bool Impersonate             => _baseConfig.Impersonate             ?? false;
+        
+        public bool AudioPlayBack           => _baseConfig.AudioPlayBack           ?? DefaultToolingAudioPlayBack;
+        public bool Impersonate             => _baseConfig.Impersonate             ?? DefaultToolingImpersonate;
     }
 
     public partial class SynthWishes
