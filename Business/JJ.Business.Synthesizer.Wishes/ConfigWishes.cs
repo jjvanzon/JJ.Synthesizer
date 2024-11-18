@@ -143,7 +143,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public void WithLeft() => WithChannel(ChannelEnum.Left);
         public void WithRight() => WithChannel(ChannelEnum.Right);
         public void WithCenter() => WithChannel(ChannelEnum.Single);
-
+        
+        /// <inheritdoc cref="docs._samplingrate" />
+        private int _samplingRate;
+        /// <inheritdoc cref="docs._samplingrate" />
+        public int GetSamplingRate => _samplingRate;
+        /// <inheritdoc cref="docs._samplingrate" />
+        public void WithSamplingRate(int value) => _samplingRate = value;
+        
         internal const string WarningSettingMayNotWork
             = "Setting might not work in all contexts " +
               "where the system is unaware of the SynthWishes object. " +
@@ -272,11 +279,9 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._samplingrate" />
-        private int _samplingRate;
+        public int GetSamplingRate => _configResolver.GetSamplingRate;
         /// <inheritdoc cref="docs._samplingrate" />
-        public int GetSamplingRate => _samplingRate;
-        /// <inheritdoc cref="docs._samplingrate" />
-        public SynthWishes WithSamplingRate(int value) { _samplingRate = value; return this; }
+        public SynthWishes WithSamplingRate(int value) { _configResolver.WithSamplingRate(value); return this; }
     }
 
     public partial class FlowNode
