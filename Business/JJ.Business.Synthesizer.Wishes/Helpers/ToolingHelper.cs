@@ -48,26 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return true;
         }
 
-        public int? TryGetSamplingRateForAzurePipelines()
-        {
-            if (IsUnderAzurePipelines)
-            {
-                bool testIsLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
-                
-                if (testIsLong)
-                {
-                    return ConfigHelper.AzurePipelines.SamplingRateLongRunning;
-                }
-                else
-                {
-                    return ConfigHelper.AzurePipelines.SamplingRate;
-                }
-            }
-            
-            return default;
-        }
-        
-        public int? TryGetSamplingRateForNCrunch()
+        public int? TryGetSamplingRateForTooling()
         {
             if (IsUnderNCrunch)
             {
@@ -80,6 +61,20 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 else
                 {
                     return ConfigHelper.NCrunch.SamplingRate;
+                }
+            }
+
+            if (IsUnderAzurePipelines)
+            {
+                bool testIsLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
+                
+                if (testIsLong)
+                {
+                    return ConfigHelper.AzurePipelines.SamplingRateLongRunning;
+                }
+                else
+                {
+                    return ConfigHelper.AzurePipelines.SamplingRate;
                 }
             }
             
@@ -134,6 +129,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return isInCategory;
         }
         
+        // TODO: Move to FrameworkWishes.cs?
         private static bool EnvironmentVariableIsDefined(string environmentVariableName, string environmentVariableValue)
             => string.Equals(GetEnvironmentVariable(environmentVariableName), environmentVariableValue, StringComparison.OrdinalIgnoreCase);
 

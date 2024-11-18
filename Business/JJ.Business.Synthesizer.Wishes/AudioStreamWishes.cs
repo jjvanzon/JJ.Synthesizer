@@ -432,7 +432,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutputChannelRepository.Delete(audioFileOutputChannel);
             }
         }
-
+        
         /// <inheritdoc cref="docs._resolvesamplingrate"/>
         private int ResolveSamplingRate()
         {
@@ -442,20 +442,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 //ValidationMessages = new List<ValidationMessage> { $"Sampling rate override: {samplingRateOverride}".ToCanonical() },
                 return samplingRateOverride;
             }
-
+            
+            var samplingRateForTool = ToolingHelper.TryGetSamplingRateForTooling();
+            if (samplingRateForTool.HasValue)
             {
-                var samplingRateForTool = ToolingHelper.TryGetSamplingRateForNCrunch();
-                if (samplingRateForTool.HasValue)
-                {
-                    return samplingRateForTool.Value;
-                }
-            }
-            {
-                var samplingRateForTool = ToolingHelper.TryGetSamplingRateForAzurePipelines();
-                if (samplingRateForTool.HasValue)
-                {
-                    return samplingRateForTool.Value;
-                }
+                return samplingRateForTool.Value;
             }
             
             return ConfigHelper.SamplingRate;
