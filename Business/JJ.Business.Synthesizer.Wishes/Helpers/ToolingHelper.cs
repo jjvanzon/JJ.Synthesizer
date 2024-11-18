@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using static System.Environment;
@@ -10,6 +11,11 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     internal class ToolingHelper
     {
+        private const string NCrunchEnvironmentVariableName = "NCrunch";
+        private const string AzurePipelinesEnvironmentVariableValue = "True";
+        private const string AzurePipelinesEnvironmentVariableName = "TF_BUILD";
+        private const string NCrunchEnvironmentVariableValue = "1";
+        
         private readonly ConfigResolver _configResolver;
         
         public ToolingHelper(ConfigResolver configResolver)
@@ -24,14 +30,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 return false;
             }
             
-            bool underNCrunch = IsRunningInNCrunch;
-            if (underNCrunch && !ConfigHelper.NCrunch.AudioPlayBack)
+            if (IsUnderNCrunch && !ConfigHelper.NCrunch.AudioPlayBack)
             {
                 return false;
             }
             
-            var underAzurePipelines = IsRunningInAzurePipelines;
-            if (underAzurePipelines && !ConfigHelper.AzurePipelines.AudioPlayBack)
+            if (IsUnderAzurePipelines && !ConfigHelper.AzurePipelines.AudioPlayBack)
             {
                 return false;
             }
@@ -46,9 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         public int? TryGetSamplingRateForAzurePipelines()
         {
-            bool underAzurePipelines = IsRunningInAzurePipelines;
-            
-            if (underAzurePipelines)
+            if (IsUnderAzurePipelines)
             {
                 bool testIsLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
                 
@@ -67,9 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         
         public int? TryGetSamplingRateForNCrunch()
         {
-            bool underNCrunch = IsRunningInNCrunch;
-            
-            if (underNCrunch)
+            if (IsUnderNCrunch)
             {
                 bool testIsLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
                 
@@ -81,43 +81,40 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 {
                     return ConfigHelper.NCrunch.SamplingRate;
                 }
-                
             }
             
             return default;
         }
         
-        public static bool IsRunningInTooling => IsRunningInNCrunch || IsRunningInAzurePipelines;
+        public static bool IsRunningInTooling => IsUnderNCrunch || IsUnderAzurePipelines;
         
-        public static bool IsRunningInNCrunch
+        public static bool IsUnderNCrunch
         {
             get
             {
                 if (ConfigHelper.NCrunch.Impersonate)
                 {
-                    //SetEnvironmentVariable("NCrunch", "1");
                     return true;
                 }
                 
-                string environmentVariable = GetEnvironmentVariable("NCrunch");
-                bool underNCrunch = string.Equals(environmentVariable, "1");
-                return underNCrunch;
+                string environmentVariable = GetEnvironmentVariable(NCrunchEnvironmentVariableName);
+                bool isUnderNCrunch = string.Equals(environmentVariable, NCrunchEnvironmentVariableValue);
+                return isUnderNCrunch;
             }
         }
         
-        public static bool IsRunningInAzurePipelines
+        public static bool IsUnderAzurePipelines
         {
             get
             {
                 if (ConfigHelper.AzurePipelines.Impersonate)
                 {
-                    //SetEnvironmentVariable("TF_BUILD", "True");
                     return true;
                 }                
-                string environmentVariable = GetEnvironmentVariable("TF_BUILD");
-                bool underAzurePipelines = string.Equals(environmentVariable, "True");
+                string environmentVariable = GetEnvironmentVariable(AzurePipelinesEnvironmentVariableName);
+                bool isUnderAzurePipelines = string.Equals(environmentVariable, AzurePipelinesEnvironmentVariableValue);
                 
-                return underAzurePipelines;
+                return isUnderAzurePipelines;
             }
         }
         
@@ -143,76 +140,60 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         // Warnings
         
-        public static IList<string> GetRunningInNCrunchWarnings()
+        public IList<string> GetToolingWarnings(string filePath = null)
         {
-            var lines = new List<string>();
+            var list = new List<string>();
+            
+            // Running Under Tooling
             
             if (ConfigHelper.NCrunch.Impersonate)
             {
-                lines.Add("Pretending to be NCrunch.");
+                list.Add("Pretending to be NCrunch.");
             }
             
-            if (IsRunningInNCrunch)
+            if (IsUnderNCrunch)
             {
-                lines.Add($"Environment variable NCrunch = 1");
+                list.Add($"Environment variable {NCrunchEnvironmentVariableName} = 1");
             }
-            
-            return lines;
-        }
-        
-        public static IList<string> GetRunningInAzurePipelinesWarnings()
-        {
-            var lines = new List<string>();
             
             if (ConfigHelper.AzurePipelines.Impersonate)
             {
-                lines.Add("Pretending to be Azure Pipelines.");
+                list.Add("Pretending to be Azure Pipelines.");
             }
             
-            if (IsRunningInAzurePipelines)
+            if (IsUnderAzurePipelines)
             {
-                lines.Add($"Environment variable TF_BUILD = True (Azure Pipelines)");
+                list.Add($"Environment variable {AzurePipelinesEnvironmentVariableName} = {AzurePipelinesEnvironmentVariableValue} (Azure Pipelines)");
             }
-            
-            return lines;
-        }
 
-        public IList<string> GetTestIsLongWarnings()
-        {
+            // Long Running
+            
             bool isLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
             if (isLong)
             {
-                return new List<string> { $"Test has category '{_configResolver.GetLongTestCategory}'" };
+                list.Add($"Test has category '{_configResolver.GetLongTestCategory}'");
             }
-            return new List<string>();
-        }
-        
-        public IList<string> GetPlayAllowedWarnings(string fileExtension)
-        {
-            var list = new List<string>();
+            
+            // Audio Disabled
             
             if (!_configResolver.GetAudioPlayBack)
             {
                 list.Add("Audio disabled (in config file)");
-                return list;
             }
-            
-            else if (IsRunningInNCrunch && !ConfigHelper.NCrunch.AudioPlayBack)
+            else if (IsUnderNCrunch && !ConfigHelper.NCrunch.AudioPlayBack)
             {
                 list.Add("Audio disabled (in NCrunch)");
-                return list;
             }
-            
-            else if (IsRunningInAzurePipelines && !ConfigHelper.AzurePipelines.AudioPlayBack)
+            else if (IsUnderAzurePipelines && !ConfigHelper.AzurePipelines.AudioPlayBack)
             {
                 list.Add("Audio disabled (in Azure Pipelines)");
-                return list;
             }
-            
-            else if (!string.Equals(fileExtension, ".wav", StringComparison.OrdinalIgnoreCase))
+            else if (!string.IsNullOrWhiteSpace(filePath))
             {
-                list.Add("Audio disabled (file type not WAV).");
-                return list;
+                if (!string.Equals(Path.GetExtension(filePath), ".wav", StringComparison.OrdinalIgnoreCase))
+                {
+                    list.Add("Audio disabled (file type not WAV).");
+                }
             }
             
             return list;
