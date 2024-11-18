@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using JJ.Business.CanonicalModel;
-using static System.Console;
 using static System.Environment;
 // ReSharper disable RedundantIfElseBlock
 
@@ -19,167 +17,110 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             _configResolver = configResolver ?? throw new ArgumentNullException(nameof(configResolver));
         }
         
-        public Result<bool> PlayAllowed(string fileExtension)
+        public bool PlayAllowed(string fileExtension)
         {
-            var result = new Result<bool>
-            {
-                Successful = true, 
-                ValidationMessages = new List<ValidationMessage>()
-            };
-            
             if (!_configResolver.GetAudioPlayBack)
             {
-                result.Data = false;
-                return result;
+                return false;
             }
-
-            var isRunningInNCrunch = IsRunningInNCrunch;
-            result.ValidationMessages.AddRange(isRunningInNCrunch.ValidationMessages);
             
-            if (isRunningInNCrunch.Data && !ConfigHelper.NCrunch.AudioPlayBack)
+            bool underNCrunch = IsRunningInNCrunch;
+            if (underNCrunch && !ConfigHelper.NCrunch.AudioPlayBack)
             {
-                result.ValidationMessages.Add("Audio disabled".ToCanonical());
-                result.Data = false;
-                return result;
+                return false;
             }
-
-            var isRunningInAzurePipelines = IsRunningInAzurePipelines;
-            result.ValidationMessages.AddRange(isRunningInNCrunch.ValidationMessages);
             
-            if (isRunningInAzurePipelines.Data && !ConfigHelper.AzurePipelines.AudioPlayBack)
+            var underAzurePipelines = IsRunningInAzurePipelines;
+            if (underAzurePipelines && !ConfigHelper.AzurePipelines.AudioPlayBack)
             {
-                result.ValidationMessages.Add("Audio disabled".ToCanonical());
-                result.Data = false;
-                return result;
+                return false;
             }
-
+            
             if (!string.Equals(fileExtension, ".wav", StringComparison.OrdinalIgnoreCase))
             {
-                result.Data = false;
-                return result;
+                return false;
             }
-
-            result.Data = true;
-            return result;
+            
+            return true;
         }
 
-        public Result<int?> TryGetSamplingRateForAzurePipelines()
+        public int? TryGetSamplingRateForAzurePipelines()
         {
-            var result = new Result<int?> { Successful = true, ValidationMessages = new List<ValidationMessage>() };
-
-            var isRunningInAzurePipelines = IsRunningInAzurePipelines;
+            bool underAzurePipelines = IsRunningInAzurePipelines;
             
-            if (isRunningInAzurePipelines.Data)
+            if (underAzurePipelines)
             {
-                bool currentTestIsInCategory = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
+                bool testIsLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
                 
-                result = result.Combine(isRunningInAzurePipelines);
-
-                if (currentTestIsInCategory)
-                {
-                    result.Data = ConfigHelper.AzurePipelines.SamplingRateLongRunning;
-                    result.ValidationMessages.AddRange(GetTestIsLongWarnings().ToCanonical());
-                }
-                else
-                {
-                    result.Data = ConfigHelper.AzurePipelines.SamplingRate;
-                }
-
-                return result;
-            }
-
-            return new Result<int?>
-            {
-                Successful = true,
-                Data = null,
-                ValidationMessages = isRunningInAzurePipelines.ValidationMessages
-            };
-        }
-        
-        public Result<int?> TryGetSamplingRateForNCrunch()
-        {
-            var result = new Result<int?> { Successful = true, ValidationMessages = new List<ValidationMessage>() };
-
-            var underNCrunch = IsRunningInNCrunch;
-            
-            if (underNCrunch.Data)
-            {
-                var testIsLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
-
-                result.Combine(underNCrunch);
-
                 if (testIsLong)
                 {
-                    result.Data = ConfigHelper.NCrunch.SamplingRateLongRunning;
-                    result.ValidationMessages.AddRange(GetTestIsLongWarnings().ToCanonical());
+                    return ConfigHelper.AzurePipelines.SamplingRateLongRunning;
                 }
                 else
                 {
-                    result.Data = ConfigHelper.NCrunch.SamplingRate;
+                    return ConfigHelper.AzurePipelines.SamplingRate;
+                }
+            }
+            
+            return default;
+        }
+        
+        public int? TryGetSamplingRateForNCrunch()
+        {
+            bool underNCrunch = IsRunningInNCrunch;
+            
+            if (underNCrunch)
+            {
+                bool testIsLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
+                
+                if (testIsLong)
+                {
+                    return ConfigHelper.NCrunch.SamplingRateLongRunning;
+                }
+                else
+                {
+                    return ConfigHelper.NCrunch.SamplingRate;
                 }
                 
-                
-                return result;
             }
-
-            return new Result<int?>
-            {
-                Successful = true,
-                Data = null,
-                ValidationMessages = underNCrunch.ValidationMessages
-            };
+            
+            return default;
         }
-
-        public static Result<bool> IsRunningInTooling => IsRunningInNCrunch.Combine(IsRunningInAzurePipelines);
-
-        public static Result<bool> IsRunningInNCrunch
+        
+        public static bool IsRunningInTooling => IsRunningInNCrunch || IsRunningInAzurePipelines;
+        
+        public static bool IsRunningInNCrunch
         {
             get
             {
-                var lines = new List<string>();
-                
                 if (ConfigHelper.NCrunch.Impersonate)
                 {
-                    lines.Add("Pretending to be NCrunch.");
-                    SetEnvironmentVariable("NCrunch", "1");
+                    //SetEnvironmentVariable("NCrunch", "1");
+                    return true;
                 }
-
+                
                 string environmentVariable = GetEnvironmentVariable("NCrunch");
-                bool isNCrunch = string.Equals(environmentVariable, "1");
-                if (isNCrunch)
-                { 
-                    lines.Add($"Environment variable NCrunch = {environmentVariable}");
-                }
-
-                return lines.ToResult<bool>(isNCrunch);
+                bool underNCrunch = string.Equals(environmentVariable, "1");
+                return underNCrunch;
             }
         }
-
-        public static Result<bool> IsRunningInAzurePipelines
+        
+        public static bool IsRunningInAzurePipelines
         {
             get
             {
-                var lines = new List<string>();
-
                 if (ConfigHelper.AzurePipelines.Impersonate)
                 {
-                    lines.Add("Pretending to be Azure Pipelines.");
-                    SetEnvironmentVariable("TF_BUILD", "True");
-                }
-
+                    //SetEnvironmentVariable("TF_BUILD", "True");
+                    return true;
+                }                
                 string environmentVariable = GetEnvironmentVariable("TF_BUILD");
-                bool isAzurePipelines = string.Equals(environmentVariable, "True");
-                if (isAzurePipelines)
-                {
-                    lines.Add($"Environment variable TF_BUILD = {environmentVariable} (Azure Pipelines)");
-                }
-
-                if (lines.Any()) lines.ForEach(WriteLine);
-
-                return lines.ToResult<bool>(isAzurePipelines);
+                bool underAzurePipelines = string.Equals(environmentVariable, "True");
+                
+                return underAzurePipelines;
             }
         }
-
+        
         // ReSharper disable AssignNullToNotNullAttribute
         public static bool CurrentTestIsInCategory(string category)
         {
@@ -199,16 +140,82 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             return isInCategory;
         }
+
+        // Warnings
         
+        public static IList<string> GetRunningInNCrunchWarnings()
+        {
+            var lines = new List<string>();
+            
+            if (ConfigHelper.NCrunch.Impersonate)
+            {
+                lines.Add("Pretending to be NCrunch.");
+            }
+            
+            if (IsRunningInNCrunch)
+            {
+                lines.Add($"Environment variable NCrunch = 1");
+            }
+            
+            return lines;
+        }
+        
+        public static IList<string> GetRunningInAzurePipelinesWarnings()
+        {
+            var lines = new List<string>();
+            
+            if (ConfigHelper.AzurePipelines.Impersonate)
+            {
+                lines.Add("Pretending to be Azure Pipelines.");
+            }
+            
+            if (IsRunningInAzurePipelines)
+            {
+                lines.Add($"Environment variable TF_BUILD = True (Azure Pipelines)");
+            }
+            
+            return lines;
+        }
+
         public IList<string> GetTestIsLongWarnings()
         {
-            string category = _configResolver.GetLongTestCategory;
-            bool isInCategory = CurrentTestIsInCategory(category);
-            if (isInCategory)
+            bool isLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
+            if (isLong)
             {
-                return new List<string> { $"Test has category '{category}'" };
+                return new List<string> { $"Test has category '{_configResolver.GetLongTestCategory}'" };
             }
             return new List<string>();
+        }
+        
+        public IList<string> GetPlayAllowedWarnings(string fileExtension)
+        {
+            var list = new List<string>();
+            
+            if (!_configResolver.GetAudioPlayBack)
+            {
+                list.Add("Audio disabled (in config file)");
+                return list;
+            }
+            
+            else if (IsRunningInNCrunch && !ConfigHelper.NCrunch.AudioPlayBack)
+            {
+                list.Add("Audio disabled (in NCrunch)");
+                return list;
+            }
+            
+            else if (IsRunningInAzurePipelines && !ConfigHelper.AzurePipelines.AudioPlayBack)
+            {
+                list.Add("Audio disabled (in Azure Pipelines)");
+                return list;
+            }
+            
+            else if (!string.Equals(fileExtension, ".wav", StringComparison.OrdinalIgnoreCase))
+            {
+                list.Add("Audio disabled (file type not WAV).");
+                return list;
+            }
+            
+            return list;
         }
     }
 }

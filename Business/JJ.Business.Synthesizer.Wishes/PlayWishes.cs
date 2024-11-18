@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.CanonicalModel;
 using System.Media;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
@@ -120,14 +121,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal static Result InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension)
         {
-            var toolingHelper = synthWishes?.ToolingHelper ?? DefaultToolingHelper;
-            var playAllowed = toolingHelper.PlayAllowed(fileExtension);
+            ToolingHelper toolingHelper = synthWishes?.ToolingHelper ?? DefaultToolingHelper;
+            bool playAllowed = toolingHelper.PlayAllowed(fileExtension);
             
             var lines = new List<string>();
 
-            lines.AddRange(playAllowed.ValidationMessages.Select(x => x.Text));
-
-            if (playAllowed.Data)
+            if (playAllowed)
             {
                 lines.Add("Playing audio...");
                 

@@ -103,17 +103,18 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             // Configure AudioFileOutput (avoid backend)
-            var audioFileOutputResult = ConfigureAudioFileOutput(channelInputs, name);
+            AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channelInputs, name);
             
             // Write Audio
+            // TODO: Include validation messages (about tooling).
             var result = StreamAudio(
-                audioFileOutputResult.Data,
-                inMemory, additionalMessages.Union(audioFileOutputResult.ValidationMessages.Select(x => x.Text)).ToArray(), name);
+                audioFileOutput,
+                inMemory, additionalMessages/*.Union(audioFileOutput.ValidationMessages.Select(x => x.Text)).ToArray()*/, name);
             
             return result;
         }
 
-        internal Result<AudioFileOutput> ConfigureAudioFileOutput(IList<FlowNode> channelInputs, string name)
+        internal AudioFileOutput ConfigureAudioFileOutput(IList<FlowNode> channelInputs, string name)
         {
             // Configure AudioFileOutput (avoid backend)
 
@@ -129,9 +130,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SetBits(GetBits, Context);
             audioFileOutput.SetAudioFormat(GetAudioFormat, Context);
             audioFileOutput.Name = name;
-
-            var samplingRateResult = ResolveSamplingRate();
-            audioFileOutput.SamplingRate = samplingRateResult.Data;
+            audioFileOutput.SamplingRate = ResolveSamplingRate();
 
             SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
             CreateOrRemoveChannels(audioFileOutput, channelCount);
@@ -150,13 +149,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 default:
                     throw new InvalidValueException(speakerSetupEnum);
             }
-
-            return new Result<AudioFileOutput>
-            {
-                Successful = true,
-                Data = audioFileOutput,
-                ValidationMessages = samplingRateResult.ValidationMessages
-            };
+            
+            return audioFileOutput;
         }
 
         // StreamAudio in Statics
@@ -441,50 +435,31 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._resolvesamplingrate"/>
-        private Result<int> ResolveSamplingRate()
+        private int ResolveSamplingRate()
         {
             int samplingRateOverride = GetSamplingRate;
             if (samplingRateOverride != 0)
             {
-                return new Result<int>
-                {
-                    Data = samplingRateOverride,
-                    ValidationMessages = new List<ValidationMessage> { $"Sampling rate override: {samplingRateOverride}".ToCanonical() },
-                    Successful = true
-                };
+                //ValidationMessages = new List<ValidationMessage> { $"Sampling rate override: {samplingRateOverride}".ToCanonical() },
+                return samplingRateOverride;
             }
 
             {
                 var samplingRateForTool = ToolingHelper.TryGetSamplingRateForNCrunch();
-                if (samplingRateForTool.Data.HasValue)
+                if (samplingRateForTool.HasValue)
                 {
-                    return new Result<int>
-                    {
-                        Data = samplingRateForTool.Data.Value,
-                        ValidationMessages = samplingRateForTool.ValidationMessages,
-                        Successful = true
-                    };
+                    return samplingRateForTool.Value;
                 }
             }
             {
                 var samplingRateForTool = ToolingHelper.TryGetSamplingRateForAzurePipelines();
-                if (samplingRateForTool.Data.HasValue)
+                if (samplingRateForTool.HasValue)
                 {
-                    return new Result<int>
-                    {
-                        Data = samplingRateForTool.Data.Value,
-                        ValidationMessages = samplingRateForTool.ValidationMessages,
-                        Successful = true
-                    };
+                    return samplingRateForTool.Value;
                 }
             }
-
-            return new Result<int>
-            {
-                Data = ConfigHelper.SamplingRate,
-                ValidationMessages = new List<ValidationMessage>(),
-                Successful = true
-            };
+            
+            return ConfigHelper.SamplingRate;
         }
     }
 

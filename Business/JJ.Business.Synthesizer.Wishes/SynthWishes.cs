@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private static string FormatRealTimeMessage(double audioDuration, double calculationDuration)
         {
             var isRunningInTooling = ToolingHelper.IsRunningInTooling;
-            if (isRunningInTooling.Data)
+            if (isRunningInTooling)
             {
                 // If running in tooling, omitting the performance message from the result,
                 // because it has little meaning with sampling rates  below 150
