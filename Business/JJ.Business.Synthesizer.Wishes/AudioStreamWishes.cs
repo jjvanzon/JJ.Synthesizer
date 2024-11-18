@@ -106,10 +106,9 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channelInputs, name);
             
             // Write Audio
-            // TODO: Include validation messages (about tooling).
             var result = StreamAudio(
                 audioFileOutput,
-                inMemory, additionalMessages/*.Union(audioFileOutput.ValidationMessages.Select(x => x.Text)).ToArray()*/, name);
+                inMemory, additionalMessages.Union(ToolingHelper.GetToolingWarnings()).ToArray(), name);
             
             return result;
         }
