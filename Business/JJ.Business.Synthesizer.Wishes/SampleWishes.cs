@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Sample sample = _sampleManager.CreateSample();
             sample.Location =  location;
             sample.Amplifier = 1.0 / GetBits.GetNominalMax();
-            sample.SamplingRate = ResolveSamplingRate();
+            sample.SamplingRate = _configResolver.ResolveSamplingRate();
             sample.SetBits(GetBits, Context);
             sample.SetSpeakerSetup(GetSpeakers, Context);
             sample.SetAudioFormat(GetAudioFormat, Context);

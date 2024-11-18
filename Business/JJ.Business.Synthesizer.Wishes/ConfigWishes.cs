@@ -151,6 +151,59 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._samplingrate" />
         public void WithSamplingRate(int value) => _samplingRate = value;
         
+        /// <inheritdoc cref="docs._resolvesamplingrate"/>
+        public int ResolveSamplingRate()
+        {
+            int samplingRateOverride = GetSamplingRate;
+            if (samplingRateOverride != 0)
+            {
+                // TODO: Use this message somewhere?
+                //string message = $"Sampling rate override: {samplingRateOverride}";
+                return samplingRateOverride;
+            }
+            
+            var samplingRateForTool = TryGetSamplingRateForTooling();
+            if (samplingRateForTool.HasValue)
+            {
+                return samplingRateForTool.Value;
+            }
+            
+            return ConfigHelper.SamplingRate;
+        }
+        
+        public int? TryGetSamplingRateForTooling()
+        {
+            if (ToolingHelper.IsUnderNCrunch)
+            {
+                bool testIsLong = ToolingHelper.CurrentTestIsInCategory(GetLongTestCategory);
+                
+                if (testIsLong)
+                {
+                    return ConfigHelper.NCrunch.SamplingRateLongRunning;
+                }
+                else
+                {
+                    return ConfigHelper.NCrunch.SamplingRate;
+                }
+            }
+            
+            if (ToolingHelper.IsUnderAzurePipelines)
+            {
+                bool testIsLong = ToolingHelper.CurrentTestIsInCategory(GetLongTestCategory);
+                
+                if (testIsLong)
+                {
+                    return ConfigHelper.AzurePipelines.SamplingRateLongRunning;
+                }
+                else
+                {
+                    return ConfigHelper.AzurePipelines.SamplingRate;
+                }
+            }
+            
+            return default;
+        }
+        
         internal const string WarningSettingMayNotWork
             = "Setting might not work in all contexts " +
               "where the system is unaware of the SynthWishes object. " +

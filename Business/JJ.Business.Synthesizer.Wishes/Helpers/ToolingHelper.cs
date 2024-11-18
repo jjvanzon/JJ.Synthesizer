@@ -47,39 +47,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             return true;
         }
-
-        public int? TryGetSamplingRateForTooling()
-        {
-            if (IsUnderNCrunch)
-            {
-                bool testIsLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
-                
-                if (testIsLong)
-                {
-                    return ConfigHelper.NCrunch.SamplingRateLongRunning;
-                }
-                else
-                {
-                    return ConfigHelper.NCrunch.SamplingRate;
-                }
-            }
-
-            if (IsUnderAzurePipelines)
-            {
-                bool testIsLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
-                
-                if (testIsLong)
-                {
-                    return ConfigHelper.AzurePipelines.SamplingRateLongRunning;
-                }
-                else
-                {
-                    return ConfigHelper.AzurePipelines.SamplingRate;
-                }
-            }
-            
-            return default;
-        }
         
         public static bool IsRunningInTooling => IsUnderNCrunch || IsUnderAzurePipelines;
         

@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SetBits(GetBits, Context);
             audioFileOutput.SetAudioFormat(GetAudioFormat, Context);
             audioFileOutput.Name = name;
-            audioFileOutput.SamplingRate = ResolveSamplingRate();
+            audioFileOutput.SamplingRate = _configResolver.ResolveSamplingRate();
 
             SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
             CreateOrRemoveChannels(audioFileOutput, channelCount);
@@ -433,24 +433,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        /// <inheritdoc cref="docs._resolvesamplingrate"/>
-        private int ResolveSamplingRate()
-        {
-            int samplingRateOverride = GetSamplingRate;
-            if (samplingRateOverride != 0)
-            {
-                //ValidationMessages = new List<ValidationMessage> { $"Sampling rate override: {samplingRateOverride}".ToCanonical() },
-                return samplingRateOverride;
-            }
-            
-            var samplingRateForTool = ToolingHelper.TryGetSamplingRateForTooling();
-            if (samplingRateForTool.HasValue)
-            {
-                return samplingRateForTool.Value;
-            }
-            
-            return ConfigHelper.SamplingRate;
-        }
     }
 
     // Info Type
