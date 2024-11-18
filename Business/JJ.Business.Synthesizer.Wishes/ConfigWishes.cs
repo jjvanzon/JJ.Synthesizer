@@ -162,17 +162,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 return samplingRateOverride;
             }
             
-            var samplingRateForTool = TryGetSamplingRateForTooling();
-            if (samplingRateForTool.HasValue)
-            {
-                return samplingRateForTool.Value;
-            }
-            
-            return ConfigHelper.SamplingRate;
-        }
-        
-        public int? TryGetSamplingRateForTooling()
-        {
             if (ToolingHelper.IsUnderNCrunch)
             {
                 bool testIsLong = ToolingHelper.CurrentTestIsInCategory(GetLongTestCategory);
@@ -201,7 +190,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
             
-            return default;
+            return ConfigHelper.SamplingRate;
         }
         
         internal const string WarningSettingMayNotWork
