@@ -220,7 +220,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 Successful = true,
                 ValidationMessages = warnings.ToCanonical(),
-                Data = new StreamAudioData(entity, bytes, entity.FilePath)
+                Data = new StreamAudioData(bytes, entity.FilePath, entity)
             };
 
             // Report
@@ -478,22 +478,20 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public class StreamAudioData
     {
+        /// <inheritdoc cref="docs._saveresultbytes"/>
+        public byte[] Bytes { get; }
+        public string FilePath { get; }
         public AudioFileOutput UnderlyingAudioFileOutput { get; }
         
         /// <inheritdoc cref="docs._saveresultbytes"/>
-        public byte[] Bytes { get; }
-        
-        public string FilePath { get; }
-        
-        /// <inheritdoc cref="docs._saveresultbytes"/>
         public StreamAudioData(
-            AudioFileOutput underlyingAudioFileOutput, 
             byte[] bytes,
-            string filePath)
+            string filePath, 
+            AudioFileOutput underlyingAudioFileOutput)
         {
-            UnderlyingAudioFileOutput = underlyingAudioFileOutput ?? throw new ArgumentNullException(nameof(underlyingAudioFileOutput));
             Bytes = bytes;
             FilePath = filePath;
+            UnderlyingAudioFileOutput = underlyingAudioFileOutput ?? throw new ArgumentNullException(nameof(underlyingAudioFileOutput));
         }
     }
 }
