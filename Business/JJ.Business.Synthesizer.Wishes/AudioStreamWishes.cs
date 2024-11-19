@@ -338,16 +338,17 @@ namespace JJ.Business.Synthesizer.Wishes
             return lines;
         }
         
+        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
         private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakers)
         {
             switch (speakers)
             {
                 case Mono:
-                    audioFileOutput.SpeakerSetup = CreateSubstituteSpeakerSetupMono();
+                    audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetupMono();
                     break;
 
                 case Stereo:
-                    audioFileOutput.SpeakerSetup = CreateSubstituteSpeakerSetupStereo();
+                    audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetupStereo();
                     break;
 
                 default:
@@ -355,61 +356,91 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup CreateSubstituteSpeakerSetupStereo()
-        {
-            var channelRepository = CreateRepository<IChannelRepository>(Context);
-            
-            var stereo = new SpeakerSetup
-            {
-                ID = (int)Stereo,
-                Name = $"{Stereo}",
-            };
-            
-            var left = new SpeakerSetupChannel
-            {
-                ID = 2,
-                Index = 0,
-                Channel = channelRepository.Get((int)ChannelEnum.Left),
-            };
-            
-            var right = new SpeakerSetupChannel
-            {
-                ID = 3,
-                Index = 1,
-                Channel = channelRepository.Get((int)ChannelEnum.Right),
-            };
-            
-            left.SpeakerSetup = stereo;
-            right.SpeakerSetup = stereo;
-            stereo.SpeakerSetupChannels = new List<SpeakerSetupChannel> { left, right };
-            
-            return stereo;
-        }
+        private readonly object _substituteSpeakerSetupStereoLock = new object();
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup CreateSubstituteSpeakerSetupMono()
+        private SpeakerSetup _substituteSpeakerSetupStereo;
+        
+        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        private SpeakerSetup GetSubstituteSpeakerSetupStereo()
         {
-            var channelRepository = CreateRepository<IChannelRepository>(Context);
-            
-            var mono = new SpeakerSetup
+            if (_substituteSpeakerSetupStereo != null)
             {
-                ID = (int)Mono,
-                Name = $"{Mono}",
-            };
-            
-            var center = new SpeakerSetupChannel
+                return _substituteSpeakerSetupStereo;
+            }
+
+            lock (_substituteSpeakerSetupStereoLock)
             {
-                ID = 1,
-                Index = 0,
-                Channel = channelRepository.Get((int)ChannelEnum.Single),
-            };
+                var channelRepository = CreateRepository<IChannelRepository>(Context);
+                
+                var stereo = new SpeakerSetup
+                {
+                    ID = (int)Stereo,
+                    Name = $"{Stereo}",
+                };
+                
+                var left = new SpeakerSetupChannel
+                {
+                    ID = 2,
+                    Index = 0,
+                    Channel = channelRepository.Get((int)ChannelEnum.Left),
+                };
+                
+                var right = new SpeakerSetupChannel
+                {
+                    ID = 3,
+                    Index = 1,
+                    Channel = channelRepository.Get((int)ChannelEnum.Right),
+                };
+                
+                left.SpeakerSetup = stereo;
+                right.SpeakerSetup = stereo;
+                stereo.SpeakerSetupChannels = new List<SpeakerSetupChannel> { left, right };
+                
+                _substituteSpeakerSetupStereo = stereo;
+                
+                return stereo;
+            }
+        }
+        
+        private readonly object _substituteSpeakerSetupMonoLock = new object();
+        
+        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        private SpeakerSetup _substituteSpeakerSetupMono;
+
+        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        private SpeakerSetup GetSubstituteSpeakerSetupMono()
+        {
+            if (_substituteSpeakerSetupMono != null)
+            { 
+                return _substituteSpeakerSetupMono;
+            }
             
-            
-            center.SpeakerSetup = mono;
-            mono.SpeakerSetupChannels = new List<SpeakerSetupChannel> { center };
-            
-            return mono;
+            lock (_substituteSpeakerSetupMonoLock)
+            {
+                var channelRepository = CreateRepository<IChannelRepository>(Context);
+                
+                var mono = new SpeakerSetup
+                {
+                    ID = (int)Mono,
+                    Name = $"{Mono}",
+                };
+                
+                var center = new SpeakerSetupChannel
+                {
+                    ID = 1,
+                    Index = 0,
+                    Channel = channelRepository.Get((int)ChannelEnum.Single),
+                };
+                
+                
+                center.SpeakerSetup = mono;
+                mono.SpeakerSetupChannels = new List<SpeakerSetupChannel> { center };
+                
+                _substituteSpeakerSetupMono = mono;
+                
+                return mono;
+            }
         }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
