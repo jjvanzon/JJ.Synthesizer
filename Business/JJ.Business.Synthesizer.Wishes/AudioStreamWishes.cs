@@ -108,7 +108,10 @@ namespace JJ.Business.Synthesizer.Wishes
             // Write Audio
             var result = StreamAudio(
                 audioFileOutput,
-                inMemory, additionalMessages.Union(ToolingHelper.GetToolingWarnings()).ToArray(), name);
+                inMemory,
+                //  TODO: Include fileExtension parameter with  GetToolingWarnings.
+                additionalMessages.Union(ToolingHelper.GetToolingWarnings()).ToArray(),
+                name);
             
             return result;
         }
@@ -129,7 +132,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SetBits(GetBits, Context);
             audioFileOutput.SetAudioFormat(GetAudioFormat, Context);
             audioFileOutput.Name = name;
-            audioFileOutput.SamplingRate = _configResolver.ResolveSamplingRate();
+            audioFileOutput.SamplingRate = GetSamplingRate;
 
             SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
             CreateOrRemoveChannels(audioFileOutput, channelCount);

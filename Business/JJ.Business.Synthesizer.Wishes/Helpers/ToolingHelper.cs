@@ -23,31 +23,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             _configResolver = configResolver ?? throw new ArgumentNullException(nameof(configResolver));
         }
         
-        public bool PlayAllowed(string fileExtension)
-        {
-            if (!_configResolver.GetAudioPlayBack)
-            {
-                return false;
-            }
-            
-            if (IsUnderNCrunch && !ConfigHelper.NCrunch.AudioPlayBack)
-            {
-                return false;
-            }
-            
-            if (IsUnderAzurePipelines && !ConfigHelper.AzurePipelines.AudioPlayBack)
-            {
-                return false;
-            }
-            
-            if (!string.Equals(fileExtension, ".wav", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-            
-            return true;
-        }
-        
         public static bool IsRunningInTooling => IsUnderNCrunch || IsUnderAzurePipelines;
         
         public static bool IsUnderNCrunch
@@ -102,7 +77,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         // Warnings
         
-        public IList<string> GetToolingWarnings(string filePath = null)
+        public IList<string> GetToolingWarnings(string fileExtension = null)
         {
             var list = new List<string>();
             
@@ -115,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             if (IsUnderNCrunch)
             {
-                list.Add($"Environment variable {NCrunchEnvironmentVariableName} = 1");
+                list.Add($"Environment variable {NCrunchEnvironmentVariableName} = {NCrunchEnvironmentVariableValue}");
             }
             
             if (ConfigHelper.AzurePipelines.Impersonate)
@@ -138,24 +113,9 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             // Audio Disabled
             
-            if (!_configResolver.GetAudioPlayBack)
+            if (!_configResolver.GetAudioPlayBack(fileExtension))
             {
-                list.Add("Audio disabled (in config file)");
-            }
-            else if (IsUnderNCrunch && !ConfigHelper.NCrunch.AudioPlayBack)
-            {
-                list.Add("Audio disabled (in NCrunch)");
-            }
-            else if (IsUnderAzurePipelines && !ConfigHelper.AzurePipelines.AudioPlayBack)
-            {
-                list.Add("Audio disabled (in Azure Pipelines)");
-            }
-            else if (!string.IsNullOrWhiteSpace(filePath))
-            {
-                if (!string.Equals(Path.GetExtension(filePath), ".wav", StringComparison.OrdinalIgnoreCase))
-                {
-                    list.Add("Audio disabled (file type not WAV).");
-                }
+                list.Add("Audio disabled");
             }
             
             return list;

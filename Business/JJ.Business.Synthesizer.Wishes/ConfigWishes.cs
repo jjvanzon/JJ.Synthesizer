@@ -68,9 +68,36 @@ namespace JJ.Business.Synthesizer.Wishes
         public const bool                  DefaultToolingImpersonate             = false;
         
         private bool? _audioPlayBack;
-        public bool GetAudioPlayBack => _audioPlayBack ?? _section.AudioPlayBack ?? DefaultAudioPlayBack;
         [Obsolete(WarningSettingMayNotWork)] public void WithAudioPlayBack(bool? value) => _audioPlayBack = value;
-        
+        public bool GetAudioPlayBack(string fileExtension = null)
+        {
+            bool audioPlayBack = _audioPlayBack ?? _section.AudioPlayBack ?? DefaultAudioPlayBack;
+            if (!audioPlayBack)
+            {
+                return false;
+            }
+            
+            if (ToolingHelper.IsUnderNCrunch)
+            {
+                return _section.NCrunch.AudioPlayBack ?? DefaultToolingAudioPlayBack;
+            }
+            
+            if (ToolingHelper.IsUnderAzurePipelines)
+            {
+                return _section.AzurePipelines.AudioPlayBack ?? DefaultToolingAudioPlayBack;
+            }
+            
+            if (!string.IsNullOrWhiteSpace(fileExtension))
+            {
+                if (!string.Equals(fileExtension, ".wav", StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
         private double? _leadingSilence;
         public double GetLeadingSilence => _leadingSilence ?? _section.LeadingSilence ?? DefaultLeadingSilence;
         public void WithLeadingSilence(double? value) => _leadingSilence = value;
@@ -152,50 +179,50 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._samplingrate" />
         private int _samplingRate;
         /// <inheritdoc cref="docs._samplingrate" />
-        public int GetSamplingRate => _samplingRate;
-        /// <inheritdoc cref="docs._samplingrate" />
         public void WithSamplingRate(int value) => _samplingRate = value;
         
         /// <inheritdoc cref="docs._resolvesamplingrate"/>
-        public int ResolveSamplingRate()
+        public int GetSamplingRate
         {
-            int samplingRateOverride = GetSamplingRate;
-            if (samplingRateOverride != 0)
+            get
             {
-                // TODO: Use this message somewhere?
-                //string message = $"Sampling rate override: {samplingRateOverride}";
-                return samplingRateOverride;
-            }
-            
-            if (ToolingHelper.IsUnderNCrunch)
-            {
-                bool testIsLong = ToolingHelper.CurrentTestIsInCategory(GetLongTestCategory);
+                if (_samplingRate != 0)
+                {
+                    // TODO: Use this message somewhere?
+                    //string message = $"Sampling rate override: {samplingRateOverride}";
+                    return _samplingRate;
+                }
                 
-                if (testIsLong)
+                if (ToolingHelper.IsUnderNCrunch)
                 {
-                    return _section.NCrunch.SamplingRateLongRunning ?? DefaultToolingSamplingRateLongRunning;
+                    bool testIsLong = ToolingHelper.CurrentTestIsInCategory(GetLongTestCategory);
+                    
+                    if (testIsLong)
+                    {
+                        return _section.NCrunch.SamplingRateLongRunning ?? DefaultToolingSamplingRateLongRunning;
+                    }
+                    else
+                    {
+                        return _section.NCrunch.SamplingRate ?? DefaultToolingSamplingRate;
+                    }
                 }
-                else
-                {
-                    return _section.NCrunch.SamplingRate ?? DefaultToolingSamplingRate;
-                }
-            }
-            
-            if (ToolingHelper.IsUnderAzurePipelines)
-            {
-                bool testIsLong = ToolingHelper.CurrentTestIsInCategory(GetLongTestCategory);
                 
-                if (testIsLong)
+                if (ToolingHelper.IsUnderAzurePipelines)
                 {
-                    return _section.AzurePipelines.SamplingRateLongRunning ?? DefaultToolingSamplingRateLongRunning;
+                    bool testIsLong = ToolingHelper.CurrentTestIsInCategory(GetLongTestCategory);
+                    
+                    if (testIsLong)
+                    {
+                        return _section.AzurePipelines.SamplingRateLongRunning ?? DefaultToolingSamplingRateLongRunning;
+                    }
+                    else
+                    {
+                        return _section.AzurePipelines.SamplingRate ?? DefaultToolingSamplingRate;
+                    }
                 }
-                else
-                {
-                    return _section.AzurePipelines.SamplingRate ?? DefaultToolingSamplingRate;
-                }
+                
+                return _section.SamplingRate ?? DefaultSamplingRate;
             }
-            
-            return _section.SamplingRate ?? DefaultSamplingRate;
         }
         
         // Defaults for Optional Config
@@ -227,12 +254,12 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static ConfigResolver DefaultConfigResolver { get; } = new ConfigResolver();
         internal static ToolingHelper DefaultToolingHelper { get; } = new ToolingHelper(DefaultConfigResolver);
         
-        private readonly ConfigResolver _configResolver = new ConfigResolver();
+        internal ConfigResolver ConfigResolver { get; } = new ConfigResolver();
         internal ToolingHelper ToolingHelper { get; private set; }
         
         private void InitializeConfigWishes()
         {
-            ToolingHelper = new ToolingHelper(_configResolver);
+            ToolingHelper = new ToolingHelper(ConfigResolver);
         }
     }
 
@@ -300,12 +327,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        public ChannelEnum Channel { get => _configResolver.Channel; set => _configResolver.Channel = value; }
-        public int ChannelIndex { get => _configResolver.ChannelIndex; set => _configResolver.ChannelIndex = value; }
-        public SynthWishes WithChannel(ChannelEnum channel) { _configResolver.WithChannel(channel); return this; }
-        public SynthWishes WithLeft() { _configResolver.WithLeft(); return this; }
-        public SynthWishes WithRight()  { _configResolver.WithRight(); return this; }
-        public SynthWishes WithCenter()  { _configResolver.WithCenter(); return this; }
+        public ChannelEnum Channel { get => ConfigResolver.Channel; set => ConfigResolver.Channel = value; }
+        public int ChannelIndex { get => ConfigResolver.ChannelIndex; set => ConfigResolver.ChannelIndex = value; }
+        public SynthWishes WithChannel(ChannelEnum channel) { ConfigResolver.WithChannel(channel); return this; }
+        public SynthWishes WithLeft() { ConfigResolver.WithLeft(); return this; }
+        public SynthWishes WithRight()  { ConfigResolver.WithRight(); return this; }
+        public SynthWishes WithCenter()  { ConfigResolver.WithCenter(); return this; }
     }
 
     public partial class FlowNode
@@ -322,15 +349,15 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
+        /// <inheritdoc cref="docs._resolvesamplingrate"/>
+        public int GetSamplingRate => ConfigResolver.GetSamplingRate;
         /// <inheritdoc cref="docs._samplingrate" />
-        public int GetSamplingRate => _configResolver.GetSamplingRate;
-        /// <inheritdoc cref="docs._samplingrate" />
-        public SynthWishes WithSamplingRate(int value) { _configResolver.WithSamplingRate(value); return this; }
+        public SynthWishes WithSamplingRate(int value) { ConfigResolver.WithSamplingRate(value); return this; }
     }
 
     public partial class FlowNode
     {
-        /// <inheritdoc cref="docs._samplingrate" />
+        /// <inheritdoc cref="docs._resolvesamplingrate"/>
         public int GetSamplingRate => _synthWishes.GetSamplingRate;
         /// <inheritdoc cref="docs._samplingrate" />
         public FlowNode WithSamplingRate(int value) { _synthWishes.WithSamplingRate(value); return this; }
@@ -340,11 +367,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        public int GetBits => _configResolver.GetBits;
-        public SynthWishes WithBits(int bits) { _configResolver.WithBits(bits); return this; }
-        public SynthWishes With32Bit() { _configResolver.With32Bit(); return this; }
-        public SynthWishes With16Bit() { _configResolver.With16Bit(); return this; }
-        public SynthWishes With8Bit() { _configResolver.With8Bit(); return this; }
+        public int GetBits => ConfigResolver.GetBits;
+        public SynthWishes WithBits(int bits) { ConfigResolver.WithBits(bits); return this; }
+        public SynthWishes With32Bit() { ConfigResolver.With32Bit(); return this; }
+        public SynthWishes With16Bit() { ConfigResolver.With16Bit(); return this; }
+        public SynthWishes With8Bit() { ConfigResolver.With8Bit(); return this; }
     }
 
     public partial class FlowNode
@@ -360,10 +387,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        public SpeakerSetupEnum GetSpeakers => _configResolver.GetSpeakers;
-        public SynthWishes WithSpeakers(SpeakerSetupEnum speakers) { _configResolver.WithSpeakers(speakers); return this; }
-        public SynthWishes WithMono() { _configResolver.WithMono(); return this; }
-        public SynthWishes WithStereo() { _configResolver.WithStereo(); return this; }
+        public SpeakerSetupEnum GetSpeakers => ConfigResolver.GetSpeakers;
+        public SynthWishes WithSpeakers(SpeakerSetupEnum speakers) { ConfigResolver.WithSpeakers(speakers); return this; }
+        public SynthWishes WithMono() { ConfigResolver.WithMono(); return this; }
+        public SynthWishes WithStereo() { ConfigResolver.WithStereo(); return this; }
     }
 
     public partial class FlowNode
@@ -378,10 +405,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        public AudioFileFormatEnum GetAudioFormat => _configResolver.GetAudioFormat;
-        public SynthWishes WithAudioFormat(AudioFileFormatEnum audioFormat) { _configResolver.WithAudioFormat(audioFormat); return this; }
-        public SynthWishes AsWav() { _configResolver.AsWav(); return this; }  
-        public SynthWishes AsRaw() { _configResolver.AsRaw(); return this; }
+        public AudioFileFormatEnum GetAudioFormat => ConfigResolver.GetAudioFormat;
+        public SynthWishes WithAudioFormat(AudioFileFormatEnum audioFormat) { ConfigResolver.WithAudioFormat(audioFormat); return this; }
+        public SynthWishes AsWav() { ConfigResolver.AsWav(); return this; }  
+        public SynthWishes AsRaw() { ConfigResolver.AsRaw(); return this; }
     } 
 
     public partial class FlowNode
@@ -396,10 +423,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        public InterpolationTypeEnum GetInterpolation => _configResolver.GetInterpolation;
-        public SynthWishes WithInterpolation(InterpolationTypeEnum interpolation) { _configResolver.WithInterpolation(interpolation); return this; }
-        public SynthWishes WithLinear() {_configResolver.WithLinear(); return this; }
-        public SynthWishes WithBlocky() { _configResolver.WithBlocky(); return this; }
+        public InterpolationTypeEnum GetInterpolation => ConfigResolver.GetInterpolation;
+        public SynthWishes WithInterpolation(InterpolationTypeEnum interpolation) { ConfigResolver.WithInterpolation(interpolation); return this; }
+        public SynthWishes WithLinear() {ConfigResolver.WithLinear(); return this; }
+        public SynthWishes WithBlocky() { ConfigResolver.WithBlocky(); return this; }
     }
 
     public partial class FlowNode
@@ -415,23 +442,23 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         [Obsolete(WarningSettingMayNotWork)]
-        public SynthWishes WithAudioPlayBack(bool? enabled = default) { _configResolver.WithAudioPlayBack(enabled); return this; }
-        public bool GetAudioPlayBack => _configResolver.GetAudioPlayBack;
+        public SynthWishes WithAudioPlayBack(bool? enabled = default) { ConfigResolver.WithAudioPlayBack(enabled); return this; }
+        public bool GetAudioPlayBack(string fileExtension = null) => ConfigResolver.GetAudioPlayBack(fileExtension);
     }
     
     public partial class FlowNode
     {
         [Obsolete(WarningSettingMayNotWork)]
         public FlowNode WithAudioPlayBack(bool? enabled = default) { _synthWishes.WithAudioPlayBack(enabled); return this; }
-        public bool GetAudioPlayBack => _synthWishes.GetAudioPlayBack;
+        public bool GetAudioPlayBack(string fileExtension = null) => _synthWishes.GetAudioPlayBack(fileExtension);
     }
     
     // LeadingSilence
     
     public partial class SynthWishes
     {
-        public SynthWishes WithLeadingSilence(double? seconds = default) { _configResolver.WithLeadingSilence(seconds); return this; }
-        public double GetLeadingSilence => _configResolver.GetLeadingSilence;
+        public SynthWishes WithLeadingSilence(double? seconds = default) { ConfigResolver.WithLeadingSilence(seconds); return this; }
+        public double GetLeadingSilence => ConfigResolver.GetLeadingSilence;
     }
     
     public partial class FlowNode
@@ -444,8 +471,8 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public SynthWishes WithTrailingSilence(double? seconds = default) { _configResolver.WithTrailingSilence(seconds); return this; }
-        public double GetTrailingSilence => _configResolver.GetTrailingSilence;
+        public SynthWishes WithTrailingSilence(double? seconds = default) { ConfigResolver.WithTrailingSilence(seconds); return this; }
+        public double GetTrailingSilence => ConfigResolver.GetTrailingSilence;
     }
     
     public partial class FlowNode
@@ -459,9 +486,9 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public bool GetDiskCaching => _configResolver.GetDiskCaching;
+        public bool GetDiskCaching => ConfigResolver.GetDiskCaching;
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public SynthWishes WithDiskCaching(bool? enabled = default) { _configResolver.WithDiskCaching(enabled); return this; }
+        public SynthWishes WithDiskCaching(bool? enabled = default) { ConfigResolver.WithDiskCaching(enabled); return this; }
     }
 
     public partial class FlowNode
@@ -477,9 +504,9 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public bool GetParallels => _configResolver.GetParallels;
+        public bool GetParallels => ConfigResolver.GetParallels;
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public SynthWishes WithParallels(bool? enabled = default) { _configResolver.WithParallels(enabled); return this; }
+        public SynthWishes WithParallels(bool? enabled = default) { ConfigResolver.WithParallels(enabled); return this; }
     }
 
     public partial class FlowNode
@@ -495,9 +522,9 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public bool GetPlayAllTapes => _configResolver.GetPlayAllTapes;
+        public bool GetPlayAllTapes => ConfigResolver.GetPlayAllTapes;
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public SynthWishes WithPlayAllTapes(bool? enabled = default) { _configResolver.WithPlayAllTapes(enabled); return this; }
+        public SynthWishes WithPlayAllTapes(bool? enabled = default) { ConfigResolver.WithPlayAllTapes(enabled); return this; }
     }
 
     public partial class FlowNode
@@ -512,8 +539,8 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        public bool GetMathOptimization => _configResolver.GetMathOptimization;
-        public SynthWishes WithMathOptimization(bool? enabled = default) { _configResolver.WithMathOptimization(enabled); return this; }
+        public bool GetMathOptimization => ConfigResolver.GetMathOptimization;
+        public SynthWishes WithMathOptimization(bool? enabled = default) { ConfigResolver.WithMathOptimization(enabled); return this; }
     }
     
     public partial class FlowNode

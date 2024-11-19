@@ -121,12 +121,13 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal static Result InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension)
         {
-            ToolingHelper toolingHelper = synthWishes?.ToolingHelper ?? DefaultToolingHelper;
-            bool playAllowed = toolingHelper.PlayAllowed(fileExtension);
+            ConfigResolver configResolver = synthWishes?.ConfigResolver ?? DefaultConfigResolver;
+            
+            bool mustPlay = configResolver.GetAudioPlayBack(fileExtension);
             
             var lines = new List<string>();
 
-            if (playAllowed)
+            if (mustPlay)
             {
                 lines.Add("Playing audio...");
                 

@@ -288,12 +288,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// This is usually for testing purposes.
         /// Prefer using the <c>.config</c> file instead.<br/>
         /// </summary>
-        /// <returns>
-        /// <c>Result&lt;int&gt;</c> with:<br/>
-        /// <c>Result.Data</c> = sampling rate;<br/>
-        /// <c>Result.Successful</c> is always true for now;<br/>
-        /// <c>Result.ValidationMessages</c> can hold info messages to say where the sampling rate came from.
-        /// </returns>
         public static object _resolvesamplingrate;
 
         /// <summary>
