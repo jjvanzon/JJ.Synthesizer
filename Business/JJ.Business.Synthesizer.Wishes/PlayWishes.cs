@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var writeAudioResult =
                 StreamAudio(
                     channelInputFunc,
-                    inMemory: !GetDiskCaching, mustPad: true, null, name, callerMemberName);
+                    inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
 
             var playResult = InternalPlay(this, writeAudioResult);
             
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var writeAudioResult =
                 StreamAudio(
                     channelInput,
-                    inMemory: !GetDiskCaching, mustPad: true, null, name, callerMemberName);
+                    inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
             
             var playResult = InternalPlay(this, writeAudioResult);
             
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var writeAudioResult =
                 StreamAudio(
                     channelInputs,
-                    inMemory: !GetDiskCaching, mustPad: true, null, name, callerMemberName);
+                    inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
             
             var playResult = InternalPlay(this, writeAudioResult);
             
@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             var writeAudioResult = _synthWishes.StreamAudio(
                 this,
-                inMemory: !GetDiskCaching, mustPad: true, null, name, callerMemberName);
+                inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
 
             InternalPlay(_synthWishes, writeAudioResult);
 

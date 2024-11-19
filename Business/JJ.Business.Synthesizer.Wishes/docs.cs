@@ -444,8 +444,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns>
         public static object _saveorplay;
 
-        /// <summary> Nullable. Not supplied when diskCaching is enabled. </summary>
-        /// <param name="bytes">Nullable. Not supplied when diskCaching is enabled.</param>
+        /// <summary> Nullable. Not supplied when diskCacheOn is enabled. </summary>
+        /// <param name="bytes">Nullable. Not supplied when diskCacheOn is enabled.</param>
         public static object _saveresultbytes;
         
         /// <summary>
@@ -547,6 +547,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Also, doesn't clean up the files. Also for testing purposes.
         /// Can also be controlled through the two separate options WithPlayAllTapes and WithSaveParallels.
         /// </summary>
-        public static object _parallelsanddiskcaching;
+        public static object _parallelsanddiskcacheon;
     }
 }

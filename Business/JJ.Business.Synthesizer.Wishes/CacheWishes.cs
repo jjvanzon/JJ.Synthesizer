@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 func, 
-                inMemory: !GetDiskCaching, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Cache(
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 func, 
-                inMemory: !GetDiskCaching, mustPad, null, name, callerMemberName);
+                inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Cache(
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 new[] { outlet }, 
-                inMemory: !GetDiskCaching, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Cache(
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 new[] { outlet }, 
-                inMemory: !GetDiskCaching, mustPad, null, name, callerMemberName);
+                inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Cache(
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 channelInputs, 
-                inMemory: !GetDiskCaching, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Result<StreamAudioData> Cache(
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 channelInputs, 
-                inMemory: !GetDiskCaching, mustPad, null, name, callerMemberName);
+                inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
     
         // Cache in Statics
         
@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             _synthWishes.StreamAudio(
                 this, 
-                inMemory: !GetDiskCaching, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
             
             return this;
         }
@@ -174,7 +174,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             _synthWishes.StreamAudio(
                 this, 
-                inMemory: !GetDiskCaching, mustPad, null, name, callerMemberName);
+                inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
 
             return this;
         }

@@ -29,7 +29,7 @@
 		playBack="true"
 		mathBoost="true"
 		parallels="true"
-		diskCaching="false"
+		diskCacheOn="false"
 		playAllTapes="false"
 		longRunningTestCategory="Long">
 		

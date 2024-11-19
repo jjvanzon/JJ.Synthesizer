@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public bool? PlayBack { get; set; }
         [XmlAttribute] public bool? MathBoost { get; set; }
         [XmlAttribute] public bool? Parallels { get; set; }
-        [XmlAttribute] public bool? DiskCaching { get; set; }
+        [XmlAttribute] public bool? DiskCacheOn { get; set; }
         [XmlAttribute] public bool? PlayAllTapes { get; set; }
         
         // Tooling
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private const bool                  DefaultPlayBack     = true;
         private const bool                  DefaultMathBoost    = true;
         private const bool                  DefaultParallels    = true;
-        private const bool                  DefaultDiskCaching  = false;
+        private const bool                  DefaultDiskCacheOn  = false;
         private const bool                  DefaultPlayAllTapes = false;
         
         // Tooling
@@ -282,29 +282,29 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Parallels
         
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         private bool? _parallels;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetParallels => _parallels ?? _section.Parallels ?? DefaultParallels;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public void WithParallels(bool? enabled = default) => _parallels = enabled;
         
-        // DiskCaching
+        // DiskCacheOn
         
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        private bool? _diskCaching;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public bool GetDiskCaching => _diskCaching ?? _section.DiskCaching ?? DefaultDiskCaching;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public void WithDiskCaching(bool? enabled = default) =>  _diskCaching = enabled;
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        private bool? _diskCacheOn;
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        public bool GetDiskCacheOn => _diskCacheOn ?? _section.DiskCacheOn ?? DefaultDiskCacheOn;
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        public void WithDiskCacheOn(bool? enabled = default) =>  _diskCacheOn = enabled;
         
         // PlayAllTapes
         
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         private bool? _playAllTapes;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetPlayAllTapes => _playAllTapes ?? _section.PlayAllTapes ?? DefaultPlayAllTapes;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public void WithPlayAllTapes(bool? enabled = true) => _playAllTapes = enabled;
         
         // Tooling
@@ -441,19 +441,19 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetMathBoost => _configResolver.GetMathBoost;
         public SynthWishes WithMathBoost(bool? enabled = default) { _configResolver.WithMathBoost(enabled); return this; }
         
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetParallels => _configResolver.GetParallels;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public SynthWishes WithParallels(bool? enabled = default) { _configResolver.WithParallels(enabled); return this; }
 
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public bool GetDiskCaching => _configResolver.GetDiskCaching;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public SynthWishes WithDiskCaching(bool? enabled = default) { _configResolver.WithDiskCaching(enabled); return this; }
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        public bool GetDiskCacheOn => _configResolver.GetDiskCacheOn;
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        public SynthWishes WithDiskCacheOn(bool? enabled = default) { _configResolver.WithDiskCacheOn(enabled); return this; }
 
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetPlayAllTapes => _configResolver.GetPlayAllTapes;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public SynthWishes WithPlayAllTapes(bool? enabled = default) { _configResolver.WithPlayAllTapes(enabled); return this; }
     }
     
@@ -517,19 +517,19 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetMathBoost => _synthWishes.GetMathBoost;
         public FlowNode WithMathBoost(bool? enabled = default) { _synthWishes.WithMathBoost(enabled); return this; }
         
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetParallels => _synthWishes.GetParallels;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public FlowNode WithParallels(bool? enabled = default) { _synthWishes.WithParallels(enabled); return this; }
 
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public bool GetDiskCaching => _synthWishes.GetDiskCaching;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public FlowNode WithDiskCaching(bool? enabled = default) { _synthWishes.WithDiskCaching(enabled); return this; }
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        public bool GetDiskCacheOn => _synthWishes.GetDiskCacheOn;
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        public FlowNode WithDiskCacheOn(bool? enabled = default) { _synthWishes.WithDiskCacheOn(enabled); return this; }
 
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetPlayAllTapes => _synthWishes.GetPlayAllTapes;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public FlowNode WithPlayAllTapes(bool? enabled = default) { _synthWishes.WithPlayAllTapes(enabled); return this; }
     }
 }

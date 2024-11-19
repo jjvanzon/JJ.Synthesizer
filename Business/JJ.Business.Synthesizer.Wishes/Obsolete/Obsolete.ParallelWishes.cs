@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 reloadedSamples[i] = synthWishes.Sample(cacheResult, name: displayNames[i]);
                 
                 // Diagnostic actions
-                //if (GetDiskCaching)
+                //if (GetDiskCacheOn)
                 //{
                 //    // Save reloaded samples to disk.
                 //    var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
