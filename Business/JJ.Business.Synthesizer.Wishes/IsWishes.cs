@@ -12,23 +12,23 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FlowNode
     {
-        public double? AsConst => _wrappedOutlet.AsConst();
-        public bool IsConst => _wrappedOutlet.IsConst();
-        public bool IsVar => _wrappedOutlet.IsVar();
-        public bool IsAdd => _wrappedOutlet.IsAdd();
-        public bool IsSubtract => _wrappedOutlet.IsSubtract();
-        public bool IsMultiply => _wrappedOutlet.IsMultiply();
-        public bool IsDivide => _wrappedOutlet.IsDivide();
-        public bool IsPower => _wrappedOutlet.IsPower();
-        public bool IsSine => _wrappedOutlet.IsSine();
-        public bool IsDelay => _wrappedOutlet.IsDelay();
-        public bool IsSkip => _wrappedOutlet.IsSkip();
-        public bool IsStretch => _wrappedOutlet.IsStretch();
-        public bool IsSpeedUp => _wrappedOutlet.IsSpeedUp();
-        public bool IsTimePower => _wrappedOutlet.IsTimePower();
-        public bool IsCurve => _wrappedOutlet.IsCurve();
-        public bool IsSample => _wrappedOutlet.IsSample();
-        public bool IsAdder => _wrappedOutlet.IsAdder();
+        public double? AsConst => _underlyingOutlet.AsConst();
+        public bool IsConst => _underlyingOutlet.IsConst();
+        public bool IsVar => _underlyingOutlet.IsVar();
+        public bool IsAdd => _underlyingOutlet.IsAdd();
+        public bool IsSubtract => _underlyingOutlet.IsSubtract();
+        public bool IsMultiply => _underlyingOutlet.IsMultiply();
+        public bool IsDivide => _underlyingOutlet.IsDivide();
+        public bool IsPower => _underlyingOutlet.IsPower();
+        public bool IsSine => _underlyingOutlet.IsSine();
+        public bool IsDelay => _underlyingOutlet.IsDelay();
+        public bool IsSkip => _underlyingOutlet.IsSkip();
+        public bool IsStretch => _underlyingOutlet.IsStretch();
+        public bool IsSpeedUp => _underlyingOutlet.IsSpeedUp();
+        public bool IsTimePower => _underlyingOutlet.IsTimePower();
+        public bool IsCurve => _underlyingOutlet.IsCurve();
+        public bool IsSample => _underlyingOutlet.IsSample();
+        public bool IsAdder => _underlyingOutlet.IsAdder();
     }
 
     public static class IsExtensionWishes

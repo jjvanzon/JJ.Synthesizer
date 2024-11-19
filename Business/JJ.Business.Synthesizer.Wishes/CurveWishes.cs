@@ -241,40 +241,40 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._curvewithoperator"/>
         public FlowNode Curve(FlowNode curve)
-            => _wrappedOutlet * curve;
+            => _underlyingOutlet * curve;
 
         public FlowNode Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
-            => _wrappedOutlet * _synthWishes.Curve(nodeInfos, callerMemberName);
+            => _underlyingOutlet * _synthWishes.Curve(nodeInfos, callerMemberName);
 
         public FlowNode Curve(params NodeInfo[] nodeInfos)
-            => _wrappedOutlet * _synthWishes.Curve(nodeInfos);
+            => _underlyingOutlet * _synthWishes.Curve(nodeInfos);
 
         /// <inheritdoc cref="docs._createcurve" />
         public FlowNode Curve(string name, params double?[] values)
-            => _wrappedOutlet * _synthWishes.Curve(values);
+            => _underlyingOutlet * _synthWishes.Curve(values);
 
         /// <inheritdoc cref="docs._createcurve" />
         public FlowNode Curve(params double?[] values)
-            => _wrappedOutlet * _synthWishes.Curve(values);
+            => _underlyingOutlet * _synthWishes.Curve(values);
 
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FlowNode Curve(
             IList<(double time, double value)> nodeTuples, [CallerMemberName] string callerMemberName = null)
-            => _wrappedOutlet * _synthWishes.Curve(nodeTuples, callerMemberName);
+            => _underlyingOutlet * _synthWishes.Curve(nodeTuples, callerMemberName);
 
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FlowNode Curve(params (double time, double value)[] nodeTuples)
-            => _wrappedOutlet * _synthWishes.Curve(nodeTuples);
+            => _underlyingOutlet * _synthWishes.Curve(nodeTuples);
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public FlowNode Curve(string text, [CallerMemberName] string callerMemberName = null)
-            => _wrappedOutlet * _synthWishes.Curve(text, callerMemberName);
+            => _underlyingOutlet * _synthWishes.Curve(text, callerMemberName);
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public FlowNode Curve(
             (double start, double end) x,
             (double min, double max) y,
             string text, [CallerMemberName] string callerMemberName = null)
-            => _wrappedOutlet * this._synthWishes.Curve(x, y, text, callerMemberName);
+            => _underlyingOutlet * this._synthWishes.Curve(x, y, text, callerMemberName);
     }
 }

@@ -157,8 +157,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._names"/>
         public string Name
         {
-            get => _wrappedOutlet.Operator.Name;
-            set => _wrappedOutlet.Operator.Name = value;
+            get => _underlyingOutlet.Operator.Name;
+            set => _underlyingOutlet.Operator.Name = value;
         }
     }
 

@@ -55,20 +55,22 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FlowNode
     {
         private readonly SynthWishes _synthWishes;
-        private readonly Outlet _wrappedOutlet;
+        private readonly Outlet _underlyingOutlet;
 
         public FlowNode(SynthWishes synthWishes, Outlet firstOperand)
         {
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-            _wrappedOutlet = firstOperand ?? throw new ArgumentNullException(nameof(firstOperand));
+            _underlyingOutlet = firstOperand ?? throw new ArgumentNullException(nameof(firstOperand));
             Operands = new FluentOperandList(this);
         }
 
         private string DebuggerDisplay => GetDebuggerDisplay(this);
 
-        public static implicit operator Outlet(FlowNode flowNode) => flowNode?._wrappedOutlet;
+        public static implicit operator Outlet(FlowNode flowNode) => flowNode?._underlyingOutlet;
 
-        public Outlet UnderlyingOutlet => _wrappedOutlet;
+        public Outlet UnderlyingOutlet => _underlyingOutlet;
+
+        public SynthWishes SynthWishes => _synthWishes;
     }
 
     // Value FlowNode

@@ -17,96 +17,96 @@ public partial class FlowNode
     /// <inheritdoc cref="docs._operand"/>
     public FlowNode A 
     { 
-        get => _[_wrappedOutlet.A()]; 
-        set => _wrappedOutlet.SetA(value); 
+        get => _[_underlyingOutlet.A()]; 
+        set => _underlyingOutlet.SetA(value); 
     }
     
     /// <inheritdoc cref="docs._operand"/>
     public FlowNode B
     {
-        get => _[_wrappedOutlet.B()];
-        set => _wrappedOutlet.SetB(value);
+        get => _[_underlyingOutlet.B()];
+        set => _underlyingOutlet.SetB(value);
     }
 
     /// <inheritdoc cref="docs._operand"/>
     public FlowNode Frequency
     {
-        get => _[_wrappedOutlet.Frequency()];
-        set => _wrappedOutlet.SetFrequency(value);
+        get => _[_underlyingOutlet.Frequency()];
+        set => _underlyingOutlet.SetFrequency(value);
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsFrequency => _wrappedOutlet.FrequencyIsSupported();
+    public bool SupportsFrequency => _underlyingOutlet.FrequencyIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FlowNode Pitch
     {
-        get => _[_wrappedOutlet.Pitch()];
-        set => _wrappedOutlet.SetPitch(value);
+        get => _[_underlyingOutlet.Pitch()];
+        set => _underlyingOutlet.SetPitch(value);
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsPitch => _wrappedOutlet.PitchIsSupported();
+    public bool SupportsPitch => _underlyingOutlet.PitchIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FlowNode Signal
     {
-        get => _[_wrappedOutlet.Signal()];
-        set => _wrappedOutlet.SetSignal(value);
+        get => _[_underlyingOutlet.Signal()];
+        set => _underlyingOutlet.SetSignal(value);
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsSignal => _wrappedOutlet.SignalIsSupported();
+    public bool SupportsSignal => _underlyingOutlet.SignalIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FlowNode Base
     {
-        get => _[_wrappedOutlet.Base()];
-        set => _wrappedOutlet.SetBase(value);
+        get => _[_underlyingOutlet.Base()];
+        set => _underlyingOutlet.SetBase(value);
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsBase => _wrappedOutlet.BaseIsSupported();
+    public bool SupportsBase => _underlyingOutlet.BaseIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FlowNode Exponent
     {
-        get => _[_wrappedOutlet.Exponent()];
-        set => _wrappedOutlet.SetExponent(value);
+        get => _[_underlyingOutlet.Exponent()];
+        set => _underlyingOutlet.SetExponent(value);
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsExponent => _wrappedOutlet.ExponentIsSupported();
+    public bool SupportsExponent => _underlyingOutlet.ExponentIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FlowNode TimeDifference
     {
-        get => _[_wrappedOutlet.TimeDifference()];
-        set => _wrappedOutlet.SetTimeDifference(value);
+        get => _[_underlyingOutlet.TimeDifference()];
+        set => _underlyingOutlet.SetTimeDifference(value);
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsTimeDifference => _wrappedOutlet.TimeDifferenceIsSupported();
+    public bool SupportsTimeDifference => _underlyingOutlet.TimeDifferenceIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FlowNode TimeScale
     {
-        get => _[_wrappedOutlet.TimeScale()];
-        set => _wrappedOutlet.SetTimeScale(value);
+        get => _[_underlyingOutlet.TimeScale()];
+        set => _underlyingOutlet.SetTimeScale(value);
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsTimeScale => _wrappedOutlet.TimeScaleIsSupported();
+    public bool SupportsTimeScale => _underlyingOutlet.TimeScaleIsSupported();
 
     /// <inheritdoc cref="docs._operand"/>
     public FlowNode SpeedFactor
     {
-        get => _[_wrappedOutlet.SpeedFactor()];
-        set => _wrappedOutlet.SetSpeedFactor(value);
+        get => _[_underlyingOutlet.SpeedFactor()];
+        set => _underlyingOutlet.SetSpeedFactor(value);
     }
 
     /// <inheritdoc cref="docs._operand"/>
-    public bool SupportsSpeedFactor => _wrappedOutlet.SpeedFactorIsSupported();
+    public bool SupportsSpeedFactor => _underlyingOutlet.SpeedFactorIsSupported();
 
     public FluentOperandList Operands { get; }
 }
@@ -553,7 +553,7 @@ public partial class FlowNode
     {
         [Obsolete("Rarely used because default origin 0 usually works. " +
                   "Otherwise consider use separate operators like Shift and Stretch instead.")]
-        public FlowNode Origin => _[_wrappedOutlet.Operator?.Inlets.ElementAtOrDefault(2)?.Input];
+        public FlowNode Origin => _[_underlyingOutlet.Operator?.Inlets.ElementAtOrDefault(2)?.Input];
     }
 
     /// <inheritdoc cref="docs._operand"/>

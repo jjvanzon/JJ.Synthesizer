@@ -142,6 +142,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
-        public int Complexity => _wrappedOutlet.Complexity();
+        public int Complexity => _underlyingOutlet.Complexity();
     }
 }

@@ -22,9 +22,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
-        public Result Validate(bool recursive = true) => _wrappedOutlet.Validate(recursive);
-        public void Assert(bool recursive = true) => _wrappedOutlet.Assert(recursive);
-        public IList<string> GetWarnings(bool recursive = true) => _wrappedOutlet.GetWarnings(recursive);
+        public Result Validate(bool recursive = true) => _underlyingOutlet.Validate(recursive);
+        public void Assert(bool recursive = true) => _underlyingOutlet.Assert(recursive);
+        public IList<string> GetWarnings(bool recursive = true) => _underlyingOutlet.GetWarnings(recursive);
     }
 
     public static class ValidationExtensionWishes
