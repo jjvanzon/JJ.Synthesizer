@@ -342,26 +342,26 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             switch (speakers)
             {
-                case Mono: return GetSubstituteSpeakerSetupMono();
-                case Stereo: return GetSubstituteSpeakerSetupStereo();
+                case Mono: return GetMonoSpeakerSetupSubstitute();
+                case Stereo: return GetStereoSpeakerSetupSubstitute();
                 default: throw new InvalidValueException(speakers);
             }
         }
         
-        private readonly object _substituteSpeakerSetupStereoLock = new object();
+        private readonly object _stereoSpeakerSetupSubstituteLock = new object();
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup _substituteSpeakerSetupStereo;
+        private SpeakerSetup _stereoSpeakerSetupSubstitute;
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup GetSubstituteSpeakerSetupStereo()
+        private SpeakerSetup GetStereoSpeakerSetupSubstitute()
         {
-            if (_substituteSpeakerSetupStereo != null)
+            if (_stereoSpeakerSetupSubstitute != null)
             {
-                return _substituteSpeakerSetupStereo;
+                return _stereoSpeakerSetupSubstitute;
             }
 
-            lock (_substituteSpeakerSetupStereoLock)
+            lock (_stereoSpeakerSetupSubstituteLock)
             {
                 var channelRepository = CreateRepository<IChannelRepository>(Context);
                 
@@ -389,26 +389,26 @@ namespace JJ.Business.Synthesizer.Wishes
                 right.SpeakerSetup = stereo;
                 stereo.SpeakerSetupChannels = new List<SpeakerSetupChannel> { left, right };
                 
-                _substituteSpeakerSetupStereo = stereo;
+                _stereoSpeakerSetupSubstitute = stereo;
                 
                 return stereo;
             }
         }
         
-        private readonly object _substituteSpeakerSetupMonoLock = new object();
+        private readonly object _monoSpeakerSetupSubstituteLock = new object();
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup _substituteSpeakerSetupMono;
+        private SpeakerSetup _monoSpeakerSetupSubstitute;
 
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup GetSubstituteSpeakerSetupMono()
+        private SpeakerSetup GetMonoSpeakerSetupSubstitute()
         {
-            if (_substituteSpeakerSetupMono != null)
+            if (_monoSpeakerSetupSubstitute != null)
             { 
-                return _substituteSpeakerSetupMono;
+                return _monoSpeakerSetupSubstitute;
             }
             
-            lock (_substituteSpeakerSetupMonoLock)
+            lock (_monoSpeakerSetupSubstituteLock)
             {
                 var channelRepository = CreateRepository<IChannelRepository>(Context);
                 
@@ -429,7 +429,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 center.SpeakerSetup = mono;
                 mono.SpeakerSetupChannels = new List<SpeakerSetupChannel> { center };
                 
-                _substituteSpeakerSetupMono = mono;
+                _monoSpeakerSetupSubstitute = mono;
                 
                 return mono;
             }
