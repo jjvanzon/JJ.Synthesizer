@@ -347,254 +347,149 @@ namespace JJ.Business.Synthesizer.Wishes
               "where the system is unaware of the SynthWishes object. " +
               "This is because of a design decision in the software, that might be corrected later.";
     }
+
+    // SynthWishes ConfigWishes
     
     public partial class SynthWishes
     {
         private ConfigResolver ConfigResolver { get; set; }
         
         private void InitializeConfigWishes() => ConfigResolver = new ConfigResolver();
-    }
-    
-    // AudioLength
 
-    public partial class SynthWishes
-    {
         public FlowNode GetAudioLength => ConfigResolver.GetAudioLength(this);
         public SynthWishes WithAudioLength(double newLength) { ConfigResolver.WithAudioLength(newLength, this); return this; }
         public SynthWishes WithAudioLength(FlowNode newLength) { ConfigResolver.WithAudioLength(newLength); return this; }
         public SynthWishes AddAudioLength(double additionalLength) { ConfigResolver.AddAudioLength(additionalLength, this); return this; }
         public SynthWishes AddAudioLength(FlowNode additionalLength) { ConfigResolver.AddAudioLength(additionalLength); return this; }
-    }
 
-    public partial class FlowNode
-    {
-        public FlowNode GetAudioLength => _synthWishes.GetAudioLength;
-        public FlowNode WithAudioLength(FlowNode newLength) { _synthWishes.WithAudioLength(newLength); return this; }
-        public FlowNode AddAudioLength(FlowNode additionalLength) { _synthWishes.AddAudioLength(additionalLength); return this; }
-    }
-
-    // Channel
-
-    public partial class SynthWishes
-    {
         public ChannelEnum Channel { get => ConfigResolver.Channel; set => ConfigResolver.Channel = value; }
         public int ChannelIndex { get => ConfigResolver.ChannelIndex; set => ConfigResolver.ChannelIndex = value; }
         public SynthWishes WithChannel(ChannelEnum channel) { ConfigResolver.WithChannel(channel); return this; }
         public SynthWishes WithLeft() { ConfigResolver.WithLeft(); return this; }
         public SynthWishes WithRight()  { ConfigResolver.WithRight(); return this; }
         public SynthWishes WithCenter()  { ConfigResolver.WithCenter(); return this; }
+
+        /// <inheritdoc cref="docs._resolvesamplingrate"/>
+        public int GetSamplingRate => ConfigResolver.GetSamplingRate;
+        /// <inheritdoc cref="docs._samplingrate" />
+        public SynthWishes WithSamplingRate(int value) { ConfigResolver.WithSamplingRate(value); return this; }
+
+        public int GetBits => ConfigResolver.GetBits;
+        public SynthWishes WithBits(int bits) { ConfigResolver.WithBits(bits); return this; }
+        public SynthWishes With32Bit() { ConfigResolver.With32Bit(); return this; }
+        public SynthWishes With16Bit() { ConfigResolver.With16Bit(); return this; }
+        public SynthWishes With8Bit() { ConfigResolver.With8Bit(); return this; }
+
+        public SpeakerSetupEnum GetSpeakers => ConfigResolver.GetSpeakers;
+        public SynthWishes WithSpeakers(SpeakerSetupEnum speakers) { ConfigResolver.WithSpeakers(speakers); return this; }
+        public SynthWishes WithMono() { ConfigResolver.WithMono(); return this; }
+        public SynthWishes WithStereo() { ConfigResolver.WithStereo(); return this; }
+        
+        public AudioFileFormatEnum GetAudioFormat => ConfigResolver.GetAudioFormat;
+        public SynthWishes WithAudioFormat(AudioFileFormatEnum audioFormat) { ConfigResolver.WithAudioFormat(audioFormat); return this; }
+        public SynthWishes AsWav() { ConfigResolver.AsWav(); return this; }
+        public SynthWishes AsRaw() { ConfigResolver.AsRaw(); return this; }
+
+        public InterpolationTypeEnum GetInterpolation => ConfigResolver.GetInterpolation;
+        public SynthWishes WithInterpolation(InterpolationTypeEnum interpolation) { ConfigResolver.WithInterpolation(interpolation); return this; }
+        public SynthWishes WithLinear() {ConfigResolver.WithLinear(); return this; }
+        public SynthWishes WithBlocky() { ConfigResolver.WithBlocky(); return this; }
+
+        [Obsolete(WarningSettingMayNotWork)]
+        public SynthWishes WithAudioPlayBack(bool? enabled = default) { ConfigResolver.WithAudioPlayBack(enabled); return this; }
+        public bool GetAudioPlayBack(string fileExtension = null) => ConfigResolver.GetAudioPlayBack(fileExtension);
+
+        public SynthWishes WithLeadingSilence(double? seconds = default) { ConfigResolver.WithLeadingSilence(seconds); return this; }
+        public double GetLeadingSilence => ConfigResolver.GetLeadingSilence;
+
+        public SynthWishes WithTrailingSilence(double? seconds = default) { ConfigResolver.WithTrailingSilence(seconds); return this; }
+        public double GetTrailingSilence => ConfigResolver.GetTrailingSilence;
+
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public bool GetDiskCaching => ConfigResolver.GetDiskCaching;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public SynthWishes WithDiskCaching(bool? enabled = default) { ConfigResolver.WithDiskCaching(enabled); return this; }
+
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public bool GetParallels => ConfigResolver.GetParallels;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public SynthWishes WithParallels(bool? enabled = default) { ConfigResolver.WithParallels(enabled); return this; }
+
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public bool GetPlayAllTapes => ConfigResolver.GetPlayAllTapes;
+        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
+        public SynthWishes WithPlayAllTapes(bool? enabled = default) { ConfigResolver.WithPlayAllTapes(enabled); return this; }
+
+        public bool GetMathOptimization => ConfigResolver.GetMathOptimization;
+        public SynthWishes WithMathOptimization(bool? enabled = default) { ConfigResolver.WithMathOptimization(enabled); return this; }
     }
+    
+    // FlowNode ConfigWishes
 
     public partial class FlowNode
     {
+        public FlowNode GetAudioLength => _synthWishes.GetAudioLength;
+        public FlowNode WithAudioLength(FlowNode newLength) { _synthWishes.WithAudioLength(newLength); return this; }
+        public FlowNode AddAudioLength(FlowNode additionalLength) { _synthWishes.AddAudioLength(additionalLength); return this; }
+
         public ChannelEnum Channel { get => _synthWishes.Channel; set => _synthWishes.Channel = value; }
         public int ChannelIndex { get => _synthWishes.ChannelIndex; set => _synthWishes.ChannelIndex = value; }
         public FlowNode WithChannel(ChannelEnum channel) { _synthWishes.WithChannel(channel); return this; }
         public FlowNode WithLeft()  { _synthWishes.WithLeft(); return this; }
         public FlowNode WithRight() { _synthWishes.WithRight(); return this; }
         public FlowNode WithCenter() { _synthWishes.WithCenter(); return this; }
-    }
-    
-    // SamplingRate
 
-    public partial class SynthWishes
-    {
-        /// <inheritdoc cref="docs._resolvesamplingrate"/>
-        public int GetSamplingRate => ConfigResolver.GetSamplingRate;
-        /// <inheritdoc cref="docs._samplingrate" />
-        public SynthWishes WithSamplingRate(int value) { ConfigResolver.WithSamplingRate(value); return this; }
-    }
-
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._resolvesamplingrate"/>
         public int GetSamplingRate => _synthWishes.GetSamplingRate;
         /// <inheritdoc cref="docs._samplingrate" />
         public FlowNode WithSamplingRate(int value) { _synthWishes.WithSamplingRate(value); return this; }
-    }
-    
-    // Bits
 
-    public partial class SynthWishes
-    {
-        public int GetBits => ConfigResolver.GetBits;
-        public SynthWishes WithBits(int bits) { ConfigResolver.WithBits(bits); return this; }
-        public SynthWishes With32Bit() { ConfigResolver.With32Bit(); return this; }
-        public SynthWishes With16Bit() { ConfigResolver.With16Bit(); return this; }
-        public SynthWishes With8Bit() { ConfigResolver.With8Bit(); return this; }
-    }
-
-    public partial class FlowNode
-    {
         public int GetBits => _synthWishes.GetBits;
         public FlowNode WithBits(int bits) { _synthWishes.WithBits(bits); return this; }
         public FlowNode With32Bit() { _synthWishes.With32Bit(); return this; }
         public FlowNode With16Bit() { _synthWishes.With16Bit(); return this; }
         public FlowNode With8Bit() { _synthWishes.With8Bit(); return this; }
-    }
 
-    // Speakers
-
-    public partial class SynthWishes
-    {
-        public SpeakerSetupEnum GetSpeakers => ConfigResolver.GetSpeakers;
-        public SynthWishes WithSpeakers(SpeakerSetupEnum speakers) { ConfigResolver.WithSpeakers(speakers); return this; }
-        public SynthWishes WithMono() { ConfigResolver.WithMono(); return this; }
-        public SynthWishes WithStereo() { ConfigResolver.WithStereo(); return this; }
-    }
-
-    public partial class FlowNode
-    {
         public SpeakerSetupEnum GetSpeakers => _synthWishes.GetSpeakers;
         public FlowNode WithSpeakers(SpeakerSetupEnum speakers) { _synthWishes.WithSpeakers(speakers); return this; }
         public FlowNode WithMono() { _synthWishes.WithMono(); return this; }
         public FlowNode WithStereo() { _synthWishes.WithStereo(); return this; }
-    }
 
-    // AudioFormat
-
-    public partial class SynthWishes
-    {
-        public AudioFileFormatEnum GetAudioFormat => ConfigResolver.GetAudioFormat;
-        public SynthWishes WithAudioFormat(AudioFileFormatEnum audioFormat) { ConfigResolver.WithAudioFormat(audioFormat); return this; }
-        public SynthWishes AsWav() { ConfigResolver.AsWav(); return this; }  
-        public SynthWishes AsRaw() { ConfigResolver.AsRaw(); return this; }
-    } 
-
-    public partial class FlowNode
-    {
         public AudioFileFormatEnum GetAudioFormat => _synthWishes.GetAudioFormat;
         public FlowNode WithAudioFormat(AudioFileFormatEnum audioFormat) { _synthWishes.WithAudioFormat(audioFormat); return this; }
         public FlowNode AsWav() { _synthWishes.AsWav(); return this; }
         public FlowNode AsRaw() { _synthWishes.AsRaw(); return this; }
-    }
 
-    // Interpolation
-
-    public partial class SynthWishes
-    {
-        public InterpolationTypeEnum GetInterpolation => ConfigResolver.GetInterpolation;
-        public SynthWishes WithInterpolation(InterpolationTypeEnum interpolation) { ConfigResolver.WithInterpolation(interpolation); return this; }
-        public SynthWishes WithLinear() {ConfigResolver.WithLinear(); return this; }
-        public SynthWishes WithBlocky() { ConfigResolver.WithBlocky(); return this; }
-    }
-
-    public partial class FlowNode
-    {
         public InterpolationTypeEnum GetInterpolation => _synthWishes.GetInterpolation;
         public FlowNode WithInterpolation(InterpolationTypeEnum interpolation) { _synthWishes.WithInterpolation(interpolation); return this; }
         public FlowNode WithLinear() { _synthWishes.WithLinear(); return this; }
         public FlowNode WithBlocky() { _synthWishes.WithBlocky(); return this; }
-    }
-    
-    // AudioPlayBack
-    
-    public partial class SynthWishes
-    {
-        [Obsolete(WarningSettingMayNotWork)]
-        public SynthWishes WithAudioPlayBack(bool? enabled = default) { ConfigResolver.WithAudioPlayBack(enabled); return this; }
-        public bool GetAudioPlayBack(string fileExtension = null) => ConfigResolver.GetAudioPlayBack(fileExtension);
-    }
-    
-    public partial class FlowNode
-    {
+
         [Obsolete(WarningSettingMayNotWork)]
         public FlowNode WithAudioPlayBack(bool? enabled = default) { _synthWishes.WithAudioPlayBack(enabled); return this; }
         public bool GetAudioPlayBack(string fileExtension = null) => _synthWishes.GetAudioPlayBack(fileExtension);
-    }
-    
-    // LeadingSilence
-    
-    public partial class SynthWishes
-    {
-        public SynthWishes WithLeadingSilence(double? seconds = default) { ConfigResolver.WithLeadingSilence(seconds); return this; }
-        public double GetLeadingSilence => ConfigResolver.GetLeadingSilence;
-    }
-    
-    public partial class FlowNode
-    {
+
         public FlowNode WithLeadingSilence(double? seconds = default) { _synthWishes.WithLeadingSilence(seconds); return this; }
         public double GetLeadingSilence => _synthWishes.GetLeadingSilence;
-    }
-    
-    // TrailingSilence
-    
-    public partial class SynthWishes
-    {
-        public SynthWishes WithTrailingSilence(double? seconds = default) { ConfigResolver.WithTrailingSilence(seconds); return this; }
-        public double GetTrailingSilence => ConfigResolver.GetTrailingSilence;
-    }
-    
-    public partial class FlowNode
-    {
+
         public FlowNode WithTrailingSilence(double? seconds = default) { _synthWishes.WithTrailingSilence(seconds); return this; }
         public double GetTrailingSilence => _synthWishes.GetTrailingSilence;
-    }
 
-    // DiskCaching
-
-    public partial class SynthWishes
-    {
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public bool GetDiskCaching => ConfigResolver.GetDiskCaching;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public SynthWishes WithDiskCaching(bool? enabled = default) { ConfigResolver.WithDiskCaching(enabled); return this; }
-    }
-
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public bool GetDiskCaching => _synthWishes.GetDiskCaching;
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public FlowNode WithDiskCaching(bool? enabled = default) { _synthWishes.WithDiskCaching(enabled); return this; }
-    }
 
-    // Parallels
-
-    public partial class SynthWishes
-    {
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public bool GetParallels => ConfigResolver.GetParallels;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public SynthWishes WithParallels(bool? enabled = default) { ConfigResolver.WithParallels(enabled); return this; }
-    }
-
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public bool GetParallels => _synthWishes.GetParallels;
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public FlowNode WithParallels(bool? enabled = default) { _synthWishes.WithParallels(enabled); return this; }
-    }
-    
-    // PlayAllTapes
 
-    public partial class SynthWishes
-    {
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public bool GetPlayAllTapes => ConfigResolver.GetPlayAllTapes;
-        /// <inheritdoc cref="docs._parallelsanddiskcaching" />
-        public SynthWishes WithPlayAllTapes(bool? enabled = default) { ConfigResolver.WithPlayAllTapes(enabled); return this; }
-    }
-
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public bool GetPlayAllTapes => _synthWishes.GetPlayAllTapes;
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public FlowNode WithPlayAllTapes(bool? enabled = default) { _synthWishes.WithPlayAllTapes(enabled); return this; }
-    }
-    
-    // MathOptimization
-    
-    public partial class SynthWishes
-    {
-        public bool GetMathOptimization => ConfigResolver.GetMathOptimization;
-        public SynthWishes WithMathOptimization(bool? enabled = default) { ConfigResolver.WithMathOptimization(enabled); return this; }
-    }
-    
-    public partial class FlowNode
-    {
+
         public FlowNode WithMathOptimization(bool? enabled = default) { _synthWishes.WithMathOptimization(enabled); return this; }
         public bool GetMathOptimization => _synthWishes.GetMathOptimization;
     }
