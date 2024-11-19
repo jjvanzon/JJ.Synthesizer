@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Write Audio
             //  TODO: Include fileExtension parameter with  GetToolingWarnings.
-            IList<string> toolingWarnings = new ToolingHelper(ConfigResolver).GetToolingWarnings();
+            IList<string> toolingWarnings = new ToolingHelper(_configResolver).GetToolingWarnings();
             
             var result = StreamAudio(
                 audioFileOutput,
