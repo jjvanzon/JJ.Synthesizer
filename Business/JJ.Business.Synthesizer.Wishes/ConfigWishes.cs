@@ -122,12 +122,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // SamplingRate
         
-        /// <inheritdoc cref="docs._samplingrate" />
+        /// <inheritdoc cref="docs._getsamplingrate" />
         private int _samplingRate;
-        /// <inheritdoc cref="docs._samplingrate" />
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public void WithSamplingRate(int value) => _samplingRate = value;
         
-        /// <inheritdoc cref="docs._resolvesamplingrate"/>
+        /// <inheritdoc cref="docs._withsamplingrate"/>
         public int GetSamplingRate
         {
             get
@@ -282,29 +282,29 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Parallels
         
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._parallels" />
         private bool? _parallels;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._parallels" />
         public bool GetParallels => _parallels ?? _section.Parallels ?? DefaultParallels;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._parallels" />
         public void WithParallels(bool? enabled = true) => _parallels = enabled;
         
         // DiskCacheOn
         
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._diskcacheon" />
         private bool? _diskCacheOn;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._diskcacheon" />
         public bool GetDiskCacheOn => _diskCacheOn ?? _section.DiskCacheOn ?? DefaultDiskCacheOn;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._diskcacheon" />
         public void WithDiskCacheOn(bool? enabled = true) =>  _diskCacheOn = enabled;
         
         // PlayAllTapes
         
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._playalltapes" />
         private bool? _playAllTapes;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._playalltapes" />
         public bool GetPlayAllTapes => _playAllTapes ?? _section.PlayAllTapes ?? DefaultPlayAllTapes;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._playalltapes" />
         public void WithPlayAllTapes(bool? enabled = true) => _playAllTapes = enabled;
         
         // Tooling
@@ -403,9 +403,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes WithRight()  { _configResolver.WithRight(); return this; }
         public SynthWishes WithCenter()  { _configResolver.WithCenter(); return this; }
         
-        /// <inheritdoc cref="docs._resolvesamplingrate"/>
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public int GetSamplingRate => _configResolver.GetSamplingRate;
-        /// <inheritdoc cref="docs._samplingrate" />
+        /// <inheritdoc cref="docs._withsamplingrate"/>
         public SynthWishes WithSamplingRate(int value) { _configResolver.WithSamplingRate(value); return this; }
         
         public AudioFileFormatEnum GetAudioFormat => _configResolver.GetAudioFormat;
@@ -441,19 +441,19 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetMathBoost => _configResolver.GetMathBoost;
         public SynthWishes WithMathBoost(bool? enabled = true) { _configResolver.WithMathBoost(enabled); return this; }
         
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._parallels" />
         public bool GetParallels => _configResolver.GetParallels;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._parallels" />
         public SynthWishes WithParallels(bool? enabled = true) { _configResolver.WithParallels(enabled); return this; }
 
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._diskcacheon" />
         public bool GetDiskCacheOn => _configResolver.GetDiskCacheOn;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._diskcacheon" />
         public SynthWishes WithDiskCacheOn(bool? enabled = true) { _configResolver.WithDiskCacheOn(enabled); return this; }
 
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._playalltapes" />
         public bool GetPlayAllTapes => _configResolver.GetPlayAllTapes;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._playalltapes" />
         public SynthWishes WithPlayAllTapes(bool? enabled = true) { _configResolver.WithPlayAllTapes(enabled); return this; }
     }
     
@@ -480,10 +480,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode WithLeft()  { _synthWishes.WithLeft(); return this; }
         public FlowNode WithRight() { _synthWishes.WithRight(); return this; }
         public FlowNode WithCenter() { _synthWishes.WithCenter(); return this; }
-
-        /// <inheritdoc cref="docs._resolvesamplingrate"/>
+        
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public int GetSamplingRate => _synthWishes.GetSamplingRate;
-        /// <inheritdoc cref="docs._samplingrate" />
+        /// <inheritdoc cref="docs._withsamplingrate"/>
         public FlowNode WithSamplingRate(int value) { _synthWishes.WithSamplingRate(value); return this; }
 
         public AudioFileFormatEnum GetAudioFormat => _synthWishes.GetAudioFormat;
@@ -517,19 +517,19 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetMathBoost => _synthWishes.GetMathBoost;
         public FlowNode WithMathBoost(bool? enabled = true) { _synthWishes.WithMathBoost(enabled); return this; }
         
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._parallels" />
         public bool GetParallels => _synthWishes.GetParallels;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._parallels" />
         public FlowNode WithParallels(bool? enabled = true) { _synthWishes.WithParallels(enabled); return this; }
 
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._diskcacheon" />
         public bool GetDiskCacheOn => _synthWishes.GetDiskCacheOn;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._diskcacheon" />
         public FlowNode WithDiskCacheOn(bool? enabled = true) { _synthWishes.WithDiskCacheOn(enabled); return this; }
 
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._playalltapes" />
         public bool GetPlayAllTapes => _synthWishes.GetPlayAllTapes;
-        /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
+        /// <inheritdoc cref="docs._playalltapes" />
         public FlowNode WithPlayAllTapes(bool? enabled = true) { _synthWishes.WithPlayAllTapes(enabled); return this; }
     }
 }

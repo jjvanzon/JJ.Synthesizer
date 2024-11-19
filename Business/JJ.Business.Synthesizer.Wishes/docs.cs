@@ -156,6 +156,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </param>
         /// <returns> An Outlet representing the output sound. </returns>
         public static object _default;
+        
+        /// <inheritdoc cref="_parallelsanddiskcache" />
+        public static object _diskcacheon;
 
         /// <summary>
         /// Applies an echo effect using a feedback loop.
@@ -269,6 +272,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         public static object _operand;
         
+        /// <inheritdoc cref="_parallelsanddiskcache" />
+        public static object _playalltapes;
+        
         /// <summary>
         /// Extensions that are wishes for the back-end related that retrieve related objects like the Operator, Curve or Sample entities.
         /// </summary>
@@ -288,7 +294,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// This is usually for testing purposes.
         /// Prefer using the <c>.config</c> file instead.<br/>
         /// </summary>
-        public static object _resolvesamplingrate;
+        public static object _withsamplingrate;
 
         /// <summary>
         /// Back-end will need bytes wrapped in a Stream and will read it back into a byte[] again.
@@ -338,6 +344,19 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <see cref="Outlet">Outlet</see> (as <see cref="FlowNode">FlowNode</see>).
         /// </returns>
         public static object _paralleladd;
+        
+        /// <inheritdoc cref="_parallelsanddiskcache" />
+        public static object _parallels;
+
+        /// <summary>
+        /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
+        /// other parallel tasks for testing purposes.<br/>
+        /// DiskCacheOn controls whether the tapes will be cached to disk instead of memory,
+        /// in case of which it also doesn't clean up the files. Mostly for testing purposes.
+        /// But could be used in low-memory high-disk-space scenarios.<br/>
+        /// With the Parallels setting you can turn off parallel processing completely.
+        /// </summary>
+        public static object _parallelsanddiskcache;
 
         /// <summary>
         /// Can get persistence configuration from config, or otherwise falls back
@@ -382,7 +401,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Overrides the default sampling rate from the config file (for testing purposes).
         /// If you set it back to default it will use the config again, e.g. WithSamplingRate(default).
         /// </summary>
-        public static object _samplingrate;
+        public static object _getsamplingrate;
 
         /// <summary>
         /// Outputs audio in an audio file format and plays it if needed.<br />
@@ -540,13 +559,5 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <returns> An <see cref="Outlet" /> object representing the frequency modulated with vibrato. </returns>
         /// <inheritdoc cref="_default" />
         public static object _vibrato;
-
-        /// <summary>
-        /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
-        /// other parallel tasks for testing purposes.
-        /// Also, doesn't clean up the files. Also for testing purposes.
-        /// Can also be controlled through the two separate options WithPlayAllTapes and WithSaveParallels.
-        /// </summary>
-        public static object _parallelsanddiskcacheon;
     }
 }
