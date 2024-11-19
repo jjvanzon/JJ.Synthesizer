@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            filePath = synthWishes.FetchName(result?.Data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            filePath = synthWishes.FetchName(result?.Data?.FilePath, callerMemberName, explicitName: filePath);
             
             SynthWishes.StreamAudio(
                 result, 
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            filePath = synthWishes.FetchName(data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            filePath = synthWishes.FetchName(data?.FilePath, callerMemberName, explicitName: filePath);
             
             SynthWishes.StreamAudio(
                 data, 
@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Result<StreamAudioData> result,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            filePath = _synthWishes.FetchName(result?.Data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            filePath = _synthWishes.FetchName(result?.Data?.FilePath, callerMemberName, explicitName: filePath);
 
             SynthWishes.StreamAudio(
                 result, 
@@ -205,7 +205,7 @@ namespace JJ.Business.Synthesizer.Wishes
             StreamAudioData data, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            filePath = _synthWishes.FetchName(data?.AudioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            filePath = _synthWishes.FetchName(data?.FilePath, callerMemberName, explicitName: filePath);
             
             SynthWishes.StreamAudio(
                 data, 

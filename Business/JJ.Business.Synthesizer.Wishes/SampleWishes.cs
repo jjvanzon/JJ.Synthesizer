@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (data == null) throw new NullException(() => data);
             return SampleBase(
-                null, data.Bytes, data.AudioFileOutput?.FilePath, 
+                null, data.Bytes, data.FilePath, 
                 bytesToSkip, name, callerMemberName);
         }
                 

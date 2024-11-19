@@ -87,13 +87,12 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static Result InternalPlay(SynthWishes synthWishes, StreamAudioData data)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
-            if (data.AudioFileOutput == null) throw new NullException(() => data.AudioFileOutput);
             
             return InternalPlay(
                 synthWishes,
-                data.AudioFileOutput.FilePath,
+                data.FilePath,
                 data.Bytes,
-                data.AudioFileOutput.GetFileExtension());
+                Path.GetExtension(data.FilePath));
         }
         
         

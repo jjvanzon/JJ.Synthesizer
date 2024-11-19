@@ -167,7 +167,6 @@ namespace JJ.Business.Synthesizer.Wishes
             //name = StaticFetchName(name, entity.Name, callerMemberName);
             name = StaticFetchName(name, callerMemberName);
             entity.Name = name;
-            entity.FilePath = FormatAudioFileName(name, entity.GetAudioFileFormatEnum());            
 
             // Assert
             
@@ -204,7 +203,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Inject a file stream
                 // (CreateSafeFileStream numbers files to prevent file name contention
                 //  It does so in a thread-safe, interprocess-safe way.)
-                (string filePath, FileStream fileStream) = CreateSafeFileStream(entity.FilePath);
+                string suggestedFilePath = FormatAudioFileName(name, entity.GetAudioFileFormatEnum());
+                (string filePath, FileStream fileStream) = CreateSafeFileStream(suggestedFilePath);
                 calculatorAccessor._stream = fileStream;
                 entity.FilePath = filePath;
             }
@@ -220,7 +220,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 Successful = true,
                 ValidationMessages = warnings.ToCanonical(),
-                Data = new StreamAudioData(entity, bytes)
+                Data = new StreamAudioData(entity, bytes, entity.FilePath)
             };
 
             // Report
@@ -327,9 +327,9 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 lines.Add($"{PrettyByteCount(result.Data.Bytes.Length)} written to memory.");
             }
-            if (File.Exists(result.Data.AudioFileOutput.FilePath))
+            if (File.Exists(result.Data.FilePath)) // TODO: Remove the if. It may be redundant now.
             {
-                lines.Add($"Output file: {Path.GetFullPath(result.Data.AudioFileOutput.FilePath)}");
+                lines.Add($"Output file: {Path.GetFullPath(result.Data.FilePath)}");
             }
 
             lines.Add("");
@@ -482,12 +482,18 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveresultbytes"/>
         public byte[] Bytes { get; }
-
+        
+        public string FilePath { get; }
+        
         /// <inheritdoc cref="docs._saveresultbytes"/>
-        public StreamAudioData(AudioFileOutput audioFileOutput, byte[] bytes)
+        public StreamAudioData(
+            AudioFileOutput audioFileOutput, 
+            byte[] bytes,
+            string filePath)
         {
             AudioFileOutput = audioFileOutput ?? throw new ArgumentNullException(nameof(audioFileOutput));
             Bytes = bytes;
+            FilePath = filePath;
         }
     }
 }
