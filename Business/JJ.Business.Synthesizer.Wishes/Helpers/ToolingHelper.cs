@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using static System.Environment;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkCommonWishes;
 // ReSharper disable RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
@@ -71,10 +72,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return isInCategory;
         }
         
-        // TODO: Move to FrameworkWishes.cs?
-        private static bool EnvironmentVariableIsDefined(string environmentVariableName, string environmentVariableValue)
-            => string.Equals(GetEnvironmentVariable(environmentVariableName), environmentVariableValue, StringComparison.OrdinalIgnoreCase);
-
         // Warnings
         
         public IList<string> GetToolingWarnings(string fileExtension = null)

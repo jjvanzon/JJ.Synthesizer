@@ -103,7 +103,13 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public static string PrettyTime() => PrettyTime(DateTime.Now);
         public static string PrettyTime(DateTime dateTime) => $"{dateTime:HH:mm:ss.fff}";
     }
-
+    
+    internal static class FrameworkCommonWishes
+    {
+        public static bool EnvironmentVariableIsDefined(string environmentVariableName, string environmentVariableValue)
+            => string.Equals(GetEnvironmentVariable(environmentVariableName), environmentVariableValue, StringComparison.OrdinalIgnoreCase);
+    }
+    
     internal static class FrameworkCollectionWishes
     { 
         public static TimeSpan Sum(this IEnumerable<TimeSpan> timeSpans)
