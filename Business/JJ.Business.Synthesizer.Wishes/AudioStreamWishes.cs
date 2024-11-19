@@ -158,23 +158,23 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         internal static Result<StreamAudioData> StreamAudio(
-            AudioFileOutput entity, 
+            AudioFileOutput audioFileOutput, 
             bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
 
             //name = StaticFetchName(name, entity.Name, callerMemberName);
             name = StaticFetchName(name, callerMemberName);
-            entity.Name = name;
+            audioFileOutput.Name = name;
 
             // Assert
             
             #if DEBUG
-            entity.Assert();
+            audioFileOutput.Assert();
             #endif
             
-            foreach (var audioFileOutputChannel in entity.AudioFileOutputChannels)
+            foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
             {
                 audioFileOutputChannel.Outlet?.Assert();
             }
@@ -182,20 +182,20 @@ namespace JJ.Business.Synthesizer.Wishes
             // Warnings
             var warnings = new List<string>();
             warnings.AddRange(additionalMessages);
-            foreach (var audioFileOutputChannel in entity.AudioFileOutputChannels)
+            foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
             {
                 warnings.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
             }
-            warnings.AddRange(entity.GetWarnings());
+            warnings.AddRange(audioFileOutput.GetWarnings());
 
             // Inject stream where back-end originally created it internally.
             byte[] bytes = null;
-            var calculator = CreateAudioFileOutputCalculator(entity);
+            var calculator = CreateAudioFileOutputCalculator(audioFileOutput);
             var calculatorAccessor = new AudioFileOutputCalculatorAccessor(calculator);
             if (inMemory)
             {
                 // Inject an in-memory stream/
-                bytes = new byte[entity.GetFileLengthNeeded()];
+                bytes = new byte[audioFileOutput.GetFileLengthNeeded()];
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
             else 
@@ -203,10 +203,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Inject a file stream
                 // (CreateSafeFileStream numbers files to prevent file name contention
                 //  It does so in a thread-safe, interprocess-safe way.)
-                string suggestedFilePath = FormatAudioFileName(name, entity.GetAudioFileFormatEnum());
+                string suggestedFilePath = FormatAudioFileName(name, audioFileOutput.GetAudioFileFormatEnum());
                 (string filePath, FileStream fileStream) = CreateSafeFileStream(suggestedFilePath);
                 calculatorAccessor._stream = fileStream;
-                entity.FilePath = filePath;
+                audioFileOutput.FilePath = filePath;
             }
 
             // Calculate
@@ -220,7 +220,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 Successful = true,
                 ValidationMessages = warnings.ToCanonical(),
-                Data = new StreamAudioData(bytes, entity.FilePath, entity)
+                Data = new StreamAudioData(bytes, audioFileOutput.FilePath, audioFileOutput)
             };
 
             // Report
