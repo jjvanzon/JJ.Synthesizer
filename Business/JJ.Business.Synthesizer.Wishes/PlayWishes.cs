@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal static Result InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension)
         {
-            ConfigResolver configResolver = synthWishes?.ConfigResolver ?? DefaultConfigResolver;
+            ConfigResolver configResolver = synthWishes?.ConfigResolver ?? new ConfigResolver();
             
             bool mustPlay = configResolver.GetAudioPlayBack(fileExtension);
             

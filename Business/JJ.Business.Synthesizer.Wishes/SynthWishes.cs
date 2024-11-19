@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
@@ -48,14 +47,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private static string FormatRealTimeMessage(double audioDuration, double calculationDuration)
         {
-            var isRunningInTooling = ToolingHelper.IsRunningInTooling;
-            if (isRunningInTooling)
-            {
-                // If running in tooling, omitting the performance message from the result,
-                // because it has little meaning with sampling rates  below 150
-                // that are employed for tooling by default, to keep them running fast.
-                return default;
-            }
+            //var isRunningInTooling = ToolingHelper.IsRunningInTooling;
+            //if (isRunningInTooling)
+            //{
+            //    // If running in tooling, omitting the performance message from the result,
+            //    // because it has little meaning with sampling rates  below 150
+            //    // that are employed for tooling by default, to keep them running fast.
+            //    return default;
+            //}
 
             double realTimePercent = audioDuration / calculationDuration* 100;
 

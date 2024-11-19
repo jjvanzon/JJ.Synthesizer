@@ -106,11 +106,13 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channelInputs, name);
             
             // Write Audio
+            //  TODO: Include fileExtension parameter with  GetToolingWarnings.
+            IList<string> toolingWarnings = new ToolingHelper(ConfigResolver).GetToolingWarnings();
+            
             var result = StreamAudio(
                 audioFileOutput,
                 inMemory,
-                //  TODO: Include fileExtension parameter with  GetToolingWarnings.
-                additionalMessages.Union(ToolingHelper.GetToolingWarnings()).ToArray(),
+                additionalMessages.Union(toolingWarnings).ToArray(),
                 name);
             
             return result;

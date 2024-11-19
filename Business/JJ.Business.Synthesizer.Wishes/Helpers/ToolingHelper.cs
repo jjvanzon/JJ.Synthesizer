@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using static System.Environment;
@@ -12,45 +11,16 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     internal class ToolingHelper
     {
-        private const string NCrunchEnvironmentVariableName = "NCrunch";
-        private const string AzurePipelinesEnvironmentVariableValue = "True";
-        private const string AzurePipelinesEnvironmentVariableName = "TF_BUILD";
-        private const string NCrunchEnvironmentVariableValue = "1";
+        public const string NCrunchEnvironmentVariableName = "NCrunch";
+        public const string AzurePipelinesEnvironmentVariableValue = "True";
+        public const string AzurePipelinesEnvironmentVariableName = "TF_BUILD";
+        public const string NCrunchEnvironmentVariableValue = "1";
         
         private readonly ConfigResolver _configResolver;
         
         public ToolingHelper(ConfigResolver configResolver)
         {
             _configResolver = configResolver ?? throw new ArgumentNullException(nameof(configResolver));
-        }
-        
-        public static bool IsRunningInTooling => IsUnderNCrunch || IsUnderAzurePipelines;
-        
-        public static bool IsUnderNCrunch
-        {
-            get
-            {
-                if (ConfigHelper.NCrunch.Impersonate)
-                {
-                    return true;
-                }
-                
-                bool isUnderNCrunch = EnvironmentVariableIsDefined(NCrunchEnvironmentVariableName, NCrunchEnvironmentVariableValue);
-                return isUnderNCrunch;
-            }
-        }
-        
-        public static bool IsUnderAzurePipelines
-        {
-            get
-            {
-                if (ConfigHelper.AzurePipelines.Impersonate)
-                {
-                    return true;
-                }                
-                bool isUnderAzurePipelines = EnvironmentVariableIsDefined(AzurePipelinesEnvironmentVariableName, AzurePipelinesEnvironmentVariableValue);
-                return isUnderAzurePipelines;
-            }
         }
         
         // ReSharper disable AssignNullToNotNullAttribute
@@ -71,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             return isInCategory;
         }
-        
+
         // Warnings
         
         public IList<string> GetToolingWarnings(string fileExtension = null)
@@ -80,22 +50,22 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             // Running Under Tooling
             
-            if (ConfigHelper.NCrunch.Impersonate)
+            if (_configResolver.GetImpersonateNCrunch)
             {
                 list.Add("Pretending to be NCrunch.");
             }
             
-            if (IsUnderNCrunch)
+            if (_configResolver.IsUnderNCrunch)
             {
                 list.Add($"Environment variable {NCrunchEnvironmentVariableName} = {NCrunchEnvironmentVariableValue}");
             }
             
-            if (ConfigHelper.AzurePipelines.Impersonate)
+            if (_configResolver.GetImpersonateAzurePipelines)
             {
                 list.Add("Pretending to be Azure Pipelines.");
             }
             
-            if (IsUnderAzurePipelines)
+            if (_configResolver.IsUnderAzurePipelines)
             {
                 list.Add($"Environment variable {AzurePipelinesEnvironmentVariableName} = {AzurePipelinesEnvironmentVariableValue} (Azure Pipelines)");
             }

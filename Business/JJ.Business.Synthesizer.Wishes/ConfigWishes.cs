@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
-using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.ConfigResolver;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkCommonWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkConfigurationWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.ToolingHelper;
+// ReSharper disable RedundantNameQualifier
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -45,25 +46,25 @@ namespace JJ.Business.Synthesizer.Wishes
     
     internal class ConfigResolver
     {
-        public const bool                  DefaultAudioPlayBack    = true;
-        public const double                DefaultLeadingSilence   = 0.25;
-        public const double                DefaultTrailingSilence  = 0.25;
-        public const int                   DefaultSamplingRate     = 48000;
-        public const SpeakerSetupEnum      DefaultSpeakers         = Mono;
-        public const int                   DefaultBits             = 32;
-        public const AudioFileFormatEnum   DefaultAudioFormat      = Wav;
-        public const InterpolationTypeEnum DefaultInterpolation    = Line;
-        public const double                DefaultAudioLength      = 1;
-        public const bool                  DefaultPlayAllTapes     = false;
-        public const bool                  DefaultParallels        = true;
-        public const bool                  DefaultMathOptimization = true;
-        public const bool                  DefaultDiskCaching      = false;
-        public const string                DefaultLongTestCategory = "Long";
+        private const bool                  DefaultAudioPlayBack    = true;
+        private const double                DefaultLeadingSilence   = 0.25;
+        private const double                DefaultTrailingSilence  = 0.25;
+        private const int                   DefaultSamplingRate     = 48000;
+        private const SpeakerSetupEnum      DefaultSpeakers         = Mono;
+        private const int                   DefaultBits             = 32;
+        private const AudioFileFormatEnum   DefaultAudioFormat      = Wav;
+        private const InterpolationTypeEnum DefaultInterpolation    = Line;
+        private const double                DefaultAudioLength      = 1;
+        private const bool                  DefaultPlayAllTapes     = false;
+        private const bool                  DefaultParallels        = true;
+        private const bool                  DefaultMathOptimization = true;
+        private const bool                  DefaultDiskCaching      = false;
+        private const string                DefaultLongTestCategory = "Long";
         
-        public const int                   DefaultToolingSamplingRate            = 150;
-        public const int                   DefaultToolingSamplingRateLongRunning = 30;
-        public const bool                  DefaultToolingAudioPlayBack           = false;
-        public const bool                  DefaultToolingImpersonate             = false;
+        private const int                   DefaultToolingSamplingRate            = 150;
+        private const int                   DefaultToolingSamplingRateLongRunning = 30;
+        private const bool                  DefaultToolingAudioPlayBack           = false;
+        private const bool                  DefaultToolingImpersonate             = false;
         
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
@@ -79,12 +80,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 return false;
             }
             
-            if (ToolingHelper.IsUnderNCrunch)
+            if (IsUnderNCrunch)
             {
                 return _section.NCrunch.AudioPlayBack ?? DefaultToolingAudioPlayBack;
             }
             
-            if (ToolingHelper.IsUnderAzurePipelines)
+            if (IsUnderAzurePipelines)
             {
                 return _section.AzurePipelines.AudioPlayBack ?? DefaultToolingAudioPlayBack;
             }
@@ -221,9 +222,9 @@ namespace JJ.Business.Synthesizer.Wishes
                     return _samplingRate;
                 }
                 
-                if (ToolingHelper.IsUnderNCrunch)
+                if (IsUnderNCrunch)
                 {
-                    bool testIsLong = ToolingHelper.CurrentTestIsInCategory(GetLongTestCategory);
+                    bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
                     
                     if (testIsLong)
                     {
@@ -235,9 +236,9 @@ namespace JJ.Business.Synthesizer.Wishes
                     }
                 }
                 
-                if (ToolingHelper.IsUnderAzurePipelines)
+                if (IsUnderAzurePipelines)
                 {
-                    bool testIsLong = ToolingHelper.CurrentTestIsInCategory(GetLongTestCategory);
+                    bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
                     
                     if (testIsLong)
                     {
@@ -290,8 +291,40 @@ namespace JJ.Business.Synthesizer.Wishes
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             AddAudioLength(synthWishes._[additionalLength]);
         }
-
-        // Persistence Configuration
+        
+        // Tooling
+        
+        internal bool GetImpersonateNCrunch => _section.NCrunch.Impersonate ?? DefaultToolingImpersonate;
+        internal bool GetImpersonateAzurePipelines => _section.AzurePipelines.Impersonate ?? DefaultToolingImpersonate;
+        
+        public bool IsUnderNCrunch
+        {
+            get
+            {
+                if (GetImpersonateNCrunch)
+                {
+                    return true;
+                }
+                
+                bool isUnderNCrunch = EnvironmentVariableIsDefined(NCrunchEnvironmentVariableName, NCrunchEnvironmentVariableValue);
+                return isUnderNCrunch;
+            }
+        }
+        
+        public bool IsUnderAzurePipelines
+        {
+            get
+            {
+                if (GetImpersonateAzurePipelines)
+                {
+                    return true;
+                }
+                bool isUnderAzurePipelines = EnvironmentVariableIsDefined(AzurePipelinesEnvironmentVariableName, AzurePipelinesEnvironmentVariableValue);
+                return isUnderAzurePipelines;
+            }
+        }
+        
+        // Persistence Config
         
         public static PersistenceConfiguration PersistenceConfigurationOrDefault { get; } 
             = TryGetSection<PersistenceConfiguration>() ?? GetDefaultInMemoryConfiguration();
@@ -317,31 +350,9 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        internal static ConfigResolver DefaultConfigResolver { get; } = new ConfigResolver();
+        private ConfigResolver ConfigResolver { get; set; }
         
-        internal ConfigResolver ConfigResolver { get; private set; }
-        internal ToolingHelper ToolingHelper { get; private set; }
-        
-        private void InitializeConfigWishes()
-        {
-            ConfigResolver = new ConfigResolver();
-            ToolingHelper = new ToolingHelper(ConfigResolver);
-        }
-    }
-
-    /// <inheritdoc cref="docs._confighelper"/>
-    internal static class ConfigHelper
-    {
-        private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
-        public static ConfigToolingElementWithDefaults AzurePipelines { get; } = new ConfigToolingElementWithDefaults(_section.AzurePipelines);
-        public static ConfigToolingElementWithDefaults NCrunch { get; } = new ConfigToolingElementWithDefaults(_section.NCrunch);
-    }
-    
-    public class ConfigToolingElementWithDefaults
-    {
-        private readonly ConfigToolingElement _baseConfig;
-        internal ConfigToolingElementWithDefaults(ConfigToolingElement baseConfig) => _baseConfig = baseConfig;
-        public bool Impersonate => _baseConfig.Impersonate ?? DefaultToolingImpersonate;
+        private void InitializeConfigWishes() => ConfigResolver = new ConfigResolver();
     }
     
     // AudioLength
