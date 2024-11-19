@@ -252,7 +252,6 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         internal static ConfigResolver DefaultConfigResolver { get; } = new ConfigResolver();
-        internal static ToolingHelper DefaultToolingHelper { get; } = new ToolingHelper(DefaultConfigResolver);
         
         internal ConfigResolver ConfigResolver { get; } = new ConfigResolver();
         internal ToolingHelper ToolingHelper { get; private set; }
@@ -267,21 +266,17 @@ namespace JJ.Business.Synthesizer.Wishes
     internal static class ConfigHelper
     {
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
-        
         public static ConfigToolingElementWithDefaults AzurePipelines { get; } = new ConfigToolingElementWithDefaults(_section.AzurePipelines);
         public static ConfigToolingElementWithDefaults NCrunch { get; } = new ConfigToolingElementWithDefaults(_section.NCrunch);
     }
-
+    
     public class ConfigToolingElementWithDefaults
     {
         private readonly ConfigToolingElement _baseConfig;
-            
         internal ConfigToolingElementWithDefaults(ConfigToolingElement baseConfig) => _baseConfig = baseConfig;
-        
-        public bool AudioPlayBack           => _baseConfig.AudioPlayBack           ?? DefaultToolingAudioPlayBack;
-        public bool Impersonate             => _baseConfig.Impersonate             ?? DefaultToolingImpersonate;
+        public bool Impersonate => _baseConfig.Impersonate ?? DefaultToolingImpersonate;
     }
-
+    
     public partial class SynthWishes
     {
         private static readonly ConfigSection _configSection 
