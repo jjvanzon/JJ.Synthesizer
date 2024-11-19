@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             // Running Under Tooling
             
-            if (_configResolver.GetImpersonateNCrunch)
+            if (_configResolver.GetNCrunchImpersonation)
             {
                 list.Add("Pretending to be NCrunch.");
             }
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 list.Add($"Environment variable {NCrunchEnvironmentVariableName} = {NCrunchEnvironmentVariableValue}");
             }
             
-            if (_configResolver.GetImpersonateAzurePipelines)
+            if (_configResolver.GetAzurePipelinesImpersonation)
             {
                 list.Add("Pretending to be Azure Pipelines.");
             }
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             // Audio Disabled
             
-            if (!_configResolver.GetAudioPlayBack(fileExtension))
+            if (!_configResolver.GetPlayBack(fileExtension))
             {
                 list.Add("Audio disabled");
             }

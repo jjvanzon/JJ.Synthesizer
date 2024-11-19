@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Flute_Melody1_RunTest()
         {
-            WithAudioPlayBack();
+            WithPlayBack();
             var result = Save(() => MildEcho(FluteMelody1) * 0.5);
             this.Play(result);
         }

@@ -13,6 +13,8 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.ToolingHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    // Config XML
+    
     internal class ConfigSection
     {
         // Audio Quality
@@ -31,8 +33,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Feature Toggles
         
-        [XmlAttribute] public bool? AudioPlayBack { get; set; }
-        [XmlAttribute] public bool? MathOptimization { get; set; }
+        [XmlAttribute] public bool? PlayBack { get; set; }
+        [XmlAttribute] public bool? MathBoost { get; set; }
         [XmlAttribute] public bool? Parallels { get; set; }
         [XmlAttribute] public bool? DiskCaching { get; set; }
         [XmlAttribute] public bool? PlayAllTapes { get; set; }
@@ -48,8 +50,8 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         [XmlAttribute] public int? SamplingRate { get; set; }
         [XmlAttribute] public int? SamplingRateLongRunning { get; set; }
-        [XmlAttribute] public bool? AudioPlayBack { get; set; }
-        [XmlAttribute] public bool? Impersonate { get; set; }
+        [XmlAttribute] public bool? PlayBack { get; set; }
+        [XmlAttribute] public bool? Impersonation { get; set; }
     }
     
     // ConfigResolver
@@ -60,33 +62,33 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Audio Quality
         
-        private const int                   DefaultBits             = 32;
-        private const SpeakerSetupEnum      DefaultSpeakers         = Mono;
-        private const int                   DefaultSamplingRate     = 48000;
-        private const AudioFileFormatEnum   DefaultAudioFormat      = Wav;
-        private const InterpolationTypeEnum DefaultInterpolation    = Line;
+        private const int                   DefaultBits          = 32;
+        private const SpeakerSetupEnum      DefaultSpeakers      = Mono;
+        private const int                   DefaultSamplingRate  = 48000;
+        private const AudioFileFormatEnum   DefaultAudioFormat   = Wav;
+        private const InterpolationTypeEnum DefaultInterpolation = Line;
         
         // Audio Lengths
         
-        private const double                DefaultAudioLength      = 1;
-        private const double                DefaultLeadingSilence   = 0.25;
-        private const double                DefaultTrailingSilence  = 0.25;
+        private const double                DefaultAudioLength     = 1;
+        private const double                DefaultLeadingSilence  = 0.25;
+        private const double                DefaultTrailingSilence = 0.25;
         
         // Feature Toggles
         
-        private const bool                  DefaultAudioPlayBack    = true;
-        private const bool                  DefaultMathOptimization = true;
-        private const bool                  DefaultParallels        = true;
-        private const bool                  DefaultDiskCaching      = false;
-        private const bool                  DefaultPlayAllTapes     = false;
+        private const bool                  DefaultPlayBack     = true;
+        private const bool                  DefaultMathBoost    = true;
+        private const bool                  DefaultParallels    = true;
+        private const bool                  DefaultDiskCaching  = false;
+        private const bool                  DefaultPlayAllTapes = false;
         
         // Tooling
         
         private const string                DefaultLongTestCategory               = "Long";
         private const int                   DefaultToolingSamplingRate            = 150;
         private const int                   DefaultToolingSamplingRateLongRunning = 30;
-        private const bool                  DefaultToolingAudioPlayBack           = false;
-        private const bool                  DefaultToolingImpersonate             = false;
+        private const bool                  DefaultToolingPlayBack                = false;
+        private const bool                  DefaultToolingImpersonation           = false;
         
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
@@ -239,26 +241,26 @@ namespace JJ.Business.Synthesizer.Wishes
             
         // Feature Toggles
         
-        // AudioPlayBack
+        // PlayBack
         
-        private bool? _audioPlayBack;
-        [Obsolete(WarningSettingMayNotWork)] public void WithAudioPlayBack(bool? value) => _audioPlayBack = value;
-        public bool GetAudioPlayBack(string fileExtension = null)
+        private bool? _playBack;
+        [Obsolete(WarningSettingMayNotWork)] public void WithPlayBack(bool? value) => _playBack = value;
+        public bool GetPlayBack(string fileExtension = null)
         {
-            bool audioPlayBack = _audioPlayBack ?? _section.AudioPlayBack ?? DefaultAudioPlayBack;
-            if (!audioPlayBack)
+            bool playBack = _playBack ?? _section.PlayBack ?? DefaultPlayBack;
+            if (!playBack)
             {
                 return false;
             }
             
             if (IsUnderNCrunch)
             {
-                return _section.NCrunch.AudioPlayBack ?? DefaultToolingAudioPlayBack;
+                return _section.NCrunch.PlayBack ?? DefaultToolingPlayBack;
             }
             
             if (IsUnderAzurePipelines)
             {
-                return _section.AzurePipelines.AudioPlayBack ?? DefaultToolingAudioPlayBack;
+                return _section.AzurePipelines.PlayBack ?? DefaultToolingPlayBack;
             }
             
             if (!string.IsNullOrWhiteSpace(fileExtension))
@@ -272,11 +274,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return true;
         }
         
-        // MathOptimization
+        // MathBoost
         
-        private bool? _mathOptimization;
-        public bool GetMathOptimization => _mathOptimization ?? _section.MathOptimization ?? DefaultMathOptimization;
-        public void WithMathOptimization(bool? enabled = default) => _mathOptimization = enabled;
+        private bool? _mathBoost;
+        public bool GetMathBoost => _mathBoost ?? _section.MathBoost ?? DefaultMathBoost;
+        public void WithMathBoost(bool? enabled = default) => _mathBoost = enabled;
         
         // Parallels
         
@@ -319,14 +321,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        internal bool GetImpersonateNCrunch => _section.NCrunch.Impersonate ?? DefaultToolingImpersonate;
-        internal bool GetImpersonateAzurePipelines => _section.AzurePipelines.Impersonate ?? DefaultToolingImpersonate;
+        internal bool GetNCrunchImpersonation => _section.NCrunch.Impersonation ?? DefaultToolingImpersonation;
+        internal bool GetAzurePipelinesImpersonation => _section.AzurePipelines.Impersonation ?? DefaultToolingImpersonation;
         
         public bool IsUnderNCrunch
         {
             get
             {
-                if (GetImpersonateNCrunch)
+                if (GetNCrunchImpersonation)
                 {
                     return true;
                 }
@@ -340,7 +342,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             get
             {
-                if (GetImpersonateAzurePipelines)
+                if (GetAzurePipelinesImpersonation)
                 {
                     return true;
                 }
@@ -432,12 +434,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Feature Toggles
         
-        public bool GetAudioPlayBack(string fileExtension = null) => _configResolver.GetAudioPlayBack(fileExtension);
+        public bool GetPlayBack(string fileExtension = null) => _configResolver.GetPlayBack(fileExtension);
         [Obsolete(WarningSettingMayNotWork)]
-        public SynthWishes WithAudioPlayBack(bool? enabled = default) { _configResolver.WithAudioPlayBack(enabled); return this; }
+        public SynthWishes WithPlayBack(bool? enabled = default) { _configResolver.WithPlayBack(enabled); return this; }
         
-        public bool GetMathOptimization => _configResolver.GetMathOptimization;
-        public SynthWishes WithMathOptimization(bool? enabled = default) { _configResolver.WithMathOptimization(enabled); return this; }
+        public bool GetMathBoost => _configResolver.GetMathBoost;
+        public SynthWishes WithMathBoost(bool? enabled = default) { _configResolver.WithMathBoost(enabled); return this; }
         
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public bool GetParallels => _configResolver.GetParallels;
@@ -508,12 +510,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Feature Toggles
         
-        public bool GetAudioPlayBack(string fileExtension = null) => _synthWishes.GetAudioPlayBack(fileExtension);
+        public bool GetPlayBack(string fileExtension = null) => _synthWishes.GetPlayBack(fileExtension);
         [Obsolete(WarningSettingMayNotWork)]
-        public FlowNode WithAudioPlayBack(bool? enabled = default) { _synthWishes.WithAudioPlayBack(enabled); return this; }
+        public FlowNode WithPlayBack(bool? enabled = default) { _synthWishes.WithPlayBack(enabled); return this; }
         
-        public bool GetMathOptimization => _synthWishes.GetMathOptimization;
-        public FlowNode WithMathOptimization(bool? enabled = default) { _synthWishes.WithMathOptimization(enabled); return this; }
+        public bool GetMathBoost => _synthWishes.GetMathBoost;
+        public FlowNode WithMathBoost(bool? enabled = default) { _synthWishes.WithMathBoost(enabled); return this; }
         
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public bool GetParallels => _synthWishes.GetParallels;

@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             ConfigResolver configResolver = synthWishes?._configResolver ?? new ConfigResolver();
             
-            bool mustPlay = configResolver.GetAudioPlayBack(fileExtension);
+            bool mustPlay = configResolver.GetPlayBack(fileExtension);
             
             var lines = new List<string>();
 

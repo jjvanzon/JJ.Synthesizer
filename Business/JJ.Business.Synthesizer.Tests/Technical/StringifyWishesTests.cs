@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Stringify_ShortNotation1()
         {
-            WithMathOptimization(false);
+            WithMathBoost(false);
 
             FlowNode flowNode = Sine(A4).Curve(0, 1, 0);
 
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Stringify_ShortNotation2()
         {
-            WithMathOptimization();
+            WithMathBoost();
 
             Outlet outlet = Sine(A4).Curve(0, 1, 0).Volume(2);
 
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Stringify_LongNotation1()
         {
-            WithMathOptimization(true);
+            WithMathBoost(true);
             
             Operator op = Sine(A4).Curve(0, 1, 0).UnderlyingOperator;
 
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Stringify_LongNotation2()
         {
-            WithMathOptimization(false);
+            WithMathBoost(false);
 
             var wrapper = new EntityWrappers.Sine(
                 Sine(A4).Curve(0, 1, 0).Volume(2).UnderlyingOperator);
