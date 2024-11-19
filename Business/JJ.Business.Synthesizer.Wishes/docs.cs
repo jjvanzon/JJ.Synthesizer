@@ -32,7 +32,10 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Replacement Wish version of AudioFileInfo with more intuitive member names.
         /// </summary>
         public static object _audioinfowish;
-
+        
+        /// <summary> Using a lower abstraction layer, to circumvent error-prone syncing code in back-end. </summary>
+        public static object _avoidSpeakerSetupsBackEnd;
+        
         /// <summary>
         /// Returns the time in seconds of the start of a bar.
         /// </summary>

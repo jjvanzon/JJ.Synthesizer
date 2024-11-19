@@ -340,36 +340,28 @@ namespace JJ.Business.Synthesizer.Wishes
             return lines;
         }
         
-        private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetup)
+        private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakers)
         {
-            // Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
-
-            var channelRepository = CreateRepository<IChannelRepository>(Context);
-
-            switch (speakerSetup)
+            switch (speakers)
             {
                 case Mono:
-                {
-                    var mono = new SpeakerSetup
-                    {
-                        ID = (int)Mono,
-                        Name = $"{Mono}",
-                    };
-
-                    var single = new SpeakerSetupChannel
-                    {
-                        ID = 1,
-                        Index = 0,
-                        Channel = channelRepository.Get((int)ChannelEnum.Single),
-                    };
-
-                    audioFileOutput.SpeakerSetup = mono;
-                    audioFileOutput.SpeakerSetup.SpeakerSetupChannels = new List<SpeakerSetupChannel> { single };
+                    audioFileOutput.SpeakerSetup = CreateSubstituteSpeakerSetupMono();
                     break;
-                }
 
                 case Stereo:
+                    audioFileOutput.SpeakerSetup = CreateSubstituteSpeakerSetupStereo();
+                    break;
+
+                default:
+                    throw new InvalidValueException(speakers);
+            }
+                }
+
+        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        private SpeakerSetup CreateSubstituteSpeakerSetupStereo()
                 {
+            var channelRepository = CreateRepository<IChannelRepository>(Context);
+            
                     var stereo = new SpeakerSetup
                     {
                         ID = (int)Stereo,
@@ -380,7 +372,6 @@ namespace JJ.Business.Synthesizer.Wishes
                     {
                         ID = 2,
                         Index = 0,
-                        SpeakerSetup = audioFileOutput.SpeakerSetup,
                         Channel = channelRepository.Get((int)ChannelEnum.Left),
                     };
 
@@ -388,20 +379,42 @@ namespace JJ.Business.Synthesizer.Wishes
                     {
                         ID = 3,
                         Index = 1,
-                        SpeakerSetup = audioFileOutput.SpeakerSetup,
                         Channel = channelRepository.Get((int)ChannelEnum.Right),
                     };
 
-                    audioFileOutput.SpeakerSetup = stereo;
-                    audioFileOutput.SpeakerSetup.SpeakerSetupChannels = new List<SpeakerSetupChannel> { left, right };
-                    break;
+            left.SpeakerSetup = stereo;
+            right.SpeakerSetup = stereo;
+            stereo.SpeakerSetupChannels = new List<SpeakerSetupChannel> { left, right };
+            
+            return stereo;
                 }
 
-                default:
-                    throw new InvalidValueException(speakerSetup);
-            }
+        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        private SpeakerSetup CreateSubstituteSpeakerSetupMono()
+        {
+            var channelRepository = CreateRepository<IChannelRepository>(Context);
+            
+            var mono = new SpeakerSetup
+            {
+                ID = (int)Mono,
+                Name = $"{Mono}",
+            };
+            
+            var center = new SpeakerSetupChannel
+            {
+                ID = 1,
+                Index = 0,
+                Channel = channelRepository.Get((int)ChannelEnum.Single),
+            };
+            
+            
+            center.SpeakerSetup = mono;
+            mono.SpeakerSetupChannels = new List<SpeakerSetupChannel> { center };
+            
+            return mono;
         }
 
+        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
         private void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channelCount)
         {
             // (using a lower abstraction layer, to circumvent error-prone syncing code in back-end).
