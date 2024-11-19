@@ -394,16 +394,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes WithInterpolation(InterpolationTypeEnum interpolation) { ConfigResolver.WithInterpolation(interpolation); return this; }
         public SynthWishes WithLinear() {ConfigResolver.WithLinear(); return this; }
         public SynthWishes WithBlocky() { ConfigResolver.WithBlocky(); return this; }
-
+        
+        public bool GetAudioPlayBack(string fileExtension = null) => ConfigResolver.GetAudioPlayBack(fileExtension);
         [Obsolete(WarningSettingMayNotWork)]
         public SynthWishes WithAudioPlayBack(bool? enabled = default) { ConfigResolver.WithAudioPlayBack(enabled); return this; }
-        public bool GetAudioPlayBack(string fileExtension = null) => ConfigResolver.GetAudioPlayBack(fileExtension);
-
-        public SynthWishes WithLeadingSilence(double? seconds = default) { ConfigResolver.WithLeadingSilence(seconds); return this; }
+        
         public double GetLeadingSilence => ConfigResolver.GetLeadingSilence;
-
-        public SynthWishes WithTrailingSilence(double? seconds = default) { ConfigResolver.WithTrailingSilence(seconds); return this; }
+        public SynthWishes WithLeadingSilence(double? seconds = default) { ConfigResolver.WithLeadingSilence(seconds); return this; }
+        
         public double GetTrailingSilence => ConfigResolver.GetTrailingSilence;
+        public SynthWishes WithTrailingSilence(double? seconds = default) { ConfigResolver.WithTrailingSilence(seconds); return this; }
 
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public bool GetDiskCaching => ConfigResolver.GetDiskCaching;
@@ -464,16 +464,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode WithInterpolation(InterpolationTypeEnum interpolation) { _synthWishes.WithInterpolation(interpolation); return this; }
         public FlowNode WithLinear() { _synthWishes.WithLinear(); return this; }
         public FlowNode WithBlocky() { _synthWishes.WithBlocky(); return this; }
-
+        
+        public bool GetAudioPlayBack(string fileExtension = null) => _synthWishes.GetAudioPlayBack(fileExtension);
         [Obsolete(WarningSettingMayNotWork)]
         public FlowNode WithAudioPlayBack(bool? enabled = default) { _synthWishes.WithAudioPlayBack(enabled); return this; }
-        public bool GetAudioPlayBack(string fileExtension = null) => _synthWishes.GetAudioPlayBack(fileExtension);
-
-        public FlowNode WithLeadingSilence(double? seconds = default) { _synthWishes.WithLeadingSilence(seconds); return this; }
+        
         public double GetLeadingSilence => _synthWishes.GetLeadingSilence;
-
-        public FlowNode WithTrailingSilence(double? seconds = default) { _synthWishes.WithTrailingSilence(seconds); return this; }
+        public FlowNode WithLeadingSilence(double? seconds = default) { _synthWishes.WithLeadingSilence(seconds); return this; }
+        
         public double GetTrailingSilence => _synthWishes.GetTrailingSilence;
+        public FlowNode WithTrailingSilence(double? seconds = default) { _synthWishes.WithTrailingSilence(seconds); return this; }
 
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public bool GetDiskCaching => _synthWishes.GetDiskCaching;
@@ -489,8 +489,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetPlayAllTapes => _synthWishes.GetPlayAllTapes;
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public FlowNode WithPlayAllTapes(bool? enabled = default) { _synthWishes.WithPlayAllTapes(enabled); return this; }
-
-        public FlowNode WithMathOptimization(bool? enabled = default) { _synthWishes.WithMathOptimization(enabled); return this; }
+        
         public bool GetMathOptimization => _synthWishes.GetMathOptimization;
+        public FlowNode WithMathOptimization(bool? enabled = default) { _synthWishes.WithMathOptimization(enabled); return this; }
     }
 }
