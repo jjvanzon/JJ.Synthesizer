@@ -18,19 +18,19 @@
   </jj.framework.persistence>
 
 	<jj.business.synthesizer.wishes 
-		samplingRate="48000"
-		speakers="Mono"
 		bits="32"
+		speakers="Mono"
+		samplingRate="48000"
 		audioFormat="Wav"
 		interpolation="Line"
 		audioLength="1"
 		leadingSilence="0.25"
 		trailingSilence="0.25"
 		audioPlayBack="true"
-		playAllTapes="false"
-		parallels="true"
 		mathOptimization="true"
+		parallels="true"
 		diskCaching="false"
+		playAllTapes="false"
 		longRunningTestCategory="Long">
 		
 		<nCrunch

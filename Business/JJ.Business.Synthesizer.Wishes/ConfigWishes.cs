@@ -15,24 +15,31 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     internal class ConfigSection
     {
+        // Audio Quality
+        
         [XmlAttribute] public int? Bits { get; set; }
         [XmlAttribute] public SpeakerSetupEnum? Speakers { get; set; }
         [XmlAttribute] public int? SamplingRate { get; set; }
         [XmlAttribute] public AudioFileFormatEnum? AudioFormat { get; set; }
         [XmlAttribute] public InterpolationTypeEnum? Interpolation { get; set; }
         
+        // Audio Lengths
+        
         [XmlAttribute] public double? AudioLength { get; set; }
         [XmlAttribute] public double? LeadingSilence { get; set; }
         [XmlAttribute] public double? TrailingSilence { get; set; }
 
+        // Feature Toggles
+        
         [XmlAttribute] public bool? AudioPlayBack { get; set; }
         [XmlAttribute] public bool? MathOptimization { get; set; }
         [XmlAttribute] public bool? Parallels { get; set; }
         [XmlAttribute] public bool? DiskCaching { get; set; }
         [XmlAttribute] public bool? PlayAllTapes { get; set; }
         
+        // Tooling
+        
         [XmlAttribute] public string LongTestCategory { get; set; }
-
         public ConfigToolingElement AzurePipelines { get; set; } = new ConfigToolingElement();
         public ConfigToolingElement NCrunch { get; set; } = new ConfigToolingElement();
     }
@@ -51,21 +58,29 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Defaults
         
+        // Audio Quality
+        
         private const int                   DefaultBits             = 32;
         private const SpeakerSetupEnum      DefaultSpeakers         = Mono;
         private const int                   DefaultSamplingRate     = 48000;
         private const AudioFileFormatEnum   DefaultAudioFormat      = Wav;
         private const InterpolationTypeEnum DefaultInterpolation    = Line;
         
+        // Audio Lengths
+        
         private const double                DefaultAudioLength      = 1;
         private const double                DefaultLeadingSilence   = 0.25;
         private const double                DefaultTrailingSilence  = 0.25;
+        
+        // Feature Toggles
         
         private const bool                  DefaultAudioPlayBack    = true;
         private const bool                  DefaultMathOptimization = true;
         private const bool                  DefaultParallels        = true;
         private const bool                  DefaultDiskCaching      = false;
         private const bool                  DefaultPlayAllTapes     = false;
+        
+        // Tooling
         
         private const string                DefaultLongTestCategory               = "Long";
         private const int                   DefaultToolingSamplingRate            = 150;
@@ -74,6 +89,8 @@ namespace JJ.Business.Synthesizer.Wishes
         private const bool                  DefaultToolingImpersonate             = false;
         
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
+        
+        // Audio Quality
         
         // Bits
         
@@ -168,7 +185,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public void WithLinear() => WithInterpolation(Line);
         public void WithBlocky() => WithInterpolation(Block);
 
-        // AudioLength
+        // Audio Lengths
+        
+        // Audio Length
         
         private FlowNode _audioLength;
         
@@ -218,6 +237,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public double GetTrailingSilence => _trailingSilence ?? _section.TrailingSilence ?? DefaultTrailingSilence;
         public void WithTrailingSilence(double? value) => _trailingSilence = value;
             
+        // Feature Toggles
+        
         // AudioPlayBack
         
         private bool? _audioPlayBack;
@@ -284,7 +305,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._parallelsanddiskcaching" />
         public void WithPlayAllTapes(bool? enabled = true) => _playAllTapes = enabled;
         
-        // LongTestCategory
+        // Tooling
         
         private string _longTestCategory;
         public void WithLongTestCategory(string category) => _longTestCategory = category;
@@ -298,8 +319,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        // Tooling
-        
         internal bool GetImpersonateNCrunch => _section.NCrunch.Impersonate ?? DefaultToolingImpersonate;
         internal bool GetImpersonateAzurePipelines => _section.AzurePipelines.Impersonate ?? DefaultToolingImpersonate;
         
@@ -330,7 +349,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        // Persistence Config
+        // Persistence
         
         public static PersistenceConfiguration PersistenceConfigurationOrDefault { get; } 
             = TryGetSection<PersistenceConfiguration>() ?? GetDefaultInMemoryConfiguration();
@@ -361,6 +380,8 @@ namespace JJ.Business.Synthesizer.Wishes
         private ConfigResolver _configResolver;
         
         private void InitializeConfigWishes() => _configResolver = new ConfigResolver();
+        
+        // Audio Quality
         
         public int GetBits => _configResolver.GetBits;
         public SynthWishes WithBits(int bits) { _configResolver.WithBits(bits); return this; }
@@ -395,6 +416,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes WithLinear() {_configResolver.WithLinear(); return this; }
         public SynthWishes WithBlocky() { _configResolver.WithBlocky(); return this; }
 
+        // Audio Lengths
+        
         public FlowNode GetAudioLength => _configResolver.GetAudioLength(this);
         public SynthWishes WithAudioLength(double newLength) { _configResolver.WithAudioLength(newLength, this); return this; }
         public SynthWishes WithAudioLength(FlowNode newLength) { _configResolver.WithAudioLength(newLength); return this; }
@@ -406,6 +429,8 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public double GetTrailingSilence => _configResolver.GetTrailingSilence;
         public SynthWishes WithTrailingSilence(double? seconds = default) { _configResolver.WithTrailingSilence(seconds); return this; }
+        
+        // Feature Toggles
         
         public bool GetAudioPlayBack(string fileExtension = null) => _configResolver.GetAudioPlayBack(fileExtension);
         [Obsolete(WarningSettingMayNotWork)]
@@ -434,6 +459,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
+        // Audio Quality
+        
         public int GetBits => _synthWishes.GetBits;
         public FlowNode WithBits(int bits) { _synthWishes.WithBits(bits); return this; }
         public FlowNode With32Bit() { _synthWishes.With32Bit(); return this; }
@@ -467,6 +494,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode WithLinear() { _synthWishes.WithLinear(); return this; }
         public FlowNode WithBlocky() { _synthWishes.WithBlocky(); return this; }
         
+        // Audio Lengths
+        
         public FlowNode GetAudioLength => _synthWishes.GetAudioLength;
         public FlowNode WithAudioLength(FlowNode newLength) { _synthWishes.WithAudioLength(newLength); return this; }
         public FlowNode AddAudioLength(FlowNode additionalLength) { _synthWishes.AddAudioLength(additionalLength); return this; }
@@ -476,6 +505,8 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public double GetTrailingSilence => _synthWishes.GetTrailingSilence;
         public FlowNode WithTrailingSilence(double? seconds = default) { _synthWishes.WithTrailingSilence(seconds); return this; }
+        
+        // Feature Toggles
         
         public bool GetAudioPlayBack(string fileExtension = null) => _synthWishes.GetAudioPlayBack(fileExtension);
         [Obsolete(WarningSettingMayNotWork)]
