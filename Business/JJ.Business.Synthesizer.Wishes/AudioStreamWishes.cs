@@ -133,8 +133,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SetAudioFormat(GetAudioFormat, Context);
             audioFileOutput.Name = name;
             audioFileOutput.SamplingRate = GetSamplingRate;
-
-            SetSpeakerSetup(audioFileOutput, speakerSetupEnum);
+            audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(speakerSetupEnum);
             CreateOrRemoveChannels(audioFileOutput, channelCount);
 
             switch (speakerSetupEnum)
@@ -339,20 +338,13 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private void SetSpeakerSetup(AudioFileOutput audioFileOutput, SpeakerSetupEnum speakers)
+        private SpeakerSetup GetSubstituteSpeakerSetup(SpeakerSetupEnum speakers)
         {
             switch (speakers)
             {
-                case Mono:
-                    audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetupMono();
-                    break;
-
-                case Stereo:
-                    audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetupStereo();
-                    break;
-
-                default:
-                    throw new InvalidValueException(speakers);
+                case Mono: return GetSubstituteSpeakerSetupMono();
+                case Stereo: return GetSubstituteSpeakerSetupStereo();
+                default: throw new InvalidValueException(speakers);
             }
         }
         
