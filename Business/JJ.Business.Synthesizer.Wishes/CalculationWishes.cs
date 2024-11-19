@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int Complexity(this StreamAudioData data)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
-            return Complexity(data.AudioFileOutput);
+            return Complexity(data.UnderlyingAudioFileOutput);
         }
         
         public static int Complexity(this AudioFileOutput entity)

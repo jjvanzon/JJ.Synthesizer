@@ -732,7 +732,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(complexityOld, () => complexity);
             }
 
-            AudioFileOutput audioFileOutput = data.AudioFileOutput;
+            AudioFileOutput audioFileOutput = data.UnderlyingAudioFileOutput;
             IsNotNull(() => audioFileOutput);
             {
                 string stringify = audioFileOutput.Stringify();

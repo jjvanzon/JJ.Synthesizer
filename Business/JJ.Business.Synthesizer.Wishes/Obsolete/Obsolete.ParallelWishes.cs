@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             stopWatch.Stop();
             
             // Report total real-time and complexity metrics.
-            double audioDuration = cacheResults.Max(y => y.Data.AudioFileOutput.Duration);
+            double audioDuration = cacheResults.Max(y => y.Data.UnderlyingAudioFileOutput.Duration);
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
             int complexity = cacheResults.Sum(y => y.Complexity());
             string formattedMetrics = SynthWishes.FormatMetrics(audioDuration, calculationDuration, complexity);

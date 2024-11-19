@@ -238,7 +238,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (data == null) throw new ArgumentNullException(nameof(data));
             
             return StreamAudio(
-                data.AudioFileOutput,
+                data.UnderlyingAudioFileOutput,
                 inMemory, additionalMessages, name, callerMemberName);
         }
 
@@ -282,7 +282,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Get Info
             var stringifiedChannels = new List<string>();
 
-            foreach (var audioFileOutputChannel in result.Data.AudioFileOutput.AudioFileOutputChannels)
+            foreach (var audioFileOutputChannel in result.Data.UnderlyingAudioFileOutput.AudioFileOutputChannels)
             {
                 string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
                 stringifiedChannels.Add(stringify);
@@ -292,16 +292,16 @@ namespace JJ.Business.Synthesizer.Wishes
             var lines = new List<string>();
 
             lines.Add("");
-            lines.Add(GetPrettyTitle(result.Data.AudioFileOutput.Name ?? result.Data.AudioFileOutput.FilePath));
+            lines.Add(GetPrettyTitle(result.Data.UnderlyingAudioFileOutput.Name ?? result.Data.UnderlyingAudioFileOutput.FilePath));
             lines.Add("");
 
-            string realTimeComplexityMessage = FormatMetrics(result.Data.AudioFileOutput.Duration, calculationDuration, result.Complexity());
+            string realTimeComplexityMessage = FormatMetrics(result.Data.UnderlyingAudioFileOutput.Duration, calculationDuration, result.Complexity());
             lines.Add(realTimeComplexityMessage);
             lines.Add("");
 
             lines.Add($"Calculation time: {PrettyDuration(calculationDuration)}");
-            lines.Add($"Audio length: {PrettyDuration(result.Data.AudioFileOutput.Duration)}");
-            lines.Add($"Sampling rate: {result.Data.AudioFileOutput.SamplingRate} Hz | {result.Data.AudioFileOutput.GetSampleDataTypeEnum()} | {result.Data.AudioFileOutput.GetSpeakerSetupEnum()}");
+            lines.Add($"Audio length: {PrettyDuration(result.Data.UnderlyingAudioFileOutput.Duration)}");
+            lines.Add($"Sampling rate: {result.Data.UnderlyingAudioFileOutput.SamplingRate} Hz | {result.Data.UnderlyingAudioFileOutput.GetSampleDataTypeEnum()} | {result.Data.UnderlyingAudioFileOutput.GetSpeakerSetupEnum()}");
 
             lines.Add("");
 
@@ -313,7 +313,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add("");
             }
 
-            for (var i = 0; i < result.Data.AudioFileOutput.AudioFileOutputChannels.Count; i++)
+            for (var i = 0; i < result.Data.UnderlyingAudioFileOutput.AudioFileOutputChannels.Count; i++)
             {
                 var channelString = stringifiedChannels[i];
 
@@ -478,7 +478,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public class StreamAudioData
     {
-        public AudioFileOutput AudioFileOutput { get; }
+        public AudioFileOutput UnderlyingAudioFileOutput { get; }
         
         /// <inheritdoc cref="docs._saveresultbytes"/>
         public byte[] Bytes { get; }
@@ -487,11 +487,11 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveresultbytes"/>
         public StreamAudioData(
-            AudioFileOutput audioFileOutput, 
+            AudioFileOutput underlyingAudioFileOutput, 
             byte[] bytes,
             string filePath)
         {
-            AudioFileOutput = audioFileOutput ?? throw new ArgumentNullException(nameof(audioFileOutput));
+            UnderlyingAudioFileOutput = underlyingAudioFileOutput ?? throw new ArgumentNullException(nameof(underlyingAudioFileOutput));
             Bytes = bytes;
             FilePath = filePath;
         }

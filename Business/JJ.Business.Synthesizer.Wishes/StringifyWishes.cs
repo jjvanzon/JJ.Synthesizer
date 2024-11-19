@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string Stringify(this StreamAudioData data, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
-            return Stringify(data.AudioFileOutput, singleLine, canOmitNameForBasicMath);
+            return Stringify(data.UnderlyingAudioFileOutput, singleLine, canOmitNameForBasicMath);
         }
         
         /// <inheritdoc cref="docs._stringify"/>
