@@ -104,16 +104,14 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Configure AudioFileOutput (avoid backend)
             AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channelInputs, name);
+
+            // Gather Warnings
+            IList<string> toolingWarnings =
+                new ToolingHelper(_configResolver).GetToolingWarnings(audioFileOutput.GetFileExtension());
+            IList<string> warnings = additionalMessages.Union(toolingWarnings).ToArray();
             
             // Write Audio
-            //  TODO: Include fileExtension parameter with  GetToolingWarnings.
-            IList<string> toolingWarnings = new ToolingHelper(_configResolver).GetToolingWarnings();
-            
-            var result = StreamAudio(
-                audioFileOutput,
-                inMemory,
-                additionalMessages.Union(toolingWarnings).ToArray(),
-                name);
+            var result = StreamAudio(audioFileOutput, inMemory, warnings, name);
             
             return result;
         }
@@ -355,40 +353,40 @@ namespace JJ.Business.Synthesizer.Wishes
                 default:
                     throw new InvalidValueException(speakers);
             }
-                }
-
+        }
+        
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
         private SpeakerSetup CreateSubstituteSpeakerSetupStereo()
-                {
+        {
             var channelRepository = CreateRepository<IChannelRepository>(Context);
             
-                    var stereo = new SpeakerSetup
-                    {
-                        ID = (int)Stereo,
-                        Name = $"{Stereo}",
-                    };
-
-                    var left = new SpeakerSetupChannel
-                    {
-                        ID = 2,
-                        Index = 0,
-                        Channel = channelRepository.Get((int)ChannelEnum.Left),
-                    };
-
-                    var right = new SpeakerSetupChannel
-                    {
-                        ID = 3,
-                        Index = 1,
-                        Channel = channelRepository.Get((int)ChannelEnum.Right),
-                    };
-
+            var stereo = new SpeakerSetup
+            {
+                ID = (int)Stereo,
+                Name = $"{Stereo}",
+            };
+            
+            var left = new SpeakerSetupChannel
+            {
+                ID = 2,
+                Index = 0,
+                Channel = channelRepository.Get((int)ChannelEnum.Left),
+            };
+            
+            var right = new SpeakerSetupChannel
+            {
+                ID = 3,
+                Index = 1,
+                Channel = channelRepository.Get((int)ChannelEnum.Right),
+            };
+            
             left.SpeakerSetup = stereo;
             right.SpeakerSetup = stereo;
             stereo.SpeakerSetupChannels = new List<SpeakerSetupChannel> { left, right };
             
             return stereo;
-                }
-
+        }
+        
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
         private SpeakerSetup CreateSubstituteSpeakerSetupMono()
         {
@@ -413,7 +411,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return mono;
         }
-
+        
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
         private void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channelCount)
         {
