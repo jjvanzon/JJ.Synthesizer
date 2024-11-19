@@ -244,7 +244,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // PlayBack
         
         private bool? _playBack;
-        [Obsolete(WarningSettingMayNotWork)] public void WithPlayBack(bool? value) => _playBack = value;
+        [Obsolete(WarningSettingMayNotWork)] public void WithPlayBack(bool? enabled = true) => _playBack = enabled;
         public bool GetPlayBack(string fileExtension = null)
         {
             bool playBack = _playBack ?? _section.PlayBack ?? DefaultPlayBack;
@@ -278,7 +278,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private bool? _mathBoost;
         public bool GetMathBoost => _mathBoost ?? _section.MathBoost ?? DefaultMathBoost;
-        public void WithMathBoost(bool? enabled = default) => _mathBoost = enabled;
+        public void WithMathBoost(bool? enabled = true) => _mathBoost = enabled;
         
         // Parallels
         
@@ -287,7 +287,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetParallels => _parallels ?? _section.Parallels ?? DefaultParallels;
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
-        public void WithParallels(bool? enabled = default) => _parallels = enabled;
+        public void WithParallels(bool? enabled = true) => _parallels = enabled;
         
         // DiskCacheOn
         
@@ -296,7 +296,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetDiskCacheOn => _diskCacheOn ?? _section.DiskCacheOn ?? DefaultDiskCacheOn;
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
-        public void WithDiskCacheOn(bool? enabled = default) =>  _diskCacheOn = enabled;
+        public void WithDiskCacheOn(bool? enabled = true) =>  _diskCacheOn = enabled;
         
         // PlayAllTapes
         
@@ -436,25 +436,25 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public bool GetPlayBack(string fileExtension = null) => _configResolver.GetPlayBack(fileExtension);
         [Obsolete(WarningSettingMayNotWork)]
-        public SynthWishes WithPlayBack(bool? enabled = default) { _configResolver.WithPlayBack(enabled); return this; }
+        public SynthWishes WithPlayBack(bool? enabled = true) { _configResolver.WithPlayBack(enabled); return this; }
         
         public bool GetMathBoost => _configResolver.GetMathBoost;
-        public SynthWishes WithMathBoost(bool? enabled = default) { _configResolver.WithMathBoost(enabled); return this; }
+        public SynthWishes WithMathBoost(bool? enabled = true) { _configResolver.WithMathBoost(enabled); return this; }
         
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetParallels => _configResolver.GetParallels;
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
-        public SynthWishes WithParallels(bool? enabled = default) { _configResolver.WithParallels(enabled); return this; }
+        public SynthWishes WithParallels(bool? enabled = true) { _configResolver.WithParallels(enabled); return this; }
 
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetDiskCacheOn => _configResolver.GetDiskCacheOn;
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
-        public SynthWishes WithDiskCacheOn(bool? enabled = default) { _configResolver.WithDiskCacheOn(enabled); return this; }
+        public SynthWishes WithDiskCacheOn(bool? enabled = true) { _configResolver.WithDiskCacheOn(enabled); return this; }
 
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetPlayAllTapes => _configResolver.GetPlayAllTapes;
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
-        public SynthWishes WithPlayAllTapes(bool? enabled = default) { _configResolver.WithPlayAllTapes(enabled); return this; }
+        public SynthWishes WithPlayAllTapes(bool? enabled = true) { _configResolver.WithPlayAllTapes(enabled); return this; }
     }
     
     // FlowNode ConfigWishes
@@ -512,24 +512,24 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public bool GetPlayBack(string fileExtension = null) => _synthWishes.GetPlayBack(fileExtension);
         [Obsolete(WarningSettingMayNotWork)]
-        public FlowNode WithPlayBack(bool? enabled = default) { _synthWishes.WithPlayBack(enabled); return this; }
+        public FlowNode WithPlayBack(bool? enabled = true) { _synthWishes.WithPlayBack(enabled); return this; }
         
         public bool GetMathBoost => _synthWishes.GetMathBoost;
-        public FlowNode WithMathBoost(bool? enabled = default) { _synthWishes.WithMathBoost(enabled); return this; }
+        public FlowNode WithMathBoost(bool? enabled = true) { _synthWishes.WithMathBoost(enabled); return this; }
         
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetParallels => _synthWishes.GetParallels;
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
-        public FlowNode WithParallels(bool? enabled = default) { _synthWishes.WithParallels(enabled); return this; }
+        public FlowNode WithParallels(bool? enabled = true) { _synthWishes.WithParallels(enabled); return this; }
 
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetDiskCacheOn => _synthWishes.GetDiskCacheOn;
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
-        public FlowNode WithDiskCacheOn(bool? enabled = default) { _synthWishes.WithDiskCacheOn(enabled); return this; }
+        public FlowNode WithDiskCacheOn(bool? enabled = true) { _synthWishes.WithDiskCacheOn(enabled); return this; }
 
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
         public bool GetPlayAllTapes => _synthWishes.GetPlayAllTapes;
         /// <inheritdoc cref="docs._parallelsanddiskcacheon" />
-        public FlowNode WithPlayAllTapes(bool? enabled = default) { _synthWishes.WithPlayAllTapes(enabled); return this; }
+        public FlowNode WithPlayAllTapes(bool? enabled = true) { _synthWishes.WithPlayAllTapes(enabled); return this; }
     }
 }
