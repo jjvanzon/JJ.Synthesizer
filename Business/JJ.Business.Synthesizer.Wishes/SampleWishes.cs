@@ -15,12 +15,12 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._sample"/>
         public FlowNode Sample(
-            StreamAudioData data,
+            StreamAudioResult result,
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (data == null) throw new NullException(() => data);
+            if (result == null) throw new NullException(() => result);
             return SampleBase(
-                null, data.Bytes, data.FilePath, 
+                null, result.Bytes, result.FilePath, 
                 bytesToSkip, name, callerMemberName);
         }
                 

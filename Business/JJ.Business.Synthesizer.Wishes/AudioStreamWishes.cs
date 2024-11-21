@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // StreamAudio on Instance
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal StreamAudioData StreamAudio(
+        internal StreamAudioResult StreamAudio(
             Func<FlowNode> channelInputFunc, 
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal StreamAudioData StreamAudio(
+        internal StreamAudioResult StreamAudio(
             FlowNode channelInput,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory, mustPad, additionalMessages, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        internal StreamAudioData StreamAudio(
+        internal StreamAudioResult StreamAudio(
             IList<FlowNode> channelInputs,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // StreamAudio in Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static StreamAudioData StreamAudio(
+        internal static StreamAudioResult StreamAudio(
             AudioFileOutput audioFileOutput, 
             bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -216,7 +216,7 @@ namespace JJ.Business.Synthesizer.Wishes
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
             // Result
-            var result = new StreamAudioData(bytes, audioFileOutput.FilePath, audioFileOutput, warnings);
+            var result = new StreamAudioResult(bytes, audioFileOutput.FilePath, audioFileOutput, warnings);
 
             // Report
             var reportLines = GetReport(result, calculationDuration);
@@ -226,14 +226,14 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static StreamAudioData StreamAudio(
-            StreamAudioData data, 
+        internal static StreamAudioResult StreamAudio(
+            StreamAudioResult result, 
             bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
-            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (result == null) throw new ArgumentNullException(nameof(result));
             
             return StreamAudio(
-                data.UnderlyingAudioFileOutput,
+                result.UnderlyingAudioFileOutput,
                 inMemory, additionalMessages, name, callerMemberName);
         }
 
@@ -262,7 +262,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private static List<string> GetReport(StreamAudioData result, double calculationDuration)
+        private static List<string> GetReport(StreamAudioResult result, double calculationDuration)
         {
             // Get Info
             var stringifiedChannels = new List<string>();
@@ -461,7 +461,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // Info Type
 
-    public class StreamAudioData
+    public class StreamAudioResult
     {
         /// <inheritdoc cref="docs._saveresultbytes"/>
         public byte[] Bytes { get; }
@@ -470,10 +470,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public IList<string> Messages { get; }
 
         /// <summary> HACK: Temporary constructor for PlayWishes to only return messages, not other data. </summary>
-        public StreamAudioData(IList<string> messages) => Messages = messages ?? new List<string>();
+        public StreamAudioResult(IList<string> messages) => Messages = messages ?? new List<string>();
         
         /// <inheritdoc cref="docs._saveresultbytes"/>
-        public StreamAudioData(
+        public StreamAudioResult(
             byte[] bytes, 
             string filePath, 
             AudioFileOutput underlyingAudioFileOutput,

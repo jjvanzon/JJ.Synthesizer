@@ -258,10 +258,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // Save to file
-            StreamAudioData saveResult1      = WithAudioLength(DURATION).WithName(callerMemberName).Cache(getSignal);
-            AudioFileOutput audioFileOutput1 = saveResult1.UnderlyingAudioFileOutput;
-            byte[]          bytes            = saveResult1.Bytes;
-
+            StreamAudioResult saveResult1      = WithAudioLength(DURATION).WithName(callerMemberName).Cache(getSignal);
+            AudioFileOutput   audioFileOutput1 = saveResult1.UnderlyingAudioFileOutput;
+            byte[]            bytes            = saveResult1.Bytes;
             // Use sample operator
             FlowNode getSample()
             {
@@ -281,8 +280,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             
             // Save to file again
-            StreamAudioData saveResult2      = WithAudioLength(DURATION2).Cache(getSample, $"{callerMemberName}_Reloaded");
-            AudioFileOutput audioFileOutput2 = saveResult2.UnderlyingAudioFileOutput;
+            StreamAudioResult saveResult2      = WithAudioLength(DURATION2).Cache(getSample, $"{callerMemberName}_Reloaded");
+            AudioFileOutput   audioFileOutput2 = saveResult2.UnderlyingAudioFileOutput;
             
             // Assert AudioFileOutput Entities
 

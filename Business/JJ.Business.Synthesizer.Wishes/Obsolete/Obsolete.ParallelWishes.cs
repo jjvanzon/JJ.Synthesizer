@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             int channelCount = synthWishes.GetSpeakers.GetChannelCount();
             string[] names = GetParallelNames(termCount, name);
             string[] displayNames = names.Select(GetDisplayName).ToArray();
-            var cacheResults = new StreamAudioData[termCount];
+            var cacheResults = new StreamAudioResult[termCount];
             var reloadedSamples = new FlowNode[termCount];
             
             var stopWatch = Stopwatch.StartNew();

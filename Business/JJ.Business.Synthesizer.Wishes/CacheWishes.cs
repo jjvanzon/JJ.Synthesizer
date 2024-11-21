@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Cache on Instance
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public StreamAudioData Cache(
+        public StreamAudioResult Cache(
             Func<FlowNode> func, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public StreamAudioData Cache(
+        public StreamAudioResult Cache(
             Func<FlowNode> func, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public StreamAudioData Cache(
+        public StreamAudioResult Cache(
             FlowNode outlet, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public StreamAudioData Cache(
+        public StreamAudioResult Cache(
             FlowNode outlet, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public StreamAudioData Cache(
+        public StreamAudioResult Cache(
             IList<FlowNode> channelInputs, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public StreamAudioData Cache(
+        public StreamAudioResult Cache(
             IList<FlowNode> channelInputs, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
@@ -64,15 +64,15 @@ namespace JJ.Business.Synthesizer.Wishes
         // Cache in Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public static StreamAudioData Cache(
-            StreamAudioData result, 
+        public static StreamAudioResult Cache(
+            StreamAudioResult result, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 result, 
                 inMemory: true, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static StreamAudioData Cache(
+        public static StreamAudioResult Cache(
             AudioFileOutput entity, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Cache(
             this SynthWishes synthWishes, 
-            StreamAudioData result,
+            StreamAudioResult result,
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
@@ -156,7 +156,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FlowNode Cache(
-            StreamAudioData result,
+            StreamAudioResult result,
             string name = null, [CallerMemberName] string callerMemberName = null)
             { 
                 StreamAudio(
@@ -184,15 +184,15 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class CacheExtensionWishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public static StreamAudioData Cache(
-            this StreamAudioData result,
+        public static StreamAudioResult Cache(
+            this StreamAudioResult result,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 result, 
                 inMemory: true, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public static StreamAudioData Cache(
+        public static StreamAudioResult Cache(
             this AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
