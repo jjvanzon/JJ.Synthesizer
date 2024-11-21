@@ -1347,7 +1347,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay += delay;
             }
 
-                return ParallelAdd(repeats);
+            return ParallelAdd(repeats);
         }
         
         public FlowNode EchoTape(
@@ -1446,30 +1446,5 @@ namespace JJ.Business.Synthesizer.Wishes
             _synthWishes.AddEchoDuration(count, delay);
             return this;
         }
-    }
-    
-    // Tape SynthWishes
-    
-    public partial class SynthWishes
-    {
-        public FlowNode Tape(FlowNode signal)
-            => Tape(signal, default);
-        
-        public FlowNode Tape(FlowNode signal, FlowNode duration)
-        {
-            //duration = duration ?? GetAudioLength ?? _[1];
-            
-            AddTape(signal);
-
-            return signal;
-        }
-    }
-
-    // Tape FlowNode
-
-    public partial class FlowNode
-    {
-        public FlowNode Tape(FlowNode duration = null)
-            => _synthWishes.Tape(this, duration);
     }
 }

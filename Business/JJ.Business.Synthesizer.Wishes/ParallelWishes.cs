@@ -14,10 +14,30 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    // FlowNode Parallelization
+    
+    public partial class FlowNode
+    {
+        public FlowNode Tape(FlowNode duration = null)
+            => _synthWishes.Tape(this, duration);
+    }
+
     // SynthWishes Parallelization
     
     public partial class SynthWishes
     {
+        public FlowNode Tape(FlowNode signal)
+            => Tape(signal, default);
+        
+        public FlowNode Tape(FlowNode signal, FlowNode duration)
+        {
+            //duration = duration ?? GetAudioLength ?? _[1];
+            
+            AddTape(signal);
+            
+            return signal;
+        }
+
         /// <inheritdoc cref="docs._paralleladd" />
         public FlowNode ParallelAdd(params FlowNode[] termFuncs)
             => ParallelAdd((IList<FlowNode>)termFuncs);
