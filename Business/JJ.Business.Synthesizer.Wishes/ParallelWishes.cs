@@ -27,6 +27,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FlowNode Save(string filePath = null)
             => _synthWishes.Save(this, filePath);
+        
+        public FlowNode Cache(Action<byte[]> bytesCallback) 
+            => _synthWishes.Cache(this, bytesCallback);
     }
     
     // SynthWishes Parallelization
@@ -57,6 +60,14 @@ namespace JJ.Business.Synthesizer.Wishes
             Tape tape = AddTape(signal);
             tape.MustSave = true;
             tape.FilePath = filePath;
+            return signal;
+        }
+        
+        public FlowNode Cache(FlowNode signal, Action<byte[]> bytesCallback)
+        {
+            Tape tape = AddTape(signal);
+            tape.MustCache = true;
+            tape.BytesCallback = bytesCallback;
             return signal;
         }
         
@@ -160,6 +171,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         // Actions
                         if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
                         if (tape.MustSave) Save(cacheResult, tape.FilePath, operand.Name);
+                        if (tape.MustCache) tape.BytesCallback(cacheResult.Bytes);
 
                         Console.WriteLine($"{PrettyTime()} End Task: {operand.Name} (Level {level})");
                     });
@@ -223,6 +235,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustPlay { get; set; }
         public bool MustSave { get; set; }
         public string FilePath { get; set; }
+        public bool MustCache { get; set; }
+        public Action<byte[]> BytesCallback { get; set; }
     }
     
     /// <summary>

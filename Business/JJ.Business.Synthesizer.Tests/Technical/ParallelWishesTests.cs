@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void PlayAllTapes()
         {
-            WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
+            WithShortDuration();
             WithPlayAllTapes();
             
             var pitch = G4;
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void FluentPlay_UsingTape()
         {
-            WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
+            WithShortDuration();
             
             var pitch = A4;
             
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void FluentSave_UsingTape()
         {
-            WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
+            WithShortDuration();
             
             var pitch = A4;
             
@@ -66,9 +66,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                  (
                      Sine(pitch * 1).Volume(1.0).Save(MemberName() + " Partial 1"),
                      Sine(pitch * 2).Volume(0.2),
-                     Sine(pitch * 3).Save("TapeThatIsSaved Partial 2").Volume(0.3),
+                     Sine(pitch * 3).Save("FluentSave_UsingTape Partial 2").Volume(0.3),
                      Sine(pitch * 4).Volume(0.4),
-                     Sine(pitch * 5).Volume(0.2).SetName("TapeThatIsSaved Partial 3").Save()
+                     Sine(pitch * 5).Volume(0.2).SetName("FluentSave_UsingTape Partial 3").Save()
                  ) * Envelope).Save();
         }
         
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void Tape_Streaming_GoesPerChannel()
         {
-            WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
+            WithShortDuration();
             WithStereo();
             
             var pitch = A4;
@@ -85,18 +85,40 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Play(() => Add
                  (
                      Sine(pitch * 1).Volume(1.0).Panning(0.2).Play(),
-                     Sine(pitch * 2).Volume(0.2).Panning(0.4).Play(),
-                     Sine(pitch * 3).Volume(0.3).Panning(0.9).Play()
+                     Sine(pitch * 2).Volume(0.3).Panning(0.8).Play()
                  ) * Envelope * 1.5);
             
-            Play(() => Add
-                 (
-                     1.0 * Sine(pitch * 1).Panbrello(3.000, 0.2).Play(),
-                     0.2 * Sine(pitch * 2).Panbrello(5.234, 0.3).Play(),
-                     0.3 * Sine(pitch * 3).Panbrello(7.000, 0.2).Play()
-                 ) * Envelope * 1.5);
+            // Pretty, but not adding much to the test.
+            //Play(() => Add
+            //     (
+            //         1.0 * Sine(pitch * 1).Panbrello(3.000, 0.2).Play(),
+            //         0.2 * Sine(pitch * 2).Panbrello(5.234, 0.3).Play(),
+            //         0.3 * Sine(pitch * 3).Panbrello(7.000, 0.2).Play()
+            //     ) * Envelope * 1.5);
         }
+            
+        [TestMethod]
+        public void FluentCache_UsingTape_Test() => new ParallelWishesTests().FluentCache_UsingTape();
         
+        void FluentCache_UsingTape()
+        {
+            //WithStereo();
+            //WithDiskCacheOn();
+            //WithAudioLength(0.5);
+            WithShortDuration();
+            
+            Play(() => Sine(G4).Panning(0.2));
+
+            //var bytes = new List<byte[]>();
+            //Play(() => Sine(G4).Panning(0.2).Cache(x => bytes.Add(x)));
+            //bytes.ForEach(x => x.Play());
+            
+            // TODO: Reconstruct stereo signal
+        }
+
+        // Helper
+        
+        void WithShortDuration() => WithAudioLength(0.3).WithLeadingSilence(0.2).WithTrailingSilence(0.2);
         FlowNode Envelope => Curve(0.4, 0.4);
     }
 }
