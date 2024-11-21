@@ -73,6 +73,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 WaitAll(tasksInLevel); // Ensure each level completes before moving up
             }
         }
+        
         private IList<(Task Task, int Level)> GetParallelTasksRecursive(FlowNode op, int level)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
@@ -125,9 +126,59 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Helpers
         
-        private readonly HashSet<Outlet> _tapes = new HashSet<Outlet>();
-        private void AddTape(Outlet outlet) => _tapes.Add(outlet);
-        private bool IsTape(Outlet outlet) => _tapes.Contains(outlet);
-        private void RemoveTape(Outlet outlet) => _tapes.Remove(outlet);
+        private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
+        
+        private void AddTape(Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            
+            _tapes[outlet] = new Tape { Outlet = outlet };
+        }
+        
+        private bool IsTape(Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            
+            return _tapes.ContainsKey(outlet);
+        }
+        
+        private void RemoveTape(Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            
+            _tapes.Remove(outlet);
+        }
+        
+        private Tape TryGetTape(Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            
+            _tapes.TryGetValue(outlet, out Tape tape);
+            return tape;
+        }
+    }
+    
+    internal class Tape
+    {
+        public Outlet Outlet { get; set; }
+    }
+    
+    /// <summary>
+    /// Proposed TapeInfo with many future properties,
+    /// too many to implement all at the same time.
+    /// </summary>
+    [Obsolete]
+    internal class TapeInfoPrototype
+    {
+        public Outlet Outlet { get; set; }
+        public int Level { get; set; }
+        public Task Task { get; set; }
+        
+        public bool MustPlay { get; set; }
+        public bool MustSave { get; set; }
+        public string FilePath { get; set; }
+        public bool MustCache { get; set; }
+        
+        public FlowNode Duration { get; set; }
     }
 }
