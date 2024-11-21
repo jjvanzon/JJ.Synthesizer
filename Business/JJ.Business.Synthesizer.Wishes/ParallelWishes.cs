@@ -135,6 +135,9 @@ namespace JJ.Business.Synthesizer.Wishes
                         Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
                         
                         var cacheResult = Cache(operand, operand.Name);
+                        
+                        if (GetPlayAllTapes) Play(cacheResult);
+                
                         var sampleOutlet = Sample(cacheResult, name: operand.Name);
 
                         // Replace all references to tape
