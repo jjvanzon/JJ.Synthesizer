@@ -33,16 +33,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        public void Test_Detunica_Jingle_Mono() => new ModulationTests().Detunica_Jingle_RunTest_Mono();
-
-        /// <inheritdoc cref="docs._detunica" />
-        internal void Detunica_Jingle_RunTest_Mono()
-        {
-            WithMono().WithAudioLength(bars[7] + DeepEchoDuration).Save(() => DeepEcho(DetunicaJingle) * 0.25).Play();
-        }
-
-        /// <inheritdoc cref="docs._detunica" />
-        [TestMethod]
         public void Test_DetunicaBass() => new ModulationTests().DetunicaBass_RunTest();
 
         /// <inheritdoc cref="docs._detunica" />
