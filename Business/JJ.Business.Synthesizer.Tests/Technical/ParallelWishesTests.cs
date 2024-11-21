@@ -77,10 +77,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void Tape_Streaming_GoesPerChannel()
         {
+            var pitch = A4;
+            
             WithShortDuration();
             WithStereo();
-            
-            var pitch = A4;
             
             Play(() => Add
                  (
@@ -89,12 +89,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                  ) * Envelope * 1.5);
             
             // Pretty, but not adding much to the test.
-            //Play(() => Add
-            //     (
-            //         1.0 * Sine(pitch * 1).Panbrello(3.000, 0.2).Play(),
-            //         0.2 * Sine(pitch * 2).Panbrello(5.234, 0.3).Play(),
-            //         0.3 * Sine(pitch * 3).Panbrello(7.000, 0.2).Play()
-            //     ) * Envelope * 1.5);
+            Play(() => Add
+                 (
+                     1.0 * Sine(pitch * 1).Panbrello(3.000, 0.2).Play(),
+                     0.2 * Sine(pitch * 2).Panbrello(5.234, 0.3).Play(),
+                     0.3 * Sine(pitch * 3).Panbrello(7.000, 0.2).Play()
+                 ) * Envelope * 1.5);
         }
             
         [TestMethod]
