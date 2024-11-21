@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Business.Synthesizer.Tests.docs;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -24,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Mono Extensions
             {
-                AudioFileOutput audioFileOutputMono = WithMono().Save(() => Sine()).Data.UnderlyingAudioFileOutput;
+                AudioFileOutput audioFileOutputMono = WithMono().Save(() => Sine()).UnderlyingAudioFileOutput;
                 IsNotNull(() => audioFileOutputMono);
                 IsNotNull(() => audioFileOutputMono.SpeakerSetup);
                 AreEqual(SpeakerSetupEnum.Mono, () => audioFileOutputMono.SpeakerSetup.ToEnum());
@@ -32,7 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Stereo Extensions
             {
-                AudioFileOutput audioFileOutputStereo = WithStereo().Save(() => Sine()).Data.UnderlyingAudioFileOutput;
+                AudioFileOutput audioFileOutputStereo = WithStereo().Save(() => Sine()).UnderlyingAudioFileOutput;
                 IsNotNull(() => audioFileOutputStereo);
                 IsNotNull(() => audioFileOutputStereo.SpeakerSetup);
                 AreEqual(SpeakerSetupEnum.Stereo, () => audioFileOutputStereo.SpeakerSetup.ToEnum());
@@ -40,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Wav Extensions
             {
-                AudioFileOutput audioFileOutputWav = AsWav().Save(() => Sine()).Data.UnderlyingAudioFileOutput;
+                AudioFileOutput audioFileOutputWav = AsWav().Save(() => Sine()).UnderlyingAudioFileOutput;
                 IsNotNull(() => audioFileOutputWav);
                 IsNotNull(() => audioFileOutputWav.AudioFileFormat);
                 AreEqual(".wav", () => audioFileOutputWav.AudioFileFormat.GetFileExtension());
@@ -51,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Raw Extensions
             {
-                AudioFileOutput audioFileOutputRaw = AsRaw().Save(() => Sine()).Data.UnderlyingAudioFileOutput;
+                AudioFileOutput audioFileOutputRaw = AsRaw().Save(() => Sine()).UnderlyingAudioFileOutput;
                 IsNotNull(() => audioFileOutputRaw);
                 IsNotNull(() => audioFileOutputRaw.AudioFileFormat);
                 AreEqual(".raw", () => audioFileOutputRaw.AudioFileFormat.GetFileExtension());

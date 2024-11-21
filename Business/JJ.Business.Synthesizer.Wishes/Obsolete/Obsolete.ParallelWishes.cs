@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             int channelCount = synthWishes.GetSpeakers.GetChannelCount();
             string[] names = GetParallelNames(termCount, name);
             string[] displayNames = names.Select(GetDisplayName).ToArray();
-            var cacheResults = new Result<StreamAudioData>[termCount];
+            var cacheResults = new StreamAudioData[termCount];
             var reloadedSamples = new FlowNode[termCount];
             
             var stopWatch = Stopwatch.StartNew();
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 var cacheResult = cacheResults[i];
                 
                 // Play if needed
-                if (synthWishes.GetPlayAllTapes) synthWishes.Play(cacheResult.Data);
+                if (synthWishes.GetPlayAllTapes) synthWishes.Play(cacheResult);
                 
                 // Read from bytes or file
                 reloadedSamples[i] = synthWishes.Sample(cacheResult, name: displayNames[i]);
@@ -89,9 +89,9 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             stopWatch.Stop();
             
             // Report total real-time and complexity metrics.
-            double audioDuration = cacheResults.Max(y => y.Data.UnderlyingAudioFileOutput.Duration);
+            double audioDuration = cacheResults.Max(x => x.UnderlyingAudioFileOutput.Duration);
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
-            int complexity = cacheResults.Sum(y => y.Complexity());
+            int complexity = cacheResults.Sum(x => x.Complexity());
             string formattedMetrics = SynthWishes.FormatMetrics(audioDuration, calculationDuration, complexity);
             string message = $"{FrameworkStringWishes.PrettyTime()} Totals {name} Terms: {formattedMetrics}";
             Console.WriteLine(message);

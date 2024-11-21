@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -712,7 +711,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(expectedComplexity, () => complexity);
             }
 
-            Result<StreamAudioData> result = Cache(flowNode);
+            StreamAudioData result = Cache(flowNode);
             IsNotNull(() => result);
             {
                 string stringify = result.Stringify();
@@ -722,17 +721,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(complexityOld, () => complexity);
             }
 
-            StreamAudioData data = result.Data;
-            IsNotNull(() => data);
-            {
-                string stringify = data.Stringify();
-                IsNotNull(() => stringify);
-                int complexityOld = stringify.CountLines();
-                int complexity    = data.Complexity();
-                AreEqual(complexityOld, () => complexity);
-            }
-
-            AudioFileOutput audioFileOutput = data.UnderlyingAudioFileOutput;
+            AudioFileOutput audioFileOutput = result.UnderlyingAudioFileOutput;
             IsNotNull(() => audioFileOutput);
             {
                 string stringify = audioFileOutput.Stringify();

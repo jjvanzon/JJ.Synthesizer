@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
@@ -32,13 +31,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Operator entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
             => new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
-    
-        /// <inheritdoc cref="docs._stringify"/>
-        public static string Stringify(this Result<StreamAudioData> result, bool singleLine = false, bool canOmitNameForBasicMath = false)
-        {
-            if (result == null) throw new ArgumentNullException(nameof(result));
-            return Stringify(result.Data, singleLine, canOmitNameForBasicMath);
-        }
         
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this StreamAudioData data, bool singleLine = false, bool canOmitNameForBasicMath = false)

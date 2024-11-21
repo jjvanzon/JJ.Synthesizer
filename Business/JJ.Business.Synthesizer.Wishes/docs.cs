@@ -466,8 +466,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns>
         public static object _saveorplay;
 
-        /// <summary> Nullable. Not supplied when diskCacheOn is enabled. </summary>
-        /// <param name="bytes">Nullable. Not supplied when diskCacheOn is enabled.</param>
+        /// <summary> Nullable. Not supplied when DiskCacheOn. </summary>
+        /// <param name="bytes">Nullable. Not supplied when DiskCacheOn.</param>
         public static object _saveresultbytes;
         
         /// <summary>

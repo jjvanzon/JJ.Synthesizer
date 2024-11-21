@@ -4,8 +4,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Linq;
-using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -115,16 +113,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return operators.Count();
         }
         
-        public static int Complexity(this Result<StreamAudioData> result)
+        public static int Complexity(this StreamAudioData result)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));
-            return Complexity(result.Data);
-        }
-        
-        public static int Complexity(this StreamAudioData data)
-        {
-            if (data == null) throw new ArgumentNullException(nameof(data));
-            return Complexity(data.UnderlyingAudioFileOutput);
+            return Complexity(result.UnderlyingAudioFileOutput);
         }
         
         public static int Complexity(this AudioFileOutput entity)

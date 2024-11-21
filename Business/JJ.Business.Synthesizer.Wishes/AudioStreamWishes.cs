@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // StreamAudio on Instance
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Result<StreamAudioData> StreamAudio(
+        internal StreamAudioData StreamAudio(
             Func<FlowNode> channelInputFunc, 
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Result<StreamAudioData> StreamAudio(
+        internal StreamAudioData StreamAudio(
             FlowNode channelInput,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory, mustPad, additionalMessages, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Result<StreamAudioData> StreamAudio(
+        internal StreamAudioData StreamAudio(
             IList<FlowNode> channelInputs,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // StreamAudio in Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static Result<StreamAudioData> StreamAudio(
+        internal static StreamAudioData StreamAudio(
             AudioFileOutput audioFileOutput, 
             bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -194,7 +194,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var calculatorAccessor = new AudioFileOutputCalculatorAccessor(calculator);
             if (inMemory)
             {
-                // Inject an in-memory stream/
+                // Inject an in-memory stream
                 bytes = new byte[audioFileOutput.GetFileLengthNeeded()];
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
@@ -216,12 +216,7 @@ namespace JJ.Business.Synthesizer.Wishes
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
             // Result
-            var result = new Result<StreamAudioData>
-            {
-                Successful = true,
-                ValidationMessages = warnings.ToCanonical(),
-                Data = new StreamAudioData(bytes, audioFileOutput.FilePath, audioFileOutput)
-            };
+            var result = new StreamAudioData(bytes, audioFileOutput.FilePath, audioFileOutput, warnings);
 
             // Report
             var reportLines = GetReport(result, calculationDuration);
@@ -231,7 +226,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static Result<StreamAudioData> StreamAudio(
+        internal static StreamAudioData StreamAudio(
             StreamAudioData data, 
             bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -241,14 +236,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 data.UnderlyingAudioFileOutput,
                 inMemory, additionalMessages, name, callerMemberName);
         }
-
-        /// <inheritdoc cref="docs._saveorplay" />
-        internal static Result<StreamAudioData> StreamAudio(
-            Result<StreamAudioData> result, 
-            bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
-                result.Data, 
-                inMemory, additionalMessages, name, callerMemberName);
 
         // Helpers
                 
@@ -275,14 +262,12 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private static List<string> GetReport(Result<StreamAudioData> result, double calculationDuration)
+        private static List<string> GetReport(StreamAudioData result, double calculationDuration)
         {
-            ResultWishes.Assert(result);
-
             // Get Info
             var stringifiedChannels = new List<string>();
 
-            foreach (var audioFileOutputChannel in result.Data.UnderlyingAudioFileOutput.AudioFileOutputChannels)
+            foreach (var audioFileOutputChannel in result.UnderlyingAudioFileOutput.AudioFileOutputChannels)
             {
                 string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
                 stringifiedChannels.Add(stringify);
@@ -292,20 +277,20 @@ namespace JJ.Business.Synthesizer.Wishes
             var lines = new List<string>();
 
             lines.Add("");
-            lines.Add(GetPrettyTitle(result.Data.UnderlyingAudioFileOutput.Name ?? result.Data.UnderlyingAudioFileOutput.FilePath));
+            lines.Add(GetPrettyTitle(result.UnderlyingAudioFileOutput.Name ?? result.UnderlyingAudioFileOutput.FilePath));
             lines.Add("");
 
-            string realTimeComplexityMessage = FormatMetrics(result.Data.UnderlyingAudioFileOutput.Duration, calculationDuration, result.Complexity());
+            string realTimeComplexityMessage = FormatMetrics(result.UnderlyingAudioFileOutput.Duration, calculationDuration, result.Complexity());
             lines.Add(realTimeComplexityMessage);
             lines.Add("");
 
             lines.Add($"Calculation time: {PrettyDuration(calculationDuration)}");
-            lines.Add($"Audio length: {PrettyDuration(result.Data.UnderlyingAudioFileOutput.Duration)}");
-            lines.Add($"Sampling rate: {result.Data.UnderlyingAudioFileOutput.SamplingRate} Hz | {result.Data.UnderlyingAudioFileOutput.GetSampleDataTypeEnum()} | {result.Data.UnderlyingAudioFileOutput.GetSpeakerSetupEnum()}");
+            lines.Add($"Audio length: {PrettyDuration(result.UnderlyingAudioFileOutput.Duration)}");
+            lines.Add($"Sampling rate: {result.UnderlyingAudioFileOutput.SamplingRate} Hz | {result.UnderlyingAudioFileOutput.GetSampleDataTypeEnum()} | {result.UnderlyingAudioFileOutput.GetSpeakerSetupEnum()}");
 
             lines.Add("");
 
-            IList<string> warnings = result.ValidationMessages.Select(x => x.Text).ToArray();
+            IList<string> warnings = result.Messages.ToArray();
             if (warnings.Any())
             {
                 lines.Add("Warnings:");
@@ -313,7 +298,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add("");
             }
 
-            for (var i = 0; i < result.Data.UnderlyingAudioFileOutput.AudioFileOutputChannels.Count; i++)
+            for (var i = 0; i < result.UnderlyingAudioFileOutput.AudioFileOutputChannels.Count; i++)
             {
                 var channelString = stringifiedChannels[i];
 
@@ -323,13 +308,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add("");
             }
 
-            if (result.Data.Bytes != null)
+            if (result.Bytes != null)
             {
-                lines.Add($"{PrettyByteCount(result.Data.Bytes.Length)} written to memory.");
+                lines.Add($"{PrettyByteCount(result.Bytes.Length)} written to memory.");
             }
-            if (File.Exists(result.Data.FilePath)) // TODO: Remove the if. It may be redundant now.
+            if (File.Exists(result.FilePath)) // TODO: Remove the if. It may be redundant now.
             {
-                lines.Add($"Output file: {Path.GetFullPath(result.Data.FilePath)}");
+                lines.Add($"Output file: {Path.GetFullPath(result.FilePath)}");
             }
 
             lines.Add("");
@@ -482,16 +467,32 @@ namespace JJ.Business.Synthesizer.Wishes
         public byte[] Bytes { get; }
         public string FilePath { get; }
         public AudioFileOutput UnderlyingAudioFileOutput { get; }
+        public IList<string> Messages { get; }
+
+        /// <summary> HACK: Temporary constructor for PlayWishes to only return messages, not other data. </summary>
+        public StreamAudioData(IList<string> messages) => Messages = messages ?? new List<string>();
         
         /// <inheritdoc cref="docs._saveresultbytes"/>
         public StreamAudioData(
-            byte[] bytes,
+            byte[] bytes, 
             string filePath, 
-            AudioFileOutput underlyingAudioFileOutput)
+            AudioFileOutput underlyingAudioFileOutput,
+            IList<string> messages = default)
         {
+            if (underlyingAudioFileOutput == null)
+            {
+                throw new ArgumentNullException(nameof(underlyingAudioFileOutput));
+            }
+
+            if (string.IsNullOrWhiteSpace(filePath) && (bytes == null || bytes.Length == 0))
+            {
+                throw new ArgumentException("filePath and bytes are both null or empty.");
+            }
+            
             Bytes = bytes;
             FilePath = filePath;
-            UnderlyingAudioFileOutput = underlyingAudioFileOutput ?? throw new ArgumentNullException(nameof(underlyingAudioFileOutput));
+            UnderlyingAudioFileOutput = underlyingAudioFileOutput;
+            Messages = messages ?? new List<string>();
         }
     }
 }
