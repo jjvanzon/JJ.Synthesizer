@@ -22,17 +22,17 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Tape(FlowNode duration = null)
             => _synthWishes.Tape(this, duration);
         
-        public FlowNode Play()
-            => _synthWishes.Play(this);
+        public FlowNode PlayForChannel()
+            => _synthWishes.PlayForChannel(this);
 
-        public FlowNode Save(string filePath = null)
-            => _synthWishes.Save(this, filePath);
+        public FlowNode SaveForChannel(string filePath = null)
+            => _synthWishes.SaveForChannel(this, filePath);
         
-        public FlowNode Cache(Func<byte[], byte[]> bytesCallback)
-            => _synthWishes.Cache(this, bytesCallback);
+        public FlowNode CacheForChannel(Func<byte[], byte[]> bytesCallback)
+            => _synthWishes.CacheForChannel(this, bytesCallback);
         
-        public FlowNode Cache(Action<byte[]> bytesCallback)
-            => _synthWishes.Cache(this, bytesCallback);
+        public FlowNode CacheForChannel(Action<byte[]> bytesCallback)
+            => _synthWishes.CacheForChannel(this, bytesCallback);
     }
     
     // SynthWishes Parallelization
@@ -51,14 +51,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
         
-        public FlowNode Play(FlowNode signal)
+        public FlowNode PlayForChannel(FlowNode signal)
         {
             Tape tape = AddTape(signal);
             tape.MustPlay = true;
             return signal;
         }
         
-        public FlowNode Save(FlowNode signal, string filePath = null)
+        public FlowNode SaveForChannel(FlowNode signal, string filePath = null)
         {
             Tape tape = AddTape(signal);
             tape.MustSave = true;
@@ -66,10 +66,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
         
-        public FlowNode Cache(FlowNode signal, Action<byte[]> bytesCallback) 
-            => Cache(signal, x => { bytesCallback(x); return x; });
+        public FlowNode CacheForChannel(FlowNode signal, Action<byte[]> bytesCallback) 
+            => CacheForChannel(signal, x => { bytesCallback(x); return x; });
         
-        public FlowNode Cache(FlowNode signal, Func<byte[], byte[]> bytesCallback)
+        public FlowNode CacheForChannel(FlowNode signal, Func<byte[], byte[]> bytesCallback)
         {
             Tape tape = AddTape(signal);
             tape.MustCache = true;
