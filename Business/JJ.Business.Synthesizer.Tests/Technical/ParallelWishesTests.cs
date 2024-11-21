@@ -1,6 +1,8 @@
-﻿using JJ.Business.Synthesizer.Wishes;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
+using static JJ.Framework.Testing.AssertHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -101,18 +103,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void FluentCache_UsingTape()
         {
-            //WithStereo();
-            //WithDiskCacheOn();
-            //WithAudioLength(0.5);
-            WithShortDuration();
-            
-            Play(() => Sine(G4).Panning(0.2));
+            WithStereo();
 
-            //var buffers = new List<byte[]>();
-            //Play(() => Sine(G4).Panning(0.2).Cache(x => buffers.Add(x)));
-            //buffers.ForEach(x => x.Play());
+            var bufs = new List<byte[]>();
             
-            // TODO: Reconstruct stereo signal
+            Save(() => Sine(G4).Panning(0.1).Cache(buf => bufs.Add(buf))).Play();
+            
+            bufs.ForEach(x => x.Play());
+            
+            Save(() => Sample(bufs[0]).Panning(0) +
+                       Sample(bufs[1]).Panning(1)).Play();
         }
 
         // Helper
