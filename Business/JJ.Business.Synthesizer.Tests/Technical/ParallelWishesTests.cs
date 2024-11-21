@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void SelectiveTape_InconsistentDelay_BecauseASineIsForever()
         {
-            Play(() => Sine(A4).Tape() + Sine(A5));
+            Play(() => Sine(A3).Tape() + Sine(A4));
         }
         
         [TestMethod]
@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void PlayAllTapes()
         {
-            WithAudioLength(0.25);
+            WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
             WithPlayAllTapes();
             
             var pitch = G4;
@@ -33,21 +33,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                  ).Curve(0.4, 0.4));
         }
         
-        
         [TestMethod]
         public void TapeThatPlaysTest() => new ParallelWishesTests().TapeThatPlays();
         
         private void TapeThatPlays()
         {
-            var pitch = G4;
+            WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
+            
+            var pitch = A4;
             
             Play(() => Add
                  (
                      Sine(pitch * 1).Volume(1.0).Play(),
                      Sine(pitch * 2).Volume(0.2),
-                     Sine(pitch * 3).Volume(0.3).Play(),
+                     Sine(pitch * 3).Play().Volume(0.3),
                      Sine(pitch * 4).Volume(0.4),
-                     Sine(pitch * 5).Play().Volume(0.2)
+                     Sine(pitch * 5).Volume(0.2).Play()
                  ).Curve(0.4, 0.4));
         }
     }
