@@ -20,6 +20,9 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public FlowNode Tape(FlowNode duration = null)
             => _synthWishes.Tape(this, duration);
+        
+        public FlowNode Play()
+            => _synthWishes.Play(this);
     }
 
     // SynthWishes Parallelization
@@ -37,7 +40,14 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return signal;
         }
-
+        
+        public FlowNode Play(FlowNode signal)
+        {
+            Tape tape = AddTape(signal);
+            tape.MustPlay = true;
+            return signal;
+        }
+        
         /// <inheritdoc cref="docs._paralleladd" />
         public FlowNode ParallelAdd(params FlowNode[] termFuncs)
             => ParallelAdd((IList<FlowNode>)termFuncs);
@@ -148,11 +158,15 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
         
-        private void AddTape(Outlet outlet)
+        private Tape AddTape(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             
-            _tapes[outlet] = new Tape { Outlet = outlet };
+            var tape = new Tape { Outlet = outlet };
+            
+            _tapes[outlet] = tape;
+            
+            return tape;
         }
         
         private bool IsTape(Outlet outlet)
@@ -181,6 +195,7 @@ namespace JJ.Business.Synthesizer.Wishes
     internal class Tape
     {
         public Outlet Outlet { get; set; }
+        public bool MustPlay { get; set; }
     }
     
     /// <summary>
