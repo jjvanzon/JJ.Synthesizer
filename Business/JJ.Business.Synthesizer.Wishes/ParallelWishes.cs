@@ -28,7 +28,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Save(string filePath = null)
             => _synthWishes.Save(this, filePath);
         
-        public FlowNode Cache(Action<byte[]> bytesCallback) 
+        public FlowNode Cache(Func<byte[], byte[]> bytesCallback)
+            => _synthWishes.Cache(this, bytesCallback);
+        
+        public FlowNode Cache(Action<byte[]> bytesCallback)
             => _synthWishes.Cache(this, bytesCallback);
     }
     
@@ -63,7 +66,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
         
-        public FlowNode Cache(FlowNode signal, Action<byte[]> bytesCallback)
+        public FlowNode Cache(FlowNode signal, Action<byte[]> bytesCallback) 
+            => Cache(signal, x => { bytesCallback(x); return x; });
+        
+        public FlowNode Cache(FlowNode signal, Func<byte[], byte[]> bytesCallback)
         {
             Tape tape = AddTape(signal);
             tape.MustCache = true;
@@ -171,7 +177,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         // Actions
                         if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
                         if (tape.MustSave) Save(cacheResult, tape.FilePath, operand.Name);
-                        if (tape.MustCache) tape.BytesCallback(cacheResult.Bytes);
+                        if (tape.MustCache) cacheResult.Bytes = tape.BytesCallback(cacheResult.Bytes);
 
                         Console.WriteLine($"{PrettyTime()} End Task: {operand.Name} (Level {level})");
                     });
@@ -236,7 +242,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustSave { get; set; }
         public string FilePath { get; set; }
         public bool MustCache { get; set; }
-        public Action<byte[]> BytesCallback { get; set; }
+        public Func<byte[], byte[]> BytesCallback { get; set; }
     }
     
     /// <summary>
