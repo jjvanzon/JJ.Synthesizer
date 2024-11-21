@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.Threading.Tasks.Task;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
@@ -25,6 +26,13 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.Play(this);
     }
 
+    //// FlowNode Properties Turned Methods
+    
+    //public static class FlowNodePropertiesTurnedMethodsExtensions
+    //{
+    //    public static FlowNode Play(this FlowNode sound) => sound.Play;
+    //}
+    
     // SynthWishes Parallelization
     
     public partial class SynthWishes
@@ -126,9 +134,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (operand == null) continue;
                 
                 // Are we being parallel?
-                if (IsTape(operand))
+                Tape tape = TryGetTape(operand);
+                if (tape != null)
                 {
-                    RemoveTape(operand);
+                    RemoveTape(tape);
                     
                     var task = new Task(() =>
                     {
@@ -136,7 +145,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         
                         var cacheResult = Cache(operand, operand.Name);
                         
-                        if (GetPlayAllTapes) Play(cacheResult);
+                        if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
                 
                         var sampleOutlet = Sample(cacheResult, name: operand.Name);
 
@@ -184,6 +193,14 @@ namespace JJ.Business.Synthesizer.Wishes
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             
             _tapes.Remove(outlet);
+        }
+        
+        private void RemoveTape(Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            if (tape.Outlet == null) throw new NullException(() => tape.Outlet);
+            
+            _tapes.Remove(tape.Outlet);
         }
         
         private Tape TryGetTape(Outlet outlet)
