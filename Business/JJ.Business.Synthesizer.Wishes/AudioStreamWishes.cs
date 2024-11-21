@@ -90,10 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Apply Padding
             if (mustPad)
             {
-                for (int i = 0; i < channelInputs.Count; i++)
-                {
-                    channelInputs[i] = ApplyPadding(channelInputs[i]);
-                }
+                ApplyPadding(channelInputs);
             }
 
             // Run Parallel Processing
@@ -115,7 +112,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return result;
         }
-
+        
         internal AudioFileOutput ConfigureAudioFileOutput(IList<FlowNode> channelInputs, string name)
         {
             // Configure AudioFileOutput (avoid backend)
@@ -238,26 +235,40 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Helpers
-                
-        private FlowNode ApplyPadding(FlowNode outlet)
+        
+        private void ApplyPadding(IList<FlowNode> channelInputs)
         {
             if (GetLeadingSilence == 0 &&
                 GetTrailingSilence == 0)
             {
-                return outlet;
+                return;
             }
-
-            Console.WriteLine($"{PrettyTime()} Padding a channel: {GetLeadingSilence} s before | {GetTrailingSilence} s after");
-
+            
+            Console.WriteLine($"{PrettyTime()} Padding: {GetLeadingSilence} s before | {GetTrailingSilence} s after");
+            
+            var originalAudioLength = GetAudioLength;
+            
+            // Extend AudioLength once for the two channels.
             AddAudioLength(GetLeadingSilence);
             AddAudioLength(GetTrailingSilence);
-            
+
+            Console.WriteLine($"{PrettyTime()} Padding: AudioLength = {originalAudioLength} + {GetLeadingSilence} + {GetTrailingSilence} = {GetAudioLength}");
+
+            for (int i = 0; i < channelInputs.Count; i++)
+            {
+                channelInputs[i] = ApplyPaddingToChannel(channelInputs[i]);
+            }
+        }
+
+        private FlowNode ApplyPaddingToChannel(FlowNode outlet)
+        {
             if (GetLeadingSilence == 0)
             {
                 return outlet;
             }
             else
             {
+                Console.WriteLine($"{PrettyTime()} Padding: Channel Delay + {GetLeadingSilence} s");
                 return Delay(outlet, _[GetLeadingSilence]);
             }
         }
