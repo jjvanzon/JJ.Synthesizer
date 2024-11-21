@@ -230,13 +230,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._multiply"/>
         public FlowNode Multiply(FlowNode a, FlowNode b)
         {
+            a = a ?? _[1];
+            b = b ?? _[1];
+
             if (!MathAllowed(a, b))
             {
                 return _[_operatorFactory.Multiply(a, b)];
             }
-            
-            a = a ?? _[1];
-            b = b ?? _[1];
 
             // Reverse operands increasing likelihood to have a 0-valued (volume) curve first.
             (a, b) = (b, a);
