@@ -81,14 +81,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             WithShortDuration();
             WithStereo();
-            
+
             Play(() => Add
                  (
                      Sine(pitch * 1).Volume(1.0).Panning(0.2).Play(),
                      Sine(pitch * 2).Volume(0.3).Panning(0.8).Play()
                  ) * Envelope * 1.5);
-            
-            // Pretty, but not adding much to the test.
+
             Play(() => Add
                  (
                      1.0 * Sine(pitch * 1).Panbrello(3.000, 0.2).Play(),
@@ -109,9 +108,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Play(() => Sine(G4).Panning(0.2));
 
-            //var bytes = new List<byte[]>();
-            //Play(() => Sine(G4).Panning(0.2).Cache(x => bytes.Add(x)));
-            //bytes.ForEach(x => x.Play());
+            //var buffers = new List<byte[]>();
+            //Play(() => Sine(G4).Panning(0.2).Cache(x => buffers.Add(x)));
+            //buffers.ForEach(x => x.Play());
             
             // TODO: Reconstruct stereo signal
         }
