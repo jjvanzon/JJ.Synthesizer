@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public double Calculate(Outlet outlet, double time)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            return outlet.Calculate(time, ChannelIndex);
+            return outlet.Calculate(time, GetChannelIndex);
         }
     }
 

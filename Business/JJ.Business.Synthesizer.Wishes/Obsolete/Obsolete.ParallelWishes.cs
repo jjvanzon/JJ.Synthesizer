@@ -39,18 +39,18 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 // Get outlets first
                 var channelOutlets = new FlowNode[channelCount];
                 
-                var originalChannel = synthWishes.Channel;
+                var originalChannel = synthWishes.GetChannel;
                 try
                 {
                     for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                     {
-                        synthWishes.ChannelIndex = channelIndex;
+                        synthWishes.WithChannelIndex(channelIndex);
                         channelOutlets[channelIndex] = termFuncs[i](); // This runs parallels, because the funcs can contain another parallel add.
                     }
                 }
                 finally
                 {
-                    synthWishes.Channel = originalChannel;
+                    synthWishes.WithChannel(originalChannel);
                 }
                 
                 // Generate audio

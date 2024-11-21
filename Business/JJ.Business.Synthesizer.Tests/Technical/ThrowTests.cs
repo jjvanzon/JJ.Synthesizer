@@ -42,10 +42,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         void ExceptionsInWishes()
         {
-            Channel = _invalidChannelEnum = 0;
+            WithChannel(_invalidChannelEnum = 0);
 
             // OperatorWishes.SynthesizerSugar.ChannelIndex InvalidChannelEnum
-            ThrowsException(() => { _channelIndex = ChannelIndex; });
+            ThrowsException(() => { _channelIndex = GetChannelIndex; });
 
             // OperatorWishes.SynthesizerSugar.Panning WithConst_InvalidChannelEnum 
             ThrowsException(() => Panning(Sine(), _[0.25]));

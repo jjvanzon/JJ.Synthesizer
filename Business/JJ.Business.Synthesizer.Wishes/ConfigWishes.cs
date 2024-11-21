@@ -64,31 +64,32 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private const int                   DefaultBits          = 32;
         private const SpeakerSetupEnum      DefaultSpeakers      = Mono;
+        private const ChannelEnum           DefaultChannel       = ChannelEnum.Single;
         private const int                   DefaultSamplingRate  = 48000;
         private const AudioFileFormatEnum   DefaultAudioFormat   = Wav;
         private const InterpolationTypeEnum DefaultInterpolation = Line;
-        
+
         // Audio Lengths
         
-        private const double                DefaultAudioLength     = 1;
-        private const double                DefaultLeadingSilence  = 0.25;
-        private const double                DefaultTrailingSilence = 0.25;
+        private const double DefaultAudioLength     = 1;
+        private const double DefaultLeadingSilence  = 0.25;
+        private const double DefaultTrailingSilence = 0.25;
         
         // Feature Toggles
         
-        private const bool                  DefaultPlayBack     = true;
-        private const bool                  DefaultMathBoost    = true;
-        private const bool                  DefaultParallels    = true;
-        private const bool                  DefaultDiskCacheOn  = false;
-        private const bool                  DefaultPlayAllTapes = false;
+        private const bool DefaultPlayBack     = true;
+        private const bool DefaultMathBoost    = true;
+        private const bool DefaultParallels    = true;
+        private const bool DefaultDiskCacheOn  = false;
+        private const bool DefaultPlayAllTapes = false;
         
         // Tooling
         
-        private const string                DefaultLongTestCategory               = "Long";
-        private const int                   DefaultToolingSamplingRate            = 150;
-        private const int                   DefaultToolingSamplingRateLongRunning = 30;
-        private const bool                  DefaultToolingPlayBack                = false;
-        private const bool                  DefaultToolingImpersonation           = false;
+        private const string DefaultLongTestCategory               = "Long";
+        private const int    DefaultToolingSamplingRate            = 150;
+        private const int    DefaultToolingSamplingRateLongRunning = 30;
+        private const bool   DefaultToolingPlayBack                = false;
+        private const bool   DefaultToolingImpersonation           = false;
         
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
@@ -113,9 +114,11 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Channel
         
-        public ChannelEnum Channel { get; set; } = ChannelEnum.Single;
-        public int ChannelIndex { get => Channel.ToIndex(); set => Channel = value.ToChannel(GetSpeakers); }
-        public void WithChannel(ChannelEnum channel) => Channel = channel;
+        private ChannelEnum _channel = DefaultChannel;
+        public ChannelEnum GetChannel => _channel;
+        public void WithChannel(ChannelEnum channel) => _channel = channel;
+        public int GetChannelIndex => _channel.ToIndex();
+        public void WithChannelIndex(int value) => _channel = value.ToChannel(GetSpeakers);
         public void WithLeft() => WithChannel(ChannelEnum.Left);
         public void WithRight() => WithChannel(ChannelEnum.Right);
         public void WithCenter() => WithChannel(ChannelEnum.Single);
@@ -396,9 +399,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes WithMono() { _configResolver.WithMono(); return this; }
         public SynthWishes WithStereo() { _configResolver.WithStereo(); return this; }
         
-        public ChannelEnum Channel { get => _configResolver.Channel; set => _configResolver.Channel = value; }
-        public int ChannelIndex { get => _configResolver.ChannelIndex; set => _configResolver.ChannelIndex = value; }
+        public ChannelEnum GetChannel => _configResolver.GetChannel;
+        public int GetChannelIndex => _configResolver.GetChannelIndex;
         public SynthWishes WithChannel(ChannelEnum channel) { _configResolver.WithChannel(channel); return this; }
+        public SynthWishes WithChannelIndex(int value) { _configResolver.WithChannelIndex(value); return this; }
         public SynthWishes WithLeft() { _configResolver.WithLeft(); return this; }
         public SynthWishes WithRight()  { _configResolver.WithRight(); return this; }
         public SynthWishes WithCenter()  { _configResolver.WithCenter(); return this; }
@@ -474,9 +478,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode WithMono() { _synthWishes.WithMono(); return this; }
         public FlowNode WithStereo() { _synthWishes.WithStereo(); return this; }
 
-        public ChannelEnum Channel { get => _synthWishes.Channel; set => _synthWishes.Channel = value; }
-        public int ChannelIndex { get => _synthWishes.ChannelIndex; set => _synthWishes.ChannelIndex = value; }
+        public ChannelEnum GetChannel => _synthWishes.GetChannel;
+        public int GetChannelIndex => _synthWishes.GetChannelIndex;
         public FlowNode WithChannel(ChannelEnum channel) { _synthWishes.WithChannel(channel); return this; }
+        public FlowNode WithChannelIndex(int value) { _synthWishes.WithChannelIndex(value); return this;}
         public FlowNode WithLeft()  { _synthWishes.WithLeft(); return this; }
         public FlowNode WithRight() { _synthWishes.WithRight(); return this; }
         public FlowNode WithCenter() { _synthWishes.WithCenter(); return this; }

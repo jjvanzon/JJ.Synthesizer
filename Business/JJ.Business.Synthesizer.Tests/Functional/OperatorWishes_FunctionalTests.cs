@@ -54,8 +54,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Arrange
             FlowNode fixedValues()
             {
-                if (Channel == ChannelEnum.Left) return _[0.8];
-                if (Channel == ChannelEnum.Right) return _[0.6];
+                if (GetChannel == ChannelEnum.Left) return _[0.8];
+                if (GetChannel == ChannelEnum.Right) return _[0.6];
                 return default;
             }
 
@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Arrange
             FlowNode TestSignal()
             {
-                switch (Channel)
+                switch (GetChannel)
                 {
                     case ChannelEnum.Left:  return _[0.8];
                     case ChannelEnum.Right: return _[0.6];

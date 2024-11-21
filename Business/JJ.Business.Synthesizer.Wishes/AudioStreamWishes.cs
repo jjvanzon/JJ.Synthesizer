@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             name = FetchName(name, callerMemberName);
 
-            var originalChannel = Channel;
+            var originalChannel = GetChannel;
             try
             {
                 switch (GetSpeakers)
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             finally
             {
-                Channel = originalChannel;
+                WithChannel(originalChannel);
             }
         }
         

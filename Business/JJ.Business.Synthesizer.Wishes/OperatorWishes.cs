@@ -1019,7 +1019,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(FlowNode sound, FlowNode panning)
         {
-            ChannelEnum channel = Channel;
+            ChannelEnum channel = GetChannel;
 
             // Some optimization in case of a constant value
             {
@@ -1043,7 +1043,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(FlowNode sound, double panning)
         {
-            ChannelEnum channel = Channel;
+            ChannelEnum channel = GetChannel;
 
             if (panning < 0) panning = 0;
             if (panning > 1) panning = 1;

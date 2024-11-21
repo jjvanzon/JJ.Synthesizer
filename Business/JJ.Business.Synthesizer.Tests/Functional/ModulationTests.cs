@@ -370,7 +370,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._echo" />
         internal FlowNode DeepEcho(FlowNode sound)
         {
-            switch (Channel)
+            switch (GetChannel)
             {
                 case ChannelEnum.Single:
                     // Test WithName
@@ -386,7 +386,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     return (sound * 0.4).Echo(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR, MemberName()) / 0.4;
                 
                 default: 
-                    throw new ValueNotSupportedException(Channel);
+                    throw new ValueNotSupportedException(GetChannel);
             }
         }
 

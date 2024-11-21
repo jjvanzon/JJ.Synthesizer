@@ -322,7 +322,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         /// <param name="channel">
         /// The channel for which to calculate the panning.
-        /// If omitted, the <see cref="SynthWishes.Channel"/> property is used,
+        /// If omitted, the <see cref="SynthWishes.GetChannel"/> property is used,
         /// which indicates the current channel.
         /// </param>
         /// <inheritdoc cref="_default" />
@@ -516,7 +516,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _stringify;
 
         /// <summary>
-        /// Uses the channel specified by the <see cref="SynthWishes.Channel"/> property.
+        /// Uses the channel specified by the <see cref="SynthWishes.GetChannel"/> property.
         /// Or you can call e.g. <c>Outlet.Calculate(time, ChannelEnum.Right)</c>
         /// </summary>
         public static object _synthwishescalculate;
