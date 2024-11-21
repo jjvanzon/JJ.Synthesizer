@@ -86,29 +86,39 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Fetch Name
             name = FetchName(name, callerMemberName);
-
-            // Apply Padding
-            if (mustPad)
-            {
-                ApplyPadding(channelInputs);
-            }
-
-            // Run Parallel Processing
-            if (GetParallels)
-            {
-                RunParallelsRecursive(channelInputs); 
-            }
-
-            // Configure AudioFileOutput (avoid backend)
-            AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channelInputs, name);
-
-            // Gather Warnings
-            IList<string> toolingWarnings =
-                new ToolingHelper(_configResolver).GetToolingWarnings(audioFileOutput.GetFileExtension());
-            IList<string> warnings = additionalMessages.Union(toolingWarnings).ToArray();
             
-            // Write Audio
-            var result = StreamAudio(audioFileOutput, inMemory, warnings, name);
+            StreamAudioResult result;
+            
+            // Apply Padding
+            var originalAudioLength = GetAudioLength;
+            try
+            {
+                if (mustPad)
+                {
+                    ApplyPadding(channelInputs);
+                }
+                
+                // Run Parallel Processing
+                if (GetParallels)
+                {
+                    RunParallelsRecursive(channelInputs);
+                }
+                
+                // Configure AudioFileOutput (avoid backend)
+                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channelInputs, name);
+                
+                // Gather Warnings
+                IList<string> toolingWarnings =
+                    new ToolingHelper(_configResolver).GetToolingWarnings(audioFileOutput.GetFileExtension());
+                IList<string> warnings = additionalMessages.Union(toolingWarnings).ToArray();
+                
+                // Write Audio
+                result = StreamAudio(audioFileOutput, inMemory, warnings, name);
+            }
+            finally
+            {
+                WithAudioLength(originalAudioLength);
+            }
             
             return result;
         }
