@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class ParallelWishesTests : SynthWishes
     {
         [TestMethod]
-        public void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot_Test() 
+        public void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot_Test()
             => new ParallelWishesTests().SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot();
         
         private void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot()
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                      Sine(pitch * 1).Volume(1.0),
                      Sine(pitch * 2).Volume(0.2),
                      Sine(pitch * 3).Volume(0.3)
-                 ).Curve(0.4, 0.4));
+                 ) * Envelope);
         }
         
         [TestMethod]
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                      Sine(pitch * 3).Play().Volume(0.3),
                      Sine(pitch * 4).Volume(0.4),
                      Sine(pitch * 5).Volume(0.2).Play()
-                 ).Curve(0.4, 0.4));
+                 ) * Envelope);
         }
         
         [TestMethod]
@@ -69,7 +69,34 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                      Sine(pitch * 3).Save("TapeThatIsSaved Partial 2").Volume(0.3),
                      Sine(pitch * 4).Volume(0.4),
                      Sine(pitch * 5).Volume(0.2).SetName("TapeThatIsSaved Partial 3").Save()
-                 ).Curve(0.4, 0.4)).Save();
+                 ) * Envelope).Save();
         }
+        
+        [TestMethod]
+        public void Tape_Streaming_GoesPerChannel_Test() => new ParallelWishesTests().Tape_Streaming_GoesPerChannel();
+        
+        private void Tape_Streaming_GoesPerChannel()
+        {
+            WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
+            WithStereo();
+            
+            var pitch = A4;
+            
+            Play(() => Add
+                 (
+                     Sine(pitch * 1).Volume(1.0).Panning(0.2).Play(),
+                     Sine(pitch * 2).Volume(0.2).Panning(0.4).Play(),
+                     Sine(pitch * 3).Volume(0.3).Panning(0.9).Play()
+                 ) * Envelope * 1.5);
+            
+            Play(() => Add
+                 (
+                     1.0 * Sine(pitch * 1).Panbrello(3.000, 0.2).Play(),
+                     0.2 * Sine(pitch * 2).Panbrello(5.234, 0.3).Play(),
+                     0.3 * Sine(pitch * 3).Panbrello(7.000, 0.2).Play()
+                 ) * Envelope * 1.5);
+        }
+        
+        FlowNode Envelope => Curve(0.4, 0.4);
     }
 }
