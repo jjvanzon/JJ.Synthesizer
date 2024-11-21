@@ -24,14 +24,10 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public FlowNode Play()
             => _synthWishes.Play(this);
-    }
 
-    //// FlowNode Properties Turned Methods
-    
-    //public static class FlowNodePropertiesTurnedMethodsExtensions
-    //{
-    //    public static FlowNode Play(this FlowNode sound) => sound.Play;
-    //}
+        public FlowNode Save(string filePath = null)
+            => _synthWishes.Save(this, filePath);
+    }
     
     // SynthWishes Parallelization
     
@@ -53,6 +49,14 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = AddTape(signal);
             tape.MustPlay = true;
+            return signal;
+        }
+        
+        public FlowNode Save(FlowNode signal, string filePath = null)
+        {
+            Tape tape = AddTape(signal);
+            tape.MustSave = true;
+            tape.FilePath = filePath;
             return signal;
         }
         
@@ -144,17 +148,18 @@ namespace JJ.Business.Synthesizer.Wishes
                         Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
                         
                         var cacheResult = Cache(operand, operand.Name);
-                        
-                        if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
-                
                         var sampleOutlet = Sample(cacheResult, name: operand.Name);
-
+                        
                         // Replace all references to tape
                         IList<Inlet> connectedInlets = operand.UnderlyingOutlet.ConnectedInlets.ToArray();
                         foreach (Inlet inlet in connectedInlets)
                         {
                             inlet.LinkTo(sampleOutlet);
                         }
+                        
+                        // Actions
+                        if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
+                        if (tape.MustSave) Save(cacheResult, tape.FilePath, operand.Name);
 
                         Console.WriteLine($"{PrettyTime()} End Task: {operand.Name} (Level {level})");
                     });
@@ -216,6 +221,8 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public Outlet Outlet { get; set; }
         public bool MustPlay { get; set; }
+        public bool MustSave { get; set; }
+        public string FilePath { get; set; }
     }
     
     /// <summary>
