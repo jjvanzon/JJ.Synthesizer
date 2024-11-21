@@ -138,6 +138,7 @@
     <Compile Include="Technical\EnumWishesTests.cs" />
     <Compile Include="Technical\FrameworkWishesTests.cs" />
     <Compile Include="Technical\OperatorWishes_TechnicalTests.cs" />
+    <Compile Include="Technical\ParallelWishesTests.cs" />
     <Compile Include="Technical\StringifyWishesTests.cs" />
     <Compile Include="Technical\ThrowTests.cs" />
     <Compile Include="Functional\OperatorWishes_FunctionalTests.cs" />
