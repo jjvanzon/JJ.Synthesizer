@@ -1328,9 +1328,6 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, int count = 4, FlowNode magnitude = default, FlowNode delay = default,
             [CallerMemberName] string callerMemberName = null)
         {
-            // Fetch (user-chosen) name before anything else does.
-            //string name = FetchName(callerMemberName);
-
             magnitude = magnitude ?? _[0.66];
             delay = delay ?? _[0.25];
 
@@ -1350,17 +1347,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay += delay;
             }
 
-            //string originalName = GetName;
-            //try
-            //{
-            //    WithName(name);
-
                 return ParallelAdd(repeats);
-            //}
-            //finally
-            //{
-            //    WithName(originalName);
-            //}
         }
         
         public FlowNode EchoTape(
