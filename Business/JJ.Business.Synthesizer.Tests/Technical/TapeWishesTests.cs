@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithStereo();
             WithShortDuration();
 
-            var bufs = new AudioStreamResult[2];
+            var bufs = new Buff[2];
             
             Save(() => Sine(G4).Panning(0.1).ChannelCache((b, i) => bufs[i] = b)).Play();
 

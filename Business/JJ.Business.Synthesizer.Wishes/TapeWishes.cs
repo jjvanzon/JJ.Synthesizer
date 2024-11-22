@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustPlay { get; set; }
         public bool MustSave { get; set; }
         public string FilePath { get; set; }
-        public Action<AudioStreamResult, int> ResultCallback { get; set; }
+        public Action<Buff, int> ResultCallback { get; set; }
     }
     
     /// <summary>

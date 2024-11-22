@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Play on Instance
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public AudioStreamResult Play(
+        public Buff Play(
             Func<FlowNode> channelInputFunc,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public AudioStreamResult Play(
+        public Buff Play(
             FlowNode channelInput, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public AudioStreamResult Play(
+        public Buff Play(
             IList<FlowNode> channelInputs, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -71,12 +71,12 @@ namespace JJ.Business.Synthesizer.Wishes
         // ChannelPlay
         
         public FlowNode ChannelPlay(FlowNode signal) 
-            => ChannelPlay(signal, default(Action<AudioStreamResult, int>));
+            => ChannelPlay(signal, default(Action<Buff, int>));
         
-        public FlowNode ChannelPlay(FlowNode signal, Action<AudioStreamResult> resultCallback)
+        public FlowNode ChannelPlay(FlowNode signal, Action<Buff> resultCallback)
             => ChannelPlay(signal, (x, i) => resultCallback(x));
         
-        public FlowNode ChannelPlay(FlowNode signal, Action<AudioStreamResult, int> resultCallback)
+        public FlowNode ChannelPlay(FlowNode signal, Action<Buff, int> resultCallback)
         {
             Tape tape = AddTape(signal);
             tape.MustPlay = true;
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Internals
         
-        internal static AudioStreamResult InternalPlay(SynthWishes synthWishes, AudioStreamResult result)
+        internal static Buff InternalPlay(SynthWishes synthWishes, Buff result)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));
             
@@ -99,28 +99,28 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static AudioStreamResult InternalPlay(SynthWishes synthWishes, AudioFileOutput entity)
+        internal static Buff InternalPlay(SynthWishes synthWishes, AudioFileOutput entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return InternalPlay(synthWishes, entity.FilePath, null, entity.GetFileExtension());
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static AudioStreamResult InternalPlay(SynthWishes synthWishes, Sample entity)
+        internal static Buff InternalPlay(SynthWishes synthWishes, Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return InternalPlay(synthWishes, entity.Location, entity.Bytes, entity.GetFileExtension());
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static AudioStreamResult InternalPlay(SynthWishes synthWishes, byte[] bytes)
+        internal static Buff InternalPlay(SynthWishes synthWishes, byte[] bytes)
             => InternalPlay(synthWishes, null, bytes, null);
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static AudioStreamResult InternalPlay(SynthWishes synthWishes, string filePath)
+        internal static Buff InternalPlay(SynthWishes synthWishes, string filePath)
             => InternalPlay(synthWishes, filePath, null, Path.GetExtension(filePath));
         
-        internal static AudioStreamResult InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension)
+        internal static Buff InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension)
         {
             ConfigResolver configResolver = synthWishes?._configResolver ?? new ConfigResolver();
             
@@ -154,22 +154,22 @@ namespace JJ.Business.Synthesizer.Wishes
             // Write Lines
             lines.ForEach(x => Console.WriteLine(x ?? ""));
             
-            // TODO: Merge together with previous AudioStreamResult, if available.
-            return new AudioStreamResult(lines);
+            // TODO: Merge together with previous Buff, if available.
+            return new Buff(lines);
         }
         
         // Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Play(AudioStreamResult result) => InternalPlay(null, result);
+        public static Buff Play(Buff result) => InternalPlay(null, result);
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Play(AudioFileOutput entity) => InternalPlay(null, entity);
+        public static Buff Play(AudioFileOutput entity) => InternalPlay(null, entity);
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Play(Sample entity) => InternalPlay(null, entity);
+        public static Buff Play(Sample entity) => InternalPlay(null, entity);
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Play(byte[] bytes) => InternalPlay(null, bytes);
+        public static Buff Play(byte[] bytes) => InternalPlay(null, bytes);
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Play(string filePath) => InternalPlay(null, filePath);
+        public static Buff Play(string filePath) => InternalPlay(null, filePath);
     }
     
     // Statics Turned Instance
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Make statics available on instances by using extension methods.
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static SynthWishes Play(this SynthWishes synthWishes, AudioStreamResult result) { InternalPlay(synthWishes, result); return synthWishes; }
+        public static SynthWishes Play(this SynthWishes synthWishes, Buff result) { InternalPlay(synthWishes, result); return synthWishes; }
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Play(this SynthWishes synthWishes, Sample entity) { InternalPlay(synthWishes, entity); return synthWishes; }
         /// <inheritdoc cref="docs._saveorplay" />
@@ -196,7 +196,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FlowNode
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public FlowNode Play(AudioStreamResult result) { InternalPlay(_synthWishes, result); return this; }
+        public FlowNode Play(Buff result) { InternalPlay(_synthWishes, result); return this; }
         /// <inheritdoc cref="docs._saveorplay" />
         public FlowNode Play(AudioFileOutput entity) { InternalPlay(_synthWishes, entity); return this; }
         /// <inheritdoc cref="docs._saveorplay" />
@@ -207,8 +207,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Play(string filePath) { InternalPlay(_synthWishes, filePath); return this; }
         
         public FlowNode ChannelPlay() => _synthWishes.ChannelPlay(this);
-        public FlowNode ChannelPlay(Action<AudioStreamResult> resultCallback) => _synthWishes.ChannelPlay(this, resultCallback);
-        public FlowNode ChannelPlay(Action<AudioStreamResult, int> resultCallback) => _synthWishes.ChannelPlay(this, resultCallback);
+        public FlowNode ChannelPlay(Action<Buff> resultCallback) => _synthWishes.ChannelPlay(this, resultCallback);
+        public FlowNode ChannelPlay(Action<Buff, int> resultCallback) => _synthWishes.ChannelPlay(this, resultCallback);
 
     }
 
@@ -218,14 +218,14 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class PlayExtensionWishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Play(this AudioStreamResult result) => InternalPlay(null, result);
+        public static Buff Play(this Buff result) => InternalPlay(null, result);
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Play(this AudioFileOutput entity) => InternalPlay(null, entity);
+        public static Buff Play(this AudioFileOutput entity) => InternalPlay(null, entity);
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Play(this Sample entity) => InternalPlay(null, entity);
+        public static Buff Play(this Sample entity) => InternalPlay(null, entity);
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Play(this byte[] bytes) => InternalPlay(null, bytes);
+        public static Buff Play(this byte[] bytes) => InternalPlay(null, bytes);
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Play(this string filePath) => InternalPlay(null, filePath);
+        public static Buff Play(this string filePath) => InternalPlay(null, filePath);
     }
 }

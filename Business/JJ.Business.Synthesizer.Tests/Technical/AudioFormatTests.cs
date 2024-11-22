@@ -258,7 +258,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // Save to file
-            AudioStreamResult saveResult1      = WithAudioLength(DURATION).WithName(callerMemberName).Cache(getSignal);
+            Buff saveResult1      = WithAudioLength(DURATION).WithName(callerMemberName).Cache(getSignal);
             AudioFileOutput   audioFileOutput1 = saveResult1.UnderlyingAudioFileOutput;
             byte[]            bytes            = saveResult1.Bytes;
             // Use sample operator
@@ -280,7 +280,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             
             // Save to file again
-            AudioStreamResult saveResult2      = WithAudioLength(DURATION2).Cache(getSample, $"{callerMemberName}_Reloaded");
+            Buff saveResult2      = WithAudioLength(DURATION2).Cache(getSample, $"{callerMemberName}_Reloaded");
             AudioFileOutput   audioFileOutput2 = saveResult2.UnderlyingAudioFileOutput;
             
             // Assert AudioFileOutput Entities

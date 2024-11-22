@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Save on Instance
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public AudioStreamResult Save(
+        public Buff Save(
             Func<FlowNode> channelInputFunc, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public AudioStreamResult Save(
+        public Buff Save(
             FlowNode channelInput, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public AudioStreamResult Save(
+        public Buff Save(
             IList<FlowNode> channelInputs, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
@@ -39,21 +39,21 @@ namespace JJ.Business.Synthesizer.Wishes
         // ChannelSave on Instance
         
         public FlowNode ChannelSave(FlowNode signal)
-            => ChannelSave(signal, null, default(Action<AudioStreamResult, int>));
+            => ChannelSave(signal, null, default(Action<Buff, int>));
         
         public FlowNode ChannelSave(FlowNode signal, string filePath)
-            => ChannelSave(signal, filePath, default(Action<AudioStreamResult, int>));
+            => ChannelSave(signal, filePath, default(Action<Buff, int>));
         
-        public FlowNode ChannelSave(FlowNode signal, Action<AudioStreamResult> resultCallback)
+        public FlowNode ChannelSave(FlowNode signal, Action<Buff> resultCallback)
             => ChannelSave(signal, null, resultCallback);
         
-        public FlowNode ChannelSave(FlowNode signal, Action<AudioStreamResult, int> resultCallback)
+        public FlowNode ChannelSave(FlowNode signal, Action<Buff, int> resultCallback)
             => ChannelSave(signal, null, resultCallback);
         
-        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<AudioStreamResult> resultCallback)
+        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<Buff> resultCallback)
             => ChannelSave(signal, filePath, (x, y) => resultCallback(x));
         
-        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<AudioStreamResult, int> resultCallback)
+        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<Buff, int> resultCallback)
         {
             Tape tape = AddTape(signal);
             tape.MustSave = true;
@@ -65,15 +65,15 @@ namespace JJ.Business.Synthesizer.Wishes
         // Save in Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Save(
-            AudioStreamResult result,
+        public static Buff Save(
+            Buff result,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 result, 
                 inMemory: false, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Save(
+        public static Buff Save(
             AudioFileOutput entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Save(
             this SynthWishes synthWishes, 
-            AudioStreamResult result, 
+            Buff result, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
@@ -174,7 +174,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public FlowNode Save(
-            AudioStreamResult result, 
+            Buff result, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             filePath = _synthWishes.FetchName(result?.FilePath, callerMemberName, explicitName: filePath);
@@ -236,16 +236,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode ChannelSave(string filePath)
             => _synthWishes.ChannelSave(this, filePath);
         
-        public FlowNode ChannelSave(Action<AudioStreamResult> resultCallback)
+        public FlowNode ChannelSave(Action<Buff> resultCallback)
             => _synthWishes.ChannelSave(this, resultCallback);
         
-        public FlowNode ChannelSave(Action<AudioStreamResult, int> resultCallback)
+        public FlowNode ChannelSave(Action<Buff, int> resultCallback)
             => _synthWishes.ChannelSave(this, resultCallback);
         
-        public FlowNode ChannelSave(string filePath, Action<AudioStreamResult> resultCallback)
+        public FlowNode ChannelSave(string filePath, Action<Buff> resultCallback)
             => _synthWishes.ChannelSave(this, filePath, resultCallback);
         
-        public FlowNode ChannelSave(string filePath, Action<AudioStreamResult, int> resultCallback)
+        public FlowNode ChannelSave(string filePath, Action<Buff, int> resultCallback)
             => _synthWishes.ChannelSave(this, filePath, resultCallback);
     }
 
@@ -254,15 +254,15 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class SaveExtensionWishes 
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Save(
-            this AudioStreamResult result,
+        public static Buff Save(
+            this Buff result,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.StreamAudio(
                 result, 
                 inMemory: false, null, filePath, callerMemberName);    
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static AudioStreamResult Save(
+        public static Buff Save(
             this AudioFileOutput entity,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.StreamAudio(

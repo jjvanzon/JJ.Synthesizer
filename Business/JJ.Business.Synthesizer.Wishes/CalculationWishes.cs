@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return operators.Count();
         }
         
-        public static int Complexity(this AudioStreamResult result)
+        public static int Complexity(this Buff result)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));
             return Complexity(result.UnderlyingAudioFileOutput);
