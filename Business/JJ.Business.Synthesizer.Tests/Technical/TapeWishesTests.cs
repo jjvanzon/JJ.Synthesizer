@@ -9,11 +9,11 @@ using static JJ.Framework.Testing.AssertHelper;
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
-    public class ParallelWishesTests : SynthWishes
+    public class TapeWishesTests : SynthWishes
     {
         [TestMethod]
         public void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot_Test()
-            => new ParallelWishesTests().SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot();
+            => new TapeWishesTests().SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot();
         
         private void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot()
         {
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void PlayAllTapesTest() => new ParallelWishesTests().PlayAllTapes();
+        public void PlayAllTapesTest() => new TapeWishesTests().PlayAllTapes();
         
         private void PlayAllTapes()
         {
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void FluentPlay_UsingTape_Test() => new ParallelWishesTests().FluentPlay_UsingTape();
+        public void FluentPlay_UsingTape_Test() => new TapeWishesTests().FluentPlay_UsingTape();
         
         private void FluentPlay_UsingTape()
         {
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void FluentSave_UsingTape_Test() => new ParallelWishesTests().FluentSave_UsingTape();
+        public void FluentSave_UsingTape_Test() => new TapeWishesTests().FluentSave_UsingTape();
         
         private void FluentSave_UsingTape()
         {
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Tape_Streaming_GoesPerChannel_Test() => new ParallelWishesTests().Tape_Streaming_GoesPerChannel();
+        public void Tape_Streaming_GoesPerChannel_Test() => new TapeWishesTests().Tape_Streaming_GoesPerChannel();
         
         private void Tape_Streaming_GoesPerChannel()
         {
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // ReSharper disable ParameterHidesMember
         [TestMethod]
-        public void FluentCache_UsingTape_Test() => new ParallelWishesTests().FluentCache_UsingTape();
+        public void FluentCache_UsingTape_Test() => new TapeWishesTests().FluentCache_UsingTape();
         
         void FluentCache_UsingTape() 
         {
