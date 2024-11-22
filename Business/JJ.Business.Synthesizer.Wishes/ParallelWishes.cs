@@ -22,17 +22,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Tape(FlowNode duration = null)
             => _synthWishes.Tape(this, duration);
         
-        public FlowNode PlayForChannel()
-            => _synthWishes.PlayForChannel(this);
+        public FlowNode ChannelPlay()
+            => _synthWishes.ChannelPlay(this);
 
-        public FlowNode SaveForChannel(string filePath = null)
-            => _synthWishes.SaveForChannel(this, filePath);
+        public FlowNode ChannelSave(string filePath = null)
+            => _synthWishes.ChannelSave(this, filePath);
         
-        public FlowNode CacheForChannel(Func<byte[], byte[]> bytesCallback)
-            => _synthWishes.CacheForChannel(this, bytesCallback);
-        
-        public FlowNode CacheForChannel(Action<byte[]> bytesCallback)
-            => _synthWishes.CacheForChannel(this, bytesCallback);
+        public FlowNode ChannelCache(Action<StreamAudioResult> resultCallback)
+            => _synthWishes.ChannelCache(this, resultCallback);
     }
     
     // SynthWishes Parallelization
@@ -51,14 +48,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
         
-        public FlowNode PlayForChannel(FlowNode signal)
+        public FlowNode ChannelPlay(FlowNode signal)
         {
             Tape tape = AddTape(signal);
             tape.MustPlay = true;
             return signal;
         }
         
-        public FlowNode SaveForChannel(FlowNode signal, string filePath = null)
+        public FlowNode ChannelSave(FlowNode signal, string filePath = null)
         {
             Tape tape = AddTape(signal);
             tape.MustSave = true;
@@ -66,14 +63,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
         
-        public FlowNode CacheForChannel(FlowNode signal, Action<byte[]> bytesCallback) 
-            => CacheForChannel(signal, x => { bytesCallback(x); return x; });
-        
-        public FlowNode CacheForChannel(FlowNode signal, Func<byte[], byte[]> bytesCallback)
+        public FlowNode ChannelCache(FlowNode signal, Action<StreamAudioResult> resultCallback) 
         {
             Tape tape = AddTape(signal);
             tape.MustCache = true;
-            tape.BytesCallback = bytesCallback;
+            tape.ResultCallback = resultCallback;
             return signal;
         }
         
@@ -165,6 +159,15 @@ namespace JJ.Business.Synthesizer.Wishes
                         Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
                         
                         var cacheResult = Cache(operand, operand.Name);
+                        
+                        // Actions
+                        if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
+                        if (tape.MustSave) Save(cacheResult, tape.FilePath, operand.Name);
+                        if (tape.MustCache)
+                        {
+                            tape.ResultCallback(cacheResult);
+                        }
+                        
                         var sampleOutlet = Sample(cacheResult, name: operand.Name);
                         
                         // Replace all references to tape
@@ -173,11 +176,6 @@ namespace JJ.Business.Synthesizer.Wishes
                         {
                             inlet.LinkTo(sampleOutlet);
                         }
-                        
-                        // Actions
-                        if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
-                        if (tape.MustSave) Save(cacheResult, tape.FilePath, operand.Name);
-                        if (tape.MustCache) cacheResult.Bytes = tape.BytesCallback(cacheResult.Bytes);
 
                         Console.WriteLine($"{PrettyTime()} End Task: {operand.Name} (Level {level})");
                     });
@@ -242,8 +240,15 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustSave { get; set; }
         public string FilePath { get; set; }
         public bool MustCache { get; set; }
-        public Func<byte[], byte[]> BytesCallback { get; set; }
+        public Action<StreamAudioResult> ResultCallback { get; set; }
     }
+    
+    //public class CacheInfo
+    //{
+    //    public int ChannelIndex { get; set; }
+    //    public byte[] Bytes { get; set; }
+    //    public string FilePath { get; set; }
+    //}
     
     /// <summary>
     /// Proposed TapeInfo with many future properties,

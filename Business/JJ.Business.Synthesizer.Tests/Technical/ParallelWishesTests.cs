@@ -47,11 +47,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Play(() => Add
                  (
-                     Sine(pitch * 1).Volume(1.0).PlayForChannel(),
+                     Sine(pitch * 1).Volume(1.0).ChannelPlay(),
                      Sine(pitch * 2).Volume(0.2),
-                     Sine(pitch * 3).PlayForChannel().Volume(0.3),
+                     Sine(pitch * 3).ChannelPlay().Volume(0.3),
                      Sine(pitch * 4).Volume(0.4),
-                     Sine(pitch * 5).Volume(0.2).PlayForChannel()
+                     Sine(pitch * 5).Volume(0.2).ChannelPlay()
                  ) * Envelope);
         }
         
@@ -66,11 +66,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Play(() => Add
                  (
-                     Sine(pitch * 1).Volume(1.0).SaveForChannel(MemberName() + " Partial 1"),
+                     Sine(pitch * 1).Volume(1.0).ChannelSave(MemberName() + " Partial 1"),
                      Sine(pitch * 2).Volume(0.2),
-                     Sine(pitch * 3).SaveForChannel("FluentSave_UsingTape Partial 2").Volume(0.3),
+                     Sine(pitch * 3).ChannelSave("FluentSave_UsingTape Partial 2").Volume(0.3),
                      Sine(pitch * 4).Volume(0.4),
-                     Sine(pitch * 5).Volume(0.2).SetName("FluentSave_UsingTape Partial 3").SaveForChannel()
+                     Sine(pitch * 5).Volume(0.2).SetName("FluentSave_UsingTape Partial 3").ChannelSave()
                  ) * Envelope).Save();
         }
         
@@ -86,15 +86,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             Play(() => Add
                  (
-                     Sine(pitch * 1).Volume(1.0).Panning(0.2).PlayForChannel(),
-                     Sine(pitch * 2).Volume(0.3).Panning(0.8).PlayForChannel()
+                     Sine(pitch * 1).Volume(1.0).Panning(0.2).ChannelPlay(),
+                     Sine(pitch * 2).Volume(0.3).Panning(0.8).ChannelPlay()
                  ) * Envelope * 1.5);
 
             Play(() => Add
                  (
-                     1.0 * Sine(pitch * 1).Panbrello(3.000, 0.2).PlayForChannel(),
-                     0.2 * Sine(pitch * 2).Panbrello(5.234, 0.3).PlayForChannel(),
-                     0.3 * Sine(pitch * 3).Panbrello(7.000, 0.2).PlayForChannel()
+                     1.0 * Sine(pitch * 1).Panbrello(3.000, 0.2).ChannelPlay(),
+                     0.2 * Sine(pitch * 2).Panbrello(5.234, 0.3).ChannelPlay(),
+                     0.3 * Sine(pitch * 3).Panbrello(7.000, 0.2).ChannelPlay()
                  ) * Envelope * 1.5);
         }
             
@@ -105,12 +105,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithStereo();
 
-            var bufs = new List<byte[]>();
-            
-            Save(() => Sine(G4).Panning(0.1).CacheForChannel(buf => bufs.Add(buf))).Play();
-            
+            var bufs = new List<StreamAudioResult>();
+
+            Save(() => Sine(G4).Panning(0.1).ChannelCache(x => bufs.Add(x))).Play();
+
             bufs.ForEach(x => x.Play());
-            
+
             Save(() => Sample(bufs[0]).Panning(0) +
                        Sample(bufs[1]).Panning(1)).Play();
         }

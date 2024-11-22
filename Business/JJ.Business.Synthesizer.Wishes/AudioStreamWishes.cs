@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
@@ -481,7 +480,7 @@ namespace JJ.Business.Synthesizer.Wishes
     }
 
     // Info Type
-
+    
     public class StreamAudioResult
     {
         /// <inheritdoc cref="docs._saveresultbytes"/>
@@ -489,7 +488,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public string FilePath { get; }
         public AudioFileOutput UnderlyingAudioFileOutput { get; }
         public IList<string> Messages { get; }
-
+        public int ChannelIndex { get; internal set; }
+        
         /// <summary> HACK: Temporary constructor for PlayWishes to only return messages, not other data. </summary>
         public StreamAudioResult(IList<string> messages) => Messages = messages ?? new List<string>();
         
