@@ -15,149 +15,10 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // FlowNode Parallelization
-    
-    public partial class FlowNode
-    {
-        public FlowNode Tape(FlowNode duration = null)
-            => _synthWishes.Tape(this, duration);
-
-        // ChannelPlay
-        
-        public FlowNode ChannelPlay()
-            => _synthWishes.ChannelPlay(this);
-
-        public FlowNode ChannelPlay(Action<AudioStreamResult> resultCallback)
-            => _synthWishes.ChannelPlay(this, resultCallback);
-        
-        public FlowNode ChannelPlay(Action<AudioStreamResult, int> resultCallback)
-            => _synthWishes.ChannelPlay(this, resultCallback);
-        
-        // ChannelSave
-        
-        public FlowNode ChannelSave()
-            => _synthWishes.ChannelSave(this);
-        
-        public FlowNode ChannelSave(string filePath)
-            => _synthWishes.ChannelSave(this, filePath);
-
-        public FlowNode ChannelSave(Action<AudioStreamResult> resultCallback)
-            => _synthWishes.ChannelSave(this, resultCallback);
-        
-        public FlowNode ChannelSave(Action<AudioStreamResult, int> resultCallback)
-            => _synthWishes.ChannelSave(this, resultCallback);
-        
-        public FlowNode ChannelSave(string filePath, Action<AudioStreamResult> resultCallback)
-            => _synthWishes.ChannelSave(this, filePath, resultCallback);
-        
-        public FlowNode ChannelSave(string filePath, Action<AudioStreamResult, int> resultCallback)
-            => _synthWishes.ChannelSave(this, filePath, resultCallback);
-
-        // ChannelCache
-        
-        public FlowNode ChannelCache(Action<AudioStreamResult> resultCallback)
-            => _synthWishes.ChannelCache(this, resultCallback);
-
-        public FlowNode ChannelCache(Action<AudioStreamResult, int> resultCallback)
-            => _synthWishes.ChannelCache(this, resultCallback);
-    }
-    
     // SynthWishes Parallelization
     
     public partial class SynthWishes
     {
-        // Tape
-        
-        public FlowNode Tape(FlowNode signal)
-            => Tape(signal, default);
-        
-        public FlowNode Tape(FlowNode signal, FlowNode duration)
-        {
-            //duration = duration ?? GetAudioLength ?? _[1];
-            AddTape(signal);
-            return signal;
-        }
-        
-        // ChannelPlay
-        
-        public FlowNode ChannelPlay(FlowNode signal)
-            => ChannelPlay(signal, default(Action<AudioStreamResult, int>));
-
-        public FlowNode ChannelPlay(FlowNode signal, Action<AudioStreamResult> resultCallback)
-            => ChannelPlay(signal, (x, i) => resultCallback(x));
-        
-        public FlowNode ChannelPlay(FlowNode signal, Action<AudioStreamResult, int> resultCallback)
-        {
-            Tape tape = AddTape(signal);
-            tape.MustPlay = true;
-            tape.ResultCallback = resultCallback;
-            return signal;
-        }
-        
-        // ChannelSave
-        
-        public FlowNode ChannelSave(FlowNode signal)
-            => ChannelSave(signal, null, default(Action<AudioStreamResult, int>));
-        
-        public FlowNode ChannelSave(FlowNode signal, string filePath)
-            => ChannelSave(signal, filePath, default(Action<AudioStreamResult, int>));
-        
-        public FlowNode ChannelSave(FlowNode signal, Action<AudioStreamResult> resultCallback)
-            => ChannelSave(signal, null, resultCallback);
-        
-        public FlowNode ChannelSave(FlowNode signal, Action<AudioStreamResult, int> resultCallback)
-            => ChannelSave(signal, null, resultCallback);
-        
-        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<AudioStreamResult> resultCallback)
-            => ChannelSave(signal, filePath, (x, y) => resultCallback(x));
-
-        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<AudioStreamResult, int> resultCallback)
-        {
-            Tape tape = AddTape(signal);
-            tape.MustSave = true;
-            tape.FilePath = filePath;
-            tape.ResultCallback = resultCallback;
-            return signal;
-        }
-        
-        // ChannelCache
-        
-        public FlowNode ChannelCache(FlowNode signal, Action<AudioStreamResult> resultCallback)
-            => ChannelCache(signal, (x, i) => resultCallback(x));
-
-        public FlowNode ChannelCache(FlowNode signal, Action<AudioStreamResult, int> resultCallback) 
-        {
-            Tape tape = AddTape(signal);
-            tape.ResultCallback = resultCallback;
-            return signal;
-        }
-        
-        // ParallelAdd
-        
-        /// <inheritdoc cref="docs._paralleladd" />
-        public FlowNode ParallelAdd(params FlowNode[] termFuncs)
-            => ParallelAdd((IList<FlowNode>)termFuncs);
-
-        /// <inheritdoc cref="docs._paralleladd" />
-        public FlowNode ParallelAdd(IList<FlowNode> terms)
-        {
-            if (terms == null) throw new ArgumentNullException(nameof(terms));
-            
-            var add = Add(terms);
-            
-            if (GetParallels)
-            {
-                foreach (var term in add.Operands)
-                {
-                    Tape(term);
-                }
-            }
-            
-            return add;
-        }
-
-        // Go Parallel!
-        
         internal void RunParallelsRecursive(IList<FlowNode> channels) 
         {
             if (channels == null) throw new ArgumentNullException(nameof(channels));
@@ -293,7 +154,151 @@ namespace JJ.Business.Synthesizer.Wishes
             _tapes.TryGetValue(outlet, out Tape tape);
             return tape;
         }
+        
+        // Public Methods
+        
+        // Tape
+        
+        public FlowNode Tape(FlowNode signal)
+            => Tape(signal, default);
+        
+        public FlowNode Tape(FlowNode signal, FlowNode duration)
+        {
+            //duration = duration ?? GetAudioLength ?? _[1];
+            AddTape(signal);
+            return signal;
+        }
+        
+        // ChannelPlay
+        
+        public FlowNode ChannelPlay(FlowNode signal)
+            => ChannelPlay(signal, default(Action<AudioStreamResult, int>));
+
+        public FlowNode ChannelPlay(FlowNode signal, Action<AudioStreamResult> resultCallback)
+            => ChannelPlay(signal, (x, i) => resultCallback(x));
+        
+        public FlowNode ChannelPlay(FlowNode signal, Action<AudioStreamResult, int> resultCallback)
+        {
+            Tape tape = AddTape(signal);
+            tape.MustPlay = true;
+            tape.ResultCallback = resultCallback;
+            return signal;
+        }
+        
+        // ChannelSave
+        
+        public FlowNode ChannelSave(FlowNode signal)
+            => ChannelSave(signal, null, default(Action<AudioStreamResult, int>));
+        
+        public FlowNode ChannelSave(FlowNode signal, string filePath)
+            => ChannelSave(signal, filePath, default(Action<AudioStreamResult, int>));
+        
+        public FlowNode ChannelSave(FlowNode signal, Action<AudioStreamResult> resultCallback)
+            => ChannelSave(signal, null, resultCallback);
+        
+        public FlowNode ChannelSave(FlowNode signal, Action<AudioStreamResult, int> resultCallback)
+            => ChannelSave(signal, null, resultCallback);
+        
+        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<AudioStreamResult> resultCallback)
+            => ChannelSave(signal, filePath, (x, y) => resultCallback(x));
+
+        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<AudioStreamResult, int> resultCallback)
+        {
+            Tape tape = AddTape(signal);
+            tape.MustSave = true;
+            tape.FilePath = filePath;
+            tape.ResultCallback = resultCallback;
+            return signal;
+        }
+        
+        // ChannelCache
+        
+        public FlowNode ChannelCache(FlowNode signal, Action<AudioStreamResult> resultCallback)
+            => ChannelCache(signal, (x, i) => resultCallback(x));
+
+        public FlowNode ChannelCache(FlowNode signal, Action<AudioStreamResult, int> resultCallback) 
+        {
+            Tape tape = AddTape(signal);
+            tape.ResultCallback = resultCallback;
+            return signal;
+        }
+        
+        // ParallelAdd
+        
+        /// <inheritdoc cref="docs._paralleladd" />
+        public FlowNode ParallelAdd(params FlowNode[] termFuncs)
+            => ParallelAdd((IList<FlowNode>)termFuncs);
+
+        /// <inheritdoc cref="docs._paralleladd" />
+        public FlowNode ParallelAdd(IList<FlowNode> terms)
+        {
+            if (terms == null) throw new ArgumentNullException(nameof(terms));
+            
+            var add = Add(terms);
+            
+            if (GetParallels)
+            {
+                foreach (var term in add.Operands)
+                {
+                    Tape(term);
+                }
+            }
+            
+            return add;
+        }
+        
     }
+    
+    // FlowNode
+    
+    public partial class FlowNode
+    {
+        // Tape
+        
+        public FlowNode Tape(FlowNode duration = null)
+            => _synthWishes.Tape(this, duration);
+        
+        // ChannelPlay
+        
+        public FlowNode ChannelPlay()
+            => _synthWishes.ChannelPlay(this);
+        
+        public FlowNode ChannelPlay(Action<AudioStreamResult> resultCallback)
+            => _synthWishes.ChannelPlay(this, resultCallback);
+        
+        public FlowNode ChannelPlay(Action<AudioStreamResult, int> resultCallback)
+            => _synthWishes.ChannelPlay(this, resultCallback);
+        
+        // ChannelSave
+        
+        public FlowNode ChannelSave()
+            => _synthWishes.ChannelSave(this);
+        
+        public FlowNode ChannelSave(string filePath)
+            => _synthWishes.ChannelSave(this, filePath);
+        
+        public FlowNode ChannelSave(Action<AudioStreamResult> resultCallback)
+            => _synthWishes.ChannelSave(this, resultCallback);
+        
+        public FlowNode ChannelSave(Action<AudioStreamResult, int> resultCallback)
+            => _synthWishes.ChannelSave(this, resultCallback);
+        
+        public FlowNode ChannelSave(string filePath, Action<AudioStreamResult> resultCallback)
+            => _synthWishes.ChannelSave(this, filePath, resultCallback);
+        
+        public FlowNode ChannelSave(string filePath, Action<AudioStreamResult, int> resultCallback)
+            => _synthWishes.ChannelSave(this, filePath, resultCallback);
+        
+        // ChannelCache
+        
+        public FlowNode ChannelCache(Action<AudioStreamResult> resultCallback)
+            => _synthWishes.ChannelCache(this, resultCallback);
+        
+        public FlowNode ChannelCache(Action<AudioStreamResult, int> resultCallback)
+            => _synthWishes.ChannelCache(this, resultCallback);
+    }
+    
+    // Info Type
     
     internal class Tape
     {
@@ -304,13 +309,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public Action<AudioStreamResult, int> ResultCallback { get; set; }
     }
     
-    //public class CacheInfo
-    //{
-    //    public int ChannelIndex { get; set; }
-    //    public byte[] Bytes { get; set; }
-    //    public string FilePath { get; set; }
-    //}
-    
     /// <summary>
     /// Proposed TapeInfo with many future properties,
     /// too many to implement all at the same time.
@@ -318,14 +316,14 @@ namespace JJ.Business.Synthesizer.Wishes
     [Obsolete]
     internal class TapeInfoPrototype
     {
-        public Outlet Outlet { get; set; }
+        //public Outlet Outlet { get; set; }
         public int Level { get; set; }
         public Task Task { get; set; }
         
-        public bool MustPlay { get; set; }
-        public bool MustSave { get; set; }
-        public string FilePath { get; set; }
-        public bool MustCache { get; set; }
+        //public bool MustPlay { get; set; }
+        //public bool MustSave { get; set; }
+        //public string FilePath { get; set; }
+        //public bool MustCache { get; set; }
         
         public FlowNode Duration { get; set; }
     }
