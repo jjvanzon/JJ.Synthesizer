@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        // Play on Instance
+        // Instance (Start-Of-Chain)
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Play(
@@ -83,7 +83,6 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.ResultCallback = resultCallback;
             return signal;
         }
-
 
         // Internals
         
@@ -177,8 +176,6 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._saveorplay" />
     public static class SynthWishesPlayStaticsTurnedInstanceExtensions
     {
-        // Make statics available on instances by using extension methods.
-
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Play(this SynthWishes synthWishes, Buff result) { InternalPlay(synthWishes, result); return synthWishes; }
         /// <inheritdoc cref="docs._saveorplay" />
@@ -209,10 +206,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode ChannelPlay() => _synthWishes.ChannelPlay(this);
         public FlowNode ChannelPlay(Action<Buff> resultCallback) => _synthWishes.ChannelPlay(this, resultCallback);
         public FlowNode ChannelPlay(Action<Buff, int> resultCallback) => _synthWishes.ChannelPlay(this, resultCallback);
-
     }
 
-    // Play on Entity / Results / Data
+    // Buff Extensions
 
     /// <inheritdoc cref="docs._saveorplay" />
     public static class PlayExtensionWishes

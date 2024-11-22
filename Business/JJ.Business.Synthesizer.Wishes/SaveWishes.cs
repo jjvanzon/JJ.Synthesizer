@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        // Save on Instance
+        // Instance (Start-Of-Chain)
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Save(
@@ -62,8 +62,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
 
-        // Save in Statics
-        
+        // Save in Statics (Buff to Buff)
+
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Save(
             Buff result,
@@ -96,13 +96,11 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
     
-    // Save on Statics Turned Instance
+    // Statics Turned Instance (from Buff)
 
     /// <inheritdoc cref="docs._saveorplay" />
     public static class SynthWishesSaveStaticsTurnedInstanceExtensions
     {
-        // Make statics available on instances by using extension methods.
-
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Save(
             this SynthWishes synthWishes, 
@@ -249,7 +247,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.ChannelSave(this, filePath, resultCallback);
     }
 
-    // Save on Entity / Results / Data
+    // Buff Extensions
 
     public static class SaveExtensionWishes 
     {
