@@ -70,7 +70,7 @@
     <Compile Include="NameWishes.cs" />
     <Compile Include="OperandWishes.cs" />
     <Compile Include="RelatedObjectWishes.cs" />
-    <Compile Include="ParallelWishes.cs" />
+    <Compile Include="TapeWishes.cs" />
     <Compile Include="PlayWishes.cs" />
     <Compile Include="SampleWishes.cs" />
     <Compile Include="SaveWishes.cs" />
