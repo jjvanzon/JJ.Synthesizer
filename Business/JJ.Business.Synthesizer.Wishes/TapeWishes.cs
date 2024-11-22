@@ -194,6 +194,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Duration { get; set; }
         public bool MustPlay { get; set; }
         public bool MustSave { get; set; }
+        /// <summary> Purely informational </summary>
+        public bool IsCache { [UsedImplicitly] get; set; }
         public string FilePath { get; set; }
         public int Level { get; set; }
         public Task Task { get; set; }

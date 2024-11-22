@@ -116,6 +116,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Tape tape = AddTape(signal);
             tape.Callback = callback;
             tape.Duration = duration;
+            tape.IsCache = true;
             return signal;
         }
 
