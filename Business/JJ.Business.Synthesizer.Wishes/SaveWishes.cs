@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Save on Instance
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public StreamAudioResult Save(
+        public AudioStreamResult Save(
             Func<FlowNode> channelInputFunc, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public StreamAudioResult Save(
+        public AudioStreamResult Save(
             FlowNode channelInput, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public StreamAudioResult Save(
+        public AudioStreamResult Save(
             IList<FlowNode> channelInputs, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
@@ -39,15 +39,15 @@ namespace JJ.Business.Synthesizer.Wishes
         // Save in Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
-        public static StreamAudioResult Save(
-            StreamAudioResult result,
+        public static AudioStreamResult Save(
+            AudioStreamResult result,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 result, 
                 inMemory: false, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static StreamAudioResult Save(
+        public static AudioStreamResult Save(
             AudioFileOutput entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Save(
             this SynthWishes synthWishes, 
-            StreamAudioResult result, 
+            AudioStreamResult result, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FlowNode Save(
-            StreamAudioResult result, 
+            AudioStreamResult result, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             filePath = _synthWishes.FetchName(result?.FilePath, callerMemberName, explicitName: filePath);
@@ -222,15 +222,15 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class SaveExtensionWishes 
     {
         /// <inheritdoc cref="docs._saveorplay" />
-        public static StreamAudioResult Save(
-            this StreamAudioResult result,
+        public static AudioStreamResult Save(
+            this AudioStreamResult result,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.StreamAudio(
                 result, 
                 inMemory: false, null, filePath, callerMemberName);    
 
         /// <inheritdoc cref="docs._saveorplay" />
-        public static StreamAudioResult Save(
+        public static AudioStreamResult Save(
             this AudioFileOutput entity,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.StreamAudio(

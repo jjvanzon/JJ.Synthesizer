@@ -104,8 +104,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void FluentCache_UsingTape() 
         {
             WithStereo();
+            WithDiskCacheOn();
 
-            var bufs = new List<StreamAudioResult>();
+            var bufs = new List<AudioStreamResult>();
 
             Save(() => Sine(G4).Panning(0.1).ChannelCache(x => bufs.Add(x))).Play();
 

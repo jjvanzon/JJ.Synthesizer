@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._sample"/>
         public FlowNode Sample(
-            StreamAudioResult result,
+            AudioStreamResult result,
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
             if (result == null) throw new NullException(() => result);

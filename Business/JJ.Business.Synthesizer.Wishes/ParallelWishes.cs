@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode ChannelSave(string filePath = null)
             => _synthWishes.ChannelSave(this, filePath);
         
-        public FlowNode ChannelCache(Action<StreamAudioResult> resultCallback)
+        public FlowNode ChannelCache(Action<AudioStreamResult> resultCallback)
             => _synthWishes.ChannelCache(this, resultCallback);
     }
     
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
         
-        public FlowNode ChannelCache(FlowNode signal, Action<StreamAudioResult> resultCallback) 
+        public FlowNode ChannelCache(FlowNode signal, Action<AudioStreamResult> resultCallback) 
         {
             Tape tape = AddTape(signal);
             tape.MustCache = true;
@@ -240,7 +240,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustSave { get; set; }
         public string FilePath { get; set; }
         public bool MustCache { get; set; }
-        public Action<StreamAudioResult> ResultCallback { get; set; }
+        public Action<AudioStreamResult> ResultCallback { get; set; }
     }
     
     //public class CacheInfo

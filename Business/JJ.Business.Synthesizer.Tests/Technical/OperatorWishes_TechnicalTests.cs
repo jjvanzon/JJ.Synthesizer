@@ -711,7 +711,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(expectedComplexity, () => complexity);
             }
 
-            StreamAudioResult result = Cache(flowNode);
+            AudioStreamResult result = Cache(flowNode);
             IsNotNull(() => result);
             {
                 string stringify = result.Stringify();
