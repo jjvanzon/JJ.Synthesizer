@@ -179,22 +179,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
-        ///// <inheritdoc cref="docs._saveorplay" />
-        //public FlowNode PlayMono(
-        //    string name = null, [CallerMemberName] string callerMemberName = null)
-        //{
-        //    WithMono();
-        //    WithCenter();
-
-        //    var writeAudioResult = _synthWishes.StreamAudio(
-        //        this,
-        //        inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
-
-        //    InternalPlay(_synthWishes, writeAudioResult);
-
-        //    return this;
-        //}
-
         /// <inheritdoc cref="docs._saveorplay" />
         public FlowNode Play(AudioStreamResult result) { InternalPlay(_synthWishes, result); return this; }
         /// <inheritdoc cref="docs._saveorplay" />

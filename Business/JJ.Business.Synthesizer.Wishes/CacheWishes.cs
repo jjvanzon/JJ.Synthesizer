@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using JJ.Business.CanonicalModel;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
@@ -126,34 +125,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
-        ///// <inheritdoc cref="docs._saveorplay" />
-        //public FlowNode CacheMono(
-        //    string name = null, [CallerMemberName] string callerMemberName = null)
-        //{
-        //    WithMono();
-        //    WithCenter();
-
-        //    _synthWishes.StreamAudio(
-        //        this, 
-        //        inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
-            
-        //    return this;
-        //}
-
-        ///// <inheritdoc cref="docs._saveorplay" />
-        //public FlowNode CacheMono(
-        //    bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
-        //{
-        //    WithMono();
-        //    WithCenter();
-            
-        //    _synthWishes.StreamAudio(
-        //        this, 
-        //        inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
-
-        //    return this;
-        //}
-
         /// <inheritdoc cref="docs._saveorplay" />
         public FlowNode Cache(
             AudioStreamResult result,
