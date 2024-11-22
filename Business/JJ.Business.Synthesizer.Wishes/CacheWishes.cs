@@ -59,7 +59,19 @@ namespace JJ.Business.Synthesizer.Wishes
             => StreamAudio(
                 channelInputs, null, 
                 inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
-    
+        
+        // ChannelCache on Instance
+        
+        public FlowNode ChannelCache(FlowNode signal, Action<AudioStreamResult> resultCallback)
+            => ChannelCache(signal, (x, i) => resultCallback(x));
+        
+        public FlowNode ChannelCache(FlowNode signal, Action<AudioStreamResult, int> resultCallback)
+        {
+            Tape tape = AddTape(signal);
+            tape.ResultCallback = resultCallback;
+            return signal;
+        }
+
         // Cache in Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
@@ -148,6 +160,14 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return this;
         }
+        
+        // ChannelCache
+        
+        public FlowNode ChannelCache(Action<AudioStreamResult> resultCallback)
+            => _synthWishes.ChannelCache(this, resultCallback);
+        
+        public FlowNode ChannelCache(Action<AudioStreamResult, int> resultCallback)
+            => _synthWishes.ChannelCache(this, resultCallback);
     }
     
     // Cache on Entity / Results / Data

@@ -67,6 +67,23 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return result;
         }
+        
+        // ChannelPlay
+        
+        public FlowNode ChannelPlay(FlowNode signal) 
+            => ChannelPlay(signal, default(Action<AudioStreamResult, int>));
+        
+        public FlowNode ChannelPlay(FlowNode signal, Action<AudioStreamResult> resultCallback)
+            => ChannelPlay(signal, (x, i) => resultCallback(x));
+        
+        public FlowNode ChannelPlay(FlowNode signal, Action<AudioStreamResult, int> resultCallback)
+        {
+            Tape tape = AddTape(signal);
+            tape.MustPlay = true;
+            tape.ResultCallback = resultCallback;
+            return signal;
+        }
+
 
         // Internals
         
@@ -80,7 +97,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 result.Bytes,
                 Path.GetExtension(result.FilePath));
         }
-        
         
         /// <inheritdoc cref="docs._saveorplay" />
         internal static AudioStreamResult InternalPlay(SynthWishes synthWishes, AudioFileOutput entity)
@@ -189,6 +205,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Play(byte[] bytes) { InternalPlay(_synthWishes, bytes); return this; }
         /// <inheritdoc cref="docs._saveorplay" />
         public FlowNode Play(string filePath) { InternalPlay(_synthWishes, filePath); return this; }
+        
+        public FlowNode ChannelPlay() => _synthWishes.ChannelPlay(this);
+        public FlowNode ChannelPlay(Action<AudioStreamResult> resultCallback) => _synthWishes.ChannelPlay(this, resultCallback);
+        public FlowNode ChannelPlay(Action<AudioStreamResult, int> resultCallback) => _synthWishes.ChannelPlay(this, resultCallback);
+
     }
 
     // Play on Entity / Results / Data

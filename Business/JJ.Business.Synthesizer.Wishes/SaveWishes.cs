@@ -35,6 +35,32 @@ namespace JJ.Business.Synthesizer.Wishes
             => StreamAudio(
                 channelInputs, null,
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
+        
+        // ChannelSave on Instance
+        
+        public FlowNode ChannelSave(FlowNode signal)
+            => ChannelSave(signal, null, default(Action<AudioStreamResult, int>));
+        
+        public FlowNode ChannelSave(FlowNode signal, string filePath)
+            => ChannelSave(signal, filePath, default(Action<AudioStreamResult, int>));
+        
+        public FlowNode ChannelSave(FlowNode signal, Action<AudioStreamResult> resultCallback)
+            => ChannelSave(signal, null, resultCallback);
+        
+        public FlowNode ChannelSave(FlowNode signal, Action<AudioStreamResult, int> resultCallback)
+            => ChannelSave(signal, null, resultCallback);
+        
+        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<AudioStreamResult> resultCallback)
+            => ChannelSave(signal, filePath, (x, y) => resultCallback(x));
+        
+        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<AudioStreamResult, int> resultCallback)
+        {
+            Tape tape = AddTape(signal);
+            tape.MustSave = true;
+            tape.FilePath = filePath;
+            tape.ResultCallback = resultCallback;
+            return signal;
+        }
 
         // Save in Statics
         
@@ -201,6 +227,26 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return this; 
         }
+        
+        // ChannelSave
+        
+        public FlowNode ChannelSave()
+            => _synthWishes.ChannelSave(this);
+        
+        public FlowNode ChannelSave(string filePath)
+            => _synthWishes.ChannelSave(this, filePath);
+        
+        public FlowNode ChannelSave(Action<AudioStreamResult> resultCallback)
+            => _synthWishes.ChannelSave(this, resultCallback);
+        
+        public FlowNode ChannelSave(Action<AudioStreamResult, int> resultCallback)
+            => _synthWishes.ChannelSave(this, resultCallback);
+        
+        public FlowNode ChannelSave(string filePath, Action<AudioStreamResult> resultCallback)
+            => _synthWishes.ChannelSave(this, filePath, resultCallback);
+        
+        public FlowNode ChannelSave(string filePath, Action<AudioStreamResult, int> resultCallback)
+            => _synthWishes.ChannelSave(this, filePath, resultCallback);
     }
 
     // Save on Entity / Results / Data
