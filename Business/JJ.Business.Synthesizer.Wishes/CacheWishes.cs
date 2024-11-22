@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode> func, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
-                func, 
+                func, null,
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode> func, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
-                func, 
+                func, null, 
                 inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode outlet, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
-                new[] { outlet }, 
+                new[] { outlet }, null, 
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode outlet, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
-                new[] { outlet }, 
+                new[] { outlet }, null, 
                 inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes
             IList<FlowNode> channelInputs, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
-                channelInputs, 
+                channelInputs, null, 
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes
             IList<FlowNode> channelInputs, 
             bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
-                channelInputs, 
+                channelInputs, null, 
                 inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
     
         // Cache in Statics
@@ -126,33 +126,33 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
-        /// <inheritdoc cref="docs._saveorplay" />
-        public FlowNode CacheMono(
-            string name = null, [CallerMemberName] string callerMemberName = null)
-        {
-            WithMono();
-            WithCenter();
+        ///// <inheritdoc cref="docs._saveorplay" />
+        //public FlowNode CacheMono(
+        //    string name = null, [CallerMemberName] string callerMemberName = null)
+        //{
+        //    WithMono();
+        //    WithCenter();
 
-            _synthWishes.StreamAudio(
-                this, 
-                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
+        //    _synthWishes.StreamAudio(
+        //        this, 
+        //        inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
             
-            return this;
-        }
+        //    return this;
+        //}
 
-        /// <inheritdoc cref="docs._saveorplay" />
-        public FlowNode CacheMono(
-            bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
-        {
-            WithMono();
-            WithCenter();
+        ///// <inheritdoc cref="docs._saveorplay" />
+        //public FlowNode CacheMono(
+        //    bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null)
+        //{
+        //    WithMono();
+        //    WithCenter();
             
-            _synthWishes.StreamAudio(
-                this, 
-                inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
+        //    _synthWishes.StreamAudio(
+        //        this, 
+        //        inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
 
-            return this;
-        }
+        //    return this;
+        //}
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FlowNode Cache(

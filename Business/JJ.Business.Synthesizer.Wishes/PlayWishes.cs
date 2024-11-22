@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var result =
                 StreamAudio(
-                    channelInputFunc,
+                    channelInputFunc, null,
                     inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
 
             var playResult = InternalPlay(this, result);
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var result =
                 StreamAudio(
-                    channelInput,
+                    channelInput, null,
                     inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
             
             var playResult = InternalPlay(this, result);
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var result =
                 StreamAudio(
-                    channelInputs,
+                    channelInputs, null,
                     inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
             
             var playResult = InternalPlay(this, result);
@@ -179,21 +179,21 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
-        /// <inheritdoc cref="docs._saveorplay" />
-        public FlowNode PlayMono(
-            string name = null, [CallerMemberName] string callerMemberName = null)
-        {
-            WithMono();
-            WithCenter();
+        ///// <inheritdoc cref="docs._saveorplay" />
+        //public FlowNode PlayMono(
+        //    string name = null, [CallerMemberName] string callerMemberName = null)
+        //{
+        //    WithMono();
+        //    WithCenter();
 
-            var writeAudioResult = _synthWishes.StreamAudio(
-                this,
-                inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
+        //    var writeAudioResult = _synthWishes.StreamAudio(
+        //        this,
+        //        inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
 
-            InternalPlay(_synthWishes, writeAudioResult);
+        //    InternalPlay(_synthWishes, writeAudioResult);
 
-            return this;
-        }
+        //    return this;
+        //}
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FlowNode Play(AudioStreamResult result) { InternalPlay(_synthWishes, result); return this; }

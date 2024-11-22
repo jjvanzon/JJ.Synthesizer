@@ -313,7 +313,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                             *
                                     *
                  *                              *")
-            ).PlayMono();
+            ).ChannelPlay();
         }
 
         [TestMethod]

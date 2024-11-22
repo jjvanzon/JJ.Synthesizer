@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode> channelInputFunc, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
-                channelInputFunc, 
+                channelInputFunc, null,
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode channelInput, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
-                channelInput,
+                channelInput, null,
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes
             IList<FlowNode> channelInputs, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
-                channelInputs, 
+                channelInputs, null,
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
 
         // Save in Statics
@@ -146,19 +146,19 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
-        /// <inheritdoc cref="docs._saveorplay" />
-        public FlowNode SaveMono(
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            WithMono();
-            WithCenter();
+        ///// <inheritdoc cref="docs._saveorplay" />
+        //public FlowNode SaveMono(
+        //    string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        //{
+        //    WithMono();
+        //    WithCenter();
 
-            _synthWishes.StreamAudio(
-                this, 
-                inMemory: false, mustPad: true, null, filePath, callerMemberName);
+        //    _synthWishes.StreamAudio(
+        //        this, 
+        //        inMemory: false, mustPad: true, null, filePath, callerMemberName);
             
-            return this;
-        }
+        //    return this;
+        //}
 
         /// <inheritdoc cref="docs._saveorplay" />
         public FlowNode Save(

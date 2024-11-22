@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         internal AudioStreamResult StreamAudio(
-            Func<FlowNode> channelInputFunc, 
+            Func<FlowNode> channelInputFunc, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             name = FetchName(name, callerMemberName);
@@ -47,12 +47,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     case Mono:
                         WithCenter(); var monoOutlet = channelInputFunc();
-                        return StreamAudio(new[] { monoOutlet }, inMemory, mustPad, additionalMessages, name);
+                        return StreamAudio(new[] { monoOutlet }, duration, inMemory, mustPad, additionalMessages, name);
 
                     case Stereo:
                         WithLeft(); var leftOutlet = channelInputFunc();
                         WithRight(); var rightOutlet = channelInputFunc();
-                        return StreamAudio(new[] { leftOutlet, rightOutlet }, inMemory, mustPad, additionalMessages, name);
+                        return StreamAudio(new[] { leftOutlet, rightOutlet }, duration, inMemory, mustPad, additionalMessages, name);
                     
                     default:
                         throw new ValueNotSupportedException(GetSpeakers);
@@ -66,15 +66,15 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         internal AudioStreamResult StreamAudio(
-            FlowNode channelInput,
+            FlowNode channelInput, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
-                new[] { channelInput }, 
+                new[] { channelInput }, duration,
                 inMemory, mustPad, additionalMessages, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         internal AudioStreamResult StreamAudio(
-            IList<FlowNode> channelInputs,
+            IList<FlowNode> channelInputs, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             // Process Parameters
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
                 
                 // Configure AudioFileOutput (avoid backend)
-                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channelInputs, name);
+                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channelInputs, duration, name);
                 
                 // Gather Warnings
                 IList<string> toolingWarnings =
@@ -122,7 +122,9 @@ namespace JJ.Business.Synthesizer.Wishes
             return result;
         }
         
-        internal AudioFileOutput ConfigureAudioFileOutput(IList<FlowNode> channelInputs, string name)
+        /// <param name="duration">Nullable. Falls back to AudioLength or else to a 1-second time span.</param>
+        internal AudioFileOutput ConfigureAudioFileOutput(
+            IList<FlowNode> channelInputs, FlowNode duration, string name)
         {
             // Configure AudioFileOutput (avoid backend)
 
@@ -133,7 +135,8 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Amplifier = GetBits.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
-            audioFileOutput.Duration = GetAudioLength.Calculate();
+            // TODO: Put fallback in ConfigResolver?
+            audioFileOutput.Duration = (duration ?? GetAudioLength ?? _[1]).Calculate();
             audioFileOutput.FilePath = FormatAudioFileName(name, GetAudioFormat);
             audioFileOutput.SetBits(GetBits, Context);
             audioFileOutput.SetAudioFormat(GetAudioFormat, Context);
