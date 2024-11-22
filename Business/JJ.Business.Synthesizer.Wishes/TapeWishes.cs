@@ -8,10 +8,6 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.Threading.Tasks.Task;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable ParameterHidesMember
-// ReSharper disable ConditionIsAlwaysTrueOrFalse
-// ReSharper disable ForCanBeConvertedToForeach
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -30,7 +26,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
-            if (!GetParallelTaping) return;
 
             var tasks = new Task[channels.Count];
             for (int i = 0; i < channels.Count; i++)
@@ -44,8 +39,6 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private void RunParallelsRecursive(FlowNode op, int channelIndex)
         {
-            if (!GetParallelTaping) return;
-            
             // Gather all tasks with levels
             var tasks = GetParallelTasksRecursive(op, channelIndex, level: 1);
             
@@ -68,7 +61,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var operands = op.Operands.ToArray();
             
             // Recursively gather tasks from child nodes
-            foreach (var operand in operands)
+            foreach (FlowNode operand in operands)
             {
                 if (operand == null) continue;
                 tasks.AddRange(GetParallelTasksRecursive(operand, channelIndex,level + 1));
@@ -77,8 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes
             for (var unsafeI = 0; unsafeI < operands.Length; unsafeI++)
             {
                 int i = unsafeI;
-                var operand = operands[i];
-                
+                FlowNode operand = operands[i];
                 if (operand == null) continue;
                 
                 // Are we being parallel?
@@ -89,27 +81,29 @@ namespace JJ.Business.Synthesizer.Wishes
                     
                     var task = new Task(() =>
                     {
-                        Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
+                        string name = operand.Name;
+                        
+                        Console.WriteLine($"{PrettyTime()} Start Task: (Level {level}) {name}");
 
-                        // Cache Audio
-                        Buff cacheBuff = Cache(operand, tape.Duration, operand.Name);
+                        // Cache Buffer
+                        Buff cacheBuff = Cache(operand, tape.Duration, name);
                         
                         // Actions
                         tape.Callback?.Invoke(cacheBuff, channelIndex);
-                        if (tape.MustSave) Save(cacheBuff, tape.FilePath, operand.Name);
+                        if (tape.MustSave) Save(cacheBuff, tape.FilePath, name);
                         if (tape.MustPlay || GetPlayAllTapes) Play(cacheBuff);
                         
                         // Wrap in Sample
-                        var sampleOutlet = Sample(cacheBuff, name: operand.Name);
+                        var sample = Sample(cacheBuff, name: name);
                         
-                        // Replace all references to tape
+                        // Replace All References
                         IList<Inlet> connectedInlets = operand.UnderlyingOutlet.ConnectedInlets.ToArray();
                         foreach (Inlet inlet in connectedInlets)
                         {
-                            inlet.LinkTo(sampleOutlet);
+                            inlet.LinkTo(sample);
                         }
 
-                        Console.WriteLine($"{PrettyTime()} End Task: {operand.Name} (Level {level})");
+                        Console.WriteLine($"{PrettyTime()}   End Task: (Level {level}) {name} ");
                     });
                     
                     tasks.Add((task, level));
@@ -136,13 +130,13 @@ namespace JJ.Business.Synthesizer.Wishes
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             return _tapes.ContainsKey(outlet);
         }
-        
+
         private void RemoveTape(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             _tapes.Remove(outlet);
         }
-        
+
         private void RemoveTape(Tape tape)
         {
             if (tape == null) throw new NullException(() => tape);
