@@ -160,33 +160,6 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.Duration = duration ?? GetAudioLength ?? _[1];
             return signal;
         }
-        
-        // ParallelAdd
-        
-        ///// <inheritdoc cref="docs._paralleladd" />
-        //[Obsolete("Trail all the arguments with .Tape() instead.", true)]
-        //public FlowNode ParallelAdd(params FlowNode[] termFuncs)
-        //    => ParallelAdd((IList<FlowNode>)termFuncs);
-
-        ///// <inheritdoc cref="docs._paralleladd" />
-        //[Obsolete("Trail all the arguments with .Tape() instead.", true)]
-        //public FlowNode ParallelAdd(IList<FlowNode> terms)
-        //{
-        //    if (terms == null) throw new ArgumentNullException(nameof(terms));
-            
-        //    var add = Add(terms);
-            
-        //    if (GetParallels)
-        //    {
-        //        foreach (var term in add.Operands)
-        //        {
-        //            Tape(term);
-        //        }
-        //    }
-            
-        //    return add;
-        //}
-        
     }
     
     // FlowNode
@@ -212,6 +185,7 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <summary>
     /// Proposed TapeInfo with many future properties,
     /// too many to implement all at the same time.
+    /// Outcommented properties are done.
     /// </summary>
     [Obsolete]
     internal class TapeInfoPrototype
@@ -225,6 +199,6 @@ namespace JJ.Business.Synthesizer.Wishes
         //public string FilePath { get; set; }
         //public bool MustCache { get; set; }
         
-        public FlowNode Duration { get; set; }
+        //public FlowNode Duration { get; set; }
     }
 }
