@@ -485,7 +485,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._saveresultbytes"/>
         public byte[] Bytes { get; set; }
-        public string FilePath { get; }
+        public string FilePath { get; set; }
         public AudioFileOutput UnderlyingAudioFileOutput { get; }
         public IList<string> Messages { get; }
         
