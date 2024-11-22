@@ -15,12 +15,12 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._sample"/>
         public FlowNode Sample(
-            Buff result,
+            Buff buff,
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (result == null) throw new NullException(() => result);
+            if (buff == null) throw new NullException(() => buff);
             return SampleBase(
-                null, result.Bytes, result.FilePath, 
+                null, buff.Bytes, buff.FilePath, 
                 bytesToSkip, name, callerMemberName);
         }
                 

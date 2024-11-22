@@ -468,7 +468,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <summary> Nullable. Not supplied when DiskCacheOn. </summary>
         /// <param name="bytes">Nullable. Not supplied when DiskCacheOn.</param>
-        public static object _saveresultbytes;
+        public static object _buffbytes;
         
         /// <summary>
         /// With optional Context.

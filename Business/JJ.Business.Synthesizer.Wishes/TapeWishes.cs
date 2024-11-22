@@ -19,6 +19,13 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
+        public FlowNode Tape(FlowNode signal, FlowNode duration = null)
+        {
+            Tape tape = AddTape(signal);
+            tape.Duration = duration ?? GetAudioLength ?? _[1];
+            return signal;
+        }
+
         internal void RunParallelsRecursive(IList<FlowNode> channels) 
         {
             if (channels == null) throw new ArgumentNullException(nameof(channels));
@@ -85,15 +92,15 @@ namespace JJ.Business.Synthesizer.Wishes
                         Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
 
                         // Cache Audio
-                        var cacheResult = Cache(operand, tape.Duration, operand.Name);
+                        Buff cacheBuff = Cache(operand, tape.Duration, operand.Name);
                         
                         // Actions
-                        tape.Callback?.Invoke(cacheResult, channelIndex);
-                        if (tape.MustSave) Save(cacheResult, tape.FilePath, operand.Name);
-                        if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
+                        tape.Callback?.Invoke(cacheBuff, channelIndex);
+                        if (tape.MustSave) Save(cacheBuff, tape.FilePath, operand.Name);
+                        if (tape.MustPlay || GetPlayAllTapes) Play(cacheBuff);
                         
                         // Wrap in Sample
-                        var sampleOutlet = Sample(cacheResult, name: operand.Name);
+                        var sampleOutlet = Sample(cacheBuff, name: operand.Name);
                         
                         // Replace all references to tape
                         IList<Inlet> connectedInlets = operand.UnderlyingOutlet.ConnectedInlets.ToArray();
@@ -148,17 +155,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             _tapes.TryGetValue(outlet, out Tape tape);
             return tape;
-        }
-        
-        // Public Methods
-        
-        // Tape
-        
-        public FlowNode Tape(FlowNode signal, FlowNode duration = null)
-        {
-            Tape tape = AddTape(signal);
-            tape.Duration = duration ?? GetAudioLength ?? _[1];
-            return signal;
         }
     }
     

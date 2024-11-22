@@ -113,10 +113,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return operators.Count();
         }
         
-        public static int Complexity(this Buff result)
+        public static int Complexity(this Buff buff)
         {
-            if (result == null) throw new ArgumentNullException(nameof(result));
-            return Complexity(result.UnderlyingAudioFileOutput);
+            if (buff == null) throw new ArgumentNullException(nameof(buff));
+            return Complexity(buff.UnderlyingAudioFileOutput);
         }
         
         public static int Complexity(this AudioFileOutput entity)

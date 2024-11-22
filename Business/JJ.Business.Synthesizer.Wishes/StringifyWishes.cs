@@ -35,10 +35,10 @@ namespace JJ.Business.Synthesizer.Wishes
             => new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
         
         /// <inheritdoc cref="docs._stringify"/>
-        public static string Stringify(this Buff result, bool singleLine = false, bool canOmitNameForBasicMath = false)
+        public static string Stringify(this Buff buff, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
-            if (result == null) throw new ArgumentNullException(nameof(result));
-            return Stringify(result.UnderlyingAudioFileOutput, singleLine, canOmitNameForBasicMath);
+            if (buff == null) throw new ArgumentNullException(nameof(buff));
+            return Stringify(buff.UnderlyingAudioFileOutput, singleLine, canOmitNameForBasicMath);
         }
         
         /// <inheritdoc cref="docs._stringify"/>

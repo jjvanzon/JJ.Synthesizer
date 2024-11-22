@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             int channelCount = synthWishes.GetSpeakers.GetChannelCount();
             string[] names = GetParallelNames(termCount, name);
             string[] displayNames = names.Select(GetDisplayName).ToArray();
-            var cacheResults = new Buff[termCount];
+            var cacheBuffs = new Buff[termCount];
             var reloadedSamples = new FlowNode[termCount];
             
             var stopWatch = Stopwatch.StartNew();
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Start Task: {displayNames[i]}", "SynthWishes");
                 
                 // Get outlets first
-                var channelOutlets = new FlowNode[channelCount];
+                var channels = new FlowNode[channelCount];
                 
                 var originalChannel = synthWishes.GetChannel;
                 try
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                     for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                     {
                         synthWishes.WithChannelIndex(channelIndex);
-                        channelOutlets[channelIndex] = termFuncs[i](); // This runs parallels, because the funcs can contain another parallel add.
+                        channels[channelIndex] = termFuncs[i](); // This runs parallels, because the funcs can contain another parallel add.
                     }
                 }
                 finally
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 }
                 
                 // Generate audio
-                cacheResults[i] = synthWishes.Cache(channelOutlets, synthWishes.GetAudioLength, names[i]);
+                cacheBuffs[i] = synthWishes.Cache(channels, synthWishes.GetAudioLength, names[i]);
                 
                 Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
             });
@@ -65,13 +65,13 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             // Reload Samples
             for (int i = 0; i < termCount; i++)
             {
-                var cacheResult = cacheResults[i];
+                var cacheBuff = cacheBuffs[i];
                 
                 // Play if needed
-                if (synthWishes.GetPlayAllTapes) synthWishes.Play(cacheResult);
+                if (synthWishes.GetPlayAllTapes) synthWishes.Play(cacheBuff);
                 
                 // Read from bytes or file
-                reloadedSamples[i] = synthWishes.Sample(cacheResult, name: displayNames[i]);
+                reloadedSamples[i] = synthWishes.Sample(cacheBuff, name: displayNames[i]);
                 
                 // Diagnostic actions
                 //if (GetDiskCacheOn)
@@ -89,9 +89,9 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             stopWatch.Stop();
             
             // Report total real-time and complexity metrics.
-            double audioDuration = cacheResults.Max(x => x.UnderlyingAudioFileOutput.Duration);
+            double audioDuration = cacheBuffs.Max(x => x.UnderlyingAudioFileOutput.Duration);
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
-            int complexity = cacheResults.Sum(x => x.Complexity());
+            int complexity = cacheBuffs.Sum(x => x.Complexity());
             string formattedMetrics = SynthWishes.FormatMetrics(audioDuration, calculationDuration, complexity);
             string message = $"{FrameworkStringWishes.PrettyTime()} Totals {name} Terms: {formattedMetrics}";
             Console.WriteLine(message);

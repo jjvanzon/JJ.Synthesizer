@@ -75,37 +75,44 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
-            IList<FlowNode> channelInputs,
+            IList<FlowNode> channels,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
-                channelInputs, null,
+                channels, null,
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
-            IList<FlowNode> channelInputs, FlowNode duration = null,
+            IList<FlowNode> channels, FlowNode duration = null,
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
-                channelInputs, duration, 
+                channels, duration, 
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
-            IList<FlowNode> channelInputs, FlowNode duration, bool mustPad,
+            IList<FlowNode> channels, FlowNode duration, bool mustPad,
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
-                channelInputs, duration, 
+                channels, duration, 
                 inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
         
         // Instance ChannelCache
         
         public FlowNode ChannelCache(FlowNode signal, Action<Buff> callback)
-            => ChannelCache(signal, (x, i) => callback(x));
+            => ChannelCache(signal, null, callback);
         
         public FlowNode ChannelCache(FlowNode signal, Action<Buff, int> callback)
+            => ChannelCache(signal, null, callback);
+        
+        public FlowNode ChannelCache(FlowNode signal, FlowNode duration, Action<Buff> callback)
+            => ChannelCache(signal, duration, (x, i) => callback(x));
+        
+        public FlowNode ChannelCache(FlowNode signal, FlowNode duration, Action<Buff, int> callback)
         {
             Tape tape = AddTape(signal);
             tape.Callback = callback;
+            tape.Duration = duration;
             return signal;
         }
 
@@ -113,10 +120,10 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Cache(
-            Buff result, 
+            Buff buff, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
-                result, 
+                buff, 
                 inMemory: true, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -138,15 +145,15 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Cache(
             this SynthWishes synthWishes, 
-            Buff result,
+            Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            name = synthWishes.FetchName(result?.FilePath, callerMemberName, explicitName: name);
+            name = synthWishes.FetchName(buff?.FilePath, callerMemberName, explicitName: name);
 
             StreamAudio(
-                result, 
+                buff, 
                 inMemory: true, null, name, callerMemberName);
             
             return synthWishes;
@@ -176,11 +183,11 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public FlowNode Cache(
-            Buff result,
+            Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
             { 
                 StreamAudio(
-                    result, 
+                    buff, 
                     inMemory: true, null, name, callerMemberName);
 
                 return this; 
@@ -205,6 +212,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public FlowNode ChannelCache(Action<Buff, int> callback)
             => _synthWishes.ChannelCache(this, callback);
+        
+        public FlowNode ChannelCache(FlowNode duration, Action<Buff> callback)
+            => _synthWishes.ChannelCache(this, duration, callback);
+        
+        public FlowNode ChannelCache(FlowNode duration, Action<Buff, int> callback)
+            => _synthWishes.ChannelCache(this, duration, callback);
     }
     
     // Buff to Buff Extensions
@@ -213,10 +226,10 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Cache(
-            this Buff result,
+            this Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
-                result, 
+                buff, 
                 inMemory: true, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />

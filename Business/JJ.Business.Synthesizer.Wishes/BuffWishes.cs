@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         internal Buff StreamAudio(
-            Func<FlowNode> channelInputFunc, FlowNode duration,
+            Func<FlowNode> func, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             name = FetchName(name, callerMemberName);
@@ -46,12 +46,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 switch (GetSpeakers)
                 {
                     case Mono:
-                        WithCenter(); var monoOutlet = channelInputFunc();
+                        WithCenter(); var monoOutlet = func();
                         return StreamAudio(new[] { monoOutlet }, duration, inMemory, mustPad, additionalMessages, name);
 
                     case Stereo:
-                        WithLeft(); var leftOutlet = channelInputFunc();
-                        WithRight(); var rightOutlet = channelInputFunc();
+                        WithLeft(); var leftOutlet = func();
+                        WithRight(); var rightOutlet = func();
                         return StreamAudio(new[] { leftOutlet, rightOutlet }, duration, inMemory, mustPad, additionalMessages, name);
                     
                     default:
@@ -66,27 +66,27 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         internal Buff StreamAudio(
-            FlowNode channelInput, FlowNode duration,
+            FlowNode channel, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
-                new[] { channelInput }, duration,
+                new[] { channel }, duration,
                 inMemory, mustPad, additionalMessages, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         internal Buff StreamAudio(
-            IList<FlowNode> channelInputs, FlowNode duration,
+            IList<FlowNode> channels, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             // Process Parameters
-            if (channelInputs == null) throw new ArgumentNullException(nameof(channelInputs));
-            if (channelInputs.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channelInputs));
-            if (channelInputs.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channelInputs));
+            if (channels == null) throw new ArgumentNullException(nameof(channels));
+            if (channels.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channels));
+            if (channels.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channels));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
             
             // Fetch Name
             name = FetchName(name, callerMemberName);
             
-            Buff result;
+            Buff buff;
             
             // Apply Padding
             var originalAudioLength = GetAudioLength;
@@ -94,17 +94,17 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 if (mustPad)
                 {
-                    ApplyPadding(channelInputs);
+                    ApplyPadding(channels);
                 }
                 
                 // Run Parallel Processing
                 if (GetParallels)
                 {
-                    RunParallelsRecursive(channelInputs);
+                    RunParallelsRecursive(channels);
                 }
                 
                 // Configure AudioFileOutput (avoid backend)
-                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channelInputs, duration, name);
+                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channels, duration, name);
                 
                 // Gather Warnings
                 IList<string> toolingWarnings =
@@ -112,23 +112,23 @@ namespace JJ.Business.Synthesizer.Wishes
                 IList<string> warnings = additionalMessages.Union(toolingWarnings).ToArray();
                 
                 // Write Audio
-                result = StreamAudio(audioFileOutput, inMemory, warnings, name);
+                buff = StreamAudio(audioFileOutput, inMemory, warnings, name);
             }
             finally
             {
                 WithAudioLength(originalAudioLength);
             }
             
-            return result;
+            return buff;
         }
         
         /// <param name="duration">Nullable. Falls back to AudioLength or else to a 1-second time span.</param>
         internal AudioFileOutput ConfigureAudioFileOutput(
-            IList<FlowNode> channelInputs, FlowNode duration, string name)
+            IList<FlowNode> channels, FlowNode duration, string name)
         {
             // Configure AudioFileOutput (avoid backend)
 
-            int channelCount = channelInputs.Count;
+            int channelCount = channels.Count;
             var speakerSetupEnum = channelCount.ToSpeakerSetup();
             
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
@@ -148,12 +148,12 @@ namespace JJ.Business.Synthesizer.Wishes
             switch (speakerSetupEnum)
             {
                 case Mono:
-                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
+                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channels[0];
                     break;
 
                 case Stereo:
-                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channelInputs[0];
-                    audioFileOutput.AudioFileOutputChannels[1].Outlet = channelInputs[1];
+                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channels[0];
+                    audioFileOutput.AudioFileOutputChannels[1].Outlet = channels[1];
                     break;
 
                 default:
@@ -167,7 +167,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         internal static Buff StreamAudio(
-            AudioFileOutput audioFileOutput, 
+            AudioFileOutput audioFileOutput,
             bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
@@ -225,30 +225,30 @@ namespace JJ.Business.Synthesizer.Wishes
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
             // Result
-            var result = new Buff(bytes, audioFileOutput.FilePath, audioFileOutput, warnings);
+            var buff = new Buff(bytes, audioFileOutput.FilePath, audioFileOutput, warnings);
 
             // Report
-            var reportLines = GetReport(result, calculationDuration);
+            var reportLines = GetReport(buff, calculationDuration);
             reportLines.ForEach(Console.WriteLine);
             
-            return result;
+            return buff;
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
         internal static Buff StreamAudio(
-            Buff result, 
+            Buff buff, 
             bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
-            if (result == null) throw new ArgumentNullException(nameof(result));
+            if (buff == null) throw new ArgumentNullException(nameof(buff));
             
             return StreamAudio(
-                result.UnderlyingAudioFileOutput,
+                buff.UnderlyingAudioFileOutput,
                 inMemory, additionalMessages, name, callerMemberName);
         }
 
         // Helpers
         
-        private void ApplyPadding(IList<FlowNode> channelInputs)
+        private void ApplyPadding(IList<FlowNode> channels)
         {
             if (GetLeadingSilence == 0 &&
                 GetTrailingSilence == 0)
@@ -266,9 +266,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
             Console.WriteLine($"{PrettyTime()} Padding: AudioLength = {originalAudioLength} + {GetLeadingSilence} + {GetTrailingSilence} = {GetAudioLength}");
 
-            for (int i = 0; i < channelInputs.Count; i++)
+            for (int i = 0; i < channels.Count; i++)
             {
-                channelInputs[i] = ApplyPaddingToChannel(channelInputs[i]);
+                channels[i] = ApplyPaddingToChannel(channels[i]);
             }
         }
 
@@ -285,12 +285,12 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private static List<string> GetReport(Buff result, double calculationDuration)
+        private static List<string> GetReport(Buff buff, double calculationDuration)
         {
             // Get Info
             var stringifiedChannels = new List<string>();
 
-            foreach (var audioFileOutputChannel in result.UnderlyingAudioFileOutput.AudioFileOutputChannels)
+            foreach (var audioFileOutputChannel in buff.UnderlyingAudioFileOutput.AudioFileOutputChannels)
             {
                 string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
                 stringifiedChannels.Add(stringify);
@@ -300,20 +300,20 @@ namespace JJ.Business.Synthesizer.Wishes
             var lines = new List<string>();
 
             lines.Add("");
-            lines.Add(GetPrettyTitle(result.UnderlyingAudioFileOutput.Name ?? result.UnderlyingAudioFileOutput.FilePath));
+            lines.Add(GetPrettyTitle(buff.UnderlyingAudioFileOutput.Name ?? buff.UnderlyingAudioFileOutput.FilePath));
             lines.Add("");
 
-            string realTimeComplexityMessage = FormatMetrics(result.UnderlyingAudioFileOutput.Duration, calculationDuration, result.Complexity());
+            string realTimeComplexityMessage = FormatMetrics(buff.UnderlyingAudioFileOutput.Duration, calculationDuration, buff.Complexity());
             lines.Add(realTimeComplexityMessage);
             lines.Add("");
 
             lines.Add($"Calculation time: {PrettyDuration(calculationDuration)}");
-            lines.Add($"Audio length: {PrettyDuration(result.UnderlyingAudioFileOutput.Duration)}");
-            lines.Add($"Sampling rate: {result.UnderlyingAudioFileOutput.SamplingRate} Hz | {result.UnderlyingAudioFileOutput.GetSampleDataTypeEnum()} | {result.UnderlyingAudioFileOutput.GetSpeakerSetupEnum()}");
+            lines.Add($"Audio length: {PrettyDuration(buff.UnderlyingAudioFileOutput.Duration)}");
+            lines.Add($"Sampling rate: {buff.UnderlyingAudioFileOutput.SamplingRate} Hz | {buff.UnderlyingAudioFileOutput.GetSampleDataTypeEnum()} | {buff.UnderlyingAudioFileOutput.GetSpeakerSetupEnum()}");
 
             lines.Add("");
 
-            IList<string> warnings = result.Messages.ToArray();
+            IList<string> warnings = buff.Messages.ToArray();
             if (warnings.Any())
             {
                 lines.Add("Warnings:");
@@ -321,7 +321,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add("");
             }
 
-            for (var i = 0; i < result.UnderlyingAudioFileOutput.AudioFileOutputChannels.Count; i++)
+            for (var i = 0; i < buff.UnderlyingAudioFileOutput.AudioFileOutputChannels.Count; i++)
             {
                 var channelString = stringifiedChannels[i];
 
@@ -331,13 +331,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add("");
             }
 
-            if (result.Bytes != null)
+            if (buff.Bytes != null)
             {
-                lines.Add($"{PrettyByteCount(result.Bytes.Length)} written to memory.");
+                lines.Add($"{PrettyByteCount(buff.Bytes.Length)} written to memory.");
             }
-            if (File.Exists(result.FilePath)) // TODO: Remove the if. It may be redundant now.
+            if (File.Exists(buff.FilePath)) // TODO: Remove the if. It may be redundant now.
             {
-                lines.Add($"Output file: {Path.GetFullPath(result.FilePath)}");
+                lines.Add($"Output file: {Path.GetFullPath(buff.FilePath)}");
             }
 
             lines.Add("");
@@ -486,7 +486,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public class Buff
     {
-        /// <inheritdoc cref="docs._saveresultbytes"/>
+        /// <inheritdoc cref="docs._buffbytes"/>
         public byte[] Bytes { get; set; }
         public string FilePath { get; set; }
         public AudioFileOutput UnderlyingAudioFileOutput { get; }
@@ -495,7 +495,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary> HACK: Temporary constructor for PlayWishes to only return messages, not other data. </summary>
         public Buff(IList<string> messages) => Messages = messages ?? new List<string>();
         
-        /// <inheritdoc cref="docs._saveresultbytes"/>
+        /// <inheritdoc cref="docs._buffbytes"/>
         public Buff(
             byte[] bytes, 
             string filePath, 
