@@ -14,18 +14,34 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public AudioStreamResult Cache(
-            Func<FlowNode> func, 
-            string name = null, [CallerMemberName] string callerMemberName = null) 
+            Func<FlowNode> func,
+            string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 func, null,
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public AudioStreamResult Cache(
-            Func<FlowNode> func, 
-            bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
+            Func<FlowNode> func, FlowNode duration,
+            string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
-                func, null, 
+                func, duration,
+                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public AudioStreamResult Cache(
+            Func<FlowNode> func, bool mustPad, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => StreamAudio(
+                func, null,
+                inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public AudioStreamResult Cache(
+            Func<FlowNode> func, FlowNode duration, bool mustPad, 
+            string name = null, [CallerMemberName] string callerMemberName = null) 
+            => StreamAudio(
+                func, duration, 
                 inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
@@ -35,29 +51,45 @@ namespace JJ.Business.Synthesizer.Wishes
             => StreamAudio(
                 new[] { outlet }, null, 
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public AudioStreamResult Cache(
+            FlowNode outlet, FlowNode duration,
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => StreamAudio(
+                new[] { outlet }, duration,
+                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public AudioStreamResult Cache(
-            FlowNode outlet, 
-            bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
+            FlowNode outlet, FlowNode duration, bool mustPad, 
+            string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
-                new[] { outlet }, null, 
+                new[] { outlet }, duration, 
                 inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public AudioStreamResult Cache(
-            IList<FlowNode> channelInputs, 
+            IList<FlowNode> channelInputs,
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => StreamAudio(
+                channelInputs, null,
+                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public AudioStreamResult Cache(
+            IList<FlowNode> channelInputs, FlowNode duration = null,
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
-                channelInputs, null, 
+                channelInputs, duration, 
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public AudioStreamResult Cache(
-            IList<FlowNode> channelInputs, 
-            bool mustPad, string name = null, [CallerMemberName] string callerMemberName = null) 
+            IList<FlowNode> channelInputs, FlowNode duration, bool mustPad,
+            string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
-                channelInputs, null, 
+                channelInputs, duration, 
                 inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
         
         // ChannelCache on Instance

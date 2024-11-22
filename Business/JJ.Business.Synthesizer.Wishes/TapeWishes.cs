@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
 
                         // Cache Audio
-                        var cacheResult = Cache(operand, operand.Name);
+                        var cacheResult = Cache(operand, tape.Duration, operand.Name);
                         
                         // Actions
                         tape.ResultCallback?.Invoke(cacheResult, channelIndex);

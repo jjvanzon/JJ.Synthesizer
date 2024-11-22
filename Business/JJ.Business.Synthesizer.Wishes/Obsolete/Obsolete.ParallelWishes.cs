@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 }
                 
                 // Generate audio
-                cacheResults[i] = synthWishes.Cache(channelOutlets, names[i]);
+                cacheResults[i] = synthWishes.Cache(channelOutlets, synthWishes.GetAudioLength, names[i]);
                 
                 Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
             });
