@@ -159,13 +159,10 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Tape
         
-        public FlowNode Tape(FlowNode signal)
-            => Tape(signal, default);
-        
-        public FlowNode Tape(FlowNode signal, FlowNode duration)
+        public FlowNode Tape(FlowNode signal, FlowNode duration = null)
         {
-            //duration = duration ?? GetAudioLength ?? _[1];
-            AddTape(signal);
+            Tape tape = AddTape(signal);
+            tape.Duration = duration ?? GetAudioLength ?? _[1];
             return signal;
         }
         
@@ -303,6 +300,7 @@ namespace JJ.Business.Synthesizer.Wishes
     internal class Tape
     {
         public Outlet Outlet { get; set; }
+        public FlowNode Duration { get; set; }
         public bool MustPlay { get; set; }
         public bool MustSave { get; set; }
         public string FilePath { get; set; }
