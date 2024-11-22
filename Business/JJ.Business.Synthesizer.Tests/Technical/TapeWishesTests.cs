@@ -1,5 +1,3 @@
-﻿using System.Collections.Generic;
-using System.Linq;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,6 +9,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestClass]
     public class TapeWishesTests : SynthWishes
     {
+        public TapeWishesTests()
+        {
+            WithShortDuration();
+        }
+        
         [TestMethod]
         public void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot_Test()
             => new TapeWishesTests().SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot();
@@ -25,17 +28,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void PlayAllTapes()
         {
-            WithShortDuration();
             WithPlayAllTapes();
             
-            var pitch = G4;
+            var pitch = A4;
             
             Play(() => Add
                  (
-                     Sine(pitch * 1).Volume(1.0).Tape(),
-                     Sine(pitch * 2).Volume(0.2).Tape(),
-                     Sine(pitch * 3).Volume(0.3).Tape()
-                 ) * Envelope);
+                     Sine(pitch * 1).Volume(1.0).Curve(Envelope).Tape(),
+                     Sine(pitch * 2).Volume(0.2).Curve(Envelope).Tape(),
+                     Sine(pitch * 3).Volume(0.3).Curve(Envelope).Tape()
+                 ));
         }
         
         [TestMethod]
@@ -43,18 +45,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void FluentPlay_UsingTape()
         {
-            WithShortDuration();
-            
             var pitch = A4;
             
             Play(() => Add
                  (
-                     Sine(pitch * 1).Volume(1.0).ChannelPlay(),
-                     Sine(pitch * 2).Volume(0.2),
-                     Sine(pitch * 3).ChannelPlay().Volume(0.3),
-                     Sine(pitch * 4).Volume(0.4),
-                     Sine(pitch * 5).Volume(0.2).ChannelPlay()
-                 ) * Envelope);
+                     Sine(pitch * 1).Curve(Envelope).Volume(1.0).ChannelPlay(),
+                     Sine(pitch * 2).Curve(Envelope).Volume(0.2),
+                     Sine(pitch * 3).Curve(Envelope).ChannelPlay().Volume(0.3),
+                     Sine(pitch * 4).Curve(Envelope).Volume(0.4),
+                     Sine(pitch * 5).Curve(Envelope).Volume(0.2).ChannelPlay()
+                 ));
         }
         
         [TestMethod]
@@ -62,8 +62,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void FluentSave_UsingTape()
         {
-            WithShortDuration();
-            
             var pitch = A4;
             
             Play(() => Add
@@ -83,20 +81,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var pitch = A4;
             
-            WithShortDuration();
             WithStereo();
 
             Play(() => Add
                  (
-                     Sine(pitch * 1).Volume(1.0).Panning(0.2).ChannelPlay(),
-                     Sine(pitch * 2).Volume(0.3).Panning(0.8).ChannelPlay()
+                     Sine(pitch * 1).Volume(1.0).Curve(Envelope).Panning(0.2).ChannelPlay(),
+                     Sine(pitch * 2).Volume(0.3).Curve(Envelope).Panning(0.8).ChannelPlay()
                  ) * Envelope * 1.5);
 
             Play(() => Add
                  (
-                     1.0 * Sine(pitch * 1).Panbrello(3.000, 0.2).ChannelPlay(),
-                     0.2 * Sine(pitch * 2).Panbrello(5.234, 0.3).ChannelPlay(),
-                     0.3 * Sine(pitch * 3).Panbrello(7.000, 0.2).ChannelPlay()
+                     1.0 * Sine(pitch * 1).Curve(Envelope).Panbrello(3.000, 0.2).ChannelPlay(),
+                     0.2 * Sine(pitch * 2).Curve(Envelope).Panbrello(5.234, 0.3).ChannelPlay(),
+                     0.3 * Sine(pitch * 3).Curve(Envelope).Panbrello(7.000, 0.2).ChannelPlay()
                  ) * Envelope * 1.5);
         }
         
@@ -107,7 +104,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void FluentCache_UsingTape() 
         {
             WithStereo();
-            WithShortDuration();
 
             var bufs = new Buff[2];
             
@@ -121,7 +117,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         // Helper
         
-        void WithShortDuration() => WithAudioLength(0.3).WithLeadingSilence(0.2).WithTrailingSilence(0.2);
-        FlowNode Envelope => Curve(0.4, 0.4);
+        void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
+        
+        public FlowNode BaseEnvelope => Curve((0, 0), (0.2, 0), (0.3, 1), (0.7, 1), (0.8, 0), (1.0, 0));
+        FlowNode Envelope => BaseEnvelope.Stretch(GetAudioLength) * 0.4;
     }
 }
