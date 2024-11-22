@@ -488,7 +488,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public string FilePath { get; }
         public AudioFileOutput UnderlyingAudioFileOutput { get; }
         public IList<string> Messages { get; }
-        public int ChannelIndex { get; internal set; }
         
         /// <summary> HACK: Temporary constructor for PlayWishes to only return messages, not other data. </summary>
         public AudioStreamResult(IList<string> messages) => Messages = messages ?? new List<string>();

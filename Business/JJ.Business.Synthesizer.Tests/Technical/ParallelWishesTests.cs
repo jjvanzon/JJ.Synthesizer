@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -98,18 +99,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                      0.3 * Sine(pitch * 3).Panbrello(7.000, 0.2).ChannelPlay()
                  ) * Envelope * 1.5);
         }
-            
+        
+        // ReSharper disable ParameterHidesMember
         [TestMethod]
         public void FluentCache_UsingTape_Test() => new ParallelWishesTests().FluentCache_UsingTape();
         
         void FluentCache_UsingTape() 
         {
             WithStereo();
-            WithDiskCacheOn();
+            WithShortDuration();
 
             var bufs = new AudioStreamResult[2];
-
-            Save(() => Sine(G4).Panning(0.1).ChannelCache(x => bufs[x.ChannelIndex] = x)).Play();
+            
+            Save(() => Sine(G4).Panning(0.1).ChannelCache((b, i) => bufs[i] = b)).Play();
 
             bufs.ForEach(x => x.Play());
 

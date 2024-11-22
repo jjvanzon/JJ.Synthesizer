@@ -31,6 +31,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public FlowNode ChannelCache(Action<AudioStreamResult> resultCallback)
             => _synthWishes.ChannelCache(this, resultCallback);
+
+        public FlowNode ChannelCache(Action<AudioStreamResult, int> resultCallback)
+            => _synthWishes.ChannelCache(this, resultCallback);
     }
     
     // SynthWishes Parallelization
@@ -64,7 +67,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
         
-        public FlowNode ChannelCache(FlowNode signal, Action<AudioStreamResult> resultCallback) 
+        public FlowNode ChannelCache(FlowNode signal, Action<AudioStreamResult> resultCallback)
+            => ChannelCache(signal, (x, i) => resultCallback(x));
+
+        public FlowNode ChannelCache(FlowNode signal, Action<AudioStreamResult, int> resultCallback) 
         {
             Tape tape = AddTape(signal);
             tape.MustCache = true;
@@ -160,12 +166,11 @@ namespace JJ.Business.Synthesizer.Wishes
                         Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
                         
                         var cacheResult = Cache(operand, operand.Name);
-                        cacheResult.ChannelIndex = channelIndex;
                         
                         // Actions
                         if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
                         if (tape.MustSave) Save(cacheResult, tape.FilePath, operand.Name);
-                        if (tape.MustCache) tape.ResultCallback(cacheResult);
+                        if (tape.MustCache) tape.ResultCallback(cacheResult, channelIndex);
                         
                         var sampleOutlet = Sample(cacheResult, name: operand.Name);
                         
@@ -239,7 +244,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustSave { get; set; }
         public string FilePath { get; set; }
         public bool MustCache { get; set; }
-        public Action<AudioStreamResult> ResultCallback { get; set; }
+        public Action<AudioStreamResult, int> ResultCallback { get; set; }
     }
     
     //public class CacheInfo
