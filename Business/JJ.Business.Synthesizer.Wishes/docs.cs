@@ -349,7 +349,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _paralleladd;
         
         /// <inheritdoc cref="_parallelsanddiskcache" />
-        public static object _parallels;
+        public static object _tapeFusion;
 
         /// <summary>
         /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
