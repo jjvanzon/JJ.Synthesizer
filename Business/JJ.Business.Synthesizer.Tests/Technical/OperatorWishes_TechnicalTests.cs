@@ -25,8 +25,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class OperatorWishes_TechnicalTests : SynthWishes
     {
-        FlowNode Envelope => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
-
         [TestMethod]
         public void NestedSumFlatteningTest() => new OperatorWishes_TechnicalTests().NestedSumFlattening();
 
@@ -237,7 +235,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation1()
         {
-            Save(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Multiply(Envelope)).Play();
+            Save(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Multiply(RecorderEnvelope)).Play();
         }
 
         [TestMethod]
@@ -245,7 +243,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation2()
         {
-            Save(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Volume(Envelope)).Play();
+            Save(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Volume(RecorderEnvelope)).Play();
         }
 
         [TestMethod]
@@ -253,7 +251,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation3()
         {
-            Save(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Curve(Envelope)).Play();
+            Save(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Curve(RecorderEnvelope)).Play();
         }
 
         [TestMethod]
@@ -261,7 +259,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation4()
         {
-            Save(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9) * Envelope).Play();
+            Save(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9) * RecorderEnvelope).Play();
         }
 
         [TestMethod]
@@ -564,7 +562,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             var freq = A4;
 
-            var added = Envelope * Add
+            var added = RecorderEnvelope * Add
             (
                 Sine(freq * 1).Volume(1.0).Tape(),
                 Sine(freq * 2).Volume(0.2).Tape(),
@@ -585,7 +583,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithPlayAllTapes();
             WithName();
 
-            var added = Envelope * Add
+            var added = RecorderEnvelope * Add
             (
                 Sine(freq * 1).Volume(1.0).Tape(),
                 Sine(freq * 2).Volume(0.2).Tape(),

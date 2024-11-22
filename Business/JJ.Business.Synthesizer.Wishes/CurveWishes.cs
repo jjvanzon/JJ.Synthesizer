@@ -36,6 +36,8 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
+        public FlowNode RecorderEnvelope => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
+        
         // Overloads with NodeInfo
 
         /// <inheritdoc cref="docs._createcurve" />
