@@ -418,12 +418,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var tolerance = 0.001;
 
             // Create Entities
-            var adder = WithAudioLength(duration).ParallelAdd
+            var adder = WithAudioLength(duration).Add
             (
                 // Values higher than 1 seem to be clipped.
-                WithName("Const Curve 0.1").Curve(0.1, 0.1),
-                WithName("Const Curve 0.2").Curve(0.2, 0.2),
-                WithName("Const Curve 0.3").Curve(0.3, 0.3)
+                WithName("Const Curve 0.1").Curve(0.1, 0.1).Tape(),
+                WithName("Const Curve 0.2").Curve(0.2, 0.2).Tape(),
+                WithName("Const Curve 0.3").Curve(0.3, 0.3).Tape()
             ).SetName();
 
             // Assert Entities
@@ -515,12 +515,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var duration = 0.1;
 
             // Act
-            var adder = WithAudioLength(duration).ParallelAdd
+            var adder = WithAudioLength(duration).Add
             (
                 // Values higher than 1 seem to be clipped.
-                WithName("Const Curve 0.1").Curve(0.1, 0.1),
-                WithName("Const Curve 0.2").Curve(0.2, 0.2),
-                WithName("Const Curve 0.3").Curve(0.3, 0.3)
+                WithName("Const Curve 0.1").Curve(0.1, 0.1).Tape(),
+                WithName("Const Curve 0.2").Curve(0.2, 0.2).Tape(),
+                WithName("Const Curve 0.3").Curve(0.3, 0.3).Tape()
             ).SetName();
 
             // Assert
@@ -564,11 +564,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             var freq = A4;
 
-            var added = Envelope * ParallelAdd
+            var added = Envelope * Add
             (
-                Sine(freq * 1) * 1.0,
-                Sine(freq * 2) * 0.2,
-                Sine(freq * 3) * 0.7
+                Sine(freq * 1).Volume(1.0).Tape(),
+                Sine(freq * 2).Volume(0.2).Tape(),
+                Sine(freq * 3).Volume(0.7).Tape()
             ).SetName();
 
             WithMono().Play(() => added);
@@ -585,11 +585,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithPlayAllTapes();
             WithName();
 
-            var added = Envelope * ParallelAdd
+            var added = Envelope * Add
             (
-                Sine(freq * 1) * 1.0,
-                Sine(freq * 2) * 0.2,
-                Sine(freq * 3) * 0.7
+                Sine(freq * 1).Volume(1.0).Tape(),
+                Sine(freq * 2).Volume(0.2).Tape(),
+                Sine(freq * 3).Volume(0.7).Tape()
             ).SetName();
 
             WithMono().Play(() => added);

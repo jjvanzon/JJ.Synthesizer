@@ -129,13 +129,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         ).SetName();
 
         /// <inheritdoc cref="docs._detunica" />
-        FlowNode DetunicaJingle => ParallelAdd
+        FlowNode DetunicaJingle => Add
         (
-            _[ beat[1], E0, DetunicaBass, 1.00, l[5.25] ],
-            _[ beat[2], B4, Detunica2   , 0.70, l[1.50] ],
-            _[ beat[3], C5, Detunica3   , 0.75, l[1.60] ],
-            _[ beat[4], D5, Detunica4   , 0.90, l[1.50] ],
-            _[ beat[5], E5, Detunica5   , 1.00, l[3.00] ]
+            _[ beat[1], E0, DetunicaBass, 1.00, l[5.25] ].Tape(),
+            _[ beat[2], B4, Detunica2   , 0.70, l[1.50] ].Tape(),
+            _[ beat[3], C5, Detunica3   , 0.75, l[1.60] ].Tape(),
+            _[ beat[4], D5, Detunica4   , 0.90, l[1.50] ].Tape(),
+            _[ beat[5], E5, Detunica5   , 1.00, l[3.00] ].Tape()
         ).SetName();
 
         // Notes
@@ -145,13 +145,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             duration = duration ?? GetAudioLength;
 
-            return ParallelAdd
+            return Add
             (
-                0.600 * Detunica1(freq * 1, duration, depth: _[0.6], chorusRate: _[0.040]),
-                0.800 * Detunica2(freq * 2, duration),
-                1.000 * Detunica3(freq * 4, duration),
-                0.015 * Detunica4(freq * 8, duration),
-                0.001 * Detunica5(freq * 16, duration)
+                0.600 * Detunica1(freq * 1, duration, depth: _[0.6], chorusRate: _[0.040]).Tape(),
+                0.800 * Detunica2(freq * 2, duration).Tape(),
+                1.000 * Detunica3(freq * 4, duration).Tape(),
+                0.015 * Detunica4(freq * 8, duration).Tape(),
+                0.001 * Detunica5(freq * 16, duration).Tape()
             ).SetName().Panbrello(2, 0.2);
         }
 
@@ -272,12 +272,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
 
-            return ParallelAdd
+            return Add
             (
-                freq.Times(1).Sine.Volume(1.0),
-                freq.Times(2).Sine.Volume(0.5),
-                freq.Times(3).Sine.Volume(0.3), 
-                freq.Times(4).Sine.Volume(0.2)
+                freq.Times(1).Sine.Volume(1.0).Tape(),
+                freq.Times(2).Sine.Volume(0.5).Tape(),
+                freq.Times(3).Sine.Volume(0.3).Tape(), 
+                freq.Times(4).Sine.Volume(0.2).Tape()
             ).SetName();
         }
 

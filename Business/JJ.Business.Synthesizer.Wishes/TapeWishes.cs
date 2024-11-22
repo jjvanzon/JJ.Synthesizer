@@ -163,27 +163,29 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // ParallelAdd
         
-        /// <inheritdoc cref="docs._paralleladd" />
-        public FlowNode ParallelAdd(params FlowNode[] termFuncs)
-            => ParallelAdd((IList<FlowNode>)termFuncs);
+        ///// <inheritdoc cref="docs._paralleladd" />
+        //[Obsolete("Trail all the arguments with .Tape() instead.", true)]
+        //public FlowNode ParallelAdd(params FlowNode[] termFuncs)
+        //    => ParallelAdd((IList<FlowNode>)termFuncs);
 
-        /// <inheritdoc cref="docs._paralleladd" />
-        public FlowNode ParallelAdd(IList<FlowNode> terms)
-        {
-            if (terms == null) throw new ArgumentNullException(nameof(terms));
+        ///// <inheritdoc cref="docs._paralleladd" />
+        //[Obsolete("Trail all the arguments with .Tape() instead.", true)]
+        //public FlowNode ParallelAdd(IList<FlowNode> terms)
+        //{
+        //    if (terms == null) throw new ArgumentNullException(nameof(terms));
             
-            var add = Add(terms);
+        //    var add = Add(terms);
             
-            if (GetParallels)
-            {
-                foreach (var term in add.Operands)
-                {
-                    Tape(term);
-                }
-            }
+        //    if (GetParallels)
+        //    {
+        //        foreach (var term in add.Operands)
+        //        {
+        //            Tape(term);
+        //        }
+        //    }
             
-            return add;
-        }
+        //    return add;
+        //}
         
     }
     

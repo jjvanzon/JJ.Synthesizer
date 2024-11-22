@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             var fileNames = new string[count];
             for (int i = 0; i < count; i++)
             {
-                fileNames[i] = $"{name}{sep}Term {i + 1} {nameof(SynthWishes.ParallelAdd)} {guidString}.wav";
+                fileNames[i] = $"{name}{sep}Term {i + 1} Parallel {guidString}.wav";
             }
             
             return fileNames;

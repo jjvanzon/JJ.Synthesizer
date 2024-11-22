@@ -30,11 +30,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             var pitch = G4;
             
-            Play(() => ParallelAdd
+            Play(() => Add
                  (
-                     Sine(pitch * 1).Volume(1.0),
-                     Sine(pitch * 2).Volume(0.2),
-                     Sine(pitch * 3).Volume(0.3)
+                     Sine(pitch * 1).Volume(1.0).Tape(),
+                     Sine(pitch * 2).Volume(0.2).Tape(),
+                     Sine(pitch * 3).Volume(0.3).Tape()
                  ) * Envelope);
         }
         

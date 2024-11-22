@@ -1340,14 +1340,15 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 var quieter = signal * cumulativeMagnitude;
                 var shifted = Delay(quieter, cumulativeDelay);
-
-                repeats[i] = shifted;
+                var taped = shifted.Tape();
+                
+                repeats[i] = taped;
 
                 cumulativeMagnitude *= magnitude;
                 cumulativeDelay += delay;
             }
 
-            return ParallelAdd(repeats);
+            return Add(repeats);
         }
         
         public FlowNode EchoTape(
