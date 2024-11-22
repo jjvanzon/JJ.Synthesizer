@@ -19,6 +19,14 @@ namespace JJ.Business.Synthesizer.Wishes
             => StreamAudio(
                 channelInputFunc, null,
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Buff Save(
+            Func<FlowNode> channelInputFunc, FlowNode duration,
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => StreamAudio(
+                channelInputFunc, duration,
+                inMemory: false, mustPad: true, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Save(
@@ -27,16 +35,32 @@ namespace JJ.Business.Synthesizer.Wishes
             => StreamAudio(
                 channelInput, null,
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
-
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Save(
-            IList<FlowNode> channelInputs, 
+            FlowNode channelInput, FlowNode duration,
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => StreamAudio(
+                channelInput, duration,
+                inMemory: false, mustPad: true, null, filePath, callerMemberName);
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Buff Save(
+            IList<FlowNode> channelInputs,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 channelInputs, null,
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
         
-        // ChannelSave on Instance
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Buff Save(
+            IList<FlowNode> channelInputs, FlowNode duration,
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => StreamAudio(
+                channelInputs, duration,
+                inMemory: false, mustPad: true, null, filePath, callerMemberName);
+        
+        // Instance ChannelSave
         
         public FlowNode ChannelSave(FlowNode signal)
             => ChannelSave(signal, null, default(Action<Buff, int>));

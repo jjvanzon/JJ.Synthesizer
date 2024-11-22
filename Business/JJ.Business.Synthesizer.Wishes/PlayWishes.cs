@@ -16,15 +16,21 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         // Instance (Start-Of-Chain)
-
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Play(
             Func<FlowNode> channelInputFunc,
             string name = null, [CallerMemberName] string callerMemberName = null)
+            => Play(channelInputFunc, null, name, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Buff Play(
+            Func<FlowNode> channelInputFunc, FlowNode duration,
+            string name = null, [CallerMemberName] string callerMemberName = null)
         {
             var result =
                 StreamAudio(
-                    channelInputFunc, null,
+                    channelInputFunc, duration,
                     inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
 
             var playResult = InternalPlay(this, result);
@@ -36,12 +42,18 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Play(
-            FlowNode channelInput, 
+            FlowNode channelInput,
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => Play(channelInput, null, name, callerMemberName);
+
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Buff Play(
+            FlowNode channelInput, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             var result =
                 StreamAudio(
-                    channelInput, null,
+                    channelInput, duration,
                     inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
             
             var playResult = InternalPlay(this, result);
@@ -50,15 +62,21 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return result;
         }
+        
+        /// <inheritdoc cref="docs._saveorplay" />
+        public Buff Play(
+            IList<FlowNode> channelInputs,
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => Play(channelInputs, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Play(
-            IList<FlowNode> channelInputs, 
+            IList<FlowNode> channelInputs, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             var result =
                 StreamAudio(
-                    channelInputs, null,
+                    channelInputs, duration,
                     inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
             
             var playResult = InternalPlay(this, result);
@@ -84,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
 
-        // Internals
+        // Internals (all on Buffs)
         
         internal static Buff InternalPlay(SynthWishes synthWishes, Buff result)
         {
