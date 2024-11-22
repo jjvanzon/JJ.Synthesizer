@@ -10,7 +10,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        // Cache on Instance
+        // Instance (Start-Of-Chain)
+        
+        // With Func
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
@@ -60,6 +62,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 new[] { outlet }, duration,
                 inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
 
+        // With FlowNode
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
             FlowNode outlet, FlowNode duration, bool mustPad, 
@@ -92,7 +96,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 channelInputs, duration, 
                 inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
         
-        // ChannelCache on Instance
+        // Instance ChannelCache
         
         public FlowNode ChannelCache(FlowNode signal, Action<Buff> resultCallback)
             => ChannelCache(signal, (x, i) => resultCallback(x));
@@ -104,7 +108,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
 
-        // Cache in Statics
+        // Statics (Buff to Buff)
         
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Cache(
@@ -123,13 +127,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: true, null, name, callerMemberName);
     }
 
-    // Cache on Statics Turned Instance
+    // Statics Turned Instance
     
     /// <inheritdoc cref="docs._saveorplay" />
     public static class SynthWishesCacheStaticsTurnedInstanceExtensions
     {
-        // Statics made available on instances, by using extension methods.
-                
+        // On Buffs
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public static SynthWishes Cache(
             this SynthWishes synthWishes, 
@@ -193,7 +197,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
         
-        // ChannelCache
+        // ChannelCache on FlowNode
         
         public FlowNode ChannelCache(Action<Buff> resultCallback)
             => _synthWishes.ChannelCache(this, resultCallback);
@@ -202,7 +206,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.ChannelCache(this, resultCallback);
     }
     
-    // Cache on Entity / Results / Data
+    // Buff to Buff Extensions
 
     public static class CacheExtensionWishes
     {
