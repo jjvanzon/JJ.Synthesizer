@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = AddTape(signal);
             tape.MustPlay = true;
-            tape.ResultCallback = callback;
+            tape.Callback = callback;
             return signal;
         }
 

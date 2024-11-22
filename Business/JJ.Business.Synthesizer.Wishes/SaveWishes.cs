@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Tape tape = AddTape(signal);
             tape.MustSave = true;
             tape.FilePath = filePath;
-            tape.ResultCallback = callback;
+            tape.Callback = callback;
             return signal;
         }
 

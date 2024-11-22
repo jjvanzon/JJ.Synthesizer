@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         var cacheResult = Cache(operand, tape.Duration, operand.Name);
                         
                         // Actions
-                        tape.ResultCallback?.Invoke(cacheResult, channelIndex);
+                        tape.Callback?.Invoke(cacheResult, channelIndex);
                         if (tape.MustSave) Save(cacheResult, tape.FilePath, operand.Name);
                         if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
                         
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustPlay { get; set; }
         public bool MustSave { get; set; }
         public string FilePath { get; set; }
-        public Action<Buff, int> ResultCallback { get; set; }
+        public Action<Buff, int> Callback { get; set; }
     }
     
     /// <summary>

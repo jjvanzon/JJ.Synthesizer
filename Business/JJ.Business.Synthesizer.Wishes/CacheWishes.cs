@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode ChannelCache(FlowNode signal, Action<Buff, int> callback)
         {
             Tape tape = AddTape(signal);
-            tape.ResultCallback = callback;
+            tape.Callback = callback;
             return signal;
         }
 
