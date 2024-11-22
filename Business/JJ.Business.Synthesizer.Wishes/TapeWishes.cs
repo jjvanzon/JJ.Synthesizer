@@ -27,6 +27,9 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
 
+            // New prep steps (not yet used in processing)
+            SetTapeLevelsRecursive(channels);
+            
             var tasks = new Task[channels.Count];
             for (int i = 0; i < channels.Count; i++)
             {
@@ -37,6 +40,27 @@ namespace JJ.Business.Synthesizer.Wishes
             WaitAll(tasks);
         }
         
+        private void SetTapeLevelsRecursive(IList<FlowNode> nodes)
+        {
+            foreach (var node in nodes)
+            {
+                if (node == null) continue;
+                SetTapeLevelsRecursive(node, 1);
+            }
+        }
+        
+        private void SetTapeLevelsRecursive(FlowNode node, int level)
+        {
+            Tape tape = TryGetTape(node);
+            if (tape != null) tape.Level = level;
+            
+            foreach (var child in node.Operands)
+            {
+                if (child == null) continue;
+                SetTapeLevelsRecursive(child, level + 1);
+            }
+        }
+
         private void RunParallelsRecursive(FlowNode op, int channelIndex)
         {
             // Gather all tasks with levels
@@ -169,6 +193,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustPlay { get; set; }
         public bool MustSave { get; set; }
         public string FilePath { get; set; }
+        public int Level { get; set; }
+        public Task Task { get; set; }
         public Action<Buff, int> Callback { get; set; }
     }
     
