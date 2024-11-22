@@ -99,6 +99,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Instance ChannelCache
         
+        public FlowNode ChannelCache(FlowNode signal)
+            => ChannelCache(signal, null, (Action<Buff, int>)null);
+        
         public FlowNode ChannelCache(FlowNode signal, Action<Buff> callback)
             => ChannelCache(signal, null, callback);
         
@@ -206,6 +209,9 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         // ChannelCache on FlowNode
+        
+        public FlowNode ChannelCache()
+            => _synthWishes.ChannelCache(this);
         
         public FlowNode ChannelCache(Action<Buff> callback)
             => _synthWishes.ChannelCache(this, callback);
