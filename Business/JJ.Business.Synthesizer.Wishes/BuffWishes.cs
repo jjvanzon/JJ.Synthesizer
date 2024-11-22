@@ -135,8 +135,7 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Amplifier = GetBits.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
-            // TODO: Put fallback in ConfigResolver?
-            audioFileOutput.Duration = (duration ?? GetAudioLength ?? _[1]).Calculate();
+            audioFileOutput.Duration = (duration ?? GetAudioLength).Calculate();
             audioFileOutput.FilePath = FormatAudioFileName(name, GetAudioFormat);
             audioFileOutput.SetBits(GetBits, Context);
             audioFileOutput.SetAudioFormat(GetAudioFormat, Context);

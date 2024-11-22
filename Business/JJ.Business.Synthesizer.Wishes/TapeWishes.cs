@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Tape(FlowNode signal, FlowNode duration = null)
         {
             Tape tape = AddTape(signal);
-            tape.Duration = duration ?? GetAudioLength ?? _[1];
+            tape.Duration = duration ?? GetAudioLength;
             return signal;
         }
 
