@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
-            if (!GetTapeFusion) return;
+            if (!GetParallelTapes) return;
 
             var tasks = new Task[channels.Count];
             for (int i = 0; i < channels.Count; i++)
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private void RunParallelsRecursive(FlowNode op, int channelIndex)
         {
-            if (!GetTapeFusion) return;
+            if (!GetParallelTapes) return;
             
             // Gather all tasks with levels
             var tasks = GetParallelTasksRecursive(op, channelIndex, level: 1);

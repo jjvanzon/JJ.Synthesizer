@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <returns> An Outlet representing the output sound. </returns>
         public static object _default;
         
-        /// <inheritdoc cref="_parallelsanddiskcache" />
+        /// <inheritdoc cref="_tapesanddiskcache" />
         public static object _diskcacheon;
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         public static object _operand;
         
-        /// <inheritdoc cref="_parallelsanddiskcache" />
+        /// <inheritdoc cref="_tapesanddiskcache" />
         public static object _playalltapes;
         
         /// <summary>
@@ -348,8 +348,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns>
         public static object _paralleladd;
         
-        /// <inheritdoc cref="_parallelsanddiskcache" />
-        public static object _tapeFusion;
+        /// <inheritdoc cref="_tapesanddiskcache" />
+        public static object _parallelTapes;
 
         /// <summary>
         /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
@@ -359,7 +359,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// But could be used in low-memory high-disk-space scenarios.<br/>
         /// With the Parallels setting you can turn off parallel processing completely.
         /// </summary>
-        public static object _parallelsanddiskcache;
+        public static object _tapesanddiskcache;
 
         /// <summary>
         /// Can get persistence configuration from config, or otherwise falls back
