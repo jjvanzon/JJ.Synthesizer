@@ -83,7 +83,8 @@ namespace JJ.Business.Synthesizer.Wishes
                     var task = new Task(() =>
                     {
                         Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
-                        
+
+                        // Cache Audio
                         var cacheResult = Cache(operand, operand.Name);
                         
                         // Actions
@@ -91,6 +92,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         if (tape.MustSave) Save(cacheResult, tape.FilePath, operand.Name);
                         if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
                         
+                        // Wrap in Sample
                         var sampleOutlet = Sample(cacheResult, name: operand.Name);
                         
                         // Replace all references to tape
@@ -110,32 +112,27 @@ namespace JJ.Business.Synthesizer.Wishes
             return tasks;
         }
         
-        // Taoes
+        // Tapes
         
         private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
         
         private Tape AddTape(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            
             var tape = new Tape { Outlet = outlet };
-            
             _tapes[outlet] = tape;
-            
             return tape;
         }
         
         private bool IsTape(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            
             return _tapes.ContainsKey(outlet);
         }
         
         private void RemoveTape(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            
             _tapes.Remove(outlet);
         }
         
@@ -143,14 +140,12 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new NullException(() => tape);
             if (tape.Outlet == null) throw new NullException(() => tape.Outlet);
-            
             _tapes.Remove(tape.Outlet);
         }
         
         private Tape TryGetTape(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            
             _tapes.TryGetValue(outlet, out Tape tape);
             return tape;
         }
