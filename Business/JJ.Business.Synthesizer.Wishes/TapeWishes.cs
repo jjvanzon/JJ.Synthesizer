@@ -8,6 +8,7 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.Threading.Tasks.Task;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -26,15 +27,16 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
-
+            
             // New prep steps (not yet used in processing)
             SetTapeLevelsRecursive(channels);
             
             var tasks = new Task[channels.Count];
-            for (int i = 0; i < channels.Count; i++)
+            for (int unsafeI = 0; unsafeI < channels.Count; unsafeI++)
             {
-                int channelIndex = i;
-                tasks[channelIndex] = Run(() => RunParallelsRecursive(channels[channelIndex], channelIndex));
+                int i = unsafeI;
+                
+                tasks[i] = Run(() => RunParallelsRecursive(channels[i], i));
             }
             
             WaitAll(tasks);
@@ -67,16 +69,16 @@ namespace JJ.Business.Synthesizer.Wishes
             var tasks = GetParallelTasksRecursive(op, channelIndex, level: 1);
             
             // Group tasks by nesting level
-            var levelGroups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
-            foreach (var levelGroup in levelGroups)
+            var groups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
+            foreach (var group in groups)
             {
                 // Execute each nesting level's task simultaneously.
-                Task[] tasksInLevel = levelGroup.Select(x => x.Task).ToArray();
-                tasksInLevel.ForEach(x => x.Start());
-                WaitAll(tasksInLevel); // Ensure each level completes before moving up
+                Task[] tasks2 = group.Select(x => x.Task).ToArray();
+                tasks2.ForEach(x => x.Start());
+                WaitAll(tasks2); // Ensure each level completes before moving up
             }
         }
-        
+
         private IList<(Task Task, int Level)> GetParallelTasksRecursive(FlowNode op, int channelIndex, int level)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
