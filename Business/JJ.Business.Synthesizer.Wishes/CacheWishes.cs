@@ -99,13 +99,13 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Instance ChannelCache
         
-        public FlowNode ChannelCache(FlowNode signal, Action<Buff> resultCallback)
-            => ChannelCache(signal, (x, i) => resultCallback(x));
+        public FlowNode ChannelCache(FlowNode signal, Action<Buff> callback)
+            => ChannelCache(signal, (x, i) => callback(x));
         
-        public FlowNode ChannelCache(FlowNode signal, Action<Buff, int> resultCallback)
+        public FlowNode ChannelCache(FlowNode signal, Action<Buff, int> callback)
         {
             Tape tape = AddTape(signal);
-            tape.ResultCallback = resultCallback;
+            tape.ResultCallback = callback;
             return signal;
         }
 
@@ -200,11 +200,11 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // ChannelCache on FlowNode
         
-        public FlowNode ChannelCache(Action<Buff> resultCallback)
-            => _synthWishes.ChannelCache(this, resultCallback);
+        public FlowNode ChannelCache(Action<Buff> callback)
+            => _synthWishes.ChannelCache(this, callback);
         
-        public FlowNode ChannelCache(Action<Buff, int> resultCallback)
-            => _synthWishes.ChannelCache(this, resultCallback);
+        public FlowNode ChannelCache(Action<Buff, int> callback)
+            => _synthWishes.ChannelCache(this, callback);
     }
     
     // Buff to Buff Extensions

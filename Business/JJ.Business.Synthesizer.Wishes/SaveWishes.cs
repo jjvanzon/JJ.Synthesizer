@@ -68,21 +68,21 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode ChannelSave(FlowNode signal, string filePath)
             => ChannelSave(signal, filePath, default(Action<Buff, int>));
         
-        public FlowNode ChannelSave(FlowNode signal, Action<Buff> resultCallback)
-            => ChannelSave(signal, null, resultCallback);
+        public FlowNode ChannelSave(FlowNode signal, Action<Buff> callback)
+            => ChannelSave(signal, null, callback);
         
-        public FlowNode ChannelSave(FlowNode signal, Action<Buff, int> resultCallback)
-            => ChannelSave(signal, null, resultCallback);
+        public FlowNode ChannelSave(FlowNode signal, Action<Buff, int> callback)
+            => ChannelSave(signal, null, callback);
         
-        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<Buff> resultCallback)
-            => ChannelSave(signal, filePath, (x, y) => resultCallback(x));
+        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<Buff> callback)
+            => ChannelSave(signal, filePath, (x, y) => callback(x));
         
-        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<Buff, int> resultCallback)
+        public FlowNode ChannelSave(FlowNode signal, string filePath, Action<Buff, int> callback)
         {
             Tape tape = AddTape(signal);
             tape.MustSave = true;
             tape.FilePath = filePath;
-            tape.ResultCallback = resultCallback;
+            tape.ResultCallback = callback;
             return signal;
         }
 
@@ -258,17 +258,17 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode ChannelSave(string filePath)
             => _synthWishes.ChannelSave(this, filePath);
         
-        public FlowNode ChannelSave(Action<Buff> resultCallback)
-            => _synthWishes.ChannelSave(this, resultCallback);
+        public FlowNode ChannelSave(Action<Buff> callback)
+            => _synthWishes.ChannelSave(this, callback);
         
-        public FlowNode ChannelSave(Action<Buff, int> resultCallback)
-            => _synthWishes.ChannelSave(this, resultCallback);
+        public FlowNode ChannelSave(Action<Buff, int> callback)
+            => _synthWishes.ChannelSave(this, callback);
         
-        public FlowNode ChannelSave(string filePath, Action<Buff> resultCallback)
-            => _synthWishes.ChannelSave(this, filePath, resultCallback);
+        public FlowNode ChannelSave(string filePath, Action<Buff> callback)
+            => _synthWishes.ChannelSave(this, filePath, callback);
         
-        public FlowNode ChannelSave(string filePath, Action<Buff, int> resultCallback)
-            => _synthWishes.ChannelSave(this, filePath, resultCallback);
+        public FlowNode ChannelSave(string filePath, Action<Buff, int> callback)
+            => _synthWishes.ChannelSave(this, filePath, callback);
     }
 
     // Buff Extensions

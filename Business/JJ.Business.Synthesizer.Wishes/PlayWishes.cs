@@ -91,14 +91,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode ChannelPlay(FlowNode signal) 
             => ChannelPlay(signal, default(Action<Buff, int>));
         
-        public FlowNode ChannelPlay(FlowNode signal, Action<Buff> resultCallback)
-            => ChannelPlay(signal, (x, i) => resultCallback(x));
+        public FlowNode ChannelPlay(FlowNode signal, Action<Buff> callback)
+            => ChannelPlay(signal, (x, i) => callback(x));
         
-        public FlowNode ChannelPlay(FlowNode signal, Action<Buff, int> resultCallback)
+        public FlowNode ChannelPlay(FlowNode signal, Action<Buff, int> callback)
         {
             Tape tape = AddTape(signal);
             tape.MustPlay = true;
-            tape.ResultCallback = resultCallback;
+            tape.ResultCallback = callback;
             return signal;
         }
 
@@ -222,8 +222,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Play(string filePath) { InternalPlay(_synthWishes, filePath); return this; }
         
         public FlowNode ChannelPlay() => _synthWishes.ChannelPlay(this);
-        public FlowNode ChannelPlay(Action<Buff> resultCallback) => _synthWishes.ChannelPlay(this, resultCallback);
-        public FlowNode ChannelPlay(Action<Buff, int> resultCallback) => _synthWishes.ChannelPlay(this, resultCallback);
+        public FlowNode ChannelPlay(Action<Buff> callback) => _synthWishes.ChannelPlay(this, callback);
+        public FlowNode ChannelPlay(Action<Buff, int> callback) => _synthWishes.ChannelPlay(this, callback);
     }
 
     // Buff Extensions
