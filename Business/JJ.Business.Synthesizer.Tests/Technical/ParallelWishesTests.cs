@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Wishes;
+using JJ.Framework.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.Testing.AssertHelper;
@@ -106,9 +107,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithStereo();
             WithDiskCacheOn();
 
-            var bufs = new List<AudioStreamResult>();
+            var bufs = new AudioStreamResult[2];
 
-            Save(() => Sine(G4).Panning(0.1).ChannelCache(x => bufs.Add(x))).Play();
+            Save(() => Sine(G4).Panning(0.1).ChannelCache(x => bufs[x.ChannelIndex] = x)).Play();
 
             bufs.ForEach(x => x.Play());
 
