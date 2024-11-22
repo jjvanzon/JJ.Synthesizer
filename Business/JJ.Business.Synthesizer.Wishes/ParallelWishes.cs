@@ -8,6 +8,7 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.Threading.Tasks.Task;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
+// ReSharper disable MemberCanBePrivate.Global
 
 // ReSharper disable ParameterHidesMember
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
@@ -103,18 +104,18 @@ namespace JJ.Business.Synthesizer.Wishes
             for (int i = 0; i < channels.Count; i++)
             {
                 int channelIndex = i;
-                tasks[channelIndex] = Run(() => RunParallelsRecursive(channels[channelIndex]));
+                tasks[channelIndex] = Run(() => RunParallelsRecursive(channels[channelIndex], channelIndex));
             }
             
             WaitAll(tasks);
         }
         
-        internal void RunParallelsRecursive(FlowNode op)
+        private void RunParallelsRecursive(FlowNode op, int channelIndex)
         {
             if (!GetParallels) return;
             
             // Gather all tasks with levels
-            var tasks = GetParallelTasksRecursive(op, level: 1);
+            var tasks = GetParallelTasksRecursive(op, channelIndex, level: 1);
             
             // Group tasks by nesting level
             var levelGroups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
@@ -127,7 +128,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private IList<(Task Task, int Level)> GetParallelTasksRecursive(FlowNode op, int level)
+        private IList<(Task Task, int Level)> GetParallelTasksRecursive(FlowNode op, int channelIndex, int level)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 
@@ -138,7 +139,7 @@ namespace JJ.Business.Synthesizer.Wishes
             foreach (var operand in operands)
             {
                 if (operand == null) continue;
-                tasks.AddRange(GetParallelTasksRecursive(operand, level + 1));
+                tasks.AddRange(GetParallelTasksRecursive(operand, channelIndex,level + 1));
             }
             
             for (var unsafeI = 0; unsafeI < operands.Length; unsafeI++)
@@ -159,14 +160,12 @@ namespace JJ.Business.Synthesizer.Wishes
                         Console.WriteLine($"{PrettyTime()} Start Task: {operand.Name} (Level {level})");
                         
                         var cacheResult = Cache(operand, operand.Name);
+                        cacheResult.ChannelIndex = channelIndex;
                         
                         // Actions
                         if (tape.MustPlay || GetPlayAllTapes) Play(cacheResult);
                         if (tape.MustSave) Save(cacheResult, tape.FilePath, operand.Name);
-                        if (tape.MustCache)
-                        {
-                            tape.ResultCallback(cacheResult);
-                        }
+                        if (tape.MustCache) tape.ResultCallback(cacheResult);
                         
                         var sampleOutlet = Sample(cacheResult, name: operand.Name);
                         
