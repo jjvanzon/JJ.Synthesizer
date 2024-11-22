@@ -28,7 +28,7 @@
 		trailingSilence="0.25"
 		playBack="true"
 		mathBoost="true"
-		parallelTapes="true"
+		parallelTaping="true"
 		diskCacheOn="false"
 		playAllTapes="false"
 		longRunningTestCategory="Long">

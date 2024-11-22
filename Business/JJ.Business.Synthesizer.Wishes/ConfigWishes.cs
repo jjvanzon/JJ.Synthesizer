@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         [XmlAttribute] public bool? PlayBack { get; set; }
         [XmlAttribute] public bool? MathBoost { get; set; }
-        [XmlAttribute] public bool? ParallelTapes { get; set; }
+        [XmlAttribute] public bool? ParallelTaping { get; set; }
         [XmlAttribute] public bool? DiskCacheOn { get; set; }
         [XmlAttribute] public bool? PlayAllTapes { get; set; }
         
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private const bool DefaultPlayBack     = true;
         private const bool DefaultMathBoost    = true;
-        private const bool DefaultParallelTapes   = true;
+        private const bool DefaultParallelTaping   = true;
         private const bool DefaultDiskCacheOn  = false;
         private const bool DefaultPlayAllTapes = false;
         
@@ -283,14 +283,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetMathBoost => _mathBoost ?? _section.MathBoost ?? DefaultMathBoost;
         public void WithMathBoost(bool? enabled = true) => _mathBoost = enabled;
         
-        // ParallelTapes (Parallel)
+        // ParallelTaping
         
-        /// <inheritdoc cref="docs._parallelTapes" />
-        private bool? _parallelTapes;
-        /// <inheritdoc cref="docs._parallelTapes" />
-        public bool GetParallelTapes => _parallelTapes ?? _section.ParallelTapes ?? DefaultParallelTapes;
-        /// <inheritdoc cref="docs._parallelTapes" />
-        public void WithParallelTapes(bool? enabled = true) => _parallelTapes = enabled;
+        /// <inheritdoc cref="docs._paralleltaping" />
+        private bool? _parallelTaping;
+        /// <inheritdoc cref="docs._paralleltaping" />
+        public bool GetParallelTaping => _parallelTaping ?? _section.ParallelTaping ?? DefaultParallelTaping;
+        /// <inheritdoc cref="docs._paralleltaping" />
+        public void WithParallelTaping(bool? enabled = true) => _parallelTaping = enabled;
         
         // DiskCacheOn
         
@@ -445,10 +445,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetMathBoost => _configResolver.GetMathBoost;
         public SynthWishes WithMathBoost(bool? enabled = true) { _configResolver.WithMathBoost(enabled); return this; }
         
-        /// <inheritdoc cref="docs._parallelTapes" />
-        public bool GetParallelTapes => _configResolver.GetParallelTapes;
-        /// <inheritdoc cref="docs._parallelTapes" />
-        public SynthWishes WithParallelTapes(bool? enabled = true) { _configResolver.WithParallelTapes(enabled); return this; }
+        /// <inheritdoc cref="docs._paralleltaping" />
+        public bool GetParallelTaping => _configResolver.GetParallelTaping;
+        /// <inheritdoc cref="docs._paralleltaping" />
+        public SynthWishes WithParallelTaping(bool? enabled = true) { _configResolver.WithParallelTaping(enabled); return this; }
 
         /// <inheritdoc cref="docs._diskcacheon" />
         public bool GetDiskCacheOn => _configResolver.GetDiskCacheOn;
@@ -522,10 +522,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetMathBoost => _synthWishes.GetMathBoost;
         public FlowNode WithMathBoost(bool? enabled = true) { _synthWishes.WithMathBoost(enabled); return this; }
         
-        /// <inheritdoc cref="docs._parallelTapes" />
-        public bool GetParallelTapes => _synthWishes.GetParallelTapes;
-        /// <inheritdoc cref="docs._parallelTapes" />
-        public FlowNode WithParallelTapes(bool? enabled = true) { _synthWishes.WithParallelTapes(enabled); return this; }
+        /// <inheritdoc cref="docs._paralleltaping" />
+        public bool GetParallelTaping => _synthWishes.GetParallelTaping;
+        /// <inheritdoc cref="docs._paralleltaping" />
+        public FlowNode WithParallelTaping(bool? enabled = true) { _synthWishes.WithParallelTaping(enabled); return this; }
 
         /// <inheritdoc cref="docs._diskcacheon" />
         public bool GetDiskCacheOn => _synthWishes.GetDiskCacheOn;
