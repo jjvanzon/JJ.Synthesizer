@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
@@ -55,7 +57,13 @@ namespace JJ.Business.Synthesizer.Wishes
         private void SetTapeLevelsRecursive(FlowNode node, int level)
         {
             Tape tape = TryGetTape(node);
-            if (tape != null) tape.Level = level;
+            if (tape != null)
+            {
+                if (tape.Level == default) // Don't overwrite in case of multiple usage.
+                {
+                    tape.Level = level;
+                }
+            }
             
             foreach (var child in node.Operands)
             {
