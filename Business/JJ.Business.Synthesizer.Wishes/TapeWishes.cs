@@ -33,9 +33,9 @@ namespace JJ.Business.Synthesizer.Wishes
             SetTapeLevelsRecursive(channels);
             
             var tasks = new Task[channels.Count];
-            for (int unsafeI = 0; unsafeI < channels.Count; unsafeI++)
+            for (int unsafeIndex = 0; unsafeIndex < channels.Count; unsafeIndex++)
             {
-                int i = unsafeI;
+                int i = unsafeIndex;
                 
                 tasks[i] = Run(() => RunParallelsRecursive(channels[i], i));
             }
@@ -94,9 +94,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 tasks.AddRange(GetParallelTasksRecursive(operand, channelIndex, level + 1));
             }
             
-            for (var unsafeI = 0; unsafeI < operands.Length; unsafeI++)
+            for (var unsafeIndex = 0; unsafeIndex < operands.Length; unsafeIndex++)
             {
-                int i = unsafeI;
+                int i = unsafeIndex;
                 FlowNode operand = operands[i];
                 if (operand == null) continue;
                 
