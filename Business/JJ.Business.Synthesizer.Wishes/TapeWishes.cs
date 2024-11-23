@@ -144,11 +144,11 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
         
-        private Tape AddTape(Outlet outlet)
+        private Tape AddTape(FlowNode signal)
         {
-            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            var tape = new Tape { Outlet = outlet };
-            _tapes[outlet] = tape;
+            if (signal == null) throw new ArgumentNullException(nameof(signal));
+            var tape = new Tape { Signal = signal };
+            _tapes[signal] = tape;
             return tape;
         }
         
