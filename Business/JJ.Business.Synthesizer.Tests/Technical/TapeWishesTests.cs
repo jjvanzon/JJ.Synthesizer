@@ -107,9 +107,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             var bufs = new Buff[2];
             
-            Save(() => Sine(G4).Panning(0.1).ChannelCache((b, i) => bufs[i] = b)).Play();
+            // HACK: .Volume(0.4) circumvents bug that tasks aren't executed on the root node, due to a bug in the recursive process.
+            Save(() => Sine(A4).Panning(0.1).ChannelCache((b, i) => bufs[i] = b).Volume(0.4)).Play();
+            
+            IsNotNull(() => bufs[0]);
+            IsNotNull(() => bufs[1]);
 
-            bufs.ForEach(x => x.Play());
+            bufs[0].Play();
+            bufs[1].Play();
 
             Save(() => Sample(bufs[0]).Panning(0) +
                        Sample(bufs[1]).Panning(1)).Play();
