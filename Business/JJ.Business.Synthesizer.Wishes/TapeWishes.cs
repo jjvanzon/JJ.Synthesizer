@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Wishes
             foreach (FlowNode operand in operands)
             {
                 if (operand == null) continue;
-                tasks.AddRange(GetParallelTasksRecursive(operand, channelIndex,level + 1));
+                tasks.AddRange(GetParallelTasksRecursive(operand, channelIndex, level + 1));
             }
             
             for (var unsafeI = 0; unsafeI < operands.Length; unsafeI++)
@@ -106,38 +106,44 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     RemoveTape(tape);
                     
-                    var task = new Task(() =>
-                    {
-                        string name = operand.Name;
-                        
-                        Console.WriteLine($"{PrettyTime()} Start Task: (Level {level}) {name}");
+                    // Preliminary assignment of variables. Will have been filled in already later.
+                    tape.Name = operand.Name;
+                    tape.Signal = operand;
+                    tape.ChannelIndex = channelIndex;
+                    tape.Level = level;
 
-                        // Cache Buffer
-                        Buff cacheBuff = Cache(operand, tape.Duration, name);
-                        
-                        // Actions
-                        tape.Callback?.Invoke(cacheBuff, channelIndex);
-                        if (tape.MustSave) Save(cacheBuff, tape.FilePath, name);
-                        if (tape.MustPlay || GetPlayAllTapes) Play(cacheBuff);
-                        
-                        // Wrap in Sample
-                        var sample = Sample(cacheBuff, name: name);
-                        
-                        // Replace All References
-                        IList<Inlet> connectedInlets = operand.UnderlyingOutlet.ConnectedInlets.ToArray();
-                        foreach (Inlet inlet in connectedInlets)
-                        {
-                            inlet.LinkTo(sample);
-                        }
-
-                        Console.WriteLine($"{PrettyTime()}   End Task: (Level {level}) {name} ");
-                    });
+                    var task = new Task(() => RunTape(tape));
                     
                     tasks.Add((task, level));
                 }
             }
 
             return tasks;
+        }
+        
+        private void RunTape(Tape tape)
+        {
+            Console.WriteLine($"{PrettyTime()} Start Task: (Level {tape.Level}) {tape.Name}");
+            
+            // Cache Buffer
+            Buff cacheBuff = Cache(tape.Signal, tape.Duration, tape.Name);
+            
+            // Actions
+            tape.Callback?.Invoke(cacheBuff, tape.ChannelIndex);
+            if (tape.MustSave) Save(cacheBuff, tape.FilePath, tape.Name);
+            if (tape.MustPlay || GetPlayAllTapes) Play(cacheBuff);
+            
+            // Wrap in Sample
+            var sample = Sample(cacheBuff, name: tape.Name);
+            
+            // Replace All References
+            IList<Inlet> connectedInlets = tape.Signal.UnderlyingOutlet.ConnectedInlets.ToArray();
+            foreach (Inlet inlet in connectedInlets)
+            {
+                inlet.LinkTo(sample);
+            }
+            
+            Console.WriteLine($"{PrettyTime()}   End Task: (Level {tape.Level}) {tape.Name} ");
         }
         
         // Tapes
@@ -167,8 +173,8 @@ namespace JJ.Business.Synthesizer.Wishes
         private void RemoveTape(Tape tape)
         {
             if (tape == null) throw new NullException(() => tape);
-            if (tape.Outlet == null) throw new NullException(() => tape.Outlet);
-            _tapes.Remove(tape.Outlet);
+            if (tape.Signal == null) throw new NullException(() => tape.Signal);
+            _tapes.Remove(tape.Signal);
         }
         
         private Tape TryGetTape(Outlet outlet)
@@ -191,7 +197,8 @@ namespace JJ.Business.Synthesizer.Wishes
     
     internal class Tape
     {
-        public Outlet Outlet { get; set; }
+        public string Name { get; set; }
+        public FlowNode Signal { get; set; }
         public FlowNode Duration { get; set; }
         public bool MustPlay { get; set; }
         public bool MustSave { get; set; }
@@ -199,6 +206,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool IsCache { [UsedImplicitly] get; set; }
         public string FilePath { get; set; }
         public int Level { get; set; }
+        public int ChannelIndex { get; set; }
         public Task Task { get; set; }
         public Action<Buff, int> Callback { get; set; }
     }
