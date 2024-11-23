@@ -115,13 +115,12 @@ namespace JJ.Business.Synthesizer.Wishes
                     RemoveTape(tape);
                     
                     // Preliminary assignment of variables. Will have been filled in already later.
-                    tape.Name = operand.Name;
-                    tape.Signal = operand;
+                    //tape.Name = operand.Name;
                     tape.ChannelIndex = channelIndex;
 
                     var task = new Task(() => RunTape(tape));
                     
-                    tasks.Add((task, level));
+                    tasks.Add((task, tape.Level));
                 }
             }
 
@@ -160,7 +159,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private Tape AddTape(FlowNode signal)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
-            var tape = new Tape { Signal = signal };
+            var tape = new Tape { Signal = signal, Name = signal.Name };
             _tapes[signal] = tape;
             return tape;
         }
