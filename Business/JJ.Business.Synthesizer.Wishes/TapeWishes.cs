@@ -31,7 +31,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
             
-            // New prep steps (not yet used in processing)
             SetTapeLevelsRecursive(channels);
             
             var tasks = new Task[channels.Count];
@@ -75,7 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private void RunParallelsRecursive(FlowNode op, int channelIndex)
         {
             // Gather all tasks with levels
-            var tasks = GetParallelTasksRecursive(op, channelIndex, level: 1);
+            var tasks = GetParallelTasksRecursive(op, channelIndex);
             
             // Group tasks by nesting level
             var groups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
@@ -88,7 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private IList<(Task Task, int Level)> GetParallelTasksRecursive(FlowNode op, int channelIndex, int level)
+        private IList<(Task Task, int Level)> GetParallelTasksRecursive(FlowNode op, int channelIndex)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 
@@ -99,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
             foreach (FlowNode operand in operands)
             {
                 if (operand == null) continue;
-                tasks.AddRange(GetParallelTasksRecursive(operand, channelIndex, level + 1));
+                tasks.AddRange(GetParallelTasksRecursive(operand, channelIndex));
             }
             
             for (var unsafeIndex = 0; unsafeIndex < operands.Length; unsafeIndex++)
@@ -115,7 +114,6 @@ namespace JJ.Business.Synthesizer.Wishes
                     RemoveTape(tape);
                     
                     // Preliminary assignment of variables. Will have been filled in already later.
-                    //tape.Name = operand.Name;
                     tape.ChannelIndex = channelIndex;
 
                     var task = new Task(() => RunTape(tape));
