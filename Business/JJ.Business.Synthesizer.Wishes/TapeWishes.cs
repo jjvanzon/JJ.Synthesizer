@@ -59,10 +59,9 @@ namespace JJ.Business.Synthesizer.Wishes
             Tape tape = TryGetTape(node);
             if (tape != null)
             {
-                if (tape.Level == default) // Don't overwrite in case of multiple usage.
-                {
-                    tape.Level = level;
-                }
+                if (tape.Level == default) tape.Level = level; // Don't overwrite in case of multiple usage.
+                // Alternative:
+                // tape.Level = tape.Level == default ? level : Math.Min(tape.Level, level);
             }
             
             foreach (var child in node.Operands)
