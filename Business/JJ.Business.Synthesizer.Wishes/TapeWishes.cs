@@ -195,6 +195,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
     // Info Type
     
+    [DebuggerDisplay("{DebuggerDisplay}")]
     internal class Tape
     {
         public string Name { get; set; }
@@ -209,6 +210,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public int ChannelIndex { get; set; }
         public Task Task { get; set; }
         public Action<Buff, int> Callback { get; set; }
+        
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
     
     /// <summary>

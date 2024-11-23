@@ -1,18 +1,41 @@
-﻿namespace JJ.Business.Synthesizer.Wishes.Helpers
+﻿using System;
+
+namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     internal static class DebuggerDisplayFormatter
     {
         public static string GetDebuggerDisplay(FlowNode obj)
         {
-            var text = "";
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            
+            string text = "";
                             
             if (!obj.IsConst)
             { 
                 text += $"{obj.Calculate()} = ";
             }
 
-            text += $"{obj.Stringify(true, true)} {{ {obj.GetType().Name} }}";
+            text += $"{obj} {{ {obj.GetType().Name} }}";
 
+            return text;
+        }
+
+        internal static string GetDebuggerDisplay(Tape obj)
+        {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            
+            string signalDescriptor;
+            if (obj.Signal == null)
+            {
+                signalDescriptor = "<Signal is null>";
+            }
+            else
+            {
+                signalDescriptor = obj.Signal.ToString();
+            }
+            
+            string text = $"{{ {obj.GetType().Name} }} {signalDescriptor}";
+            
             return text;
         }
     }
