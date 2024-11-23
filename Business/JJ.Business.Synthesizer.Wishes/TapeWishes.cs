@@ -117,7 +117,6 @@ namespace JJ.Business.Synthesizer.Wishes
                     tape.Name = operand.Name;
                     tape.Signal = operand;
                     tape.ChannelIndex = channelIndex;
-                    tape.Level = level;
 
                     var task = new Task(() => RunTape(tape));
                     
