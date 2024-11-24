@@ -19,19 +19,25 @@ namespace JJ.Business.Synthesizer.Wishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal class Tape
     {
-        public string Name { get; set; }
         public FlowNode Signal { get; set; }
         public FlowNode Duration { get; set; }
+        public int ChannelIndex { get; set; }
+        
         public bool MustPlay { get; set; }
         public bool MustSave { get; set; }
         public string FilePath { get; set; }
-        public bool IsCache { [UsedImplicitly] get; set; }
         public Action<Buff, int> Callback { get; set; }
-        public int ChannelIndex { get; set; }
-        public int NestingLevel { get; set; }
-        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+        
         public Tape ParentTape { get; set; }
         public IList<Tape> ChildTapes { get; } = new List<Tape>();
+        
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+    
+        // Informational
+        
+        public string Name { get; set; }
+        public int NestingLevel { get; set; }
+        public bool IsCache { [UsedImplicitly] get; set; }
     }
     
     // Tape Method
@@ -157,46 +163,10 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private void RunTapesLeavesPerBatch(Tape[] tapes)
-        {
-            while (tapes.Length > 0)
-            {
-                tapes = RunTapeLeafBatch(tapes);
-            }
-        }
-
-        private Tape[] RunTapeLeafBatch(Tape[] tapes)
-        {
-            // Get leaves
-            Tape[] leaves = tapes.Where(x => x.ChildTapes.Count == 0).ToArray();
-
-            // Execute tasks for the leaves
-            Task[] tasks = new Task[leaves.Length];
-            for (var i = 0; i < leaves.Length; i++)
-            {
-                Tape tape = leaves[i];
-                tasks[i] = Task.Run(() => RunTape(tape));
-            }
-            
-            // Ensure the leaf batch completes before moving on
-            Task.WaitAll(tasks);
-            
-            // Remove parent-child relationship
-            foreach (Tape leaf in leaves)
-            {
-                leaf.ParentTape?.ChildTapes.Remove(leaf);
-                leaf.ParentTape = null;
-            }
-
-            // Return remaining tapes
-            Tape[] remainingTapes = tapes.Except(leaves).ToArray();
-            return remainingTapes;
-        }
-        
         private void RunTapeLeafPipeline(IEnumerable<Tape> tapeCollection)
         {
             List<Tape> tapes = tapeCollection.ToList();
-            List<Task> tasks = new List<Task>();
+            List<Task> tasks = new List<Task>(tapes.Count);
             
             long i = 0;
             while (tapes.Count > 0)
@@ -228,8 +198,8 @@ namespace JJ.Business.Synthesizer.Wishes
             // Remove parent-child relationship
             leaf.ParentTape?.ChildTapes.Remove(leaf);
             leaf.ParentTape = null;
-            
         }
+        
         internal void RunTape(Tape tape)
         {
             Console.WriteLine($"{PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.Name}");

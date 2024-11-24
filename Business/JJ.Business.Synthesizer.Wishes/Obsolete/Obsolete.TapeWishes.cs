@@ -5,14 +5,51 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
     [Obsolete]
-    public static class ObsoleteSynthWishesParallelExtensions
+    public static class ObsoleteTapeWishesExtensions
     {
+        [Obsolete]
+        private static void RunTapeLeavesPerBatch(this SynthWishes synthWishes, Tape[] tapes)
+        {
+            while (tapes.Length > 0)
+            {
+                tapes = synthWishes.RunTapeLeafBatch(tapes);
+            }
+        }
+        
+        [Obsolete]
+        private static Tape[] RunTapeLeafBatch(this SynthWishes synthWishes,Tape[] tapes)
+        {
+            // Get leaves
+            Tape[] leaves = tapes.Where(x => x.ChildTapes.Count == 0).ToArray();
+            
+            // Execute tasks for the leaves
+            Task[] tasks = new Task[leaves.Length];
+            for (var i = 0; i < leaves.Length; i++)
+            {
+                Tape tape = leaves[i];
+                tasks[i] = Task.Run(() => synthWishes.RunTape(tape));
+            }
+            
+            // Ensure the leaf batch completes before moving on
+            Task.WaitAll(tasks);
+            
+            // Remove parent-child relationship
+            foreach (Tape leaf in leaves)
+            {
+                leaf.ParentTape?.ChildTapes.Remove(leaf);
+                leaf.ParentTape = null;
+            }
+            
+            // Return remaining tapes
+            Tape[] remainingTapes = tapes.Except(leaves).ToArray();
+            return remainingTapes;
+        }
+        
         [Obsolete]
         private static void RunTapesPerNestingLevel(this SynthWishes synthWishes, Tape[] tapes)
         {
@@ -145,6 +182,5 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             if (fileName == null) return null;
             return Path.GetFileNameWithoutExtension(fileName.WithShortGuids(4));
         }
-        
     }
 }
