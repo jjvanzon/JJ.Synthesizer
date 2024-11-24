@@ -4,28 +4,62 @@ using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
+// ReSharper disable AssignmentInsteadOfDiscard
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    /// <inheritdoc cref="docs._captureindexer" />
+    public partial class CaptureIndexer
+    {
+        private readonly SynthWishes _synthWishes;
+        
+        /// <inheritdoc cref="docs._captureindexer" />
+        internal CaptureIndexer(SynthWishes synthWishes) 
+            => _synthWishes = synthWishes;
+    }
+    
+    public partial class FlowNode
+    {
+        /// <inheritdoc cref="docs._captureindexer" />
+        public CaptureIndexer _ => _synthWishes._;
+    }
+
     public partial class SynthWishes
     {
+        /// <inheritdoc cref="docs._captureindexer" />
+        public readonly CaptureIndexer _;
+        
         public IContext Context { get; }
 
-        private readonly OperatorFactory _operatorFactory;
+        internal readonly OperatorFactory _operatorFactory;
         private readonly CurveFactory _curveFactory;
         private readonly SampleManager _sampleManager;
+        private readonly ConfigResolver _configResolver;
 
         public SynthWishes(IContext context)
         {
+            _ = new CaptureIndexer(this);
+            
             Context = context ?? ServiceFactory.CreateContext();
 
             _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
             _sampleManager = ServiceFactory.CreateSampleManager(context);
-            InitializeOperatorWishes();
-            InitializeConfigWishes();
+            _configResolver = new ConfigResolver();
         }
 
+        public SynthWishes(IContext context, double beat = 1, double bar = 4)
+            : this(context)
+        {
+            InitializeTimeIndexers(beat, bar);
+        }
+        
+        public SynthWishes(double beat = 1, double bar = 4)
+            : this(null, beat, bar)
+        {
+            InitializeTimeIndexers(beat, bar);
+        }
+        
         // Helpers
 
         private static string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
@@ -73,6 +107,5 @@ namespace JJ.Business.Synthesizer.Wishes
             return realTimeMessage;
 
         }
-
     }
 }

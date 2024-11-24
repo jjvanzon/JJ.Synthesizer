@@ -390,10 +390,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        private ConfigResolver _configResolver;
-        
-        private void InitializeConfigWishes() => _configResolver = new ConfigResolver();
-        
         // Audio Quality
         
         public int GetBits => _configResolver.GetBits;

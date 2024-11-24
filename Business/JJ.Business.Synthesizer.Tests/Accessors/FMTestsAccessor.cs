@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
 
         /// <inheritdoc cref="docs._captureindexer" />
-        public SynthWishes.CaptureIndexer _ => _baseAccessor._;
+        public CaptureIndexer _ => _baseAccessor._;
 
         /// <inheritdoc cref="docs._flute1" />
         public FlowNode Flute1(FlowNode freq = null, FlowNode duration = null)

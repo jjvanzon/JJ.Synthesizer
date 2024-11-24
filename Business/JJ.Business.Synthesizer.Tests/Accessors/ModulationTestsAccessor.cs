@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
 
         /// <inheritdoc cref="docs._captureindexer" />
-        public SynthWishes.CaptureIndexer _ => _baseAccessor._; 
+        public CaptureIndexer _ => _baseAccessor._; 
 
         /// <inheritdoc cref="docs._detunica" />
         public FlowNode Detunica1(FlowNode freq, FlowNode duration = null, FlowNode detuneDepth = null, FlowNode chorusRate = null)

@@ -13,7 +13,6 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Helpers.LogHelper;
 
 // ReSharper disable LocalVariableHidesMember
-// ReSharper disable AssignmentInsteadOfDiscard
 // ReSharper disable ParameterHidesMember
 // ReSharper disable RedundantAssignment
 
@@ -23,11 +22,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        private void InitializeOperatorWishes()
-        {
-            _ = new CaptureIndexer(this);
-        }
-
         public FlowNode Fluent(Outlet outlet) => _[outlet];
         
         private bool MathAllowed(params FlowNode[] operands)
@@ -46,6 +40,33 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             return true;
+        }
+    }
+    
+    // OperatorWishes Indexers
+    
+    /// <inheritdoc cref="docs._captureindexer" />
+    public partial class CaptureIndexer
+    {
+        // For Value Operators
+        
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[double value] => new FlowNode(_synthWishes, _synthWishes._operatorFactory.Value(value));
+        
+        // Turn Outlet into FlowNode
+        
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[Outlet outlet]
+        {
+            get
+            {
+                if (outlet == null) throw new Exception(
+                    "Outlet is null in the capture indexer _[myOutlet]. " +
+                    "This indexer is meant to wrap something into a FlowNode so you can " +
+                    "use fluent method chaining and C# operator overloads.");
+                
+                return new FlowNode(_synthWishes, outlet);
+            }
         }
     }
 

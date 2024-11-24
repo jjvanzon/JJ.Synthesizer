@@ -78,7 +78,6 @@
     <Compile Include="WavHeaderWishes.cs" />
     <Compile Include="CurveWishes.cs" />
     <Compile Include="docs.cs" />
-    <Compile Include="IndexerWishes.cs" />
     <Compile Include="BuffWishes.cs" />
     <Compile Include="NoteWishes.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
