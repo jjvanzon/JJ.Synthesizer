@@ -37,11 +37,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             WithAudioLength(beat[4] + NoteDuration);
             Save(() => MetallophoneJingle.Echo() * 0.33).Play();
         }
-
+        
         /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
         public void Additive_Metallophone_Note() => new AdditiveTests().Additive_Metallophone_Note_RunTest();
-
+        
         /// <inheritdoc cref="docs._metallophone"/>
         public void Additive_Metallophone_Note_RunTest()
         {
@@ -51,11 +51,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         FlowNode MetallophoneJingle => Add
         (
-            _[ t[1, 1.0], A4 , Metallophone, 0.9 ],
-            _[ t[1, 1.5], E5 , Metallophone, 1.0 ],
-            _[ t[1, 2.0], B4 , Metallophone, 0.5 ],
-            _[ t[1, 2.5], Cs5, Metallophone, 0.7 ],
-            _[ t[1, 4.0], Fs4, Metallophone, 0.4 ]
+            _[ t[1, 1.0], A4 , Metallophone, 0.9, NoteDuration ],
+            _[ t[1, 1.5], E5 , Metallophone, 1.0, NoteDuration ],
+            _[ t[1, 2.0], B4 , Metallophone, 0.5, NoteDuration ],
+            _[ t[1, 2.5], Cs5, Metallophone, 0.7, NoteDuration ],
+            _[ t[1, 4.0], Fs4, Metallophone, 0.4, NoteDuration ]
         ).SetName();
 
         /// <inheritdoc cref="docs._metallophone"/>
