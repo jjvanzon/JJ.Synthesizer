@@ -13,6 +13,26 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    // Tape Object
+    
+    [DebuggerDisplay("{DebuggerDisplay}")]
+    internal class Tape
+    {
+        public string Name { get; set; }
+        public FlowNode Signal { get; set; }
+        public FlowNode Duration { get; set; }
+        public bool MustPlay { get; set; }
+        public bool MustSave { get; set; }
+        /// <summary> Purely informational </summary>
+        public bool IsCache { [UsedImplicitly] get; set; }
+        public string FilePath { get; set; }
+        public int NestingLevel { get; set; }
+        public int ChannelIndex { get; set; }
+        public Action<Buff, int> Callback { get; set; }
+        
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+    }
+
     // SynthWishes Parallelization
     
     public partial class SynthWishes
@@ -142,19 +162,16 @@ namespace JJ.Business.Synthesizer.Wishes
             return _tapes.ContainsKey(outlet);
         }
         
-        private void ClearTapes()
-        {
-            _tapes.Clear();
-        }
-        
-        private IList<Tape> GetTapes() => _tapes.Values.ToArray();
-        
         private Tape TryGetTape(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             _tapes.TryGetValue(outlet, out Tape tape);
             return tape;
         }
+        
+        private IList<Tape> GetTapes() => _tapes.Values.ToArray();
+        
+        private void ClearTapes() => _tapes.Clear();
     }
     
     // FlowNode
@@ -163,25 +180,5 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public FlowNode Tape(FlowNode duration = null)
             => _synthWishes.Tape(this, duration);
-    }
-    
-    // Info Type
-    
-    [DebuggerDisplay("{DebuggerDisplay}")]
-    internal class Tape
-    {
-        public string Name { get; set; }
-        public FlowNode Signal { get; set; }
-        public FlowNode Duration { get; set; }
-        public bool MustPlay { get; set; }
-        public bool MustSave { get; set; }
-        /// <summary> Purely informational </summary>
-        public bool IsCache { [UsedImplicitly] get; set; }
-        public string FilePath { get; set; }
-        public int NestingLevel { get; set; }
-        public int ChannelIndex { get; set; }
-        public Action<Buff, int> Callback { get; set; }
-        
-        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }
