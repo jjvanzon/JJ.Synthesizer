@@ -7,6 +7,7 @@ using static JJ.Framework.Testing.AssertHelper;
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
+    [TestCategory("Technical")]
     public class TapeWishesTests : SynthWishes
     {
         public TapeWishesTests()
