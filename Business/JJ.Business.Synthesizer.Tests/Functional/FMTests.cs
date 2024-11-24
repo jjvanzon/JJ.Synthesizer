@@ -98,24 +98,34 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_Organ_RunTest()
         {
             var duration = bars[3];
-            WithAudioLength(duration + MildEchoDuration).Save(() => MildEcho(Organ(duration: duration)) * 0.5).Play();
+            WithAudioLength(duration + MildEchoDuration).Save(
+                () => MildEcho(Organ(duration: duration) * RecorderEnvelope.Stretch(duration) * 0.5)).Play();
         }
-
+        
         [TestMethod]
         public void FM_Organ_Chords() => new FMTests().FM_Organ_Chords_RunTest();
-
+        
         void FM_Organ_Chords_RunTest()
         {
-            Save(() => MildEcho(OrganChords) * 0.2).Play();
+            WithAudioLength(bars[8] + MildEchoDuration).Save(() => MildEcho(OrganChords) * 0.2).Play();
+        }
+        
+        [TestMethod]
+        public void FM_Organ_Chords2() => new FMTests().FM_Organ_Chords2_RunTest();
+        
+        void FM_Organ_Chords2_RunTest()
+        {
+            Save(() => MildEcho(OrganChords2) * 0.2).Play();
         }
         
         [TestMethod]
         public void FM_Pad() => new FMTests().FM_Pad_RunTest();
-
+        
         void FM_Pad_RunTest()
         {
             var duration = bars[3];
-            WithAudioLength(duration + MildEchoDuration).Save(() => MildEcho(Pad(duration: duration)) * 0.5).Play();
+            WithAudioLength(duration + MildEchoDuration).Save(
+                () => MildEcho(Pad(duration: duration) * RecorderEnvelope.Stretch(duration) * 0.5)).Play();
         }
 
         [TestMethod]
@@ -123,15 +133,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         void FM_Pad_Chords_RunTest()
         {
-            Save(() => MildEcho(PadChords()) * 0.14).Play();
+            WithAudioLength(bars[8] + MildEchoDuration).Save(() => MildEcho(PadChords()) * 0.14).Play();
         }
-
+        
         [TestMethod]
-        public void FM_Pad_Chords_Distortion() => new FMTests().FM_Pad_Chords_Distortion_RunTest();
-
-        void FM_Pad_Chords_Distortion_RunTest()
+        public void FM_Distortion_Chords() => new FMTests().FM_Distortion_Chords_RunTest();
+        
+        void FM_Distortion_Chords_RunTest()
         {
-            With16Bit().Save(() => MildEcho(PadChords(volume: _[0.92]) * 0.15)).Play();
+            With16Bit().Save(() => MildEcho(DistortionChords(volume: _[0.92]) * 0.15)).Play();
         }
 
         /// <inheritdoc cref="docs._horn" />
@@ -153,7 +163,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             Save(() => MildEcho(HornMelody1) * 0.5).Play();
         }
-
+        
         /// <inheritdoc cref="docs._horn" />
         [TestMethod]
         public void FM_Horn_Melody2() => new FMTests().FM_Horn_Melody2_RunTest();
@@ -264,7 +274,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FlowNode Jingle()
         {
             var fluteVolume      = _[1.2];
-            var chordsVolume     = _[0.5];
+            var chordsVolume     = _[0.55];
             var tromboneVolume   = _[0.7];
             var hornVolume       = _[0.6];
             var rippleBassVolume = _[0.7];
@@ -293,9 +303,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (
                 pattern1.Tape(),
                 Delay(pattern2, bars[4]).Tape(),
-                //PadChords(chordsVolume)/*.PlayMono(0.3)*/
-                // HACK: Not sure why the chords are off, but delaying them for now...
-                PadChords(chordsVolume).Delay(beats[4])
+                PadChords() * chordsVolume
             ).SetName("Jingle");
 
             return jingle;
@@ -305,14 +313,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         FlowNode FluteMelody1 => WithAudioLength(bars[4]).Add
         (
-            _[t[1, 1.0], E4, Flute1, 0.80, l[2.00]],
-            _[t[1, 2.5], F4, Flute1, 0.70, l[2.17]],
-            _[t[1, 4.0], G4, Flute1, 0.60, l[1.00]],
-            _[t[2, 1.0], A4, Flute1, 0.80, l[2.33]],
-            _[t[2, 2.5], B4, Flute2, 0.50, l[1.00]],
-            _[t[2, 4.0], A3, Flute2, 0.50, l[1.67]],
-            _[t[3, 1.0], G3, Flute3, 0.85, l[2.00]],
-            _[t[3, 2.5], G4, Flute1, 0.80, l[2.50]]
+            _[ t[1, 1.0], E4, Flute1, 0.80, l[2.00] ],
+            _[ t[1, 2.5], F4, Flute1, 0.70, l[2.17] ],
+            _[ t[1, 4.0], G4, Flute1, 0.60, l[1.00] ],
+            _[ t[2, 1.0], A4, Flute1, 0.80, l[2.33] ],
+            _[ t[2, 2.5], B4, Flute2, 0.50, l[1.00] ],
+            _[ t[2, 4.0], A3, Flute2, 0.50, l[1.67] ],
+            _[ t[3, 1.0], G3, Flute3, 0.85, l[2.00] ],
+            _[ t[3, 2.5], G4, Flute1, 0.80, l[2.50] ]
         ).SetName().Tape();
 
         FlowNode FluteMelody2 => WithAudioLength(bars[4]).Add
@@ -325,39 +333,56 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             _[ t[2,4.0], G4, Flute2, 0.90, l[0.4]  ],
             _[ t[3,1.0], A4, Flute4, 1.00, _[1.66] ]
         ).SetName().Tape();
+        
+        FlowNode OrganChords => Add
+        (
+            _[t: _[0], ChordPitchCurve1.Stretch(bars[1]), Organ, ChordVolumeCurve.Stretch(bars[1]), bars[8]],
+            _[t: _[0], ChordPitchCurve2.Stretch(bars[1]), Organ, ChordVolumeCurve.Stretch(bars[1]), bars[8]],
+            _[t: _[0], ChordPitchCurve3.Stretch(bars[1]), Organ, ChordVolumeCurve.Stretch(bars[1]), bars[8]]
+        ).SetName();
 
-        FlowNode OrganChords => 
+        FlowNode OrganChords2 =>
             Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
                 WithAudioLength(bars[8]).Add
                 (
-                    Organ(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]),
-                    Organ(bar[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]),
-                    Organ(bar[0], ChordPitchCurve3.Stretch(bars[1]), duration: bars[8])
+                    Organ2(_[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]),
+                    Organ2(_[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]),
+                    Organ2(_[0], ChordPitchCurve3.Stretch(bars[1]), duration: bars[8])
                 )
             ).SetName();
-
+        
+        FlowNode PadChords()
+        {
+            return Add
+            (
+                _[t:_[0], ChordPitchCurve1.Stretch(bars[1]), Pad, Stretch(ChordVolumeCurve, bars[1]).Delay(bars[1]), bars[8]],
+                _[t:_[0], ChordPitchCurve2.Stretch(bars[1]), Pad, Stretch(ChordVolumeCurve, bars[1]).Delay(bars[1]), bars[8]],
+                _[t:_[0], ChordPitchCurve3.Stretch(bars[1]), Pad, Stretch(ChordVolumeCurve, bars[1]).Delay(bars[1]), bars[8]]
+            ).SetName();
+        }
+        
         /// <param name="volume">Used to promote clipping for distortion (only works for 16-bit, not 32-bit).</param>
-        FlowNode PadChords(FlowNode volume = null)
+        FlowNode DistortionChords(FlowNode volume = null)
         {
             return Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
                 WithAudioLength(bars[8]).Add
                 (
-                    Pad(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]).Volume(volume),
-                    Pad(bar[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]).Volume(volume),
-                    Pad(bar[0], ChordPitchCurve3.Stretch(bars[1]), duration: bars[8]).Volume(volume)
+                    DistortedNote(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]).Volume(volume),
+                    DistortedNote(bar[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]).Volume(volume),
+                    DistortedNote(bar[0], ChordPitchCurve3.Stretch(bars[1]), duration: bars[8]).Volume(volume)
                 ).SetName()
             );
         }
-
+        
         /// <inheritdoc cref="docs._horn" />
         FlowNode HornMelody1 => WithAudioLength(beat[13 + 4]).Add
         (
-            _[ beat[09], Horn(C2, length[3]), 0.7 ],
-            _[ beat[13], Horn(G1, length[4]), 0.5 ]
+            _[ beat[09], C2, Horn, 0.7, length[3] ],
+            _[ beat[13], G1, Horn, 0.5, length[4] ]
         ).SetName().Tape();
 
         /// <inheritdoc cref="docs._horn" />
@@ -397,7 +422,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var envelope = Stretch(FluteCurve, duration);
             var note     = Multiply(fmSignal, envelope);
             
-            return note.SetName().Tape(duration);
+            return note.SetName();
         }
 
         /// <inheritdoc cref="docs._flute2" />
@@ -410,7 +435,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var modulatedSound = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(modulatedSound, 0.85);
 
-            return adjustedVolume.SetName().Tape(duration);
+            return adjustedVolume.SetName();
         }
 
         /// <inheritdoc cref="docs._flute3" />
@@ -423,7 +448,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var sound          = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(sound, 0.8);
 
-            return adjustedVolume.SetName().Tape(duration);
+            return adjustedVolume.SetName();
         }
 
         /// <inheritdoc cref="docs._flute4" />
@@ -436,11 +461,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var sound          = Multiply(fmSignal, envelope);
             var adjustedVolume = Multiply(sound, 0.70);
 
-            return adjustedVolume.SetName().Tape(duration);
+            return adjustedVolume.SetName();
         }
 
         /// <inheritdoc cref="docs._default" />
-        FlowNode Organ(FlowNode delay = null, FlowNode freq = null, FlowNode volume = null, FlowNode duration = null)
+        FlowNode Organ(FlowNode freq = null, FlowNode duration = null)
         {
             freq     = freq ?? A4;
             duration = duration ?? GetAudioLength;
@@ -452,13 +477,29 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var volumeEvenOutCurve  = Stretch(EvenOutCurve, duration);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
 
-            var note = StrikeNote(soundWithEvenVolume, delay, volume);
-
-            return note.SetName().Tape(duration);
+            return soundWithEvenVolume.SetName();
+        }
+        
+        /// <inheritdoc cref="docs._default" />
+        FlowNode Organ2(FlowNode delay = null, FlowNode freq = null, FlowNode volume = null, FlowNode duration = null)
+        {
+            freq     = freq ?? A4;
+            duration = duration ?? GetAudioLength;
+            
+            var modCurve = Stretch(ModTamingCurve, duration);
+            var modDepth = Multiply(0.0001, modCurve);
+            var fmSignal = FMAroundFreq(freq, Multiply(freq, 2), modDepth);
+            
+            var volumeEvenOutCurve  = Stretch(EvenOutCurve, duration);
+            var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
+            
+            var note = StrikeNote(soundWithEvenVolume, delay, volume, duration);
+            
+            return note.SetName();
         }
 
         /// <inheritdoc cref="docs._default" />
-        FlowNode Pad(FlowNode delay = null, FlowNode freq = null, FlowNode volume = null, FlowNode duration = null)
+        FlowNode Pad(FlowNode freq = null, FlowNode duration = null)
         {
             freq     = freq ?? A4;
             duration = duration ?? GetAudioLength;
@@ -477,10 +518,34 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var volumeEvenOutCurve  = Stretch(EvenOutCurve, duration);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
 
-            var note = StrikeNote(soundWithEvenVolume, delay, volume);
-
+            return soundWithEvenVolume.SetName();
+        }
+        
+        /// <inheritdoc cref="docs._default" />
+        FlowNode DistortedNote(FlowNode delay = null, FlowNode freq = null, FlowNode volume = null, FlowNode duration = null)
+        {
+            freq     = freq ?? A4;
+            duration = duration ?? GetAudioLength;
+            
+            // Tame modulation
+            var modCurve = Stretch(ModTamingCurve8Times, duration);
+            modCurve = Multiply(modCurve, Stretch(ModTamingCurve, duration));
+            modCurve = Multiply(modCurve, Stretch(LineDownCurve,  duration));
+            
+            var fmSignal = Add
+            (
+                FMAroundFreq(freq, Multiply(freq, 2), Multiply(0.00020, modCurve)),
+                FMAroundFreq(freq, Multiply(freq, 3), Multiply(0.00015, modCurve))
+            );
+            
+            var volumeEvenOutCurve  = Stretch(EvenOutCurve, duration);
+            var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
+            
+            var note = StrikeNote(soundWithEvenVolume, delay, volume, duration);
+            
             return note.SetName().Tape(duration);
         }
+
 
         /// <inheritdoc cref="docs._horn" />
         FlowNode Horn(FlowNode freq = null, FlowNode duration = null)
@@ -493,7 +558,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var envelope = Stretch(BrassCurve, duration);
             var sound    = Multiply(fmSignal, envelope);
 
-            return sound.SetName().Tape(duration);
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="docs._trombone" />
@@ -513,7 +578,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var envelope = Stretch(BrassCurve, transformedDuration);
             var sound    = Multiply(fmSignal, envelope);
 
-            return sound.SetName().Tape(transformedDuration);
+            return sound.SetName();
         }
 
         /// <inheritdoc cref="docs._default" />
@@ -532,7 +597,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var modulatedSound = fmSignal.Curve(DampedBlockCurve.Stretch(duration));
             var adjustedVolume = modulatedSound * 0.6;
             
-            return adjustedVolume.SetName().Tape(duration);
+            return adjustedVolume.SetName();
         }
 
         /// <inheritdoc cref="docs._ripplebass" />

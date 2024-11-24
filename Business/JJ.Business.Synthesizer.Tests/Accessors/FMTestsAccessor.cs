@@ -36,11 +36,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
 
         /// <inheritdoc cref="docs._default" />
-        public FlowNode Pad(FlowNode delay = null, FlowNode freq = null, FlowNode volume = null, FlowNode duration = null)
-            => (FlowNode)_accessor.InvokeMethod(MemberName(), delay ?? _[0], freq ?? _[440], volume ?? _[1], duration ?? _[1]);
+        public FlowNode Pad(FlowNode freq = null, FlowNode duration = null)
+            => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
         
-        public FlowNode Organ(FlowNode delay = null, FlowNode freq = null, FlowNode volume = null, FlowNode duration = null)
-            => (FlowNode)_accessor.InvokeMethod(MemberName(), delay ?? _[0], freq ?? _[440], volume ?? _[1], duration ?? _[1]);
+        public FlowNode Organ(FlowNode freq = null, FlowNode duration = null)
+            => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
 
         /// <inheritdoc cref="docs._horn" />
         public FlowNode Horn(FlowNode freq = null, FlowNode duration = null)
@@ -87,8 +87,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public FlowNode OrganChords 
             => (FlowNode)_accessor.GetPropertyValue(MemberName());
 
-        public FlowNode PadChords(FlowNode volume = null)
-            => (FlowNode)_accessor.InvokeMethod(MemberName(), volume ?? _[1]);
+        public FlowNode PadChords()
+            => (FlowNode)_accessor.InvokeMethod(MemberName());
 
         public FlowNode HornMelody1       
             => (FlowNode)_accessor.GetPropertyValue(MemberName());
