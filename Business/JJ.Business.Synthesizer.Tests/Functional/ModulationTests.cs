@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             duration = duration ?? _[1];
 
-            var baseHarmonics    = BaseHarmonics(freq);
+            var baseHarmonics    = BaseHarmonics(freq, duration);
             var detunedHarmonics = DetunedHarmonics(freq, duration, churnRate, interferenceRate, chorusRate);
             var sound            = baseHarmonics + detunedHarmonics * depth;
             var envelope         = patchyEnvelope ? PatchyEnvelope : EvenEnvelope;
@@ -278,10 +278,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 freq.Times(2).Sine.Volume(0.5).Tape(),
                 freq.Times(3).Sine.Volume(0.3).Tape(), 
                 freq.Times(4).Sine.Volume(0.2).Tape()
-            ).SetName();
+            ).SetName().Tape();
         }
 
-        FlowNode BaseHarmonics(FlowNode freq)
+        FlowNode BaseHarmonics(FlowNode freq, FlowNode duration)
         {
             freq = freq ?? A4;
 
@@ -292,7 +292,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 0.15 * Sine(freq * 5),
                 0.08 * Sine(freq * 7),
                 0.10 * Sine(freq * 9)
-            ).SetName();
+            ).SetName().Tape(duration);
         }
 
         /// <inheritdoc cref="docs._detune" />
@@ -309,7 +309,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 0.15 * Sine(DetuneFreq(freq, _[5], duration, churnRate, interferenceRate, chorusRate)),
                 0.08 * Sine(DetuneFreq(freq, _[7], duration, churnRate, interferenceRate, chorusRate)),
                 0.10 * Sine(DetuneFreq(freq, _[9], duration, churnRate, interferenceRate, chorusRate))
-            ).SetName();
+            ).SetName().Tape(duration);
         }
 
         // Effects
