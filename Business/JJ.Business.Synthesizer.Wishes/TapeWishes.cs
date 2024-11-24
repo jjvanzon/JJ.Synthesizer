@@ -38,7 +38,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 int i = unsafeIndex;
                 var channel = channels[i];
-                var tasks2 = CreateTapeTasksRecursive(channel, i);
+                SetTapeChannelIndexRecursive(channel, i);
+                var tasks2 = CreateTapeTasksRecursive(channel);
                 tasks[i] = Run(() => RunTapes(tasks2));
             }
             
@@ -63,10 +64,24 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (tape.NestingLevel == default) tape.NestingLevel = level; 
             }
             
-            foreach (var child in node.Operands)
+            foreach (FlowNode child in node.Operands)
             {
                 if (child == null) continue;
                 SetTapeNestingLevelsRecursive(child, level + 1);
+            }
+        }
+        
+        private void SetTapeChannelIndexRecursive(FlowNode node, int channelIndex)
+        {
+            if (node == null) throw new ArgumentNullException(nameof(node));
+            
+            Tape tape = TryGetTape(node);
+            if (tape != null) tape.ChannelIndex = channelIndex;
+            
+            foreach (FlowNode child in node.Operands.ToArray())
+            {
+                if (child == null) continue;
+                SetTapeChannelIndexRecursive(child, channelIndex);
             }
         }
         
@@ -79,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private IList<(Task Task, int Level)> CreateTapeTasksRecursive(FlowNode op, int channelIndex)
+        private IList<(Task Task, int Level)> CreateTapeTasksRecursive(FlowNode op)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 
@@ -90,7 +105,7 @@ namespace JJ.Business.Synthesizer.Wishes
             foreach (FlowNode operand in operands)
             {
                 if (operand == null) continue;
-                tasks.AddRange(CreateTapeTasksRecursive(operand, channelIndex));
+                tasks.AddRange(CreateTapeTasksRecursive(operand));
             }
             
             foreach (FlowNode operand in operands)
@@ -102,12 +117,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (tape != null)
                 {
                     RemoveTape(tape);
-                    
-                    // Preliminary assignment of variables. Will have been filled in already later.
-                    tape.ChannelIndex = channelIndex;
-                    
                     var task = new Task(() => RunTape(tape));
-                    
                     tasks.Add((task, tape.NestingLevel));
                 }
             }
