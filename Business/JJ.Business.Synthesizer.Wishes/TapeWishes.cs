@@ -29,6 +29,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public int ChannelIndex { get; set; }
         public int NestingLevel { get; set; }
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+        public Tape ParentTape { get; set; }
+        public IList<Tape> ChildTapes { get; set; } = new List<Tape>();
     }
     
     // Tape Method
@@ -98,6 +100,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
             
             channels.ForEach(x => SetTapeNestingLevelsRecursive(x));
+            channels.ForEach(x => SetTapeParentChildRelationshipsRecursive(x));
             
             Tape[] tapes = GetAllTapes();
             ClearTapes();
@@ -122,13 +125,34 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape != null)
             {
                 // Don't overwrite in case of multiple usage.
-                if (tape.NestingLevel == default) tape.NestingLevel = level++; 
+                if (tape.NestingLevel == default) tape.NestingLevel = level++;
             }
             
             foreach (FlowNode child in node.Operands)
             {
                 if (child == null) continue;
                 SetTapeNestingLevelsRecursive(child, level);
+            }
+        }
+        
+        private void SetTapeParentChildRelationshipsRecursive(FlowNode node, Tape parentTape = null)
+        {
+            Tape tape = TryGetTape(node);
+            if (tape != null)
+            {
+                if (parentTape != null && tape.ParentTape == null)
+                {
+                    tape.ParentTape = parentTape;
+                    parentTape.ChildTapes.Add(tape);
+                }
+                
+                parentTape = tape;
+            }
+            
+            foreach (FlowNode child in node.Operands)
+            {
+                if (child == null) continue;
+                SetTapeParentChildRelationshipsRecursive(child, parentTape);
             }
         }
         
