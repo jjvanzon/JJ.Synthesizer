@@ -38,6 +38,7 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public bool? ParallelTaping { get; set; }
         [XmlAttribute] public bool? DiskCacheOn { get; set; }
         [XmlAttribute] public bool? PlayAllTapes { get; set; }
+        [XmlAttribute] public int? TapeLeafCheckDelayMs { get; set; }
         
         // Tooling
         
@@ -77,11 +78,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Feature Toggles
         
-        private const bool DefaultPlayBack     = true;
-        private const bool DefaultMathBoost    = true;
-        private const bool DefaultParallelTaping = true;
-        private const bool DefaultDiskCacheOn  = false;
-        private const bool DefaultPlayAllTapes = false;
+        private const bool DefaultPlayBack          = true;
+        private const bool DefaultMathBoost         = true;
+        private const bool DefaultParallelTaping    = true;
+        private const bool DefaultDiskCacheOn       = false;
+        private const bool DefaultPlayAllTapes      = false;
+        private const int  DefaultTapeLeafCheckDelayMs = 1;
         
         // Tooling
         
@@ -310,6 +312,16 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._playalltapes" />
         public void WithPlayAllTapes(bool? enabled = true) => _playAllTapes = enabled;
         
+        // TapeLeafCheckDelayMs
+        
+        /// <inheritdoc cref="docs._tapeleafcheckdelayms" />
+        private int? _tapeLeafCheckDelayMs;
+        /// <inheritdoc cref="docs._tapeleafcheckdelayms" />
+        public int GetTapeLeafCheckDelayMs => _tapeLeafCheckDelayMs ?? _section.TapeLeafCheckDelayMs ?? DefaultTapeLeafCheckDelayMs;
+        /// <inheritdoc cref="docs._tapeleafcheckdelayms" />
+        public void WithTapeLeafCheckDelayMs(int? milliseconds) => _tapeLeafCheckDelayMs = milliseconds;
+
+        
         // Tooling
         
         private string _longTestCategory;
@@ -459,6 +471,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetPlayAllTapes => _configResolver.GetPlayAllTapes;
         /// <inheritdoc cref="docs._playalltapes" />
         public SynthWishes WithPlayAllTapes(bool? enabled = true) { _configResolver.WithPlayAllTapes(enabled); return this; }
+        
+        
+        /// <inheritdoc cref="docs._tapeleafcheckdelayms" />
+        public int GetTapeLeafCheckDelayMs => _configResolver.GetTapeLeafCheckDelayMs;
+        /// <inheritdoc cref="docs._tapeleafcheckdelayms" />
+        public SynthWishes WithTapeLeafCheckDelayMs(int? milliseconds) {_configResolver.WithTapeLeafCheckDelayMs(milliseconds); return this; }
+
     }
     
     // FlowNode ConfigWishes

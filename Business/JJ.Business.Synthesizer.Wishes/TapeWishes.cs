@@ -96,8 +96,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Run Tapes
         
+        private int _tempTapeLeafCheckDelayMs;
+        
         internal void RunAllTapes(IList<FlowNode> channels)
         {
+            if (_tapes.Count == 0) return;
+
             RunTapesPerChannel(channels);
         }
         
@@ -106,6 +110,9 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
             
+            _tempTapeLeafCheckDelayMs = GetTapeLeafCheckDelayMs;
+            Console.WriteLine($"{PrettyTime()} Tapes: Leaf check delay = {_tempTapeLeafCheckDelayMs} ms");
+
             channels.ForEach(x => SetTapeNestingLevelsRecursive(x));
             channels.ForEach(x => SetTapeParentChildRelationshipsRecursive(x));
             
@@ -181,7 +188,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
                 else
                 {
-                    Thread.Sleep(1);
+                    Thread.Sleep(_tempTapeLeafCheckDelayMs);
                 }
             }
             
