@@ -28,8 +28,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public IList<FlowNode> FlattenFactors(FlowNode multiply) 
             => (IList<FlowNode>)_accessor.InvokeMethod(MemberName(), multiply);
 
-        public void RunParallelsRecursive(IList<FlowNode> op) 
-            => _accessor.InvokeMethod(MemberName(), op);
+        public void RunAllTapes(IList<FlowNode> nodes) 
+            => _accessor.InvokeMethod(MemberName(), nodes);
 
         // EchoAdditive
         

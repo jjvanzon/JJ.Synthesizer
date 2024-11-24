@@ -432,7 +432,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => adder.UnderlyingOutlet.Operator.IsAdder());
             AreEqual("Adder", () => adder.UnderlyingOutlet.Operator.OperatorTypeName);
             
-            accessor.RunParallelsRecursive(new[] { adder });
+            accessor.RunAllTapes(new[] { adder });
 
             IsNotNull(() => adder.UnderlyingOutlet.Operator.Inlets);
             var addOperands = adder.UnderlyingOutlet.Operator.Inlets.Select(x => x.Input).ToList();
@@ -529,7 +529,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => adder.UnderlyingOutlet.Operator.IsAdder());
             AreEqual("Adder", () => adder.UnderlyingOutlet.Operator.OperatorTypeName);
 
-            accessor.RunParallelsRecursive(new[] { adder });
+            accessor.RunAllTapes(new[] { adder });
 
             IsNotNull(() => adder.UnderlyingOutlet.Operator.Inlets);
             var addOperands = adder.UnderlyingOutlet.Operator.Inlets.Select(x => x.Input).ToList();
