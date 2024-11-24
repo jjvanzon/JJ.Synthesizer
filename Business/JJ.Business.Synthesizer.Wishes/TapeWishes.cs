@@ -39,8 +39,6 @@ namespace JJ.Business.Synthesizer.Wishes
             var tapes = GetTapes();
             ClearTapes();
 
-            //CreateTapeTasks();
-
             // Future replacement
             var tapeGroups = tapes.GroupBy(x => x.ChannelIndex)
                                   .Select(x => x.ToArray())
@@ -53,17 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 tasks[i] = Task.Run(() => RunTapesPerNestingLevel(tapeGroup));
             }
 
-            //var tasks = new Task[channels.Count];
-            //for (int i = 0; i < channels.Count; i++)
-            //{
-            //    var channel = channels[i];
-            //    var channelTapes = GetTapesRecursive(channel);
-            //    tasks[i] = Run(() => RunTapesPerNestingLevel(channelTapes));
-            //}
-            
             Task.WaitAll(tasks);
-
-            //ClearTapes();
         }
         
         private void SetTapeNestingLevelsRecursive(FlowNode node, int level = 1)
@@ -82,44 +70,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        //private void CreateTapeTasks()
-        //{
-        //    var tapes = GetTapes();
-            
-        //    for (var i = 0; i < tapes.Length; i++)
-        //    {
-        //        Tape tape = tapes[i];
-        //        tape.Task = new Task(() => RunTape(tape));
-        //    }
-        //}
-        
-        //private IList<Tape> GetTapesRecursive(FlowNode op)
-        //{
-        //    if (op == null) throw new ArgumentNullException(nameof(op));
-
-        //    var tapes = new List<Tape>();
-        //    var operands = op.Operands.ToArray();
-            
-        //    // Recursively gather tasks from child nodes
-        //    foreach (FlowNode operand in operands)
-        //    {
-        //        if (operand == null) continue;
-        //        tapes.AddRange(GetTapesRecursive(operand));
-                
-        //        // Are we being parallel?
-        //        Tape tape = TryGetTape(operand);
-        //        if (tape != null)
-        //        {
-        //            //RemoveTape(tape);
-        //            //var task = new Task(() => RunTape(tape));
-        //            //tape.Task = task;
-        //            tapes.Add(tape);
-        //        }
-        //    }
-
-        //    return tapes;
-        //}
-        
         private void RunTapesPerNestingLevel(IList<Tape> tapes)
         {
             // Group tasks by nesting level
@@ -135,7 +85,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 for (var i = 0; i < tapeGroup.Length; i++)
                 {
                     Tape tape = tapeGroup[i];
-                    //RemoveTape(tape);
                     tasks[i] = Task.Run(() => RunTape(tape));
                 }
                 Task.WaitAll(tasks); // Ensure each level completes before moving up
@@ -200,19 +149,6 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private IList<Tape> GetTapes() => _tapes.Values.ToArray();
         
-        //private void RemoveTape(Outlet outlet)
-        //{
-        //    if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-        //    _tapes.Remove(outlet);
-        //}
-
-        //private void RemoveTape(Tape tape)
-        //{
-        //    if (tape == null) throw new NullException(() => tape);
-        //    if (tape.Signal == null) throw new NullException(() => tape.Signal);
-        //    _tapes.Remove(tape.Signal);
-        //}
-
         private Tape TryGetTape(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
@@ -244,29 +180,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public string FilePath { get; set; }
         public int NestingLevel { get; set; }
         public int ChannelIndex { get; set; }
-        //public Task Task { get; set; }
         public Action<Buff, int> Callback { get; set; }
         
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
-    
-    /// <summary>
-    /// Proposed TapeInfo with many future properties,
-    /// too many to implement all at the same time.
-    /// Outcommented properties are done.
-    /// </summary>
-    //[Obsolete]
-    //internal class TapeInfoPrototype
-    //{
-        //public Outlet Outlet { get; set; }
-        //public int NestingLevel { get; set; }
-        //public Task Task { get; set; }
-        
-        //public bool MustPlay { get; set; }
-        //public bool MustSave { get; set; }
-        //public string FilePath { get; set; }
-        //public bool MustCache { get; set; }
-        
-        //public FlowNode Duration { get; set; }
-    //}
 }
