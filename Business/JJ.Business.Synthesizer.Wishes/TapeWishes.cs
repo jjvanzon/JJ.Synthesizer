@@ -156,8 +156,11 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private void RunTapesPerNestingLevel(IList<Tape> tapes)
+        private void RunTapesPerNestingLevel(Tape[] tapes)
         {
+            // HACK: Process the first batch of leaves first.
+            tapes = RunTapesForLeafBatch(tapes);
+            
             // Group tasks by nesting level
             var tapeGroups = tapes.OrderByDescending(x => x.NestingLevel)
                                   .GroupBy(x => x.NestingLevel)
@@ -180,7 +183,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary>
         /// Preliminary unused method for trying to execute batches of leaves in parallel.
         /// </summary>
-        private Tape[] RunTapesPerLeafBatch(Tape[] tapes)
+        private Tape[] RunTapesForLeafBatch(Tape[] tapes)
         {
             // Get leaves
             Tape[] leaves = tapes.Where(x => x.ChildTapes.Count == 0).ToArray();
