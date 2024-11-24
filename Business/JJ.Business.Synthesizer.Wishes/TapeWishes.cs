@@ -37,8 +37,9 @@ namespace JJ.Business.Synthesizer.Wishes
             for (int unsafeIndex = 0; unsafeIndex < channels.Count; unsafeIndex++)
             {
                 int i = unsafeIndex;
-                
-                tasks[i] = Run(() => RunParallelsRecursive(channels[i], i));
+                var channel = channels[i];
+                var tasks2 = CreateTapeTasksRecursive(channel, i);
+                tasks[i] = Run(() => RunTapes(tasks2));
             }
             
             WaitAll(tasks);
@@ -60,8 +61,6 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 // Don't overwrite in case of multiple usage.
                 if (tape.NestingLevel == default) tape.NestingLevel = level; 
-                // Alternative (might change behavior)
-                // tape.NestingLevel = tape.NestingLevel == default ? level : Math.Min(tape.NestingLevel, level);
             }
             
             foreach (var child in node.Operands)
@@ -70,12 +69,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 SetTapeNestingLevelsRecursive(child, level + 1);
             }
         }
-
-        private void RunParallelsRecursive(FlowNode op, int channelIndex)
+        private void RunTapes(IList<(Task Task, int Level)> tasks)
         {
-            // Gather all tasks with levels
-            var tasks = GetParallelTasksRecursive(op, channelIndex);
-            
             // Group tasks by nesting level
             var groups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
             foreach (var group in groups)
@@ -87,7 +82,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private IList<(Task Task, int Level)> GetParallelTasksRecursive(FlowNode op, int channelIndex)
+
+        private IList<(Task Task, int Level)> CreateTapeTasksRecursive(FlowNode op, int channelIndex)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 
@@ -98,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
             foreach (FlowNode operand in operands)
             {
                 if (operand == null) continue;
-                tasks.AddRange(GetParallelTasksRecursive(operand, channelIndex));
+                tasks.AddRange(CreateTapeTasksRecursive(operand, channelIndex));
             }
             
             for (var unsafeIndex = 0; unsafeIndex < operands.Length; unsafeIndex++)
