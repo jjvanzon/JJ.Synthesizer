@@ -122,13 +122,13 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape != null)
             {
                 // Don't overwrite in case of multiple usage.
-                if (tape.NestingLevel == default) tape.NestingLevel = level; 
+                if (tape.NestingLevel == default) tape.NestingLevel = level++; 
             }
             
             foreach (FlowNode child in node.Operands)
             {
                 if (child == null) continue;
-                SetTapeNestingLevelsRecursive(child, level + 1);
+                SetTapeNestingLevelsRecursive(child, level);
             }
         }
         
