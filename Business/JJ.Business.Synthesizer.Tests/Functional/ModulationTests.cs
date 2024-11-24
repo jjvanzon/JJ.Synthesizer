@@ -131,11 +131,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         FlowNode DetunicaJingle => Add
         (
-            _[ beat[1], E0, DetunicaBass, 1.00, l[5.25] ].Tape(),
-            _[ beat[2], B4, Detunica2   , 0.70, l[1.50] ].Tape(),
-            _[ beat[3], C5, Detunica3   , 0.75, l[1.60] ].Tape(),
-            _[ beat[4], D5, Detunica4   , 0.90, l[1.50] ].Tape(),
-            _[ beat[5], E5, Detunica5   , 1.00, l[3.00] ].Tape()
+            _[ beat[1], E0, DetunicaBass, 1.00, l[5.25] ],
+            _[ beat[2], B4, Detunica2   , 0.70, l[1.50] ],
+            _[ beat[3], C5, Detunica3   , 0.75, l[1.60] ],
+            _[ beat[4], D5, Detunica4   , 0.90, l[1.50] ],
+            _[ beat[5], E5, Detunica5   , 1.00, l[3.00] ]
         ).SetName();
 
         // Notes
