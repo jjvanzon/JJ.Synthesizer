@@ -31,9 +31,8 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
             
-            var channelTapes = _tapes.Values.GroupBy(x => x.ChannelIndex);
-            
             // Future replacement
+            //var channelTapes = _tapes.Values.GroupBy(x => x.ChannelIndex);
             //foreach (var group in channelTapes)
             //{
             //    Tape[] tapes = group.ToArray();
@@ -47,8 +46,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 var channel = channels[i];
                 SetTapeNestingLevelsRecursive(channel);
                 
-                var tasks2 = CreateTapeTasksRecursive(channel);
-                tasks[i] = Run(() => RunTapes(tasks2));
+                var tapes = CreateTapeTasksRecursive(channel);
+                tasks[i] = Run(() => RunTapes(tapes));
             }
             
             WaitAll(tasks);
@@ -81,18 +80,18 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private IList<(Task Task, int Level)> CreateTapeTasksRecursive(FlowNode op)
+        private IList<Tape> CreateTapeTasksRecursive(FlowNode op)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 
-            var tasks = new List<(Task, int)>();
+            var tapes = new List<Tape>();
             var operands = op.Operands.ToArray();
             
             // Recursively gather tasks from child nodes
             foreach (FlowNode operand in operands)
             {
                 if (operand == null) continue;
-                tasks.AddRange(CreateTapeTasksRecursive(operand));
+                tapes.AddRange(CreateTapeTasksRecursive(operand));
                 
                 // Are we being parallel?
                 Tape tape = TryGetTape(operand);
@@ -100,17 +99,18 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     RemoveTape(tape);
                     var task = new Task(() => RunTape(tape));
-                    tasks.Add((task, tape.NestingLevel));
+                    tape.Task = task;
+                    tapes.Add(tape);
                 }
             }
 
-            return tasks;
+            return tapes;
         }
         
-        private void RunTapes(IList<(Task Task, int Level)> tasks)
+        private void RunTapes(IList<Tape> tapes)
         {
             // Group tasks by nesting level
-            var groups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
+            var groups = tapes.OrderByDescending(x => x.NestingLevel).GroupBy(x => x.NestingLevel);
             foreach (var group in groups)
             {
                 // Execute each nesting level's task simultaneously.
