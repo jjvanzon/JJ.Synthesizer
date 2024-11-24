@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
             
-            SetTapeLevelsRecursive(channels);
+            SetTapeNestingLevelsRecursive(channels);
             
             var tasks = new Task[channels.Count];
             for (int unsafeIndex = 0; unsafeIndex < channels.Count; unsafeIndex++)
@@ -44,30 +44,30 @@ namespace JJ.Business.Synthesizer.Wishes
             WaitAll(tasks);
         }
         
-        private void SetTapeLevelsRecursive(IList<FlowNode> nodes)
+        private void SetTapeNestingLevelsRecursive(IList<FlowNode> nodes)
         {
             foreach (var node in nodes)
             {
                 if (node == null) continue;
-                SetTapeLevelsRecursive(node, 1);
+                SetTapeNestingLevelsRecursive(node, 1);
             }
         }
         
-        private void SetTapeLevelsRecursive(FlowNode node, int level)
+        private void SetTapeNestingLevelsRecursive(FlowNode node, int level)
         {
             Tape tape = TryGetTape(node);
             if (tape != null)
             {
                 // Don't overwrite in case of multiple usage.
-                if (tape.Level == default) tape.Level = level; 
+                if (tape.NestingLevel == default) tape.NestingLevel = level; 
                 // Alternative (might change behavior)
-                // tape.Level = tape.Level == default ? level : Math.Min(tape.Level, level);
+                // tape.NestingLevel = tape.NestingLevel == default ? level : Math.Min(tape.NestingLevel, level);
             }
             
             foreach (var child in node.Operands)
             {
                 if (child == null) continue;
-                SetTapeLevelsRecursive(child, level + 1);
+                SetTapeNestingLevelsRecursive(child, level + 1);
             }
         }
 
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
                     var task = new Task(() => RunTape(tape));
                     
-                    tasks.Add((task, tape.Level));
+                    tasks.Add((task, tape.NestingLevel));
                 }
             }
 
@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private void RunTape(Tape tape)
         {
-            Console.WriteLine($"{PrettyTime()} Start Task: (Level {tape.Level}) {tape.Name}");
+            Console.WriteLine($"{PrettyTime()} Start Task: (Level {tape.NestingLevel}) {tape.Name}");
             
             // Cache Buffer
             Buff cacheBuff = Cache(tape.Signal, tape.Duration, tape.Name);
@@ -147,7 +147,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inlet.LinkTo(sample);
             }
             
-            Console.WriteLine($"{PrettyTime()}   End Task: (Level {tape.Level}) {tape.Name} ");
+            Console.WriteLine($"{PrettyTime()}   End Task: (Level {tape.NestingLevel}) {tape.Name} ");
         }
         
         // Tapes
@@ -210,7 +210,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary> Purely informational </summary>
         public bool IsCache { [UsedImplicitly] get; set; }
         public string FilePath { get; set; }
-        public int Level { get; set; }
+        public int NestingLevel { get; set; }
         public int ChannelIndex { get; set; }
         public Task Task { get; set; }
         public Action<Buff, int> Callback { get; set; }
@@ -227,7 +227,7 @@ namespace JJ.Business.Synthesizer.Wishes
     internal class TapeInfoPrototype
     {
         //public Outlet Outlet { get; set; }
-        public int Level { get; set; }
+        //public int NestingLevel { get; set; }
         public Task Task { get; set; }
         
         //public bool MustPlay { get; set; }
