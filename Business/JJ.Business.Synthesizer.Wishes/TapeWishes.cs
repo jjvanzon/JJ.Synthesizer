@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             channels.ForEach(x => SetTapeNestingLevelsRecursive(x));
 
-            //CreateTapeTasks();
+            CreateTapeTasks();
 
             //// Future replacement
             //var channelTapes = _tapes.Values.GroupBy(x => x.ChannelIndex);
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             foreach (Tape tape in _tapes.Values)
             {
-                tape.Task = Run(() => RunTape(tape));
+                tape.Task = new Task(() => RunTape(tape));
             }
         }
         
@@ -102,8 +102,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (tape != null)
                 {
                     RemoveTape(tape);
-                    var task = new Task(() => RunTape(tape));
-                    tape.Task = task;
+                    //var task = new Task(() => RunTape(tape));
+                    //tape.Task = task;
                     tapes.Add(tape);
                 }
             }
@@ -156,6 +156,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private Tape AddTape(FlowNode signal)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
+            
             var tape = new Tape
             {
                 Signal = signal,
@@ -164,6 +165,7 @@ namespace JJ.Business.Synthesizer.Wishes
             };
             
             _tapes[signal] = tape;
+            
             return tape;
         }
         
