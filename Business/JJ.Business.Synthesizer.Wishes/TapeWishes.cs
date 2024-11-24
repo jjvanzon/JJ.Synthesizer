@@ -30,8 +30,12 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
-            
-            // Future replacement
+
+            channels.ForEach(x => SetTapeNestingLevelsRecursive(x));
+
+            //CreateTapeTasks();
+
+            //// Future replacement
             //var channelTapes = _tapes.Values.GroupBy(x => x.ChannelIndex);
             //foreach (var group in channelTapes)
             //{
@@ -39,19 +43,19 @@ namespace JJ.Business.Synthesizer.Wishes
             //    var task = Run(() => RunTapes(tapes));
             //    task.Wait();
             //}
-            
+
             var tasks = new Task[channels.Count];
             for (int i = 0; i < channels.Count; i++)
             {
                 var channel = channels[i];
-                SetTapeNestingLevelsRecursive(channel);
+                //SetTapeNestingLevelsRecursive(channel);
                 
                 var tapes = CreateTapeTasksRecursive(channel);
                 tasks[i] = Run(() => RunTapes(tapes));
             }
             
             WaitAll(tasks);
-            
+
             _tapes.Clear();
         }
         
@@ -229,7 +233,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         //public Outlet Outlet { get; set; }
         //public int NestingLevel { get; set; }
-        public Task Task { get; set; }
+        //public Task Task { get; set; }
         
         //public bool MustPlay { get; set; }
         //public bool MustSave { get; set; }

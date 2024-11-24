@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private const bool DefaultPlayBack     = true;
         private const bool DefaultMathBoost    = true;
-        private const bool DefaultParallelTaping   = true;
+        private const bool DefaultParallelTaping = true;
         private const bool DefaultDiskCacheOn  = false;
         private const bool DefaultPlayAllTapes = false;
         
