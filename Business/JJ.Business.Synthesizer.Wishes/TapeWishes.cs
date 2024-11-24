@@ -119,6 +119,13 @@ namespace JJ.Business.Synthesizer.Wishes
             Task.WaitAll(tasks);
         }
         
+        
+        private void RunLeafBatchPipeline()
+        {
+            
+            
+        }
+
         private void SetTapeNestingLevelsRecursive(FlowNode node, int level = 1)
         {
             Tape tape = TryGetTape(node);
@@ -153,27 +160,6 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 if (child == null) continue;
                 SetTapeParentChildRelationshipsRecursive(child, parentTape);
-            }
-        }
-        
-        private void RunTapesPerNestingLevel(Tape[] tapes)
-        {
-            // Group tasks by nesting level
-            var tapeGroups = tapes.OrderByDescending(x => x.NestingLevel)
-                                  .GroupBy(x => x.NestingLevel)
-                                  .Select(x => x.ToArray())
-                                  .ToArray();
-            
-            // Execute each nesting level's task simultaneously.
-            foreach (Tape[] tapeGroup in tapeGroups)
-            {
-                Task[] tasks = new Task[tapeGroup.Length];
-                for (var i = 0; i < tapeGroup.Length; i++)
-                {
-                    Tape tape = tapeGroup[i];
-                    tasks[i] = Task.Run(() => RunTape(tape));
-                }
-                Task.WaitAll(tasks); // Ensure each level completes before moving up
             }
         }
         
