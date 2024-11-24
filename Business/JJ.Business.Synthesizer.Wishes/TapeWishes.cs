@@ -69,19 +69,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 SetTapeNestingLevelsRecursive(child, level + 1);
             }
         }
-        private void RunTapes(IList<(Task Task, int Level)> tasks)
-        {
-            // Group tasks by nesting level
-            var groups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
-            foreach (var group in groups)
-            {
-                // Execute each nesting level's task simultaneously.
-                Task[] tasks2 = group.Select(x => x.Task).ToArray();
-                tasks2.ForEach(x => x.Start());
-                WaitAll(tasks2); // Ensure each level completes before moving up
-            }
-        }
-
 
         private IList<(Task Task, int Level)> CreateTapeTasksRecursive(FlowNode op, int channelIndex)
         {
@@ -121,6 +108,19 @@ namespace JJ.Business.Synthesizer.Wishes
             return tasks;
         }
         
+        private void RunTapes(IList<(Task Task, int Level)> tasks)
+        {
+            // Group tasks by nesting level
+            var groups = tasks.OrderByDescending(x => x.Level).GroupBy(x => x.Level);
+            foreach (var group in groups)
+            {
+                // Execute each nesting level's task simultaneously.
+                Task[] tasks2 = group.Select(x => x.Task).ToArray();
+                tasks2.ForEach(x => x.Start());
+                WaitAll(tasks2); // Ensure each level completes before moving up
+            }
+        }
+
         private void RunTape(Tape tape)
         {
             Console.WriteLine($"{PrettyTime()} Start Task: (Level {tape.NestingLevel}) {tape.Name}");
