@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.LinkTo;
@@ -113,17 +114,10 @@ namespace JJ.Business.Synthesizer.Wishes
             for (var i = 0; i < tapeGroups.Length; i++)
             {
                 Tape[] tapeGroup = tapeGroups[i];
-                tasks[i] = Task.Run(() => RunTapesPerLeafBatch(tapeGroup));
+                tasks[i] = Task.Run(() => RunTapeLeafPipeline(tapeGroup));
             }
 
             Task.WaitAll(tasks);
-        }
-        
-        
-        private void RunLeafBatchPipeline()
-        {
-            
-            
         }
 
         private void SetTapeNestingLevelsRecursive(FlowNode node, int level = 1)
@@ -198,7 +192,44 @@ namespace JJ.Business.Synthesizer.Wishes
             Tape[] remainingTapes = tapes.Except(leaves).ToArray();
             return remainingTapes;
         }
-
+        
+        private void RunTapeLeafPipeline(IEnumerable<Tape> tapeCollection)
+        {
+            List<Tape> tapes = tapeCollection.ToList();
+            List<Task> tasks = new List<Task>();
+            
+            long i = 0;
+            while (tapes.Count > 0)
+            {
+                i++;
+                Tape leaf = tapes.FirstOrDefault(x => x.ChildTapes.Count == 0);
+                if (leaf != null)
+                {
+                    tapes.Remove(leaf);
+                    Task task = Task.Run(() => ProcessLeaf(leaf));
+                    tasks.Add(task);
+                }
+                else
+                {
+                    Thread.Sleep(1);
+                }
+            }
+            
+            Console.WriteLine($"{PrettyTime()} Tapes: {i} times checked for leaves.");
+            
+            Task.WaitAll(tasks.ToArray());
+        }
+        
+        private void ProcessLeaf(Tape leaf)
+        {
+            // Run tape
+            RunTape(leaf);
+            
+            // Remove parent-child relationship
+            leaf.ParentTape?.ChildTapes.Remove(leaf);
+            leaf.ParentTape = null;
+            
+        }
         internal void RunTape(Tape tape)
         {
             Console.WriteLine($"{PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.Name}");
