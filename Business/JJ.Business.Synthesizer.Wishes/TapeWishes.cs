@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return tape;
         }
         
-        private IList<Tape> GetTapes() => _tapes.Values.ToArray();
+        private IList<Tape> GetAllTapes() => _tapes.Values.ToArray();
         
         private void ClearTapes() => _tapes.Clear();
         
@@ -99,10 +99,9 @@ namespace JJ.Business.Synthesizer.Wishes
             
             channels.ForEach(x => SetTapeNestingLevelsRecursive(x));
             
-            var tapes = GetTapes();
+            var tapes = GetAllTapes();
             ClearTapes();
 
-            // Future replacement
             var tapeGroups = tapes.GroupBy(x => x.ChannelIndex)
                                   .Select(x => x.ToArray())
                                   .ToArray();
