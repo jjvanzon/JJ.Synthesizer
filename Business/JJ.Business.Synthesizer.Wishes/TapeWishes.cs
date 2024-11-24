@@ -7,9 +7,7 @@ using JetBrains.Annotations;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
-using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static System.Threading.Tasks.Task;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -25,38 +23,47 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.Duration = duration ?? GetAudioLength;
             return signal;
         }
-
-        internal void RunParallelsRecursive(IList<FlowNode> channels) 
+        
+        internal void RunAllTapes(IList<FlowNode> channels)
+        {
+            RunTapesPerChannel(channels);
+        }
+        
+        private void RunTapesPerChannel(IList<FlowNode> channels) 
         {
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
-
-            channels.ForEach(x => SetTapeNestingLevelsRecursive(x));
-
-            CreateTapeTasks();
-
-            //// Future replacement
-            //var channelTapes = _tapes.Values.GroupBy(x => x.ChannelIndex);
-            //foreach (var group in channelTapes)
-            //{
-            //    Tape[] tapes = group.ToArray();
-            //    var task = Run(() => RunTapes(tapes));
-            //    task.Wait();
-            //}
-
-            var tasks = new Task[channels.Count];
-            for (int i = 0; i < channels.Count; i++)
-            {
-                var channel = channels[i];
-                //SetTapeNestingLevelsRecursive(channel);
-                
-                var tapes = CreateTapeTasksRecursive(channel);
-                tasks[i] = Run(() => RunTapes(tapes));
-            }
             
-            WaitAll(tasks);
+            channels.ForEach(x => SetTapeNestingLevelsRecursive(x));
+            
+            var tapes = GetTapes();
+            ClearTapes();
 
-            _tapes.Clear();
+            //CreateTapeTasks();
+
+            // Future replacement
+            var tapeGroups = tapes.GroupBy(x => x.ChannelIndex)
+                                  .Select(x => x.ToArray())
+                                  .ToArray();
+            
+            var tasks = new Task[tapeGroups.Length];
+            for (var i = 0; i < tapeGroups.Length; i++)
+            {
+                Tape[] tapeGroup = tapeGroups[i];
+                tasks[i] = Task.Run(() => RunTapesPerNestingLevel(tapeGroup));
+            }
+
+            //var tasks = new Task[channels.Count];
+            //for (int i = 0; i < channels.Count; i++)
+            //{
+            //    var channel = channels[i];
+            //    var channelTapes = GetTapesRecursive(channel);
+            //    tasks[i] = Run(() => RunTapesPerNestingLevel(channelTapes));
+            //}
+            
+            Task.WaitAll(tasks);
+
+            //ClearTapes();
         }
         
         private void SetTapeNestingLevelsRecursive(FlowNode node, int level = 1)
@@ -75,52 +82,63 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        /// <summary> Preliminary. Not use yet. </summary>
-        private void CreateTapeTasks()
-        {
-            foreach (Tape tape in _tapes.Values)
-            {
-                tape.Task = new Task(() => RunTape(tape));
-            }
-        }
-        
-        private IList<Tape> CreateTapeTasksRecursive(FlowNode op)
-        {
-            if (op == null) throw new ArgumentNullException(nameof(op));
-
-            var tapes = new List<Tape>();
-            var operands = op.Operands.ToArray();
+        //private void CreateTapeTasks()
+        //{
+        //    var tapes = GetTapes();
             
-            // Recursively gather tasks from child nodes
-            foreach (FlowNode operand in operands)
-            {
-                if (operand == null) continue;
-                tapes.AddRange(CreateTapeTasksRecursive(operand));
-                
-                // Are we being parallel?
-                Tape tape = TryGetTape(operand);
-                if (tape != null)
-                {
-                    RemoveTape(tape);
-                    //var task = new Task(() => RunTape(tape));
-                    //tape.Task = task;
-                    tapes.Add(tape);
-                }
-            }
-
-            return tapes;
-        }
+        //    for (var i = 0; i < tapes.Length; i++)
+        //    {
+        //        Tape tape = tapes[i];
+        //        tape.Task = new Task(() => RunTape(tape));
+        //    }
+        //}
         
-        private void RunTapes(IList<Tape> tapes)
+        //private IList<Tape> GetTapesRecursive(FlowNode op)
+        //{
+        //    if (op == null) throw new ArgumentNullException(nameof(op));
+
+        //    var tapes = new List<Tape>();
+        //    var operands = op.Operands.ToArray();
+            
+        //    // Recursively gather tasks from child nodes
+        //    foreach (FlowNode operand in operands)
+        //    {
+        //        if (operand == null) continue;
+        //        tapes.AddRange(GetTapesRecursive(operand));
+                
+        //        // Are we being parallel?
+        //        Tape tape = TryGetTape(operand);
+        //        if (tape != null)
+        //        {
+        //            //RemoveTape(tape);
+        //            //var task = new Task(() => RunTape(tape));
+        //            //tape.Task = task;
+        //            tapes.Add(tape);
+        //        }
+        //    }
+
+        //    return tapes;
+        //}
+        
+        private void RunTapesPerNestingLevel(IList<Tape> tapes)
         {
             // Group tasks by nesting level
-            var groups = tapes.OrderByDescending(x => x.NestingLevel).GroupBy(x => x.NestingLevel);
-            foreach (var group in groups)
+            var tapeGroups = tapes.OrderByDescending(x => x.NestingLevel)
+                                  .GroupBy(x => x.NestingLevel)
+                                  .Select(x => x.ToArray())
+                                  .ToArray();
+            
+            // Execute each nesting level's task simultaneously.
+            foreach (Tape[] tapeGroup in tapeGroups)
             {
-                // Execute each nesting level's task simultaneously.
-                Task[] tasks2 = group.Select(x => x.Task).ToArray();
-                tasks2.ForEach(x => x.Start());
-                WaitAll(tasks2); // Ensure each level completes before moving up
+                Task[] tasks = new Task[tapeGroup.Length];
+                for (var i = 0; i < tapeGroup.Length; i++)
+                {
+                    Tape tape = tapeGroup[i];
+                    //RemoveTape(tape);
+                    tasks[i] = Task.Run(() => RunTape(tape));
+                }
+                Task.WaitAll(tasks); // Ensure each level completes before moving up
             }
         }
 
@@ -153,7 +171,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
         
-        private Tape AddTape(FlowNode signal)
+        internal Tape AddTape(FlowNode signal)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
@@ -169,25 +187,32 @@ namespace JJ.Business.Synthesizer.Wishes
             return tape;
         }
         
-        private bool IsTape(Outlet outlet)
+        internal bool IsTape(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             return _tapes.ContainsKey(outlet);
         }
-
-        private void RemoveTape(Outlet outlet)
+        
+        private void ClearTapes()
         {
-            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            _tapes.Remove(outlet);
-        }
-
-        private void RemoveTape(Tape tape)
-        {
-            if (tape == null) throw new NullException(() => tape);
-            if (tape.Signal == null) throw new NullException(() => tape.Signal);
-            _tapes.Remove(tape.Signal);
+            _tapes.Clear();
         }
         
+        private IList<Tape> GetTapes() => _tapes.Values.ToArray();
+        
+        //private void RemoveTape(Outlet outlet)
+        //{
+        //    if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+        //    _tapes.Remove(outlet);
+        //}
+
+        //private void RemoveTape(Tape tape)
+        //{
+        //    if (tape == null) throw new NullException(() => tape);
+        //    if (tape.Signal == null) throw new NullException(() => tape.Signal);
+        //    _tapes.Remove(tape.Signal);
+        //}
+
         private Tape TryGetTape(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
@@ -219,7 +244,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public string FilePath { get; set; }
         public int NestingLevel { get; set; }
         public int ChannelIndex { get; set; }
-        public Task Task { get; set; }
+        //public Task Task { get; set; }
         public Action<Buff, int> Callback { get; set; }
         
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
@@ -230,9 +255,9 @@ namespace JJ.Business.Synthesizer.Wishes
     /// too many to implement all at the same time.
     /// Outcommented properties are done.
     /// </summary>
-    [Obsolete]
-    internal class TapeInfoPrototype
-    {
+    //[Obsolete]
+    //internal class TapeInfoPrototype
+    //{
         //public Outlet Outlet { get; set; }
         //public int NestingLevel { get; set; }
         //public Task Task { get; set; }
@@ -243,5 +268,5 @@ namespace JJ.Business.Synthesizer.Wishes
         //public bool MustCache { get; set; }
         
         //public FlowNode Duration { get; set; }
-    }
+    //}
 }
