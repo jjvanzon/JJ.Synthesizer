@@ -14,6 +14,27 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     public static class ObsoleteSynthWishesParallelExtensions
     {
         [Obsolete]
+        private static void RunTapesPerNestingLevel(this SynthWishes synthWishes, Tape[] tapes)
+        {
+            // Group tasks by nesting level
+            var tapeGroups = tapes.OrderByDescending(x => x.NestingLevel)
+                                  .GroupBy(x => x.NestingLevel)
+                                  .Select(x => x.ToArray())
+                                  .ToArray();
+            
+            // Execute each nesting level's task simultaneously.
+            foreach (Tape[] tapeGroup in tapeGroups)
+            {
+                Task[] tasks = new Task[tapeGroup.Length];
+                for (var i = 0; i < tapeGroup.Length; i++)
+                {
+                    Tape tape = tapeGroup[i];
+                    tasks[i] = Task.Run(() => synthWishes.RunTape(tape));
+                }
+                Task.WaitAll(tasks); // Ensure each level completes before moving up
+            }
+        }
+        [Obsolete]
         private static FlowNode ParallelAdd_MixedGraphBuildUpAndParallelExecution(
             this SynthWishes synthWishes,
             IList<Func<FlowNode>> termFuncs,

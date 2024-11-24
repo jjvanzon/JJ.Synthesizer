@@ -163,15 +163,15 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private void RunTapesPerLeafBatch(Tape[] tapes)
+        private void RunTapesLeavesPerBatch(Tape[] tapes)
         {
             while (tapes.Length > 0)
             {
-                tapes = RunTapesForLeaves(tapes);
+                tapes = RunTapeLeafBatch(tapes);
             }
         }
 
-        private Tape[] RunTapesForLeaves(Tape[] tapes)
+        private Tape[] RunTapeLeafBatch(Tape[] tapes)
         {
             // Get leaves
             Tape[] leaves = tapes.Where(x => x.ChildTapes.Count == 0).ToArray();
@@ -188,10 +188,10 @@ namespace JJ.Business.Synthesizer.Wishes
             Task.WaitAll(tasks);
             
             // Remove parent-child relationship
-            foreach (Tape leave in leaves)
+            foreach (Tape leaf in leaves)
             {
-                leave.ParentTape?.ChildTapes.Remove(leave);
-                leave.ParentTape = null;
+                leaf.ParentTape?.ChildTapes.Remove(leaf);
+                leaf.ParentTape = null;
             }
 
             // Return remaining tapes
@@ -199,9 +199,9 @@ namespace JJ.Business.Synthesizer.Wishes
             return remainingTapes;
         }
 
-        private void RunTape(Tape tape)
+        internal void RunTape(Tape tape)
         {
-            Console.WriteLine($"{PrettyTime()} Start Task: (Level {tape.NestingLevel}) {tape.Name}");
+            Console.WriteLine($"{PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.Name}");
             
             // Cache Buffer
             Buff cacheBuff = Cache(tape.Signal, tape.Duration, tape.Name);
@@ -221,7 +221,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inlet.LinkTo(sample);
             }
             
-            Console.WriteLine($"{PrettyTime()}   End Task: (Level {tape.NestingLevel}) {tape.Name} ");
+            Console.WriteLine($"{PrettyTime()}  Stop Tape: (Level {tape.NestingLevel}) {tape.Name} ");
         }
     }
 }
