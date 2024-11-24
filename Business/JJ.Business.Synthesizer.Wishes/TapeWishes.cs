@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public int NestingLevel { get; set; }
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
         public Tape ParentTape { get; set; }
-        public IList<Tape> ChildTapes { get; set; } = new List<Tape>();
+        public IList<Tape> ChildTapes { get; } = new List<Tape>();
     }
     
     // Tape Method
@@ -175,6 +175,37 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
                 Task.WaitAll(tasks); // Ensure each level completes before moving up
             }
+        }
+        
+        /// <summary>
+        /// Preliminary unused method for trying to execute batches of leaves in parallel.
+        /// </summary>
+        private Tape[] RunTapesPerLeafBatch(Tape[] tapes)
+        {
+            // Get leaves
+            Tape[] leaves = tapes.Where(x => x.ChildTapes.Count == 0).ToArray();
+
+            // Execute tasks for the leaves
+            Task[] tasks = new Task[leaves.Length];
+            for (var i = 0; i < leaves.Length; i++)
+            {
+                Tape tape = leaves[i];
+                tasks[i] = Task.Run(() => RunTape(tape));
+            }
+            
+            // Ensure the leaf batch completes before moving on
+            Task.WaitAll(tasks);
+            
+            // Remove parent-child relationship
+            foreach (Tape leave in leaves)
+            {
+                leave.ParentTape?.ChildTapes.Remove(leave);
+                leave.ParentTape = null;
+            }
+
+            // Return remaining tapes
+            Tape[] remainingTapes = tapes.Except(leaves).ToArray();
+            return remainingTapes;
         }
 
         private void RunTape(Tape tape)
