@@ -31,28 +31,20 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
             
-            SetTapeNestingLevelsRecursive(channels);
-            
             var tasks = new Task[channels.Count];
-            for (int unsafeIndex = 0; unsafeIndex < channels.Count; unsafeIndex++)
+            for (int i = 0; i < channels.Count; i++)
             {
-                int i = unsafeIndex;
                 var channel = channels[i];
+                SetTapeNestingLevelsRecursive(channel, level: 1);
                 SetTapeChannelIndexRecursive(channel, i);
+                
                 var tasks2 = CreateTapeTasksRecursive(channel);
                 tasks[i] = Run(() => RunTapes(tasks2));
             }
             
             WaitAll(tasks);
-        }
-        
-        private void SetTapeNestingLevelsRecursive(IList<FlowNode> nodes)
-        {
-            foreach (var node in nodes)
-            {
-                if (node == null) continue;
-                SetTapeNestingLevelsRecursive(node, 1);
-            }
+            
+            _tapes.Clear();
         }
         
         private void SetTapeNestingLevelsRecursive(FlowNode node, int level)
@@ -106,11 +98,6 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 if (operand == null) continue;
                 tasks.AddRange(CreateTapeTasksRecursive(operand));
-            }
-            
-            foreach (FlowNode operand in operands)
-            {
-                if (operand == null) continue;
                 
                 // Are we being parallel?
                 Tape tape = TryGetTape(operand);
