@@ -31,7 +31,7 @@
 		parallelTaping="true"
 		diskCacheOn="false"
 		playAllTapes="false"
-		tapeLeafCheckDelayMs="50"
+		parallelTaskCheckDelayMs="50"
 		longRunningTestCategory="Long">
 		
 		<nCrunch

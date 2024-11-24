@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public bool? ParallelTaping { get; set; }
         [XmlAttribute] public bool? DiskCacheOn { get; set; }
         [XmlAttribute] public bool? PlayAllTapes { get; set; }
-        [XmlAttribute] public int? TapeLeafCheckDelayMs { get; set; }
+        [XmlAttribute] public int? ParallelTaskCheckDelayMs { get; set; }
         
         // Tooling
         
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private const bool DefaultParallelTaping    = true;
         private const bool DefaultDiskCacheOn       = false;
         private const bool DefaultPlayAllTapes      = false;
-        private const int  DefaultTapeLeafCheckDelayMs = 1;
+        private const int  DefaultParallelTaskCheckDelayMs = 1;
         
         // Tooling
         
@@ -312,16 +312,12 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._playalltapes" />
         public void WithPlayAllTapes(bool? enabled = true) => _playAllTapes = enabled;
         
-        // TapeLeafCheckDelayMs
+        // ParallelTaskCheckDelayMs
         
-        /// <inheritdoc cref="docs._tapeleafcheckdelayms" />
-        private int? _tapeLeafCheckDelayMs;
-        /// <inheritdoc cref="docs._tapeleafcheckdelayms" />
-        public int GetTapeLeafCheckDelayMs => _tapeLeafCheckDelayMs ?? _section.TapeLeafCheckDelayMs ?? DefaultTapeLeafCheckDelayMs;
-        /// <inheritdoc cref="docs._tapeleafcheckdelayms" />
-        public void WithTapeLeafCheckDelayMs(int? milliseconds) => _tapeLeafCheckDelayMs = milliseconds;
+        private int? _parallelTaskCheckDelayMs;
+        public int GetParallelTaskCheckDelayMs => _parallelTaskCheckDelayMs ?? _section.ParallelTaskCheckDelayMs ?? DefaultParallelTaskCheckDelayMs;
+        public void WithParallelTaskCheckDelayMs(int? milliseconds) => _parallelTaskCheckDelayMs = milliseconds;
 
-        
         // Tooling
         
         private string _longTestCategory;
@@ -473,10 +469,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes WithPlayAllTapes(bool? enabled = true) { _configResolver.WithPlayAllTapes(enabled); return this; }
         
         
-        /// <inheritdoc cref="docs._tapeleafcheckdelayms" />
-        public int GetTapeLeafCheckDelayMs => _configResolver.GetTapeLeafCheckDelayMs;
-        /// <inheritdoc cref="docs._tapeleafcheckdelayms" />
-        public SynthWishes WithTapeLeafCheckDelayMs(int? milliseconds) {_configResolver.WithTapeLeafCheckDelayMs(milliseconds); return this; }
+        /// <inheritdoc cref="docs._paralleltaskcheckdelayms" />
+        public int GetParallelTaskCheckDelayMs => _configResolver.GetParallelTaskCheckDelayMs;
+        /// <inheritdoc cref="docs._paralleltaskcheckdelayms" />
+        public SynthWishes WithParallelTaskCheckDelayMs(int? milliseconds) {_configResolver.WithParallelTaskCheckDelayMs(milliseconds); return this; }
 
     }
     
