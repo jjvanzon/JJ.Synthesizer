@@ -23,18 +23,22 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Duration { get; set; }
         public bool MustPlay { get; set; }
         public bool MustSave { get; set; }
-        /// <summary> Purely informational </summary>
-        public bool IsCache { [UsedImplicitly] get; set; }
         public string FilePath { get; set; }
-        public int NestingLevel { get; set; }
-        public int ChannelIndex { get; set; }
+        public bool IsCache { [UsedImplicitly] get; set; }
         public Action<Buff, int> Callback { get; set; }
-        
+        public int ChannelIndex { get; set; }
+        public int NestingLevel { get; set; }
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
-
-    // SynthWishes Parallelization
     
+    // Tape Method
+    
+    public partial class FlowNode
+    {
+        public FlowNode Tape(FlowNode duration = null)
+            => _synthWishes.Tape(this, duration);
+    }
+
     public partial class SynthWishes
     {
         public FlowNode Tape(FlowNode signal, FlowNode duration = null)
@@ -43,6 +47,45 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.Duration = duration ?? GetAudioLength;
             return signal;
         }
+        
+        // Tapes Collection
+        
+        private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
+        
+        internal Tape AddTape(FlowNode signal)
+        {
+            if (signal == null) throw new ArgumentNullException(nameof(signal));
+            
+            var tape = new Tape
+            {
+                Signal = signal,
+                Name = signal.Name,
+                ChannelIndex = GetChannelIndex
+            };
+            
+            _tapes[signal] = tape;
+            
+            return tape;
+        }
+        
+        internal bool IsTape(Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            return _tapes.ContainsKey(outlet);
+        }
+        
+        private Tape TryGetTape(Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            _tapes.TryGetValue(outlet, out Tape tape);
+            return tape;
+        }
+        
+        private IList<Tape> GetTapes() => _tapes.Values.ToArray();
+        
+        private void ClearTapes() => _tapes.Clear();
+        
+        // Run Tapes
         
         internal void RunAllTapes(IList<FlowNode> channels)
         {
@@ -118,7 +161,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Cache Buffer
             Buff cacheBuff = Cache(tape.Signal, tape.Duration, tape.Name);
             
-            // Actions
+            // Run Actions
             tape.Callback?.Invoke(cacheBuff, tape.ChannelIndex);
             if (tape.MustSave) Save(cacheBuff, tape.FilePath, tape.Name);
             if (tape.MustPlay || GetPlayAllTapes) Play(cacheBuff);
@@ -135,50 +178,5 @@ namespace JJ.Business.Synthesizer.Wishes
             
             Console.WriteLine($"{PrettyTime()}   End Task: (Level {tape.NestingLevel}) {tape.Name} ");
         }
-        
-        // Tapes
-        
-        private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
-        
-        internal Tape AddTape(FlowNode signal)
-        {
-            if (signal == null) throw new ArgumentNullException(nameof(signal));
-            
-            var tape = new Tape
-            {
-                Signal = signal,
-                Name = signal.Name,
-                ChannelIndex = GetChannelIndex
-            };
-            
-            _tapes[signal] = tape;
-            
-            return tape;
-        }
-        
-        internal bool IsTape(Outlet outlet)
-        {
-            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            return _tapes.ContainsKey(outlet);
-        }
-        
-        private Tape TryGetTape(Outlet outlet)
-        {
-            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            _tapes.TryGetValue(outlet, out Tape tape);
-            return tape;
-        }
-        
-        private IList<Tape> GetTapes() => _tapes.Values.ToArray();
-        
-        private void ClearTapes() => _tapes.Clear();
-    }
-    
-    // FlowNode
-    
-    public partial class FlowNode
-    {
-        public FlowNode Tape(FlowNode duration = null)
-            => _synthWishes.Tape(this, duration);
     }
 }
