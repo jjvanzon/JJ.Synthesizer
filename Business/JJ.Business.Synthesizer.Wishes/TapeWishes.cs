@@ -31,12 +31,21 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
             
+            var channelTapes = _tapes.Values.GroupBy(x => x.ChannelIndex);
+            
+            // Future replacement
+            //foreach (var group in channelTapes)
+            //{
+            //    Tape[] tapes = group.ToArray();
+            //    var task = Run(() => RunTapes(tapes));
+            //    task.Wait();
+            //}
+            
             var tasks = new Task[channels.Count];
             for (int i = 0; i < channels.Count; i++)
             {
                 var channel = channels[i];
-                SetTapeNestingLevelsRecursive(channel, level: 1);
-                SetTapeChannelIndexRecursive(channel, i);
+                SetTapeNestingLevelsRecursive(channel);
                 
                 var tasks2 = CreateTapeTasksRecursive(channel);
                 tasks[i] = Run(() => RunTapes(tasks2));
@@ -47,7 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes
             _tapes.Clear();
         }
         
-        private void SetTapeNestingLevelsRecursive(FlowNode node, int level)
+        private void SetTapeNestingLevelsRecursive(FlowNode node, int level = 1)
         {
             Tape tape = TryGetTape(node);
             if (tape != null)
@@ -60,20 +69,6 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 if (child == null) continue;
                 SetTapeNestingLevelsRecursive(child, level + 1);
-            }
-        }
-        
-        private void SetTapeChannelIndexRecursive(FlowNode node, int channelIndex)
-        {
-            if (node == null) throw new ArgumentNullException(nameof(node));
-            
-            Tape tape = TryGetTape(node);
-            if (tape != null) tape.ChannelIndex = channelIndex;
-            
-            foreach (FlowNode child in node.Operands.ToArray())
-            {
-                if (child == null) continue;
-                SetTapeChannelIndexRecursive(child, channelIndex);
             }
         }
         
@@ -157,7 +152,13 @@ namespace JJ.Business.Synthesizer.Wishes
         private Tape AddTape(FlowNode signal)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
-            var tape = new Tape { Signal = signal, Name = signal.Name };
+            var tape = new Tape
+            {
+                Signal = signal,
+                Name = signal.Name,
+                ChannelIndex = GetChannelIndex
+            };
+            
             _tapes[signal] = tape;
             return tape;
         }
