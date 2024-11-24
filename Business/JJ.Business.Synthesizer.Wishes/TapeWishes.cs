@@ -69,7 +69,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 SetTapeNestingLevelsRecursive(child, level + 1);
             }
         }
-
+        
+        /// <summary> Preliminary. Not use yet. </summary>
+        private void CreateTapeTasks()
+        {
+            foreach (Tape tape in _tapes.Values)
+            {
+                tape.Task = Run(() => RunTape(tape));
+            }
+        }
+        
         private IList<(Task Task, int Level)> CreateTapeTasksRecursive(FlowNode op, int channelIndex)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
@@ -84,10 +93,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 tasks.AddRange(CreateTapeTasksRecursive(operand, channelIndex));
             }
             
-            for (var unsafeIndex = 0; unsafeIndex < operands.Length; unsafeIndex++)
+            foreach (FlowNode operand in operands)
             {
-                int i = unsafeIndex;
-                FlowNode operand = operands[i];
                 if (operand == null) continue;
                 
                 // Are we being parallel?
@@ -98,7 +105,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     
                     // Preliminary assignment of variables. Will have been filled in already later.
                     tape.ChannelIndex = channelIndex;
-
+                    
                     var task = new Task(() => RunTape(tape));
                     
                     tasks.Add((task, tape.NestingLevel));
