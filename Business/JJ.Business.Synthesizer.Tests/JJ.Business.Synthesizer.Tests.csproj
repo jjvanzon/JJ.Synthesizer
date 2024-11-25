@@ -124,10 +124,10 @@
   <ItemGroup>
     <Compile Include="Accessors\AdditiveTestsAccessor.cs" />
     <Compile Include="Accessors\FlowNodeAccessor.cs" />
-    <Compile Include="Accessors\FrameworkIOWishesAccessor.cs" />
+    <Compile Include="Accessors\JJFrameworkIOWishesAccessor.cs" />
     <Compile Include="Accessors\ModulationTestsAccessor.cs" />
     <Compile Include="Accessors\FMTestsAccessor.cs" />
-    <Compile Include="Accessors\FrameworkStringWishesAccessor.cs" />
+    <Compile Include="Accessors\JJFrameworkStringWishesAccessor.cs" />
     <Compile Include="Functional\LongTests.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Technical\AudioFileWishesTests.cs" />

@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,6 +12,7 @@ using static System.Math;
 using static System.MidpointRounding;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
+using static JJ.Business.Synthesizer.Tests.Accessors.JJFrameworkIOWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Framework.Testing.AssertHelper;
@@ -537,7 +537,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 IsNotNull(() => audioFileOutput.FilePath);
                 
                 (string expectedFilePathFirstPart, int number, string expectedFilePathLastPart) =
-                    FrameworkIOWishesAccessor.GetNumberedFilePathParts(expectedFilePath, "", "");
+                    GetNumberedFilePathParts(expectedFilePath, "", "");
                 
                 Console.WriteLine(GetText(() => audioFileOutput.FilePath) + " = " + audioFileOutput.FilePath);
                 Console.WriteLine(GetText(() => expectedFilePathFirstPart) + " = " + expectedFilePathFirstPart);
