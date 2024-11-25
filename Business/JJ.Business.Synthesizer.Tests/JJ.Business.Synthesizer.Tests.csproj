@@ -130,6 +130,7 @@
     <Compile Include="Accessors\JJFrameworkStringWishesAccessor.cs" />
     <Compile Include="Functional\LongTests.cs" />
     <Compile Include="docs.cs" />
+    <Compile Include="Helpers\MySynthWishes.cs" />
     <Compile Include="Technical\AudioFileWishesTests.cs" />
     <Compile Include="Helpers\CopiedFromFramework.cs" />
     <Compile Include="Accessors\SampleManagerAccessor.cs" />

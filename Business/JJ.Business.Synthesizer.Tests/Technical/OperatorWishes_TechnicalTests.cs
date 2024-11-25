@@ -17,8 +17,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]
-    public class OperatorWishes_TechnicalTests : SynthWishes
+    public class OperatorWishes_TechnicalTests : MySynthWishes
     {
+        FlowNode Envelope => DelayedPulseEnvelope.Stretch(GetAudioLength) * 0.5;
+
         [TestMethod]
         public void NestedSumFlatteningTest() => new OperatorWishes_TechnicalTests().NestedSumFlattening();
 
@@ -532,11 +534,5 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 }
             }
         }
-
-        // Helpers
-
-        void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
-        FlowNode BaseEnvelope => Curve((0, 0), (0.2, 0), (0.3, 1), (0.7, 1), (0.8, 0), (1.0, 0));
-        FlowNode Envelope => BaseEnvelope.Stretch(GetAudioLength) * 0.5;
     }
 }

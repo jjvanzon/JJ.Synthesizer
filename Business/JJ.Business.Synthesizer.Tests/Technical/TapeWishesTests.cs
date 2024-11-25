@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
@@ -16,8 +17,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]
-    public class TapeWishesTests : SynthWishes
+    public class TapeWishesTests : MySynthWishes
     {
+        FlowNode Envelope => DelayedPulseEnvelope.Stretch(GetAudioLength) * 0.4;
+
         public TapeWishesTests()
         {
             WithShortDuration();
@@ -333,11 +336,5 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Save(() => Sample(bufs[0]).Panning(0) +
                        Sample(bufs[1]).Panning(1)).Play();
         }
-        
-        // Helpers
-        
-        void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
-        FlowNode BaseEnvelope => Curve((0, 0), (0.2, 0), (0.3, 1), (0.7, 1), (0.8, 0), (1.0, 0));
-        FlowNode Envelope => BaseEnvelope.Stretch(GetAudioLength) * 0.4;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 // ReSharper disable FieldCanBeMadeReadOnly.Local
@@ -11,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
     /// <inheritdoc cref="docs._fmtests"/>
     [TestClass]
     [TestCategory("Functional")]
-    public class FMTests : SynthWishes
+    public class FMTests : MySynthWishes
     {
         FlowNode MildEcho(FlowNode sound)
             => Echo(sound, count: 6, magnitude: _[0.25], delay: _[0.33]).AddAudioLength(MildEchoDuration);
