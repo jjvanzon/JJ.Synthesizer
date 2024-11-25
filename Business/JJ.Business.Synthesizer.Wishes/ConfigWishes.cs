@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // SamplingRate
         
         /// <inheritdoc cref="docs._getsamplingrate" />
-        private int _samplingRate;
+        internal int _samplingRate;
         /// <inheritdoc cref="docs._getsamplingrate" />
         public void WithSamplingRate(int value) => _samplingRate = value;
         

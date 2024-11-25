@@ -99,8 +99,20 @@ namespace JJ.Business.Synthesizer.Wishes
         internal void RunAllTapes(IList<FlowNode> channels)
         {
             if (_tapes.Count == 0) return;
-
-            RunTapesPerChannel(channels);
+            
+            // HACK: Override sampling rate with currently resolved sampling rate.
+            // (Can be customized for long-running tests, but separate threads cannot check the test category.)
+            int storedSamplingRate = _configResolver._samplingRate;
+            int resolvedSamplingRate = _configResolver.GetSamplingRate;
+            try
+            {
+                WithSamplingRate(resolvedSamplingRate);
+                RunTapesPerChannel(channels);
+            }
+            finally
+            {
+                WithSamplingRate(storedSamplingRate);
+            }
         }
         
         private void RunTapesPerChannel(IList<FlowNode> channels) 
