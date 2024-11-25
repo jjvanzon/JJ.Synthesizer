@@ -9,14 +9,12 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Calculation.Samples.SampleCalculatorFactory;
 using static JJ.Business.Synthesizer.Tests.Helpers.CopiedFromFramework;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Business.Synthesizer.Tests.docs;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable once NotAccessedField.Local
