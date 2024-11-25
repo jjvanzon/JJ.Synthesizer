@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Audio Lengths
         
-        private const double DefaultNoteLength      = 0.4;
+        private const double DefaultNoteLength      = 0.5;
         private const double DefaultAudioLength     = 1;
         private const double DefaultLeadingSilence  = 0.25;
         private const double DefaultTrailingSilence = 0.25;
@@ -556,7 +556,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes WithLinear() {_configResolver.WithLinear(); return this; }
         public SynthWishes WithBlocky() { _configResolver.WithBlocky(); return this; }
 
-        // Audio Lengths
+        // Durations
+        
+        public FlowNode GetNoteLength => _configResolver.GetNoteLength(this);
+        public SynthWishes WithNoteLength(FlowNode seconds = default) { _configResolver.WithNoteLength(seconds); return this; }
         
         public FlowNode GetAudioLength => _configResolver.GetAudioLength(this);
         public SynthWishes WithAudioLength(double newLength) { _configResolver.WithAudioLength(newLength, this); return this; }
@@ -642,7 +645,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode WithLinear() { _synthWishes.WithLinear(); return this; }
         public FlowNode WithBlocky() { _synthWishes.WithBlocky(); return this; }
         
-        // Audio Lengths
+        // Durations
+        
+        public FlowNode GetNoteLength => _synthWishes.GetNoteLength;
+        public FlowNode WithNoteLength(FlowNode newLength) { _synthWishes.WithNoteLength(newLength); return this; }
         
         public FlowNode GetAudioLength => _synthWishes.GetAudioLength;
         public FlowNode WithAudioLength(FlowNode newLength) { _synthWishes.WithAudioLength(newLength); return this; }

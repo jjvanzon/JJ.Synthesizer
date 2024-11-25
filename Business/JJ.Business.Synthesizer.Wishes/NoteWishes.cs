@@ -173,8 +173,7 @@ namespace JJ.Business.Synthesizer.Wishes
             bool delayFilledIn = delay != null && delay.AsConst != 0;
             bool volumeFilledIn = volume != null && volume.AsConst != 1;
 
-            //duration = duration ?? GetAudioLength; // Creates astonishing performance hits.
-            duration = duration ?? _[1];
+            duration = duration ?? GetNoteLength;
 
             if (volumeFilledIn) sound = Multiply(sound, volume);
             
