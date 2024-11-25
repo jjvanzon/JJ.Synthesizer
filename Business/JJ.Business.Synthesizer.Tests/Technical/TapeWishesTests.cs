@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Extensions;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+// ReSharper disable ParameterHidesMember
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -20,15 +21,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public TapeWishesTests()
         {
             WithShortDuration();
+            WithParallelTaping();
         }
         
         [TestMethod]
-        public void ParallelAdd_NormalAdd_ForComparison_Test() => new TapeWishesTests().ParallelAdd_NormalAdd_ForComparison();
+        public void Tape_NormalAdd_ForComparison_Test() => new TapeWishesTests().Tape_NormalAdd_ForComparison();
 
-        private void ParallelAdd_NormalAdd_ForComparison()
+        private void Tape_NormalAdd_ForComparison()
         {
-            WithParallelTaping();
-
             var duration = 0.1;
 
             var add = Add
@@ -46,13 +46,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void ParallelAdd_WithConstSignal_Test() => new TapeWishesTests().ParallelAdd_WithConstSignal();
+        public void Tape_WithConstSignal_Test() => new TapeWishesTests().Tape_WithConstSignal();
 
-        private void ParallelAdd_WithConstSignal()
+        private void Tape_WithConstSignal()
         {
             var accessor = new SynthWishesAccessor(this);
-
-            WithParallelTaping();
 
             // Arrange
             var duration  = 0.1;
@@ -143,14 +141,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void ParallelAdd_WithConstSignal_WithPreviewPartials_Test() => new TapeWishesTests().ParallelAdd_WithConstSignal_WithPreviewPartials();
+        public void Tape_WithConstSignal_WithPlayAllTapes_Test() => new TapeWishesTests().Tape_WithConstSignal_WithPlayAllTapes();
 
-        private void ParallelAdd_WithConstSignal_WithPreviewPartials()
+        private void Tape_WithConstSignal_WithPlayAllTapes()
         {
             var accessor = new SynthWishesAccessor(this);
 
             // Arrange
-            WithParallelTaping();
             WithPlayAllTapes();
 
             var duration = 0.1;
@@ -197,37 +194,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void ParallelAdd_WithSinePartials_Test() => new TapeWishesTests().ParallelAdd_WithSinePartials();
+        public void Tape_WithSinePartials_Test() => new TapeWishesTests().Tape_WithSinePartials();
 
-        private void ParallelAdd_WithSinePartials()
-        {
-            WithParallelTaping();
-
-            var freq = A4;
-
-            var added = RecorderEnvelope * Add
-            (
-                Sine(freq * 1).Volume(1.0).Tape(),
-                Sine(freq * 2).Volume(0.2).Tape(),
-                Sine(freq * 3).Volume(0.7).Tape()
-            ).SetName();
-
-            WithMono().Play(() => added);
-        }
-
-        [TestMethod]
-        public void Tape_SinePartials_WithPlayAllTapes_Test() => new TapeWishesTests().Tape_SinePartials_WithPlayAllTapes();
-
-        private void Tape_SinePartials_WithPlayAllTapes()
+        private void Tape_WithSinePartials()
         {
             var freq = A4;
-            
-            WithShortDuration();
-            WithParallelTaping();
-            WithPlayAllTapes();
-            WithName();
 
-            var added = RecorderEnvelope * Add
+            var added = Add
             (
                 Sine(freq * 1).Volume(1.0).Curve(Envelope).Tape(),
                 Sine(freq * 2).Volume(0.2).Curve(Envelope).Tape(),
@@ -236,7 +209,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             WithMono().Play(() => added);
         }
-
 
         [TestMethod]
         public void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot_Test()
@@ -264,6 +236,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                  ));
         }
         
+        [TestMethod]
+        public void Tape_SinePartials_WithPlayAllTapes_Test() => new TapeWishesTests().Tape_SinePartials_WithPlayAllTapes();
+        
+        private void Tape_SinePartials_WithPlayAllTapes()
+        {
+            var freq = A4;
+            
+            WithPlayAllTapes();
+            WithName();
+            
+            var added = Add
+            (
+                Sine(freq * 1).Volume(1.0).Curve(Envelope).Tape(),
+                Sine(freq * 2).Volume(0.2).Curve(Envelope).Tape(),
+                Sine(freq * 3).Volume(0.7).Curve(Envelope).Tape()
+            ).SetName();
+            
+            WithMono().Play(() => added);
+        }
+
         [TestMethod]
         public void FluentPlay_UsingTape_Test() => new TapeWishesTests().FluentPlay_UsingTape();
         
@@ -321,7 +313,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                  ) * Envelope * 1.5);
         }
         
-        // ReSharper disable ParameterHidesMember
         [TestMethod]
         public void FluentCache_UsingTape_Test() => new TapeWishesTests().FluentCache_UsingTape();
         
@@ -331,7 +322,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             var bufs = new Buff[2];
             
-            Save(() => Sine(A4).Panning(0.1).ChannelCache((b, i) => bufs[i] = b)).Play();
+            Save(() => Sine(A4).Panning(0.1).Curve(Envelope).ChannelCache((b, i) => bufs[i] = b)).Play();
             
             IsNotNull(() => bufs[0]);
             IsNotNull(() => bufs[1]);
@@ -342,12 +333,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Save(() => Sample(bufs[0]).Panning(0) +
                        Sample(bufs[1]).Panning(1)).Play();
         }
-
         
         // Helpers
         
         void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
-        
         FlowNode BaseEnvelope => Curve((0, 0), (0.2, 0), (0.3, 1), (0.7, 1), (0.8, 0), (1.0, 0));
         FlowNode Envelope => BaseEnvelope.Stretch(GetAudioLength) * 0.4;
     }
