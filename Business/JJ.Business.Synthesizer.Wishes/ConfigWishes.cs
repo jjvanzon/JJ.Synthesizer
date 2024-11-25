@@ -387,6 +387,8 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var list = new List<string>();
             
+            // Sampling Rate Override
+            
             if (_samplingRate != 0)
             {
                 list.Add($"Sampling rate override = {_samplingRate}");

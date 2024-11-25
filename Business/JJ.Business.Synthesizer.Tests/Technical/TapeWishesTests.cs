@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                        Sample(bufs[1]).Panning(1)).Play();
         }
 
-        // Helper
+        // Helpers
         
         void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
         
