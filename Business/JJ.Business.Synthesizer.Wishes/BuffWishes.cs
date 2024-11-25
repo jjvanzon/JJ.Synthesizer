@@ -308,7 +308,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
             lines.Add($"Calculation time: {PrettyDuration(calculationDuration)}");
             lines.Add($"Audio length: {PrettyDuration(buff.UnderlyingAudioFileOutput.Duration)}");
-            lines.Add($"Sampling rate: {buff.UnderlyingAudioFileOutput.SamplingRate} Hz | {buff.UnderlyingAudioFileOutput.GetSampleDataTypeEnum()} | {buff.UnderlyingAudioFileOutput.GetSpeakerSetupEnum()}");
+            lines.Add($"Sampling rate: {buff.UnderlyingAudioFileOutput.SamplingRate} Hz " +
+                      $"| {buff.UnderlyingAudioFileOutput.GetSampleDataTypeEnum()} " +
+                      $"| {buff.UnderlyingAudioFileOutput.GetSpeakerSetupEnum()}");
 
             lines.Add("");
 
