@@ -274,10 +274,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return Add
             (
-                freq.Times(1).Sine.Volume(1.0).Tape(),
-                freq.Times(2).Sine.Volume(0.5).Tape(),
-                freq.Times(3).Sine.Volume(0.3).Tape(), 
-                freq.Times(4).Sine.Volume(0.2).Tape()
+                freq.Times(1).Sine().Volume(1.0).Tape(),
+                freq.Times(2).Sine().Volume(0.5).Tape(),
+                freq.Times(3).Sine().Volume(0.3).Tape(), 
+                freq.Times(4).Sine().Volume(0.2).Tape()
             ).SetName().Tape();
         }
 

@@ -680,11 +680,11 @@ namespace JJ.Business.Synthesizer.Wishes
     }
 
     // Sine FlowNode
-
+    
     public partial class FlowNode
     {
         /// <inheritdoc cref="docs._sine" />
-        public FlowNode Sine => _synthWishes.Sine(this);
+        public FlowNode Sine() => _synthWishes.Sine(this);
     }
 
     // Delay SynthWishes

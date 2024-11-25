@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._vibrato" />
         void Vibrato_RunTest()
-            => WithAudioLength(2).WithMono().Save(() => VibratoOverPitch(A4).Sine * Envelope.Stretch(2) * 0.9).Play();
+            => WithAudioLength(2).WithMono().Save(() => VibratoOverPitch(A4).Sine() * Envelope.Stretch(2) * 0.9).Play();
 
         /// <inheritdoc cref="docs._tremolo" />
         [TestMethod]
