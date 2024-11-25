@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
             
-            _tempParallelTaskCheckDelayMs = GetParallelTaskCheckDelayMs;
+            _tempParallelTaskCheckDelayMs = (int)(GetParallelTaskCheckDelay * 1000);
             Console.WriteLine($"{PrettyTime()} Tapes: Leaf check delay = {_tempParallelTaskCheckDelayMs} ms");
 
             channels.ForEach(x => SetTapeNestingLevelsRecursive(x));

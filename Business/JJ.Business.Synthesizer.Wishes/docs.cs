@@ -274,6 +274,21 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Returns what's input into an operand of the operator.
         /// </summary>
         public static object _operand;
+
+        /// <summary>
+        /// The parallel processing, processes a tree of tasks, "leaf" tasks first.
+        /// But as soon as they get processed, more "leaf" tasks emerge up for processing.
+        /// There's a time interval between checking for new leaves to process.
+        /// <c>ParallelTaskCheckDelay</c> defines this (short) wait time.
+        /// Its unit is in seconds, but it only has a millisecond precision.
+        /// 1 millisecond is usually good enough (0.001).
+        /// But since this may be infrastructure-dependent, it can be configured.
+        /// Anything under the minimum of 1 milliseconds (0.001) rounds down to 0,
+        /// meaning it'll check a lot for new tasks to process.
+        /// This can mean millions of checks instead of hundreds,
+        /// that's why this small delay exists.
+        /// </summary>
+        public static object _paralleltaskcheckdelay;
         
         /// <inheritdoc cref="_tapesanddiskcache" />
         public static object _playalltapes;

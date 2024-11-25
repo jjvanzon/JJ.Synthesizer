@@ -39,7 +39,8 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public bool? ParallelTaping { get; set; }
         [XmlAttribute] public bool? DiskCacheOn { get; set; }
         [XmlAttribute] public bool? PlayAllTapes { get; set; }
-        [XmlAttribute] public int? ParallelTaskCheckDelayMs { get; set; }
+        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
+        [XmlAttribute] public double? ParallelTaskCheckDelay { get; set; }
         
         // Tooling
         
@@ -79,12 +80,13 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Feature Toggles
         
-        private const bool DefaultPlayBack          = true;
-        private const bool DefaultMathBoost         = true;
-        private const bool DefaultParallelTaping    = true;
-        private const bool DefaultDiskCacheOn       = false;
-        private const bool DefaultPlayAllTapes      = false;
-        private const int  DefaultParallelTaskCheckDelayMs = 1;
+        private const bool   DefaultPlayBack          = true;
+        private const bool   DefaultMathBoost         = true;
+        private const bool   DefaultParallelTaping    = true;
+        private const bool   DefaultDiskCacheOn       = false;
+        private const bool   DefaultPlayAllTapes      = false;
+        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
+        private const double DefaultParallelTaskCheckDelay = 0.001;
         
         // Tooling
         
@@ -351,11 +353,14 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._playalltapes" />
         public void WithPlayAllTapes(bool? enabled = true) => _playAllTapes = enabled;
         
-        // ParallelTaskCheckDelayMs
+        // ParallelTaskCheckDelay
         
-        private int? _parallelTaskCheckDelayMs;
-        public int GetParallelTaskCheckDelayMs => _parallelTaskCheckDelayMs ?? _section.ParallelTaskCheckDelayMs ?? DefaultParallelTaskCheckDelayMs;
-        public void WithParallelTaskCheckDelayMs(int? milliseconds) => _parallelTaskCheckDelayMs = milliseconds;
+        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
+        private double? _parallelTaskCheckDelay;
+        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
+        public double GetParallelTaskCheckDelay => _parallelTaskCheckDelay ?? _section.ParallelTaskCheckDelay ?? DefaultParallelTaskCheckDelay;
+        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
+        public void WithParallelTaskCheckDelay(double? milliseconds) => _parallelTaskCheckDelay = milliseconds;
 
         // Tooling
         
@@ -559,12 +564,10 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._playalltapes" />
         public SynthWishes WithPlayAllTapes(bool? enabled = true) { _configResolver.WithPlayAllTapes(enabled); return this; }
 
-        
-        /// <inheritdoc cref="docs._paralleltaskcheckdelayms" />
-        public int GetParallelTaskCheckDelayMs => _configResolver.GetParallelTaskCheckDelayMs;
-        /// <inheritdoc cref="docs._paralleltaskcheckdelayms" />
-        public SynthWishes WithParallelTaskCheckDelayMs(int? milliseconds) {_configResolver.WithParallelTaskCheckDelayMs(milliseconds); return this; }
-
+        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
+        public double GetParallelTaskCheckDelay => _configResolver.GetParallelTaskCheckDelay;
+        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
+        public SynthWishes WithParallelTaskCheckDelay(double? seconds) {_configResolver.WithParallelTaskCheckDelay(seconds); return this; }
     }
     
     // FlowNode ConfigWishes
