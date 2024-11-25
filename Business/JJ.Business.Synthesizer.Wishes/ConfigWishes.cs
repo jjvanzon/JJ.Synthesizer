@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Persistence;
@@ -141,8 +142,6 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 if (_samplingRate != 0)
                 {
-                    // TODO: Use this message somewhere?
-                    //string message = $"Sampling rate override: {samplingRateOverride}";
                     return _samplingRate;
                 }
                 
@@ -381,6 +380,58 @@ namespace JJ.Business.Synthesizer.Wishes
                     NameHelper.GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
                 }
             };
+        
+        // Warnings
+        
+        public IList<string> GetWarnings(string fileExtension = null)
+        {
+            var list = new List<string>();
+            
+            if (_samplingRate != 0)
+            {
+                list.Add($"Sampling rate override = {_samplingRate}");
+            }
+            
+            // Running Under Tooling
+            
+            if (GetNCrunchImpersonation)
+            {
+                list.Add("Pretending to be NCrunch.");
+            }
+            
+            if (IsUnderNCrunch)
+            {
+                list.Add($"Environment variable {NCrunchEnvironmentVariableName} = {NCrunchEnvironmentVariableValue}");
+            }
+            
+            if (GetAzurePipelinesImpersonation)
+            {
+                list.Add("Pretending to be Azure Pipelines.");
+            }
+            
+            if (IsUnderAzurePipelines)
+            {
+                list.Add($"Environment variable {AzurePipelinesEnvironmentVariableName} = {AzurePipelinesEnvironmentVariableValue} (Azure Pipelines)");
+            }
+            
+            // Long Running
+            
+            bool isLong = CurrentTestIsInCategory(GetLongTestCategory);
+            if (isLong)
+            {
+                list.Add($"Test has category '{GetLongTestCategory}'");
+            }
+            
+            // Audio Disabled
+            
+            if (!GetPlayBack(fileExtension))
+            {
+                list.Add("Audio disabled");
+            }
+            
+            return list;
+        }
+
         
         internal const string WarningSettingMayNotWork
             = "Setting might not work in all contexts " +

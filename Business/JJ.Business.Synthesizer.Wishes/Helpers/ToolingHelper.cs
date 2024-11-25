@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using static System.Environment;
-using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkCommonWishes;
 // ReSharper disable RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
@@ -40,52 +38,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             bool isInCategory = categoryQuery.Any(x => string.Equals(x, category, StringComparison.OrdinalIgnoreCase));
 
             return isInCategory;
-        }
-
-        // Warnings
-        
-        public IList<string> GetToolingWarnings(string fileExtension = null)
-        {
-            var list = new List<string>();
-            
-            // Running Under Tooling
-            
-            if (_configResolver.GetNCrunchImpersonation)
-            {
-                list.Add("Pretending to be NCrunch.");
-            }
-            
-            if (_configResolver.IsUnderNCrunch)
-            {
-                list.Add($"Environment variable {NCrunchEnvironmentVariableName} = {NCrunchEnvironmentVariableValue}");
-            }
-            
-            if (_configResolver.GetAzurePipelinesImpersonation)
-            {
-                list.Add("Pretending to be Azure Pipelines.");
-            }
-            
-            if (_configResolver.IsUnderAzurePipelines)
-            {
-                list.Add($"Environment variable {AzurePipelinesEnvironmentVariableName} = {AzurePipelinesEnvironmentVariableValue} (Azure Pipelines)");
-            }
-
-            // Long Running
-            
-            bool isLong = CurrentTestIsInCategory(_configResolver.GetLongTestCategory);
-            if (isLong)
-            {
-                list.Add($"Test has category '{_configResolver.GetLongTestCategory}'");
-            }
-            
-            // Audio Disabled
-            
-            if (!_configResolver.GetPlayBack(fileExtension))
-            {
-                list.Add("Audio disabled");
-            }
-            
-            return list;
         }
     }
 }
