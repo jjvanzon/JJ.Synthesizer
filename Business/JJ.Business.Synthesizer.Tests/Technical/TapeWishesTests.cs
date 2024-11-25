@@ -1,8 +1,15 @@
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Common;
+using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
+using System.Linq;
+using System;
+using JJ.Business.Synthesizer.Extensions;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -15,6 +22,222 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithShortDuration();
         }
         
+        [TestMethod]
+        public void ParallelAdd_NormalAdd_ForComparison_Test() => new TapeWishesTests().ParallelAdd_NormalAdd_ForComparison();
+
+        private void ParallelAdd_NormalAdd_ForComparison()
+        {
+            WithParallelTaping();
+
+            var duration = 0.1;
+
+            var add = Add
+            (
+                Curve(0.1, 0.1).SetName("Const Curve 0.1"),
+                Curve(0.2, 0.2).SetName("Const Curve 0.2"),
+                Curve(0.3, 0.3).SetName("Const Curve 0.3")
+            );
+
+            double addedValue = add.Calculate(duration / 2);
+
+            AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
+
+            WithMono().WithAudioLength(duration).Save(() => add);
+        }
+
+        [TestMethod]
+        public void ParallelAdd_WithConstSignal_Test() => new TapeWishesTests().ParallelAdd_WithConstSignal();
+
+        private void ParallelAdd_WithConstSignal()
+        {
+            var accessor = new SynthWishesAccessor(this);
+
+            WithParallelTaping();
+
+            // Arrange
+            var duration  = 0.1;
+            var tolerance = 0.001;
+
+            // Create Entities
+            var adder = WithAudioLength(duration).Add
+            (
+                // Values higher than 1 seem to be clipped.
+                WithName("Const Curve 0.1").Curve(0.1, 0.1).Tape(),
+                WithName("Const Curve 0.2").Curve(0.2, 0.2).Tape(),
+                WithName("Const Curve 0.3").Curve(0.3, 0.3).Tape()
+            ).SetName();
+
+            // Assert Entities
+            IsNotNull(() => adder);
+            IsNotNull(() => adder.UnderlyingOutlet);
+            IsNotNull(() => adder.UnderlyingOutlet.Operator);
+            IsTrue(() => adder.UnderlyingOutlet.IsAdder());
+            IsTrue(() => adder.UnderlyingOutlet.Operator.IsAdder());
+            AreEqual("Adder", () => adder.UnderlyingOutlet.Operator.OperatorTypeName);
+            
+            accessor.RunAllTapes(new[] { adder });
+
+            IsNotNull(() => adder.UnderlyingOutlet.Operator.Inlets);
+            var addOperands = adder.UnderlyingOutlet.Operator.Inlets.Select(x => x.Input).ToList();
+            AreEqual(3, () => addOperands.Count);
+
+            foreach (var addOperand in addOperands)
+            {
+                IsNotNull(() => addOperand);
+                IsNotNull(() => addOperand.Operator);
+                IsNotNull(() => addOperands[0].Operator.AsSampleOperator);
+                IsNotNull(() => addOperands[0].Operator.AsSampleOperator.Sample);
+                IsNotNull(() => addOperands[0].Operator.AsSampleOperator.Sample.Bytes);
+                IsTrue(() => addOperand.IsSample());
+                IsTrue(() => addOperand.Operator.IsSample());
+                AreEqual("SampleOperator", () => addOperand.Operator.OperatorTypeName);
+            }
+
+            NotEqual(addOperands[0], () => addOperands[1]);
+            NotEqual(addOperands[1], () => addOperands[2]);
+
+            // Check Bytes Array, Read as Int16 Values
+            foreach (var addOperand in addOperands)
+            {
+                Sample sample = addOperand.Operator.AsSampleOperator.Sample;
+
+                AreEqual(Wav,                        () => sample.GetAudioFileFormatEnum());
+                AreEqual(SampleDataTypeEnum.Float32, () => sample.GetSampleDataTypeEnum());
+                AreEqual(SpeakerSetupEnum.Mono,      () => sample.GetSpeakerSetupEnum());
+                AreEqual(44,                         () => sample.GetHeaderLength());
+
+                using (var stream = new MemoryStream(sample.Bytes))
+                {
+                    stream.Position = 44; // Skip header
+
+                    using (var reader = new BinaryReader(stream))
+                    {
+                        float firstValue = reader.ReadSingle();
+
+                        while (stream.Position < stream.Length)
+                        {
+                            float nextValue = reader.ReadSingle();
+                            AreEqual(firstValue, () => nextValue);
+                        }
+                    }
+                }
+            }
+
+            // Calculate Values
+            double adderResult = adder.Calculate(duration / 2);
+
+            double operandValue1 = addOperands[0].Calculate(duration / 2);
+            double operandValue2 = addOperands[1].Calculate(duration / 2);
+            double operandValue3 = addOperands[2].Calculate(duration / 2);
+
+            var operandValuesSorted = new[] { operandValue1, operandValue2, operandValue3 }.OrderBy(x => x).ToArray();
+
+            Console.WriteLine($"{new { operandValue1, operandValue2, operandValue3 }}");
+
+            // Assert Values
+            Assert.AreEqual(0.1 + 0.2 + 0.3, operandValue1 + operandValue2 + operandValue3, tolerance);
+            Assert.AreEqual(0.1,             operandValuesSorted[0],                        tolerance);
+            Assert.AreEqual(0.2,             operandValuesSorted[1],                        tolerance);
+            Assert.AreEqual(0.3,             operandValuesSorted[2],                        tolerance);
+            Assert.AreEqual(0.1 + 0.2 + 0.3, adderResult,                                   tolerance);
+        }
+
+        [TestMethod]
+        public void ParallelAdd_WithConstSignal_WithPreviewPartials_Test() => new TapeWishesTests().ParallelAdd_WithConstSignal_WithPreviewPartials();
+
+        private void ParallelAdd_WithConstSignal_WithPreviewPartials()
+        {
+            var accessor = new SynthWishesAccessor(this);
+
+            // Arrange
+            WithParallelTaping();
+            WithPlayAllTapes();
+
+            var duration = 0.1;
+
+            // Act
+            var adder = WithAudioLength(duration).Add
+            (
+                // Values higher than 1 seem to be clipped.
+                WithName("Const Curve 0.1").Curve(0.1, 0.1).Tape(),
+                WithName("Const Curve 0.2").Curve(0.2, 0.2).Tape(),
+                WithName("Const Curve 0.3").Curve(0.3, 0.3).Tape()
+            ).SetName();
+
+            // Assert
+            IsNotNull(() => adder);
+            IsNotNull(() => adder.UnderlyingOutlet);
+            IsNotNull(() => adder.UnderlyingOutlet.Operator);
+            IsTrue(() => adder.UnderlyingOutlet.IsAdder());
+            IsTrue(() => adder.UnderlyingOutlet.Operator.IsAdder());
+            AreEqual("Adder", () => adder.UnderlyingOutlet.Operator.OperatorTypeName);
+
+            accessor.RunAllTapes(new[] { adder });
+
+            IsNotNull(() => adder.UnderlyingOutlet.Operator.Inlets);
+            var addOperands = adder.UnderlyingOutlet.Operator.Inlets.Select(x => x.Input).ToList();
+            AreEqual(3, () => addOperands.Count);
+
+            foreach (var addOperand in addOperands)
+            {
+                IsNotNull(() => addOperand);
+                IsNotNull(() => addOperand.Operator);
+                IsNotNull(() => addOperands[0].Operator.AsSampleOperator);
+                IsNotNull(() => addOperands[0].Operator.AsSampleOperator.Sample);
+                IsNotNull(() => addOperands[0].Operator.AsSampleOperator.Sample.Bytes);
+                IsTrue(() => addOperand.IsSample());
+                IsTrue(() => addOperand.Operator.IsSample());
+                AreEqual("SampleOperator", () => addOperand.Operator.OperatorTypeName);
+            }
+
+            NotEqual(addOperands[0], () => addOperands[1]);
+            NotEqual(addOperands[1], () => addOperands[2]);
+
+            // Don't assert values. A setting can insert a delay, messing with the test values.
+        }
+
+        [TestMethod]
+        public void ParallelAdd_WithSinePartials_Test() => new TapeWishesTests().ParallelAdd_WithSinePartials();
+
+        private void ParallelAdd_WithSinePartials()
+        {
+            WithParallelTaping();
+
+            var freq = A4;
+
+            var added = RecorderEnvelope * Add
+            (
+                Sine(freq * 1).Volume(1.0).Tape(),
+                Sine(freq * 2).Volume(0.2).Tape(),
+                Sine(freq * 3).Volume(0.7).Tape()
+            ).SetName();
+
+            WithMono().Play(() => added);
+        }
+
+        [TestMethod]
+        public void Tape_SinePartials_WithPlayAllTapes_Test() => new TapeWishesTests().Tape_SinePartials_WithPlayAllTapes();
+
+        private void Tape_SinePartials_WithPlayAllTapes()
+        {
+            var freq = A4;
+            
+            WithShortDuration();
+            WithParallelTaping();
+            WithPlayAllTapes();
+            WithName();
+
+            var added = RecorderEnvelope * Add
+            (
+                Sine(freq * 1).Volume(1.0).Curve(Envelope).Tape(),
+                Sine(freq * 2).Volume(0.2).Curve(Envelope).Tape(),
+                Sine(freq * 3).Volume(0.7).Curve(Envelope).Tape()
+            ).SetName();
+
+            WithMono().Play(() => added);
+        }
+
+
         [TestMethod]
         public void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot_Test()
             => new TapeWishesTests().SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot();
@@ -120,6 +343,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                        Sample(bufs[1]).Panning(1)).Play();
         }
 
+        
         // Helpers
         
         void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
