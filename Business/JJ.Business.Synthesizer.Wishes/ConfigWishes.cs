@@ -7,9 +7,9 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.ConfigResolver;
-using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkCommonWishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkConfigurationWishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJFrameworkTestingWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Configuration_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Testing_Wishes;
 // ReSharper disable RedundantNameQualifier
 
 namespace JJ.Business.Synthesizer.Wishes

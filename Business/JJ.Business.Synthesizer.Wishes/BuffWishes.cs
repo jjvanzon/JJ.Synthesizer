@@ -10,11 +10,11 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
-using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkStringWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_String_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using JJ.Business.Synthesizer.Extensions;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
-using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkIOWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 // ReSharper disable ParameterHidesMember

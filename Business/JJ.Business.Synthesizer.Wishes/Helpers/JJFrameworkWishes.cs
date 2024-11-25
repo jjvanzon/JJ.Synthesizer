@@ -13,7 +13,7 @@ using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    internal static class FrameworkStringWishes
+    internal static class JJ_Framework_String_Wishes
     { 
         public static int CountLines(this string str)
         {
@@ -105,13 +105,13 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public static string PrettyTime(DateTime dateTime) => $"{dateTime:HH:mm:ss.fff}";
     }
     
-    internal static class FrameworkCommonWishes
+    internal static class JJ_Framework_Common_Wishes
     {
         public static bool EnvironmentVariableIsDefined(string environmentVariableName, string environmentVariableValue)
             => string.Equals(GetEnvironmentVariable(environmentVariableName), environmentVariableValue, StringComparison.OrdinalIgnoreCase);
     }
     
-    internal static class FrameworkCollectionWishes
+    internal static class JJ_Framework_Collection_Wishes
     { 
         public static TimeSpan Sum(this IEnumerable<TimeSpan> timeSpans)
         {
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     }
 
     /// <inheritdoc cref="_trygetsection"/>
-    internal static class FrameworkConfigurationWishes
+    internal static class JJ_Framework_Configuration_Wishes
     { 
         /// <inheritdoc cref="_trygetsection"/>
         public static T TryGetSection<T>()
@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
     }
 
-    internal static class FrameworkIOWishes
+    internal static class JJ_Framework_IO_Wishes
     {
         /// <summary>
         /// If the originalFilePath already exists,
@@ -292,7 +292,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
     }
     
-    internal static class JJFrameworkTestingWishes
+    internal static class JJ_Framework_Testing_Wishes
     {
         // ReSharper disable AssignNullToNotNullAttribute
         public static bool CurrentTestIsInCategory(string category)

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_String_Wishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
@@ -92,7 +93,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             // Save to files
             Parallel.For(0, termCount, i =>
             {
-                Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} Start Task: {displayNames[i]}", "SynthWishes");
+                Console.WriteLine($"{PrettyTime()} Start Task: {displayNames[i]}", "SynthWishes");
                 
                 // Get outlets first
                 var channels = new FlowNode[channelCount];
@@ -114,7 +115,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 // Generate audio
                 cacheBuffs[i] = synthWishes.Cache(channels, synthWishes.GetAudioLength, names[i]);
                 
-                Console.WriteLine($"{FrameworkStringWishes.PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
+                Console.WriteLine($"{PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
             });
             
             // Moved this out of the parallel loop,
@@ -151,7 +152,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
             int complexity = cacheBuffs.Sum(x => x.Complexity());
             string formattedMetrics = SynthWishes.FormatMetrics(audioDuration, calculationDuration, complexity);
-            string message = $"{FrameworkStringWishes.PrettyTime()} Totals {name} Terms: {formattedMetrics}";
+            string message = $"{PrettyTime()} Totals {name} Terms: {formattedMetrics}";
             Console.WriteLine(message);
             
             return synthWishes.Add(reloadedSamples);
