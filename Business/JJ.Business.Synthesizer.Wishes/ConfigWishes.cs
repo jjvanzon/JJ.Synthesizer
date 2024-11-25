@@ -28,6 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Audio Lengths
         
+        [XmlAttribute] public double? NoteLength { get; set; }
         [XmlAttribute] public double? AudioLength { get; set; }
         [XmlAttribute] public double? LeadingSilence { get; set; }
         [XmlAttribute] public double? TrailingSilence { get; set; }
@@ -74,6 +75,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Audio Lengths
         
+        private const double DefaultNoteLength      = 0.4;
         private const double DefaultAudioLength     = 1;
         private const double DefaultLeadingSilence  = 0.25;
         private const double DefaultTrailingSilence = 0.25;
@@ -202,7 +204,30 @@ namespace JJ.Business.Synthesizer.Wishes
         public void WithLinear() => WithInterpolation(Line);
         public void WithBlocky() => WithInterpolation(Block);
 
-        // Audio Lengths
+        // Durations
+        
+        // NoteLength
+        
+        private FlowNode _noteLength;
+        
+        public FlowNode GetNoteLength(SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            
+            if (_noteLength != null && _noteLength.Value != 0)
+            {
+                return _noteLength;
+            }
+            
+            // TODO: Use BeatLength after making it a FlowNode.
+            
+            return synthWishes._[_section.NoteLength ?? DefaultNoteLength];
+        }
+        
+        public void WithNoteLength(FlowNode noteLength = default)
+        {
+            _noteLength = noteLength;
+        }
         
         // Audio Length
         
