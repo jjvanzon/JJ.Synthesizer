@@ -573,21 +573,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void ParallelAdd_SinePartials_PreviewParallels_Test() => new OperatorWishes_TechnicalTests().ParallelAdd_SinePartials_PreviewParallels();
+        public void Tape_SinePartials_WithPlayAllTapes_Test() => new OperatorWishes_TechnicalTests().Tape_SinePartials_WithPlayAllTapes();
 
-        private void ParallelAdd_SinePartials_PreviewParallels()
+        private void Tape_SinePartials_WithPlayAllTapes()
         {
             var freq = A4;
-
+            
+            WithShortDuration();
             WithParallelTaping();
             WithPlayAllTapes();
             WithName();
 
             var added = RecorderEnvelope * Add
             (
-                Sine(freq * 1).Volume(1.0).Tape(),
-                Sine(freq * 2).Volume(0.2).Tape(),
-                Sine(freq * 3).Volume(0.7).Tape()
+                Sine(freq * 1).Volume(1.0).Curve(Envelope).Tape(),
+                Sine(freq * 2).Volume(0.2).Curve(Envelope).Tape(),
+                Sine(freq * 3).Volume(0.7).Curve(Envelope).Tape()
             ).SetName();
 
             WithMono().Play(() => added);
@@ -741,5 +742,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 }
             }
         }
+        
+        // Helpers
+        
+        void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
+        FlowNode BaseEnvelope => Curve((0, 0), (0.2, 0), (0.3, 1), (0.7, 1), (0.8, 0), (1.0, 0));
+        FlowNode Envelope     => BaseEnvelope.Stretch(GetAudioLength) * 0.4;
     }
 }
