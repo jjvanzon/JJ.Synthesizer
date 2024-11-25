@@ -229,7 +229,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation1()
         {
-            Save(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Multiply(RecorderEnvelope)).Play();
+            WithShortDuration();
+            
+            Save(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Multiply(Envelope)).Play();
         }
 
         [TestMethod]
@@ -237,7 +239,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation2()
         {
-            Save(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Volume(RecorderEnvelope)).Play();
+            WithShortDuration();
+            
+            Save(() => Fluent(E4).Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Volume(Envelope)).Play();
         }
 
         [TestMethod]
@@ -245,7 +249,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation3()
         {
-            Save(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Curve(RecorderEnvelope)).Play();
+            WithShortDuration();
+            
+            Save(() => G4.Sine.Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Curve(Envelope)).Play();
         }
 
         [TestMethod]
@@ -253,7 +259,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void FluentNotation4()
         {
-            Save(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9) * RecorderEnvelope).Play();
+            WithShortDuration();
+            
+            Save(() => (B4.Sine * 0.5).Panbrello(speed: 3, depth: 0.9) * Envelope).Play();
         }
 
         [TestMethod]
@@ -289,23 +297,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var freq = E4;
 
             WithCenter();
+            
+            Cache(
+                () =>
+                    Multiply
+                    (
+                        Add
+                        (
+                            _[freq].Multiply(1).Sine.Multiply(0.50).Tremolo(speed: 3.0, depth: 0.9),
+                            _[freq].Multiply(2).Sine.Multiply(0.08).Tremolo(speed: 2.0, depth: 0.4),
+                            _[freq].Multiply(3).Sine.Multiply(0.04).Tremolo(speed: 2.5, depth: 0.2)
+                        ),
+                        Curve(@"
 
-            Multiply
-            (
-                Add
-                (
-                    _[freq].Multiply(1).Sine.Multiply(0.50).Tremolo(speed: 3.0, depth: 0.9),
-                    _[freq].Multiply(2).Sine.Multiply(0.08).Tremolo(speed: 2.0, depth: 0.4),
-                    _[freq].Multiply(3).Sine.Multiply(0.04).Tremolo(speed: 2.5, depth: 0.2)
-                ),
-                Curve(@"
-
-                   *
-                       *
-                            *
+                           *
+                               *
                                     *
-                 *                              *")
-            ).ChannelPlay();
+                                            *
+                         *                              *")
+                    ).ChannelPlay()
+            );
         }
 
         [TestMethod]
@@ -351,7 +362,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             {
                 FlowNode freq = A4;
-                var          sine = freq.Sine;
+                var      sine = freq.Sine;
             }
             {
                 var freq = A4;
@@ -378,7 +389,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void MonoSampleInStereoContext()
         {
-            var sample = Sample(GetViolin16BitMono44100WavStream(), bytesToSkip: 64).Stretch(3).Curve(1, 0.9, 0.8, 0.4, 0.2, 0);
+            var sample = Sample(GetViolin16BitMono44100WavStream(), bytesToSkip: 64).Stretch(3).Curve(1, 0.9, 0.8, 0.2, 0.1, 0);
 
             WithStereo().Play(() => sample);
         }
@@ -521,11 +532,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 }
             }
         }
-        
+
         // Helpers
-        
-        //void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
-        //FlowNode BaseEnvelope => Curve((0, 0), (0.2, 0), (0.3, 1), (0.7, 1), (0.8, 0), (1.0, 0));
-        //FlowNode Envelope     => BaseEnvelope.Stretch(GetAudioLength) * 0.4;
+
+        void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
+        FlowNode BaseEnvelope => Curve((0, 0), (0.2, 0), (0.3, 1), (0.7, 1), (0.8, 0), (1.0, 0));
+        FlowNode Envelope => BaseEnvelope.Stretch(GetAudioLength);
     }
 }
