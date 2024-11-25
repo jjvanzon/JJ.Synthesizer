@@ -235,16 +235,54 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // LeadingSilence
         
-        private double? _leadingSilence;
-        public double GetLeadingSilence => _leadingSilence ?? _section.LeadingSilence ?? DefaultLeadingSilence;
-        public void WithLeadingSilence(double? value) => _leadingSilence = value;
+        private FlowNode _leadingSilence;
         
+        public FlowNode GetLeadingSilence(SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            
+            if (_leadingSilence != null &&
+                _leadingSilence.Calculate(time: 0) != 0)
+            {
+                return _leadingSilence;
+            }
+            
+            return synthWishes._[_section.LeadingSilence ?? DefaultLeadingSilence];
+        }
+
+        public void WithLeadingSilence(FlowNode seconds) => _leadingSilence = seconds;
+        
+        public void WithLeadingSilence(double seconds, SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            WithLeadingSilence(synthWishes._[seconds]);
+        }
+
         // TrailingSilence
         
-        private double? _trailingSilence;
-        public double GetTrailingSilence => _trailingSilence ?? _section.TrailingSilence ?? DefaultTrailingSilence;
-        public void WithTrailingSilence(double? value) => _trailingSilence = value;
+        private FlowNode _trailingSilence;
+        
+        public FlowNode GetTrailingSilence(SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
+            if (_trailingSilence != null &&
+                _trailingSilence.Calculate(time: 0) != 0)
+            {
+                return _trailingSilence;
+            }
+            
+            return synthWishes._[_section.TrailingSilence ?? DefaultTrailingSilence];
+        }
+        
+        public void WithTrailingSilence(FlowNode seconds) => _trailingSilence = seconds;
+        
+        public void WithTrailingSilence(double seconds, SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            WithTrailingSilence(synthWishes._[seconds]);
+        }
+
         // Feature Toggles
         
         // PlayBack
@@ -489,11 +527,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes AddAudioLength(double additionalLength) { _configResolver.AddAudioLength(additionalLength, this); return this; }
         public SynthWishes AddAudioLength(FlowNode additionalLength) { _configResolver.AddAudioLength(additionalLength); return this; }
         
-        public double GetLeadingSilence => _configResolver.GetLeadingSilence;
-        public SynthWishes WithLeadingSilence(double? seconds = default) { _configResolver.WithLeadingSilence(seconds); return this; }
+        public FlowNode GetLeadingSilence => _configResolver.GetLeadingSilence(this);
+        public SynthWishes WithLeadingSilence(double seconds) { _configResolver.WithLeadingSilence(seconds, this); return this; }
+        public SynthWishes WithLeadingSilence(FlowNode seconds = default) { _configResolver.WithLeadingSilence(seconds); return this; }
         
-        public double GetTrailingSilence => _configResolver.GetTrailingSilence;
-        public SynthWishes WithTrailingSilence(double? seconds = default) { _configResolver.WithTrailingSilence(seconds); return this; }
+        public FlowNode GetTrailingSilence => _configResolver.GetTrailingSilence(this);
+        public SynthWishes WithTrailingSilence(double seconds) { _configResolver.WithTrailingSilence(seconds, this); return this; }
+        public SynthWishes WithTrailingSilence(FlowNode seconds = default) { _configResolver.WithTrailingSilence(seconds); return this; }
         
         // Feature Toggles
         
@@ -573,11 +613,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode WithAudioLength(FlowNode newLength) { _synthWishes.WithAudioLength(newLength); return this; }
         public FlowNode AddAudioLength(FlowNode additionalLength) { _synthWishes.AddAudioLength(additionalLength); return this; }
 
-        public double GetLeadingSilence => _synthWishes.GetLeadingSilence;
-        public FlowNode WithLeadingSilence(double? seconds = default) { _synthWishes.WithLeadingSilence(seconds); return this; }
+        public FlowNode GetLeadingSilence => _synthWishes.GetLeadingSilence;
+        public FlowNode WithLeadingSilence(double seconds) { _synthWishes.WithLeadingSilence(seconds); return this; }
+        public FlowNode WithLeadingSilence(FlowNode seconds = default) { _synthWishes.WithLeadingSilence(seconds); return this; }
         
-        public double GetTrailingSilence => _synthWishes.GetTrailingSilence;
-        public FlowNode WithTrailingSilence(double? seconds = default) { _synthWishes.WithTrailingSilence(seconds); return this; }
+        public FlowNode GetTrailingSilence => _synthWishes.GetTrailingSilence;
+        public FlowNode WithTrailingSilence(double seconds) { _synthWishes.WithTrailingSilence(seconds); return this; }
+        public FlowNode WithTrailingSilence(FlowNode seconds = default) { _synthWishes.WithTrailingSilence(seconds); return this; }
         
         // Feature Toggles
         
