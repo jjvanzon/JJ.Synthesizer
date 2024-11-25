@@ -13,6 +13,7 @@ using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutpu
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_String_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
@@ -497,11 +498,17 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._buffbytes"/>
         public byte[] Bytes { get; set; }
         public string FilePath { get; set; }
-        public AudioFileOutput UnderlyingAudioFileOutput { get; }
-        public IList<string> Messages { get; }
+        public AudioFileOutput UnderlyingAudioFileOutput { get; set; }
         
-        /// <summary> HACK: Temporary constructor for PlayWishes to only return messages, not other data. </summary>
-        public Buff(IList<string> messages) => Messages = messages ?? new List<string>();
+        private IList<string> _messages = new List<string>();
+        public IList<string> Messages
+        {
+            get => _messages;
+            set => _messages = value ?? throw new NullException(() => Messages);
+        }
+        
+        public Buff()
+        { }
         
         /// <inheritdoc cref="docs._buffbytes"/>
         public Buff(
@@ -510,11 +517,6 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput underlyingAudioFileOutput,
             IList<string> messages = default)
         {
-            if (underlyingAudioFileOutput == null)
-            {
-                throw new ArgumentNullException(nameof(underlyingAudioFileOutput));
-            }
-
             if (string.IsNullOrWhiteSpace(filePath) && (bytes == null || bytes.Length == 0))
             {
                 throw new ArgumentException("filePath and bytes are both null or empty.");
@@ -523,7 +525,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Bytes = bytes;
             FilePath = filePath;
             UnderlyingAudioFileOutput = underlyingAudioFileOutput;
-            Messages = messages ?? new List<string>();
+            Messages = messages;
         }
     }
 }

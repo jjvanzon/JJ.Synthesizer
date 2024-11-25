@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Media;
-using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
@@ -33,11 +32,9 @@ namespace JJ.Business.Synthesizer.Wishes
                     func, duration,
                     inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
 
-            var playResult = InternalPlay(this, buff);
-            
-            buff.Messages.AddRange(playResult.Messages);
+            Buff buff2 = InternalPlay(this, buff);
 
-            return buff;
+            return buff2;
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
@@ -56,11 +53,9 @@ namespace JJ.Business.Synthesizer.Wishes
                     channel, duration,
                     inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
             
-            var playResult = InternalPlay(this, buff);
-            
-            buff.Messages.AddRange(playResult.Messages);
+            Buff buff2 = InternalPlay(this, buff);
 
-            return buff;
+            return buff2;
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
@@ -79,11 +74,9 @@ namespace JJ.Business.Synthesizer.Wishes
                     channels, duration,
                     inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
             
-            var playResult = InternalPlay(this, buff);
+            Buff buff2 = InternalPlay(this, buff);
 
-            buff.Messages.AddRange(playResult.Messages);
-
-            return buff;
+            return buff2;
         }
         
         // ChannelPlay
@@ -108,25 +101,30 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
             
-            return InternalPlay(
-                synthWishes,
-                buff.FilePath,
-                buff.Bytes,
-                Path.GetExtension(buff.FilePath));
+            Buff buff2 = InternalPlay(synthWishes, buff.FilePath, buff.Bytes);
+            
+            buff2.UnderlyingAudioFileOutput = buff2.UnderlyingAudioFileOutput ?? buff.UnderlyingAudioFileOutput;
+            
+            return buff2;
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static Buff InternalPlay(SynthWishes synthWishes, AudioFileOutput entity)
+        internal static Buff InternalPlay(SynthWishes synthWishes, AudioFileOutput audioFileOutput)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return InternalPlay(synthWishes, entity.FilePath, null, entity.GetFileExtension());
+            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            
+            Buff buff = InternalPlay(synthWishes, audioFileOutput.FilePath, null, audioFileOutput.GetFileExtension());
+            
+            buff.UnderlyingAudioFileOutput = buff.UnderlyingAudioFileOutput ?? audioFileOutput;
+            
+            return buff;
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static Buff InternalPlay(SynthWishes synthWishes, Sample entity)
+        internal static Buff InternalPlay(SynthWishes synthWishes, Sample sample)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return InternalPlay(synthWishes, entity.Location, entity.Bytes, entity.GetFileExtension());
+            if (sample == null) throw new ArgumentNullException(nameof(sample));
+            return InternalPlay(synthWishes, sample.Location, sample.Bytes, sample.GetFileExtension());
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
@@ -137,9 +135,15 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static Buff InternalPlay(SynthWishes synthWishes, string filePath)
             => InternalPlay(synthWishes, filePath, null, Path.GetExtension(filePath));
         
-        internal static Buff InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension)
+        /// <inheritdoc cref="docs._saveorplay" />
+        internal static Buff InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension = null)
         {
             ConfigResolver configResolver = synthWishes?._configResolver ?? new ConfigResolver();
+            
+            if (string.IsNullOrWhiteSpace(fileExtension) && !string.IsNullOrWhiteSpace(filePath))
+            {
+                fileExtension = Path.GetExtension(filePath);
+            }
             
             bool mustPlay = configResolver.GetPlayBack(fileExtension);
             
@@ -171,8 +175,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Write Lines
             lines.ForEach(x => Console.WriteLine(x ?? ""));
             
-            // TODO: Merge together with previous Buff, if available.
-            return new Buff(lines);
+            return new Buff(bytes, filePath, null, lines);
         }
         
         // Statics
