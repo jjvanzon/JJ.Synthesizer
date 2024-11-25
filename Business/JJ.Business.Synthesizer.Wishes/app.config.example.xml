@@ -31,20 +31,21 @@
 		parallelTaping="true"
 		diskCacheOn="false"
 		playAllTapes="false"
-		parallelTaskCheckDelayMs="50"
-		longRunningTestCategory="Long">
+		parallelTaskCheckDelayMs="1"
+		longTestCategory="Long">
 		
-		<nCrunch
+		<nCrunch 
 			samplingRate="150"
 			samplingRateLongRunning="8"
-			playBack="false"
-			impersonation="false" />
+			playBack="false" 
+			impersonation="false"/>
 		
 		<azurePipelines
 			samplingRate="1500"
 			samplingRateLongRunning="100"
 			playBack="false" 
 			impersonation="false"/>
+
 	</jj.business.synthesizer.wishes>
 	
 </configuration>
