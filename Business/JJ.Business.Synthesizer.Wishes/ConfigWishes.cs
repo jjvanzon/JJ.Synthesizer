@@ -87,11 +87,13 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Tooling
         
-        private const string DefaultLongTestCategory               = "Long";
-        private const int    DefaultToolingSamplingRate            = 150;
-        private const int    DefaultToolingSamplingRateLongRunning = 30;
-        private const bool   DefaultToolingPlayBack                = false;
-        private const bool   DefaultToolingImpersonation           = false;
+        private const bool   DefaultToolingPlayBack                       = false;
+        private const bool   DefaultToolingImpersonation                  = false;
+        private const int    DefaultNCrunchSamplingRate                   = 150;
+        private const int    DefaultNCrunchSamplingRateLongRunning        = 8;
+        private const int    DefaultAzurePipelinesSamplingRate            = 1500;
+        private const int    DefaultAzurePipelinesSamplingRateLongRunning = 100;
+        private const string DefaultLongTestCategory                      = "Long";
         
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
@@ -150,11 +152,11 @@ namespace JJ.Business.Synthesizer.Wishes
                     
                     if (testIsLong)
                     {
-                        return _section.NCrunch.SamplingRateLongRunning ?? DefaultToolingSamplingRateLongRunning;
+                        return _section.NCrunch.SamplingRateLongRunning ?? DefaultNCrunchSamplingRateLongRunning;
                     }
                     else
                     {
-                        return _section.NCrunch.SamplingRate ?? DefaultToolingSamplingRate;
+                        return _section.NCrunch.SamplingRate ?? DefaultNCrunchSamplingRate;
                     }
                 }
                 
@@ -164,11 +166,11 @@ namespace JJ.Business.Synthesizer.Wishes
                     
                     if (testIsLong)
                     {
-                        return _section.AzurePipelines.SamplingRateLongRunning ?? DefaultToolingSamplingRateLongRunning;
+                        return _section.AzurePipelines.SamplingRateLongRunning ?? DefaultAzurePipelinesSamplingRateLongRunning;
                     }
                     else
                     {
-                        return _section.AzurePipelines.SamplingRate ?? DefaultToolingSamplingRate;
+                        return _section.AzurePipelines.SamplingRate ?? DefaultAzurePipelinesSamplingRate;
                     }
                 }
                 
@@ -463,7 +465,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetPlayAllTapes => _configResolver.GetPlayAllTapes;
         /// <inheritdoc cref="docs._playalltapes" />
         public SynthWishes WithPlayAllTapes(bool? enabled = true) { _configResolver.WithPlayAllTapes(enabled); return this; }
-        
+
         
         /// <inheritdoc cref="docs._paralleltaskcheckdelayms" />
         public int GetParallelTaskCheckDelayMs => _configResolver.GetParallelTaskCheckDelayMs;
