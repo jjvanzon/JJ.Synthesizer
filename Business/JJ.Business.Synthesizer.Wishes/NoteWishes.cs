@@ -162,6 +162,53 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, param3, param4, param5, param6), t, vol, len);
     }
     
+    // StrikeNote SynthWishes
+
+    public partial class SynthWishes
+    {
+        /// <inheritdoc cref="docs._default" />
+        public FlowNode StrikeNote(FlowNode sound, FlowNode delay = default, FlowNode volume = default, FlowNode duration = default)
+        {
+            // A little optimization, because so slow...
+            bool delayFilledIn = delay != null && delay.AsConst != 0;
+            bool volumeFilledIn = volume != null && volume.AsConst != 1;
+
+            //duration = duration ?? GetAudioLength; // Creates astonishing performance hits.
+            duration = duration ?? _[1];
+
+            if (volumeFilledIn) sound = Multiply(sound, volume);
+            
+            sound = sound.SetName().Tape(duration);
+            
+            if (delayFilledIn) sound = Delay(sound, delay);
+            
+            return sound.SetName();
+        }
+        
+        /// <inheritdoc cref="docs._default" />
+        public FlowNode StrikeNote(FlowNode sound, FlowNode delay, double volume, FlowNode duration)
+            => StrikeNote(sound, delay, _[volume], duration);
+        
+        /// <inheritdoc cref="docs._default" />
+        public FlowNode StrikeNote(FlowNode sound, FlowNode delay, double volume) 
+            => StrikeNote(sound, delay, _[volume]);
+    }
+
+    // StrikeNote FlowNode
+
+    public partial class FlowNode
+    {
+        /// <inheritdoc cref="docs._default" />
+        public FlowNode StrikeNote(FlowNode delay = null, FlowNode volume = default, FlowNode duration = default) 
+            => _synthWishes.StrikeNote(this, delay, volume, duration);
+        /// <inheritdoc cref="docs._default" />
+        public FlowNode StrikeNote(FlowNode sound, FlowNode delay, double volume, FlowNode duration)
+            => _synthWishes.StrikeNote(sound, delay, volume, duration);
+        /// <inheritdoc cref="docs._default" />
+        public FlowNode StrikeNote(FlowNode delay, double volume) 
+            => _synthWishes.StrikeNote(this, delay, volume);
+    }
+
     // Timing
     
     /// <inheritdoc cref="docs._barindexer"/>
