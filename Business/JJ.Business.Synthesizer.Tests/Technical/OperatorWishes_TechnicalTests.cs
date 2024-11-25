@@ -537,6 +537,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
         FlowNode BaseEnvelope => Curve((0, 0), (0.2, 0), (0.3, 1), (0.7, 1), (0.8, 0), (1.0, 0));
-        FlowNode Envelope => BaseEnvelope.Stretch(GetAudioLength);
+        FlowNode Envelope => BaseEnvelope.Stretch(GetAudioLength) * 0.5;
     }
 }
