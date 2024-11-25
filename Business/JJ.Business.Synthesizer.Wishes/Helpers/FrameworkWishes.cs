@@ -102,7 +102,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
         
         public static string PrettyTime() => PrettyTime(DateTime.Now);
-        
         public static string PrettyTime(DateTime dateTime) => $"{dateTime:HH:mm:ss.fff}";
     }
     
