@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -101,6 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
         
         public static string PrettyTime() => PrettyTime(DateTime.Now);
+        
         public static string PrettyTime(DateTime dateTime) => $"{dateTime:HH:mm:ss.fff}";
     }
     
@@ -288,6 +290,28 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             int number = mustNumberFirstFile ? 1 : 2;
             string filePathLastPart = $"{numberSuffix}{fileExtension}";
             return (filePathFirstPart, number, filePathLastPart);
+        }
+    }
+    
+    internal static class JJFrameworkTestingWishes
+    {
+        // ReSharper disable AssignNullToNotNullAttribute
+        public static bool CurrentTestIsInCategory(string category)
+        {
+            var methodQuery = new StackTrace().GetFrames().Select(x => x.GetMethod());
+            
+            var attributeQuery
+                = methodQuery.SelectMany(method => method.GetCustomAttributes()
+                                                         .Union(method.DeclaringType?.GetCustomAttributes()));
+            var categoryQuery
+                = attributeQuery.Where(attr => attr.GetType().Name == "TestCategoryAttribute")
+                                .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr))
+                                .OfType<IEnumerable<string>>()
+                                .SelectMany(x => x);
+            
+            bool isInCategory = categoryQuery.Any(x => string.Equals(x, category, StringComparison.OrdinalIgnoreCase));
+            
+            return isInCategory;
         }
     }
     

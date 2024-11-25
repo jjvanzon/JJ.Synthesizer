@@ -7,26 +7,19 @@ using System.Reflection;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    internal class ToolingHelper
+    internal static class ToolingHelper
     {
         public const string NCrunchEnvironmentVariableName = "NCrunch";
         public const string AzurePipelinesEnvironmentVariableValue = "True";
         public const string AzurePipelinesEnvironmentVariableName = "TF_BUILD";
         public const string NCrunchEnvironmentVariableValue = "1";
-        
-        private readonly ConfigResolver _configResolver;
-        
-        public ToolingHelper(ConfigResolver configResolver)
-        {
-            _configResolver = configResolver ?? throw new ArgumentNullException(nameof(configResolver));
-        }
-        
+
         // ReSharper disable AssignNullToNotNullAttribute
         public static bool CurrentTestIsInCategory(string category)
         {
             var methodQuery = new StackTrace().GetFrames().Select(x => x.GetMethod());
 
-            var attributeQuery 
+            var attributeQuery
                 = methodQuery.SelectMany(method => method.GetCustomAttributes()
                                                          .Union(method.DeclaringType?.GetCustomAttributes()));
             var categoryQuery

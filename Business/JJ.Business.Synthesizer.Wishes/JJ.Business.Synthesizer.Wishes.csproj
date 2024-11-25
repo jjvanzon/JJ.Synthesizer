@@ -63,7 +63,6 @@
     <Compile Include="Helpers\AudioFileOutputCalculatorAccessor.cs" />
     <Compile Include="Helpers\FrameworkWishes.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
-    <Compile Include="Helpers\ToolingHelper.cs" />
     <Compile Include="Obsolete\Obsolete.EnumWishes.cs" />
     <Compile Include="Obsolete\Obsolete.InletWishes.cs" />
     <Compile Include="IsWishes.cs" />

@@ -9,7 +9,7 @@ using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.ConfigResolver;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkCommonWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FrameworkConfigurationWishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.ToolingHelper;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJFrameworkTestingWishes;
 // ReSharper disable RedundantNameQualifier
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -98,6 +98,13 @@ namespace JJ.Business.Synthesizer.Wishes
         private const int    DefaultAzurePipelinesSamplingRateLongRunning = 100;
         private const string DefaultLongTestCategory                      = "Long";
         
+        // Environment Variables
+        
+        private const string NCrunchEnvironmentVariableName = "NCrunch";
+        private const string AzurePipelinesEnvironmentVariableValue = "True";
+        private const string AzurePipelinesEnvironmentVariableName = "TF_BUILD";
+        private const string NCrunchEnvironmentVariableValue = "1";
+
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
         // Audio Quality
