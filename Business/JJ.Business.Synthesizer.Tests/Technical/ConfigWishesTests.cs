@@ -9,6 +9,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestClass]
     public class ConfigWishesTests : MySynthWishes
     {
+        // BarLength
+        
         [TestMethod]
         public void Test_Default_BarLength() => new ConfigWishesTests().Default_BarLength();
         
@@ -72,6 +74,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(0.48, () => GetBarLength.Calculate(0.5));
         }
         
+        // Beat Length
+        
         [TestMethod]
         public void Test_Default_BeatLength() => new ConfigWishesTests().Default_BeatLength();
         
@@ -92,7 +96,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // 1/4 BarLength
             WithBarLength(Curve(2));
             IsNotNull(() => GetBeatLength);
-            IsFalse(() => GetBeatLength.IsConst); // Should calculate dynamically.
+            IsFalse(() => GetBeatLength.IsConst); 
             AreEqual(0.5, () => GetBeatLength.Value); // 1/4 * 2.0 = 0.5.
         }
         
@@ -101,7 +105,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void Explicit_BeatLength()
         {
-            // WithBeatLength (explicitly set)
             WithBeatLength(0.3);
             IsNotNull(() => GetBeatLength);
             IsTrue(() => GetBeatLength.IsConst);
@@ -126,13 +129,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void Dynamic_Explicit_BeatLength()
         {
-            // Dynamic BeatLength explicitly set
             WithBeatLength(Curve(0, 0.3));
             IsNotNull(() => GetBeatLength);
             IsFalse(() => GetBeatLength.IsConst);
             AreEqual(0.15, () => GetBeatLength.Calculate(0.5)); // Midpoint: 0.15
         }
-        
+
+        // Note Length
+
         [TestMethod]
         public void Fluent_NoteLength_Fallbacks_Test() => new ConfigWishesTests().Fluent_NoteLength_Fallbacks();
         
