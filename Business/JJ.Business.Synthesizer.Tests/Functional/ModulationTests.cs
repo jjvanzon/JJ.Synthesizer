@@ -17,9 +17,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FlowNode DeepEchoDelayR => _[0.53];
 
         public ModulationTests()
-            : base(beat: 2.2, bar: 2.2)
         {
             WithStereo();
+            WithBeatLength(_[2.2]);
+            WithBarLength(_[2.2]);
         }
 
         // Tests

@@ -36,29 +36,32 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly SampleManager _sampleManager;
         private readonly ConfigResolver _configResolver;
 
-        public SynthWishes(IContext context)
+        public SynthWishes(IContext context = null)
         {
-            _ = new CaptureIndexer(this);
-            
             Context = context ?? ServiceFactory.CreateContext();
 
             _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
             _sampleManager = ServiceFactory.CreateSampleManager(context);
             _configResolver = new ConfigResolver();
+            
+            _ = new CaptureIndexer(this);
+            bar = new BarIndexer(this);
+            bars = new BarsIndexer(this);
+            beat = new BeatIndexer(this);
+            b = new BeatIndexer(this);
+            beats = new BeatsIndexer(this);
+            l = new BeatsIndexer(this);
+            len = new BeatsIndexer(this);
+            length = new BeatsIndexer(this);
+            t = new TimeIndexer(this);
         }
 
-        public SynthWishes(IContext context, double beat = 1, double bar = 4)
-            : this(context)
-        {
-            InitializeTimeIndexers(beat, bar);
-        }
-        
-        public SynthWishes(double beat = 1, double bar = 4)
-            : this(null, beat, bar)
-        {
-            InitializeTimeIndexers(beat, bar);
-        }
+        //public SynthWishes()
+        //    : this(null)
+        //{
+        //    InitializeTimeIndexers();
+        //}
         
         // Helpers
 

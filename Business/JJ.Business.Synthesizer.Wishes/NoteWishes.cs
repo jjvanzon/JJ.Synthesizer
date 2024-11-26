@@ -47,19 +47,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public BeatsIndexer len { get; private set; }
         /// <inheritdoc cref="docs._beatsindexer"/>
         public BeatsIndexer length { get; private set; }
-        
-        private void InitializeTimeIndexers(double beatDuration, double barDuration)
-        {
-            bar = new BarIndexer(this, barDuration);
-            bars = new BarsIndexer(this, barDuration);
-            beat = new BeatIndexer(this, beatDuration);
-            b = new BeatIndexer(this, beatDuration);
-            beats = new BeatsIndexer(this, beatDuration);
-            l = new BeatsIndexer(this, beatDuration);
-            len = new BeatsIndexer(this, beatDuration);
-            length = new BeatsIndexer(this, beatDuration);
-            t = new TimeIndexer(this, barDuration, beatDuration);
-        }
     }
 
     // Note Arrangements
@@ -213,119 +200,91 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._barindexer"/>
     public class BarIndexer
     {
-        private readonly SynthWishes _parent;
-        private readonly double _barDuration;
+        private readonly SynthWishes _synthWishes;
 
         /// <inheritdoc cref="docs._barindexer"/>
-        internal BarIndexer(SynthWishes parent, double barDuration)
-        {
-            _parent = parent;
-            _barDuration = barDuration;
-        }
-
+        internal BarIndexer(SynthWishes synthWishes) 
+            => _synthWishes = synthWishes;
+        
         /// <inheritdoc cref="docs._barindexer"/>
         public FlowNode this[double count]
-            => _parent._[(count - 1) * _barDuration];
+            => (count - 1) * _synthWishes.GetBarLength;
+        
+        /// <inheritdoc cref="docs._barindexer"/>
+        public FlowNode this[FlowNode count]
+            => (count - 1) * _synthWishes.GetBarLength;
     }
 
     /// <inheritdoc cref="docs._barsindexer"/>
     public class BarsIndexer
     {
-        private readonly SynthWishes _parent;
-        private readonly double _barDuration;
+        private readonly SynthWishes _synthWishes;
 
         /// <inheritdoc cref="docs._barsindexer"/>
-        internal BarsIndexer(SynthWishes parent, double barDuration)
-        {
-            _parent = parent;
-            _barDuration = barDuration;
-        }
-
+        internal BarsIndexer(SynthWishes synthWishes) 
+            => _synthWishes = synthWishes;
+        
         /// <inheritdoc cref="docs._barsindexer"/>
         public FlowNode this[double count]
-            => _parent._[count * _barDuration];
+            => count * _synthWishes.GetBarLength;
+        
+        /// <inheritdoc cref="docs._barsindexer"/>
+        public FlowNode this[FlowNode count]
+            => count * _synthWishes.GetBarLength;
     }
 
     /// <inheritdoc cref="docs._beatindexer"/>
     public class BeatIndexer
     {
-        private readonly SynthWishes x;
-        private readonly double _beatDuration;
+        private readonly SynthWishes _synthWishes;
 
         /// <inheritdoc cref="docs._beatindexer"/>
-        internal BeatIndexer(SynthWishes parent, double beatDuration)
-        {
-            x = parent;
-            _beatDuration = beatDuration;
-        }
-
+        internal BeatIndexer(SynthWishes synthWishes) 
+            => _synthWishes = synthWishes;
+        
         /// <inheritdoc cref="docs._beatindexer"/>
-        public FlowNode this[double count]
-        {
-            get
-            {
-                double value = (count - 1) * _beatDuration;
-                return x._[value];
-            }
-        }
+        public FlowNode this[double count] 
+            => (count - 1) * _synthWishes.GetBeatLength;
+        
+        /// <inheritdoc cref="docs._beatindexer"/>
+        public FlowNode this[FlowNode count]
+            => (count - 1) * _synthWishes.GetBeatLength;
     }
 
     /// <inheritdoc cref="docs._beatsindexer"/>
     public class BeatsIndexer
     {
-        private readonly SynthWishes x;
-        private readonly double _beatLength;
+        private readonly SynthWishes _synthWishes;
 
         /// <inheritdoc cref="docs._beatsindexer"/>
-        internal BeatsIndexer(SynthWishes parent, double beatLength)
-        {
-            x = parent;
-            _beatLength = beatLength;
-        }
-
+        internal BeatsIndexer(SynthWishes synthWishes) 
+            => _synthWishes = synthWishes;
+        
         /// <inheritdoc cref="docs._beatsindexer"/>
         public FlowNode this[double count]
-            => x._[count * _beatLength];
+            => count * _synthWishes.GetBeatLength;
 
         /// <inheritdoc cref="docs._beatsindexer"/>
         public FlowNode this[FlowNode count]
-            => count * _beatLength;
+            => count * _synthWishes.GetBeatLength;
     }
 
     /// <inheritdoc cref="docs._timeindexer"/>
     public class TimeIndexer
     {
-        private readonly SynthWishes x;
-        private readonly double _barLength;
-        private readonly double _beatLength;
+        private readonly SynthWishes _synthWishes;
 
         /// <inheritdoc cref="docs._timeindexer"/>
-        internal TimeIndexer(SynthWishes parent, double barLength, double beatLength)
-        {
-            x = parent;
-            _barLength = barLength;
-            _beatLength = beatLength;
-        }
-
+        internal TimeIndexer(SynthWishes synthWishes) 
+            => _synthWishes = synthWishes;
+        
         /// <inheritdoc cref="docs._timeindexer"/>
-        public FlowNode this[double bar, double beat]
-        {
-            get
-            {
-                var result = (bar - 1) * _barLength + (beat - 1) * _beatLength;
-                return x._[result];
-            }
-        }
-
+        public FlowNode this[double bar, double beat] 
+            => (bar - 1) * _synthWishes.GetBarLength + (beat - 1) * _synthWishes.GetBeatLength;
+        
         /// <inheritdoc cref="docs._timeindexer"/>
-        public FlowNode this[FlowNode bar, FlowNode beat]
-        {
-            get
-            {
-                var result = (bar - 1) * _barLength + (beat - 1) * _beatLength;
-                return result;
-            }
-        }
+        public FlowNode this[FlowNode bar, FlowNode beat] 
+            => (bar - 1) * _synthWishes.GetBarLength + (beat - 1) * _synthWishes.GetBeatLength;
     }
 
     // Notes

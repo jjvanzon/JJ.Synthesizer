@@ -233,6 +233,12 @@ namespace JJ.Business.Synthesizer.Wishes
             _noteLength = noteLength;
         }
         
+        public void WithNoteLength(double noteLength, SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            WithNoteLength(synthWishes._[noteLength]);
+        }
+
         // BarLength
         
         private FlowNode _barLength;
@@ -254,6 +260,12 @@ namespace JJ.Business.Synthesizer.Wishes
             _barLength = barLength;
         }
         
+        public void WithBarLength(double barLength, SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            WithBarLength(synthWishes._[barLength]);
+        }
+
         // BeatLength
         
         private FlowNode _beatLength;
@@ -275,6 +287,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public void WithBeatLength(FlowNode beatLength = default)
         {
             _beatLength = beatLength;
+        }
+        
+        public void WithBeatLength(double beatLength, SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            WithBeatLength(synthWishes._[beatLength]);
         }
 
         // Audio Length
@@ -608,12 +626,15 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public FlowNode GetNoteLength => _configResolver.GetNoteLength(this);
         public SynthWishes WithNoteLength(FlowNode seconds = default) { _configResolver.WithNoteLength(seconds); return this; }
+        public SynthWishes WithNoteLength(double seconds) { _configResolver.WithNoteLength(seconds, this); return this; }
         
         public FlowNode GetBarLength => _configResolver.GetBarLength(this);
         public SynthWishes WithBarLength(FlowNode seconds = default) { _configResolver.WithBarLength(seconds); return this; }
+        public SynthWishes WithBarLength(double seconds) { _configResolver.WithBarLength(seconds, this); return this; }
         
         public FlowNode GetBeatLength => _configResolver.GetBeatLength(this);
         public SynthWishes WithBeatLength(FlowNode seconds = default) { _configResolver.WithBeatLength(seconds); return this; }
+        public SynthWishes WithBeatLength(double seconds) { _configResolver.WithBeatLength(seconds, this); return this; }
 
         public FlowNode GetAudioLength => _configResolver.GetAudioLength(this);
         public SynthWishes WithAudioLength(double newLength) { _configResolver.WithAudioLength(newLength, this); return this; }
@@ -702,13 +723,16 @@ namespace JJ.Business.Synthesizer.Wishes
         // Durations
         
         public FlowNode GetNoteLength => _synthWishes.GetNoteLength;
-        public FlowNode WithNoteLength(FlowNode newLength) { _synthWishes.WithNoteLength(newLength); return this; }
+        public FlowNode WithNoteLength(FlowNode newLength = null) { _synthWishes.WithNoteLength(newLength); return this; }
+        public FlowNode WithNoteLength(double newLength) { _synthWishes.WithNoteLength(newLength); return this; }
         
         public FlowNode GetBarLength => _synthWishes.GetBarLength;
-        public FlowNode WithBarLength(FlowNode newLength) { _synthWishes.WithBarLength(newLength); return this; }
+        public FlowNode WithBarLength(FlowNode newLength = null) { _synthWishes.WithBarLength(newLength); return this; }
+        public FlowNode WithBarLength(double newLength) { _synthWishes.WithBarLength(newLength); return this; }
 
         public FlowNode GetBeatLength => _synthWishes.GetBeatLength;
-        public FlowNode WithBeatLength(FlowNode newLength) { _synthWishes.WithBeatLength(newLength); return this; }
+        public FlowNode WithBeatLength(FlowNode newLength = null) { _synthWishes.WithBeatLength(newLength); return this; }
+        public FlowNode WithBeatLength(double newLength) { _synthWishes.WithBeatLength(newLength); return this; }
 
         public FlowNode GetAudioLength => _synthWishes.GetAudioLength;
         public FlowNode WithAudioLength(FlowNode newLength) { _synthWishes.WithAudioLength(newLength); return this; }

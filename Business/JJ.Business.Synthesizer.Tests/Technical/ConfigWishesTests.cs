@@ -29,15 +29,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // WithNoteLength (0.8)
             {
-                WithNoteLength(_[0.8]);
+                WithNoteLength(0.8);
                 var noteLength = GetNoteLength;
                 AreEqual(0.8, () => noteLength.Value);
                 Play(() => StrikeNote(instrument, time, volume));
             }
 
-            // WithNoteLength(default) => Config file (0.5)
+            // WithNoteLength() => defaults to Config file (0.5)
             {
-                WithNoteLength(default);
+                WithNoteLength();
                 
                 var noteLength = GetNoteLength;
                 AreEqual(0.5, () => noteLength.Value);

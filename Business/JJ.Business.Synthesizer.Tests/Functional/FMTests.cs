@@ -27,9 +27,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             => EchoDuration(count: 7, delay: _[0.50]);
         
         /// <inheritdoc cref="docs._fmtests"/>
-        public FMTests() : base(beat: 0.45, bar: 4 * 0.45) 
+        public FMTests()
         {
             WithMono();
+            WithBeatLength(_[0.45]);
+            WithBarLength(_[4 * 0.45]);
+
             _chordFreqs = CreateChordFreqs();
         }
 

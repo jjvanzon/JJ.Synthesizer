@@ -5,16 +5,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     public class MySynthWishes : SynthWishes
     {
-        public MySynthWishes(IContext context) 
+        public MySynthWishes(IContext context = null)  
             : base(context)
-        { }
-        
-        public MySynthWishes(IContext context, double beat = 1, double bar = 4) 
-            : base(context, beat, bar)
-        { }
-        
-        public MySynthWishes(double beat = 1, double bar = 4)
-            : base(beat, bar)
         { }
         
         public void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);

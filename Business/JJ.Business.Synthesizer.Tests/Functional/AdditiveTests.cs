@@ -25,8 +25,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FlowNode NoteDuration => _[2.5];
         
         /// <inheritdoc cref="docs._metallophone" />
-        public AdditiveTests() : base(beat: 0.4, bar: 1.6) => WithMono();
-
+        public AdditiveTests()
+        {
+            WithMono();
+            WithBeatLength(_[0.4]);
+            WithBarLength(_[1.6]);
+        }
+        
         /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
         public void Additive_Metallophone_Jingle() => new AdditiveTests().Additive_Metallophone_Jingle_RunTest();
