@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
+// ReSharper disable PossibleInvalidOperationException
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -8,10 +9,43 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class ConfigWishesTests : MySynthWishes
     {
         [TestMethod]
-        public void Fluent_NoteLength_Test()
+        public void Fluent_BarLength_Fallbacks_Test() => new ConfigWishesTests().Fluent_BarLength_Fallbacks();
+        
+        void Fluent_BarLength_Fallbacks()
+        {
+            // Default (from config or hard-coded)
+            {
+                IsNotNull(() => GetBarLength);
+                IsTrue(() => GetBarLength.IsConst);
+                IsNotNull(() => GetBarLength.AsConst);
+                AreEqual(1.0, () => GetBarLength.AsConst.Value);
+            }
+            
+            // 4 * BeatLength
+            {
+                WithBeatLength(Curve(0.12));
+                IsNotNull(() => GetBarLength);
+                IsFalse(() => GetBarLength.IsConst);
+                AreEqual(0.48, () => GetBarLength.Value);
+            }
+            
+            // WithBarLength (explicitly set)
+            {
+                WithBarLength(2);
+                IsNotNull(() => GetBarLength);
+                IsTrue(() => GetBarLength.IsConst);
+                IsNotNull(() => GetBarLength.AsConst);
+                AreEqual(2, () => GetBarLength.AsConst.Value);
+            }
+        }
+        
+        [TestMethod]
+        public void Fluent_NoteLength_Fallbacks_Test() => new ConfigWishesTests().Fluent_NoteLength_Fallbacks();
+        
+        void Fluent_NoteLength_Fallbacks()
         {
             // TODO: Can't easily apply an envelope consistently to the note length?
-            // TODO: Note enough overloads in the note arrangement indexer.
+            // TODO: Not enough overloads in the note arrangement indexer.
             //_[time, A4, instrument, volume]
 
             WithAudioLength(2);
