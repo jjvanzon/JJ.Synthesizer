@@ -223,7 +223,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 return _noteLength;
             }
             
-            // TODO: Use BeatLength after making it a FlowNode.
+            if (_beatLength != null && _beatLength.Value != 0)
+            {
+                return _beatLength;
+            }
             
             return synthWishes._[_section.NoteLength ?? DefaultNoteLength];
         }
@@ -252,6 +255,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 return _barLength;
             }
             
+            if (_beatLength != null && _beatLength.Value != 0)
+            {
+                return _beatLength * 4;
+            }
+
             return synthWishes._[_section.BarLength ?? DefaultBarLength];
         }
         
@@ -279,7 +287,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 return _beatLength;
             }
             
-            // TODO: Default to 1/4 of a BarLength?
+            if (_barLength != null && _barLength.Value != 0)
+            {
+                return _barLength * 0.25;
+            }
             
             return synthWishes._[_section.BeatLength ?? DefaultBeatLength];
         }
