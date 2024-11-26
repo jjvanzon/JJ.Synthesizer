@@ -157,8 +157,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             FlowNode instrument(FlowNode freq = null, FlowNode duration = null)
             {
                 freq     = freq ?? A4;
-                duration = duration ?? _[GetNoteLength.Value]; // Weak point? Put fallback in ConfigWishes?
-                
+                // Weak point? Put fallback in ConfigWishes?
+                duration = duration ?? GetNoteLength;
+                duration = _[duration.Value];
                 return Sine(freq) * RecorderCurve.Stretch(duration);
             }
             
