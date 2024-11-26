@@ -275,6 +275,10 @@
   <Import Project="..\..\packages\Microsoft.NET.Test.Sdk.17.11.0\build\net462\Microsoft.NET.Test.Sdk.targets" Condition="Exists('..\..\packages\Microsoft.NET.Test.Sdk.17.11.0\build\net462\Microsoft.NET.Test.Sdk.targets')" />
   <Import Project="..\..\packages\Microsoft.Testing.Platform.MSBuild.1.4.0\build\netstandard2.0\Microsoft.Testing.Platform.MSBuild.targets" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.4.0\build\netstandard2.0\Microsoft.Testing.Platform.MSBuild.targets')" />
   <Import Project="..\..\packages\MSTest.TestAdapter.3.6.0\build\net462\MSTest.TestAdapter.targets" Condition="Exists('..\..\packages\MSTest.TestAdapter.3.6.0\build\net462\MSTest.TestAdapter.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>del /q "$(TargetDir)*.wav"
+del /q "$(TargetDir)*.raw"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
