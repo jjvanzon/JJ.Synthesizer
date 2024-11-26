@@ -40,6 +40,37 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
+        public void Fluent_BeatLength_Fallbacks_Test() => new ConfigWishesTests().Fluent_BeatLength_Fallbacks();
+        
+        void Fluent_BeatLength_Fallbacks()
+        {
+            // Default (from config or hard-coded)
+            {
+                IsNotNull(() => GetBeatLength);
+                IsTrue(() => GetBeatLength.IsConst);
+                IsNotNull(() => GetBeatLength.AsConst);
+                AreEqual(0.25, () => GetBeatLength.AsConst.Value);
+            }
+            
+            // 1/4 BarLength
+            {
+                WithBarLength(Curve(2));
+                IsNotNull(() => GetBeatLength);
+                IsFalse(() => GetBeatLength.IsConst); 
+                AreEqual(0.5, () => GetBeatLength.Value);
+            }
+            
+            // WithBeatLength (explicitly set)
+            {
+                WithBeatLength(0.3);
+                IsNotNull(() => GetBeatLength);
+                IsTrue(() => GetBeatLength.IsConst);
+                IsNotNull(() => GetBeatLength.AsConst);
+                AreEqual(0.3, () => GetBeatLength.AsConst.Value);
+            }
+        }
+        
+        [TestMethod]
         public void Fluent_NoteLength_Fallbacks_Test() => new ConfigWishesTests().Fluent_NoteLength_Fallbacks();
         
         void Fluent_NoteLength_Fallbacks()
