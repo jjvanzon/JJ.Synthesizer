@@ -141,6 +141,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Fluent_NoteLength_Fallbacks_Test() => new ConfigWishesTests().Fluent_NoteLength_Fallbacks();
         
+        private FlowNode Instrument(FlowNode freq, FlowNode duration) => Sine(freq).Curve(RecorderEnvelope.Stretch(duration));
+        
         void Fluent_NoteLength_Fallbacks()
         {
             // TODO: Can't easily apply an envelope consistently to the note length?
@@ -171,9 +173,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // WithNoteLength() => defaults to Config file (0.5)
             {
                 WithNoteLength();
-                
                 var noteLength = GetNoteLength;
                 AreEqual(0.5, () => noteLength.Value);
+                Play(() => StrikeNote(instrument, time, volume));
+            }
+            
+            // Fallback to BeatLength (0.25)
+            {
+                WithBeatLength(0.25);
+                WithNoteLength(); // Ensure no explicit NoteLength is set.
+                var noteLength = GetNoteLength;
+                AreEqual(0.25, () => noteLength.Value); // Should fall back to BeatLength.
                 Play(() => StrikeNote(instrument, time, volume));
             }
             
