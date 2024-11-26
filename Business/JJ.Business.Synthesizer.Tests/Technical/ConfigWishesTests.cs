@@ -73,34 +73,64 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Fluent_BeatLength_Fallbacks_Test() => new ConfigWishesTests().Fluent_BeatLength_Fallbacks();
+        public void Test_Default_BeatLength() => new ConfigWishesTests().Default_BeatLength();
         
-        void Fluent_BeatLength_Fallbacks()
+        void Default_BeatLength()
         {
             // Default (from config or hard-coded)
-            {
-                IsNotNull(() => GetBeatLength);
-                IsTrue(() => GetBeatLength.IsConst);
-                IsNotNull(() => GetBeatLength.AsConst);
-                AreEqual(0.25, () => GetBeatLength.AsConst.Value);
-            }
-            
+            IsNotNull(() => GetBeatLength);
+            IsTrue(() => GetBeatLength.IsConst);
+            IsNotNull(() => GetBeatLength.AsConst);
+            AreEqual(0.25, () => GetBeatLength.AsConst.Value);
+        }
+        
+        [TestMethod]
+        public void Test_BeatLength_From_BarLength() => new ConfigWishesTests().BeatLength_From_BarLength();
+        
+        void BeatLength_From_BarLength()
+        {
             // 1/4 BarLength
-            {
-                WithBarLength(Curve(2));
-                IsNotNull(() => GetBeatLength);
-                IsFalse(() => GetBeatLength.IsConst); 
-                AreEqual(0.5, () => GetBeatLength.Value);
-            }
-            
+            WithBarLength(Curve(2));
+            IsNotNull(() => GetBeatLength);
+            IsFalse(() => GetBeatLength.IsConst); // Should calculate dynamically.
+            AreEqual(0.5, () => GetBeatLength.Value); // 1/4 * 2.0 = 0.5.
+        }
+        
+        [TestMethod]
+        public void Test_Explicit_BeatLength() => new ConfigWishesTests().Explicit_BeatLength();
+        
+        void Explicit_BeatLength()
+        {
             // WithBeatLength (explicitly set)
-            {
-                WithBeatLength(0.3);
-                IsNotNull(() => GetBeatLength);
-                IsTrue(() => GetBeatLength.IsConst);
-                IsNotNull(() => GetBeatLength.AsConst);
-                AreEqual(0.3, () => GetBeatLength.AsConst.Value);
-            }
+            WithBeatLength(0.3);
+            IsNotNull(() => GetBeatLength);
+            IsTrue(() => GetBeatLength.IsConst);
+            IsNotNull(() => GetBeatLength.AsConst);
+            AreEqual(0.3, () => GetBeatLength.AsConst.Value);
+        }
+        
+        [TestMethod]
+        public void Test_Dynamic_BeatLength_From_BarLength() => new ConfigWishesTests().Dynamic_BeatLength_From_BarLength();
+        
+        void Dynamic_BeatLength_From_BarLength()
+        {
+            // Dynamic 1/4 BarLength
+            WithBarLength(Curve(0, 4));
+            IsNotNull(() => GetBeatLength);
+            IsFalse(() => GetBeatLength.IsConst);
+            AreEqual(0.5, () => GetBeatLength.Calculate(0.5)); // 1/4 * midpoint of 2.0
+        }
+        
+        [TestMethod]
+        public void Test_Dynamic_Explicit_BeatLength() => new ConfigWishesTests().Dynamic_Explicit_BeatLength();
+        
+        void Dynamic_Explicit_BeatLength()
+        {
+            // Dynamic BeatLength explicitly set
+            WithBeatLength(Curve(0, 0.3));
+            IsNotNull(() => GetBeatLength);
+            IsFalse(() => GetBeatLength.IsConst);
+            AreEqual(0.15, () => GetBeatLength.Calculate(0.5)); // Midpoint: 0.15
         }
         
         [TestMethod]
