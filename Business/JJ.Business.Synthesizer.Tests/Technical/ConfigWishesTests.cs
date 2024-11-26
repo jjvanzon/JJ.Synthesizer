@@ -142,8 +142,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Fluent_NoteLength_Fallbacks_Test() => new ConfigWishesTests().Fluent_NoteLength_Fallbacks();
         
-        private FlowNode Instrument(FlowNode freq, FlowNode duration) => Sine(freq).Curve(RecorderEnvelope.Stretch(duration));
-        
         void Fluent_NoteLength_Fallbacks()
         {
             // TODO: Can't easily apply an envelope consistently to the note length?

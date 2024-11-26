@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class TapeWishesTests : MySynthWishes
     {
-        FlowNode Envelope => DelayedPulseEnvelope.Stretch(GetAudioLength) * 0.4;
+        FlowNode Envelope => DelayedPulseCurve.Stretch(GetAudioLength) * 0.4;
 
         public TapeWishesTests()
         {

@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = bars[3];
             WithAudioLength(duration + MildEchoDuration).Save(
-                () => MildEcho(Organ(duration: duration) * RecorderEnvelope.Stretch(duration) * 0.5)).Play();
+                () => MildEcho(Organ(duration: duration) * RecorderCurve.Stretch(duration) * 0.5)).Play();
         }
         
         [TestMethod]
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = bars[3];
             WithAudioLength(duration + MildEchoDuration).Save(
-                () => MildEcho(Pad(duration: duration) * RecorderEnvelope.Stretch(duration) * 0.5)).Play();
+                () => MildEcho(Pad(duration: duration) * RecorderCurve.Stretch(duration) * 0.5)).Play();
         }
 
         [TestMethod]

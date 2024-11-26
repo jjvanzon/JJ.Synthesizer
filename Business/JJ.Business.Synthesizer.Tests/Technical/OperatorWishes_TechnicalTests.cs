@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class OperatorWishes_TechnicalTests : MySynthWishes
     {
-        FlowNode Envelope => DelayedPulseEnvelope.Stretch(GetAudioLength) * 0.5;
+        FlowNode Envelope => DelayedPulseCurve.Stretch(GetAudioLength) * 0.5;
 
         [TestMethod]
         public void NestedSumFlatteningTest() => new OperatorWishes_TechnicalTests().NestedSumFlattening();

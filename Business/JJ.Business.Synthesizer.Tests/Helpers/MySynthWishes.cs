@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         { }
         
         public void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
-        public FlowNode RecorderEnvelope     => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
-        public FlowNode DelayedPulseEnvelope => Curve((0, 0), (0.2, 0),  (0.3, 1),  (0.7, 1), (0.8, 0), (1.0, 0));
+        public FlowNode RecorderCurve     => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
+        public FlowNode DelayedPulseCurve => Curve((0, 0), (0.2, 0),  (0.3, 1),  (0.7, 1), (0.8, 0), (1.0, 0));
     }
 }
