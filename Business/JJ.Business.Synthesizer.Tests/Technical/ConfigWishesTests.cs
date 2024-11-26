@@ -10,52 +10,66 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class ConfigWishesTests : MySynthWishes
     {
         [TestMethod]
-        public void Fluent_BarLength_Fallbacks_Test() => new ConfigWishesTests().Fluent_BarLength_Fallbacks();
+        public void Test_Default_BarLength() => new ConfigWishesTests().Default_BarLength();
         
-        void Fluent_BarLength_Fallbacks()
+        void Default_BarLength()
         {
             // Default (from config or hard-coded)
-            {
-                IsNotNull(() => GetBarLength);
-                IsTrue(() => GetBarLength.IsConst);
-                IsNotNull(() => GetBarLength.AsConst);
-                AreEqual(1.0, () => GetBarLength.AsConst.Value);
-            }
-            
+            IsNotNull(() => GetBarLength);
+            IsTrue(() => GetBarLength.IsConst);
+            IsNotNull(() => GetBarLength.AsConst);
+            AreEqual(1.0, () => GetBarLength.AsConst.Value);
+        }
+        
+        [TestMethod]
+        public void Test_Explicit_BarLength() => new ConfigWishesTests().Explicit_BarLength();
+        
+        void Explicit_BarLength()
+        {
             // WithBarLength (explicitly set)
-            {
-                WithBarLength(2);
-                IsNotNull(() => GetBarLength);
-                IsTrue(() => GetBarLength.IsConst);
-                IsNotNull(() => GetBarLength.AsConst);
-                AreEqual(2, () => GetBarLength.AsConst.Value);
-            }
-            
+            WithBarLength(2);
+            IsNotNull(() => GetBarLength);
+            IsTrue(() => GetBarLength.IsConst);
+            IsNotNull(() => GetBarLength.AsConst);
+            AreEqual(2, () => GetBarLength.AsConst.Value);
+        }
+        
+        [TestMethod]
+        public void Test_BarLength_From_BeatLength() => new ConfigWishesTests().BarLength_From_BeatLength();
+        
+        void BarLength_From_BeatLength()
+        {
             // 4 * BeatLength
-            {
-                WithBarLength();
-                WithBeatLength(0.12);
-                IsNotNull(() => GetBarLength);
-                IsTrue(() => GetBarLength.IsConst);
-                AreEqual(0.48, () => GetBarLength.Value);
-            }
-            
+            WithBarLength();
+            WithBeatLength(0.12);
+            IsNotNull(() => GetBarLength);
+            IsTrue(() => GetBarLength.IsConst);
+            AreEqual(0.48, () => GetBarLength.Value);
+        }
+        
+        [TestMethod]
+        public void Test_Dynamic_BarLength() => new ConfigWishesTests().Dynamic_BarLength();
+        
+        void Dynamic_BarLength()
+        {
             // WithBarLength (dynamic)
-            {
-                WithBarLength(Curve(0, 4));
-                IsNotNull(() => GetBarLength);
-                IsFalse(() => GetBarLength.IsConst);
-                AreEqual(2, () => GetBarLength.Calculate(0.5));
-            }
-            
+            WithBarLength(Curve(0, 4));
+            IsNotNull(() => GetBarLength);
+            IsFalse(() => GetBarLength.IsConst);
+            AreEqual(2, () => GetBarLength.Calculate(0.5));
+        }
+        
+        [TestMethod]
+        public void Test_Dynamic_BarLength_From_BeatLength() => new ConfigWishesTests().Dynamic_BarLength_From_BeatLength();
+        
+        void Dynamic_BarLength_From_BeatLength()
+        {
             // 4 * BeatLength (dynamic)
-            {
-                WithBarLength();
-                WithBeatLength(Curve(0, 0.24));
-                IsNotNull(() => GetBarLength);
-                IsFalse(() => GetBarLength.IsConst);
-                AreEqual(0.48, () => GetBarLength.Calculate(0.5));
-            }
+            WithBarLength();
+            WithBeatLength(Curve(0, 0.24));
+            IsNotNull(() => GetBarLength);
+            IsFalse(() => GetBarLength.IsConst);
+            AreEqual(0.48, () => GetBarLength.Calculate(0.5));
         }
         
         [TestMethod]
