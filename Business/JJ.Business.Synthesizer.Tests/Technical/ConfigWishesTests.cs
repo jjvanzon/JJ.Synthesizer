@@ -156,54 +156,50 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var    time       = _[0];
             var    volume     = 0.8;
             var    instrument = A4.Sine();
-            double delta    = 0.0000000000000001;
+            double delta      = 0.0000000000000001;
             
             // Config file (0.5)
             {
-                var noteLength = GetNoteLength;
-                AreEqual(0.5, () => noteLength.Value);
+                AreEqual(0.5, () => GetNoteLength.Value);
                 Play(() => StrikeNote(instrument, time, volume));
             }
             
             // WithNoteLength (0.8)
             {
                 WithNoteLength(0.8);
-                var noteLength = GetNoteLength;
-                AreEqual(0.8, () => noteLength.Value);
+                AreEqual(0.8, () => GetNoteLength.Value);
                 Play(() => StrikeNote(instrument, time, volume));
             }
             
             // Dynamic NoteLength explicitly set
             {
                 WithNoteLength(Curve(0.3, 0.6));
-                var noteLength = GetNoteLength;
-                AreEqual(0.45, noteLength.Calculate(0.5), delta); // Midpoint of 0.3 and 0.6 is 0.45.
+                // Midpoint of 0.3 and 0.6 is 0.45.
+                AreEqual(0.45, GetNoteLength.Calculate(0.5), delta); 
                 Play(() => StrikeNote(instrument, time, volume));
             }
             
             // WithNoteLength() => defaults to Config file (0.5)
             {
                 WithNoteLength();
-                var noteLength = GetNoteLength;
-                AreEqual(0.5, () => noteLength.Value);
+                AreEqual(0.5, () => GetNoteLength.Value);
                 Play(() => StrikeNote(instrument, time, volume));
             }
             
             // Fallback to BeatLength (0.25)
             {
+                WithNoteLength();
                 WithBeatLength(0.25);
-                WithNoteLength(); // Ensure no explicit NoteLength is set.
-                var noteLength = GetNoteLength;
-                AreEqual(0.25, () => noteLength.Value); // Should fall back to BeatLength.
+                AreEqual(0.25, () => GetNoteLength.Value);
                 Play(() => StrikeNote(instrument, time, volume));
             }
             
             // Fallback to BeatLength (dynamic)
             {
+                WithNoteLength();
                 WithBeatLength(Curve(0.2, 0.4));
-                WithNoteLength();              // Ensure no explicit NoteLength is set.
-                var noteLength = GetNoteLength;
-                AreEqual(0.3, noteLength.Calculate(0.5), delta); // Midpoint of 0.2 and 0.4 is 0.3.
+                // Midpoint of 0.2 and 0.4 is 0.3.
+                AreEqual(0.3, GetNoteLength.Calculate(0.5), delta);
                 Play(() => StrikeNote(instrument, time, volume));
             }
             
