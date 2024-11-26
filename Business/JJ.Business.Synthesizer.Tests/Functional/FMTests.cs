@@ -400,9 +400,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._trombone" />
         FlowNode TromboneMelody1 => WithAudioLength(beats[6]).Add
         (
-            _[ b[1], A1 , Trombone      ],
-            _[ b[3], E2 , Trombone      ],
-            _[ b[5], Fs1, Trombone, 0.7 ]
+            _[ b[1], A1 , Trombone     , l[2.5] ],
+            _[ b[3], E2 , Trombone     , l[2.5] ],
+            _[ b[5], Fs1, Trombone, 0.7, l[2.5] ]
         ).SetName().Tape();
 
         /// <inheritdoc cref="docs._trombone" />
