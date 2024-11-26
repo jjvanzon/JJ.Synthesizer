@@ -150,36 +150,43 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             WithAudioLength(4);
             
-            var    time       = _[0];
-            var    volume     = 0.8;
-            var    instrument = A4.Sine();
-            double delta      = 0.000000000000001;
+            var    time   = _[0];
+            var    volume = 0.8;
+            double delta  = 0.000000000000001;
+            
+            FlowNode instrument(FlowNode freq = null, FlowNode duration = null)
+            {
+                freq     = freq ?? A4;
+                duration = duration ?? _[GetNoteLength.Value]; // Weak point? Put fallback in ConfigWishes?
+                
+                return Sine(freq) * RecorderCurve.Stretch(duration);
+            }
             
             // Config file
             {
                 AreEqual(0.5, () => GetNoteLength.Value);
-                Play(() => StrikeNote(instrument, time, volume));
+                Play(() => StrikeNote(instrument(C4), time, volume));
             }
             
             // WithNoteLength
             {
                 WithNoteLength(0.33);
                 AreEqual(0.33, () => GetNoteLength.Value);
-                Play(() => StrikeNote(instrument, time, volume));
+                Play(() => StrikeNote(instrument(D4), time, volume));
             }
             
             // WithNoteLength() => defaults to config file
             {
                 WithNoteLength();
                 AreEqual(0.5, () => GetNoteLength.Value);
-                Play(() => StrikeNote(instrument, time, volume));
+                Play(() => StrikeNote(instrument(E4), time, volume));
             }
             
             // Dynamic NoteLength explicitly set
             {
                 WithNoteLength(Curve(0.75, 1.5));
                 AreEqual(1.125, () => GetNoteLength.Calculate(0.5));
-                Play(() => StrikeNote(instrument, time, volume));
+                Play(() => StrikeNote(instrument(F4), time, volume));
             }
             
             // Fallback to BeatLength
@@ -187,7 +194,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 WithNoteLength();
                 WithBeatLength(1);
                 AreEqual(1, () => GetNoteLength.Value);
-                Play(() => StrikeNote(instrument, time, volume));
+                Play(() => StrikeNote(instrument(G4), time, volume));
             }
             
             // Fallback to BeatLength (dynamic)
@@ -195,21 +202,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 WithNoteLength();
                 WithBeatLength(Curve(1.5, 2.0));
                 AreEqual(1.75, GetNoteLength.Calculate(0.5), delta);
-                Play(() => StrikeNote(instrument, time, volume));
+                Play(() => StrikeNote(instrument(A4), time, volume));
             }
             
             // StrikeNote parameter
             {
-                Play(() => StrikeNote(instrument, time, volume, duration: _[2.2]));
+                var noteLength = _[2.2];
+                Play(() => StrikeNote(instrument(B4, noteLength), time, volume, noteLength));
             }
             
             // StrikeNote parameter (dynamic duration)
             {
-                Play(() => StrikeNote(instrument, time, volume, duration: Curve(3.5, 5)));
+                var noteLength = Curve(3.5, 5);
+                Play(() => StrikeNote(instrument(C5, noteLength), time, volume, noteLength));
             }
             
             // Just the instrument for reference
-            Play(() => instrument);
+            Play(() => instrument(C3));
         }
     }
 }
