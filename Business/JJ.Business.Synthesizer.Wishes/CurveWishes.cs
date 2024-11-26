@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public static Curve CreateCurve(this CurveFactory curveFactory, params (double time, double value)[] nodeTuples)
         {
-            nodeTuples = OneBecomesTwo(nodeTuples);
+            //nodeTuples = OneBecomesTwo(nodeTuples);
             return curveFactory.CreateCurve((IList<(double x, double y)>)nodeTuples);
         }
         
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (curveFactory == null) throw new ArgumentNullException(nameof(curveFactory));
             if (nodeTuples == null) throw new ArgumentNullException(nameof(nodeTuples));
-            nodeTuples = OneBecomesTwo(nodeTuples);
+            //nodeTuples = OneBecomesTwo(nodeTuples);
             var nodeInfos = nodeTuples.Select(x => new NodeInfo(x.Item1, x.Item2)).ToArray();
             Curve curve = curveFactory.CreateCurve(nodeInfos);
             return curve;
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes
             [CallerMemberName] string callerMemberName = null)
         {
             string name = FetchName(callerMemberName);
-            nodeTuples = OneBecomesTwo(nodeTuples);
+            //nodeTuples = OneBecomesTwo(nodeTuples);
             var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples))];
             AssignNames(curve, name);
             return curve;
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Curve(params (double time, double value)[] nodeTuples)
         {
             string name = FetchName();
-            nodeTuples = OneBecomesTwo(nodeTuples);
+            //nodeTuples = OneBecomesTwo(nodeTuples);
             var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples))];
             AssignNames(curve, name);
             return curve;
