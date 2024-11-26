@@ -25,6 +25,8 @@
 		interpolation="Line"
 		
 		noteLength="0.5"
+		barLength="1"
+		beatLength="0.25"
 		audioLength="1"
 		leadingSilence="0.25"
 		trailingSilence="0.25"
