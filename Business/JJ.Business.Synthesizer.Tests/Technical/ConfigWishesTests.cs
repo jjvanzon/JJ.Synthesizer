@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
+
 // ReSharper disable PossibleInvalidOperationException
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -12,9 +13,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         // BarLength
         
         [TestMethod]
-        public void Test_Default_BarLength() => new ConfigWishesTests().Default_BarLength();
+        public void BarLength_Default_Test() => new ConfigWishesTests().BarLength_Default();
         
-        void Default_BarLength()
+        void BarLength_Default()
         {
             // Default (from config or hard-coded)
             IsNotNull(() => GetBarLength);
@@ -24,9 +25,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_Explicit_BarLength() => new ConfigWishesTests().Explicit_BarLength();
+        public void BarLength_Explicit_Test() => new ConfigWishesTests().BarLength_Explicit();
         
-        void Explicit_BarLength()
+        void BarLength_Explicit()
         {
             // WithBarLength (explicitly set)
             WithBarLength(2);
@@ -37,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_BarLength_From_BeatLength() => new ConfigWishesTests().BarLength_From_BeatLength();
+        public void BarLength_From_BeatLength_Test() => new ConfigWishesTests().BarLength_From_BeatLength();
         
         void BarLength_From_BeatLength()
         {
@@ -50,9 +51,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_Dynamic_BarLength() => new ConfigWishesTests().Dynamic_BarLength();
+        public void BarLength_Dynamic_Test() => new ConfigWishesTests().BarLength_Dynamic();
         
-        void Dynamic_BarLength()
+        void BarLength_Dynamic()
         {
             // WithBarLength (dynamic)
             WithBarLength(Curve(0, 4));
@@ -62,9 +63,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_Dynamic_BarLength_From_BeatLength() => new ConfigWishesTests().Dynamic_BarLength_From_BeatLength();
+        public void BarLength_Dynamic_From_BeatLength_Test() => new ConfigWishesTests().BarLength_Dynamic_From_BeatLength();
         
-        void Dynamic_BarLength_From_BeatLength()
+        void BarLength_Dynamic_From_BeatLength()
         {
             // 4 * BeatLength (dynamic)
             WithBarLength();
@@ -74,12 +75,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(0.48, () => GetBarLength.Calculate(0.5));
         }
         
-        // Beat Length
+        // BeatLength
         
         [TestMethod]
-        public void Test_Default_BeatLength() => new ConfigWishesTests().Default_BeatLength();
+        public void BeatLength_Default_Test() => new ConfigWishesTests().BeatLength_Default();
         
-        void Default_BeatLength()
+        void BeatLength_Default()
         {
             // Default (from config or hard-coded)
             IsNotNull(() => GetBeatLength);
@@ -89,21 +90,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_BeatLength_From_BarLength() => new ConfigWishesTests().BeatLength_From_BarLength();
+        public void BeatLength_From_BarLength_Test() => new ConfigWishesTests().BeatLength_From_BarLength();
         
         void BeatLength_From_BarLength()
         {
             // 1/4 BarLength
             WithBarLength(Curve(2));
             IsNotNull(() => GetBeatLength);
-            IsFalse(() => GetBeatLength.IsConst); 
+            IsFalse(() => GetBeatLength.IsConst);
             AreEqual(0.5, () => GetBeatLength.Value); // 1/4 * 2.0 = 0.5.
         }
         
         [TestMethod]
-        public void Test_Explicit_BeatLength() => new ConfigWishesTests().Explicit_BeatLength();
+        public void BeatLength_Explicit_Test() => new ConfigWishesTests().BeatLength_Explicit();
         
-        void Explicit_BeatLength()
+        void BeatLength_Explicit()
         {
             WithBeatLength(0.3);
             IsNotNull(() => GetBeatLength);
@@ -113,9 +114,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_Dynamic_BeatLength_From_BarLength() => new ConfigWishesTests().Dynamic_BeatLength_From_BarLength();
+        public void BeatLength_Dynamic_From_BarLength_Test() => new ConfigWishesTests().BeatLength_Dynamic_From_BarLength();
         
-        void Dynamic_BeatLength_From_BarLength()
+        void BeatLength_Dynamic_From_BarLength()
         {
             // Dynamic 1/4 BarLength
             WithBarLength(Curve(0, 4));
@@ -125,18 +126,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Test_Dynamic_Explicit_BeatLength() => new ConfigWishesTests().Dynamic_Explicit_BeatLength();
+        public void BeatLength_Dynamic_Explicit_Test() => new ConfigWishesTests().BeatLength_Dynamic_Explicit();
         
-        void Dynamic_Explicit_BeatLength()
+        void BeatLength_Dynamic_Explicit()
         {
             WithBeatLength(Curve(0, 0.3));
             IsNotNull(() => GetBeatLength);
             IsFalse(() => GetBeatLength.IsConst);
             AreEqual(0.15, () => GetBeatLength.Calculate(0.5)); // Midpoint: 0.15
         }
-
+        
         // Note Length
-
+        
         [TestMethod]
         public void Fluent_NoteLength_Fallbacks_Test() => new ConfigWishesTests().Fluent_NoteLength_Fallbacks();
         
@@ -145,9 +146,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // TODO: Can't easily apply an envelope consistently to the note length?
             // TODO: Not enough overloads in the note arrangement indexer.
             //_[time, A4, instrument, volume]
-
+            
             WithAudioLength(2);
-
+            
             var time       = _[0];
             var volume     = 0.8;
             var instrument = A4.Sine();
@@ -166,7 +167,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(0.8, () => noteLength.Value);
                 Play(() => StrikeNote(instrument, time, volume));
             }
-
+            
             // WithNoteLength() => defaults to Config file (0.5)
             {
                 WithNoteLength();
