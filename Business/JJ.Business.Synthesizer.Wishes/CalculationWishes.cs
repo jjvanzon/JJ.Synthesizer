@@ -25,14 +25,26 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class CalculationExtensionWishes
     {
         // FlowNode
-
+        
+        public static double Calculate(this FlowNode flowNode)
+        {
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return flowNode.UnderlyingOutlet.Calculate();
+        }
+        
+        public static double Calculate(this FlowNode flowNode, double time)
+        {
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return flowNode.UnderlyingOutlet.Calculate(time);
+        }
+        
         public static double Calculate(this FlowNode flowNode, double time, ChannelEnum channelEnum)
         {
             if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
             return flowNode.UnderlyingOutlet.Calculate(time, channelEnum);
         }
 
-        public static double Calculate(this FlowNode flowNode, double time = 0, int channelIndex = 0)
+        public static double Calculate(this FlowNode flowNode, double time, int channelIndex)
         {
             if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
             return flowNode.UnderlyingOutlet.Calculate(time, channelIndex);
