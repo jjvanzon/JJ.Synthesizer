@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
 // ReSharper disable PossibleInvalidOperationException
@@ -21,14 +22,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(1.0, () => GetBarLength.AsConst.Value);
             }
             
-            // 4 * BeatLength
-            {
-                WithBeatLength(Curve(0.12));
-                IsNotNull(() => GetBarLength);
-                IsFalse(() => GetBarLength.IsConst);
-                AreEqual(0.48, () => GetBarLength.Value);
-            }
-            
             // WithBarLength (explicitly set)
             {
                 WithBarLength(2);
@@ -36,6 +29,32 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 IsTrue(() => GetBarLength.IsConst);
                 IsNotNull(() => GetBarLength.AsConst);
                 AreEqual(2, () => GetBarLength.AsConst.Value);
+            }
+            
+            // 4 * BeatLength
+            {
+                WithBarLength();
+                WithBeatLength(0.12);
+                IsNotNull(() => GetBarLength);
+                IsTrue(() => GetBarLength.IsConst);
+                AreEqual(0.48, () => GetBarLength.Value);
+            }
+            
+            // WithBarLength (dynamic)
+            {
+                WithBarLength(Curve(0, 4));
+                IsNotNull(() => GetBarLength);
+                IsFalse(() => GetBarLength.IsConst);
+                AreEqual(2, () => GetBarLength.Calculate(0.5));
+            }
+            
+            // 4 * BeatLength (dynamic)
+            {
+                WithBarLength();
+                WithBeatLength(Curve(0, 0.24));
+                IsNotNull(() => GetBarLength);
+                IsFalse(() => GetBarLength.IsConst);
+                AreEqual(0.48, () => GetBarLength.Calculate(0.5));
             }
         }
         
