@@ -218,12 +218,12 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            if (_noteLength != null && _noteLength.Value != 0)
+            if (_noteLength != null)
             {
                 return _noteLength;
             }
             
-            if (_beatLength != null && _beatLength.Value != 0)
+            if (_beatLength != null)
             {
                 return _beatLength;
             }
@@ -250,12 +250,12 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            if (_barLength != null && _barLength.Value != 0)
+            if (_barLength != null)
             {
                 return _barLength;
             }
             
-            if (_beatLength != null && _beatLength.Value != 0)
+            if (_beatLength != null)
             {
                 return _beatLength * 4;
             }
@@ -282,12 +282,12 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            if (_beatLength != null && _beatLength.Value != 0)
+            if (_beatLength != null)
             {
                 return _beatLength;
             }
             
-            if (_barLength != null && _barLength.Value != 0)
+            if (_barLength != null)
             {
                 return _barLength * 0.25;
             }
