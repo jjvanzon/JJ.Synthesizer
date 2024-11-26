@@ -322,7 +322,12 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Revisit later.
         /// </summary>
         public static object _samplefromfluentconfig;
-            
+        
+        /// <summary>
+        /// Allow specifying 1 value: make it the start and end node values.
+        /// </summary>
+        public static object _onebecomestwo;
+        
         /// <summary>
         /// Applies a panbrello effect to a stereo signal by modulating the panning
         /// with a sine wave based on the specified speed and depth.

@@ -132,6 +132,17 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             return source.Any(x => (x ?? "").Equals(match, stringComparison));
         }
+        
+        /// <inheritdoc cref="docs._onebecomestwo" />
+        public static IList<T> OneBecomesTwo<T>(this IList<T> list)
+        {
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            if (list.Count == 1) list = new List<T> { list[0], list[0] };
+            return list;
+        }
+        
+        /// <inheritdoc cref="docs._onebecomestwo" />
+        public static T[] OneBecomesTwo<T>(this T[] list) => OneBecomesTwo((IList<T>)list).ToArray();
     }
 
     /// <inheritdoc cref="_trygetsection"/>
