@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Persistence;
+using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
@@ -244,7 +245,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes.Value(value);
         }
         
-        public void WithNoteLength(FlowNode noteLength) => _noteLength = noteLength;
+        public void WithNoteLength(FlowNode noteLength) => _noteLength = noteLength ?? throw new NullException(() => noteLength);
         
         public void WithNoteLength(double noteLength, SynthWishes synthWishes)
         {
@@ -275,7 +276,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes._[_section.BarLength ?? DefaultBarLength];
         }
         
-        public void WithBarLength(FlowNode barLength) => _barLength = barLength;
+        public void WithBarLength(FlowNode barLength) => _barLength = barLength ?? throw new NullException(() => barLength);
         
         public void WithBarLength(double barLength, SynthWishes synthWishes)
         {
@@ -306,7 +307,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes._[_section.BeatLength ?? DefaultBeatLength];
         }
         
-        public void WithBeatLength(FlowNode beatLength) => _beatLength = beatLength;
+        public void WithBeatLength(FlowNode beatLength) => _beatLength = beatLength ?? throw new NullException(() => beatLength);
         
         public void WithBeatLength(double beatLength, SynthWishes synthWishes)
         {
@@ -333,7 +334,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes._[_section.AudioLength ?? DefaultAudioLength];
         }
         
-        public void WithAudioLength(FlowNode newAudioLength) => _audioLength = newAudioLength;
+        public void WithAudioLength(FlowNode newAudioLength) => _audioLength = newAudioLength ?? throw new NullException(() => newAudioLength);
         
         public void WithAudioLength(double newAudioLength, SynthWishes synthWishes)
         {
@@ -374,7 +375,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes._[_section.LeadingSilence ?? DefaultLeadingSilence];
         }
 
-        public void WithLeadingSilence(FlowNode seconds) => _leadingSilence = seconds;
+        public void WithLeadingSilence(FlowNode seconds) => _leadingSilence = seconds ?? throw new NullException(() => seconds);
         
         public void WithLeadingSilence(double seconds, SynthWishes synthWishes)
         {
@@ -401,7 +402,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes._[_section.TrailingSilence ?? DefaultTrailingSilence];
         }
         
-        public void WithTrailingSilence(FlowNode seconds) => _trailingSilence = seconds;
+        public void WithTrailingSilence(FlowNode seconds) => _trailingSilence = seconds ?? throw new NullException(() => seconds);
         
         public void WithTrailingSilence(double seconds, SynthWishes synthWishes)
         {
