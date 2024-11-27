@@ -258,15 +258,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         //[TestMethod]
-        //public void NoteArrangement_TimeDouble_Test() => new NoteWishesTests().NoteArrangement_TimeDouble();
-        
-        //void NoteArrangement_TimeDouble()
-        //{
-        //    FlowNode instrument(FlowNode freq, FlowNode length) => Sine(freq);
-        //    Play(() => _[0, A4, instrument, 0.8]);
-        //}
-        
-        //[TestMethod]
         //public void NoteArrangement_NoTime_Test() => new NoteWishesTests().NoteArrangement_NoTime();
         
         //void NoteArrangement_NoTime()
@@ -308,7 +299,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                      _[t[2, 2], E4, Instrument3, 0.8, l[0.5], tremoloSpeed, _[0.6], _[0.2]]
                  ));
         }
-        
+
+        [TestMethod]
+        public void NoteArrangement_TimeDouble_Test() => new NoteWishesTests().NoteArrangement_TimeDouble();
+
+        void NoteArrangement_TimeDouble()
+        {
+            var tremoloSpeed = _[7];
+            
+            Play(() => Add
+                 (
+                     _[0.0, A4, Instrument1],
+                     _[0.2, C5, Instrument2, 0.6],
+                     _[0.4, G4, Instrument3, MyCurve, len[0.5]],
+                     _[0.6, D5, Instrument3, _[0.4], l[0.8], _[7]],
+                     _[0.8, A4, Instrument3, MyCurve, _[0.2], _[7], _[0.6]],
+                     _[1.0, E4, Instrument3, 0.8, l[0.5], tremoloSpeed, _[0.6], _[0.2]]
+                 ));
+        }
+
+
         FlowNode Instrument1(FlowNode freq, FlowNode length, FlowNode tremoloSpeed = null)
             => Sine(freq).Tremolo(tremoloSpeed, 0.3) * RecorderCurve.Stretch(SnapNoteLength(length));
         
