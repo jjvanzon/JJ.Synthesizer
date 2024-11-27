@@ -1005,9 +1005,10 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._panning" />
-        public FlowNode Panning(FlowNode sound, FlowNode panning)
+        public FlowNode Panning(FlowNode sound, FlowNode panning = default)
         {
             ChannelEnum channel = GetChannel;
+            panning = panning ?? _[0.5];
 
             // Some optimization in case of a constant value
             {
@@ -1052,7 +1053,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FlowNode
     {
         /// <inheritdoc cref="docs._panning" />
-        public FlowNode Panning(FlowNode panning) => _synthWishes.Panning(this, panning);
+        public FlowNode Panning(FlowNode panning = default) => _synthWishes.Panning(this, panning);
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(double panning) => _synthWishes.Panning(this, panning);
     }
