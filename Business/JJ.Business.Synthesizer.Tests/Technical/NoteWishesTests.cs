@@ -9,12 +9,12 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
-    public class ConfigWishesTests : MySynthWishes
+    public class NoteWishesTests : MySynthWishes
     {
         // BarLength
         
         [TestMethod]
-        public void BarLength_Default_Test() => new ConfigWishesTests().BarLength_Default();
+        public void BarLength_Default_Test() => new NoteWishesTests().BarLength_Default();
         
         void BarLength_Default()
         {
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void BarLength_Explicit_Test() => new ConfigWishesTests().BarLength_Explicit();
+        public void BarLength_Explicit_Test() => new NoteWishesTests().BarLength_Explicit();
         
         void BarLength_Explicit()
         {
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void BarLength_From_BeatLength_Test() => new ConfigWishesTests().BarLength_From_BeatLength();
+        public void BarLength_From_BeatLength_Test() => new NoteWishesTests().BarLength_From_BeatLength();
         
         void BarLength_From_BeatLength()
         {
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void BarLength_Dynamic_Test() => new ConfigWishesTests().BarLength_Dynamic();
+        public void BarLength_Dynamic_Test() => new NoteWishesTests().BarLength_Dynamic();
         
         void BarLength_Dynamic()
         {
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void BarLength_Dynamic_From_BeatLength_Test() => new ConfigWishesTests().BarLength_Dynamic_From_BeatLength();
+        public void BarLength_Dynamic_From_BeatLength_Test() => new NoteWishesTests().BarLength_Dynamic_From_BeatLength();
         
         void BarLength_Dynamic_From_BeatLength()
         {
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         // BeatLength
         
         [TestMethod]
-        public void BeatLength_Default_Test() => new ConfigWishesTests().BeatLength_Default();
+        public void BeatLength_Default_Test() => new NoteWishesTests().BeatLength_Default();
         
         void BeatLength_Default()
         {
@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void BeatLength_From_BarLength_Test() => new ConfigWishesTests().BeatLength_From_BarLength();
+        public void BeatLength_From_BarLength_Test() => new NoteWishesTests().BeatLength_From_BarLength();
         
         void BeatLength_From_BarLength()
         {
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void BeatLength_Explicit_Test() => new ConfigWishesTests().BeatLength_Explicit();
+        public void BeatLength_Explicit_Test() => new NoteWishesTests().BeatLength_Explicit();
         
         void BeatLength_Explicit()
         {
@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void BeatLength_Dynamic_From_BarLength_Test() => new ConfigWishesTests().BeatLength_Dynamic_From_BarLength();
+        public void BeatLength_Dynamic_From_BarLength_Test() => new NoteWishesTests().BeatLength_Dynamic_From_BarLength();
         
         void BeatLength_Dynamic_From_BarLength()
         {
@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void BeatLength_Dynamic_Explicit_Test() => new ConfigWishesTests().BeatLength_Dynamic_Explicit();
+        public void BeatLength_Dynamic_Explicit_Test() => new NoteWishesTests().BeatLength_Dynamic_Explicit();
         
         void BeatLength_Dynamic_Explicit()
         {
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         // Note Length
         
         [TestMethod]
-        public void Fluent_NoteLength_Fallbacks_Test() => new ConfigWishesTests().Fluent_NoteLength_Fallbacks();
+        public void Fluent_NoteLength_Fallbacks_Test() => new NoteWishesTests().Fluent_NoteLength_Fallbacks();
         
         void Fluent_NoteLength_Fallbacks()
         {
