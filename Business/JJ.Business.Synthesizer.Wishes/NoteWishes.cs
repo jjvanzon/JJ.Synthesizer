@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (volumeFilledIn) sound = Multiply(sound, volume);
             
-            noteLength = ResolveNoteLength(noteLength);
+            noteLength = SnapNoteLength(noteLength);
             sound = sound.SetName().Tape(noteLength);
             
             if (delayFilledIn) sound = Delay(sound, delay);

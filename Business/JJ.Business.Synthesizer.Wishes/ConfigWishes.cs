@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes._[_section.NoteLength ?? DefaultNoteLength];
         }
         
-        public FlowNode ResolveNoteLength(SynthWishes synthWishes, FlowNode noteLength)
+        public FlowNode SnapNoteLength(SynthWishes synthWishes, FlowNode noteLength)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
@@ -649,7 +649,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Durations
         
         public FlowNode GetNoteLength  => _configResolver.GetNoteLength(this);
-        public FlowNode ResolveNoteLength(FlowNode noteLength)  => _configResolver.ResolveNoteLength(this, noteLength);
+        public FlowNode SnapNoteLength(FlowNode noteLength)  => _configResolver.SnapNoteLength(this, noteLength);
         public SynthWishes WithNoteLength(FlowNode seconds = default) { _configResolver.WithNoteLength(seconds); return this; }
         public SynthWishes WithNoteLength(double seconds) { _configResolver.WithNoteLength(seconds, this); return this; }
         
@@ -748,7 +748,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Durations
         
         public FlowNode GetNoteLength => _synthWishes.GetNoteLength;
-        public FlowNode ResolveNoteLength(FlowNode noteLength) => _synthWishes.ResolveNoteLength(noteLength);
+        public FlowNode SnapNoteLength(FlowNode noteLength) => _synthWishes.SnapNoteLength(noteLength);
         public FlowNode WithNoteLength(FlowNode newLength = null) { _synthWishes.WithNoteLength(newLength); return this; }
         public FlowNode WithNoteLength(double newLength) { _synthWishes.WithNoteLength(newLength); return this; }
         

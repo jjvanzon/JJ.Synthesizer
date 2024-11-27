@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             FlowNode instrument(FlowNode freq = null, FlowNode noteLength = null)
             {
                 freq     = freq ?? A4;
-                return Sine(freq) * RecorderCurve.Stretch(ResolveNoteLength(noteLength));
+                return Sine(freq) * RecorderCurve.Stretch(SnapNoteLength(noteLength));
             }
 
             // Play the instrument for reference
