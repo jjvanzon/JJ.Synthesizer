@@ -30,23 +30,23 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._barindexer"/>
-        public BarIndexer bar { get; private set; }
+        public BarIndexer bar { get; }
         /// <inheritdoc cref="docs._barsindexer"/>
-        public BarsIndexer bars { get; private set; }
+        public BarsIndexer bars { get; }
         /// <inheritdoc cref="docs._beatindexer"/>
-        public BeatIndexer beat { get; private set; }
+        public BeatIndexer beat { get; }
         /// <inheritdoc cref="docs._beatindexer"/>
-        public BeatIndexer b { get; private set; }
+        public BeatIndexer b { get; }
         /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer beats { get; private set; }
+        public BeatsIndexer beats { get; }
         /// <inheritdoc cref="docs._timeindexer"/>
-        public TimeIndexer t { get; private set; }
+        public TimeIndexer t { get; }
         /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer l { get; private set; }
+        public BeatsIndexer l { get; }
         /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer len { get; private set; }
+        public BeatsIndexer len { get; }
         /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer length { get; private set; }
+        public BeatsIndexer length { get; }
     }
 
     // Note Arrangements
