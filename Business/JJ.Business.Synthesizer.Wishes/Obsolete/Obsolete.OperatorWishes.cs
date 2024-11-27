@@ -8,13 +8,6 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
     public static class OperatorObsoleteExtensionsWishes
     {
-        [Obsolete("Use _[123] instead."), UsedImplicitly]
-        public static FlowNode Value(this SynthWishes synthWishes, double value = 0)
-        {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            return synthWishes._[value];
-        }
-
         [Obsolete("Use " + nameof(Add) + " instead.", true), UsedImplicitly]
         public static Adder Adder(this SynthWishes synthWishes, params Outlet[] operands) => throw new NotSupportedException();
 

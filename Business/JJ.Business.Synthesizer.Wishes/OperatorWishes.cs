@@ -118,6 +118,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
+        public FlowNode Value(double value = 0) => _[value];
+        
         /// <inheritdoc cref="docs._add"/>
         public FlowNode Add(IList<FlowNode> terms)
         {
