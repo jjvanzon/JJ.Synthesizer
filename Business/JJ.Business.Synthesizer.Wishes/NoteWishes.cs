@@ -189,11 +189,6 @@ namespace JJ.Business.Synthesizer.Wishes
             double vol, FlowNode len = null, FlowNode eff1 = null]
             => _synthWishes.StrikeNote(sound(freq, len, eff1), _synthWishes._[t], vol, len);
         
-        
-        
-        
-        
-        
         // Instruments with 2 Effect Parameters (Optional)
         
         // _[ t[1, 1], A4, Flute, MyEnvelope, l[0.5], _[0.14] ]
