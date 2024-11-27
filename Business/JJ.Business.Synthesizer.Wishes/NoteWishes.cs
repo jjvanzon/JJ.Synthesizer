@@ -154,17 +154,16 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(FlowNode sound, FlowNode delay = default, FlowNode volume = default, FlowNode duration = default)
+        public FlowNode StrikeNote(FlowNode sound, FlowNode delay = default, FlowNode volume = default, FlowNode noteLength = default)
         {
             // A little optimization, because so slow...
             bool delayFilledIn = delay != null && delay.AsConst != 0;
             bool volumeFilledIn = volume != null && volume.AsConst != 1;
 
-            duration = duration ?? GetNoteLength;
-
             if (volumeFilledIn) sound = Multiply(sound, volume);
             
-            sound = sound.SetName().Tape(duration);
+            noteLength = ResolveNoteLength(noteLength);
+            sound = sound.SetName().Tape(noteLength);
             
             if (delayFilledIn) sound = Delay(sound, delay);
             
@@ -172,8 +171,8 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(FlowNode sound, FlowNode delay, double volume, FlowNode duration)
-            => StrikeNote(sound, delay, _[volume], duration);
+        public FlowNode StrikeNote(FlowNode sound, FlowNode delay, double volume, FlowNode noteLength)
+            => StrikeNote(sound, delay, _[volume], noteLength);
         
         /// <inheritdoc cref="docs._default" />
         public FlowNode StrikeNote(FlowNode sound, FlowNode delay, double volume) 

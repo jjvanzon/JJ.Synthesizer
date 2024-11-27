@@ -154,16 +154,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var    volume = 0.8;
             double delta  = 0.000000000000001;
             
-            FlowNode instrument(FlowNode freq = null, FlowNode duration = null)
+            FlowNode instrument(FlowNode freq = null, FlowNode noteLength = null)
             {
                 freq     = freq ?? A4;
-                // Weak point? Put fallback in ConfigWishes?
-                duration = duration ?? GetNoteLength;
-                duration = _[duration.Value];
-                return Sine(freq) * RecorderCurve.Stretch(duration);
+                return Sine(freq) * RecorderCurve.Stretch(ResolveNoteLength(noteLength));
+            }
+
+            // Play the instrument for reference
+            {
+                Play(() => instrument(C3));
             }
             
-            // Config file
+            // NoteLength from config file / hard-coded default
             {
                 AreEqual(0.5, () => GetNoteLength.Value);
                 Play(() => StrikeNote(instrument(C4), time, volume));
@@ -176,7 +178,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Play(() => StrikeNote(instrument(D4), time, volume));
             }
             
-            // WithNoteLength() => defaults to config file
+            // WithNoteLength() => defaults to config file or hard-coded default
             {
                 WithNoteLength();
                 AreEqual(0.5, () => GetNoteLength.Value);
@@ -217,9 +219,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 var noteLength = Curve(3.5, 5);
                 Play(() => StrikeNote(instrument(C5, noteLength), time, volume, noteLength));
             }
-            
-            // Just the instrument for reference
-            Play(() => instrument(C3));
         }
     }
 }
