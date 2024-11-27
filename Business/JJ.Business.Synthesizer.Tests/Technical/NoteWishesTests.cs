@@ -226,8 +226,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void NoteArrangement_InstrumentNoParameters_VolumeDouble()
         {
-            FlowNode instrument() => A4.Sine();
-            Play(() => _[t[1, 1], instrument, 0.8]);
+            Play(() => _[t[1, 1], Instrument1, 0.8]);
         }
         
         [TestMethod]
@@ -235,8 +234,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void NoteArrangement_InstrumentNoParameters_VolumeFlowNode()
         {
-            FlowNode instrument() => A4.Sine();
-            Play(() => _[t[1, 1], instrument, MyCurve]);
+            Play(() => _[t[1, 1], Instrument1, MyCurve]);
         }
         
         [TestMethod]
@@ -244,8 +242,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void NoteArrangement_InstrumentNoDuration_VolumeDouble()
         {
-            FlowNode instrument(FlowNode freq) => Sine(freq);
-            Play(() => _[t[1, 1], A4, instrument, 0.8]);
+            Play(() => _[t[1, 1], A4, Instrument2, 0.8]);
         }
         
         [TestMethod]
@@ -253,8 +250,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void NoteArrangement_InstrumentNoDuration_VolumeFlowNode()
         {
-            FlowNode instrument(FlowNode freq) => Sine(freq);
-            Play(() => _[t[1, 1], A4, instrument, MyCurve]);
+            FlowNode instrument2(FlowNode freq) => Sine(freq);
+            Play(() => _[t[1, 1], A4, instrument2, MyCurve]);
         }
         
         //[TestMethod]
@@ -272,13 +269,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void NoteArrangements_InstrumentWith2Parameters()
         {
-            FlowNode instrument(FlowNode freq, FlowNode length) => Sine(freq) * RecorderCurve.Stretch(SnapNoteLength(length));
-            
             Play(() => Add
                  (
-                     _[t[1, 1], A4, instrument],
-                     _[t[1, 1], C4, instrument, 0.8],
-                     _[t[1, 1], E4, instrument, 0.8, l[0.5]]
+                     _[t[1, 1], A4, Instrument3],
+                     _[t[1, 1], C4, Instrument3, 0.8],
+                     _[t[1, 1], E4, Instrument3, 0.8, l[0.5]]
                  ));
         }
         
@@ -291,12 +286,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Play(() => Add
                  (
-                     _[b[1], A4, Instrument1],
-                     _[b[2], C5, Instrument2, 0.6],
-                     _[b[3], G4, Instrument3, MyCurve, len[0.5]],
-                     _[beat[4], D5, Instrument3, _[0.4], l[0.8], _[7]],
-                     _[bar[2] + beat[1], A4, Instrument3, MyCurve, _[0.2], _[7], _[0.6]],
-                     _[t[2, 2], E4, Instrument3, 0.8, l[0.5], tremoloSpeed, _[0.6], _[0.2]]
+                     _[b[1], A4, Instrument4],
+                     _[b[2], C5, Instrument5, 0.6],
+                     _[b[3], G4, Instrument6, MyCurve, len[0.5]],
+                     _[beat[4], D5, Instrument6, _[0.4], l[0.8], _[7]],
+                     _[bar[2] + beat[1], A4, Instrument6, MyCurve, _[0.2], _[7], _[0.6]],
+                     _[t[2, 2], E4, Instrument6, 0.8, l[0.5], tremoloSpeed, _[0.6], _[0.2]]
                  ));
         }
 
@@ -309,23 +304,35 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Play(() => Add
                  (
-                     _[0.0, A4, Instrument1],
-                     _[0.2, C5, Instrument2, 0.6],
-                     _[0.4, G4, Instrument3, MyCurve, len[0.5]],
-                     _[0.6, D5, Instrument3, _[0.4], l[0.8], _[7]],
-                     _[0.8, A4, Instrument3, MyCurve, _[0.2], _[7], _[0.6]],
-                     _[1.0, E4, Instrument3, 0.8, l[0.5], tremoloSpeed, _[0.6], _[0.2]]
+                     _[0.0, Instrument1, 0.8],
+                     _[0.2, Instrument1, MyCurve],
+                     _[0.4, A4, Instrument2, 0.8],
+                     _[0.6, A4, Instrument2, MyCurve],
+                     _[0.8, A4, Instrument3],
+                     _[1.0, C5, Instrument3, 0.6],
+                     _[1.2, G4, Instrument3, MyCurve, len[0.5]],
+                     _[1.4, D5, Instrument4, _[0.4], l[0.8], _[7]],
+                     _[1.6, A4, Instrument5, MyCurve, _[0.2], _[7], _[0.6]],
+                     _[1.8, E4, Instrument6, 0.8, l[0.5], tremoloSpeed, _[0.6], _[0.2]]
                  ));
         }
+        
+        FlowNode Instrument1()
+            => A4.Sine();
+        
+        FlowNode Instrument2(FlowNode freq) 
+            => Sine(freq);
+        
+        FlowNode Instrument3(FlowNode freq, FlowNode length) 
+            => Sine(freq) * RecorderCurve.Stretch(SnapNoteLength(length));
 
-
-        FlowNode Instrument1(FlowNode freq, FlowNode length, FlowNode tremoloSpeed = null)
+        FlowNode Instrument4(FlowNode freq, FlowNode length, FlowNode tremoloSpeed = null)
             => Sine(freq).Tremolo(tremoloSpeed, 0.3) * RecorderCurve.Stretch(SnapNoteLength(length));
         
-        FlowNode Instrument2(FlowNode freq, FlowNode length, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null)
+        FlowNode Instrument5(FlowNode freq, FlowNode length, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null)
             => Sine(freq).Tremolo(tremoloSpeed, tremoloDepth) * RecorderCurve.Stretch(SnapNoteLength(length));
         
-        FlowNode Instrument3(FlowNode freq, FlowNode length, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null, FlowNode panning = null)
+        FlowNode Instrument6(FlowNode freq, FlowNode length, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null, FlowNode panning = null)
             => Sine(freq).Tremolo(tremoloSpeed, tremoloDepth).Panning(panning) * RecorderCurve.Stretch(SnapNoteLength(length));
         
         FlowNode MyCurve => Curve(@"
