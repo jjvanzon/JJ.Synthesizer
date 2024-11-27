@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void BarLength_From_BeatLength()
         {
             // 4 * BeatLength
-            WithBarLength();
+            ResetBarLength();
             WithBeatLength(0.12);
             IsNotNull(() => GetBarLength);
             IsTrue(() => GetBarLength.IsConst);
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void BarLength_Dynamic_From_BeatLength()
         {
             // 4 * BeatLength (dynamic)
-            WithBarLength();
+            ResetBarLength();
             WithBeatLength(Curve(0, 0.24));
             IsNotNull(() => GetBarLength);
             IsFalse(() => GetBarLength.IsConst);
@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // WithNoteLength() => defaults to config file or hard-coded default
             {
-                WithNoteLength();
+                ResetNoteLength();
                 AreEqual(0.5, () => GetNoteLength.Value);
                 Play(() => StrikeNote(instrument(E4), time, volume));
             }
@@ -195,7 +195,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Fallback to BeatLength
             {
-                WithNoteLength();
+                ResetNoteLength();
                 WithBeatLength(1);
                 AreEqual(1, () => GetNoteLength.Value);
                 Play(() => StrikeNote(instrument(G4), time, volume));
@@ -203,7 +203,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Fallback to BeatLength (dynamic)
             {
-                WithNoteLength();
+                ResetNoteLength();
                 WithBeatLength(Curve(1.5, 2.0));
                 AreEqual(1.75, GetNoteLength.Calculate(0.5), delta);
                 Play(() => StrikeNote(instrument(A4), time, volume));
