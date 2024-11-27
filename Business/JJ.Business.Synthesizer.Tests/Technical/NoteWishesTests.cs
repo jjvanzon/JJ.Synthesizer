@@ -222,61 +222,61 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         // Note Arrangements
         
         [TestMethod]
-        public void NoteArrangement_InstrumentNoParameters_DoubleVolume_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoParameters_DoubleVolume();
+        public void NoteArrangement_InstrumentNoParameters_VolumeDouble_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoParameters_VolumeDouble();
         
-        void NoteArrangement_InstrumentNoParameters_DoubleVolume()
+        void NoteArrangement_InstrumentNoParameters_VolumeDouble()
         {
             FlowNode instrument() => A4.Sine();
             Play(() => _[t[1, 1], instrument, 0.8]);
         }
         
         [TestMethod]
-        public void NoteArrangement_InstrumentNoParameters_FlowNodeVolume_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoParameters_FlowNodeVolume();
+        public void NoteArrangement_InstrumentNoParameters_VolumeFlowNode_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoParameters_VolumeFlowNode();
         
-        void NoteArrangement_InstrumentNoParameters_FlowNodeVolume()
+        void NoteArrangement_InstrumentNoParameters_VolumeFlowNode()
         {
             FlowNode instrument() => A4.Sine();
             Play(() => _[t[1, 1], instrument, MyCurve]);
         }
         
         [TestMethod]
-        public void NoteArrangement_InstrumentNoDuration_DoubleVolume_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoDuration_DoubleVolume();
+        public void NoteArrangement_InstrumentNoDuration_VolumeDouble_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoDuration_VolumeDouble();
         
-        void NoteArrangement_InstrumentNoDuration_DoubleVolume()
+        void NoteArrangement_InstrumentNoDuration_VolumeDouble()
         {
             FlowNode instrument(FlowNode freq) => Sine(freq);
             Play(() => _[t[1, 1], A4, instrument, 0.8]);
         }
         
         [TestMethod]
-        public void NoteArrangement_InstrumentNoDuration_FlowNodeVolume_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoDuration_FlowNodeVolume();
+        public void NoteArrangement_InstrumentNoDuration_VolumeFlowNode_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoDuration_VolumeFlowNode();
         
-        void NoteArrangement_InstrumentNoDuration_FlowNodeVolume()
+        void NoteArrangement_InstrumentNoDuration_VolumeFlowNode()
         {
             FlowNode instrument(FlowNode freq) => Sine(freq);
             Play(() => _[t[1, 1], A4, instrument, MyCurve]);
         }
         
         //[TestMethod]
-        //public void NoteArrangement_WithDoubleTime_Test() => new NoteWishesTests().NoteArrangement_WithDoubleTime();
+        //public void NoteArrangement_TimeDouble_Test() => new NoteWishesTests().NoteArrangement_TimeDouble();
         
-        //void NoteArrangement_WithDoubleTime()
+        //void NoteArrangement_TimeDouble()
         //{
         //    FlowNode instrument(FlowNode freq, FlowNode length) => Sine(freq);
         //    Play(() => _[0, A4, instrument, 0.8]);
         //}
         
         //[TestMethod]
-        //public void NoteArrangement_WithoutTime_Test() => new NoteWishesTests().NoteArrangement_WithoutTime();
+        //public void NoteArrangement_NoTime_Test() => new NoteWishesTests().NoteArrangement_NoTime();
         
-        //void NoteArrangement_WithoutTime()
+        //void NoteArrangement_NoTime()
         //{
         //    FlowNode instrument(FlowNode freq, FlowNode length) => Sine(freq);
             
         //    Play(() => _[A4, instrument, 0.8]);
         //}
         
-        [TestMethod]
+      [TestMethod]
         public void NoteArrangements_InstrumentWith2Parameters_Test() => new NoteWishesTests().NoteArrangements_InstrumentWith2Parameters();
         
         void NoteArrangements_InstrumentWith2Parameters()
