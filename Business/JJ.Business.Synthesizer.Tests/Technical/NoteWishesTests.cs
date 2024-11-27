@@ -240,6 +240,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             Play(() => Add
                  (
+                     _[              Instrument1                   ],
+                     _[              Instrument1, 0.8              ],
+                     _[              Instrument1, MyCurve          ],
                      _[ 0      ,     Instrument1                   ],
                      _[ 0      ,     Instrument1, 0.8              ],
                      _[ 0      ,     Instrument1, MyCurve          ],
