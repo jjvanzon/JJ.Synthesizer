@@ -240,62 +240,62 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             Play(() => Add
                  (
-                     _[              Instrument1                   ],
-                     _[              Instrument1, 0.8              ],
-                     _[              Instrument1, MyCurve          ],
-                     _[ 0      ,     Instrument1                   ],
-                     _[ 0      ,     Instrument1, 0.8              ],
-                     _[ 0      ,     Instrument1, MyCurve          ],
-                     _[ t[1, 1],     Instrument1                   ],
-                     _[ b[1]   , A4, Instrument4                   ],
-                     _[ 0.25   ,     Instrument1, MyCurve          ],
-                     _[ t[1, 2],     Instrument1, 0.8              ],
-                     _[ b[2]   , C5, Instrument5, 0.6              ],
-                     _[ 0.50   , A4, Instrument2, 0.8              ],
-                     _[ t[1, 3],     Instrument1, MyCurve          ],
-                     _[ b[3]   , G4, Instrument6, MyCurve, len[0.5]],
-                     _[ 0.75   , C5, Instrument3, MyCurve          ],
-                     _[ t[1, 4], A4, Instrument2, 0.8              ],
-                     _[ beat[4], D5, Instrument6, _[0.4],  l[0.8], _[7]],
-                     _[ 1      , G4, Instrument3                   ],
-                     _[ t[2, 1], A4, Instrument2, MyCurve          ],
-                     _[ bar[2] + beat[1], A4, Instrument6, MyCurve, _[0.2], _[7], _[0.6]],
-                     _[ 1.25   , D5, Instrument4, 0.6              ],
-                     _[ t[2, 2], A4, Instrument3                   ],
-                     _[ t[2, 2], E4, Instrument6, 0.8     , l[0.5], tremoloSpeed, _[0.6], _[0.2]],
-                     _[ 1.50   , A4, Instrument5, MyCurve          ],
-                     _[ t[2, 3], C4, Instrument3, 0.8              ],
-                     _[ t[2, 3], C4, Instrument7, MyCurve , l[0.5], tremoloSpeed, _[0.6], _[0.2], panbrelloSpeed],
-                     _[ 1.75   , E5, Instrument6, MyCurve , len[0.5]],
-                     _[ t[2, 4], E4, Instrument3, 0.8     , l[0.5]],
-                     _[ t[2, 4], C4, Instrument7, 0.8     , l[0.5], tremoloSpeed, _[0.6], _[0.2], panbrelloSpeed],
-                     _[ 2      , D5, Instrument4, _[0.4]  , l[0.8], _[7]],
-                     _[ 2.25   , E4, Instrument5, MyCurve , _[0.2], _[7], _[0.6]],
-                     _[ 2.50   , C4, Instrument6, 0.8     , l[0.5], tremoloSpeed, _[0.6], _[0.2]],
-                     _[ 2.75   , C4, Instrument7, MyCurve , l[0.5], tremoloSpeed, _[0.6], _[0.2], panbrelloSpeed],
-                     _[ 3      , C4, Instrument7, 0.8     , l[0.5], tremoloSpeed, _[0.6], _[0.2], panbrelloSpeed]
+                     _[              Flute1                   ],
+                     _[              Flute1, 0.8              ],
+                     _[              Flute1, MyCurve          ],
+                     _[ 0      ,     Flute1                   ],
+                     _[ 0      ,     Flute1, 0.8              ],
+                     _[ 0      ,     Flute1, MyCurve          ],
+                     _[ t[1, 1],     Flute1                   ],
+                     _[ b[1]   , A4, Flute4                   ],
+                     _[ 0.25   ,     Flute1, MyCurve          ],
+                     _[ t[1, 2],     Flute1, 0.8              ],
+                     _[ b[2]   , C5, Flute5, 0.6              ],
+                     _[ 0.50   , A4, Flute2, 0.8              ],
+                     _[ t[1, 3],     Flute1, MyCurve          ],
+                     _[ b[3]   , G4, Flute6, MyCurve, len[0.5]],
+                     _[ 0.75   , C5, Flute3, MyCurve          ],
+                     _[ t[1, 4], A4, Flute2, 0.8              ],
+                     _[ beat[4], D5, Flute6, _[0.4],  l[0.8], _[7]],
+                     _[ 1      , G4, Flute3                   ],
+                     _[ t[2, 1], A4, Flute2, MyCurve          ],
+                     _[ bar[2] + beat[1], A4, Flute6, MyCurve, _[0.2], _[7], _[0.6]],
+                     _[ 1.25   , D5, Flute4, 0.6              ],
+                     _[ t[2, 2], A4, Flute3                   ],
+                     _[ t[2, 2], E4, Flute6, 0.8     , l[0.5], tremoloSpeed, _[0.6], _[0.2]],
+                     _[ 1.50   , A4, Flute5, MyCurve          ],
+                     _[ t[2, 3], C4, Flute3, 0.8              ],
+                     _[ t[2, 3], C4, Flute7, MyCurve , l[0.5], tremoloSpeed, _[0.6], _[0.2], panbrelloSpeed],
+                     _[ 1.75   , E5, Flute6, MyCurve , len[0.5]],
+                     _[ t[2, 4], E4, Flute3, 0.8     , l[0.5]],
+                     _[ t[2, 4], C4, Flute7, 0.8     , l[0.5], tremoloSpeed, _[0.6], _[0.2], panbrelloSpeed],
+                     _[ 2      , D5, Flute4, _[0.4]  , l[0.8], _[7]],
+                     _[ 2.25   , E4, Flute5, MyCurve , _[0.2], _[7], _[0.6]],
+                     _[ 2.50   , C4, Flute6, 0.8     , l[0.5], tremoloSpeed, _[0.6], _[0.2]],
+                     _[ 2.75   , C4, Flute7, MyCurve , l[0.5], tremoloSpeed, _[0.6], _[0.2], panbrelloSpeed],
+                     _[ 3      , C4, Flute7, 0.8     , l[0.5], tremoloSpeed, _[0.6], _[0.2], panbrelloSpeed]
                  ));
         }
         
-        FlowNode Instrument1()
+        FlowNode Flute1()
             => A4.Sine();
         
-        FlowNode Instrument2(FlowNode freq) 
+        FlowNode Flute2(FlowNode freq) 
             => Sine(freq);
         
-        FlowNode Instrument3(FlowNode freq, FlowNode len) 
+        FlowNode Flute3(FlowNode freq, FlowNode len) 
             => Sine(freq) * RecorderCurve.Stretch(SnapNoteLength(len));
 
-        FlowNode Instrument4(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null)
+        FlowNode Flute4(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null)
             => Sine(freq).Tremolo(tremoloSpeed, 0.3) * RecorderCurve.Stretch(SnapNoteLength(len));
         
-        FlowNode Instrument5(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null)
+        FlowNode Flute5(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null)
             => Sine(freq).Tremolo(tremoloSpeed, tremoloDepth) * RecorderCurve.Stretch(SnapNoteLength(len));
         
-        FlowNode Instrument6(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null, FlowNode panning = null)
+        FlowNode Flute6(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null, FlowNode panning = null)
             => Sine(freq).Tremolo(tremoloSpeed, tremoloDepth).Panning(panning) * RecorderCurve.Stretch(SnapNoteLength(len));
         
-        FlowNode Instrument7(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null, FlowNode panning = null, FlowNode panbrelloSpeed = null)
+        FlowNode Flute7(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null, FlowNode panning = null, FlowNode panbrelloSpeed = null)
             => Sine(freq).Tremolo(tremoloSpeed, tremoloDepth).Panning(panning).Panbrello(panbrelloSpeed) * RecorderCurve.Stretch(SnapNoteLength(len));
         
         FlowNode MyCurve => Curve(@"
