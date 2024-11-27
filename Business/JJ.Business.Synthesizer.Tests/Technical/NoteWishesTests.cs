@@ -283,20 +283,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         FlowNode Flute2(FlowNode freq) 
             => Sine(freq);
         
-        FlowNode Flute3(FlowNode freq, FlowNode len) 
+        FlowNode Flute3(FlowNode freq, FlowNode len = null) 
             => Sine(freq) * RecorderCurve.Stretch(SnapNoteLength(len));
 
-        FlowNode Flute4(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null)
-            => Sine(freq).Tremolo(tremoloSpeed, 0.3) * RecorderCurve.Stretch(SnapNoteLength(len));
+        FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode eff1 = null)
+            => Sine(freq).Tremolo(eff1, 0.3) * RecorderCurve.Stretch(SnapNoteLength(len));
         
-        FlowNode Flute5(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null)
-            => Sine(freq).Tremolo(tremoloSpeed, tremoloDepth) * RecorderCurve.Stretch(SnapNoteLength(len));
+        FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null)
+            => Sine(freq).Tremolo(eff1, eff2) * RecorderCurve.Stretch(SnapNoteLength(len));
         
-        FlowNode Flute6(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null, FlowNode panning = null)
-            => Sine(freq).Tremolo(tremoloSpeed, tremoloDepth).Panning(panning) * RecorderCurve.Stretch(SnapNoteLength(len));
+        FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null)
+            => Sine(freq).Tremolo(eff1, eff2).Panning(eff3) * RecorderCurve.Stretch(SnapNoteLength(len));
         
-        FlowNode Flute7(FlowNode freq, FlowNode len, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null, FlowNode panning = null, FlowNode panbrelloSpeed = null)
-            => Sine(freq).Tremolo(tremoloSpeed, tremoloDepth).Panning(panning).Panbrello(panbrelloSpeed) * RecorderCurve.Stretch(SnapNoteLength(len));
+        FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null, FlowNode eff4 = null)
+            => Sine(freq).Tremolo(eff1, eff2).Panning(eff3).Panbrello(eff4) * RecorderCurve.Stretch(SnapNoteLength(len));
         
         FlowNode MyCurve => Curve(@"
               >          

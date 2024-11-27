@@ -56,6 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Instrument without Parameters
         
         /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
         /// _[ Flute1, 0.8 ], <br/>
         /// _[ Flute1, 1.0, l[0.5] ]
         /// </c></summary>
@@ -65,6 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
         /// _[ Flute1 ], <br/>
         /// _[ Flute1, MyCurve ], <br/>
         /// _[ Flute1, MyCurve, l[0.5] ]
@@ -75,6 +77,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
         /// _[ 0.0, Flute1, 0.8 ], <br/>
         /// _[ 0.2, Flute1, 1.0, l[0.5] ]
         /// </c></summary>
@@ -84,6 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
         /// _[ 0.0, Flute1 ], <br/>
         /// _[ 0.0, Flute1, MyCurve ], <br/>
         /// _[ 0.2, Flute1, MyCurve, l[0.5] ]
@@ -94,6 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
         /// _[ t[1, 1], Flute1, 0.8 ], <br/>
         /// _[ t[1, 2], Flute1, 1.0, l[0.5] ]
         /// </c></summary>
@@ -103,6 +108,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(), t, vol, len);
 
         /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
         /// _[ t[1, 1], Flute1 ], <br/>
         /// _[ t[1, 1], Flute1, MyCurve ], <br/>
         /// _[ t[1, 2], Flute1, MyCurve, l[0.5] ]
@@ -115,6 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Instrument with 1 Parameter Freq
         
         /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
         /// _[ A4, Flute2, 0.8 ], <br/>
         /// _[ C5, Flute2, 1.0, l[0.5] ]
         /// </c></summary>
@@ -124,6 +131,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
         /// _[ E5, Flute2 ], <br/>
         /// _[ A4, Flute2, MyCurve ], <br/>
         /// _[ C5, Flute2, MyCurve, l[0.5] ]
@@ -134,6 +142,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
         /// _[ 0.0, A4, Flute2, 0.8 ], <br/>
         /// _[ 0.2, C4, Flute2, 1.0, l[0.5] ]
         /// </c></summary>
@@ -143,6 +152,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
         /// _[ 0.0, A4, Flute2 ], <br/>
         /// _[ 0.0, A4, Flute2, MyCurve ], <br/>
         /// _[ 0.2, C5, Flute2, MyCurve, l[0.5] ]
@@ -153,6 +163,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
         /// _[ t[1, 1], A4, Flute2, 0.8 ], <br/>
         /// _[ t[1, 2], C5, Flute2, 1.0, l[0.5] ]
         /// </c></summary>
@@ -162,6 +173,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq), t, vol, len);
 
         /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
         /// _[ t[1, 1], A4, Flute2 ], <br/>
         /// _[ t[1, 1], A4, Flute2, MyCurve ], <br/>
         /// _[ t[1, 2], C5, Flute2, MyCurve, l[0.5] ]
@@ -174,6 +186,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Instrument with 2 Parameters Freq and Len
         
         /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
         /// _[ A4, Flute3, 0.8 ], <br/>
         /// _[ C5, Flute3, 1.0, l[0.5] ]
         /// </c></summary>
@@ -183,6 +196,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
         /// _[ A4, Flute3 ], <br/>
         /// _[ A4, Flute3, MyCurve ], <br/>
         /// _[ C5, Flute3, MyCurve, l[0.5] ]
@@ -193,6 +207,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
         /// _[ 0.0, A4, Flute3, 0.8 ], <br/>
         /// _[ 0.2, C5, Flute3, 1.0, l[0.5] ]
         /// </c></summary>
@@ -202,6 +217,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
         /// _[ 0.0, A4, Flute3 ], <br/>
         /// _[ 0.0, A4, Flute3, MyCurve ], <br/>
         /// _[ 0.2, C5, Flute3, MyCurve, l[0.5] ]
@@ -212,6 +228,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
         /// _[ t[1, 1], A4, Flute3, 0.8 ], <br/>
         /// _[ t[1, 2], C5, Flute3, 1.0, l[0.5] ]
         /// </c></summary>
@@ -221,6 +238,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len), t, vol, len);
 
         /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
         /// _[ t[1, 1], A4, Flute3 ], <br/>
         /// _[ t[1, 1], A4, Flute3, MyCurve ], <br/>
         /// _[ t[1, 2], C5, Flute3, MyCurve, l[0.5] ]
@@ -233,6 +251,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Instruments with 1 Effect Parameter (Optional)
         
         /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode eff1 = null) <br/><br/>
         /// _[ A4, Flute4, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ C5, Flute4, 1.0, l[1.0], _[0.14] ]
         /// </c></summary>
@@ -242,6 +261,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode eff1 = null) <br/><br/>
         /// _[ A4, Flute4, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ C5, Flute4, MyCurve, l[1.0], _[0.25] ]
         /// </c></summary>
@@ -251,6 +271,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode eff1 = null) <br/><br/>
         /// _[ 0.0, A4, Flute4, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ 0.2, C5, Flute4, 1.0, l[1.0], _[0.14] ]
         /// </c></summary>
@@ -260,6 +281,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode eff1 = null) <br/><br/>
         /// _[ 0.0, A4, Flute4, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ 0.2, C5, Flute4, MyCurve, l[1.0], _[0.25] ]
         /// </c></summary>
@@ -269,6 +291,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode eff1 = null) <br/><br/>
         /// _[ t[1, 1], A4, Flute4, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ t[1, 2], C5, Flute4, 1.0, l[1.0], _[0.14] ]
         /// </c></summary>
@@ -278,6 +301,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1), t, vol, len);
 
         /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode eff1 = null) <br/><br/>
         /// _[ t[1, 1], A4, Flute4, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ t[1, 2], C5, Flute4, MyCurve, l[1.0], _[0.25] ]
         /// </c></summary>
@@ -289,6 +313,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Instruments with 2 Effect Parameters (Optional)
         
         /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null) <br/><br/>
         /// _[ A4, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ C5, Flute5, 1.0, l[1.0], _[0.25], _[1.08] ]
         /// </c></summary>
@@ -298,6 +323,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null) <br/><br/>
         /// _[ A4, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ C5, Flute5, MyCurve, l[1.0], _[0.25], _[1.08] ]
         /// </c></summary>
@@ -307,6 +333,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null) <br/><br/>
         /// _[ 0.0, A4, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ 0.2, C5, Flute5, 1.0, l[1.0], _[0.25], _[1.08] ]
         /// </c></summary>
@@ -316,6 +343,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null) <br/><br/>
         /// _[ 0.0, A4, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ 0.2, C5, Flute5, MyCurve, l[1.0], _[0.25], _[1.08] ]
         /// </c></summary>
@@ -325,6 +353,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null) <br/><br/>
         /// _[ t[1, 1], A4, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ t[1, 2], C5, Flute5, 1.0, l[1.0], _[0.25], _[1.08] ]
         /// </c></summary>
@@ -334,6 +363,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2), t, vol, len);
 
         /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null) <br/><br/>
         /// _[ t[1, 1], A4, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ t[1, 2], C5, Flute5, MyCurve, l[1.0], _[0.25], _[1.08] ]
         /// </c></summary>
@@ -345,6 +375,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Instruments with 3 Effect Parameters (Optional)
         
         /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null) <br/><br/>
         /// _[ t[1, 1], A4, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ t[1, 2], C5, Flute6, 1.0, l[1.0], _[0.25], _[1.08], _[0.03] ]
         /// </c></summary>
@@ -354,6 +385,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2, eff3), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null) <br/><br/>
         /// _[ A4, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ C5, Flute6, MyCurve, l[1.0], _[0.25], _[1.08], _[0.03] ]
         /// </c></summary>
@@ -363,6 +395,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2, eff3), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null) <br/><br/>
         /// _[ 0.0, A4, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ 0.2, C5, Flute6, 1.0, l[1.0], _[0.25], _[1.08], _[0.03] ]
         /// </c></summary>
@@ -372,6 +405,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2, eff3), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null) <br/><br/>
         /// _[ 0.0, A4, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ 0.2, C5, Flute6, MyCurve, l[1.0], _[0.25], _[1.08], _[0.03] ]
         /// </c></summary>
@@ -381,6 +415,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2, eff3), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null) <br/><br/>
         /// _[ t[1, 1], A4, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ t[1, 2], C5, Flute6, 1.0, l[1.0], _[0.25], _[1.08], _[0.03] ]
         /// </c></summary>
@@ -390,6 +425,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2, eff3), t, vol, len);
 
         /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null) <br/><br/>
         /// _[ t[1, 1], A4, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ t[1, 2], C5, Flute6, MyCurve, l[1.0], _[0.25], _[1.08], _[0.03] ]
         /// </c></summary>
@@ -401,6 +437,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Instruments with 4 Effect Parameters (Optional)
         
         /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null, FlowNode eff4 = null) <br/><br/>
         /// _[ A4, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ C5, Flute7, 1.0, l[1.0], _[0.25], _[1.08], _[0.03], _[2.5] ]
         /// </c></summary>
@@ -410,6 +447,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2, eff3, eff4), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null, FlowNode eff4 = null) <br/><br/>
         /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ C5, Flute7, MyCurve, l[1.0], _[0.25], _[1.08], _[0.03], _[2.5] ]
         /// </c></summary>
@@ -419,6 +457,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2, eff3, eff4), default, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null, FlowNode eff4 = null) <br/><br/>
         /// _[ 0.0, A4, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ 0.2, C5, Flute7, 1.0, l[1.0], _[0.25], _[1.08], _[0.03], _[2.5] ]
         /// </c></summary>
@@ -428,6 +467,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2, eff3, eff4), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null, FlowNode eff4 = null) <br/><br/>
         /// _[ 0.0, A4, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ 0.2, C5, Flute7, MyCurve, l[1.0], _[0.25], _[1.08], _[0.03], _[2.5] ]
         /// </c></summary>
@@ -437,6 +477,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2, eff3, eff4), _synthWishes._[t], vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null, FlowNode eff4 = null) <br/><br/>
         /// _[ t[1, 1], A4, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
         /// _[ t[1, 2], C5, Flute7, 1.0, l[1.0], _[0.25], _[1.08], _[0.03], _[2.5] ]
         /// </c></summary>
@@ -446,6 +487,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.StrikeNote(sound(freq, len, eff1, eff2, eff3, eff4), t, vol, len);
         
         /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode eff1 = null, FlowNode eff2 = null, FlowNode eff3 = null, FlowNode eff4 = null) <br/><br/>
         /// _[ t[1, 1], A4, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
         /// _[ t[1, 2], C5, Flute7, MyCurve, l[1.0], _[0.25], _[1.08], _[0.03], _[2.5] ]
         /// </c></summary>
