@@ -144,10 +144,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void Fluent_NoteLength_Fallbacks()
         {
-            // TODO: Can't easily apply an envelope consistently to the note length?
-            // TODO: Not enough overloads in the note arrangement indexer.
-            //_[time, A4, instrument, volume]
-            
             WithAudioLength(4);
             
             var    time   = _[0];
@@ -159,6 +155,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 freq     = freq ?? A4;
                 return Sine(freq) * RecorderCurve.Stretch(SnapNoteLength(noteLength));
             }
+            
+            // TODO: Not enough overloads in the note arrangement indexer.
+            // Freq and note length not optional (in the func).
+            // Time not double.
+            //var note = _[time, A4, instrument, volume];
 
             // Play the instrument for reference
             {
