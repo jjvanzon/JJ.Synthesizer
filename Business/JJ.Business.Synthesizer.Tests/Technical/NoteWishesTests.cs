@@ -4,6 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
+// ReSharper disable ParameterHidesMember
+
 // ReSharper disable PossibleInvalidOperationException
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -152,15 +154,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             FlowNode instrument(FlowNode freq = null, FlowNode noteLength = null)
             {
-                freq     = freq ?? A4;
+                freq = freq ?? A4;
                 return Sine(freq) * RecorderCurve.Stretch(SnapNoteLength(noteLength));
             }
             
-            // TODO: Not enough overloads in the note arrangement indexer.
-            // Freq and note length not optional (in the func).
-            // Time not double.
-            //var note = _[time, A4, instrument, volume];
-
             // Play the instrument for reference
             {
                 Play(() => instrument(C3));
@@ -221,5 +218,111 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Play(() => StrikeNote(instrument(C5, noteLength), time, volume, noteLength));
             }
         }
+        
+        // Note Arrangements
+        
+        [TestMethod]
+        public void NoteArrangement_InstrumentNoParameters_DoubleVolume_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoParameters_DoubleVolume();
+        
+        void NoteArrangement_InstrumentNoParameters_DoubleVolume()
+        {
+            FlowNode instrument() => A4.Sine();
+            Play(() => _[t[1, 1], instrument, 0.8]);
+        }
+        
+        [TestMethod]
+        public void NoteArrangement_InstrumentNoParameters_FlowNodeVolume_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoParameters_FlowNodeVolume();
+        
+        void NoteArrangement_InstrumentNoParameters_FlowNodeVolume()
+        {
+            FlowNode instrument() => A4.Sine();
+            Play(() => _[t[1, 1], instrument, MyCurve]);
+        }
+        
+        [TestMethod]
+        public void NoteArrangement_InstrumentNoDuration_DoubleVolume_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoDuration_DoubleVolume();
+        
+        void NoteArrangement_InstrumentNoDuration_DoubleVolume()
+        {
+            FlowNode instrument(FlowNode freq) => Sine(freq);
+            Play(() => _[t[1, 1], A4, instrument, 0.8]);
+        }
+        
+        [TestMethod]
+        public void NoteArrangement_InstrumentNoDuration_FlowNodeVolume_Test() => new NoteWishesTests().NoteArrangement_InstrumentNoDuration_FlowNodeVolume();
+        
+        void NoteArrangement_InstrumentNoDuration_FlowNodeVolume()
+        {
+            FlowNode instrument(FlowNode freq) => Sine(freq);
+            Play(() => _[t[1, 1], A4, instrument, MyCurve]);
+        }
+        
+        //[TestMethod]
+        //public void NoteArrangement_WithDoubleTime_Test() => new NoteWishesTests().NoteArrangement_WithDoubleTime();
+        
+        //void NoteArrangement_WithDoubleTime()
+        //{
+        //    FlowNode instrument(FlowNode freq, FlowNode length) => Sine(freq);
+        //    Play(() => _[0, A4, instrument, 0.8]);
+        //}
+        
+        //[TestMethod]
+        //public void NoteArrangement_WithoutTime_Test() => new NoteWishesTests().NoteArrangement_WithoutTime();
+        
+        //void NoteArrangement_WithoutTime()
+        //{
+        //    FlowNode instrument(FlowNode freq, FlowNode length) => Sine(freq);
+            
+        //    Play(() => _[A4, instrument, 0.8]);
+        //}
+        
+        [TestMethod]
+        public void NoteArrangements_InstrumentWith2Parameters_Test() => new NoteWishesTests().NoteArrangements_InstrumentWith2Parameters();
+        
+        void NoteArrangements_InstrumentWith2Parameters()
+        {
+            FlowNode instrument(FlowNode freq, FlowNode length) => Sine(freq) * RecorderCurve.Stretch(SnapNoteLength(length));
+            
+            Play(() => Add
+                 (
+                     _[t[1, 1], A4, instrument],
+                     _[t[1, 1], C4, instrument, 0.8],
+                     _[t[1, 1], E4, instrument, 0.8, l[0.5]]
+                 ));
+        }
+        
+        [TestMethod]
+        public void NoteArrangements_InstrumentWithMoreThan2Parameters_Test() => new NoteWishesTests().NoteArrangements_InstrumentWithMoreThan2Parameters();
+        
+        void NoteArrangements_InstrumentWithMoreThan2Parameters()
+        {
+            var tremoloSpeed = _[7];
+            
+            Play(() => Add
+                 (
+                     _[b[1], A4, Instrument1],
+                     _[b[2], C5, Instrument2, 0.6],
+                     _[b[3], G4, Instrument3, MyCurve, len[0.5]],
+                     _[beat[4], D5, Instrument3, _[0.4], l[0.8], _[7]],
+                     _[bar[2] + beat[1], A4, Instrument3, MyCurve, _[0.2], _[7], _[0.6]],
+                     _[t[2, 2], E4, Instrument3, 0.8, l[0.5], tremoloSpeed, _[0.6], _[0.2]]
+                 ));
+        }
+        
+        FlowNode Instrument1(FlowNode freq, FlowNode length, FlowNode tremoloSpeed = null)
+            => Sine(freq).Tremolo(tremoloSpeed, 0.3) * RecorderCurve.Stretch(SnapNoteLength(length));
+        
+        FlowNode Instrument2(FlowNode freq, FlowNode length, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null)
+            => Sine(freq).Tremolo(tremoloSpeed, tremoloDepth) * RecorderCurve.Stretch(SnapNoteLength(length));
+        
+        FlowNode Instrument3(FlowNode freq, FlowNode length, FlowNode tremoloSpeed = null, FlowNode tremoloDepth = null, FlowNode panning = null)
+            => Sine(freq).Tremolo(tremoloSpeed, tremoloDepth).Panning(panning) * RecorderCurve.Stretch(SnapNoteLength(length));
+        
+        FlowNode MyCurve => Curve(@"
+              >          
+           >     >      >  >           
+          >          >        >      >    >
+                                 >            >
+        >                                            >");
     }
 }
