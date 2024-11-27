@@ -38,21 +38,27 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <summary>
         /// Returns the time in seconds of the start of a bar.
+        /// The bars start counting at 1.
+        /// Bar one's start time is at 0 seconds.
         /// </summary>
         public static object _barindexer;
 
         /// <summary>
         /// Returns duration of a number of bars in seconds.
+        /// 0 bars = a duration of 0 seconds.
         /// </summary>
         public static object _barsindexer;
 
         /// <summary>
         /// Returns the start time of a beat in seconds.
+        /// The beats start counting at 1.
+        /// Beat one's start time is at 0 seconds.
         /// </summary>
         public static object _beatindexer;
         
         /// <summary>
         /// Returns duration of a number of beats in seconds.
+        /// 0 beats = a duration of 0 seconds.
         /// </summary>
         public static object _beatsindexer;
             

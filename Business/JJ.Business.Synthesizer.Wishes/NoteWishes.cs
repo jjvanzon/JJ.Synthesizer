@@ -7,18 +7,32 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class FlowNode
     {
+        // Time
+        
+        /// <inheritdoc cref="docs._timeindexer"/>
+        public TimeIndexer t => _synthWishes.t;
+
+        // Bar
+        
         /// <inheritdoc cref="docs._barindexer"/>
         public BarIndexer bar => _synthWishes.bar;
-        /// <inheritdoc cref="docs._barsindexer"/>
-        public BarsIndexer bars => _synthWishes.bars;
+        
+        // Beat
+        
         /// <inheritdoc cref="docs._beatindexer"/>
         public BeatIndexer beat => _synthWishes.beat;
         /// <inheritdoc cref="docs._beatindexer"/>
         public BeatIndexer b => _synthWishes.b;
+
+        // Bars
+        
+        /// <inheritdoc cref="docs._barsindexer"/>
+        public BarsIndexer bars => _synthWishes.bars;
+        
+        // Beats / Length
+        
         /// <inheritdoc cref="docs._beatsindexer"/>
         public BeatsIndexer beats => _synthWishes.beats;
-        /// <inheritdoc cref="docs._timeindexer"/>
-        public TimeIndexer t => _synthWishes.t;
         /// <inheritdoc cref="docs._beatsindexer"/>
         public BeatsIndexer l => _synthWishes.l;
         /// <inheritdoc cref="docs._beatsindexer"/>
