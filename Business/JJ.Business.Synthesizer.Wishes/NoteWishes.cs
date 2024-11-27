@@ -52,30 +52,52 @@ namespace JJ.Business.Synthesizer.Wishes
     // Note Arrangements
     
     public partial class CaptureIndexer
-    { 
-        // For Note Arrangements
+    {
+        // _[ t[1, 1], Flute, MyEnvelope, l[0.5] ]
+        // _[ t[1, 2], Flute, MyEnvelope, l[1.0] ]
+        // (Instrument without parameters)
         
-        // _[ t[1, 1], Flute(A4, l[1]  , fx: _[0.14]) ]
-        // _[ t[1, 2], Flute(B4, l[0.5], fx: _[0.14]), MyEnvelope ]
-        // _[ t[1, 3], Flute(C4,         fx: _[0.25]), MyEnvelope, l[0.8] ]
+        public FlowNode this[
+            FlowNode t, Func<FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes.StrikeNote(sound(), t, vol, len);
         
-        public FlowNode this[FlowNode t, FlowNode sound, FlowNode vol = null, FlowNode duration = null] 
-            => _synthWishes.StrikeNote(sound, t, vol, duration);
+        // _[ t[1, 1], Flute, 0.8, l[0.5] ]
+        // _[ t[1, 2], Flute, 1.0, l[1.0] ]
+        // (Instrument without parameters)
         
-        // _[ t[1, 1], Flute(A4, l[1], _[0.14]), 0.8 ]
-        // _[ t[1, 2], Flute(C4, l[2], _[0.25]), 1.0, l[0.8] ]
+        public FlowNode this[
+            FlowNode t, Func<FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes.StrikeNote(sound(), t, vol, len);
+
+        // _[ t[1, 1], A4, Flute, MyEnvelope, l[0.5] ]
+        // _[ t[1, 2], C4, Flute, MyEnvelope, l[1.0] ]
+        // (Instrument with 1 parameter freq)
         
-        public FlowNode this[FlowNode t, FlowNode sound, double vol, FlowNode duration = null]
-            => _synthWishes.StrikeNote(sound, t, vol, duration);
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes.StrikeNote(sound(freq), t, vol, len);
         
         // _[ t[1, 1], A4, Flute, MyEnvelope, l[0.5] ]
         // _[ t[1, 2], C4, Flute, MyEnvelope, l[1.0] ]
+        // (Instrument with 1 parameter freq)
+        
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes.StrikeNote(sound(freq), t, vol, len);
+
+        // _[ t[1, 1], A4, Flute, MyEnvelope, l[0.5] ]
+        // _[ t[1, 2], C4, Flute, MyEnvelope, l[1.0] ]
+        // (Instrument with 2 parameters freq and length)
 
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound, 
             FlowNode vol = null, FlowNode len = null] 
             => _synthWishes.StrikeNote(sound(freq, len), t, vol, len);
-
+        
         // _[ t[1, 1], A4, Flute, 0.8, l[0.5] ]
         // _[ t[1, 2], C4, Flute, 1.0, l[1.0] ]
 
