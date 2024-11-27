@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
@@ -229,6 +230,18 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             return synthWishes._[_section.NoteLength ?? DefaultNoteLength];
+        }
+        
+        public FlowNode ResolveNoteLength(SynthWishes synthWishes, FlowNode noteLength)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            
+            noteLength = noteLength ?? GetNoteLength(synthWishes);
+
+            // Take snapshot value of noteLength,
+            // for consistent volume curve lengths and buffer size cut-offs.
+            double value = noteLength.Value;
+            return synthWishes.Value(value);
         }
         
         public void WithNoteLength(FlowNode noteLength = default)
@@ -635,7 +648,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Durations
         
-        public FlowNode GetNoteLength => _configResolver.GetNoteLength(this);
+        public FlowNode GetNoteLength  => _configResolver.GetNoteLength(this);
+        public FlowNode ResolveNoteLength(FlowNode noteLength)  => _configResolver.ResolveNoteLength(this, noteLength);
         public SynthWishes WithNoteLength(FlowNode seconds = default) { _configResolver.WithNoteLength(seconds); return this; }
         public SynthWishes WithNoteLength(double seconds) { _configResolver.WithNoteLength(seconds, this); return this; }
         
@@ -734,6 +748,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Durations
         
         public FlowNode GetNoteLength => _synthWishes.GetNoteLength;
+        public FlowNode ResolveNoteLength(FlowNode noteLength) => _synthWishes.ResolveNoteLength(noteLength);
         public FlowNode WithNoteLength(FlowNode newLength = null) { _synthWishes.WithNoteLength(newLength); return this; }
         public FlowNode WithNoteLength(double newLength) { _synthWishes.WithNoteLength(newLength); return this; }
         
