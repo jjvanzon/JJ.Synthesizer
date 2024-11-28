@@ -287,7 +287,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             _[ t[1, 1],     FluteNoParams, 0.8              ],
             _[ t[1, 1],     FluteNoParams, 0.8     , l[0.1] ],
             _[ t[1, 1],     FluteNoParams, MyCurve          ],
-            _[ t[1, 1],     FluteNoParams, MyCurve , l[0.1] ],
+            _[ t[1, 1],     FluteNoParams, MyCurve , l[0.1] ]
             )).Play();
         }
 
@@ -432,7 +432,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             _[ t[1, 2], C5, Flute4Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6] ],
             _[ t[1, 3], E5, Flute4Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6] ],
             _[ t[1, 4], G5, Flute4Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6] ],
-            _[ t[2, 1], A5, Flute4Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ t[2, 1], A5, Flute4Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6] ]
             )).Play();
         }
 
@@ -502,7 +502,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             _[ t[1, 2], C5, Flute5Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
             _[ t[1, 3], E5, Flute5Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
             _[ t[1, 4], G5, Flute5Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-            _[ t[2, 1], A5, Flute5Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[ t[2, 1], A5, Flute5Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ]
             )).Play();
         }
 
@@ -598,12 +598,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             SetNoteArrangementOptions();
             Save(() => 0.2 * Add
             (
-            _[ b[1]   , A4, Flute3Params                   ],
-            _[ b[2]   , C5, Flute4Params, 0.6              ],
-            _[ b[3]   , G4, Flute5Params, MyCurve, len[0.5]],
-            _[ beat[4], D5, Flute5Params, _[0.4],  l[0.8], _[7]],
-            _[ bar[2] + beat[1], A4, Flute5Params, MyCurve, _[0.2], _[7], _[0.6]],
-            _[ 1.75   , E5, Flute5Params, MyCurve , len[0.5]]
+            _[ b[1]            , A4, Flute3Params                                ],
+            _[ b[2]            , C5, Flute4Params, 0.6                           ],
+            _[ b[3]            , G4, Flute5Params, MyCurve, len[0.5]             ],
+            _[ beat[4]         , D5, Flute5Params, _[0.4] , l[0.8], _[7]         ],
+            _[ bar[2] + beat[1], A4, Flute5Params, MyCurve, _[0.2], _[7], _[0.6] ],
+            _[ 1.75            , E5, Flute5Params, MyCurve, len[0.5]             ]
             )).Play();
         }
     }
