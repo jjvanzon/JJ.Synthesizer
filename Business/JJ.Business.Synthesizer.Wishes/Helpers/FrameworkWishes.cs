@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             if (text == null) throw new ArgumentNullException(nameof(text));
             return text.TrimStart(trim).TrimEnd(trim);
-    }
+        }
     }
     
     internal static class JJ_Framework_Common_Wishes
@@ -307,6 +307,26 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             int number = mustNumberFirstFile ? 1 : 2;
             string filePathLastPart = $"{numberSuffix}{fileExtension}";
             return (filePathFirstPart, number, filePathLastPart);
+        }
+    
+        public static string SanitizeFilePath(string filePath, string badCharReplacement = "-")
+        {
+            if (string.IsNullOrWhiteSpace(filePath)) 
+                throw new Exception($"{nameof(filePath)} is null or whitespace.");
+
+            var forbiddenCharacters = Path.GetInvalidFileNameChars().ToHashSet();
+            
+            // Allow slash (but not wildcards)
+            forbiddenCharacters.Remove('\\');
+            forbiddenCharacters.Remove('/');
+            
+            string sanitizedFilePath = new string(
+                filePath.SelectMany(chr => forbiddenCharacters.Contains(chr) ? badCharReplacement : $"{chr}")
+                        .ToArray());
+            
+            sanitizedFilePath = sanitizedFilePath.Trim(badCharReplacement);
+            
+            return sanitizedFilePath;
         }
     }
     
