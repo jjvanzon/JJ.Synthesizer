@@ -37,7 +37,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
         public void Test_DetunicaBass() => new ModulationTests().DetunicaBass_RunTest();
-
         /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass_RunTest()
         {
@@ -47,7 +46,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
         public void Test_Detunica1() => new ModulationTests().Detunica1_RunTest();
-
         /// <inheritdoc cref="docs._detunica" />
         void Detunica1_RunTest()
         {
@@ -58,7 +56,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
         public void Test_Detunica2() => new ModulationTests().Detunica2_RunTest();
-
         /// <inheritdoc cref="docs._detunica" />
         void Detunica2_RunTest()
         {
@@ -69,7 +66,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
         public void Test_Detunica3() => new ModulationTests().Detunica3_RunTest();
-
         /// <inheritdoc cref="docs._detunica" />
         void Detunica3_RunTest()
         {
@@ -80,7 +76,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
         public void Test_Detunica4() => new ModulationTests().Detunica4_RunTest();
-
         /// <inheritdoc cref="docs._detunica" />
         void Detunica4_RunTest()
         {
@@ -91,7 +86,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
         public void Test_Detunica5() => new ModulationTests().Detunica5_RunTest();
-
         /// <inheritdoc cref="docs._detunica" />
         void Detunica5_RunTest()
         {
@@ -102,7 +96,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         [TestMethod]
         public void Test_Vibraphase_Chord() => new ModulationTests().Vibraphase_Chord_RunTest();
-
         /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_Chord_RunTest()
         {
@@ -112,7 +105,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         [TestMethod]
         public void Test_Vibraphase() => new ModulationTests().Vibraphase_RunTest();
-
         /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_RunTest()
         {
