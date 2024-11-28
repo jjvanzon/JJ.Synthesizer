@@ -39,17 +39,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Jingle_Test() => new FMTests().FM_Jingle();
-        void FM_Jingle() => Save(() => DeepEcho(Jingle()) * 0.2).Play();
+        void FM_Jingle()
+        {
+            WithPlayBack();
+            var buff = Save(() => DeepEcho(Jingle()) * 0.2);
+            this.Play(buff);
+        }
         
         [TestMethod]
         public void FM_Flute_Melody1_Test() => new FMTests().FM_Flute_Melody1();
-        void FM_Flute_Melody1()
-        {
-            WithPlayBack();
-            var result = Save(() => MildEcho(FluteMelody1) * 0.5);
-            this.Play(result);
-        }
-
+        void FM_Flute_Melody1() => Save(() => MildEcho(FluteMelody1) * 0.5).Play();
+        
         [TestMethod]
         public void FM_Flute_Melody2_Test() => new FMTests().FM_Flute_Melody2();
         void FM_Flute_Melody2() => Save(() => MildEcho(FluteMelody2.WithAudioLength(bars[8])) * 0.5).Play();
