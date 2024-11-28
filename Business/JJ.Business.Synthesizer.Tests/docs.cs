@@ -94,10 +94,15 @@ namespace JJ.Business.Synthesizer.Tests
         /// <param name="modDepth"> In Hz </param>
         /// <inheritdoc cref="docs._default" />
         public static object _fminhertz;
-            
+
         /// <summary>
-        /// NOTE: Version 0.0.250 does not have time tracking in its oscillator,
-        /// making the FM synthesis behave differently.
+        /// Tests various algorithms for FM sound synthesis, culminating in an atmospheric FM jingle.
+        /// While the code might appear a bit messy, it serves as a test bed for FM synthesis,
+        /// exploring multiple scenarios and notations.
+        /// <para>
+        /// NOTE: Version 0.0.250 lacks time tracking in its oscillator, resulting in FM synthesis 
+        /// with more dynamic timbres that can be harder to control.
+        /// </para>
         /// </summary>
         public static object _fmtests;
             
