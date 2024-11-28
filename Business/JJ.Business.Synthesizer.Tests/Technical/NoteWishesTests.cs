@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
@@ -219,316 +220,391 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         // Note Arrangements
-        
-        [TestMethod]
-        public void NoteArrangementsTest() => new NoteWishesTests().NoteArrangements();
-        
-        void NoteArrangements()
+
+        void SetNoteArrangementOptions()
         {
-            WithAudioLength(4);
-            
-            var tremoloSpeed   = _[7];
-            var panbrelloSpeed = _[3];
-
-            Save(() => 0.0025 * Add
-                 (
-                     _[              Flute1                   ],
-                     _[              Flute1, 0.8              ],
-                     _[              Flute1, 0.8     , l[0.5] ],
-                     _[              Flute1, MyCurve          ],
-                     _[              Flute1, MyCurve , l[0.5] ],
-                     _[ 0.00   ,     Flute1                   ],
-                     _[ 0.00   ,     Flute1, 0.8              ],
-                     _[ 0.00   ,     Flute1, 0.8     , l[0.5] ],
-                     _[ 0.00   ,     Flute1, MyCurve          ],
-                     _[ 0.00   ,     Flute1, MyCurve , l[0.5] ],
-                     _[ t[1, 1],     Flute1                   ],
-                     _[ t[1, 1],     Flute1, 0.8              ],
-                     _[ t[1, 1],     Flute1, 0.8     , l[0.5] ],
-                     _[ t[1, 1],     Flute1, MyCurve          ],
-                     _[ t[1, 1],     Flute1, MyCurve , l[0.5] ],
-                     
-                     _[          A4, Flute2                   ],
-                     _[          A4, Flute2, 0.8              ],
-                     _[          A4, Flute2, 0.8     , l[0.5] ],
-                     _[          A4, Flute2, MyCurve          ],
-                     _[          A4, Flute2, MyCurve , l[0.5] ],
-                     _[ 0.00   , A4, Flute2                   ],
-                     _[ 0.25   , C5, Flute2, 0.8              ],
-                     _[ 0.50   , E5, Flute2, 0.8     , l[0.5] ],
-                     _[ 0.75   , G5, Flute2, MyCurve          ],
-                     _[ 1.00   , A5, Flute2, MyCurve , l[0.5] ],
-                     _[ t[1, 1], A4, Flute2                   ],
-                     _[ t[1, 2], C5, Flute2, 0.8              ],
-                     _[ t[1, 3], E5, Flute2, 0.8     , l[0.5] ],
-                     _[ t[1, 4], G5, Flute2, MyCurve          ],
-                     _[ t[2, 0], A5, Flute2, MyCurve , l[0.5] ],
-                     
-                     _[          A4, Flute3                   ],
-                     _[          A4, Flute3, 0.8              ],
-                     _[          A4, Flute3, 0.8     , l[0.5] ],
-                     _[          A4, Flute3, MyCurve          ],
-                     _[          A4, Flute3, MyCurve , l[0.5] ],
-                     _[ 0.00   , A4, Flute3                   ],
-                     _[ 0.25   , C5, Flute3, 0.8              ],
-                     _[ 0.50   , E5, Flute3, 0.8     , l[0.5] ],
-                     _[ 0.75   , G5, Flute3, MyCurve          ],
-                     _[ 1.00   , A5, Flute3, MyCurve , l[0.5] ],
-                     _[ t[1, 1], A4, Flute3                   ],
-                     _[ t[1, 2], C5, Flute3, 0.8              ],
-                     _[ t[1, 3], E5, Flute3, 0.8     , l[0.5] ],
-                     _[ t[1, 4], G5, Flute3, MyCurve          ],
-                     _[ t[2, 0], A5, Flute3, MyCurve , l[0.5] ],
-                     
-                     _[          A4, Flute4                   ],
-                     _[          A4, Flute4, 0.8              ],
-                     _[          A4, Flute4, 0.8     , l[0.5] ],
-                     _[          A4, Flute4, MyCurve          ],
-                     _[          A4, Flute4, MyCurve , l[0.5] ],
-                     _[ 0.00   , A4, Flute4                   ],
-                     _[ 0.25   , C5, Flute4, 0.8              ],
-                     _[ 0.50   , E5, Flute4, 0.8     , l[0.5] ],
-                     _[ 0.75   , G5, Flute4, MyCurve          ],
-                     _[ 1.00   , A5, Flute4, MyCurve , l[0.5] ],
-                     _[ t[1, 1], A4, Flute4                   ],
-                     _[ t[1, 2], C5, Flute4, 0.8              ],
-                     _[ t[1, 3], E5, Flute4, 0.8     , l[0.5] ],
-                     _[ t[1, 4], G5, Flute4, MyCurve          ],
-                     _[ t[2, 0], A5, Flute4, MyCurve , l[0.5] ],
-                     _[          A4, Flute4                  , fx1: tremoloSpeed],
-                     _[          A4, Flute4, 0.8             , fx1: tremoloSpeed],
-                     _[          A4, Flute4, 0.8     , l[0.5],      tremoloSpeed],
-                     _[          A4, Flute4, MyCurve         , fx1: tremoloSpeed],
-                     _[          A4, Flute4, MyCurve , l[0.5],      tremoloSpeed],
-                     _[ 0.00   , A4, Flute4                  , fx1: tremoloSpeed],
-                     _[ 0.25   , C5, Flute4, 0.8             , fx1: tremoloSpeed],
-                     _[ 0.50   , E5, Flute4, 0.8     , l[0.5],      tremoloSpeed],
-                     _[ 0.75   , G5, Flute4, MyCurve         , fx1: tremoloSpeed],
-                     _[ 1.00   , A5, Flute4, MyCurve , l[0.5],      tremoloSpeed],
-                     _[ t[1, 1], A4, Flute4                  , fx1: tremoloSpeed],
-                     _[ t[1, 2], C5, Flute4, 0.8             , fx1: tremoloSpeed],
-                     _[ t[1, 3], E5, Flute4, 0.8     , l[0.5],      tremoloSpeed],
-                     _[ t[1, 4], G5, Flute4, MyCurve         , fx1: tremoloSpeed],
-                     _[ t[2, 0], A5, Flute4, MyCurve , l[0.5],      tremoloSpeed],
-
-                     _[          A4, Flute5                   ],
-                     _[          A4, Flute5, 0.8              ],
-                     _[          A4, Flute5, 0.8     , l[0.5] ],
-                     _[          A4, Flute5, MyCurve          ],
-                     _[          A4, Flute5, MyCurve , l[0.5] ],
-                     _[ 0.00   , A4, Flute5                   ],
-                     _[ 0.25   , C5, Flute5, 0.8              ],
-                     _[ 0.50   , E5, Flute5, 0.8     , l[0.5] ],
-                     _[ 0.75   , G5, Flute5, MyCurve          ],
-                     _[ 1.00   , A5, Flute5, MyCurve , l[0.5] ],
-                     _[ t[1, 1], A4, Flute5                   ],
-                     _[ t[1, 2], C5, Flute5, 0.8              ],
-                     _[ t[1, 3], E5, Flute5, 0.8     , l[0.5] ],
-                     _[ t[1, 4], G5, Flute5, MyCurve          ],
-                     _[ t[2, 0], A5, Flute5, MyCurve , l[0.5] ],
-                     _[          A4, Flute5                  , fx1: tremoloSpeed ],
-                     _[          A4, Flute5, 0.8             , fx1: tremoloSpeed ],
-                     _[          A4, Flute5, 0.8     , l[0.5],      tremoloSpeed ],
-                     _[          A4, Flute5, MyCurve         , fx1: tremoloSpeed ],
-                     _[          A4, Flute5, MyCurve , l[0.5],      tremoloSpeed ],
-                     _[ 0.00   , A4, Flute5                  , fx1: tremoloSpeed ],
-                     _[ 0.25   , C5, Flute5, 0.8             , fx1: tremoloSpeed ],
-                     _[ 0.50   , E5, Flute5, 0.8     , l[0.5],      tremoloSpeed ],
-                     _[ 0.75   , G5, Flute5, MyCurve         , fx1: tremoloSpeed ],
-                     _[ 1.00   , A5, Flute5, MyCurve , l[0.5],      tremoloSpeed ],
-                     _[ t[1, 1], A4, Flute5                  , fx1: tremoloSpeed ],
-                     _[ t[1, 2], C5, Flute5, 0.8             , fx1: tremoloSpeed ],
-                     _[ t[1, 3], E5, Flute5, 0.8     , l[0.5],      tremoloSpeed ],
-                     _[ t[1, 4], G5, Flute5, MyCurve         , fx1: tremoloSpeed ],
-                     _[ t[2, 0], A5, Flute5, MyCurve , l[0.5],      tremoloSpeed ],
-                     _[          A4, Flute5                  , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[          A4, Flute5, 0.8             , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[          A4, Flute5, 0.8     , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[          A4, Flute5, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[          A4, Flute5, MyCurve , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ 0.00   , A4, Flute5                  , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ 0.25   , C5, Flute5, 0.8             , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ 0.50   , E5, Flute5, 0.8     , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ 0.75   , G5, Flute5, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ 1.00   , A5, Flute5, MyCurve , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ t[1, 1], A4, Flute5                  , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ t[1, 2], C5, Flute5, 0.8             , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ t[1, 3], E5, Flute5, 0.8     , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ t[1, 4], G5, Flute5, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ t[2, 0], A5, Flute5, MyCurve , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     
-                     _[          A4, Flute6                   ],
-                     _[          A4, Flute6, 0.8              ],
-                     _[          A4, Flute6, 0.8     , l[0.5] ],
-                     _[          A4, Flute6, MyCurve          ],
-                     _[          A4, Flute6, MyCurve , l[0.5] ],
-                     _[ 0.00   , A4, Flute6                   ],
-                     _[ 0.25   , C5, Flute6, 0.8              ],
-                     _[ 0.50   , E5, Flute6, 0.8     , l[0.5] ],
-                     _[ 0.75   , G5, Flute6, MyCurve          ],
-                     _[ 1.00   , A5, Flute6, MyCurve , l[0.5] ],
-                     _[ t[1, 1], A4, Flute6                   ],
-                     _[ t[1, 2], C5, Flute6, 0.8              ],
-                     _[ t[1, 3], E5, Flute6, 0.8     , l[0.5] ],
-                     _[ t[1, 4], G5, Flute6, MyCurve          ],
-                     _[ t[2, 0], A5, Flute6, MyCurve , l[0.5] ],
-                     _[          A4, Flute6                  , fx1: tremoloSpeed ],
-                     _[          A4, Flute6, 0.8             , fx1: tremoloSpeed ],
-                     _[          A4, Flute6, 0.8     , l[0.5],      tremoloSpeed ],
-                     _[          A4, Flute6, MyCurve         , fx1: tremoloSpeed ],
-                     _[          A4, Flute6, MyCurve , l[0.5],      tremoloSpeed ],
-                     _[ 0.00   , A4, Flute6                  , fx1: tremoloSpeed ],
-                     _[ 0.25   , C5, Flute6, 0.8             , fx1: tremoloSpeed ],
-                     _[ 0.50   , E5, Flute6, 0.8     , l[0.5],      tremoloSpeed ],
-                     _[ 0.75   , G5, Flute6, MyCurve         , fx1: tremoloSpeed ],
-                     _[ 1.00   , A5, Flute6, MyCurve , l[0.5],      tremoloSpeed ],
-                     _[ t[1, 1], A4, Flute6                  , fx1: tremoloSpeed ],
-                     _[ t[1, 2], C5, Flute6, 0.8             , fx1: tremoloSpeed ],
-                     _[ t[1, 3], E5, Flute6, 0.8     , l[0.5],      tremoloSpeed ],
-                     _[ t[1, 4], G5, Flute6, MyCurve         , fx1: tremoloSpeed ],
-                     _[ t[2, 0], A5, Flute6, MyCurve , l[0.5],      tremoloSpeed ],
-                     _[          A4, Flute6                  , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[          A4, Flute6, 0.8             , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[          A4, Flute6, 0.8     , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[          A4, Flute6, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[          A4, Flute6, MyCurve , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ 0.00   , A4, Flute6                  , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ 0.25   , C5, Flute6, 0.8             , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ 0.50   , E5, Flute6, 0.8     , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ 0.75   , G5, Flute6, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ 1.00   , A5, Flute6, MyCurve , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ t[1, 1], A4, Flute6                  , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ t[1, 2], C5, Flute6, 0.8             , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ t[1, 3], E5, Flute6, 0.8     , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ t[1, 4], G5, Flute6, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ t[2, 0], A5, Flute6, MyCurve , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[          A4, Flute6                  , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[          A4, Flute6, 0.8             , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[          A4, Flute6, 0.8     , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                     _[          A4, Flute6, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[          A4, Flute6, MyCurve , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                     _[ 0.00   , A4, Flute6                  , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ 0.25   , C5, Flute6, 0.8             , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ 0.50   , E5, Flute6, 0.8     , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                     _[ 0.75   , G5, Flute6, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ 1.00   , A5, Flute6, MyCurve , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                     _[ t[1, 1], A4, Flute6                  , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ t[1, 2], C5, Flute6, 0.8             , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ t[1, 3], E5, Flute6, 0.8     , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                     _[ t[1, 4], G5, Flute6, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ t[2, 0], A5, Flute6, MyCurve , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                                          
-                     _[          A4, Flute7                   ],
-                     _[          A4, Flute7, 0.8              ],
-                     _[          A4, Flute7, 0.8     , l[0.5] ],
-                     _[          A4, Flute7, MyCurve          ],
-                     _[          A4, Flute7, MyCurve , l[0.5] ],
-                     _[ 0.00   , A4, Flute7                   ],
-                     _[ 0.25   , C5, Flute7, 0.8              ],
-                     _[ 0.50   , E5, Flute7, 0.8     , l[0.5] ],
-                     _[ 0.75   , G5, Flute7, MyCurve          ],
-                     _[ 1.00   , A5, Flute7, MyCurve , l[0.5] ],
-                     _[ t[1, 1], A4, Flute7                   ],
-                     _[ t[1, 2], C5, Flute7, 0.8              ],
-                     _[ t[1, 3], E5, Flute7, 0.8     , l[0.5] ],
-                     _[ t[1, 4], G5, Flute7, MyCurve          ],
-                     _[ t[2, 0], A5, Flute7, MyCurve , l[0.5] ],
-                     _[          A4, Flute7                  , fx1: tremoloSpeed ],
-                     _[          A4, Flute7, 0.8             , fx1: tremoloSpeed ],
-                     _[          A4, Flute7, 0.8     , l[0.5],      tremoloSpeed ],
-                     _[          A4, Flute7, MyCurve         , fx1: tremoloSpeed ],
-                     _[          A4, Flute7, MyCurve , l[0.5],      tremoloSpeed ],
-                     _[ 0.00   , A4, Flute7                  , fx1: tremoloSpeed ],
-                     _[ 0.25   , C5, Flute7, 0.8             , fx1: tremoloSpeed ],
-                     _[ 0.50   , E5, Flute7, 0.8     , l[0.5],      tremoloSpeed ],
-                     _[ 0.75   , G5, Flute7, MyCurve         , fx1: tremoloSpeed ],
-                     _[ 1.00   , A5, Flute7, MyCurve , l[0.5],      tremoloSpeed ],
-                     _[ t[1, 1], A4, Flute7                  , fx1: tremoloSpeed ],
-                     _[ t[1, 2], C5, Flute7, 0.8             , fx1: tremoloSpeed ],
-                     _[ t[1, 3], E5, Flute7, 0.8     , l[0.5],      tremoloSpeed ],
-                     _[ t[1, 4], G5, Flute7, MyCurve         , fx1: tremoloSpeed ],
-                     _[ t[2, 0], A5, Flute7, MyCurve , l[0.5],      tremoloSpeed ],
-                     _[          A4, Flute7                  , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[          A4, Flute7, 0.8             , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[          A4, Flute7, 0.8     , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[          A4, Flute7, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[          A4, Flute7, MyCurve , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ 0.00   , A4, Flute7                  , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ 0.25   , C5, Flute7, 0.8             , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ 0.50   , E5, Flute7, 0.8     , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ 0.75   , G5, Flute7, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ 1.00   , A5, Flute7, MyCurve , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ t[1, 1], A4, Flute7                  , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ t[1, 2], C5, Flute7, 0.8             , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ t[1, 3], E5, Flute7, 0.8     , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[ t[1, 4], G5, Flute7, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6] ],
-                     _[ t[2, 0], A5, Flute7, MyCurve , l[0.5],      tremoloSpeed,      _[0.6] ],
-                     _[          A4, Flute7                  , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[          A4, Flute7, 0.8             , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[          A4, Flute7, 0.8     , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                     _[          A4, Flute7, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[          A4, Flute7, MyCurve , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                     _[ 0.00   , A4, Flute7                  , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ 0.25   , C5, Flute7, 0.8             , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ 0.50   , E5, Flute7, 0.8     , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                     _[ 0.75   , G5, Flute7, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ 1.00   , A5, Flute7, MyCurve , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                     _[ t[1, 1], A4, Flute7                  , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ t[1, 2], C5, Flute7, 0.8             , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ t[1, 3], E5, Flute7, 0.8     , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                     _[ t[1, 4], G5, Flute7, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
-                     _[ t[2, 0], A5, Flute7, MyCurve , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2] ],
-                     _[          A4, Flute7                  , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: panbrelloSpeed ],
-                     _[          A4, Flute7, 0.8             , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: panbrelloSpeed ],
-                     _[          A4, Flute7, 0.8     , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2],      panbrelloSpeed ],
-                     _[          A4, Flute7, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: panbrelloSpeed ],
-                     _[          A4, Flute7, MyCurve , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2],      panbrelloSpeed ],
-                     _[ 0.00   , A4, Flute7                  , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: panbrelloSpeed ],
-                     _[ 0.25   , C5, Flute7, 0.8             , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: panbrelloSpeed ],
-                     _[ 0.50   , E5, Flute7, 0.8     , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2],      panbrelloSpeed ],
-                     _[ 0.75   , G5, Flute7, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: panbrelloSpeed ],
-                     _[ 1.00   , A5, Flute7, MyCurve , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2],      panbrelloSpeed ],
-                     _[ t[1, 1], A4, Flute7                  , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: panbrelloSpeed ],
-                     _[ t[1, 2], C5, Flute7, 0.8             , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: panbrelloSpeed ],
-                     _[ t[1, 3], E5, Flute7, 0.8     , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2],      panbrelloSpeed ],
-                     _[ t[1, 4], G5, Flute7, MyCurve         , fx1: tremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: panbrelloSpeed ],
-                     _[ t[2, 0], A5, Flute7, MyCurve , l[0.5],      tremoloSpeed,      _[0.6],      _[0.2],      panbrelloSpeed ]
-
-                     //_[ b[1]   , A4, Flute4                   ],
-                     //_[ b[2]   , C5, Flute5, 0.6              ],
-                     //_[ b[3]   , G4, Flute6, MyCurve, len[0.5]],
-                     //_[ beat[4], D5, Flute6, _[0.4],  l[0.8], _[7]],
-                     //_[ bar[2] + beat[1], A4, Flute6, MyCurve, _[0.2], _[7], _[0.6]],
-                     //_[ 1.75   , E5, Flute6, MyCurve , len[0.5]]
-                 )).Play();
+            WithStereo();
+            WithNoteLength(0.2);
+            WithAudioLength(t[2, 1] + GetNoteLength);
         }
         
-        FlowNode Flute1()
+        FlowNode TremoloSpeed   => _[7];
+        FlowNode PanbrelloSpeed => _[3];
+               
+        FlowNode FluteNoParams()
             => A4.Sine();
         
-        FlowNode Flute2(FlowNode freq) 
+        FlowNode Flute1Param(FlowNode freq) 
             => Sine(freq);
         
-        FlowNode Flute3(FlowNode freq, FlowNode len = null) 
+        FlowNode Flute2Params(FlowNode freq, FlowNode len = null) 
             => Sine(freq) * RecorderCurve.Stretch(SnapNoteLength(len));
 
-        FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null)
+        FlowNode Flute3Params(FlowNode freq, FlowNode len = null, FlowNode fx1 = null)
             => Sine(freq).Tremolo(fx1, 0.3) * RecorderCurve.Stretch(SnapNoteLength(len));
         
-        FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null)
+        FlowNode Flute4Params(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null)
             => Sine(freq).Tremolo(fx1, fx2) * RecorderCurve.Stretch(SnapNoteLength(len));
         
-        FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null)
+        FlowNode Flute5Params(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null)
             => Sine(freq).Tremolo(fx1, fx2).Panning(fx3) * RecorderCurve.Stretch(SnapNoteLength(len));
         
-        FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null)
+        FlowNode Flute6Params(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null)
             => Sine(freq).Tremolo(fx1, fx2).Panning(fx3).Panbrello(fx4) * RecorderCurve.Stretch(SnapNoteLength(len));
         
         FlowNode MyCurve => Curve(@"
-              >          
-           >     >      >  >           
-          >          >        >      >    >
-                                 >            >
-        >                                            >");
+        *
+         *
+          *
+           *").Stretch(GetNoteLength);
+ 
+        [TestMethod]
+        public void NoteArrangement_SingleNote_Test() => new NoteWishesTests().NoteArrangement_SingleNote();
+
+        void NoteArrangement_SingleNote()
+        {
+            Save(() => _[ t[2, 1], A5, Flute1Param, MyCurve , l[0.3] ]).Play();
+        }
+        
+        [TestMethod]
+        public void NoteArrangement_FluteNoParams_Test() => new NoteWishesTests().NoteArrangement_FluteNoParams();
+        void NoteArrangement_FluteNoParams()
+        {
+            SetNoteArrangementOptions();
+            Save(() => 0.2 * Add
+            (
+            _[              FluteNoParams                   ],
+            _[              FluteNoParams, 0.8              ],
+            _[              FluteNoParams, 0.8     , l[0.1] ],
+            _[              FluteNoParams, MyCurve          ],
+            _[              FluteNoParams, MyCurve , l[0.1] ],
+            _[ 0.00   ,     FluteNoParams                   ],
+            _[ 0.00   ,     FluteNoParams, 0.8              ],
+            _[ 0.00   ,     FluteNoParams, 0.8     , l[0.1] ],
+            _[ 0.00   ,     FluteNoParams, MyCurve          ],
+            _[ 0.00   ,     FluteNoParams, MyCurve , l[0.1] ],
+            _[ t[1, 1],     FluteNoParams                   ],
+            _[ t[1, 1],     FluteNoParams, 0.8              ],
+            _[ t[1, 1],     FluteNoParams, 0.8     , l[0.1] ],
+            _[ t[1, 1],     FluteNoParams, MyCurve          ],
+            _[ t[1, 1],     FluteNoParams, MyCurve , l[0.1] ],
+            )).Play();
+        }
+
+        [TestMethod]
+        public void NoteArrangement_Flute1Param_Test() => new NoteWishesTests().NoteArrangement_Flute1Param();
+        void NoteArrangement_Flute1Param()
+        {
+            SetNoteArrangementOptions();
+            Save(() => 0.2 * Add
+            (
+            _[          A4, Flute1Param                   ],
+            _[          A4, Flute1Param, 0.8              ],
+            _[          A4, Flute1Param, 0.8     , l[0.1] ],
+            _[          A4, Flute1Param, MyCurve          ],
+            _[          A4, Flute1Param, MyCurve , l[0.1] ],
+            _[ 0.00   , A4, Flute1Param                   ],
+            _[ 0.25   , C5, Flute1Param, 0.8              ],
+            _[ 0.50   , E5, Flute1Param, 0.8     , l[0.1] ],
+            _[ 0.75   , G5, Flute1Param, MyCurve          ],
+            _[ 1.00   , A5, Flute1Param, MyCurve , l[0.1] ],
+            _[ t[1, 1], A4, Flute1Param                   ],
+            _[ t[1, 2], C5, Flute1Param, 0.8              ],
+            _[ t[1, 3], E5, Flute1Param, 0.8     , l[0.1] ],
+            _[ t[1, 4], G5, Flute1Param, MyCurve          ],
+            _[ t[2, 1], A5, Flute1Param, MyCurve , l[0.3] ]
+            )).Play();
+        }
+
+        [TestMethod]
+        public void NoteArrangement_Flute2Params_Test() => new NoteWishesTests().NoteArrangement_Flute2Params();
+        void NoteArrangement_Flute2Params()
+        {
+            SetNoteArrangementOptions();
+            Save(() => 0.2 * Add
+            (
+            _[          A4, Flute2Params                   ],
+            _[          A4, Flute2Params, 0.8              ],
+            _[          A4, Flute2Params, 0.8     , l[0.1] ],
+            _[          A4, Flute2Params, MyCurve          ],
+            _[          A4, Flute2Params, MyCurve , l[0.1] ],
+            _[ 0.00   , A4, Flute2Params                   ],
+            _[ 0.25   , C5, Flute2Params, 0.8              ],
+            _[ 0.50   , E5, Flute2Params, 0.8     , l[0.1] ],
+            _[ 0.75   , G5, Flute2Params, MyCurve          ],
+            _[ 1.00   , A5, Flute2Params, MyCurve , l[0.1] ],
+            _[ t[1, 1], A4, Flute2Params                   ],
+            _[ t[1, 2], C5, Flute2Params, 0.8              ],
+            _[ t[1, 3], E5, Flute2Params, 0.8     , l[0.1] ],
+            _[ t[1, 4], G5, Flute2Params, MyCurve          ],
+            _[ t[2, 1], A5, Flute2Params, MyCurve , l[0.1] ]
+            )).Play();
+        }
+
+        [TestMethod]
+        public void NoteArrangement_Flute3Params_Test() => new NoteWishesTests().NoteArrangement_Flute3Params();
+        void NoteArrangement_Flute3Params()
+        {
+            SetNoteArrangementOptions();
+            Save(() => 0.2 * Add
+            (
+            _[          A4, Flute3Params                   ],
+            _[          A4, Flute3Params, 0.8              ],
+            _[          A4, Flute3Params, 0.8     , l[0.1] ],
+            _[          A4, Flute3Params, MyCurve          ],
+            _[          A4, Flute3Params, MyCurve , l[0.1] ],
+            _[ 0.00   , A4, Flute3Params                   ],
+            _[ 0.25   , C5, Flute3Params, 0.8              ],
+            _[ 0.50   , E5, Flute3Params, 0.8     , l[0.1] ],
+            _[ 0.75   , G5, Flute3Params, MyCurve          ],
+            _[ 1.00   , A5, Flute3Params, MyCurve , l[0.1] ],
+            _[ t[1, 1], A4, Flute3Params                   ],
+            _[ t[1, 2], C5, Flute3Params, 0.8              ],
+            _[ t[1, 3], E5, Flute3Params, 0.8     , l[0.1] ],
+            _[ t[1, 4], G5, Flute3Params, MyCurve          ],
+            _[ t[2, 1], A5, Flute3Params, MyCurve , l[0.1] ],
+            _[          A4, Flute3Params                  , fx1: TremoloSpeed],
+            _[          A4, Flute3Params, 0.8             , fx1: TremoloSpeed],
+            _[          A4, Flute3Params, 0.8     , l[0.1],      TremoloSpeed],
+            _[          A4, Flute3Params, MyCurve         , fx1: TremoloSpeed],
+            _[          A4, Flute3Params, MyCurve , l[0.1],      TremoloSpeed],
+            _[ 0.00   , A4, Flute3Params                  , fx1: TremoloSpeed],
+            _[ 0.25   , C5, Flute3Params, 0.8             , fx1: TremoloSpeed],
+            _[ 0.50   , E5, Flute3Params, 0.8     , l[0.1],      TremoloSpeed],
+            _[ 0.75   , G5, Flute3Params, MyCurve         , fx1: TremoloSpeed],
+            _[ 1.00   , A5, Flute3Params, MyCurve , l[0.1],      TremoloSpeed],
+            _[ t[1, 1], A4, Flute3Params                  , fx1: TremoloSpeed],
+            _[ t[1, 2], C5, Flute3Params, 0.8             , fx1: TremoloSpeed],
+            _[ t[1, 3], E5, Flute3Params, 0.8     , l[0.1],      TremoloSpeed],
+            _[ t[1, 4], G5, Flute3Params, MyCurve         , fx1: TremoloSpeed],
+            _[ t[2, 1], A5, Flute3Params, MyCurve , l[0.1],      TremoloSpeed]
+            )).Play();
+        }
+
+        [TestMethod]
+        public void NoteArrangement_Flute4Params_Test() => new NoteWishesTests().NoteArrangement_Flute4Params();
+        void NoteArrangement_Flute4Params()
+        {
+            SetNoteArrangementOptions();
+            Save(() => 0.2 * Add
+            (
+            _[          A4, Flute4Params                   ],
+            _[          A4, Flute4Params, 0.8              ],
+            _[          A4, Flute4Params, 0.8     , l[0.1] ],
+            _[          A4, Flute4Params, MyCurve          ],
+            _[          A4, Flute4Params, MyCurve , l[0.1] ],
+            _[ 0.00   , A4, Flute4Params                   ],
+            _[ 0.25   , C5, Flute4Params, 0.8              ],
+            _[ 0.50   , E5, Flute4Params, 0.8     , l[0.1] ],
+            _[ 0.75   , G5, Flute4Params, MyCurve          ],
+            _[ 1.00   , A5, Flute4Params, MyCurve , l[0.1] ],
+            _[ t[1, 1], A4, Flute4Params                   ],
+            _[ t[1, 2], C5, Flute4Params, 0.8              ],
+            _[ t[1, 3], E5, Flute4Params, 0.8     , l[0.1] ],
+            _[ t[1, 4], G5, Flute4Params, MyCurve          ],
+            _[ t[2, 1], A5, Flute4Params, MyCurve , l[0.1] ],
+            _[          A4, Flute4Params                  , fx1: TremoloSpeed ],
+            _[          A4, Flute4Params, 0.8             , fx1: TremoloSpeed ],
+            _[          A4, Flute4Params, 0.8     , l[0.1],      TremoloSpeed ],
+            _[          A4, Flute4Params, MyCurve         , fx1: TremoloSpeed ],
+            _[          A4, Flute4Params, MyCurve , l[0.1],      TremoloSpeed ],
+            _[ 0.00   , A4, Flute4Params                  , fx1: TremoloSpeed ],
+            _[ 0.25   , C5, Flute4Params, 0.8             , fx1: TremoloSpeed ],
+            _[ 0.50   , E5, Flute4Params, 0.8     , l[0.1],      TremoloSpeed ],
+            _[ 0.75   , G5, Flute4Params, MyCurve         , fx1: TremoloSpeed ],
+            _[ 1.00   , A5, Flute4Params, MyCurve , l[0.1],      TremoloSpeed ],
+            _[ t[1, 1], A4, Flute4Params                  , fx1: TremoloSpeed ],
+            _[ t[1, 2], C5, Flute4Params, 0.8             , fx1: TremoloSpeed ],
+            _[ t[1, 3], E5, Flute4Params, 0.8     , l[0.1],      TremoloSpeed ],
+            _[ t[1, 4], G5, Flute4Params, MyCurve         , fx1: TremoloSpeed ],
+            _[ t[2, 1], A5, Flute4Params, MyCurve , l[0.1],      TremoloSpeed ],
+            _[          A4, Flute4Params                  , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[          A4, Flute4Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[          A4, Flute4Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[          A4, Flute4Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[          A4, Flute4Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ 0.00   , A4, Flute4Params                  , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ 0.25   , C5, Flute4Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ 0.50   , E5, Flute4Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ 0.75   , G5, Flute4Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ 1.00   , A5, Flute4Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ t[1, 1], A4, Flute4Params                  , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ t[1, 2], C5, Flute4Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ t[1, 3], E5, Flute4Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ t[1, 4], G5, Flute4Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ t[2, 1], A5, Flute4Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6] ],
+            )).Play();
+        }
+
+        [TestMethod]
+        public void NoteArrangement_Flute5Params_Test() => new NoteWishesTests().NoteArrangement_Flute5Params();
+        void NoteArrangement_Flute5Params()
+        {
+            SetNoteArrangementOptions();
+            Save(() => 0.2 * Add
+            (
+            _[          A4, Flute5Params                   ],
+            _[          A4, Flute5Params, 0.8              ],
+            _[          A4, Flute5Params, 0.8     , l[0.1] ],
+            _[          A4, Flute5Params, MyCurve          ],
+            _[          A4, Flute5Params, MyCurve , l[0.1] ],
+            _[ 0.00   , A4, Flute5Params                   ],
+            _[ 0.25   , C5, Flute5Params, 0.8              ],
+            _[ 0.50   , E5, Flute5Params, 0.8     , l[0.1] ],
+            _[ 0.75   , G5, Flute5Params, MyCurve          ],
+            _[ 1.00   , A5, Flute5Params, MyCurve , l[0.1] ],
+            _[ t[1, 1], A4, Flute5Params                   ],
+            _[ t[1, 2], C5, Flute5Params, 0.8              ],
+            _[ t[1, 3], E5, Flute5Params, 0.8     , l[0.1] ],
+            _[ t[1, 4], G5, Flute5Params, MyCurve          ],
+            _[ t[2, 1], A5, Flute5Params, MyCurve , l[0.1] ],
+            _[          A4, Flute5Params                  , fx1: TremoloSpeed ],
+            _[          A4, Flute5Params, 0.8             , fx1: TremoloSpeed ],
+            _[          A4, Flute5Params, 0.8     , l[0.1],      TremoloSpeed ],
+            _[          A4, Flute5Params, MyCurve         , fx1: TremoloSpeed ],
+            _[          A4, Flute5Params, MyCurve , l[0.1],      TremoloSpeed ],
+            _[ 0.00   , A4, Flute5Params                  , fx1: TremoloSpeed ],
+            _[ 0.25   , C5, Flute5Params, 0.8             , fx1: TremoloSpeed ],
+            _[ 0.50   , E5, Flute5Params, 0.8     , l[0.1],      TremoloSpeed ],
+            _[ 0.75   , G5, Flute5Params, MyCurve         , fx1: TremoloSpeed ],
+            _[ 1.00   , A5, Flute5Params, MyCurve , l[0.1],      TremoloSpeed ],
+            _[ t[1, 1], A4, Flute5Params                  , fx1: TremoloSpeed ],
+            _[ t[1, 2], C5, Flute5Params, 0.8             , fx1: TremoloSpeed ],
+            _[ t[1, 3], E5, Flute5Params, 0.8     , l[0.1],      TremoloSpeed ],
+            _[ t[1, 4], G5, Flute5Params, MyCurve         , fx1: TremoloSpeed ],
+            _[ t[2, 1], A5, Flute5Params, MyCurve , l[0.1],      TremoloSpeed ],
+            _[          A4, Flute5Params                  , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[          A4, Flute5Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[          A4, Flute5Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[          A4, Flute5Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[          A4, Flute5Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ 0.00   , A4, Flute5Params                  , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ 0.25   , C5, Flute5Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ 0.50   , E5, Flute5Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ 0.75   , G5, Flute5Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ 1.00   , A5, Flute5Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ t[1, 1], A4, Flute5Params                  , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ t[1, 2], C5, Flute5Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ t[1, 3], E5, Flute5Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ t[1, 4], G5, Flute5Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ t[2, 1], A5, Flute5Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[          A4, Flute5Params                  , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[          A4, Flute5Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[          A4, Flute5Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[          A4, Flute5Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[          A4, Flute5Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[ 0.00   , A4, Flute5Params                  , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ 0.25   , C5, Flute5Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ 0.50   , E5, Flute5Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[ 0.75   , G5, Flute5Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ 1.00   , A5, Flute5Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[ t[1, 1], A4, Flute5Params                  , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ t[1, 2], C5, Flute5Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ t[1, 3], E5, Flute5Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[ t[1, 4], G5, Flute5Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ t[2, 1], A5, Flute5Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            )).Play();
+        }
+
+        [TestMethod]
+        public void NoteArrangement_Flute6Params_Test() => new NoteWishesTests().NoteArrangement_Flute6Params();
+        void NoteArrangement_Flute6Params()
+        {
+            SetNoteArrangementOptions();
+            Save(() => 0.2 * Add
+            (
+            _[          A4, Flute6Params                   ],
+            _[          A4, Flute6Params, 0.8              ],
+            _[          A4, Flute6Params, 0.8     , l[0.1] ],
+            _[          A4, Flute6Params, MyCurve          ],
+            _[          A4, Flute6Params, MyCurve , l[0.1] ],
+            _[ 0.00   , A4, Flute6Params                   ],
+            _[ 0.25   , C5, Flute6Params, 0.8              ],
+            _[ 0.50   , E5, Flute6Params, 0.8     , l[0.1] ],
+            _[ 0.75   , G5, Flute6Params, MyCurve          ],
+            _[ 1.00   , A5, Flute6Params, MyCurve , l[0.1] ],
+            _[ t[1, 1], A4, Flute6Params                   ],
+            _[ t[1, 2], C5, Flute6Params, 0.8              ],
+            _[ t[1, 3], E5, Flute6Params, 0.8     , l[0.1] ],
+            _[ t[1, 4], G5, Flute6Params, MyCurve          ],
+            _[ t[2, 1], A5, Flute6Params, MyCurve , l[0.1] ],
+            _[          A4, Flute6Params                  , fx1: TremoloSpeed ],
+            _[          A4, Flute6Params, 0.8             , fx1: TremoloSpeed ],
+            _[          A4, Flute6Params, 0.8     , l[0.1],      TremoloSpeed ],
+            _[          A4, Flute6Params, MyCurve         , fx1: TremoloSpeed ],
+            _[          A4, Flute6Params, MyCurve , l[0.1],      TremoloSpeed ],
+            _[ 0.00   , A4, Flute6Params                  , fx1: TremoloSpeed ],
+            _[ 0.25   , C5, Flute6Params, 0.8             , fx1: TremoloSpeed ],
+            _[ 0.50   , E5, Flute6Params, 0.8     , l[0.1],      TremoloSpeed ],
+            _[ 0.75   , G5, Flute6Params, MyCurve         , fx1: TremoloSpeed ],
+            _[ 1.00   , A5, Flute6Params, MyCurve , l[0.1],      TremoloSpeed ],
+            _[ t[1, 1], A4, Flute6Params                  , fx1: TremoloSpeed ],
+            _[ t[1, 2], C5, Flute6Params, 0.8             , fx1: TremoloSpeed ],
+            _[ t[1, 3], E5, Flute6Params, 0.8     , l[0.1],      TremoloSpeed ],
+            _[ t[1, 4], G5, Flute6Params, MyCurve         , fx1: TremoloSpeed ],
+            _[ t[2, 1], A5, Flute6Params, MyCurve , l[0.1],      TremoloSpeed ],
+            _[          A4, Flute6Params                  , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[          A4, Flute6Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[          A4, Flute6Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[          A4, Flute6Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[          A4, Flute6Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ 0.00   , A4, Flute6Params                  , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ 0.25   , C5, Flute6Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ 0.50   , E5, Flute6Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ 0.75   , G5, Flute6Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ 1.00   , A5, Flute6Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ t[1, 1], A4, Flute6Params                  , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ t[1, 2], C5, Flute6Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ t[1, 3], E5, Flute6Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[ t[1, 4], G5, Flute6Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6] ],
+            _[ t[2, 1], A5, Flute6Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6] ],
+            _[          A4, Flute6Params                  , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[          A4, Flute6Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[          A4, Flute6Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[          A4, Flute6Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[          A4, Flute6Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[ 0.00   , A4, Flute6Params                  , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ 0.25   , C5, Flute6Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ 0.50   , E5, Flute6Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[ 0.75   , G5, Flute6Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ 1.00   , A5, Flute6Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[ t[1, 1], A4, Flute6Params                  , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ t[1, 2], C5, Flute6Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ t[1, 3], E5, Flute6Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[ t[1, 4], G5, Flute6Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2] ],
+            _[ t[2, 1], A5, Flute6Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2] ],
+            _[          A4, Flute6Params                  , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: PanbrelloSpeed ],
+            _[          A4, Flute6Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: PanbrelloSpeed ],
+            _[          A4, Flute6Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2],      PanbrelloSpeed ],
+            _[          A4, Flute6Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: PanbrelloSpeed ],
+            _[          A4, Flute6Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2],      PanbrelloSpeed ],
+            _[ 0.00   , A4, Flute6Params                  , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: PanbrelloSpeed ],
+            _[ 0.25   , C5, Flute6Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: PanbrelloSpeed ],
+            _[ 0.50   , E5, Flute6Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2],      PanbrelloSpeed ],
+            _[ 0.75   , G5, Flute6Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: PanbrelloSpeed ],
+            _[ 1.00   , A5, Flute6Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2],      PanbrelloSpeed ],
+            _[ t[1, 1], A4, Flute6Params                  , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: PanbrelloSpeed ],
+            _[ t[1, 2], C5, Flute6Params, 0.8             , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: PanbrelloSpeed ],
+            _[ t[1, 3], E5, Flute6Params, 0.8     , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2],      PanbrelloSpeed ],
+            _[ t[1, 4], G5, Flute6Params, MyCurve         , fx1: TremoloSpeed, fx2: _[0.6], fx3: _[0.2], fx4: PanbrelloSpeed ],
+            _[ t[2, 1], A5, Flute6Params, MyCurve , l[0.1],      TremoloSpeed,      _[0.6],      _[0.2],      PanbrelloSpeed ]
+            )).Play();
+        }
+
+        [TestMethod]
+        public void NoteArrangement_TimeIndexers_Test() => new NoteWishesTests().NoteArrangement_TimeIndexers();
+        void NoteArrangement_TimeIndexers()
+        {
+            SetNoteArrangementOptions();
+            Save(() => 0.2 * Add
+            (
+            _[ b[1]   , A4, Flute3Params                   ],
+            _[ b[2]   , C5, Flute4Params, 0.6              ],
+            _[ b[3]   , G4, Flute5Params, MyCurve, len[0.5]],
+            _[ beat[4], D5, Flute5Params, _[0.4],  l[0.8], _[7]],
+            _[ bar[2] + beat[1], A4, Flute5Params, MyCurve, _[0.2], _[7], _[0.6]],
+            _[ 1.75   , E5, Flute5Params, MyCurve , len[0.5]]
+            )).Play();
+        }
     }
 }
