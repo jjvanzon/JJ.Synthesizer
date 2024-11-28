@@ -39,10 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Jingle() => new FMTests().FM_Jingle_RunTest();
-        void FM_Jingle_RunTest()
-        {
-            Save(() => DeepEcho(Jingle()) * 0.2).Play();
-        }
+        void FM_Jingle_RunTest() => Save(() => DeepEcho(Jingle()) * 0.2).Play();
         
         [TestMethod]
         public void FM_Flute_Melody1() => new FMTests().FM_Flute_Melody1_RunTest();
@@ -55,38 +52,23 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Flute_Melody2() => new FMTests().FM_Flute_Melody2_RunTest();
-        void FM_Flute_Melody2_RunTest()
-        {
-            Save(() => MildEcho(FluteMelody2) * 0.5).Play();
-        }
+        void FM_Flute_Melody2_RunTest() => Save(() => MildEcho(FluteMelody2) * 0.5).Play();
 
         [TestMethod]
         public void FM_Flute1() => new FMTests().FM_Flute1_RunTest();
-        void FM_Flute1_RunTest()
-        {
-            Save(() => MildEcho(Flute1(E4)) * 0.5).Play();
-        }
+        void FM_Flute1_RunTest() => Save(() => MildEcho(Flute1(E4)) * 0.5).Play();
 
         [TestMethod]
         public void FM_Flute2() => new FMTests().FM_Flute2_RunTest();
-        void FM_Flute2_RunTest()
-        {
-            Save(() => MildEcho(Flute2(F4)) * 0.5).Play();
-        }
+        void FM_Flute2_RunTest() => Save(() => MildEcho(Flute2(F4)) * 0.5).Play();
 
         [TestMethod]
         public void FM_Flute3() => new FMTests().FM_Flute3_RunTest();
-        void FM_Flute3_RunTest()
-        {
-            Save(() => MildEcho(Flute3(G4)) * 0.5).Play();
-        }
+        void FM_Flute3_RunTest() => Save(() => MildEcho(Flute3(G4)) * 0.5).Play();
 
         [TestMethod]
         public void FM_Flute4() => new FMTests().FM_Flute4_RunTest();
-        void FM_Flute4_RunTest()
-        {
-            Save(() => MildEcho(Flute4(A4)) * 0.5).Play();
-        }
+        void FM_Flute4_RunTest() => Save(() => MildEcho(Flute4(A4)) * 0.5).Play();
 
         [TestMethod]
         public void FM_Organ() => new FMTests().FM_Organ_RunTest();
@@ -106,10 +88,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         [TestMethod]
         public void FM_Organ_Chords2() => new FMTests().FM_Organ_Chords2_RunTest();
-        void FM_Organ_Chords2_RunTest()
-        {
-            Save(() => MildEcho(OrganChords2) * 0.2).Play();
-        }
+        void FM_Organ_Chords2_RunTest() => Save(() => MildEcho(OrganChords2) * 0.2).Play();
         
         [TestMethod]
         public void FM_Pad() => new FMTests().FM_Pad_RunTest();
@@ -145,19 +124,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [TestMethod]
         public void FM_Horn() => new FMTests().FM_Horn_RunTest();
         /// <inheritdoc cref="docs._horn" />
-        void FM_Horn_RunTest()
-        {
-            Save(() => MildEcho(Horn()) * 0.5).Play();
-        }
+        void FM_Horn_RunTest() => Save(() => MildEcho(Horn()) * 0.5).Play();
 
         /// <inheritdoc cref="docs._horn" />
         [TestMethod]
         public void FM_Horn_Melody1() => new FMTests().FM_Horn_Melody1_RunTest();
         /// <inheritdoc cref="docs._horn" />
-        void FM_Horn_Melody1_RunTest()
-        {
-            Save(() => MildEcho(HornMelody1) * 0.5).Play();
-        }
+        void FM_Horn_Melody1_RunTest() => Save(() => MildEcho(HornMelody1) * 0.5).Play();
         
         /// <inheritdoc cref="docs._horn" />
         [TestMethod]
@@ -182,19 +155,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [TestMethod]
         public void FM_Trombone_Melody1() => new FMTests().FM_Trombone_Melody1_RunTest();
         /// <inheritdoc cref="docs._trombone" />
-        void FM_Trombone_Melody1_RunTest()
-        {
-            Save(() => MildEcho(TromboneMelody1) * 0.5).Play();
-        }
+        void FM_Trombone_Melody1_RunTest() => Save(() => MildEcho(TromboneMelody1) * 0.5).Play();
 
         /// <inheritdoc cref="docs._trombone" />
         [TestMethod]
         public void FM_Trombone_Melody2() => new FMTests().FM_Trombone_Melody2_RunTest();
         /// <inheritdoc cref="docs._trombone" />
-        void FM_Trombone_Melody2_RunTest()
-        {
-            Save(() => MildEcho(TromboneMelody2) * 0.75).Play();
-        }
+        void FM_Trombone_Melody2_RunTest() => Save(() => MildEcho(TromboneMelody2) * 0.75).Play();
 
         [TestMethod]
         public void FM_ElectricNote() => new FMTests().FM_ElectricNote_RunTest();
@@ -205,7 +172,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_RippleBass() => new FMTests().FM_RippleBass_RunTest();
-
         void FM_RippleBass_RunTest()
         {
             WithAudioLength(3).Save(() => DeepEcho(RippleBass()) * 0.5).Play();
