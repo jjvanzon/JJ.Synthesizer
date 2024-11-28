@@ -340,9 +340,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         FlowNode OrganChords => Add
         (
-            _[t: _[0], ChordPitchCurve1.Stretch(bars[1]), Organ, ChordVolumeCurve.Stretch(bars[1]), bars[8]],
-            _[t: _[0], ChordPitchCurve2.Stretch(bars[1]), Organ, ChordVolumeCurve.Stretch(bars[1]), bars[8]],
-            _[t: _[0], ChordPitchCurve3.Stretch(bars[1]), Organ, ChordVolumeCurve.Stretch(bars[1]), bars[8]]
+            _[ ChordPitchCurve1.Stretch(bars[1]), Organ, ChordVolumeCurve.SpeedUp(8), len: bars[8] ],
+            _[ ChordPitchCurve2.Stretch(bars[1]), Organ, ChordVolumeCurve.SpeedUp(8), len: bars[8] ],
+            _[ ChordPitchCurve3.Stretch(bars[1]), Organ, ChordVolumeCurve.SpeedUp(8), len: bars[8] ]
         ).SetName();
 
         FlowNode OrganChords2 =>
@@ -361,9 +361,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             return Add
             (
-                _[t:_[0], ChordPitchCurve1.Stretch(bars[1]), Pad, Stretch(ChordVolumeCurve, bars[1]).Delay(bars[1]), bars[8]],
-                _[t:_[0], ChordPitchCurve2.Stretch(bars[1]), Pad, Stretch(ChordVolumeCurve, bars[1]).Delay(bars[1]), bars[8]],
-                _[t:_[0], ChordPitchCurve3.Stretch(bars[1]), Pad, Stretch(ChordVolumeCurve, bars[1]).Delay(bars[1]), bars[8]]
+                _[t:_[0], ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8]],
+                _[t:_[0], ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8]],
+                _[t:_[0], ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8]]
+            ).SetName();
+        }
+        
+        FlowNode PadChords2()
+        {
+            return Add
+            (
+                _[t:_[0], ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8]],
+                _[t:_[0], ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8]],
+                _[t:_[0], ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8]]
             ).SetName();
         }
         
