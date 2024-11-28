@@ -35,16 +35,25 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <summary>
         /// Configures the audio length for rendering tapes and other audio output, 
-        /// influencing the total duration of audio processing. 
-        /// 
+        /// influencing the total duration of audio processing. <br/>
         /// This setting can be defined in terms of beats, bars, or seconds, 
-        /// allowing for flexible and expressive timing configurations.
+        /// allowing for flexible and expressive timing configurations.<br/>
+        /// If not explicitly configured, the value defaults to 1 second, 
+        /// though this can be overridden in the configuration file.
         /// 
         /// <para>
+        /// The following members work together to manage the <c>AudioLength</c>:<br/><br/>
+        /// - <c>WithAudioLength</c>: Sets the audio length explicitly.<br/>
+        /// - <c>GetAudioLength</c>: Retrieves the currently configured audio length.<br/>
+        /// - <c>AddAudioLength</c>: Extends the existing audio length by a specified amount.<br/>
+        /// - <c>ResetAudioLength</c>: Resets the audio length configuration to its default state.
+        /// </para>
+        ///
+        /// <para>
         /// Use sparingly for high-level scope definitions, as more granular 
-        /// control can be achieved with `Tape(duration)` or note indexers 
-        /// like `_[ t[1,1], A4, Flute, 0.6, len[1] ]`, where `len[1]` sets 
-        /// the internal audio buffer length for the note.
+        /// control can be achieved with `Tape(duration)` or note indexers like <br/>
+        /// `_[ t[1,1], A4, Flute, 0.6, len[1] ]`,<br/>
+        /// where `len[1]` sets the internal audio buffer length for the note.
         /// </para>
         /// 
         /// <para>
