@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             WithAudioLength(bars[8] + MildEchoDuration).Save(() => MildEcho(PadChords()) * 0.14).Play();
         }
-        
+
         [TestMethod]
         public void FM_Pad_Chords2() => new FMTests().FM_Pad_Chords2_RunTest();
         void FM_Pad_Chords2_RunTest()

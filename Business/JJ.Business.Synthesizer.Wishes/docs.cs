@@ -137,8 +137,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="vol">
         /// The volume of the sound (default is 1).
         /// For note commands, if the volume is a curve,
-        /// it may be stretched to match the note length,
-        /// whereby the curve is assumed to have a timespan of 1.
+        /// it will be stretched to match the note length,
+        /// assuming the curve has a timespan of 1.
         /// </param>
         /// <param name="volume">
         /// The volume of the sound (default is 1).
