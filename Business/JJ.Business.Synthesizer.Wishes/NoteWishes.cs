@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Persistence.Synthesizer;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
@@ -632,8 +635,29 @@ namespace JJ.Business.Synthesizer.Wishes
 
             noteLength = SnapNoteLength(noteLength);
             
-            if (volumeFilledIn) sound *= volume.Stretch(noteLength);
-            
+            if (volumeFilledIn)
+            {
+                if (volume.IsCurve)
+                {
+                    Curve curve = volume.UnderlyingCurve();
+                    //double startTime = curve.Nodes.Min(x => x.Time);
+                    double endTime = curve.Nodes.Max(x => x.Time);
+                    //double timeSpan = endTime - startTime;
+                    // TODO: What if startTime != 0;
+                    //sound *= volume.Stretch(noteLength / timeSpan);
+                    sound *= volume.Stretch(noteLength / endTime);
+                }
+                else if (volume.IsSample)
+                {
+                    double sampleDuration = volume.UnderlyingSample().GetDuration();
+                    sound *= volume.Stretch(noteLength / sampleDuration);
+                }
+                else
+                {
+                    sound *= volume.Stretch(noteLength);
+                }
+            }
+
             sound = sound.SetName().Tape(noteLength);
             
             if (delayFilledIn) sound = Delay(sound, delay);
