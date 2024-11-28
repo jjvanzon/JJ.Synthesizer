@@ -134,8 +134,18 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="freq"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
         /// <param name="frequency"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
         /// <param name="delay"> The time delay in seconds before the sound starts (default is 0). </param>
-        /// <param name="vol"> The volume of the sound (default is 1). </param>
-        /// <param name="volume"> The volume of the sound (default is 1). </param>
+        /// <param name="vol">
+        /// The volume of the sound (default is 1).
+        /// For note commands, if the volume is a curve,
+        /// it may be stretched to match the note length,
+        /// whereby the curve is assumed to have a timespan of 1.
+        /// </param>
+        /// <param name="volume">
+        /// The volume of the sound (default is 1).
+        /// For note commands, if the volume is a curve,
+        /// it will be stretched to match the note length,
+        /// assuming the curve has a timespan of 1.
+        /// </param>
         /// <param name="duration"> The duration of the sound in seconds (default is 1). </param>
         /// <param name="soundFreq"> The base frequency in Hz for the carrier signal for the FM synthesis. </param>
         /// <param name="modSpeed"> The speed of the modulator in Hz. Determines much of the timbre. </param>
@@ -276,6 +286,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         public static object _names;
 
+        /// <inheritdoc cref="docs._default" />
+        public static object _noteindexer;
+        
         /// <summary>
         /// Returns what's input into an operand of the operator.
         /// </summary>
@@ -328,6 +341,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Revisit later.
         /// </summary>
         public static object _samplefromfluentconfig;
+
+        /// <inheritdoc cref="_default" />
+        public static object _strikenote;
         
         /// <summary>
         /// Allow specifying 1 value: make it the start and end node values.
