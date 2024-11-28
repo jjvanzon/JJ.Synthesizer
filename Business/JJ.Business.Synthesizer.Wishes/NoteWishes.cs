@@ -588,9 +588,10 @@ namespace JJ.Business.Synthesizer.Wishes
             bool delayFilledIn = delay != null && delay.AsConst != 0;
             bool volumeFilledIn = volume != null && volume.AsConst != 1;
 
-            if (volumeFilledIn) sound = Multiply(sound, volume);
-            
             noteLength = SnapNoteLength(noteLength);
+            
+            if (volumeFilledIn) sound *= volume.Stretch(noteLength);
+            
             sound = sound.SetName().Tape(noteLength);
             
             if (delayFilledIn) sound = Delay(sound, delay);

@@ -220,13 +220,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         // Note Arrangements
-
-        void SetNoteArrangementOptions()
-        {
-            WithStereo();
-            WithNoteLength(0.25);
-            WithAudioLength(t[2, 1] + GetNoteLength);
-        }
         
         FlowNode TremoloSpeed   => _[7];
         FlowNode PanbrelloSpeed => _[3];
@@ -256,8 +249,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         *
          *
           *
-           *").Stretch(GetNoteLength);
+           *");
  
+        void SetNoteArrangementOptions()
+        {
+            WithStereo();
+            WithNoteLength(0.25);
+            WithAudioLength(t[2, 1] + GetNoteLength);
+        }
+
         [TestMethod]
         public void NoteArrangement_SingleNote_Test() => new NoteWishesTests().NoteArrangement_SingleNote();
 
@@ -275,7 +275,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void NoteArrangement_FluteNoParams()
         {
             SetNoteArrangementOptions();
-            Save(() => 0.2 * Add
+            Save(() => 0.05 * Add
             (
             _[              FluteNoParams                   ],
             _[              FluteNoParams, 0.8              ],
@@ -300,7 +300,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void NoteArrangement_Flute1Param()
         {
             SetNoteArrangementOptions();
-            Save(() => 0.2 * Add
+            Save(() => 0.1 * Add
             (
             _[          A4, Flute1Param                   ],
             _[          A4, Flute1Param, 0.8              ],
@@ -325,7 +325,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void NoteArrangement_Flute2Params()
         {
             SetNoteArrangementOptions();
-            Save(() => 0.2 * Add
+            Save(() => 0.1 * Add
             (
             _[          A4, Flute2Params                   ],
             _[          A4, Flute2Params, 0.8              ],
@@ -350,7 +350,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void NoteArrangement_Flute3Params()
         {
             SetNoteArrangementOptions();
-            Save(() => 0.2 * Add
+            Save(() => 0.1 * Add
             (
             _[          A4, Flute3Params                   ],
             _[          A4, Flute3Params, 0.8              ],
@@ -390,7 +390,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void NoteArrangement_Flute4Params()
         {
             SetNoteArrangementOptions();
-            Save(() => 0.2 * Add
+            Save(() => 0.1 * Add
             (
             _[          A4, Flute4Params                   ],
             _[          A4, Flute4Params, 0.8              ],
@@ -445,7 +445,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void NoteArrangement_Flute5Params()
         {
             SetNoteArrangementOptions();
-            Save(() => 0.2 * Add
+            Save(() => 0.1 * Add
             (
             _[          A4, Flute5Params                   ],
             _[          A4, Flute5Params, 0.8              ],
@@ -515,7 +515,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void NoteArrangement_Flute6Params()
         {
             SetNoteArrangementOptions();
-            Save(() => 0.2 * Add
+            Save(() => 0.1 * Add
             (
             _[          A4, Flute6Params                   ],
             _[          A4, Flute6Params, 0.8              ],
