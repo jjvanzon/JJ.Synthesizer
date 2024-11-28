@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using static System.Environment;
 
@@ -102,7 +102,14 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
         
         public static string PrettyTime() => PrettyTime(DateTime.Now);
+        
         public static string PrettyTime(DateTime dateTime) => $"{dateTime:HH:mm:ss.fff}";
+        
+        public static string Trim(this string text, string trim)
+        {
+            if (text == null) throw new ArgumentNullException(nameof(text));
+            return text.TrimStart(trim).TrimEnd(trim);
+    }
     }
     
     internal static class JJ_Framework_Common_Wishes
@@ -403,5 +410,55 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             return product;
         }
+        
+        /// <summary>
+        /// Will trim off repetitions of the same value from the given string.
+        /// These are variations of the standard .NET methods that instead of just taking char[] can take a string or a length.
+        /// </summary>
+        public static string TrimEnd(this string input, string end)
+        {
+            if (string.IsNullOrEmpty(end)) throw new Exception($"{nameof(end)} is null or empty.");
+
+            string temp = input;
+
+            while (temp.EndsWith(end))
+            {
+                temp = temp.TrimEnd(end.Length);
+            }
+
+            return temp;
+        }
+        
+        
+        /// <summary>
+        /// Will trim off repetitions of the same value from the given string.
+        /// These are variations of the standard .NET methods that instead of just taking char[] can take a string or a length.
+        /// </summary>
+        public static string TrimEnd(this string input, int length) => input.Left(input.Length - length);
+        
+        /// <summary>
+        /// Will trim off repetitions of the same value from the given string.
+        /// These are variations of the standard .NET methods that instead of just taking char[] can take a string or a length.
+        /// </summary>
+        public static string TrimStart(this string input, string start)
+        {
+            if (string.IsNullOrEmpty(start)) throw new Exception($"{nameof(start)} is null or empty.");
+
+            string temp = input;
+
+            while (temp.StartsWith(start))
+            {
+                temp = temp.TrimStart(start.Length);
+            }
+
+            return temp;
+        }
+
+        /// <summary>
+        /// Will trim off repetitions of the same value from the given string.
+        /// These are variations of the standard .NET methods that instead of just taking char[] can take a string or a length.
+        /// </summary>
+        public static string TrimStart(this string input, int length) => input.Right(input.Length - length);
+
     }
 }
