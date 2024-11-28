@@ -32,7 +32,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             WithMono();
             WithBeatLength(_[0.45]);
             WithBarLength(_[4 * 0.45]);
-
             _chordFreqs = CreateChordFreqs();
         }
 
@@ -40,7 +39,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Jingle() => new FMTests().FM_Jingle_RunTest();
-
         void FM_Jingle_RunTest()
         {
             Save(() => DeepEcho(Jingle()) * 0.2).Play();
@@ -48,7 +46,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         [TestMethod]
         public void FM_Flute_Melody1() => new FMTests().FM_Flute_Melody1_RunTest();
-
         void FM_Flute_Melody1_RunTest()
         {
             WithPlayBack();
@@ -58,7 +55,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Flute_Melody2() => new FMTests().FM_Flute_Melody2_RunTest();
-
         void FM_Flute_Melody2_RunTest()
         {
             Save(() => MildEcho(FluteMelody2) * 0.5).Play();
@@ -66,7 +62,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Flute1() => new FMTests().FM_Flute1_RunTest();
-
         void FM_Flute1_RunTest()
         {
             Save(() => MildEcho(Flute1(E4)) * 0.5).Play();
@@ -74,7 +69,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Flute2() => new FMTests().FM_Flute2_RunTest();
-
         void FM_Flute2_RunTest()
         {
             Save(() => MildEcho(Flute2(F4)) * 0.5).Play();
@@ -82,7 +76,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Flute3() => new FMTests().FM_Flute3_RunTest();
-
         void FM_Flute3_RunTest()
         {
             Save(() => MildEcho(Flute3(G4)) * 0.5).Play();
@@ -90,7 +83,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Flute4() => new FMTests().FM_Flute4_RunTest();
-
         void FM_Flute4_RunTest()
         {
             Save(() => MildEcho(Flute4(A4)) * 0.5).Play();
@@ -98,7 +90,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Organ() => new FMTests().FM_Organ_RunTest();
-
         void FM_Organ_RunTest()
         {
             var duration = bars[3];
@@ -108,7 +99,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         [TestMethod]
         public void FM_Organ_Chords() => new FMTests().FM_Organ_Chords_RunTest();
-        
         void FM_Organ_Chords_RunTest()
         {
             WithAudioLength(bars[8] + MildEchoDuration).Save(() => MildEcho(OrganChords) * 0.2).Play();
@@ -116,7 +106,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         [TestMethod]
         public void FM_Organ_Chords2() => new FMTests().FM_Organ_Chords2_RunTest();
-        
         void FM_Organ_Chords2_RunTest()
         {
             Save(() => MildEcho(OrganChords2) * 0.2).Play();
@@ -124,7 +113,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         [TestMethod]
         public void FM_Pad() => new FMTests().FM_Pad_RunTest();
-        
         void FM_Pad_RunTest()
         {
             var duration = bars[3];
@@ -134,7 +122,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Pad_Chords() => new FMTests().FM_Pad_Chords_RunTest();
-
         void FM_Pad_Chords_RunTest()
         {
             WithAudioLength(bars[8] + MildEchoDuration).Save(() => MildEcho(PadChords()) * 0.14).Play();
@@ -142,7 +129,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         [TestMethod]
         public void FM_Distortion_Chords() => new FMTests().FM_Distortion_Chords_RunTest();
-        
         void FM_Distortion_Chords_RunTest()
         {
             With16Bit().Save(() => MildEcho(DistortionChords(volume: _[0.92]) * 0.15)).Play();
@@ -151,7 +137,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._horn" />
         [TestMethod]
         public void FM_Horn() => new FMTests().FM_Horn_RunTest();
-
         /// <inheritdoc cref="docs._horn" />
         void FM_Horn_RunTest()
         {
@@ -161,7 +146,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._horn" />
         [TestMethod]
         public void FM_Horn_Melody1() => new FMTests().FM_Horn_Melody1_RunTest();
-
         /// <inheritdoc cref="docs._horn" />
         void FM_Horn_Melody1_RunTest()
         {
@@ -171,7 +155,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._horn" />
         [TestMethod]
         public void FM_Horn_Melody2() => new FMTests().FM_Horn_Melody2_RunTest();
-
         /// <inheritdoc cref="docs._horn" />
         void FM_Horn_Melody2_RunTest()
         {
@@ -181,7 +164,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._trombone" />
         [TestMethod]
         public void FM_Trombone() => new FMTests().FM_Trombone_RunTest();
-
         /// <inheritdoc cref="docs._trombone" />
         void FM_Trombone_RunTest()
         {
@@ -192,7 +174,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._trombone" />
         [TestMethod]
         public void FM_Trombone_Melody1() => new FMTests().FM_Trombone_Melody1_RunTest();
-
         /// <inheritdoc cref="docs._trombone" />
         void FM_Trombone_Melody1_RunTest()
         {
@@ -202,7 +183,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._trombone" />
         [TestMethod]
         public void FM_Trombone_Melody2() => new FMTests().FM_Trombone_Melody2_RunTest();
-
         /// <inheritdoc cref="docs._trombone" />
         void FM_Trombone_Melody2_RunTest()
         {
@@ -211,7 +191,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_ElectricNote() => new FMTests().FM_ElectricNote_RunTest();
-
         void FM_ElectricNote_RunTest()
         {
             WithAudioLength(1.5).Save(() => MildEcho(ElectricNote()) * 0.2).Play();
@@ -227,7 +206,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_RippleBass_Melody2() => new FMTests().FM_RippleBass_Melody2_RunTest();
-
         void FM_RippleBass_Melody2_RunTest()
         {
             WithAudioLength(bars[4]).Save(() => DeepEcho(RippleBassMelody2) * 0.33).Play();
@@ -235,7 +213,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_RippleNote_SharpMetallic() => new FMTests().FM_RippleNote_SharpMetallic_RunTest();
-
         void FM_RippleNote_SharpMetallic_RunTest()
         {
             WithAudioLength(2.2).Save(() => DeepEcho(RippleNote_SharpMetallic()) * 0.33).Play();
@@ -243,7 +220,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_RippleSound_Clean() => new FMTests().FM_RippleSound_Clean_RunTest();
-
         void FM_RippleSound_Clean_RunTest()
         {
             WithAudioLength(4).Save(() => DeepEcho(RippleSound_Clean()) * 0.5).Play();
@@ -251,7 +227,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_RippleSound_FantasyEffect() => new FMTests().FM_RippleSound_FantasyEffect_RunTest();
-
         void FM_RippleSound_FantasyEffect_RunTest()
         {
             WithAudioLength(4).Save(() => DeepEcho(RippleSound_FantasyEffect()) * 0.33).Play();
@@ -259,7 +234,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_RippleSound_CoolDouble() => new FMTests().FM_RippleSound_CoolDouble_RunTest();
-
         void FM_RippleSound_CoolDouble_RunTest()
         {
             WithAudioLength(3).Save(() => DeepEcho(RippleSound_CoolDouble()) * 0.33).Play();
@@ -267,7 +241,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void FM_Noise_Beating() => new FMTests().FM_Noise_Beating_RunTest();
-
         void FM_Noise_Beating_RunTest()
         {
             WithAudioLength(5).Save(() => MildEcho(Create_FM_Noise_Beating(A4)) * 0.25).Play();
