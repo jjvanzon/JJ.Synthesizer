@@ -13,7 +13,7 @@ using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    internal static class JJ_Framework_String_Wishes
+    internal static class JJ_Framework_Text_Wishes
     { 
         public static int CountLines(this string str)
         {

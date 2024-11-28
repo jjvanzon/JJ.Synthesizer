@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         static JJFrameworkStringWishesAccessor()
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
-            string   typeName = "JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_String_Wishes";
+            string   typeName = "JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes";
             Type     type     = assembly.GetType(typeName, true);
             _accessor = new Accessor(type);
         }

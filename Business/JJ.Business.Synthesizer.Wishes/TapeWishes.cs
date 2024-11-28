@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_String_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Wishes

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Wishes.Helpers;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_String_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
