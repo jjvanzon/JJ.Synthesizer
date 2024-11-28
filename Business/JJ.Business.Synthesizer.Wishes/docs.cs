@@ -51,15 +51,15 @@ namespace JJ.Business.Synthesizer.Wishes
         ///
         /// <para>
         /// Use sparingly for high-level scope definitions, as more granular 
-        /// control can be achieved with `Tape(duration)` or note indexers like <br/>
-        /// `_[ t[1,1], A4, Flute, 0.6, len[1] ]`,<br/>
-        /// where `len[1]` sets the internal audio buffer length for the note.
+        /// control can be achieved with <c>Tape(duration)</c> or note indexers like <br/>
+        /// <c>_[ t[1,1], A4, Flute, 0.6, len[1] ]</c>,
+        /// where <c>len[1]</c> sets the internal audio buffer length for the note.
         /// </para>
         /// 
         /// <para>
-        /// That said, you can use `WithAudioLength()` for more granular control 
+        /// That said, you can use <c>WithAudioLength()</c> for more granular control 
         /// if needed, but be aware that your code might "fight" over it. 
-        /// You may need to remind the system what `AudioLength` we're working 
+        /// You may need to remind the system what <c>AudioLength</c> we're working 
         /// with from time to time.
         /// </para>
         /// 
