@@ -426,7 +426,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 TestComplexity(accessor.FluteMelody1);
                 TestComplexity(accessor.FluteMelody2);
                 TestComplexity(accessor.OrganChords);
-                TestComplexity(accessor.PadChords());
+                TestComplexity(accessor.PadChords);
+                TestComplexity(accessor.PadChords2);
                 TestComplexity(accessor.HornMelody1);
                 TestComplexity(accessor.HornMelody2);
                 TestComplexity(accessor.TromboneMelody1);
