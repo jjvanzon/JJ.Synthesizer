@@ -640,11 +640,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 sound *= volume.Stretch(noteLength / GetVolumeDuration(volume));
             }
 
-            sound = sound.Tape(noteLength);
+            sound = sound.Tape(noteLength).SetName();
             
             if (delayFilledIn) sound = Delay(sound, delay);
             
-            return sound.SetName();
+            return sound;
         }
         
         private static double GetVolumeDuration(FlowNode volume)
