@@ -124,14 +124,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public void FM_Pad_Chords() => new FMTests().FM_Pad_Chords_RunTest();
         void FM_Pad_Chords_RunTest()
         {
-            WithAudioLength(bars[8] + MildEchoDuration).Save(() => MildEcho(PadChords()) * 0.14).Play();
+            WithAudioLength(bars[8] + MildEchoDuration).Save(() => MildEcho(PadChords) * 0.14).Play();
         }
 
         [TestMethod]
         public void FM_Pad_Chords2() => new FMTests().FM_Pad_Chords2_RunTest();
         void FM_Pad_Chords2_RunTest()
         {
-            WithAudioLength(bars[8] + MildEchoDuration).Save(() => MildEcho(PadChords2()) * 0.14).Play();
+            WithAudioLength(bars[8] + MildEchoDuration).Save(() => MildEcho(PadChords2) * 0.14).Play();
         }
         
         [TestMethod]
@@ -287,7 +287,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (
                 pattern1.Tape(),
                 Delay(pattern2, bars[4]).Tape(),
-                PadChords() * chordsVolume
+                PadChords * chordsVolume
             ).SetName("Jingle");
 
             return jingle;
@@ -337,25 +337,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 )
             ).SetName();
         
-        FlowNode PadChords()
-        {
-            return Add
-            (
-                _[t:_[0], ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8]],
-                _[t:_[0], ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8]],
-                _[t:_[0], ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8]]
-            ).SetName();
-        }
+        FlowNode PadChords => Add
+        (
+            _[ ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ],
+            _[ ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ],
+            _[ ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ]
+        ).SetName();
         
-        FlowNode PadChords2()
-        {
-            return Add
-            (
-                _[t:_[0], ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8]],
-                _[t:_[0], ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8]],
-                _[t:_[0], ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8]]
-            ).SetName();
-        }
+        FlowNode PadChords2 => Add
+        (
+            _[ ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ],
+            _[ ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ],
+            _[ ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ]
+        ).SetName();
         
         /// <param name="volume">Used to promote clipping for distortion (only works for 16-bit, not 32-bit).</param>
         FlowNode DistortionChords(FlowNode volume = null)
