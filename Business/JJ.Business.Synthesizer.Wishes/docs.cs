@@ -33,7 +33,38 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         public static object _audioinfowish;
         
-        /// <summary> Using a lower abstraction layer, to circumvent error-prone syncing code in back-end. </summary>
+        /// <summary>
+        /// Configures the audio length for rendering tapes and other audio output, 
+        /// influencing the total duration of audio processing. 
+        /// 
+        /// This setting can be defined in terms of beats, bars, or seconds, 
+        /// allowing for flexible and expressive timing configurations.
+        /// 
+        /// <para>
+        /// Use sparingly for high-level scope definitions, as more granular 
+        /// control can be achieved with `Tape(duration)` or note indexers 
+        /// like `_[ t[1,1], A4, Flute, 0.6, len[1] ]`, where `len[1]` sets 
+        /// the internal audio buffer length for the note.
+        /// </para>
+        /// 
+        /// <para>
+        /// That said, you can use `WithAudioLength()` for more granular control 
+        /// if needed, but be aware that your code might "fight" over it. 
+        /// You may need to remind the system what `AudioLength` we're working 
+        /// with from time to time.
+        /// </para>
+        /// 
+        /// Example:
+        /// <code>
+        /// WithAudioLength(bars[4]); // Sets audio length to 4 bars.
+        /// WithAudioLength(_[10]);  // Sets audio length to 10 seconds.
+        /// </code>
+        /// </summary>
+        public static object _audiolength;
+        
+        /// <summary>
+        /// Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
+        /// </summary>
         public static object _avoidSpeakerSetupsBackEnd;
         
         /// <summary>
