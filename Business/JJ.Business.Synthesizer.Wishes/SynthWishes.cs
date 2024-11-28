@@ -1,9 +1,15 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
+
 // ReSharper disable AssignmentInsteadOfDiscard
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -56,21 +62,15 @@ namespace JJ.Business.Synthesizer.Wishes
             length = new BeatsIndexer(this);
             t = new TimeIndexer(this);
         }
-
-        //public SynthWishes()
-        //    : this(null)
-        //{
-        //    InitializeTimeIndexers();
-        //}
         
         // Helpers
 
         private static string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
         {
-            string fileName = Path.GetFileNameWithoutExtension(name);
+            string filePath = SanitizeFilePath(name);
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
             string fileExtension = audioFileFormatEnum.GetFileExtension();
-            fileName += fileExtension;
-            return fileName;
+            return fileNameWithoutExtension + fileExtension;
         }
         
         internal static string FormatMetrics(double audioDuration, double calculationDuration, int complexity)
