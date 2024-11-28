@@ -637,25 +637,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (volumeFilledIn)
             {
-                if (volume.IsCurve)
-                {
-                    Curve curve = volume.UnderlyingCurve();
-                    //double startTime = curve.Nodes.Min(x => x.Time);
-                    double endTime = curve.Nodes.Max(x => x.Time);
-                    //double timeSpan = endTime - startTime;
-                    // TODO: What if startTime != 0;
-                    //sound *= volume.Stretch(noteLength / timeSpan);
-                    sound *= volume.Stretch(noteLength / endTime);
-                }
-                else if (volume.IsSample)
-                {
-                    double sampleDuration = volume.UnderlyingSample().GetDuration();
-                    sound *= volume.Stretch(noteLength / sampleDuration);
-                }
-                else
-                {
-                    sound *= volume.Stretch(noteLength);
-                }
+                sound *= volume.Stretch(noteLength / GetVolumeDuration(volume));
             }
 
             sound = sound.SetName().Tape(noteLength);
@@ -663,6 +645,21 @@ namespace JJ.Business.Synthesizer.Wishes
             if (delayFilledIn) sound = Delay(sound, delay);
             
             return sound.SetName();
+        }
+        
+        private static double GetVolumeDuration(FlowNode volume)
+        {
+            if (volume.IsCurve)
+            {
+                return volume.UnderlyingCurve().Nodes.Max(x => x.Time);
+            }
+            
+            if (volume.IsSample)
+            {
+                return volume.UnderlyingSample().GetDuration();
+            }
+            
+            return 1;
         }
         
         /// <inheritdoc cref="docs._default" />
