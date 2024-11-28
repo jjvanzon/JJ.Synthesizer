@@ -220,10 +220,21 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private void ProcessLeaf(Tape leaf)
         {
-            // Run tape
-            RunTape(leaf);
-            
-            // Remove parent-child relationship
+            try
+            {
+                // Run tape
+                RunTape(leaf);
+            }
+            finally
+            {
+                // Don’t let a thread crash cause the while loop for child tapes to retry infinitely.
+                // Exceptions will propagate after the while loop (where we wait for all tasks to finish),
+                // so let’s make sure the while loop can finish properly.
+                CleanupParentChildRelationship(leaf);
+            }
+        }
+        private static void CleanupParentChildRelationship(Tape leaf)
+        {
             leaf.ParentTape?.ChildTapes.Remove(leaf);
             leaf.ParentTape = null;
         }
