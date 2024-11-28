@@ -87,11 +87,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public FlowNode OrganChords 
             => (FlowNode)_accessor.GetPropertyValue(MemberName());
 
-        public FlowNode PadChords
-            => (FlowNode)_accessor.GetPropertyValue(MemberName());
+        public FlowNode PadChords()
+            => (FlowNode)_accessor.InvokeMethod(MemberName());
 
-        public FlowNode PadChords2
-            => (FlowNode)_accessor.GetPropertyValue(MemberName());
+        public FlowNode PadChords2()
+            => (FlowNode)_accessor.InvokeMethod(MemberName());
 
         public FlowNode HornMelody1       
             => (FlowNode)_accessor.GetPropertyValue(MemberName());

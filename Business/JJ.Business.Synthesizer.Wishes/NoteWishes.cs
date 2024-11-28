@@ -644,7 +644,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (delayFilledIn) sound = Delay(sound, delay);
             
-            return sound;
+            return sound.SetName();
         }
         
         private static double GetVolumeDuration(FlowNode volume)
