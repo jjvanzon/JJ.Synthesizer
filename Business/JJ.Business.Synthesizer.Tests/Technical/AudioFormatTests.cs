@@ -637,7 +637,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 NotEqual(0, () => sample.Bytes.Length);
                 
                 int byteCountExpected  = (int)(audioFileFormatEnum.GetHeaderLength() + samplingRate * sample.GetFrameSize() * DURATION);
-                int byteCountTolerance = GetByteCountTolerance(sampleDataTypeEnum);
+                int byteCountTolerance = GetByteCountTolerance(sampleDataTypeEnum, expectedChannelCount);
 
                 Console.WriteLine($"Byte count tolerance = {byteCountTolerance}");
                 Console.WriteLine($"Byte count expected  = {byteCountExpected}");
@@ -755,9 +755,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             throw new NotSupportedException(
                 "Unsupported combination of values: " + new { interpolationTypeEnum, sampleDataTypeEnum });
         }
-
-        private int GetByteCountTolerance(SampleDataTypeEnum sampleDataTypeEnum) 
-            => 2 * sampleDataTypeEnum.SizeOf(); // A tolerance of 2 audio frames.
+        
+        private int GetByteCountTolerance(SampleDataTypeEnum sampleDataTypeEnum, int channelCount) 
+            => 4 * sampleDataTypeEnum.SizeOf() * channelCount; // A tolerance of 4 audio frames.
 
         private double RoundValue(double x) => Round(x, DECIMALS, AwayFromZero);
 

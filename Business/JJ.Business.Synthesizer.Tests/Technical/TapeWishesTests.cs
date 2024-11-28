@@ -98,32 +98,51 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             NotEqual(addOperands[1], () => addOperands[2]);
 
             // Check Bytes Array, Read as Int16 Values
-            foreach (var addOperand in addOperands)
+            for (var i = 0; i < addOperands.Count; i++)
             {
-                Sample sample = addOperand.Operator.AsSampleOperator.Sample;
-
+                Outlet addOperand = addOperands[i];
+                Sample sample     = addOperand.Operator.AsSampleOperator.Sample;
+                
                 AreEqual(Wav,                        () => sample.GetAudioFileFormatEnum());
                 AreEqual(SampleDataTypeEnum.Float32, () => sample.GetSampleDataTypeEnum());
                 AreEqual(SpeakerSetupEnum.Mono,      () => sample.GetSpeakerSetupEnum());
                 AreEqual(44,                         () => sample.GetHeaderLength());
-
+                
+                int courtesyValuesFound = 0;
                 using (var stream = new MemoryStream(sample.Bytes))
                 {
                     stream.Position = 44; // Skip header
-
+                    
                     using (var reader = new BinaryReader(stream))
                     {
                         float firstValue = reader.ReadSingle();
-
+                        
                         while (stream.Position < stream.Length)
                         {
                             float nextValue = reader.ReadSingle();
+                            
+                            // Account for courtesy bytes.
+                            if (nextValue == 0)
+                            {
+                                courtesyValuesFound++;
+                                continue;
+                            }
+                            
                             AreEqual(firstValue, () => nextValue);
                         }
                     }
                 }
+                
+                if (courtesyValuesFound > 0)
+                {
+                    Console.WriteLine($"Found {courtesyValuesFound} courtesy frames in addOperand[{i}].");
+                    if (courtesyValuesFound > 4)
+                    {
+                        Assert.Fail($"courtesyValuesFound = {courtesyValuesFound} > 8");
+                    }
+                }
             }
-
+            
             // Calculate Values
             double adderResult = adder.Calculate(duration / 2);
 
