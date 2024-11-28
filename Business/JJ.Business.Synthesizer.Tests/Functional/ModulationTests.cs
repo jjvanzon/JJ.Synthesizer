@@ -3,6 +3,8 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
+// ReSharper disable RedundantAssignment
+// ReSharper disable NotAccessedVariable
 
 namespace JJ.Business.Synthesizer.Tests.Functional
 {
@@ -120,13 +122,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Jingles
 
         /// <inheritdoc cref="docs._vibraphase" />
-        FlowNode VibraphaseChord => Add // Parallel gives different sound at the moment.
+        FlowNode VibraphaseChord => Add
         (
-            Vibraphase(A4) * 0.80,
-            Vibraphase(B4) * 0.70,
-            Vibraphase(C5) * 0.85,
-            Vibraphase(D5) * 0.75,
-            Vibraphase(E5) * 0.90
+            _[ A4, Vibraphase, 0.80 ],
+            _[ B4, Vibraphase, 0.70 ],
+            _[ C5, Vibraphase, 0.85 ],
+            _[ D5, Vibraphase, 0.75 ],
+            _[ E5, Vibraphase, 0.90 ]
         ).SetName();
 
         /// <inheritdoc cref="docs._detunica" />
@@ -146,13 +148,16 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             duration = duration ?? GetAudioLength;
 
+            FlowNode depth;
+            FlowNode chorusRate;
+            
             return Add
             (
-                0.600 * Detunica1(freq * 1, duration, depth: _[0.6], chorusRate: _[0.040]).Tape(duration),
-                0.800 * Detunica2(freq * 2, duration).Tape(duration),
-                1.000 * Detunica3(freq * 4, duration).Tape(duration),
-                0.015 * Detunica4(freq * 8, duration).Tape(duration),
-                0.001 * Detunica5(freq * 16, duration).Tape(duration)
+                _[ freq * 1 , Detunica1, 0.600, duration, depth=_[0.6], chorusRate=_[0.040] ],
+                _[ freq * 2 , Detunica2, 0.800, duration ],
+                _[ freq * 4 , Detunica3, 1.000, duration ],
+                _[ freq * 8 , Detunica4, 0.015, duration ],
+                _[ freq * 16, Detunica5, 0.001, duration ]
             ).SetName().Panbrello(2, 0.2);
         }
 
