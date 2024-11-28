@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 // ReSharper disable MemberCanBePrivate.Global
@@ -19,6 +20,16 @@ namespace JJ.Business.Synthesizer.Wishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal class Tape
     {
+        public string Name 
+        {
+            get => Signal?.Name;
+            set
+            {
+                if (Signal == null) throw new NullException(() => Signal);
+                Signal.Name = value;
+            }
+        }
+        
         public FlowNode Signal { get; set; }
         public FlowNode Duration { get; set; }
         public int ChannelIndex { get; set; }
@@ -35,7 +46,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
         // Informational
         
-        public string Name { get; set; }
+        //public string Name { get; set; }
         public int NestingLevel { get; set; }
         public bool IsCache { [UsedImplicitly] get; set; }
     }
@@ -68,7 +79,6 @@ namespace JJ.Business.Synthesizer.Wishes
             var tape = new Tape
             {
                 Signal = signal,
-                Name = signal.Name,
                 ChannelIndex = GetChannelIndex
             };
             
