@@ -128,6 +128,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
         
         [TestMethod]
+        public void FM_Pad_Chords2() => new FMTests().FM_Pad_Chords2_RunTest();
+        void FM_Pad_Chords2_RunTest()
+        {
+            WithAudioLength(bars[8] + MildEchoDuration).Save(() => MildEcho(PadChords2()) * 0.14).Play();
+        }
+        
+        [TestMethod]
         public void FM_Distortion_Chords() => new FMTests().FM_Distortion_Chords_RunTest();
         void FM_Distortion_Chords_RunTest()
         {
