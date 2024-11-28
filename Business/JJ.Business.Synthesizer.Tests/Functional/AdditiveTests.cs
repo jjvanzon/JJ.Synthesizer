@@ -35,18 +35,18 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
         public void Additive_Metallophone_Jingle() => new AdditiveTests().Additive_Metallophone_Jingle_RunTest();
-
         /// <inheritdoc cref="docs._metallophone"/>
         public void Additive_Metallophone_Jingle_RunTest()
         {
+            WithPlayBack();
             WithAudioLength(beat[4] + NoteDuration);
-            Save(() => MetallophoneJingle.Echo() * 0.33).Play();
+            Buff buff = Save(() => MetallophoneJingle.Echo() * 0.33);
+            this.Play(buff);
         }
         
         /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
         public void Additive_Metallophone_Note() => new AdditiveTests().Additive_Metallophone_Note_RunTest();
-        
         /// <inheritdoc cref="docs._metallophone"/>
         public void Additive_Metallophone_Note_RunTest()
         {
