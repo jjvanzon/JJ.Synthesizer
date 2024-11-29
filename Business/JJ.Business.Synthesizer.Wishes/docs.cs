@@ -456,6 +456,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _paralleltaping;
 
         /// <summary>
+        /// Shorthand for <c>Tape.Signal.Name</c>
+        /// </summary>
+        public static object _tapename;
+        
+        /// <summary>
         /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
         /// other parallel tasks for testing purposes.<br/>
         /// CacheToDisk controls whether the tapes will be cached to disk instead of memory,
