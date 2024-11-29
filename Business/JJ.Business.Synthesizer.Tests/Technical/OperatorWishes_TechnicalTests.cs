@@ -164,13 +164,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Arrange
             var const1 = _[1];
-            var var2   = WithName("Curve2").Curve(2, 2).SetName("Curve2");
+            var var2   = Curve(2, 2).SetName("Curve2");
             var const3 = _[3];
-            var var4   = WithName("Curve4").Curve(4, 4);
+            var var4   = Curve(4, 4).SetName("Curve4");
             var const5 = _[5];
-            var var6   = WithName("Curve6").Curve(6, 6);
-            var var7   = WithName("Curve7").Curve(7, 7);
-            var var8   = WithName("Curve8").Curve(8, 8);
+            var var6   = Curve(6, 6).SetName("Curve6");
+            var var7   = Curve(7, 7).SetName("Curve7");
+            var var8   = Curve(8, 8).SetName("Curve8");
 
             IsNotNull(() => const1);
             IsNotNull(() => var2);

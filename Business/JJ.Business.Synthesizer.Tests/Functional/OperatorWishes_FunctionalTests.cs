@@ -205,21 +205,21 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var sound = Sine(E5) * Envelope;
 
-            var speed = WithName("Speed").Curve(
+            var speed = Curve(
                 x: (0, 3), y: (0, 8), @"
                                 * *
                             *
                         *
                     *
-                *                              ");
+                *                      ").SetName("Speed");
 
-            var depth = WithName("Depth").Curve(
+            var depth = Curve(
                 x: (0, 3), y: (0, 1), @"
                 *
                     *
                         *
                             *
-                                * *            ");
+                                * *    ").SetName("Depth");
 
             WithStereo().Save(() => Panbrello(sound, (speed, depth))).Play();
         }
@@ -294,13 +294,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             WithMono();
 
-            var envelope     = WithName("Envelope").Curve((0, 1), (0.2, 0));
+            var envelope     = Curve((0, 1), (0.2, 0));
             var sound        = Multiply(Sine(G4), envelope);
-            var echoes       = EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16);
+            var echoes       = _[EntityFactory.CreateEcho(TestHelper.CreateOperatorFactory(Context), sound, denominator: 1.5, delay: 0.25, count: 16)];
             var echoDuration = EchoDuration(count: 16, _[0.25]);
 
-            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
-            WithAudioLength(0.2 + echoDuration).WithName(MemberName() + "_Output.wav").Save(() => _[echoes]).Play();
+            envelope.SetName("Envelope");
+            sound.SetName(MemberName() + "_Input.wav");
+            echoes.SetName(MemberName() + "_Output.wav");
+
+            WithAudioLength(0.2).Save(() => sound);
+            WithAudioLength(0.2 + echoDuration).Save(() => echoes).Play();
         }
 
         [TestMethod]
@@ -312,13 +316,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             WithMono();
 
-            var envelope     = WithName("Envelope").Curve((0, 1), (0.2, 0));
+            var envelope     = Curve((0, 1), (0.2, 0));
             var sound        = Multiply(Sine(B4), envelope);
             var echoes       = accessor.EchoAdditive(sound, count: 16, magnitude: 0.66, delay: 0.25);
             var echoDuration = EchoDuration(count: 16, _[0.25]);
 
-            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
-            WithAudioLength(0.2 + echoDuration).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
+            envelope.SetName("Envelope");
+            sound.SetName(MemberName() + " Input");
+            echoes.SetName(MemberName() + " Output");
+
+            WithAudioLength(0.2).Save(() => sound);
+            WithAudioLength(0.2 + echoDuration).Save(() => echoes).Play();
         }
 
         [TestMethod]
@@ -330,25 +338,28 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             WithMono();
 
-            var envelope = WithName("Volume Curve").Curve((0, 1), (0.2, 0));
+            var envelope = Curve((0, 1), (0.2, 0));
             var sound    = Multiply(Sine(D5), envelope);
-
-            var magnitude = WithName("Magnitude Curve").Curve(
+            var magnitude = Curve(
                 (0.0, 0.66),
                 (0.5, 0.90),
                 (3.0, 1.00),
                 (4.0, 0.80),
                 (5.0, 0.25));
-
-            var delay = WithName("Delay Curve").Curve((0, 0.25), (4, 0.35));
-
+            var delay = Curve((0, 0.25), (4, 0.35));
             var echoes = accessor.EchoAdditive(sound, count: 16, magnitude, delay);
             var echoDuration = EchoDuration(count: 16, delay);
 
-            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
-            WithAudioLength(0.2 + echoDuration).WithName(MemberName() + "_Magnitude.wav").Save(() => magnitude);
-            WithAudioLength(0.2 + echoDuration).WithName(MemberName() + "_Delay.wav").Save(() => delay);
-            WithAudioLength(0.2 + echoDuration).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
+            sound.SetName(MemberName() + " Input");
+            envelope.SetName(MemberName() + " Volume");
+            magnitude.SetName(MemberName() + " Magnitude");
+            delay.SetName(MemberName() + " Delay");
+            echoes.SetName(MemberName() + " Output");
+            
+            WithAudioLength(0.2).Save(() => sound);
+            WithAudioLength(0.2 + echoDuration).Save(() => magnitude);
+            WithAudioLength(0.2 + echoDuration).Save(() => delay);
+            WithAudioLength(0.2 + echoDuration).Save(() => echoes).Play();
         }
 
         [TestMethod]
@@ -360,13 +371,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             
             WithMono();
 
-            var envelope     = WithName("Envelope").Curve((0, 1), (0.2, 0));
+            var envelope     = Curve((0, 1), (0.2, 0));
             var sound        = Multiply(Sine(F5), envelope);
             var echoes       = accessor.EchoFeedBack(sound, count: 16, magnitude: 0.66, delay: 0.25);
             var echoDuration = EchoDuration(count: 16, delay: _[0.25]);
 
-            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
-            WithAudioLength(echoDuration + 4.0).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
+            envelope.SetName(MemberName() + " Envelope");
+            sound.SetName(MemberName() + " Input");
+            echoes.SetName(MemberName() + " Output");
+            
+            WithAudioLength(0.2).Save(() => sound);
+            WithAudioLength(echoDuration + 4.0).Save(() => echoes).Play();
         }
 
         [TestMethod]
@@ -378,25 +393,28 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             
             WithMono();
 
-            var envelope = WithName("Volume Curve").Curve((0, 1), (0.2, 0));
-            var sound    = Multiply(Sine(D5), envelope);
-
-            var magnitude = WithName("Magnitude Curve").Curve(
+            var envelope     = Curve((0, 1), (0.2, 0));
+            var sound        = Multiply(Sine(D5), envelope);
+            var magnitude    = Curve(
                 (0.0, 0.66),
                 (0.5, 0.90),
                 (3.0, 1.00),
                 (4.0, 0.80),
                 (5.0, 0.25));
-
-            var delay = WithName("Delay Curve").Curve((0, 0.25), (4, 0.35));
-
+            var delay        = Curve((0, 0.25), (4, 0.35));
             var echoes       = accessor.EchoFeedBack(sound, count: 16, magnitude, delay);
             var echoDuration = EchoDuration(count: 16, delay);
 
-            WithAudioLength(0.2).WithName(MemberName() + "_Input.wav").Save(() => sound);
-            WithAudioLength(4.5).WithName(MemberName() + "_Magnitude.wav").Save(() => magnitude);
-            WithAudioLength(4.5).WithName(MemberName() + "_Delay.wav").Save(() => delay);
-            WithAudioLength(echoDuration + 4.5).WithName(MemberName() + "_Output.wav").Save(() => echoes).Play();
+            sound.SetName(MemberName() + " Input");
+            envelope.SetName(MemberName() + " Volume");
+            magnitude.SetName( MemberName() + " Magnitude");
+            delay.SetName(MemberName() + " Delay");
+            echoes.SetName(MemberName() + " Output");
+
+            WithAudioLength(0.2).Save(() => sound);
+            WithAudioLength(4.5).Save(() => magnitude);
+            WithAudioLength(4.5).Save(() => delay);
+            WithAudioLength(echoDuration + 4.5).Save(() => echoes).Play();
         }
     }
 }

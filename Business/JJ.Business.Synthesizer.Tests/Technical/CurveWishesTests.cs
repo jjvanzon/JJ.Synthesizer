@@ -22,14 +22,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithMono().WithAudioLength(4).Save(() => curve);
         }
 
-        FlowNode CreateAsciiCurve_WithoutRange() => WithName().Curve(@"
+        FlowNode CreateAsciiCurve_WithoutRange() => Curve(@"
                o                 
              o   o               
                                  
                        o         
-            o                   o");
+            o                   o").SetName();
 
-        FlowNode CreateAsciiCurve_WithRange() => WithName().Curve(
+        FlowNode CreateAsciiCurve_WithRange() => Curve(
             x: (start: 1, end: 3), y: (min: -1, max: 0.5), @"
 
                o                 
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                        o         
             o                   o
 
-            ");
+            ").SetName();
 
         /*
         FlowNode AsciiCurve_WithArt => CurveFactory.CreateCurve(

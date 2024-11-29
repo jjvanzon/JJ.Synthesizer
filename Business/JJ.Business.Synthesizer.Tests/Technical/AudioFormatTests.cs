@@ -258,14 +258,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // Save to file
-            Buff saveResult1      = WithAudioLength(DURATION).WithName(callerMemberName).Cache(getSignal);
-            AudioFileOutput   audioFileOutput1 = saveResult1.UnderlyingAudioFileOutput;
-            byte[]            bytes            = saveResult1.Bytes;
+            Buff buff1 = WithAudioLength(DURATION).Cache(getSignal, callerMemberName);
+            AudioFileOutput audioFileOutput1 = buff1.UnderlyingAudioFileOutput;
+            byte[] bytes = buff1.Bytes;
+            
             // Use sample operator
             FlowNode getSample()
             {
-                var    outlet = WithName(audioFileOutput1.FilePath).Sample(bytes);
-                Sample sample = outlet.UnderlyingSample();
+                FlowNode node   = Sample(bytes, audioFileOutput1.FilePath).SetName($"{callerMemberName}_Reloaded");
+                Sample   sample = node.UnderlyingSample();
 
                 if (audioFileFormatEnum == Raw)
                 {
@@ -276,12 +277,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sample.Amplifier      = 1.0 / audioFileOutput1.GetNominalMax();
                 }
 
-                return outlet;
+                return node;
             }
             
             // Save to file again
-            Buff saveResult2      = WithAudioLength(DURATION2).Cache(getSample, $"{callerMemberName}_Reloaded");
-            AudioFileOutput   audioFileOutput2 = saveResult2.UnderlyingAudioFileOutput;
+            Buff buff2 = WithAudioLength(DURATION2).Cache(getSample, $"{callerMemberName}_Reloaded");
+            AudioFileOutput audioFileOutput2 = buff2.UnderlyingAudioFileOutput;
             
             // Assert AudioFileOutput Entities
 

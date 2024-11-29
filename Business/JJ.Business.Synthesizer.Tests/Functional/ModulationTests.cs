@@ -373,9 +373,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             switch (GetChannel)
             {
                 case ChannelEnum.Single:
-                    // Test WithName
-                    WithName();
-                    return (sound * 0.18).Echo(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) / 0.18;
+                    // Test SetName
+                    return (sound * 0.18).SetName().Echo(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) / 0.18;
                 
                 case ChannelEnum.Left:
                     // Test FetchName

@@ -63,9 +63,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var adder = WithAudioLength(duration).Add
             (
                 // Values higher than 1 seem to be clipped.
-                WithName("Const Curve 0.1").Curve(0.1, 0.1).Tape(),
-                WithName("Const Curve 0.2").Curve(0.2, 0.2).Tape(),
-                WithName("Const Curve 0.3").Curve(0.3, 0.3).Tape()
+                Curve(0.1, 0.1).SetName("Const Curve 0.1").Tape(),
+                Curve(0.2, 0.2).SetName("Const Curve 0.2").Tape(),
+                Curve(0.3, 0.3).SetName("Const Curve 0.3").Tape()
             ).SetName();
 
             // Assert Entities
@@ -178,9 +178,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var adder = WithAudioLength(duration).Add
             (
                 // Values higher than 1 seem to be clipped.
-                WithName("Const Curve 0.1").Curve(0.1, 0.1).Tape(),
-                WithName("Const Curve 0.2").Curve(0.2, 0.2).Tape(),
-                WithName("Const Curve 0.3").Curve(0.3, 0.3).Tape()
+                Curve(0.1, 0.1).SetName("Const Curve 0.1").Tape(),
+                Curve(0.2, 0.2).SetName("Const Curve 0.2").Tape(),
+                Curve(0.3, 0.3).SetName("Const Curve 0.3").Tape()
             ).SetName();
 
             // Assert
@@ -266,7 +266,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var freq = A4;
             
             WithPlayAllTapes();
-            WithName();
             
             var added = Add
             (

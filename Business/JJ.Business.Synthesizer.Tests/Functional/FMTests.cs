@@ -614,54 +614,54 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         // Curves
 
-        FlowNode FluteCurve => WithName().Curve
+        FlowNode FluteCurve => Curve
         (
             (time: 0.00, value: 0.0),
             (time: 0.05, value: 0.8),
             (time: 0.10, value: 1.0),
             (time: 0.90, value: 0.7),
             (time: 1.00, value: 0.0)
-        );
+        ).SetName();
 
-        FlowNode BrassCurve => WithName().Curve
+        FlowNode BrassCurve => Curve
         (
             (time: 0.00, value: 0),
             (time: 0.07, value: 1),
             (time: 0.93, value: 1),
             (time: 1.00, value: 0)
-        );
+        ).SetName();
 
-        FlowNode RippleCurve => WithName().Curve
+        FlowNode RippleCurve => Curve
         (
             (time: 0.00, value: 0.00),
             (time: 0.01, value: 0.75),
             (time: 0.05, value: 0.50),
             (time: 0.25, value: 1.00),
             (time: 1.00, value: 0.00)
-        );
+        ).SetName();
 
-        FlowNode DampedBlockCurve => WithName().Curve
+        FlowNode DampedBlockCurve => Curve
         (
             (time: 0.00, value: 0),
             (time: 0.01, value: 1),
             (time: 0.99, value: 1),
             (time: 1.00, value: 0)
-        );
+        ).SetName();
 
-        FlowNode LineDownCurve => WithName().Curve
+        FlowNode LineDownCurve => Curve
         (
             (time: 0, value: 1),
             (time: 1, value: 0)
-        );
+        ).SetName();
 
         /// <inheritdoc cref="docs._modtamingcurve"/>
-        FlowNode ModTamingCurve => WithName().Curve(0.3, 1.0, 0.3, 0.0);
+        FlowNode ModTamingCurve => Curve(0.3, 1.0, 0.3, 0.0).SetName();
 
         /// <inheritdoc cref="docs._modtamingcurve"/>
-        FlowNode ModTamingCurve2 => WithName().Curve(1.0, 0.5, 0.2, 0.0);
+        FlowNode ModTamingCurve2 => Curve(1.0, 0.5, 0.2, 0.0).SetName();
 
         /// <inheritdoc cref="docs._modtamingcurve"/>
-        FlowNode ModTamingCurve8Times => WithName().Curve
+        FlowNode ModTamingCurve8Times => Curve
         (
             0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0,
@@ -671,19 +671,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0,
             0.3, 1.0, 0.3, 0.0
-        );
+        ).SetName();
             
         /// <inheritdoc cref="docs._evenoutcurve"/>
-        FlowNode EvenOutCurve => WithName().Curve
+        FlowNode EvenOutCurve => Curve
         (
             (time: 0.00, value: 1.0),
             (time: 0.33, value: 0.6),
             (time: 0.50, value: 0.6),
             (time: 0.75, value: 0.8),
             (time: 1.00, value: 1.0)
-        );
+        ).SetName();
 
-        FlowNode ChordVolumeCurve => WithName().Curve
+        FlowNode ChordVolumeCurve => Curve
         (
             (0.0, 0.0), (0.05, 0.0), (0.98, 0.5),
             (1.0, 0.0), (1.05, 0.6), (1.98, 0.6),
@@ -694,7 +694,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (6.0, 0.0), (6.05, 1.0), (6.98, 1.0),
             (7.0, 0.0), (7.05, 0.6), (7.78, 0.2),
             (8.0, 0.0)
-        );
+        ).SetName();
 
         (double time, FlowNode freq1, FlowNode freq2, FlowNode freq3)[] _chordFreqs;
 
