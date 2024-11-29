@@ -53,26 +53,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private string _name;
 
         /// <inheritdoc cref="docs._names"/>
-        public string GetName => _name;
-
-        ///// <inheritdoc cref="docs._names"/>
-        //public SynthWishes WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
-        //{
-        //    string name = uglyName;
-
-        //    if (string.IsNullOrWhiteSpace(name))
-        //    {
-        //        name = fallbackName;
-        //    }
-
-        //    if (string.IsNullOrWhiteSpace(name))
-        //    {
-        //        name = callerMemberName;
-        //    }
-
-        //    _name = name;
-        //    return this;
-        //}
+        private string GetName => _name;
         
         /// <inheritdoc cref="docs._fetchname"/>
         public string FetchName(
@@ -146,13 +127,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return this;
         }
-    
-        ///// <inheritdoc cref="docs._names"/>
-        //public FlowNode WithName(string uglyName = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
-        //{
-        //    _synthWishes.WithName(uglyName, fallbackName, callerMemberName);
-        //    return this;
-        //}
 
         /// <inheritdoc cref="docs._names"/>
         public string Name
