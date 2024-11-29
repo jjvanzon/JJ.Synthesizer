@@ -50,22 +50,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        //private string _name;
-
-        ///// <inheritdoc cref="docs._names"/>
-        //private string GetName => _name;
-        
-        ///// <inheritdoc cref="docs._fetchname"/>
-        //public string FetchName(
-        //    string fallbackName1 = null, string fallbackName2 = null, string fallbackName3 = null, 
-        //    string explicitName = null, [CallerMemberName] string callerMemberName = null)
-        //{
-            //string name = GetName;
-            //_name = null;
-
-            //return FetchName(name, fallbackName1, fallbackName2, fallbackName3, explicitName: explicitName, callerMemberName);
-        //}
-
         /// <inheritdoc cref="docs._fetchname"/>
         public static string FetchName(
             string fallbackName1 = null, string fallbackName2 = null, string fallbackName3 = null, string fallbackName4 = null,
