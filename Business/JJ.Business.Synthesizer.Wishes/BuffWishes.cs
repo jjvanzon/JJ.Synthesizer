@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 IList<string> warnings = additionalMessages.Union(configWarnings).ToArray();
                 
                 // Write Audio
-                buff = StreamAudio(audioFileOutput, inMemory, warnings, name);
+                buff = StreamAudio(audioFileOutput, inMemory, GetExtraBufferFrames, warnings, name);
             }
             finally
             {
@@ -167,7 +167,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         internal static Buff StreamAudio(
             AudioFileOutput audioFileOutput,
-            bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, int extraBufferFrames, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
@@ -203,7 +203,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (inMemory)
             {
                 // Inject an in-memory stream
-                bytes = new byte[audioFileOutput.GetFileLengthNeeded()];
+                bytes = new byte[audioFileOutput.GetFileLengthNeeded(extraBufferFrames)];
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
             else 
@@ -236,13 +236,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         internal static Buff StreamAudio(
             Buff buff, 
-            bool inMemory, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, int extraBufferFrames, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
             
             return StreamAudio(
                 buff.UnderlyingAudioFileOutput,
-                inMemory, additionalMessages, name, callerMemberName);
+                inMemory, extraBufferFrames, additionalMessages, name, callerMemberName);
         }
 
         // Helpers

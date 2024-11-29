@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
-using static JJ.Business.Synthesizer.Wishes.ConfigResolver;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Configuration_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Testing_Wishes;
@@ -44,14 +42,18 @@ namespace JJ.Business.Synthesizer.Wishes
         [XmlAttribute] public bool? ParallelTaping { get; set; }
         [XmlAttribute] public bool? DiskCacheOn { get; set; }
         [XmlAttribute] public bool? PlayAllTapes { get; set; }
-        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
-        [XmlAttribute] public double? ParallelTaskCheckDelay { get; set; }
         
         // Tooling
         
-        [XmlAttribute] public string LongTestCategory { get; set; }
         public ConfigToolingElement AzurePipelines { get; set; } = new ConfigToolingElement();
         public ConfigToolingElement NCrunch { get; set; } = new ConfigToolingElement();
+        
+        // Misc Settings
+        
+        [XmlAttribute] public int? ExtraBufferFrames { get; set; }
+        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
+        [XmlAttribute] public double? ParallelTaskCheckDelay { get; set; }
+        [XmlAttribute] public string LongTestCategory { get; set; }
     }
 
     internal class ConfigToolingElement
@@ -66,10 +68,13 @@ namespace JJ.Business.Synthesizer.Wishes
     
     internal class ConfigResolver
     {
+        /// <summary> For static contexts use this. </summary>
+        public static ConfigResolver Default { get; } = new ConfigResolver();
+
         // Defaults
-        
+
         // Audio Quality
-        
+
         private const int                   DefaultBits          = 32;
         private const SpeakerSetupEnum      DefaultSpeakers      = Mono;
         private const ChannelEnum           DefaultChannel       = ChannelEnum.Single;
@@ -93,9 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private const bool   DefaultParallelTaping    = true;
         private const bool   DefaultDiskCacheOn       = false;
         private const bool   DefaultPlayAllTapes      = false;
-        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
-        private const double DefaultParallelTaskCheckDelay = 0.001;
-        
+
         // Tooling
         
         private const bool   DefaultToolingPlayBack                       = false;
@@ -104,8 +107,14 @@ namespace JJ.Business.Synthesizer.Wishes
         private const int    DefaultNCrunchSamplingRateLongRunning        = 8;
         private const int    DefaultAzurePipelinesSamplingRate            = 1500;
         private const int    DefaultAzurePipelinesSamplingRateLongRunning = 100;
-        private const string DefaultLongTestCategory                      = "Long";
         
+        // Misc Settings
+        
+        private const int    DefaultExtraBufferFrames      = 4;
+        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
+        private const double DefaultParallelTaskCheckDelay = 0.001;
+        private const string DefaultLongTestCategory       = "Long";
+
         // Environment Variables
         
         private const string NCrunchEnvironmentVariableName = "NCrunch";
@@ -422,8 +431,11 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // PlayBack
         
+        /// <inheritdoc cref="docs._playback" />
         private bool? _playBack;
-        [Obsolete(WarningSettingMayNotWork)] public void WithPlayBack(bool? enabled = true) => _playBack = enabled;
+        /// <inheritdoc cref="docs._playback" />
+        public void WithPlayBack(bool? enabled = true) => _playBack = enabled;
+        /// <inheritdoc cref="docs._playback" />
         public bool GetPlayBack(string fileExtension = null)
         {
             bool playBack = _playBack ?? _section.PlayBack ?? DefaultPlayBack;
@@ -486,7 +498,14 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._playalltapes" />
         public void WithPlayAllTapes(bool? enabled = true) => _playAllTapes = enabled;
         
-        // ParallelTaskCheckDelay
+        // Misc Settings
+        
+        /// <inheritdoc cref="docs._extrabufferframes" />
+        private int? _extraBufferFrames;
+        /// <inheritdoc cref="docs._extrabufferframes" />
+        public int GetExtraBufferFrames => _extraBufferFrames ?? _section.ExtraBufferFrames ?? DefaultExtraBufferFrames;
+        /// <inheritdoc cref="docs._extrabufferframes" />
+        public void WithExtraBufferFrames(int? value) => _extraBufferFrames = value;
         
         /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
         private double? _parallelTaskCheckDelay;
@@ -494,8 +513,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public double GetParallelTaskCheckDelay => _parallelTaskCheckDelay ?? _section.ParallelTaskCheckDelay ?? DefaultParallelTaskCheckDelay;
         /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
         public void WithParallelTaskCheckDelay(double? milliseconds) => _parallelTaskCheckDelay = milliseconds;
-
-        // Tooling
         
         private string _longTestCategory;
         public void WithLongTestCategory(string category) => _longTestCategory = category;
@@ -508,6 +525,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 return DefaultLongTestCategory;
             }
         }
+
+        // Tooling
 
         internal bool GetNCrunchImpersonation => _section.NCrunch.Impersonation ?? DefaultToolingImpersonation;
         internal bool GetAzurePipelinesImpersonation => _section.AzurePipelines.Impersonation ?? DefaultToolingImpersonation;
@@ -609,12 +628,6 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return list;
         }
-
-        
-        internal const string WarningSettingMayNotWork
-            = "Setting might not work in all contexts " +
-              "where the system is unaware of the SynthWishes object. " +
-              "This is because of a design decision in the software, that might be corrected later.";
     }
 
     // SynthWishes ConfigWishes
@@ -700,8 +713,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Feature Toggles
         
+        /// <inheritdoc cref="docs._playback" />
         public bool GetPlayBack(string fileExtension = null) => _configResolver.GetPlayBack(fileExtension);
-        [Obsolete(WarningSettingMayNotWork)]
+        /// <inheritdoc cref="docs._playback" />
         public SynthWishes WithPlayBack(bool? enabled = true) { _configResolver.WithPlayBack(enabled); return this; }
         
         public bool GetMathBoost => _configResolver.GetMathBoost;
@@ -722,6 +736,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._playalltapes" />
         public SynthWishes WithPlayAllTapes(bool? enabled = true) { _configResolver.WithPlayAllTapes(enabled); return this; }
 
+        // Misc Settings
+        
+        /// <inheritdoc cref="docs._extrabufferframes" />
+        public int GetExtraBufferFrames => _configResolver.GetExtraBufferFrames;
+        /// <inheritdoc cref="docs._extrabufferframes" />
+        public SynthWishes WithExtraBufferFrames(int? value) {_configResolver.WithExtraBufferFrames(value); return this; }
+        
         /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
         public double GetParallelTaskCheckDelay => _configResolver.GetParallelTaskCheckDelay;
         /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
@@ -811,8 +832,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Feature Toggles
         
+        /// <inheritdoc cref="docs._playback" />
         public bool GetPlayBack(string fileExtension = null) => _synthWishes.GetPlayBack(fileExtension);
-        [Obsolete(WarningSettingMayNotWork)]
+        /// <inheritdoc cref="docs._playback" />
         public FlowNode WithPlayBack(bool? enabled = true) { _synthWishes.WithPlayBack(enabled); return this; }
         
         public bool GetMathBoost => _synthWishes.GetMathBoost;
@@ -832,5 +854,17 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool GetPlayAllTapes => _synthWishes.GetPlayAllTapes;
         /// <inheritdoc cref="docs._playalltapes" />
         public FlowNode WithPlayAllTapes(bool? enabled = true) { _synthWishes.WithPlayAllTapes(enabled); return this; }
-    }
+ 
+        // Misc Settings
+        
+        /// <inheritdoc cref="docs._extrabufferframes" />
+        public int GetExtraBufferFrames => _synthWishes.GetExtraBufferFrames;
+        /// <inheritdoc cref="docs._extrabufferframes" />
+        public FlowNode WithExtraBufferFrames(int? value) { _synthWishes.WithExtraBufferFrames(value); return this; }
+        
+        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
+        public double GetParallelTaskCheckDelay => _synthWishes.GetParallelTaskCheckDelay;
+        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
+        public FlowNode WithParallelTaskCheckDelay(double? seconds) { _synthWishes.WithParallelTaskCheckDelay(seconds); return this; }
+}
 }

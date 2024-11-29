@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(SpeakerSetupEnum.Mono,      () => sample.GetSpeakerSetupEnum());
                 AreEqual(44,                         () => sample.GetHeaderLength());
                 
-                int courtesyValuesFound = 0;
+                int extraBufferFramesFound = 0;
                 using (var stream = new MemoryStream(sample.Bytes))
                 {
                     stream.Position = 44; // Skip header
@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                             // Account for courtesy bytes.
                             if (nextValue == 0)
                             {
-                                courtesyValuesFound++;
+                                extraBufferFramesFound++;
                                 continue;
                             }
                             
@@ -133,12 +133,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     }
                 }
                 
-                if (courtesyValuesFound > 0)
+                if (extraBufferFramesFound > 0)
                 {
-                    Console.WriteLine($"Found {courtesyValuesFound} courtesy frames in addOperand[{i}].");
-                    if (courtesyValuesFound > 4)
+                    Console.WriteLine($"Found {extraBufferFramesFound} courtesy frames in addOperand[{i}].");
+                    if (extraBufferFramesFound > GetExtraBufferFrames)
                     {
-                        Assert.Fail($"courtesyValuesFound = {courtesyValuesFound} > 8");
+                        Assert.Fail($"courtesyValuesFound = {extraBufferFramesFound} > {GetExtraBufferFrames}");
                     }
                 }
             }

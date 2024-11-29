@@ -124,19 +124,19 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Cache(
-            Buff buff, 
+            Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
-                buff, 
-                inMemory: true, null, name, callerMemberName);
+                buff,
+                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Cache(
-            AudioFileOutput entity, 
+            AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 entity, 
-                inMemory: true, null, name, callerMemberName);
+                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
     }
 
     // Statics Turned Instance
@@ -157,8 +157,8 @@ namespace JJ.Business.Synthesizer.Wishes
             name = synthWishes.FetchName(buff?.FilePath, callerMemberName, explicitName: name);
 
             StreamAudio(
-                buff, 
-                inMemory: true, null, name, callerMemberName);
+                buff,
+                inMemory: true, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
             
             return synthWishes;
         }
@@ -175,7 +175,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             StreamAudio(
                 entity, 
-                inMemory: true, null, name, callerMemberName);
+                inMemory: true, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
             
             return synthWishes;
         }
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes
             { 
                 StreamAudio(
                     buff, 
-                    inMemory: true, null, name, callerMemberName);
+                    inMemory: true, GetExtraBufferFrames, null, name, callerMemberName);
 
                 return this; 
             }
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             StreamAudio(
                 entity,
-                inMemory: true, null, name, callerMemberName);
+                inMemory: true, GetExtraBufferFrames, null, name, callerMemberName);
 
             return this;
         }
@@ -237,7 +237,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 buff, 
-                inMemory: true, null, name, callerMemberName);
+                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Cache(
@@ -245,6 +245,6 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 entity, 
-                inMemory: true, null, name, callerMemberName);
+                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
     }
 }

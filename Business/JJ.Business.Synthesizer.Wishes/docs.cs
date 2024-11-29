@@ -216,7 +216,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <returns> An Outlet representing the output sound. </returns>
         public static object _default;
         
-        /// <inheritdoc cref="_tapesanddiskcache" />
+        /// <inheritdoc
+        ///     cref="_tapesanddiskcache" />
         public static object _diskcacheon;
 
         /// <summary>
@@ -326,7 +327,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         public static object _names;
 
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc
+        ///     cref="docs._default" />
         public static object _noteindexer;
         
         /// <summary>
@@ -349,8 +351,28 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         public static object _paralleltaskcheckdelay;
         
-        /// <inheritdoc cref="_tapesanddiskcache" />
+        /// <inheritdoc
+        ///     cref="_tapesanddiskcache" />
         public static object _playalltapes;
+        
+        /// <summary>
+        /// Setting might not work in all contexts 
+        /// where the system is unaware of the SynthWishes object.
+        /// This is because of a design decision in the software, that might be corrected later.
+        ///
+        /// <para> For instance with an extension method on Buff, e.g. buff.Play(), there is no
+        /// SynthWishes or FlowNode involved, that can provide the custom set value.
+        /// Things which would then default back to the config setting or hard-coded default. </para>
+        ///
+        /// <para> The system correction that might solve it could be a change called
+        /// Func-Free Stereo Tapes, which would make it rare you would operate
+        /// directly on Buff or AudioOutput. </para>
+        /// 
+        /// <para> Currently, just chaining .Play onto some previous
+        /// command could make you lose the SynthWishes context.
+        /// Omitting a `this.` qualifier could do that too. </para>
+        /// </summary>
+        public static object _playback;
         
         /// <summary>
         /// Extensions that are wishes for the back-end related that retrieve related objects like the Operator, Curve or Sample entities.
@@ -382,7 +404,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         public static object _samplefromfluentconfig;
 
-        /// <inheritdoc cref="_default" />
+        /// <inheritdoc
+        ///     cref="_default" />
         public static object _strikenote;
         
         /// <summary>
@@ -430,7 +453,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns>
         public static object _paralleladd;
         
-        /// <inheritdoc cref="_tapesanddiskcache" />
+        /// <inheritdoc 
+        ///     cref="_tapesanddiskcache" />
         public static object _paralleltaping;
 
         /// <summary>

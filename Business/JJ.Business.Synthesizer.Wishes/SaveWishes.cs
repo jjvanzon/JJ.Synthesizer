@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 buff, 
-                inMemory: false, null, filePath, callerMemberName);
+                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, filePath, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Save(
@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 a, 
-                inMemory: false, null, filePath, callerMemberName);
+                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static void Save(
@@ -156,7 +156,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             SynthWishes.StreamAudio(
                 buff, 
-                inMemory: false, null, filePath, callerMemberName);
+                inMemory: false, synthWishes.GetExtraBufferFrames, null, filePath, callerMemberName);
             
             return synthWishes;
         }
@@ -173,7 +173,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             SynthWishes.StreamAudio(
                 audioFileOutput, 
-                inMemory: false, null, filePath, callerMemberName);
+                inMemory: false, synthWishes.GetExtraBufferFrames, null, filePath, callerMemberName);
             
             return synthWishes;
         }
@@ -222,7 +222,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             SynthWishes.StreamAudio(
                 buff, 
-                inMemory: false, null, filePath, callerMemberName);
+                inMemory: false, GetExtraBufferFrames, null, filePath, callerMemberName);
 
             return this;
         }
@@ -236,7 +236,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             SynthWishes.StreamAudio(
                 entity, 
-                inMemory: false, null, filePath, callerMemberName);
+                inMemory: false, GetExtraBufferFrames, null, filePath, callerMemberName);
             
             return this; 
         }
@@ -300,7 +300,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.StreamAudio(
                 buff, 
-                inMemory: false, null, filePath, callerMemberName);    
+                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, filePath, callerMemberName);    
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Save(
@@ -308,7 +308,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.StreamAudio(
                 audioFileOutput, 
-                inMemory: false, null, filePath, callerMemberName);
+                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public static void Save(
