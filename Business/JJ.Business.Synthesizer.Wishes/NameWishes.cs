@@ -50,25 +50,25 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        private string _name;
+        //private string _name;
 
-        /// <inheritdoc cref="docs._names"/>
-        private string GetName => _name;
+        ///// <inheritdoc cref="docs._names"/>
+        //private string GetName => _name;
         
-        /// <inheritdoc cref="docs._fetchname"/>
-        public string FetchName(
-            string fallbackName1 = null, string fallbackName2 = null, string fallbackName3 = null, 
-            string explicitName = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = GetName;
-            _name = null;
+        ///// <inheritdoc cref="docs._fetchname"/>
+        //public string FetchName(
+        //    string fallbackName1 = null, string fallbackName2 = null, string fallbackName3 = null, 
+        //    string explicitName = null, [CallerMemberName] string callerMemberName = null)
+        //{
+            //string name = GetName;
+            //_name = null;
 
-            return StaticFetchName(name, fallbackName1, fallbackName2, fallbackName3, explicitName: explicitName, callerMemberName);
-        }
+            //return FetchName(name, fallbackName1, fallbackName2, fallbackName3, explicitName: explicitName, callerMemberName);
+        //}
 
         /// <inheritdoc cref="docs._fetchname"/>
-        private static string StaticFetchName(
-            string fallbackName1, string fallbackName2 = null, string fallbackName3 = null, string fallbackName4 = null,
+        public static string FetchName(
+            string fallbackName1 = null, string fallbackName2 = null, string fallbackName3 = null, string fallbackName4 = null,
             string explicitName = null, [CallerMemberName] string callerMemberName = null)
         {
             if (!string.IsNullOrWhiteSpace(explicitName))
@@ -134,13 +134,17 @@ namespace JJ.Business.Synthesizer.Wishes
             get => _underlyingOutlet.Operator.Name;
             set => _underlyingOutlet.Operator.Name = value;
         }
+        
+        public static string FetchName(
+            string fallbackName1, string fallbackName2 = null, string fallbackName3 = null, string fallbackName4 = null,
+            string explicitName = null, [CallerMemberName] string callerMemberName = null)
+            => SynthWishes.FetchName(fallbackName1, fallbackName2, fallbackName3, fallbackName4, explicitName, callerMemberName);
     }
 
-    // NameWishes Extensions
+    // NameWishes Entity Extensions
     
-    public static class NameExtensionWishes
+    public static class NameWishesEntityExtensions
     {
-
         /// <inheritdoc cref="docs._names"/>
         public static Curve SetName(this Curve entity, string name)
         {

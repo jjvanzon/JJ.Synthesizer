@@ -154,7 +154,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            name = synthWishes.FetchName(buff?.FilePath, callerMemberName, explicitName: name);
+            name = FetchName(buff?.FilePath, callerMemberName, explicitName: name);
 
             StreamAudio(
                 buff,
@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            name = synthWishes.FetchName(entity?.FilePath, callerMemberName, explicitName: name);
+            name = FetchName(entity?.FilePath, callerMemberName, explicitName: name);
 
             StreamAudio(
                 entity, 

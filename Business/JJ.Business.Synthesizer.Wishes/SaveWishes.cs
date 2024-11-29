@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -134,7 +135,7 @@ namespace JJ.Business.Synthesizer.Wishes
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            filePath = StaticFetchName(callerMemberName, explicitName: filePath);
+            filePath = FetchName(callerMemberName, explicitName: filePath);
             File.WriteAllBytes(filePath, bytes);
         }
     }
@@ -152,9 +153,9 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            filePath = synthWishes.FetchName(buff?.FilePath, callerMemberName, explicitName: filePath);
+            filePath = FetchName(buff?.FilePath, callerMemberName, explicitName: filePath);
             
-            SynthWishes.StreamAudio(
+            StreamAudio(
                 buff, 
                 inMemory: false, synthWishes.GetExtraBufferFrames, null, filePath, callerMemberName);
             
@@ -169,9 +170,9 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            filePath = synthWishes.FetchName(audioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            filePath = FetchName(audioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
             
-            SynthWishes.StreamAudio(
+            StreamAudio(
                 audioFileOutput, 
                 inMemory: false, synthWishes.GetExtraBufferFrames, null, filePath, callerMemberName);
             
@@ -186,7 +187,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            filePath = synthWishes.FetchName(sample?.Location, callerMemberName, explicitName: filePath);
+            filePath = FetchName(sample?.Location, callerMemberName, explicitName: filePath);
             
             SynthWishes.Save(sample, filePath, callerMemberName);
 
@@ -201,7 +202,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            filePath = synthWishes.FetchName(callerMemberName, explicitName: filePath);
+            filePath = FetchName(callerMemberName, explicitName: filePath);
             
             SynthWishes.Save(bytes, filePath);
             
@@ -218,9 +219,9 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            filePath = _synthWishes.FetchName(buff?.FilePath, callerMemberName, explicitName: filePath);
+            filePath = FetchName(buff?.FilePath, callerMemberName, explicitName: filePath);
             
-            SynthWishes.StreamAudio(
+            StreamAudio(
                 buff, 
                 inMemory: false, GetExtraBufferFrames, null, filePath, callerMemberName);
 
@@ -232,9 +233,9 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            filePath = _synthWishes.FetchName(entity?.FilePath, callerMemberName, explicitName: filePath);
+            filePath = FetchName(entity?.FilePath, callerMemberName, explicitName: filePath);
             
-            SynthWishes.StreamAudio(
+            StreamAudio(
                 entity, 
                 inMemory: false, GetExtraBufferFrames, null, filePath, callerMemberName);
             
@@ -246,7 +247,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Sample entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            filePath = _synthWishes.FetchName(entity?.Location, callerMemberName, explicitName: filePath);
+            filePath = FetchName(entity?.Location, callerMemberName, explicitName: filePath);
 
             SynthWishes.Save(
                 entity, 
@@ -260,7 +261,7 @@ namespace JJ.Business.Synthesizer.Wishes
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            filePath = _synthWishes.FetchName(callerMemberName, explicitName: filePath);
+            filePath = FetchName(callerMemberName, explicitName: filePath);
 
             SynthWishes.Save(
                 bytes,
@@ -298,7 +299,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Save(
             this Buff buff,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.StreamAudio(
+            => StreamAudio(
                 buff, 
                 inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, filePath, callerMemberName);    
 
@@ -306,7 +307,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Save(
             this AudioFileOutput audioFileOutput,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.StreamAudio(
+            => StreamAudio(
                 audioFileOutput, 
                 inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, filePath, callerMemberName);
 

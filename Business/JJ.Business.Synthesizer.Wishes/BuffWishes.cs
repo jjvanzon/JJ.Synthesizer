@@ -172,8 +172,8 @@ namespace JJ.Business.Synthesizer.Wishes
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
 
-            //name = StaticFetchName(name, entity.Name, callerMemberName);
-            name = StaticFetchName(name, callerMemberName);
+            //name = FetchName(name, audioFileOutput.Name, callerMemberName);
+            name = FetchName(name, callerMemberName);
             audioFileOutput.Name = name;
 
             // Assert

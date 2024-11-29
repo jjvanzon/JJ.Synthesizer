@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
+using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
@@ -78,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             IList<Func<FlowNode>> termFuncs,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            name = synthWishes.FetchName(name, callerMemberName);
+            name = FetchName(name, callerMemberName);
             
             // Prep variables
             int termCount = termFuncs.Count;
@@ -151,7 +152,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             double audioDuration = cacheBuffs.Max(x => x.UnderlyingAudioFileOutput.Duration);
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
             int complexity = cacheBuffs.Sum(x => x.Complexity());
-            string formattedMetrics = SynthWishes.FormatMetrics(audioDuration, calculationDuration, complexity);
+            string formattedMetrics = FormatMetrics(audioDuration, calculationDuration, complexity);
             string message = $"{PrettyTime()} Totals {name} Terms: {formattedMetrics}";
             Console.WriteLine(message);
             
