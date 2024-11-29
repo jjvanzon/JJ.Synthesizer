@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff =
                 StreamAudio(
                     func, duration,
-                    inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
+                    inMemory: !GetCacheToDisk, mustPad: true, null, name, callerMemberName);
 
             Buff buff2 = InternalPlay(this, buff);
 
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff =
                 StreamAudio(
                     channel, duration,
-                    inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
+                    inMemory: !GetCacheToDisk, mustPad: true, null, name, callerMemberName);
             
             Buff buff2 = InternalPlay(this, buff);
 
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff =
                 StreamAudio(
                     channels, duration,
-                    inMemory: !GetDiskCacheOn, mustPad: true, null, name, callerMemberName);
+                    inMemory: !GetCacheToDisk, mustPad: true, null, name, callerMemberName);
             
             Buff buff2 = InternalPlay(this, buff);
 

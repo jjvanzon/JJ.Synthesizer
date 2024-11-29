@@ -34,7 +34,7 @@
 		playBack="true"
 		mathBoost="true"
 		parallelTaping="true"
-		diskCacheOn="false"
+		cacheToDisk="false"
 		playAllTapes="false"
 		
 		extraBufferFrames="4"

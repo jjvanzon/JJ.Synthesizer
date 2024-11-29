@@ -218,7 +218,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc
         ///     cref="_tapesanddiskcache" />
-        public static object _diskcacheon;
+        public static object _cachetodisk;
 
         /// <summary>
         /// Applies an echo effect using a feedback loop.
@@ -460,7 +460,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary>
         /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
         /// other parallel tasks for testing purposes.<br/>
-        /// DiskCacheOn controls whether the tapes will be cached to disk instead of memory,
+        /// CacheToDisk controls whether the tapes will be cached to disk instead of memory,
         /// in case of which it also doesn't clean up the files. Mostly for testing purposes.
         /// But could be used in low-memory high-disk-space scenarios.<br/>
         /// With the Parallels setting you can turn off parallel processing completely.
@@ -572,8 +572,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns>
         public static object _saveorplay;
 
-        /// <summary> Nullable. Not supplied when DiskCacheOn. </summary>
-        /// <param name="bytes">Nullable. Not supplied when DiskCacheOn.</param>
+        /// <summary> Nullable. Not supplied when CacheToDisk. </summary>
+        /// <param name="bytes">Nullable. Not supplied when CacheToDisk.</param>
         public static object _buffbytes;
         
         /// <summary>

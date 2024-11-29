@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 func, null,
-                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 func, duration,
-                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 func, null,
-                inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 func, duration, 
-                inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 new[] { outlet }, null, 
-                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 new[] { outlet }, duration,
-                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
 
         // With FlowNode
         
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 new[] { outlet }, duration, 
-                inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => StreamAudio(
                 channels, null,
-                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 channels, duration, 
-                inMemory: !GetDiskCacheOn, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Cache(
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => StreamAudio(
                 channels, duration, 
-                inMemory: !GetDiskCacheOn, mustPad, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
         
         // Instance ChannelCache
         
