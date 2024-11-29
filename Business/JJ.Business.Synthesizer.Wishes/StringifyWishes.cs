@@ -6,6 +6,8 @@ using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
+using static System.String;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -45,7 +47,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string Stringify(this AudioFileOutput entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            return string.Join(NewLine, entity.AudioFileOutputChannels.Select(x => x.Stringify(singleLine, canOmitNameForBasicMath)));
+            return Join(NewLine, entity.AudioFileOutputChannels.Select(x => x.Stringify(singleLine, canOmitNameForBasicMath)));
         }
         
         /// <inheritdoc cref="docs._stringify"/>
@@ -205,25 +207,8 @@ namespace JJ.Business.Synthesizer.Wishes
         private static bool IsSimpleMath(Operator op) 
             => op.IsAdd() || op.IsSubtract() || op.IsMultiply() || op.IsDivide();
 
-        private bool HasCustomName(Operator op) => !NameIsOperatorTypeName(op.Name, op.OperatorTypeName);
-        
-        private bool NameIsOperatorTypeName(string name, string operatorTypeName)
-        {
-            if (string.IsNullOrWhiteSpace(name)) return false;
-
-            if (string.Equals(name, operatorTypeName))
-            {
-                return true;
-            }
-            
-            string operatorTypeDisplayName = PropertyDisplayNames.ResourceManager.GetString(operatorTypeName);
-            if (string.Equals(name, operatorTypeDisplayName, StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-
-            return false;
-        }
+        private bool HasCustomName(Operator op) => !IsNullOrWhiteSpace(op.Name) && 
+                                                   !NameIsOperatorTypeName(op);
 
         // Separator
         
@@ -263,7 +248,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private static bool NameMentionsOperatorType(string name, string operatorTypeName)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (IsNullOrWhiteSpace(name))
             {
                 return false;
             }

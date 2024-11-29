@@ -39,24 +39,26 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode> func, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
-            name = FetchName(name, callerMemberName);
-
+            
             var originalChannel = GetChannel;
             try
             {
                 switch (GetSpeakers)
                 {
                     case Mono:
+                    {
                         WithCenter(); var monoOutlet = func();
+                        name = FetchName(name, monoOutlet, callerMemberName, func);
                         return StreamAudio(new[] { monoOutlet }, duration, inMemory, mustPad, additionalMessages, name);
-
+                    }
                     case Stereo:
+                    {
                         WithLeft(); var leftOutlet = func();
                         WithRight(); var rightOutlet = func();
+                        name = FetchName(name, leftOutlet, rightOutlet, callerMemberName, func);
                         return StreamAudio(new[] { leftOutlet, rightOutlet }, duration, inMemory, mustPad, additionalMessages, name);
-                    
-                    default:
-                        throw new ValueNotSupportedException(GetSpeakers);
+                    }
+                    default: throw new ValueNotSupportedException(GetSpeakers);
                 }
             }
             finally
@@ -85,7 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes
             additionalMessages = additionalMessages ?? Array.Empty<string>();
             
             // Fetch Name
-            name = FetchName(name, callerMemberName);
+            name = FetchName(name, channels, callerMemberName);
             
             Buff buff;
             
@@ -123,7 +125,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <param name="duration">Nullable. Falls back to AudioLength or else to a 1-second time span.</param>
-        internal AudioFileOutput ConfigureAudioFileOutput(
+        private AudioFileOutput ConfigureAudioFileOutput(
             IList<FlowNode> channels, FlowNode duration, string name)
         {
             // Configure AudioFileOutput (avoid backend)
@@ -172,8 +174,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
 
-            //name = FetchName(name, audioFileOutput.Name, callerMemberName);
-            name = FetchName(name, callerMemberName);
+            name = FetchName(name, audioFileOutput, callerMemberName);
             audioFileOutput.Name = name;
 
             // Assert
@@ -239,6 +240,8 @@ namespace JJ.Business.Synthesizer.Wishes
             bool inMemory, int extraBufferFrames, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
+            
+            name = FetchName(name, buff, callerMemberName);
             
             return StreamAudio(
                 buff.UnderlyingAudioFileOutput,

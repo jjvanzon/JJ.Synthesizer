@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
+using static System.String;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -23,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string title = PrettifyName(uglyName);
 
-            if (string.IsNullOrWhiteSpace(title))
+            if (IsNullOrWhiteSpace(title))
             {
                 title = "Untitled";
             }
@@ -44,46 +48,94 @@ namespace JJ.Business.Synthesizer.Wishes
                                .Replace("Test", "")
                                .Replace("_", " ")
                                .RemoveExcessiveWhiteSpace();
-    }
 
-    // NameWishes SynthWishes
-    
-    public partial class SynthWishes
-    {
+        internal static bool NameIsOperatorTypeName(Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            return NameIsOperatorTypeName(op.Name, op.OperatorTypeName);
+        }
+        
+        internal static bool NameIsOperatorTypeName(string name, string operatorTypeName)
+        {
+            if (IsNullOrWhiteSpace(name)) return false;
+
+            if (string.Equals(name, operatorTypeName))
+            {
+                return true;
+            }
+            
+            string operatorTypeDisplayName = PropertyDisplayNames.ResourceManager.GetString(operatorTypeName);
+            if (string.Equals(name, operatorTypeDisplayName, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         /// <inheritdoc cref="docs._fetchname"/>
         public static string FetchName(
-            string fallbackName1 = null, string fallbackName2 = null, string fallbackName3 = null, string fallbackName4 = null,
+            object nameSource1 = null, object nameSource2 = null, object nameSource3 = null, object nameSource4 = null,
+            object nameSource5 = null, object nameSource6 = null, object nameSource7 = null, object nameSource8 = null,
             string explicitName = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (!string.IsNullOrWhiteSpace(explicitName))
+            if (!IsNullOrWhiteSpace(explicitName))
             {
                 return explicitName; // Not sure if it should be prettified too...
             }
-
-            string name = fallbackName1;
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = fallbackName2;
-            }
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = fallbackName3;
-            }
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = fallbackName4;
-            }
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = callerMemberName;
-            }
+            
+            string name = TryGetName(nameSource1, nameSource2, nameSource3, nameSource4, nameSource5, nameSource6, nameSource7, nameSource8, callerMemberName);
 
             name = PrettifyName(name);
+            
             return name;
+        }
+        
+        private static string TryGetName(params object[] nameSources)
+            => TryGetName((IList<object>)nameSources);
+
+        private static string TryGetName(IList<object> nameSources)
+        {
+            if (nameSources == null) throw new ArgumentNullException(nameof(nameSources));
+            return nameSources.Select(TryGetName).FirstOrDefault(x => !IsNullOrWhiteSpace(x));
+        }
+                
+        private static string TryGetName(object nameSource)
+        {
+            switch (nameSource)
+            {
+                case string str: 
+                    return str;
+                
+                case IEnumerable<string> strings: 
+                    return strings.FirstOrDefault(x => !IsNullOrWhiteSpace(x));                    
+                
+                case FlowNode flowNode: 
+                    return flowNode.Name;
+                
+                case IEnumerable<FlowNode> flowNodes: 
+                    return TryGetName(flowNodes.Select(x => x?.Name));
+                
+                case Delegate d: 
+                    return d.Method.Name;
+                    
+                case Buff buff:
+                    return TryGetName(buff.FilePath, buff.UnderlyingAudioFileOutput);
+                
+                case AudioFileOutput audioFileOutput:
+                    return TryGetName(audioFileOutput.FilePath, audioFileOutput.Name);
+                    //return TryGetName(audioFileOutput.Name, audioFileOutput.FilePath);
+                
+                case Sample sample:
+                    return TryGetName(sample.Location, sample.Name);
+                    //return TryGetName(sample.Name, sample.Location);
+
+                case null: 
+                    return null;
+                
+                default: 
+                    throw new Exception($"Unsupported {nameof(nameSource)} type: {nameSource.GetType()}.");
+            }
         }
     }
 
@@ -94,17 +146,17 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._names"/>
         public FlowNode SetName(string name = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (IsNullOrWhiteSpace(name))
             {
                 name = fallbackName;
             }
 
-            if (string.IsNullOrWhiteSpace(name))
+            if (IsNullOrWhiteSpace(name))
             {
                 name = callerMemberName;
             }
 
-            if (!string.IsNullOrWhiteSpace(name))
+            if (!IsNullOrWhiteSpace(name))
             {
                 Name = PrettifyName(name);
             }
@@ -115,14 +167,19 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._names"/>
         public string Name
         {
-            get => _underlyingOutlet.Operator.Name;
+            get 
+            {
+                if (NameIsOperatorTypeName(_underlyingOutlet.Operator))
+                {
+                    return default;
+                }
+                else
+                {
+                    return _underlyingOutlet.Operator.Name;
+                }
+            }
             set => _underlyingOutlet.Operator.Name = value;
         }
-        
-        public static string FetchName(
-            string fallbackName1, string fallbackName2 = null, string fallbackName3 = null, string fallbackName4 = null,
-            string explicitName = null, [CallerMemberName] string callerMemberName = null)
-            => SynthWishes.FetchName(fallbackName1, fallbackName2, fallbackName3, fallbackName4, explicitName, callerMemberName);
     }
 
     // NameWishes Entity Extensions
@@ -170,7 +227,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
             
-            if (string.IsNullOrWhiteSpace(name)) return op;
+            if (IsNullOrWhiteSpace(name)) return op;
             
             op.Name = name;
 

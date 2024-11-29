@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal class Tape
     {
+        /// <inheritdoc cref="docs._tapename" />
         public string Name 
         {
             get => Signal?.Name;
@@ -244,7 +245,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Console.WriteLine($"{PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.Name}");
             
             // Cache Buffer
-            Buff cacheBuff = Cache(tape.Signal, tape.Duration, tape.Name);
+            Buff cacheBuff = Cache(tape.Signal, tape.Duration);
             
             // Run Actions
             tape.Callback?.Invoke(cacheBuff, tape.ChannelIndex);

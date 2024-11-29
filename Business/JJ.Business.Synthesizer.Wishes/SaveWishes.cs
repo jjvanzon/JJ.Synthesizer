@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Channels;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -17,49 +19,73 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Save(
             Func<FlowNode> func, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+        {
+            string name = FetchName(callerMemberName, explicitName: filePath);
+            
+            return StreamAudio(
                 func, null,
-                inMemory: false, mustPad: true, null, filePath, callerMemberName);
+                inMemory: false, mustPad: true, null, name, callerMemberName);
+        }
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Save(
             Func<FlowNode> func, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+        {
+            string name = FetchName(callerMemberName, explicitName: filePath);
+            
+            return StreamAudio(
                 func, duration,
-                inMemory: false, mustPad: true, null, filePath, callerMemberName);
-
+                inMemory: false, mustPad: true, null, name, callerMemberName);
+        }
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Save(
             FlowNode channel, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+        {
+            string name = FetchName(channel, callerMemberName, explicitName: filePath);
+            
+            return StreamAudio(
                 channel, null,
-                inMemory: false, mustPad: true, null, filePath, callerMemberName);
+                inMemory: false, mustPad: true, null, name, callerMemberName);
+        }
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Save(
             FlowNode channel, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+        {
+            string name = FetchName(channel, callerMemberName, explicitName: filePath);
+            
+            return StreamAudio(
                 channel, duration,
-                inMemory: false, mustPad: true, null, filePath, callerMemberName);
+                inMemory: false, mustPad: true, null, name, callerMemberName);
+        }
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Save(
             IList<FlowNode> channels,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+        {
+            string name = FetchName(channels, callerMemberName, explicitName: filePath);
+            
+            return StreamAudio(
                 channels, null,
-                inMemory: false, mustPad: true, null, filePath, callerMemberName);
+                inMemory: false, mustPad: true, null, name, callerMemberName);
+        }
         
         /// <inheritdoc cref="docs._saveorplay" />
         public Buff Save(
             IList<FlowNode> channels, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+        {
+            string name = FetchName(channels, callerMemberName, explicitName: filePath);
+            
+            return StreamAudio(
                 channels, duration,
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
+        }
         
         // Instance ChannelSave
         
@@ -112,31 +138,42 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Save(
             Buff buff,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
-                buff, 
-                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, filePath, callerMemberName);
+        {
+            string name = FetchName(buff, callerMemberName, explicitName: filePath);
+
+            return StreamAudio(
+                buff,
+                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
+        }
         
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Save(
-            AudioFileOutput a, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => StreamAudio(
-                a, 
-                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, filePath, callerMemberName);
-
+            AudioFileOutput audioFileOutput, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            string name = FetchName(audioFileOutput, callerMemberName, explicitName: filePath);
+            
+            return StreamAudio(
+                audioFileOutput,
+                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
+        }
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public static void Save(
             Sample sample, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => Save(sample.Bytes, filePath, callerMemberName);
-
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            string resolvedFilePath = FetchName(sample, callerMemberName, explicitName: filePath);
+            Save(sample.Bytes, resolvedFilePath, callerMemberName);
+        }
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public static void Save(
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            filePath = FetchName(callerMemberName, explicitName: filePath);
-            File.WriteAllBytes(filePath, bytes);
+            string resolvedFilePath = FetchName(callerMemberName, explicitName: filePath);
+            File.WriteAllBytes(resolvedFilePath, bytes);
         }
     }
     
@@ -153,11 +190,11 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            filePath = FetchName(buff?.FilePath, callerMemberName, explicitName: filePath);
-            
+            string name = FetchName(buff, callerMemberName, explicitName: filePath);
+
             StreamAudio(
                 buff, 
-                inMemory: false, synthWishes.GetExtraBufferFrames, null, filePath, callerMemberName);
+                inMemory: false, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
             
             return synthWishes;
         }
@@ -170,11 +207,11 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            filePath = FetchName(audioFileOutput?.FilePath, callerMemberName, explicitName: filePath);
+            string name = FetchName(audioFileOutput, callerMemberName, explicitName: filePath);
             
             StreamAudio(
                 audioFileOutput, 
-                inMemory: false, synthWishes.GetExtraBufferFrames, null, filePath, callerMemberName);
+                inMemory: false, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
             
             return synthWishes;
         }
@@ -187,9 +224,9 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            filePath = FetchName(sample?.Location, callerMemberName, explicitName: filePath);
-            
-            SynthWishes.Save(sample, filePath, callerMemberName);
+            string resolvedFilePath = FetchName(sample, callerMemberName, explicitName: filePath);
+
+            SynthWishes.Save(sample, resolvedFilePath, callerMemberName);
 
             return synthWishes;
         }
@@ -202,9 +239,9 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            filePath = FetchName(callerMemberName, explicitName: filePath);
+            string resolvedFilePath = FetchName(callerMemberName, explicitName: filePath);
             
-            SynthWishes.Save(bytes, filePath);
+            SynthWishes.Save(bytes, resolvedFilePath, callerMemberName);
             
             return synthWishes;
         }
@@ -219,11 +256,11 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            filePath = FetchName(buff?.FilePath, callerMemberName, explicitName: filePath);
+            string name = FetchName(buff, callerMemberName, explicitName: filePath);
             
             StreamAudio(
                 buff, 
-                inMemory: false, GetExtraBufferFrames, null, filePath, callerMemberName);
+                inMemory: false, GetExtraBufferFrames, null, name, callerMemberName);
 
             return this;
         }
@@ -233,11 +270,11 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            filePath = FetchName(entity?.FilePath, callerMemberName, explicitName: filePath);
+            string name = FetchName(entity, callerMemberName, explicitName: filePath);
             
             StreamAudio(
                 entity, 
-                inMemory: false, GetExtraBufferFrames, null, filePath, callerMemberName);
+                inMemory: false, GetExtraBufferFrames, null, name, callerMemberName);
             
             return this; 
         }
@@ -247,8 +284,6 @@ namespace JJ.Business.Synthesizer.Wishes
             Sample entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            filePath = FetchName(entity?.Location, callerMemberName, explicitName: filePath);
-
             SynthWishes.Save(
                 entity, 
                 filePath, callerMemberName); 
@@ -261,8 +296,6 @@ namespace JJ.Business.Synthesizer.Wishes
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            filePath = FetchName(callerMemberName, explicitName: filePath);
-
             SynthWishes.Save(
                 bytes,
                 filePath, callerMemberName); 
@@ -298,19 +331,27 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Save(
             this Buff buff,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => StreamAudio(
-                buff, 
-                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, filePath, callerMemberName);    
-
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            string name = FetchName(buff, callerMemberName, explicitName: filePath);
+            
+            return StreamAudio(
+                buff,
+                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
+        }
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public static Buff Save(
             this AudioFileOutput audioFileOutput,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => StreamAudio(
-                audioFileOutput, 
-                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, filePath, callerMemberName);
-
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            string name = FetchName(audioFileOutput, callerMemberName, explicitName: filePath);
+            
+            return StreamAudio(
+                audioFileOutput,
+                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
+        }
+        
         /// <inheritdoc cref="docs._saveorplay" />
         public static void Save(
             this Sample sample, 

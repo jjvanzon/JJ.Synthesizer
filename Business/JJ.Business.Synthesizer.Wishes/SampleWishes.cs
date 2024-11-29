@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private FlowNode SampleFromFluentConfig(
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
-            name = FetchName(name, callerMemberName);
+            name = FetchName(callerMemberName, explicitName: name);
             name = Path.GetFileNameWithoutExtension(name);
             string location = Path.GetFullPath(FormatAudioFileName(name, GetAudioFormat)); // Back-end wants a path.
 

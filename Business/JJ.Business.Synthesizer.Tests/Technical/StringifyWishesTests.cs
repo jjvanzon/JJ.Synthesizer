@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             string stringified = flowNode.Stringify(true, true);
             
-            AreEqual("Sine(1,440) * Curve", stringified);
+            AreEqual("Sine(1,440) * Curve In", stringified);
         }
         
         [TestMethod]
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             string stringified = outlet.Stringify(true, true);
             
-            AreEqual("Volume Multiply(Curve * (Sine(1,440) * 2))", stringified);
+            AreEqual("Volume Multiply(Curve In * (Sine(1,440) * 2))", stringified);
         }
         
         [TestMethod]
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // for higher chance early 0 discovery.
 
             string expected = "Multiply(" + NewLine +
-                              "  Curve * " + NewLine +
+                              "  Curve In * " + NewLine +
                               "  Sine(1,440))";
             
             AreEqual(expected, actual);
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             string expected = "Volume Multiply(" + NewLine +
                               "  Multiply(" + NewLine + 
                               "    Sine(1,440) * " + NewLine +
-                              "    Curve) * 2)";
+                              "    Curve In) * 2)";
             
             AreEqual(expected, actual);
         }
