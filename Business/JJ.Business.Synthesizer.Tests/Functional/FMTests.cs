@@ -30,8 +30,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public FMTests()
         {
             WithMono();
-            WithBeatLength(_[0.45]);
-            WithBarLength(_[4 * 0.45]);
+            WithBeatLength(0.45);
+            WithBarLength(4 * 0.45);
             _chordFreqs = CreateChordFreqs();
         }
 
