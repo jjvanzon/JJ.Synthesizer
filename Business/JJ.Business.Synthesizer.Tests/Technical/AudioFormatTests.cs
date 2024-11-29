@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Enums;
+ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
