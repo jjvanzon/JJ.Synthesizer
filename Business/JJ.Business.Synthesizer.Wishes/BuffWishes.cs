@@ -39,7 +39,6 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode> func, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
-            
             var originalChannel = GetChannel;
             try
             {

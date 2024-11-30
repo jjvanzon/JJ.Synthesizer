@@ -68,7 +68,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = AddTape(signal);
             tape.Duration = duration ?? GetAudioLength;
-            //tape.Name += " " + MemberName();
             return signal;
         }
         
