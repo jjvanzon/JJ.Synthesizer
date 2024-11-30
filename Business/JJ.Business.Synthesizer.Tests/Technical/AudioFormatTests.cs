@@ -281,7 +281,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             
             // Save to file again
-            Buff buff2 = WithAudioLength(DURATION2).Cache(getSample, $"{callerMemberName}_Reloaded");
+            Buff buff2 = WithAudioLength(DURATION2).Cache(getSample);
             AudioFileOutput audioFileOutput2 = buff2.UnderlyingAudioFileOutput;
             
             // Assert AudioFileOutput Entities
