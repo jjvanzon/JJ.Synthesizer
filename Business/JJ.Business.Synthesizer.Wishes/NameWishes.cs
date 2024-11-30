@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Resources;
@@ -8,6 +9,7 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.String;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -106,14 +108,22 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         public static string PrettifyName(string uglyName)
-            => (uglyName ?? "").CutLeft("get_")
+        {
+            string prettyName = uglyName;
+            
+            if (IsFile(prettyName))
+            {
+                prettyName = Path.GetFileNameWithoutExtension(Path.GetFileName(uglyName));
+            }
+            
+            prettyName = (prettyName ?? "").CutLeft("get_")
                                .CutLeft("set_")
-                               .CutRightUntil(".") // Removing file extension
-                               .CutRight(".")
                                .Replace("RunTest", "")
                                .Replace("Test", "")
                                .Replace("_", " ")
                                .RemoveExcessiveWhiteSpace();
+            return prettyName;
+        }
 
         public static string GetPrettyTitle(string uglyName)
         {
