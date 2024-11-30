@@ -63,7 +63,8 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             // Resolve where our data comes from
             name = FetchName(name, filePath, callerMemberName);
-            filePath = RebuildFilePath(filePath, name);
+            filePath = FetchName(name, explicitName: filePath);
+            filePath = ReformatFilePath(filePath);
             stream = ResolveStream(stream, bytes, filePath);
             
             // Wrap it in a Sample
@@ -107,47 +108,25 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Replaces the file extension with the current AudioFormat.
         /// Fills up to the full path, in case it is a relative folder.
         /// Or if there is no folder at all, the current directory is used.
-        /// If no file path is provided, one is based on the provided name parameter.
         /// </summary>
-        private string RebuildFilePath(string filePath, string name)
+        private string ReformatFilePath(string filePath)
         {
-            if (!string.IsNullOrWhiteSpace(filePath))
-            {
-                // Sanitize file path
-                string sanitizedFilePath = SanitizeFilePath(filePath);
-                
-                // Beat around the bush to find the full folder path.
-                string folderPath = Path.GetDirectoryName(sanitizedFilePath);
-                string absoluteFolderPath;
-                if (string.IsNullOrWhiteSpace(folderPath))
-                {
-                    absoluteFolderPath = Directory.GetCurrentDirectory();
-                }
-                else
-                {
-                    absoluteFolderPath = Path.GetFullPath(folderPath);
-                }
+            // Sanitize file path
+            string sanitizedFilePath = SanitizeFilePath(filePath);
+            
+            // Find the full folder path
+            string folderPath = Path.GetDirectoryName(sanitizedFilePath);
+            string absoluteFolder = string.IsNullOrWhiteSpace(folderPath) 
+                ? Directory.GetCurrentDirectory() 
+                : Path.GetFullPath(folderPath);
+            
+            // Replace file extension
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sanitizedFilePath);
+            string audioFormatExtension = GetAudioFormat.GetFileExtension();
+            string fileName = fileNameWithoutExtension + audioFormatExtension;
 
-                // Replace file extension
-                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sanitizedFilePath);
-                string audioFormatExtension = GetAudioFormat.GetFileExtension();
-                string fileName = fileNameWithoutExtension + audioFormatExtension;
-
-                // Combine folder path and new file name
-                return Path.Combine(absoluteFolderPath, fileName);
-            }
-            else
-            {
-                // Sanitize file path
-                string sanitizedFilePath = SanitizeFilePath(name);
-                
-                // Replace extension
-                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sanitizedFilePath);
-                string fileExtension = GetAudioFormat.GetFileExtension();
-                
-                // Get full path with new extension
-                return Path.GetFullPath(fileNameWithoutExtension + fileExtension);
-            }
+            // Combine folder path and new file name
+            return Path.Combine(absoluteFolder, fileName);
         }
 
         // SampleFromFluentConfig (currently unused)
