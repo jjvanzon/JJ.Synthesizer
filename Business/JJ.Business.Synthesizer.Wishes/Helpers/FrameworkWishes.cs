@@ -316,9 +316,10 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             var forbiddenCharacters = Path.GetInvalidFileNameChars().ToHashSet();
             
-            // Allow slash (but not wildcards)
+            // Allow slash and colon (but not wildcards)
             forbiddenCharacters.Remove('\\');
             forbiddenCharacters.Remove('/');
+            forbiddenCharacters.Remove(':');
             
             string sanitizedFilePath = new string(
                 filePath.SelectMany(chr => forbiddenCharacters.Contains(chr) ? badCharReplacement : $"{chr}")
