@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Cache(
             Func<FlowNode> func,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+            => MakeBuff(
                 func, null,
                 inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
 
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Cache(
             Func<FlowNode> func, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null) 
-            => StreamAudio(
+            => MakeBuff(
                 func, duration,
                 inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
         
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Cache(
             Func<FlowNode> func, bool mustPad, 
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+            => MakeBuff(
                 func, null,
                 inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
 
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Cache(
             Func<FlowNode> func, FlowNode duration, bool mustPad, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
-            => StreamAudio(
+            => MakeBuff(
                 func, duration, 
                 inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
 
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Cache(
             FlowNode outlet, 
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+            => MakeBuff(
                 new[] { outlet }, null, 
                 inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
         
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Cache(
             FlowNode outlet, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+            => MakeBuff(
                 new[] { outlet }, duration,
                 inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
 
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Cache(
             FlowNode outlet, FlowNode duration, bool mustPad, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
-            => StreamAudio(
+            => MakeBuff(
                 new[] { outlet }, duration, 
                 inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
         
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Cache(
             IList<FlowNode> channels,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+            => MakeBuff(
                 channels, null,
                 inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
 
@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Cache(
             IList<FlowNode> channels, FlowNode duration = null,
             string name = null, [CallerMemberName] string callerMemberName = null) 
-            => StreamAudio(
+            => MakeBuff(
                 channels, duration, 
                 inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
         
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Cache(
             IList<FlowNode> channels, FlowNode duration, bool mustPad,
             string name = null, [CallerMemberName] string callerMemberName = null) 
-            => StreamAudio(
+            => MakeBuff(
                 channels, duration, 
                 inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
         
@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Cache(
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+            => MakeBuff(
                 buff,
                 inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
 
@@ -134,7 +134,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Cache(
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+            => MakeBuff(
                 entity, 
                 inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
     }
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             if (buff == null) throw new ArgumentNullException(nameof(buff));
             
-            StreamAudio(
+            MakeBuff(
                 buff,
                 inMemory: true, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
             
@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             
-            StreamAudio(
+            MakeBuff(
                 entity, 
                 inMemory: true, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
             
@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
             { 
-                StreamAudio(
+                MakeBuff(
                     buff, 
                     inMemory: true, GetExtraBufferFrames, null, name, callerMemberName);
 
@@ -200,7 +200,7 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            StreamAudio(
+            MakeBuff(
                 entity,
                 inMemory: true, GetExtraBufferFrames, null, name, callerMemberName);
 
@@ -233,7 +233,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Cache(
             this Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+            => MakeBuff(
                 buff, 
                 inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
         
@@ -241,7 +241,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Cache(
             this AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+            => MakeBuff(
                 entity, 
                 inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
     }

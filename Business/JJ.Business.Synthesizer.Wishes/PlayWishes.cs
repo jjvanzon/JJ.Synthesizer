@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             Buff buff =
-                StreamAudio(
+                MakeBuff(
                     func, duration,
                     inMemory: !GetCacheToDisk, mustPad: true, null, name, callerMemberName);
 
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             Buff buff =
-                StreamAudio(
+                MakeBuff(
                     channel, duration,
                     inMemory: !GetCacheToDisk, mustPad: true, null, name, callerMemberName);
             
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             Buff buff =
-                StreamAudio(
+                MakeBuff(
                     channels, duration,
                     inMemory: !GetCacheToDisk, mustPad: true, null, name, callerMemberName);
             

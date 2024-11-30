@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(callerMemberName, explicitName: filePath);
             
-            return StreamAudio(
+            return MakeBuff(
                 func, null,
                 inMemory: false, mustPad: true, null, name, callerMemberName);
         }
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(callerMemberName, explicitName: filePath);
             
-            return StreamAudio(
+            return MakeBuff(
                 func, duration,
                 inMemory: false, mustPad: true, null, name, callerMemberName);
         }
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(channel, callerMemberName, explicitName: filePath);
             
-            return StreamAudio(
+            return MakeBuff(
                 channel, null,
                 inMemory: false, mustPad: true, null, name, callerMemberName);
         }
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(channel, callerMemberName, explicitName: filePath);
             
-            return StreamAudio(
+            return MakeBuff(
                 channel, duration,
                 inMemory: false, mustPad: true, null, name, callerMemberName);
         }
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(channels, callerMemberName, explicitName: filePath);
             
-            return StreamAudio(
+            return MakeBuff(
                 channels, null,
                 inMemory: false, mustPad: true, null, name, callerMemberName);
         }
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(channels, callerMemberName, explicitName: filePath);
             
-            return StreamAudio(
+            return MakeBuff(
                 channels, duration,
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
         }
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(buff, callerMemberName, explicitName: filePath);
 
-            return StreamAudio(
+            return MakeBuff(
                 buff,
                 inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
         }
@@ -152,7 +152,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(audioFileOutput, callerMemberName, explicitName: filePath);
             
-            return StreamAudio(
+            return MakeBuff(
                 audioFileOutput,
                 inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
         }
@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             string name = FetchName(buff, callerMemberName, explicitName: filePath);
 
-            StreamAudio(
+            MakeBuff(
                 buff, 
                 inMemory: false, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
             
@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             string name = FetchName(audioFileOutput, callerMemberName, explicitName: filePath);
             
-            StreamAudio(
+            MakeBuff(
                 audioFileOutput, 
                 inMemory: false, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
             
@@ -257,7 +257,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(buff, callerMemberName, explicitName: filePath);
             
-            StreamAudio(
+            MakeBuff(
                 buff, 
                 inMemory: false, GetExtraBufferFrames, null, name, callerMemberName);
 
@@ -271,7 +271,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(entity, callerMemberName, explicitName: filePath);
             
-            StreamAudio(
+            MakeBuff(
                 entity, 
                 inMemory: false, GetExtraBufferFrames, null, name, callerMemberName);
             
@@ -334,7 +334,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(buff, callerMemberName, explicitName: filePath);
             
-            return StreamAudio(
+            return MakeBuff(
                 buff,
                 inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
         }
@@ -346,7 +346,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string name = FetchName(audioFileOutput, callerMemberName, explicitName: filePath);
             
-            return StreamAudio(
+            return MakeBuff(
                 audioFileOutput,
                 inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
         }

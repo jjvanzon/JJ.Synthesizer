@@ -28,14 +28,14 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // StreamAudio in SynthWishes
+    // MakeBuff in SynthWishes
 
     public partial class SynthWishes
     {
-        // StreamAudio on Instance
+        // MakeBuff on Instance
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Buff StreamAudio(
+        internal Buff MakeBuff(
             Func<FlowNode> func, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -48,14 +48,14 @@ namespace JJ.Business.Synthesizer.Wishes
                     {
                         WithCenter(); var monoOutlet = func();
                         name = FetchName(name, monoOutlet, callerMemberName, func);
-                        return StreamAudio(new[] { monoOutlet }, duration, inMemory, mustPad, additionalMessages, name);
+                        return MakeBuff(new[] { monoOutlet }, duration, inMemory, mustPad, additionalMessages, name);
                     }
                     case Stereo:
                     {
                         WithLeft(); var leftOutlet = func();
                         WithRight(); var rightOutlet = func();
                         name = FetchName(name, leftOutlet, rightOutlet, callerMemberName, func);
-                        return StreamAudio(new[] { leftOutlet, rightOutlet }, duration, inMemory, mustPad, additionalMessages, name);
+                        return MakeBuff(new[] { leftOutlet, rightOutlet }, duration, inMemory, mustPad, additionalMessages, name);
                     }
                     default: throw new ValueNotSupportedException(GetSpeakers);
                 }
@@ -67,15 +67,15 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Buff StreamAudio(
+        internal Buff MakeBuff(
             FlowNode channel, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
-            => StreamAudio(
+            => MakeBuff(
                 new[] { channel }, duration,
                 inMemory, mustPad, additionalMessages, name, callerMemberName);
 
         /// <inheritdoc cref="docs._saveorplay" />
-        internal Buff StreamAudio(
+        internal Buff MakeBuff(
             IList<FlowNode> channels, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 IList<string> warnings = additionalMessages.Union(configWarnings).ToArray();
                 
                 // Write Audio
-                buff = StreamAudio(audioFileOutput, inMemory, GetExtraBufferFrames, warnings, name);
+                buff = MakeBuff(audioFileOutput, inMemory, GetExtraBufferFrames, warnings, name);
             }
             finally
             {
@@ -163,10 +163,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return audioFileOutput;
         }
 
-        // StreamAudio in Statics
+        // MakeBuff in Statics
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static Buff StreamAudio(
+        internal static Buff MakeBuff(
             AudioFileOutput audioFileOutput,
             bool inMemory, int extraBufferFrames, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -234,7 +234,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._saveorplay" />
-        internal static Buff StreamAudio(
+        internal static Buff MakeBuff(
             Buff buff, 
             bool inMemory, int extraBufferFrames, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
         {
@@ -242,7 +242,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             name = FetchName(name, buff, callerMemberName);
             
-            return StreamAudio(
+            return MakeBuff(
                 buff.UnderlyingAudioFileOutput,
                 inMemory, extraBufferFrames, additionalMessages, name, callerMemberName);
         }
