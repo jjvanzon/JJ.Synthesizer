@@ -52,6 +52,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return words.Any(x => name.IndexOf(x, ToStringComparison(ignoreCase)) >= 0);
         }
 
+        public static bool Contains(this string name, char[] chars)
+        {
+            if (name == null) throw new ArgumentNullException(nameof(name));
+            return chars.Any(name.Contains);
+        }
+
         public static StringComparison ToStringComparison(this bool ignoreCase) 
             => ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
@@ -329,6 +335,21 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             return sanitizedFilePath;
         }
+
+        /// <summary>
+        /// If the file actually exists, true is returned.
+        /// If it exists as a directory, false is returned.
+        /// If the value contains invalid path characters, false is returned.
+        /// Otherwise, it returns true if the path has an extension.
+        /// </summary>
+        public static bool IsFile(string path)
+        {
+            if (File.Exists(path)) return true;
+            if (Directory.Exists(path)) return false;
+            if (path.Contains(Path.GetInvalidPathChars())) return false;
+            return !string.IsNullOrEmpty(Path.GetExtension(path));
+        }
+
     }
     
     internal static class JJ_Framework_Testing_Wishes
