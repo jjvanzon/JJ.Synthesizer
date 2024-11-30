@@ -2,8 +2,8 @@
 using JJ.Persistence.Synthesizer;
 using System.IO;
 using System.Runtime.CompilerServices;
-using JJ.Business.CanonicalModel;
 using JJ.Framework.Reflection;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.IO.StreamHelper;
 
@@ -58,13 +58,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._sample"/>
         private FlowNode SampleBase(
-            Stream stream, byte[] bytes, string explicitFilePath, 
-            int bytesToSkip, string nameOrFilePath, [CallerMemberName] string callerMemberName = null)
+            Stream stream, byte[] bytes, string filePath, 
+            int bytesToSkip, string name, [CallerMemberName] string callerMemberName = null)
         {
             // Resolve where our data comes from
-            nameOrFilePath = FetchName(nameOrFilePath, callerMemberName);
-            string name = PrettifyName(nameOrFilePath);
-            string filePath = ResolveFilePath(explicitFilePath, nameOrFilePath);
+            name = FetchName(name, filePath, callerMemberName);
+            filePath = RebuildFilePath(filePath, name);
             stream = ResolveStream(stream, bytes, filePath);
             
             // Wrap it in a Sample
@@ -103,23 +102,52 @@ namespace JJ.Business.Synthesizer.Wishes
             return BytesToStream(bytes);
         }
 
-        private string ResolveFilePath(string explicitFilePath, string nameOrFilePath)
+        /// <summary>
+        /// Sanitizes any invalid characters from the file path.
+        /// Replaces the file extension with the current AudioFormat.
+        /// Fills up to the full path, in case it is a relative folder.
+        /// Or if there is no folder at all, the current directory is used.
+        /// If no file path is provided, one is based on the provided name parameter.
+        /// </summary>
+        private string RebuildFilePath(string filePath, string name)
         {
-            string filePath;
-            if (!string.IsNullOrWhiteSpace(explicitFilePath))
+            if (!string.IsNullOrWhiteSpace(filePath))
             {
-                string fileName = FormatAudioFileName(explicitFilePath, GetAudioFormat);
-                string folderPath = Path.GetDirectoryName(explicitFilePath);
-                if (string.IsNullOrWhiteSpace(folderPath)) folderPath = Directory.GetCurrentDirectory();
-                folderPath = Path.GetFullPath(folderPath);
-                filePath = Path.Combine(folderPath, fileName);
+                // Sanitize file path
+                string sanitizedFilePath = SanitizeFilePath(filePath);
+                
+                // Beat around the bush to find the full folder path.
+                string folderPath = Path.GetDirectoryName(sanitizedFilePath);
+                string absoluteFolderPath;
+                if (string.IsNullOrWhiteSpace(folderPath))
+                {
+                    absoluteFolderPath = Directory.GetCurrentDirectory();
+                }
+                else
+                {
+                    absoluteFolderPath = Path.GetFullPath(folderPath);
+                }
+
+                // Replace file extension
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sanitizedFilePath);
+                string audioFormatExtension = GetAudioFormat.GetFileExtension();
+                string fileName = fileNameWithoutExtension + audioFormatExtension;
+
+                // Combine folder path and new file name
+                return Path.Combine(absoluteFolderPath, fileName);
             }
             else
             {
-                filePath = Path.GetFullPath(FormatAudioFileName(nameOrFilePath, GetAudioFormat));
+                // Sanitize file path
+                string sanitizedFilePath = SanitizeFilePath(name);
+                
+                // Replace extension
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sanitizedFilePath);
+                string fileExtension = GetAudioFormat.GetFileExtension();
+                
+                // Get full path with new extension
+                return Path.GetFullPath(fileNameWithoutExtension + fileExtension);
             }
-
-            return filePath;
         }
 
         // SampleFromFluentConfig (currently unused)
