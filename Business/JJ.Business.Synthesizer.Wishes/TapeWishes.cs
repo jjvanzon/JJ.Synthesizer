@@ -11,6 +11,8 @@ using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -66,6 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = AddTape(signal);
             tape.Duration = duration ?? GetAudioLength;
+            //tape.Name += " " + MemberName();
             return signal;
         }
         

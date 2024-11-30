@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
@@ -81,7 +83,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             Func<FlowNode> sound,
             double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute1() <br/><br/>
@@ -93,7 +95,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             Func<FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute1() <br/><br/>
@@ -104,7 +106,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, Func<FlowNode> sound,
             double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute1() <br/><br/>
@@ -116,7 +118,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, Func<FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute1() <br/><br/>
@@ -127,7 +129,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, Func<FlowNode> sound,
             double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(), t, vol, len, sound.Method.Name);
 
         /// <summary><c>
         /// FlowNode Flute1() <br/><br/>
@@ -139,7 +141,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, Func<FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(), t, vol, len, sound.Method.Name);
         
         // Instrument with 1 Parameter Freq
         
@@ -152,7 +154,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute2(FlowNode freq) <br/><br/>
@@ -164,7 +166,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute2(FlowNode freq) <br/><br/>
@@ -175,7 +177,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute2(FlowNode freq) <br/><br/>
@@ -187,7 +189,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute2(FlowNode freq) <br/><br/>
@@ -198,7 +200,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq), t, vol, len, sound.Method.Name);
 
         /// <summary><c>
         /// FlowNode Flute2(FlowNode freq) <br/><br/>
@@ -210,7 +212,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq), t, vol, len, sound.Method.Name);
         
         // Instrument with 2 Parameters Freq and Len
         
@@ -223,7 +225,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
@@ -235,7 +237,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
@@ -246,7 +248,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
@@ -258,7 +260,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
@@ -269,7 +271,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len), t, vol, len, sound.Method.Name);
 
         /// <summary><c>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
@@ -281,7 +283,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len), t, vol, len, sound.Method.Name);
 
         // Instruments with 1 Effect Parameter (Optional)
         
@@ -295,7 +297,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
@@ -308,7 +310,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
@@ -320,7 +322,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
@@ -333,7 +335,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
@@ -345,7 +347,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1), t, vol, len, sound.Method.Name);
 
         /// <summary><c>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
@@ -358,7 +360,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound, 
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null] 
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1), t, vol, len, sound.Method.Name);
         
         // Instruments with 2 Effect Parameters (Optional)
         
@@ -373,7 +375,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
@@ -387,7 +389,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
@@ -400,7 +402,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
@@ -414,7 +416,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
@@ -427,7 +429,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), t, vol, len, sound.Method.Name);
 
         /// <summary><c>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
@@ -441,7 +443,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), t, vol, len, sound.Method.Name);
         
         // Instruments with 3 Effect Parameters (Optional)
         
@@ -456,7 +458,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
@@ -470,7 +472,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
@@ -483,7 +485,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
@@ -497,7 +499,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
@@ -510,7 +512,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), t, vol, len, sound.Method.Name);
 
         /// <summary><c>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
@@ -524,7 +526,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), t, vol, len, sound.Method.Name);
 
         // Instruments with 4 Effect Parameters (Optional)
         
@@ -541,7 +543,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
@@ -557,7 +559,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
@@ -572,7 +574,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
@@ -588,7 +590,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), _synthWishes._[t], vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), _synthWishes._[t], vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
@@ -603,7 +605,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len, sound.Method.Name);
         
         /// <summary><c>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
@@ -619,7 +621,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len).SetName(sound.Method.Name);
+            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len, sound.Method.Name);
     }
     
     // StrikeNote SynthWishes
@@ -627,24 +629,29 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(FlowNode sound, FlowNode delay = default, FlowNode volume = default, FlowNode noteLength = default)
+        public FlowNode StrikeNote(
+            FlowNode sound, FlowNode delay = default, FlowNode volume = default, FlowNode noteLength = default, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
         {
             // A little optimization, because so slow...
             bool delayFilledIn = delay != null && delay.AsConst != 0;
             bool volumeFilledIn = volume != null && volume.AsConst != 1;
 
+            string resolvedName = FetchName(name, sound, callerMemberName);
+            //resolvedName += " " + MemberName();
+            
             noteLength = SnapNoteLength(noteLength);
             
             if (volumeFilledIn)
             {
                 sound *= volume.Stretch(noteLength / GetVolumeDuration(volume));
             }
-
-            sound = sound.Tape(noteLength).SetName();
+            
+            sound = sound.Tape(noteLength).SetName(resolvedName);
             
             if (delayFilledIn) sound = Delay(sound, delay);
             
-            return sound.SetName();
+            return sound.SetName(resolvedName);
         }
         
         private static double GetVolumeDuration(FlowNode volume)
@@ -663,12 +670,16 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(FlowNode sound, FlowNode delay, double volume, FlowNode noteLength)
-            => StrikeNote(sound, delay, _[volume], noteLength);
+        public FlowNode StrikeNote(
+            FlowNode sound, FlowNode delay, double volume, FlowNode noteLength, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => StrikeNote(sound, delay, _[volume], noteLength, name, callerMemberName);
         
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(FlowNode sound, FlowNode delay, double volume) 
-            => StrikeNote(sound, delay, _[volume]);
+        public FlowNode StrikeNote(
+            FlowNode sound, FlowNode delay, double volume,
+            string name = null, [CallerMemberName] string callerMemberName = null) 
+            => StrikeNote(sound, delay, _[volume], default, name, callerMemberName);
     }
 
     // StrikeNote FlowNode
@@ -676,14 +687,22 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FlowNode
     {
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(FlowNode delay = null, FlowNode volume = default, FlowNode duration = default) 
-            => _synthWishes.StrikeNote(this, delay, volume, duration);
+        public FlowNode StrikeNote(
+            FlowNode delay = null, FlowNode volume = default, FlowNode duration = default,
+            string name = null, [CallerMemberName] string callerMemberName = null) 
+            => _synthWishes.StrikeNote(this, delay, volume, duration, name, callerMemberName);
+        
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(FlowNode sound, FlowNode delay, double volume, FlowNode duration)
-            => _synthWishes.StrikeNote(sound, delay, volume, duration);
+        public FlowNode StrikeNote(
+            FlowNode sound, FlowNode delay, double volume, FlowNode duration,
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.StrikeNote(sound, delay, volume, duration, name, callerMemberName);
+        
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(FlowNode delay, double volume) 
-            => _synthWishes.StrikeNote(this, delay, volume);
+        public FlowNode StrikeNote(
+            FlowNode delay, double volume,
+            string name = null, [CallerMemberName] string callerMemberName = null) 
+            => _synthWishes.StrikeNote(this, delay, volume, name, callerMemberName);
     }
 
     // Timing

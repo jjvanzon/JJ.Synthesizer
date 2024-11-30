@@ -146,21 +146,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._names"/>
         public FlowNode SetName(string name = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (IsNullOrWhiteSpace(name))
-            {
-                name = fallbackName;
-            }
-
-            if (IsNullOrWhiteSpace(name))
-            {
-                name = callerMemberName;
-            }
-
-            if (!IsNullOrWhiteSpace(name))
-            {
-                Name = PrettifyName(name);
-            }
-
+            Name = FetchName(name, fallbackName, callerMemberName);
             return this;
         }
 
