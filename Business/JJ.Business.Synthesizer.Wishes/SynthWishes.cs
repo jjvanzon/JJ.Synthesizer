@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.IO;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 // ReSharper disable AssignmentInsteadOfDiscard
 
@@ -65,6 +63,20 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Helpers
 
+        private static string FetchFilePath(string filePath, string name, string fileExtension, [CallerMemberName] string callerMemberName = null)
+        {
+            filePath = FetchName(name, callerMemberName, explicitName: filePath);
+            filePath = ReformatFilePath(filePath, fileExtension);
+            return filePath;
+        }
+
+        //private string FetchFilePath(string filePath, string name, [CallerMemberName] string callerMemberName = null)
+        //{
+        //    filePath = FetchName(name, callerMemberName, explicitName: filePath);
+        //    filePath = ReformatFilePath(filePath, GetAudioFormat.GetFileExtension());
+        //    return filePath;
+        //}
+
         private static string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
         {
             string filePath = SanitizeFilePath(name);
@@ -72,6 +84,33 @@ namespace JJ.Business.Synthesizer.Wishes
             string fileExtension = audioFileFormatEnum.GetFileExtension();
             return fileNameWithoutExtension + fileExtension;
         }
+        
+        /// <summary>
+        /// Sanitizes any invalid characters from the file path.
+        /// Replaces the file extension with the current AudioFormat.
+        /// Fills up to the full path, in case it is a relative folder.
+        /// Or if there is no folder at all, the current directory is used.
+        /// </summary>
+        private static string ReformatFilePath(string filePath, string newFileExtension)
+        {
+            // Sanitize file path
+            string sanitizedFilePath = SanitizeFilePath(filePath);
+            
+            // Find the full folder path
+            string folderPath = Path.GetDirectoryName(sanitizedFilePath);
+            string absoluteFolder = string.IsNullOrWhiteSpace(folderPath) 
+                ? Directory.GetCurrentDirectory() 
+                : Path.GetFullPath(folderPath);
+            
+            // Replace file extension
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sanitizedFilePath);
+            string audioFormatExtension = newFileExtension;
+            string fileName = fileNameWithoutExtension + audioFormatExtension;
+
+            // Combine folder path and new file name
+            return Path.Combine(absoluteFolder, fileName);
+        }
+
         
         internal static string FormatMetrics(double audioDuration, double calculationDuration, int complexity)
         {

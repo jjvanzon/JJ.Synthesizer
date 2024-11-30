@@ -63,8 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             // Resolve where our data comes from
             name = FetchName(name, filePath, callerMemberName);
-            filePath = FetchName(name, explicitName: filePath);
-            filePath = ReformatFilePath(filePath);
+            filePath = FetchFilePath(filePath, name, GetAudioFormat.GetFileExtension(), callerMemberName);
             stream = ResolveStream(stream, bytes, filePath);
             
             // Wrap it in a Sample
@@ -81,7 +80,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return sampleOutlet;
         }
-
+        
         private static Stream ResolveStream(Stream stream, byte[] bytes, string filePath)
         {
             // Return Stream if supplied
@@ -101,32 +100,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Create Stream from Bytes
             return BytesToStream(bytes);
-        }
-
-        /// <summary>
-        /// Sanitizes any invalid characters from the file path.
-        /// Replaces the file extension with the current AudioFormat.
-        /// Fills up to the full path, in case it is a relative folder.
-        /// Or if there is no folder at all, the current directory is used.
-        /// </summary>
-        private string ReformatFilePath(string filePath)
-        {
-            // Sanitize file path
-            string sanitizedFilePath = SanitizeFilePath(filePath);
-            
-            // Find the full folder path
-            string folderPath = Path.GetDirectoryName(sanitizedFilePath);
-            string absoluteFolder = string.IsNullOrWhiteSpace(folderPath) 
-                ? Directory.GetCurrentDirectory() 
-                : Path.GetFullPath(folderPath);
-            
-            // Replace file extension
-            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sanitizedFilePath);
-            string audioFormatExtension = GetAudioFormat.GetFileExtension();
-            string fileName = fileNameWithoutExtension + audioFormatExtension;
-
-            // Combine folder path and new file name
-            return Path.Combine(absoluteFolder, fileName);
         }
 
         // SampleFromFluentConfig (currently unused)
