@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Instance (Start-Of-Chain)
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             Func<FlowNode> func, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, mustPad: true, null, name, callerMemberName);
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             Func<FlowNode> func, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, mustPad: true, null, name, callerMemberName);
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             FlowNode channel, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, mustPad: true, null, name, callerMemberName);
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             FlowNode channel, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, mustPad: true, null, name, callerMemberName);
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             IList<FlowNode> channels,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, mustPad: true, null, name, callerMemberName);
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             IList<FlowNode> channels, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return MakeBuff(
                 channels, duration,
-                inMemory: false, mustPad: true, null, filePath, callerMemberName);
+                inMemory: false, mustPad: true, null, name, callerMemberName);
         }
         
         // Instance ChannelSave
@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Save in Statics (Buff to Buff)
 
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
             Buff buff,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -145,7 +145,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
             AudioFileOutput audioFileOutput, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static void Save(
             Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Save(sample.Bytes, resolvedFilePath, callerMemberName);
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static void Save(
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -178,10 +178,10 @@ namespace JJ.Business.Synthesizer.Wishes
     
     // Statics Turned Instance (from Buff)
 
-    /// <inheritdoc cref="docs._saveorplay" />
+    /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesSaveStaticsTurnedInstanceExtensions
     {
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Save(
             this SynthWishes synthWishes, 
             Buff buff, 
@@ -198,7 +198,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes;
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Save(
             this SynthWishes synthWishes, 
             AudioFileOutput audioFileOutput, 
@@ -215,7 +215,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes;
         }
 
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Save(
             this SynthWishes synthWishes, 
             Sample sample, 
@@ -230,7 +230,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes;
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Save(
             this SynthWishes synthWishes,
             byte[] bytes, 
@@ -250,7 +250,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
             Buff buff, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -264,7 +264,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
             AudioFileOutput entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
@@ -278,7 +278,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return this; 
         }
 
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
             Sample entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
@@ -290,7 +290,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return this; 
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
@@ -327,7 +327,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class SaveExtensionWishes 
     {
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
             this Buff buff,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -339,7 +339,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
             this AudioFileOutput audioFileOutput,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -351,7 +351,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static void Save(
             this Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
@@ -359,7 +359,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 sample,
                 filePath, callerMemberName);
 
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         public static void Save(
             this byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 

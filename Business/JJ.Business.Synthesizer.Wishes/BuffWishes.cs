@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // MakeBuff on Instance
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         internal Buff MakeBuff(
             Func<FlowNode> func, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         internal Buff MakeBuff(
             FlowNode channel, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 new[] { channel }, duration,
                 inMemory, mustPad, additionalMessages, name, callerMemberName);
 
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         internal Buff MakeBuff(
             IList<FlowNode> channels, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
@@ -165,7 +165,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // MakeBuff in Statics
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         internal static Buff MakeBuff(
             AudioFileOutput audioFileOutput,
             bool inMemory, int extraBufferFrames, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
@@ -233,7 +233,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return buff;
         }
         
-        /// <inheritdoc cref="docs._saveorplay" />
+        /// <inheritdoc cref="docs._makebuff" />
         internal static Buff MakeBuff(
             Buff buff, 
             bool inMemory, int extraBufferFrames, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)

@@ -297,6 +297,67 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns>
         public static object _headerLength;
 
+        
+        /// <summary>
+        /// Outputs audio in an audio file format and plays it if needed.<br />
+        /// A single <see cref="Outlet">Outlet</see> will result in Mono audio.<br />
+        /// Use a func returning an <see cref="Outlet">Outlet</see> e.g. <c> Save(() => MySound()); </c> <br />
+        /// For Stereo it must return a new outlet each time.<br />
+        /// <strong> So call your <see cref="Outlet">Outlet</see>-creation method in the Func! </strong> <br />
+        /// If parameters are not provided, defaults will be employed.
+        /// Some of these defaults you can set in the configuration file.
+        /// Also, the entity data tied to the outlet will be verified.
+        /// </summary>
+        /// <param name="func">
+        /// A function that provides a signal.
+        /// Can be used for both Mono and Stereo sound.
+        /// </param>
+        /// <param name="monoChannel">
+        /// An Outlet that provides the Mono signal.
+        /// Use () => myOutlet for stereo instead.
+        /// </param>
+        /// <param name="stereoChannels">
+        /// A tuple of two outlets, one for the Left channel, one for the Right channel.
+        /// </param>
+        /// <param name="channels">
+        /// A list of outlets, one for each channel,
+        /// e.g. a single one for Mono and 2 outlets for stereo.
+        /// </param>
+        /// <param name="duration">
+        /// The duration of the audio in seconds. When 0, the default duration of 1 second is used.
+        /// </param>
+        /// <param name="volume">
+        /// The volume level of the audio. If null, the default volume is 1 (full volume).
+        /// </param>
+        /// <param name="speakerSetupEnum">
+        /// The speaker setup configuration (e.g., Mono, Stereo).
+        /// </param>
+        /// <param name="fileName">
+        /// The name of the file to save the audio to.
+        /// If null, a default file name is used, based on the caller's name.
+        /// If no file extension is provided, ".wav" is assumed.
+        /// </param>
+        /// <param name="samplingRateOverride">
+        /// Overrides the sampling rate that was otherwise taken from the config file.
+        /// If you want to test for specific values of specific sample frames, you can use this.
+        /// <br/>
+        /// NOTE: This also overrides optimizations for tooling such as NCrunch code coverage and
+        /// Azure Pipelines automated build. So use with caution.
+        /// </param>
+        /// <param name="callerMemberName">
+        /// The name of the calling method. This is automatically set by the compiler.
+        /// </param>
+        /// <param name="additionalMessages">
+        /// Can be null.<br/>
+        /// Inserts additional text in the result messages
+        /// in an appropriate spot for overview.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Buff">Buff</see> object with the <see cref="AudioFileOutput"/> entity in it,
+        /// and resultant data, like the file path and validation messages (warnings).
+        /// </returns>
+        public static object _makebuff;
+
         /// <summary>
         /// Returns the current method name or current property name.
         /// </summary>
@@ -469,66 +530,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Revisit later.
         /// </summary>
         public static object _samplefromfluentconfig;
-
-        /// <summary>
-        /// Outputs audio in an audio file format and plays it if needed.<br />
-        /// A single <see cref="Outlet">Outlet</see> will result in Mono audio.<br />
-        /// Use a func returning an <see cref="Outlet">Outlet</see> e.g. <c> Save(() => MySound()); </c> <br />
-        /// For Stereo it must return a new outlet each time.<br />
-        /// <strong> So call your <see cref="Outlet">Outlet</see>-creation method in the Func! </strong> <br />
-        /// If parameters are not provided, defaults will be employed.
-        /// Some of these defaults you can set in the configuration file.
-        /// Also, the entity data tied to the outlet will be verified.
-        /// </summary>
-        /// <param name="func">
-        /// A function that provides a signal.
-        /// Can be used for both Mono and Stereo sound.
-        /// </param>
-        /// <param name="monoChannel">
-        /// An Outlet that provides the Mono signal.
-        /// Use () => myOutlet for stereo instead.
-        /// </param>
-        /// <param name="stereoChannels">
-        /// A tuple of two outlets, one for the Left channel, one for the Right channel.
-        /// </param>
-        /// <param name="channels">
-        /// A list of outlets, one for each channel,
-        /// e.g. a single one for Mono and 2 outlets for stereo.
-        /// </param>
-        /// <param name="duration">
-        /// The duration of the audio in seconds. When 0, the default duration of 1 second is used.
-        /// </param>
-        /// <param name="volume">
-        /// The volume level of the audio. If null, the default volume is 1 (full volume).
-        /// </param>
-        /// <param name="speakerSetupEnum">
-        /// The speaker setup configuration (e.g., Mono, Stereo).
-        /// </param>
-        /// <param name="fileName">
-        /// The name of the file to save the audio to.
-        /// If null, a default file name is used, based on the caller's name.
-        /// If no file extension is provided, ".wav" is assumed.
-        /// </param>
-        /// <param name="samplingRateOverride">
-        /// Overrides the sampling rate that was otherwise taken from the config file.
-        /// If you want to test for specific values of specific sample frames, you can use this.
-        /// <br/>
-        /// NOTE: This also overrides optimizations for tooling such as NCrunch code coverage and
-        /// Azure Pipelines automated build. So use with caution.
-        /// </param>
-        /// <param name="callerMemberName">
-        /// The name of the calling method. This is automatically set by the compiler.
-        /// </param>
-        /// <param name="additionalMessages">
-        /// Can be null.<br/>
-        /// Inserts additional text in the result messages
-        /// in an appropriate spot for overview.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Result"/> with the <see cref="AudioFileOutput"/> entity in it,
-        /// containing resultant data, like the file path and validation messages (warnings).
-        /// </returns>
-        public static object _saveorplay;
 
         /// <summary>
         /// With optional Context.
