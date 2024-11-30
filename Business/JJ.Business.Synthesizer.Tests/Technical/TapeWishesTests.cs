@@ -29,7 +29,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         public void Tape_NormalAdd_ForComparison_Test() => new TapeWishesTests().Tape_NormalAdd_ForComparison();
-
         private void Tape_NormalAdd_ForComparison()
         {
             var duration = 0.1;
@@ -50,7 +49,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         public void Tape_WithConstSignal_Test() => new TapeWishesTests().Tape_WithConstSignal();
-
         private void Tape_WithConstSignal()
         {
             var accessor = new SynthWishesAccessor(this);
@@ -164,7 +162,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         public void Tape_WithConstSignal_WithPlayAllTapes_Test() => new TapeWishesTests().Tape_WithConstSignal_WithPlayAllTapes();
-
         private void Tape_WithConstSignal_WithPlayAllTapes()
         {
             var accessor = new SynthWishesAccessor(this);
@@ -217,7 +214,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         public void Tape_WithSinePartials_Test() => new TapeWishesTests().Tape_WithSinePartials();
-
         private void Tape_WithSinePartials()
         {
             var freq = A4;
@@ -235,7 +231,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot_Test()
             => new TapeWishesTests().SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot();
-        
         private void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot()
         {
             Play(() => Sine(A3).Tape() + Sine(A4));
@@ -243,7 +238,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         public void PlayAllTapesTest() => new TapeWishesTests().PlayAllTapes();
-        
         private void PlayAllTapes()
         {
             WithPlayAllTapes();
@@ -260,7 +254,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         public void Tape_SinePartials_WithPlayAllTapes_Test() => new TapeWishesTests().Tape_SinePartials_WithPlayAllTapes();
-        
         private void Tape_SinePartials_WithPlayAllTapes()
         {
             var freq = A4;
@@ -279,7 +272,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         public void FluentPlay_UsingTape_Test() => new TapeWishesTests().FluentPlay_UsingTape();
-        
         private void FluentPlay_UsingTape()
         {
             var pitch = A4;
@@ -296,7 +288,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         public void FluentSave_UsingTape_Test() => new TapeWishesTests().FluentSave_UsingTape();
-        
         private void FluentSave_UsingTape()
         {
             var pitch = A4;
@@ -313,7 +304,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         public void Tape_Streaming_GoesPerChannel_Test() => new TapeWishesTests().Tape_Streaming_GoesPerChannel();
-        
         private void Tape_Streaming_GoesPerChannel()
         {
             var pitch = A4;
@@ -336,7 +326,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         public void FluentCache_UsingTape_Test() => new TapeWishesTests().FluentCache_UsingTape();
-        
         void FluentCache_UsingTape() 
         {
             WithStereo();
