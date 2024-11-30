@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
  using JJ.Business.Synthesizer.Enums;
@@ -285,14 +286,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Assert AudioFileOutput Entities
 
-            string expectedFilePath1 = PrettifyName(callerMemberName) + audioFileFormatEnum.GetFileExtension();
+            string expectedFilePath1 = 
+                GetFullPath(PrettifyName(callerMemberName) + audioFileFormatEnum.GetFileExtension());
             
             AssertAudioFileOutputEntities(
                 audioFileOutput1,
                 audioFileFormatEnum, speakerSetupEnum, sampleDataTypeEnum, samplingRate,
                 expectedFilePath1, DURATION);
 
-            string expectedFilePath2 = PrettifyName($"{callerMemberName}_Reloaded") + audioFileFormatEnum.GetFileExtension();
+            string expectedFilePath2 = 
+                GetFullPath(PrettifyName($"{callerMemberName}_Reloaded") + audioFileFormatEnum.GetFileExtension());
             
             AssertAudioFileOutputEntities(
                 audioFileOutput2,

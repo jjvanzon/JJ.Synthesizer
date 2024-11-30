@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
     internal class ConfigResolver
     {
         /// <summary> For static contexts use this. </summary>
-        public static ConfigResolver Default { get; } = new ConfigResolver();
+        internal static ConfigResolver Default { get; } = new ConfigResolver();
 
         // Defaults
 

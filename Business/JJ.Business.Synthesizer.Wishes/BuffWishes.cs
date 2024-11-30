@@ -37,7 +37,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._makebuff" />
         internal Buff MakeBuff(
             Func<FlowNode> func, FlowNode duration,
-            bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, bool mustPad, IList<string> additionalMessages, 
+            string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
             var originalChannel = GetChannel;
             try
@@ -47,15 +48,15 @@ namespace JJ.Business.Synthesizer.Wishes
                     case Mono:
                     {
                         WithCenter(); var monoOutlet = func();
-                        name = FetchName(name, monoOutlet, callerMemberName, func);
-                        return MakeBuff(new[] { monoOutlet }, duration, inMemory, mustPad, additionalMessages, name);
+                        name = FetchName(name, filePath, monoOutlet, callerMemberName, func);
+                        return MakeBuff(new[] { monoOutlet }, duration, inMemory, mustPad, additionalMessages, name, filePath);
                     }
                     case Stereo:
                     {
                         WithLeft(); var leftOutlet = func();
                         WithRight(); var rightOutlet = func();
-                        name = FetchName(name, leftOutlet, rightOutlet, callerMemberName, func);
-                        return MakeBuff(new[] { leftOutlet, rightOutlet }, duration, inMemory, mustPad, additionalMessages, name);
+                        name = FetchName(name, filePath, leftOutlet, rightOutlet, callerMemberName, func);
+                        return MakeBuff(new[] { leftOutlet, rightOutlet }, duration, inMemory, mustPad, additionalMessages, name, filePath);
                     }
                     default: throw new ValueNotSupportedException(GetSpeakers);
                 }
@@ -69,15 +70,17 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._makebuff" />
         internal Buff MakeBuff(
             FlowNode channel, FlowNode duration,
-            bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, bool mustPad, IList<string> additionalMessages, 
+            string name, string filePath, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 new[] { channel }, duration,
-                inMemory, mustPad, additionalMessages, name, callerMemberName);
+                inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         internal Buff MakeBuff(
             IList<FlowNode> channels, FlowNode duration,
-            bool inMemory, bool mustPad, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, bool mustPad, IList<string> additionalMessages, 
+            string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
             // Process Parameters
             if (channels == null) throw new ArgumentNullException(nameof(channels));
@@ -106,14 +109,14 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
                 
                 // Configure AudioFileOutput (avoid backend)
-                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channels, duration, name);
+                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channels, duration, name, filePath);
                 
                 // Gather Warnings
                 IList<string> configWarnings = _configResolver.GetWarnings(audioFileOutput.GetFileExtension());
                 IList<string> warnings = additionalMessages.Union(configWarnings).ToArray();
                 
                 // Write Audio
-                buff = MakeBuff(audioFileOutput, inMemory, GetExtraBufferFrames, warnings, name);
+                buff = MakeBuff(audioFileOutput, inMemory, GetExtraBufferFrames, warnings, name, filePath);
             }
             finally
             {
@@ -125,7 +128,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <param name="duration">Nullable. Falls back to AudioLength or else to a 1-second time span.</param>
         private AudioFileOutput ConfigureAudioFileOutput(
-            IList<FlowNode> channels, FlowNode duration, string name)
+            IList<FlowNode> channels, FlowNode duration, string name, string filePath)
         {
             // Configure AudioFileOutput (avoid backend)
 
@@ -137,10 +140,10 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.Amplifier = GetBits.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = (duration ?? GetAudioLength).Calculate();
-            audioFileOutput.FilePath = FormatAudioFileName(name, GetAudioFormat);
+            audioFileOutput.FilePath = FetchFilePath(filePath, name, GetAudioFormat.GetFileExtension());
             audioFileOutput.SetBits(GetBits, Context);
             audioFileOutput.SetAudioFormat(GetAudioFormat, Context);
-            audioFileOutput.Name = name;
+            audioFileOutput.Name = FetchName(name, filePath);
             audioFileOutput.SamplingRate = GetSamplingRate;
             audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(speakerSetupEnum);
             CreateOrRemoveChannels(audioFileOutput, channelCount);
@@ -168,7 +171,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._makebuff" />
         internal static Buff MakeBuff(
             AudioFileOutput audioFileOutput,
-            bool inMemory, int extraBufferFrames, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, int extraBufferFrames, IList<string> additionalMessages, 
+            string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
@@ -211,8 +215,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Inject a file stream
                 // (CreateSafeFileStream numbers files to prevent file name contention
                 //  It does so in a thread-safe, interprocess-safe way.)
-                string suggestedFilePath = FormatAudioFileName(name, audioFileOutput.GetAudioFileFormatEnum());
-                (string filePath, FileStream fileStream) = CreateSafeFileStream(suggestedFilePath);
+                filePath = FetchFilePath(filePath, name, audioFileOutput.GetFileExtension(), callerMemberName);
+                FileStream fileStream;
+                (filePath, fileStream) = CreateSafeFileStream(filePath);
                 calculatorAccessor._stream = fileStream;
                 audioFileOutput.FilePath = filePath;
             }
@@ -224,7 +229,7 @@ namespace JJ.Business.Synthesizer.Wishes
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
             // Result
-            var buff = new Buff(bytes, audioFileOutput.FilePath, audioFileOutput, warnings);
+            var buff = new Buff(bytes, filePath, audioFileOutput, warnings);
 
             // Report
             var reportLines = GetReport(buff, calculationDuration);
@@ -236,7 +241,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._makebuff" />
         internal static Buff MakeBuff(
             Buff buff, 
-            bool inMemory, int extraBufferFrames, IList<string> additionalMessages, string name, [CallerMemberName] string callerMemberName = null)
+            bool inMemory, int extraBufferFrames, IList<string> additionalMessages, 
+            string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
             
@@ -244,7 +250,8 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return MakeBuff(
                 buff.UnderlyingAudioFileOutput,
-                inMemory, extraBufferFrames, additionalMessages, name, callerMemberName);
+                inMemory, extraBufferFrames, additionalMessages, 
+                name, filePath, callerMemberName);
         }
 
         // Helpers

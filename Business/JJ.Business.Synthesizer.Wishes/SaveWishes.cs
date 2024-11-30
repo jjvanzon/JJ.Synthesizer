@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using static JJ.Business.Synthesizer.Wishes.ConfigResolver;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
@@ -13,81 +14,51 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         // Instance (Start-Of-Chain)
-        
+
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
-            Func<FlowNode> func, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(callerMemberName, explicitName: filePath);
-            
-            return MakeBuff(
+            Func<FlowNode> func,
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
                 func, null,
-                inMemory: false, mustPad: true, null, name, callerMemberName);
-        }
-        
+                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
+
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             Func<FlowNode> func, FlowNode duration,
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(callerMemberName, explicitName: filePath);
-            
-            return MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
                 func, duration,
-                inMemory: false, mustPad: true, null, name, callerMemberName);
-        }
-        
+                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
+
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
-            FlowNode channel, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(channel, callerMemberName, explicitName: filePath);
-            
-            return MakeBuff(
+            FlowNode channel,
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
                 channel, null,
-                inMemory: false, mustPad: true, null, name, callerMemberName);
-        }
-        
+                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
+
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             FlowNode channel, FlowNode duration,
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(channel, callerMemberName, explicitName: filePath);
-            
-            return MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
                 channel, duration,
-                inMemory: false, mustPad: true, null, name, callerMemberName);
-        }
-        
+                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
+
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             IList<FlowNode> channels,
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(channels, callerMemberName, explicitName: filePath);
-            
-            return MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
                 channels, null,
-                inMemory: false, mustPad: true, null, name, callerMemberName);
-        }
-        
+                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
+
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             IList<FlowNode> channels, FlowNode duration,
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(channels, callerMemberName, explicitName: filePath);
-            
-            return MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
                 channels, duration,
-                inMemory: false, mustPad: true, null, name, callerMemberName);
-        }
-        
+                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
+
         // Instance ChannelSave
-        
+
         public FlowNode ChannelSave(FlowNode channel)
             => ChannelSave(channel, null, null, default(Action<Buff, int>));
         
@@ -132,36 +103,27 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Save in Statics (Buff to Buff)
-
+        
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
             Buff buff,
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(buff, callerMemberName, explicitName: filePath);
-
-            return MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
                 buff,
-                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
-        }
-        
+                inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
+
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
-            AudioFileOutput audioFileOutput, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(audioFileOutput, callerMemberName, explicitName: filePath);
-            
-            return MakeBuff(
+            AudioFileOutput audioFileOutput,
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
                 audioFileOutput,
-                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
-        }
-        
+                inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
+
         /// <inheritdoc cref="docs._makebuff" />
         public static void Save(
             Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
+            // TODO: Use (some variation of) FetchFilePath.
             string resolvedFilePath = FetchName(sample, callerMemberName, explicitName: filePath);
             Save(sample.Bytes, resolvedFilePath, callerMemberName);
         }
@@ -171,6 +133,7 @@ namespace JJ.Business.Synthesizer.Wishes
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
+            // TODO: Use (some variation of) FetchFilePath.
             string resolvedFilePath = FetchName(callerMemberName, explicitName: filePath);
             File.WriteAllBytes(resolvedFilePath, bytes);
         }
@@ -188,12 +151,10 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            
-            string name = FetchName(buff, callerMemberName, explicitName: filePath);
 
             MakeBuff(
                 buff, 
-                inMemory: false, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
+                inMemory: false, synthWishes.GetExtraBufferFrames, null, null, filePath, callerMemberName);
             
             return synthWishes;
         }
@@ -206,11 +167,9 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            string name = FetchName(audioFileOutput, callerMemberName, explicitName: filePath);
-            
             MakeBuff(
                 audioFileOutput, 
-                inMemory: false, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
+                inMemory: false, synthWishes.GetExtraBufferFrames, null, null, filePath, callerMemberName);
             
             return synthWishes;
         }
@@ -222,10 +181,8 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            
-            string resolvedFilePath = FetchName(sample, callerMemberName, explicitName: filePath);
 
-            SynthWishes.Save(sample, resolvedFilePath, callerMemberName);
+            SynthWishes.Save(sample, filePath, callerMemberName);
 
             return synthWishes;
         }
@@ -238,9 +195,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            string resolvedFilePath = FetchName(callerMemberName, explicitName: filePath);
-            
-            SynthWishes.Save(bytes, resolvedFilePath, callerMemberName);
+            SynthWishes.Save(bytes, filePath, callerMemberName);
             
             return synthWishes;
         }
@@ -255,11 +210,9 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            string name = FetchName(buff, callerMemberName, explicitName: filePath);
-            
             MakeBuff(
                 buff, 
-                inMemory: false, GetExtraBufferFrames, null, name, callerMemberName);
+                inMemory: false, GetExtraBufferFrames, null, null, filePath, callerMemberName);
 
             return this;
         }
@@ -269,11 +222,9 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            string name = FetchName(entity, callerMemberName, explicitName: filePath);
-            
             MakeBuff(
                 entity, 
-                inMemory: false, GetExtraBufferFrames, null, name, callerMemberName);
+                inMemory: false, GetExtraBufferFrames, null, null, filePath, callerMemberName);
             
             return this; 
         }
@@ -330,40 +281,28 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
             this Buff buff,
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(buff, callerMemberName, explicitName: filePath);
-            
-            return MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
                 buff,
-                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
-        }
+                inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
             this AudioFileOutput audioFileOutput,
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            string name = FetchName(audioFileOutput, callerMemberName, explicitName: filePath);
-            
-            return MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
                 audioFileOutput,
-                inMemory: false, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
-        }
+                inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public static void Save(
             this Sample sample, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.Save(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => SynthWishes.Save(
                 sample,
                 filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public static void Save(
             this byte[] bytes, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.Save(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) => SynthWishes.Save(
                 bytes, 
                 filePath, callerMemberName);
     }

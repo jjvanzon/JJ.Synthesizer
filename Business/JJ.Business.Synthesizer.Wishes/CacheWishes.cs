@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 func, null,
-                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
                 func, duration,
-                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 func, null,
-                inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
                 func, duration, 
-                inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 new[] { outlet }, null, 
-                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 new[] { outlet }, duration,
-                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
 
         // With FlowNode
         
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
                 new[] { outlet }, duration, 
-                inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 channels, null,
-                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
                 channels, duration, 
-                inMemory: !GetCacheToDisk, mustPad: false, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
                 channels, duration, 
-                inMemory: !GetCacheToDisk, mustPad, null, name, callerMemberName);
+                inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
         
         // Instance ChannelCache
         
@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 buff,
-                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
+                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Cache(
@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 entity, 
-                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
+                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
     }
 
     // Statics Turned Instance
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             MakeBuff(
                 buff,
-                inMemory: true, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
+                inMemory: true, synthWishes.GetExtraBufferFrames, null, name, null, callerMemberName);
             
             return synthWishes;
         }
@@ -173,7 +173,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             MakeBuff(
                 entity, 
-                inMemory: true, synthWishes.GetExtraBufferFrames, null, name, callerMemberName);
+                inMemory: true, synthWishes.GetExtraBufferFrames, null, name, null, callerMemberName);
             
             return synthWishes;
         }
@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Wishes
             { 
                 MakeBuff(
                     buff, 
-                    inMemory: true, GetExtraBufferFrames, null, name, callerMemberName);
+                    inMemory: true, GetExtraBufferFrames, null, name, null, callerMemberName);
 
                 return this; 
             }
@@ -202,7 +202,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             MakeBuff(
                 entity,
-                inMemory: true, GetExtraBufferFrames, null, name, callerMemberName);
+                inMemory: true, GetExtraBufferFrames, null, name, null, callerMemberName);
 
             return this;
         }
@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 buff, 
-                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
+                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Cache(
@@ -243,6 +243,6 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 entity, 
-                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, callerMemberName);
+                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
     }
 }
