@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Additional entity entry-points for enum-related extension.
         /// </summary>
         public static object _alternativeentrypointenumextensionwishes;
-            
+
         /// <summary>
         /// Tries getting a constant value from an operator or outlet.
         /// If it is dynamic, so no constant value, null is returned.
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Replacement Wish version of AudioFileInfo with more intuitive member names.
         /// </summary>
         public static object _audioinfowish;
-        
+
         /// <summary>
         /// Configures the audio length for rendering tapes and other audio output, 
         /// influencing the total duration of audio processing. <br/>
@@ -70,12 +70,12 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </code>
         /// </summary>
         public static object _audiolength;
-        
+
         /// <summary>
         /// Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
         /// </summary>
         public static object _avoidSpeakerSetupsBackEnd;
-        
+
         /// <summary>
         /// Returns the time in seconds of the start of a bar.
         /// The bars start counting at 1.
@@ -95,13 +95,21 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Beat one's start time is at 0 seconds.
         /// </summary>
         public static object _beatindexer;
-        
+
         /// <summary>
         /// Returns duration of a number of beats in seconds.
         /// 0 beats = a duration of 0 seconds.
         /// </summary>
         public static object _beatsindexer;
-            
+
+        /// <summary> Nullable. Not supplied when CacheToDisk. </summary>
+        /// <param name="bytes">Nullable. Not supplied when CacheToDisk.</param>
+        public static object _buffbytes;
+
+        /// <inheritdoc
+        ///     cref="_tapesanddiskcache" />
+        public static object _cachetodisk;
+
         /// <summary>
         /// Colloquially called the "capture" operator.
         /// Allows capturing double values into the synthesizer,
@@ -164,13 +172,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Depending on the use-case, creating a new context like that each time can be problematic.
         /// </summary>
         public static object _createrepository;
-        
+
         /// <summary>
         /// Paired with an operator, this method creates a curve serving as a volume envelope,
         /// which makes the operator gets multiplied by the curve for it to serve as the volume.
         /// </summary>
         public static object _curvewithoperator;
-        
+
         /// <param name="freq"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
         /// <param name="frequency"> The base frequency of the sound in Hz (default is A4/440Hz). </param>
         /// <param name="delay"> The time delay in seconds before the sound starts (default is 0). </param>
@@ -215,10 +223,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </param>
         /// <returns> An Outlet representing the output sound. </returns>
         public static object _default;
-        
-        /// <inheritdoc
-        ///     cref="_tapesanddiskcache" />
-        public static object _cachetodisk;
 
         /// <summary>
         /// Applies an echo effect using a feedback loop.
@@ -236,51 +240,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Also, if an explicitName is passed, it will override all the other options.
         /// </summary>
         public static object _fetchname;
-            
-        /// <summary>
-        /// Alternative entry point (Operator) Outlet (used in tests).
-        /// </summary>
-        public static object _flattenfactorswithmultiplyoutlet;
 
-        /// <summary>
-        /// Alternative entry point (Operator) Outlet (used in tests).
-        /// </summary>
-        public static object _flattentermswithsumoradd;
-
-        /// <summary>
-        /// Works similar to Sum, but instead of adding up all the numbers, all the numbers are multiplied.
-        /// If the collection is empty, returns 1 (the null-operation for a multiplication).
-        /// </summary>
-        public static object _frameworkwishproduct;
-        
-        /// <summary>
-        /// If this is a curve operator, this will return the underlying Curve entity,
-        /// that contains specifics about the nodes and how they are connected.
-        /// If it's called on something that isn't a Curve, an exception will be thrown.
-        /// </summary>
-        public static object _underlyingcurve;
-
-        /// <summary>
-        /// If this is a sample operator, this will return a curve operator wrapper,
-        /// which serves as a helper for retrieving specifics from the underlying Operator
-        /// and Curve entities.
-        /// </summary>
-        public static object _getcurvewrapper;
-        
-        /// <summary>
-        /// If this is a sample operator, this will return the underlying Sample entity,
-        /// with configuration, byte array, etc. If it's not a sample operator,
-        /// it will throw an exception.
-        /// </summary>
-        public static object _underlyingsample;
-
-        /// <summary>
-        /// If this is a sample operator, this will return a sample operator wrapper,
-        /// which serves as a helper for retrieving specifics from the underlying Operator
-        /// and Sample entities.
-        /// </summary>
-        public static object _getsamplewrapper;
-            
         /// <summary>
         /// Retrieves the file extension associated with the specified audio file.
         /// </summary>
@@ -292,10 +252,46 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _fileextension;
 
         /// <summary>
+        /// Alternative entry point (Operator) Outlet (used in tests).
+        /// </summary>
+        public static object _flattenfactorswithmultiplyoutlet;
+
+        /// <summary>
+        /// Alternative entry point (Operator) Outlet (used in tests).
+        /// </summary>
+        public static object _flattentermswithsumoradd;
+
+        /// <summary>
         /// A.k.a. SampleCount
         /// </summary>
         public static object _framecount;
-        
+
+        /// <summary>
+        /// Works similar to Sum, but instead of adding up all the numbers, all the numbers are multiplied.
+        /// If the collection is empty, returns 1 (the null-operation for a multiplication).
+        /// </summary>
+        public static object _frameworkwishproduct;
+
+        /// <summary>
+        /// If this is a sample operator, this will return a curve operator wrapper,
+        /// which serves as a helper for retrieving specifics from the underlying Operator
+        /// and Curve entities.
+        /// </summary>
+        public static object _getcurvewrapper;
+
+        /// <summary>
+        /// If this is a sample operator, this will return a sample operator wrapper,
+        /// which serves as a helper for retrieving specifics from the underlying Operator
+        /// and Sample entities.
+        /// </summary>
+        public static object _getsamplewrapper;
+
+        /// <summary>
+        /// Overrides the default sampling rate from the config file (for testing purposes).
+        /// If you set it back to default it will use the config again, e.g. WithSamplingRate(default).
+        /// </summary>
+        public static object _getsamplingrate;
+
         /// <returns>
         /// Length of a file header in bytes.
         /// </returns>
@@ -328,89 +324,17 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc
         ///     cref="docs._default" />
         public static object _noteindexer;
-        
+
+        /// <summary>
+        /// Allow specifying 1 value: make it the start and end node values.
+        /// </summary>
+        public static object _onebecomestwo;
+
         /// <summary>
         /// Returns what's input into an operand of the operator.
         /// </summary>
         public static object _operand;
 
-        /// <summary>
-        /// The parallel processing, processes a tree of tasks, "leaf" tasks first.
-        /// But as soon as they get processed, more "leaf" tasks emerge up for processing.
-        /// There's a time interval between checking for new leaves to process.
-        /// <c>ParallelTaskCheckDelay</c> defines this (short) wait time.
-        /// Its unit is in seconds, but it only has a millisecond precision.
-        /// 1 millisecond is usually good enough (0.001).
-        /// But since this may be infrastructure-dependent, it can be configured.
-        /// Anything under the minimum of 1 milliseconds (0.001) rounds down to 0,
-        /// meaning it'll check a lot for new tasks to process.
-        /// This can mean millions of checks instead of hundreds,
-        /// that's why this small delay exists.
-        /// </summary>
-        public static object _paralleltaskcheckdelay;
-        
-        /// <inheritdoc
-        ///     cref="_tapesanddiskcache" />
-        public static object _playalltapes;
-        
-        /// <summary>
-        /// Setting might not work in all contexts 
-        /// where the system is unaware of the SynthWishes object.
-        /// This is because of a design decision in the software, that might be corrected later.
-        ///
-        /// <para> For instance with an extension method on Buff, e.g. buff.Play(), there is no
-        /// SynthWishes or FlowNode involved, that can provide the custom set value.
-        /// Things which would then default back to the config setting or hard-coded default. </para>
-        ///
-        /// <para> The system correction that might solve it could be a change called
-        /// Func-Free Stereo Tapes, which would make it rare you would operate
-        /// directly on Buff or AudioOutput. </para>
-        /// 
-        /// <para> Currently, just chaining .Play onto some previous
-        /// command could make you lose the SynthWishes context.
-        /// Omitting a `this.` qualifier could do that too. </para>
-        /// </summary>
-        public static object _playback;
-        
-        /// <summary>
-        /// Extensions that are wishes for the back-end related that retrieve related objects like the Operator, Curve or Sample entities.
-        /// </summary>
-        public static object _relatedobjectextensions;
-
-        /// <summary>
-        /// Determines the configured sampling rate.
-        /// This can be set in the <c>.config</c> file,
-        /// and can be different depending on the environment.<br/>
-        /// For instance <strong>NCrunch</strong> (a code coverage tool)
-        /// and <strong>Azure Pipelines</strong> can have
-        /// an alternative (lower) sampling rate configured,
-        /// for those tools to perform better.<br/>
-        /// <br/>
-        /// The sampling rate can be overridden in C# using the
-        /// <c>.WithSamplingRate()</c> fluent configuration method.
-        /// This is usually for testing purposes.
-        /// Prefer using the <c>.config</c> file instead.<br/>
-        /// </summary>
-        public static object _withsamplingrate;
-
-        /// <summary>
-        /// Back-end will need bytes wrapped in a Stream and will read it back into a byte[] again.
-        /// This code would prevent that, but won't kick off the wav header parsing,
-        /// which is important as a test.
-        /// The WavHeaderWishes to solve both are currently lacking.
-        /// Revisit later.
-        /// </summary>
-        public static object _samplefromfluentconfig;
-
-        /// <inheritdoc
-        ///     cref="_default" />
-        public static object _strikenote;
-        
-        /// <summary>
-        /// Allow specifying 1 value: make it the start and end node values.
-        /// </summary>
-        public static object _onebecomestwo;
-        
         /// <summary>
         /// Applies a panbrello effect to a stereo signal by modulating the panning
         /// with a sine wave based on the specified speed and depth.
@@ -450,32 +374,32 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <see cref="Outlet">Outlet</see> (as <see cref="FlowNode">FlowNode</see>).
         /// </returns>
         public static object _paralleladd;
-        
+
         /// <inheritdoc 
         ///     cref="_tapesanddiskcache" />
         public static object _paralleltaping;
 
         /// <summary>
-        /// Shorthand for <c>Tape.Signal.Name</c>
+        /// The parallel processing, processes a tree of tasks, "leaf" tasks first.
+        /// But as soon as they get processed, more "leaf" tasks emerge up for processing.
+        /// There's a time interval between checking for new leaves to process.
+        /// <c>ParallelTaskCheckDelay</c> defines this (short) wait time.
+        /// Its unit is in seconds, but it only has a millisecond precision.
+        /// 1 millisecond is usually good enough (0.001).
+        /// But since this may be infrastructure-dependent, it can be configured.
+        /// Anything under the minimum of 1 milliseconds (0.001) rounds down to 0,
+        /// meaning it'll check a lot for new tasks to process.
+        /// This can mean millions of checks instead of hundreds,
+        /// that's why this small delay exists.
         /// </summary>
-        public static object _tapename;
-        
-        /// <summary>
-        /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
-        /// other parallel tasks for testing purposes.<br/>
-        /// CacheToDisk controls whether the tapes will be cached to disk instead of memory,
-        /// in case of which it also doesn't clean up the files. Mostly for testing purposes.
-        /// But could be used in low-memory high-disk-space scenarios.<br/>
-        /// With the Parallels setting you can turn off parallel processing completely.
-        /// </summary>
-        public static object _tapesanddiskcache;
+        public static object _paralleltaskcheckdelay;
 
         /// <summary>
         /// Can get persistence configuration from config, or otherwise falls back
         /// to default in-memory persistence.
         /// </summary>
         public static object _persistencehelper;
-            
+
         /// <summary>
         /// Returns a panning based on the pitch,
         /// to spread different notes across a stereo field.
@@ -502,6 +426,34 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_default" />
         public static object _pitchpan;
 
+        /// <inheritdoc
+        ///     cref="_tapesanddiskcache" />
+        public static object _playalltapes;
+
+        /// <summary>
+        /// Setting might not work in all contexts 
+        /// where the system is unaware of the SynthWishes object.
+        /// This is because of a design decision in the software, that might be corrected later.
+        ///
+        /// <para> For instance with an extension method on Buff, e.g. buff.Play(), there is no
+        /// SynthWishes or FlowNode involved, that can provide the custom set value.
+        /// Things which would then default back to the config setting or hard-coded default. </para>
+        ///
+        /// <para> The system correction that might solve it could be a change called
+        /// Func-Free Stereo Tapes, which would make it rare you would operate
+        /// directly on Buff or AudioOutput. </para>
+        /// 
+        /// <para> Currently, just chaining .Play onto some previous
+        /// command could make you lose the SynthWishes context.
+        /// Omitting a `this.` qualifier could do that too. </para>
+        /// </summary>
+        public static object _playback;
+
+        /// <summary>
+        /// Extensions that are wishes for the back-end related that retrieve related objects like the Operator, Curve or Sample entities.
+        /// </summary>
+        public static object _relatedobjectextensions;
+
         /// <summary>
         /// Creates a Sample by reading the file at the given <paramref name="filePath" /> or Stream or Byte array.
         /// </summary>
@@ -510,10 +462,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _sample;
 
         /// <summary>
-        /// Overrides the default sampling rate from the config file (for testing purposes).
-        /// If you set it back to default it will use the config again, e.g. WithSamplingRate(default).
+        /// Back-end will need bytes wrapped in a Stream and will read it back into a byte[] again.
+        /// This code would prevent that, but won't kick off the wav header parsing,
+        /// which is important as a test.
+        /// The WavHeaderWishes to solve both are currently lacking.
+        /// Revisit later.
         /// </summary>
-        public static object _getsamplingrate;
+        public static object _samplefromfluentconfig;
 
         /// <summary>
         /// Outputs audio in an audio file format and plays it if needed.<br />
@@ -575,10 +530,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns>
         public static object _saveorplay;
 
-        /// <summary> Nullable. Not supplied when CacheToDisk. </summary>
-        /// <param name="bytes">Nullable. Not supplied when CacheToDisk.</param>
-        public static object _buffbytes;
-        
         /// <summary>
         /// With optional Context.
         /// </summary>
@@ -615,6 +566,10 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_default" />
         public static object _sine;
 
+        /// <inheritdoc
+        ///     cref="_default" />
+        public static object _strikenote;
+
         /// <summary>
         /// Turns an <see cref="Operator"/> graph into a string,
         /// in a way that the complexity becomes apparent.
@@ -629,7 +584,22 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Or you can call e.g. <c>Outlet.Calculate(time, ChannelEnum.Right)</c>
         /// </summary>
         public static object _synthwishescalculate;
-            
+
+        /// <summary>
+        /// Shorthand for <c>Tape.Signal.Name</c>
+        /// </summary>
+        public static object _tapename;
+
+        /// <summary>
+        /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
+        /// other parallel tasks for testing purposes.<br/>
+        /// CacheToDisk controls whether the tapes will be cached to disk instead of memory,
+        /// in case of which it also doesn't clean up the files. Mostly for testing purposes.
+        /// But could be used in low-memory high-disk-space scenarios.<br/>
+        /// With the Parallels setting you can turn off parallel processing completely.
+        /// </summary>
+        public static object _tapesanddiskcache;
+
         /// <summary>
         /// This TimeIndexer provides shorthand for specifying bar and beat in a musical sense.
         /// Access by bar and beat to get time-based value.
@@ -657,11 +627,25 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Otherwise, NodeTypeEnum.Undefined is returned.
         /// </summary>
         public static object _trygetnodetype;
-        
+
         /// <summary>
         /// This null-tolerant version is missing in JJ.Framework.Configuration for now.
         /// </summary>
         public static object _trygetsection;
+
+        /// <summary>
+        /// If this is a curve operator, this will return the underlying Curve entity,
+        /// that contains specifics about the nodes and how they are connected.
+        /// If it's called on something that isn't a Curve, an exception will be thrown.
+        /// </summary>
+        public static object _underlyingcurve;
+
+        /// <summary>
+        /// If this is a sample operator, this will return the underlying Sample entity,
+        /// with configuration, byte array, etc. If it's not a sample operator,
+        /// it will throw an exception.
+        /// </summary>
+        public static object _underlyingsample;
 
         /// <summary>
         /// Applies vibrato modulation to a given frequency by modulating it with a sine wave.<br />
@@ -671,5 +655,21 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <returns> An <see cref="Outlet" /> object representing the frequency modulated with vibrato. </returns>
         /// <inheritdoc cref="_default" />
         public static object _vibrato;
+
+        /// <summary>
+        /// Determines the configured sampling rate.
+        /// This can be set in the <c>.config</c> file,
+        /// and can be different depending on the environment.<br/>
+        /// For instance <strong>NCrunch</strong> (a code coverage tool)
+        /// and <strong>Azure Pipelines</strong> can have
+        /// an alternative (lower) sampling rate configured,
+        /// for those tools to perform better.<br/>
+        /// <br/>
+        /// The sampling rate can be overridden in C# using the
+        /// <c>.WithSamplingRate()</c> fluent configuration method.
+        /// This is usually for testing purposes.
+        /// Prefer using the <c>.config</c> file instead.<br/>
+        /// </summary>
+        public static object _withsamplingrate;
     }
 }
