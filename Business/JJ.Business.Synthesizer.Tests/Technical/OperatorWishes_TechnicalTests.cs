@@ -401,6 +401,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void TestComplexity()
         {
+            WithCacheToDisk(false);
+            
             {
                 var accessor = new AdditiveTestsAccessor(new AdditiveTests());
                 TestComplexity(accessor.Metallophone(A4));
