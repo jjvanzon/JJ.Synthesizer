@@ -16,63 +16,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class NameHelper
     {
-        /// <inheritdoc cref="docs._membername"/>
-        public static string MemberName([CallerMemberName] string calledMemberName = null)
-            => calledMemberName.CutLeft("get_").CutLeft("set_");
-
-        public static string GetAssemblyName<TType>() 
-            => typeof(TType).Assembly.GetName().Name;
-
-        public static string GetPrettyTitle(string uglyName)
-        {
-            string title = PrettifyName(uglyName);
-
-            if (IsNullOrWhiteSpace(title))
-            {
-                title = "Untitled";
-            }
-
-            title = title.WithShortGuids(4);
-
-            string dashes = "".PadRight(title.Length, '-');
-
-            return title + NewLine + dashes;
-        }
-
-        public static string PrettifyName(string uglyName)
-            => (uglyName ?? "").CutLeft("get_")
-                               .CutLeft("set_")
-                               .CutRightUntil(".") // Removing file extension
-                               .CutRight(".")
-                               .Replace("RunTest", "")
-                               .Replace("Test", "")
-                               .Replace("_", " ")
-                               .RemoveExcessiveWhiteSpace();
-
-        internal static bool NameIsOperatorTypeName(Operator op)
-        {
-            if (op == null) throw new ArgumentNullException(nameof(op));
-            return NameIsOperatorTypeName(op.Name, op.OperatorTypeName);
-        }
-        
-        internal static bool NameIsOperatorTypeName(string name, string operatorTypeName)
-        {
-            if (IsNullOrWhiteSpace(name)) return false;
-
-            if (string.Equals(name, operatorTypeName))
-            {
-                return true;
-            }
-            
-            string operatorTypeDisplayName = PropertyDisplayNames.ResourceManager.GetString(operatorTypeName);
-            if (string.Equals(name, operatorTypeDisplayName, StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         /// <inheritdoc cref="docs._fetchname"/>
         public static string FetchName(
             object nameSource1 = null, object nameSource2 = null, object nameSource3 = null, object nameSource4 = null,
@@ -137,6 +80,63 @@ namespace JJ.Business.Synthesizer.Wishes
                     throw new Exception($"Unsupported {nameof(nameSource)} type: {nameSource.GetType()}.");
             }
         }
+        
+        internal static bool NameIsOperatorTypeName(Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            return NameIsOperatorTypeName(op.Name, op.OperatorTypeName);
+        }
+        
+        internal static bool NameIsOperatorTypeName(string name, string operatorTypeName)
+        {
+            if (IsNullOrWhiteSpace(name)) return false;
+
+            if (string.Equals(name, operatorTypeName))
+            {
+                return true;
+            }
+            
+            string operatorTypeDisplayName = PropertyDisplayNames.ResourceManager.GetString(operatorTypeName);
+            if (string.Equals(name, operatorTypeDisplayName, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        
+        public static string PrettifyName(string uglyName)
+            => (uglyName ?? "").CutLeft("get_")
+                               .CutLeft("set_")
+                               .CutRightUntil(".") // Removing file extension
+                               .CutRight(".")
+                               .Replace("RunTest", "")
+                               .Replace("Test", "")
+                               .Replace("_", " ")
+                               .RemoveExcessiveWhiteSpace();
+
+        public static string GetPrettyTitle(string uglyName)
+        {
+            string title = PrettifyName(uglyName);
+
+            if (IsNullOrWhiteSpace(title))
+            {
+                title = "Untitled";
+            }
+
+            title = title.WithShortGuids(4);
+
+            string dashes = "".PadRight(title.Length, '-');
+
+            return title + NewLine + dashes;
+        }
+    
+        /// <inheritdoc cref="docs._membername"/>
+        public static string MemberName([CallerMemberName] string calledMemberName = null)
+            => calledMemberName.CutLeft("get_").CutLeft("set_");
+
+        public static string GetAssemblyName<TType>() 
+            => typeof(TType).Assembly.GetName().Name;
     }
 
     // NameWishes FlowNode
@@ -153,17 +153,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._names"/>
         public string Name
         {
-            get 
-            {
-                if (NameIsOperatorTypeName(_underlyingOutlet.Operator))
-                {
-                    return default;
-                }
-                else
-                {
-                    return _underlyingOutlet.Operator.Name;
-                }
-            }
+            get => !NameIsOperatorTypeName(_underlyingOutlet.Operator) ? _underlyingOutlet.Operator.Name : default;
             set => _underlyingOutlet.Operator.Name = value;
         }
     }
