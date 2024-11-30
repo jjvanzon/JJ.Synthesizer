@@ -18,6 +18,8 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class NameHelper
     {
+        // FetchName
+        
         /// <inheritdoc cref="docs._fetchname"/>
         public static string FetchName(
             object nameSource1 = null, object nameSource2 = null, object nameSource3 = null, object nameSource4 = null,
@@ -29,7 +31,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 return explicitName; // Not sure if it should be prettified too...
             }
             
-            string name = TryGetName(nameSource1, nameSource2, nameSource3, nameSource4, nameSource5, nameSource6, nameSource7, nameSource8, callerMemberName);
+            string name = TryGetName(
+                nameSource1, nameSource2, nameSource3, nameSource4, 
+                nameSource5, nameSource6, nameSource7, nameSource8,
+                callerMemberName);
 
             name = PrettifyName(name);
             
@@ -83,6 +88,43 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
+        // FetchFilePath
+        
+        public static string FetchFilePath(string filePath, string name, string fileExtension, [CallerMemberName] string callerMemberName = null)
+        {
+            filePath = FetchName(name, callerMemberName, explicitName: filePath);
+            filePath = ReformatFilePath(filePath, fileExtension);
+            return filePath;
+        }
+
+        /// <summary>
+        /// Sanitizes any invalid characters from the file path.
+        /// Replaces the file extension with the current AudioFormat.
+        /// Fills up to the full path, in case it is a relative folder.
+        /// Or if there is no folder at all, the current directory is used.
+        /// </summary>
+        private static string ReformatFilePath(string filePath, string newFileExtension)
+        {
+            // Sanitize file path
+            string sanitizedFilePath = SanitizeFilePath(filePath);
+            
+            // Find the full folder path
+            string folderPath = Path.GetDirectoryName(sanitizedFilePath);
+            string absoluteFolder = IsNullOrWhiteSpace(folderPath) 
+                ? Directory.GetCurrentDirectory() 
+                : Path.GetFullPath(folderPath);
+            
+            // Replace file extension
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sanitizedFilePath);
+            string audioFormatExtension = newFileExtension;
+            string fileName = fileNameWithoutExtension + audioFormatExtension;
+
+            // Combine folder path and new file name
+            return Path.Combine(absoluteFolder, fileName);
+        }
+
+        // Helpers
+        
         internal static bool NameIsOperatorTypeName(Operator op)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
@@ -117,14 +159,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             prettyName = (prettyName ?? "").CutLeft("get_")
-                               .CutLeft("set_")
-                               .Replace("RunTest", "")
-                               .Replace("Test", "")
-                               .Replace("_", " ")
-                               .RemoveExcessiveWhiteSpace();
+                                           .CutLeft("set_")
+                                           .Replace("RunTest", "")
+                                           .Replace("Test", "")
+                                           .Replace("_", " ")
+                                           .RemoveExcessiveWhiteSpace();
             return prettyName;
         }
-
+        
         public static string GetPrettyTitle(string uglyName)
         {
             string title = PrettifyName(uglyName);
