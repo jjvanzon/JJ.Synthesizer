@@ -137,13 +137,13 @@ namespace JJ.Business.Synthesizer.Wishes
             
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
+            audioFileOutput.Name = FetchName(name, filePath);
+            audioFileOutput.FilePath = FetchFilePath(filePath, name, GetAudioFormat.GetFileExtension());
             audioFileOutput.Amplifier = GetBits.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = (duration ?? GetAudioLength).Calculate();
-            audioFileOutput.FilePath = FetchFilePath(filePath, name, GetAudioFormat.GetFileExtension());
             audioFileOutput.SetBits(GetBits, Context);
             audioFileOutput.SetAudioFormat(GetAudioFormat, Context);
-            audioFileOutput.Name = FetchName(name, filePath);
             audioFileOutput.SamplingRate = GetSamplingRate;
             audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(speakerSetupEnum);
             CreateOrRemoveChannels(audioFileOutput, channelCount);
