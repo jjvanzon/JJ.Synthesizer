@@ -49,14 +49,14 @@ namespace JJ.Business.Synthesizer.Wishes
                     {
                         WithCenter(); var monoOutlet = func();
                         name = FetchName(name, filePath, monoOutlet, callerMemberName, func);
-                        return MakeBuff(new[] { monoOutlet }, duration, inMemory, mustPad, additionalMessages, name, filePath);
+                        return MakeBuff(new[] { monoOutlet }, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
                     }
                     case Stereo:
                     {
                         WithLeft(); var leftOutlet = func();
                         WithRight(); var rightOutlet = func();
                         name = FetchName(name, filePath, leftOutlet, rightOutlet, callerMemberName, func);
-                        return MakeBuff(new[] { leftOutlet, rightOutlet }, duration, inMemory, mustPad, additionalMessages, name, filePath);
+                        return MakeBuff(new[] { leftOutlet, rightOutlet }, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
                     }
                     default: throw new ValueNotSupportedException(GetSpeakers);
                 }
@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes
             additionalMessages = additionalMessages ?? Array.Empty<string>();
             
             // Fetch Name
-            name = FetchName(name, channels, callerMemberName);
+            name = FetchName(name, channels, filePath, callerMemberName);
             
             Buff buff;
             
@@ -177,8 +177,10 @@ namespace JJ.Business.Synthesizer.Wishes
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
 
-            name = FetchName(name, audioFileOutput, callerMemberName);
-            audioFileOutput.Name = name;
+            string resolvedName = FetchName(name, filePath, audioFileOutput, callerMemberName);
+            string resolvedFilePath = FetchFilePath(filePath, resolvedName, audioFileOutput.GetFileExtension(), callerMemberName);
+
+            audioFileOutput.Name = resolvedName;
 
             // Assert
             
@@ -215,11 +217,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Inject a file stream
                 // (CreateSafeFileStream numbers files to prevent file name contention
                 //  It does so in a thread-safe, interprocess-safe way.)
-                filePath = FetchFilePath(filePath, name, audioFileOutput.GetFileExtension(), callerMemberName);
                 FileStream fileStream;
-                (filePath, fileStream) = CreateSafeFileStream(filePath);
+                (resolvedFilePath, fileStream) = CreateSafeFileStream(resolvedFilePath);
                 calculatorAccessor._stream = fileStream;
-                audioFileOutput.FilePath = filePath;
+                audioFileOutput.FilePath = resolvedFilePath;
             }
 
             // Calculate
@@ -229,7 +230,7 @@ namespace JJ.Business.Synthesizer.Wishes
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
             // Result
-            var buff = new Buff(bytes, filePath, audioFileOutput, warnings);
+            var buff = new Buff(bytes, resolvedFilePath, audioFileOutput, warnings);
 
             // Report
             var reportLines = GetReport(buff, calculationDuration);
