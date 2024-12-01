@@ -637,18 +637,22 @@ namespace JJ.Business.Synthesizer.Wishes
             bool delayFilledIn = delay != null && delay.AsConst != 0;
             bool volumeFilledIn = volume != null && volume.AsConst != 1;
 
+            // Resolve Name
             string resolvedName = FetchName(name, sound, callerMemberName);
-            //resolvedName += " " + MemberName();
             
+            // Resolve NoteLength
             noteLength = SnapNoteLength(noteLength);
             
+            // Apply Volume
             if (volumeFilledIn)
             {
                 sound *= volume.Stretch(noteLength / GetVolumeDuration(volume));
             }
             
+            // Defer Taping
             sound = sound.Tape(noteLength).SetName(resolvedName);
             
+            // Apply Delay
             if (delayFilledIn) sound = Delay(sound, delay);
             
             return sound.SetName(resolvedName);
