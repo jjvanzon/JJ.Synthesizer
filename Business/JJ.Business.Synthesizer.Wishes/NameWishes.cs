@@ -54,14 +54,17 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             switch (nameSource)
             {
+                case null: 
+                    return null;
+
                 case string str: 
                     return str;
                 
-                case IEnumerable<string> strings: 
-                    return strings.FirstOrDefault(x => !IsNullOrWhiteSpace(x));                    
-                
                 case FlowNode flowNode: 
                     return flowNode.Name;
+                
+                case IEnumerable<string> strings: 
+                    return strings.FirstOrDefault(x => !IsNullOrWhiteSpace(x));                    
                 
                 case IEnumerable<FlowNode> flowNodes: 
                     return TryGetName(flowNodes.Select(x => x?.Name));
@@ -79,9 +82,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 case Sample sample:
                     return TryGetName(sample.Location, sample.Name);
                     //return TryGetName(sample.Name, sample.Location);
-
-                case null: 
-                    return null;
                 
                 default: 
                     throw new Exception($"Unsupported {nameof(nameSource)} type: {nameSource.GetType()}.");
