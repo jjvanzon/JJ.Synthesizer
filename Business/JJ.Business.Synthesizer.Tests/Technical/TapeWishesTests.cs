@@ -330,18 +330,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithStereo();
 
-            var bufs = new Buff[2];
+            var buffs = new Buff[2];
             
-            Save(() => Sine(A4).Panning(0.1).Curve(Envelope).ChannelCache((b, i) => bufs[i] = b)).Play();
+            Save(() => Sine(A4).Panning(0.1).Curve(Envelope).ChannelCache((b, i) => buffs[i] = b)).Play();
             
-            IsNotNull(() => bufs[0]);
-            IsNotNull(() => bufs[1]);
+            IsNotNull(() => buffs[0]);
+            IsNotNull(() => buffs[1]);
 
-            bufs[0].Play();
-            bufs[1].Play();
+            buffs[0].Play();
+            buffs[1].Play();
 
-            Save(() => Sample(bufs[0]).Panning(0) +
-                       Sample(bufs[1]).Panning(1)).Play();
+            Save(() => Sample(buffs[0]).Panning(0) +
+                       Sample(buffs[1]).Panning(1)).Play();
         }
     }
 }
