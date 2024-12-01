@@ -101,25 +101,35 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Instance ChannelCache (Mid-Chain)
         
-        public FlowNode ChannelCache(FlowNode signal, [CallerMemberName] string callerMemberName = null)
-            => ChannelCache(signal, null, (Action<Buff, int>)null, callerMemberName);
+        public FlowNode ChannelCache(
+            FlowNode channel, 
+            [CallerMemberName] string callerMemberName = null)
+            => ChannelCache(channel, null, (Action<Buff, int>)null, callerMemberName);
         
-        public FlowNode ChannelCache(FlowNode signal, Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => ChannelCache(signal, null, callback, callerMemberName);
+        public FlowNode ChannelCache(
+            FlowNode channel, 
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelCache(channel, null, callback, callerMemberName);
         
-        public FlowNode ChannelCache(FlowNode signal, Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
-            => ChannelCache(signal, null, callback, callerMemberName);
+        public FlowNode ChannelCache(
+            FlowNode channel, 
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelCache(channel, null, callback, callerMemberName);
         
-        public FlowNode ChannelCache(FlowNode signal, FlowNode duration, Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => ChannelCache(signal, duration, (x, i) => callback(x), callerMemberName);
+        public FlowNode ChannelCache(
+            FlowNode channel, FlowNode duration, 
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelCache(channel, duration, (x, i) => callback(x), callerMemberName);
         
-        public FlowNode ChannelCache(FlowNode signal, FlowNode duration, Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+        public FlowNode ChannelCache(
+            FlowNode channel, FlowNode duration,
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = AddTape(signal, callerMemberName);
+            Tape tape = AddTape(channel, callerMemberName);
             tape.Callback = callback;
             tape.Duration = duration;
             tape.IsCache = true;
-            return signal;
+            return channel;
         }
 
         // Statics (Buff to Buff) (End-Of-Chain)
@@ -146,7 +156,7 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesCacheStaticsTurnedInstanceExtensions
     {
-        // On Buffs
+        // On Buffs (End-of-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Cache(
@@ -185,19 +195,26 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // ChannelCache on FlowNode (Mid-Chain)
         
-        public FlowNode ChannelCache([CallerMemberName] string callerMemberName = null)
+        public FlowNode ChannelCache(
+            [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelCache(this, callerMemberName);
         
-        public FlowNode ChannelCache(Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+        public FlowNode ChannelCache(
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelCache(this, callback, callerMemberName);
         
-        public FlowNode ChannelCache(Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+        public FlowNode ChannelCache(
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelCache(this, callback, callerMemberName);
         
-        public FlowNode ChannelCache(FlowNode duration, Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+        public FlowNode ChannelCache(
+            FlowNode duration,
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelCache(this, duration, callback, callerMemberName);
         
-        public FlowNode ChannelCache(FlowNode duration, Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+        public FlowNode ChannelCache(
+            FlowNode duration, 
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelCache(this, duration, callback, callerMemberName);
 
         // Cache on FlowNode (End-of-Chain)
