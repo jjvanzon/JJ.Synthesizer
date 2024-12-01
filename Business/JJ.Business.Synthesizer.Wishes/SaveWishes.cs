@@ -221,10 +221,11 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Save on FlowNode (End-of-Chain)
 
     public partial class FlowNode
     {
+        // Save on FlowNode (End-of-Chain)
+
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
             Buff buff, 
