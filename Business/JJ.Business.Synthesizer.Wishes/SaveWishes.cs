@@ -221,7 +221,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-
     public partial class FlowNode
     {
         // Save on FlowNode (End-of-Chain)

@@ -137,6 +137,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         internal static Buff InternalPlay(
+            SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension = null)
         {
             ConfigResolver configResolver = synthWishes?._configResolver ?? ConfigResolver.Default;
             if (string.IsNullOrWhiteSpace(fileExtension) && !string.IsNullOrWhiteSpace(filePath))
