@@ -267,23 +267,20 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // ChannelSave (Mid-Chain)
         
-        public FlowNode ChannelSave()
-            => _synthWishes.ChannelSave(this);
-        
-        public FlowNode ChannelSave(string filePath)
+        public FlowNode ChannelSave([CallerMemberName] string filePath = null)
             => _synthWishes.ChannelSave(this, filePath);
         
-        public FlowNode ChannelSave(Action<Buff> callback)
-            => _synthWishes.ChannelSave(this, callback);
+        public FlowNode ChannelSave(Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.ChannelSave(this, callback, callerMemberName);
         
-        public FlowNode ChannelSave(Action<Buff, int> callback)
-            => _synthWishes.ChannelSave(this, callback);
+        public FlowNode ChannelSave(Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.ChannelSave(this, callback, callerMemberName);
         
-        public FlowNode ChannelSave(string filePath, Action<Buff> callback)
-            => _synthWishes.ChannelSave(this, filePath, callback);
+        public FlowNode ChannelSave(string filePath, Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.ChannelSave(this, filePath, callback, callerMemberName);
         
-        public FlowNode ChannelSave(string filePath, Action<Buff, int> callback)
-            => _synthWishes.ChannelSave(this, filePath, callback);
+        public FlowNode ChannelSave(string filePath, Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.ChannelSave(this, filePath, callback, callerMemberName);
     }
 
     // Buff Extensions (End-of-Chain)

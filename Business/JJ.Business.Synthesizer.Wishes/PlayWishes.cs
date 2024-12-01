@@ -226,9 +226,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // FlowNode ChannelPlay (Mid-Chain)
         
-        public FlowNode ChannelPlay() => _synthWishes.ChannelPlay(this);
-        public FlowNode ChannelPlay(Action<Buff> callback) => _synthWishes.ChannelPlay(this, callback);
-        public FlowNode ChannelPlay(Action<Buff, int> callback) => _synthWishes.ChannelPlay(this, callback);
+        public FlowNode ChannelPlay([CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callerMemberName);
+        public FlowNode ChannelPlay(Action<Buff> callback, [CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callback, callerMemberName);
+        public FlowNode ChannelPlay(Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callback, callerMemberName);
     }
 
     // Buff Extensions (End-of-Chain)
