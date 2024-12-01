@@ -587,7 +587,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _synthwishescalculate;
 
         /// <summary>
-        /// Shorthand for <c>Tape.Signal.Name</c>
+        /// Returns the <c>Tape</c>'s <c>Signal.Name</c>, <c>FallBackName</c>
+        /// or else <c>FilePath</c> in prettified form.
         /// </summary>
         public static object _tapename;
 

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
-using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -23,15 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes
     internal class Tape
     {
         /// <inheritdoc cref="docs._tapename" />
-        public string Name 
-        {
-            get => Signal?.Name;
-            set
-            {
-                if (Signal == null) throw new NullException(() => Signal);
-                Signal.Name = value;
-            }
-        }
+        public string GetName => FetchName(Signal, FallBackName, FilePath);
         
         public FlowNode Signal { get; set; }
         public FlowNode Duration { get; set; }
@@ -49,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
         // Informational
         
-        //public string Name { get; set; }
+        public string FallBackName { get; set; }
         public int NestingLevel { get; set; }
         public bool IsCache { [UsedImplicitly] get; set; }
     }
@@ -244,18 +236,18 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal void RunTape(Tape tape)
         {
-            Console.WriteLine($"{PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.Name}");
+            Console.WriteLine($"{PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.GetName}");
             
             // Cache Buffer
             Buff cacheBuff = Cache(tape.Signal, tape.Duration);
             
             // Run Actions
             tape.Callback?.Invoke(cacheBuff, tape.ChannelIndex);
-            if (tape.MustSave) Save(cacheBuff, tape.FilePath, tape.Name);
+            if (tape.MustSave) Save(cacheBuff, tape.FilePath, tape.GetName);
             if (tape.MustPlay || GetPlayAllTapes) Play(cacheBuff);
             
             // Wrap in Sample
-            var sample = Sample(cacheBuff, name: tape.Name);
+            var sample = Sample(cacheBuff, name: tape.GetName);
             
             // Replace All References
             IList<Inlet> connectedInlets = tape.Signal.UnderlyingOutlet.ConnectedInlets.ToArray();
@@ -264,7 +256,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inlet.LinkTo(sample);
             }
             
-            Console.WriteLine($"{PrettyTime()}  Stop Tape: (Level {tape.NestingLevel}) {tape.Name} ");
+            Console.WriteLine($"{PrettyTime()}  Stop Tape: (Level {tape.NestingLevel}) {tape.GetName} ");
         }
     }
 }
