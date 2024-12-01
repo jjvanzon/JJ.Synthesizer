@@ -329,17 +329,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void FluentCache_UsingTape() 
         {
             WithStereo();
-
+            
             var buffs = new Buff[2];
             
             Save(() => Sine(A4).Panning(0.1).Curve(Envelope).ChannelCache((b, i) => buffs[i] = b)).Play();
             
             IsNotNull(() => buffs[0]);
             IsNotNull(() => buffs[1]);
-
+            
             buffs[0].Play();
             buffs[1].Play();
-
+            
             Save(() => Sample(buffs[0]).Panning(0) +
                        Sample(buffs[1]).Panning(1)).Play();
         }
