@@ -94,10 +94,21 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode ChannelPlay(
             FlowNode channel,
             Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelPlay(channel, null, callback, callerMemberName);
+
+        public FlowNode ChannelPlay(
+            FlowNode channel, FlowNode duration, 
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelPlay(channel, duration, (x, i) => callback(x), callerMemberName);
+
+        public FlowNode ChannelPlay(
+            FlowNode channel, FlowNode duration,
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = AddTape(channel, callerMemberName);
             tape.MustPlay = true;
             tape.Callback = callback;
+            tape.Duration = duration;
             return channel;
         }
 
@@ -230,6 +241,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode ChannelPlay(
             Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelPlay(this, callback, callerMemberName);
+        
+        public FlowNode ChannelPlay(
+            FlowNode duration,
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null) 
+            => _synthWishes.ChannelPlay(this, duration, callback, callerMemberName);
+        
+        public FlowNode ChannelPlay(
+            FlowNode duration,
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.ChannelPlay(this, duration, callback, callerMemberName);
 
         // FlowNode Play (End-of-Chain)
         
