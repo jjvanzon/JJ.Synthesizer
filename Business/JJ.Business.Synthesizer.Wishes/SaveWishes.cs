@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 channels, duration,
                 inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
-        // Instance ChannelSave
+        // Instance ChannelSave (Mid-Chain)
         
         public FlowNode ChannelSave(
             FlowNode channel, [CallerMemberName] string filePath = null)
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return channel;
         }
 
-        // Save in Statics (Buff to Buff)
+        // Save in Statics (Buff to Buff) (End-of-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
     
-    // Statics Turned Instance (from Buff)
+    // Statics Turned Instance (from Buff) (End-of-Chain)
 
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesSaveStaticsTurnedInstanceExtensions
@@ -213,7 +213,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Save on FlowNode
+    // Save on FlowNode (End-of-Chain)
 
     public partial class FlowNode
     {
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return this; 
         }
         
-        // ChannelSave
+        // ChannelSave (Mid-Chain)
         
         public FlowNode ChannelSave()
             => _synthWishes.ChannelSave(this);
@@ -286,7 +286,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.ChannelSave(this, filePath, callback);
     }
 
-    // Buff Extensions
+    // Buff Extensions (End-of-Chain)
 
     public static class SaveExtensionWishes 
     {

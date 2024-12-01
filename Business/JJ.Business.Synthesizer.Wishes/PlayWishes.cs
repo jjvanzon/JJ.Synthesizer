@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return buff2;
         }
         
-        // ChannelPlay
+        // ChannelPlay (Mid-Chain)
         
         public FlowNode ChannelPlay(FlowNode channel, [CallerMemberName] string callerMemberName = null) 
             => ChannelPlay(channel, default(Action<Buff, int>), callerMemberName);
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return channel;
         }
 
-        // Internals (all on Buffs)
+        // Internals (all on Buffs) (End-of-Chain)
         
         internal static Buff InternalPlay(SynthWishes synthWishes, Buff buff)
         {
@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return new Buff(bytes, filePath, null, lines);
         }
         
-        // Statics
+        // Statics (End-of-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Play(Buff buff) => InternalPlay(null, buff);
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Play(string filePath) => InternalPlay(null, filePath);
     }
     
-    // Statics Turned Instance
+    // Statics Turned Instance (End-of-Chain)
 
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesPlayStaticsTurnedInstanceExtensions
@@ -209,10 +209,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public static SynthWishes Play(this SynthWishes synthWishes, string filePath) { InternalPlay(synthWishes, filePath); return synthWishes; }
     }
 
-    // FlowNode Play
-
     public partial class FlowNode
     {
+        // FlowNode Play (End-of-Chain)
+        
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Play(Buff buff) { InternalPlay(_synthWishes, buff); return this; }
         /// <inheritdoc cref="docs._makebuff" />
@@ -224,12 +224,14 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Play(string filePath) { InternalPlay(_synthWishes, filePath); return this; }
         
+        // FlowNode ChannelPlay (Mid-Chain)
+        
         public FlowNode ChannelPlay() => _synthWishes.ChannelPlay(this);
         public FlowNode ChannelPlay(Action<Buff> callback) => _synthWishes.ChannelPlay(this, callback);
         public FlowNode ChannelPlay(Action<Buff, int> callback) => _synthWishes.ChannelPlay(this, callback);
     }
 
-    // Buff Extensions
+    // Buff Extensions (End-of-Chain)
 
     /// <inheritdoc cref="docs._makebuff" />
     public static class PlayExtensionWishes

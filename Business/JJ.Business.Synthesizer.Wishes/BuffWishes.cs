@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        // MakeBuff on Instance
+        // MakeBuff on Instance (Start-of-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
         internal Buff MakeBuff(
@@ -164,7 +164,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return audioFileOutput;
         }
 
-        // MakeBuff in Statics
+        // MakeBuff in Statics (End-of-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
         internal static Buff MakeBuff(

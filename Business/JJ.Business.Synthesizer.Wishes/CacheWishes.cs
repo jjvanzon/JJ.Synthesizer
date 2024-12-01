@@ -47,6 +47,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 func, duration, 
                 inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
 
+        // With FlowNode
+        
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
             FlowNode outlet, 
@@ -63,8 +65,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 new[] { outlet }, duration,
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
         
-        // With FlowNode
-        
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
             FlowNode outlet, FlowNode duration, bool mustPad, 
@@ -72,6 +72,8 @@ namespace JJ.Business.Synthesizer.Wishes
             => MakeBuff(
                 new[] { outlet }, duration, 
                 inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
+        
+        // With List of FlowNodes
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
@@ -97,7 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 channels, duration, 
                 inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
         
-        // Instance ChannelCache
+        // Instance ChannelCache (Mid-Chain)
         
         public FlowNode ChannelCache(FlowNode signal, [CallerMemberName] string callerMemberName = null)
             => ChannelCache(signal, null, (Action<Buff, int>)null, callerMemberName);
@@ -120,7 +122,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
 
-        // Statics (Buff to Buff)
+        // Statics (Buff to Buff) (End-Of-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Cache(
@@ -139,7 +141,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
     }
 
-    // Statics Turned Instance
+    // Statics Turned Instance (End-of-Chain)
     
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesCacheStaticsTurnedInstanceExtensions
@@ -179,10 +181,10 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Cache on FlowNode
-
     public partial class FlowNode
     {
+        // Cache on FlowNode (End-of-Chain)
+            
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Cache(
             Buff buff,
@@ -207,7 +209,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
         
-        // ChannelCache on FlowNode
+        // ChannelCache on FlowNode (Mid-Chain)
         
         public FlowNode ChannelCache()
             => _synthWishes.ChannelCache(this);
@@ -225,7 +227,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.ChannelCache(this, duration, callback);
     }
     
-    // Buff to Buff Extensions
+    // Buff to Buff Extensions (End-of-Chain)
 
     public static class CacheExtensionWishes
     {
