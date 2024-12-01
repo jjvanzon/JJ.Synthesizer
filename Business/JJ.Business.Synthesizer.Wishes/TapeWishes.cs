@@ -240,7 +240,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Console.WriteLine($"{PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.GetName}");
             
             // Cache Buffer
-            Buff cacheBuff = Cache(tape.Signal, tape.Duration);
+            Buff cacheBuff = Cache(tape.Signal, tape.Duration, tape.GetName);
             
             // Run Actions
             tape.Callback?.Invoke(cacheBuff, tape.ChannelIndex);
