@@ -48,14 +48,12 @@ namespace JJ.Business.Synthesizer.Wishes
                     case Mono:
                     {
                         WithCenter(); var monoOutlet = func();
-                        name = FetchName(name, filePath, monoOutlet, callerMemberName, func);
                         return MakeBuff(new[] { monoOutlet }, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
                     }
                     case Stereo:
                     {
                         WithLeft(); var leftOutlet = func();
                         WithRight(); var rightOutlet = func();
-                        name = FetchName(name, filePath, leftOutlet, rightOutlet, callerMemberName, func);
                         return MakeBuff(new[] { leftOutlet, rightOutlet }, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
                     }
                     default: throw new ValueNotSupportedException(GetSpeakers);
@@ -89,8 +87,8 @@ namespace JJ.Business.Synthesizer.Wishes
             additionalMessages = additionalMessages ?? Array.Empty<string>();
             
             // Fetch Name
-            name = FetchName(name, channels, filePath, callerMemberName);
-            
+            name = FetchName(name, filePath, channels, callerMemberName);
+           
             Buff buff;
             
             // Apply Padding
