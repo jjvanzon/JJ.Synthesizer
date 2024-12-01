@@ -18,42 +18,48 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             Func<FlowNode> func,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => MakeBuff(
                 func, null,
                 inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             Func<FlowNode> func, FlowNode duration,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => MakeBuff(
                 func, duration,
                 inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             FlowNode channel,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => MakeBuff(
                 channel, null,
                 inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             FlowNode channel, FlowNode duration,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => MakeBuff(
                 channel, duration,
                 inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             IList<FlowNode> channels,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => MakeBuff(
                 channels, null,
                 inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
             IList<FlowNode> channels, FlowNode duration,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => MakeBuff(
                 channels, duration,
                 inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
@@ -119,14 +125,16 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
             Buff buff,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => MakeBuff(
                 buff,
                 inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
             AudioFileOutput audioFileOutput,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => MakeBuff(
                 audioFileOutput,
                 inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
 
@@ -290,28 +298,32 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
             this Buff buff,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => MakeBuff(
                 buff,
                 inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public static Buff Save(
             this AudioFileOutput audioFileOutput,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => MakeBuff(
                 audioFileOutput,
                 inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public static void Save(
             this Sample sample, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => SynthWishes.Save(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(
                 sample,
                 filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public static void Save(
             this byte[] bytes, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null) => SynthWishes.Save(
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(
                 bytes, 
                 filePath, callerMemberName);
     }

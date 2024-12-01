@@ -136,15 +136,13 @@ namespace JJ.Business.Synthesizer.Wishes
             => InternalPlay(synthWishes, filePath, null, Path.GetExtension(filePath));
         
         /// <inheritdoc cref="docs._makebuff" />
-        internal static Buff InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension = null)
+        internal static Buff InternalPlay(
         {
             ConfigResolver configResolver = synthWishes?._configResolver ?? ConfigResolver.Default;
-            
             if (string.IsNullOrWhiteSpace(fileExtension) && !string.IsNullOrWhiteSpace(filePath))
             {
                 fileExtension = Path.GetExtension(filePath);
             }
-            
             bool mustPlay = configResolver.GetPlayBack(fileExtension);
             
             var lines = new List<string>();
