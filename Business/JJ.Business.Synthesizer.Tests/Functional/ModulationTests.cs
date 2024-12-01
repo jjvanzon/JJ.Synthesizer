@@ -21,8 +21,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public ModulationTests()
         {
             WithStereo();
-            WithBeatLength(_[2.2]);
-            WithBarLength(_[2.2]);
+            WithBeatLength(2.2);
+            WithBarLength(2.2);
         }
 
         // Tests
