@@ -211,6 +211,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
+        // FlowNode ChannelPlay (Mid-Chain)
+        
+        public FlowNode ChannelPlay([CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callerMemberName);
+        public FlowNode ChannelPlay(Action<Buff> callback, [CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callback, callerMemberName);
+        public FlowNode ChannelPlay(Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callback, callerMemberName);
+
         // FlowNode Play (End-of-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
@@ -223,12 +229,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Play(byte[] bytes) { InternalPlay(_synthWishes, bytes); return this; }
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Play(string filePath) { InternalPlay(_synthWishes, filePath); return this; }
-        
-        // FlowNode ChannelPlay (Mid-Chain)
-        
-        public FlowNode ChannelPlay([CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callerMemberName);
-        public FlowNode ChannelPlay(Action<Buff> callback, [CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callback, callerMemberName);
-        public FlowNode ChannelPlay(Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callback, callerMemberName);
     }
 
     // Buff Extensions (End-of-Chain)
