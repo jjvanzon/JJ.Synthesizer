@@ -50,15 +50,15 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FlowNode
     {
-        public FlowNode Tape(FlowNode duration = null)
-            => _synthWishes.Tape(this, duration);
+        public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Tape(this, duration, callerMemberName);
     }
 
     public partial class SynthWishes
     {
-        public FlowNode Tape(FlowNode signal, FlowNode duration = null)
+        public FlowNode Tape(FlowNode signal, FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = AddTape(signal);
+            Tape tape = AddTape(signal, callerMemberName);
             tape.Duration = duration ?? GetAudioLength;
             return signal;
         }
@@ -67,14 +67,15 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
         
-        internal Tape AddTape(FlowNode signal)
+        internal Tape AddTape(FlowNode signal, [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
             var tape = new Tape
             {
                 Signal = signal,
-                ChannelIndex = GetChannelIndex
+                ChannelIndex = GetChannelIndex,
+                FallBackName = callerMemberName
             };
             
             _tapes[signal] = tape;
