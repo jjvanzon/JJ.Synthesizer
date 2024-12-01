@@ -167,13 +167,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
 
                 lines.Add("");
+
+                lines.Add("Done.");
+                lines.Add("");
+
+                // Write Lines
+                lines.ForEach(x => Console.WriteLine(x ?? ""));
             }
-
-            lines.Add("Done.");
-            lines.Add("");
-
-            // Write Lines
-            lines.ForEach(x => Console.WriteLine(x ?? ""));
             
             return new Buff(bytes, filePath, null, lines);
         }
