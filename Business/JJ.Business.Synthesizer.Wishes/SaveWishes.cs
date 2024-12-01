@@ -58,43 +58,55 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
         // Instance ChannelSave
-
-        public FlowNode ChannelSave(FlowNode channel)
-            => ChannelSave(channel, null, null, default(Action<Buff, int>));
         
-        public FlowNode ChannelSave(FlowNode channel, FlowNode duration)
-            => ChannelSave(channel, duration, null, default(Action<Buff, int>));
-        
-        public FlowNode ChannelSave(FlowNode channel, string filePath)
+        public FlowNode ChannelSave(
+            FlowNode channel, [CallerMemberName] string filePath = null)
             => ChannelSave(channel, null, filePath, default(Action<Buff, int>));
         
-        public FlowNode ChannelSave(FlowNode channel, FlowNode duration, string filePath)
+        public FlowNode ChannelSave(
+            FlowNode channel, FlowNode duration, [CallerMemberName] string filePath = null)
             => ChannelSave(channel, duration, filePath, default(Action<Buff, int>));
         
-        public FlowNode ChannelSave(FlowNode channel, Action<Buff> callback)
-            => ChannelSave(channel, null, null, callback);
+        public FlowNode ChannelSave(
+            FlowNode channel, 
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelSave(channel, null, null, callback, callerMemberName);
         
-        public FlowNode ChannelSave(FlowNode channel, FlowNode duration, Action<Buff> callback)
-            => ChannelSave(channel, duration, null, callback);
+        public FlowNode ChannelSave(
+            FlowNode channel, FlowNode duration,
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelSave(channel, duration, null, callback, callerMemberName);
         
-        public FlowNode ChannelSave(FlowNode channel, Action<Buff, int> callback)
-            => ChannelSave(channel, null, null, callback);
+        public FlowNode ChannelSave(
+            FlowNode channel,
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelSave(channel, null, null, callback, callerMemberName);
         
-        public FlowNode ChannelSave(FlowNode channel, FlowNode duration, Action<Buff, int> callback)
-            => ChannelSave(channel, duration, null, callback);
+        public FlowNode ChannelSave(
+            FlowNode channel, FlowNode duration, 
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelSave(channel, duration, null, callback, callerMemberName);
         
-        public FlowNode ChannelSave(FlowNode channel, string filePath, Action<Buff, int> callback)
-            => ChannelSave(channel, null, filePath, callback);
+        public FlowNode ChannelSave(
+            FlowNode channel, string filePath, 
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelSave(channel, null, filePath, callback, callerMemberName);
         
-        public FlowNode ChannelSave(FlowNode channel, string filePath, Action<Buff> callback)
-            => ChannelSave(channel, null, filePath, callback);
+        public FlowNode ChannelSave(
+            FlowNode channel, string filePath,
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelSave(channel, null, filePath, callback, callerMemberName);
         
-        public FlowNode ChannelSave(FlowNode channel, FlowNode duration, string filePath, Action<Buff> callback)
-            => ChannelSave(channel, duration, filePath, (x, y) => callback(x));
+        public FlowNode ChannelSave(
+            FlowNode channel, FlowNode duration, string filePath, 
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelSave(channel, duration, filePath, (x, y) => callback(x), callerMemberName);
 
-        public FlowNode ChannelSave(FlowNode channel, FlowNode duration, string filePath, Action<Buff, int> callback)
+        public FlowNode ChannelSave(
+            FlowNode channel, FlowNode duration, string filePath, 
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = AddTape(channel);
+            Tape tape = AddTape(channel, callerMemberName);
             tape.MustSave = true;
             tape.FilePath = filePath;
             tape.Duration = duration;
