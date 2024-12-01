@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => MakeBuff(
                 new[] { outlet }, duration,
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
-
+        
         // With FlowNode
         
         /// <inheritdoc cref="docs._makebuff" />
