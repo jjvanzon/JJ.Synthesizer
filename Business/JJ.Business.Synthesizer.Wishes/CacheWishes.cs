@@ -99,21 +99,21 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Instance ChannelCache
         
-        public FlowNode ChannelCache(FlowNode signal)
-            => ChannelCache(signal, null, (Action<Buff, int>)null);
+        public FlowNode ChannelCache(FlowNode signal, [CallerMemberName] string callerMemberName = null)
+            => ChannelCache(signal, null, (Action<Buff, int>)null, callerMemberName);
         
-        public FlowNode ChannelCache(FlowNode signal, Action<Buff> callback)
-            => ChannelCache(signal, null, callback);
+        public FlowNode ChannelCache(FlowNode signal, Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelCache(signal, null, callback, callerMemberName);
         
-        public FlowNode ChannelCache(FlowNode signal, Action<Buff, int> callback)
-            => ChannelCache(signal, null, callback);
+        public FlowNode ChannelCache(FlowNode signal, Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelCache(signal, null, callback, callerMemberName);
         
-        public FlowNode ChannelCache(FlowNode signal, FlowNode duration, Action<Buff> callback)
-            => ChannelCache(signal, duration, (x, i) => callback(x));
+        public FlowNode ChannelCache(FlowNode signal, FlowNode duration, Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelCache(signal, duration, (x, i) => callback(x), callerMemberName);
         
-        public FlowNode ChannelCache(FlowNode signal, FlowNode duration, Action<Buff, int> callback)
+        public FlowNode ChannelCache(FlowNode signal, FlowNode duration, Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = AddTape(signal);
+            Tape tape = AddTape(signal, callerMemberName);
             tape.Callback = callback;
             tape.Duration = duration;
             tape.IsCache = true;

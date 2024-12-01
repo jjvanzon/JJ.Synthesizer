@@ -81,15 +81,15 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // ChannelPlay
         
-        public FlowNode ChannelPlay(FlowNode channel) 
-            => ChannelPlay(channel, default(Action<Buff, int>));
+        public FlowNode ChannelPlay(FlowNode channel, [CallerMemberName] string callerMemberName = null) 
+            => ChannelPlay(channel, default(Action<Buff, int>), callerMemberName);
         
-        public FlowNode ChannelPlay(FlowNode channel, Action<Buff> callback)
-            => ChannelPlay(channel, (x, i) => callback(x));
+        public FlowNode ChannelPlay(FlowNode channel, Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => ChannelPlay(channel, (x, i) => callback(x), callerMemberName);
         
-        public FlowNode ChannelPlay(FlowNode channel, Action<Buff, int> callback)
+        public FlowNode ChannelPlay(FlowNode channel, Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = AddTape(channel);
+            Tape tape = AddTape(channel, callerMemberName);
             tape.MustPlay = true;
             tape.Callback = callback;
             return channel;
