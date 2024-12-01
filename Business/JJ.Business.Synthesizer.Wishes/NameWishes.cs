@@ -196,9 +196,9 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FlowNode
     {
         /// <inheritdoc cref="docs._names"/>
-        public FlowNode SetName(string name = null, string fallbackName = null, [CallerMemberName] string callerMemberName = null)
+        public FlowNode SetName(string name = null, string fallBackName = null, [CallerMemberName] string callerMemberName = null)
         {
-            Name = FetchName(name, fallbackName, callerMemberName);
+            Name = FetchName(name, fallBackName, callerMemberName);
             return this;
         }
 
