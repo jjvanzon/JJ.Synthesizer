@@ -81,13 +81,19 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // ChannelPlay (Mid-Chain)
         
-        public FlowNode ChannelPlay(FlowNode channel, [CallerMemberName] string callerMemberName = null) 
+        public FlowNode ChannelPlay(
+            FlowNode channel,
+            [CallerMemberName] string callerMemberName = null) 
             => ChannelPlay(channel, default(Action<Buff, int>), callerMemberName);
         
-        public FlowNode ChannelPlay(FlowNode channel, Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+        public FlowNode ChannelPlay(
+            FlowNode channel, 
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
             => ChannelPlay(channel, (x, i) => callback(x), callerMemberName);
         
-        public FlowNode ChannelPlay(FlowNode channel, Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+        public FlowNode ChannelPlay(
+            FlowNode channel,
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = AddTape(channel, callerMemberName);
             tape.MustPlay = true;
@@ -213,9 +219,17 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // FlowNode ChannelPlay (Mid-Chain)
         
-        public FlowNode ChannelPlay([CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callerMemberName);
-        public FlowNode ChannelPlay(Action<Buff> callback, [CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callback, callerMemberName);
-        public FlowNode ChannelPlay(Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null) => _synthWishes.ChannelPlay(this, callback, callerMemberName);
+        public FlowNode ChannelPlay(
+            [CallerMemberName] string callerMemberName = null) 
+            => _synthWishes.ChannelPlay(this, callerMemberName);
+        
+        public FlowNode ChannelPlay(
+            Action<Buff> callback, [CallerMemberName] string callerMemberName = null) 
+            => _synthWishes.ChannelPlay(this, callback, callerMemberName);
+        
+        public FlowNode ChannelPlay(
+            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.ChannelPlay(this, callback, callerMemberName);
 
         // FlowNode Play (End-of-Chain)
         
