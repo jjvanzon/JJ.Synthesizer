@@ -315,7 +315,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var lines = new List<string>();
 
             lines.Add("");
-            lines.Add(GetPrettyTitle(buff.UnderlyingAudioFileOutput.Name ?? buff.UnderlyingAudioFileOutput.FilePath));
+            lines.Add(GetPrettyTitle(FetchName(buff)));
             lines.Add("");
 
             string realTimeComplexityMessage = FormatMetrics(buff.UnderlyingAudioFileOutput.Duration, calculationDuration, buff.Complexity());
