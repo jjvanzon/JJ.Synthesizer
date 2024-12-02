@@ -117,10 +117,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Environment Variables
         
-        private const string NCrunchEnvironmentVariableName = "NCrunch";
+        private const string NCrunchEnvironmentVariableName         = "NCrunch";
         private const string AzurePipelinesEnvironmentVariableValue = "True";
-        private const string AzurePipelinesEnvironmentVariableName = "TF_BUILD";
-        private const string NCrunchEnvironmentVariableValue = "1";
+        private const string AzurePipelinesEnvironmentVariableName  = "TF_BUILD";
+        private const string NCrunchEnvironmentVariableValue        = "1";
 
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
