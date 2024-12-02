@@ -332,6 +332,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             var buffs = new Buff[2];
             
+            // The delegate creates a non-trivial convergence point.
+            
             Save(() => Sine(A4).Panning(0.1).Curve(Envelope).ChannelCache((b, i) => buffs[i] = b)).Play();
             
             IsNotNull(() => buffs[0]);
@@ -340,6 +342,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             buffs[0].Play();
             buffs[1].Play();
             
+            // Recombination can only be done after running all tapes.
+           
             Save(() => Sample(buffs[0]).Panning(0) +
                        Sample(buffs[1]).Panning(1)).Play();
         }
