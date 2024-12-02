@@ -83,56 +83,56 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public FlowNode ChannelPlay(
             FlowNode channel, [CallerMemberName] string callerMemberName = null)
-            => ChannelPlay(channel, null, null, default(Action<Buff, int>), callerMemberName);
+            => ChannelPlay(channel, null, null, default(Func<Buff, int, Buff>), callerMemberName);
         
         public FlowNode ChannelPlay(
             FlowNode channel, FlowNode duration, [CallerMemberName] string callerMemberName = null)
-            => ChannelPlay(channel, duration, null, default(Action<Buff, int>), callerMemberName);
+            => ChannelPlay(channel, duration, null, default(Func<Buff, int, Buff>), callerMemberName);
         
         public FlowNode ChannelPlay(
             FlowNode channel, 
-            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => ChannelPlay(channel, null, null, callback, callerMemberName);
         
         public FlowNode ChannelPlay(
             FlowNode channel, FlowNode duration,
-            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => ChannelPlay(channel, duration, null, callback, callerMemberName);
         
         public FlowNode ChannelPlay(
             FlowNode channel,
-            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => ChannelPlay(channel, null, null, callback, callerMemberName);
         
         public FlowNode ChannelPlay(
             FlowNode channel, FlowNode duration, 
-            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => ChannelPlay(channel, duration, null, callback, callerMemberName);
         
         public FlowNode ChannelPlay(
             FlowNode channel, string filePath, 
-            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => ChannelPlay(channel, null, filePath, callback, callerMemberName);
         
         public FlowNode ChannelPlay(
             FlowNode channel, string filePath,
-            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => ChannelPlay(channel, null, filePath, callback, callerMemberName);
         
         public FlowNode ChannelPlay(
             FlowNode channel, FlowNode duration, string filePath, 
-            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => ChannelPlay(channel, duration, filePath, (x, y) => callback(x), callerMemberName);
 
         public FlowNode ChannelPlay(
             FlowNode channel, FlowNode duration, string filePath,
-            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = AddTape(channel, callerMemberName);
-            tape.MustPlay = true;
+            tape.WithPlayChannel = true;
             tape.FilePath = filePath;
             tape.Duration = duration;
-            tape.Callback = callback;
+            tape.ChannelCallback = callback;
             return channel;
         }
 
@@ -263,41 +263,41 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.ChannelPlay(this, duration, callerMemberName);
 
         public FlowNode ChannelPlay(
-            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelPlay(this, callback, callerMemberName);
 
         public FlowNode ChannelPlay(
             FlowNode duration,
-            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelPlay(this, duration, callback, callerMemberName);
 
         public FlowNode ChannelPlay(
-            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelPlay(this, callback, callerMemberName);
 
         public FlowNode ChannelPlay(
             FlowNode duration, 
-            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelPlay(this, duration, callback, callerMemberName);
 
         public FlowNode ChannelPlay(
             string filePath, 
-            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelPlay(this, filePath, callback, callerMemberName);
         
         public FlowNode ChannelPlay(
             string filePath,
-            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelPlay(this, filePath, callback, callerMemberName);
 
         public FlowNode ChannelPlay(
             FlowNode duration, string filePath, 
-            Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelPlay(this, duration, filePath, callback, callerMemberName);
 
         public FlowNode ChannelPlay(
             FlowNode duration, string filePath, 
-            Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.ChannelPlay(this, duration, filePath, callback, callerMemberName);
 
         // FlowNode Play (End-of-Chain)

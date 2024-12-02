@@ -29,11 +29,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Duration { get; set; }
         public int ChannelIndex { get; set; }
         
-        public bool MustPlay { get; set; }
-        public bool MustSave { get; set; }
+        public bool WithPlay { get; set; }
+        public bool WithSave { get; set; }
+        public bool WithCache { get; set; }
+        public bool WithPlayChannel { get; set; }
+        public bool WithSaveChannel { get; set; }
+        public bool WithCacheChannel { [UsedImplicitly] get; set; } // Informational
+
         public string FilePath { get; set; }
-        
-        public Action<Buff, int> Callback { get; set; }
+        public Func<Buff, Buff> Callback { get; set; }
+        public Func<Buff, int, Buff> ChannelCallback { get; set; }
         public Buff Buff { get; set; }
         
         public Tape ParentTape { get; set; }
@@ -42,10 +47,8 @@ namespace JJ.Business.Synthesizer.Wishes
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     
         // Informational
-        
         public string FallBackName { get; set; }
         public int NestingLevel { get; set; }
-        public bool IsCache { [UsedImplicitly] get; set; }
     }
     
     // Tape Method
@@ -148,7 +151,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Task.WaitAll(tasks);
             
             // Here we have the channel buffs.
-            // Now we need to associate the left and right channel buffs with eachother.
+            // Now we need to associate the left and right channel buffs with each other. 
         }
 
         private void SetTapeNestingLevelsRecursive(FlowNode node, int level = 1)
@@ -248,9 +251,10 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff cacheBuff = Cache(tape.Signal, tape.Duration, tape.GetName);
             
             // Run Actions
-            tape.Callback?.Invoke(cacheBuff, tape.ChannelIndex);
-            if (tape.MustSave) Save(cacheBuff, tape.FilePath, tape.GetName);
-            if (tape.MustPlay || GetPlayAllTapes) Play(cacheBuff);
+            Buff replacementBuff = tape.ChannelCallback?.Invoke(cacheBuff, tape.ChannelIndex);
+            if (replacementBuff != null) cacheBuff = replacementBuff;
+            if (tape.WithSaveChannel) Save(cacheBuff, tape.FilePath, tape.GetName);
+            if (tape.WithPlayChannel || GetPlayAllTapes) Play(cacheBuff);
             
             // Wrap in Sample
             FlowNode sample = Sample(cacheBuff, name: tape.GetName);
