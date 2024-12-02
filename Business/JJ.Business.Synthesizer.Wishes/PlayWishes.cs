@@ -265,11 +265,16 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesPlayStaticsTurnedInstanceExtensions
     {
-        public static SynthWishes Play(this SynthWishes synthWishes, Buff buff) { InternalPlay(synthWishes, buff); return synthWishes; }
-        public static SynthWishes Play(this SynthWishes synthWishes, Sample sample) { InternalPlay(synthWishes, sample); return synthWishes; }
-        public static SynthWishes Play(this SynthWishes synthWishes, AudioFileOutput audioFileOutput) { InternalPlay(synthWishes, audioFileOutput); return synthWishes; }
-        public static SynthWishes Play(this SynthWishes synthWishes, byte[] bytes) { InternalPlay(synthWishes, bytes); return synthWishes; }
-        public static SynthWishes Play(this SynthWishes synthWishes, string filePath) { InternalPlay(synthWishes, filePath); return synthWishes; }
+        public static SynthWishes Play(this SynthWishes synthWishes, Buff buff) {
+            SynthWishes.InternalPlay(synthWishes, buff); return synthWishes; }
+        public static SynthWishes Play(this SynthWishes synthWishes, Sample sample) {
+            SynthWishes.InternalPlay(synthWishes, sample); return synthWishes; }
+        public static SynthWishes Play(this SynthWishes synthWishes, AudioFileOutput audioFileOutput) {
+            SynthWishes.InternalPlay(synthWishes, audioFileOutput); return synthWishes; }
+        public static SynthWishes Play(this SynthWishes synthWishes, byte[] bytes) {
+            SynthWishes.InternalPlay(synthWishes, bytes); return synthWishes; }
+        public static SynthWishes Play(this SynthWishes synthWishes, string filePath) {
+            SynthWishes.InternalPlay(synthWishes, filePath); return synthWishes; }
     }
 
     public partial class FlowNode
@@ -348,10 +353,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // FlowNode Play (End-of-Chain)
 
-        public FlowNode Play(Buff buff) { InternalPlay(_synthWishes, buff); return this; }
-        public FlowNode Play(AudioFileOutput audioFileOutput) { InternalPlay(_synthWishes, audioFileOutput); return this; }
-        public FlowNode Play(Sample sample) { InternalPlay(_synthWishes, sample); return this; }
-        public FlowNode Play(byte[] bytes) { InternalPlay(_synthWishes, bytes); return this; }
+        public FlowNode Play(Buff buff) {
+            SynthWishes.InternalPlay(_synthWishes, buff); return this; }
+        public FlowNode Play(AudioFileOutput audioFileOutput) {
+            SynthWishes.InternalPlay(_synthWishes, audioFileOutput); return this; }
+        public FlowNode Play(Sample sample) {
+            SynthWishes.InternalPlay(_synthWishes, sample); return this; }
+        public FlowNode Play(byte[] bytes) {
+            SynthWishes.InternalPlay(_synthWishes, bytes); return this; }
         // Outcommented because of overload clash
         //public FlowNode Play(string filePath) { InternalPlay(_synthWishes, filePath); return this; }
     }
@@ -361,10 +370,10 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class PlayExtensionWishes
     {
-        public static Buff Play(this Buff buff) => InternalPlay(null, buff);
-        public static Buff Play(this AudioFileOutput audioFileOutput) => InternalPlay(null, audioFileOutput);
-        public static Buff Play(this Sample sample) => InternalPlay(null, sample);
-        public static Buff Play(this byte[] bytes) => InternalPlay(null, bytes);
-        public static Buff Play(this string filePath) => InternalPlay(null, filePath);
+        public static Buff Play(this Buff buff) => SynthWishes.InternalPlay(null, buff);
+        public static Buff Play(this AudioFileOutput audioFileOutput) => SynthWishes.InternalPlay(null, audioFileOutput);
+        public static Buff Play(this Sample sample) => SynthWishes.InternalPlay(null, sample);
+        public static Buff Play(this byte[] bytes) => SynthWishes.InternalPlay(null, bytes);
+        public static Buff Play(this string filePath) => SynthWishes.InternalPlay(null, filePath);
     }
 }

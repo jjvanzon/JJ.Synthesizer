@@ -217,7 +217,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             if (buff == null) throw new ArgumentNullException(nameof(buff));
             
-            MakeBuff(
+            SynthWishes.MakeBuff(
                 buff,
                 inMemory: true, synthWishes.GetExtraBufferFrames, null, name, null, callerMemberName);
             
@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             
-            MakeBuff(
+            SynthWishes.MakeBuff(
                 entity, 
                 inMemory: true, synthWishes.GetExtraBufferFrames, null, name, null, callerMemberName);
             
@@ -318,8 +318,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Cache(
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            { 
-                MakeBuff(
+            {
+                SynthWishes.MakeBuff(
                     buff, 
                     inMemory: true, GetExtraBufferFrames, null, name, null, callerMemberName);
 
@@ -330,7 +330,7 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            MakeBuff(
+            SynthWishes.MakeBuff(
                 entity,
                 inMemory: true, GetExtraBufferFrames, null, name, null, callerMemberName);
 
@@ -345,14 +345,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Cache(
             this Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => MakeBuff(
+            => SynthWishes.MakeBuff(
                 buff, 
                 inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
         
         public static Buff Cache(
             this AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => MakeBuff(
+            => SynthWishes.MakeBuff(
                 entity, 
                 inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
     }

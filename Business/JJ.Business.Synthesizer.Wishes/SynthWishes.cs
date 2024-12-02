@@ -33,19 +33,15 @@ namespace JJ.Business.Synthesizer.Wishes
         public readonly CaptureIndexer _;
         
         public IContext Context { get; }
-
+        
         internal readonly OperatorFactory _operatorFactory;
         private readonly CurveFactory _curveFactory;
         private readonly SampleManager _sampleManager;
         private readonly ConfigResolver _configResolver;
         
         private readonly TapeCollection _tapes;
-        private readonly StereoTapeMatcher _stereoTapeMatcher;
-        private readonly StereoTapeRecombiner _stereoTapeRecombiner;
-        private readonly StereoTapeActionRunner _stereoTapeActionRunner;
-        private readonly MonoTapeActionRunner _monoTapeActionRunner;
-        private readonly ChannelTapeActionRunner _channelTapeActionRunner;
-
+        private readonly TapeRunner _tapeRunner;
+        
         public SynthWishes(IContext context = null)
         {
             Context = context ?? ServiceFactory.CreateContext();
@@ -56,11 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             _configResolver = new ConfigResolver();
             _tapes = new TapeCollection(this);
-            _stereoTapeMatcher = new StereoTapeMatcher();
-            _stereoTapeRecombiner = new StereoTapeRecombiner(this);
-            _stereoTapeActionRunner = new StereoTapeActionRunner(this);
-            _monoTapeActionRunner = new MonoTapeActionRunner(this);
-            _channelTapeActionRunner = new ChannelTapeActionRunner(this);
+            _tapeRunner = new TapeRunner(this, _tapes);
             
             _ = new CaptureIndexer(this);
             bar = new BarIndexer(this);

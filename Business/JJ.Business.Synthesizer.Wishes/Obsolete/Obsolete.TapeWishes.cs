@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
+// ReSharper disable UnusedMember.Local
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
@@ -17,16 +18,16 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     public static class ObsoleteTapeWishesExtensions
     {
         [Obsolete]
-        private static void RunTapeLeavesPerBatch(this SynthWishes synthWishes, Tape[] tapes)
+        private static void RunTapeLeavesPerBatch(this TapeRunner tapeRunner, Tape[] tapes)
         {
             while (tapes.Length > 0)
             {
-                tapes = synthWishes.RunTapeLeafBatch(tapes);
+                tapes = tapeRunner.RunTapeLeafBatch(tapes);
             }
         }
         
         [Obsolete]
-        private static Tape[] RunTapeLeafBatch(this SynthWishes synthWishes,Tape[] tapes)
+        private static Tape[] RunTapeLeafBatch(this TapeRunner tapeRunner,Tape[] tapes)
         {
             // Get leaves
             Tape[] leaves = tapes.Where(x => x.ChildTapes.Count == 0).ToArray();
@@ -36,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             for (var i = 0; i < leaves.Length; i++)
             {
                 Tape tape = leaves[i];
-                tasks[i] = Task.Run(() => synthWishes.RunTape(tape));
+                tasks[i] = Task.Run(() => tapeRunner.RunTape(tape));
             }
             
             // Ensure the leaf batch completes before moving on
@@ -55,7 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
         
         [Obsolete]
-        private static void RunTapesPerNestingLevel(this SynthWishes synthWishes, Tape[] tapes)
+        private static void RunTapesPerNestingLevel(this TapeRunner tapeRunner, Tape[] tapes)
         {
             // Group tasks by nesting level
             var tapeGroups = tapes.OrderByDescending(x => x.NestingLevel)
@@ -70,7 +71,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 for (var i = 0; i < tapeGroup.Length; i++)
                 {
                     Tape tape = tapeGroup[i];
-                    tasks[i] = Task.Run(() => synthWishes.RunTape(tape));
+                    tasks[i] = Task.Run(() => tapeRunner.RunTape(tape));
                 }
                 Task.WaitAll(tasks); // Ensure each level completes before moving up
             }

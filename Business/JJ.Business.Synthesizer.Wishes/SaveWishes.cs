@@ -196,8 +196,8 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-
-            MakeBuff(
+            
+            SynthWishes.MakeBuff(
                 buff, 
                 inMemory: false, synthWishes.GetExtraBufferFrames, null, null, filePath, callerMemberName);
             
@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            MakeBuff(
+            SynthWishes.MakeBuff(
                 audioFileOutput, 
                 inMemory: false, synthWishes.GetExtraBufferFrames, null, null, filePath, callerMemberName);
             
@@ -321,7 +321,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            MakeBuff(
+            SynthWishes.MakeBuff(
                 buff, 
                 inMemory: false, GetExtraBufferFrames, null, null, filePath, callerMemberName);
 
@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            MakeBuff(
+            SynthWishes.MakeBuff(
                 entity, 
                 inMemory: false, GetExtraBufferFrames, null, null, filePath, callerMemberName);
             
@@ -369,14 +369,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Save(
             this Buff buff,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => MakeBuff(
+            => SynthWishes.MakeBuff(
                 buff,
                 inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
         
         public static Buff Save(
             this AudioFileOutput audioFileOutput,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => MakeBuff(
+            => SynthWishes.MakeBuff(
                 audioFileOutput,
                 inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
         

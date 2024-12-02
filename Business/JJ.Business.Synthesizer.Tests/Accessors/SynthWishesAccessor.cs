@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -28,9 +27,15 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public IList<FlowNode> FlattenFactors(FlowNode multiply) 
             => (IList<FlowNode>)_accessor.InvokeMethod(MemberName(), multiply);
 
-        public void RunAllTapes(IList<FlowNode> nodes) 
-            => _accessor.InvokeMethod(MemberName(), nodes);
-
+        public TapeRunnerAccessor _tapeRunner
+        {
+            get
+            {
+                object tapeRunner = _accessor.GetFieldValue(MemberName());
+                return new TapeRunnerAccessor(tapeRunner);
+            }
+        }
+        
         // EchoAdditive
         
         public FlowNode EchoAdditive(FlowNode sound, int count, FlowNode magnitude = null, FlowNode delay = null, [CallerMemberName] string callerMemberName = null)
