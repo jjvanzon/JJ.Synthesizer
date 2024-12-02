@@ -28,6 +28,42 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    public class Buff
+    {
+        /// <inheritdoc cref="docs._buffbytes"/>
+        public byte[] Bytes { get; set; }
+        public string FilePath { get; set; }
+        public AudioFileOutput UnderlyingAudioFileOutput { get; set; }
+        
+        private IList<string> _messages = new List<string>();
+        public IList<string> Messages
+        {
+            get => _messages;
+            set => _messages = value ?? throw new NullException(() => Messages);
+        }
+        
+        public Buff()
+        { }
+        
+        /// <inheritdoc cref="docs._buffbytes"/>
+        public Buff(
+            byte[] bytes, 
+            string filePath, 
+            AudioFileOutput underlyingAudioFileOutput,
+            IList<string> messages = default)
+        {
+            if (string.IsNullOrWhiteSpace(filePath) && (bytes == null || bytes.Length == 0))
+            {
+                throw new ArgumentException("filePath and bytes are both null or empty.");
+            }
+            
+            Bytes = bytes;
+            FilePath = filePath;
+            UnderlyingAudioFileOutput = underlyingAudioFileOutput;
+            Messages = messages;
+        }
+    }
+
     // MakeBuff in SynthWishes
 
     public partial class SynthWishes
@@ -497,43 +533,5 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-    }
-
-    // Info Type
-    
-    public class Buff
-    {
-        /// <inheritdoc cref="docs._buffbytes"/>
-        public byte[] Bytes { get; set; }
-        public string FilePath { get; set; }
-        public AudioFileOutput UnderlyingAudioFileOutput { get; set; }
-        
-        private IList<string> _messages = new List<string>();
-        public IList<string> Messages
-        {
-            get => _messages;
-            set => _messages = value ?? throw new NullException(() => Messages);
-        }
-        
-        public Buff()
-        { }
-        
-        /// <inheritdoc cref="docs._buffbytes"/>
-        public Buff(
-            byte[] bytes, 
-            string filePath, 
-            AudioFileOutput underlyingAudioFileOutput,
-            IList<string> messages = default)
-        {
-            if (string.IsNullOrWhiteSpace(filePath) && (bytes == null || bytes.Length == 0))
-            {
-                throw new ArgumentException("filePath and bytes are both null or empty.");
-            }
-            
-            Bytes = bytes;
-            FilePath = filePath;
-            UnderlyingAudioFileOutput = underlyingAudioFileOutput;
-            Messages = messages;
-        }
     }
 }
