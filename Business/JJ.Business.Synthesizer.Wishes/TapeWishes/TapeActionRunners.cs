@@ -49,23 +49,28 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     
     internal class StereoTapeActionRunner
     {
+        private readonly SynthWishes _synthWishes;
+
+        public StereoTapeActionRunner(SynthWishes synthWishes)
+        {
+            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+        }
+
         public void RunActions(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            
-            SynthWishes synthWishes = SynthWishesResolver.Resolve(tape);
             
             Buff replacementBuff = tape.Callback?.Invoke(tape.Buff);
             if (replacementBuff != null) tape.Buff = replacementBuff;
             
             if (tape.WithSave)
             {
-                synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
+                _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
             }
             
             if (tape.WithPlay)
             {
-                synthWishes.Play(tape.Buff);
+                _synthWishes.Play(tape.Buff);
             }
         }
     }

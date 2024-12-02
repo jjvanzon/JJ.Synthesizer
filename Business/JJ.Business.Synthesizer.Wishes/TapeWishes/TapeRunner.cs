@@ -21,13 +21,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly MonoTapeActionRunner _monoTapeActionRunner;
         private readonly ChannelTapeActionRunner _channelTapeActionRunner;
 
-        public TapeRunner(ConfigResolver configResolver, TapeCollection tapes)
+        public TapeRunner(SynthWishes synthWishes, ConfigResolver configResolver, TapeCollection tapes)
         {
             _configResolver = configResolver ?? throw new ArgumentNullException(nameof(configResolver));
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
             _stereoTapeMatcher = new StereoTapeMatcher();
             _stereoTapeRecombiner = new StereoTapeRecombiner();
-            _stereoTapeActionRunner = new StereoTapeActionRunner();
+            _stereoTapeActionRunner = new StereoTapeActionRunner(synthWishes);
             _monoTapeActionRunner = new MonoTapeActionRunner();
             _channelTapeActionRunner = new ChannelTapeActionRunner();
         }
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _configResolver.WithSamplingRate(_configResolver.GetSamplingRate);
             
             var tapes = RunTapesPerChannel(channels);
-            //ExecutePostProcessing(tapes);
+            ExecutePostProcessing(tapes);
         }
         
         private IList<Tape> RunTapesPerChannel(IList<FlowNode> channels)
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             for (var i = 0; i < tapeGroups.Length; i++)
             {
                 Tape[] tapeGroup = tapeGroups[i];
-                tasks[i] = Task.Run((Action)(() => RunTapeLeafPipeline(tapeGroup)));
+                tasks[i] = Task.Run(() => RunTapeLeafPipeline(tapeGroup));
             }
             
             Task.WaitAll(tasks);
@@ -189,11 +189,17 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void ExecutePostProcessing(IList<Tape> tapes)
         {
+            IList<Tape> tapesWithActions
+                = tapes.Where(x => x.WithCache ||
+                                   x.WithPlay  ||
+                                   x.WithSave  ||
+                                   x.Callback  != null).ToArray();
+
             switch (_configResolver.GetSpeakers)
             {
                 case SpeakerSetupEnum.Mono:
                     
-                    foreach (Tape tape in tapes)
+                    foreach (Tape tape in tapesWithActions)
                     {
                         _monoTapeActionRunner.RunActions(tape);
                     }
@@ -202,9 +208,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 
                 case SpeakerSetupEnum.Stereo:
                     
-                    var tapePairs = _stereoTapeMatcher.PairTapes(tapes);
-                    
-                    foreach ((Tape Left, Tape Right) tapePair in tapePairs)
+                    var tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
+                    foreach (var tapePair in tapePairs)
                     {
                         Tape stereoTape = _stereoTapeRecombiner.RecombineChannels(tapePair);
                         _stereoTapeActionRunner.RunActions(stereoTape);
