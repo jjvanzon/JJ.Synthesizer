@@ -517,6 +517,5 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutputChannelRepository.Delete(audioFileOutputChannel);
             }
         }
-        
     }
 }

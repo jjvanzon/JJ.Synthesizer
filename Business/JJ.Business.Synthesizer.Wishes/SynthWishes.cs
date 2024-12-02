@@ -39,6 +39,11 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly CurveFactory _curveFactory;
         private readonly SampleManager _sampleManager;
         private readonly ConfigResolver _configResolver;
+        
+        private readonly StereoTapeMatcher _stereoTapeMatcher;
+        private readonly ChannelTapeActionRunner _channelTapeActionRunner;
+        private readonly MonoTapeActionRunner _monoTapeActionRunner;
+        private readonly StereoTapeActionRunner _stereoTapeActionRunner;
 
         public SynthWishes(IContext context = null)
         {
@@ -47,7 +52,12 @@ namespace JJ.Business.Synthesizer.Wishes
             _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
             _sampleManager = ServiceFactory.CreateSampleManager(context);
+            
             _configResolver = new ConfigResolver();
+            _stereoTapeMatcher = new StereoTapeMatcher();
+            _channelTapeActionRunner = new ChannelTapeActionRunner(this);
+            _monoTapeActionRunner = new MonoTapeActionRunner(this);
+            _stereoTapeActionRunner = new StereoTapeActionRunner(this);
             
             _ = new CaptureIndexer(this);
             bar = new BarIndexer(this);

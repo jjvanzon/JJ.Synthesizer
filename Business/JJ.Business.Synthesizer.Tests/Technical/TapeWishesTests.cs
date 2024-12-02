@@ -347,5 +347,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Save(() => Sample(buffs[0]).Panning(0) +
                        Sample(buffs[1]).Panning(1)).Play();
         }
+        
+        [TestMethod]
+        public void FluentCache_UsingTape_Test_Short() => new TapeWishesTests().FluentCache_UsingTape_Short();
+        void FluentCache_UsingTape_Short() 
+        {
+            WithStereo();
+            
+            var buffs = new Buff[2];
+            
+            Save(() => Sine(A4).Panning(0.1).Curve(Envelope).CacheChannel((b, i) => buffs[i] = b)).Play();
+            
+            Save(() => Sample(buffs[0]).Panning(0) +
+                       Sample(buffs[1]).Panning(1)).Play();
+        }
     }
 }

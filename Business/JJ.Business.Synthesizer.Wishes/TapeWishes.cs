@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
@@ -117,7 +118,8 @@ namespace JJ.Business.Synthesizer.Wishes
             try
             {
                 WithSamplingRate(resolvedSamplingRate);
-                RunTapesPerChannel(channels);
+                IList<Tape> tapes = RunTapesPerChannel(channels);
+                //ExecutePostProcessing(tapes);
             }
             finally
             {
@@ -125,7 +127,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private void RunTapesPerChannel(IList<FlowNode> channels) 
+        private IList<Tape> RunTapesPerChannel(IList<FlowNode> channels) 
         {
             if (channels == null) throw new ArgumentNullException(nameof(channels));
             if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
@@ -149,10 +151,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
             Task.WaitAll(tasks);
             
-            // Here we have the channel buffs.
-            // Now we need to associate the left and right channel buffs with each other. 
+            return tapes;
         }
-
+        
         private void SetTapeNestingLevelsRecursive(FlowNode node, int level = 1)
         {
             Tape tape = TryGetTape(node);
@@ -248,12 +249,10 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Cache Buffer
             Buff cacheBuff = MaterializeCache(tape.Signal, tape.Duration, tape.GetName);
-            
+            tape.Buff = cacheBuff;
+
             // Run Actions
-            Buff replacementBuff = tape.ChannelCallback?.Invoke(cacheBuff, tape.ChannelIndex);
-            if (replacementBuff != null) cacheBuff = replacementBuff;
-            if (tape.WithSaveChannel) Save(cacheBuff, tape.FilePath, tape.GetName);
-            if (tape.WithPlayChannel || GetPlayAllTapes) Play(cacheBuff);
+            _channelTapeActionRunner.RunActions(tape);
             
             // Wrap in Sample
             FlowNode sample = Sample(cacheBuff, name: tape.GetName);
@@ -265,9 +264,38 @@ namespace JJ.Business.Synthesizer.Wishes
                 inlet.LinkTo(sample);
             }
 
-            tape.Buff = cacheBuff;
             
             Console.WriteLine($"{PrettyTime()}  Stop Tape: (Level {tape.NestingLevel}) {tape.GetName} ");
+        }
+    
+        private void ExecutePostProcessing(IList<Tape> tapes)
+        {
+            switch (GetSpeakers)
+            {
+                case SpeakerSetupEnum.Mono:
+                    
+                    foreach (Tape tape in tapes)
+                    {
+                        _monoTapeActionRunner.RunActions(tape);
+                    }
+                    
+                    break;
+                
+                case SpeakerSetupEnum.Stereo:
+                    
+                    var tapePairs = _stereoTapeMatcher.PairTapes(tapes);
+                    
+                    foreach ((Tape Left, Tape Right) tapePair in tapePairs)
+                    {
+                        _stereoTapeActionRunner.RunStereoActions(tapePair);
+                    }
+                    
+                    break;
+                
+                default:
+                    
+                    throw new ValueNotSupportedException(GetSpeakers);
+            }
         }
     }
     
@@ -380,4 +408,102 @@ namespace JJ.Business.Synthesizer.Wishes
             return pair;
         }
     }
+
+    internal class StereoTapeActionRunner
+    {
+        private SynthWishes _synthWishes;
+
+        public StereoTapeActionRunner(SynthWishes synthWishes)
+        {
+            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+        }
+
+        public void RunStereoActions((Tape left, Tape right) tapePair)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
+    internal class MonoTapeActionRunner
+    {
+        private readonly SynthWishes _synthWishes;
+        
+        public MonoTapeActionRunner(SynthWishes synthWishes)
+        {
+            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+        }
+        
+        public void RunActions(Tape tape)
+        {
+            Buff replacementBuff = tape.Callback?.Invoke(tape.Buff);
+            if (replacementBuff != null) tape.Buff = replacementBuff;
+
+            if (tape.WithSave)
+            {
+                _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
+            }
+
+            if (tape.WithPlay)
+            {
+                _synthWishes.Play(tape.Buff);
+            }
+        }
+    }
+    
+    internal class ChannelTapeActionRunner
+    {
+        private readonly SynthWishes _synthWishes;
+        
+        public ChannelTapeActionRunner(SynthWishes synthWishes)
+        {
+            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+        }
+        
+        public void RunActions(Tape tape)
+        {
+            Buff replacementBuff = tape.ChannelCallback?.Invoke(tape.Buff, tape.ChannelIndex);
+            if (replacementBuff != null) tape.Buff = replacementBuff;
+
+            if (tape.WithSaveChannel)
+            {
+                _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
+            }
+
+            if (tape.WithPlayChannel || _synthWishes.GetPlayAllTapes)
+            {
+                _synthWishes.Play(tape.Buff);
+            }
+        }
+    }
+        
+    //internal class TapeActionRunner
+    //{
+    //    private readonly SpeakerSetupEnum _speakers;
+    //   
+    //    public TapeActionRunner(SpeakerSetupEnum speakers)
+    //    {
+    //        _speakers = speakers;
+    //        _stereoTapeMatcher = new StereoTapeMatcher();
+    //    }
+    //   
+    //    public void RunActions(IList<Tape> tapes)
+    //    {
+    //        // Here we have the channel buffs.
+    //        // Now we need to associate the left and right channel buffs with each other. 
+    //   
+    //        switch (_speakers)
+    //        {
+    //            case SpeakerSetupEnum.Mono:
+    //                RunMonoActions(tapes);
+    //                return;
+    //   
+    //            case SpeakerSetupEnum.Stereo:
+    //                RunStereoActions(tapes);
+    //                break;
+    //   
+    //            default:
+    //                throw new ValueNotSupportedException(_speakers);
+    //        }
+    //    }
+    //}
 }
