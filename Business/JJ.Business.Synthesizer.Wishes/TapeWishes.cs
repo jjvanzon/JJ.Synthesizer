@@ -188,13 +188,13 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private void RunTapeLeafPipeline(IEnumerable<Tape> tapeCollection)
+        private void RunTapeLeafPipeline(IList<Tape> tapeCollection)
         {
             int waitTimeMs = (int)(GetParallelTaskCheckDelay * 1000);
             
             Console.WriteLine($"{PrettyTime()} Tapes: Leaf check delay = {waitTimeMs} ms");
 
-            List<Tape> tapes = tapeCollection.ToList();
+            List<Tape> tapes = tapeCollection.ToList(); // Copy list to keep item removals local.
             List<Task> tasks = new List<Task>(tapes.Count);
             
             long i = 0;
