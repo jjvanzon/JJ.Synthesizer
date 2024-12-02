@@ -41,27 +41,6 @@ namespace JJ.Business.Synthesizer.Wishes
             get => _messages;
             set => _messages = value ?? throw new NullException(() => Messages);
         }
-        
-        public Buff()
-        { }
-        
-        /// <inheritdoc cref="docs._buffbytes"/>
-        public Buff(
-            byte[] bytes, 
-            string filePath, 
-            AudioFileOutput underlyingAudioFileOutput,
-            IList<string> messages = default)
-        {
-            if (string.IsNullOrWhiteSpace(filePath) && (bytes == null || bytes.Length == 0))
-            {
-                throw new ArgumentException("filePath and bytes are both null or empty.");
-            }
-            
-            Bytes = bytes;
-            FilePath = filePath;
-            UnderlyingAudioFileOutput = underlyingAudioFileOutput;
-            Messages = messages;
-        }
     }
 
     // MakeBuff in SynthWishes
@@ -264,7 +243,13 @@ namespace JJ.Business.Synthesizer.Wishes
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
             // Result
-            var buff = new Buff(bytes, resolvedFilePath, audioFileOutput, warnings);
+            var buff = new Buff
+            {
+                Bytes = bytes, 
+                FilePath = resolvedFilePath, 
+                UnderlyingAudioFileOutput = audioFileOutput, 
+                Messages = warnings
+            };
 
             // Report
             var reportLines = GetReport(buff, calculationDuration);

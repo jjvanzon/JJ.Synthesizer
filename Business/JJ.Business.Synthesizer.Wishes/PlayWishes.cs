@@ -216,7 +216,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.ForEach(x => Console.WriteLine(x ?? ""));
             }
             
-            return new Buff(bytes, filePath, null, lines);
+            return new Buff
+            {
+                Bytes = bytes,
+                FilePath = filePath,
+                Messages = lines
+            };
         }
         
         // Statics (End-of-Chain)
