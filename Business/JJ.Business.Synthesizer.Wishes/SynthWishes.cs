@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             _configResolver = new ConfigResolver();
             _tapes = new TapeCollection(this);
-            _tapeRunner = new TapeRunner(this, _tapes);
+            _tapeRunner = new TapeRunner(_configResolver, _tapes);
             
             _ = new CaptureIndexer(this);
             bar = new BarIndexer(this);

@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
     internal class TapeRunner
     {
-        private readonly SynthWishes _synthWishes;
+        private readonly ConfigResolver _configResolver;
         private readonly TapeCollection _tapes;
         private readonly StereoTapeMatcher _stereoTapeMatcher;
         private readonly StereoTapeRecombiner _stereoTapeRecombiner;
@@ -21,15 +21,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly MonoTapeActionRunner _monoTapeActionRunner;
         private readonly ChannelTapeActionRunner _channelTapeActionRunner;
 
-        public TapeRunner(SynthWishes synthWishes, TapeCollection tapes)
+        public TapeRunner(ConfigResolver configResolver, TapeCollection tapes)
         {
-            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+            _configResolver = configResolver ?? throw new ArgumentNullException(nameof(configResolver));
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
             _stereoTapeMatcher = new StereoTapeMatcher();
-            _stereoTapeRecombiner = new StereoTapeRecombiner(synthWishes);
-            _stereoTapeActionRunner = new StereoTapeActionRunner(synthWishes);
-            _monoTapeActionRunner = new MonoTapeActionRunner(synthWishes);
-            _channelTapeActionRunner = new ChannelTapeActionRunner(synthWishes);
+            _stereoTapeRecombiner = new StereoTapeRecombiner();
+            _stereoTapeActionRunner = new StereoTapeActionRunner();
+            _monoTapeActionRunner = new MonoTapeActionRunner();
+            _channelTapeActionRunner = new ChannelTapeActionRunner();
         }
         
         public void RunAllTapes(IList<FlowNode> channels)
@@ -37,8 +37,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (_tapes.Count == 0) return;
             
             // HACK: Override sampling rate with currently resolved sampling rate.
-            // (Can be customized for long-running tests, but separate threads cannot check the test category.)
-            _synthWishes.WithSamplingRate(_synthWishes.GetSamplingRate);
+            // (Can be customized for long-running tests,
+            // but separate threads cannot check the test category.)
+            _configResolver.WithSamplingRate(_configResolver.GetSamplingRate);
             
             var tapes = RunTapesPerChannel(channels);
             //ExecutePostProcessing(tapes);
@@ -110,7 +111,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void RunTapeLeafPipeline(IList<Tape> tapeCollection)
         {
-            int waitTimeMs = (int)(_synthWishes.GetParallelTaskCheckDelay * 1000);
+            int waitTimeMs = (int)(_configResolver.GetParallelTaskCheckDelay * 1000);
             
             Console.WriteLine($"{JJ_Framework_Text_Wishes.PrettyTime()} Tapes: Leaf check delay = {waitTimeMs} ms");
             
@@ -188,7 +189,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void ExecutePostProcessing(IList<Tape> tapes)
         {
-            switch (_synthWishes.GetSpeakers)
+            switch (_configResolver.GetSpeakers)
             {
                 case SpeakerSetupEnum.Mono:
                     
@@ -213,7 +214,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 
                 default:
                     
-                    throw new ValueNotSupportedException(_synthWishes.GetSpeakers);
+                    throw new ValueNotSupportedException(_configResolver.GetSpeakers);
             }
         }
     }
