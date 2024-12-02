@@ -31,21 +31,21 @@ namespace JJ.Business.Synthesizer.Wishes
                 func, duration,
                 inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
-        ///// <inheritdoc cref="docs._makebuff" />
-        //public Buff Save(
-        //    FlowNode channel,
-        //    string filePath = null, [CallerMemberName] string callerMemberName = null)
-        //    => MakeBuff(
-        //        channel, null,
-        //        inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
+        /// <inheritdoc cref="docs._makebuff" />
+        public Buff MaterializeSave(
+            FlowNode channel,
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => MakeBuff(
+                channel, null,
+                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
-        ///// <inheritdoc cref="docs._makebuff" />
-        //public Buff Save(
-        //    FlowNode channel, FlowNode duration,
-        //    string filePath = null, [CallerMemberName] string callerMemberName = null)
-        //    => MakeBuff(
-        //        channel, duration,
-        //        inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
+        /// <inheritdoc cref="docs._makebuff" />
+        public Buff MaterializeSave(
+            FlowNode channel, FlowNode duration,
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => MakeBuff(
+                channel, duration,
+                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(

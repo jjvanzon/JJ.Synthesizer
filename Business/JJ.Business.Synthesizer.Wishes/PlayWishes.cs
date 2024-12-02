@@ -38,13 +38,13 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff Play(
+        public Buff MaterializePlay(
             FlowNode channel,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => Play(channel, null, name, callerMemberName);
+            => MaterializePlay(channel, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff Play(
+        public Buff MaterializePlay(
             FlowNode channel, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
