@@ -505,7 +505,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(expectedComplexity, () => complexity);
             }
 
-            Buff result = Cache(flowNode);
+            Buff result = MaterializeCache(flowNode);
             IsNotNull(() => result);
             {
                 string stringify = result.Stringify();
