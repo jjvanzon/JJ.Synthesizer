@@ -271,8 +271,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void FluentPlay_UsingTape_Test() => new TapeWishesTests().FluentPlay_UsingTape();
-        private void FluentPlay_UsingTape()
+        public void PlayChannel_MidChain_Test() => new TapeWishesTests().PlayChannel_MidChain();
+        private void PlayChannel_MidChain()
         {
             var pitch = A4;
             
@@ -287,8 +287,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void FluentSave_UsingTape_Test() => new TapeWishesTests().FluentSave_UsingTape();
-        private void FluentSave_UsingTape()
+        public void SaveChannel_MidChain_Test() => new TapeWishesTests().SaveChannel_MidChain();
+        private void SaveChannel_MidChain()
         {
             var pitch = A4;
             
@@ -303,8 +303,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Tape_Streaming_GoesPerChannel_Test() => new TapeWishesTests().Tape_Streaming_GoesPerChannel();
-        private void Tape_Streaming_GoesPerChannel()
+        public void MidChain_Streaming_GoesPerChannel_Test() => new TapeWishesTests().MidChain_Streaming_GoesPerChannel();
+        private void MidChain_Streaming_GoesPerChannel()
         {
             var pitch = A4;
             
@@ -325,8 +325,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void FluentCache_UsingTape_Test() => new TapeWishesTests().FluentCache_UsingTape();
-        void FluentCache_UsingTape() 
+        public void CacheChannel_MidChain_ExplicitRecombineChannels_Test() => new TapeWishesTests().CacheChannel_MidChain_ExplicitRecombineChannels();
+        void CacheChannel_MidChain_ExplicitRecombineChannels() 
         {
             WithStereo();
             
@@ -349,8 +349,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void FluentCache_UsingTape_Test_Short() => new TapeWishesTests().FluentCache_UsingTape_Short();
-        void FluentCache_UsingTape_Short() 
+        public void CacheChannel_MidChain_ExplicitRecombineChannels_ShortTest() => new TapeWishesTests().CacheChannel_MidChain_ExplicitRecombineChannels_Short();
+        void CacheChannel_MidChain_ExplicitRecombineChannels_Short() 
         {
             WithStereo();
             
