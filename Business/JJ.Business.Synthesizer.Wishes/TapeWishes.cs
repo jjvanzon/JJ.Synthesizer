@@ -36,6 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool WithSaveChannel { get; set; }
         public bool WithCacheChannel { get; set; }
 
+        public string FallBackName { get; set; }
         public string FilePath { get; set; }
         public Func<Buff, Buff> Callback { get; set; }
         public Func<Buff, int, Buff> ChannelCallback { get; set; }
@@ -43,12 +44,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public Tape ParentTape { get; set; }
         public IList<Tape> ChildTapes { get; } = new List<Tape>();
+        public int NestingLevel { get; set; }
 
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
-    
-        // Informational
-        public string FallBackName { get; set; }
-        public int NestingLevel { get; set; }
     }
     
     // Tape Method
@@ -264,7 +262,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 inlet.LinkTo(sample);
             }
 
-            
             Console.WriteLine($"{PrettyTime()}  Stop Tape: (Level {tape.NestingLevel}) {tape.GetName} ");
         }
     
@@ -284,10 +281,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 case SpeakerSetupEnum.Stereo:
                     
                     var tapePairs = _stereoTapeMatcher.PairTapes(tapes);
-                    
+
                     foreach ((Tape Left, Tape Right) tapePair in tapePairs)
                     {
-                        _stereoTapeActionRunner.RunStereoActions(tapePair);
+                        Tape stereoTape = _stereoTapeRecombiner.RecombineChannels(tapePair);
+                        _stereoTapeActionRunner.RunActions(stereoTape);
                     }
                     
                     break;

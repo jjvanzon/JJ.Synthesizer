@@ -40,9 +40,10 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly ConfigResolver _configResolver;
         
         private readonly StereoTapeMatcher _stereoTapeMatcher;
-        private readonly ChannelTapeActionRunner _channelTapeActionRunner;
-        private readonly MonoTapeActionRunner _monoTapeActionRunner;
+        private readonly StereoTapeRecombiner _stereoTapeRecombiner;
         private readonly StereoTapeActionRunner _stereoTapeActionRunner;
+        private readonly MonoTapeActionRunner _monoTapeActionRunner;
+        private readonly ChannelTapeActionRunner _channelTapeActionRunner;
 
         public SynthWishes(IContext context = null)
         {
@@ -54,9 +55,10 @@ namespace JJ.Business.Synthesizer.Wishes
             
             _configResolver = new ConfigResolver();
             _stereoTapeMatcher = new StereoTapeMatcher();
-            _channelTapeActionRunner = new ChannelTapeActionRunner(this);
-            _monoTapeActionRunner = new MonoTapeActionRunner(this);
+            _stereoTapeRecombiner = new StereoTapeRecombiner(this);
             _stereoTapeActionRunner = new StereoTapeActionRunner(this);
+            _monoTapeActionRunner = new MonoTapeActionRunner(this);
+            _channelTapeActionRunner = new ChannelTapeActionRunner(this);
             
             _ = new CaptureIndexer(this);
             bar = new BarIndexer(this);
