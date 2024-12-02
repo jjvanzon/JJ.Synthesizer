@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Feature Toggles
         
-        [XmlAttribute] public bool? PlayBack { get; set; }
+        [XmlAttribute] public bool? Play { get; set; }
         [XmlAttribute] public bool? MathBoost { get; set; }
         [XmlAttribute] public bool? ParallelTaping { get; set; }
         [XmlAttribute] public bool? CacheToDisk { get; set; }
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         [XmlAttribute] public int? SamplingRate { get; set; }
         [XmlAttribute] public int? SamplingRateLongRunning { get; set; }
-        [XmlAttribute] public bool? PlayBack { get; set; }
+        [XmlAttribute] public bool? Play { get; set; }
         [XmlAttribute] public bool? Impersonation { get; set; }
     }
     
@@ -93,15 +93,15 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Feature Toggles
         
-        private const bool   DefaultPlayBack          = true;
-        private const bool   DefaultMathBoost         = true;
-        private const bool   DefaultParallelTaping    = true;
-        private const bool   DefaultCacheToDisk       = false;
-        private const bool   DefaultPlayAllTapes      = false;
+        private const bool   DefaultPlay           = true;
+        private const bool   DefaultMathBoost      = true;
+        private const bool   DefaultParallelTaping = true;
+        private const bool   DefaultCacheToDisk    = false;
+        private const bool   DefaultPlayAllTapes   = false;
 
         // Tooling
         
-        private const bool   DefaultToolingPlayBack                       = false;
+        private const bool   DefaultToolingPlay                           = false;
         private const bool   DefaultToolingImpersonation                  = false;
         private const int    DefaultNCrunchSamplingRate                   = 150;
         private const int    DefaultNCrunchSamplingRateLongRunning        = 8;
@@ -429,29 +429,29 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Feature Toggles
         
-        // PlayBack
+        // Play
         
         /// <inheritdoc cref="docs._playback" />
-        private bool? _playBack;
+        private bool? _play;
         /// <inheritdoc cref="docs._playback" />
-        public void WithPlayBack(bool? enabled = true) => _playBack = enabled;
+        public void WithPlay(bool? enabled = true) => _play = enabled;
         /// <inheritdoc cref="docs._playback" />
-        public bool GetPlayBack(string fileExtension = null)
+        public bool GetPlay(string fileExtension = null)
         {
-            bool playBack = _playBack ?? _section.PlayBack ?? DefaultPlayBack;
-            if (!playBack)
+            bool play = _play ?? _section.Play ?? DefaultPlay;
+            if (!play)
             {
                 return false;
             }
             
             if (IsUnderNCrunch)
             {
-                return _section.NCrunch.PlayBack ?? DefaultToolingPlayBack;
+                return _section.NCrunch.Play ?? DefaultToolingPlay;
             }
             
             if (IsUnderAzurePipelines)
             {
-                return _section.AzurePipelines.PlayBack ?? DefaultToolingPlayBack;
+                return _section.AzurePipelines.Play ?? DefaultToolingPlay;
             }
             
             if (!string.IsNullOrWhiteSpace(fileExtension))
@@ -621,7 +621,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Audio Disabled
             
-            if (!GetPlayBack(fileExtension))
+            if (!GetPlay(fileExtension))
             {
                 list.Add("Audio disabled");
             }
@@ -714,9 +714,9 @@ namespace JJ.Business.Synthesizer.Wishes
         // Feature Toggles
         
         /// <inheritdoc cref="docs._playback" />
-        public bool GetPlayBack(string fileExtension = null) => _configResolver.GetPlayBack(fileExtension);
+        public bool GetPlay(string fileExtension = null) => _configResolver.GetPlay(fileExtension);
         /// <inheritdoc cref="docs._playback" />
-        public SynthWishes WithPlayBack(bool? enabled = true) { _configResolver.WithPlayBack(enabled); return this; }
+        public SynthWishes WithPlay(bool? enabled = true) { _configResolver.WithPlay(enabled); return this; }
         
         public bool GetMathBoost => _configResolver.GetMathBoost;
         public SynthWishes WithMathBoost(bool? enabled = true) { _configResolver.WithMathBoost(enabled); return this; }
@@ -833,9 +833,9 @@ namespace JJ.Business.Synthesizer.Wishes
         // Feature Toggles
         
         /// <inheritdoc cref="docs._playback" />
-        public bool GetPlayBack(string fileExtension = null) => _synthWishes.GetPlayBack(fileExtension);
+        public bool GetPlay(string fileExtension = null) => _synthWishes.GetPlay(fileExtension);
         /// <inheritdoc cref="docs._playback" />
-        public FlowNode WithPlayBack(bool? enabled = true) { _synthWishes.WithPlayBack(enabled); return this; }
+        public FlowNode WithPlay(bool? enabled = true) { _synthWishes.WithPlay(enabled); return this; }
         
         public bool GetMathBoost => _synthWishes.GetMathBoost;
         public FlowNode WithMathBoost(bool? enabled = true) { _synthWishes.WithMathBoost(enabled); return this; }

@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         public void Additive_Metallophone_Jingle_RunTest()
         {
-            WithPlayBack();
+            WithPlay();
             WithAudioLength(beat[4] + NoteDuration);
             Buff buff = Save(() => MetallophoneJingle.Echo() * 0.33);
             this.Play(buff);

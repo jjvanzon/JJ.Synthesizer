@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public void FM_Jingle_Test() => new FMTests().FM_Jingle();
         void FM_Jingle()
         {
-            WithPlayBack();
+            WithPlay();
             var buff = Save(() => DeepEcho(Jingle()) * 0.2);
             this.Play(buff);
         }

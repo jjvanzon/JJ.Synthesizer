@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest()
         {
-            WithPlayBack();
+            WithPlay();
             var buff = WithAudioLength(bars[7] + DeepEchoDuration).Save(() => DeepEcho(DetunicaJingle) * 0.8);
             this.Play(buff);
         }

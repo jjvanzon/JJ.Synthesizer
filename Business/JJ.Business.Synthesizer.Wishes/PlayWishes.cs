@@ -186,7 +186,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 fileExtension = Path.GetExtension(filePath);
             }
-            bool mustPlay = configResolver.GetPlayBack(fileExtension);
+            bool mustPlay = configResolver.GetPlay(fileExtension);
             
             var lines = new List<string>();
 
