@@ -75,7 +75,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (_unprocessedTapes.Count > 0)
             {
                 // TODO: Make exception more specific.
-                throw new Exception($"{_unprocessedTapes.Count} channel tapes could not matched for a stereo tape.");
+                throw new Exception($"{_unprocessedTapes.Count} channel tapes could not matched for a stereo tape. " +
+                                    "Consider passing names to the Cache, Play or Save methods.");
             }
             
             return _matchedPairs;
