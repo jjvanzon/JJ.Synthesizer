@@ -100,49 +100,59 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Instance CacheChannel (Mid-Chain)
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode channel, [CallerMemberName] string name = null)
             => CacheChannel(channel, null, null, default(Func<Buff, int, Buff>), name);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode channel, FlowNode duration, [CallerMemberName] string name = null)
             => CacheChannel(channel, duration, null, default(Func<Buff, int, Buff>), name);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode channel, 
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => CacheChannel(channel, null, null, callback, callerMemberName);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode channel, FlowNode duration,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => CacheChannel(channel, duration, null, callback, callerMemberName);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode channel,
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => CacheChannel(channel, null, null, callback, callerMemberName);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode channel, FlowNode duration, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => CacheChannel(channel, duration, null, callback, callerMemberName);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode channel, string filePath, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => CacheChannel(channel, null, filePath, callback, callerMemberName);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode channel, string filePath,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => CacheChannel(channel, null, filePath, callback, callerMemberName);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode channel, FlowNode duration, string filePath, 
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => CacheChannel(channel, duration, filePath, (x, y) => callback(x), callerMemberName);
 
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode channel, FlowNode duration, string filePath,
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
@@ -157,7 +167,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Statics (Buff to Buff) (End-Of-Chain)
         
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Cache(
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -165,7 +174,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 buff,
                 inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
 
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Cache(
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -181,7 +189,6 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // On Buffs (End-of-Chain)
         
-        /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Cache(
             this SynthWishes synthWishes, 
             Buff buff,
@@ -197,7 +204,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes;
         }
 
-        /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Cache(
             this SynthWishes synthWishes, 
             AudioFileOutput entity,
@@ -218,47 +224,57 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // CacheChannel on FlowNode (Mid-Chain)
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             [CallerMemberName] string name = null)
             => _synthWishes.CacheChannel(this, name);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode duration, [CallerMemberName] string name = null)
             => _synthWishes.CacheChannel(this, duration, name);
 
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.CacheChannel(this, callback, callerMemberName);
 
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode duration,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.CacheChannel(this, duration, callback, callerMemberName);
 
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.CacheChannel(this, callback, callerMemberName);
 
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode duration, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.CacheChannel(this, duration, callback, callerMemberName);
 
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             string filePath, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.CacheChannel(this, filePath, callback, callerMemberName);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             string filePath,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.CacheChannel(this, filePath, callback, callerMemberName);
 
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode duration, string filePath, 
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.CacheChannel(this, duration, filePath, callback, callerMemberName);
 
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode CacheChannel(
             FlowNode duration, string filePath, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
@@ -266,7 +282,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Cache on FlowNode (End-of-Chain)
             
-        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Cache(
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -278,7 +293,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 return this; 
             }
 
-        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Cache(
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -295,7 +309,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class CacheExtensionWishes
     {
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Cache(
             this Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -303,7 +316,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 buff, 
                 inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
         
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Cache(
             this AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
