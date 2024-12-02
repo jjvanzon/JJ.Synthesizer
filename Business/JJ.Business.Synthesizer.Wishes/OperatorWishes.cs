@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             foreach (var term in operands)
             {
-                if (IsTape(term))
+                if (_tapes.IsTape(term))
                 {
                     return false;
                 }

@@ -39,6 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly SampleManager _sampleManager;
         private readonly ConfigResolver _configResolver;
         
+        private readonly TapeCollection _tapes;
         private readonly StereoTapeMatcher _stereoTapeMatcher;
         private readonly StereoTapeRecombiner _stereoTapeRecombiner;
         private readonly StereoTapeActionRunner _stereoTapeActionRunner;
@@ -54,6 +55,7 @@ namespace JJ.Business.Synthesizer.Wishes
             _sampleManager = ServiceFactory.CreateSampleManager(context);
             
             _configResolver = new ConfigResolver();
+            _tapes = new TapeCollection(this);
             _stereoTapeMatcher = new StereoTapeMatcher();
             _stereoTapeRecombiner = new StereoTapeRecombiner(this);
             _stereoTapeActionRunner = new StereoTapeActionRunner(this);

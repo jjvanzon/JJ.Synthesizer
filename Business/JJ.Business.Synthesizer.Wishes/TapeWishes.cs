@@ -27,47 +27,10 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public FlowNode Tape(FlowNode signal, FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = AddTape(signal, callerMemberName);
+            Tape tape = _tapes.AddTape(signal, callerMemberName);
             tape.Duration = duration ?? GetAudioLength;
             return signal;
         }
-        
-        // Tapes Collection
-        
-        private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
-        
-        internal Tape AddTape(FlowNode signal, [CallerMemberName] string callerMemberName = null)
-        {
-            if (signal == null) throw new ArgumentNullException(nameof(signal));
-            
-            var tape = new Tape
-            {
-                Signal = signal,
-                ChannelIndex = GetChannelIndex,
-                FallBackName = callerMemberName
-            };
-            
-            _tapes[signal] = tape;
-            
-            return tape;
-        }
-        
-        internal bool IsTape(Outlet outlet)
-        {
-            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            return _tapes.ContainsKey(outlet);
-        }
-        
-        private Tape TryGetTape(Outlet outlet)
-        {
-            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            _tapes.TryGetValue(outlet, out Tape tape);
-            return tape;
-        }
-        
-        private Tape[] GetAllTapes() => _tapes.Values.ToArray();
-        
-        private void ClearTapes() => _tapes.Clear();
         
         // Run Tapes
         
@@ -99,8 +62,8 @@ namespace JJ.Business.Synthesizer.Wishes
             channels.ForEach(x => SetTapeNestingLevelsRecursive(x));
             channels.ForEach(x => SetTapeParentChildRelationshipsRecursive(x));
             
-            Tape[] tapes = GetAllTapes();
-            ClearTapes();
+            Tape[] tapes = _tapes.GetAllTapes();
+            _tapes.ClearTapes();
 
             var tapeGroups = tapes.GroupBy(x => x.ChannelIndex)
                                   .Select(x => x.ToArray())
@@ -120,7 +83,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private void SetTapeNestingLevelsRecursive(FlowNode node, int level = 1)
         {
-            Tape tape = TryGetTape(node);
+            Tape tape = _tapes.TryGetTape(node);
             if (tape != null)
             {
                 // Don't overwrite in case of multiple usage.
@@ -136,7 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private void SetTapeParentChildRelationshipsRecursive(FlowNode node, Tape parentTape = null)
         {
-            Tape tape = TryGetTape(node);
+            Tape tape = _tapes.TryGetTape(node);
             if (tape != null)
             {
                 if (parentTape != null && tape.ParentTape == null)
