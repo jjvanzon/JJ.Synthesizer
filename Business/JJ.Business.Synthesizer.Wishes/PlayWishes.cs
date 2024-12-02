@@ -79,51 +79,82 @@ namespace JJ.Business.Synthesizer.Wishes
             return buff2;
         }
         
+        // Play (Mid-Chain)
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            FlowNode signal, [CallerMemberName] string callerMemberName = null)
+            => Play(signal, null, null, null, callerMemberName);
+                
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            FlowNode signal, FlowNode duration, [CallerMemberName] string callerMemberName = null)
+            => Play(signal, duration, null, null, callerMemberName);
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            FlowNode signal, 
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => Play(signal, null, null, callback, callerMemberName);
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            FlowNode signal, FlowNode duration, 
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => Play(signal, duration, null, callback, callerMemberName);
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            FlowNode signal, string filePath, 
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => Play(signal, null, filePath, callback, callerMemberName);
+
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            FlowNode signal, FlowNode duration, string filePath,
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
+        {
+            Tape tape = AddTape(signal, callerMemberName);
+            tape.WithPlay = true;
+            tape.FilePath = filePath;
+            tape.Duration = duration;
+            tape.Callback = callback;
+            return signal;
+        }
+        
         // PlayChannel (Mid-Chain)
-        
-        public FlowNode PlayChannel(
-            FlowNode channel, [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channel, null, null, default(Func<Buff, int, Buff>), callerMemberName);
-        
-        public FlowNode PlayChannel(
-            FlowNode channel, FlowNode duration, [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channel, duration, null, default(Func<Buff, int, Buff>), callerMemberName);
-        
+
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
             FlowNode channel, 
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channel, null, null, callback, callerMemberName);
-        
+            [CallerMemberName] string callerMemberName = null)
+            => PlayChannel(channel, null, null, null, callerMemberName);
+
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
-            FlowNode channel, FlowNode duration,
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channel, duration, null, callback, callerMemberName);
+            FlowNode channel, FlowNode duration, 
+            [CallerMemberName] string callerMemberName = null)
+            => PlayChannel(channel, duration, null, null, callerMemberName);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
             FlowNode channel,
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => PlayChannel(channel, null, null, callback, callerMemberName);
-        
+                
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
             FlowNode channel, FlowNode duration, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => PlayChannel(channel, duration, null, callback, callerMemberName);
         
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
             FlowNode channel, string filePath, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => PlayChannel(channel, null, filePath, callback, callerMemberName);
-        
-        public FlowNode PlayChannel(
-            FlowNode channel, string filePath,
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channel, null, filePath, callback, callerMemberName);
-        
-        public FlowNode PlayChannel(
-            FlowNode channel, FlowNode duration, string filePath, 
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channel, duration, filePath, (x, y) => callback(x), callerMemberName);
 
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
             FlowNode channel, FlowNode duration, string filePath,
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
@@ -149,7 +180,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return buff2;
         }
         
-        /// <inheritdoc cref="docs._makebuff" />
         internal static Buff InternalPlay(SynthWishes synthWishes, AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
@@ -161,22 +191,18 @@ namespace JJ.Business.Synthesizer.Wishes
             return buff;
         }
         
-        /// <inheritdoc cref="docs._makebuff" />
         internal static Buff InternalPlay(SynthWishes synthWishes, Sample sample)
         {
             if (sample == null) throw new ArgumentNullException(nameof(sample));
             return InternalPlay(synthWishes, sample.Location, sample.Bytes, sample.GetFileExtension());
         }
         
-        /// <inheritdoc cref="docs._makebuff" />
         internal static Buff InternalPlay(SynthWishes synthWishes, byte[] bytes)
             => InternalPlay(synthWishes, null, bytes, null);
         
-        /// <inheritdoc cref="docs._makebuff" />
         internal static Buff InternalPlay(SynthWishes synthWishes, string filePath)
             => InternalPlay(synthWishes, filePath, null, Path.GetExtension(filePath));
         
-        /// <inheritdoc cref="docs._makebuff" />
         internal static Buff InternalPlay(
             SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension = null)
         {
@@ -226,15 +252,10 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Statics (End-of-Chain)
         
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Play(Buff buff) => InternalPlay(null, buff);
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Play(AudioFileOutput entity) => InternalPlay(null, entity);
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Play(Sample entity) => InternalPlay(null, entity);
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Play(byte[] bytes) => InternalPlay(null, bytes);
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Play(string filePath) => InternalPlay(null, filePath);
     }
     
@@ -243,80 +264,95 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesPlayStaticsTurnedInstanceExtensions
     {
-        /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Play(this SynthWishes synthWishes, Buff buff) { InternalPlay(synthWishes, buff); return synthWishes; }
-        /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Play(this SynthWishes synthWishes, Sample sample) { InternalPlay(synthWishes, sample); return synthWishes; }
-        /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Play(this SynthWishes synthWishes, AudioFileOutput audioFileOutput) { InternalPlay(synthWishes, audioFileOutput); return synthWishes; }
-        /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Play(this SynthWishes synthWishes, byte[] bytes) { InternalPlay(synthWishes, bytes); return synthWishes; }
-        /// <inheritdoc cref="docs._makebuff" />
         public static SynthWishes Play(this SynthWishes synthWishes, string filePath) { InternalPlay(synthWishes, filePath); return synthWishes; }
     }
 
     public partial class FlowNode
     {
-        // FlowNode PlayChannel (Mid-Chain)
+        // FlowNode Play (Mid-Chain)
         
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Play(this, null, null, null, callerMemberName);
+                
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            FlowNode duration, 
+            [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Play(this, duration, null, null, callerMemberName);
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Play(this, null, null, callback, callerMemberName);
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            FlowNode duration, 
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Play(this, duration, null, callback, callerMemberName);
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            string filePath, 
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Play(this, null, filePath, callback, callerMemberName);
+
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Play(
+            FlowNode duration, string filePath,
+            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Play(this, duration, filePath, callback, callerMemberName);
+        
+        // FlowNode PlayChannel (Mid-Chain)
+
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
             [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.PlayChannel(this, callerMemberName);
+            => _synthWishes.PlayChannel(this, null, null, null, callerMemberName);
+
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode PlayChannel(
+            FlowNode duration, 
+            [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.PlayChannel(this, duration, null, null, callerMemberName);
         
-        public FlowNode PlayChannel(
-            FlowNode duration, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.PlayChannel(this, duration, callerMemberName);
-
-        public FlowNode PlayChannel(
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.PlayChannel(this, callback, callerMemberName);
-
-        public FlowNode PlayChannel(
-            FlowNode duration,
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.PlayChannel(this, duration, callback, callerMemberName);
-
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.PlayChannel(this, callback, callerMemberName);
-
+            => _synthWishes.PlayChannel(this, null, null, callback, callerMemberName);
+                
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
             FlowNode duration, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.PlayChannel(this, duration, callback, callerMemberName);
-
+            => _synthWishes.PlayChannel(this, duration, null, callback, callerMemberName);
+        
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
             string filePath, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.PlayChannel(this, filePath, callback, callerMemberName);
-        
-        public FlowNode PlayChannel(
-            string filePath,
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.PlayChannel(this, filePath, callback, callerMemberName);
+            => _synthWishes.PlayChannel(this, null, filePath, callback, callerMemberName);
 
+        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
-            FlowNode duration, string filePath, 
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.PlayChannel(this, duration, filePath, callback, callerMemberName);
-
-        public FlowNode PlayChannel(
-            FlowNode duration, string filePath, 
+            FlowNode duration, string filePath,
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.PlayChannel(this, duration, filePath, callback, callerMemberName);
-
-        // FlowNode Play (End-of-Chain)
         
-        /// <inheritdoc cref="docs._makebuff" />
+        // FlowNode Play (End-of-Chain)
+
         public FlowNode Play(Buff buff) { InternalPlay(_synthWishes, buff); return this; }
-        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Play(AudioFileOutput audioFileOutput) { InternalPlay(_synthWishes, audioFileOutput); return this; }
-        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Play(Sample sample) { InternalPlay(_synthWishes, sample); return this; }
-        /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Play(byte[] bytes) { InternalPlay(_synthWishes, bytes); return this; }
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Play(string filePath) { InternalPlay(_synthWishes, filePath); return this; }
+        // Outcommented because of overload clash
+        //public FlowNode Play(string filePath) { InternalPlay(_synthWishes, filePath); return this; }
     }
 
     // Buff Extensions (End-of-Chain)
@@ -324,15 +360,10 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class PlayExtensionWishes
     {
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Play(this Buff buff) => InternalPlay(null, buff);
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Play(this AudioFileOutput audioFileOutput) => InternalPlay(null, audioFileOutput);
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Play(this Sample sample) => InternalPlay(null, sample);
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Play(this byte[] bytes) => InternalPlay(null, bytes);
-        /// <inheritdoc cref="docs._makebuff" />
         public static Buff Play(this string filePath) => InternalPlay(null, filePath);
     }
 }
