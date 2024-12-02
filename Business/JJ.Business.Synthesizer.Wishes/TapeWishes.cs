@@ -253,7 +253,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.MustPlay || GetPlayAllTapes) Play(cacheBuff);
             
             // Wrap in Sample
-            var sample = Sample(cacheBuff, name: tape.GetName);
+            FlowNode sample = Sample(cacheBuff, name: tape.GetName);
             
             // Replace All References
             IList<Inlet> connectedInlets = tape.Signal.UnderlyingOutlet.ConnectedInlets.ToArray();
