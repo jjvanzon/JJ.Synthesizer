@@ -278,11 +278,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Play(() => Add
                  (
-                     Sine(pitch * 1).Curve(Envelope).Volume(1.0).ChannelPlay(),
+                     Sine(pitch * 1).Curve(Envelope).Volume(1.0).PlayChannel(),
                      Sine(pitch * 2).Curve(Envelope).Volume(0.2),
-                     Sine(pitch * 3).Curve(Envelope).ChannelPlay().Volume(0.3),
+                     Sine(pitch * 3).Curve(Envelope).PlayChannel().Volume(0.3),
                      Sine(pitch * 4).Curve(Envelope).Volume(0.4),
-                     Sine(pitch * 5).Curve(Envelope).Volume(0.2).ChannelPlay()
+                     Sine(pitch * 5).Curve(Envelope).Volume(0.2).PlayChannel()
                  ));
         }
         
@@ -294,11 +294,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Play(() => Add
                  (
-                     Sine(pitch * 1).Volume(1.0).ChannelSave(MemberName() + " Partial 1"),
+                     Sine(pitch * 1).Volume(1.0).SaveChannel(MemberName() + " Partial 1"),
                      Sine(pitch * 2).Volume(0.2),
-                     Sine(pitch * 3).ChannelSave("FluentSave_UsingTape Partial 2").Volume(0.3),
+                     Sine(pitch * 3).SaveChannel("FluentSave_UsingTape Partial 2").Volume(0.3),
                      Sine(pitch * 4).Volume(0.4),
-                     Sine(pitch * 5).Volume(0.2).SetName("FluentSave_UsingTape Partial 3").ChannelSave()
+                     Sine(pitch * 5).Volume(0.2).SetName("FluentSave_UsingTape Partial 3").SaveChannel()
                  ) * Envelope).Save();
         }
         
@@ -312,15 +312,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             Play(() => Add
                  (
-                     Sine(pitch * 1).Volume(1.0).Curve(Envelope).Panning(0.2).ChannelPlay(),
-                     Sine(pitch * 2).Volume(0.3).Curve(Envelope).Panning(0.8).ChannelPlay()
+                     Sine(pitch * 1).Volume(1.0).Curve(Envelope).Panning(0.2).PlayChannel(),
+                     Sine(pitch * 2).Volume(0.3).Curve(Envelope).Panning(0.8).PlayChannel()
                  ) * Envelope * 1.5);
 
             Play(() => Add
                  (
-                     1.0 * Sine(pitch * 1).Curve(Envelope).Panbrello(3.000, 0.2).ChannelPlay(),
-                     0.2 * Sine(pitch * 2).Curve(Envelope).Panbrello(5.234, 0.3).ChannelPlay(),
-                     0.3 * Sine(pitch * 3).Curve(Envelope).Panbrello(7.000, 0.2).ChannelPlay()
+                     1.0 * Sine(pitch * 1).Curve(Envelope).Panbrello(3.000, 0.2).PlayChannel(),
+                     0.2 * Sine(pitch * 2).Curve(Envelope).Panbrello(5.234, 0.3).PlayChannel(),
+                     0.3 * Sine(pitch * 3).Curve(Envelope).Panbrello(7.000, 0.2).PlayChannel()
                  ) * Envelope * 1.5);
         }
         
@@ -334,7 +334,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // The delegate creates a non-trivial convergence point.
             
-            Save(() => Sine(A4).Panning(0.1).Curve(Envelope).ChannelCache((b, i) => buffs[i] = b)).Play();
+            Save(() => Sine(A4).Panning(0.1).Curve(Envelope).CacheChannel((b, i) => buffs[i] = b)).Play();
             
             IsNotNull(() => buffs[0]);
             IsNotNull(() => buffs[1]);

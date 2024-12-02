@@ -317,7 +317,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                                     *
                                             *
                          *                              *")
-                    ).ChannelPlay()
+                    ).PlayChannel()
             );
         }
 
