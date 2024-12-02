@@ -32,11 +32,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool MustPlay { get; set; }
         public bool MustSave { get; set; }
         public string FilePath { get; set; }
+        
         public Action<Buff, int> Callback { get; set; }
+        public Buff Buff { get; set; }
         
         public Tape ParentTape { get; set; }
         public IList<Tape> ChildTapes { get; } = new List<Tape>();
-        
+
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     
         // Informational
@@ -256,6 +258,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 inlet.LinkTo(sample);
             }
+
+            tape.Buff = cacheBuff;
             
             Console.WriteLine($"{PrettyTime()}  Stop Tape: (Level {tape.NestingLevel}) {tape.GetName} ");
         }
