@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
@@ -34,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool WithCache { get; set; }
         public bool WithPlayChannel { get; set; }
         public bool WithSaveChannel { get; set; }
-        public bool WithCacheChannel { [UsedImplicitly] get; set; } // Informational
+        public bool WithCacheChannel { get; set; }
 
         public string FilePath { get; set; }
         public Func<Buff, Buff> Callback { get; set; }
@@ -269,6 +268,149 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.Buff = cacheBuff;
             
             Console.WriteLine($"{PrettyTime()}  Stop Tape: (Level {tape.NestingLevel}) {tape.GetName} ");
+        }
+    }
+    
+    internal class StereoTapeMatcher
+    {
+        /// <summary>
+        /// Heuristically matches the left channel and right channel tapes together,
+        /// which is non-trivial because of the rigid separation of the 2 channels in this system,
+        /// which is both powerful and tricky all the same.
+        /// Only call in case of stereo. In case of mono, the tapes can be played, saved or cached
+        /// individually.
+        /// </summary>
+        public IList<(Tape Left, Tape Right)> PairTapes(IList<Tape> tapes)
+        {
+            if (tapes == null) throw new ArgumentNullException(nameof(tapes));
+            if (tapes.Count == 1) throw new Exception("Stereo tapes expected, but only 1 channel tape found.");
+               
+            var unprocessedTapes = tapes.ToHashSet();
+            var tapePairs = new List<(Tape, Tape)>();
+
+            // Return single stereo tape
+            {
+                var pair = TryGetPair(tapes);
+                if (pair != default)
+                {
+                    tapePairs.Add(pair);
+                    return tapePairs;
+                }
+            }
+                
+            // First grouping:
+            // Group by flags, as they definitely should match.
+            var tapesGroupedByFlags = tapes.GroupBy(x => new
+            {
+                x.WithPlay,
+                x.WithSave,
+                x.WithCache,
+                x.WithPlayChannel,
+                x.WithSaveChannel,
+                x.WithCacheChannel
+            });
+                
+            foreach (var tapesMatchedByFlags in tapesGroupedByFlags)
+            {
+                {
+                    var pairMatchedByFlags = TryGetPair(tapesMatchedByFlags);
+                    if (pairMatchedByFlags != default)
+                    {
+                        tapePairs.Add(pairMatchedByFlags);
+                        unprocessedTapes.Remove(pairMatchedByFlags.left);
+                        unprocessedTapes.Remove(pairMatchedByFlags.right);
+                        continue;
+                    }
+                }
+
+                // Match by delegate method
+                {
+                    var tapesGroupedByClosureMethod
+                        = tapesMatchedByFlags.Where(x => x.Callback != null)
+                                                .GroupBy(x => x.Callback.Method);
+                        
+                    foreach (var tapesMatchedByClosureMethod in tapesGroupedByClosureMethod)
+                    {
+                        var pairMatchedByClosureMethod = TryGetPair(tapesMatchedByClosureMethod);
+                        if (pairMatchedByClosureMethod != default)
+                        {
+                            tapePairs.Add(pairMatchedByClosureMethod);
+                            unprocessedTapes.Remove(pairMatchedByClosureMethod.left);
+                            unprocessedTapes.Remove(pairMatchedByClosureMethod.right);
+                        }
+                    }
+                }
+                    
+                // Match by delegate type
+                {
+                    var tapesGroupedByClosureClass
+                        = tapesMatchedByFlags.Where(x => x.Callback != null)
+                                                .GroupBy(x => x.Callback.Method.DeclaringType);
+                        
+                    foreach (var tapesMatchedByClosureClass in tapesGroupedByClosureClass)
+                    {
+                        var pairMatchedByClosureClass = TryGetPair(tapesMatchedByClosureClass);
+                        if (pairMatchedByClosureClass != default)
+                        {
+                            tapePairs.Add(pairMatchedByClosureClass);
+                            unprocessedTapes.Remove(pairMatchedByClosureClass.left);
+                            unprocessedTapes.Remove(pairMatchedByClosureClass.right);
+                        }
+                    }
+                }
+                    
+                // Match by name
+                {
+                    var tapesGroupedByNames
+                        = tapesMatchedByFlags.GroupBy(x => new
+                        {
+                            x.FallBackName,
+                            x.FilePath,
+                            x.Signal?.Name
+                        });
+                        
+                    foreach (var tapesMatchedByName in tapesGroupedByNames)
+                    {
+                        var tapePair = TryGetPair(tapesMatchedByName);
+                        if (tapePair != default)
+                        {
+                            tapePairs.Add(tapePair);
+                            unprocessedTapes.Remove(tapePair.left);
+                            unprocessedTapes.Remove(tapePair.right);
+                        }
+                    }
+                }
+            }
+            
+            if (unprocessedTapes.Count > 0)
+            {
+                // TODO: Make exception more specific.
+                throw new Exception("Some channel tapes could not matched to for a stereo tape.");
+            }
+                        
+            return tapePairs;
+        }
+            
+        private static (Tape left, Tape right) TryGetPair(IEnumerable<Tape> potentialPair)
+        {
+            if (potentialPair == null) throw new ArgumentNullException(nameof(potentialPair));
+                
+            var array = potentialPair as Tape[] ?? potentialPair.ToArray();
+                
+            if (array.Length != 2)
+            {
+                return default;
+            }
+
+            var left = array.FirstOrDefault(x => x.ChannelIndex == 0);
+            if (left == null) throw new Exception("There are 2 channel tapes, but none of them are a Left channel (ChannelIndex = 0).");
+                
+            var right = array.FirstOrDefault(x => x.ChannelIndex == 1);
+            if (right == null) throw new Exception("There are 2 channel tapes, but none of them are a Right channel (ChannelIndex = 1).");
+                
+            var pair = (left, right);
+                
+            return pair;
         }
     }
 }
