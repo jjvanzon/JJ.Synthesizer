@@ -62,10 +62,21 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
         }
-        
-        public void RunStereoActions((Tape left, Tape right) tapePair)
+
+        internal void RunActions(Tape tape)
         {
-            throw new NotImplementedException();
+            Buff replacementBuff = tape.Callback?.Invoke(tape.Buff);
+            if (replacementBuff != null) tape.Buff = replacementBuff;
+            
+            if (tape.WithSave)
+            {
+                _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
+            }
+            
+            if (tape.WithPlay)
+            {
+                _synthWishes.Play(tape.Buff);
+            }
         }
     }
 }
