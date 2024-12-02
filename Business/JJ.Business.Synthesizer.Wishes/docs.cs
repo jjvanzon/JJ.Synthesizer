@@ -296,7 +296,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Length of a file header in bytes.
         /// </returns>
         public static object _headerLength;
-
         
         /// <summary>
         /// Outputs audio in an audio file format and plays it if needed.<br />
