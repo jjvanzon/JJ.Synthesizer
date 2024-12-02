@@ -146,6 +146,9 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             Task.WaitAll(tasks);
+            
+            // Here we have the channel buffs.
+            // Now we need to associate the left and right channel buffs with eachother.
         }
 
         private void SetTapeNestingLevelsRecursive(FlowNode node, int level = 1)
