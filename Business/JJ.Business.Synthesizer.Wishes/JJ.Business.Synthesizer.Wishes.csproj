@@ -56,6 +56,7 @@
     <Compile Include="AudioPropertyWishes.cs" />
     <Compile Include="CacheWishes.cs" />
     <Compile Include="CalculationWishes.cs" />
+    <Compile Include="TapeWishes\Tape.cs" />
     <Compile Include="TapeWishes\StereoTapeMatcher.cs" />
     <Compile Include="TapeWishes\StereoTapeRecombiner.cs" />
     <Compile Include="TapeWishes\TapeActionRunners.cs" />

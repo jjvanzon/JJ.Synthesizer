@@ -1,4 +1,5 @@
 ﻿using System;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {

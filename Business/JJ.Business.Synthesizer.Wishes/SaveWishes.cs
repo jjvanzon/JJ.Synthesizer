@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Wishes.ConfigResolver;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;

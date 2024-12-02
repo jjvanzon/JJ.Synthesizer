@@ -1,54 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
-using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Tape Object
-    
-    [DebuggerDisplay("{DebuggerDisplay}")]
-    internal class Tape
-    {
-        /// <inheritdoc cref="docs._tapename" />
-        public string GetName => FetchName(Signal, FallBackName, FilePath);
-        
-        public FlowNode Signal { get; set; }
-        public FlowNode Duration { get; set; }
-        public int ChannelIndex { get; set; }
-        
-        public bool WithPlay { get; set; }
-        public bool WithSave { get; set; }
-        public bool WithCache { get; set; }
-        public bool WithPlayChannel { get; set; }
-        public bool WithSaveChannel { get; set; }
-        public bool WithCacheChannel { get; set; }
-
-        public string FallBackName { get; set; }
-        public string FilePath { get; set; }
-        public Func<Buff, Buff> Callback { get; set; }
-        public Func<Buff, int, Buff> ChannelCallback { get; set; }
-        public Buff Buff { get; set; }
-        
-        public Tape ParentTape { get; set; }
-        public IList<Tape> ChildTapes { get; } = new List<Tape>();
-        public int NestingLevel { get; set; }
-
-        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
-    }
-    
     // Tape Method
     
     public partial class FlowNode
