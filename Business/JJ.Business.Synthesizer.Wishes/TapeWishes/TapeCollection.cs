@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public int Count => _tapes.Count;
         
-        internal Tape AddTape(FlowNode signal, [CallerMemberName] string callerMemberName = null)
+        internal Tape Add(FlowNode signal, [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
@@ -40,15 +40,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return _tapes.ContainsKey(outlet);
         }
         
-        public Tape TryGetTape(Outlet outlet)
+        public Tape TryGet(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             _tapes.TryGetValue(outlet, out Tape tape);
             return tape;
         }
         
-        public Tape[] GetAllTapes() => _tapes.Values.ToArray();
+        public Tape[] GetAll() => _tapes.Values.ToArray();
         
-        public void ClearTapes() => _tapes.Clear();
+        public void Clear() => _tapes.Clear();
     }
 }
