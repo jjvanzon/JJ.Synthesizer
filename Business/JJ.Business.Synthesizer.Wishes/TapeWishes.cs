@@ -5,8 +5,6 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Tape Method
-    
     public partial class FlowNode
     {
         public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
