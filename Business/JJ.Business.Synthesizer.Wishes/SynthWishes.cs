@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
             _sampleManager = ServiceFactory.CreateSampleManager(context);
             
             _configResolver = new ConfigResolver();
-            _tapes = new TapeCollection(this);
+            _tapes = new TapeCollection(_configResolver);
             _tapeRunner = new TapeRunner(this, _configResolver, _tapes);
             
             _ = new CaptureIndexer(this);

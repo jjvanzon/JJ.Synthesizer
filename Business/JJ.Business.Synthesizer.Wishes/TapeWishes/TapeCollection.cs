@@ -8,12 +8,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
     internal class TapeCollection
     {
-        private readonly SynthWishes _synthWishes;
+        private readonly ConfigResolver _configResolver;
         private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
         
-        public TapeCollection(SynthWishes synthWishes)
+        public TapeCollection(ConfigResolver configResolver)
         {
-            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+            _configResolver = configResolver ?? throw new ArgumentNullException(nameof(configResolver));
         }
         
         public int Count => _tapes.Count;
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             var tape = new Tape
             {
                 Signal = signal,
-                ChannelIndex = _synthWishes.GetChannelIndex,
+                ChannelIndex = _configResolver.GetChannelIndex,
                 FallBackName = callerMemberName
             };
             
