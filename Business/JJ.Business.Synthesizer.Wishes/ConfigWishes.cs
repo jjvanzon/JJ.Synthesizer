@@ -381,8 +381,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            if (_leadingSilence != null &&
-                _leadingSilence.Calculate(time: 0) != 0)
+            if (_leadingSilence != null)
             {
                 return _leadingSilence;
             }
@@ -408,8 +407,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            if (_trailingSilence != null &&
-                _trailingSilence.Calculate(time: 0) != 0)
+            if (_trailingSilence != null)
             {
                 return _trailingSilence;
             }
