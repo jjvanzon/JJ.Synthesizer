@@ -382,14 +382,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var pitch = G4;
             
             Play(() => Add
-                 (
-                     Sine(pitch * 1).Curve(Envelope)/*.Play("Partial 1")*/,
-                     Sine(pitch * 2).Curve(Envelope).Volume(0.2),
-                     Sine(pitch * 3).Curve(Envelope).Panning(0.1)/*.Play("Partial 2")*/.Volume(0.1),
-                     Sine(pitch * 4).Curve(Envelope).Volume(0.08),
-                     //Sine(pitch * 5).Play("Partial 3").Panning(0.9).Curve(Envelope).Volume(0.2)
-                     Sine(pitch * 5).Volume(0.05).Curve(Envelope).Panning(0.9).PlayChannel((b, i) => b.Save()).Curve(Envelope)
-                 )).Save();
+            (
+                Sine(pitch * 1).Curve(Envelope)/*.Play("Partial 1")*/,
+                Sine(pitch * 2).Curve(Envelope).Volume(0.2),
+                Sine(pitch * 3).Curve(Envelope).Panning(0.1)/*.Play("Partial 2")*/.Volume(0.1),
+                Sine(pitch * 4).Curve(Envelope).Volume(0.08),
+                //Sine(pitch * 5).Play("Partial 3").Panning(0.9).Curve(Envelope).Volume(0.2)
+                Sine(pitch * 5).Volume(0.05).Curve(Envelope).Panning(0.9).PlayChannel((b, i) => b.Save()).Curve(Envelope)
+            )).Save();
         }
     }
 }
