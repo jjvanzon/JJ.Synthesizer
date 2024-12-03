@@ -39,10 +39,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             // HACK: Override sampling rate with currently resolved sampling rate.
             // (Can be customized for long-running tests,
             // but separate threads cannot check the test category.)
-            _configResolver.WithSamplingRate(_configResolver.GetSamplingRate);
-            
-            var tapes = RunTapesPerChannel(channels);
-            ExecutePostProcessing(tapes);
+            var originalSamplingRate = _configResolver._samplingRate;
+            try
+            {
+                _configResolver.WithSamplingRate(_configResolver.GetSamplingRate);
+                
+                var tapes = RunTapesPerChannel(channels);
+                ExecutePostProcessing(tapes);
+            }
+            finally
+            {
+                _configResolver._samplingRate = originalSamplingRate;
+            }
         }
         
         private IList<Tape> RunTapesPerChannel(IList<FlowNode> channels)
@@ -165,7 +173,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         internal void RunTape(Tape tape)
         {
             Console.WriteLine($"{JJ_Framework_Text_Wishes.PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.GetName}");
-            
             
             // Cache Buffer
             Buff cacheBuff = tape.Signal.SynthWishes.MaterializeCache(tape.Signal, tape.Duration, tape.GetName);
