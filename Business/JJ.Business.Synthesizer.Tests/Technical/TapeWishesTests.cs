@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class TapeWishesTests : MySynthWishes
     {
-        FlowNode Envelope => DelayedPulseCurve.Stretch(GetAudioLength) * 0.4;
+        FlowNode Envelope => DelayedPulseCurve.Stretch(GetAudioLength);
 
         public TapeWishesTests()
         {
@@ -28,9 +28,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithParallelTaping();
         }
         
+        // Tape
+        
         [TestMethod]
         public void Tape_NormalAdd_ForComparison_Test() => new TapeWishesTests().Tape_NormalAdd_ForComparison();
-        private void Tape_NormalAdd_ForComparison()
+        void Tape_NormalAdd_ForComparison()
         {
             var duration = 0.1;
 
@@ -50,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         public void Tape_WithConstSignal_Test() => new TapeWishesTests().Tape_WithConstSignal();
-        private void Tape_WithConstSignal()
+        void Tape_WithConstSignal()
         {
             var accessor = new SynthWishesAccessor(this);
 
@@ -163,7 +165,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         public void Tape_WithConstSignal_WithPlayAllTapes_Test() => new TapeWishesTests().Tape_WithConstSignal_WithPlayAllTapes();
-        private void Tape_WithConstSignal_WithPlayAllTapes()
+        void Tape_WithConstSignal_WithPlayAllTapes()
         {
             var accessor = new SynthWishesAccessor(this);
 
@@ -215,7 +217,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         public void Tape_WithSinePartials_Test() => new TapeWishesTests().Tape_WithSinePartials();
-        private void Tape_WithSinePartials()
+        void Tape_WithSinePartials()
         {
             var freq = A4;
 
@@ -230,16 +232,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot_Test()
-            => new TapeWishesTests().SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot();
-        private void SelectiveTape_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot()
+        public void Tape_Selective_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot_Test()
+            => new TapeWishesTests().Tape_Selective_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot();
+        void Tape_Selective_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot()
         {
             Play(() => Sine(A3).Tape() + Sine(A4));
         }
         
         [TestMethod]
-        public void PlayAllTapesTest() => new TapeWishesTests().PlayAllTapes();
-        private void PlayAllTapes()
+        public void Tape_WithPlayAllTapesTest() => new TapeWishesTests().Tape_WithPlayAllTapes();
+        void Tape_WithPlayAllTapes()
         {
             WithPlayAllTapes();
             
@@ -254,8 +256,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void Tape_SinePartials_WithPlayAllTapes_Test() => new TapeWishesTests().Tape_SinePartials_WithPlayAllTapes();
-        private void Tape_SinePartials_WithPlayAllTapes()
+        public void Tape_WithPlayAllTapesTest2() => new TapeWishesTests().Tape_WithPlayAllTapes2();
+        void Tape_WithPlayAllTapes2()
         {
             var freq = A4;
             
@@ -270,42 +272,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             WithMono().Play(() => added);
         }
-
-        [TestMethod]
-        public void PlayChannel_MidChain_Test() => new TapeWishesTests().PlayChannel_MidChain();
-        private void PlayChannel_MidChain()
-        {
-            var pitch = A4;
-            
-            Play(() => Add
-                 (
-                     Sine(pitch * 1).Curve(Envelope).Volume(1.0).PlayChannel(),
-                     Sine(pitch * 2).Curve(Envelope).Volume(0.2),
-                     Sine(pitch * 3).Curve(Envelope).PlayChannel().Volume(0.3),
-                     Sine(pitch * 4).Curve(Envelope).Volume(0.4),
-                     Sine(pitch * 5).Curve(Envelope).Volume(0.2).PlayChannel()
-                 ));
-        }
+               
+        // Mid-Chain Streaming: Problems
         
         [TestMethod]
-        public void SaveChannel_MidChain_Test() => new TapeWishesTests().SaveChannel_MidChain();
-        private void SaveChannel_MidChain()
-        {
-            var pitch = A4;
-            
-            Play(() => Add
-                 (
-                     Sine(pitch * 1).Volume(1.0).SaveChannel(MemberName() + " Partial 1"),
-                     Sine(pitch * 2).Volume(0.2),
-                     Sine(pitch * 3).SaveChannel("FluentSave_UsingTape Partial 2").Volume(0.3),
-                     Sine(pitch * 4).Volume(0.4),
-                     Sine(pitch * 5).Volume(0.2).SetName("FluentSave_UsingTape Partial 3").SaveChannel()
-                 ) * Envelope).Save();
-        }
-        
-        [TestMethod]
-        public void MidChain_Streaming_GoesPerChannel_Test() => new TapeWishesTests().MidChain_Streaming_GoesPerChannel();
-        private void MidChain_Streaming_GoesPerChannel()
+        public void MidChainStreaming_Stereo_WentPerChannel_Test() => new TapeWishesTests().MidChainStreaming_Stereo_WentPerChannel();
+        void MidChainStreaming_Stereo_WentPerChannel()
         {
             var pitch = A4;
             
@@ -326,8 +298,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void CacheChannel_MidChain_ExplicitRecombineChannels_Test() => new TapeWishesTests().CacheChannel_MidChain_ExplicitRecombineChannels();
-        void CacheChannel_MidChain_ExplicitRecombineChannels() 
+        public void MidChainStreaming_Stereo_RecombineChannelsExplicit_Test() => new TapeWishesTests().MidChainStreaming_Stereo_RecombineChannelsExplicit();
+        void MidChainStreaming_Stereo_RecombineChannelsExplicit() 
         {
             WithStereo();
             
@@ -350,8 +322,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void CacheChannel_MidChain_ExplicitRecombineChannels_ShortTest() => new TapeWishesTests().CacheChannel_MidChain_ExplicitRecombineChannels_Short();
-        void CacheChannel_MidChain_ExplicitRecombineChannels_Short() 
+        public void MidChainStreaming_Stereo_RecombineChannelsExplicitly_ShortTest() => new TapeWishesTests().MidChainStreaming_Stereo_RecombineChannelsExplicitly_Short();
+        void MidChainStreaming_Stereo_RecombineChannelsExplicitly_Short() 
         {
             WithStereo();
             
@@ -363,33 +335,78 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                        Sample(buffs[1]).Panning(1)).Play();
         }
         
+        // Mid-Chain Streaming: Simple Cases
+
         [TestMethod]
-        public void Play_MidChain_Stereo_Test() => new TapeWishesTests().Play_MidChain_Stereo();
-        void Play_MidChain_Stereo() 
+        public void MidChainStreaming_Mono_Play_Test() => new TapeWishesTests().MidChainStreaming_Mono_Play();
+        void MidChainStreaming_Mono_Play()
+        { 
+            WithMono();
+            Save(() => Sine(A4).Curve(Envelope).Play() * 2).Play();
+        }
+        
+        [TestMethod]
+        public void MidChainStreaming_Mono_PlayChannel_Test() => new TapeWishesTests().MidChainStreaming_Mono_PlayChannel();
+        void MidChainStreaming_Mono_PlayChannel()
+        {
+            WithMono();
+            
+            var pitch = A4;
+            
+            Play(() => Add
+                 (
+                     Sine(pitch * 1).Curve(Envelope).Volume(1.0).PlayChannel(),
+                     Sine(pitch * 2).Curve(Envelope).Volume(0.2),
+                     Sine(pitch * 3).Curve(Envelope).PlayChannel().Volume(0.3),
+                     Sine(pitch * 4).Curve(Envelope).Volume(0.4),
+                     Sine(pitch * 5).Curve(Envelope).Volume(0.2).PlayChannel()
+                 ));
+        }
+        
+        [TestMethod]
+        public void MidChainStreaming_Mono_SaveChannel_Test() => new TapeWishesTests().MidChainStreaming_Mono_SaveChannel();
+        void MidChainStreaming_Mono_SaveChannel()
+        {
+            WithMono();
+            
+            var pitch = A4;
+            
+            Play(() => Add
+                 (
+                     Sine(pitch * 1).Volume(1.0).SaveChannel(MemberName() + " Partial 1"),
+                     Sine(pitch * 2).Volume(0.2),
+                     Sine(pitch * 3).SaveChannel("FluentSave_UsingTape Partial 2").Volume(0.3),
+                     Sine(pitch * 4).Volume(0.4),
+                     Sine(pitch * 5).Volume(0.2).SetName("FluentSave_UsingTape Partial 3").SaveChannel()
+                 ) * Envelope).Save();
+        }
+        
+        [TestMethod]
+        public void MidChainStreaming_Stereo_Play_Test() => new TapeWishesTests().MidChainStreaming_Stereo_Play();
+        void MidChainStreaming_Stereo_Play() 
         {
             WithStereo();
             Save(() => Sine(A4).Panning(0.1).Play().Curve(Envelope)).Play();
         }
         
+        // Mid-Chain Streaming: Complex Cases
+        
         [TestMethod]
-        public void Multiple_MidChain_Stereo_Actions_Test() => new TapeWishesTests().Multiple_MidChain_Stereo_Actions();
-        void Multiple_MidChain_Stereo_Actions() 
+        public void MidChainStreaming_Stereo_MultipleActions_Test() => new TapeWishesTests().MidChainStreaming_Stereo_MultipleActions();
+        void MidChainStreaming_Stereo_MultipleActions() 
         {
-            //WithSamplingRate(48000);
-            //WithSamplingRate(48000 * 2);
             WithStereo();
 
             var pitch = G4;
             
             Play(() => Add
             (
-                Sine(pitch * 1).Curve(Envelope)/*.Play("Partial 1")*/,
+                Sine(pitch * 1).Curve(Envelope)/*.Play()*/,
                 Sine(pitch * 2).Curve(Envelope).Volume(0.2),
-                Sine(pitch * 3).Curve(Envelope).Panning(0.1)/*.Play("Partial 2")*/.Volume(0.1),
+                Sine(pitch * 3).Curve(Envelope).Panning(0.03).Play().Volume(0.1),
                 Sine(pitch * 4).Curve(Envelope).Volume(0.08),
-                //Sine(pitch * 5).Play("Partial 3").Panning(0.9).Curve(Envelope).Volume(0.2)
-                Sine(pitch * 5).Volume(0.05).Curve(Envelope).Panning(0.9).PlayChannel((b, i) => b.Save()).Curve(Envelope)
-            )).Save();
+                Sine(pitch * 5).Volume(0.05).Curve(Envelope).Panning(0.9)/*.PlayChannel((b, i) => b.Save())*/.Curve(Envelope)
+            ));
         }
     }
 }

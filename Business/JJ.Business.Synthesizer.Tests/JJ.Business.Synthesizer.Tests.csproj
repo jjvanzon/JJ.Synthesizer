@@ -137,6 +137,7 @@
     <Compile Include="Accessors\SampleManagerAccessor.cs" />
     <Compile Include="Accessors\SynthWishesAccessor.cs" />
     <Compile Include="Accessors\WavHeaderStructToAudioFileInfoConverterAccessor.cs" />
+    <Compile Include="Technical\MinChainStreamingTests.cs" />
     <Compile Include="Technical\NameWishesTests.cs" />
     <Compile Include="Technical\NoteWishesTests.cs" />
     <Compile Include="Technical\EnumWishesTests.cs" />
