@@ -1,11 +1,17 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
+using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
+using System.Runtime.CompilerServices;
+using JJ.Persistence.Synthesizer;
 
 // ReSharper disable AssignmentInsteadOfDiscard
 
@@ -66,6 +72,49 @@ namespace JJ.Business.Synthesizer.Wishes
             t = new TimeIndexer(this);
         }
         
+        public void Run(Func<FlowNode> func, [CallerMemberName] string callerMemberName = null)
+        {
+            var channels = GetChannelSignals(func);
+            
+            if (GetParallelTaping)
+            {
+                _tapeRunner.RunAllTapes(channels);
+            }
+            else
+            {
+                Cache(func, callerMemberName);
+            }
+        }
+
+                
+        private IList<FlowNode> GetChannelSignals(Func<FlowNode> func)
+        {
+            if (func == null) throw new ArgumentNullException(nameof(func));
+            
+            var originalChannel = GetChannel;
+            try
+            {
+                switch (GetSpeakers)
+                {
+                    case Mono:
+                        return new[] { func() };
+                    
+                    case Stereo:
+                        WithLeft(); var leftSignal = func();
+                        WithRight(); var rightSignal = func();
+                        return new[] { leftSignal, rightSignal };
+
+                    default: 
+                        throw new ValueNotSupportedException(GetSpeakers);
+                }
+            }
+            finally
+            {
+                WithChannel(originalChannel);
+            }
+   
+        }
+
         // Helpers
 
         private static string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)

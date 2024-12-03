@@ -55,29 +55,8 @@ namespace JJ.Business.Synthesizer.Wishes
             bool inMemory, bool mustPad, IList<string> additionalMessages, 
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
-            var originalChannel = GetChannel;
-            try
-            {
-                switch (GetSpeakers)
-                {
-                    case Mono:
-                    {
-                        WithCenter(); var monoOutlet = func();
-                        return MakeBuff(new[] { monoOutlet }, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
-                    }
-                    case Stereo:
-                    {
-                        WithLeft(); var leftOutlet = func();
-                        WithRight(); var rightOutlet = func();
-                        return MakeBuff(new[] { leftOutlet, rightOutlet }, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
-                    }
-                    default: throw new ValueNotSupportedException(GetSpeakers);
-                }
-            }
-            finally
-            {
-                WithChannel(originalChannel);
-            }
+            var channels = GetChannelSignals(func);
+            return MakeBuff(channels, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
         }
         
         /// <inheritdoc cref="docs._makebuff" />
