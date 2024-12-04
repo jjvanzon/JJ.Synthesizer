@@ -1,14 +1,9 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Persistence;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     public class MySynthWishes : SynthWishes
     {
-        public MySynthWishes(IContext context = null)  
-            : base(context)
-        { }
-        
         public FlowNode RecorderCurve => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
 
         /// <summary>
