@@ -12,6 +12,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using System.Runtime.CompilerServices;
 
+// ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable AssignmentInsteadOfDiscard
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -31,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._captureindexer" />
         public CaptureIndexer _ => _synthWishes._;
     }
-
+    
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._captureindexer" />
@@ -75,6 +76,12 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var channels = GetChannelSignals(func);
             
+            // To make call in constructor work whether Flow() is implemented or not.
+            //if (channels.All(x => x == null))
+            //{
+            //    return;
+            //}
+
             if (GetParallelTaping)
             {
                 _tapeRunner.RunAllTapes(channels);
@@ -84,7 +91,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 Cache(func, callerMemberName);
             }
         }
-
                 
         private IList<FlowNode> GetChannelSignals(Func<FlowNode> func)
         {
