@@ -58,6 +58,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.InstanceRun
     }
 }
 
+namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.AllOnOneInstance
+{
+    /// <summary> ➖ No context isolation. Doesn't look great. </summary>
+    [TestClass]
+    [TestCategory("Technical")]
+    public class FuncFree : MySynthWishes
+    {
+        public FuncFree() => WithStereo();
+
+        [TestMethod]
+        public void AllOnOneInstance() { var x = new FuncFree(); x.Run(x.Start); }
+
+        FlowNode Start() => Sine(E4).Curve(DelayedPulseCurve).Panbrello().Play();
+    }
+}
+
 namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.ConstructorFunc
 {
     /// <summary> ❌ No sound / instance contention. But looks ok. </summary>
