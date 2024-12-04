@@ -11,7 +11,6 @@ using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using System.Runtime.CompilerServices;
-using JJ.Persistence.Synthesizer;
 
 // ReSharper disable AssignmentInsteadOfDiscard
 
