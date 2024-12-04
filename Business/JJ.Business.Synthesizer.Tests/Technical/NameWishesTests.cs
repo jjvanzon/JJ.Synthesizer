@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
+    [TestCategory("Technical")]
     public class NameWishesTests
     {
         [TestMethod]

@@ -7,6 +7,7 @@ using static JJ.Business.Synthesizer.Wishes.NameHelper;
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
+    [TestCategory("Technical")]
     public class MidChainStreamingTests : MySynthWishes
     {
         FlowNode Envelope => DelayedPulseCurve.Stretch(GetAudioLength);
