@@ -1115,7 +1115,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.Panbrello(this, (speed, depth));
 
         /// <inheritdoc cref="docs._panbrello" />
-        public FlowNode Panbrello(double speed, FlowNode depth)
+        public FlowNode Panbrello(double speed, FlowNode depth = default)
             => _synthWishes.Panbrello(this, (speed, depth));
 
         /// <inheritdoc cref="docs._panbrello" />
