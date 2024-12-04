@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using System.Reflection;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 // ReSharper disable PublicConstructorInAbstractClass
@@ -10,7 +11,7 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 // ReSharper disable CheckNamespace
 // ReSharper disable ExplicitCallerInfoArgument
 
-namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.Run
+namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.WithFunc
 {
     /// <summary> ✔️ Not func free. But it works. </summary>
     [TestClass]
@@ -206,9 +207,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.NoMainFlowNod
     }
 }
 
-namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.MoreLocals
+namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.NoMainFlowNode2
 {
-    /// <summary> Sandbox </summary>
+    /// <summary> Sandbox ➖ No context isolation. Looks cool though; no main flow node. </summary>
     [TestClass]
     [TestCategory("Technical")]
     public class FuncFree : MySynthWishes2
@@ -216,7 +217,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.MoreLocals
         public FuncFree() => WithStereo();
         
         [TestMethod]
-        public void MoreLocals() => Run(Start);
+        public void NoMainFlowNode2() => Run(Start);
 
         void Start()
         {
@@ -228,8 +229,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.MoreLocals
     }
 }
 
+
+// Shared MySynthWishes Alternative
 namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation
 {
+    /// <summary>
+    /// Offers a Run overload that takes an Action, not require returning a FlowNode,
+    /// making the notation more concise and flexible.
+    /// </summary>
     public class MySynthWishes2 : MySynthWishes
     {
         public void Run(Action action)
@@ -237,14 +244,79 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation
             Run(
                 () =>
                 {
-                    /// <summary> HACK: To make tape runner run all tapes without an explicit root node specified. </summary>
                     action();
-                    var accessor = new SynthWishesAccessor(this);
-                    var tapeSignals = accessor._tapes.GetAll().Select(x => x.Signal).ToArray();
-                    return Add(tapeSignals);
+
+                    // HACK: To avoid the FlowNode return value,
+                    // and make tape runner run all tapes without an explicit root node specified,
+                    // create a root node here after all.
+                    FlowNode[] tapeSignals = new SynthWishesAccessor(this)._tapes.GetAll().Select(x => x.Signal).ToArray();
+                    FlowNode root = Add(tapeSignals);
+                    return root;
                 },
                 action.Method.Name
             );
         }
+    }
+}
+
+namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.DelegateRebind
+{
+    /// <summary>  </summary>
+    [TestClass]
+    [TestCategory("Technical")]
+    public class FuncFree : Synth
+    {
+        public FuncFree() => WithStereo();
+        
+        [TestMethod]
+        public void DelegateRebind1() => Run(Sound1);
+        FlowNode Sound1() => Sine(E4).Curve(DelayedPulseCurve).Panbrello(3).Play();
+        
+        [TestMethod]
+        public void DelegateRebind2() => Run(Sound2);
+        FlowNode Sound2() => Sine(G4).Curve(DelayedPulseCurve).Panbrello(5).Play();
+    }
+
+    public class Synth : MySynthWishes
+    {
+        public void Run(Action action)
+        {
+            // Create a new instance of the derived class
+            Type concreteType = this.GetType();
+            Synth newInstance = (Synth)Activator.CreateInstance(concreteType);
+
+            // Rebind the delegate to the new instance
+            MethodInfo methodInfo = action.Method;
+            Action newAction = (Action)Delegate.CreateDelegate(typeof(Action), newInstance, methodInfo);
+
+            // Run the action on the new instance
+            newInstance.Run(
+                () =>
+                {
+                    newAction();
+                    
+                    // HACK: To avoid the FlowNode return value,
+                    // and make tape runner run all tapes without an explicit root node specified,
+                    // create a root node here after all.
+                    FlowNode[] tapeSignals = new SynthWishesAccessor(this)._tapes.GetAll().Select(x => x.Signal).ToArray();
+                    FlowNode root = Add(tapeSignals);
+                    return root;
+                },
+                newAction.Method.Name
+            );
+        }
+        
+        //public void Run(Func<FlowNode> startMethod)
+        //{
+        //    // Create a new instance of the derived class
+        //    var instance = (MySynthWishes3)Activator.CreateInstance(this.GetType());
+
+        //    // Rebind the delegate to the new instance
+        //    MethodInfo methodInfo = startMethod.Method;
+        //    Func<FlowNode> newStartMethod = (Func<FlowNode>)Delegate.CreateDelegate(typeof(Func<FlowNode>), instance, methodInfo);
+
+        //    // Run the start method on the new instance
+        //    instance.Run(newStartMethod);
+        //}
     }
 }
