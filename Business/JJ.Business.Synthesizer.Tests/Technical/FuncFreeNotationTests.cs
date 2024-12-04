@@ -1,77 +1,77 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
+using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 // ReSharper disable PublicConstructorInAbstractClass
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable ObjectCreationAsStatement
 // ReSharper disable CheckNamespace
+// ReSharper disable ExplicitCallerInfoArgument
 
 namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.Run
 {
-    /// <summary> Not func free </summary>
+    /// <summary> ✔️ Not func free. But it works. </summary>
     [TestClass]
     [TestCategory("Technical")]
-    public class MySound : MySynthWishes
+    public class FuncFree : MySynthWishes
     {
-        [TestMethod]
-        public void FuncFree_Run() => new MySound().Start();
+        public FuncFree() => WithStereo();
         
-        void Start() => Run(() => Sine(E4).Curve(RecorderCurve).Play());
+        [TestMethod]
+        public void WithFunc() => new FuncFree().Start();
+        
+        void Start() => Run(() => Sine(E4).Curve(DelayedPulseCurve).Panbrello().Play());
     }
 }
 
 namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.MethodGroup
 {
-    /// <summary> Better </summary>
+    /// <summary> ❌ No sound / instance contention. Though looks better. </summary>
     [TestClass]
     [TestCategory("Technical")]
-    public class MySound : MySynthWishes
+    public class FuncFree : MySynthWishes
     {
-        [TestMethod]
-        public void FuncFree_MethodGroup() => new MySound().Run(Start);
+        public FuncFree() => WithStereo();
         
-        FlowNode Start() => Sine(E4).Curve(RecorderCurve).Play();
+        [TestMethod]
+        public void MethodGroup() => new FuncFree().Run(Start);
+        
+        FlowNode Start() => Sine(E4).Curve(DelayedPulseCurve).Panbrello().Play();
+    }
+}
+
+namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.InstanceRun
+{
+    /// <summary> ➖ No context isolation. Looks OK. </summary>
+    [TestClass]
+    [TestCategory("Technical")]
+    public class FuncFree : MySynthWishes
+    {
+        public FuncFree() => WithStereo();
+        
+        [TestMethod]
+        public void InstanceRun() => Run(Start);
+        
+        FlowNode Start() => Sine(E4).Curve(DelayedPulseCurve).Panbrello().Play();
     }
 }
 
 namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.ConstructorFunc
 {
-    /// <summary> Not better </summary>
+    /// <summary> ❌ No sound / instance contention. But looks ok. </summary>
     [TestClass]
     [TestCategory("Technical")]
-    public class MySound : Synth
+    public class FuncFree : Synth
     {
-        public MySound() { }
-        public MySound(Func<FlowNode> func) : base(func) { }
+        public FuncFree()=> WithStereo();
+        public FuncFree(Func<FlowNode> func) : base(func) => WithStereo();
         
         [TestMethod]
-        public void FuncFree_ConstructorFunc() => new MySound(Start);
+        public void ConstructorFunc() => new FuncFree(Start);
         
-        FlowNode Start() => Sine(E4).Curve(RecorderCurve).Play();
-    }
-
-    public class Synth : MySynthWishes
-    {
-        public Synth() { }
-        public Synth(Func<FlowNode> func) => Run(func, GetType().Name);
-    }
-}
-
-namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.ConstructorFunc2
-{
-    /// <summary> Same </summary>
-    [TestClass]
-    [TestCategory("Technical")]
-    public class MySound : Synth
-    {
-        public MySound() { }
-        public MySound(Func<FlowNode> func) : base(func) { }
-        
-        [TestMethod]
-        public void FuncFree_ConstructorFunc2() => new Synth(Start);
-        
-        FlowNode Start() => Sine(E4).Curve(RecorderCurve).Play();
+        FlowNode Start() => Sine(E4).Curve(DelayedPulseCurve).Panbrello().Play();
     }
 
     public class Synth : MySynthWishes
@@ -83,21 +83,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.ConstructorFu
 
 namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.LocalFunc_ConstructorFunc
 {
-    /// <summary> Confusing </summary>
+    /// <summary> ❌ Confusing </summary>
     [TestClass]
     [TestCategory("Technical")]
-    public class MySound : Synth
+    public class FuncFree : Synth
     {
-        public MySound() { }
-        public MySound(Func<FlowNode> func) : base(func) { }
+        public FuncFree() => WithStereo();
+        public FuncFree(Func<FlowNode> func) => WithStereo();
         
         [TestMethod]
-        public void FuncFree_LocalFunc_ConstructorFunc()
+        public void LocalFunc_ConstructorFunc()
         {
-            FlowNode MySynth()
-            {
-                return Sine(E4).Curve(RecorderCurve).Play();
-            }
+            FlowNode MySynth() => Sine(E4).Curve(DelayedPulseCurve).Panbrello().Play();
             
             new Synth(MySynth);
         }
@@ -112,15 +109,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.LocalFunc_Con
 
 namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.VirtualStart
 {
-    /// <summary> It's magic </summary>
+    /// <summary> ❌ Constructor not run on time. Only one test per class. But concise magic! </summary>
     [TestClass]
     [TestCategory("Technical")]
-    public class MySound : Synth
+    public class FuncFree : Synth
     {
-        [TestMethod]
-        public void FuncFree_VirtualStart() { }
+        public FuncFree() => WithStereo();
         
-        protected override FlowNode Start() => Sine(E4).Curve(RecorderCurve).Play();
+        [TestMethod]
+        public void VirtualStart() { }
+        
+        protected override FlowNode Start() => Sine(E4).Curve(DelayedPulseCurve).Panbrello().Play();
     }
 
     public class Synth : MySynthWishes
@@ -133,15 +132,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.VirtualStart
 
 namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.AbstractStart
 {
-    /// <summary> It's forceful magic </summary>
+    /// <summary> ❌ Constructor not run on time. Only one test per class. But forceful concise magic! </summary>
     [TestClass]
     [TestCategory("Technical")]
-    public class MySound : Synth
+    public class FuncFree : Synth
     {
-        [TestMethod]
-        public void FuncFree_AbstractStart() { }
+        public FuncFree() => WithStereo();
         
-        protected override FlowNode Start() => Sine(E4).Curve(RecorderCurve).Play();
+        [TestMethod]
+        public void AbstractStart() { }
+        
+        protected override FlowNode Start() => Sine(E4).Curve(DelayedPulseCurve).Panbrello().Play();
     }
 
     public abstract class Synth : MySynthWishes
@@ -154,103 +155,80 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.AbstractStart
 
 namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.StaticRun
 {
-    /// <summary>
-    /// More terse.
-    /// Context contention?
-    /// </summary>
+    /// <summary> ❌ No sound / instance contention. But more terse. </summary>
     [TestClass]
     [TestCategory("Technical")]
-    public class MySound : Synth
+    public class FuncFree : Synth
     {
-        [TestMethod]
-        public void FuncFree_StaticRun() => Synth.Run(Start);
+        public FuncFree() => WithStereo();
         
-        FlowNode Start() => Sine(E4).Curve(RecorderCurve).Play();
+        [TestMethod]
+        public void StaticRun() => Synth.Run(Start);
+        
+        FlowNode Start() => Sine(E4).Curve(DelayedPulseCurve).Panbrello().Play();
     }
 
     public class Synth : MySynthWishes
     {
         public static void Run(Func<FlowNode> func) => new Synth().Run(func, func.Method.Name);
+    }
+}
+
+namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.NoMainFlowNode
+{
+    /// <summary> ➖ No context isolation. Looks cool though; no main flow node. </summary>
+    [TestClass]
+    [TestCategory("Technical")]
+    public class FuncFree : MySynthWishes2
+    {
+        public FuncFree() => WithStereo();
+        
+        [TestMethod]
+        public void NoMainFlowNode() => Run(Start);
+        
+        void Start() => Sine(E4).Curve(DelayedPulseCurve).Panbrello().Play();
     }
 }
 
 namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.MoreLocals
 {
+    /// <summary> Sandbox </summary>
     [TestClass]
     [TestCategory("Technical")]
-    public class MySound : Synth
+    public class FuncFree : MySynthWishes2
     {
-        [TestMethod]
-        public void FuncFree_MoreLocals() => Synth.Run(Start);
-
-        FlowNode Start()
-        {
-            var recorderCurve = Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
-            
-            var flow = Sine(E4).Curve(recorderCurve).Play();
-            
-            return flow;
-        }
-    }
-
-    public class Synth : MySynthWishes
-    {
-        public static void Run(Func<FlowNode> func) => new Synth().Run(func, func.Method.Name);
-
-    }
-}
-
-namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.LocalProblems
-{
-    [TestClass]
-    [TestCategory("Technical")]
-    public class MySound : Synth
-    {
-        [TestMethod]
-        public void FuncFree_LocalProblems() => Synth.Run(Start);
-
-        FlowNode Start()
-        {
-            var recorderCurve = Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
-            
-            // Problem: Might not run, because it's not connected to the flow.
-            Sine(G4).Curve(recorderCurve).Play();
-            // Actually it registers a tape, so it might still run.
-            // So why am I returning a flow node here?
-            // Is that legacy that I do not even need?
-            
-            var flow = Sine(E4).Curve(recorderCurve).Play();
-            
-            return flow;
-        }
-    }
-
-    public class Synth : MySynthWishes
-    {
-        public static void Run(Func<FlowNode> func) => new Synth().Run(func, func.Method.Name);
-    }
-}
-
-namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.StaticRun2
-{
-    /// <summary>
-    /// Cool.
-    /// Takes no main flow node.
-    /// Will it work?
-    /// Context contention?
-    /// </summary>
-    [TestClass]
-    [TestCategory("Technical")]
-    public class MySound : Synth
-    {
-        [TestMethod]
-        public void FuncFree_StaticRun2() => Synth.Run(Start);
+        public FuncFree() => WithStereo();
         
-        void Start() => Sine(E4).Curve(RecorderCurve).Play();
-    }
+        [TestMethod]
+        public void MoreLocals() => Run(Start);
 
-    public class Synth : MySynthWishes
+        void Start()
+        {
+            var curve = Curve((0, 0), (0.2, 0), (0.3, 1),  (0.7, 1), (0.8, 0), (1.0, 0));
+            
+            Sine(E4).Curve(curve).Panbrello(3).Play("Note1");
+            Sine(G4).Curve(curve).Panbrello(5).Play("Note2");
+        }
+    }
+}
+
+namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation
+{
+    public class MySynthWishes2 : MySynthWishes
     {
-        public static void Run(Action action) => new Synth().Run(() => { action(); return null; }, action.Method.Name);
+        public void Run(Action action)
+        {
+            Run(
+                () =>
+                {
+                    /// <summary> HACK: To make tape runner run all tapes without an explicit root node specified. </summary>
+                    action();
+                    var accessor = new SynthWishesAccessor(this);
+                    var tapeSignals = accessor._tapes.GetAll().Select(x => x.Signal).ToArray();
+                    return Add(tapeSignals);
+                },
+                action.Method.Name
+            );
+        }
     }
 }
