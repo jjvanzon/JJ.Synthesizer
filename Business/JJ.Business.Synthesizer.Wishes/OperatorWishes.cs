@@ -1065,7 +1065,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._panbrello" />
         public FlowNode Panbrello(FlowNode sound, (FlowNode speed, FlowNode depth) panbrello = default)
         {
-            panbrello.speed = panbrello.speed ?? _[1];
+            panbrello.speed = panbrello.speed ?? _[3];
             panbrello.depth = panbrello.depth ?? _[1];
 
             // 0.5 is in the middle. 0 is left, 1 is right.
