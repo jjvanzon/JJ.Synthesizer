@@ -5,6 +5,9 @@ using System.Linq;
 using System.Reflection;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using System.Threading;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
+
 // ReSharper disable PublicConstructorInAbstractClass
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable ObjectCreationAsStatement
@@ -253,20 +256,57 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.NoMainFlowNod
 
 namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.DelegateRebind
 {
-    /// <summary>  </summary>
+    /// <summary> ✔️ Looks clean, works good! </summary>
     [TestClass]
     [TestCategory("Technical")]
     public class FuncFree : Synth
     {
         public FuncFree() => WithStereo();
-        
+
         [TestMethod]
-        public void DelegateRebind1() => Run(Sound1);
-        FlowNode Sound1() => Sine(E4).Curve(DelayedPulseCurve).Panbrello(3).Play();
+        public void DelegateRebind()
+        {
+            Run(Sound1);
+            Run(Sound2);
+        }
+
+        void Sound1() => Sine(E4).Curve(DelayedPulseCurve).Panbrello(3).Play();
         
+        void Sound2() => Sine(G4).Curve(DelayedPulseCurve).Panbrello(5).Play();
+    }
+
+    /// <summary>  </summary>
+    [TestClass]
+    [TestCategory("Technical")]
+    public class FuncFree_DelegateRebind_WithInstanceVerification : Synth
+    {
+        private static   int _instanceCounter;
+        private readonly int _instanceId;
+        
+        public FuncFree_DelegateRebind_WithInstanceVerification()
+        {
+            _instanceId = Interlocked.Increment(ref _instanceCounter);
+            WithStereo();
+        }
+
         [TestMethod]
-        public void DelegateRebind2() => Run(Sound2);
-        FlowNode Sound2() => Sine(G4).Curve(DelayedPulseCurve).Panbrello(5).Play();
+        public void DelegateRebind_WithInstanceVerification()
+        {
+            Run(Sound1);
+            Run(Sound2);
+        }
+
+        void Sound1()
+        {
+            Console.WriteLine($"Instance Integrity: {MemberName()} running on instance : {_instanceId}");
+            Sine(E4).Curve(DelayedPulseCurve).Panbrello(3).Play();
+        }
+        
+        void Sound2()
+        {
+            Console.WriteLine($"Instance Integrity: {MemberName()} running on instance : {_instanceId}");
+            Sine(G4).Curve(DelayedPulseCurve).Panbrello(5).Play();
+        }
     }
 
     public class Synth : MySynthWishes
