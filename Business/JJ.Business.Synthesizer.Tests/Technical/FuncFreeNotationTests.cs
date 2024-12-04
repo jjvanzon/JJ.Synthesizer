@@ -196,7 +196,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.NoMainFlowNod
     /// <summary> ➖ No context isolation. Looks cool though; no main flow node. </summary>
     [TestClass]
     [TestCategory("Technical")]
-    public class FuncFree : MySynthWishes2
+    public class FuncFree : Synth
     {
         public FuncFree() => WithStereo();
         
@@ -205,16 +205,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.NoMainFlowNod
         
         void Start() => Sine(E4).Curve(DelayedPulseCurve).Panbrello().Play();
     }
-}
 
-namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.NoMainFlowNode2
-{
     /// <summary> Sandbox ➖ No context isolation. Looks cool though; no main flow node. </summary>
     [TestClass]
     [TestCategory("Technical")]
-    public class FuncFree : MySynthWishes2
+    public class FuncFree2 : Synth
     {
-        public FuncFree() => WithStereo();
+        public FuncFree2() => WithStereo();
         
         [TestMethod]
         public void NoMainFlowNode2() => Run(Start);
@@ -227,17 +224,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation.NoMainFlowNod
             Sine(G4).Curve(curve).Panbrello(5).Play("Note2");
         }
     }
-}
 
-
-// Shared MySynthWishes Alternative
-namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation
-{
     /// <summary>
     /// Offers a Run overload that takes an Action, not require returning a FlowNode,
     /// making the notation more concise and flexible.
     /// </summary>
-    public class MySynthWishes2 : MySynthWishes
+    public class Synth : MySynthWishes
     {
         public void Run(Action action)
         {
@@ -245,7 +237,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.FuncFreeNotation
                 () =>
                 {
                     action();
-
+                    
                     // HACK: To avoid the FlowNode return value,
                     // and make tape runner run all tapes without an explicit root node specified,
                     // create a root node here after all.
