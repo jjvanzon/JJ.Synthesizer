@@ -31,10 +31,20 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         {
             get
             {
-                object tapeRunner = _accessor.GetFieldValue(MemberName());
-                return new TapeRunnerAccessor(tapeRunner);
+                object obj = _accessor.GetFieldValue(MemberName());
+                return new TapeRunnerAccessor(obj);
             }
         }
+
+        public TapeCollectionAccessor _tapes
+        {
+            get
+            {
+                object obj = _accessor.GetFieldValue(MemberName());
+                return new TapeCollectionAccessor(obj);
+            }
+        }
+        
         
         // EchoAdditive
         
