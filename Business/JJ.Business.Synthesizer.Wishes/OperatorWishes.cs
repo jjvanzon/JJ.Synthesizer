@@ -1,7 +1,5 @@
 ﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
-using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
@@ -10,7 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using static JJ.Business.Synthesizer.Wishes.Helpers.LogHelper;
+using static JJ.Business.Synthesizer.Wishes.SynthLogger;
 
 // ReSharper disable LocalVariableHidesMember
 // ReSharper disable ParameterHidesMember
