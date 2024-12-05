@@ -9,7 +9,7 @@ using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    internal static class SynthLogger
+    internal static class LogWishes
     {
         public static List<string> GetSynthLog(Buff buff, double calculationDuration)
         {

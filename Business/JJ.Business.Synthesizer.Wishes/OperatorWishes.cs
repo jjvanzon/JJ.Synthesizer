@@ -8,7 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using static JJ.Business.Synthesizer.Wishes.SynthLogger;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 // ReSharper disable LocalVariableHidesMember
 // ReSharper disable ParameterHidesMember

@@ -57,7 +57,7 @@
     <Compile Include="CacheWishes.cs" />
     <Compile Include="CalculationWishes.cs" />
     <Compile Include="Helpers\SynthWishesResolver.cs" />
-    <Compile Include="SynthLogger.cs" />
+    <Compile Include="LogWishes.cs" />
     <Compile Include="TapeWishes\TapeRunner.cs" />
     <Compile Include="TapeWishes\TapeCollection.cs" />
     <Compile Include="TapeWishes\Tape.cs" />
