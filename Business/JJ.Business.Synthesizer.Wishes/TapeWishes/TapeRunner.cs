@@ -202,14 +202,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                                    x.WithSave  ||
                                    x.Callback  != null).ToArray();
 
-            if (_synthWishes.GetMono)
+            if (_synthWishes.IsMono)
             {
                 foreach (Tape tape in tapesWithActions)
                 {
                     _monoTapeActionRunner.RunActions(tape);
                 }
             }
-            else if (_synthWishes.GetStereo)
+            else if (_synthWishes.IsStereo)
             {
                 var tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
                 foreach (var tapePair in tapePairs)

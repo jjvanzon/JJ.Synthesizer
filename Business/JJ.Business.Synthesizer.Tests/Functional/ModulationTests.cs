@@ -370,17 +370,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._echo" />
         internal FlowNode DeepEcho(FlowNode sound)
         {
-            if (GetCenter)
+            if (IsCenter)
             {
                 // Test SetName
                 return (sound * 0.18).SetName().Echo(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayL) / 0.18;
             }   
-            if (GetLeft)
+            if (IsLeft)
             {
                 // Test FetchName
                 return (sound * 0.4).Echo(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL, FetchName()) / 0.4;
             }
-            if (GetRight)
+            if (IsRight)
             {
                 // Test MemberName
                 return (sound * 0.4).Echo(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR, MemberName()) / 0.4;

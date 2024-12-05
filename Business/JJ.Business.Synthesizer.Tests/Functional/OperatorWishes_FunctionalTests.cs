@@ -54,8 +54,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Arrange
             FlowNode fixedValues()
             {
-                if (GetLeft) return _[0.8];
-                if (GetRight) return _[0.6];
+                if (IsLeft) return _[0.8];
+                if (IsRight) return _[0.6];
                 return default;
             }
 
@@ -92,8 +92,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Arrange
             FlowNode TestSignal()
             {
-                if (GetLeft ) return _[0.8];
-                if (GetRight) return _[0.6];
+                if (IsLeft ) return _[0.8];
+                if (IsRight) return _[0.6];
                 return default;
             }
 

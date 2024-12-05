@@ -1023,15 +1023,15 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
             
-            if (GetMono)
+            if (IsMono)
             {
                 return sound / 2;
             }
             
-            if (GetStereo)
+            if (IsStereo)
             {
-                if (GetLeft) return Multiply(sound, Subtract(_[1], panning)).SetName();
-                if (GetRight) return Multiply(sound, panning).SetName();
+                if (IsLeft) return Multiply(sound, Subtract(_[1], panning)).SetName();
+                if (IsRight) return Multiply(sound, panning).SetName();
             }
             
             throw new Exception($"Unsupported combination of values: {new {GetChannels, GetChannel}}");
@@ -1043,9 +1043,9 @@ namespace JJ.Business.Synthesizer.Wishes
             if (panning < 0) panning = 0;
             if (panning > 1) panning = 1;
 
-            if (GetMono) return (sound / 2).SetName();
-            if (GetLeft) return (sound * _[1 - panning]).SetName();
-            if (GetRight) return (sound * _[panning]).SetName();
+            if (IsMono) return (sound / 2).SetName();
+            if (IsLeft) return (sound * _[1 - panning]).SetName();
+            if (IsRight) return (sound * _[panning]).SetName();
             
             throw new Exception($"Unsupported combination of values: {new {GetChannels, GetChannel}}");
         }

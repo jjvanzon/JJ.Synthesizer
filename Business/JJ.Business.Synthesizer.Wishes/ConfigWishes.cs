@@ -130,11 +130,11 @@ namespace JJ.Business.Synthesizer.Wishes
         private SampleDataTypeEnum _sampleDataTypeEnum;
         public int GetBits => _sampleDataTypeEnum != default ? _sampleDataTypeEnum.GetBits() : _section.Bits ?? DefaultBits;
         public void WithBits(int bits) => _sampleDataTypeEnum = bits.ToSampleDataTypeEnum();
-        public bool Get32Bit => GetBits == 32;
+        public bool Is32Bit => GetBits == 32;
         public void With32Bit() => WithBits(32);
-        public bool Get16Bit => GetBits == 16;
+        public bool Is16Bit => GetBits == 16;
         public void With16Bit() => WithBits(16);
-        public bool Get8Bit => GetBits == 8;
+        public bool Is8Bit => GetBits == 8;
         public void With8Bit() => WithBits(8);
         
         // Channels
@@ -142,9 +142,9 @@ namespace JJ.Business.Synthesizer.Wishes
         private SpeakerSetupEnum _speakerSetupEnum;
         public int GetChannels => _speakerSetupEnum != default ? _speakerSetupEnum.GetChannels() : _section.Channels ?? DefaultChannels;
         public void WithChannels(int channels) => _speakerSetupEnum = channels.ToSpeakerSetupEnum();
-        public bool GetMono => GetChannels == 1;
+        public bool IsMono => GetChannels == 1;
         public void WithMono() => WithChannels(1);
-        public bool GetStereo => GetChannels == 2;
+        public bool IsStereo => GetChannels == 2;
         public void WithStereo() => WithChannels(2);
         
         // Channel
@@ -152,11 +152,11 @@ namespace JJ.Business.Synthesizer.Wishes
         private     ChannelEnum                 _channelEnum = DefaultChannel         .ToChannelEnum(DefaultChannels);
         public int  GetChannel               => _channelEnum != default ? _channelEnum.ToChannel() : 0;
         public void WithChannel(int channel) => _channelEnum  =                channel.ToChannelEnum(GetChannels);
-        public bool GetCenter =>   GetChannels == 1 ? GetChannel == 0 : default;
+        public bool IsCenter  =>   GetChannels == 1 ? GetChannel == 0 : default;
         public void WithCenter() { WithChannels  (1); WithChannel  (0);        }
-        public bool GetLeft   =>   GetChannels == 2 ? GetChannel == 0 : default;
+        public bool IsLeft    =>   GetChannels == 2 ? GetChannel == 0 : default;
         public void WithLeft  () { WithChannels  (2); WithChannel  (0);        }
-        public bool GetRight  =>   GetChannels == 2 ? GetChannel == 1 : default;
+        public bool IsRight   =>   GetChannels == 2 ? GetChannel == 1 : default;
         public void WithRight () { WithChannels  (2); WithChannel  (1);        }
 
         // SamplingRate
@@ -223,9 +223,9 @@ namespace JJ.Business.Synthesizer.Wishes
         private InterpolationTypeEnum _interpolation;
         public InterpolationTypeEnum GetInterpolation => _interpolation != default ? _interpolation : _section.Interpolation ?? DefaultInterpolation;
         public void WithInterpolation(InterpolationTypeEnum interpolation) => _interpolation = interpolation;
-        public bool GetLinear => GetInterpolation == Line;
+        public bool IsLinear => GetInterpolation == Line;
         public void WithLinear() => WithInterpolation(Line);
-        public bool GetBlocky => GetInterpolation == Block;
+        public bool IsBlocky => GetInterpolation == Block;
         public void WithBlocky() => WithInterpolation(Block);
 
         // Durations
@@ -645,27 +645,27 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public int GetBits => Config.GetBits;
         public SynthWishes WithBits(int bits) { Config.WithBits(bits); return this; }
-        public bool Get32Bit => Config.Get32Bit;
+        public bool Is32Bit => Config.Is32Bit;
         public SynthWishes With32Bit() { Config.With32Bit(); return this; }
-        public bool Get16Bit => Config.Get16Bit;
+        public bool Is16Bit => Config.Is16Bit;
         public SynthWishes With16Bit() { Config.With16Bit(); return this; }
-        public bool Get8Bit => Config.Get8Bit;
+        public bool Is8Bit => Config.Is8Bit;
         public SynthWishes With8Bit() { Config.With8Bit(); return this; }
         
         public int GetChannels => Config.GetChannels;
         public SynthWishes WithChannels(int channels) { Config.WithChannels(channels); return this; }
-        public bool GetMono => Config.GetMono;
+        public bool IsMono => Config.IsMono;
         public SynthWishes WithMono() { Config.WithMono(); return this; }
-        public bool GetStereo => Config.GetStereo;
+        public bool IsStereo => Config.IsStereo;
         public SynthWishes WithStereo() { Config.WithStereo(); return this; }
         
         public int GetChannel => Config.GetChannel;
         public SynthWishes WithChannel(int channel) { Config.WithChannel(channel); return this; }
-        public bool GetLeft => Config.GetLeft;
+        public bool IsLeft => Config.IsLeft;
         public SynthWishes WithLeft() { Config.WithLeft(); return this; }
-        public bool GetRight => Config.GetRight;
+        public bool IsRight => Config.IsRight;
         public SynthWishes WithRight()  { Config.WithRight(); return this; }
-        public bool GetCenter => Config.GetCenter;
+        public bool IsCenter => Config.IsCenter;
         public SynthWishes WithCenter()  { Config.WithCenter(); return this; }
         
         /// <inheritdoc cref="docs._getsamplingrate" />
@@ -682,9 +682,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public InterpolationTypeEnum GetInterpolation => Config.GetInterpolation;
         public SynthWishes WithInterpolation(InterpolationTypeEnum interpolation) { Config.WithInterpolation(interpolation); return this; }
-        public bool GetLinear => Config.GetLinear;
+        public bool IsLinear => Config.IsLinear;
         public SynthWishes WithLinear() {Config.WithLinear(); return this; }
-        public bool GetBlocky => Config.GetBlocky;
+        public bool IsBlocky => Config.IsBlocky;
         public SynthWishes WithBlocky() { Config.WithBlocky(); return this; }
 
         // Durations
@@ -774,27 +774,27 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public int GetBits => _synthWishes.GetBits;
         public FlowNode WithBits(int bits) { _synthWishes.WithBits(bits); return this; }
-        public bool Get32Bit => _synthWishes.Get32Bit;
+        public bool Is32Bit => _synthWishes.Is32Bit;
         public FlowNode With32Bit() { _synthWishes.With32Bit(); return this; }
-        public bool Get16Bit => _synthWishes.Get16Bit;
+        public bool Is16Bit => _synthWishes.Is16Bit;
         public FlowNode With16Bit() { _synthWishes.With16Bit(); return this; }
-        public bool Get8Bit => _synthWishes.Get8Bit;
+        public bool Is8Bit => _synthWishes.Is8Bit;
         public FlowNode With8Bit() { _synthWishes.With8Bit(); return this; }
         
         public int GetChannels => _synthWishes.GetChannels;
         public FlowNode WithChannels(int channels) { _synthWishes.WithChannels(channels); return this; }
-        public bool GetMono => _synthWishes.GetMono;
+        public bool IsMono => _synthWishes.IsMono;
         public FlowNode WithMono() { _synthWishes.WithMono(); return this; }
-        public bool GetStereo => _synthWishes.GetStereo;
+        public bool IsStereo => _synthWishes.IsStereo;
         public FlowNode WithStereo() { _synthWishes.WithStereo(); return this; }
 
         public int GetChannel => _synthWishes.GetChannel;
         public FlowNode WithChannel(int channel) { _synthWishes.WithChannel(channel); return this; }
-        public bool GetLeft => _synthWishes.GetLeft;
+        public bool IsLeft => _synthWishes.IsLeft;
         public FlowNode WithLeft()  { _synthWishes.WithLeft(); return this; }
-        public bool GetRight => _synthWishes.GetRight;
+        public bool IsRight => _synthWishes.IsRight;
         public FlowNode WithRight() { _synthWishes.WithRight(); return this; }
-        public bool GetCenter => _synthWishes.GetCenter;
+        public bool IsCenter => _synthWishes.IsCenter;
         public FlowNode WithCenter() { _synthWishes.WithCenter(); return this; }
         
         /// <inheritdoc cref="docs._getsamplingrate" />
@@ -811,9 +811,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public InterpolationTypeEnum GetInterpolation => _synthWishes.GetInterpolation;
         public FlowNode WithInterpolation(InterpolationTypeEnum interpolation) { _synthWishes.WithInterpolation(interpolation); return this; }
-        public bool GetLinear => _synthWishes.GetLinear;
+        public bool IsLinear => _synthWishes.IsLinear;
         public FlowNode WithLinear() { _synthWishes.WithLinear(); return this; }
-        public bool GetBlocky => _synthWishes.GetBlocky;
+        public bool IsBlocky => _synthWishes.IsBlocky;
         public FlowNode WithBlocky() { _synthWishes.WithBlocky(); return this; }
         
         // Durations
