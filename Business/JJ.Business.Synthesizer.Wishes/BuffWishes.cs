@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
-using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
@@ -136,7 +135,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SetAudioFormat(GetAudioFormat, Context);
             audioFileOutput.SamplingRate = GetSamplingRate;
             
-            audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(channelSignals.Count.ToSpeakerSetupEnum());
+            audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(channelSignals.Count);
             CreateOrRemoveChannels(audioFileOutput, channelSignals.Count);
 
             switch (channelSignals.Count)
@@ -362,13 +361,13 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup GetSubstituteSpeakerSetup(SpeakerSetupEnum speakers)
+        private SpeakerSetup GetSubstituteSpeakerSetup(int channels)
         {
-            switch (speakers)
+            switch (channels)
             {
-                case Mono: return GetMonoSpeakerSetupSubstitute();
-                case Stereo: return GetStereoSpeakerSetupSubstitute();
-                default: throw new InvalidValueException(speakers);
+                case 1: return GetMonoSpeakerSetupSubstitute();
+                case 2: return GetStereoSpeakerSetupSubstitute();
+                default: throw new Exception($"Unsupported value {new{channels}}");
             }
         }
         
@@ -460,13 +459,13 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int speakers)
+        private void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channels)
         {
             // (using a lower abstraction layer, to circumvent error-prone syncing code in back-end).
             var audioFileOutputChannelRepository = CreateRepository<IAudioFileOutputChannelRepository>(Context);
 
             // Create additional channels
-            for (int i = audioFileOutput.AudioFileOutputChannels.Count; i < speakers; i++)
+            for (int i = audioFileOutput.AudioFileOutputChannels.Count; i < channels; i++)
             {
                 // Create
                 AudioFileOutputChannel audioFileOutputChannel = audioFileOutputChannelRepository.Create();
@@ -480,7 +479,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             // Remove surplus channels
-            for (int i = audioFileOutput.AudioFileOutputChannels.Count - 1; i >= speakers; i--)
+            for (int i = audioFileOutput.AudioFileOutputChannels.Count - 1; i >= channels; i--)
             {
                 AudioFileOutputChannel audioFileOutputChannel = audioFileOutput.AudioFileOutputChannels[i];
 

@@ -1034,7 +1034,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (GetRight) return Multiply(sound, panning).SetName();
             }
             
-            throw new Exception($"Unsupported combination of values: {new {GetSpeakers, GetChannel}}");
+            throw new Exception($"Unsupported combination of values: {new {GetChannels, GetChannel}}");
         }
 
         /// <inheritdoc cref="docs._panning" />
@@ -1047,7 +1047,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (GetLeft) return (sound * _[1 - panning]).SetName();
             if (GetRight) return (sound * _[panning]).SetName();
             
-            throw new Exception($"Unsupported combination of values: {new {GetSpeakers, GetChannel}}");
+            throw new Exception($"Unsupported combination of values: {new {GetChannels, GetChannel}}");
         }
     }
 

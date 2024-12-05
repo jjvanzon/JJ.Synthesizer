@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Audio Quality
         
         [XmlAttribute] public int? Bits { get; set; }
-        [XmlAttribute] public int? Speakers { get; set; }
+        [XmlAttribute] public int? Channels { get; set; }
         [XmlAttribute] public int? SamplingRate { get; set; }
         [XmlAttribute] public AudioFileFormatEnum? AudioFormat { get; set; }
         [XmlAttribute] public InterpolationTypeEnum? Interpolation { get; set; }
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Audio Quality
 
         private const int                   DefaultBits          = 32;
-        private const int                   DefaultSpeakers      = 1;
+        private const int                   DefaultChannels      = 1;
         private const int                   DefaultChannel       = 0;
         private const int                   DefaultSamplingRate  = 48000;
         private const AudioFileFormatEnum   DefaultAudioFormat   = Wav;
@@ -137,27 +137,27 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool Get8Bit => GetBits == 8;
         public void With8Bit() => WithBits(8);
         
-        // Speakers
+        // Channels
         
         private SpeakerSetupEnum _speakerSetupEnum;
-        public int GetSpeakers => _speakerSetupEnum != default ? _speakerSetupEnum.GetSpeakers() : _section.Speakers ?? DefaultSpeakers;
-        public void WithSpeakers(int speakers) => _speakerSetupEnum = speakers.ToSpeakerSetupEnum();
-        public bool GetMono => GetSpeakers == 1;
-        public void WithMono() => WithSpeakers(1);
-        public bool GetStereo => GetSpeakers == 2;
-        public void WithStereo() => WithSpeakers(2);
+        public int GetChannels => _speakerSetupEnum != default ? _speakerSetupEnum.GetChannels() : _section.Channels ?? DefaultChannels;
+        public void WithChannels(int channels) => _speakerSetupEnum = channels.ToSpeakerSetupEnum();
+        public bool GetMono => GetChannels == 1;
+        public void WithMono() => WithChannels(1);
+        public bool GetStereo => GetChannels == 2;
+        public void WithStereo() => WithChannels(2);
         
         // Channel
         
-        private     ChannelEnum                 _channelEnum = DefaultChannel         .ToChannelEnum(DefaultSpeakers);
+        private     ChannelEnum                 _channelEnum = DefaultChannel         .ToChannelEnum(DefaultChannels);
         public int  GetChannel               => _channelEnum != default ? _channelEnum.ToChannel() : 0;
-        public void WithChannel(int channel) => _channelEnum  =                channel.ToChannelEnum(GetSpeakers);
-        public bool GetCenter =>   GetSpeakers == 1 ? GetChannel == 0 : default;
-        public void WithCenter() { WithSpeakers  (1); WithChannel  (0);        }
-        public bool GetLeft   =>   GetSpeakers == 2 ? GetChannel == 0 : default;
-        public void WithLeft  () { WithSpeakers  (2); WithChannel  (0);        }
-        public bool GetRight  =>   GetSpeakers == 2 ? GetChannel == 1 : default;
-        public void WithRight () { WithSpeakers  (2); WithChannel  (1);        }
+        public void WithChannel(int channel) => _channelEnum  =                channel.ToChannelEnum(GetChannels);
+        public bool GetCenter =>   GetChannels == 1 ? GetChannel == 0 : default;
+        public void WithCenter() { WithChannels  (1); WithChannel  (0);        }
+        public bool GetLeft   =>   GetChannels == 2 ? GetChannel == 0 : default;
+        public void WithLeft  () { WithChannels  (2); WithChannel  (0);        }
+        public bool GetRight  =>   GetChannels == 2 ? GetChannel == 1 : default;
+        public void WithRight () { WithChannels  (2); WithChannel  (1);        }
 
         // SamplingRate
         
@@ -652,8 +652,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool Get8Bit => Config.Get8Bit;
         public SynthWishes With8Bit() { Config.With8Bit(); return this; }
         
-        public int GetSpeakers => Config.GetSpeakers;
-        public SynthWishes WithSpeakers(int speakers) { Config.WithSpeakers(speakers); return this; }
+        public int GetChannels => Config.GetChannels;
+        public SynthWishes WithChannels(int channels) { Config.WithChannels(channels); return this; }
         public bool GetMono => Config.GetMono;
         public SynthWishes WithMono() { Config.WithMono(); return this; }
         public bool GetStereo => Config.GetStereo;
@@ -781,8 +781,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool Get8Bit => _synthWishes.Get8Bit;
         public FlowNode With8Bit() { _synthWishes.With8Bit(); return this; }
         
-        public int GetSpeakers => _synthWishes.GetSpeakers;
-        public FlowNode WithSpeakers(int speakers) { _synthWishes.WithSpeakers(speakers); return this; }
+        public int GetChannels => _synthWishes.GetChannels;
+        public FlowNode WithChannels(int channels) { _synthWishes.WithChannels(channels); return this; }
         public bool GetMono => _synthWishes.GetMono;
         public FlowNode WithMono() { _synthWishes.WithMono(); return this; }
         public bool GetStereo => _synthWishes.GetStereo;

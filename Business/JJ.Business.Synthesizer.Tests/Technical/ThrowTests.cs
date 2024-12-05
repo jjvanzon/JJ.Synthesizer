@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             configAccessor._channelEnum = (ChannelEnum)3;
 
             // OperatorWishes.SynthWishes.ChannelIndex InvalidChannelEnum
-            //ThrowsException(() => { _channelEnum = GetChannel.ToChannelEnum(GetSpeakers.ToSpeakerSetupEnum()); });
+            //ThrowsException(() => { _channelEnum = GetChannel.ToChannelEnum(GetChannels.ToSpeakerSetupEnum()); });
 
             // OperatorWishes.SynthWishes.Panning WithConst_InvalidChannelEnum 
             //ThrowsException(() => Panning(Sine(), _[0.25]));
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             //ThrowsException(() => Panning(Sine(), Curve((0, 0), (0, 1))));
 
             // AudioFileWishes.Extensions.GetChannelCount SpeakerSetupNotSupported
-            ThrowsException(() => SpeakerSetupEnum.Undefined.GetSpeakers());
+            ThrowsException(() => SpeakerSetupEnum.Undefined.GetChannels());
 
             // AudioFileWishes.Extensions.GetSpeakerSetupEnum ChannelCountNotSupported
             ThrowsException(() => 0.ToSpeakerSetupEnum());

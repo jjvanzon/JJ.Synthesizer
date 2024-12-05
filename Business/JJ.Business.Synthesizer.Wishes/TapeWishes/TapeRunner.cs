@@ -220,7 +220,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
             else 
             {
-                throw new ValueNotSupportedException(_synthWishes.GetSpeakers);
+                throw new ValueNotSupportedException(_synthWishes.GetChannels);
             }
         }
     }

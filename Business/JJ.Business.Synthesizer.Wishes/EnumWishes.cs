@@ -138,9 +138,9 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetSampleDataTypeEnum(bits.ToSampleDataTypeEnum(), context);
         }
 
-        // Speakers
+        // Channels
        
-        public static int GetSpeakers(this SpeakerSetupEnum speakerSetupEnum)
+        public static int GetChannels(this SpeakerSetupEnum speakerSetupEnum)
         {
             switch (speakerSetupEnum)
             {
@@ -150,20 +150,20 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        public static SpeakerSetupEnum ToSpeakerSetupEnum(this int speakers)
+        public static SpeakerSetupEnum ToSpeakerSetupEnum(this int channels)
         {
-            switch (speakers)
+            switch (channels)
             {
                 case 1: return SpeakerSetupEnum.Mono;
                 case 2: return SpeakerSetupEnum.Stereo;
-                default: throw new ValueNotSupportedException(speakers);
+                default: throw new ValueNotSupportedException(channels);
             }
         }
 
-        public static void SetSpeakers(this Sample entity, int speakers, IContext context = null)
+        public static void SetChannels(this Sample entity, int channels, IContext context = null)
         {
             var repository = CreateRepository<ISpeakerSetupRepository>(context);
-            entity.SetSpeakerSetupEnum(speakers.ToSpeakerSetupEnum(), repository);
+            entity.SetSpeakerSetupEnum(channels.ToSpeakerSetupEnum(), repository);
         }
 
         // Channel
@@ -175,8 +175,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return channelEnumEntity.Index;
         }
 
-        public static ChannelEnum ToChannelEnum(this int channel, int speakers)
-            => ToChannelEnum(channel, speakers.ToSpeakerSetupEnum());
+        public static ChannelEnum ToChannelEnum(this int channel, int channels)
+            => ToChannelEnum(channel, channels.ToSpeakerSetupEnum());
 
         public static ChannelEnum ToChannelEnum(this int channel, SpeakerSetupEnum speakerSetupEnum)
         {

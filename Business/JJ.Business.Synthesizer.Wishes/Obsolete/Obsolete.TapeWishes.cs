@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             
             // Prep variables
             int termCount = termFuncs.Count;
-            int speakers = synthWishes.GetSpeakers;
+            int channels = synthWishes.GetChannels;
             string[] names = GetParallelNames(termCount, name);
             string[] displayNames = names.Select(GetDisplayName).ToArray();
             var cacheBuffs = new Buff[termCount];
@@ -100,12 +100,12 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 Console.WriteLine($"{PrettyTime()} Start Task: {displayNames[i]}", "SynthWishes");
                 
                 // Get outlets first
-                var channelSignals = new FlowNode[speakers];
+                var channelSignals = new FlowNode[channels];
                 
                 var originalChannel = synthWishes.GetChannel;
                 try
                 {
-                    for (int channel = 0; channel < speakers; channel++)
+                    for (int channel = 0; channel < channels; channel++)
                     {
                         synthWishes.WithChannel(channel);
                         channelSignals[channel] = termFuncs[i](); // This runs parallels, because the funcs can contain another parallel add.
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 //if (GetCacheToDisk)
                 //{
                 //    // Save reloaded samples to disk.
-                //    var reloadedSampleRepeated = Repeat(reloadedSamples[i], speakers).ToArray();
+                //    var reloadedSampleRepeated = Repeat(reloadedSamples[i], channels).ToArray();
                 //    var saveResult2 = Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
                 
                 //    // Play to test the sample loading.

@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int GetFrameSize(AudioInfoWish info)
         {
             if (info == null) throw new ArgumentNullException(nameof(info));
-            return SizeOfBitDepth(info) * info.Speakers;
+            return SizeOfBitDepth(info) * info.Channels;
         }
 
         public static int GetFrameSize(this Sample entity)
@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public class AudioInfoWish
     {
         public int Bits { get; set; }
-        public int Speakers { get; set; }
+        public int Channels { get; set; }
         public int SamplingRate { get; set; }
         /// <inheritdoc cref="docs._framecount"/>
         public int FrameCount { get; set; }

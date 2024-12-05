@@ -24,9 +24,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // With TDataType
         public static void WriteWavHeader<TDataType>(
-            this BinaryWriter writer, int speakers, int samplingRate, int frameCount)
+            this BinaryWriter writer, int channels, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                writer, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo(typeof(TDataType), speakers, samplingRate, frameCount));
+                writer, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo(typeof(TDataType), channels, samplingRate, frameCount));
 
         // With SpeakerSetup
         public static void WriteWavHeader(
@@ -37,9 +37,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // With flat values
         public static void WriteWavHeader(
-            this BinaryWriter writer, SampleDataTypeEnum sampleDataTypeEnum, int speakers, int samplingRate, int frameCount)
+            this BinaryWriter writer, SampleDataTypeEnum sampleDataTypeEnum, int channels, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                writer, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo(sampleDataTypeEnum, speakers, samplingRate, frameCount));
+                writer, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo(sampleDataTypeEnum, channels, samplingRate, frameCount));
 
         // With Stream
 
@@ -51,9 +51,9 @@ namespace JJ.Business.Synthesizer.Wishes
             
         // With TDataType
         public static void WriteWavHeader<TDataType>(
-            this Stream stream, int speakers, int samplingRate, int frameCount)
+            this Stream stream, int channels, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                stream, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo<TDataType>(speakers, samplingRate, frameCount));
+                stream, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo<TDataType>(channels, samplingRate, frameCount));
 
         // With SpeakerSetup
         public static void WriteWavHeader(
@@ -64,9 +64,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // With flat values
         public static void WriteWavHeader(
-            this Stream stream, SampleDataTypeEnum sampleDataTypeEnum, int speakers, int samplingRate, int frameCount)
+            this Stream stream, SampleDataTypeEnum sampleDataTypeEnum, int channels, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                stream, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo(sampleDataTypeEnum, speakers, samplingRate, frameCount));
+                stream, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo(sampleDataTypeEnum, channels, samplingRate, frameCount));
 
         // With FilePath
 
@@ -78,9 +78,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // With TDataType
         public static void WriteWavHeader<TDataType>(
-            this string filePath, int speakers, int samplingRate, int frameCount)
+            this string filePath, int channels, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                filePath, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo(typeof(TDataType), speakers, samplingRate, frameCount));
+                filePath, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo(typeof(TDataType), channels, samplingRate, frameCount));
 
         // With SpeakerSetup
         public static void WriteWavHeader(
@@ -92,9 +92,9 @@ namespace JJ.Business.Synthesizer.Wishes
         // With flat values
         public static void WriteWavHeader(
             this string filePath,
-            SampleDataTypeEnum sampleDataTypeEnum, int speakers, int samplingRate, int frameCount)
+            SampleDataTypeEnum sampleDataTypeEnum, int channels, int samplingRate, int frameCount)
             => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                filePath, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo(sampleDataTypeEnum, speakers, samplingRate, frameCount));
+                filePath, WavHeaderExtensionWishes_GetAudioInfo.GetAudioInfo(sampleDataTypeEnum, channels, samplingRate, frameCount));
     }
 
     public static class WavHeaderExtensionWishes_WriteFromObjects
@@ -200,7 +200,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return new AudioInfoWish
             {
                 Bits = info.BytesPerValue * 8,
-                Speakers = info.ChannelCount,
+                Channels = info.ChannelCount,
                 FrameCount = info.SampleCount,
                 SamplingRate = info.SamplingRate
             };
@@ -213,7 +213,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return new AudioFileInfo
             {
                 BytesPerValue = info.Bits / 8,
-                ChannelCount = info.Speakers,
+                ChannelCount = info.Channels,
                 SampleCount = info.FrameCount,
                 SamplingRate = info.SamplingRate
             };
@@ -226,17 +226,17 @@ namespace JJ.Business.Synthesizer.Wishes
             => new AudioInfoWish
             {
                 Bits = typeof(TSampleDataType).GetBits(),
-                Speakers = speakerSetup.GetSpeakers(),
+                Channels = speakerSetup.GetChannels(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
             };
 
         public static AudioInfoWish GetAudioInfo
-            <TSampleDataType>(int speakers, int samplingRate, int frameCount)
+            <TSampleDataType>(int channels, int samplingRate, int frameCount)
             => new AudioInfoWish
             {
                 Bits = typeof(TSampleDataType).GetBits(),
-                Speakers = speakers,
+                Channels = channels,
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
             };
@@ -246,27 +246,27 @@ namespace JJ.Business.Synthesizer.Wishes
             => new AudioInfoWish
             {
                 Bits = sampleDataType.GetBits(),
-                Speakers = speakerSetup.GetSpeakers(),
+                Channels = speakerSetup.GetChannels(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
             };
         
         public static AudioInfoWish GetAudioInfo(
-            SampleDataTypeEnum sampleDataTypeEnum, int speakers, int samplingRate, int frameCount)
+            SampleDataTypeEnum sampleDataTypeEnum, int channels, int samplingRate, int frameCount)
             => new AudioInfoWish
             {
                 Bits = sampleDataTypeEnum.GetBits(),
-                Speakers = speakers,
+                Channels = channels,
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
             };
 
         public static AudioInfoWish GetAudioInfo(
-            Type sampleDataType, int speakers, int samplingRate, int frameCount) 
+            Type sampleDataType, int channels, int samplingRate, int frameCount) 
             => new AudioInfoWish
         {
             Bits = sampleDataType.GetBits(),
-            Speakers = speakers,
+            Channels = channels,
             SamplingRate = samplingRate,
             FrameCount = frameCount
         };
@@ -277,7 +277,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return new AudioInfoWish
             {
                 Bits = sampleDataTypeEnum.GetBits(),
-                Speakers = speakerSetup.GetSpeakers(),
+                Channels = speakerSetup.GetChannels(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
             };
@@ -295,7 +295,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return new AudioInfoWish
             {
                 Bits = entity.GetBits(),
-                Speakers = entity.GetChannelCount(),
+                Channels = entity.GetChannelCount(),
                 SamplingRate = entity.SamplingRate,
                 FrameCount = entity.GetFrameCount()
             };
@@ -308,7 +308,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var info = new AudioInfoWish
             {
                 Bits = entity.GetBits(),
-                Speakers = entity.GetChannelCount(),
+                Channels = entity.GetChannelCount(),
                 SamplingRate = entity.SamplingRate,
                 FrameCount = frameCount
             };

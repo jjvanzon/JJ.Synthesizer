@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
             var info = entity.AudioFileOutput.GetAudioInfo(frameCount);
-            info.Speakers = 1;
+            info.Channels = 1;
             return info;
         }
     }

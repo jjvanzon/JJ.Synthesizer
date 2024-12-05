@@ -241,7 +241,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             int    samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
             double frequency    = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
 
-            WithSpeakers(speakerSetupEnum.GetSpeakers());
+            WithChannels(speakerSetupEnum.GetChannels());
             WithBits(sampleDataTypeEnum.GetBits());
             WithInterpolation(interpolationTypeEnum);
             WithAudioFormat(audioFileFormatEnum);
@@ -558,10 +558,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // AudioFileOutputChannels
             IsNotNull(() => audioFileOutput.AudioFileOutputChannels);
-            int speakers = speakerSetupEnum.GetSpeakers();
-            AreEqual(speakers, () => audioFileOutput.AudioFileOutputChannels.Count);
+            int channels = speakerSetupEnum.GetChannels();
+            AreEqual(channels, () => audioFileOutput.AudioFileOutputChannels.Count);
 
-            for (var i = 0; i < speakers; i++)
+            for (var i = 0; i < channels; i++)
             {
                 AudioFileOutputChannel channel = audioFileOutput.AudioFileOutputChannels[i];
                 IsNotNull(() => channel.Outlet);
@@ -760,8 +760,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 "Unsupported combination of values: " + new { interpolationTypeEnum, sampleDataTypeEnum });
         }
         
-        private int GetByteCountTolerance(SampleDataTypeEnum sampleDataTypeEnum, int speakers) 
-            => 4 * sampleDataTypeEnum.SizeOf() * speakers; // A tolerance of 4 audio frames.
+        private int GetByteCountTolerance(SampleDataTypeEnum sampleDataTypeEnum, int channels) 
+            => 4 * sampleDataTypeEnum.SizeOf() * channels; // A tolerance of 4 audio frames.
 
         private double RoundValue(double x) => Round(x, DECIMALS, AwayFromZero);
 
