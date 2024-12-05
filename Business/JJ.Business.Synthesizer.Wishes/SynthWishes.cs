@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
@@ -9,8 +10,8 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
-using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using System.Runtime.CompilerServices;
+using System.Reflection;
 
 // ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable AssignmentInsteadOfDiscard
@@ -81,23 +82,51 @@ namespace JJ.Business.Synthesizer.Wishes
             t = new TimeIndexer(this);
         }
         
-        public void Run(Func<FlowNode> func, [CallerMemberName] string callerMemberName = null)
+        public void Run(Action action)
         {
-            var channels = GetChannelSignals(func);
+            // Create a new instance of the derived class
+            Type concreteType = this.GetType();
+            var newInstance = (SynthWishes)Activator.CreateInstance(concreteType);
             
-            // To make call in constructor work whether Flow() is implemented or not.
-            //if (channels.All(x => x == null))
-            //{
-            //    return;
-            //}
+            // Yield over settings
+            newInstance.Config = Config;
+
+            // Rebind the delegate to the new instance
+            MethodInfo methodInfo = action.Method;
+            Action newAction = (Action)Delegate.CreateDelegate(typeof(Action), newInstance, methodInfo);
+
+            // Run the action on the new instance
+            newInstance.RunActionOnThisInstance(() => newAction(), newAction.Method.Name);
+        }
+
+        private void RunActionOnThisInstance(Action action, string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            RunFuncOnThisInstance(
+                () =>
+                {
+                    action();
+
+                    // HACK: To avoid the FlowNode return value,
+                    // and make tape runner run all tapes without an explicit root node specified,
+                    // create a root node here after all.
+                    FlowNode[] tapeSignals = _tapes.GetAll().Where(x => x.Channel == GetChannel).Select(x => x.Signal).ToArray();
+                    FlowNode root = Add(tapeSignals).Tape().SetName("Root");
+                    return root;
+                },
+                name, callerMemberName);
+        }
+
+        private void RunFuncOnThisInstance(Func<FlowNode> func, string name = null, [CallerMemberName] string callerMemberName = null)
+        {
+            var channelSignals = GetChannelSignals(func);
 
             if (GetParallelTaping)
             {
-                _tapeRunner.RunAllTapes(channels);
+                _tapeRunner.RunAllTapes(channelSignals);
             }
             else
             {
-                Cache(func, callerMemberName);
+                Cache(func, name, callerMemberName);
             }
         }
                 
@@ -130,7 +159,6 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 WithChannel(originalChannel);
             }
-   
         }
 
         // Helpers
