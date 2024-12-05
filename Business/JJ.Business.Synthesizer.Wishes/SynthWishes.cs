@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var originalChannel = GetChannel;
             try
             {
-                switch (GetSpeakers)
+                switch (GetChannels)
                 {
                     case 1:
                         WithCenter(); return new[] { func() };
@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         return new[] { leftSignal, rightSignal };
 
                     default: 
-                        throw new ValueNotSupportedException(GetSpeakers);
+                        throw new ValueNotSupportedException(GetChannels);
                 }
             }
             finally
