@@ -108,19 +108,23 @@ namespace JJ.Business.Synthesizer.Wishes
             var originalChannel = GetChannel;
             try
             {
-                switch (GetChannels)
+                // Evaluate the left/mono signal
+                WithChannel(0);
+                var channel0Signal = func();
+                
+                // Determine channel configuration AFTER evaluating func
+                if (IsMono)
                 {
-                    case 1:
-                        WithCenter(); return new[] { func() };
-                    
-                    case 2:
-                        WithLeft(); var leftSignal = func();
-                        WithRight(); var rightSignal = func();
-                        return new[] { leftSignal, rightSignal };
-
-                    default: 
-                        throw new ValueNotSupportedException(GetChannels);
+                    return new[] { channel0Signal };
                 }
+                if (IsStereo)
+                {
+                    // Only evaluate the second channel if Stereo
+                    WithRight(); var channel1Signal = func();
+                    return new[] { channel0Signal, channel1Signal };
+                }
+                
+                throw new ValueNotSupportedException(GetChannels);
             }
             finally
             {
