@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // For Value Operators
         
         /// <inheritdoc cref="docs._captureindexer" />
-        public FlowNode this[double value] => new FlowNode(_synthWishes, _synthWishes._operatorFactory.Value(value));
+        public FlowNode this[double value] => _synthWishes.Value(value);
         
         // Turn Outlet into FlowNode
         
@@ -114,12 +114,17 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
+    // Value SynthWishes
+
+    public partial class SynthWishes
+    {
+        public FlowNode Value(double value = 0) => _[_operatorFactory.Value(value)];
+    }
+    
     // Add SynthWishes
 
     public partial class SynthWishes
     {
-        public FlowNode Value(double value = 0) => _[value];
-        
         /// <inheritdoc cref="docs._add"/>
         public FlowNode Add(IList<FlowNode> terms)
         {
