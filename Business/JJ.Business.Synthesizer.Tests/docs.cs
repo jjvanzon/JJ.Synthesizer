@@ -136,6 +136,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         public static object _mysample;
 
+        /// <summary>
+        /// Tests various note length fallbacks, including explicit values,
+        /// defaults in config files or based on the beat length
+        /// or explicit specification in the note commands.
+        /// Ends with a soothing lullaby to help this big baby calm down after all the bleeps.
+        /// </summary>
+        public static object _notelengthfallbacktests;
+        
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
         /// <inheritdoc cref="docs._default" />

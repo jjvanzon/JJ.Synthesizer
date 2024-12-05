@@ -142,9 +142,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // Note Length
         
+        /// <inheritdoc cref="docs._notelengthfallbacktests" />
         [TestMethod]
         public void Fluent_NoteLength_Fallbacks_Test() => new NoteWishesTests().Fluent_NoteLength_Fallbacks();
         
+        /// <inheritdoc cref="docs._notelengthfallbacktests" />
         void Fluent_NoteLength_Fallbacks()
         {
             WithAudioLength(4);
