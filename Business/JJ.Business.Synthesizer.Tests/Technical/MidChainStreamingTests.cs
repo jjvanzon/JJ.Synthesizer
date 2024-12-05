@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
+// ReSharper disable ExplicitCallerInfoArgument
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -80,31 +81,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         // Simple Cases
-
+        
         [TestMethod]
-        public void MidChainStreaming_Mono_Play_Test() => new MidChainStreamingTests().MidChainStreaming_Mono_Play();
+        public void MidChainStreaming_Mono_Play_Test() => WithMono().Run(MidChainStreaming_Mono_Play);
         void MidChainStreaming_Mono_Play()
-        { 
-            WithMono();
-            Run(() => Sine(A4).Curve(Envelope).Volume(0.4).Play().SpeedUp(2).Play());
+        {
+            Sine(A4).Curve(Envelope).Panbrello().Play().SpeedUp(2).Play();
         }
         
         [TestMethod]
-        public void MidChainStreaming_Mono_Save_Test() => new MidChainStreamingTests().MidChainStreaming_Mono_Save();
+        public void MidChainStreaming_Mono_Save_Test() => WithMono().Run(MidChainStreaming_Mono_Save);
         void MidChainStreaming_Mono_Save()
         { 
-            WithMono();
-            Run(() => Sine(A4).Curve(Envelope).Volume(0.4).Save().SpeedUp(2).Save());
+            Sine(A4).Curve(Envelope).Panbrello().Save().SpeedUp(2).Save();
         }
         
         [TestMethod]
-        public void MidChainStreaming_Mono_Cache_Test() => new MidChainStreamingTests().MidChainStreaming_Mono_Cache();
+        public void MidChainStreaming_Mono_Cache_Test() => WithMono().Run(MidChainStreaming_Mono_Cache);
         void MidChainStreaming_Mono_Cache()
         { 
-            WithMono();
-            Run(() => Sine(A4).Curve(Envelope).Volume(0.4).Cache().SpeedUp(2).Cache());
+            Sine(A4).Curve(Envelope).Panbrello().Cache().SpeedUp(2).Cache();
         }
-        
+
         [TestMethod]
         public void MidChainStreaming_Mono_PlayChannel_Test() => new MidChainStreamingTests().MidChainStreaming_Mono_PlayChannel();
         void MidChainStreaming_Mono_PlayChannel()
@@ -133,20 +131,52 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Play(() => Add
                  (
-                     Sine(pitch * 1).Volume(1.0).SaveChannel(MemberName() + " Partial 1"),
-                     Sine(pitch * 2).Volume(0.2),
-                     Sine(pitch * 3).SaveChannel("FluentSave_UsingTape Partial 2").Volume(0.3),
-                     Sine(pitch * 4).Volume(0.4),
-                     Sine(pitch * 5).Volume(0.2).SetName("FluentSave_UsingTape Partial 3").SaveChannel()
+                     Sine(pitch * 1).Curve(Envelope).Volume(1.0).SaveChannel(MemberName() + " Partial 1"),
+                     Sine(pitch * 2).Curve(Envelope).Volume(0.2),
+                     Sine(pitch * 3).Curve(Envelope).SaveChannel("FluentSave_UsingTape Partial 2").Volume(0.3),
+                     Sine(pitch * 4).Curve(Envelope).Volume(0.4),
+                     Sine(pitch * 5).Curve(Envelope).Volume(0.2).SetName("FluentSave_UsingTape Partial 3").SaveChannel()
                  ) * Envelope).Save();
         }
         
         [TestMethod]
-        public void MidChainStreaming_Stereo_Play_Test() => new MidChainStreamingTests().MidChainStreaming_Stereo_Play();
-        void MidChainStreaming_Stereo_Play() 
+        public void MidChainStreaming_Mono_CacheChannel_Test() => new MidChainStreamingTests().MidChainStreaming_Mono_CacheChannel();
+        void MidChainStreaming_Mono_CacheChannel()
         {
+            WithMono();
+            
+            var pitch = A4;
+            
+            Play(() => Add
+                 (
+                     Sine(pitch * 1).Curve(Envelope).Volume(1.0).CacheChannel(),
+                     Sine(pitch * 2).Curve(Envelope).Volume(0.2),
+                     Sine(pitch * 3).Curve(Envelope).CacheChannel().Volume(0.3),
+                     Sine(pitch * 4).Curve(Envelope).Volume(0.4),
+                     Sine(pitch * 5).Curve(Envelope).Volume(0.2).CacheChannel()
+                 )).Cache();
+        }
+        
+        [TestMethod]
+        public void MidChainStreaming_Stereo_Play_Test() => Run(MidChainStreaming_Stereo_Play);
+        void MidChainStreaming_Stereo_Play()
+        { 
             WithStereo();
-            Save(() => Sine(A4).Panning(0.1).Play().Curve(Envelope)).Play();
+            Sine(A4).Curve(Envelope).Panbrello().Play().SpeedUp(2).Play();
+        }
+        
+        [TestMethod]
+        public void MidChainStreaming_Stereo_Save_Test() => WithStereo().Run(MidChainStreaming_Stereo_Save);
+        void MidChainStreaming_Stereo_Save()
+        { 
+            Sine(A4).Curve(Envelope).Panbrello().Save().SpeedUp(2).Save();
+        }
+        
+        [TestMethod]
+        public void MidChainStreaming_Stereo_Cache_Test() => WithStereo().Run(MidChainStreaming_Stereo_Cache);
+        void MidChainStreaming_Stereo_Cache()
+        { 
+            Sine(A4).Curve(Envelope).Panbrello().Cache().SpeedUp(2).Cache();
         }
         
         // Complex Cases
