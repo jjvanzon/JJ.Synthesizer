@@ -134,7 +134,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 if (leaf != null)
                 {
                     tapes.Remove(leaf);
-                    Task task = Task.Run((Action)(() => ProcessLeaf(leaf)));
+                    Task task = Task.Run(() => ProcessLeaf(leaf));
                     tasks.Add(task);
                 }
                 else

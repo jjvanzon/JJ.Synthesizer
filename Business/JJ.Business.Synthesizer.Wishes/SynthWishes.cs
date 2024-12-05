@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 switch (GetSpeakers)
                 {
                     case Mono:
-                        return new[] { func() };
+                        WithCenter(); return new[] { func() };
                     
                     case Stereo:
                         WithLeft(); var leftSignal = func();
