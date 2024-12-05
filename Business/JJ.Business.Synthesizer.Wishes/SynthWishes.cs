@@ -39,12 +39,21 @@ namespace JJ.Business.Synthesizer.Wishes
         public readonly CaptureIndexer _;
         
         public IContext Context { get; }
-        
-        internal readonly OperatorFactory _operatorFactory;
+
+        private ConfigResolver _config;
+        public ConfigResolver Config 
+        {
+            get => _config;
+            set
+            {
+                if (value == null) throw new ArgumentException(nameof(Config));
+                _config = value;
+            }
+        }
+
+        private readonly OperatorFactory _operatorFactory;
         private readonly CurveFactory _curveFactory;
         private readonly SampleManager _sampleManager;
-        private readonly ConfigResolver _configResolver;
-        
         private readonly TapeCollection _tapes;
         private readonly TapeRunner _tapeRunner;
         
@@ -56,9 +65,9 @@ namespace JJ.Business.Synthesizer.Wishes
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
             _sampleManager = ServiceFactory.CreateSampleManager(context);
             
-            _configResolver = new ConfigResolver();
-            _tapes = new TapeCollection(_configResolver);
-            _tapeRunner = new TapeRunner(this, _configResolver, _tapes);
+            Config = new ConfigResolver();
+            _tapes = new TapeCollection(this);
+            _tapeRunner = new TapeRunner(this, _tapes);
             
             _ = new CaptureIndexer(this);
             bar = new BarIndexer(this);

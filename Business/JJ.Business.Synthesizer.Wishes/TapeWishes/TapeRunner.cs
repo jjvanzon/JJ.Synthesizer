@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
     internal class TapeRunner
     {
-        private readonly ConfigResolver _configResolver;
+        private readonly SynthWishes _synthWishes;
         private readonly TapeCollection _tapes;
         private readonly StereoTapeMatcher _stereoTapeMatcher;
         private readonly StereoTapeRecombiner _stereoTapeRecombiner;
@@ -21,9 +21,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly MonoTapeActionRunner _monoTapeActionRunner;
         private readonly ChannelTapeActionRunner _channelTapeActionRunner;
 
-        public TapeRunner(SynthWishes synthWishes, ConfigResolver configResolver, TapeCollection tapes)
+        public TapeRunner(SynthWishes synthWishes, TapeCollection tapes)
         {
-            _configResolver = configResolver ?? throw new ArgumentNullException(nameof(configResolver));
+            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
             _stereoTapeMatcher = new StereoTapeMatcher();
             _stereoTapeRecombiner = new StereoTapeRecombiner();
@@ -39,17 +39,17 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             // HACK: Override sampling rate with currently resolved sampling rate.
             // (Can be customized for long-running tests,
             // but separate threads cannot check the test category.)
-            var originalSamplingRate = _configResolver._samplingRate;
+            var originalSamplingRate = _synthWishes.Config._samplingRate;
             try
             {
-                _configResolver.WithSamplingRate(_configResolver.GetSamplingRate);
+                _synthWishes.WithSamplingRate(_synthWishes.GetSamplingRate);
                 
                 var tapes = RunTapesPerChannel(channels);
                 ExecutePostProcessing(tapes);
             }
             finally
             {
-                _configResolver._samplingRate = originalSamplingRate;
+                _synthWishes.Config._samplingRate = originalSamplingRate;
             }
         }
         
@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void RunTapeLeafPipeline(IList<Tape> tapeCollection)
         {
-            int waitTimeMs = (int)(_configResolver.GetParallelTaskCheckDelay * 1000);
+            int waitTimeMs = (int)(_synthWishes.GetParallelTaskCheckDelay * 1000);
             
             Console.WriteLine($"{JJ_Framework_Text_Wishes.PrettyTime()} Tapes: Leaf check delay = {waitTimeMs} ms");
             
@@ -202,7 +202,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                                    x.WithSave  ||
                                    x.Callback  != null).ToArray();
 
-            switch (_configResolver.GetSpeakers)
+            switch (_synthWishes.GetSpeakers)
             {
                 case SpeakerSetupEnum.Mono:
                     
@@ -226,7 +226,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 
                 default:
                     
-                    throw new ValueNotSupportedException(_configResolver.GetSpeakers);
+                    throw new ValueNotSupportedException(_synthWishes.GetSpeakers);
             }
         }
     }

@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer.Wishes
             SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension = null)
         {
             // Figure out if must play
-            ConfigResolver configResolver = synthWishes?._configResolver ?? ConfigResolver.Default;
+            ConfigResolver configResolver = synthWishes?.Config ?? ConfigResolver.Default;
             if (string.IsNullOrWhiteSpace(fileExtension) && !string.IsNullOrWhiteSpace(filePath))
             {
                 fileExtension = Path.GetExtension(filePath);

@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channels, duration, name, filePath);
                 
                 // Gather Warnings
-                IList<string> configWarnings = _configResolver.GetWarnings(audioFileOutput.GetFileExtension());
+                IList<string> configWarnings = Config.GetWarnings(audioFileOutput.GetFileExtension());
                 IList<string> warnings = additionalMessages.Union(configWarnings).ToArray();
                 
                 // Write Audio
