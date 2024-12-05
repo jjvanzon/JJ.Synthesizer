@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
-using static JJ.Business.Synthesizer.Wishes.SynthLogger;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 // ReSharper disable UnusedMember.Local
 
