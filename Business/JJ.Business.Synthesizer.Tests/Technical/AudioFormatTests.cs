@@ -251,7 +251,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             FlowNode getSignal()
             {
                 var sound = Sine(frequency) * VOLUME;
-                if (GetStereo)
+                if (IsStereo)
                 {
                     sound = sound.Panning(PANNING);
                 }
