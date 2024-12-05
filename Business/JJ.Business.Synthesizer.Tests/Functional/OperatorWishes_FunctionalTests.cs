@@ -54,8 +54,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Arrange
             FlowNode fixedValues()
             {
-                if (GetChannel == ChannelEnum.Left) return _[0.8];
-                if (GetChannel == ChannelEnum.Right) return _[0.6];
+                if (GetLeft) return _[0.8];
+                if (GetRight) return _[0.6];
                 return default;
             }
 
@@ -92,12 +92,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             // Arrange
             FlowNode TestSignal()
             {
-                switch (GetChannel)
-                {
-                    case ChannelEnum.Left:  return _[0.8];
-                    case ChannelEnum.Right: return _[0.6];
-                    default:                return default;
-                }
+                if (GetLeft ) return _[0.8];
+                if (GetRight) return _[0.6];
+                return default;
             }
 
             double panningValue = 0.5;

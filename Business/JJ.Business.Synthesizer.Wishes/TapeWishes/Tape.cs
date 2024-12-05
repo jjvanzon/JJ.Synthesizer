@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public FlowNode Signal { get; set; }
         public FlowNode Duration { get; set; }
-        public int ChannelIndex { get; set; }
+        public int Channel { get; set; }
         
         public bool WithPlay { get; set; }
         public bool WithSave { get; set; }

@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.Amplifier = 1.0 / GetBits.GetNominalMax();
             sample.SamplingRate = GetSamplingRate;
             sample.SetBits(GetBits, Context);
-            sample.SetSpeakerSetup(GetSpeakers, Context);
+            sample.SetSpeakers(GetSpeakers, Context);
             sample.SetAudioFormat(GetAudioFormat, Context);
             sample.SetInterpolation(GetInterpolation, Context);
             

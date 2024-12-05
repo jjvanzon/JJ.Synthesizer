@@ -93,35 +93,35 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this OperatorWrapperBase wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToIndex());
+            => Calculate(wrapper, time, channelEnum.ToChannel());
 
         [Obsolete(ObsoleteMessage)]
-        public static double Calculate(this OperatorWrapperBase wrapper, double time = 0, int channelIndex = 0)
+        public static double Calculate(this OperatorWrapperBase wrapper, double time = 0, int channel = 0)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Operator.Calculate(time, channelIndex);
+            return wrapper.Operator.Calculate(time, channel);
         }
 
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this SampleOperatorWrapper wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToIndex());
+            => Calculate(wrapper, time, channelEnum.ToChannel());
 
         [Obsolete(ObsoleteMessage)]
-        public static double Calculate(this SampleOperatorWrapper wrapper, double time = 0, int channelIndex = 0)
+        public static double Calculate(this SampleOperatorWrapper wrapper, double time = 0, int channel = 0)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Result.Calculate(time, channelIndex);
+            return wrapper.Result.Calculate(time, channel);
         }
 
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this CurveInWrapper wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToIndex());
+            => Calculate(wrapper, time, channelEnum.ToChannel());
 
         [Obsolete(ObsoleteMessage)]
-        public static double Calculate(this CurveInWrapper wrapper, double time = 0, int channelIndex = 0)
+        public static double Calculate(this CurveInWrapper wrapper, double time = 0, int channel = 0)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Result.Calculate(time, channelIndex);
+            return wrapper.Result.Calculate(time, channel);
         }
     }
 

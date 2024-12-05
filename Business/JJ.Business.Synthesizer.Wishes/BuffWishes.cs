@@ -17,6 +17,7 @@ using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
+using static JJ.Framework.Reflection.ExpressionHelper;
 
 // ReSharper disable ParameterHidesMember
 // ReSharper disable UseObjectOrCollectionInitializer
@@ -55,8 +56,8 @@ namespace JJ.Business.Synthesizer.Wishes
             bool inMemory, bool mustPad, IList<string> additionalMessages, 
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
-            var channels = GetChannelSignals(func);
-            return MakeBuff(channels, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
+            var channelSignals = GetChannelSignals(func);
+            return MakeBuff(channelSignals, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
         }
         
         /// <inheritdoc cref="docs._makebuff" />
@@ -70,18 +71,18 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._makebuff" />
         internal Buff MakeBuff(
-            IList<FlowNode> channels, FlowNode duration,
+            IList<FlowNode> channelSignals, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, 
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
             // Process Parameters
-            if (channels == null) throw new ArgumentNullException(nameof(channels));
-            if (channels.Count == 0) throw new ArgumentException("channels.Count == 0", nameof(channels));
-            if (channels.Contains(null)) throw new ArgumentException("channels.Contains(null)", nameof(channels));
+            if (channelSignals == null) throw new ArgumentNullException(nameof(channelSignals));
+            if (channelSignals.Count == 0) throw new ArgumentException("channelSignals.Count == 0", nameof(channelSignals));
+            if (channelSignals.Contains(null)) throw new ArgumentException("channelSignals.Contains(null)", nameof(channelSignals));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
             
             // Fetch Name
-            name = FetchName(name, filePath, channels, callerMemberName);
+            name = FetchName(name, filePath, channelSignals, callerMemberName);
            
             Buff buff;
             
@@ -91,17 +92,17 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 if (mustPad)
                 {
-                    ApplyPadding(channels);
+                    ApplyPadding(channelSignals);
                 }
                 
                 // Run Parallel Processing
                 if (GetParallelTaping)
                 {
-                    _tapeRunner.RunAllTapes(channels);
+                    _tapeRunner.RunAllTapes(channelSignals);
                 }
                 
                 // Configure AudioFileOutput (avoid backend)
-                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channels, duration, name, filePath);
+                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channelSignals, duration, name, filePath);
                 
                 // Gather Warnings
                 IList<string> configWarnings = Config.GetWarnings(audioFileOutput.GetFileExtension());
@@ -120,13 +121,10 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <param name="duration">Nullable. Falls back to AudioLength or else to a 1-second time span.</param>
         private AudioFileOutput ConfigureAudioFileOutput(
-            IList<FlowNode> channels, FlowNode duration, string name, string filePath)
+            IList<FlowNode> channelSignals, FlowNode duration, string name, string filePath)
         {
             // Configure AudioFileOutput (avoid backend)
 
-            int channelCount = channels.Count;
-            var speakerSetupEnum = channelCount.ToSpeakerSetup();
-            
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = FetchName(name, filePath);
@@ -137,22 +135,23 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SetBits(GetBits, Context);
             audioFileOutput.SetAudioFormat(GetAudioFormat, Context);
             audioFileOutput.SamplingRate = GetSamplingRate;
-            audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(speakerSetupEnum);
-            CreateOrRemoveChannels(audioFileOutput, channelCount);
+            
+            audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(channelSignals.Count.ToSpeakerSetupEnum());
+            CreateOrRemoveChannels(audioFileOutput, channelSignals.Count);
 
-            switch (speakerSetupEnum)
+            switch (channelSignals.Count)
             {
-                case Mono:
-                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channels[0];
+                case 1:
+                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channelSignals[0];
                     break;
 
-                case Stereo:
-                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channels[0];
-                    audioFileOutput.AudioFileOutputChannels[1].Outlet = channels[1];
+                case 2:
+                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channelSignals[0];
+                    audioFileOutput.AudioFileOutputChannels[1].Outlet = channelSignals[1];
                     break;
 
                 default:
-                    throw new InvalidValueException(speakerSetupEnum);
+                    throw new Exception($"Value not supported: {GetText(() => channelSignals.Count)} = {GetValue(() => channelSignals.Count)}");;
             }
             
             return audioFileOutput;
@@ -255,7 +254,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
         
-        private void ApplyPadding(IList<FlowNode> channels)
+        private void ApplyPadding(IList<FlowNode> channelSignals)
         {
             FlowNode leadingSilence = GetLeadingSilence;
             FlowNode trailingSilence = GetTrailingSilence;
@@ -279,9 +278,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 $"{PrettyTime()} Padding: AudioLength = {originalAudioLength} + " +
                 $"{leadingSilence} + {trailingSilence} = {newAudioLength}");
 
-            for (int i = 0; i < channels.Count; i++)
+            for (int i = 0; i < channelSignals.Count; i++)
             {
-                channels[i] = ApplyPaddingToChannel(channels[i]);
+                channelSignals[i] = ApplyPaddingToChannel(channelSignals[i]);
             }
         }
 
@@ -461,13 +460,13 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channelCount)
+        private void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int speakers)
         {
             // (using a lower abstraction layer, to circumvent error-prone syncing code in back-end).
             var audioFileOutputChannelRepository = CreateRepository<IAudioFileOutputChannelRepository>(Context);
 
             // Create additional channels
-            for (int i = audioFileOutput.AudioFileOutputChannels.Count; i < channelCount; i++)
+            for (int i = audioFileOutput.AudioFileOutputChannels.Count; i < speakers; i++)
             {
                 // Create
                 AudioFileOutputChannel audioFileOutputChannel = audioFileOutputChannelRepository.Create();
@@ -481,7 +480,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             // Remove surplus channels
-            for (int i = audioFileOutput.AudioFileOutputChannels.Count - 1; i >= channelCount; i--)
+            for (int i = audioFileOutput.AudioFileOutputChannels.Count - 1; i >= speakers; i--)
             {
                 AudioFileOutputChannel audioFileOutputChannel = audioFileOutput.AudioFileOutputChannels[i];
 

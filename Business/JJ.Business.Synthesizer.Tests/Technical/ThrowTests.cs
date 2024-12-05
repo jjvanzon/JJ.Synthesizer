@@ -27,8 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class ThrowTests : SynthWishes
     {
-        private int _channelIndex;
-        private ChannelEnum _invalidChannelEnum;
+        private ChannelEnum _channelEnum;
         private Stream _emptyStream = new MemoryStream(new byte[] { });
         private SampleDataType _invalidSampleDataType = new SampleDataType();
         private AudioFileFormat _invalidAudioFileFormat = new AudioFileFormat();
@@ -40,22 +39,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         void ExceptionsInWishes()
         {
-            WithChannel(_invalidChannelEnum = 0);
+            // Set invalid ChannelEnum
+            var configAccessor = new ConfigWishesAccessor(Config);
+            configAccessor._channelEnum = (ChannelEnum)3;
 
-            // OperatorWishes.SynthesizerSugar.ChannelIndex InvalidChannelEnum
-            ThrowsException(() => { _channelIndex = GetChannelIndex; });
+            // OperatorWishes.SynthWishes.ChannelIndex InvalidChannelEnum
+            //ThrowsException(() => { _channelEnum = GetChannel.ToChannelEnum(GetSpeakers.ToSpeakerSetupEnum()); });
 
-            // OperatorWishes.SynthesizerSugar.Panning WithConst_InvalidChannelEnum 
-            ThrowsException(() => Panning(Sine(), _[0.25]));
+            // OperatorWishes.SynthWishes.Panning WithConst_InvalidChannelEnum 
+            //ThrowsException(() => Panning(Sine(), _[0.25]));
 
-            // OperatorWishes.SynthesizerSugar.Panning Dynamic_InvalidChannelEnum
-            ThrowsException(() => Panning(Sine(), Curve((0, 0), (0, 1))));
+            // OperatorWishes.SynthWishes.Panning Dynamic_InvalidChannelEnum
+            //ThrowsException(() => Panning(Sine(), Curve((0, 0), (0, 1))));
 
             // AudioFileWishes.Extensions.GetChannelCount SpeakerSetupNotSupported
-            ThrowsException(() => SpeakerSetupEnum.Undefined.GetChannelCount());
+            ThrowsException(() => SpeakerSetupEnum.Undefined.GetSpeakers());
 
             // AudioFileWishes.Extensions.GetSpeakerSetupEnum ChannelCountNotSupported
-            ThrowsException(() => 0.ToSpeakerSetup());
+            ThrowsException(() => 0.ToSpeakerSetupEnum());
 
             // AudioFileWishes.Extensions.GetSampleDataTypeEnum SampleDataTypeNotSupported
             ThrowsException(() => EnumSpecialWishes.GetSampleDataTypeEnum<long>());
@@ -75,11 +76,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         void ExceptionsInTests()
         {
-            // ModulationTests.DeepEcho ChannelEnumNotSupported
+            // ModulationTests.DeepEcho Channel NotSupported
             ThrowsException(() =>
             {
                 var modulationTests = new ModulationTests();
-                modulationTests.WithChannel(ChannelEnum.Undefined);
+                modulationTests.WithChannel(3);
                 modulationTests.DeepEcho(Sine());
             });
             

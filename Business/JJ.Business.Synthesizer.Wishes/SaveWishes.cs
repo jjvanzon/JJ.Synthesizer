@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using static JJ.Business.Synthesizer.Wishes.ConfigResolver;
+using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
@@ -50,18 +50,18 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
-            IList<FlowNode> channels,
+            IList<FlowNode> channelSignals,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
-                channels, null,
+                channelSignals, null,
                 inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Save(
-            IList<FlowNode> channels, FlowNode duration,
+            IList<FlowNode> channelSignals, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
-                channels, duration,
+                channelSignals, duration,
                 inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
 
         // Instance Save (Mid-Chain)

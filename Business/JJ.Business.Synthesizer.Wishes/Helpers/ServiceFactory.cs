@@ -8,12 +8,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     public static class ServiceFactory
     {
         public static IContext CreateContext() 
-            => ContextFactory.CreateContextFromConfiguration(ConfigResolver.PersistenceConfigurationOrDefault);
+            => ContextFactory.CreateContextFromConfiguration(ConfigWishes.PersistenceConfigurationOrDefault);
 
         /// <inheritdoc cref="_createrepository"/>
         public static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context = null) 
             => RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(
-                context ?? CreateContext(), ConfigResolver.PersistenceConfigurationOrDefault);
+                context ?? CreateContext(), ConfigWishes.PersistenceConfigurationOrDefault);
 
         public static OperatorFactory CreateOperatorFactory(IContext context)
             => new OperatorFactory(

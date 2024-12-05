@@ -24,13 +24,13 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this Inlet inlet, double time, ChannelEnum channelEnum)
-            => Calculate(inlet, time, channelEnum.ToIndex());
+            => Calculate(inlet, time, channelEnum.ToChannel());
 
         [Obsolete(ObsoleteMessage)]
-        public static double Calculate(this Inlet inlet, double time = 0, int channelIndex = 0)
+        public static double Calculate(this Inlet inlet, double time = 0, int channel = 0)
         {
             if (inlet == null) throw new ArgumentNullException(nameof(inlet));
-            var calculator = new OperatorCalculator(channelIndex);
+            var calculator = new OperatorCalculator(channel);
             return calculator.CalculateValue(inlet.Input, time);
         }
     }

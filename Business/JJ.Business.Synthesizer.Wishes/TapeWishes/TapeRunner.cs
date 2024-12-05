@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _channelTapeActionRunner = new ChannelTapeActionRunner();
         }
         
-        public void RunAllTapes(IList<FlowNode> channels)
+        public void RunAllTapes(IList<FlowNode> channelSignals)
         {
             if (_tapes.Count == 0) return;
             
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 _synthWishes.WithSamplingRate(_synthWishes.GetSamplingRate);
                 
-                var tapes = RunTapesPerChannel(channels);
+                var tapes = RunTapesPerChannel(channelSignals);
                 ExecutePostProcessing(tapes);
             }
             finally
@@ -53,18 +53,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        private IList<Tape> RunTapesPerChannel(IList<FlowNode> channels)
+        private IList<Tape> RunTapesPerChannel(IList<FlowNode> channelSignals)
         {
-            if (channels == null) throw new ArgumentNullException(nameof(channels));
-            if (channels.Contains(null)) throw new Exception("channels.Contains(null)");
+            if (channelSignals == null) throw new ArgumentNullException(nameof(channelSignals));
+            if (channelSignals.Contains(null)) throw new Exception("channelSignals.Contains(null)");
             
-            channels.ForEach(x => SetTapeNestingLevelsRecursive(x));
-            channels.ForEach(x => SetTapeParentChildRelationshipsRecursive(x));
+            channelSignals.ForEach(x => SetTapeNestingLevelsRecursive(x));
+            channelSignals.ForEach(x => SetTapeParentChildRelationshipsRecursive(x));
             
             Tape[] tapes = _tapes.GetAll();
             _tapes.Clear();
             
-            var tapeGroups = tapes.GroupBy(x => x.ChannelIndex)
+            var tapeGroups = tapes.GroupBy(x => x.Channel)
                                   .Select(x => x.ToArray())
                                   .ToArray();
             
@@ -202,31 +202,25 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                                    x.WithSave  ||
                                    x.Callback  != null).ToArray();
 
-            switch (_synthWishes.GetSpeakers)
+            if (_synthWishes.GetMono)
             {
-                case SpeakerSetupEnum.Mono:
-                    
-                    foreach (Tape tape in tapesWithActions)
-                    {
-                        _monoTapeActionRunner.RunActions(tape);
-                    }
-                    
-                    break;
-                
-                case SpeakerSetupEnum.Stereo:
-                    
-                    var tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
-                    foreach (var tapePair in tapePairs)
-                    {
-                        Tape stereoTape = _stereoTapeRecombiner.RecombineChannels(tapePair);
-                        _stereoTapeActionRunner.RunActions(stereoTape);
-                    }
-                    
-                    break;
-                
-                default:
-                    
-                    throw new ValueNotSupportedException(_synthWishes.GetSpeakers);
+                foreach (Tape tape in tapesWithActions)
+                {
+                    _monoTapeActionRunner.RunActions(tape);
+                }
+            }
+            else if (_synthWishes.GetStereo)
+            {
+                var tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
+                foreach (var tapePair in tapePairs)
+                {
+                    Tape stereoTape = _stereoTapeRecombiner.RecombineChannels(tapePair);
+                    _stereoTapeActionRunner.RunActions(stereoTape);
+                }
+            }
+            else 
+            {
+                throw new ValueNotSupportedException(_synthWishes.GetSpeakers);
             }
         }
     }

@@ -124,19 +124,23 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class EnumSpecialWishes
     {
-        // SpeakerSetup Value Conversions
+        // Bits
         
-        public static SpeakerSetupEnum ToSpeakerSetup(this int channelCount)
+        public static void SetBits(this Sample entity, int bits, IContext context = null)
         {
-            switch (channelCount)
-            {
-                case 1: return SpeakerSetupEnum.Mono;
-                case 2: return SpeakerSetupEnum.Stereo;
-                default: throw new ValueNotSupportedException(channelCount);
-            }
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.SetSampleDataTypeEnum(bits.ToSampleDataTypeEnum(), context);
+        }
+        
+        public static void SetBits(this AudioFileOutput entity, int bits, IContext context = null)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.SetSampleDataTypeEnum(bits.ToSampleDataTypeEnum(), context);
         }
 
-        public static int GetChannelCount(this SpeakerSetupEnum speakerSetupEnum)
+        // Speakers
+       
+        public static int GetSpeakers(this SpeakerSetupEnum speakerSetupEnum)
         {
             switch (speakerSetupEnum)
             {
@@ -146,36 +150,71 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
+        public static SpeakerSetupEnum ToSpeakerSetupEnum(this int speakers)
+        {
+            switch (speakers)
+            {
+                case 1: return SpeakerSetupEnum.Mono;
+                case 2: return SpeakerSetupEnum.Stereo;
+                default: throw new ValueNotSupportedException(speakers);
+            }
+        }
+
+        public static void SetSpeakers(this Sample entity, int speakers, IContext context = null)
+        {
+            var repository = CreateRepository<ISpeakerSetupRepository>(context);
+            entity.SetSpeakerSetupEnum(speakers.ToSpeakerSetupEnum(), repository);
+        }
+
+        // Channel
+        
+        public static int ToChannel(this ChannelEnum channelEnum, IContext context = null)
+        {
+            IChannelRepository channelRepository = CreateRepository<IChannelRepository>(context);
+            Channel channelEnumEntity = channelRepository.Get((int)channelEnum);
+            return channelEnumEntity.Index;
+        }
+
+        public static ChannelEnum ToChannelEnum(this int channel, int speakers)
+            => ToChannelEnum(channel, speakers.ToSpeakerSetupEnum());
+
+        public static ChannelEnum ToChannelEnum(this int channel, SpeakerSetupEnum speakerSetupEnum)
+        {
+            switch (speakerSetupEnum)
+            {
+                case SpeakerSetupEnum.Mono:
+                    if (channel == 0) return ChannelEnum.Single;
+                    break;
+                
+                case SpeakerSetupEnum.Stereo:
+                    if (channel == 0) return ChannelEnum.Left;
+                    if (channel == 1) return ChannelEnum.Right;
+                    break;
+            }
+            
+            throw new NotSupportedException(
+                "Unsupported combination of values: " + new { speakerSetupEnum, channel });
+        }
+
+        
+        // SampleDataType
+       
+        public static SampleDataTypeEnum ToSampleDataTypeEnum(this int bits)
+        {
+            switch (bits)
+            {
+                case 8: return SampleDataTypeEnum.Byte;
+                case 16: return SampleDataTypeEnum.Int16;
+                case 32: return SampleDataTypeEnum.Float32;
+                default: throw new Exception($"Bits = {bits} not supported. Supported values: 8, 16, 32.");
+            }
+        }
+
         public static SampleDataTypeEnum GetSampleDataTypeEnum<TSampleDataType>()
         {
             if (typeof(TSampleDataType) == typeof(short)) return SampleDataTypeEnum.Int16;
             if (typeof(TSampleDataType) == typeof(byte)) return SampleDataTypeEnum.Byte;
             throw new ValueNotSupportedException(typeof(TSampleDataType));
-        }
-
-        public static int ToIndex(this ChannelEnum channel, IContext context = null)
-        {
-            IChannelRepository channelRepository = CreateRepository<IChannelRepository>(context);
-            Channel channelEnumEntity = channelRepository.Get((int)channel);
-            return channelEnumEntity.Index;
-        }
-
-        public static ChannelEnum ToChannel(this int channelIndex, SpeakerSetupEnum speakerSetupEnum)
-        {
-            switch (speakerSetupEnum)
-            {
-                case SpeakerSetupEnum.Mono:
-                    if (channelIndex == 0) return ChannelEnum.Single;
-                    break;
-                
-                case SpeakerSetupEnum.Stereo:
-                    if (channelIndex == 0) return ChannelEnum.Left;
-                    if (channelIndex == 1) return ChannelEnum.Right;
-                    break;
-            }
-            
-            throw new NotSupportedException(
-                "Unsupported combination of values: " + new { speakerSetupEnum, channelIndex });
         }
 
         // SpeakerSetupChannel by ChannelEnum
@@ -219,11 +258,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static AudioFileOutputChannel TryGetAudioFileOutputChannel(
             this AudioFileOutput audioFileOutput, ChannelEnum channelEnum)
-            => audioFileOutput.AudioFileOutputChannels.SingleOrDefault(x => x.Index == channelEnum.ToIndex());
+            => audioFileOutput.AudioFileOutputChannels.SingleOrDefault(x => x.Index == channelEnum.ToChannel());
         
         public static AudioFileOutputChannel GetAudioFileOutputChannel(
             this AudioFileOutput audioFileOutput, ChannelEnum channelEnum)
-            => audioFileOutput.AudioFileOutputChannels.Single(x => x.Index == channelEnum.ToIndex());
+            => audioFileOutput.AudioFileOutputChannels.Single(x => x.Index == channelEnum.ToChannel());
         
         // SetNodeType for whole Curve
 
@@ -244,31 +283,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (distinctNodeTypeEnums.Count == 1) return distinctNodeTypeEnums[0];
             else return NodeTypeEnum.Undefined;
-        }
-        
-        // Bits
-
-        public static SampleDataTypeEnum ToSampleDataTypeEnum(this int bits)
-        {
-            switch (bits)
-            {
-                case 8: return SampleDataTypeEnum.Byte;
-                case 16: return SampleDataTypeEnum.Int16;
-                case 32: return SampleDataTypeEnum.Float32;
-                default: throw new Exception($"Bits = {bits} not supported. Supported values: 8, 16, 32.");
-            }
-        }
-        
-        public static void SetBits(this AudioFileOutput entity, int bits, IContext context = null)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.SetSampleDataTypeEnum(bits.ToSampleDataTypeEnum(), context);
-        }
-        
-        public static void SetBits(this Sample entity, int bits, IContext context = null)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.SetSampleDataTypeEnum(bits.ToSampleDataTypeEnum(), context);
         }
     }
 }

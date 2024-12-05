@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public double Calculate(Outlet outlet, double time)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            return outlet.Calculate(time, GetChannelIndex);
+            return outlet.Calculate(time, GetChannel);
         }
     }
 
@@ -44,10 +44,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return flowNode.UnderlyingOutlet.Calculate(time, channelEnum);
         }
 
-        public static double Calculate(this FlowNode flowNode, double time, int channelIndex)
+        public static double Calculate(this FlowNode flowNode, double time, int channel)
         {
             if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
-            return flowNode.UnderlyingOutlet.Calculate(time, channelIndex);
+            return flowNode.UnderlyingOutlet.Calculate(time, channel);
         }
         
         // Curve
@@ -64,23 +64,23 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         public static double Calculate(this Sample sample, double time, ChannelEnum channelEnum)
-            => Calculate(sample, time, channelEnum.ToIndex());
+            => Calculate(sample, time, channelEnum.ToChannel());
 
-        public static double Calculate(this Sample sample, double time, int channelIndex)
-            => SampleCalculatorFactory.CreateSampleCalculator(sample).CalculateValue(channelIndex, time);
+        public static double Calculate(this Sample sample, double time, int channel)
+            => SampleCalculatorFactory.CreateSampleCalculator(sample).CalculateValue(channel, time);
 
         // Operator
 
         public static double Calculate(this Outlet outlet, double time, ChannelEnum channelEnum)
-            => Calculate(outlet, time, channelEnum.ToIndex());
+            => Calculate(outlet, time, channelEnum.ToChannel());
 
-        public static double Calculate(this Outlet outlet, double time = 0, int channelIndex = 0) 
-            => new OperatorCalculator(channelIndex).CalculateValue(outlet, time);
+        public static double Calculate(this Outlet outlet, double time = 0, int channel = 0) 
+            => new OperatorCalculator(channel).CalculateValue(outlet, time);
 
         public static double Calculate(this Operator op, double time, ChannelEnum channelEnum)
-            => Calculate(op, time, channelEnum.ToIndex());
+            => Calculate(op, time, channelEnum.ToChannel());
 
-        public static double Calculate(this Operator op, double time = 0, int channelIndex = 0)
+        public static double Calculate(this Operator op, double time = 0, int channel = 0)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes
                         $"({nameof(op.OperatorTypeName)} = '{op.OperatorTypeName}')");
             }
 
-            return Calculate(outlet, time, channelIndex);
+            return Calculate(outlet, time, channel);
         }
 
     }

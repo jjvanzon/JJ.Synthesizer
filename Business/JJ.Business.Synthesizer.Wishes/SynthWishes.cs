@@ -40,8 +40,8 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public IContext Context { get; }
 
-        private ConfigResolver _config;
-        public ConfigResolver Config 
+        private ConfigWishes _config;
+        public ConfigWishes Config 
         {
             get => _config;
             set
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Wishes
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
             _sampleManager = ServiceFactory.CreateSampleManager(context);
             
-            Config = new ConfigResolver();
+            Config = new ConfigWishes();
             _tapes = new TapeCollection(this);
             _tapeRunner = new TapeRunner(this, _tapes);
             
@@ -110,10 +110,10 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 switch (GetSpeakers)
                 {
-                    case Mono:
+                    case 1:
                         WithCenter(); return new[] { func() };
                     
-                    case Stereo:
+                    case 2:
                         WithLeft(); var leftSignal = func();
                         WithRight(); var rightSignal = func();
                         return new[] { leftSignal, rightSignal };

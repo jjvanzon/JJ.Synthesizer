@@ -103,11 +103,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             var array = potentialPair as Tape[] ?? potentialPair.ToArray();
             if (array.Length != 2) return default;
             
-            var left = array.FirstOrDefault(x => x.ChannelIndex == 0);
-            if (left == null) throw new Exception("There are 2 channel tapes, but none of them are a Left channel (ChannelIndex = 0).");
+            var left = array.FirstOrDefault(x => x.Channel == 0);
+            if (left == null) throw new Exception("There are 2 channel tapes, but none of them are a Left channel (Channel = 0).");
             
-            var right = array.FirstOrDefault(x => x.ChannelIndex == 1);
-            if (right == null) throw new Exception("There are 2 channel tapes, but none of them are a Right channel (ChannelIndex = 1).");
+            var right = array.FirstOrDefault(x => x.Channel == 1);
+            if (right == null) throw new Exception("There are 2 channel tapes, but none of them are a Right channel (Channel = 1).");
             
             var pair = (left, right);
             

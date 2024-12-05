@@ -123,6 +123,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Accessors\AdditiveTestsAccessor.cs" />
+    <Compile Include="Accessors\ConfigWishesAccessor.cs" />
     <Compile Include="Accessors\FlowNodeAccessor.cs" />
     <Compile Include="Accessors\JJFrameworkIOWishesAccessor.cs" />
     <Compile Include="Accessors\ModulationTestsAccessor.cs" />

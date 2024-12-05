@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             SynthWishes synthWishes = SynthWishesResolver.Resolve(tape);
             
-            Buff replacementBuff = tape.ChannelCallback?.Invoke(tape.Buff, tape.ChannelIndex);
+            Buff replacementBuff = tape.ChannelCallback?.Invoke(tape.Buff, tape.Channel);
             if (replacementBuff != null) tape.Buff = replacementBuff;
             
             if (tape.WithSaveChannel)

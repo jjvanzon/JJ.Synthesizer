@@ -61,18 +61,18 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Play(
-            IList<FlowNode> channels,
+            IList<FlowNode> channelSignals,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => Play(channels, null, name, callerMemberName);
+            => Play(channelSignals, null, name, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Play(
-            IList<FlowNode> channels, FlowNode duration,
+            IList<FlowNode> channelSignals, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             Buff buff =
                 MakeBuff(
-                    channels, duration,
+                    channelSignals, duration,
                     inMemory: !GetCacheToDisk, mustPad: true, null, name, null, callerMemberName);
             
             Buff buff2 = InternalPlay(this, buff);
@@ -127,45 +127,45 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
-            FlowNode channel, 
+            FlowNode channelSignal, 
             [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channel, null, null, null, callerMemberName);
+            => PlayChannel(channelSignal, null, null, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
-            FlowNode channel, FlowNode duration, 
+            FlowNode channelSignal, FlowNode duration, 
             [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channel, duration, null, null, callerMemberName);
+            => PlayChannel(channelSignal, duration, null, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
-            FlowNode channel,
+            FlowNode channelSignal,
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channel, null, null, callback, callerMemberName);
+            => PlayChannel(channelSignal, null, null, callback, callerMemberName);
                 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
-            FlowNode channel, FlowNode duration, 
+            FlowNode channelSignal, FlowNode duration, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channel, duration, null, callback, callerMemberName);
+            => PlayChannel(channelSignal, duration, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
-            FlowNode channel, string filePath, 
+            FlowNode channelSignal, string filePath, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channel, null, filePath, callback, callerMemberName);
+            => PlayChannel(channelSignal, null, filePath, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannel(
-            FlowNode channel, FlowNode duration, string filePath,
+            FlowNode channelSignal, FlowNode duration, string filePath,
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.Add(channel, callerMemberName);
+            Tape tape = _tapes.Add(channelSignal, callerMemberName);
             tape.WithPlayChannel = true;
             tape.FilePath = filePath;
             tape.Duration = duration;
             tape.ChannelCallback = callback;
-            return channel;
+            return channelSignal;
         }
 
         // Internals (all on Buffs) (End-of-Chain)
@@ -208,12 +208,12 @@ namespace JJ.Business.Synthesizer.Wishes
             SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension = null)
         {
             // Figure out if must play
-            ConfigResolver configResolver = synthWishes?.Config ?? ConfigResolver.Default;
+            ConfigWishes configWishes = synthWishes?.Config ?? ConfigWishes.Default;
             if (string.IsNullOrWhiteSpace(fileExtension) && !string.IsNullOrWhiteSpace(filePath))
             {
                 fileExtension = Path.GetExtension(filePath);
             }
-            bool mustPlay = configResolver.GetPlay(fileExtension);
+            bool mustPlay = configWishes.GetPlay(fileExtension);
             
             var lines = new List<string>();
 

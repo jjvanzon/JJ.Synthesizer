@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             var tape = new Tape
             {
                 Signal = signal,
-                ChannelIndex = _synthWishes.GetChannelIndex,
+                Channel = _synthWishes.GetChannel,
                 FallBackName = callerMemberName
             };
             

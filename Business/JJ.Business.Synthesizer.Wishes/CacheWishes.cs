@@ -51,52 +51,52 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff MaterializeCache(
-            FlowNode outlet, 
+            FlowNode signal, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
-                new[] { outlet }, null, 
+                new[] { signal }, null, 
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff MaterializeCache(
-            FlowNode outlet, FlowNode duration,
+            FlowNode signal, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
-                new[] { outlet }, duration,
+                new[] { signal }, duration,
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff MaterializeCache(
-            FlowNode outlet, FlowNode duration, bool mustPad, 
+            FlowNode signal, FlowNode duration, bool mustPad, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
-                new[] { outlet }, duration, 
+                new[] { signal }, duration, 
                 inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
         
         // With List of FlowNodes
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
-            IList<FlowNode> channels,
+            IList<FlowNode> channelSignals,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
-                channels, null,
+                channelSignals, null,
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
-            IList<FlowNode> channels, FlowNode duration = null,
+            IList<FlowNode> channelSignals, FlowNode duration = null,
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
-                channels, duration, 
+                channelSignals, duration, 
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Cache(
-            IList<FlowNode> channels, FlowNode duration, bool mustPad,
+            IList<FlowNode> channelSignals, FlowNode duration, bool mustPad,
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
-                channels, duration, 
+                channelSignals, duration, 
                 inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
         
         // Instance Cache (Mid-Chain)
@@ -192,14 +192,14 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 buff,
-                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
 
         public static Buff Cache(
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 entity, 
-                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
     }
 
     // Statics Turned Instance (End-of-Chain)
@@ -347,13 +347,13 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => SynthWishes.MakeBuff(
                 buff, 
-                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
         
         public static Buff Cache(
             this AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => SynthWishes.MakeBuff(
                 entity, 
-                inMemory: true, ConfigResolver.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
     }
 }

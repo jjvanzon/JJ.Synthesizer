@@ -318,7 +318,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="stereoChannels">
         /// A tuple of two outlets, one for the Left channel, one for the Right channel.
         /// </param>
-        /// <param name="channels">
+        /// <param name="channelSignals">
         /// A list of outlets, one for each channel,
         /// e.g. a single one for Mono and 2 outlets for stereo.
         /// </param>

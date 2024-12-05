@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
@@ -44,8 +43,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
                 return new TapeCollectionAccessor(obj);
             }
         }
-        
-        
+
         // EchoAdditive
         
         public FlowNode EchoAdditive(FlowNode sound, int count, FlowNode magnitude = null, FlowNode delay = null, [CallerMemberName] string callerMemberName = null)

@@ -1012,7 +1012,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(FlowNode sound, FlowNode panning = default)
         {
-            ChannelEnum channel = GetChannel;
             panning = panning ?? _[0.5];
 
             // Some optimization in case of a constant value
@@ -1023,33 +1022,32 @@ namespace JJ.Business.Synthesizer.Wishes
                     return Panning(sound, constPanning.Value);
                 }
             }
-
-            switch (channel)
+            
+            if (GetMono)
             {
-                case ChannelEnum.Single: return sound;
-                case ChannelEnum.Left: return Multiply(sound, Subtract(_[1], panning)).SetName();
-                case ChannelEnum.Right: return Multiply(sound, panning).SetName();
-
-                default: throw new ValueNotSupportedException(channel);
+                return sound / 2;
             }
+            
+            if (GetStereo)
+            {
+                if (GetLeft) return Multiply(sound, Subtract(_[1], panning)).SetName();
+                if (GetRight) return Multiply(sound, panning).SetName();
+            }
+            
+            throw new Exception($"Unsupported combination of values: {new {GetSpeakers, GetChannel}}");
         }
 
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(FlowNode sound, double panning)
         {
-            ChannelEnum channel = GetChannel;
-
             if (panning < 0) panning = 0;
             if (panning > 1) panning = 1;
 
-            switch (channel)
-            {
-                case ChannelEnum.Single: return sound / 2;
-                case ChannelEnum.Left: return (sound * _[1 - panning]).SetName();
-                case ChannelEnum.Right: return (sound * _[panning]).SetName();
-
-                default: throw new ValueNotSupportedException(channel);
-            }
+            if (GetMono) return (sound / 2).SetName();
+            if (GetLeft) return (sound * _[1 - panning]).SetName();
+            if (GetRight) return (sound * _[panning]).SetName();
+            
+            throw new Exception($"Unsupported combination of values: {new {GetSpeakers, GetChannel}}");
         }
     }
 

@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             
             // Prep variables
             int termCount = termFuncs.Count;
-            int channelCount = synthWishes.GetSpeakers.GetChannelCount();
+            int speakers = synthWishes.GetSpeakers;
             string[] names = GetParallelNames(termCount, name);
             string[] displayNames = names.Select(GetDisplayName).ToArray();
             var cacheBuffs = new Buff[termCount];
@@ -100,15 +100,15 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 Console.WriteLine($"{PrettyTime()} Start Task: {displayNames[i]}", "SynthWishes");
                 
                 // Get outlets first
-                var channels = new FlowNode[channelCount];
+                var channelSignals = new FlowNode[speakers];
                 
                 var originalChannel = synthWishes.GetChannel;
                 try
                 {
-                    for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
+                    for (int channel = 0; channel < speakers; channel++)
                     {
-                        synthWishes.WithChannelIndex(channelIndex);
-                        channels[channelIndex] = termFuncs[i](); // This runs parallels, because the funcs can contain another parallel add.
+                        synthWishes.WithChannel(channel);
+                        channelSignals[channel] = termFuncs[i](); // This runs parallels, because the funcs can contain another parallel add.
                     }
                 }
                 finally
@@ -117,7 +117,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 }
                 
                 // Generate audio
-                cacheBuffs[i] = synthWishes.Cache(channels, synthWishes.GetAudioLength, names[i]);
+                cacheBuffs[i] = synthWishes.Cache(channelSignals, synthWishes.GetAudioLength, names[i]);
                 
                 Console.WriteLine($"{PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
             });
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 //if (GetCacheToDisk)
                 //{
                 //    // Save reloaded samples to disk.
-                //    var reloadedSampleRepeated = Repeat(reloadedSamples[i], channelCount).ToArray();
+                //    var reloadedSampleRepeated = Repeat(reloadedSamples[i], speakers).ToArray();
                 //    var saveResult2 = Save(reloadedSampleRepeated, names[i] + "_Reloaded.wav");
                 
                 //    // Play to test the sample loading.
