@@ -11,11 +11,11 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
+using static JJ.Business.Synthesizer.Wishes.SynthLogger;
 using static JJ.Framework.Reflection.ExpressionHelper;
 
 // ReSharper disable ParameterHidesMember
@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer.Wishes
             };
 
             // Report
-            var reportLines = GetReport(buff, calculationDuration);
+            var reportLines = GetSynthLog(buff, calculationDuration);
             reportLines.ForEach(Console.WriteLine);
             
             return buff;
@@ -296,68 +296,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 Console.WriteLine($"{PrettyTime()} Padding: Channel Delay + {leadingSilence} s");
                 return Delay(outlet, leadingSilence);
             }
-        }
-
-        private static List<string> GetReport(Buff buff, double calculationDuration)
-        {
-            // Get Info
-            var stringifiedChannels = new List<string>();
-
-            foreach (var audioFileOutputChannel in buff.UnderlyingAudioFileOutput.AudioFileOutputChannels)
-            {
-                string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
-                stringifiedChannels.Add(stringify);
-            }
-
-            // Gather Lines
-            var lines = new List<string>();
-
-            lines.Add("");
-            lines.Add(GetPrettyTitle(FetchName(buff)));
-            lines.Add("");
-
-            string realTimeComplexityMessage = FormatMetrics(buff.UnderlyingAudioFileOutput.Duration, calculationDuration, buff.Complexity());
-            lines.Add(realTimeComplexityMessage);
-            lines.Add("");
-
-            lines.Add($"Calculation time: {PrettyDuration(calculationDuration)}");
-            lines.Add($"Audio length: {PrettyDuration(buff.UnderlyingAudioFileOutput.Duration)}");
-            lines.Add($"Sampling rate: {buff.UnderlyingAudioFileOutput.SamplingRate} Hz " +
-                      $"| {buff.UnderlyingAudioFileOutput.GetSampleDataTypeEnum()} " +
-                      $"| {buff.UnderlyingAudioFileOutput.GetSpeakerSetupEnum()}");
-
-            lines.Add("");
-
-            IList<string> warnings = buff.Messages.ToArray();
-            if (warnings.Any())
-            {
-                lines.Add("Warnings:");
-                lines.AddRange(warnings.Select(warning => $"- {warning}"));
-                lines.Add("");
-            }
-
-            for (var i = 0; i < buff.UnderlyingAudioFileOutput.AudioFileOutputChannels.Count; i++)
-            {
-                var channelString = stringifiedChannels[i];
-
-                lines.Add($"Calculation Channel {i + 1}:");
-                lines.Add("");
-                lines.Add(channelString);
-                lines.Add("");
-            }
-
-            if (buff.Bytes != null)
-            {
-                lines.Add($"{PrettyByteCount(buff.Bytes.Length)} written to memory.");
-            }
-            if (File.Exists(buff.FilePath)) // TODO: Remove the if. It may be redundant now.
-            {
-                lines.Add($"Output file: {Path.GetFullPath(buff.FilePath)}");
-            }
-
-            lines.Add("");
-
-            return lines;
         }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />

@@ -142,43 +142,5 @@ namespace JJ.Business.Synthesizer.Wishes
             string fileExtension = audioFileFormatEnum.GetFileExtension();
             return fileNameWithoutExtension + fileExtension;
         }
-        
-        internal static string FormatMetrics(double audioDuration, double calculationDuration, int complexity)
-        {
-            string realTimeMessage = FormatRealTimeMessage(audioDuration, calculationDuration);
-            string sep = realTimeMessage != default ? " | " : "";
-            string complexityMessage = $"Complexity Ｏ ( {complexity} )";
-            string metricsMessage = $"{realTimeMessage}{sep}{complexityMessage}";
-            return metricsMessage;
-        }
-        
-        private static string FormatRealTimeMessage(double audioDuration, double calculationDuration)
-        {
-            //var isRunningInTooling = ToolingHelper.IsRunningInTooling;
-            //if (isRunningInTooling)
-            //{
-            //    // If running in tooling, omitting the performance message from the result,
-            //    // because it has little meaning with sampling rates  below 150
-            //    // that are employed for tooling by default, to keep them running fast.
-            //    return default;
-            //}
-
-            double realTimePercent = audioDuration / calculationDuration* 100;
-
-            string realTimeStatusGlyph;
-            if (realTimePercent < 100)
-            {
-                realTimeStatusGlyph = "❌";
-            }
-            else
-            {
-                realTimeStatusGlyph = "✔";
-            }
-
-            var realTimeMessage = $"{realTimeStatusGlyph} {realTimePercent:F0} % Real Time";
-
-            return realTimeMessage;
-
-        }
     }
 }
