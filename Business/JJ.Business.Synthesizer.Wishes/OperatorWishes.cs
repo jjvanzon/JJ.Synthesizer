@@ -1044,7 +1044,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             switch (channel)
             {
-                case ChannelEnum.Single: return sound;
+                case ChannelEnum.Single: return sound / 2;
                 case ChannelEnum.Left: return (sound * _[1 - panning]).SetName();
                 case ChannelEnum.Right: return (sound * _[panning]).SetName();
 

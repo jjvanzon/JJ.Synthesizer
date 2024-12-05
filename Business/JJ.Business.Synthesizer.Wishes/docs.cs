@@ -403,8 +403,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _panbrello;
 
         /// <summary>
-        /// Applies panning to a stereo signal by adjusting the left and right
-        /// channel volumes based on the specified panning value.
+        /// Applies panning to a stereo signal by adjusting
+        /// the left and right channel volumes based on the specified panning value.
+        /// NOTE: For mono signals, panning would cut the volume in half, ensuring consistency with center-panned stereo signals.
         /// TODO: A variable panning might go into the negative. Should be clamped to 0-1.
         /// </summary>
         /// <param name="channel">

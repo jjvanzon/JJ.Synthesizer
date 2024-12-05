@@ -250,10 +250,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Panned, amplified sine
             FlowNode getSignal()
             {
-                var sine      = Sine(frequency);
-                var amplified = Multiply(sine, VOLUME);
-                var panned    = Panning(amplified, PANNING);
-                return panned;
+                var sound = Sine(frequency) * VOLUME;
+                if (GetStereo)
+                {
+                    sound = sound.Panning(PANNING);
+                }
+                return sound;
             }
 
             // Save to file
