@@ -36,12 +36,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             // Group by flags, as they definitely should match.
             var groupedByFlags = tapes.GroupBy(x => new
             {
-                x.WithPlay,
-                x.WithSave,
-                x.WithCache,
-                x.WithPlayChannel,
-                x.WithSaveChannel,
-                x.WithCacheChannel
+                x.IsPlay,
+                x.IsSave,
+                x.IsCache,
+                x.IsPlayChannel,
+                x.IsSaveChannel,
+                x.IsCacheChannel,
+                x.IsPadding,
+                x.IsTape
             });
             
             foreach (var group in groupedByFlags)

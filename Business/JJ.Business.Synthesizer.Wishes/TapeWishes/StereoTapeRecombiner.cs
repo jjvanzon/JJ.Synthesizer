@@ -21,12 +21,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 Buff = stereoBuff,
                 Duration = tapePair.Left.Duration,
-                WithPlay = tapePair.Left.WithPlay,
-                WithSave = tapePair.Left.WithSave,
-                WithCache = tapePair.Left.WithCache,
                 FilePath = tapePair.Left.FilePath,
-                Callback = tapePair.Left.Callback,
-                FallBackName = tapePair.Left.FallBackName
+                FallBackName = tapePair.Left.FallBackName,
+                IsPlay = tapePair.Left.IsPlay,
+                IsSave = tapePair.Left.IsSave,
+                IsCache = tapePair.Left.IsCache,
+                IsPadding = tapePair.Left.IsPadding,
+                Callback = tapePair.Left.Callback
             };
             
             return stereoTape;

@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = _tapes.Add(channel, callerMemberName);
-            tape.WithSave = true;
+            tape.IsSave = true;
             tape.FilePath = filePath;
             tape.Duration = duration;
             tape.Callback = callback;
@@ -143,7 +143,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = _tapes.Add(channel, callerMemberName);
-            tape.WithSaveChannel = true;
+            tape.IsSaveChannel = true;
             tape.FilePath = filePath;
             tape.Duration = duration;
             tape.ChannelCallback = callback;

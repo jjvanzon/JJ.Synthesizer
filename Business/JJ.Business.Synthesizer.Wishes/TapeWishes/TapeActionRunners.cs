@@ -14,12 +14,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Buff replacementBuff = tape.ChannelCallback?.Invoke(tape.Buff, tape.Channel);
             if (replacementBuff != null) tape.Buff = replacementBuff;
             
-            if (tape.WithSaveChannel)
+            if (tape.IsSaveChannel)
             {
                 synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
             }
             
-            if (tape.WithPlayChannel || synthWishes.GetPlayAllTapes)
+            if (tape.IsPlayChannel || synthWishes.GetPlayAllTapes)
             {
                 synthWishes.Play(tape.Buff);
             }
@@ -35,12 +35,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Buff replacementBuff = tape.Callback?.Invoke(tape.Buff);
             if (replacementBuff != null) tape.Buff = replacementBuff;
             
-            if (tape.WithSave)
+            if (tape.IsSave)
             {
                 synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
             }
             
-            if (tape.WithPlay)
+            if (tape.IsPlay)
             {
                 synthWishes.Play(tape.Buff);
             }
@@ -63,12 +63,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Buff replacementBuff = tape.Callback?.Invoke(tape.Buff);
             if (replacementBuff != null) tape.Buff = replacementBuff;
             
-            if (tape.WithSave)
+            if (tape.IsSave)
             {
                 _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
             }
             
-            if (tape.WithPlay)
+            if (tape.IsPlay)
             {
                 _synthWishes.Play(tape.Buff);
             }

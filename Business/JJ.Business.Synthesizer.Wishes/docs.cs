@@ -298,6 +298,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _headerLength;
         
         /// <summary>
+        /// Indicates that the tape was a result of a direct Tape() call.
+        /// </summary>
+        public static object _istape;
+        
+        /// <summary>
         /// Outputs audio in an audio file format and plays it if needed.<br />
         /// A single <see cref="Outlet">Outlet</see> will result in Mono audio.<br />
         /// Use a func returning an <see cref="Outlet">Outlet</see> e.g. <c> Save(() => MySound()); </c> <br />

@@ -206,10 +206,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private void ExecutePostProcessing(IList<Tape> tapes)
         {
             IList<Tape> tapesWithActions
-                = tapes.Where(x => x.WithCache ||
-                                   x.WithPlay  ||
-                                   x.WithSave  ||
-                                   x.Callback  != null).ToArray();
+                = tapes.Where(x => x.IsCache  ||
+                                   x.IsPlay   ||
+                                   x.IsSave   ||
+                                   x.Callback != null).ToArray();
 
             if (_synthWishes.IsMono)
             {
