@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Environment;
+using static System.String;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -76,9 +79,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (_unprocessedTapes.Count > 0)
             {
-                // TODO: Make exception more specific.
-                throw new Exception($"{_unprocessedTapes.Count} channel tapes could not matched for a stereo tape. " +
-                                    "Consider passing names to the Cache, Play or Save methods.");
+                throw new Exception(
+                    _unprocessedTapes.Count + " channel tapes could not be matched to a stereo tape:" + NewLine +
+                    Join(NewLine, _unprocessedTapes.Select(x => "- " + GetTapeDescriptor(x) + " | " + x.Signal)) + NewLine +
+                    "To avoid duplicates, consider passing names to the Play, Save, Tape or Cache methods.");
             }
             
             return _matchedPairs;
