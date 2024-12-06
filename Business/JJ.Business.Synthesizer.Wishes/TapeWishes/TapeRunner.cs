@@ -63,6 +63,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Tape[] tapes = _tapes.GetAll();
             _tapes.Clear();
             
+            string tapeHierarchyLog = LogWishes.PlotTapeHierarchy(tapes);
+            Console.WriteLine(tapeHierarchyLog);
+
             var tapeGroups = tapes.GroupBy(x => x.Channel)
                                   .Select(x => x.ToArray())
                                   .ToArray();
