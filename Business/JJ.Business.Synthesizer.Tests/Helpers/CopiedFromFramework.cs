@@ -90,7 +90,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// </summary>
         private static IEnumerable<TSource> OfType<TSource>(this IEnumerable<TSource> source, Type type)
             => source.Where(x => x.GetType() == type);
-
             
         /// <summary>
         /// Works similar to Sum, but instead of adding up all the numbers, all the numbers are multiplied.
