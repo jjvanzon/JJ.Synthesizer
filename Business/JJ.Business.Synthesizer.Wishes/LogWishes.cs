@@ -194,7 +194,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        // Optimization Loggers
+        // Math Optimization
+
+        public static void LogMathOptimizationTitle()
+        {
+            Console.WriteLine("Math Optimizations");
+            Console.WriteLine("------------------");
+            Console.WriteLine("");
+        }
 
         public static void LogComputeConstant(
             FlowNode a, string mathSymbol, FlowNode b, FlowNode result,
@@ -303,7 +310,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         // Specialized Stringifications
-        
+
         internal static string Stringify(string opName, FlowNode a, string mathSymbol, FlowNode b)
             => Stringify(opName, mathSymbol, a, b);
         
