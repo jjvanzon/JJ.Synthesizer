@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             _accessor = new Accessor(obj, type);
         }
         
-        public void RunAllTapes(IList<FlowNode> nodes) 
-            => _accessor.InvokeMethod(MemberName(), nodes);
+        public void RunAllTapes() 
+            => _accessor.InvokeMethod(MemberName());
     }
 }

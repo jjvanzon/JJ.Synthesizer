@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
@@ -10,8 +9,8 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
-using System.Runtime.CompilerServices;
 using System.Reflection;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 // ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable AssignmentInsteadOfDiscard
@@ -82,7 +81,9 @@ namespace JJ.Business.Synthesizer.Wishes
             t = new TimeIndexer(this);
         }
         
-        public void Run(Action action)
+        public void Run(Action action) => RunOnNewInstance(action);
+        
+        private void RunOnNewInstance(Action action)
         {
             // Create a new instance of the derived class
             Type concreteType = this.GetType();
@@ -90,46 +91,29 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Yield over settings
             newInstance.Config = Config;
-
+            
             // Rebind the delegate to the new instance
             MethodInfo methodInfo = action.Method;
             Action newAction = (Action)Delegate.CreateDelegate(typeof(Action), newInstance, methodInfo);
-
+            
             // Run the action on the new instance
-            newInstance.RunActionOnThisInstance(() => newAction(), newAction.Method.Name);
+            newInstance.RunOnThisInstance(() => newAction());
         }
-
-        private void RunActionOnThisInstance(Action action, string name = null, [CallerMemberName] string callerMemberName = null)
+        
+        private void RunOnThisInstance(Action action)
         {
-            RunFuncOnThisInstance(
-                () =>
-                {
-                    action();
-
-                    // HACK: To avoid the FlowNode return value,
-                    // and make tape runner run all tapes without an explicit root node specified,
-                    // create a root node here after all.
-                    FlowNode[] tapeSignals = _tapes.GetAll().Where(x => x.Channel == GetChannel).Select(x => x.Signal).ToArray();
-                    FlowNode root = Add(tapeSignals).Tape().SetName("Root");
-                    return root;
-                },
-                name, callerMemberName);
-        }
-
-        private void RunFuncOnThisInstance(Func<FlowNode> func, string name = null, [CallerMemberName] string callerMemberName = null)
-        {
-            var channelSignals = GetChannelSignals(func);
-
+            RunForChannels(action);
+            
             if (GetParallelTaping)
             {
-                _tapeRunner.RunAllTapes(channelSignals);
+                _tapeRunner.RunAllTapes();
             }
             else
             {
-                Cache(func, name, callerMemberName);
+                throw new Exception("Run method cannot work without ParallelTaping.");
             }
         }
-                
+        
         private IList<FlowNode> GetChannelSignals(Func<FlowNode> func)
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
@@ -153,6 +137,29 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
                 
                 throw new ValueNotSupportedException(GetChannels);
+            }
+            finally
+            {
+                WithChannel(originalChannel);
+            }
+        }
+
+        private void RunForChannels(Action action)
+        {
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            
+            LogMathOptimizationTitle();
+            
+            var originalChannel = GetChannel;
+            try
+            {
+                WithChannel(0);
+                action();
+                
+                if (IsStereo)
+                {
+                    WithRight(); action();
+                }
             }
             finally
             {

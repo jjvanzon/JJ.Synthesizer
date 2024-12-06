@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 // Run Parallel Processing
                 if (GetParallelTaping)
                 {
-                    _tapeRunner.RunAllTapes(channelSignals);
+                    _tapeRunner.RunAllTapes();
                 }
                 
                 // Configure AudioFileOutput (avoid backend)

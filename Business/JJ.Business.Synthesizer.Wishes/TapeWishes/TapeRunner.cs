@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
@@ -32,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _channelTapeActionRunner = new ChannelTapeActionRunner();
         }
         
-        public void RunAllTapes(IList<FlowNode> channelSignals)
+        public void RunAllTapes()
         {
             if (_tapes.Count == 0) return;
             
@@ -44,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 _synthWishes.WithSamplingRate(_synthWishes.GetSamplingRate);
                 
-                var tapes = RunTapesPerChannel(channelSignals);
+                var tapes = RunTapesPerChannel();
                 ExecutePostProcessing(tapes);
             }
             finally
@@ -53,16 +52,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        private IList<Tape> RunTapesPerChannel(IList<FlowNode> channelSignals)
+        private IList<Tape> RunTapesPerChannel()
         {
-            if (channelSignals == null) throw new ArgumentNullException(nameof(channelSignals));
-            if (channelSignals.Contains(null)) throw new Exception("channelSignals.Contains(null)");
-            
-            channelSignals.ForEach(x => SetTapeNestingLevelsRecursive(x));
-            channelSignals.ForEach(x => SetTapeParentChildRelationshipsRecursive(x));
-            
             Tape[] tapes = _tapes.GetAll();
+            
+            foreach (Tape tape in tapes)
+            {
+                SetTapeParentChildRelationshipsRecursive(tape.Signal);
+            }
+            
             _tapes.Clear();
+
+            SetTapeNestingLevelsRecursive(tapes);
             
             string tapeHierarchyLog = LogWishes.PlotTapeHierarchy(tapes);
             Console.WriteLine(tapeHierarchyLog);
@@ -82,23 +83,28 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             return tapes;
         }
-        
-        private void SetTapeNestingLevelsRecursive(FlowNode node, int level = 1)
+                    
+        private void SetTapeNestingLevelsRecursive(IList<Tape> tapes)
         {
-            Tape tape = _tapes.TryGet(node);
-            if (tape != null)
+            var roots = tapes.Where(x => x.ParentTape == null).ToArray();
+            foreach (Tape root in roots)
             {
-                // Don't overwrite in case of multiple usage.
-                if (tape.NestingLevel == default) tape.NestingLevel = level++;
+                SetTapeNestingLevelsRecursive(root);
             }
+        }
+
+        private void SetTapeNestingLevelsRecursive(Tape tape, int level = 1)
+        {
+            // Don't overwrite in case of multiple usage.
+            if (tape.NestingLevel == default) tape.NestingLevel = level++;
             
-            foreach (FlowNode child in node.Operands)
+            foreach (Tape child in tape.ChildTapes)
             {
                 if (child == null) continue;
                 SetTapeNestingLevelsRecursive(child, level);
             }
         }
-        
+
         private void SetTapeParentChildRelationshipsRecursive(FlowNode node, Tape parentTape = null)
         {
             Tape tape = _tapes.TryGet(node);
