@@ -1,7 +1,8 @@
-﻿using JJ.Business.Synthesizer.Tests.Helpers;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Mathematics_Copied;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Mathematics_Copied.Randomizer_Copied;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 // ReSharper disable ExplicitCallerInfoArgument
@@ -14,13 +15,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class MidChainStreamingTests : MySynthWishes
     {
-        //FlowNode DelayCurve => DelayedPulseCurve.Stretch(GetAudioLength);
+        double RandomVolume => GetDouble(0.6, 0.95);
+        FlowNode RandomDynamic => Curve(RandomVolume, RandomVolume);
         
-        double RandomVolume => Randomizer_Copied.GetDouble(0.6, 1.0);
-        FlowNode RandomNote => Randomizer_Copied.GetRandomItem(new [] {D4, E4, G4, A4});
-
+        IList<FlowNode> RandomNotes { get; }
+        FlowNode RandomNote => GetRandomItem(new []
+        {
+            A3, B3, Cs4, E4, Fs4,
+            A4, B4, Cs5, E5, Fs5,
+        });
+        
         public MidChainStreamingTests()
         {
+            RandomNotes = new List<FlowNode>
+            {
+                RandomNote, RandomNote, RandomNote, RandomNote, RandomNote,
+                RandomNote, RandomNote, RandomNote, RandomNote, RandomNote,
+                RandomNote, RandomNote, RandomNote, RandomNote, RandomNote,
+                RandomNote, RandomNote, RandomNote, RandomNote, RandomNote
+            };
+            
             //WithShortDuration();
             //WithAudioLength(0.5);
         }
@@ -37,17 +51,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Play(() => Add
                  (
-                     Sine(pitch * 1).Volume(1.0).Curve(RecorderCurve * RandomVolume).Panning(0.2).PlayChannel(),
-                     Sine(pitch * 2).Volume(0.3).Curve(RecorderCurve * RandomVolume).Panning(0.8).PlayChannel()
+                     Sine(pitch * 1).Volume(1.0).Curve(RecorderCurve * RandomDynamic).Panning(0.2).PlayChannel(),
+                     Sine(pitch * 2).Volume(0.3).Curve(RecorderCurve * RandomDynamic).Panning(0.8).PlayChannel()
                  ));
 
             pitch = RandomNote;
             
             Play(() => Add
                  (
-                     1.0 * Sine(pitch * 1).Curve(RecorderCurve * RandomVolume).Panbrello(3.000, 0.2).PlayChannel(),
-                     0.2 * Sine(pitch * 2).Curve(RecorderCurve * RandomVolume).Panbrello(5.234, 0.3).PlayChannel(),
-                     0.3 * Sine(pitch * 3).Curve(RecorderCurve * RandomVolume).Panbrello(7.000, 0.2).PlayChannel()
+                     1.0 * Sine(pitch * 1).Curve(RecorderCurve * RandomDynamic).Panbrello(3.000, 0.2).PlayChannel(),
+                     0.2 * Sine(pitch * 2).Curve(RecorderCurve * RandomDynamic).Panbrello(5.234, 0.3).PlayChannel(),
+                     0.3 * Sine(pitch * 3).Curve(RecorderCurve * RandomDynamic).Panbrello(7.000, 0.2).PlayChannel()
                  ));
         }
         
@@ -57,13 +71,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithStereo();
             
-            var pitch = RandomNote;
-            
             var buffs = new Buff[2];
             
             // The delegate creates a non-trivial convergence point.
             
-            Save(() => Sine(pitch).Panning(0.05).Curve(RecorderCurve * RandomVolume).CacheChannel((b, i) => buffs[i] = b)).Play();
+            Save(() => Sine(RandomNotes[1]).Panning(0.05).Curve(RecorderCurve * RandomDynamic).CacheChannel((b, i) => buffs[i] = b)).Play();
             
             IsNotNull(() => buffs[0]);
             IsNotNull(() => buffs[1]);
@@ -83,11 +95,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithStereo();
             
-            var pitch = RandomNote;
-
             var buffs = new Buff[2];
             
-            Save(() => Sine(pitch).Panning(0.05).Curve(RecorderCurve * RandomVolume).CacheChannel((b, i) => buffs[i] = b)).Play();
+            Save(() => Sine(RandomNotes[2]).Panning(0.05).Curve(RecorderCurve * RandomDynamic).CacheChannel((b, i) => buffs[i] = b)).Play();
             
             Save(() => Sample(buffs[0]).Panning(0) +
                        Sample(buffs[1]).Panning(1)).Play();
@@ -99,56 +109,56 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Mono_Play_Test() => Run(Mono_Play);
         void Mono_Play()
         {
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().Play();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().Play();
         }
         
         [TestMethod]
         public void Mono_Play_Test_2Calls() => Run(Mono_Play_2Calls);
         void Mono_Play_2Calls()
         {
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().Play().SpeedUp(2).Play();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().Play().SpeedUp(2).Play();
         }
         
         [TestMethod]
         public void Mono_Save_Test() => Run(Mono_Save);
         void Mono_Save()
         { 
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().Save().Play();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().Save().Play();
         }
         
         [TestMethod]
         public void Mono_Save_Test_2Calls() => Run(Mono_Save_2Calls);
         void Mono_Save_2Calls()
         { 
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().Save().SpeedUp(2).Save().Play();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().Save().SpeedUp(2).Save().Play();
         }
         
         [TestMethod]
         public void Mono_Cache_Test() => Run(Mono_Cache);
         void Mono_Cache()
         { 
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().Cache().Play();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().Cache().Play();
         }
         
         [TestMethod]
         public void Mono_Cache_Test_2Calls() => Run(Mono_Cache_2Calls);
         void Mono_Cache_2Calls()
         { 
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().Cache().SpeedUp(2).Cache().Play();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().Cache().SpeedUp(2).Cache().Play();
         }
 
         [TestMethod]
         public void Mono_PlayChannel_Test() => Run(Mono_PlayChannel);
         void Mono_PlayChannel()
         {
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().PlayChannel();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().PlayChannel();
         }
         
         [TestMethod]
         public void Mono_PlayChannel_Test_2Calls() => Run(Mono_PlayChannel_2Calls);
         void Mono_PlayChannel_2Calls()
         {
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().PlayChannel().SpeedUp(2).Play();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().PlayChannel().SpeedUp(2).Play();
         }
         
         [TestMethod]
@@ -157,15 +167,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithMono();
             
-            var pitch = RandomNote;
-            
             Play(() => Add
                  (
-                     Sine(pitch * 1).Curve(RecorderCurve * RandomVolume).Volume(1.0).PlayChannel(),
-                     Sine(pitch * 2).Curve(RecorderCurve * RandomVolume).Volume(0.1),
-                     Sine(pitch * 3).Curve(RecorderCurve * RandomVolume).PlayChannel().Volume(0.15),
-                     Sine(pitch * 4).Curve(RecorderCurve * RandomVolume).Volume(0.1),
-                     Sine(pitch * 5).Curve(RecorderCurve * RandomVolume).Volume(0.05).PlayChannel()
+                     Sine(RandomNotes[3] * 1).Curve(RecorderCurve * RandomDynamic).Volume(1.0).PlayChannel(),
+                     Sine(RandomNotes[3] * 2).Curve(RecorderCurve * RandomDynamic).Volume(0.1),
+                     Sine(RandomNotes[3] * 3).Curve(RecorderCurve * RandomDynamic).PlayChannel().Volume(0.15),
+                     Sine(RandomNotes[3] * 4).Curve(RecorderCurve * RandomDynamic).Volume(0.1),
+                     Sine(RandomNotes[3] * 5).Curve(RecorderCurve * RandomDynamic).Volume(0.05).PlayChannel()
                  ));
         }
         
@@ -173,14 +181,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Mono_SaveChannel_Test() => Run(Mono_SaveChannel);
         void Mono_SaveChannel()
         {
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().SaveChannel().Play();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().SaveChannel().Play();
         }
         
         [TestMethod]
         public void Mono_SaveChannel_Test_2Calls() => Run(Mono_SaveChannel_2Calls);
         void Mono_SaveChannel_2Calls()
         {
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().SaveChannel().SpeedUp(2).Save().Play();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().SaveChannel().SpeedUp(2).Save().Play();
         }
 
         [TestMethod]
@@ -189,15 +197,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithMono();
             
-            var pitch = D4;
-            
             Play(() => Add
                  (
-                     Sine(pitch * 1).Curve(RecorderCurve * RandomVolume).Volume(1.0).SaveChannel(MemberName() + " Partial 1"),
-                     Sine(pitch * 2).Curve(RecorderCurve * RandomVolume).Volume(0.1),
-                     Sine(pitch * 3).Curve(RecorderCurve * RandomVolume).SaveChannel("FluentSave_UsingTape Partial 2").Volume(0.05),
-                     Sine(pitch * 4).Curve(RecorderCurve * RandomVolume).Volume(0.01),
-                     Sine(pitch * 5).Curve(RecorderCurve * RandomVolume).Volume(0.02).SetName("FluentSave_UsingTape Partial 3").SaveChannel()
+                     Sine(RandomNotes[4] * 1).Curve(RecorderCurve * RandomDynamic).Volume(1.0).SaveChannel(MemberName() + " Partial 1"),
+                     Sine(RandomNotes[4] * 2).Curve(RecorderCurve * RandomDynamic).Volume(0.1),
+                     Sine(RandomNotes[4] * 3).Curve(RecorderCurve * RandomDynamic).SaveChannel("FluentSave_UsingTape Partial 2").Volume(0.05),
+                     Sine(RandomNotes[4] * 4).Curve(RecorderCurve * RandomDynamic).Volume(0.01),
+                     Sine(RandomNotes[4] * 5).Curve(RecorderCurve * RandomDynamic).Volume(0.02).SetName("FluentSave_UsingTape Partial 3").SaveChannel()
                  )).Save();
         }
         
@@ -205,14 +211,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Mono_CacheChannel_Test() => Run(Mono_CacheChannel);
         void Mono_CacheChannel()
         {
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().CacheChannel().Play();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().CacheChannel().Play();
         }
         
         [TestMethod]
         public void Mono_CacheChannel_Test_2Calls() => Run(Mono_CacheChannel_2Calls);
         void Mono_CacheChannel_2Calls()
         {
-            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomVolume).Panbrello().CacheChannel().SpeedUp(2).Cache().Play();
+            WithMono().Sine(RandomNote).Curve(RecorderCurve * RandomDynamic).Panbrello().CacheChannel().SpeedUp(2).Cache().Play();
         }
 
         [TestMethod]
@@ -221,15 +227,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithMono();
             
-            var pitch = E3;
-            
             Play(() => Add
                  (
-                     Sine(pitch * 1).Curve(RecorderCurve * RandomVolume).Volume(1.0).CacheChannel(),
-                     Sine(pitch * 2).Curve(RecorderCurve * RandomVolume).Volume(0.05),
-                     Sine(pitch * 3).Curve(RecorderCurve * RandomVolume).CacheChannel().Volume(0.02),
-                     Sine(pitch * 4).Curve(RecorderCurve * RandomVolume).Volume(0.03),
-                     Sine(pitch * 5).Curve(RecorderCurve * RandomVolume).Volume(0.01).CacheChannel()
+                     Sine(RandomNotes[5] * 1).Curve(RecorderCurve * RandomDynamic).Volume(1.0).CacheChannel(),
+                     Sine(RandomNotes[5] * 2).Curve(RecorderCurve * RandomDynamic).Volume(0.05),
+                     Sine(RandomNotes[5] * 3).Curve(RecorderCurve * RandomDynamic).CacheChannel().Volume(0.02),
+                     Sine(RandomNotes[5] * 4).Curve(RecorderCurve * RandomDynamic).Volume(0.03),
+                     Sine(RandomNotes[5] * 5).Curve(RecorderCurve * RandomDynamic).Volume(0.01).CacheChannel()
                  )).Cache();
         }
         
@@ -237,84 +241,84 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Stereo_Play_Test() => WithStereo().Run(Stereo_Play);
         void Stereo_Play()
         {
-            Sine(D4).Curve(RecorderCurve * RandomVolume).Panbrello().Play();
+            Sine(RandomNotes[6]).Curve(RecorderCurve * RandomDynamic).Panbrello().Play();
         }
         
         [TestMethod]
         public void Stereo_Play_Test_2Calls() => Run(Stereo_Play_2Calls);
         void Stereo_Play_2Calls()
         { 
-            WithStereo().Sine(E4).Curve(RecorderCurve * RandomVolume).Panbrello().Play().SpeedUp(2).Play();
+            WithStereo().Sine(RandomNotes[7]).Curve(RecorderCurve * RandomDynamic).Panbrello().Play().SpeedUp(2).Play();
         }
         
         [TestMethod]
         public void Stereo_Save_Test() => Run(Stereo_Save);
         void Stereo_Save()
         { 
-            WithStereo().Sine(G4).Curve(RecorderCurve * RandomVolume).Panbrello().Save().Play();
+            WithStereo().Sine(RandomNotes[8]).Curve(RecorderCurve * RandomDynamic).Panbrello().Save().Play();
         }
         
         [TestMethod]
         public void Stereo_Save_Test_2Calls() => Run(Stereo_Save_2Calls);
         void Stereo_Save_2Calls()
         { 
-            WithStereo().Sine(A4).Curve(RecorderCurve * RandomVolume).Panbrello().Save().SpeedUp(2).Save().Play();
+            WithStereo().Sine(RandomNotes[9]).Curve(RecorderCurve * RandomDynamic).Panbrello().Save().SpeedUp(2).Save().Play();
         }
         
         [TestMethod]
         public void Stereo_Cache_Test() => Run(Stereo_Cache);
         void Stereo_Cache()
         { 
-            WithStereo().Sine(D4).Curve(RecorderCurve * RandomVolume).Panbrello().Cache().Play();
+            WithStereo().Sine(RandomNotes[10]).Curve(RecorderCurve * RandomDynamic).Panbrello().Cache().Play();
         }
         
         [TestMethod]
         public void Stereo_Cache_Test_2Calls() => Run(Stereo_Cache_2Calls);
         void Stereo_Cache_2Calls()
         { 
-            WithStereo().Sine(E4).Curve(RecorderCurve * RandomVolume).Panbrello().Cache().SpeedUp(2).Cache().Play();
+            WithStereo().Sine(RandomNotes[11]).Curve(RecorderCurve * RandomDynamic).Panbrello().Cache().SpeedUp(2).Cache().Play();
         }
         
         [TestMethod]
         public void Stereo_PlayChannel_Test() => WithStereo().Run(Stereo_PlayChannel);
         void Stereo_PlayChannel()
         { 
-            Sine(B4).Curve(RecorderCurve * RandomVolume).Panbrello().PlayChannel().Play();
+            Sine(B4).Curve(RecorderCurve * RandomDynamic).Panbrello().PlayChannel().Play();
         }
         
         [TestMethod]
         public void Stereo_PlayChannel_Test_2Calls() => Run(Stereo_PlayChannel_2Calls);
         void Stereo_PlayChannel_2Calls()
         { 
-            WithStereo().Sine(G4).Curve(RecorderCurve * RandomVolume).Panbrello().PlayChannel().SpeedUp(2).PlayChannel();
+            WithStereo().Sine(RandomNotes[12]).Curve(RecorderCurve * RandomDynamic).Panbrello().PlayChannel().SpeedUp(2).PlayChannel();
         }
         
         [TestMethod]
         public void Stereo_SaveChannel_Test() => Run(Stereo_SaveChannel);
         void Stereo_SaveChannel()
         { 
-            WithStereo().Sine(A4).Curve(RecorderCurve * RandomVolume).Panbrello().SaveChannel().Play();
+            WithStereo().Sine(RandomNotes[13]).Curve(RecorderCurve * RandomDynamic).Panbrello().SaveChannel().Play();
         }
         
         [TestMethod]
         public void Stereo_SaveChannel_Test_2Calls() => Run(Stereo_SaveChannel_2Calls);
         void Stereo_SaveChannel_2Calls()
         { 
-            WithStereo().Sine(D4).Curve(RecorderCurve * RandomVolume).Panbrello().SaveChannel().SpeedUp(2).SaveChannel().Play();
+            WithStereo().Sine(RandomNotes[14]).Curve(RecorderCurve * RandomDynamic).Panbrello().SaveChannel().SpeedUp(2).SaveChannel().Play();
         }
         
         [TestMethod]
         public void Stereo_CacheChannel_Test() => Run(Stereo_CacheChannel);
         void Stereo_CacheChannel()
         { 
-            WithStereo().Sine(E4).Curve(RecorderCurve * RandomVolume).Panbrello().CacheChannel().Play();
+            WithStereo().Sine(RandomNotes[15]).Curve(RecorderCurve * RandomDynamic).Panbrello().CacheChannel().Play();
         }
         
         [TestMethod]
         public void Stereo_CacheChannel_Test_2Calls() => Run(Stereo_CacheChannel_2Calls);
         void Stereo_CacheChannel_2Calls()
         { 
-            WithStereo().Sine(B4).Curve(RecorderCurve * RandomVolume).Panbrello().CacheChannel().SpeedUp(2).CacheChannel().Play();
+            WithStereo().Sine(RandomNotes[16]).Curve(RecorderCurve * RandomDynamic).Panbrello().CacheChannel().SpeedUp(2).CacheChannel().Play();
         }
         
         // Complex Cases
@@ -324,17 +328,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Stereo_MultipleActions() 
         {
             WithStereo();
-
-            var pitch = E4;
             
             Play(() => Add
-            (
-                Sine(pitch * 1).Curve(RecorderCurve * RandomVolume).Play(),
-                Sine(pitch * 2).Curve(RecorderCurve * RandomVolume).Volume(0.2),
-                Sine(pitch * 3).Curve(RecorderCurve * RandomVolume).Panning(0.03).Play().Volume(0.1),
-                Sine(pitch * 4).Curve(RecorderCurve * RandomVolume).Volume(0.08),
-                Sine(pitch * 5).Volume(0.05).Curve(RecorderCurve * RandomVolume).Panning(0.9).PlayChannel((b, i) => b.Save())
-            ));
+                 (
+                     Sine(RandomNotes[17] * 1).Curve(RecorderCurve * RandomDynamic).Play(),
+                     Sine(RandomNotes[17] * 2).Curve(RecorderCurve * RandomDynamic).Volume(0.2),
+                     Sine(RandomNotes[17] * 3).Curve(RecorderCurve * RandomDynamic).Panning(0.03).Play().Volume(0.1),
+                     Sine(RandomNotes[17] * 4).Curve(RecorderCurve * RandomDynamic).Volume(0.08),
+                     Sine(RandomNotes[17] * 5).Volume(0.05).Curve(RecorderCurve * RandomDynamic).Panning(0.9).PlayChannel((b, i) => b.Save())
+                 ));
         }
     }
 }
