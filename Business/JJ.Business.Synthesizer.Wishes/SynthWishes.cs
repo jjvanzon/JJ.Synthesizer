@@ -137,18 +137,15 @@ namespace JJ.Business.Synthesizer.Wishes
             var originalChannel = GetChannel;
             try
             {
-                // Evaluate the left/mono signal
                 WithChannel(0);
                 var channel0Signal = func();
                 
-                // Determine channel configuration AFTER evaluating func
                 if (IsMono)
                 {
                     return new[] { channel0Signal };
                 }
                 if (IsStereo)
                 {
-                    // Only evaluate the second channel if Stereo
                     WithRight(); var channel1Signal = func();
                     return new[] { channel0Signal, channel1Signal };
                 }

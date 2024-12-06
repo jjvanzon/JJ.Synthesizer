@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -123,7 +124,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             int waitTimeMs = (int)(_synthWishes.GetParallelTaskCheckDelay * 1000);
             
-            Console.WriteLine($"{JJ_Framework_Text_Wishes.PrettyTime()} Tapes: Leaf check delay = {waitTimeMs} ms");
+            Console.WriteLine($"{PrettyTime()} Tapes: Leaf check delay = {waitTimeMs} ms");
             
             List<Tape> tapes = tapeCollection.ToList(); // Copy list to keep item removals local.
             List<Task> tasks = new List<Task>(tapes.Count);
@@ -145,7 +146,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 }
             }
             
-            Console.WriteLine($"{JJ_Framework_Text_Wishes.PrettyTime()} Tapes: {i} times checked for leaves.");
+            Console.WriteLine($"{PrettyTime()} Tapes: {i} times checked for leaves.");
             
             Task.WaitAll(tasks.ToArray());
         }
@@ -174,7 +175,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         internal void RunTape(Tape tape)
         {
-            Console.WriteLine($"{JJ_Framework_Text_Wishes.PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.GetName}");
+            Console.WriteLine($"{PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.GetName}");
             
             // Cache Buffer
             Buff cacheBuff = tape.Signal.SynthWishes.MaterializeCache(tape.Signal, tape.Duration, tape.GetName);
@@ -193,7 +194,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 inlet.LinkTo(sample);
             }
             
-            Console.WriteLine($"{JJ_Framework_Text_Wishes.PrettyTime()}  Stop Tape: (Level {tape.NestingLevel}) {tape.GetName} ");
+            Console.WriteLine($"{PrettyTime()}  Stop Tape: (Level {tape.NestingLevel}) {tape.GetName} ");
         }
         
         private void ExecutePostProcessing(IList<Tape> tapes)
