@@ -65,8 +65,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             SetTapeNestingLevelsRecursive(tapes);
             
-            string tapeHierarchyLog = LogWishes.PlotTapeHierarchy(tapes);
-            Console.WriteLine(tapeHierarchyLog);
+            string tapeLog = LogWishes.PlotTapeHierarchy(tapes);
+            Console.WriteLine(tapeLog);
 
             var tapeGroups = tapes.GroupBy(x => x.Channel)
                                   .Select(x => x.ToArray())

@@ -41,14 +41,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public IContext Context { get; }
 
         private ConfigWishes _config;
-        public ConfigWishes Config 
+        public ConfigWishes Config
         {
             get => _config;
-            set
-            {
-                if (value == null) throw new ArgumentException(nameof(Config));
-                _config = value;
-            }
+            set => _config = value ?? throw new ArgumentException(nameof(Config));
         }
 
         private readonly OperatorFactory _operatorFactory;
@@ -94,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Rebind the delegate to the new instance
             MethodInfo methodInfo = action.Method;
-            Action newAction = (Action)Delegate.CreateDelegate(typeof(Action), newInstance, methodInfo);
+            var newAction = (Action)Delegate.CreateDelegate(typeof(Action), newInstance, methodInfo);
             
             // Run the action on the new instance
             newInstance.RunOnThisInstance(() => newAction());

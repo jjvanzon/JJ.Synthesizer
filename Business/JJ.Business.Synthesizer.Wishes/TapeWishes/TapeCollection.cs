@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -6,7 +7,7 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
-    internal class TapeCollection
+    internal class TapeCollection : IEnumerable<Tape>
     {
         private readonly SynthWishes _synthWishes;
         private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
@@ -50,5 +51,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public Tape[] GetAll() => _tapes.Values.ToArray();
         
         public void Clear() => _tapes.Clear();
+
+        public IEnumerator<Tape> GetEnumerator()
+        {
+            foreach (Tape tape in _tapes.Values)
+            {
+                yield return tape;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

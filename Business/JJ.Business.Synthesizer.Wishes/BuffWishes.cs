@@ -280,11 +280,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
             for (int i = 0; i < channelSignals.Count; i++)
             {
-                channelSignals[i] = ApplyPaddingToChannel(channelSignals[i]);
+                channelSignals[i] = ApplyPaddingDelay(channelSignals[i]);
             }
         }
 
-        private FlowNode ApplyPaddingToChannel(FlowNode outlet)
+        internal FlowNode ApplyPaddingDelay(FlowNode outlet)
         {
             FlowNode leadingSilence = GetLeadingSilence;
             
