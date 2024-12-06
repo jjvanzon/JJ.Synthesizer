@@ -1,5 +1,6 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
@@ -25,17 +26,13 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             
-            string signalDescriptor;
-            if (obj.Signal == null)
-            {
-                signalDescriptor = "<Signal is null>";
-            }
-            else
-            {
-                signalDescriptor = obj.Signal.ToString();
-            }
             
-            string text = $"{{ {obj.GetType().Name} }} {signalDescriptor}";
+            string text = default;
+            
+            text += $"{GetTapeDescriptor(obj)} ";
+            
+            string signalDescriptor = " | " + (obj.Signal?.ToString() ?? "<Signal=null>");
+            text += $"{signalDescriptor}";
             
             return text;
         }
