@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -42,7 +43,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             try
             {
                 _synthWishes.WithSamplingRate(_synthWishes.GetSamplingRate);
-                
+               
+                ExecutePreProcessing();
                 var tapes = RunTapesPerChannel();
                 ExecutePostProcessing(tapes);
             }
@@ -50,6 +52,68 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 _synthWishes.Config._samplingRate = originalSamplingRate;
             }
+        }
+        
+        private void ExecutePreProcessing()
+        {
+            foreach (Tape tape in _tapes.ToArray())
+            {
+                ApplyPadding(tape);
+            }
+        }
+        
+        /// <inheritdoc cref="docs._applypaddingtotape" />
+        private void ApplyPadding(Tape oldTape)
+        {
+            // Padding only applies to Play and Save actions.
+            if (!oldTape.IsPlay && 
+                !oldTape.IsPlayChannel &&
+                !oldTape.IsSave &&
+                !oldTape.IsSaveChannel) return;
+            
+            // If tape already padded, don't do it again.
+            if (oldTape.IsPadding) return;
+
+            // Get variables
+            double leadingSilence = _synthWishes.GetLeadingSilence.Value;
+            double trailingSilence = _synthWishes.GetTrailingSilence.Value;
+            double padding = leadingSilence + trailingSilence;
+
+            // Don't bother if no padding.
+            if (padding == 0) return;
+
+            // Apply delay
+            string newName = MemberName() + " " + oldTape.Signal.Name;
+            FlowNode newNode = _synthWishes.ApplyPaddingDelay(oldTape.Signal).SetName(newName);
+
+            // Add tape
+            //if (oldTape.IsTape || oldTape.IsCache)
+            Tape newTape = _tapes.Add(newNode);
+            newTape.Duration = oldTape.Duration;
+            newTape.Channel = oldTape.Channel;
+            newTape.IsPlay = oldTape.IsPlay;
+            newTape.IsSave = oldTape.IsSave;
+            newTape.IsCache = oldTape.IsCache;
+            newTape.IsPlayChannel = oldTape.IsPlayChannel;
+            newTape.IsSaveChannel = oldTape.IsSaveChannel;
+            newTape.IsCacheChannel = oldTape.IsCacheChannel;
+            newTape.IsPadding = true;
+            newTape.FilePath = oldTape.FilePath;
+            newTape.FallBackName = oldTape.FallBackName;
+            
+            // Remove actions from original tape
+            oldTape.IsPlay = false;
+            oldTape.IsSave = false;
+            oldTape.IsPlayChannel = false;
+            oldTape.IsSaveChannel = false;
+
+            // Update duration
+            var oldDuration = oldTape.Duration ?? _synthWishes.GetAudioLength;
+            newTape.Duration = oldDuration + padding;
+            
+            Console.WriteLine(
+                $"{PrettyTime()} Padding: Tape.Duration = {oldDuration} + " +
+                $"{leadingSilence} + {trailingSilence} = {newTape.Duration}");
         }
         
         private IList<Tape> RunTapesPerChannel()

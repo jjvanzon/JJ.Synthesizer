@@ -18,6 +18,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _add;
 
         /// <summary>
+        /// Adds padding to Play and Save tapes,
+        /// without affecting the original tape.
+        /// </summary>
+        public static object _applypaddingtotape;
+            
+        /// <summary>
         /// Additional entity entry-points for enum-related extension.
         /// </summary>
         public static object _alternativeentrypointenumextensionwishes;
@@ -590,7 +596,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Or you can call e.g. <c>Outlet.Calculate(time, ChannelEnum.Right)</c>
         /// </summary>
         public static object _synthwishescalculate;
-
+        
         /// <summary>
         /// Returns the <c>Tape</c>'s <c>Signal.Name</c>, <c>FallBackName</c>
         /// or else <c>FilePath</c> in prettified form.
