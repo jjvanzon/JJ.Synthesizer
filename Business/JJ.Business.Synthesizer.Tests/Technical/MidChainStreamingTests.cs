@@ -17,10 +17,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     {
         double RandomNumber(double min, double max) => GetDouble(min, max);
         double RandomVolume => RandomNumber(0.4, 1);
-        FlowNode RandomDynamic => Curve(RandomVolume, RandomVolume);
+        FlowNode RandomDynamics => Curve(RandomVolume, RandomVolume);
         
         FlowNode Dynamic 
-            => RecorderCurve.Multiply(RandomDynamic)
+            => RecorderCurve.Multiply(RandomDynamics)
                             .Stretch(GetAudioLength)
                             .Tremolo(
                                 speed: RandomNumber(2, 4), 
