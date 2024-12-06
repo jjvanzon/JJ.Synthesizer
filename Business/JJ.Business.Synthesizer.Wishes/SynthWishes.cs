@@ -134,6 +134,8 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
             
+            LogMathOptimizationTitle();
+            
             var originalChannel = GetChannel;
             try
             {
