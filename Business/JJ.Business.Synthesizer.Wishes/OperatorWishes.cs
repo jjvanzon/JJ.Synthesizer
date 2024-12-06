@@ -93,6 +93,25 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes SynthWishes => _synthWishes;
     }
 
+    // Tape
+    
+    public partial class SynthWishes
+    {
+        public FlowNode Tape(FlowNode signal, FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
+        {
+            Tape tape = _tapes.Add(signal, callerMemberName);
+            tape.Duration = duration ?? GetAudioLength;
+            tape.IsTape = true;
+            return signal;
+        }
+    }
+
+    public partial class FlowNode
+    {
+        public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Tape(this, duration, callerMemberName);
+    }
+
     // Value FlowNode
 
     public partial class FlowNode
