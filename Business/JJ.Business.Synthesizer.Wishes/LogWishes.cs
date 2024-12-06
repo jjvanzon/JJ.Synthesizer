@@ -4,6 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Reflection;
+using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
@@ -11,7 +15,9 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     internal static class LogWishes
     {
-        public static List<string> GetSynthLog(Buff buff, double calculationDuration)
+        // Pretty Calculation Graphs
+        
+        public static IList<string> GetSynthLog(Buff buff, double calculationDuration)
         {
             // Get Info
             var stringifiedChannels = new List<string>();
@@ -109,9 +115,87 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return realTimeMessage;
         }
+
+        // Tape Hierarchy
         
+        public static string PlotTapeHierarchy(IList<Tape> tapes)
+        {
+            var sb = new StringBuilderWithIndentationWish("   ", NewLine);
+            PlotTapeHierarchy(tapes, sb);
+            return sb.ToString();
+        }
+        
+        private static void PlotTapeHierarchy(IList<Tape> tapes, StringBuilderWithIndentationWish sb)
+        {
+            sb.AppendLine("Tape Hierarchy");
+            sb.AppendLine("--------------");
+            
+            if (tapes == null)
+            {
+                sb.AppendLine("<Tapes=null>");
+                sb.AppendLine();
+                return;
+            }
+            
+            if (tapes.Count == 0)
+            {
+                sb.AppendLine("<Tapes.Count=0>");
+                sb.AppendLine();
+                return;
+            }
+            
+            IList<Tape> roots = tapes.Where(tape => tape?.ParentTape == null).ToArray();
+            if (roots.Count == 0)
+            {
+                sb.AppendLine($"<{tapes.Count} tapes but no roots>");
+                foreach (Tape tape in tapes)
+                {
+                    sb.AppendLine(tape == null ? "<Tape=null>" : tape.GetName);
+                }
+            }
+            
+            foreach(var root in roots)
+            {
+                PlotTapeHierarchyRecursive(root, sb);
+            }
+            
+            sb.AppendLine();
+        }
+        
+        private static void PlotTapeHierarchyRecursive(Tape tape, StringBuilderWithIndentationWish sb)
+        {
+            if (tape == null) 
+            {
+                sb.AppendLine("<Tape=null>");
+                return;
+            }
+                
+            if (tape.ChildTapes == null) 
+            {
+                sb.AppendLine("<Tape.ChildTapes=null)>");
+                return;
+            }
+            
+            string name = tape.GetName;
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                sb.AppendLine("<Tape.GetName=whitespace>");
+            }
+            else
+            {
+                sb.AppendLine(name);
+            }
+            
+            foreach (Tape childTape in tape.ChildTapes)
+            {
+                sb.Indent();
+                PlotTapeHierarchyRecursive(childTape, sb);
+                sb.Outdent();
+            }
+        }
+
         // Optimization Loggers
-        
+
         public static void LogComputeConstant(
             FlowNode a, string mathSymbol, FlowNode b, FlowNode result,
             [CallerMemberName] string opName = null)
