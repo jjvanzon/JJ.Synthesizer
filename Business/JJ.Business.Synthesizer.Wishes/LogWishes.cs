@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Reflection;
 using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -118,14 +117,14 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Tape Hierarchy
         
-        public static string PlotTapeHierarchy(IList<Tape> tapes)
+        public static string PlotTapeHierarchy(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
             var sb = new StringBuilderWithIndentationWish("   ", NewLine);
-            PlotTapeHierarchy(tapes, sb);
+            PlotTapeHierarchy(tapes, sb, includeCalculationGraphs);
             return sb.ToString();
         }
         
-        private static void PlotTapeHierarchy(IList<Tape> tapes, StringBuilderWithIndentationWish sb)
+        private static void PlotTapeHierarchy(IList<Tape> tapes, StringBuilderWithIndentationWish sb, bool includeCalculationGraphs)
         {
             sb.AppendLine("Tape Hierarchy");
             sb.AppendLine("--------------");
@@ -156,13 +155,13 @@ namespace JJ.Business.Synthesizer.Wishes
             
             foreach(var root in roots)
             {
-                PlotTapeHierarchyRecursive(root, sb);
+                PlotTapeHierarchyRecursive(root, sb, includeCalculationGraphs);
             }
             
             sb.AppendLine();
         }
         
-        private static void PlotTapeHierarchyRecursive(Tape tape, StringBuilderWithIndentationWish sb)
+        private static void PlotTapeHierarchyRecursive(Tape tape, StringBuilderWithIndentationWish sb, bool includeCalculationGraphs)
         {
             if (tape == null) 
             {
@@ -176,24 +175,49 @@ namespace JJ.Business.Synthesizer.Wishes
                 return;
             }
             
-            string name = tape.GetName;
-            if (string.IsNullOrWhiteSpace(name))
+            string formattedCalculation = default;
+            if (includeCalculationGraphs)
             {
-                sb.AppendLine("<Tape.GetName=whitespace>");
+                formattedCalculation = "   | " + (tape.Signal?.ToString() ?? "<Signal=null>");
             }
-            else
-            {
-                sb.AppendLine(name);
-            }
+            sb.AppendLine(GetTapeDescriptor(tape) + formattedCalculation);
             
             foreach (Tape childTape in tape.ChildTapes)
             {
                 sb.Indent();
-                PlotTapeHierarchyRecursive(childTape, sb);
+                PlotTapeHierarchyRecursive(childTape, sb, includeCalculationGraphs);
                 sb.Outdent();
             }
         }
+        
+        public static string GetTapeDescriptor(Tape tape)
+        {
+            string descriptor = tape.GetName;
+            if (string.IsNullOrWhiteSpace(descriptor))
+            {
+                descriptor = "<Untitled>";
+            }
+            
+            // Add flag if true
+            var flagStrings = new List<string>();
+            if (tape.IsPlay) flagStrings.Add("play");
+            if (tape.IsSave) flagStrings.Add("save");
+            if (tape.IsCache) flagStrings.Add("cache");
+            if (tape.IsPadding) flagStrings.Add("pad");
+            if (tape.IsTape) flagStrings.Add("tape");
+            if (tape.IsPlayChannel) flagStrings.Add("play-chan");
+            if (tape.IsSaveChannel) flagStrings.Add("save-chan");
+            if (tape.IsCacheChannel) flagStrings.Add("cache-chan");
+            if (tape.Channel.HasValue) flagStrings.Add($"c{tape.Channel}");
+            if (tape.Duration != null) flagStrings.Add($"l{tape.Duration.Value}");
+            if (flagStrings.Count > 0)
+            {
+                descriptor += " {" + string.Join(",", flagStrings) + "}";
+            }
 
+            return descriptor;
+        }
+        
         // Math Optimization
 
         public static void LogMathOptimizationTitle()
