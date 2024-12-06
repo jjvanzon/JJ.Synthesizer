@@ -1,5 +1,6 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -8,10 +9,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public void RunActions(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape.Channel == null) throw new NullException(() => tape.Channel);
             
             SynthWishes synthWishes = SynthWishesResolver.Resolve(tape);
             
-            Buff replacementBuff = tape.ChannelCallback?.Invoke(tape.Buff, tape.Channel);
+            Buff replacementBuff = tape.ChannelCallback?.Invoke(tape.Buff, tape.Channel.Value);
             if (replacementBuff != null) tape.Buff = replacementBuff;
             
             if (tape.IsSaveChannel)

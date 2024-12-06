@@ -149,9 +149,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Channel
         
-        private     ChannelEnum                 _channelEnum = DefaultChannel         .ToChannelEnum(DefaultChannels);
-        public int  GetChannel               => _channelEnum != default ? _channelEnum.ToChannel() : 0;
-        public void WithChannel(int channel) => _channelEnum  =                channel.ToChannelEnum(GetChannels);
+        private     ChannelEnum                  _channelEnum = DefaultChannel.ToChannelEnum(DefaultChannels);
+        public int? GetChannel                => _channelEnum == default ? default(int?) : _channelEnum.ToChannel();
+        public void WithChannel(int? channel) => _channelEnum = channel?.ToChannelEnum(GetChannels) ?? default;
         public bool IsCenter  =>   GetChannels == 1 ? GetChannel == 0 : default;
         public void WithCenter() { WithChannels  (1); WithChannel  (0);        }
         public bool IsLeft    =>   GetChannels == 2 ? GetChannel == 0 : default;
@@ -659,8 +659,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool IsStereo => Config.IsStereo;
         public SynthWishes WithStereo() { Config.WithStereo(); return this; }
         
-        public int GetChannel => Config.GetChannel;
-        public SynthWishes WithChannel(int channel) { Config.WithChannel(channel); return this; }
+        public int? GetChannel => Config.GetChannel;
+        public SynthWishes WithChannel(int? channel) { Config.WithChannel(channel); return this; }
         public bool IsLeft => Config.IsLeft;
         public SynthWishes WithLeft() { Config.WithLeft(); return this; }
         public bool IsRight => Config.IsRight;
@@ -788,8 +788,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool IsStereo => _synthWishes.IsStereo;
         public FlowNode WithStereo() { _synthWishes.WithStereo(); return this; }
 
-        public int GetChannel => _synthWishes.GetChannel;
-        public FlowNode WithChannel(int channel) { _synthWishes.WithChannel(channel); return this; }
+        public int? GetChannel => _synthWishes.GetChannel;
+        public FlowNode WithChannel(int? channel) { _synthWishes.WithChannel(channel); return this; }
         public bool IsLeft => _synthWishes.IsLeft;
         public FlowNode WithLeft()  { _synthWishes.WithLeft(); return this; }
         public bool IsRight => _synthWishes.IsRight;

@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public FlowNode Signal { get; set; }
         public FlowNode Duration { get; set; }
-        public int Channel { get; set; }
+        public int? Channel { get; set; }
         
         /// <inheritdoc cref="docs._istape" />
         public bool IsTape { get;set; }
