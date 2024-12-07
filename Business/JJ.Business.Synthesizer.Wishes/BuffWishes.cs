@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
@@ -35,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public byte[] Bytes { get; set; }
         public string FilePath { get; set; }
         public AudioFileOutput UnderlyingAudioFileOutput { get; set; }
-        
+
         private IList<string> _messages = new List<string>();
         public IList<string> Messages
         {
@@ -131,7 +132,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = FetchName(name, filePath);
-            audioFileOutput.FilePath = FetchFilePath(filePath, name, GetAudioFormat.GetFileExtension());
+            audioFileOutput.FilePath = FetchFilePath(filePath, name, GetAudioFormat);
             audioFileOutput.Amplifier = GetBits.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = (duration ?? GetAudioLength).Calculate();
@@ -172,7 +173,7 @@ namespace JJ.Business.Synthesizer.Wishes
             additionalMessages = additionalMessages ?? Array.Empty<string>();
 
             string resolvedName = FetchName(name, filePath, audioFileOutput, callerMemberName);
-            string resolvedFilePath = FetchFilePath(filePath, resolvedName, audioFileOutput.GetFileExtension(), callerMemberName);
+            string resolvedFilePath = FetchFilePath(filePath, resolvedName, audioFileOutput.GetAudioFileFormatEnum(), callerMemberName);
 
             audioFileOutput.Name = resolvedName;
 

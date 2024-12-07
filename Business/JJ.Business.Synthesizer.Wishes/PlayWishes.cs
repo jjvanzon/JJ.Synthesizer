@@ -209,11 +209,8 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             // Figure out if must play
             ConfigWishes configWishes = synthWishes?.Config ?? ConfigWishes.Default;
-            if (string.IsNullOrWhiteSpace(fileExtension) && !string.IsNullOrWhiteSpace(filePath))
-            {
-                fileExtension = Path.GetExtension(filePath);
-            }
-            bool mustPlay = configWishes.GetPlay(fileExtension);
+            string resolvedFileExtension = FetchFileExtension(fileExtension, filePath, synthWishes?.GetAudioFormat ?? default);
+            bool mustPlay = configWishes.GetPlay(resolvedFileExtension);
             
             var lines = new List<string>();
 
