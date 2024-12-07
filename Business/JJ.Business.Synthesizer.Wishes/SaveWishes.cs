@@ -204,13 +204,8 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            
-            SynthWishes.MakeBuff(
-                buff, 
-                inMemory: false, synthWishes.GetExtraBufferFrames, null, null, filePath, callerMemberName);
-            
-            return synthWishes;
+            SynthWishes.Save(buff, filePath, callerMemberName);
+            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
         }
         
         public static SynthWishes Save(
@@ -218,13 +213,8 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput audioFileOutput, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            
-            SynthWishes.MakeBuff(
-                audioFileOutput, 
-                inMemory: false, synthWishes.GetExtraBufferFrames, null, null, filePath, callerMemberName);
-            
-            return synthWishes;
+            SynthWishes.Save(audioFileOutput, filePath, callerMemberName);
+            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
         }
 
         public static SynthWishes Save(
@@ -324,21 +314,15 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            SynthWishes.MakeBuff(
-                buff, 
-                inMemory: false, GetExtraBufferFrames, null, null, filePath, callerMemberName);
-
+            SynthWishes.Save(buff, filePath, callerMemberName);
             return this;
         }
         
         public FlowNode Save(
-            AudioFileOutput entity, 
+            AudioFileOutput audioFileOutput, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            SynthWishes.MakeBuff(
-                entity, 
-                inMemory: false, GetExtraBufferFrames, null, null, filePath, callerMemberName);
-            
+            SynthWishes.Save(audioFileOutput, filePath, callerMemberName);
             return this; 
         }
 
@@ -366,16 +350,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Save(
             this Buff buff,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.MakeBuff(
-                buff,
-                inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
+            => SynthWishes.Save(buff, filePath, callerMemberName);
         
         public static Buff Save(
             this AudioFileOutput audioFileOutput,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.MakeBuff(
-                audioFileOutput,
-                inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
+            => SynthWishes.Save(audioFileOutput, filePath, callerMemberName);
         
         public static void Save(
             this Sample sample, 
