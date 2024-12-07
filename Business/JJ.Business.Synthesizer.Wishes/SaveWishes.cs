@@ -70,25 +70,29 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
-            FlowNode channel, [CallerMemberName] string filePath = null)
-            => SaveBase(channel, null, filePath, null);
+            FlowNode channel, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => SaveBase(channel, null, filePath, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
-            FlowNode channel, FlowNode duration, [CallerMemberName] string filePath = null)
-            => SaveBase(channel, duration, filePath, null);
+            FlowNode channel, FlowNode duration, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => SaveBase(channel, duration, filePath, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
             FlowNode channel, 
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => SaveBase(channel, null, null, callback, callerMemberName);
+            Func<Buff, Buff> callback, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => SaveBase(channel, null, filePath, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
             FlowNode channel, FlowNode duration,
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => SaveBase(channel, duration, null, callback, callerMemberName);
+            Func<Buff, Buff> callback, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => SaveBase(channel, duration, filePath, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
@@ -99,13 +103,15 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
             FlowNode channel, FlowNode duration, string filePath, 
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, Buff> callback, 
+            [CallerMemberName] string callerMemberName = null)
             => SaveBase(channel, duration, filePath, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         private FlowNode SaveBase(
             FlowNode channel, FlowNode duration, string filePath, 
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
+            Func<Buff, Buff> callback, 
+            [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = _tapes.GetOrCreate(channel, filePath, callerMemberName);
             tape.IsSave = true;
@@ -118,25 +124,28 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode SaveChannel(
-            FlowNode channel, [CallerMemberName] string filePath = null)
-            => SaveChannelBase(channel, null, filePath, null);
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode SaveChannel(
-            FlowNode channel, FlowNode duration, [CallerMemberName] string filePath = null)
-            => SaveChannelBase(channel, duration, filePath, null);
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode SaveChannel(
-            FlowNode channel,
-            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => SaveChannelBase(channel, null, null, callback, callerMemberName);
+            FlowNode channel, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => SaveChannelBase(channel, null, filePath, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode SaveChannel(
             FlowNode channel, FlowNode duration, 
-            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => SaveChannelBase(channel, duration, null, callback, callerMemberName);
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => SaveChannelBase(channel, duration, filePath, null, callerMemberName);
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode SaveChannel(
+            FlowNode channel,
+            Func<Buff, int, Buff> callback, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => SaveChannelBase(channel, null, filePath, callback, callerMemberName);
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode SaveChannel(
+            FlowNode channel, FlowNode duration, 
+            Func<Buff, int, Buff> callback, string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => SaveChannelBase(channel, duration, filePath, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode SaveChannel(
@@ -273,24 +282,26 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
-            [CallerMemberName] string filePath = null)
-            => _synthWishes.Save(this, filePath);
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Save(this, filePath, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
-            FlowNode duration, [CallerMemberName] string filePath = null)
-            => _synthWishes.Save(this, duration, filePath);
+            FlowNode duration,
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Save(this, duration, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Save(this, callback, callerMemberName);
+            Func<Buff, Buff> callback,
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Save(this, callback, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
             FlowNode duration,
-            Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Save(this, duration, callback, callerMemberName);
+            Func<Buff, Buff> callback, string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Save(this, duration, callback, filePath, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
@@ -308,24 +319,27 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode SaveChannel(
-            [CallerMemberName] string filePath = null)
-            => _synthWishes.SaveChannel(this, filePath);
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.SaveChannel(this, filePath, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode SaveChannel(
-            FlowNode duration, [CallerMemberName] string filePath = null)
-            => _synthWishes.SaveChannel(this, duration, filePath);
+            FlowNode duration, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.SaveChannel(this, duration, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode SaveChannel(
-            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.SaveChannel(this, callback, callerMemberName);
+            Func<Buff, int, Buff> callback, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.SaveChannel(this, callback, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode SaveChannel(
             FlowNode duration, 
-            Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.SaveChannel(this, duration, callback, callerMemberName);
+            Func<Buff, int, Buff> callback, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.SaveChannel(this, duration, callback, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode SaveChannel(
