@@ -232,11 +232,8 @@ namespace JJ.Business.Synthesizer.Wishes
             Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-
             SynthWishes.Save(sample, filePath, callerMemberName);
-
-            return synthWishes;
+            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
         }
         
         public static SynthWishes Save(
@@ -244,11 +241,8 @@ namespace JJ.Business.Synthesizer.Wishes
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            
             SynthWishes.Save(bytes, filePath, callerMemberName);
-            
-            return synthWishes;
+            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
         }
     }
 
@@ -352,10 +346,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Sample entity, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            SynthWishes.Save(
-                entity, 
-                filePath, callerMemberName); 
-            
+            SynthWishes.Save(sample, filePath, callerMemberName); 
             return this; 
         }
         
@@ -363,10 +354,7 @@ namespace JJ.Business.Synthesizer.Wishes
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
-            SynthWishes.Save(
-                bytes,
-                filePath, callerMemberName); 
-
+            SynthWishes.Save(bytes, filePath, callerMemberName); 
             return this; 
         }
     }
@@ -392,15 +380,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public static void Save(
             this Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.Save(
-                sample,
-                filePath, callerMemberName);
+            => SynthWishes.Save(sample, filePath, callerMemberName);
 
         public static void Save(
             this byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => SynthWishes.Save(
-                bytes, 
-                filePath, callerMemberName);
+            => SynthWishes.Save(bytes, filePath, callerMemberName);
     }
 }
