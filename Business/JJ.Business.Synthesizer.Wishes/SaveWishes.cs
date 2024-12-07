@@ -343,7 +343,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         public FlowNode Save(
-            Sample entity, 
+            Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
         {
             SynthWishes.Save(sample, filePath, callerMemberName); 
