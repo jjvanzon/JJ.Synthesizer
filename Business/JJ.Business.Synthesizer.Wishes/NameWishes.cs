@@ -21,10 +21,10 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class NameHelper
     {
-        // FetchName
+        // ResolveName
         
-        /// <inheritdoc cref="docs._fetchname"/>
-        public static string FetchName(
+        /// <inheritdoc cref="docs._resolvename"/>
+        public static string ResolveName(
             object nameSource1 = null, object nameSource2 = null, object nameSource3 = null, object nameSource4 = null,
             object nameSource5 = null, object nameSource6 = null, object nameSource7 = null, object nameSource8 = null,
             object explicitNameSource = null, [CallerMemberName] string callerMemberName = null)
@@ -92,9 +92,9 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        // FetchFileExtension
+        // ResolveFileExtension
         
-        public static string FetchFileExtension(
+        public static string ResolveFileExtension(
             string fileExtension, AudioFileFormatEnum audioFileFormat = default, 
             object filePathSource1 = null, object filePathSource2 = null)
         {
@@ -132,31 +132,31 @@ namespace JJ.Business.Synthesizer.Wishes
                 $"Could not resolve file extension from {new{fileExtension, audioFileFormat, filePathSource1, filePathSource2 }}.");
         }
         
-        // FetchFilePath
+        // ResolveFilePath
 
-        public static string FetchFilePath(
+        public static string ResolveFilePath(
             object filePathSource1,
             object filePathSource2,
             AudioFileFormatEnum audioFormat, 
             [CallerMemberName] string callerMemberName = null)
-            => FetchFilePath(filePathSource1, filePathSource2, null, audioFormat, callerMemberName);
+            => ResolveFilePath(filePathSource1, filePathSource2, null, audioFormat, callerMemberName);
         
-        public static string FetchFilePath(
+        public static string ResolveFilePath(
             object filePathSource1, 
             object filePathSource2, 
             string fileExtension = null, 
             [CallerMemberName] string callerMemberName = null)
-            => FetchFilePath(filePathSource1, filePathSource2, fileExtension, default, callerMemberName);
+            => ResolveFilePath(filePathSource1, filePathSource2, fileExtension, default, callerMemberName);
 
-        public static string FetchFilePath(
+        public static string ResolveFilePath(
             object filePathSource1,
             object filePathSource2,
             string fileExtension, 
             AudioFileFormatEnum audioFormat, 
             [CallerMemberName] string callerMemberName = null)
         {
-            string resolvedFileExtension = FetchFileExtension(fileExtension, audioFormat, filePathSource1, filePathSource2);
-            string resolvedName = FetchName(filePathSource2, callerMemberName, explicitNameSource: filePathSource1);
+            string resolvedFileExtension = ResolveFileExtension(fileExtension, audioFormat, filePathSource1, filePathSource2);
+            string resolvedName = ResolveName(filePathSource2, callerMemberName, explicitNameSource: filePathSource1);
             string resolvedFilePath = ReformatFilePath(resolvedName, resolvedFileExtension);
             return resolvedFilePath;
         }
@@ -262,7 +262,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._names"/>
         public FlowNode SetName(object nameSource = null, object fallBackNameSource = null, [CallerMemberName] string callerMemberName = null)
         {
-            Name = FetchName(nameSource, fallBackNameSource, callerMemberName);
+            Name = ResolveName(nameSource, fallBackNameSource, callerMemberName);
             return this;
         }
 

@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     internal class Tape
     {
         /// <inheritdoc cref="docs._tapename" />
-        public string GetName => NameHelper.FetchName(Signal, FallBackName, FilePath);
+        public string GetName => NameHelper.ResolveName(Signal, FallBackName, FilePath);
         
         public FlowNode Signal { get; set; }
         public FlowNode Duration { get; set; }

@@ -638,7 +638,7 @@ namespace JJ.Business.Synthesizer.Wishes
             bool volumeFilledIn = volume != null && volume.AsConst != 1;
 
             // Resolve Name
-            string resolvedName = FetchName(name, sound, callerMemberName);
+            string resolvedName = ResolveName(name, sound, callerMemberName);
             
             // Resolve NoteLength
             noteLength = SnapNoteLength(noteLength);

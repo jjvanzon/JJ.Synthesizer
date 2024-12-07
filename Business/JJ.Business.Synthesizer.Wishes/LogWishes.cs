@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var lines = new List<string>();
 
             lines.Add("");
-            lines.Add(GetPrettyTitle(FetchName(buff)));
+            lines.Add(GetPrettyTitle(ResolveName(buff)));
             lines.Add("");
 
             string realTimeComplexityMessage = FormatMetrics(buff.UnderlyingAudioFileOutput.Duration, calculationDuration, buff.Complexity());

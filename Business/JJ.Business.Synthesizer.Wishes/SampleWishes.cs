@@ -61,8 +61,8 @@ namespace JJ.Business.Synthesizer.Wishes
             int bytesToSkip, string name, [CallerMemberName] string callerMemberName = null)
         {
             // Resolve where our data comes from
-            name = FetchName(name, filePath, callerMemberName);
-            filePath = FetchFilePath(filePath, name, GetAudioFormat, callerMemberName);
+            name = ResolveName(name, filePath, callerMemberName);
+            filePath = ResolveFilePath(filePath, name, GetAudioFormat, callerMemberName);
             stream = ResolveStream(stream, bytes, filePath);
             
             // Wrap it in a Sample
@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private FlowNode SampleFromFluentConfig(
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
-            name = FetchName(callerMemberName, explicitNameSource: name);
+            name = ResolveName(callerMemberName, explicitNameSource: name);
             name = Path.GetFileNameWithoutExtension(name);
             string location = Path.GetFullPath(FormatAudioFileName(name, GetAudioFormat)); // Back-end wants a path.
 

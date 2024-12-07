@@ -377,8 +377,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             }   
             if (IsLeft)
             {
-                // Test FetchName
-                return (sound * 0.4).Echo(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL, FetchName()) / 0.4;
+                // Test ResolveName
+                return (sound * 0.4).Echo(DeepEchoCount, magnitude: _[1 / 2.1], DeepEchoDelayL, ResolveName()) / 0.4;
             }
             if (IsRight)
             {

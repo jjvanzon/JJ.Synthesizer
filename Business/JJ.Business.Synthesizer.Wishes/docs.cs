@@ -245,7 +245,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// after it retrieves it. If nothing was in it, it uses the fallback name supplied.
         /// Also, if an explicitName is passed, it will override all the other options.
         /// </summary>
-        public static object _fetchname;
+        public static object _resolvename;
 
         /// <summary>
         /// Retrieves the file extension associated with the specified audio file.

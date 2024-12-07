@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             (
                 Sine(RandomNotes[4] * 1).Volume(DynamicCurve).Volume(1.0).SaveChannel(MemberName() + " Partial 1"),
                 Sine(RandomNotes[4] * 2).Volume(DynamicCurve).Volume(0.1),
-                Sine(RandomNotes[4] * 3).Volume(DynamicCurve).SaveChannel(FetchName() + " Partial 2").Volume(0.05),
+                Sine(RandomNotes[4] * 3).Volume(DynamicCurve).SaveChannel(ResolveName() + " Partial 2").Volume(0.05),
                 Sine(RandomNotes[4] * 4).Volume(DynamicCurve).Volume(0.01),
                 Sine(RandomNotes[4] * 5).Volume(DynamicCurve).Volume(0.02).SetName(MemberName() + " Partial 3").SaveChannel()
             ).Play();

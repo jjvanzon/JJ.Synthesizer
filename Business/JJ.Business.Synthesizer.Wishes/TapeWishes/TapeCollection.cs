@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             tape.Signal = signal;
             tape.Channel = _synthWishes.GetChannel;
-            //tape.FilePath = FetchFilePath(filePath, callerMemberName, _synthWishes.GetAudioFormat);
+            //tape.FilePath = ResolveFilePath(filePath, callerMemberName, _synthWishes.GetAudioFormat);
             tape.FilePath = filePath;
             tape.FallBackName = callerMemberName;
             

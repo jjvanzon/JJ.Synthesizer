@@ -85,8 +85,8 @@ namespace JJ.Business.Synthesizer.Wishes
             if (channelSignals.Contains(null)) throw new ArgumentException("channelSignals.Contains(null)", nameof(channelSignals));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
             
-            // Fetch Name
-            name = FetchName(name, filePath, channelSignals, callerMemberName);
+            // Resolve Name
+            name = ResolveName(name, filePath, channelSignals, callerMemberName);
            
             Buff buff;
             
@@ -131,8 +131,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
-            audioFileOutput.Name = FetchName(name, filePath);
-            audioFileOutput.FilePath = FetchFilePath(filePath, name, GetAudioFormat);
+            audioFileOutput.Name = ResolveName(name, filePath);
+            audioFileOutput.FilePath = ResolveFilePath(filePath, name, GetAudioFormat);
             audioFileOutput.Amplifier = GetBits.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = (duration ?? GetAudioLength).Calculate();
@@ -172,8 +172,8 @@ namespace JJ.Business.Synthesizer.Wishes
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             additionalMessages = additionalMessages ?? Array.Empty<string>();
 
-            string resolvedName = FetchName(name, filePath, audioFileOutput, callerMemberName);
-            string resolvedFilePath = FetchFilePath(filePath, resolvedName, audioFileOutput.GetAudioFileFormatEnum(), callerMemberName);
+            string resolvedName = ResolveName(name, filePath, audioFileOutput, callerMemberName);
+            string resolvedFilePath = ResolveFilePath(filePath, resolvedName, audioFileOutput.GetAudioFileFormatEnum(), callerMemberName);
 
             audioFileOutput.Name = resolvedName;
 
@@ -248,7 +248,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
             
-            name = FetchName(name, buff, callerMemberName);
+            name = ResolveName(name, buff, callerMemberName);
             
             return MakeBuff(
                 buff.UnderlyingAudioFileOutput,

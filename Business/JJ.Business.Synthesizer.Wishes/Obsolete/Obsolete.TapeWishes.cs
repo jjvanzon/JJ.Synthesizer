@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             IList<Func<FlowNode>> termFuncs,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            name = FetchName(name, callerMemberName);
+            name = ResolveName(name, callerMemberName);
             
             // Prep variables
             int termCount = termFuncs.Count;
