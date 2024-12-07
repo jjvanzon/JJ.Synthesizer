@@ -15,8 +15,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             SynthWishes synthWishes = SynthWishesResolver.Resolve(tapePair);
             
-            Buff stereoBuff = synthWishes.Cache(() => synthWishes.Sample(tapePair.Left.Buff ).Panning(0) +
-                                                      synthWishes.Sample(tapePair.Right.Buff).Panning(1));
+            Buff stereoBuff = synthWishes.Cache(
+                () => synthWishes.Sample(tapePair.Left.Buff ).Panning(0) +
+                      synthWishes.Sample(tapePair.Right.Buff).Panning(1),
+                      tapePair.Left.Duration);
+            
             var stereoTape = new Tape
             {
                 Buff = stereoBuff,
