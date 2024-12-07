@@ -200,16 +200,16 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Add flag if true
             var flagStrings = new List<string>();
-            if (tape.IsPlay) flagStrings.Add("play");
-            if (tape.IsSave) flagStrings.Add("save");
-            if (tape.IsCache) flagStrings.Add("cache");
-            if (tape.IsPadding) flagStrings.Add("pad");
             if (tape.IsTape) flagStrings.Add("tape");
-            if (tape.IsPlayChannel) flagStrings.Add("play-chan");
-            if (tape.IsSaveChannel) flagStrings.Add("save-chan");
-            if (tape.IsCacheChannel) flagStrings.Add("cache-chan");
+            if (tape.IsPlay) flagStrings.Add("play");
+            if (tape.IsPlayChannel) flagStrings.Add("playc");
+            if (tape.IsSave) flagStrings.Add("save");
+            if (tape.IsSaveChannel) flagStrings.Add("savec");
+            if (tape.IsCache) flagStrings.Add("cache");
+            if (tape.IsCacheChannel) flagStrings.Add("cachec");
+            if (tape.IsPadding) flagStrings.Add("pad");
             if (tape.Channel.HasValue) flagStrings.Add($"c{tape.Channel}");
-            if (tape.Duration != null) flagStrings.Add($"l{tape.Duration.Value}");
+            if (tape.Duration != null) flagStrings.Add($"{tape.Duration.Value}s");
             if (flagStrings.Count > 0)
             {
                 descriptor += " {" + string.Join(",", flagStrings) + "}";
@@ -222,6 +222,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static void LogMathOptimizationTitle()
         {
+            Console.WriteLine("");
             Console.WriteLine("Math Optimizations");
             Console.WriteLine("------------------");
             Console.WriteLine("");
