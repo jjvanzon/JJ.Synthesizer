@@ -209,8 +209,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     
         public static string SanitizeFilePath(string filePath, string badCharReplacement = "-")
         {
-            if (string.IsNullOrWhiteSpace(filePath)) 
-                throw new Exception($"{nameof(filePath)} is null or whitespace.");
+            // Crashing a sanitize on an empty string seems a bit harsh.
+            if (string.IsNullOrWhiteSpace(filePath)) return filePath;
 
             var forbiddenCharacters = Path.GetInvalidFileNameChars().ToHashSet();
             
