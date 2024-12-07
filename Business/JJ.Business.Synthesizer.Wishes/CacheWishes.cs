@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -133,9 +134,8 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string filePath,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(signal, callerMemberName);
+            Tape tape = _tapes.GetOrCreate(signal, filePath, callerMemberName);
             tape.IsCache = true;
-            tape.FilePath = filePath;
             tape.Duration = duration;
             tape.Callback = callback;
             return signal;
@@ -176,9 +176,8 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode channel, FlowNode duration, string filePath,
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(channel, callerMemberName);
+            Tape tape = _tapes.GetOrCreate(channel, filePath, callerMemberName);
             tape.IsCacheChannel = true;
-            tape.FilePath = filePath;
             tape.Duration = duration;
             tape.ChannelCallback = callback;
             return channel;
