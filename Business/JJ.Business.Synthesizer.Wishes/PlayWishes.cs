@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string filePath,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.Add(signal, callerMemberName);
+            Tape tape = _tapes.GetOrCreate(signal, callerMemberName);
             tape.IsPlay = true;
             tape.FilePath = filePath;
             tape.Duration = duration;
@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode channelSignal, FlowNode duration, string filePath,
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.Add(channelSignal, callerMemberName);
+            Tape tape = _tapes.GetOrCreate(channelSignal, callerMemberName);
             tape.IsPlayChannel = true;
             tape.FilePath = filePath;
             tape.Duration = duration;

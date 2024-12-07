@@ -19,23 +19,23 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public int Count => _tapes.Count;
         
-        internal Tape Add(FlowNode signal, [CallerMemberName] string callerMemberName = null)
+        public Tape GetOrCreate(FlowNode signal, [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
-            var tape = new Tape
+            if (!_tapes.TryGetValue(signal, out Tape tape))
             {
-                Signal = signal,
-                Channel = _synthWishes.GetChannel,
-                FallBackName = callerMemberName
-            };
+                _tapes[signal] = tape = new Tape();
+            }
             
-            _tapes[signal] = tape;
+            tape.Signal = signal;
+            tape.Channel = _synthWishes.GetChannel;
+            tape.FallBackName = callerMemberName;
             
             return tape;
         }
         
-        internal bool IsTape(Outlet outlet)
+        public bool IsTape(Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             return _tapes.ContainsKey(outlet);
