@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
+using JJ.Business.Synthesizer.EntityWrappers;
 using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -164,11 +166,30 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static Buff Save(
             Buff buff,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => MakeBuff(
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            if (buff == null) throw new ArgumentNullException(nameof(buff));
+            
+            // Reuse Buff
+            if (FilledIn(buff.Bytes))
+            {
+                string resolvedFilePath = FetchFilePath(filePath, callerMemberName, buff.AudioFormat);
+                Save(buff.Bytes, resolvedFilePath, callerMemberName);
+                return buff;
+            }
+            
+            if (File.Exists(buff.FilePath))
+            {
+                Save(buff.FilePath, filePath, callerMemberName);
+                return buff;
+            }
+            
+            // Or re-materialize
+            return MakeBuff(
                 buff,
                 inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
-
+        }
+        
         public static Buff Save(
             AudioFileOutput audioFileOutput,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
