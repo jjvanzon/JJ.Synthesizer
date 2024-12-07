@@ -9,6 +9,8 @@ using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using JJ.Business.Synthesizer.EntityWrappers;
 using static System.Environment;
+using static System.IO.File;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -178,22 +180,23 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
-            
+
             // Reuse Buff
+            string destFilePath = FetchFilePath(filePath, callerMemberName, buff.AudioFormat); // Resolve to use AudioFormat
+
             if (FilledIn(buff.Bytes))
             {
-                string resolvedFilePath = FetchFilePath(filePath, callerMemberName, buff.AudioFormat);
-                Save(buff.Bytes, resolvedFilePath, callerMemberName);
+                Save(buff.Bytes, destFilePath, callerMemberName);
                 return buff;
             }
             
-            if (File.Exists(buff.FilePath))
+            if (Exists(buff.FilePath))
             {
-                Save(buff.FilePath, filePath, callerMemberName);
+                Save(buff.FilePath, destFilePath, callerMemberName);
                 return buff;
             }
             
-            // Or re-materialize
+            // Materialize if Buff not written.
             return MakeBuff(
                 buff,
                 inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
@@ -210,8 +213,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            // TODO: Use (some variation of) FetchFilePath.
-            string resolvedFilePath = FetchName(sample, callerMemberName, explicitName: filePath);
+            string resolvedFilePath = FetchFilePath(filePath, FetchName(sample, callerMemberName));
             Save(sample.Bytes, resolvedFilePath, callerMemberName);
         }
         
@@ -220,17 +222,32 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             string resolvedFilePath = FetchFilePath(filePath, callerMemberName);
-            File.WriteAllBytes(resolvedFilePath, bytes);
-            Console.WriteLine($"Output file:{NewLine}'{resolvedFilePath}'");
+            
+            (string numberedFilePath, FileStream fileStream) = CreateSafeFileStream(resolvedFilePath);
+            
+            using (fileStream)
+            {
+                fileStream.Write(bytes, 0, bytes.Length);
+            }
+            
+            Console.WriteLine($"Output file:{NewLine}'{numberedFilePath}'");
         }
             
         public static void Save(
             string sourceFilePath, 
-            string destFilePath = null, [CallerMemberName] string callerMemberName = null) 
+            string destFilePath = null, [CallerMemberName] string callerMemberName = null)
         {
             string resolvedDestFilePath = FetchFilePath(destFilePath, sourceFilePath, callerMemberName: callerMemberName);
-            File.Copy(sourceFilePath, resolvedDestFilePath);
-            Console.WriteLine($"Output file:{NewLine}'{resolvedDestFilePath}'{NewLine}(Copied from '{sourceFilePath}')");
+            (string numberedDestFilePath, FileStream destStream) = CreateSafeFileStream(resolvedDestFilePath);
+            using (var sourceStream = new FileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                using (destStream)
+                {
+                    sourceStream.CopyTo(destStream);
+                } 
+            }
+
+            Console.WriteLine($"Output file:{NewLine}'{numberedDestFilePath}'{NewLine}(Copied from '{sourceFilePath}')");
         }
     }
     

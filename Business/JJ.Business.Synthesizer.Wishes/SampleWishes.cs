@@ -3,7 +3,6 @@ using JJ.Persistence.Synthesizer;
 using System.IO;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.IO.StreamHelper;
 
@@ -122,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private FlowNode SampleFromFluentConfig(
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {
-            name = FetchName(callerMemberName, explicitName: name);
+            name = FetchName(callerMemberName, explicitNameSource: name);
             name = Path.GetFileNameWithoutExtension(name);
             string location = Path.GetFullPath(FormatAudioFileName(name, GetAudioFormat)); // Back-end wants a path.
 
