@@ -45,8 +45,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 RandomNote, RandomNote, RandomNote, RandomNote, RandomNote
             };
             
-            //WithShortDuration();
-            //WithAudioLength(0.5);
+            WithAudioLength(0.4);
         }
         
         // Problems
@@ -122,7 +121,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Mono_Play_Test_2Calls() => Run(Mono_Play_2Calls);
         void Mono_Play_2Calls()
         {
-            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().Play().SpeedUp(2).Play();
+            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().Play().SpeedUp(1.5).Play();
         }
         
         [TestMethod]
@@ -136,7 +135,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Mono_Save_Test_2Calls() => Run(Mono_Save_2Calls);
         void Mono_Save_2Calls()
         { 
-            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().Save().SpeedUp(2).Save().Play();
+            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().Save().SpeedUp(1.5).Save().Play();
         }
         
         [TestMethod]
@@ -150,7 +149,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Mono_Cache_Test_2Calls() => Run(Mono_Cache_2Calls);
         void Mono_Cache_2Calls()
         { 
-            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().Cache().SpeedUp(2).Cache().Play();
+            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().Cache().SpeedUp(1.5).Cache().Play();
         }
 
         [TestMethod]
@@ -164,7 +163,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Mono_PlayChannel_Test_2Calls() => Run(Mono_PlayChannel_2Calls);
         void Mono_PlayChannel_2Calls()
         {
-            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().PlayChannel().SpeedUp(2).Play();
+            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().PlayChannel().SpeedUp(1.5).PlayChannel();
         }
         
         [TestMethod]
@@ -178,7 +177,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Sine(RandomNotes[3] * 1).Volume(DynamicCurve).Volume(1.0).PlayChannel(),
                 Sine(RandomNotes[3] * 2).Volume(DynamicCurve).Volume(0.1),
                 Sine(RandomNotes[3] * 3).Volume(DynamicCurve).PlayChannel().Volume(0.15),
-                Sine(RandomNotes[3] * 4).Volume(DynamicCurve).Volume(0.1),
+                Sine(RandomNotes[3] * 4).Volume(DynamicCurve).Volume(0.08),
                 Sine(RandomNotes[3] * 5).Volume(DynamicCurve).Volume(0.05).PlayChannel()
             ));
         }
@@ -194,7 +193,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Mono_SaveChannel_Test_2Calls() => Run(Mono_SaveChannel_2Calls);
         void Mono_SaveChannel_2Calls()
         {
-            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().SaveChannel().SpeedUp(2).Save().Play();
+            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().SaveChannel().SpeedUp(1.5).SaveChannel().Play();
         }
 
         [TestMethod]
@@ -203,14 +202,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithMono();
             
-            Play(() => Add
+            Add
             (
                 Sine(RandomNotes[4] * 1).Volume(DynamicCurve).Volume(1.0).SaveChannel(MemberName() + " Partial 1"),
                 Sine(RandomNotes[4] * 2).Volume(DynamicCurve).Volume(0.1),
-                Sine(RandomNotes[4] * 3).Volume(DynamicCurve).SaveChannel("FluentSave_UsingTape Partial 2").Volume(0.05),
+                Sine(RandomNotes[4] * 3).Volume(DynamicCurve).SaveChannel(FetchName() + " Partial 2").Volume(0.05),
                 Sine(RandomNotes[4] * 4).Volume(DynamicCurve).Volume(0.01),
-                Sine(RandomNotes[4] * 5).Volume(DynamicCurve).Volume(0.02).SetName("FluentSave_UsingTape Partial 3").SaveChannel()
-            )).Save();
+                Sine(RandomNotes[4] * 5).Volume(DynamicCurve).Volume(0.02).SetName(MemberName() + " Partial 3").SaveChannel()
+            ).Play();
         }
         
         [TestMethod]
@@ -224,7 +223,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Mono_CacheChannel_Test_2Calls() => Run(Mono_CacheChannel_2Calls);
         void Mono_CacheChannel_2Calls()
         {
-            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().CacheChannel().SpeedUp(2).Cache().Play();
+            WithMono().Sine(RandomNote).Volume(DynamicCurve).Panbrello().CacheChannel().SpeedUp(1.5).CacheChannel().Play();
         }
 
         [TestMethod]
@@ -254,7 +253,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Stereo_Play_Test_2Calls() => Run(Stereo_Play_2Calls);
         void Stereo_Play_2Calls()
         { 
-            WithStereo().Sine(RandomNotes[7]).Volume(DynamicCurve).Panbrello().Play().SpeedUp(2).Play();
+            WithStereo().Sine(RandomNotes[7]).Volume(DynamicCurve).Panbrello().Play().SpeedUp(1.5).Play();
         }
         
         [TestMethod]
@@ -268,7 +267,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Stereo_Save_Test_2Calls() => Run(Stereo_Save_2Calls);
         void Stereo_Save_2Calls()
         { 
-            WithStereo().Sine(RandomNotes[9]).Volume(DynamicCurve).Panbrello().Save().SpeedUp(2).Save().Play();
+            WithStereo().Sine(RandomNotes[9]).Volume(DynamicCurve).Panbrello().Save().SpeedUp(1.5).Save().Play();
         }
         
         [TestMethod]
@@ -282,49 +281,49 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Stereo_Cache_Test_2Calls() => Run(Stereo_Cache_2Calls);
         void Stereo_Cache_2Calls()
         { 
-            WithStereo().Sine(RandomNotes[11]).Volume(DynamicCurve).Panbrello().Cache().SpeedUp(2).Cache().Play();
+            WithStereo().Sine(RandomNotes[11]).Volume(DynamicCurve).Panbrello().Cache().SpeedUp(1.5).Cache().Play();
         }
         
         [TestMethod]
         public void Stereo_PlayChannel_Test() => WithStereo().Run(Stereo_PlayChannel);
         void Stereo_PlayChannel()
         { 
-            Sine(B4).Volume(DynamicCurve).Panbrello().PlayChannel().Play();
+            Sine(B4).Volume(DynamicCurve).Panbrello().PlayChannel();
         }
         
         [TestMethod]
         public void Stereo_PlayChannel_Test_2Calls() => Run(Stereo_PlayChannel_2Calls);
         void Stereo_PlayChannel_2Calls()
         { 
-            WithStereo().Sine(RandomNotes[12]).Volume(DynamicCurve).Panbrello().PlayChannel().SpeedUp(2).PlayChannel();
+            WithStereo().Sine(RandomNotes[12]).Volume(DynamicCurve).Panbrello().PlayChannel().SpeedUp(1.5).PlayChannel();
         }
         
         [TestMethod]
         public void Stereo_SaveChannel_Test() => Run(Stereo_SaveChannel);
         void Stereo_SaveChannel()
         { 
-            WithStereo().Sine(RandomNotes[13]).Volume(DynamicCurve).Panbrello().SaveChannel().Play();
+            WithStereo().Sine(RandomNotes[13]).Volume(DynamicCurve).Panbrello().SaveChannel().PlayChannel();
         }
         
         [TestMethod]
         public void Stereo_SaveChannel_Test_2Calls() => Run(Stereo_SaveChannel_2Calls);
         void Stereo_SaveChannel_2Calls()
         { 
-            WithStereo().Sine(RandomNotes[14]).Volume(DynamicCurve).Panbrello().SaveChannel().SpeedUp(2).SaveChannel().Play();
+            WithStereo().Sine(RandomNotes[14]).Volume(DynamicCurve).Panbrello().SaveChannel().SpeedUp(1.5).SaveChannel().PlayChannel();
         }
         
         [TestMethod]
         public void Stereo_CacheChannel_Test() => Run(Stereo_CacheChannel);
         void Stereo_CacheChannel()
         { 
-            WithStereo().Sine(RandomNotes[15]).Volume(DynamicCurve).Panbrello().CacheChannel().Play();
+            WithStereo().Sine(RandomNotes[15]).Volume(DynamicCurve).Panbrello().CacheChannel().PlayChannel();
         }
         
         [TestMethod]
         public void Stereo_CacheChannel_Test_2Calls() => Run(Stereo_CacheChannel_2Calls);
         void Stereo_CacheChannel_2Calls()
         { 
-            WithStereo().Sine(RandomNotes[16]).Volume(DynamicCurve).Panbrello().CacheChannel().SpeedUp(2).CacheChannel().Play();
+            WithStereo().Sine(RandomNotes[16]).Volume(DynamicCurve).Panbrello().CacheChannel().SpeedUp(1.5).CacheChannel().PlayChannel();
         }
         
         // Complex Cases
