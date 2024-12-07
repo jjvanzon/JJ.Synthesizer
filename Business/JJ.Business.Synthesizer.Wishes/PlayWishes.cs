@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Media;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.SynthWishes;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 // ReSharper disable once ParameterHidesMember
 
