@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.String;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
@@ -88,13 +90,59 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        // FetchFilePath
+        // FetchFileExtension
         
-        public static string FetchFilePath(string filePath, string name, string fileExtension, [CallerMemberName] string callerMemberName = null)
+        public static string FetchFileExtension(string fileExtension, string filePath, AudioFileFormatEnum audioFileFormat = default)
         {
-            filePath = FetchName(name, callerMemberName, explicitName: filePath);
-            filePath = ReformatFilePath(filePath, fileExtension);
-            return filePath;
+            if (FilledIn(fileExtension))
+            {
+                return fileExtension;
+            }
+            
+            string fileExtensionFromPath = Path.GetExtension(filePath);
+            if (FilledIn(fileExtensionFromPath))
+            {
+                return fileExtensionFromPath;
+            }
+            
+            if (FilledIn(audioFileFormat))
+            {
+                return audioFileFormat.GetFileExtension();
+            }
+            
+            throw new Exception(
+                $"{MemberName()} could not resolve file extension from " +
+                $"{new{fileExtension, filePath, audioFileFormat }}.");
+        }
+        
+        // FetchFilePath
+
+
+        public static string FetchFilePath(
+            string filePath,
+            string name,
+            AudioFileFormatEnum audioFormat, 
+            [CallerMemberName] string callerMemberName = null)
+            => FetchFilePath(filePath, name, null, audioFormat, callerMemberName);
+        
+        public static string FetchFilePath(
+            string filePath, 
+            string name, 
+            string fileExtension = null, 
+            [CallerMemberName] string callerMemberName = null)
+            => FetchFilePath(filePath, name, fileExtension, default, callerMemberName);
+
+        public static string FetchFilePath(
+            string filePath,
+            string name,
+            string fileExtension, 
+            AudioFileFormatEnum audioFormat, 
+            [CallerMemberName] string callerMemberName = null)
+        {
+            string resolvedFileExtension = FetchFileExtension(fileExtension, filePath, audioFormat);
+            string resolvedName = FetchName(name, callerMemberName, explicitName: filePath);
+            string resolvedFilePath = ReformatFilePath(resolvedName, resolvedFileExtension);
+            return resolvedFilePath;
         }
 
         /// <summary>
