@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
+using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
