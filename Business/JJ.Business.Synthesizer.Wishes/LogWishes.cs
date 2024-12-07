@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
+using static System.IO.Path;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
@@ -70,7 +71,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             if (File.Exists(buff.FilePath)) // TODO: Remove the if. It may be redundant now.
             {
-                lines.Add($"Output file: {Path.GetFullPath(buff.FilePath)}");
+                lines.Add($"Output file: {GetFullPath(buff.FilePath)}");
             }
 
             lines.Add("");
