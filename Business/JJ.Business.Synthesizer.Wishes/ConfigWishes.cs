@@ -6,7 +6,7 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.EnvironmentHelperWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Configuration_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Testing_Wishes;
 // ReSharper disable RedundantNameQualifier

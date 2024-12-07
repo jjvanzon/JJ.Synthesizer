@@ -50,12 +50,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public static T[] OneBecomesTwo<T>(this T[] list) => OneBecomesTwo((IList<T>)list).ToArray();
     }
     
-    internal static class JJ_Framework_Common_Wishes
-    {
-        public static bool EnvironmentVariableIsDefined(string environmentVariableName, string environmentVariableValue)
-            => string.Equals(GetEnvironmentVariable(environmentVariableName), environmentVariableValue, StringComparison.OrdinalIgnoreCase);
-    }
-
     /// <inheritdoc cref="_trygetsection"/>
     internal static class JJ_Framework_Configuration_Wishes
     { 
@@ -266,12 +260,28 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                                 .OfType<IEnumerable<string>>()
                                 .SelectMany(x => x);
             
-            bool isInCategory = categoryQuery.Any(x => string.Equals(x, category, StringComparison.OrdinalIgnoreCase));
+            bool isInCategory = categoryQuery.Any(x => String.Equals(x, category, StringComparison.OrdinalIgnoreCase));
             
             return isInCategory;
         }
     }
-    
+        
+    namespace JJ_Framework_Common_Wishes
+    {
+        internal static class EnvironmentHelperWishes
+        {
+            public static bool EnvironmentVariableIsDefined(string environmentVariableName, string environmentVariableValue)
+                => String.Equals(GetEnvironmentVariable(environmentVariableName), environmentVariableValue, StringComparison.OrdinalIgnoreCase);
+        }
+        
+        internal static class FilledInWishes
+        {
+            public static bool FilledIn(string value) => !string.IsNullOrWhiteSpace(value);
+            public static bool FilledIn(byte[] bytes) => bytes != null && bytes.Length > 0;
+            public static bool FilledIn<T>(T value) where T : struct => !Equals(value, default(T));
+        }
+    }
+
     namespace JJ_Framework_Collections_Copied
     {
         internal static class CollectionsExtensions_Copied
