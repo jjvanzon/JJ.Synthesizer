@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _stereoTapeRecombiner = new StereoTapeRecombiner();
             _stereoTapeActionRunner = new StereoTapeActionRunner(synthWishes);
             _monoTapeActionRunner = new MonoTapeActionRunner();
-            _channelTapeActionRunner = new ChannelTapeActionRunner();
+            _channelTapeActionRunner = new ChannelTapeActionRunner(synthWishes);
         }
         
         public void RunAllTapes()
@@ -247,14 +247,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Console.WriteLine($"{PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.GetName}");
             
             // Cache Buffer
-            Buff cacheBuff = tape.Signal.SynthWishes.MaterializeCache(tape.Signal, tape.Duration, tape.GetName);
-            tape.Buff = cacheBuff;
+            tape.Buff = tape.Signal.SynthWishes.MaterializeCache(tape.Signal, tape.Duration, tape.GetName);
             
-            // Run Actions
-            _channelTapeActionRunner.RunActions(tape);
+            // Run Actions (that can't wait)
+            _channelTapeActionRunner.CacheIfNeeded(tape);
             
             // Wrap in Sample
-            FlowNode sample = tape.Signal.SynthWishes.Sample(cacheBuff, name: tape.GetName);
+            FlowNode sample = tape.Signal.SynthWishes.Sample(tape.Buff, name: tape.GetName);
             
             // Replace All References
             IList<Inlet> connectedInlets = tape.Signal.UnderlyingOutlet.ConnectedInlets.ToArray();
@@ -268,21 +267,28 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void ExecutePostProcessing(IList<Tape> tapes)
         {
-            IList<Tape> tapesWithActions
-                = tapes.Where(x => x.IsCache  ||
-                                   x.IsPlay   ||
-                                   x.IsSave   ||
-                                   x.Callback != null).ToArray();
-
+            // Run Channel Actions (in post-processing, that might otherwise hold up the taping tasks)
+            foreach (Tape tape in tapes)
+            {
+                _channelTapeActionRunner.SaveIfNeeded(tape);
+                _channelTapeActionRunner.PlayIfNeeded(tape);
+            }
+            
             if (_synthWishes.IsMono)
             {
-                foreach (Tape tape in tapesWithActions)
+                foreach (Tape tape in tapes)
                 {
                     _monoTapeActionRunner.RunActions(tape);
                 }
             }
             else if (_synthWishes.IsStereo)
             {
+                // Run Actions
+                IList<Tape> tapesWithActions
+                    = tapes.Where(x => x.IsPlay   ||
+                                       x.IsSave   ||
+                                       x.Callback != null).ToArray();
+
                 var tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
                 foreach (var tapePair in tapePairs)
                 {

@@ -6,24 +6,46 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
     internal class ChannelTapeActionRunner
     {
+        private readonly SynthWishes _synthWishes;
+        
+        public ChannelTapeActionRunner(SynthWishes synthWishes)
+        {
+            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+        }
+        
         public void RunActions(Tape tape)
+        {
+            CacheIfNeeded(tape);
+            SaveIfNeeded(tape);
+            PlayIfNeeded(tape);
+        }
+        
+        public void CacheIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             if (tape.Channel == null) throw new NullException(() => tape.Channel);
-            
-            SynthWishes synthWishes = SynthWishesResolver.Resolve(tape);
-            
+
             Buff replacementBuff = tape.ChannelCallback?.Invoke(tape.Buff, tape.Channel.Value);
             if (replacementBuff != null) tape.Buff = replacementBuff;
+        }
+        
+        public void SaveIfNeeded(Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
             
             if (tape.IsSaveChannel)
             {
-                synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
+                _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
             }
-            
-            if (tape.IsPlayChannel || synthWishes.GetPlayAllTapes)
+        }
+        
+        public void PlayIfNeeded(Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+
+            if (tape.IsPlayChannel || _synthWishes.GetPlayAllTapes)
             {
-                synthWishes.Play(tape.Buff);
+                _synthWishes.Play(tape.Buff);
             }
         }
     }
