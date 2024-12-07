@@ -224,8 +224,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// where 0 is fully left, 1 is fully right, and 0.5 is centered.
         /// </param>
         /// <param name="panbrello">
-        /// A tuple containing the speed and depth of the panbrello effect.
-        /// If not provided, they will default to 1.
+        /// A tuple containing the speed and depth of the panbrello effect.<br/>
+        /// Default speed is 3 times a second.<br/>
+        /// Default depth is 1 = full volume going up and down.
         /// </param>
         /// <returns> An Outlet representing the output sound. </returns>
         public static object _default;
@@ -408,7 +409,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <summary>
         /// Applies a panbrello effect to a stereo signal by modulating the panning
-        /// with a sine wave based on the specified speed and depth.
+        /// with a sine wave based on the specified speed and depth.<br/>
+        /// Default speed is 3 times a second.<br/>
+        /// Default depth is 1 = full volume going up and down.
         /// </summary>
         /// <inheritdoc cref="_default" />
         public static object _panbrello;
