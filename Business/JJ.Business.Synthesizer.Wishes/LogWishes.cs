@@ -207,7 +207,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.IsSave) flagStrings.Add("save");
             if (tape.IsSaveChannel) flagStrings.Add("savec");
             if (tape.IsCache) flagStrings.Add("cache");
-            if (tape.IsCacheChannel) flagStrings.Add("cachec");
+            if (tape.IsCacheChannel) flagStrings.Add("cachechan");
             if (tape.IsPadding) flagStrings.Add("pad");
             if (tape.Channel.HasValue) flagStrings.Add($"c{tape.Channel}");
             if (tape.Duration != null) flagStrings.Add($"{tape.Duration.Value}s");
