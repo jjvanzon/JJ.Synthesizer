@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -285,14 +284,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (_synthWishes.IsStereo)
             {
                 // Run Actions
-                IList<Tape> tapesWithActions
-                    = tapes.Where(x => x.IsPlay   ||
-                                       x.IsSave   ||
-                                       x.Callback != null).ToArray();
+                var tapesWithActions = tapes.Where(x => x.IsPlay ||
+                                                        x.IsSave ||
+                                                        x.Callback != null).ToArray();
 
-                IList<(Tape Left, Tape Right)> tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
-                
-                IList<Tape> stereoTapes = _stereoTapeRecombiner.RecombineChannelsConcurrent(tapePairs);
+                var tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
+                var stereoTapes = _stereoTapeRecombiner.RecombineChannelsConcurrent(tapePairs);
                 
                 foreach (var stereoTape in stereoTapes)
                 {

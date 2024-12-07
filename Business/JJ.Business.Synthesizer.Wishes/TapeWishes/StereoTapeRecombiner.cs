@@ -21,9 +21,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public IList<Tape> RecombineChannelsConcurrent(IList<(Tape Left, Tape Right)> tapePairs)
         {
+            if (tapePairs == null) throw new ArgumentNullException(nameof(tapePairs));
+            if (tapePairs.Count == 0) return new List<Tape>();
+            
             AssertTapePairs(tapePairs);
-            IList<FlowNode>[] channelSignals = GetChannelSignals(tapePairs);
-            Tape[] stereoTapes = CloneTapes(tapePairs);
+            
+            var channelSignals = GetChannelSignals(tapePairs);
+            var stereoTapes = CloneTapes(tapePairs);
             
             int count = stereoTapes.Length;
 
@@ -39,7 +43,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void AssertTapePairs(IList<(Tape Left, Tape Right)> tapePairs)
         {
-            if (tapePairs == null) throw new ArgumentNullException(nameof(tapePairs));
             tapePairs.ForEach(AssertTapePair);
         }
         
