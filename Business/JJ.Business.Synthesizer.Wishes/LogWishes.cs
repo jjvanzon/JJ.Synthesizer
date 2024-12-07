@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
+using static System.IO.File;
 using static System.IO.Path;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 lines.Add($"{PrettyByteCount(buff.Bytes.Length)} written to memory.");
             }
-            if (File.Exists(buff.FilePath)) // TODO: Remove the if. It may be redundant now.
+            if (Exists(buff.FilePath))
             {
                 lines.Add($"Output file: {GetFullPath(buff.FilePath)}");
             }
