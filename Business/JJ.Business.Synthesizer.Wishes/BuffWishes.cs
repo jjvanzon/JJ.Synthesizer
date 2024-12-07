@@ -42,6 +42,9 @@ namespace JJ.Business.Synthesizer.Wishes
             get => _messages;
             set => _messages = value ?? throw new NullException(() => Messages);
         }
+
+        public AudioFileFormatEnum AudioFormat 
+            => UnderlyingAudioFileOutput?.GetAudioFileFormatEnum() ?? default;
     }
 
     // MakeBuff in SynthWishes
