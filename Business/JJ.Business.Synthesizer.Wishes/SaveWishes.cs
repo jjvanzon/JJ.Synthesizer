@@ -188,9 +188,18 @@ namespace JJ.Business.Synthesizer.Wishes
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            // TODO: Use (some variation of) FetchFilePath.
-            string resolvedFilePath = FetchName(callerMemberName, explicitName: filePath);
+            string resolvedFilePath = FetchFilePath(filePath, callerMemberName);
             File.WriteAllBytes(resolvedFilePath, bytes);
+            Console.WriteLine($"Output file:{NewLine}'{resolvedFilePath}'");
+        }
+            
+        public static void Save(
+            string sourceFilePath, 
+            string destFilePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            string resolvedDestFilePath = FetchFilePath(destFilePath, sourceFilePath, callerMemberName: callerMemberName);
+            File.Copy(sourceFilePath, resolvedDestFilePath);
+            Console.WriteLine($"Output file:{NewLine}'{resolvedDestFilePath}'{NewLine}(Copied from '{sourceFilePath}')");
         }
     }
     
