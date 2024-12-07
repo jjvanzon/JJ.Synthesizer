@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
+using static System.IO.Path;
 using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
@@ -26,8 +27,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string FetchName(
             object nameSource1 = null, object nameSource2 = null, object nameSource3 = null, object nameSource4 = null,
             object nameSource5 = null, object nameSource6 = null, object nameSource7 = null, object nameSource8 = null,
-            string explicitName = null, [CallerMemberName] string callerMemberName = null)
+            object explicitNameSource = null, [CallerMemberName] string callerMemberName = null)
         {
+            string explicitName = TryGetName(explicitNameSource);
             if (!IsNullOrWhiteSpace(explicitName))
             {
                 return explicitName; // Not sure if it should be prettified too...
@@ -92,17 +94,33 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // FetchFileExtension
         
-        public static string FetchFileExtension(string fileExtension, string filePath, AudioFileFormatEnum audioFileFormat = default)
+        public static string FetchFileExtension(
+            string fileExtension, AudioFileFormatEnum audioFileFormat = default, 
+            object filePathSource1 = null, object filePathSource2 = null)
         {
             if (FilledIn(fileExtension))
             {
                 return fileExtension;
             }
-            
-            string fileExtensionFromPath = Path.GetExtension(filePath);
-            if (FilledIn(fileExtensionFromPath))
+
             {
-                return fileExtensionFromPath;
+                string value = TryGetName(filePathSource1);
+                value = SanitizeFilePath(value);
+                value = GetExtension(value);
+                if (FilledIn(value))
+                {
+                    return value;
+                } 
+            }
+
+            {
+                string value = TryGetName(filePathSource2);
+                value = SanitizeFilePath(value);
+                value = GetExtension(value);
+                if (FilledIn(value))
+                {
+                    return value;
+                }
             }
             
             if (FilledIn(audioFileFormat))
@@ -111,36 +129,34 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             throw new Exception(
-                $"{MemberName()} could not resolve file extension from " +
-                $"{new{fileExtension, filePath, audioFileFormat }}.");
+                $"Could not resolve file extension from {new{fileExtension, audioFileFormat, filePathSource1, filePathSource2 }}.");
         }
         
         // FetchFilePath
 
-
         public static string FetchFilePath(
-            string filePath,
-            string name,
+            object filePathSource1,
+            object filePathSource2,
             AudioFileFormatEnum audioFormat, 
             [CallerMemberName] string callerMemberName = null)
-            => FetchFilePath(filePath, name, null, audioFormat, callerMemberName);
+            => FetchFilePath(filePathSource1, filePathSource2, null, audioFormat, callerMemberName);
         
         public static string FetchFilePath(
-            string filePath, 
-            string name, 
+            object filePathSource1, 
+            object filePathSource2, 
             string fileExtension = null, 
             [CallerMemberName] string callerMemberName = null)
-            => FetchFilePath(filePath, name, fileExtension, default, callerMemberName);
+            => FetchFilePath(filePathSource1, filePathSource2, fileExtension, default, callerMemberName);
 
         public static string FetchFilePath(
-            string filePath,
-            string name,
+            object filePathSource1,
+            object filePathSource2,
             string fileExtension, 
             AudioFileFormatEnum audioFormat, 
             [CallerMemberName] string callerMemberName = null)
         {
-            string resolvedFileExtension = FetchFileExtension(fileExtension, filePath, audioFormat);
-            string resolvedName = FetchName(name, callerMemberName, explicitName: filePath);
+            string resolvedFileExtension = FetchFileExtension(fileExtension, audioFormat, filePathSource1, filePathSource2);
+            string resolvedName = FetchName(filePathSource2, callerMemberName, explicitNameSource: filePathSource1);
             string resolvedFilePath = ReformatFilePath(resolvedName, resolvedFileExtension);
             return resolvedFilePath;
         }
@@ -157,18 +173,18 @@ namespace JJ.Business.Synthesizer.Wishes
             string sanitizedFilePath = SanitizeFilePath(filePath);
             
             // Find the full folder path
-            string folderPath = Path.GetDirectoryName(sanitizedFilePath);
+            string folderPath = GetDirectoryName(sanitizedFilePath);
             string absoluteFolder = IsNullOrWhiteSpace(folderPath) 
                 ? Directory.GetCurrentDirectory() 
-                : Path.GetFullPath(folderPath);
+                : GetFullPath(folderPath);
             
             // Replace file extension
-            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sanitizedFilePath);
+            string fileNameWithoutExtension = GetFileNameWithoutExtension(sanitizedFilePath);
             string audioFormatExtension = newFileExtension;
             string fileName = fileNameWithoutExtension + audioFormatExtension;
 
             // Combine folder path and new file name
-            return Path.Combine(absoluteFolder, fileName);
+            return Combine(absoluteFolder, fileName);
         }
 
         // Helpers
@@ -203,7 +219,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (IsFile(prettyName))
             {
-                prettyName = Path.GetFileNameWithoutExtension(Path.GetFileName(uglyName));
+                prettyName = GetFileNameWithoutExtension(GetFileName(uglyName));
             }
             
             prettyName = (prettyName ?? "").CutLeft("get_")
