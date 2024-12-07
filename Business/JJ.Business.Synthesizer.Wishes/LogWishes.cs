@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 namespace JJ.Business.Synthesizer.Wishes

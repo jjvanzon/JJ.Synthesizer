@@ -15,7 +15,7 @@ using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutpu
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
