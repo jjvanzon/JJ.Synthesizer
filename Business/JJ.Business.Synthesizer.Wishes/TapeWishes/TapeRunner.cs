@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
             _stereoTapeMatcher = new StereoTapeMatcher();
-            _stereoTapeRecombiner = new StereoTapeRecombiner();
+            _stereoTapeRecombiner = new StereoTapeRecombiner(synthWishes);
             _stereoTapeActionRunner = new StereoTapeActionRunner(synthWishes);
             _monoTapeActionRunner = new MonoTapeActionRunner();
             _channelTapeActionRunner = new ChannelTapeActionRunner(synthWishes);
@@ -281,7 +281,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     _monoTapeActionRunner.RunActions(tape);
                 }
             }
-            else if (_synthWishes.IsStereo)
+            
+            if (_synthWishes.IsStereo)
             {
                 // Run Actions
                 IList<Tape> tapesWithActions
@@ -289,16 +290,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                                        x.IsSave   ||
                                        x.Callback != null).ToArray();
 
-                var tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
-                foreach (var tapePair in tapePairs)
+                IList<(Tape Left, Tape Right)> tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
+                
+                IList<Tape> stereoTapes = _stereoTapeRecombiner.RecombineChannelsConcurrent(tapePairs);
+                
+                foreach (var stereoTape in stereoTapes)
                 {
-                    Tape stereoTape = _stereoTapeRecombiner.RecombineChannels(tapePair);
                     _stereoTapeActionRunner.RunActions(stereoTape);
                 }
-            }
-            else 
-            {
-                throw new ValueNotSupportedException(_synthWishes.GetChannels);
             }
         }
     }

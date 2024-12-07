@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private IList<FlowNode> GetChannelSignals(Func<FlowNode> func)
+        internal IList<FlowNode> GetChannelSignals(Func<FlowNode> func)
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
             
