@@ -68,7 +68,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 }
                 
                 // Match by name
-                var groupedByName = group.GroupBy(x => new { x.FallBackName, x.FilePath, x.Signal?.Name });
+                var groupedByName = group.GroupBy(x => new 
+                { 
+                    x.GetName,
+                    x.FallBackName, 
+                    x.FilePath, 
+                    x.Signal?.Name, 
+                    x.Signal?.UnderlyingOperator?.OperatorTypeName
+
+                });
                 foreach (var subGroup in groupedByName)
                 {
                     TryAddPair(subGroup);
