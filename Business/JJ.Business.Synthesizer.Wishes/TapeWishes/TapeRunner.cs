@@ -129,6 +129,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             string tapeLog = LogWishes.PlotTapeHierarchy(tapes);
             Console.WriteLine(tapeLog);
 
+            RunTapeLeafPipeline(tapes);
+            
+            return tapes;
+
             var tapeGroups = tapes.GroupBy(x => x.Channel)
                                   .Select(x => x.ToArray())
                                   .ToArray();
