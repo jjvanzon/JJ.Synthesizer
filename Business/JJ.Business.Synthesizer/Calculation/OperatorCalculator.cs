@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
                 double b = CalculateValue(operandBOutlet, time);
                 // Swap operands, for likeliness of multiplication short-circuiting
-                if (b == 0) { (wrapper.OperandB, wrapper.OperandA) = (wrapper.OperandA, wrapper.OperandB); return 0; }
+                //if (b == 0) { (wrapper.OperandB, wrapper.OperandA) = (wrapper.OperandA, wrapper.OperandB); return 0; }
 
                 return a * b;
             }
