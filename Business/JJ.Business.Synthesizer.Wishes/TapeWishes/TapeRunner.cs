@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             oldTape.IsSaveChannel = false;
 
             // Update duration
-            var oldDuration = oldTape.Duration ?? _synthWishes.GetAudioLength;
+            FlowNode oldDuration = oldTape.Duration ?? _synthWishes.GetAudioLength;
             newTape.Duration = oldDuration + padding;
             
             Console.WriteLine(
@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             string tapeLog = LogWishes.PlotTapeHierarchy(tapes);
             Console.WriteLine(tapeLog);
-
+            
             RunTapeLeafPipeline(tapes);
             
             return tapes;
@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             return tapes;
         }
-                    
+
         private void BuildTapeHierarchyRecursive(FlowNode node, Tape parentTape = null)
         {
             Tape tape = _tapes.TryGet(node);
@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 SetTapeNestingLevelsRecursive(child, level);
             }
         }
-
+        
         private void RunTapeLeafPipeline(IList<Tape> tapeCollection)
         {
             int waitTimeMs = (int)(_synthWishes.GetParallelTaskCheckDelay * 1000);
