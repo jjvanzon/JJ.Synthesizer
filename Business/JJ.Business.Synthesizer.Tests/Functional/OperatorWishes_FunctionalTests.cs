@@ -382,7 +382,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_Echo_FeedBack_DynamicParameters() => new OperatorWishes_FunctionalTests().Echo_FeedBack_DynamicParameters_RunTest();
+        public void Test_Echo_FeedBack_DynamicParameters() => Run(Echo_FeedBack_DynamicParameters_RunTest);
 
         void Echo_FeedBack_DynamicParameters_RunTest()
         {
@@ -390,28 +390,21 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             
             WithMono();
 
-            var envelope     = Curve((0, 1), (0.2, 0));
+            var envelope     = Curve((0, 1), (0.2, 0)).SetName(MemberName() + " Volume");
             var sound        = Multiply(Sine(D5), envelope);
-            var magnitude    = Curve(
-                (0.0, 0.66),
-                (0.5, 0.90),
-                (3.0, 1.00),
-                (4.0, 0.80),
-                (5.0, 0.25));
+            var magnitude    = Curve((0.0, 0.66),
+                                     (0.5, 0.90),
+                                     (3.0, 1.00),
+                                     (4.0, 0.80),
+                                     (5.0, 0.25));
             var delay        = Curve((0, 0.25), (4, 0.35));
             var echoes       = accessor.EchoFeedBack(sound, count: 16, magnitude, delay);
             var echoDuration = EchoDuration(count: 16, delay);
 
-            sound.SetName(MemberName() + " Input");
-            envelope.SetName(MemberName() + " Volume");
-            magnitude.SetName( MemberName() + " Magnitude");
-            delay.SetName(MemberName() + " Delay");
-            echoes.SetName(MemberName() + " Output");
-
-            WithAudioLength(0.2).Save(() => sound);
-            WithAudioLength(4.5).Save(() => magnitude);
-            WithAudioLength(4.5).Save(() => delay);
-            WithAudioLength(echoDuration + 4.5).Save(() => echoes).Play();
+            sound    .WithAudioLength(0.2)         .SetName(MemberName() + " Input"    ).Save();
+            magnitude.WithAudioLength(4.5)         .SetName(MemberName() + " Magnitude").Save();
+            delay    .WithAudioLength(4.5)         .SetName(MemberName() + " Delay"    ).Save();
+            echoes   .WithAudioLength(echoDuration).SetName(MemberName() + " Output"   ).Save().Play();
         }
     }
 }
