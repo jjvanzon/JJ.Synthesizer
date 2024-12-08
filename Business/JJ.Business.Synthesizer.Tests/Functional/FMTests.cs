@@ -38,6 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Tests
 
         [TestMethod]
+        [TestCategory("Long")]
         public void FM_Jingle_Test() => new FMTests().FM_Jingle();
         void FM_Jingle()
         {

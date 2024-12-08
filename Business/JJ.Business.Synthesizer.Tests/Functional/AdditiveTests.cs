@@ -34,6 +34,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
+        [TestCategory("Long")]
         public void Additive_Metallophone_Jingle() => new AdditiveTests().Additive_Metallophone_Jingle_RunTest();
         /// <inheritdoc cref="docs._metallophone"/>
         public void Additive_Metallophone_Jingle_RunTest()
