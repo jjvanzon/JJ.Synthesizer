@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             foreach (Tape tape in tapes)
             {
-                SetTapeParentChildRelationshipsRecursive(tape.Signal);
+                BuildTapeHierarchyRecursive(tape.Signal);
             }
             
             _tapes.Clear();
