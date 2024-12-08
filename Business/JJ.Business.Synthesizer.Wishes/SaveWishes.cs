@@ -229,6 +229,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             Console.WriteLine($"Output file:{NewLine}'{numberedFilePath}'");
+            Console.WriteLine($"Output file:{NewLine}" +
+                              $"{numberedFilePath}");
         }
             
         public static void Save(
@@ -246,6 +248,9 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             Console.WriteLine($"Output file:{NewLine}'{numberedDestFilePath}'{NewLine}(Copied from '{sourceFilePath}')");
+            Console.WriteLine($"Output file:{NewLine}" +
+                              $"{numberedDestFilePath}{NewLine}" +
+                              $"(Copied from {sourceFilePath})");
         }
     }
     
