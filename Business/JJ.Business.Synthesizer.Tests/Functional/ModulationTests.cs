@@ -27,22 +27,26 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Tests
 
-        // Long Running
+        /// <inheritdoc cref="docs._detunica" />
+        [TestMethod, TestCategory("Long")]
+        public void Test_Detunica_Jingle() => Run(Detunica_Jingle_RunTest);
+        
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle_RunTest()
         {
-            WithPlay();
-            var buff = WithAudioLength(bars[7] + DeepEchoDuration).Save(() => DeepEcho(DetunicaJingle) * 0.8);
-            this.Play(buff);
+            WithPlay(); WithAudioLength(bars[7] + DeepEchoDuration);
+            DeepEcho(DetunicaJingle).Volume(0.8).Save().Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
-        [TestMethod]
-        public void Test_DetunicaBass() => new ModulationTests().DetunicaBass_RunTest();
+        [TestMethod] 
+        public void Test_DetunicaBass() => Run(DetunicaBass_RunTest);
         /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass_RunTest()
         {
-            WithAudioLength(3 + DeepEchoDuration).Save(() => DeepEcho(DetunicaBass(E0, _[3])) * 0.9).Play();
+            FlowNode duration = _[3];
+            WithAudioLength(duration + DeepEchoDuration);
+            DeepEcho(DetunicaBass(E0, duration)).Volume(0.9).Save().Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -241,7 +245,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var envelope         = patchyEnvelope ? PatchyEnvelope : EvenEnvelope;
             
             sound *= envelope.Stretch(duration);
-
+            
             return sound.SetName();
         }
 

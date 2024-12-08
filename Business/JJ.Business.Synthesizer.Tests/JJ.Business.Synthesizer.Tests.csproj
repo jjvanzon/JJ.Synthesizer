@@ -132,7 +132,6 @@
     <Compile Include="Accessors\TapeAccessor.cs" />
     <Compile Include="Accessors\TapeCollectionAccessor.cs" />
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />
-    <Compile Include="Functional\LongTests.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Helpers\MySynthWishes.cs" />
     <Compile Include="Technical\AudioFileWishesTests.cs" />
