@@ -58,6 +58,7 @@
     <Compile Include="CalculationWishes.cs" />
     <Compile Include="Helpers\SynthWishesResolver.cs" />
     <Compile Include="LogWishes.cs" />
+    <Compile Include="TapeWishes\TapeHierarchyBuilder.cs" />
     <Compile Include="TapeWishes\TapePadder.cs" />
     <Compile Include="TapeWishes\TapeRunner.cs" />
     <Compile Include="TapeWishes\TapeCollection.cs" />

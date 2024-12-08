@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly TapeCollection _tapes;
         /// <inheritdoc cref="docs._tapePadder" />
         private readonly TapePadder _tapePadder;
+        private readonly TapeHierarchyBuilder _tapeHierarchyBuilder;
         private readonly StereoTapeMatcher _stereoTapeMatcher;
         private readonly StereoTapeRecombiner _stereoTapeRecombiner;
         private readonly StereoTapeActionRunner _stereoTapeActionRunner;
@@ -29,6 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
             _tapePadder = new TapePadder(synthWishes, tapes);
+            _tapeHierarchyBuilder = new TapeHierarchyBuilder(tapes);
             _stereoTapeMatcher = new StereoTapeMatcher();
             _stereoTapeRecombiner = new StereoTapeRecombiner(synthWishes);
             _stereoTapeActionRunner = new StereoTapeActionRunner(synthWishes);
@@ -63,60 +65,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Tape[] tapes = _tapes.ToArray();
             
             tapes.ForEach(_tapePadder.ApplyPadding);
-            
-            tapes.ForEach(BuildTapeHierarchyRecursive);
-            
-            SetTapeNestingLevelsRecursive(tapes);
+            tapes.ForEach(_tapeHierarchyBuilder.BuildTapeHierarchyRecursive);
             
             Console.WriteLine(PlotTapeHierarchy(tapes));
-        }
-        
-
-        private void BuildTapeHierarchyRecursive(Tape tape)
-        {
-            BuildTapeHierarchyRecursive(tape.Signal, null);
-        }
-        
-        private void BuildTapeHierarchyRecursive(FlowNode node, Tape parentTape)
-        {
-            Tape tape = _tapes.TryGet(node);
-            if (tape != null)
-            {
-                if (parentTape != null && tape.ParentTape == null)
-                {
-                    tape.ParentTape = parentTape;
-                    parentTape.ChildTapes.Add(tape);
-                }
-                
-                parentTape = tape;
-            }
-            
-            foreach (FlowNode child in node.Operands)
-            {
-                if (child == null) continue;
-                BuildTapeHierarchyRecursive(child, parentTape);
-            }
-        }
-        
-        private static void SetTapeNestingLevelsRecursive(IList<Tape> tapes)
-        {
-            var roots = tapes.Where(x => x.ParentTape == null).ToArray();
-            foreach (Tape root in roots)
-            {
-                SetTapeNestingLevelsRecursive(root);
-            }
-        }
-
-        private static void SetTapeNestingLevelsRecursive(Tape tape, int level = 1)
-        {
-            // Don't overwrite in case of multiple usage.
-            if (tape.NestingLevel == default) tape.NestingLevel = level++;
-            
-            foreach (Tape child in tape.ChildTapes)
-            {
-                if (child == null) continue;
-                SetTapeNestingLevelsRecursive(child, level);
-            }
         }
         
         private IList<Tape> RunTapeLeavesConcurrent()
