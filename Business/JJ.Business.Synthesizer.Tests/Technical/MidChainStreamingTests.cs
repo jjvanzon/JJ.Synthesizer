@@ -56,48 +56,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             };
         }
         
-        // Problems
-        
-        [TestMethod]
-        public void Stereo_RecombineChannelsExplicit_Test() => new MidChainStreamingTests().Stereo_RecombineChannelsExplicit();
-        void Stereo_RecombineChannelsExplicit() 
-        {
-            WithStereo();
-            
-            var buffs = new Buff[2];
-            
-            // The delegate creates a non-trivial convergence point.
-            
-            Save(() => Sine(RandomNotes[1]).Panning(0.1).Volume(StereoDynamics).CacheChannel((b, i) => buffs[i] = b)).Play();
-            
-            IsNotNull(() => buffs[0]);
-            IsNotNull(() => buffs[1]);
-            
-            buffs[0].Play();
-            buffs[1].Play();
-            
-            // Recombination can only be done after running all tapes.
-           
-            Save(() => Sample(buffs[0]).Panning(0) +
-                       Sample(buffs[1]).Panning(1)).Play();
-        }
-        
-        [TestMethod]
-        public void Stereo_RecombineChannelsExplicitly_ShortTest() => new MidChainStreamingTests().Stereo_RecombineChannelsExplicitly_Short();
-        void Stereo_RecombineChannelsExplicitly_Short() 
-        {
-            WithStereo();
-            
-            var buffs = new Buff[2];
-            
-            Save(() => Sine(RandomNotes[2]).Panning(0.9).Volume(StereoDynamics).CacheChannel((b, i) => buffs[i] = b)).Play();
-            
-            Save(() => Sample(buffs[0]).Panning(0) +
-                       Sample(buffs[1]).Panning(1)).Play();
-        }
-        
-        // Simple Cases
-        
         [TestMethod]
         public void Mono_Play_Test() => Run(Mono_Play);
         void Mono_Play()
@@ -241,7 +199,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Stereo_Play_Test_2Calls() => Run(Stereo_Play_2Calls);
         void Stereo_Play_2Calls()
         { 
-            WithStereo().Sine(RandomNotes[7]).Volume(StereoDynamics).Play().SpeedUp(1.5).Play();
+            WithStereo().Sine(RandomNotes[7]).Volume(StereoDynamics).Play("Play1").SpeedUp(1.5).Play("Play2");
         }
         
         [TestMethod]
@@ -251,6 +209,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithStereo().Sine(RandomNotes[8]).Volume(StereoDynamics).Save().Play();
         }
         
+        // TODO: Plays 2x
         [TestMethod]
         public void Stereo_Save_Test_2Calls() => Run(Stereo_Save_2Calls);
         void Stereo_Save_2Calls()
@@ -276,7 +235,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void Stereo_PlayChannel_Test() => WithStereo().Run(Stereo_PlayChannel);
         void Stereo_PlayChannel()
         { 
-            Sine(B4).Volume(StereoDynamics).PlayChannel();
+            Sine(RandomNotes[12]).Volume(StereoDynamics).PlayChannel();
         }
         
         [TestMethod]
@@ -324,12 +283,53 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Add
             (
-                Sine(RandomNotes[17] * 1).Volume(StereoDynamics).Play(),
+                Sine(RandomNotes[17] * 1).Volume(StereoDynamics).Play("Play1"),
                 Sine(RandomNotes[17] * 2).Volume(StereoDynamics).Volume(0.2),
-                Sine(RandomNotes[17] * 3).Volume(StereoDynamics).Panning(0.03).Play().Volume(0.1),
+                Sine(RandomNotes[17] * 3).Volume(StereoDynamics).Panning(0.03).Play("Play2").Volume(0.1),
                 Sine(RandomNotes[17] * 4).Volume(StereoDynamics).Volume(0.08),
                 Sine(RandomNotes[17] * 5).Volume(0.05).Volume(StereoDynamics).Panning(0.9).PlayChannel((b, i) => b.Save())
             ).Play();
+        }
+
+        // Problems
+        
+        [TestMethod]
+        public void Stereo_RecombineChannelsExplicit_Test() => new MidChainStreamingTests().Stereo_RecombineChannelsExplicit();
+        void Stereo_RecombineChannelsExplicit() 
+        {
+            WithStereo();
+            WithAudioLength(0.5);
+            
+            var buffs = new Buff[2];
+            
+            // The delegate creates a non-trivial convergence point.
+            
+            Save(() => Sine(RandomNotes[1]).Panning(0.1).Volume(StereoDynamics).CacheChannel((b, i) => buffs[i] = b)).Play();
+            
+            IsNotNull(() => buffs[0]);
+            IsNotNull(() => buffs[1]);
+            
+            buffs[0].Save().Play();
+            buffs[1].Save().Play();
+            
+            // Recombination can only be done after running all tapes.
+           
+            Save(() => Sample(buffs[0]).Panning(0) +
+                       Sample(buffs[1]).Panning(1)).Play();
+        }
+        
+        [TestMethod]
+        public void Stereo_RecombineChannelsExplicitly_ShortTest() => new MidChainStreamingTests().Stereo_RecombineChannelsExplicitly_Short();
+        void Stereo_RecombineChannelsExplicitly_Short() 
+        {
+            WithStereo();
+            
+            var buffs = new Buff[2];
+            
+            Save(() => Sine(RandomNotes[2]).Panning(0.9).Volume(StereoDynamics).CacheChannel((b, i) => buffs[i] = b)).Play();
+            
+            Save(() => Sample(buffs[0]).Panning(0) +
+                       Sample(buffs[1]).Panning(1)).Play();
         }
     }
 }
