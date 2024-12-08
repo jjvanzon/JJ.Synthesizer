@@ -50,7 +50,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return tape;
         }
         
-        public Tape[] GetAll() => _tapes.Values.ToArray();
         
         public void Clear() => _tapes.Clear();
 
