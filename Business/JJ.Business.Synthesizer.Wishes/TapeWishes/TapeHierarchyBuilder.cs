@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JJ.Framework.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,10 +14,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
         }
         
-        public void BuildTapeHierarchyRecursive(Tape tape)
+        public void BuildTapeHierarchyRecursive(Tape[] tapes)
         {
-            BuildTapeHierarchyRecursive(tape.Signal, null);
+            tapes.ForEach(BuildTapeHierarchyRecursive);
+            SetTapeNestingLevelsRecursive(tapes);
         }
+        
+        private void BuildTapeHierarchyRecursive(Tape tape) => BuildTapeHierarchyRecursive(tape.Signal, null);
         
         private void BuildTapeHierarchyRecursive(FlowNode node, Tape parentTape)
         {
@@ -59,6 +63,5 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 SetTapeNestingLevelsRecursive(child, level);
             }
         }
-
     }
 }

@@ -62,10 +62,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void ExecutePreProcessing()
         {
-            Tape[] tapes = _tapes.ToArray();
+            var tapes = _tapes.ToArray();
             
             tapes.ForEach(_tapePadder.ApplyPadding);
-            tapes.ForEach(_tapeHierarchyBuilder.BuildTapeHierarchyRecursive);
+            
+            tapes = _tapes.ToArray();
+            
+            _tapeHierarchyBuilder.BuildTapeHierarchyRecursive(tapes);
             
             Console.WriteLine(PlotTapeHierarchy(tapes));
         }
