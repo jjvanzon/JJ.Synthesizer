@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _stereoTapeMatcher = new StereoTapeMatcher();
             _stereoTapeRecombiner = new StereoTapeRecombiner(synthWishes);
             _stereoTapeActionRunner = new StereoTapeActionRunner(synthWishes);
-            _monoTapeActionRunner = new MonoTapeActionRunner();
+            _monoTapeActionRunner = new MonoTapeActionRunner(synthWishes);
             _channelTapeActionRunner = new ChannelTapeActionRunner(synthWishes);
         }
         
