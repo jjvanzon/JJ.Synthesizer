@@ -72,14 +72,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private IList<Tape> RunTapeLeavesConcurrent()
         {
+            int waitTimeMs = (int)(_synthWishes.GetParallelTaskCheckDelay * 1000);
+
+            Console.WriteLine($"{PrettyTime()} Tapes: Leaf check delay = {waitTimeMs} ms");
+            
             Tape[] originalTapeCollection = _tapes.ToArray();
             _tapes.Clear();
             HashSet<Tape> hashSet = originalTapeCollection.ToHashSet();
-
-            int waitTimeMs = (int)(_synthWishes.GetParallelTaskCheckDelay * 1000);
-            
-            Console.WriteLine($"{PrettyTime()} Tapes: Leaf check delay = {waitTimeMs} ms");
-            
             List<Task> tasks = new List<Task>(hashSet.Count);
             
             long i = 0;
@@ -99,10 +98,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 }
             }
             
-            Console.WriteLine($"{PrettyTime()} Tapes: {i} times checked for leaves.");
-            
             Task.WaitAll(tasks.ToArray());
-            
+
+            Console.WriteLine($"{PrettyTime()} Tapes: {i} times checked for leaves.");
+
             return originalTapeCollection;
         }
         
