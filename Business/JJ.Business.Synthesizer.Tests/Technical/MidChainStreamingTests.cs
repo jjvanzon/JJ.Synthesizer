@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         double RandomVolume => RandomNumber(0.8, 1);
         
-        FlowNode RandomSlope => Curve(RandomVolume, RandomVolume);// * Curve(RandomVolume, RandomVolume);
+        FlowNode RandomSlope => Curve(RandomVolume, RandomVolume);
 
         FlowNode DownwardSlope => Curve(@"
          *   *
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                      *
         *                    *");
         
-        FlowNode RandomCurve => RandomSlope * DownwardSlope; // RecorderCurve * 
+        FlowNode RandomCurve => RandomSlope * DownwardSlope;
         
         FlowNode StereoDynamics => RandomCurve.Stretch(GetAudioLength)
                                               .Tremolo(
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         (
             C3, D3, E3, G3,
             C4, D4, E4, G4
-        );        
+        );
         
         public MidChainStreamingTests()
         {
