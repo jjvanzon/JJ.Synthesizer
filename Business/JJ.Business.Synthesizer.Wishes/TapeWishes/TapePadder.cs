@@ -4,18 +4,20 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.Str
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
+        /// <inheritdoc cref="docs._tapePadder" />
     internal class TapePadder
     {
         private readonly SynthWishes _synthWishes;
         private readonly TapeCollection _tapes;
         
+        /// <inheritdoc cref="docs._tapePadder" />
         public TapePadder(SynthWishes synthWishes, TapeCollection tapes)
         {
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
         }
         
-        /// <inheritdoc cref="docs._applypaddingtotape" />
+        /// <inheritdoc cref="docs._tapePadder" />
         public void ApplyPadding(Tape oldTape)
         {
             // Padding only applies to Play and Save actions.

@@ -16,12 +16,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Adds two <see cref="Outlet"/> operands, optimizing for constant values if possible.
         /// </summary>
         public static object _add;
-
-        /// <summary>
-        /// Adds padding to Play and Save tapes,
-        /// without affecting the original tape.
-        /// </summary>
-        public static object _applypaddingtotape;
             
         /// <summary>
         /// Additional entity entry-points for enum-related extension.
@@ -605,6 +599,12 @@ namespace JJ.Business.Synthesizer.Wishes
         /// or else <c>FilePath</c> in prettified form.
         /// </summary>
         public static object _tapename;
+       
+        /// <summary>
+        /// Adds padding to Play and Save tapes,
+        /// without affecting the original tape.
+        /// </summary>
+        public static object _tapePadder;
 
         /// <summary>
         /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or

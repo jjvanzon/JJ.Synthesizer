@@ -8,7 +8,6 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Business.Synthesizer.Wishes.NameHelper;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
@@ -17,6 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     {
         private readonly SynthWishes _synthWishes;
         private readonly TapeCollection _tapes;
+        /// <inheritdoc cref="docs._tapePadder" />
         private readonly TapePadder _tapePadder;
         private readonly StereoTapeMatcher _stereoTapeMatcher;
         private readonly StereoTapeRecombiner _stereoTapeRecombiner;
