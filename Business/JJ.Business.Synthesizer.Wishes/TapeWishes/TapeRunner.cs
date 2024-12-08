@@ -145,6 +145,27 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return tapes;
         }
                     
+        private void BuildTapeHierarchyRecursive(FlowNode node, Tape parentTape = null)
+        {
+            Tape tape = _tapes.TryGet(node);
+            if (tape != null)
+            {
+                if (parentTape != null && tape.ParentTape == null)
+                {
+                    tape.ParentTape = parentTape;
+                    parentTape.ChildTapes.Add(tape);
+                }
+                
+                parentTape = tape;
+            }
+            
+            foreach (FlowNode child in node.Operands)
+            {
+                if (child == null) continue;
+                BuildTapeHierarchyRecursive(child, parentTape);
+            }
+        }
+        
         private void SetTapeNestingLevelsRecursive(IList<Tape> tapes)
         {
             var roots = tapes.Where(x => x.ParentTape == null).ToArray();
@@ -166,27 +187,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
 
-        private void SetTapeParentChildRelationshipsRecursive(FlowNode node, Tape parentTape = null)
-        {
-            Tape tape = _tapes.TryGet(node);
-            if (tape != null)
-            {
-                if (parentTape != null && tape.ParentTape == null)
-                {
-                    tape.ParentTape = parentTape;
-                    parentTape.ChildTapes.Add(tape);
-                }
-                
-                parentTape = tape;
-            }
-            
-            foreach (FlowNode child in node.Operands)
-            {
-                if (child == null) continue;
-                SetTapeParentChildRelationshipsRecursive(child, parentTape);
-            }
-        }
-        
         private void RunTapeLeafPipeline(IList<Tape> tapeCollection)
         {
             int waitTimeMs = (int)(_synthWishes.GetParallelTaskCheckDelay * 1000);
