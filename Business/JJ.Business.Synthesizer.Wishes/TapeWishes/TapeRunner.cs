@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
+// ReSharper disable ArrangeStaticMemberQualifier
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -44,7 +47,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 _synthWishes.WithSamplingRate(_synthWishes.GetSamplingRate);
                
                 ExecutePreProcessing();
-                var tapes = RunTapesPerChannel();
+                var tapes = RunTapeLeavesConcurrent();
                 ExecutePostProcessing(tapes);
             }
             finally
@@ -55,10 +58,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void ExecutePreProcessing()
         {
-            foreach (Tape tape in _tapes.ToArray())
-            {
-                ApplyPadding(tape);
-            }
+            Tape[] tapes = _tapes.ToArray();
+            
+            tapes.ForEach(ApplyPadding);
+            tapes.ForEach(BuildTapeHierarchyRecursive);
+            
+            SetTapeNestingLevelsRecursive(tapes);
+            
+            Console.WriteLine(PlotTapeHierarchy(tapes));
         }
         
         /// <inheritdoc cref="docs._applypaddingtotape" />
@@ -112,44 +119,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 $"{PrettyTime()} Padding: Tape.Duration = {oldDuration} + " +
                 $"{leadingSilence} + {trailingSilence} = {newTape.Duration}");
         }
-        
-        private IList<Tape> RunTapesPerChannel()
+
+        private void BuildTapeHierarchyRecursive(Tape tape)
         {
-            Tape[] tapes = _tapes.GetAll();
-            
-            foreach (Tape tape in tapes)
-            {
-                BuildTapeHierarchyRecursive(tape.Signal);
-            }
-            
-            _tapes.Clear();
-
-            SetTapeNestingLevelsRecursive(tapes);
-            
-            string tapeLog = LogWishes.PlotTapeHierarchy(tapes);
-            Console.WriteLine(tapeLog);
-            
-            RunTapeLeafPipeline(tapes);
-            
-            return tapes;
-
-            var tapeGroups = tapes.GroupBy(x => x.Channel)
-                                  .Select(x => x.ToArray())
-                                  .ToArray();
-            
-            var tasks = new Task[tapeGroups.Length];
-            for (var i = 0; i < tapeGroups.Length; i++)
-            {
-                Tape[] tapeGroup = tapeGroups[i];
-                tasks[i] = Task.Run(() => RunTapeLeafPipeline(tapeGroup));
-            }
-            
-            Task.WaitAll(tasks);
-            
-            return tapes;
+            BuildTapeHierarchyRecursive(tape.Signal, null);
         }
-
-        private void BuildTapeHierarchyRecursive(FlowNode node, Tape parentTape = null)
+        
+        private void BuildTapeHierarchyRecursive(FlowNode node, Tape parentTape)
         {
             Tape tape = _tapes.TryGet(node);
             if (tape != null)
@@ -170,7 +146,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        private void SetTapeNestingLevelsRecursive(IList<Tape> tapes)
+        private static void SetTapeNestingLevelsRecursive(IList<Tape> tapes)
         {
             var roots = tapes.Where(x => x.ParentTape == null).ToArray();
             foreach (Tape root in roots)
@@ -179,7 +155,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
 
-        private void SetTapeNestingLevelsRecursive(Tape tape, int level = 1)
+        private static void SetTapeNestingLevelsRecursive(Tape tape, int level = 1)
         {
             // Don't overwrite in case of multiple usage.
             if (tape.NestingLevel == default) tape.NestingLevel = level++;
@@ -191,23 +167,26 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        private void RunTapeLeafPipeline(IList<Tape> tapeCollection)
+        private IList<Tape> RunTapeLeavesConcurrent()
         {
+            Tape[] originalTapeCollection = _tapes.ToArray();
+            _tapes.Clear();
+            HashSet<Tape> hashSet = originalTapeCollection.ToHashSet();
+
             int waitTimeMs = (int)(_synthWishes.GetParallelTaskCheckDelay * 1000);
             
             Console.WriteLine($"{PrettyTime()} Tapes: Leaf check delay = {waitTimeMs} ms");
             
-            List<Tape> tapes = tapeCollection.ToList(); // Copy list to keep item removals local.
-            List<Task> tasks = new List<Task>(tapes.Count);
+            List<Task> tasks = new List<Task>(hashSet.Count);
             
             long i = 0;
-            while (tapes.Count > 0)
+            while (hashSet.Count > 0)
             {
                 i++;
-                Tape leaf = tapes.FirstOrDefault(x => x.ChildTapes.Count == 0);
+                Tape leaf = hashSet.FirstOrDefault(x => x.ChildTapes.Count == 0);
                 if (leaf != null)
                 {
-                    tapes.Remove(leaf);
+                    hashSet.Remove(leaf);
                     Task task = Task.Run(() => ProcessLeaf(leaf));
                     tasks.Add(task);
                 }
@@ -220,6 +199,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Console.WriteLine($"{PrettyTime()} Tapes: {i} times checked for leaves.");
             
             Task.WaitAll(tasks.ToArray());
+            
+            return originalTapeCollection;
         }
         
         private void ProcessLeaf(Tape leaf)
@@ -236,12 +217,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 // so let’s make sure the while loop can finish properly.
                 CleanupParentChildRelationship(leaf);
             }
-        }
-        
-        private static void CleanupParentChildRelationship(Tape leaf)
-        {
-            leaf.ParentTape?.ChildTapes.Remove(leaf);
-            leaf.ParentTape = null;
         }
         
         internal void RunTape(Tape tape)
@@ -265,6 +240,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
             
             Console.WriteLine($"{PrettyTime()}  Stop Tape: (Level {tape.NestingLevel}) {tape.GetName} ");
+        }
+                
+        private static void CleanupParentChildRelationship(Tape leaf)
+        {
+            leaf.ParentTape?.ChildTapes.Remove(leaf);
+            leaf.ParentTape = null;
         }
         
         private void ExecutePostProcessing(IList<Tape> tapes)
@@ -293,7 +274,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 var tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
                 var stereoTapes = _stereoTapeRecombiner.RecombineChannelsConcurrent(tapePairs);
                 
-                foreach (var stereoTape in stereoTapes)
+                foreach (Tape stereoTape in stereoTapes)
                 {
                     _stereoTapeActionRunner.RunActions(stereoTape);
                 }
