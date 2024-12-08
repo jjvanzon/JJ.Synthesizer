@@ -219,13 +219,13 @@ namespace JJ.Business.Synthesizer.Wishes
             return descriptor;
         }
         
-        // Math Optimization
+        // Math Boost
 
         public static void LogMathOptimizationTitle()
         {
             Console.WriteLine("");
-            Console.WriteLine("Math Optimizations");
-            Console.WriteLine("------------------");
+            Console.WriteLine("Math Boost");
+            Console.WriteLine("----------");
             Console.WriteLine("");
         }
 
