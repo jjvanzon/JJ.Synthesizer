@@ -529,9 +529,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Times(params FlowNode[] factors) => Multiply(factors);
 
         /// <inheritdoc cref="docs._multiply"/>
-        public FlowNode Volume(FlowNode b) => Multiply(b).SetName();
+        public FlowNode Volume(FlowNode b) => Multiply(b);//.SetName();
         /// <inheritdoc cref="docs._multiply"/>
-        public FlowNode Volume(double b) => Multiply(b).SetName();
+        public FlowNode Volume(double b) => Multiply(b);//.SetName();
     }
     
     // Subtract SynthWishes

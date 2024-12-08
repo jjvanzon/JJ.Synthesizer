@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             string stringified = outlet.Stringify(true, true);
             
-            AreEqual("Volume Multiply(Curve In * (Sine(1,440) * 2))", stringified);
+            AreEqual("Curve In * (Sine(1,440) * 2)", stringified);
         }
         
         [TestMethod]
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             string actual = _[wrapper].Stringify();
 
-            string expected = "Volume Multiply(" + NewLine +
+            string expected = "Multiply(" + NewLine +
                               "  Multiply(" + NewLine + 
                               "    Sine(1,440) * " + NewLine +
                               "    Curve In) * 2)";
