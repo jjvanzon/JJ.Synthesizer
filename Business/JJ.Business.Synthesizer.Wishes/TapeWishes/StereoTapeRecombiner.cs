@@ -74,6 +74,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Callback = tapePrototype.Callback
         };
         
+        //private void MaterializeStereoTape(Tape stereoTape, IList<FlowNode> channelSignals) 
+        //    => stereoTape.Buff = _synthWishes.MakeBuff(
+        //        channelSignals, stereoTape.Duration,
+        //        inMemory: !_synthWishes.GetCacheToDisk, default, null, null, null);
+        
         private void MaterializeStereoTape(Tape stereoTape, IList<FlowNode> channelSignals) 
             => stereoTape.Buff = _synthWishes.MaterializeCache(
                 channelSignals, stereoTape.Duration, stereoTape.GetName);

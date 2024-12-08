@@ -286,7 +286,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (_synthWishes.IsStereo)
             {
-                // Run Actions
                 var tapesWithActions = tapes.Where(x => x.IsPlay ||
                                                         x.IsSave ||
                                                         x.Callback != null).ToArray();
