@@ -99,8 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public FlowNode Tape(FlowNode signal, FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(signal, callerMemberName);
-            tape.Duration = duration ?? GetAudioLength;
+            Tape tape = _tapes.GetOrCreate(signal, duration, null, callerMemberName);
             tape.IsTape = true;
             return signal;
         }

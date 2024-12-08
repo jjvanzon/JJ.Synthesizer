@@ -87,8 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             // Add tape
             //if (oldTape.IsTape || oldTape.IsCache)
-            Tape newTape = _tapes.GetOrCreate(newNode, oldTape.FilePath);
-            newTape.Duration = oldTape.Duration;
+            Tape newTape = _tapes.GetOrCreate(newNode, oldTape.Duration, oldTape.FilePath);
             newTape.Channel = oldTape.Channel;
             newTape.IsPlay = oldTape.IsPlay;
             newTape.IsSave = oldTape.IsSave;

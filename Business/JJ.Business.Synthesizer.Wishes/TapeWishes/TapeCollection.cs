@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -20,7 +19,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public int Count => _tapes.Count;
         
-        public Tape GetOrCreate(FlowNode signal, string filePath, [CallerMemberName] string callerMemberName = null)
+        public Tape GetOrCreate(FlowNode signal, FlowNode duration, string filePath, [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
@@ -30,8 +29,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
             
             tape.Signal = signal;
+            tape.Duration = duration ?? _synthWishes.GetAudioLength;
             tape.Channel = _synthWishes.GetChannel;
-            //tape.FilePath = ResolveFilePath(filePath, callerMemberName, _synthWishes.GetAudioFormat);
             tape.FilePath = filePath;
             tape.FallBackName = callerMemberName;
             
