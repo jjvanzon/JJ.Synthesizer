@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 }
                 
                 // Generate audio
-                cacheBuffs[i] = synthWishes.Cache(channelSignals, synthWishes.GetAudioLength, names[i]);
+                cacheBuffs[i] = synthWishes.MaterializeCache(channelSignals, synthWishes.GetAudioLength, names[i]);
                 
                 Console.WriteLine($"{PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
             });

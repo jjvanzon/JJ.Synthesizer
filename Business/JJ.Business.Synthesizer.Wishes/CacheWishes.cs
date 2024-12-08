@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff Cache(
+        public Buff MaterializeCache(
             IList<FlowNode> channelSignals, FlowNode duration = null,
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
