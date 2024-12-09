@@ -39,12 +39,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         [TestCategory("Long")]
-        public void FM_Jingle_Test() => new FMTests().FM_Jingle();
+        public void FM_Jingle_Test() => Run(FM_Jingle);
         void FM_Jingle()
         {
             WithPlay();
-            var buff = Save(() => DeepEcho(Jingle()) * 0.2);
-            this.Play(buff);
+            DeepEcho(Jingle()).Volume(0.2).Save().Play();
         }
         
         [TestMethod]
