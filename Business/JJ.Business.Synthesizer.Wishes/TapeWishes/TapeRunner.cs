@@ -153,9 +153,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             leaf.ParentTape = null;
         }
 
-        private void ExecutePostProcessing(IList<Tape> tapes) => ExecutePostProcessing_Slow(tapes);
+        private void ExecutePostProcessing(IList<Tape> tapes) => ExecutePostProcessing_New(tapes);
 
-        private void ExecutePostProcessing_Fast(IList<Tape> tapes)
+        private void ExecutePostProcessing_Old(IList<Tape> tapes)
         {
             // Run Channel Actions (in post-processing, that might otherwise hold up the taping tasks)
             foreach (Tape tape in tapes)
@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
                 
-        private void ExecutePostProcessing_Slow(IList<Tape> tapes)
+        private void ExecutePostProcessing_New(IList<Tape> tapes)
         {
             IList<Tape> stereoTapes = Array.Empty<Tape>();
             if (_synthWishes.IsStereo)
