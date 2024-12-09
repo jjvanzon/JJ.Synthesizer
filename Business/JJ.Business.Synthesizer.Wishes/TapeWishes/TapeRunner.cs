@@ -78,38 +78,50 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             Tape[] originalTapeCollection = _tapes.ToArray();
             _tapes.Clear();
-            HashSet<Tape> hashSet = originalTapeCollection.ToHashSet();
-            List<Task> tasks = new List<Task>(hashSet.Count);
+            Tape[] tapesTODO = originalTapeCollection.ToArray();
+            int count = tapesTODO.Length;
+            Task[] tasks = new Task[count];
             
-            long waitCount = 0;
-            while (hashSet.Count > 0)
+            int waitCount = 0;
+            
+            while (!AllItemsAreNull(tapesTODO))
             {
-                Tape leaf = hashSet.FirstOrDefault(x => x.ChildTapes.Count == 0);
-                if (leaf != null)
+                for (int i = 0; i < count; i++)
                 {
-                    LogAction(leaf, "Leaf Found", "Running");
+                    Tape tape = tapesTODO[i];
                     
-                    hashSet.Remove(leaf);
-                    Task task = Task.Run(() => ProcessLeaf(leaf));
-                    tasks.Add(task);
+                    if (tape == null) continue;
+                    if (tape.ChildTapes.Count != 0) continue;
+                    
+                    LogAction(tape, "Leaf Found", "Running");
+                    tapesTODO[i] = null;
+                    tasks[i] = Task.Run(() => ProcessLeaf(tape));
                 }
-                else
-                {
-                    waitCount++;
+              
+                waitCount++;
+                
+                LogAction(nameof(Tape), "No Leaf", "Wait... " + waitCount);
                     
-                    LogAction(nameof(Tape), "No Leaf", "Wait... " + waitCount);
-                    
-                    _checkForNewLeavesReset.WaitOne();
-                    
-                    LogAction(nameof(Tape), "Task Finished", "Continue");
-                }
-            }
+                _checkForNewLeavesReset.WaitOne();
+                
+                LogAction(nameof(Tape), "Task Finished", "Continue");
+            } 
             
-            Task.WaitAll(tasks.ToArray());
+            Task.WaitAll(tasks);
 
             LogAction(nameof(Tape), "Total waits for leaves: " + waitCount);
 
             return originalTapeCollection;
+        }
+        
+        private bool AllItemsAreNull(Tape[] tapes)
+        {
+            for (var i = 0; i < tapes.Length; i++)
+            {
+                if (tapes[i] != null) return false;
+            }
+            
+            return true;
         }
         
         private void ProcessLeaf(Tape leaf)
