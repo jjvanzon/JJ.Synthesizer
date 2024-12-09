@@ -209,7 +209,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithStereo().Sine(RandomNotes[8]).Volume(StereoDynamics).Save().Play();
         }
         
-        // TODO: Plays 2x
         [TestMethod]
         public void Stereo_Save_Test_2Calls() => Run(Stereo_Save_2Calls);
         void Stereo_Save_2Calls()
