@@ -219,6 +219,13 @@ namespace JJ.Business.Synthesizer.Wishes
             return descriptor;
         }
         
+        // Tape Actions
+        
+        public static void LogAction(Tape tape, string action)
+        {
+            Console.WriteLine($"{PrettyTime()}: {action} Tape: {GetTapeDescriptor(tape)}" );
+        }
+        
         // Math Boost
 
         public static void LogMathOptimizationTitle()
