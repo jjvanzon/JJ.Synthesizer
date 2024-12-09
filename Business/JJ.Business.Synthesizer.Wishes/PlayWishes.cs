@@ -212,6 +212,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (mustPlay)
             {
+                lines.Add("");
                 lines.Add("Playing audio...");
                 
                 if (bytes != null && bytes.Length != 0)
@@ -228,9 +229,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
 
                 lines.Add("");
-
                 lines.Add("Done.");
-                lines.Add("");
 
                 // Write Lines
                 lines.ForEach(x => Console.WriteLine(x ?? ""));

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Reflection;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -42,19 +42,26 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             if (tape.Channel == null) throw new NullException(() => tape.Channel);
 
-            Buff replacementBuff = tape.ChannelCallback?.Invoke(tape.Buff, tape.Channel.Value);
-            if (replacementBuff != null)
+            if (tape.ChannelCallback != null)
             {
-                tape.Buff = replacementBuff;
+                LogAction(tape, nameof(SynthWishes.CacheChannel));
+                
+                Buff replacementBuff = tape.ChannelCallback(tape.Buff, tape.Channel.Value);
+                if (replacementBuff != null)
+                {
+                    tape.Buff = replacementBuff;
+                }
             }
         }
-        
+
         public void SaveIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
             if (tape.IsSaveChannel)
             {
+                LogAction(tape, nameof(SynthWishes.SaveChannel));
+                
                 _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
             }
         }
@@ -65,6 +72,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             if (tape.IsPlayChannel || _synthWishes.GetPlayAllTapes)
             {
+                LogAction(tape, nameof(SynthWishes.PlayChannel));
+             
                 _synthWishes.Play(tape.Buff);
             }
         }
@@ -134,6 +143,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (tape.Callback != null)
             {
+                LogAction(tape, nameof(SynthWishes.Cache));
+
                 Buff replacementBuff = tape.Callback(tape.Buff);
                 if (replacementBuff != null)
                 {
@@ -148,6 +159,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (tape.IsSave)
             {
+                LogAction(tape, nameof(SynthWishes.Save));
+
                 _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
             }
         }
@@ -158,6 +171,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (tape.IsPlay)
             {
+                LogAction(tape, nameof(SynthWishes.Play));
+                
                 _synthWishes.Play(tape.Buff);
             }
         }
@@ -227,6 +242,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
             if (tape.Callback != null)
             {
+                LogAction(tape, nameof(SynthWishes.Cache));
+                
                 Buff replacementBuff = tape.Callback(tape.Buff);
                 if (replacementBuff != null)
                 {
@@ -241,6 +258,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (tape.IsSave)
             {
+                LogAction(tape, nameof(SynthWishes.Save));
+                
                 _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
             }
         }
@@ -251,6 +270,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (tape.IsPlay)
             {
+                LogAction(tape, nameof(SynthWishes.Play));
+                
                 _synthWishes.Play(tape.Buff);
             }
         }

@@ -228,9 +228,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 fileStream.Write(bytes, 0, bytes.Length);
             }
             
-            Console.WriteLine($"Output file:{NewLine}'{numberedFilePath}'");
+            Console.WriteLine("");
             Console.WriteLine($"Output file:{NewLine}" +
                               $"{numberedFilePath}");
+            Console.WriteLine("");
         }
             
         public static void Save(
@@ -247,10 +248,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 } 
             }
 
-            Console.WriteLine($"Output file:{NewLine}'{numberedDestFilePath}'{NewLine}(Copied from '{sourceFilePath}')");
+            Console.WriteLine("");
             Console.WriteLine($"Output file:{NewLine}" +
                               $"{numberedDestFilePath}{NewLine}" +
                               $"(Copied from {sourceFilePath})");
+            Console.WriteLine("");
         }
     }
     

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -31,9 +31,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             Parallel.For(0, count, i =>
             {
-                Console.WriteLine($"{PrettyTime()} Start Tape: (Stereo) {stereoTapes[i].GetName}");
+                LogAction(stereoTapes[i], "Start");
                 MaterializeStereoTape(stereoTapes[i], channelSignals[i]);
-                Console.WriteLine($"{PrettyTime()}  Stop Tape: (Stereo) {stereoTapes[i].GetName}");
+                LogAction(stereoTapes[i], "Stop");
             });
             
             return stereoTapes;

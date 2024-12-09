@@ -193,10 +193,19 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static string GetTapeDescriptor(Tape tape)
         {
-            string descriptor = tape.GetName;
-            if (string.IsNullOrWhiteSpace(descriptor))
+            if (tape == null)
             {
-                descriptor = "<Untitled>";
+                return "<Tape=null>";
+            }
+            
+            string prefix;
+            if (tape.Channel == null) prefix = "(Stereo) ";
+            else prefix = $"(Level {tape.NestingLevel}) ";
+            
+            string nameDescriptor = tape.GetName;
+            if (string.IsNullOrWhiteSpace(nameDescriptor))
+            {
+                nameDescriptor = "<Untitled>";
             }
             
             // Add flag if true
@@ -211,19 +220,21 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.IsPadding) flagStrings.Add("pad");
             if (tape.Channel.HasValue) flagStrings.Add($"c{tape.Channel}");
             if (tape.Duration != null) flagStrings.Add($"{tape.Duration.Value}s");
+            
+            string flagDescriptor = default;
             if (flagStrings.Count > 0)
             {
-                descriptor += " {" + string.Join(",", flagStrings) + "}";
+                flagDescriptor = " {" + string.Join(",", flagStrings) + "}";
             }
 
-            return descriptor;
+            return prefix + nameDescriptor + flagDescriptor;
         }
         
         // Tape Actions
         
         public static void LogAction(Tape tape, string action)
         {
-            Console.WriteLine($"{PrettyTime()}: {action} Tape: {GetTapeDescriptor(tape)}" );
+            Console.WriteLine($"{PrettyTime()} {action} Tape: \"{GetTapeDescriptor(tape)}\"" );
         }
         
         // Math Boost

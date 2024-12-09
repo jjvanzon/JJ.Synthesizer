@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         internal void RunTape(Tape tape)
         {
-            Console.WriteLine($"{PrettyTime()} Start Tape: (Level {tape.NestingLevel}) {tape.GetName}");
+            LogAction(tape, "Start");
             
             // Cache Buffer
             tape.Buff = tape.Signal.SynthWishes.MaterializeCache(tape.Signal, tape.Duration, tape.GetName);
@@ -144,7 +144,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 inlet.LinkTo(sample);
             }
             
-            Console.WriteLine($"{PrettyTime()}  Stop Tape: (Level {tape.NestingLevel}) {tape.GetName} ");
+            LogAction(tape, "Stop");
         }
                 
         private static void CleanupParentChildRelationship(Tape leaf)
