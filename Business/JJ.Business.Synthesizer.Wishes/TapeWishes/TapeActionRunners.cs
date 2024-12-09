@@ -79,6 +79,16 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
         }
         
+        // Run All Action Types
+        
+        public void RunActions(IList<Tape> tapes)
+        {
+            foreach (Tape stereoTape in tapes)
+            {
+                RunActions(stereoTape);
+            }
+        }
+
         public void RunActions(Tape tape)
         {
             CacheIfNeeded(tape);
@@ -86,11 +96,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             PlayIfNeeded(tape);
         }
         
+        // Run Lists per Action Type
+        
         public void CacheIfNeeded(IList<Tape> tapes)
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
-            
-            if (!_synthWishes.IsMono) return;
             
             foreach (Tape tape in tapes)
             {
@@ -102,8 +112,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
             
-            if (!_synthWishes.IsMono) return;
-            
             foreach (Tape tape in tapes)
             {
                 SaveIfNeeded(tape);
@@ -114,19 +122,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
             
-            if (!_synthWishes.IsMono) return;
-            
             foreach (Tape tape in tapes)
             {
                 PlayIfNeeded(tape);
             }
         }
         
-        private void CacheIfNeeded(Tape tape)
+        public void CacheIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            
-            if (!_synthWishes.IsMono) return;
             
             if (tape.Callback != null)
             {
@@ -137,24 +141,20 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 }
             }
         }
-
-        private void SaveIfNeeded(Tape tape)
+        
+        public void SaveIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            
-            if (!_synthWishes.IsMono) return;
             
             if (tape.IsSave)
             {
                 _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
             }
         }
-
-        private void PlayIfNeeded(Tape tape)
+        
+        public void PlayIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            
-            if (!_synthWishes.IsMono) return;
             
             if (tape.IsPlay)
             {
@@ -171,7 +171,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
         }
-
+        
+        // Run All Action Types
+        
         public void RunActions(IList<Tape> tapes)
         {
             foreach (Tape stereoTape in tapes)
@@ -182,19 +184,17 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public void RunActions(Tape tape)
         {
-            if (!_synthWishes.IsStereo) return;
-            
             CacheIfNeeded(tape);
             SaveIfNeeded(tape);
             PlayIfNeeded(tape);
         }
         
+        // Run Lists per Action Type
+        
         public void CacheIfNeeded(IList<Tape> tapes)
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
         
-            if (!_synthWishes.IsStereo) return;
-            
             foreach (Tape tape in tapes)
             {
                 CacheIfNeeded(tape);
@@ -204,8 +204,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public void SaveIfNeeded(IList<Tape> tapes)
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
-            
-            if (!_synthWishes.IsStereo) return;
             
             foreach (Tape tape in tapes)
             {
@@ -217,8 +215,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
             
-            if (!_synthWishes.IsStereo) return;
-            
             foreach (Tape tape in tapes)
             {
                 PlayIfNeeded(tape);
@@ -229,8 +225,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
         
-            if (!_synthWishes.IsStereo) return;
-            
             if (tape.Callback != null)
             {
                 Buff replacementBuff = tape.Callback(tape.Buff);
@@ -241,29 +235,24 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        public void PlayIfNeeded(Tape tape)
-        {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
-            
-            if (!_synthWishes.IsStereo) return;
-            
-            if (tape.IsPlay)
-            {
-                _synthWishes.Play(tape.Buff);
-            }
-        }
-        
         public void SaveIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            
-            if (!_synthWishes.IsStereo) return;
             
             if (tape.IsSave)
             {
                 _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
             }
         }
-
+        
+        public void PlayIfNeeded(Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            
+            if (tape.IsPlay)
+            {
+                _synthWishes.Play(tape.Buff);
+            }
+        }
     }
 }
