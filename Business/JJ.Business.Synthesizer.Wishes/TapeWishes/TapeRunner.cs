@@ -152,8 +152,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             leaf.ParentTape?.ChildTapes.Remove(leaf);
             leaf.ParentTape = null;
         }
-        
-        private void ExecutePostProcessing(IList<Tape> tapes)
+
+        private void ExecutePostProcessing(IList<Tape> tapes) => ExecutePostProcessing_Slow(tapes);
+
+        private void ExecutePostProcessing_Fast(IList<Tape> tapes)
         {
             // Run Channel Actions (in post-processing, that might otherwise hold up the taping tasks)
             foreach (Tape tape in tapes)

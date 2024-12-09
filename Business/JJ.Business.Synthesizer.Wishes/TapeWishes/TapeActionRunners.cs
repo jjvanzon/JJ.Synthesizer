@@ -109,6 +109,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public void CacheIfNeeded(IList<Tape> tapes)
         {
+            if (!_synthWishes.IsMono) return;
+            
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
             
             foreach (Tape tape in tapes)
@@ -119,6 +121,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         public void SaveIfNeeded(IList<Tape> tapes)
         {
+            if (!_synthWishes.IsMono) return;
+                
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
             
             foreach (Tape tape in tapes)
@@ -129,6 +133,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public void PlayIfNeeded(IList<Tape> tapes)
         {
+            if (!_synthWishes.IsMono) return;
+            
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
             
             foreach (Tape tape in tapes)
@@ -137,7 +143,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        public void CacheIfNeeded(Tape tape)
+        // Actions Per Item
+        
+        private void CacheIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
@@ -153,7 +161,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        public void SaveIfNeeded(Tape tape)
+        private void SaveIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
@@ -165,7 +173,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        public void PlayIfNeeded(Tape tape)
+        private void PlayIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
@@ -236,7 +244,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        public void CacheIfNeeded(Tape tape)
+        // Actions Per Item
+        
+        private void CacheIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
         
@@ -252,7 +262,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        public void SaveIfNeeded(Tape tape)
+        private void SaveIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
@@ -264,7 +274,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        public void PlayIfNeeded(Tape tape)
+        private void PlayIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
