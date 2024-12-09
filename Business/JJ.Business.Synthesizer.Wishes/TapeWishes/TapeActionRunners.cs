@@ -15,6 +15,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
         }
         
+        // Run All Action Types
+        
         private void RunActions(Tape tape)
         {
             CacheIfNeeded(tape);
@@ -22,21 +24,21 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             PlayIfNeeded(tape);
         }
         
+        // Run Lists per Action Type
+        
         public void SaveIfNeeded(IList<Tape> tapes)
         {
-            foreach (Tape tape in tapes)
-            {
-                SaveIfNeeded(tape);
-            }
+            if (tapes == null) throw new ArgumentNullException(nameof(tapes));
+            tapes.ForEach(SaveIfNeeded);
         }
         
         public void PlayIfNeeded(IList<Tape> tapes)
         {
-            foreach (Tape tape in tapes)
-            {
-                PlayIfNeeded(tape);
-            }
+            if (tapes == null) throw new ArgumentNullException(nameof(tapes));
+            tapes.ForEach(PlayIfNeeded);
         }
+        
+        // Actions Per Item
         
         public void CacheIfNeeded(Tape tape)
         {
@@ -54,8 +56,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 }
             }
         }
-
-        public void SaveIfNeeded(Tape tape)
+        
+        private void SaveIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
@@ -67,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        public void PlayIfNeeded(Tape tape)
+        private void PlayIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
 
@@ -191,7 +193,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             tapes.ForEach(RunActions);
         }
         
-        public void RunActions(Tape tape)
+        private void RunActions(Tape tape)
         {
             CacheIfNeeded(tape);
             SaveIfNeeded(tape);
