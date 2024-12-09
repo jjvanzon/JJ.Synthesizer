@@ -185,5 +185,29 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 }
             }
         }
+                
+        private void ExecutePostProcessing_Slow(IList<Tape> tapes)
+        {
+            IList<Tape> stereoTapes = Array.Empty<Tape>();
+            if (_synthWishes.IsStereo)
+            {
+                var tapesWithActions = tapes.Where(x => x.IsPlay ||
+                                                        x.IsSave ||
+                                                        x.Callback != null).ToArray();
+                var tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
+                stereoTapes = _stereoTapeRecombiner.RecombineChannelsConcurrent(tapePairs);
+            }
+
+            _monoTapeActionRunner.CacheIfNeeded(tapes);
+            _stereoTapeActionRunner.CacheIfNeeded(stereoTapes);
+            
+            _channelTapeActionRunner.SaveIfNeeded(tapes);
+            _monoTapeActionRunner.SaveIfNeeded(tapes);
+            _stereoTapeActionRunner.SaveIfNeeded(stereoTapes);
+
+            _channelTapeActionRunner.PlayIfNeeded(tapes);
+            _monoTapeActionRunner.PlayIfNeeded(tapes);
+            _stereoTapeActionRunner.PlayIfNeeded(stereoTapes);
+        }
     }
 }
