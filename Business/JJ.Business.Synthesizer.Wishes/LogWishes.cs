@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
 using static System.IO.File;
 using static System.IO.Path;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
@@ -127,8 +128,8 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private static void PlotTapeHierarchy(IList<Tape> tapes, StringBuilderWithIndentationWish sb, bool includeCalculationGraphs)
         {
-            sb.AppendLine("Tape Hierarchy");
-            sb.AppendLine("--------------");
+            sb.AppendLine("Tapes Tree");
+            sb.AppendLine("----------");
             
             if (tapes == null)
             {
@@ -232,11 +233,48 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Tape Actions
         
-        public static void LogAction(Tape tape, string action)
-        {
-            Console.WriteLine($"{PrettyTime()} {action} Tape: \"{GetTapeDescriptor(tape)}\"" );
-        }
+        public static void LogAction(string typeName, string message) 
+            => LogActionBase(null, typeName, null, message);
         
+        public static void LogAction(string typeName, string action, string message) 
+            => LogActionBase(null, typeName, action, message);
+        
+        public static void LogAction(Tape tape, string action) 
+            => LogActionBase(tape, null, action, null);
+        
+        public static void LogAction(Tape tape, string action, string message) 
+            => LogActionBase(tape, null, action, message);
+        
+        private static void LogActionBase(Tape tape, string typeName, string action, string message)
+        {
+            if (!FilledIn(typeName)) typeName = nameof(Tape);
+            
+            string text = PrettyTime() + " [" + typeName.ToUpper() + "]";
+            
+            if (FilledIn(action))
+            {
+                text += " " + action;
+            }
+
+            if (FilledIn(action) && tape != null)
+            {
+                text += ":";
+            }
+            
+            if (tape != null)
+            {
+                text += " " + @"""" + GetTapeDescriptor(tape) + @"""";
+            }
+
+            if (FilledIn(message))
+            {
+                text += " " + message;
+            }
+
+            Console.WriteLine(text); 
+        }
+
+
         // Math Boost
 
         public static void LogMathOptimizationTitle()

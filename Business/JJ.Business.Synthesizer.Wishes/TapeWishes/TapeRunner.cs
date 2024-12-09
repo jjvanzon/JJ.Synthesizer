@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 // ReSharper disable ArrangeStaticMemberQualifier
 
@@ -73,37 +72,42 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Console.WriteLine(PlotTapeHierarchy(tapes));
         }
         
+        private readonly AutoResetEvent _checkForNewLeavesReset = new AutoResetEvent(false);
+        
         private IList<Tape> RunTapeLeavesConcurrent()
         {
-            int waitTimeMs = (int)(_synthWishes.GetParallelTaskCheckDelay * 1000);
-
-            Console.WriteLine($"{PrettyTime()} Tapes: Leaf check delay = {waitTimeMs} ms");
-            
             Tape[] originalTapeCollection = _tapes.ToArray();
             _tapes.Clear();
             HashSet<Tape> hashSet = originalTapeCollection.ToHashSet();
             List<Task> tasks = new List<Task>(hashSet.Count);
             
-            long i = 0;
+            long waitCount = 0;
             while (hashSet.Count > 0)
             {
-                i++;
                 Tape leaf = hashSet.FirstOrDefault(x => x.ChildTapes.Count == 0);
                 if (leaf != null)
                 {
+                    LogAction(leaf, "Leaf Found", "Running");
+                    
                     hashSet.Remove(leaf);
                     Task task = Task.Run(() => ProcessLeaf(leaf));
                     tasks.Add(task);
                 }
                 else
                 {
-                    Thread.Sleep(waitTimeMs);
+                    waitCount++;
+                    
+                    LogAction(nameof(Tape), "No Leaf", "Wait... " + waitCount);
+                    
+                    _checkForNewLeavesReset.WaitOne();
+                    
+                    LogAction(nameof(Tape), "Task Finished", "Continue");
                 }
             }
             
             Task.WaitAll(tasks.ToArray());
 
-            Console.WriteLine($"{PrettyTime()} Tapes: {i} times checked for leaves.");
+            LogAction(nameof(Tape), "Total waits for leaves: " + waitCount);
 
             return originalTapeCollection;
         }
@@ -121,6 +125,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 // Exceptions will propagate after the while loop (where we wait for all tasks to finish),
                 // so let’s make sure the while loop can finish properly.
                 CleanupParentChildRelationship(leaf);
+                
+                _checkForNewLeavesReset.Set();
             }
         }
         
