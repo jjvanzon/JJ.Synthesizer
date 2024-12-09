@@ -83,8 +83,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Task[] tasks = new Task[count];
             
             int waitCount = 0;
+            int todoCount = count;
             
-            while (!AllItemsAreNull(tapesTODO))
+            while (todoCount > 0)
             {
                 for (int i = 0; i < count; i++)
                 {
@@ -96,8 +97,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     LogAction(tape, "Leaf Found", "Running");
                     tapesTODO[i] = null;
                     tasks[i] = Task.Run(() => ProcessLeaf(tape));
+                    
+                    todoCount--;
                 }
-              
+                
                 waitCount++;
                 
                 LogAction(nameof(Tape), "No Leaf", "Wait... " + waitCount);
@@ -112,16 +115,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             LogAction(nameof(Tape), "Total waits for leaves: " + waitCount);
 
             return originalTapeCollection;
-        }
-        
-        private bool AllItemsAreNull(Tape[] tapes)
-        {
-            for (var i = 0; i < tapes.Length; i++)
-            {
-                if (tapes[i] != null) return false;
-            }
-            
-            return true;
         }
         
         private void ProcessLeaf(Tape leaf)
