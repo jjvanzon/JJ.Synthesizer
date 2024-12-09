@@ -93,9 +93,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     
                     if (tape == null) continue;
                     if (tape.ChildTapes.Count != 0) continue;
-                    
-                    LogAction(tape, "Leaf Found", "Running");
                     tapesTODO[i] = null;
+                    
                     tasks[i] = Task.Run(() => ProcessLeaf(tape));
                     
                     todoCount--;
@@ -104,21 +103,21 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 waitCount++;
                 
                 LogAction(nameof(Tape), "No Leaf", "Wait... " + waitCount);
-                    
                 _checkForNewLeavesReset.WaitOne();
                 
-                LogAction(nameof(Tape), "Task Finished", "Continue");
             } 
             
             Task.WaitAll(tasks);
 
-            LogAction(nameof(Tape), "Total waits for leaves: " + waitCount);
+            LogAction(nameof(Tape), "Total Waits for Leaves: " + waitCount);
 
             return originalTapeCollection;
         }
         
         private void ProcessLeaf(Tape leaf)
         {
+            LogAction(leaf, "Leaf Found", "Running");
+    
             try
             {
                 // Run tape
@@ -130,6 +129,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 // Exceptions will propagate after the while loop (where we wait for all tasks to finish),
                 // so let’s make sure the while loop can finish properly.
                 CleanupParentChildRelationship(leaf);
+                
+                LogAction(nameof(Tape), "Task Finished", "Continue");
                 
                 _checkForNewLeavesReset.Set();
             }
