@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     {
         private readonly SynthWishes _synthWishes;
         private readonly TapeCollection _tapes;
-        /// <inheritdoc cref="docs._tapePadder" />
+        /// <inheritdoc cref="docs._tapepadder" />
         private readonly TapePadder _tapePadder;
         private readonly TapeHierarchyBuilder _tapeHierarchyBuilder;
         private readonly StereoTapeMatcher _stereoTapeMatcher;

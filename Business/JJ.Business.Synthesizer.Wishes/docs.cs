@@ -621,7 +621,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Adds padding to Play and Save tapes,
         /// without affecting the original tape.
         /// </summary>
-        public static object _tapePadder;
+        public static object _tapepadder;
 
         /// <summary>
         /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
