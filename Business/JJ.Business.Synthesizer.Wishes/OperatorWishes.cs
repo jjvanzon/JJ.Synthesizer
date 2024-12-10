@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
@@ -9,7 +8,6 @@ using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Collections_Copied;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 
 // ReSharper disable LocalVariableHidesMember
 // ReSharper disable ParameterHidesMember
@@ -79,27 +77,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // OperatorWishes FlowNode
 
-    [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class FlowNode
     {
-        private readonly SynthWishes _synthWishes;
-        private readonly Outlet _underlyingOutlet;
-        
-        internal FlowNode(SynthWishes synthWishes, Outlet firstOperand)
-        {
-            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-            _underlyingOutlet = firstOperand ?? throw new ArgumentNullException(nameof(firstOperand));
-            Operands = new FluentOperandList(this);
-        }
-
-        private string DebuggerDisplay => GetDebuggerDisplay(this);
-
-        public static implicit operator Outlet(FlowNode flowNode) => flowNode?._underlyingOutlet;
-
-        public Outlet UnderlyingOutlet => _underlyingOutlet;
-
-        public SynthWishes SynthWishes => _synthWishes;
-    
         /// <inheritdoc cref="docs._fluent"/>
         public FlowNode Fluent(double value) => _synthWishes.Fluent(value);
     
