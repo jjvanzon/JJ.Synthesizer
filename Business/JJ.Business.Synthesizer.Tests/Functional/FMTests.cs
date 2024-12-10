@@ -310,10 +310,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._trombone" />
         FlowNode TromboneMelody1 => Add
         (
-            _[ b[1], A1 , Trombone     , l[2.5] ],
-            _[ b[3], E2 , Trombone     , l[2.5] ],
-            _[ b[5], Fs1, Trombone, 0.7, l[2.5] ]
-        ).SetName().Tape(b[5] + l[2.5]);
+            Trombone(A1 ).Volume(1.0).Tape(3).Delay(b[1]),
+            Trombone(E2 ).Volume(1.0).Tape(3).Delay(b[3]),
+            Trombone(Fs1).Volume(0.7).Tape(3).Delay(b[5])
+        ).WithAudioLength(b[5] + 3);
 
         /// <inheritdoc cref="docs._trombone" />
         FlowNode TromboneMelody2 => WithAudioLength(beat[7] + _[1.4]).Add
