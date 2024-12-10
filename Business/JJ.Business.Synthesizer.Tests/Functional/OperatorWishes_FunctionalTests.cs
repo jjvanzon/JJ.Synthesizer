@@ -39,8 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Panning Tests
 
         [TestMethod]
-        public void Panning_ConstSignal_ConstPanningAsDouble_Test() => new OperatorWishes_FunctionalTests().Panning_ConstSignal_ConstPanningAsDouble();
-
+        public void Panning_ConstSignal_ConstPanningAsDouble_Test() => Run(Panning_ConstSignal_ConstPanningAsDouble);
         void Panning_ConstSignal_ConstPanningAsDouble()
         {
             WithStereo();
@@ -77,8 +76,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Panning_ConstSignal_ConstPanningAsOperator_Test() => new OperatorWishes_FunctionalTests().Panning_ConstSignal_ConstPanningAsOperator();
-
+        public void Panning_ConstSignal_ConstPanningAsOperator_Test() => Run(Panning_ConstSignal_ConstPanningAsOperator);
         void Panning_ConstSignal_ConstPanningAsOperator()
         {
             WithStereo();
@@ -117,8 +115,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Panning_SineWaveSignal_ConstPanningAsDouble_Test() => new OperatorWishes_FunctionalTests().Panning_SineWaveSignal_ConstPanningAsDouble();
-
+        public void Panning_SineWaveSignal_ConstPanningAsDouble_Test() => Run(Panning_SineWaveSignal_ConstPanningAsDouble);
         void Panning_SineWaveSignal_ConstPanningAsDouble()
         {
             WithStereo();
@@ -129,31 +126,37 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var panning = 0.25;
 
             // Act
+            var originalChannel = GetChannel;
+            try
+            {
+                Outlet panned;
 
-            Outlet panned;
+                WithLeft();
+                panned = Panning(sine, panning);
+                double maxValueLeft = panned.Calculate(time: 0.25 / (double)freq);
+                double minValueLeft = panned.Calculate(time: 0.75 / (double)freq);
 
-            WithLeft();
-            panned = Panning(sine, panning);
-            double maxValueLeft = panned.Calculate(time: 0.25 / (double)freq);
-            double minValueLeft = panned.Calculate(time: 0.75 / (double)freq);
-
-            WithRight();
-            panned = Panning(sine, panning);
-            double maxValueRight = panned.Calculate(time: 0.25 / (double)freq);
-            double minValueRight = panned.Calculate(time: 0.75 / (double)freq);
-
-            Save(() => Panning(sine, panning) * Envelope).Play();
-
-            // Assert
-            AssertHelper.AreEqual(0.75,  () => maxValueLeft);
-            AssertHelper.AreEqual(-0.75, () => minValueLeft);
-            AssertHelper.AreEqual(0.25,  () => maxValueRight);
-            AssertHelper.AreEqual(-0.25, () => minValueRight);
+                WithRight();
+                panned = Panning(sine, panning);
+                double maxValueRight = panned.Calculate(time: 0.25 / (double)freq);
+                double minValueRight = panned.Calculate(time: 0.75 / (double)freq);
+                
+                // Assert
+                AssertHelper.AreEqual(0.75,  () => maxValueLeft);
+                AssertHelper.AreEqual(-0.75, () => minValueLeft);
+                AssertHelper.AreEqual(0.25,  () => maxValueRight);
+                AssertHelper.AreEqual(-0.25, () => minValueRight);
+            }
+            finally
+            {
+                WithChannel(originalChannel);
+            }
+            
+            sine.Panning(panning).Curve(Envelope).Save().Play();
         }
 
         [TestMethod]
-        public void Panning_SineWaveSignal_DynamicPanning_Test() => new OperatorWishes_FunctionalTests().Panning_SineWaveSignal_DynamicPanning();
-
+        public void Panning_SineWaveSignal_DynamicPanning_Test() => Run(Panning_SineWaveSignal_DynamicPanning);
         void Panning_SineWaveSignal_DynamicPanning()
         {
             var sine = Sine(G5) * Envelope;
@@ -166,32 +169,28 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 *
             *");
 
-            WithStereo().Save(() => Panning(sine, panning)).Play();
+            WithStereo().Panning(sine, panning).Save().Play();
         }
 
         // Panbrello Tests
 
         [TestMethod]
-        public void Panbrello_DefaultSpeedAndDepth_Test() => new OperatorWishes_FunctionalTests().Panbrello_DefaultSpeedAndDepth();
-
+        public void Panbrello_DefaultSpeedAndDepth_Test() => Run(Panbrello_DefaultSpeedAndDepth);
         void Panbrello_DefaultSpeedAndDepth()
         {
             var sound = Sine(A4) * Envelope;
-            WithStereo().Save(() => Panbrello(sound)).Play();
+            WithStereo().Save(Panbrello(sound)).Play();
         }
 
         [TestMethod]
-        public void Panbrello_ConstSpeedAndDepth_Test() => new OperatorWishes_FunctionalTests().Panbrello_ConstSpeedAndDepth();
-
+        public void Panbrello_ConstSpeedAndDepth_Test() => Run(Panbrello_ConstSpeedAndDepth);
         void Panbrello_ConstSpeedAndDepth()
         {
-            var sound = Sine(C5) * Envelope;
-            WithStereo().Save(() => Panbrello(sound, (speed: 2.0, depth: 0.75))).Play();
+            WithStereo().Sine(C5).Times(Envelope).Panbrello(speed: 2.0, depth: 0.75).Save().Play();
         }
 
         [TestMethod]
-        public void Panbrello_DynamicSpeedAndDepth_Test() => new OperatorWishes_FunctionalTests().Panbrello_DynamicSpeedAndDepth();
-
+        public void Panbrello_DynamicSpeedAndDepth_Test() => Run(Panbrello_DynamicSpeedAndDepth);
         void Panbrello_DynamicSpeedAndDepth()
         {
             var sound = Sine(E5) * Envelope;
@@ -212,14 +211,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                             *
                                 * *    ").SetName("Depth");
 
-            WithStereo().Save(() => Panbrello(sound, (speed, depth))).Play();
+            WithStereo().Save(Panbrello(sound, (speed, depth))).Play();
         }
 
         // PitchPan Tests
 
         [TestMethod]
-        public void PitchPan_UsingOperators_Test() => new OperatorWishes_FunctionalTests().PitchPan_UsingOperators();
-
+        public void PitchPan_UsingOperators_Test() => Run(PitchPan_UsingOperators);
         void PitchPan_UsingOperators()
         {
             // Arrange
@@ -253,8 +251,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void PitchPan_DynamicParameters_Test() => new OperatorWishes_FunctionalTests().PitchPan_DynamicParameters();
-
+        public void PitchPan_DynamicParameters_Test() => Run(PitchPan_DynamicParameters);
         void PitchPan_DynamicParameters()
         {
             // Arrange
@@ -279,8 +276,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Echo Tests
 
         [TestMethod]
-        public void Echo_Additive_Old_Test() => new OperatorWishes_FunctionalTests().Echo_Additive_Old();
-
+        public void Echo_Additive_Old_Test() => Run(Echo_Additive_Old);
         void Echo_Additive_Old()
         {
             WithMono();
@@ -294,13 +290,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             sound.SetName(MemberName() + "_Input.wav");
             echoes.SetName(MemberName() + "_Output.wav");
 
-            WithAudioLength(0.2).Save(() => sound);
-            WithAudioLength(0.2 + echoDuration).Save(() => echoes).Play();
+            WithAudioLength(0.2).Save(sound);
+            WithAudioLength(0.2 + echoDuration).Save(echoes).Play();
         }
 
         [TestMethod]
         public void Echo_Additive_FixedValues_Test() => Run(Echo_Additive_FixedValues);
-
         void Echo_Additive_FixedValues()
         {
             var accessor = new SynthWishesAccessor(this);
@@ -322,7 +317,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void Echo_Additive_DynamicParameters_Test() => Run(Echo_Additive_DynamicParameters);
-
         void Echo_Additive_DynamicParameters()
         {
             var accessor = new SynthWishesAccessor(this);
@@ -355,7 +349,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void Echo_FeedBack_FixedValues_Test() => Run(Echo_FeedBack_FixedValues);
-
         void Echo_FeedBack_FixedValues()
         {
             var accessor = new SynthWishesAccessor(this);
@@ -377,7 +370,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod]
         public void Test_Echo_FeedBack_DynamicParameters() => Run(Echo_FeedBack_DynamicParameters_RunTest);
-
         void Echo_FeedBack_DynamicParameters_RunTest()
         {
             var accessor = new SynthWishesAccessor(this);
