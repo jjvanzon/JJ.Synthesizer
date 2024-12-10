@@ -159,13 +159,11 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         */
     }
-
-    // Notes SynthWishes
     
     public partial class SynthWishes
     {
-        public FlowNode SemiToneFactor => _[Notes.SemiToneFactor];
-
+        // Notes
+        
         public FlowNode A_Minus1 => _[Notes.A_Minus1];
         public FlowNode A_Minus1_Sharp => _[Notes.A_Minus1_Sharp];
         public FlowNode B_Minus1 => _[Notes.B_Minus1];
@@ -286,12 +284,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Fs9 => _[Notes.Fs9];
         public FlowNode G9  => _[Notes.G9 ];
         public FlowNode Gs9 => _[Notes.Gs9];
-    }
 
-    // Timing SynthWishes
-    
-    public partial class SynthWishes
-    {
+        public FlowNode SemiToneFactor => _[Notes.SemiToneFactor];
+
+        // Timing
+        
         /// <inheritdoc cref="docs._barindexer"/>
         public BarIndexer bar { get; }
         /// <inheritdoc cref="docs._barsindexer"/>
@@ -310,12 +307,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public BeatsIndexer len { get; }
         /// <inheritdoc cref="docs._beatsindexer"/>
         public BeatsIndexer length { get; }
-    }
-    
-    // Note SynthWishes
 
-    public partial class SynthWishes
-    {
+        // Note Operator
+        
         /// <inheritdoc cref="docs._default" />
         public FlowNode Note(
             FlowNode sound, FlowNode delay = default, FlowNode volume = default, FlowNode noteLength = default, 
@@ -377,6 +371,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return 1;
         }
 
+        // Note Indexers
+        
         // Instrument without Parameters
         
         /// <summary><c>
@@ -929,10 +925,53 @@ namespace JJ.Business.Synthesizer.Wishes
             => Note(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len, sound.Method.Name);
     }
 
-    // Note Indexer
+    // FlowNode
     
-    public partial class CaptureIndexer
+    public partial class FlowNode
     {
+        // Timing
+        
+        /// <inheritdoc cref="docs._timeindexer"/>
+        public TimeIndexer t => _synthWishes.t;
+        /// <inheritdoc cref="docs._barindexer"/>
+        public BarIndexer bar => _synthWishes.bar;
+        /// <inheritdoc cref="docs._beatindexer"/>
+        public BeatIndexer beat => _synthWishes.beat;
+        /// <inheritdoc cref="docs._beatindexer"/>
+        public BeatIndexer b => _synthWishes.b;
+        /// <inheritdoc cref="docs._barsindexer"/>
+        public BarsIndexer bars => _synthWishes.bars;
+        /// <inheritdoc cref="docs._beatsindexer"/>
+        public BeatsIndexer beats => _synthWishes.beats;
+        /// <inheritdoc cref="docs._beatsindexer"/>
+        public BeatsIndexer l => _synthWishes.l;
+        /// <inheritdoc cref="docs._beatsindexer"/>
+        public BeatsIndexer len => _synthWishes.len;
+        /// <inheritdoc cref="docs._beatsindexer"/>
+        public BeatsIndexer length  => _synthWishes.length;
+
+        // Note Operator
+        
+        /// <inheritdoc cref="docs._default" />
+        public FlowNode Note(
+            FlowNode delay = null, FlowNode volume = default, FlowNode duration = default,
+            string name = null, [CallerMemberName] string callerMemberName = null) 
+            => _synthWishes.Note(this, delay, volume, duration, name, callerMemberName);
+        
+        /// <inheritdoc cref="docs._default" />
+        public FlowNode Note(
+            FlowNode sound, FlowNode delay, double volume, FlowNode duration,
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Note(sound, delay, volume, duration, name, callerMemberName);
+        
+        /// <inheritdoc cref="docs._default" />
+        public FlowNode Note(
+            FlowNode delay, double volume,
+            string name = null, [CallerMemberName] string callerMemberName = null) 
+            => _synthWishes.Note(this, delay, volume, name, callerMemberName);
+    
+        // Note Indexers
+        
         // Instrument without Parameters
         
         /// <summary><c>
@@ -1485,66 +1524,10 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
     }
 
-    // Timing FlowNode
+    // Indexer _[...]
     
-    public partial class FlowNode
+    public partial class CaptureIndexer
     {
-        // Time
-        
-        /// <inheritdoc cref="docs._timeindexer"/>
-        public TimeIndexer t => _synthWishes.t;
-
-        // Bar
-        
-        /// <inheritdoc cref="docs._barindexer"/>
-        public BarIndexer bar => _synthWishes.bar;
-        
-        // Beat
-        
-        /// <inheritdoc cref="docs._beatindexer"/>
-        public BeatIndexer beat => _synthWishes.beat;
-        /// <inheritdoc cref="docs._beatindexer"/>
-        public BeatIndexer b => _synthWishes.b;
-
-        // Bars
-        
-        /// <inheritdoc cref="docs._barsindexer"/>
-        public BarsIndexer bars => _synthWishes.bars;
-        
-        // Beats / Length
-        
-        /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer beats => _synthWishes.beats;
-        /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer l => _synthWishes.l;
-        /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer len => _synthWishes.len;
-        /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer length  => _synthWishes.length;
-    }
-
-    // Note FlowNode
-
-    public partial class FlowNode
-    {
-        /// <inheritdoc cref="docs._default" />
-        public FlowNode Note(
-            FlowNode delay = null, FlowNode volume = default, FlowNode duration = default,
-            string name = null, [CallerMemberName] string callerMemberName = null) 
-            => _synthWishes.Note(this, delay, volume, duration, name, callerMemberName);
-        
-        /// <inheritdoc cref="docs._default" />
-        public FlowNode Note(
-            FlowNode sound, FlowNode delay, double volume, FlowNode duration,
-            string name = null, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Note(sound, delay, volume, duration, name, callerMemberName);
-        
-        /// <inheritdoc cref="docs._default" />
-        public FlowNode Note(
-            FlowNode delay, double volume,
-            string name = null, [CallerMemberName] string callerMemberName = null) 
-            => _synthWishes.Note(this, delay, volume, name, callerMemberName);
-    
         // Instrument without Parameters
         
         /// <summary><c>
