@@ -13,6 +13,7 @@ using JJ.Framework.Configuration;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Copied;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using static System.Environment;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
@@ -538,6 +539,43 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             {
                 if (text == null) throw new ArgumentNullException(nameof(text));
                 return text.TrimStart(trim).TrimEnd(trim);
+            }
+
+            /// <summary>
+            /// Determines whether the given string ends with a punctuation character,
+            /// optionally ignoring trailing whitespace.
+            /// This method is helpful when building strings with multiple optional elements,
+            /// ensuring proper punctuation is applied only when necessary.
+            /// 
+            /// If the string is <c>null</c> or empty, it is treated as the beginning of a line,
+            /// where no punctuation is required. In this case, the method returns <c>true</c>,
+            /// indicating no additional punctuation is needed.
+            /// </summary>
+            /// <param name="text">
+            /// The string to evaluate. This parameter can be <c>null</c> or empty.
+            /// </param>
+            /// <param name="ignoreWhiteSpace">
+            /// If set to <c>true</c>, trailing whitespace in the string is ignored before evaluating for punctuation.
+            /// Defaults to <c>true</c>.
+            /// </param>
+            /// <returns>
+            /// <c>true</c> if the string ends with a punctuation character,
+            /// or if the string is <c>null</c> or empty (considered as starting a new line).<br/>
+            /// <c>false</c> if the string does not end with a punctuation character
+            /// after accounting for <paramref name="ignoreWhiteSpace"/>.
+            /// </returns>
+            public static bool EndsWithPunctuation(this string text, bool ignoreWhiteSpace = true)
+            {
+                if (ignoreWhiteSpace) text = text?.TrimEnd();
+                
+                if (!FilledIn(text)) 
+                { 
+                    // Start of string is good enough for punctuation.
+                    return true;
+                }
+                
+                // ReSharper disable once PossibleNullReferenceException
+                return char.IsPunctuation(text[text.Length - 1]);
             }
         }
         

@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 // so let’s make sure the while loop can finish properly.
                 CleanupParentChildRelationship(leaf);
                 
-                LogAction(nameof(Tape), "Task Finished", "Continue");
+                LogAction(nameof(Tape), "Task Finished", "Check for Leaves");
                 
                 _checkForNewLeavesReset.Set();
             }

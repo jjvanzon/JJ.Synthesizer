@@ -128,8 +128,8 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private static void PlotTapeHierarchy(IList<Tape> tapes, StringBuilderWithIndentationWish sb, bool includeCalculationGraphs)
         {
-            sb.AppendLine("Tapes Tree");
-            sb.AppendLine("----------");
+            sb.AppendLine("Tape Tree");
+            sb.AppendLine("---------");
             
             if (tapes == null)
             {
@@ -256,18 +256,15 @@ namespace JJ.Business.Synthesizer.Wishes
                 text += " " + action;
             }
 
-            if (FilledIn(action) && tape != null)
-            {
-                text += ":";
-            }
-            
             if (tape != null)
             {
+                if (!text.EndsWithPunctuation()) text += ":";
                 text += " " + @"""" + GetTapeDescriptor(tape) + @"""";
             }
 
             if (FilledIn(message))
             {
+                if (!text.EndsWithPunctuation()) text += ":";
                 text += " " + message;
             }
 
