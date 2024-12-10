@@ -28,16 +28,16 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         public AdditiveTests()
         {
             WithMono();
-            WithBeatLength(_[0.4]);
-            WithBarLength(_[1.6]);
+            WithBeatLength(0.4);
+            WithBarLength(1.6);
         }
         
         /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
         [TestCategory("Long")]
-        public void Additive_Metallophone_Jingle() => Run(Additive_Metallophone_Jingle_RunTest);
+        public void Additive_Metallophone_Jingle_Test() => Run(Additive_Metallophone_Jingle);
         /// <inheritdoc cref="docs._metallophone"/>
-        public void Additive_Metallophone_Jingle_RunTest()
+        public void Additive_Metallophone_Jingle()
         {
             WithPlay().WithAudioLength(beat[4] + NoteDuration);
             
@@ -46,11 +46,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
-        public void Additive_Metallophone_Note() => new AdditiveTests().Additive_Metallophone_Note_RunTest();
+        public void Additive_Metallophone_Note_Test() => Run(Additive_Metallophone_Note);
         /// <inheritdoc cref="docs._metallophone"/>
-        public void Additive_Metallophone_Note_RunTest()
+        public void Additive_Metallophone_Note()
         {
-            WithAudioLength(NoteDuration).Save(() => Metallophone(Fs4).Echo() * 0.5).Play();
+            WithAudioLength(NoteDuration);
+            Metallophone(Fs4).Echo().Volume(0.5).Save().Play();
         }
 
         /// <inheritdoc cref="docs._metallophone"/>
