@@ -21,6 +21,14 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._underlyingcurve" />"/>
         public Curve UnderlyingCurve() => _underlyingOutlet.UnderlyingCurve();
     }
+    
+    // Sample
+    
+    public partial class FlowNode
+    {
+        /// <inheritdoc cref="docs._underlyingsample" />
+        public Sample UnderlyingSample() => _underlyingOutlet.UnderlyingSample();
+    }
 
     /// <inheritdoc cref="docs._relatedobjectextensions"/>
     public static partial class RelatedObjectExtensionWishes
@@ -39,14 +47,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity.AsCurveIn == null) throw new NullException(() => entity.AsCurveIn);
             return entity.AsCurveIn.Curve;
         }
-    }
-
-    // Sample
-    
-    public partial class FlowNode
-    {
-        /// <inheritdoc cref="docs._underlyingsample" />
-        public Sample UnderlyingSample() => _underlyingOutlet.UnderlyingSample();
     }
 
     /// <inheritdoc cref="docs._relatedobjectextensions"/>
