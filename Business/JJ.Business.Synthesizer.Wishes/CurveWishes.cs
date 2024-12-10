@@ -40,75 +40,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return curve;
         }
     }
-
-    // Curve Creation SynthWishes
-    
-    public partial class SynthWishes
-    {
-        // Overloads with NodeInfo
-
-        /// <inheritdoc cref="docs._createcurve" />
-        public FlowNode Curve(IEnumerable<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
-        {
-            return Curve(nodeInfos.ToArray(), callerMemberName);
-        }
-
-        /// <inheritdoc cref="docs._createcurve" />
-        public FlowNode Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
-        {
-            nodeInfos = nodeInfos.OneBecomesTwo();
-            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos))];
-            AssignNames(curve, callerMemberName);
-            return curve;
-        }
         
-        /// <inheritdoc cref="docs._createcurve" />
-        public FlowNode Curve(params NodeInfo[] nodeInfos)
-        {
-            nodeInfos = nodeInfos.OneBecomesTwo();
-            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos))];
-            return curve;
-        }
-
-        // Overloads with doubles
-
-        /// <inheritdoc cref="docs._createcurve" />
-        public FlowNode Curve(params double?[] values)
-        {
-            values = values.OneBecomesTwo();
-            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values))];
-            return curve;
-        }
-
-        // Overload with Tuples
-
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
-        public FlowNode Curve(
-            IList<(double time, double value)> nodeTuples, 
-            [CallerMemberName] string callerMemberName = null)
-        {
-            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples))];
-            AssignNames(curve, callerMemberName);
-            return curve;
-        }
-
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
-        public FlowNode Curve(params (double time, double value)[] nodeTuples)
-        {
-            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples))];
-            return curve;
-        }
-
-        // Helpers
-        
-        private void AssignNames(FlowNode flowNode, string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) return;
-            flowNode.UnderlyingCurve().Name = name;
-            flowNode.UnderlyingOperator.Name = name;
-        }
-    }
-    
     // ASCII Curves Extensions
     
     /// <inheritdoc cref="docs._createcurvefromstring" />
@@ -207,6 +139,74 @@ namespace JJ.Business.Synthesizer.Wishes
             lines2 = lines2.Select(x => x.TrimEnd()).ToList();
             
             return lines2;
+        }
+    }
+
+    // Curve Creation SynthWishes
+    
+    public partial class SynthWishes
+    {
+        // Overloads with NodeInfo
+
+        /// <inheritdoc cref="docs._createcurve" />
+        public FlowNode Curve(IEnumerable<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
+        {
+            return Curve(nodeInfos.ToArray(), callerMemberName);
+        }
+
+        /// <inheritdoc cref="docs._createcurve" />
+        public FlowNode Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
+        {
+            nodeInfos = nodeInfos.OneBecomesTwo();
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos))];
+            AssignNames(curve, callerMemberName);
+            return curve;
+        }
+        
+        /// <inheritdoc cref="docs._createcurve" />
+        public FlowNode Curve(params NodeInfo[] nodeInfos)
+        {
+            nodeInfos = nodeInfos.OneBecomesTwo();
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos))];
+            return curve;
+        }
+
+        // Overloads with doubles
+
+        /// <inheritdoc cref="docs._createcurve" />
+        public FlowNode Curve(params double?[] values)
+        {
+            values = values.OneBecomesTwo();
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values))];
+            return curve;
+        }
+
+        // Overload with Tuples
+
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        public FlowNode Curve(
+            IList<(double time, double value)> nodeTuples, 
+            [CallerMemberName] string callerMemberName = null)
+        {
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples))];
+            AssignNames(curve, callerMemberName);
+            return curve;
+        }
+
+        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        public FlowNode Curve(params (double time, double value)[] nodeTuples)
+        {
+            var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples))];
+            return curve;
+        }
+
+        // Helpers
+        
+        private void AssignNames(FlowNode flowNode, string name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return;
+            flowNode.UnderlyingCurve().Name = name;
+            flowNode.UnderlyingOperator.Name = name;
         }
     }
     
