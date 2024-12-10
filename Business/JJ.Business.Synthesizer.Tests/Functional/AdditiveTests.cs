@@ -35,9 +35,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
         [TestCategory("Long")]
-        public void Additive_Metallophone_Jingle_Test() => Run(Additive_Metallophone_Jingle);
+        public void Metallophone_Jingle_Test() => Run(Metallophone_Jingle);
         /// <inheritdoc cref="docs._metallophone"/>
-        public void Additive_Metallophone_Jingle()
+        public void Metallophone_Jingle()
         {
             WithPlay().WithAudioLength(beat[4] + NoteDuration).Fluent(MetallophoneJingle).Volume(0.33).Echo().Save().Play();
         }
@@ -47,9 +47,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
-        public void Additive_Metallophone_Note_Test() => Run(Additive_Metallophone_Note);
+        public void Metallophone_Note_Test() => Run(Metallophone_Note);
         /// <inheritdoc cref="docs._metallophone"/>
-        public void Additive_Metallophone_Note()
+        public void Metallophone_Note()
         {
             WithAudioLength(NoteDuration);
             Metallophone(Fs4).Echo().Volume(0.5).Save().Play();
