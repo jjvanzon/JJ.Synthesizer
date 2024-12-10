@@ -718,6 +718,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes ResetAudioLength() { Config.ResetAudioLength(); return this; }
         
+        public SynthWishes AddEchoDuration(int count = 4, FlowNode delay = default) => AddAudioLength(EchoDuration(count, delay));
+
         public FlowNode GetLeadingSilence => Config.GetLeadingSilence(this);
         public SynthWishes WithLeadingSilence(double seconds) { Config.WithLeadingSilence(seconds, this); return this; }
         public SynthWishes WithLeadingSilence(FlowNode seconds) { Config.WithLeadingSilence(seconds); return this; }
@@ -846,6 +848,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode AddAudioLength(double additionalLength) { _synthWishes.AddAudioLength(additionalLength); return this; }
         /// <inheritdoc cref="docs._audiolength" />
         public FlowNode ResetAudioLength() { _synthWishes.ResetAudioLength(); return this; }
+                
+        public FlowNode AddEchoDuration(int count = 4, FlowNode delay = default) { _synthWishes.AddEchoDuration(count, delay); return this; }
 
         public FlowNode GetLeadingSilence => _synthWishes.GetLeadingSilence;
         public FlowNode WithLeadingSilence(double seconds) { _synthWishes.WithLeadingSilence(seconds); return this; }

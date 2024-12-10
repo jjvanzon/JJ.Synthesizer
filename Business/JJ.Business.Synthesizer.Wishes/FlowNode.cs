@@ -26,5 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOperandList Operands { get; }
 
         public static implicit operator Outlet(FlowNode flowNode) => flowNode?._underlyingOutlet;
-    }
+    
+        public static explicit operator double(FlowNode flowNode) => flowNode.Value;
+}
 }

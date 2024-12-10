@@ -50,16 +50,8 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return true;
         }
-    
-        // Values
         
-        /// <inheritdoc cref="docs._fluent"/>
-        public FlowNode Fluent(double value) => _[value];
-        
-        /// <inheritdoc cref="docs._captureindexer" />
-        public FlowNode this[double value] => Value(value);
-    
-        // Fluent Capturing
+        // Fluent
         
         /// <inheritdoc cref="docs._fluent"/>
         public FlowNode Fluent(Outlet outlet) => _[outlet];
@@ -78,22 +70,16 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        // Tape
-    
-        public FlowNode Tape(FlowNode signal, FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
-        {
-            Tape tape = _tapes.GetOrCreate(signal, duration, null, callerMemberName);
-            tape.IsTape = true;
-            return signal;
-        }
-        
-        public FlowNode Tape(FlowNode signal, double duration, [CallerMemberName] string callerMemberName = null)
-            => Tape(signal, _[duration], callerMemberName);
-
-        // Value
+        // Values
 
         public FlowNode Value(double value = 0) => _[_operatorFactory.Value(value)];
-    
+
+        /// <inheritdoc cref="docs._fluent"/>
+        public FlowNode Fluent(double value) => Value(value);
+        
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[double value] => Value(value);
+
         // Add
 
         /// <inheritdoc cref="docs._add"/>
@@ -1097,48 +1083,46 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return Add(repeats).SetName(callerMemberName);
         }
-
+    
         public FlowNode EchoDuration(int count = 4, FlowNode delay = default)
         {
             delay = delay ?? _[0.25];
-            var echoDuration = (count - 1) * delay;
+            FlowNode echoDuration = (count - 1) * delay;
             return echoDuration.SetName();
         }
+
+        // Tape
+    
+        public FlowNode Tape(FlowNode signal, FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
+        {
+            Tape tape = _tapes.GetOrCreate(signal, duration, null, callerMemberName);
+            tape.IsTape = true;
+            return signal;
+        }
         
-        public SynthWishes AddEchoDuration(int count = 4, FlowNode delay = default) 
-            => AddAudioLength(EchoDuration(count, delay));
+        public FlowNode Tape(FlowNode signal, double duration, [CallerMemberName] string callerMemberName = null)
+            => Tape(signal, _[duration], callerMemberName);
     }
 
     // FlowNode
     
     public partial class FlowNode
     {
-        // Tape
-    
-        public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Tape(this, duration, callerMemberName);
+        // Fluent
         
-        public FlowNode Tape(double duration, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Tape(this, duration, callerMemberName);
-
-        // Value Capture
-
-        /// <inheritdoc cref="docs._fluent"/>
-        public FlowNode Fluent(double value) => _synthWishes.Fluent(value);
-    
         /// <inheritdoc cref="docs._fluent"/>
         public FlowNode Fluent(Outlet outlet) => _synthWishes.Fluent(outlet);
-
-        /// <inheritdoc cref="docs._captureindexer" />
-        public FlowNode this[double value] => _synthWishes[value];
-        
+                
         /// <inheritdoc cref="docs._captureindexer" />
         public FlowNode this[Outlet outlet] => _synthWishes[outlet];
 
-        // Value
+        // Values
 
-        public static explicit operator double(FlowNode flowNode)
-            => flowNode.Value;
+        /// <inheritdoc cref="docs._fluent"/>
+        public FlowNode Fluent(double value) => _synthWishes.Fluent(value);
+
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[double value] => _synthWishes[value];
 
         public double Value
         {
@@ -1348,13 +1332,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode EchoTape(int count = 4, FlowNode magnitude = default, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.EchoTape(this, count, magnitude, delay, callerMemberName);
         
-        public FlowNode EchoDuration(int count = 4, FlowNode delay = default)
-            => _synthWishes.EchoDuration(count, delay);
+        public FlowNode EchoDuration(int count = 4, FlowNode delay = default) => _synthWishes.EchoDuration(count, delay);
         
-        public FlowNode AddEchoDuration(int count = 4, FlowNode delay = default)
-        {
-            _synthWishes.AddEchoDuration(count, delay);
-            return this;
-        }
+        // Tape
+    
+        public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Tape(this, duration, callerMemberName);
+        
+        public FlowNode Tape(double duration, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Tape(this, duration, callerMemberName);
     }
 }
