@@ -27,12 +27,6 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes = synthWishes;
     }
     
-    public partial class FlowNode
-    {
-        /// <inheritdoc cref="docs._captureindexer" />
-        public CaptureIndexer _ => _synthWishes._;
-    }
-    
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._captureindexer" />
