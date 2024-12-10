@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Vibrato/Tremolo Tests
 
         /// <inheritdoc cref="docs._vibrato" />
-        [TestMethod] public void Test_Vibrato_Test() => Run(Vibrato);
+        [TestMethod] public void Vibrato_Test() => Run(Vibrato);
         /// <inheritdoc cref="docs._vibrato" />
         void Vibrato() => WithMono().VibratoOverPitch(A4).Sine().Volume(Envelope * 0.9).Save().Play();
         
@@ -369,8 +369,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod]
-        public void Test_Echo_FeedBack_DynamicParameters() => Run(Echo_FeedBack_DynamicParameters_RunTest);
-        void Echo_FeedBack_DynamicParameters_RunTest()
+        public void Echo_FeedBack_DynamicParameters_Test() => Run(Echo_FeedBack_DynamicParameters);
+        void Echo_FeedBack_DynamicParameters()
         {
             var accessor = new SynthWishesAccessor(this);
             

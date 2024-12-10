@@ -29,20 +29,19 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod, TestCategory("Long")]
-        public void Test_Detunica_Jingle() => Run(Detunica_Jingle_RunTest);
-        
+        public void Detunica_Jingle_Test() => Run(Detunica_Jingle);
         /// <inheritdoc cref="docs._detunica" />
-        internal void Detunica_Jingle_RunTest()
+        internal void Detunica_Jingle()
         {
-            WithPlay(); WithAudioLength(bars[7] + DeepEchoDuration);
+            WithPlay().WithAudioLength(bars[7] + DeepEchoDuration);
             DeepEcho(DetunicaJingle).Volume(0.8).Save().Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod] 
-        public void Test_DetunicaBass() => Run(DetunicaBass_RunTest);
+        public void DetunicaBass_Test() => Run(DetunicaBass);
         /// <inheritdoc cref="docs._detunica" />
-        internal void DetunicaBass_RunTest()
+        internal void DetunicaBass()
         {
             FlowNode duration = _[3];
             WithAudioLength(duration + DeepEchoDuration);
@@ -51,19 +50,20 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        public void Test_Detunica1() => new ModulationTests().Detunica1_RunTest();
+        public void Detunica1_Test() => Run(Detunica1);
         /// <inheritdoc cref="docs._detunica" />
-        void Detunica1_RunTest()
+        void Detunica1()
         {
             var duration = _[3];
-            WithAudioLength(duration + DeepEchoDuration).Save(() => DeepEcho(Detunica1(E2, duration)) * 0.15).Play();
+            WithAudioLength(duration + DeepEchoDuration);
+            DeepEcho(Detunica1(E2, duration)).Volume(0.15).Save().Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        public void Test_Detunica2() => new ModulationTests().Detunica2_RunTest();
+        public void Detunica2_Test() => new ModulationTests().Detunica2();
         /// <inheritdoc cref="docs._detunica" />
-        void Detunica2_RunTest()
+        void Detunica2()
         {
             var duration = _[3];
             WithAudioLength(duration + DeepEchoDuration).Save(() => DeepEcho(Detunica2(B4, duration)) * 0.9).Play();
@@ -71,9 +71,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        public void Test_Detunica3() => new ModulationTests().Detunica3_RunTest();
+        public void Detunica3_Test() => new ModulationTests().Detunica3();
         /// <inheritdoc cref="docs._detunica" />
-        void Detunica3_RunTest()
+        void Detunica3()
         {
             var duration = _[3];
             WithAudioLength(duration + DeepEchoDuration).Save(() => DeepEcho(Detunica3(C5, duration))).Play();
@@ -81,9 +81,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        public void Test_Detunica4() => new ModulationTests().Detunica4_RunTest();
+        public void Detunica4_Test() => new ModulationTests().Detunica4();
         /// <inheritdoc cref="docs._detunica" />
-        void Detunica4_RunTest()
+        void Detunica4()
         {
             var duration = _[3];
             WithAudioLength(duration + DeepEchoDuration).Save(() => DeepEcho(Detunica4(D5, duration)) * 0.25).Play();
@@ -91,9 +91,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        public void Test_Detunica5() => new ModulationTests().Detunica5_RunTest();
+        public void Detunica5_Test() => new ModulationTests().Detunica5();
         /// <inheritdoc cref="docs._detunica" />
-        void Detunica5_RunTest()
+        void Detunica5()
         {
             var duration = _[3];
             WithAudioLength(duration + DeepEchoDuration).Save(() => DeepEcho(Detunica5(E5, duration)) * 0.3).Play();
@@ -101,18 +101,18 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._vibraphase" />
         [TestMethod]
-        public void Test_Vibraphase_Chord() => new ModulationTests().Vibraphase_Chord_RunTest();
+        public void Vibraphase_Chord_Test() => new ModulationTests().Vibraphase_Chord();
         /// <inheritdoc cref="docs._vibraphase" />
-        void Vibraphase_Chord_RunTest()
+        void Vibraphase_Chord()
         {
             WithMono().WithAudioLength(1 + MildEchoDuration).Save(() => MildEcho(VibraphaseChord) * 0.28).Play();
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
         [TestMethod]
-        public void Test_Vibraphase() => new ModulationTests().Vibraphase_RunTest();
+        public void Vibraphase_Note_Test() => new ModulationTests().VibraphaseNote();
         /// <inheritdoc cref="docs._vibraphase" />
-        void Vibraphase_RunTest()
+        void VibraphaseNote()
         {
             WithMono().WithAudioLength(1 + MildEchoDuration).Save(() => MildEcho(Vibraphase(E5)) * 0.5).Play();
         }
