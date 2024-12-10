@@ -52,10 +52,14 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly SampleManager _sampleManager;
         private readonly TapeCollection _tapes;
         private readonly TapeRunner _tapeRunner;
+
+        public SynthWishes()
+            : this(ServiceFactory.CreateContext())
+        { }
         
-        public SynthWishes(IContext context = null)
+        public SynthWishes(IContext context)
         {
-            Context = context ?? ServiceFactory.CreateContext();
+            Context = context ?? throw new ArgumentNullException(nameof(context));
 
             _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
