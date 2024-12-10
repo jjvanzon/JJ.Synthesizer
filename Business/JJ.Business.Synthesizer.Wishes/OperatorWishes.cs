@@ -1164,21 +1164,18 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // FlowNode
     
-    // Tape FlowNode
-    
     public partial class FlowNode
     {
+        // Tape FlowNode
+    
         public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Tape(this, duration, callerMemberName);
         
         public FlowNode Tape(double duration, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Tape(this, duration, callerMemberName);
-    }
 
-    // Value Capture FlowNode
+        // Value Capture FlowNode
 
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._fluent"/>
         public FlowNode Fluent(double value) => _synthWishes.Fluent(value);
     
@@ -1190,12 +1187,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._captureindexer" />
         public FlowNode this[Outlet outlet] => _synthWishes[outlet];
-    }
 
-    // Value FlowNode
+        // Value FlowNode
 
-    public partial class FlowNode
-    {
         public static explicit operator double(FlowNode flowNode)
             => flowNode.Value;
 
@@ -1210,12 +1204,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 return calculated;
             }
         }
-    }
 
-    // Add FlowNode
+        // Add FlowNode
 
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._add"/>
         public FlowNode Add(IList<FlowNode> operands) => _synthWishes.Add(new[] { this }.Concat(operands).ToArray());
         /// <inheritdoc cref="docs._add"/>
@@ -1232,12 +1223,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Plus(FlowNode b) => Add(b);
         /// <inheritdoc cref="docs._add"/>
         public FlowNode Plus(double b) => Add(b);
-    }
 
-    // Multiply FlowNode
+        // Multiply FlowNode
 
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._multiply"/>
         public FlowNode Multiply(FlowNode b) => _synthWishes.Multiply(this, b);
         /// <inheritdoc cref="docs._multiply"/>
@@ -1260,86 +1248,56 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Volume(FlowNode b) => Multiply(b);//.SetName();
         /// <inheritdoc cref="docs._multiply"/>
         public FlowNode Volume(double b) => Multiply(b);//.SetName();
-    }
 
-    // Subtract FlowNode
+        // Subtract FlowNode
     
-    public partial class FlowNode
-    {
         public FlowNode Subtract(FlowNode b) => _synthWishes.Subtract(this, b);
         public FlowNode Subtract(double b) => _synthWishes.Subtract(this, b);
         public FlowNode Minus(FlowNode b) => Subtract(b);
         public FlowNode Minus(double b) => Subtract(b);
-    }
+    
+        // Divide FlowNode
 
-    // Divide FlowNode
-
-    public partial class FlowNode
-    {
         public FlowNode Divide(FlowNode b) => _synthWishes.Divide(this, b);
         public FlowNode Divide(double b) => _synthWishes.Divide(this, b);
-    }
 
-    // Power FlowNode
+        // Power FlowNode
 
-    public partial class FlowNode
-    {
         public FlowNode Power(FlowNode exponent) => _synthWishes.Power(this, exponent);
         public FlowNode Power(double exponent) => _synthWishes.Power(this, exponent);
-    }
 
-    // Sine FlowNode
+        // Sine FlowNode
     
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._sine" />
         public FlowNode Sine() => _synthWishes.Sine(this);
-    }
 
-    // Delay FlowNode
+        // Delay FlowNode
 
-    public partial class FlowNode
-    {
         public FlowNode Delay(FlowNode delay) => _synthWishes.Delay(this, delay);
         public FlowNode Delay(double delay) => _synthWishes.Delay(this, delay);
-    }
 
-    // Skip FlowNode
+        // Skip FlowNode
 
-    public partial class FlowNode
-    {
         public FlowNode Skip(FlowNode skip) => _synthWishes.Skip(this, skip);
         public FlowNode Skip(double skip) => _synthWishes.Skip(this, skip);
-    }
 
-    // Stretch FlowNode
+        // Stretch FlowNode
 
-    public partial class FlowNode
-    {
         public FlowNode Stretch(FlowNode timeScale) => _synthWishes.Stretch(this, timeScale);
         public FlowNode Stretch(double timeScale) => _synthWishes.Stretch(this, timeScale);
-    }
 
-    // SpeedUp FlowNode
+        // SpeedUp FlowNode
 
-    public partial class FlowNode
-    {
         public FlowNode SpeedUp(FlowNode factor) => _synthWishes.SpeedUp(this, factor);
         public FlowNode SpeedUp(double factor) => _synthWishes.SpeedUp(this, factor);
-    }
 
-    // TimePower FlowNode
+        // TimePower FlowNode
 
-    public partial class FlowNode
-    {
         public FlowNode TimePower(FlowNode exponent) => _synthWishes.TimePower(this, exponent);
         public FlowNode TimePower(double exponent) => _synthWishes.TimePower(this, exponent);
-    }
 
-    // Tremolo FlowNode
+        // Tremolo FlowNode
 
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._tremolo" />
         public FlowNode Tremolo(FlowNode speed = default, FlowNode depth = default) => _synthWishes.Tremolo(this, (speed, depth));
         /// <inheritdoc cref="docs._tremolo" />
@@ -1348,12 +1306,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Tremolo(FlowNode speed, double depth) => _synthWishes.Tremolo(this, (speed, depth));
         /// <inheritdoc cref="docs._tremolo" />
         public FlowNode Tremolo(double speed, double depth) => _synthWishes.Tremolo(this, (speed, depth));
-    }
 
-    // Vibrato FlowNode
+        // Vibrato FlowNode
 
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._vibrato" />
         public FlowNode VibratoFreq(FlowNode speed = default, FlowNode depth = default) => _synthWishes.VibratoOverPitch(this, (speed, depth));
         /// <inheritdoc cref="docs._vibrato" />
@@ -1362,22 +1317,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode VibratoFreq(FlowNode speed, double depth) => _synthWishes.VibratoOverPitch(this, (speed, depth));
         /// <inheritdoc cref="docs._vibrato" />
         public FlowNode VibratoFreq(double speed, double depth) => _synthWishes.VibratoOverPitch(this, (speed, depth));
-    }
 
-    // Panning FlowNode
+        // Panning FlowNode
 
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(FlowNode panning = default) => _synthWishes.Panning(this, panning);
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(double panning) => _synthWishes.Panning(this, panning);
-    }
 
-    // Panbrello FlowNode
+        // Panbrello FlowNode
 
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._panbrello" />
         public FlowNode Panbrello(FlowNode speed = default, FlowNode depth = default)
             => _synthWishes.Panbrello(this, (speed, depth));
@@ -1393,12 +1342,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._panbrello" />
         public FlowNode Panbrello(double speed, double depth)
             => _synthWishes.Panbrello(this, (speed, depth));
-    }
 
-    // PitchPan FlowNode
+        // PitchPan FlowNode
 
-    public partial class FlowNode
-    {
         /// <inheritdoc cref="docs._pitchpan" />
         public FlowNode PitchPan(FlowNode centerFrequency, FlowNode referenceFrequency, FlowNode referencePanning)
             => _synthWishes.PitchPan(this, centerFrequency, referenceFrequency, referencePanning);
@@ -1406,12 +1352,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._pitchpan" />
         public FlowNode PitchPan(double centerFrequency, double referenceFrequency, double referencePanning)
             => _synthWishes.PitchPan(this, centerFrequency, referenceFrequency, referencePanning);
-    }
 
-    // Echo FlowNode
+        // Echo FlowNode
 
-    public partial class FlowNode
-    {
         public FlowNode Echo(int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
 
