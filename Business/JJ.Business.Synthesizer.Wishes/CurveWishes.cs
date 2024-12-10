@@ -12,10 +12,12 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Curve Creation Extensions
+    // CurveFactory Extensions
 
     public static class CurveFactoryExtensionWishes
     {
+        // From Node Info
+        
         public static Curve CreateCurve(this CurveFactory curveFactory, IList<NodeInfo> nodeInfos)
         {
             nodeInfos = nodeInfos.OneBecomesTwo();
@@ -39,13 +41,9 @@ namespace JJ.Business.Synthesizer.Wishes
             Curve curve = curveFactory.CreateCurve(nodeInfos);
             return curve;
         }
-    }
         
-    // ASCII Curves Extensions
-    
-    /// <inheritdoc cref="docs._createcurvefromstring" />
-    public static class AsciiCurveExtensionWishes
-    { 
+        // From ASCII
+        
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public static Curve CreateCurve(this CurveFactory curveFactory, string text)
             => curveFactory.CreateCurve(0, 1, 0, 1, text);
@@ -142,11 +140,11 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Curve Creation SynthWishes
+    // Curves in SynthWishes
     
     public partial class SynthWishes
     {
-        // Overloads with NodeInfo
+        // From NodeInfo
 
         /// <inheritdoc cref="docs._createcurve" />
         public FlowNode Curve(IEnumerable<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
@@ -171,7 +169,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return curve;
         }
 
-        // Overloads with doubles
+        // From Doubles
 
         /// <inheritdoc cref="docs._createcurve" />
         public FlowNode Curve(params double?[] values)
@@ -181,7 +179,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return curve;
         }
 
-        // Overload with Tuples
+        // From Tuples
 
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public FlowNode Curve(
@@ -200,20 +198,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return curve;
         }
 
-        // Helpers
+        // From ASCII
         
-        private void AssignNames(FlowNode flowNode, string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) return;
-            flowNode.UnderlyingCurve().Name = name;
-            flowNode.UnderlyingOperator.Name = name;
-        }
-    }
-    
-    // ASCII Curves SynthWishes
-
-    public partial class SynthWishes
-    { 
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public FlowNode Curve(string text, [CallerMemberName] string callerMemberName = null)
         {
@@ -221,8 +207,6 @@ namespace JJ.Business.Synthesizer.Wishes
             AssignNames(curve, callerMemberName);
             return curve;
         }
-
-        // Overload with String and Ranges
 
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public FlowNode Curve(
@@ -234,9 +218,18 @@ namespace JJ.Business.Synthesizer.Wishes
             AssignNames(curve, callerMemberName);
             return curve;
         }
+    
+        // Helper
+        
+        private void AssignNames(FlowNode flowNode, string name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return;
+            flowNode.UnderlyingCurve().Name = name;
+            flowNode.UnderlyingOperator.Name = name;
+        }
     }
 
-    // Curves in FlowNode
+    // Curves with FlowNodes
 
     public partial class FlowNode
     {
@@ -249,10 +242,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FlowNode Curve(params NodeInfo[] nodeInfos)
             => _underlyingOutlet * _synthWishes.Curve(nodeInfos);
-
-        /// <inheritdoc cref="docs._createcurve" />
-        public FlowNode Curve(string name, params double?[] values)
-            => _underlyingOutlet * _synthWishes.Curve(values);
 
         /// <inheritdoc cref="docs._createcurve" />
         public FlowNode Curve(params double?[] values)
