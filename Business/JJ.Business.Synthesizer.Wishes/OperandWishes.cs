@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 
@@ -107,12 +106,19 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._operand"/>
         public bool SupportsSpeedFactor => _underlyingOutlet.SpeedFactorIsSupported();
+    
+        // Origin (Obsolete)
+        
+        [Obsolete("Rarely used because default origin 0 usually works. " +
+          "Otherwise consider use separate operators like Shift and Stretch instead.")]
+        public FlowNode Origin => _[_underlyingOutlet.Operator?.Inlets.ElementAtOrDefault(2)?.Input];
+
     }
 
     // Operands on Entity Objects
     
     /// <inheritdoc cref="docs._operand"/>
-    public static partial class OperandExtensionWishes
+    public static class OperandExtensionWishes
     { 
         // A
         
@@ -543,24 +549,13 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return entity.Inlets[index].Input;
         }
-    }
 
-    // Operand Origin
-
-    public partial class FlowNode
-    {
+        // Origin (Obsolete)
+        
         [Obsolete("Rarely used because default origin 0 usually works. " +
-                  "Otherwise consider use separate operators like Shift and Stretch instead.")]
-        public FlowNode Origin => _[_underlyingOutlet.Operator?.Inlets.ElementAtOrDefault(2)?.Input];
-    }
-
-    /// <inheritdoc cref="docs._operand"/>
-    public static partial class OperandExtensionWishes
-    { 
-        [Obsolete("Rarely used because default origin 0 usually works. " +
-                  "Otherwise consider use separate operators like Shift and Stretch instead.")]
+              "Otherwise consider use separate operators like Shift and Stretch instead.")]
         public static Outlet Origin(this Operator entity) => entity.Inlets.ElementAtOrDefault(2)?.Input;
-    }
+}
             
     // Specialized Lists
 
