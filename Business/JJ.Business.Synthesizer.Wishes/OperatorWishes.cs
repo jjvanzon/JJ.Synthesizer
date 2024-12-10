@@ -20,11 +20,15 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._captureindexer" />
     public partial class CaptureIndexer
     {
-        /// <inheritdoc cref="docs._captureindexer" />
-        public FlowNode this[double value] => _synthWishes[value];
+        // Fluent
         
         /// <inheritdoc cref="docs._captureindexer" />
         public FlowNode this[Outlet outlet] => _synthWishes[outlet];
+
+        // Values
+        
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[double value] => _synthWishes[value];
     }
 
     // SynthWishes Operators
