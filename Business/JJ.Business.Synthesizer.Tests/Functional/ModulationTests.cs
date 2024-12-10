@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes;
+﻿using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -45,7 +44,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             FlowNode duration = _[3];
             WithAudioLength(duration + DeepEchoDuration);
-            DeepEcho(DetunicaBass(E0, duration)).Volume(0.9).Save().Play();
+            DeepEcho(DetunicaBass(E0, duration)).Multiply(0.9).Save().Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -56,65 +55,71 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = _[3];
             WithAudioLength(duration + DeepEchoDuration);
-            DeepEcho(Detunica1(E2, duration)).Volume(0.15).Save().Play();
+            DeepEcho(Detunica1(E2, duration)).Times(0.15).Save().Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        public void Detunica2_Test() => new ModulationTests().Detunica2();
+        public void Detunica2_Test() => Run(Detunica2);
         /// <inheritdoc cref="docs._detunica" />
         void Detunica2()
         {
             var duration = _[3];
-            WithAudioLength(duration + DeepEchoDuration).Save(() => DeepEcho(Detunica2(B4, duration)) * 0.9).Play();
+            WithAudioLength(duration + DeepEchoDuration);
+            DeepEcho(_[B4, Detunica2, 0.9, duration]).Save().Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        public void Detunica3_Test() => new ModulationTests().Detunica3();
+        public void Detunica3_Test() => Run(Detunica3);
         /// <inheritdoc cref="docs._detunica" />
         void Detunica3()
         {
             var duration = _[3];
-            WithAudioLength(duration + DeepEchoDuration).Save(() => DeepEcho(Detunica3(C5, duration))).Play();
+            WithAudioLength(duration + DeepEchoDuration);
+            DeepEcho(Detunica3(C5, duration)).Save().Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        public void Detunica4_Test() => new ModulationTests().Detunica4();
+        public void Detunica4_Test() => Run(Detunica4);
         /// <inheritdoc cref="docs._detunica" />
         void Detunica4()
         {
             var duration = _[3];
-            WithAudioLength(duration + DeepEchoDuration).Save(() => DeepEcho(Detunica4(D5, duration)) * 0.25).Play();
+            WithAudioLength(duration + DeepEchoDuration);
+            (DeepEcho(Detunica4(D5, duration)) * 0.25).Save().Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod]
-        public void Detunica5_Test() => new ModulationTests().Detunica5();
+        public void Detunica5_Test() => Run(Detunica5);
         /// <inheritdoc cref="docs._detunica" />
         void Detunica5()
         {
             var duration = _[3];
-            WithAudioLength(duration + DeepEchoDuration).Save(() => DeepEcho(Detunica5(E5, duration)) * 0.3).Play();
+            WithAudioLength(duration + DeepEchoDuration);
+            DeepEcho(_[E5, Detunica5, 0.3, duration]).Save().Play();
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
         [TestMethod]
-        public void Vibraphase_Chord_Test() => new ModulationTests().Vibraphase_Chord();
+        public void Vibraphase_Chord_Test() => Run(Vibraphase_Chord);
         /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_Chord()
         {
-            WithMono().WithAudioLength(1 + MildEchoDuration).Save(() => MildEcho(VibraphaseChord) * 0.28).Play();
+            WithMono().WithAudioLength(1 + MildEchoDuration);
+            (MildEcho(VibraphaseChord) * 0.28).Save().Play();
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
         [TestMethod]
-        public void Vibraphase_Note_Test() => new ModulationTests().VibraphaseNote();
+        public void Vibraphase_Note_Test() => Run(VibraphaseNote);
         /// <inheritdoc cref="docs._vibraphase" />
         void VibraphaseNote()
         {
-            WithMono().WithAudioLength(1 + MildEchoDuration).Save(() => MildEcho(Vibraphase(E5)) * 0.5).Play();
+            WithMono().WithAudioLength(1 + MildEchoDuration);
+            Save(MildEcho(Vibraphase(E5) * 0.5)).Play();
         }
 
         // Jingles
