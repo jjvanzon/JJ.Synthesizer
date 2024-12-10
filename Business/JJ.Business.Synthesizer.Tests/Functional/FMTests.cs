@@ -407,7 +407,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var volumeEvenOutCurve  = Stretch(EvenOutCurve, duration);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
             
-            var note = StrikeNote(soundWithEvenVolume, delay, volume, duration);
+            var note = Note(soundWithEvenVolume, delay, volume, duration);
             
             return note.SetName();
         }
@@ -455,7 +455,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var volumeEvenOutCurve  = Stretch(EvenOutCurve, duration);
             var soundWithEvenVolume = Multiply(fmSignal, volumeEvenOutCurve);
             
-            var note = StrikeNote(soundWithEvenVolume, delay, volume, duration);
+            var note = Note(soundWithEvenVolume, delay, volume, duration);
             
             return note.SetName().Tape(duration);
         }

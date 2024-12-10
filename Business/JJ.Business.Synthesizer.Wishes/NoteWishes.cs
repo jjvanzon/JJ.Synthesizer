@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
-// ReSharper disable UnusedMember.Global
+// ReSharper disable ParameterHidesMember
 // ReSharper disable InconsistentNaming
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -67,569 +67,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._beatsindexer"/>
         public BeatsIndexer length { get; }
     }
-
-    // Note Arrangements
     
-    public partial class CaptureIndexer
-    {
-        // Instrument without Parameters
-        
-        /// <summary><c>
-        /// FlowNode Flute1() <br/><br/>
-        /// _[ Flute1, 0.8 ], <br/>
-        /// _[ Flute1, 0.8, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            Func<FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute1() <br/><br/>
-        /// _[ Flute1 ], <br/>
-        /// _[ Flute1, MyCurve ], <br/>
-        /// _[ Flute1, MyCurve, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            Func<FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute1() <br/><br/>
-        /// _[ 0.00, Flute1, 0.8 ], <br/>
-        /// _[ 0.00, Flute1, 0.8, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, Func<FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute1() <br/><br/>
-        /// _[ 0.00, Flute1 ], <br/>
-        /// _[ 0.00, Flute1, MyCurve ], <br/>
-        /// _[ 0.00, Flute1, MyCurve, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, Func<FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute1() <br/><br/>
-        /// _[ t[1, 1], Flute1, 0.8 ], <br/>
-        /// _[ t[1, 1], Flute1, 0.8, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, Func<FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), t, vol, len, sound.Method.Name);
-
-        /// <summary><c>
-        /// FlowNode Flute1() <br/><br/>
-        /// _[ t[1, 1], Flute1 ], <br/>
-        /// _[ t[1, 1], Flute1, MyCurve ], <br/>
-        /// _[ t[1, 1], Flute1, MyCurve, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, Func<FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(), t, vol, len, sound.Method.Name);
-        
-        // Instrument with 1 Parameter Freq
-        
-        /// <summary><c>
-        /// FlowNode Flute2(FlowNode freq) <br/><br/>
-        /// _[ A4, Flute2, 0.8 ], <br/>
-        /// _[ A4, Flute2, 0.8, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute2(FlowNode freq) <br/><br/>
-        /// _[ A4, Flute2 ], <br/>
-        /// _[ A4, Flute2, MyCurve ], <br/>
-        /// _[ A4, Flute2, MyCurve, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute2(FlowNode freq) <br/><br/>
-        /// _[ 0.00, A4, Flute2, 0.8 ], <br/>
-        /// _[ 0.25, C4, Flute2, 0.8, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute2(FlowNode freq) <br/><br/>
-        /// _[ 0.00, A4, Flute2 ], <br/>
-        /// _[ 0.25, C4, Flute2, MyCurve ], <br/>
-        /// _[ 0.50, E5, Flute2, MyCurve, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute2(FlowNode freq) <br/><br/>
-        /// _[ t[1, 1], A4, Flute2, 0.8 ], <br/>
-        /// _[ t[1, 2], C5, Flute2, 0.8, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), t, vol, len, sound.Method.Name);
-
-        /// <summary><c>
-        /// FlowNode Flute2(FlowNode freq) <br/><br/>
-        /// _[ t[1, 1], A4, Flute2 ], <br/>
-        /// _[ t[1, 2], C5, Flute2, MyCurve ], <br/>
-        /// _[ t[1, 3], E5, Flute2, MyCurve, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq), t, vol, len, sound.Method.Name);
-        
-        // Instrument with 2 Parameters Freq and Len
-        
-        /// <summary><c>
-        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
-        /// _[ A4, Flute3, 0.8 ], <br/>
-        /// _[ A4, Flute3, 0.8, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
-        /// _[ A4, Flute3 ], <br/>
-        /// _[ A4, Flute3, MyCurve ], <br/>
-        /// _[ A4, Flute3, MyCurve, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
-        /// _[ 0.00, A4, Flute3, 0.8 ], <br/>
-        /// _[ 0.25, C5, Flute3, 0.8, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
-        /// _[ 0.00, A4, Flute3 ], <br/>
-        /// _[ 0.25, C5, Flute3, MyCurve ], <br/>
-        /// _[ 0.50, E5, Flute3, MyCurve, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
-        /// _[ t[1, 1], A4, Flute3, 0.8 ], <br/>
-        /// _[ t[1, 2], C5, Flute3, 0.8, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), t, vol, len, sound.Method.Name);
-
-        /// <summary><c>
-        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
-        /// _[ t[1, 1], A4, Flute3 ], <br/>
-        /// _[ t[1, 2], C5, Flute3, MyCurve ], <br/>
-        /// _[ t[1, 3], E5, Flute3, MyCurve, l[0.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _synthWishes.StrikeNote(sound(freq, len), t, vol, len, sound.Method.Name);
-
-        // Instruments with 1 Effect Parameter (Optional)
-        
-        /// <summary><c>
-        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
-        /// _[ A4, Flute4, 0.8 ], <br/>
-        /// _[ A4, Flute4, 0.8, l[0.5] ], <br/>
-        /// _[ A4, Flute4, 0.8, l[0.5], _[0.14] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
-        /// _[ A4, Flute4 ], <br/>
-        /// _[ A4, Flute4, MyCurve ], <br/>
-        /// _[ A4, Flute4, MyCurve, l[0.5] ], <br/>
-        /// _[ A4, Flute4, MyCurve, l[0.5], _[0.14] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
-        /// _[ 0.00, A4, Flute4, 0.8 ], <br/>
-        /// _[ 0.25, C5, Flute4, 0.8, l[0.5] ], <br/>
-        /// _[ 0.50, E5, Flute4, 0.8, l[0.5], _[0.14] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
-        /// _[ 0.00, A4, Flute4 ], <br/>
-        /// _[ 0.25, C5, Flute4, MyCurve ], <br/>
-        /// _[ 0.50, E5, Flute4, MyCurve, l[0.5] ], <br/>
-        /// _[ 0.75, G5, Flute4, MyCurve, l[0.5], _[0.14] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
-        /// _[ t[1, 1], A4, Flute4, 0.8 ], <br/>
-        /// _[ t[1, 2], C5, Flute4, 0.8, l[0.5] ], <br/>
-        /// _[ t[1, 3], E5, Flute4, 0.8, l[0.5], _[0.14] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), t, vol, len, sound.Method.Name);
-
-        /// <summary><c>
-        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
-        /// _[ t[1, 1], A4, Flute4 ], <br/>
-        /// _[ t[1, 2], C5, Flute4, MyCurve ], <br/>
-        /// _[ t[1, 3], E5, Flute4, MyCurve, l[0.5] ], <br/>
-        /// _[ t[1, 4], G5, Flute4, MyCurve, l[0.5], _[0.14] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound, 
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null] 
-            => _synthWishes.StrikeNote(sound(freq, len, fx1), t, vol, len, sound.Method.Name);
-        
-        // Instruments with 2 Effect Parameters (Optional)
-        
-        /// <summary><c>
-        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
-        /// _[ A4, Flute5, 0.8 ], <br/>
-        /// _[ A4, Flute5, 0.8, l[0.5] ], <br/>
-        /// _[ A4, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
-        /// _[ A4, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
-        /// _[ A4, Flute5 ], <br/>
-        /// _[ A4, Flute5, MyCurve ], <br/>
-        /// _[ A4, Flute5, MyCurve, l[0.5] ], <br/>
-        /// _[ A4, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
-        /// _[ A4, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
-        /// _[ 0.00, A4, Flute5, 0.8 ], <br/>
-        /// _[ 0.25, C5, Flute5, 0.8, l[0.5] ], <br/>
-        /// _[ 0.50, E5, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
-        /// _[ 0.75, G5, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
-        /// _[ 0.00, A4, Flute5 ], <br/>
-        /// _[ 0.25, C5, Flute5, MyCurve ], <br/>
-        /// _[ 0.50, E5, Flute5, MyCurve, l[0.5] ], <br/>
-        /// _[ 0.75, G5, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
-        /// _[ 1.00, A5, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
-        /// _[ t[1, 1], A4, Flute5, 0.8 ], <br/>
-        /// _[ t[1, 2], C5, Flute5, 0.8, l[0.5] ], <br/>
-        /// _[ t[1, 3], E5, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
-        /// _[ t[1, 4], G5, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), t, vol, len, sound.Method.Name);
-
-        /// <summary><c>
-        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
-        /// _[ t[1, 1], A4, Flute5 ], <br/>
-        /// _[ t[1, 2], C5, Flute5, MyCurve ], <br/>
-        /// _[ t[1, 3], E5, Flute5, MyCurve, l[0.5] ], <br/>
-        /// _[ t[1, 4], G5, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
-        /// _[ t[2, 1], A5, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2), t, vol, len, sound.Method.Name);
-        
-        // Instruments with 3 Effect Parameters (Optional)
-        
-        /// <summary><c>
-        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
-        /// _[ A4, Flute6, 0.8 ], <br/>
-        /// _[ A4, Flute6, 0.8, l[0.5] ], <br/>
-        /// _[ A4, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
-        /// _[ A4, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
-        /// _[ A4, Flute6 ], <br/>
-        /// _[ A4, Flute6, MyCurve ], <br/>
-        /// _[ A4, Flute6, MyCurve, l[0.5] ], <br/>
-        /// _[ A4, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
-        /// _[ A4, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
-        /// _[ 0.00, A4, Flute6, 0.8 ], <br/>
-        /// _[ 0.25, C5, Flute6, 0.8, l[0.5] ], <br/>
-        /// _[ 0.50, E5, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
-        /// _[ 0.75, G5, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
-        /// _[ 0.00, A4, Flute6 ], <br/>
-        /// _[ 0.25, C5, Flute6, MyCurve ], <br/>
-        /// _[ 0.50, E5, Flute6, MyCurve, l[0.5] ], <br/>
-        /// _[ 0.75, G5, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
-        /// _[ 1.00, A5, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
-        /// _[ t[1, 1], A4, Flute6, 0.8 ], <br/>
-        /// _[ t[1, 2], C5, Flute6, 0.8, l[0.5] ], <br/>
-        /// _[ t[1, 3], E5, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
-        /// _[ t[1, 4], G5, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), t, vol, len, sound.Method.Name);
-
-        /// <summary><c>
-        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
-        /// _[ t[1, 1], A4, Flute6 ], <br/>
-        /// _[ t[1, 2], C5, Flute6, MyCurve ], <br/>
-        /// _[ t[1, 3], E5, Flute6, MyCurve, l[0.5] ], <br/>
-        /// _[ t[1, 4], G5, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
-        /// _[ t[2, 1], A5, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3), t, vol, len, sound.Method.Name);
-
-        // Instruments with 4 Effect Parameters (Optional)
-        
-        /// <summary><c>
-        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
-        /// _[ A4, Flute7, 0.8 ], <br/>
-        /// _[ A4, Flute7, 0.8, l[0.5] ], <br/>
-        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
-        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
-        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
-        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
-        /// _[ A4, Flute7 ], <br/>
-        /// _[ A4, Flute7, MyCurve ], <br/>
-        /// _[ A4, Flute7, MyCurve, l[0.5] ], <br/>
-        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
-        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
-        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
-        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
-        /// _[ 0.00, A4, Flute7, 0.8 ], <br/>
-        /// _[ 0.25, C5, Flute7, 0.8, l[0.5] ], <br/>
-        /// _[ 0.50, E5, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
-        /// _[ 0.75, G5, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
-        /// _[ 1.00, A5, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
-        /// _[ 1.25, A3, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
-        /// _[ 0.00, A4, Flute7 ], <br/>
-        /// _[ 0.25, C5, Flute7, MyCurve ], <br/>
-        /// _[ 0.50, E5, Flute7, MyCurve, l[0.5] ], <br/>
-        /// _[ 0.75, G5, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
-        /// _[ 1.00, A5, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
-        /// _[ 1.25, A3, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
-        /// _[ 1.50, C4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), _synthWishes._[t], vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
-        /// _[ t[1, 1], A4, Flute7, 0.8 ], <br/>
-        /// _[ t[1, 2], C5, Flute7, 0.8, l[0.5] ], <br/>
-        /// _[ t[1, 3], E5, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
-        /// _[ t[1, 4], G5, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
-        /// _[ t[2, 1], A5, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
-        /// _[ t[2, 2], A3, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len, sound.Method.Name);
-        
-        /// <summary><c>
-        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
-        /// _[ t[1, 1], A4, Flute7 ], <br/>
-        /// _[ t[1, 2], C5, Flute7, MyCurve ], <br/>
-        /// _[ t[1, 3], E5, Flute7, MyCurve, l[0.5] ], <br/>
-        /// _[ t[1, 4], G5, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
-        /// _[ t[2, 1], A5, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
-        /// _[ t[2, 2], A3, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
-        /// _[ t[2, 3], C4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
-        /// </c></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
-        public FlowNode this[
-            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _synthWishes.StrikeNote(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len, sound.Method.Name);
-    }
-    
-    // StrikeNote SynthWishes
+    // Note SynthWishes
 
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(
+        public FlowNode Note(
             FlowNode sound, FlowNode delay = default, FlowNode volume = default, FlowNode noteLength = default, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -639,6 +83,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Resolve Name
             string resolvedName = ResolveName(name, sound, callerMemberName);
+            if (FilledIn(resolvedName))
+            {
+                resolvedName += " " + MemberName();
+            }
             
             // Resolve NoteLength
             noteLength = SnapNoteLength(noteLength);
@@ -658,6 +106,18 @@ namespace JJ.Business.Synthesizer.Wishes
             return sound.SetName(resolvedName);
         }
         
+        /// <inheritdoc cref="docs._default" />
+        public FlowNode Note(
+            FlowNode sound, FlowNode delay, double volume, FlowNode noteLength, 
+            string name = null, [CallerMemberName] string callerMemberName = null)
+            => Note(sound, delay, _[volume], noteLength, name, callerMemberName);
+        
+        /// <inheritdoc cref="docs._default" />
+        public FlowNode Note(
+            FlowNode sound, FlowNode delay, double volume,
+            string name = null, [CallerMemberName] string callerMemberName = null) 
+            => Note(sound, delay, _[volume], default, name, callerMemberName);
+               
         private static double GetVolumeDuration(FlowNode volume)
         {
             if (volume.IsCurve)
@@ -672,41 +132,1687 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return 1;
         }
+
+        // Instrument without Parameters
         
-        /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(
-            FlowNode sound, FlowNode delay, double volume, FlowNode noteLength, 
-            string name = null, [CallerMemberName] string callerMemberName = null)
-            => StrikeNote(sound, delay, _[volume], noteLength, name, callerMemberName);
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ Flute1, 0.8 ], <br/>
+        /// _[ Flute1, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            Func<FlowNode> sound,
+            double vol, FlowNode len = null]
+            => Note(sound(), default, vol, len, sound.Method.Name);
         
-        /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(
-            FlowNode sound, FlowNode delay, double volume,
-            string name = null, [CallerMemberName] string callerMemberName = null) 
-            => StrikeNote(sound, delay, _[volume], default, name, callerMemberName);
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ Flute1 ], <br/>
+        /// _[ Flute1, MyCurve ], <br/>
+        /// _[ Flute1, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            Func<FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => Note(sound(), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ 0.00, Flute1, 0.8 ], <br/>
+        /// _[ 0.00, Flute1, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, Func<FlowNode> sound,
+            double vol, FlowNode len = null]
+            => Note(sound(), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ 0.00, Flute1 ], <br/>
+        /// _[ 0.00, Flute1, MyCurve ], <br/>
+        /// _[ 0.00, Flute1, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, Func<FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => Note(sound(), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ t[1, 1], Flute1, 0.8 ], <br/>
+        /// _[ t[1, 1], Flute1, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, Func<FlowNode> sound,
+            double vol, FlowNode len = null]
+            => Note(sound(), t, vol, len, sound.Method.Name);
+
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ t[1, 1], Flute1 ], <br/>
+        /// _[ t[1, 1], Flute1, MyCurve ], <br/>
+        /// _[ t[1, 1], Flute1, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, Func<FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => Note(sound(), t, vol, len, sound.Method.Name);
+        
+        // Instrument with 1 Parameter Freq
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ A4, Flute2, 0.8 ], <br/>
+        /// _[ A4, Flute2, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => Note(sound(freq), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ A4, Flute2 ], <br/>
+        /// _[ A4, Flute2, MyCurve ], <br/>
+        /// _[ A4, Flute2, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => Note(sound(freq), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ 0.00, A4, Flute2, 0.8 ], <br/>
+        /// _[ 0.25, C4, Flute2, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => Note(sound(freq), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ 0.00, A4, Flute2 ], <br/>
+        /// _[ 0.25, C4, Flute2, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute2, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => Note(sound(freq), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ t[1, 1], A4, Flute2, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute2, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => Note(sound(freq), t, vol, len, sound.Method.Name);
+
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ t[1, 1], A4, Flute2 ], <br/>
+        /// _[ t[1, 2], C5, Flute2, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute2, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => Note(sound(freq), t, vol, len, sound.Method.Name);
+        
+        // Instrument with 2 Parameters Freq and Len
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ A4, Flute3, 0.8 ], <br/>
+        /// _[ A4, Flute3, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => Note(sound(freq, len), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ A4, Flute3 ], <br/>
+        /// _[ A4, Flute3, MyCurve ], <br/>
+        /// _[ A4, Flute3, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => Note(sound(freq, len), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ 0.00, A4, Flute3, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute3, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => Note(sound(freq, len), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ 0.00, A4, Flute3 ], <br/>
+        /// _[ 0.25, C5, Flute3, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute3, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => Note(sound(freq, len), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute3, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute3, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => Note(sound(freq, len), t, vol, len, sound.Method.Name);
+
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute3 ], <br/>
+        /// _[ t[1, 2], C5, Flute3, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute3, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => Note(sound(freq, len), t, vol, len, sound.Method.Name);
+
+        // Instruments with 1 Effect Parameter (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ A4, Flute4, 0.8 ], <br/>
+        /// _[ A4, Flute4, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute4, 0.8, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null]
+            => Note(sound(freq, len, fx1), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ A4, Flute4 ], <br/>
+        /// _[ A4, Flute4, MyCurve ], <br/>
+        /// _[ A4, Flute4, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute4, MyCurve, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
+            => Note(sound(freq, len, fx1), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute4, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute4, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute4, 0.8, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null]
+            => Note(sound(freq, len, fx1), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute4 ], <br/>
+        /// _[ 0.25, C5, Flute4, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute4, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute4, MyCurve, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
+            => Note(sound(freq, len, fx1), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute4, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute4, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute4, 0.8, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null]
+            => Note(sound(freq, len, fx1), t, vol, len, sound.Method.Name);
+
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute4 ], <br/>
+        /// _[ t[1, 2], C5, Flute4, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute4, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute4, MyCurve, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound, 
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null] 
+            => Note(sound(freq, len, fx1), t, vol, len, sound.Method.Name);
+        
+        // Instruments with 2 Effect Parameters (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ A4, Flute5, 0.8 ], <br/>
+        /// _[ A4, Flute5, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => Note(sound(freq, len, fx1, fx2), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ A4, Flute5 ], <br/>
+        /// _[ A4, Flute5, MyCurve ], <br/>
+        /// _[ A4, Flute5, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => Note(sound(freq, len, fx1, fx2), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute5, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute5, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ 0.75, G5, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => Note(sound(freq, len, fx1, fx2), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute5 ], <br/>
+        /// _[ 0.25, C5, Flute5, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute5, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ 1.00, A5, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => Note(sound(freq, len, fx1, fx2), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute5, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute5, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ t[1, 4], G5, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => Note(sound(freq, len, fx1, fx2), t, vol, len, sound.Method.Name);
+
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute5 ], <br/>
+        /// _[ t[1, 2], C5, Flute5, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute5, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ t[2, 1], A5, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => Note(sound(freq, len, fx1, fx2), t, vol, len, sound.Method.Name);
+        
+        // Instruments with 3 Effect Parameters (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ A4, Flute6, 0.8 ], <br/>
+        /// _[ A4, Flute6, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ A4, Flute6 ], <br/>
+        /// _[ A4, Flute6, MyCurve ], <br/>
+        /// _[ A4, Flute6, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute6, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute6, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ 0.75, G5, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute6 ], <br/>
+        /// _[ 0.25, C5, Flute6, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute6, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ 1.00, A5, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute6, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute6, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ t[1, 4], G5, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3), t, vol, len, sound.Method.Name);
+
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute6 ], <br/>
+        /// _[ t[1, 2], C5, Flute6, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute6, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ t[2, 1], A5, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3), t, vol, len, sound.Method.Name);
+
+        // Instruments with 4 Effect Parameters (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ A4, Flute7, 0.8 ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ A4, Flute7 ], <br/>
+        /// _[ A4, Flute7, MyCurve ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute7, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute7, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ 0.75, G5, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ 1.00, A5, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ 1.25, A3, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3, fx4), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute7 ], <br/>
+        /// _[ 0.25, C5, Flute7, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute7, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ 1.00, A5, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ 1.25, A3, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ 1.50, C4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3, fx4), _[t], vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute7, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute7, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ t[1, 4], G5, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ t[2, 1], A5, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ t[2, 2], A3, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len, sound.Method.Name);
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute7 ], <br/>
+        /// _[ t[1, 2], C5, Flute7, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute7, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ t[2, 1], A5, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ t[2, 2], A3, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ t[2, 3], C4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => Note(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len, sound.Method.Name);
     }
 
-    // StrikeNote FlowNode
+    // Note Indexer
+    
+    public partial class CaptureIndexer
+    {
+        // Instrument without Parameters
+        
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ Flute1, 0.8 ], <br/>
+        /// _[ Flute1, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            Func<FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[sound, vol, len ] ;
+        
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ Flute1 ], <br/>
+        /// _[ Flute1, MyCurve ], <br/>
+        /// _[ Flute1, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            Func<FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[sound, vol, len];
+
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ 0.00, Flute1, 0.8 ], <br/>
+        /// _[ 0.00, Flute1, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, Func<FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, sound, vol, len];
+
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ 0.00, Flute1 ], <br/>
+        /// _[ 0.00, Flute1, MyCurve ], <br/>
+        /// _[ 0.00, Flute1, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, Func<FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ t[1, 1], Flute1, 0.8 ], <br/>
+        /// _[ t[1, 1], Flute1, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, Func<FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, sound, vol, len];
+
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ t[1, 1], Flute1 ], <br/>
+        /// _[ t[1, 1], Flute1, MyCurve ], <br/>
+        /// _[ t[1, 1], Flute1, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, Func<FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, sound, vol, len];
+        
+        // Instrument with 1 Parameter Freq
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ A4, Flute2, 0.8 ], <br/>
+        /// _[ A4, Flute2, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ A4, Flute2 ], <br/>
+        /// _[ A4, Flute2, MyCurve ], <br/>
+        /// _[ A4, Flute2, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ 0.00, A4, Flute2, 0.8 ], <br/>
+        /// _[ 0.25, C4, Flute2, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ 0.00, A4, Flute2 ], <br/>
+        /// _[ 0.25, C4, Flute2, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute2, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ t[1, 1], A4, Flute2, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute2, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ t[1, 1], A4, Flute2 ], <br/>
+        /// _[ t[1, 2], C5, Flute2, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute2, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+        
+        // Instrument with 2 Parameters Freq and Len
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ A4, Flute3, 0.8 ], <br/>
+        /// _[ A4, Flute3, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ A4, Flute3 ], <br/>
+        /// _[ A4, Flute3, MyCurve ], <br/>
+        /// _[ A4, Flute3, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ 0.00, A4, Flute3, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute3, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ 0.00, A4, Flute3 ], <br/>
+        /// _[ 0.25, C5, Flute3, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute3, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute3, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute3, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute3 ], <br/>
+        /// _[ t[1, 2], C5, Flute3, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute3, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+
+        // Instruments with 1 Effect Parameter (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ A4, Flute4, 0.8 ], <br/>
+        /// _[ A4, Flute4, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute4, 0.8, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null]
+            => _synthWishes[freq, sound, vol, len, fx1];
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ A4, Flute4 ], <br/>
+        /// _[ A4, Flute4, MyCurve ], <br/>
+        /// _[ A4, Flute4, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute4, MyCurve, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
+            => _synthWishes[freq, sound, vol, len, fx1];
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute4, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute4, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute4, 0.8, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1];
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute4 ], <br/>
+        /// _[ 0.25, C5, Flute4, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute4, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute4, MyCurve, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1];
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute4, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute4, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute4, 0.8, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1];
+
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute4 ], <br/>
+        /// _[ t[1, 2], C5, Flute4, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute4, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute4, MyCurve, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound, 
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null] 
+            => _synthWishes[t, freq, sound, vol, len, fx1];
+        
+        // Instruments with 2 Effect Parameters (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ A4, Flute5, 0.8 ], <br/>
+        /// _[ A4, Flute5, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2];
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ A4, Flute5 ], <br/>
+        /// _[ A4, Flute5, MyCurve ], <br/>
+        /// _[ A4, Flute5, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2];
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute5, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute5, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ 0.75, G5, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute5 ], <br/>
+        /// _[ 0.25, C5, Flute5, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute5, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ 1.00, A5, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute5, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute5, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ t[1, 4], G5, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute5 ], <br/>
+        /// _[ t[1, 2], C5, Flute5, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute5, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ t[2, 1], A5, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+        
+        // Instruments with 3 Effect Parameters (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ A4, Flute6, 0.8 ], <br/>
+        /// _[ A4, Flute6, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2, fx3];
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ A4, Flute6 ], <br/>
+        /// _[ A4, Flute6, MyCurve ], <br/>
+        /// _[ A4, Flute6, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2, fx3];
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute6, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute6, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ 0.75, G5, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute6 ], <br/>
+        /// _[ 0.25, C5, Flute6, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute6, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ 1.00, A5, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute6, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute6, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ t[1, 4], G5, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute6 ], <br/>
+        /// _[ t[1, 2], C5, Flute6, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute6, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ t[2, 1], A5, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+
+        // Instruments with 4 Effect Parameters (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ A4, Flute7, 0.8 ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2, fx3, fx4];
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ A4, Flute7 ], <br/>
+        /// _[ A4, Flute7, MyCurve ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2, fx3, fx4];
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute7, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute7, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ 0.75, G5, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ 1.00, A5, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ 1.25, A3, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute7 ], <br/>
+        /// _[ 0.25, C5, Flute7, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute7, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ 1.00, A5, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ 1.25, A3, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ 1.50, C4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute7, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute7, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ t[1, 4], G5, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ t[2, 1], A5, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ t[2, 2], A3, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute7 ], <br/>
+        /// _[ t[1, 2], C5, Flute7, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute7, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ t[2, 1], A5, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ t[2, 2], A3, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ t[2, 3], C4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
+    }
+
+    // Note FlowNode
 
     public partial class FlowNode
     {
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(
+        public FlowNode Note(
             FlowNode delay = null, FlowNode volume = default, FlowNode duration = default,
             string name = null, [CallerMemberName] string callerMemberName = null) 
-            => _synthWishes.StrikeNote(this, delay, volume, duration, name, callerMemberName);
+            => _synthWishes.Note(this, delay, volume, duration, name, callerMemberName);
         
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(
+        public FlowNode Note(
             FlowNode sound, FlowNode delay, double volume, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.StrikeNote(sound, delay, volume, duration, name, callerMemberName);
+            => _synthWishes.Note(sound, delay, volume, duration, name, callerMemberName);
         
         /// <inheritdoc cref="docs._default" />
-        public FlowNode StrikeNote(
+        public FlowNode Note(
             FlowNode delay, double volume,
             string name = null, [CallerMemberName] string callerMemberName = null) 
-            => _synthWishes.StrikeNote(this, delay, volume, name, callerMemberName);
+            => _synthWishes.Note(this, delay, volume, name, callerMemberName);
+    
+                // Instrument without Parameters
+        
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ Flute1, 0.8 ], <br/>
+        /// _[ Flute1, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            Func<FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[sound, vol, len ] ;
+        
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ Flute1 ], <br/>
+        /// _[ Flute1, MyCurve ], <br/>
+        /// _[ Flute1, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            Func<FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[sound, vol, len];
+
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ 0.00, Flute1, 0.8 ], <br/>
+        /// _[ 0.00, Flute1, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, Func<FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, sound, vol, len];
+
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ 0.00, Flute1 ], <br/>
+        /// _[ 0.00, Flute1, MyCurve ], <br/>
+        /// _[ 0.00, Flute1, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, Func<FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ t[1, 1], Flute1, 0.8 ], <br/>
+        /// _[ t[1, 1], Flute1, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, Func<FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, sound, vol, len];
+
+        /// <summary><c>
+        /// FlowNode Flute1() <br/><br/>
+        /// _[ t[1, 1], Flute1 ], <br/>
+        /// _[ t[1, 1], Flute1, MyCurve ], <br/>
+        /// _[ t[1, 1], Flute1, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, Func<FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, sound, vol, len];
+        
+        // Instrument with 1 Parameter Freq
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ A4, Flute2, 0.8 ], <br/>
+        /// _[ A4, Flute2, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ A4, Flute2 ], <br/>
+        /// _[ A4, Flute2, MyCurve ], <br/>
+        /// _[ A4, Flute2, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ 0.00, A4, Flute2, 0.8 ], <br/>
+        /// _[ 0.25, C4, Flute2, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ 0.00, A4, Flute2 ], <br/>
+        /// _[ 0.25, C4, Flute2, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute2, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ t[1, 1], A4, Flute2, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute2, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+
+        /// <summary><c>
+        /// FlowNode Flute2(FlowNode freq) <br/><br/>
+        /// _[ t[1, 1], A4, Flute2 ], <br/>
+        /// _[ t[1, 2], C5, Flute2, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute2, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+        
+        // Instrument with 2 Parameters Freq and Len
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ A4, Flute3, 0.8 ], <br/>
+        /// _[ A4, Flute3, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ A4, Flute3 ], <br/>
+        /// _[ A4, Flute3, MyCurve ], <br/>
+        /// _[ A4, Flute3, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ 0.00, A4, Flute3, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute3, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ 0.00, A4, Flute3 ], <br/>
+        /// _[ 0.25, C5, Flute3, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute3, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+        
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute3, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute3, 0.8, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+
+        /// <summary><c>
+        /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute3 ], <br/>
+        /// _[ t[1, 2], C5, Flute3, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute3, MyCurve, l[0.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null]
+            => _synthWishes[t, freq, sound, vol, len];
+
+        // Instruments with 1 Effect Parameter (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ A4, Flute4, 0.8 ], <br/>
+        /// _[ A4, Flute4, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute4, 0.8, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null]
+            => _synthWishes[freq, sound, vol, len, fx1];
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ A4, Flute4 ], <br/>
+        /// _[ A4, Flute4, MyCurve ], <br/>
+        /// _[ A4, Flute4, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute4, MyCurve, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
+            => _synthWishes[freq, sound, vol, len, fx1];
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute4, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute4, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute4, 0.8, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1];
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute4 ], <br/>
+        /// _[ 0.25, C5, Flute4, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute4, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute4, MyCurve, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1];
+        
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute4, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute4, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute4, 0.8, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1];
+
+        /// <summary><c>
+        /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute4 ], <br/>
+        /// _[ t[1, 2], C5, Flute4, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute4, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute4, MyCurve, l[0.5], _[0.14] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound, 
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null] 
+            => _synthWishes[t, freq, sound, vol, len, fx1];
+        
+        // Instruments with 2 Effect Parameters (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ A4, Flute5, 0.8 ], <br/>
+        /// _[ A4, Flute5, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2];
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ A4, Flute5 ], <br/>
+        /// _[ A4, Flute5, MyCurve ], <br/>
+        /// _[ A4, Flute5, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2];
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute5, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute5, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ 0.75, G5, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute5 ], <br/>
+        /// _[ 0.25, C5, Flute5, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute5, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ 1.00, A5, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+        
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute5, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute5, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute5, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ t[1, 4], G5, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+
+        /// <summary><c>
+        /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute5 ], <br/>
+        /// _[ t[1, 2], C5, Flute5, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute5, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute5, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ t[2, 1], A5, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+        
+        // Instruments with 3 Effect Parameters (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ A4, Flute6, 0.8 ], <br/>
+        /// _[ A4, Flute6, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2, fx3];
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ A4, Flute6 ], <br/>
+        /// _[ A4, Flute6, MyCurve ], <br/>
+        /// _[ A4, Flute6, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2, fx3];
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute6, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute6, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ 0.75, G5, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute6 ], <br/>
+        /// _[ 0.25, C5, Flute6, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute6, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ 1.00, A5, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+        
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute6, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute6, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute6, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ t[1, 4], G5, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+
+        /// <summary><c>
+        /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute6 ], <br/>
+        /// _[ t[1, 2], C5, Flute6, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute6, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute6, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ t[2, 1], A5, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+
+        // Instruments with 4 Effect Parameters (Optional)
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ A4, Flute7, 0.8 ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2, fx3, fx4];
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ A4, Flute7 ], <br/>
+        /// _[ A4, Flute7, MyCurve ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[freq, sound, vol, len, fx1, fx2, fx3, fx4];
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute7, 0.8 ], <br/>
+        /// _[ 0.25, C5, Flute7, 0.8, l[0.5] ], <br/>
+        /// _[ 0.50, E5, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ 0.75, G5, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ 1.00, A5, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ 1.25, A3, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ 0.00, A4, Flute7 ], <br/>
+        /// _[ 0.25, C5, Flute7, MyCurve ], <br/>
+        /// _[ 0.50, E5, Flute7, MyCurve, l[0.5] ], <br/>
+        /// _[ 0.75, G5, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ 1.00, A5, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ 1.25, A3, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ 1.50, C4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute7, 0.8 ], <br/>
+        /// _[ t[1, 2], C5, Flute7, 0.8, l[0.5] ], <br/>
+        /// _[ t[1, 3], E5, Flute7, 0.8, l[0.5], _[0.14] ], <br/>
+        /// _[ t[1, 4], G5, Flute7, 0.8, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ t[2, 1], A5, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ t[2, 2], A3, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
+        
+        /// <summary><c>
+        /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
+        /// _[ t[1, 1], A4, Flute7 ], <br/>
+        /// _[ t[1, 2], C5, Flute7, MyCurve ], <br/>
+        /// _[ t[1, 3], E5, Flute7, MyCurve, l[0.5] ], <br/>
+        /// _[ t[1, 4], G5, Flute7, MyCurve, l[0.5], _[0.14] ], <br/>
+        /// _[ t[2, 1], A5, Flute7, MyCurve, l[0.5], _[0.14], _[1.08] ], <br/>
+        /// _[ t[2, 2], A3, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ], <br/>
+        /// _[ t[2, 3], C4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
+        /// </c></summary>
+        /// <inheritdoc cref="docs._noteindexer" />
+        public FlowNode this[
+            FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
+            => _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
     }
 
     // Timing

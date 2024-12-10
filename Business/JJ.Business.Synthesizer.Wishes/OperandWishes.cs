@@ -710,7 +710,7 @@ public partial class FlowNode
                 FlowNode flowNode = null;
                 if (outlet != null)
                 {
-                    flowNode = _parent._[outlet];
+                    flowNode = _parent[outlet];
                 }
                 array[arrayIndex + i] = flowNode;
             }
@@ -720,7 +720,7 @@ public partial class FlowNode
         {
             return _underlyingList
                    // Convert each Outlet to FlowNode
-                   .Select(outlet => outlet == null ? null : _parent._[outlet]) 
+                   .Select(outlet => outlet == null ? null : _parent[outlet]) 
                    .GetEnumerator();
         }
         

@@ -248,7 +248,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return _beatLength;
             }
             
-            return synthWishes._[_section.NoteLength ?? DefaultNoteLength];
+            return synthWishes[_section.NoteLength ?? DefaultNoteLength];
         }
         
         public FlowNode SnapNoteLength(SynthWishes synthWishes, FlowNode noteLength)
@@ -268,7 +268,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public void WithNoteLength(double noteLength, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            WithNoteLength(synthWishes._[noteLength]);
+            WithNoteLength(synthWishes[noteLength]);
         }
         
         public void ResetNoteLength() => _noteLength = null;
@@ -291,7 +291,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return _beatLength * 4;
             }
 
-            return synthWishes._[_section.BarLength ?? DefaultBarLength];
+            return synthWishes[_section.BarLength ?? DefaultBarLength];
         }
         
         public void WithBarLength(FlowNode barLength) => _barLength = barLength ?? throw new NullException(() => barLength);
@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public void WithBarLength(double barLength, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            WithBarLength(synthWishes._[barLength]);
+            WithBarLength(synthWishes[barLength]);
         }
         
         public void ResetBarLength() => _barLength = null;
@@ -322,7 +322,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return _barLength * 0.25;
             }
             
-            return synthWishes._[_section.BeatLength ?? DefaultBeatLength];
+            return synthWishes[_section.BeatLength ?? DefaultBeatLength];
         }
         
         public void WithBeatLength(FlowNode beatLength) => _beatLength = beatLength ?? throw new NullException(() => beatLength);
@@ -330,7 +330,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public void WithBeatLength(double beatLength, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            WithBeatLength(synthWishes._[beatLength]);
+            WithBeatLength(synthWishes[beatLength]);
         }
         
         public void ResetBeatLength() => _beatLength = null;
@@ -351,7 +351,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return _audioLength;
             }
             
-            return synthWishes._[_section.AudioLength ?? DefaultAudioLength];
+            return synthWishes[_section.AudioLength ?? DefaultAudioLength];
         }
         
         /// <inheritdoc cref="docs._audiolength" />
@@ -361,7 +361,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public void WithAudioLength(double newAudioLength, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            WithAudioLength(synthWishes._[newAudioLength]);
+            WithAudioLength(synthWishes[newAudioLength]);
         }
         
         /// <inheritdoc cref="docs._audiolength" />
@@ -376,7 +376,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public void AddAudioLength(double additionalLength, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            AddAudioLength(synthWishes._[additionalLength]);
+            AddAudioLength(synthWishes[additionalLength]);
         }
         
         /// <inheritdoc cref="docs._audiolength" />
@@ -395,7 +395,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return _leadingSilence;
             }
             
-            return synthWishes._[_section.LeadingSilence ?? DefaultLeadingSilence];
+            return synthWishes[_section.LeadingSilence ?? DefaultLeadingSilence];
         }
 
         public void WithLeadingSilence(FlowNode seconds) => _leadingSilence = seconds ?? throw new NullException(() => seconds);
@@ -403,7 +403,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public void WithLeadingSilence(double seconds, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            WithLeadingSilence(synthWishes._[seconds]);
+            WithLeadingSilence(synthWishes[seconds]);
         }
         
         public void ResetLeadingSilence() => _leadingSilence = null;
@@ -421,7 +421,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return _trailingSilence;
             }
             
-            return synthWishes._[_section.TrailingSilence ?? DefaultTrailingSilence];
+            return synthWishes[_section.TrailingSilence ?? DefaultTrailingSilence];
         }
         
         public void WithTrailingSilence(FlowNode seconds) => _trailingSilence = seconds ?? throw new NullException(() => seconds);
@@ -429,7 +429,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public void WithTrailingSilence(double seconds, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            WithTrailingSilence(synthWishes._[seconds]);
+            WithTrailingSilence(synthWishes[seconds]);
         }
         
         public void ResetTrailingSilence() => _trailingSilence = null;

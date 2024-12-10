@@ -13,39 +13,39 @@ namespace JJ.Business.Synthesizer.Wishes
         public static FlowNode operator +(FlowNode a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '+', b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
+            a = a ?? x[0];
+            b = b ?? x[0];
             return a.Plus(b);
         }
         
         public static FlowNode operator +(FlowNode a, Outlet b)
         {
             var x = GetSynthWishesOrThrow(a, '+', b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
-            return a.Plus(x._[b]);
+            a = a ?? x[0];
+            b = b ?? x[0];
+            return a.Plus(x[b]);
         }
 
         public static FlowNode operator +(Outlet a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '+', b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
-            return x._[a].Plus(b);
+            a = a ?? x[0];
+            b = b ?? x[0];
+            return x[a].Plus(b);
         }
                 
         public static FlowNode operator +(FlowNode a, double b)
         {
             var x = GetSynthWishesOrThrow(a, '+', b);
-            a = a ?? x._[0];
+            a = a ?? x[0];
             return a.Plus(b);
         }
 
         public static FlowNode operator +(double a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '+', b);
-            b = b ?? x._[0];
-            return x._[a].Plus(b);
+            b = b ?? x[0];
+            return x[a].Plus(b);
         }
 
         // Operator -
@@ -53,39 +53,39 @@ namespace JJ.Business.Synthesizer.Wishes
         public static FlowNode operator -(FlowNode a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '-', b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
+            a = a ?? x[0];
+            b = b ?? x[0];
             return a.Minus(b);
         }
         
         public static FlowNode operator -(FlowNode a, Outlet b)
         {
             var x = GetSynthWishesOrThrow(a, '-', b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
-            return a.Minus(x._[b]);
+            a = a ?? x[0];
+            b = b ?? x[0];
+            return a.Minus(x[b]);
         }
         
         public static FlowNode operator -(Outlet a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '-', b);
-            a = a ?? x._[0];
-            b = b ?? x._[0];
-            return x._[a].Minus(b);
+            a = a ?? x[0];
+            b = b ?? x[0];
+            return x[a].Minus(b);
         }
         
         public static FlowNode operator -(FlowNode a, double b)
         {
             var x = GetSynthWishesOrThrow(a, '-', b);
-            a = a ?? x._[0];
+            a = a ?? x[0];
             return a.Minus(b);
         }
         
         public static FlowNode operator -(double a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '-',b);
-            b = b ?? x._[0];
-            return x._[a].Minus(b);
+            b = b ?? x[0];
+            return x[a].Minus(b);
         }
 
         // Operator *
@@ -93,39 +93,39 @@ namespace JJ.Business.Synthesizer.Wishes
         public static FlowNode operator *(FlowNode a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '*', b);
-            a = a ?? x._[1];
-            b = b ?? x._[1];
+            a = a ?? x[1];
+            b = b ?? x[1];
             return a.Times(b);
         }
         
         public static FlowNode operator *(FlowNode a, Outlet b)
         {
             var x = GetSynthWishesOrThrow(a, '*', b);
-            a = a ?? x._[1];
-            b = b ?? x._[1];
-            return a.Times(x._[b]);
+            a = a ?? x[1];
+            b = b ?? x[1];
+            return a.Times(x[b]);
         }
         
         public static FlowNode operator *(Outlet a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '*', b);
-            a = a ?? x._[1];
-            b = b ?? x._[1];
-            return x._[a].Times(b);
+            a = a ?? x[1];
+            b = b ?? x[1];
+            return x[a].Times(b);
         }
         
         public static FlowNode operator *(FlowNode a, double b)
         {
             var x = GetSynthWishesOrThrow(a, '*', b);
-            a = a ?? x._[1];
+            a = a ?? x[1];
             return a.Times(b);
         }
         
         public static FlowNode operator *(double a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '*', b);
-            b = b ?? x._[1];
-            return x._[a].Times(b);
+            b = b ?? x[1];
+            return x[a].Times(b);
         }
 
         // Operator /
@@ -133,39 +133,39 @@ namespace JJ.Business.Synthesizer.Wishes
         public static FlowNode operator /(FlowNode a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '/', b);
-            a = a ?? x._[0];
-            b = b ?? x._[1];
+            a = a ?? x[0];
+            b = b ?? x[1];
             return a.Divide(b);
         }
         
         public static FlowNode operator /(FlowNode a, Outlet b)
         {
             var x = GetSynthWishesOrThrow(a, '/', b);
-            a = a ?? x._[0];
-            b = b ?? x._[1];
-            return a.Divide(x._[b]);
+            a = a ?? x[0];
+            b = b ?? x[1];
+            return a.Divide(x[b]);
         }
                 
         public static FlowNode operator /(Outlet a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '/', b);
-            a = a ?? x._[0];
-            b = b ?? x._[1];
-            return x._[a].Divide(b);
+            a = a ?? x[0];
+            b = b ?? x[1];
+            return x[a].Divide(b);
         }
         
         public static FlowNode operator /(FlowNode a, double b)
         {
             var x = GetSynthWishesOrThrow(a, '/', b);
-            a = a ?? x._[0];
+            a = a ?? x[0];
             return a.Divide(b);
         }
         
         public static FlowNode operator /(double a, FlowNode b)
         {
             var x = GetSynthWishesOrThrow(a, '/', b);
-            b = b ?? x._[1];
-            return x._[a].Divide(b);
+            b = b ?? x[1];
+            return x[a].Divide(b);
         }
     
         // Helpers

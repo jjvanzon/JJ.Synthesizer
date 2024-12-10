@@ -21,8 +21,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        public FlowNode Fluent(Outlet outlet) => _[outlet];
-        
         private bool MathAllowed(params FlowNode[] operands)
             => MathAllowed((IList<FlowNode>)operands);
         
@@ -40,19 +38,17 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return true;
         }
-    }
     
-    // OperatorWishes Indexers
-    
-    /// <inheritdoc cref="docs._captureindexer" />
-    public partial class CaptureIndexer
-    {
         // For Value Operators
         
-        /// <inheritdoc cref="docs._captureindexer" />
-        public FlowNode this[double value] => _synthWishes.Value(value);
+        /// <inheritdoc cref="docs._fluent"/>
+        public FlowNode Fluent(double value) => _[value];
         
-        // Turn Outlet into FlowNode
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[double value] => Value(value);
+    
+        /// <inheritdoc cref="docs._fluent"/>
+        public FlowNode Fluent(Outlet outlet) => _[outlet];
         
         /// <inheritdoc cref="docs._captureindexer" />
         public FlowNode this[Outlet outlet]
@@ -64,9 +60,21 @@ namespace JJ.Business.Synthesizer.Wishes
                     "This indexer is meant to wrap something into a FlowNode so you can " +
                     "use fluent method chaining and C# operator overloads.");
                 
-                return new FlowNode(_synthWishes, outlet);
+                return new FlowNode(this, outlet);
             }
         }
+    }
+    
+    // OperatorWishes Indexers
+    
+    /// <inheritdoc cref="docs._captureindexer" />
+    public partial class CaptureIndexer
+    {
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[double value] => _synthWishes[value];
+        
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[Outlet outlet] => _synthWishes[outlet];
     }
 
     // OperatorWishes FlowNode
@@ -76,8 +84,8 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private readonly SynthWishes _synthWishes;
         private readonly Outlet _underlyingOutlet;
-
-        public FlowNode(SynthWishes synthWishes, Outlet firstOperand)
+        
+        internal FlowNode(SynthWishes synthWishes, Outlet firstOperand)
         {
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _underlyingOutlet = firstOperand ?? throw new ArgumentNullException(nameof(firstOperand));
@@ -91,6 +99,18 @@ namespace JJ.Business.Synthesizer.Wishes
         public Outlet UnderlyingOutlet => _underlyingOutlet;
 
         public SynthWishes SynthWishes => _synthWishes;
+    
+        /// <inheritdoc cref="docs._fluent"/>
+        public FlowNode Fluent(double value) => _synthWishes.Fluent(value);
+    
+        /// <inheritdoc cref="docs._fluent"/>
+        public FlowNode Fluent(Outlet outlet) => _synthWishes.Fluent(outlet);
+
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[double value] => _synthWishes[value];
+        
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[Outlet outlet] => _synthWishes[outlet];
     }
 
     // Tape
@@ -1074,7 +1094,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Panning Fluent FlowNode
+    // Panning FlowNode
 
     public partial class FlowNode
     {
@@ -1128,7 +1148,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Panbrello Fluent FlowNode
+    // Panbrello FlowNode
 
     public partial class FlowNode
     {

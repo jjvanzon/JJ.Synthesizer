@@ -12,8 +12,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         const double delay     = 0.66;
         
         public static FlowNode Echo(this FlowNode x) 
-            => x.Echo(count, x._[magnitude], x._[delay])
-                .AddEchoDuration(count, x._[delay])
+            => x.Echo(count, x[magnitude], x[delay])
+                .AddEchoDuration(count, x[delay])
                 .SetName();
     }
 
@@ -39,9 +39,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         public void Additive_Metallophone_Jingle()
         {
-            WithPlay().WithAudioLength(beat[4] + NoteDuration);
+            WithPlay().WithAudioLength(beat[4] + NoteDuration).Fluent(MetallophoneJingle).Volume(0.33).Echo().Save().Play();
+        }
             
-            MetallophoneJingle.Volume(0.33).Echo().Save().Play();
+        /// <inheritdoc cref="docs._metallophone"/>
         }
         
         /// <inheritdoc cref="docs._metallophone"/>

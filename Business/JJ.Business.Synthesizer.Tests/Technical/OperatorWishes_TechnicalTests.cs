@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithShortDuration();
             
-            Save(() => Fluent(E4).Sine().Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Volume(Envelope)).Play();
+            Save(() => E4.Sine().Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Volume(Envelope)).Play();
         }
 
         [TestMethod]

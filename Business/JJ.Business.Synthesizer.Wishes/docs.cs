@@ -258,6 +258,23 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _flattenfactorswithmultiplyoutlet;
 
         /// <summary>
+        /// Wraps any <see cref="FlowNode"/> or outlet into a chaining-compatible syntax,
+        /// enabling fluent-style chaining even for commands that are not inherently chaining methods.
+        /// Example usage:
+        /// <code>
+        /// WithStereo().WithAudioLength(2).Fluent(MyInstrument(A4)).Play();
+        /// </code>
+        /// This allows you to seamlessly integrate <c>MyInstrument</c> into a chain where it would otherwise require multiple statements:
+        /// <code>
+        /// WithStereo().WithAudioLength(2);
+        /// MyInstrument(A4).Play();
+        /// </code>
+        /// Note: This utility is still experimental and may not support all chaining scenarios. 
+        /// It is designed to simplify the inclusion of non-chaining methods in fluent interfaces.
+        /// </summary>
+        public static object _fluent;
+        
+        /// <summary>
         /// Alternative entry point (Operator) Outlet (used in tests).
         /// </summary>
         public static object _flattentermswithsumoradd;
