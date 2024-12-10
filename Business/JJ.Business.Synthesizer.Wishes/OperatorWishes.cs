@@ -103,11 +103,17 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.IsTape = true;
             return signal;
         }
+        
+        public FlowNode Tape(FlowNode signal, double duration, [CallerMemberName] string callerMemberName = null)
+            => Tape(signal, _[duration], callerMemberName);
     }
 
     public partial class FlowNode
     {
         public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Tape(this, duration, callerMemberName);
+        
+        public FlowNode Tape(double duration, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Tape(this, duration, callerMemberName);
     }
 
