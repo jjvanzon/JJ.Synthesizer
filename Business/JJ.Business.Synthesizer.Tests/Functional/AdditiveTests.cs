@@ -41,10 +41,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             WithPlay().WithAudioLength(beat[4] + NoteDuration).Fluent(MetallophoneJingle).Volume(0.33).Echo().Save().Play();
         }
-            
+                
         /// <inheritdoc cref="docs._metallophone"/>
+        [TestMethod]
+        [TestCategory("Long")]
+        public void Metallophone_Chord_Test() => Run(Metallophone_Chord);
+        /// <inheritdoc cref="docs._metallophone"/>
+        public void Metallophone_Chord()
+        {
+            WithPlay().WithAudioLength(beat[4] + NoteDuration).Fluent(MetallophoneChord).Volume(0.33).Echo().Save().Play();
         }
-        
+
         /// <inheritdoc cref="docs._metallophone"/>
         [TestMethod]
         public void Metallophone_Note_Test() => Run(Metallophone_Note);
@@ -63,6 +70,16 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             _[ t[1, 2.0], B4 , Metallophone, 0.5, NoteDuration ],
             _[ t[1, 2.5], Cs5, Metallophone, 0.7, NoteDuration ],
             _[ t[1, 4.0], Fs4, Metallophone, 0.4, NoteDuration ]
+        ).SetName();
+
+        /// <inheritdoc cref="docs._metallophone"/>
+        FlowNode MetallophoneChord => Add
+        (
+            _[ A4 , Metallophone, 0.9, NoteDuration ],
+            _[ E5 , Metallophone, 1.0, NoteDuration ],
+            _[ B4 , Metallophone, 0.5, NoteDuration ],
+            _[ Cs5, Metallophone, 0.7, NoteDuration ],
+            _[ Fs4, Metallophone, 0.4, NoteDuration ]
         ).SetName();
 
         /// <inheritdoc cref="docs._metallophone"/>
