@@ -15,7 +15,7 @@ using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // OperatorWishes Indexers
+    // Indexers
     
     /// <inheritdoc cref="docs._captureindexer" />
     public partial class CaptureIndexer
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[Outlet outlet] => _synthWishes[outlet];
     }
 
-    // OperatorWishes SynthWishes
+    // SynthWishes Operators
 
     public partial class SynthWishes
     {
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return true;
         }
     
-        // For Value Operators
+        // Values
         
         /// <inheritdoc cref="docs._fluent"/>
         public FlowNode Fluent(double value) => _[value];
@@ -90,11 +90,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Tape(FlowNode signal, double duration, [CallerMemberName] string callerMemberName = null)
             => Tape(signal, _[duration], callerMemberName);
 
-        // Value SynthWishes
+        // Value
 
         public FlowNode Value(double value = 0) => _[_operatorFactory.Value(value)];
     
-        // Add SynthWishes
+        // Add
 
         /// <inheritdoc cref="docs._add"/>
         public FlowNode Add(IList<FlowNode> terms)
@@ -199,7 +199,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._add"/>
         public FlowNode Plus(double a, FlowNode b) => Add(a, b);
 
-        // Multiply SynthWishes
+        // Multiply
 
         /// <inheritdoc cref="docs._multiply"/>
         public FlowNode Multiply(FlowNode a, FlowNode b)
@@ -434,7 +434,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return _[_operatorFactory.Multiply(firstFactor, NestMultiplications(remainingFactors))];
         }
     
-        // Subtract SynthWishes
+        // Subtract
     
         public FlowNode Subtract(FlowNode a, FlowNode b)
         {
@@ -468,7 +468,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Minus(FlowNode a, double b) => Subtract(a, b);
         public FlowNode Minus(double a, FlowNode b) => Subtract(a, b);
 
-        // Divide SynthWishes
+        // Divide
 
         public FlowNode Divide(FlowNode a, FlowNode b)
         {
@@ -509,7 +509,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Divide(FlowNode a, double b) => Divide(a, _[b]);
         public FlowNode Divide(double a, FlowNode b) => Divide(_[a], b);
 
-        // Power SynthWishes
+        // Power
 
         public FlowNode Power(FlowNode @base, FlowNode exponent)
         {
@@ -558,14 +558,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Power(FlowNode @base, double exponent) => Power(@base, _[exponent]);
         public FlowNode Power(double @base, FlowNode exponent) => Power(_[@base], exponent);
 
-        // Sine SynthWishes
+        // Sine
 
         /// <inheritdoc cref="docs._sine" />
         public FlowNode Sine(FlowNode pitch = null) => _[_operatorFactory.Sine(_[1], pitch ?? _[1])];
         /// <inheritdoc cref="docs._sine" />
         public FlowNode Sine(double pitch) => Sine(_[pitch]);
 
-        // Delay SynthWishes
+        // Delay
 
         public FlowNode Delay(FlowNode signal, FlowNode delay)
         {
@@ -591,7 +591,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FlowNode Delay(FlowNode signal, double delay) => Delay(signal, _[delay]);
 
-        // Skip SynthWishes
+        // Skip
 
         public FlowNode Skip(FlowNode signal, FlowNode skip)
         {
@@ -617,7 +617,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FlowNode Skip(FlowNode signal, double skip) => Skip(signal, _[skip]);
 
-        // Stretch SynthWishes
+        // Stretch
 
         public FlowNode Stretch(FlowNode signal, FlowNode timeScale)
         {
@@ -655,7 +655,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public FlowNode Stretch(FlowNode signal, double timeScale) => Stretch(signal, _[timeScale]);
 
-        // SpeedUp SynthWishes
+        // SpeedUp
 
         public FlowNode SpeedUp(FlowNode signal, FlowNode factor)
         {
@@ -683,7 +683,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FlowNode SpeedUp(FlowNode signal, double factor) => SpeedUp(signal, _[factor]);
 
-        // TimePower SynthWishes
+        // TimePower
 
         public FlowNode TimePower(FlowNode signal, FlowNode exponent)
         {
@@ -721,7 +721,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public FlowNode TimePower(FlowNode signal, double exponent) => TimePower(signal, _[exponent]);
 
-        // Tremolo SynthWishes
+        // Tremolo
 
         /// <inheritdoc cref="docs._tremolo" />
         public FlowNode Tremolo(FlowNode sound, (FlowNode speed, FlowNode depth) tremolo = default)
@@ -754,7 +754,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Tremolo(sound, (speed, depth));
         }
 
-        // Vibrato SynthWishes 
+        // Vibrato 
 
         /// <inheritdoc cref="docs._vibrato" />
         public FlowNode VibratoOverPitch(FlowNode freq, (FlowNode speed, FlowNode depth) vibrato = default)
@@ -787,7 +787,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return VibratoOverPitch(freq, (speed, depth));
         }
 
-        // Panning SynthWishes
+        // Panning
 
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(FlowNode sound, FlowNode panning = default)
@@ -830,7 +830,7 @@ namespace JJ.Business.Synthesizer.Wishes
             throw new Exception($"Unsupported combination of values: {new {GetChannels, GetChannel}}");
         }
 
-        // Panbrello SynthWishes
+        // Panbrello
 
         /// <inheritdoc cref="docs._panbrello" />
         public FlowNode Panbrello(FlowNode sound, (FlowNode speed, FlowNode depth) panbrello = default)
@@ -871,7 +871,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Panbrello(sound, (speed, depth));
         }
 
-        // PitchPan SynthWishes
+        // PitchPan
 
         /// <inheritdoc cref="docs._pitchpan" />
         public FlowNode PitchPan(
@@ -951,7 +951,7 @@ namespace JJ.Business.Synthesizer.Wishes
             double referenceFrequency, double referencePanning)
             => PitchPan(actualFrequency, _[centerFrequency], _[referenceFrequency], _[referencePanning]);
 
-        // Echo SynthWishes
+        // Echo
 
         public FlowNode Echo(FlowNode signal, int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
             => Echo(signal, count, _[magnitude], _[delay], callerMemberName);
@@ -1113,7 +1113,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FlowNode
     {
-        // Tape FlowNode
+        // Tape
     
         public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Tape(this, duration, callerMemberName);
@@ -1121,7 +1121,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Tape(double duration, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Tape(this, duration, callerMemberName);
 
-        // Value Capture FlowNode
+        // Value Capture
 
         /// <inheritdoc cref="docs._fluent"/>
         public FlowNode Fluent(double value) => _synthWishes.Fluent(value);
@@ -1135,7 +1135,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._captureindexer" />
         public FlowNode this[Outlet outlet] => _synthWishes[outlet];
 
-        // Value FlowNode
+        // Value
 
         public static explicit operator double(FlowNode flowNode)
             => flowNode.Value;
@@ -1152,7 +1152,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        // Add FlowNode
+        // Add
 
         /// <inheritdoc cref="docs._add"/>
         public FlowNode Add(IList<FlowNode> operands) => _synthWishes.Add(new[] { this }.Concat(operands).ToArray());
@@ -1171,7 +1171,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._add"/>
         public FlowNode Plus(double b) => Add(b);
 
-        // Multiply FlowNode
+        // Multiply
 
         /// <inheritdoc cref="docs._multiply"/>
         public FlowNode Multiply(FlowNode b) => _synthWishes.Multiply(this, b);
@@ -1196,54 +1196,54 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._multiply"/>
         public FlowNode Volume(double b) => Multiply(b);//.SetName();
 
-        // Subtract FlowNode
+        // Subtract
     
         public FlowNode Subtract(FlowNode b) => _synthWishes.Subtract(this, b);
         public FlowNode Subtract(double b) => _synthWishes.Subtract(this, b);
         public FlowNode Minus(FlowNode b) => Subtract(b);
         public FlowNode Minus(double b) => Subtract(b);
     
-        // Divide FlowNode
+        // Divide
 
         public FlowNode Divide(FlowNode b) => _synthWishes.Divide(this, b);
         public FlowNode Divide(double b) => _synthWishes.Divide(this, b);
 
-        // Power FlowNode
+        // Power
 
         public FlowNode Power(FlowNode exponent) => _synthWishes.Power(this, exponent);
         public FlowNode Power(double exponent) => _synthWishes.Power(this, exponent);
 
-        // Sine FlowNode
+        // Sine
     
         /// <inheritdoc cref="docs._sine" />
         public FlowNode Sine() => _synthWishes.Sine(this);
 
-        // Delay FlowNode
+        // Delay
 
         public FlowNode Delay(FlowNode delay) => _synthWishes.Delay(this, delay);
         public FlowNode Delay(double delay) => _synthWishes.Delay(this, delay);
 
-        // Skip FlowNode
+        // Skip
 
         public FlowNode Skip(FlowNode skip) => _synthWishes.Skip(this, skip);
         public FlowNode Skip(double skip) => _synthWishes.Skip(this, skip);
 
-        // Stretch FlowNode
+        // Stretch
 
         public FlowNode Stretch(FlowNode timeScale) => _synthWishes.Stretch(this, timeScale);
         public FlowNode Stretch(double timeScale) => _synthWishes.Stretch(this, timeScale);
 
-        // SpeedUp FlowNode
+        // SpeedUp
 
         public FlowNode SpeedUp(FlowNode factor) => _synthWishes.SpeedUp(this, factor);
         public FlowNode SpeedUp(double factor) => _synthWishes.SpeedUp(this, factor);
 
-        // TimePower FlowNode
+        // TimePower
 
         public FlowNode TimePower(FlowNode exponent) => _synthWishes.TimePower(this, exponent);
         public FlowNode TimePower(double exponent) => _synthWishes.TimePower(this, exponent);
 
-        // Tremolo FlowNode
+        // Tremolo
 
         /// <inheritdoc cref="docs._tremolo" />
         public FlowNode Tremolo(FlowNode speed = default, FlowNode depth = default) => _synthWishes.Tremolo(this, (speed, depth));
@@ -1254,7 +1254,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._tremolo" />
         public FlowNode Tremolo(double speed, double depth) => _synthWishes.Tremolo(this, (speed, depth));
 
-        // Vibrato FlowNode
+        // Vibrato
 
         /// <inheritdoc cref="docs._vibrato" />
         public FlowNode VibratoFreq(FlowNode speed = default, FlowNode depth = default) => _synthWishes.VibratoOverPitch(this, (speed, depth));
@@ -1265,14 +1265,14 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._vibrato" />
         public FlowNode VibratoFreq(double speed, double depth) => _synthWishes.VibratoOverPitch(this, (speed, depth));
 
-        // Panning FlowNode
+        // Panning
 
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(FlowNode panning = default) => _synthWishes.Panning(this, panning);
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(double panning) => _synthWishes.Panning(this, panning);
 
-        // Panbrello FlowNode
+        // Panbrello
 
         /// <inheritdoc cref="docs._panbrello" />
         public FlowNode Panbrello(FlowNode speed = default, FlowNode depth = default)
@@ -1290,7 +1290,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Panbrello(double speed, double depth)
             => _synthWishes.Panbrello(this, (speed, depth));
 
-        // PitchPan FlowNode
+        // PitchPan
 
         /// <inheritdoc cref="docs._pitchpan" />
         public FlowNode PitchPan(FlowNode centerFrequency, FlowNode referenceFrequency, FlowNode referencePanning)
@@ -1300,7 +1300,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode PitchPan(double centerFrequency, double referenceFrequency, double referencePanning)
             => _synthWishes.PitchPan(this, centerFrequency, referenceFrequency, referencePanning);
 
-        // Echo FlowNode
+        // Echo
 
         public FlowNode Echo(int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
