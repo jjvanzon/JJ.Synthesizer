@@ -15,6 +15,18 @@ using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    // OperatorWishes Indexers
+    
+    /// <inheritdoc cref="docs._captureindexer" />
+    public partial class CaptureIndexer
+    {
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[double value] => _synthWishes[value];
+        
+        /// <inheritdoc cref="docs._captureindexer" />
+        public FlowNode this[Outlet outlet] => _synthWishes[outlet];
+    }
+
     // OperatorWishes SynthWishes
 
     public partial class SynthWishes
@@ -63,18 +75,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
     
-    // OperatorWishes Indexers
-    
-    /// <inheritdoc cref="docs._captureindexer" />
-    public partial class CaptureIndexer
-    {
-        /// <inheritdoc cref="docs._captureindexer" />
-        public FlowNode this[double value] => _synthWishes[value];
-        
-        /// <inheritdoc cref="docs._captureindexer" />
-        public FlowNode this[Outlet outlet] => _synthWishes[outlet];
-    }
-
     // Tape
     
     public partial class SynthWishes
