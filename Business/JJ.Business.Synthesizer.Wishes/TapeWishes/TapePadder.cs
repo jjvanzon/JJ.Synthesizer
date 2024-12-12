@@ -46,13 +46,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             newTape.Channel = oldTape.Channel;
             newTape.IsPlay = oldTape.IsPlay;
             newTape.IsSave = oldTape.IsSave;
-            newTape.IsCache = oldTape.IsCache;
             newTape.IsPlayChannel = oldTape.IsPlayChannel;
             newTape.IsSaveChannel = oldTape.IsSaveChannel;
-            newTape.IsCacheChannel = oldTape.IsCacheChannel;
             newTape.IsPadding = true;
             newTape.FallBackName = oldTape.FallBackName;
-            
+
             // Remove actions from original tape
             oldTape.IsPlay = false;
             oldTape.IsSave = false;
