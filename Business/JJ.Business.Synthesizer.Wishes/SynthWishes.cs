@@ -17,21 +17,8 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    /// <inheritdoc cref="docs._captureindexer" />
-    public partial class CaptureIndexer
-    {
-        private readonly SynthWishes _synthWishes;
-        
-        /// <inheritdoc cref="docs._captureindexer" />
-        internal CaptureIndexer(SynthWishes synthWishes) 
-            => _synthWishes = synthWishes;
-    }
-    
     public partial class SynthWishes
     {
-        /// <inheritdoc cref="docs._captureindexer" />
-        public readonly CaptureIndexer _;
-        
         public IContext Context { get; }
 
         private ConfigWishes _config;
@@ -40,6 +27,9 @@ namespace JJ.Business.Synthesizer.Wishes
             get => _config;
             set => _config = value ?? throw new ArgumentException(nameof(Config));
         }
+
+        /// <inheritdoc cref="docs._captureindexer" />
+        public readonly CaptureIndexer _;
 
         private readonly OperatorFactory _operatorFactory;
         private readonly CurveFactory _curveFactory;
@@ -161,6 +151,110 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
+        // Command Indexers
+        
+        // No Parameters
+        
+        public FlowNode this[Func<FlowNode> func] 
+            => func();
+        
+        // 1 Parameter
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode> func, 
+            FlowNode arg1 = null] 
+            => func(arg1);
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode> func, 
+            double arg1] 
+            => func(_[arg1]);
+        
+        // 2 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1 = null, FlowNode arg2 = null] 
+            => func(arg1, arg2);
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode> func, 
+            double arg1, FlowNode arg2 = null] 
+            => func(_[arg1], arg2);
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1, double arg2] 
+            => func(arg1, _[arg2]);
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode> func, 
+            double arg1, double arg2] 
+            => func(_[arg1], _[arg2]);
+        
+        // 3 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null] 
+            => func(arg1, arg2, arg3);     
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            double arg1, FlowNode arg2 = null, FlowNode arg3 = null] 
+            => func(_[arg1], arg2, arg3);     
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1, double arg2, FlowNode arg3 = null] 
+            => func(arg1, _[arg2], arg3);     
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1, FlowNode arg2, double arg3] 
+            => func(arg1, arg2, _[arg3]);     
+               
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            double arg1, double arg2, FlowNode arg3] 
+            => func(_[arg1], _[arg2], arg3);     
+               
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            double arg1, FlowNode arg2, double arg3] 
+            => func(_[arg1], arg2, _[arg3]);     
+
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1, double arg2, double arg3] 
+            => func(arg1, _[arg2], _[arg3]);     
+               
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            double arg1, double arg2, double arg3] 
+            => func(_[arg1], _[arg2], _[arg3]);     
+
+        // 4 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null] 
+            => func(arg1, arg2, arg3, arg4);
+
+        // 5 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null] 
+            => func(arg1, arg2, arg3, arg4, arg5);
+        
+        // TODO: Dynamic for more parameters
+        
+        //public FlowNode this[
+        //    Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
+        //    params FlowNode[] args] 
+        //    => func(args[0], args[1], args[2]);
+            
         // Helpers
 
         private static string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
