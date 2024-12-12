@@ -297,11 +297,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void NoteArrangement_Flute2Params_Test() => new NoteWishesTests().NoteArrangement_Flute2Params();
+        public void NoteArrangement_Flute2Params_Test() => Run(NoteArrangement_Flute2Params);
         void NoteArrangement_Flute2Params()
         {
             SetNoteArrangementOptions();
-            Save(() => 0.1 * Add
+            Save(0.1 * Add
             (
             _[          A4, Flute2Params                   ],
             _[          A4, Flute2Params, 0.8              ],
