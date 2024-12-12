@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
 using static System.IO.File;
 using static System.IO.Path;
+using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -117,7 +119,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return realTimeMessage;
         }
 
-        // Tape Hierarchy
+        // Tapes
         
         public static string PlotTapeHierarchy(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
@@ -204,7 +206,7 @@ namespace JJ.Business.Synthesizer.Wishes
             else prefix = $"(Level {tape.NestingLevel}) ";
             
             string nameDescriptor = tape.GetName;
-            if (string.IsNullOrWhiteSpace(nameDescriptor))
+            if (IsNullOrWhiteSpace(nameDescriptor))
             {
                 nameDescriptor = "<Untitled>";
             }
@@ -229,13 +231,37 @@ namespace JJ.Business.Synthesizer.Wishes
             string flagDescriptor = default;
             if (flagStrings.Count > 0)
             {
-                flagDescriptor = " {" + string.Join(",", flagStrings) + "}";
+                flagDescriptor = " {" + Join(",", flagStrings) + "}";
             }
 
             return prefix + nameDescriptor + flagDescriptor;
         }
+
+        public static string FormatTapeDescriptors(IList<Tape> tapes)
+        {
+           if (!FilledIn(tapes)) return default;
+           string[] tapeDescriptors = tapes.Where(x => x != null).Select(GetTapeDescriptor).ToArray();
+           return Join(NewLine, tapeDescriptors);
+        }
         
-        // Tape Actions
+        public static string GetTapesLeftMessage(int todoCount, Tape[] tapesLeft)
+        {
+            string prefix = default;
+            if (todoCount != 0)
+            {
+                prefix = todoCount + " Tapes Left: ";
+            }
+            
+            if (FilledIn(tapesLeft))
+            {
+                return prefix + NewLine + FormatTapeDescriptors(tapesLeft);
+            }
+            else
+            {
+                return prefix + "<none>";
+            }
+        }
+
         
         public static void LogAction(string typeName, string message) 
             => LogActionBase(null, typeName, null, message);
@@ -291,6 +317,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             return text;
         }
+        
+        
         
         // Math Boost
 
@@ -420,7 +448,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => $"{opName}({Stringify(mathSymbol, operands)})";
         
         internal static string Stringify(string mathSymbol, IList<FlowNode> operands)
-            => string.Join(" " + mathSymbol + " ", operands.Select(Stringify));
+            => Join(" " + mathSymbol + " ", operands.Select(Stringify));
         
         internal static string Stringify(FlowNode operand)
             => operand.Stringify(true);

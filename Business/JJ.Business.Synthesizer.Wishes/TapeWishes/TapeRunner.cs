@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+using static System.Environment;
+using static System.String;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 // ReSharper disable ArrangeStaticMemberQualifier
@@ -112,7 +115,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 bool triggered = _checkForNewLeavesReset.WaitOne(timeOutInMs);
                 if (!triggered)
                 {
-                    HandleTimeOut(timeOutAction, timeOutInMs);
+                    HandleTimeOut(timeOutAction, timeOutInMs, todoCount, tapesTODO);
                 }
             } 
             
@@ -173,25 +176,27 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             leaf.ParentTape?.ChildTapes.Remove(leaf);
             leaf.ParentTape = null;
         }
-               
-        private void HandleTimeOut(TimeOutActionEnum timeOutAction, int timeOutInMs)
+        
+        private void HandleTimeOut(TimeOutActionEnum timeOutAction, int timeOutInMs, int todoCount, Tape[] tapesTODO)
         {
-            double timeOutInSeconds = timeOutInMs / 1000.0;
-            string prettyDuration = PrettyDuration(timeOutInSeconds);
+            double timeOutInSec = timeOutInMs / 1000.0;
+            string formattedTimeOut = PrettyDuration(timeOutInSec);
             
             string message = GetActionMessage(
                 nameof(Tape),
                 "Check for Leaves",
-                $"Timed-out after {prettyDuration} waiting for processes to finish.");
+                $"Timed-out after {formattedTimeOut} waiting for a leaf to finish.");
             
             Console.WriteLine(message);
             
             if (timeOutAction == TimeOutActionEnum.Stop)
             {
+                message += GetTapesLeftMessage(todoCount, tapesTODO);
                 throw new Exception(message);
             }
         }
-
+        
+        
         private void ExecutePostProcessing(IList<Tape> tapes)
         {
             IList<Tape> stereoTapes = Array.Empty<Tape>();

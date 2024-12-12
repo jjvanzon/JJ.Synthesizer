@@ -278,8 +278,10 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         internal static class FilledInWishes
         {
             public static bool FilledIn(string value) => !string.IsNullOrWhiteSpace(value);
-            public static bool FilledIn(byte[] bytes) => bytes != null && bytes.Length > 0;
+            public static bool FilledIn<T>(T[] arr) => arr != null && arr.Length > 0;
+            public static bool FilledIn<T>(IList<T> coll) => coll != null && coll.Count > 0;
             public static bool FilledIn<T>(T value) where T : struct => !Equals(value, default(T));
+            public static bool FilledIn<T>(T? value) where T : struct => !Equals(value, default(T?)) && !Equals(value, default(T));
         }
     }
 
