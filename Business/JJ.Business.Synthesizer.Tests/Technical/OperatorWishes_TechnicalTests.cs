@@ -19,11 +19,167 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class OperatorWishes_TechnicalTests : MySynthWishes
     {
-        FlowNode Envelope => DelayedPulseCurve.Stretch(GetAudioLength) * 0.5;
+        FlowNode Envelope => DelayedPulseCurve.Stretch(GetAudioLength) * 0.6;
+        
+        public OperatorWishes_TechnicalTests()
+        {
+            WithStereo();
+        }
 
-        [TestMethod]
-        public void NestedSumFlatteningTest() => new OperatorWishes_TechnicalTests().NestedSumFlattening();
+        // Fluent Notation
+        
+        [TestMethod] public void FluentNotationTest1() => Run(FluentNotation1);
+        private void FluentNotation1()
+        {
+            Sine(C4).Multiply(0.5).Panbrello(3, 0.9).Multiply(Envelope).Save().Play();
+        }
+        
+        [TestMethod] public void FluentNotationTest2() => Run(FluentNotation2);
+        private void FluentNotation2()
+        {
+            E4.Sine().Multiply(0.5).Panbrello(3, 0.9).Volume(Envelope).Save().Play();
+        }
+        
+        [TestMethod] public void FluentNotationTest3() => Run(FluentNotation3);
+        private void FluentNotation3()
+        {
+            G4.Sine().Multiply(0.5).Panbrello(3, 0.9).Curve(Envelope).Save().Play();
+        }
+        
+        [TestMethod] public void FluentNotationTest4() => Run(FluentNotation4);
+        private void FluentNotation4()
+        {
+            Save((A4.Sine() * 0.5).Panbrello(3, 0.9) * Envelope).Play();
+        }
+        
+        [TestMethod] public void FluentChainingTest() => Run(FluentChaining);
+        private void FluentChaining()
+        {
+            var freq = C4;
 
+            Multiply
+            (
+                Add
+                (
+                    freq.Times(1).Sine().Times(0.50).Panbrello(3.0, 0.9),
+                    freq.Times(2).Sine().Times(0.08).Panbrello(2.0, 0.4),
+                    freq.Times(3).Sine().Times(0.04).Panbrello(2.5, 0.2)
+                ),
+                Curve(@"
+
+                   *
+                       *
+                            *
+                                    *
+                 *                              *")
+            ).Save().Play();
+        }
+
+        [TestMethod] public void FluentPlayChannelTest() => Run(FluentPlayChannel);
+        private void FluentPlayChannel()
+        {
+            var freq = E4;
+
+            Multiply
+            (
+                Add
+                (
+                    _[freq].Multiply(1).Sine().Multiply(0.80).Panbrello(3.0, 0.9),
+                    _[freq].Multiply(2).Sine().Multiply(0.08).Panbrello(2.0, 0.4),
+                    _[freq].Multiply(3).Sine().Multiply(0.04).Panbrello(2.5, 0.2)
+                ),
+                Curve(@"
+
+                   *
+                       *
+                            *
+                                    *
+                 *                              *")
+            ).PlayChannel();
+        }
+
+        [TestMethod] public void FluentCSharpOperatorsTest() => Run(FluentCSharpOperators);
+        private void FluentCSharpOperators()
+        {
+            var freq = G4;
+
+            Multiply
+            (
+                Add
+                (
+                    (Sine(freq * 1) * 0.50).Panbrello(3.0, 0.9),
+                    (Sine(freq * 2) * 0.08).Panbrello(2.0, 0.4),
+                    (Sine(freq * 3) * 0.04).Panbrello(2.5, 0.2)
+                ),
+                Curve(@"
+
+                  *
+                      *
+                           *
+                                   *
+                *                              *")
+            ).Play().Save();
+        }
+
+        [TestMethod] public void FluentValueChainingTest() => Run(FluentValueChaining);
+        private void FluentValueChaining()
+        {
+            {
+                var sine = A4.Sine();
+            }
+            {
+                double freq = 440;
+                var    sine = _[freq].Sine();
+            }
+            {
+                Outlet freq = A4;
+                var    sine = _[freq].Sine();
+            }
+            {
+                FlowNode freq = A4;
+                var      sine = freq.Sine();
+            }
+            {
+                var freq = A4;
+                var sine = freq.Sine();
+            }
+        }
+
+        [TestMethod] public void FluentCurveChainingTest() => Run(FluentCurveChaining);
+        private void FluentCurveChaining()
+        {
+            var chain1 = Sine(G4).Curve(0, 1, 0).Panbrello();
+            var chain2 = Sine(A4).Times(Curve(0, 1, 0)).Panbrello();
+            var chain3 = Sine(C5) * Curve(0, 1, 0).Times(1.2).Panbrello();
+
+            Save(chain1).Play("Play1");
+            Save(chain2).Play("Play2");
+            Save(chain3).Play("Play3");
+        }
+
+        // Regression (used to error)
+        
+        [TestMethod] public void MonoSampleInStereoContextTest() => Run(MonoSampleInStereoContext);
+        private void MonoSampleInStereoContext()
+        {
+            WithAudioLength(3);
+            WithStereo();
+            
+            var sample = Sample(GetViolin16BitMono44100WavStream(), bytesToSkip: 64);
+            
+            var shaped = sample.Stretch(3.4)
+                               .Curve(1, 0.9, 0.8, 0.2, 0.1, 0)
+                               .Panbrello(7, 0.3)
+                               .Echo(count: 8, magnitude: 0.5, delay: 0.2)
+                               .AddEchoDuration(8, 0.2);
+
+            Play(shaped).Save();
+        }
+
+                
+        // Optimization
+        
+        [TestMethod] public void NestedSumFlatteningTest() => Run(NestedSumFlattening);
         private void NestedSumFlattening()
         {
             WithMathBoost();
@@ -155,9 +311,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => calculatedNestedSum);
         }
 
-        [TestMethod]
-        public void NestedMultiplicationOptimizationTest() => new OperatorWishes_TechnicalTests().NestedMultiplicationOptimization();
-
+        [TestMethod] public void NestedMultiplicationOptimizationTest() => Run(NestedMultiplicationOptimization);
         private void NestedMultiplicationOptimization()
         {
             WithMathBoost();
@@ -226,179 +380,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => calculatedFlattenedFactors);
         }
 
-        [TestMethod]
-        public void FluentNotationTest1() => new OperatorWishes_TechnicalTests().FluentNotation1();
-
-        private void FluentNotation1()
-        {
-            WithShortDuration();
-            
-            Save(() => Sine(C4).Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Multiply(Envelope)).Play();
-        }
-
-        [TestMethod]
-        public void FluentNotationTest2() => new OperatorWishes_TechnicalTests().FluentNotation2();
-
-        private void FluentNotation2()
-        {
-            WithShortDuration();
-            
-            Save(() => E4.Sine().Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Volume(Envelope)).Play();
-        }
-
-        [TestMethod]
-        public void FluentNotationTest3() => new OperatorWishes_TechnicalTests().FluentNotation3();
-
-        private void FluentNotation3()
-        {
-            WithShortDuration();
-            
-            Save(() => G4.Sine().Multiply(0.5).Panbrello(speed: 3, depth: 0.9).Curve(Envelope)).Play();
-        }
-
-        [TestMethod]
-        public void FluentNotationTest4() => new OperatorWishes_TechnicalTests().FluentNotation4();
-
-        private void FluentNotation4()
-        {
-            WithShortDuration();
-            
-            Save(() => (B4.Sine() * 0.5).Panbrello(speed: 3, depth: 0.9) * Envelope).Play();
-        }
-
-        [TestMethod]
-        public void FluentChainingTest() => new OperatorWishes_TechnicalTests().FluentChaining();
-
-        private void FluentChaining()
-        {
-            var freq = C4;
-
-            Save(() => Multiply
-                 (
-                     Add
-                     (
-                         freq.Times(1).Sine().Times(0.50).Panbrello(speed: 3.0, depth: 0.9),
-                         freq.Times(2).Sine().Times(0.08).Panbrello(speed: 2.0, depth: 0.4),
-                         freq.Times(3).Sine().Times(0.04).Panbrello(speed: 2.5, depth: 0.2)
-                     ),
-                     Curve(@"
-
-                       *
-                           *
-                                *
-                                        *
-                     *                              *")
-                 )).Play();
-        }
-
-        [TestMethod]
-        public void FluentPlayMonoTest() => new OperatorWishes_TechnicalTests().FluentPlayMono();
-
-        private void FluentPlayMono()
-        {
-            var freq = E4;
-
-            WithCenter();
-            
-            Cache(
-                () =>
-                    Multiply
-                    (
-                        Add
-                        (
-                            _[freq].Multiply(1).Sine().Multiply(0.50).Tremolo(speed: 3.0, depth: 0.9),
-                            _[freq].Multiply(2).Sine().Multiply(0.08).Tremolo(speed: 2.0, depth: 0.4),
-                            _[freq].Multiply(3).Sine().Multiply(0.04).Tremolo(speed: 2.5, depth: 0.2)
-                        ),
-                        Curve(@"
-
-                           *
-                               *
-                                    *
-                                            *
-                         *                              *")
-                    ).PlayChannel()
-            );
-        }
-
-        [TestMethod]
-        public void FluentCSharpOperatorsTest() => new OperatorWishes_TechnicalTests().FluentCSharpOperators();
-
-        private void FluentCSharpOperators()
-        {
-            FlowNode freq = G5;
-
-            Save(() => Multiply
-                 (
-                     Add
-                     (
-                         Sine(freq * 1).Times(0.50).Panbrello(3.0, 0.9),
-                         Sine(freq * 2).Times(0.08).Panbrello(2.0, 0.4),
-                         Sine(freq * 3).Times(0.04).Panbrello(2.5, 0.2)
-                     ),
-                     Curve(@"
-
-                       *
-                           *
-                                *
-                                        *
-                     *                              *")
-                 )).Play();
-        }
-
-        [TestMethod]
-        public void FluentValueChainingTest() => new OperatorWishes_TechnicalTests().FluentValueChaining();
-
-        private void FluentValueChaining()
-        {
-            {
-                var sine = A4.Sine();
-            }
-            {
-                double freq = 440;
-                var    sine = _[freq].Sine();
-            }
-            {
-                Outlet freq = A4;
-                var    sine = _[freq].Sine();
-            }
-            {
-                FlowNode freq = A4;
-                var      sine = freq.Sine();
-            }
-            {
-                var freq = A4;
-                var sine = freq.Sine();
-            }
-        }
-
-        [TestMethod]
-        public void FluentCurveChainingTest() => new OperatorWishes_TechnicalTests().FluentCurveChaining();
-
-        private void FluentCurveChaining()
-        {
-            var chain1 = Sine(G4).Curve(0, 1, 0);
-            var chain2 = Sine(A4).Times(Curve(0, 1, 0));
-            var chain3 = Sine(B4) * Curve(0, 1, 0).Stretch(2);
-
-            WithMono().Save(() => chain1).Play();
-            WithMono().Save(() => chain2).Play();
-            WithMono().WithAudioLength(2).Save(() => chain3).Play();
-        }
-
-        [TestMethod]
-        public void MonoSampleInStereoContextTest() => new OperatorWishes_TechnicalTests().MonoSampleInStereoContext();
-
-        private void MonoSampleInStereoContext()
-        {
-            var sample = Sample(GetViolin16BitMono44100WavStream(), bytesToSkip: 64).Stretch(3).Curve(1, 0.9, 0.8, 0.2, 0.1, 0);
-
-            WithStereo().Play(() => sample);
-        }
-
-        [TestMethod]
-        public void ComplexityTest() => new OperatorWishes_TechnicalTests().TestComplexity();
-
+        // Complexity
+        
+        [TestMethod] public void ComplexityTest() => Run(TestComplexity);
         private void TestComplexity()
         {
             WithCacheToDisk(false);
@@ -510,7 +494,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(expectedComplexity, () => complexity);
             }
         }
-
+        
         void TestBuffComplexity(FlowNode flowNode)
         {
             Buff result = MaterializeCache(flowNode);
@@ -522,7 +506,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 int complexity    = result.Complexity();
                 AreEqual(complexityOld, () => complexity);
             }
-
+            
             AudioFileOutput audioFileOutput = result.UnderlyingAudioFileOutput;
             IsNotNull(() => audioFileOutput);
             {
@@ -532,7 +516,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 int complexity    = audioFileOutput.Complexity();
                 AreEqual(complexityOld, () => complexity);
             }
-
+            
             IsNotNull(() => audioFileOutput.AudioFileOutputChannels);
             foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
             {
