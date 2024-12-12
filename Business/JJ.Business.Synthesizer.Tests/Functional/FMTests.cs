@@ -123,41 +123,33 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._trombone" />
         void FM_Trombone_Melody2() => (TromboneMelody2.MildEcho() * 0.75).Save().Play();
         
-        [TestMethod]
-        public void FM_ElectricNote_Test() => Run(FM_ElectricNote);
-        void FM_ElectricNote() => WithAudioLength(1.5).Save(ElectricNote().MildEcho().Volume(0.2)).Play();
+        [TestMethod] public void FM_ElectricNote_Test() => Run(FM_ElectricNote);
+        void FM_ElectricNote() => WithAudioLength(1.5)[ElectricNote].MildEcho().Volume(0.2).Save().Play();
         
-        [TestMethod]
-        public void FM_RippleBass_Test() => Run(FM_RippleBass);
-        void FM_RippleBass() => WithAudioLength(3).Save(RippleBass().DeepEcho() * 0.5).Play();
+        [TestMethod] public void FM_RippleBass_Test() => Run(FM_RippleBass);
+        void FM_RippleBass() => WithAudioLength(3)[RippleBass].DeepEcho().Volume(0.5).Save().Play();
         
-        [TestMethod]
-        public void FM_RippleBass_Melody2_Test() => Run(FM_RippleBass_Melody2);
+        [TestMethod] public void FM_RippleBass_Melody2_Test() => Run(FM_RippleBass_Melody2);
         void FM_RippleBass_Melody2() 
-            => WithAudioLength(bars[4]).Save(RippleBassMelody2.DeepEcho() * 0.33).Play();
+            => WithAudioLength(bars[4])[RippleBassMelody2].DeepEcho().Volume(0.33).Save().Play();
         
-        [TestMethod]
-        public void FM_RippleNote_SharpMetallic_Test() => Run(FM_RippleNote_SharpMetallic);
+        [TestMethod] public void FM_RippleNote_SharpMetallic_Test() => Run(FM_RippleNote_SharpMetallic);
         void FM_RippleNote_SharpMetallic() 
-            => WithAudioLength(2.2).Save(RippleNote_SharpMetallic().DeepEcho() * 0.33).Play();
+            => WithAudioLength(2.2).A3[RippleNote_SharpMetallic, _[2.2]].DeepEcho().Volume(0.33).Save().Play();
         
-        [TestMethod]
-        public void FM_RippleSound_Clean_Test() => Run(FM_RippleSound_Clean);
+        [TestMethod] public void FM_RippleSound_Clean_Test() => Run(FM_RippleSound_Clean);
         void FM_RippleSound_Clean() 
-            => WithAudioLength(4).Save(RippleSound_Clean().DeepEcho() * 0.5).Play();
+            => WithAudioLength(4).Fluent(RippleSound_Clean()).DeepEcho().Volume(0.5).Save().Play();
         
-        [TestMethod]
-        public void FM_RippleSound_FantasyEffect_Test() => Run(FM_RippleSound_FantasyEffect);
+        [TestMethod] public void FM_RippleSound_FantasyEffect_Test() => Run(FM_RippleSound_FantasyEffect);
         void FM_RippleSound_FantasyEffect() 
-            => WithAudioLength(4).Save(RippleSound_FantasyEffect().DeepEcho() * 0.33).Play();
+            => WithAudioLength(4)[RippleSound_FantasyEffect(A5)].DeepEcho().Volume(0.33).Save().Play();
         
-        [TestMethod]
-        public void FM_RippleSound_CoolDouble_Test() => Run(FM_RippleSound_CoolDouble);
+        [TestMethod] public void FM_RippleSound_CoolDouble_Test() => Run(FM_RippleSound_CoolDouble);
         void FM_RippleSound_CoolDouble() 
-            => WithAudioLength(3)[RippleSound_CoolDouble()].DeepEcho().Volume(0.33).Save().Play();
+            => WithAudioLength(3)[RippleSound_CoolDouble, A5].DeepEcho().Volume(0.33).Save().Play();
         
-        [TestMethod]
-        public void FM_Noise_Beating_Test() => Run(FM_Noise_Beating);
+        [TestMethod] public void FM_Noise_Beating_Test() => Run(FM_Noise_Beating);
         void FM_Noise_Beating() 
             => WithAudioLength(5)[A4, Create_FM_Noise_Beating].MildEcho().Volume(0.25).Save().Play();
         
