@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             });
             
             // AudioFormatTests.GetValueTolerance CombinationOfValuesNotSupported
-            ThrowsException(() => new AudioFormatTests().GetValueTolerance(true, InterpolationTypeEnum.Undefined, SampleDataTypeEnum.Undefined));
+            ThrowsException(() => new AudioFormatTests().GetValueTolerance(true, InterpolationTypeEnum.Undefined, 0));
         }
 
         [TestMethod]
