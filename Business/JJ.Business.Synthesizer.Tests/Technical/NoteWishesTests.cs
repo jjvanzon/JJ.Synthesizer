@@ -253,24 +253,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void NoteArrangement_FluteNoParams()
         {
             SetNoteArrangementOptions();
-            Save(() => 0.05 * Add
-            (
-            _[              FluteNoParams                   ],
-            _[              FluteNoParams, 0.8              ],
-            _[              FluteNoParams, 0.8     , l[0.5] ],
-            _[              FluteNoParams, MyCurve          ],
-            _[              FluteNoParams, MyCurve , l[0.5] ],
-            _[ 0.00   ,     FluteNoParams                   ],
-            _[ 0.00   ,     FluteNoParams, 0.8              ],
-            _[ 0.00   ,     FluteNoParams, 0.8     , l[0.5] ],
-            _[ 0.00   ,     FluteNoParams, MyCurve          ],
-            _[ 0.00   ,     FluteNoParams, MyCurve , l[0.5] ],
-            _[ t[1, 1],     FluteNoParams                   ],
-            _[ t[1, 1],     FluteNoParams, 0.8              ],
-            _[ t[1, 1],     FluteNoParams, 0.8     , l[0.5] ],
-            _[ t[1, 1],     FluteNoParams, MyCurve          ],
-            _[ t[1, 1],     FluteNoParams, MyCurve , l[0.5] ]
-            )).Play();
+            Save(() => 0.05 * _
+            [              FluteNoParams                   ]
+            [              FluteNoParams, 0.8              ]
+            [              FluteNoParams, 0.8     , l[0.5] ]
+            [              FluteNoParams, MyCurve          ]
+            [              FluteNoParams, MyCurve , l[0.5] ]
+            [ 0.00   ,     FluteNoParams                   ]
+            [ 0.00   ,     FluteNoParams, 0.8              ]
+            [ 0.00   ,     FluteNoParams, 0.8     , l[0.5] ]
+            [ 0.00   ,     FluteNoParams, MyCurve          ]
+            [ 0.00   ,     FluteNoParams, MyCurve , l[0.5] ]
+            [ t[1, 1],     FluteNoParams                   ]
+            [ t[1, 1],     FluteNoParams, 0.8              ]
+            [ t[1, 1],     FluteNoParams, 0.8     , l[0.5] ]
+            [ t[1, 1],     FluteNoParams, MyCurve          ]
+            [ t[1, 1],     FluteNoParams, MyCurve , l[0.5] ]
+            ).Play();
         }
 
         [TestMethod] public void NoteArrangement_Flute1Param_Test() => new NoteWishesTests().NoteArrangement_Flute1Param();
