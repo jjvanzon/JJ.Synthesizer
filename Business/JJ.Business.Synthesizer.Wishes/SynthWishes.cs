@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private void RunOnThisInstance(Action action)
         {
-            RunForChannels(action);
+            RunChannelSignals(action);
             
             if (GetParallelTaping)
             {
@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private void RunForChannels(Action action)
+        private void RunChannelSignals(Action action)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
             
