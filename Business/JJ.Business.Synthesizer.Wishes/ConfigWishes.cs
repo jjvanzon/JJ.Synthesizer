@@ -719,6 +719,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes ResetAudioLength() { Config.ResetAudioLength(); return this; }
         
         public SynthWishes AddEchoDuration(int count = 4, FlowNode delay = default) => AddAudioLength(EchoDuration(count, delay));
+        public SynthWishes AddEchoDuration(int count, double delay) => AddAudioLength(EchoDuration(count, delay));
 
         public FlowNode GetLeadingSilence => Config.GetLeadingSilence(this);
         public SynthWishes WithLeadingSilence(double seconds) { Config.WithLeadingSilence(seconds, this); return this; }

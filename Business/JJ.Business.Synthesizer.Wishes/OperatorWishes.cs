@@ -1088,6 +1088,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return Add(repeats).SetName(callerMemberName);
         }
     
+        public FlowNode EchoDuration(int count, double delay) => EchoDuration(count, _[delay]);
+        
         public FlowNode EchoDuration(int count = 4, FlowNode delay = default)
         {
             delay = delay ?? _[0.25];
