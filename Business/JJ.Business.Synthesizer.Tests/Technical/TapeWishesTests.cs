@@ -12,6 +12,7 @@ using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 // ReSharper disable ParameterHidesMember
 // ReSharper disable ExplicitCallerInfoArgument
+// ReSharper disable FieldCanBeMadeReadOnly.Local
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -19,36 +20,54 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class TapeWishesTests : MySynthWishes
     {
-        FlowNode Envelope => DelayedPulseCurve.Stretch(GetAudioLength);
+        double Vol1 = 1.0;
+        double Vol2 = 0.05;
+        double Vol3 = 0.02;
+        
+        FlowNode Envelope => RecorderCurve.Stretch(GetAudioLength);
+        FlowNode DelayedPulse => DelayedPulseCurve.Stretch(GetAudioLength);
 
         public TapeWishesTests()
         {
-            WithShortDuration();
+            WithAudioLength(0.25);
             WithParallelTaping();
         }
         
-        [TestMethod]
-        public void Tape_NormalAdd_ForComparison_Test() => new TapeWishesTests().Tape_NormalAdd_ForComparison();
-        void Tape_NormalAdd_ForComparison()
+        [TestMethod] public void Tape_Sines_Test() => Run(Tape_Sines);
+        void Tape_Sines()
         {
-            var duration = 0.1;
+            var freq = E4.VibratoFreq();;
 
-            var add = Add
+            var added = Add
             (
-                Curve(0.1, 0.1).SetName("Const Curve 0.1"),
-                Curve(0.2, 0.2).SetName("Const Curve 0.2"),
-                Curve(0.3, 0.3).SetName("Const Curve 0.3")
-            );
+                Sine(freq * 1).Volume(Vol1).Curve(Envelope).Tape(),
+                Sine(freq * 2).Volume(Vol2).Curve(Envelope).Tape(),
+                Sine(freq * 3).Volume(Vol3).Curve(Envelope).Tape()
+            ).SetName();
 
-            double addedValue = add.Calculate(duration / 2);
-
-            AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
-
-            WithMono().WithAudioLength(duration).Save(() => add);
+            WithMono().Play(added).Save();
         }
 
-        [TestMethod]
-        public void Tape_WithConstSignal_Test() => new TapeWishesTests().Tape_WithConstSignal();
+        [TestMethod] public void Tape_Sines_WithPlayAllTapes_Test() => Run(Tape_Sines_WithPlayAllTapes);
+        void Tape_Sines_WithPlayAllTapes()
+        {
+            WithPlayAllTapes();
+            WithShortDuration();
+            AddAudioLength(0.1);
+            
+            var freq = G4.VibratoFreq();
+            
+            var added = Add
+            (
+                Sine(freq * 1).Volume(Vol1).Curve(DelayedPulse).Tape(),
+                Sine(freq * 2).Volume(Vol2).Curve(DelayedPulse).Tape(),
+                Sine(freq * 3).Volume(Vol3).Curve(DelayedPulse).Tape()
+            ).SetName();
+            
+            WithMono().Play(added);
+        }
+
+        [TestMethod] public void Tape_ConstSignal_Test() => Run(Tape_WithConstSignal);
         void Tape_WithConstSignal()
         {
             var accessor = new SynthWishesAccessor(this);
@@ -160,15 +179,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Assert.AreEqual(0.1 + 0.2 + 0.3, adderResult,                                   tolerance);
         }
 
-        [TestMethod]
-        public void Tape_WithConstSignal_WithPlayAllTapes_Test() => new TapeWishesTests().Tape_WithConstSignal_WithPlayAllTapes();
-        void Tape_WithConstSignal_WithPlayAllTapes()
+        [TestMethod] public void Tape_ConstSignal_WithPlayAllTapes_Test() => Run(Tape_ConstSignal_WithPlayAllTapes);
+        void Tape_ConstSignal_WithPlayAllTapes()
         {
             var accessor = new SynthWishesAccessor(this);
 
             // Arrange
-            WithPlayAllTapes();
-
             var duration = 0.1;
 
             // Act
@@ -211,63 +227,38 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Don't assert values. A setting can insert a delay, messing with the test values.
         }
-
+                
         [TestMethod]
-        public void Tape_WithSinePartials_Test() => new TapeWishesTests().Tape_WithSinePartials();
-        void Tape_WithSinePartials()
+        public void Tape_NormalAdd_ForComparison_Test() => Run(Tape_NormalAdd_ForComparison);
+        void Tape_NormalAdd_ForComparison()
         {
-            var freq = A4;
+            var duration = 0.1;
 
-            var added = Add
+            var add = Add
             (
-                Sine(freq * 1).Volume(1.0).Curve(Envelope).Tape(),
-                Sine(freq * 2).Volume(0.2).Curve(Envelope).Tape(),
-                Sine(freq * 3).Volume(0.7).Curve(Envelope).Tape()
-            ).SetName();
+                Curve(0.1, 0.1).SetName("Const Curve 0.1"),
+                Curve(0.2, 0.2).SetName("Const Curve 0.2"),
+                Curve(0.3, 0.3).SetName("Const Curve 0.3")
+            );
 
-            WithMono().Play(() => added);
+            double addedValue = add.Calculate(duration / 2);
+
+            AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
+
+            WithMono().WithAudioLength(duration).Save(add);
         }
 
-        [TestMethod]
-        public void Tape_Selective_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot_Test()
-            => new TapeWishesTests().Tape_Selective_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot();
-        void Tape_Selective_InconsistentDelay_BecauseASineIsForever_AndATapeIsNot()
+        // Problem is gone after switching from Play(() => ...) to Run notation,
+        // because a Play action is now taped for a specific duration.
+        [TestMethod] public void Tape_Selectively_InconsistentDelays_BecauseSineIsForever_TapeIsNot_Test()
+            => Run(Tape_Selectively_InconsistentDelays_BecauseSineIsForever_TapeIsNot);
+        void Tape_Selectively_InconsistentDelays_BecauseSineIsForever_TapeIsNot()
         {
-            Play(() => Sine(A3).Tape() + Sine(A4));
-        }
-        
-        [TestMethod]
-        public void Tape_WithPlayAllTapesTest() => new TapeWishesTests().Tape_WithPlayAllTapes();
-        void Tape_WithPlayAllTapes()
-        {
-            WithPlayAllTapes();
+            WithLeadingSilence(0.4);
             
-            var pitch = A4;
+            var freq = G3.VibratoFreq(depth: _[0.007]);
             
-            Play(() => Add
-                 (
-                     Sine(pitch * 1).Volume(1.0).Curve(Envelope).Tape(),
-                     Sine(pitch * 2).Volume(0.2).Curve(Envelope).Tape(),
-                     Sine(pitch * 3).Volume(0.3).Curve(Envelope).Tape()
-                 ));
-        }
-        
-        [TestMethod]
-        public void Tape_WithPlayAllTapesTest2() => new TapeWishesTests().Tape_WithPlayAllTapes2();
-        void Tape_WithPlayAllTapes2()
-        {
-            var freq = A4;
-            
-            WithPlayAllTapes();
-            
-            var added = Add
-            (
-                Sine(freq * 1).Volume(1.0).Curve(Envelope).Tape(),
-                Sine(freq * 2).Volume(0.2).Curve(Envelope).Tape(),
-                Sine(freq * 3).Volume(0.7).Curve(Envelope).Tape()
-            ).SetName();
-            
-            WithMono().Play(() => added);
+            _[Sine(freq).Tape() + Sine(freq * 3).Volume(0.04)].Save();
         }
     }
 }
