@@ -33,7 +33,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void BarLength_Explicit()
         {
-            // WithBarLength (explicitly set)
             WithBarLength(2);
             IsNotNull(() => GetBarLength);
             IsTrue(() => GetBarLength.IsConst);
@@ -59,7 +58,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void BarLength_Dynamic()
         {
-            // WithBarLength (dynamic)
             WithBarLength(Curve(0, 4));
             IsNotNull(() => GetBarLength);
             IsFalse(() => GetBarLength.IsConst);
@@ -179,7 +177,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Play(() => Note(instrument(D4), time, volume));
             }
             
-            // WithNoteLength() => defaults to config file or hard-coded default
+            // ResetNoteLength() => defaults to config file or hard-coded default
             {
                 ResetNoteLength();
                 AreEqual(0.2, () => GetNoteLength.Value);
