@@ -15,9 +15,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 {
     [TestClass]
     [TestCategory("Functional")]
-    public class OperatorWishes_FunctionalTests : SynthWishes
+    public class OperatorWishes_FunctionalTests : MySynthWishes
     {
-        FlowNode Envelope => Curve((0, 0), (0.05, 1), (0.95, 1), (1.00, 0));
+        FlowNode Envelope => RecorderCurve;
 
         public OperatorWishes_FunctionalTests()
         {
