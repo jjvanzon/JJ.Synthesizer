@@ -293,7 +293,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             [ t[1, 3], E5, Flute1Param, 0.8     , l[0.5] ]
             [ t[1, 4], G5, Flute1Param, MyCurve          ]
             [ t[2, 1], A5, Flute1Param, MyCurve , l[0.5] ]
-            )).Play();
+            ).Play();
         }
 
         [TestMethod]
