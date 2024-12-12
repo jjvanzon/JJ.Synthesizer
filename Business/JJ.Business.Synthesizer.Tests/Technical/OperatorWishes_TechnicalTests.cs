@@ -406,10 +406,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 var accessor = new AdditiveTestsAccessor(new AdditiveTests());
                 TestComplexity(accessor.Metallophone(A4));
+                TestComplexity(accessor.MetallophoneChord);
                 TestComplexity(accessor.MetallophoneJingle);
             }
             {
                 var accessor = new FMTestsAccessor(new FMTests());
+                
+                // Test on Buff only once for efficiency, because they require materialization.
+                TestBuffComplexity(accessor.Jingle());
+                
                 TestComplexity(accessor.Flute1());
                 TestComplexity(accessor.Flute2());
                 TestComplexity(accessor.Flute3());
@@ -504,7 +509,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 int expectedComplexity = complexityOld - 1;
                 AreEqual(expectedComplexity, () => complexity);
             }
+        }
 
+        void TestBuffComplexity(FlowNode flowNode)
+        {
             Buff result = MaterializeCache(flowNode);
             IsNotNull(() => result);
             {

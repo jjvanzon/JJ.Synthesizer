@@ -23,6 +23,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         /// <inheritdoc cref="docs._metallophone"/>
         public FlowNode MetallophoneJingle
             => (FlowNode)_accessor.GetPropertyValue(MemberName());
+        
+        /// <inheritdoc cref="docs._metallophone"/>
+        public FlowNode MetallophoneChord
+            => (FlowNode)_accessor.GetPropertyValue(MemberName());
 
         /// <inheritdoc cref="docs._metallophone"/>
         public FlowNode Metallophone(FlowNode freq, FlowNode duration = null)
