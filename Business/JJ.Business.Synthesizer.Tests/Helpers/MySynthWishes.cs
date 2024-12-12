@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <summary>
         /// Can work alongside DelayedPulseCurve to make the tests go by a little faster.
         /// </summary>
-        public void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0);
+        public void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0.05);
     
         public void WithDefaultDurations() => ResetAudioLength().ResetLeadingSilence().ResetTrailingSilence();
     }
