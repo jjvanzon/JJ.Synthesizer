@@ -249,8 +249,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             //Save(() => _[ t[1, 1], A5, Flute1Param, MyCurve ]).Play();
         }
         
-        [TestMethod]
-        public void NoteArrangement_FluteNoParams_Test() => new NoteWishesTests().NoteArrangement_FluteNoParams();
+        [TestMethod] public void NoteArrangement_FluteNoParams_Test() => new NoteWishesTests().NoteArrangement_FluteNoParams();
         void NoteArrangement_FluteNoParams()
         {
             SetNoteArrangementOptions();
@@ -274,8 +273,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             )).Play();
         }
 
-        [TestMethod]
-        public void NoteArrangement_Flute1Param_Test() => new NoteWishesTests().NoteArrangement_Flute1Param();
+        [TestMethod] public void NoteArrangement_Flute1Param_Test() => new NoteWishesTests().NoteArrangement_Flute1Param();
         void NoteArrangement_Flute1Param()
         {
             SetNoteArrangementOptions();
@@ -324,8 +322,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             )).Play();
         }
 
-        [TestMethod]
-        public void NoteArrangement_Flute3Params_Test() => new NoteWishesTests().NoteArrangement_Flute3Params();
+        [TestMethod] public void NoteArrangement_Flute3Params_Test() => new NoteWishesTests().NoteArrangement_Flute3Params();
         void NoteArrangement_Flute3Params()
         {
             SetNoteArrangementOptions();
@@ -364,8 +361,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             )).Play();
         }
 
-        [TestMethod]
-        public void NoteArrangement_Flute4Params_Test() => new NoteWishesTests().NoteArrangement_Flute4Params();
+        [TestMethod] public void NoteArrangement_Flute4Params_Test() => new NoteWishesTests().NoteArrangement_Flute4Params();
         void NoteArrangement_Flute4Params()
         {
             SetNoteArrangementOptions();
@@ -419,8 +415,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             )).Play();
         }
 
-        [TestMethod]
-        public void NoteArrangement_Flute5Params_Test() => new NoteWishesTests().NoteArrangement_Flute5Params();
+        [TestMethod] public void NoteArrangement_Flute5Params_Test() => new NoteWishesTests().NoteArrangement_Flute5Params();
         void NoteArrangement_Flute5Params()
         {
             SetNoteArrangementOptions();
@@ -489,8 +484,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             )).Play();
         }
 
-        [TestMethod]
-        public void NoteArrangement_Flute6Params_Test() => new NoteWishesTests().NoteArrangement_Flute6Params();
+        [TestMethod] public void NoteArrangement_Flute6Params_Test() => new NoteWishesTests().NoteArrangement_Flute6Params();
         void NoteArrangement_Flute6Params()
         {
             SetNoteArrangementOptions();
@@ -574,8 +568,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             )).Play();
         }
 
-        [TestMethod]
-        public void NoteArrangement_TimeIndexers_Test() => new NoteWishesTests().NoteArrangement_TimeIndexers();
+        [TestMethod] public void NoteArrangement_TimeIndexers_Test() => new NoteWishesTests().NoteArrangement_TimeIndexers();
         void NoteArrangement_TimeIndexers()
         {
             SetNoteArrangementOptions();
