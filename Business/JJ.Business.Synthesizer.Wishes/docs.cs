@@ -111,10 +111,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _cachetodisk;
 
         /// <summary>
-        /// Colloquially called the "capture" operator.
+        /// The "capture operator" or "capture indexer"
+        /// captures something not originally fluent into the fluent notation.
         /// Allows capturing double values into the synthesizer,
         /// and can be used to start fluent notation / method chaining.
-        /// Double values can be captured as follows: <c>_[440]</c>
+        /// Double values can be captured as follows: <c>_[440]</c> or <c>[440]</c>
         /// It wraps a literal number inside a Value <see cref="Operator"/>, 
         /// so that can always be substituted by a whole formula /
         /// graph / calculation / curve that varies over time for added flexibility.
