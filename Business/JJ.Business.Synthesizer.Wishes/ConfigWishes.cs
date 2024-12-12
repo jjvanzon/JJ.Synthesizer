@@ -19,8 +19,9 @@ namespace JJ.Business.Synthesizer.Wishes
     public enum TimeOutActionEnum
     {
         Undefined,
-        Warn,
-        Stop
+        Continue,
+        Log,
+        Exception
     }
     
     internal class ConfigSection
@@ -120,11 +121,11 @@ namespace JJ.Business.Synthesizer.Wishes
         // Misc Settings
         
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        private const double DefaultLeafCheckTimeOut                  = 60;
+        private const double DefaultLeafCheckTimeOut         = 60;
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        private const TimeOutActionEnum DefaultTimeOutAction = TimeOutActionEnum.Warn;
-        private const int DefaultExtraBufferFrames                    = 4;
-        private const string DefaultLongTestCategory                  = "Long";
+        private const TimeOutActionEnum DefaultTimeOutAction = TimeOutActionEnum.Continue;
+        private const int DefaultExtraBufferFrames           = 4;
+        private const string DefaultLongTestCategory         = "Long";
 
         // Environment Variables
         

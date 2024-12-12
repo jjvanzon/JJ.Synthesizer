@@ -182,17 +182,23 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             double timeOutInSec = timeOutInMs / 1000.0;
             string formattedTimeOut = PrettyDuration(timeOutInSec);
             
-            string message = GetActionMessage(
+            string actionMessage = GetActionMessage(
                 nameof(Tape),
                 "Check for Leaves",
-                $"Timed-out after {formattedTimeOut} waiting for a leaf to finish.");
+                $"Time-out after {formattedTimeOut} waiting for a leaf to finish.");
             
-            Console.WriteLine(message);
-            
-            if (timeOutAction == TimeOutActionEnum.Stop)
+            switch (timeOutAction)
             {
-                message += GetTapesLeftMessage(todoCount, tapesTODO);
-                throw new Exception(message);
+                case TimeOutActionEnum.Continue:
+                    Console.WriteLine(actionMessage);
+                    break;
+                    
+                case TimeOutActionEnum.Log:
+                    Console.WriteLine(actionMessage + " " + GetTapesLeftMessage(todoCount, tapesTODO));
+                    break;
+                
+                case TimeOutActionEnum.Exception:
+                    throw new Exception(actionMessage + " " + GetTapesLeftMessage(todoCount, tapesTODO));
             }
         }
         
