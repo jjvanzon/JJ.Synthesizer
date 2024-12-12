@@ -250,7 +250,6 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Cache(
-            
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Cache(this, null, null, callback, callerMemberName);
         
