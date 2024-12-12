@@ -237,16 +237,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithAudioLength(t[2, 1] + GetNoteLength);
         }
 
-        [TestMethod]
-        public void NoteArrangement_SingleNote_Test() => new NoteWishesTests().NoteArrangement_SingleNote();
-
-        void NoteArrangement_SingleNote()
+        [TestMethod] public void NoteArrangement_IndividualNotes_Test() => Run(NoteArrangement_IndividualNotes);
+        void NoteArrangement_IndividualNotes()
         {
-            Save(() => MyCurve);
+            SetNoteArrangementOptions();
             
-            Save(() => _[ t[2, 1], A5, Flute1Param, MyCurve , l[0.5] ]).Play();
-            //Save(() => _[ t[1, 1], A5, Flute1Param, MyCurve , l[0.5] ]).Play();
-            //Save(() => _[ t[1, 1], A5, Flute1Param, MyCurve ]).Play();
+            Save(MyCurve);
+            
+            // Why do I have to define a key for both Save and Play?
+            _[ t[2, 1], A5, Flute1Param, MyCurve , l[0.5] ].Save("Save1").Play("Play1");
+            _[ t[1, 1], A5, Flute1Param, MyCurve , l[0.5] ].Save("Save2").Play("Play2");
+            _[ t[1, 1], A5, Flute1Param, MyCurve          ].Save("Save3").Play("Play3");
         }
         
         [TestMethod] public void NoteArrangement_FluteNoParams_Test() => new NoteWishesTests().NoteArrangement_FluteNoParams();
