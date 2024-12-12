@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
@@ -76,6 +77,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 case Delegate d: 
                     return d.Method.Name;
                     
+                case Tape tape:
+                    return tape.GetName;
+                
                 case Buff buff:
                     return TryGetName(buff.FilePath, buff.UnderlyingAudioFileOutput);
                 

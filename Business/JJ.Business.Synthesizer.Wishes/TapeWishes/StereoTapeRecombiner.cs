@@ -25,14 +25,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tapePairs.Count == 0) return new List<Tape>();
             
             tapePairs.ForEach(AssertTapePair);
-            var channelSignals = tapePairs.Select(GetChannelSignals).ToArray();
-            var stereoTapes = tapePairs.Select(x => CloneTape(x.Left)).ToArray();
+            Tape[] stereoTapes = tapePairs.Select(CreateStereoTape).ToArray();
+            
             int count = stereoTapes.Length;
 
             Parallel.For(0, count, i =>
             {
                 LogAction(stereoTapes[i], "Start");
-                MaterializeStereoTape(stereoTapes[i], channelSignals[i]);
+                MaterializeStereoTape(stereoTapes[i]);
                 LogAction(stereoTapes[i], "Stop");
             });
             
@@ -40,6 +40,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
         
         // Per Item
+
+        private void AssertTapePair((Tape Left, Tape Right) tapePair)
+        {
+            if (tapePair.Left == null) throw new NullException(() => tapePair.Left);
+            if (tapePair.Left.Buff == null) throw new NullException(() => tapePair.Left.Buff);
+            if (tapePair.Right == null) throw new NullException(() => tapePair.Right);
+            if (tapePair.Right.Buff == null) throw new NullException(() => tapePair.Right.Buff);
+        }
 
         //public Tape RecombineChannels((Tape Left, Tape Right) tapePair)
         //{
@@ -50,18 +58,25 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         //    return stereoTape;
         //}
 
-        private void AssertTapePair((Tape Left, Tape Right) tapePair)
+        private Tape CreateStereoTape((Tape Left, Tape Right) tapePair)
         {
-            if (tapePair.Left == null) throw new NullException(() => tapePair.Left);
-            if (tapePair.Left.Buff == null) throw new NullException(() => tapePair.Left.Buff);
-            if (tapePair.Right == null) throw new NullException(() => tapePair.Right);
-            if (tapePair.Right.Buff == null) throw new NullException(() => tapePair.Right.Buff);
+            IList<FlowNode> channelSignals = GetChannelSignals(tapePair);
+            Tape stereoTape = CloneTape(tapePair.Left);
+            stereoTape.ChannelSignals = channelSignals;
+            return stereoTape;
         }
         
         private IList<FlowNode> GetChannelSignals((Tape Left, Tape Right) tapePair)
-            => _synthWishes.GetChannelSignals(() => _synthWishes.Sample(tapePair.Left .Buff).Panning(0) +
-                                                    _synthWishes.Sample(tapePair.Right.Buff).Panning(1));
-
+        {
+            return _synthWishes.GetChannelSignals(() =>
+            {
+                var signal = _synthWishes.Sample(tapePair.Left.Buff).Panning(0) +
+                             _synthWishes.Sample(tapePair.Right.Buff).Panning(1);
+                
+                return signal.SetName(tapePair.Left);
+            });
+        }
+        
         private static Tape CloneTape(Tape tapePrototype) => new Tape
         {
             Duration = tapePrototype.Duration,
@@ -74,13 +89,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Callback = tapePrototype.Callback
         };
         
-        //private void MaterializeStereoTape(Tape stereoTape, IList<FlowNode> channelSignals) 
-        //    => stereoTape.Buff = _synthWishes.MakeBuff(
-        //        channelSignals, stereoTape.Duration,
-        //        inMemory: !_synthWishes.GetCacheToDisk, default, null, null, null);
-        
-        private void MaterializeStereoTape(Tape stereoTape, IList<FlowNode> channelSignals) 
+        private void MaterializeStereoTape(Tape stereoTape) 
             => stereoTape.Buff = _synthWishes.MaterializeCache(
-                channelSignals, stereoTape.Duration, stereoTape.GetName);
+                stereoTape.ChannelSignals, stereoTape.Duration, stereoTape.GetName);
     }
 }

@@ -9,11 +9,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     internal class Tape
     {
         /// <inheritdoc cref="docs._tapename" />
-        public string GetName => NameHelper.ResolveName(Signal, FallBackName, FilePath);
+        public string GetName => NameHelper.ResolveName(Signal, ChannelSignals, FallBackName, FilePath);
         
-        public FlowNode Signal { get; set; }
         public FlowNode Duration { get; set; }
+        public FlowNode Signal { get; set; }
         public int? Channel { get; set; }
+        
+        /// <summary> For stereo tapes. </summary>
+        public IList<FlowNode> ChannelSignals { get; set; }
         
         /// <inheritdoc cref="docs._istape" />
         public bool IsTape { get;set; }
