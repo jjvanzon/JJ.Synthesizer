@@ -17,8 +17,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
         
         public int Count => _tapes.Count;
-        
-        public Tape GetOrCreate(FlowNode signal, FlowNode duration, string filePath, [CallerMemberName] string callerMemberName = null)
+
+        public Tape GetOrCreate(
+            FlowNode signal, FlowNode duration, 
+            Func<Buff, Buff> callback, Func<Buff, int, Buff> channelCallback,
+            string filePath, [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
@@ -26,13 +29,19 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 _tapes[signal] = tape = new Tape();
             }
-            
+
+            // TODO: Move parameters and all set-once properties in a constructor?
             tape.Signal = signal;
             tape.Duration = duration ?? _synthWishes.GetAudioLength;
             tape.Channel = _synthWishes.GetChannel;
             tape.FilePath = filePath;
             tape.FallBackName = callerMemberName;
             
+            // Don't overwrite callback with null.
+            // TODO: Employ Callbacks collection instead of a single one.
+            tape.Callback = tape.Callback ?? callback; 
+            tape.ChannelCallback = tape.ChannelCallback ?? channelCallback; 
+
             return tape;
         }
         
