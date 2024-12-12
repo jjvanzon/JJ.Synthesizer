@@ -50,8 +50,8 @@ namespace JJ.Business.Synthesizer.Wishes
         // Misc Settings
         
         [XmlAttribute] public int? ExtraBufferFrames { get; set; }
-        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
-        [XmlAttribute] public double? ParallelTaskCheckDelay { get; set; }
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        [XmlAttribute] public double? LeafCheckTimeout { get; set; }
         [XmlAttribute] public string LongTestCategory { get; set; }
     }
 
@@ -109,10 +109,10 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Misc Settings
         
-        private const int    DefaultExtraBufferFrames      = 4;
-        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
-        private const double DefaultParallelTaskCheckDelay = 0.001;
-        private const string DefaultLongTestCategory       = "Long";
+        private const int    DefaultExtraBufferFrames = 4;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        private const double DefaultLeafCheckTimeout = -1;
+        private const string DefaultLongTestCategory = "Long";
 
         // Environment Variables
         
@@ -514,12 +514,12 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._extrabufferframes" />
         public void WithExtraBufferFrames(int? value) => _extraBufferFrames = value;
         
-        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
-        private double? _parallelTaskCheckDelay;
-        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
-        public double GetParallelTaskCheckDelay => _parallelTaskCheckDelay ?? _section.ParallelTaskCheckDelay ?? DefaultParallelTaskCheckDelay;
-        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
-        public void WithParallelTaskCheckDelay(double? milliseconds) => _parallelTaskCheckDelay = milliseconds;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        private double? _leafCheckTimeout;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public double GetLeafCheckTimeout => _leafCheckTimeout ?? _section.LeafCheckTimeout ?? DefaultLeafCheckTimeout;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public void WithLeafCheckTimeout(double? seconds) => _leafCheckTimeout = seconds;
         
         private string _longTestCategory;
         public void WithLongTestCategory(string category) => _longTestCategory = category;
@@ -763,10 +763,10 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._extrabufferframes" />
         public SynthWishes WithExtraBufferFrames(int? value) {Config.WithExtraBufferFrames(value); return this; }
         
-        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
-        public double GetParallelTaskCheckDelay => Config.GetParallelTaskCheckDelay;
-        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
-        public SynthWishes WithParallelTaskCheckDelay(double? seconds) {Config.WithParallelTaskCheckDelay(seconds); return this; }
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public double GetLeafCheckTimeout => Config.GetLeafCheckTimeout;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public SynthWishes WithLeafCheckTimeout(double? seconds) {Config.WithLeafCheckTimeout(seconds); return this; }
     }
     
     // FlowNode ConfigWishes
@@ -895,9 +895,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._extrabufferframes" />
         public FlowNode WithExtraBufferFrames(int? value) { _synthWishes.WithExtraBufferFrames(value); return this; }
         
-        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
-        public double GetParallelTaskCheckDelay => _synthWishes.GetParallelTaskCheckDelay;
-        /// <inheritdoc cref="docs._paralleltaskcheckdelay" />
-        public FlowNode WithParallelTaskCheckDelay(double? seconds) { _synthWishes.WithParallelTaskCheckDelay(seconds); return this; }
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public double GetLeafCheckTimeout => _synthWishes.GetLeafCheckTimeout;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public FlowNode WithLeafCheckTimeout(double? seconds) { _synthWishes.WithLeafCheckTimeout(seconds); return this; }
 }
 }

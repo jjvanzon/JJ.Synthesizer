@@ -38,7 +38,7 @@
 		playAllTapes="false"
 		
 		extraBufferFrames="4"
-		parallelTaskCheckDelay="0.001"
+		leafCheckTimeout="1"
 		longTestCategory="Long">
 		
 		<nCrunch 

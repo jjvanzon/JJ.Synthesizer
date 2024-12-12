@@ -76,6 +76,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private IList<Tape> RunTapeLeavesConcurrent()
         {
+            var leafCheckTimeoutMs = (int)(_synthWishes.GetLeafCheckTimeout * 1000);
+            
             Tape[] originalTapeCollection = _tapes.ToArray();
             _tapes.Clear();
             Tape[] tapesTODO = originalTapeCollection.ToArray();
@@ -103,8 +105,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 waitCount++;
                 
                 LogAction(nameof(Tape), "No Leaf", "Wait... " + waitCount);
-                _checkForNewLeavesReset.WaitOne();
-                
+                bool triggered = _checkForNewLeavesReset.WaitOne(leafCheckTimeoutMs);
+                if (!triggered)
+                {
+                    LogAction(nameof(Tape), "Check for Leaves", "Timed-out waiting for processes to finish.");
+                }
             } 
             
             Task.WaitAll(tasks);

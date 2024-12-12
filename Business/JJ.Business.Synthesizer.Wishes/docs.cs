@@ -470,16 +470,16 @@ namespace JJ.Business.Synthesizer.Wishes
         /// The parallel processing, processes a tree of tasks, "leaf" tasks first.
         /// But as soon as they get processed, more "leaf" tasks emerge up for processing.
         /// There's a time interval between checking for new leaves to process.
-        /// <c>ParallelTaskCheckDelay</c> defines this (short) wait time.
-        /// Its unit is in seconds, but it only has a millisecond precision.
-        /// 1 millisecond is usually good enough (0.001).
-        /// But since this may be infrastructure-dependent, it can be configured.
-        /// Anything under the minimum of 1 milliseconds (0.001) rounds down to 0,
-        /// meaning it'll check a lot for new tasks to process.
-        /// This can mean millions of checks instead of hundreds,
-        /// that's why this small delay exists.
+        /// <c>LeafCheckTimeout</c> defines this (short) wait time.
+        /// Its is in seconds, but can use millisecond precision.
+        /// Currently, when a leaf is processed, it signals another leaf check.
+        /// The LeafCheckTimeout can make that check happen sooner.
+        /// It can also be used as a safeguard against system hang-ups
+        /// if there is a problem with the processing.
+        /// A value of -1 disables any time-out solely relying on the
+        /// end of a leaf's processing signaling the check.
         /// </summary>
-        public static object _paralleltaskcheckdelay;
+        public static object _leafchecktimeout;
 
         /// <summary>
         /// Can get persistence configuration from config, or otherwise falls back
