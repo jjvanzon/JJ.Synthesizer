@@ -277,23 +277,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void NoteArrangement_Flute1Param()
         {
             SetNoteArrangementOptions();
-            Save(() => 0.1 * Add
-            (
-            _[          A4, Flute1Param                   ],
-            _[          A4, Flute1Param, 0.8              ],
-            _[          A4, Flute1Param, 0.8     , l[0.5] ],
-            _[          A4, Flute1Param, MyCurve          ],
-            _[          A4, Flute1Param, MyCurve , l[0.5] ],
-            _[ 0.00   , A4, Flute1Param                   ],
-            _[ 0.25   , C5, Flute1Param, 0.8              ],
-            _[ 0.50   , E5, Flute1Param, 0.8     , l[0.5] ],
-            _[ 0.75   , G5, Flute1Param, MyCurve          ],
-            _[ 1.00   , A5, Flute1Param, MyCurve , l[0.5] ],
-            _[ t[1, 1], A4, Flute1Param                   ],
-            _[ t[1, 2], C5, Flute1Param, 0.8              ],
-            _[ t[1, 3], E5, Flute1Param, 0.8     , l[0.5] ],
-            _[ t[1, 4], G5, Flute1Param, MyCurve          ],
-            _[ t[2, 1], A5, Flute1Param, MyCurve , l[0.5] ]
+            Save(() => (0.1 * _
+            [          A4, Flute1Param                   ]
+            [          A4, Flute1Param, 0.8              ]
+            [          A4, Flute1Param, 0.8     , l[0.5] ]
+            [          A4, Flute1Param, MyCurve          ]
+            [          A4, Flute1Param, MyCurve , l[0.5] ]
+            [ 0.00   , A4, Flute1Param                   ]
+            [ 0.25   , C5, Flute1Param, 0.8              ]
+            [ 0.50   , E5, Flute1Param, 0.8     , l[0.5] ]
+            [ 0.75   , G5, Flute1Param, MyCurve          ]
+            [ 1.00   , A5, Flute1Param, MyCurve , l[0.5] ]
+            [ t[1, 1], A4, Flute1Param                   ]
+            [ t[1, 2], C5, Flute1Param, 0.8              ]
+            [ t[1, 3], E5, Flute1Param, 0.8     , l[0.5] ]
+            [ t[1, 4], G5, Flute1Param, MyCurve          ]
+            [ t[2, 1], A5, Flute1Param, MyCurve , l[0.5] ]
             )).Play();
         }
 
