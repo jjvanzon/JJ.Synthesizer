@@ -40,9 +40,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass()
         {
-            FlowNode duration = _[3];
+            var duration = _[4.5];
             WithAudioLength(duration + DeepEchoDuration);
-            DeepEcho(DetunicaBass(E0, duration)).Multiply(0.9).Save().Play();
+            
+            _[DetunicaBass, E0, duration][DeepEcho].Multiply(0.9).Save().Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -52,7 +53,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = _[3];
             WithAudioLength(duration + DeepEchoDuration);
-            DeepEcho(Detunica1(E2, duration)).Times(0.15).Save().Play();
+            
+            _[E2, Detunica1, _, duration][DeepEcho][Volume, 0.15].Save().Play();
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -170,19 +172,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         /// <inheritdoc cref="docs._detunica" />
         FlowNode Detunica2(FlowNode freq, FlowNode duration = null)
-            => MildEcho
+            => Detunica
             (
-                Detunica
-                (
-                    freq.VibratoFreq(10, 0.00020),
-                    duration,
-                    depth: _[1.0],
-                    churnRate: 0.1 * RateCurve2
-                )
-                .Tremolo(12, 0.1)
-                .Panning(0.4)
-                .Panbrello(2.6, 0.09).SetName()
-            );
+                freq.VibratoFreq(10, 0.00020),
+                duration,
+                depth: _[1.0],
+                churnRate: 0.1 * RateCurve2
+            )
+            .Tremolo(12, 0.1)
+            .Panning(0.4)
+            .Panbrello(2.6, 0.09).SetName()
+            [MildEcho];
         
         /// <inheritdoc cref="docs._detunica" />
         FlowNode Detunica3(FlowNode freq, FlowNode duration = null)
