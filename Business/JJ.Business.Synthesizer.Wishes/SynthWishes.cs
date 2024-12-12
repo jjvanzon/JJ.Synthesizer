@@ -65,7 +65,21 @@ namespace JJ.Business.Synthesizer.Wishes
             t = new TimeIndexer(this);
         }
         
-        public void Run(Action action) => RunOnNewInstance(action);
+        public void Run(Action action)
+        {
+            // Work-around for Delegate.CreateDelegate ArgumentException:
+            // "Cannot bind to the target method because its signature or security transparency
+            // is not compatible with that of the delegate type."
+            // Honestly I don't know how to solve other than catch the exception.
+            try
+            {
+                RunOnNewInstance(action);
+            }
+            catch (ArgumentException ex)
+            {
+                RunOnThisInstance(action);
+            }
+        }
         
         private void RunOnNewInstance(Action action)
         {
