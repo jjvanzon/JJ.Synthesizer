@@ -240,16 +240,34 @@ namespace JJ.Business.Synthesizer.Wishes
         public static void LogAction(string typeName, string message) 
             => LogActionBase(null, typeName, null, message);
         
+        public static string GetActionMessage(string typeName, string message) 
+            => GetActionMessage(null, typeName, null, message);
+        
         public static void LogAction(string typeName, string action, string message) 
             => LogActionBase(null, typeName, action, message);
-        
+
+        public static string GetActionMessage(string typeName, string action, string message) 
+            => GetActionMessage(null, typeName, action, message);
+
         public static void LogAction(Tape tape, string action) 
             => LogActionBase(tape, null, action, null);
+
+        public static string GetActionMessage(Tape tape, string action) 
+            => GetActionMessage(tape, null, action, null);
         
         public static void LogAction(Tape tape, string action, string message) 
             => LogActionBase(tape, null, action, message);
         
+        public static string GetActionMessage(Tape tape, string action, string message) 
+            => GetActionMessage(tape, null, action, message);
+        
         private static void LogActionBase(Tape tape, string typeName, string action, string message)
+        {
+            string text = GetActionMessage(tape, typeName, action, message);
+            Console.WriteLine(text);
+        }
+        
+        public static string GetActionMessage(Tape tape, string typeName, string action, string message)
         {
             if (!FilledIn(typeName)) typeName = nameof(Tape);
             
@@ -259,23 +277,21 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 text += " " + action;
             }
-
+            
             if (tape != null)
             {
                 if (!text.EndsWithPunctuation()) text += ":";
                 text += " " + @"""" + GetTapeDescriptor(tape) + @"""";
             }
-
+            
             if (FilledIn(message))
             {
                 if (!text.EndsWithPunctuation()) text += ":";
                 text += " " + message;
             }
-
-            Console.WriteLine(text); 
+            return text;
         }
-
-
+        
         // Math Boost
 
         public static void LogMathOptimizationTitle()

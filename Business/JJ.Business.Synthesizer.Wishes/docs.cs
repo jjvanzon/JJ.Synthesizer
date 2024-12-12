@@ -470,10 +470,10 @@ namespace JJ.Business.Synthesizer.Wishes
         /// The parallel processing, processes a tree of tasks, "leaf" tasks first.
         /// But as soon as they get processed, more "leaf" tasks emerge up for processing.
         /// There's a time interval between checking for new leaves to process.
-        /// <c>LeafCheckTimeout</c> defines this (short) wait time.
+        /// <c>LeafCheckTimeOut</c> defines this (short) wait time.
         /// Its is in seconds, but can use millisecond precision.
         /// Currently, when a leaf is processed, it signals another leaf check.
-        /// The LeafCheckTimeout can make that check happen sooner.
+        /// The LeafCheckTimeOut can make that check happen sooner.
         /// It can also be used as a safeguard against system hang-ups
         /// if there is a problem with the processing.
         /// A value of -1 disables any time-out solely relying on the

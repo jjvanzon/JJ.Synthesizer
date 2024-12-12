@@ -7,6 +7,7 @@ using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.EnvironmentHelperWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Configuration_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Testing_Wishes;
 // ReSharper disable RedundantNameQualifier
@@ -14,6 +15,13 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Testing_Wishes;
 namespace JJ.Business.Synthesizer.Wishes
 {
     // Config XML
+    
+    public enum TimeOutActionEnum
+    {
+        Undefined,
+        Warn,
+        Stop
+    }
     
     internal class ConfigSection
     {
@@ -49,9 +57,11 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Misc Settings
         
-        [XmlAttribute] public int? ExtraBufferFrames { get; set; }
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        [XmlAttribute] public double? LeafCheckTimeout { get; set; }
+        [XmlAttribute] public double? LeafCheckTimeOut { get; set; }
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        [XmlAttribute] public TimeOutActionEnum? TimeOutAction { get; set; }
+        [XmlAttribute] public int? ExtraBufferFrames { get; set; }
         [XmlAttribute] public string LongTestCategory { get; set; }
     }
 
@@ -109,10 +119,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Misc Settings
         
-        private const int    DefaultExtraBufferFrames = 4;
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        private const double DefaultLeafCheckTimeout = -1;
-        private const string DefaultLongTestCategory = "Long";
+        private const double DefaultLeafCheckTimeOut                  = 60;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        private const TimeOutActionEnum DefaultTimeOutAction = TimeOutActionEnum.Warn;
+        private const int DefaultExtraBufferFrames                    = 4;
+        private const string DefaultLongTestCategory                  = "Long";
 
         // Environment Variables
         
@@ -507,20 +519,29 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Misc Settings
         
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        private double? _leafCheckTimeOut;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public double GetLeafCheckTimeOut => _leafCheckTimeOut ?? _section.LeafCheckTimeOut ?? DefaultLeafCheckTimeOut;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public void WithLeafCheckTimeOut(double? seconds) => _leafCheckTimeOut = seconds;
+
+        
+        /// <inheritdoc cref="docs._timeoutaction" />
+        private TimeOutActionEnum _timeOutAction;
+        /// <inheritdoc cref="docs._timeoutaction" />
+        // ReSharper disable once PossibleInvalidOperationException
+        public TimeOutActionEnum GetTimeOutAction => FilledIn(_timeOutAction) ? _timeOutAction : _section.TimeOutAction ?? DefaultTimeOutAction;
+        /// <inheritdoc cref="docs._timeoutaction" />
+        public void WithTimeOutAction(TimeOutActionEnum action) => _timeOutAction = action;
+               
         /// <inheritdoc cref="docs._extrabufferframes" />
         private int? _extraBufferFrames;
         /// <inheritdoc cref="docs._extrabufferframes" />
         public int GetExtraBufferFrames => _extraBufferFrames ?? _section.ExtraBufferFrames ?? DefaultExtraBufferFrames;
         /// <inheritdoc cref="docs._extrabufferframes" />
         public void WithExtraBufferFrames(int? value) => _extraBufferFrames = value;
-        
-        /// <inheritdoc cref="docs._leafchecktimeout" />
-        private double? _leafCheckTimeout;
-        /// <inheritdoc cref="docs._leafchecktimeout" />
-        public double GetLeafCheckTimeout => _leafCheckTimeout ?? _section.LeafCheckTimeout ?? DefaultLeafCheckTimeout;
-        /// <inheritdoc cref="docs._leafchecktimeout" />
-        public void WithLeafCheckTimeout(double? seconds) => _leafCheckTimeout = seconds;
-        
+
         private string _longTestCategory;
         public void WithLongTestCategory(string category) => _longTestCategory = category;
         public string GetLongTestCategory
@@ -758,15 +779,20 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Misc Settings
         
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public double GetLeafCheckTimeOut => Config.GetLeafCheckTimeOut;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public SynthWishes WithLeafCheckTimeOut(double? seconds) { Config.WithLeafCheckTimeOut(seconds); return this; }
+
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public TimeOutActionEnum GetTimeOutAction => Config.GetTimeOutAction;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public SynthWishes WithTimeOutAction(TimeOutActionEnum action) { Config.WithTimeOutAction(action); return this; }
+        
         /// <inheritdoc cref="docs._extrabufferframes" />
         public int GetExtraBufferFrames => Config.GetExtraBufferFrames;
         /// <inheritdoc cref="docs._extrabufferframes" />
-        public SynthWishes WithExtraBufferFrames(int? value) {Config.WithExtraBufferFrames(value); return this; }
-        
-        /// <inheritdoc cref="docs._leafchecktimeout" />
-        public double GetLeafCheckTimeout => Config.GetLeafCheckTimeout;
-        /// <inheritdoc cref="docs._leafchecktimeout" />
-        public SynthWishes WithLeafCheckTimeout(double? seconds) {Config.WithLeafCheckTimeout(seconds); return this; }
+        public SynthWishes WithExtraBufferFrames(int? value) { Config.WithExtraBufferFrames(value); return this; }
     }
     
     // FlowNode ConfigWishes
@@ -890,14 +916,19 @@ namespace JJ.Business.Synthesizer.Wishes
  
         // Misc Settings
         
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public double GetLeafCheckTimeOut => _synthWishes.GetLeafCheckTimeOut;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public FlowNode WithLeafCheckTimeOut(double? seconds) { _synthWishes.WithLeafCheckTimeOut(seconds); return this; }
+        
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public TimeOutActionEnum TimeOutAction => _synthWishes.GetTimeOutAction;
+        /// <inheritdoc cref="docs._leafchecktimeout" />
+        public FlowNode WithTimeOutAction(TimeOutActionEnum action) { _synthWishes.WithTimeOutAction(action); return this; }
+        
         /// <inheritdoc cref="docs._extrabufferframes" />
         public int GetExtraBufferFrames => _synthWishes.GetExtraBufferFrames;
         /// <inheritdoc cref="docs._extrabufferframes" />
         public FlowNode WithExtraBufferFrames(int? value) { _synthWishes.WithExtraBufferFrames(value); return this; }
-        
-        /// <inheritdoc cref="docs._leafchecktimeout" />
-        public double GetLeafCheckTimeout => _synthWishes.GetLeafCheckTimeout;
-        /// <inheritdoc cref="docs._leafchecktimeout" />
-        public FlowNode WithLeafCheckTimeout(double? seconds) { _synthWishes.WithLeafCheckTimeout(seconds); return this; }
-}
+    }
 }

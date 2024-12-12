@@ -37,8 +37,9 @@
 		cacheToDisk="false"
 		playAllTapes="false"
 		
+		leafCheckTimeOut="30"
+		timeOutAction="Warn"
 		extraBufferFrames="4"
-		leafCheckTimeout="1"
 		longTestCategory="Long">
 		
 		<nCrunch 

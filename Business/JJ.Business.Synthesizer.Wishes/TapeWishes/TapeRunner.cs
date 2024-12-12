@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 // ReSharper disable ArrangeStaticMemberQualifier
 
@@ -76,7 +77,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private IList<Tape> RunTapeLeavesConcurrent()
         {
-            var leafCheckTimeoutMs = (int)(_synthWishes.GetLeafCheckTimeout * 1000);
+            int timeOutInMs = (int)(_synthWishes.GetLeafCheckTimeOut * 1000);
+            if (timeOutInMs < 0) timeOutInMs = -1;
+            TimeOutActionEnum timeOutAction = _synthWishes.GetTimeOutAction;
             
             Tape[] originalTapeCollection = _tapes.ToArray();
             _tapes.Clear();
@@ -105,10 +108,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 waitCount++;
                 
                 LogAction(nameof(Tape), "No Leaf", "Wait... " + waitCount);
-                bool triggered = _checkForNewLeavesReset.WaitOne(leafCheckTimeoutMs);
+                
+                bool triggered = _checkForNewLeavesReset.WaitOne(timeOutInMs);
                 if (!triggered)
                 {
-                    LogAction(nameof(Tape), "Check for Leaves", "Timed-out waiting for processes to finish.");
+                    HandleTimeOut(timeOutAction, timeOutInMs);
                 }
             } 
             
@@ -168,6 +172,24 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             leaf.ParentTape?.ChildTapes.Remove(leaf);
             leaf.ParentTape = null;
+        }
+               
+        private void HandleTimeOut(TimeOutActionEnum timeOutAction, int timeOutInMs)
+        {
+            double timeOutInSeconds = timeOutInMs / 1000.0;
+            string prettyDuration = PrettyDuration(timeOutInSeconds);
+            
+            string message = GetActionMessage(
+                nameof(Tape),
+                "Check for Leaves",
+                $"Timed-out after {prettyDuration} waiting for processes to finish.");
+            
+            Console.WriteLine(message);
+            
+            if (timeOutAction == TimeOutActionEnum.Stop)
+            {
+                throw new Exception(message);
+            }
         }
 
         private void ExecutePostProcessing(IList<Tape> tapes)
