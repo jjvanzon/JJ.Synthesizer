@@ -277,7 +277,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void NoteArrangement_Flute1Param()
         {
             SetNoteArrangementOptions();
-            Save(() => (0.1 * _
+            Save(() => 0.1 * _
             [          A4, Flute1Param                   ]
             [          A4, Flute1Param, 0.8              ]
             [          A4, Flute1Param, 0.8     , l[0.5] ]
