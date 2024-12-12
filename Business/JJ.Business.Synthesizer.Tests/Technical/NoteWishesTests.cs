@@ -139,34 +139,34 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Play the instrument for reference
             {
-                Play(() => instrument(C3));
+                instrument(G4).Play();
             }
             
             // NoteLength from config file / hard-coded default
             {
                 AreEqual(0.2, () => GetNoteLength.Value);
-                Play(() => Note(instrument(C4), time, volume));
+                Note(instrument(C4), time, volume).Play();
             }
             
             // WithNoteLength
             {
                 WithNoteLength(0.33);
                 AreEqual(0.33, () => GetNoteLength.Value);
-                Play(() => Note(instrument(D4), time, volume));
+                Note(instrument(D4), time, volume).Play();
             }
             
             // ResetNoteLength() => defaults to config file or hard-coded default
             {
                 ResetNoteLength();
                 AreEqual(0.2, () => GetNoteLength.Value);
-                Play(() => Note(instrument(E4), time, volume));
+                Note(instrument(E4), time, volume).Play();
             }
             
             // Dynamic NoteLength explicitly set
             {
                 WithNoteLength(Curve(0.75, 1.5));
                 AreEqual(1.125, () => GetNoteLength.Calculate(0.5));
-                Play(() => Note(instrument(F4), time, volume));
+                Note(instrument(F4), time, volume).Play();
             }
             
             // Fallback to BeatLength
@@ -174,7 +174,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 ResetNoteLength();
                 WithBeatLength(1);
                 AreEqual(1, () => GetNoteLength.Value);
-                Play(() => Note(instrument(G4), time, volume));
+                Note(instrument(G4), time, volume).Play();
             }
             
             // Fallback to BeatLength (dynamic)
@@ -182,19 +182,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 ResetNoteLength();
                 WithBeatLength(Curve(1.5, 2.0));
                 AreEqual(1.75, GetNoteLength.Calculate(0.5), delta);
-                Play(() => Note(instrument(A4), time, volume));
+                Note(instrument(A4), time, volume).Play();
             }
             
             // StrikeNote parameter
             {
                 var noteLength = _[2.2];
-                Play(() => Note(instrument(B4, noteLength), time, volume, noteLength));
+                Note(instrument(B4, noteLength), time, volume, noteLength).Play();
             }
             
             // StrikeNote parameter (dynamic duration)
             {
                 var noteLength = Curve(3.5, 5);
-                Play(() => Note(instrument(C5, noteLength), time, volume, noteLength));
+                Note(instrument(C5, noteLength), time, volume, noteLength).Play();
             }
         }
         
