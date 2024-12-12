@@ -391,7 +391,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 var accessor = new AdditiveTestsAccessor(new AdditiveTests());
                 TestComplexity(accessor.Metallophone(A4));
                 TestComplexity(accessor.MetallophoneChord);
-                TestComplexity(accessor.MetallophoneJingle);
+                TestComplexity(accessor.MetallophoneJingle());
             }
             {
                 var accessor = new FMTestsAccessor(new FMTests());
