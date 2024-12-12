@@ -27,8 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Tests
 
         /// <inheritdoc cref="docs._detunica" />
-        [TestMethod, TestCategory("Long")]
-        public void Detunica_Jingle_Test() => Run(Detunica_Jingle);
+        [TestMethod, TestCategory("Long")] public void Detunica_Jingle_Test() => Run(Detunica_Jingle);
         /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle()
         {
@@ -37,8 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._detunica" />
-        [TestMethod] 
-        public void DetunicaBass_Test() => Run(DetunicaBass);
+        [TestMethod] public void DetunicaBass_Test() => Run(DetunicaBass);
         /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass()
         {
@@ -48,8 +46,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._detunica" />
-        [TestMethod]
-        public void Detunica1_Test() => Run(Detunica1);
+        [TestMethod] public void Detunica1Note1_Test() => Run(Detunica1);
         /// <inheritdoc cref="docs._detunica" />
         void Detunica1()
         {
@@ -59,8 +56,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._detunica" />
-        [TestMethod]
-        public void Detunica2_Test() => Run(Detunica2);
+        [TestMethod] public void Detunica2_Test() => Run(Detunica2);
         /// <inheritdoc cref="docs._detunica" />
         void Detunica2()
         {
@@ -70,8 +66,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._detunica" />
-        [TestMethod]
-        public void Detunica3_Test() => Run(Detunica3);
+        [TestMethod] public void Detunica3_Test() => Run(Detunica3);
         /// <inheritdoc cref="docs._detunica" />
         void Detunica3()
         {
@@ -81,8 +76,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._detunica" />
-        [TestMethod]
-        public void Detunica4_Test() => Run(Detunica4);
+        [TestMethod] public void Detunica4_Test() => Run(Detunica4);
         /// <inheritdoc cref="docs._detunica" />
         void Detunica4()
         {
@@ -92,8 +86,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._detunica" />
-        [TestMethod]
-        public void Detunica5_Test() => Run(Detunica5);
+        [TestMethod] public void Detunica5_Test() => Run(Detunica5);
         /// <inheritdoc cref="docs._detunica" />
         void Detunica5()
         {
@@ -103,8 +96,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
-        [TestMethod]
-        public void Vibraphase_Chord_Test() => Run(Vibraphase_Chord);
+        [TestMethod] public void Vibraphase_Chord_Test() => Run(Vibraphase_Chord);
         /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_Chord()
         {
@@ -113,8 +105,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
-        [TestMethod]
-        public void Vibraphase_Note_Test() => Run(VibraphaseNote);
+        [TestMethod] public void Vibraphase_Note_Test() => Run(VibraphaseNote);
         /// <inheritdoc cref="docs._vibraphase" />
         void VibraphaseNote()
         {
@@ -366,7 +357,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
             return sound.SetName();
         }
-
 
         /// <inheritdoc cref="docs._echo" />
         FlowNode MildEcho(FlowNode sound)

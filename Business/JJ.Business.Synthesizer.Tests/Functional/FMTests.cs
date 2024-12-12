@@ -37,41 +37,32 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Tests
 
-        [TestMethod]
-        [TestCategory("Long")]
-        public void FM_Jingle_Test() => Run(FM_Jingle);
+        [TestMethod, TestCategory("Long")] public void FM_Jingle_Test() => Run(FM_Jingle);
         void FM_Jingle()
         {
             WithPlay();
             Jingle().DeepEcho().Volume(0.2).Save().Play();
         }
         
-        [TestMethod]
-        public void FM_Flute_Melody1_Test() => Run(FM_Flute_Melody1);
+        [TestMethod] public void FM_Flute_Melody1_Test() => Run(FM_Flute_Melody1);
         void FM_Flute_Melody1() => (FluteMelody1.MildEcho() * 0.5).Save().Play();
         
-        [TestMethod]
-        public void FM_Flute_Melody2_Test() => Run(FM_Flute_Melody2);
+        [TestMethod] public void FM_Flute_Melody2_Test() => Run(FM_Flute_Melody2);
         void FM_Flute_Melody2() => (FluteMelody2.WithAudioLength(bars[8]).MildEcho() * 0.5).Save().Play();
         
-        [TestMethod]
-        public void FM_Flute1_Test() => Run(FM_Flute1);
+        [TestMethod] public void FM_Flute1_Test() => Run(FM_Flute1);
         void FM_Flute1() => (Flute1(E4).MildEcho() * 0.5).Save().Play();
         
-        [TestMethod]
-        public void FM_Flute2_Test() => Run(FM_Flute2);
+        [TestMethod] public void FM_Flute2_Test() => Run(FM_Flute2);
         void FM_Flute2() => (Flute2(F4).MildEcho() * 0.5).Save().Play();
         
-        [TestMethod]
-        public void FM_Flute3_Test() => Run(FM_Flute3);
+        [TestMethod] public void FM_Flute3_Test() => Run(FM_Flute3);
         void FM_Flute3() => (Flute3(G4).MildEcho() * 0.5).Save().Play();
         
-        [TestMethod]
-        public void FM_Flute4_Test() => Run(FM_Flute4);
+        [TestMethod] public void FM_Flute4_Test() => Run(FM_Flute4);
         void FM_Flute4() => (Flute4(A4).MildEcho() * 0.5).Save().Play();
         
-        [TestMethod]
-        public void FM_Organ_Test() => Run(FM_Organ);
+        [TestMethod] public void FM_Organ_Test() => Run(FM_Organ);
         void FM_Organ()
         {
             var duration = bars[3];
@@ -79,68 +70,56 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             Organ().Curve(RecorderCurve.Stretch(duration)).Volume(0.5).MildEcho().Save().Play();
         }
         
-        [TestMethod]
-        public void FM_Organ_Chords_Test() => Run(FM_Organ_Chords);
+        [TestMethod] public void FM_Organ_Chords_Test() => Run(FM_Organ_Chords);
         void FM_Organ_Chords() => WithAudioLength(bars[8]).Save(OrganChords.MildEcho() * 0.2).Play();
         
-        [TestMethod]
-        public void FM_Organ_Chords2_Test() => Run(FM_Organ_Chords2);
+        [TestMethod] public void FM_Organ_Chords2_Test() => Run(FM_Organ_Chords2);
         void FM_Organ_Chords2() => Save(OrganChords2.MildEcho() * 0.2).Play();
         
-        [TestMethod]
-        public void FM_Pad_Test() => Run(FM_Pad);
+        [TestMethod] public void FM_Pad_Test() => Run(FM_Pad);
         void FM_Pad()
         {
             var duration = bars[3];
             WithAudioLength(duration).Fluent(Pad() * RecorderCurve.Stretch(duration) * 0.5).MildEcho().Save().Play();
         }
 
-        [TestMethod]
-        public void FM_Pad_Chords_Test() => Run(FM_Pad_Chords);
+        [TestMethod] public void FM_Pad_Chords_Test() => Run(FM_Pad_Chords);
         void FM_Pad_Chords() => WithAudioLength(bars[8]).Fluent(PadChords()).MildEcho().Volume(0.14).Save().Play();
         
-        [TestMethod]
-        public void FM_Pad_Chords2_Test() => Run(FM_Pad_Chords2);
+        [TestMethod] public void FM_Pad_Chords2_Test() => Run(FM_Pad_Chords2);
         void FM_Pad_Chords2() => WithAudioLength(bars[8]).Save(PadChords2().MildEcho() * 0.14).Play();
         
-        [TestMethod]
-        public void FM_Distortion_Chords_Test() => Run(FM_Distortion_Chords);
+        [TestMethod] public void FM_Distortion_Chords_Test() => Run(FM_Distortion_Chords);
         void FM_Distortion_Chords()
             => With16Bit().Fluent(DistortionChords(_[0.92])).Times(0.15).MildEcho().Save().Play();
         
         /// <inheritdoc cref="docs._horn" />
-        [TestMethod]
-        public void FM_Horn_Test() => Run(FM_Horn);
+        [TestMethod] public void FM_Horn_Test() => Run(FM_Horn);
         /// <inheritdoc cref="docs._horn" />
         void FM_Horn() => Horn().MildEcho().Volume(0.5).Save().Play();
         
         /// <inheritdoc cref="docs._horn" />
-        [TestMethod]
-        public void FM_Horn_Melody1_Test() => Run(FM_Horn_Melody1);
+        [TestMethod] public void FM_Horn_Melody1_Test() => Run(FM_Horn_Melody1);
         /// <inheritdoc cref="docs._horn" />
         void FM_Horn_Melody1() => (HornMelody1.MildEcho() * 0.5).Save().Play();
         
         /// <inheritdoc cref="docs._horn" />
-        [TestMethod]
-        public void FM_Horn_Melody2_Test() => Run(FM_Horn_Melody2);
+        [TestMethod] public void FM_Horn_Melody2_Test() => Run(FM_Horn_Melody2);
         /// <inheritdoc cref="docs._horn" />
         void FM_Horn_Melody2() => HornMelody2.MildEcho().Volume(0.5).Save().Play();
         
         /// <inheritdoc cref="docs._trombone" />
-        [TestMethod]
-        public void FM_Trombone_Test() => Run(FM_Trombone);
+        [TestMethod] public void FM_Trombone_Test() => Run(FM_Trombone);
         /// <inheritdoc cref="docs._trombone" />
         void FM_Trombone() => WithAudioLength(1).Save(Trombone(E2).MildEcho() * 0.5).Play(); // TODO: Output is > 3 sec. Why not 1 + MildEchoDuration?
         
         /// <inheritdoc cref="docs._trombone" />
-        [TestMethod]
-        public void FM_Trombone_Melody1_Test() => Run(FM_Trombone_Melody1);
+        [TestMethod] public void FM_Trombone_Melody1_Test() => Run(FM_Trombone_Melody1);
         /// <inheritdoc cref="docs._trombone" />
         void FM_Trombone_Melody1() => (TromboneMelody1.MildEcho() * 0.5).Save().Play();
         
         /// <inheritdoc cref="docs._trombone" />
-        [TestMethod]
-        public void FM_Trombone_Melody2_Test() => Run(FM_Trombone_Melody2);
+        [TestMethod] public void FM_Trombone_Melody2_Test() => Run(FM_Trombone_Melody2);
         /// <inheritdoc cref="docs._trombone" />
         void FM_Trombone_Melody2() => (TromboneMelody2.MildEcho() * 0.75).Save().Play();
         

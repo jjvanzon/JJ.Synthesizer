@@ -33,9 +33,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
         
         /// <inheritdoc cref="docs._metallophone"/>
-        [TestMethod]
-        [TestCategory("Long")]
-        public void Metallophone_Jingle_Test() => Run(Metallophone_Jingle);
+        [TestMethod, TestCategory("Long")] public void Metallophone_Jingle_Test() => Run(Metallophone_Jingle);
         /// <inheritdoc cref="docs._metallophone"/>
         public void Metallophone_Jingle()
         {
@@ -43,9 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
                 
         /// <inheritdoc cref="docs._metallophone"/>
-        [TestMethod]
-        [TestCategory("Long")]
-        public void Metallophone_Chord_Test() => Run(Metallophone_Chord);
+        [TestMethod] public void Metallophone_Chord_Test() => Run(Metallophone_Chord);
         /// <inheritdoc cref="docs._metallophone"/>
         public void Metallophone_Chord()
         {
@@ -53,8 +49,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._metallophone"/>
-        [TestMethod]
-        public void Metallophone_Note_Test() => Run(Metallophone_Note);
+        [TestMethod] public void Metallophone_Note_Test() => Run(Metallophone_Note);
         /// <inheritdoc cref="docs._metallophone"/>
         public void Metallophone_Note()
         {
