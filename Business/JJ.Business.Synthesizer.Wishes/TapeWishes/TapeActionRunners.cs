@@ -72,11 +72,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private void PlayIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-
-            if (tape.IsPlayChannel || _synthWishes.GetPlayAllTapes)
+            
+            bool playAllTapes = _synthWishes.GetPlayAllTapes;
+            
+            if (tape.IsPlayChannel || playAllTapes)
             {
-                LogAction(tape, nameof(SynthWishes.PlayChannel));
-             
+                LogAction(tape, nameof(SynthWishes.PlayChannel) + (playAllTapes ? " (" + nameof(SynthWishes.WithPlayAllTapes) + ")"  : null));
+
                 _synthWishes.Play(tape.Buff);
             }
         }
