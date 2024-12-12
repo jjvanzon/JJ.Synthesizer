@@ -21,8 +21,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public CaptureIndexer _ => _baseAccessor._;
         
         /// <inheritdoc cref="docs._metallophone"/>
-        public FlowNode MetallophoneJingle
-            => (FlowNode)_accessor.GetPropertyValue(MemberName());
+        public FlowNode MetallophoneJingle()
+            => (FlowNode)_accessor.InvokeMethod(MemberName());
         
         /// <inheritdoc cref="docs._metallophone"/>
         public FlowNode MetallophoneChord
