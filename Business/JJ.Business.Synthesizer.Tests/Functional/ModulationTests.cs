@@ -118,24 +118,20 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Jingles
 
         /// <inheritdoc cref="docs._vibraphase" />
-        FlowNode VibraphaseChord => Add
-        (
-            _[ A4, Vibraphase, 0.80 ],
-            _[ B4, Vibraphase, 0.70 ],
-            _[ C5, Vibraphase, 0.85 ],
-            _[ D5, Vibraphase, 0.75 ],
-            _[ E5, Vibraphase, 0.90 ]
-        ).SetName();
+        FlowNode VibraphaseChord => _
+        [ A4, Vibraphase, 0.80 ]
+        [ B4, Vibraphase, 0.70 ]
+        [ C5, Vibraphase, 0.85 ]
+        [ D5, Vibraphase, 0.75 ]
+        [ E5, Vibraphase, 0.90 ];
 
         /// <inheritdoc cref="docs._detunica" />
-        FlowNode DetunicaJingle => Add
-        (
-            _[ beat[1], E0, DetunicaBass, 1.00, l[5.25] ],
-            _[ beat[2], B4, Detunica2   , 0.70, l[1.50] ],
-            _[ beat[3], C5, Detunica3   , 0.75, l[1.60] ],
-            _[ beat[4], D5, Detunica4   , 0.90, l[1.50] ],
-            _[ beat[5], E5, Detunica5   , 1.00, l[3.00] ]
-        ).SetName();
+        FlowNode DetunicaJingle => _
+        [ beat[1], E0, DetunicaBass, 1.00, l[5.25] ]
+        [ beat[2], B4, Detunica2   , 0.70, l[1.50] ]
+        [ beat[3], C5, Detunica3   , 0.75, l[1.60] ]
+        [ beat[4], D5, Detunica4   , 0.90, l[1.50] ]
+        [ beat[5], E5, Detunica5   , 1.00, l[3.00] ];
 
         // Notes
 
@@ -147,14 +143,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             FlowNode depth;
             FlowNode chorusRate;
             
-            return Add
-            (
-                _[ freq * 1 , Detunica1, 0.600, duration, depth=_[0.6], chorusRate=_[0.040] ],
-                _[ freq * 2 , Detunica2, 0.800, duration ],
-                _[ freq * 4 , Detunica3, 1.000, duration ],
-                _[ freq * 8 , Detunica4, 0.015, duration ],
-                _[ freq * 16, Detunica5, 0.001, duration ]
-            ).SetName().Panbrello(2, 0.2);
+            return _
+            [ freq * 1 , Detunica1, 0.600, duration, depth=_[0.6], chorusRate=_[0.040] ]
+            [ freq * 2 , Detunica2, 0.800, duration ]
+            [ freq * 4 , Detunica3, 1.000, duration ]
+            [ freq * 8 , Detunica4, 0.015, duration ]
+            [ freq * 16, Detunica5, 0.001, duration ].Panbrello(2, 0.2);
         }
 
         /// <inheritdoc cref="docs._detunica" />
