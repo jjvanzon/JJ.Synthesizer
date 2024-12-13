@@ -19,6 +19,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// </summary>
         public void WithShortDuration() => WithAudioLength(0.5).WithLeadingSilence(0).WithTrailingSilence(0.05);
     
-        public void WithDefaultDurations() => ResetAudioLength().ResetLeadingSilence().ResetTrailingSilence();
+        public void WithDefaultDurations() => ResetAudioLength().ResetPadding();
     }
 }

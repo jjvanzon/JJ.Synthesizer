@@ -420,6 +420,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _operand;
 
         /// <summary>
+        /// Shorthand for setting both LeadingSilence and TrailingSilence at the same time.
+        /// Setting returns null of LeadingSilence and TrailingSilence are different.
+        /// </summary>
+        public static object _padding;
+        
+        /// <summary>
         /// Applies a panbrello effect to a stereo signal by modulating the panning
         /// with a sine wave based on the specified speed and depth.<br/>
         /// Default speed is 3 times a second.<br/>
