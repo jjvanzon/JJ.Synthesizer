@@ -30,15 +30,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 _tapes[signal] = tape = new Tape();
             }
 
-            // TODO: Move parameters and all set-once properties in a constructor?
             tape.Signal = signal;
-            tape.Duration = duration ?? _synthWishes.GetAudioLength;
             tape.Channel = _synthWishes.GetChannel;
             tape.FilePath = filePath;
             tape.FallBackName = callerMemberName;
             
+            // TODO: Take longest?
+            tape.Duration = duration ?? _synthWishes.GetAudioLength;
+            
             // Don't overwrite callback with null.
-            // TODO: Employ Callbacks collection instead of a single one.
             tape.Callback = tape.Callback ?? callback; 
             tape.ChannelCallback = tape.ChannelCallback ?? channelCallback; 
 
