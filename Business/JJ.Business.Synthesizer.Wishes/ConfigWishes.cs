@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
         Undefined,
         Continue,
         Log,
-        Exception
+        Stop
     }
     
     internal class ConfigSection

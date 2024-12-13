@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
+using static JJ.Business.Synthesizer.Wishes.TimeOutActionEnum;
+
 // ReSharper disable ArrangeStaticMemberQualifier
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
@@ -178,16 +181,16 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             switch (timeOutAction)
             {
-                case TimeOutActionEnum.Continue:
+                case Continue:
                     Console.WriteLine(actionMessage);
                     break;
                     
-                case TimeOutActionEnum.Log:
-                    Console.WriteLine(actionMessage + " " + GetTapesLeftMessage(todoCount, tapesTODO));
+                case Log:
+                    Console.WriteLine(actionMessage + NewLine + GetTapesLeftMessage(todoCount, tapesTODO));
                     break;
                 
-                case TimeOutActionEnum.Exception:
-                    throw new Exception(actionMessage + " " + GetTapesLeftMessage(todoCount, tapesTODO));
+                case Stop:
+                    throw new Exception(actionMessage + NewLine + GetTapesLeftMessage(todoCount, tapesTODO));
             }
         }
         

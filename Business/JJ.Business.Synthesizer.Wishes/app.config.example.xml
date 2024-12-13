@@ -38,7 +38,7 @@
 		playAllTapes="false"
 		
 		leafCheckTimeOut="30"
-		timeOutAction="Warn"
+		timeOutAction="Continue"
 		extraBufferFrames="4"
 		longTestCategory="Long">
 		

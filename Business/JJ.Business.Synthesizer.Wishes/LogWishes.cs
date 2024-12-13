@@ -249,7 +249,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string prefix = default;
             if (todoCount != 0)
             {
-                prefix = todoCount + " Tapes Left: ";
+                prefix = $"{todoCount} {nameof(Tape)}(s) Left: ";
             }
             
             if (FilledIn(tapesLeft))
