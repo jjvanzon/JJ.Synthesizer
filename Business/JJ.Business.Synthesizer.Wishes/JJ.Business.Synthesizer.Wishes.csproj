@@ -158,7 +158,7 @@
     <None Include=".editorconfig" />
     <Content Include="app.config.example.xml" />
     <Compile Include="OperatorWishes.cs" />
-    <Compile Include="CSharpOperatorWishes.cs" />
+    <Compile Include="ArithmeticWishes.cs" />
     <None Include="packages.config" />
     <Compile Include="ConfigWishes.cs" />
   </ItemGroup>
