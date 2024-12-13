@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
-using static System.Environment;
-using static System.String;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
@@ -80,19 +77,21 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private IList<Tape> RunTapeLeavesConcurrent()
         {
+            // Prep settings
             int timeOutInMs = (int)(_synthWishes.GetLeafCheckTimeOut * 1000);
             if (timeOutInMs < 0) timeOutInMs = -1;
             TimeOutActionEnum timeOutAction = _synthWishes.GetTimeOutAction;
             
+            // Prep collections
             Tape[] originalTapeCollection = _tapes.ToArray();
             _tapes.Clear();
             Tape[] tapesTODO = originalTapeCollection.ToArray();
             int count = tapesTODO.Length;
             Task[] tasks = new Task[count];
             
+            // Loop!
             int waitCount = 0;
             int todoCount = count;
-            
             while (todoCount > 0)
             {
                 for (int i = 0; i < count; i++)
@@ -103,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     if (tape.ChildTapes.Count != 0) continue;
                     tapesTODO[i] = null;
                     
-                    tasks[i] = Task.Run(() => ProcessLeaf(tape));
+                    tasks[i] = Task.Run(() => RunTape(tape));
                     
                     todoCount--;
                 }
@@ -111,7 +110,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 waitCount++;
                 
                 LogAction(nameof(Tape), "No Leaf", "Wait... " + waitCount);
-                
                 bool triggered = _checkForNewLeavesReset.WaitOne(timeOutInMs);
                 if (!triggered)
                 {
@@ -122,55 +120,46 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Task.WaitAll(tasks);
 
             LogAction(nameof(Tape), "Total Waits for Leaves: " + waitCount);
-
             return originalTapeCollection;
         }
         
-        private void ProcessLeaf(Tape leaf)
+        internal void RunTape(Tape tape)
         {
-            LogAction(leaf, "Leaf Found", "Running");
-    
             try
             {
-                // Run tape
-                RunTape(leaf);
-            }
+                LogAction(tape, "Leaf Found", "Running");
+                LogAction(tape, "Start");
+                
+                // Cache Buffer
+                tape.Buff = tape.Signal.SynthWishes.MaterializeCache(tape.Signal, tape.Duration, tape.GetName);
+                
+                // Run Actions (that can't wait)
+                _channelTapeActionRunner.CacheIfNeeded(tape);
+                
+                // Wrap in Sample
+                FlowNode sample = tape.Signal.SynthWishes.Sample(tape.Buff, name: tape.GetName);
+                
+                // Replace All References
+                IList<Inlet> connectedInlets = tape.Signal.UnderlyingOutlet.ConnectedInlets.ToArray();
+                foreach (Inlet inlet in connectedInlets)
+                {
+                    inlet.LinkTo(sample);
+                }
+                
+                LogAction(tape, "Stop");
+                LogAction(tape, "Task Finished", "Check for Leaves");
+}
             finally
             {
                 // Don’t let a thread crash cause the while loop for child tapes to retry infinitely.
                 // Exceptions will propagate after the while loop (where we wait for all tasks to finish),
                 // so let’s make sure the while loop can finish properly.
-                CleanupParentChildRelationship(leaf);
-                
-                LogAction(nameof(Tape), "Task Finished", "Check for Leaves");
+                CleanupParentChildRelationship(tape);
                 
                 _checkForNewLeavesReset.Set();
             }
         }
         
-        internal void RunTape(Tape tape)
-        {
-            LogAction(tape, "Start");
-            
-            // Cache Buffer
-            tape.Buff = tape.Signal.SynthWishes.MaterializeCache(tape.Signal, tape.Duration, tape.GetName);
-            
-            // Run Actions (that can't wait)
-            _channelTapeActionRunner.CacheIfNeeded(tape);
-            
-            // Wrap in Sample
-            FlowNode sample = tape.Signal.SynthWishes.Sample(tape.Buff, name: tape.GetName);
-            
-            // Replace All References
-            IList<Inlet> connectedInlets = tape.Signal.UnderlyingOutlet.ConnectedInlets.ToArray();
-            foreach (Inlet inlet in connectedInlets)
-            {
-                inlet.LinkTo(sample);
-            }
-            
-            LogAction(tape, "Stop");
-        }
-                
         private static void CleanupParentChildRelationship(Tape leaf)
         {
             leaf.ParentTape?.ChildTapes.Remove(leaf);
