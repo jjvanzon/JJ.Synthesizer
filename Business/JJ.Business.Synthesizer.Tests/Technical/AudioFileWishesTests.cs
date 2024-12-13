@@ -12,9 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class AudioFileWishesTests : SynthWishes
     {
         /// <inheritdoc cref="docs._testaudiofileextensionwishes"/>
-        [TestMethod]
-        public void Test_AudioFileExtensionWishes() => Run(AudioFileExtensionWishes_RunTest);
-
+        [TestMethod] public void Test_AudioFileExtensionWishes() => Run(AudioFileExtensionWishes_RunTest);
         void AudioFileExtensionWishes_RunTest()
         {
             // Channel Count => Speaker Setup
