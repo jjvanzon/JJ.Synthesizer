@@ -186,11 +186,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     break;
                     
                 case Log:
-                    Console.WriteLine(actionMessage + NewLine + GetTapesLeftMessage(todoCount, tapesTODO));
+                    Console.WriteLine(actionMessage + " " + GetTapesLeftMessage(todoCount, tapesTODO));
                     break;
                 
                 case Stop:
-                    throw new Exception(actionMessage + NewLine + GetTapesLeftMessage(todoCount, tapesTODO));
+                    throw new Exception(actionMessage + " " + GetTapesLeftMessage(todoCount, tapesTODO));
             }
         }
         
