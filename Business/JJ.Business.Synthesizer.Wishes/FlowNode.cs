@@ -93,6 +93,8 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null] 
             => _synthWishes[func, this, arg2, arg3, arg4, arg5];
 
+        // TODO: With delegate for variadic parameters
+        
         private string DebuggerDisplay => GetDebuggerDisplay(this);
     }
 }

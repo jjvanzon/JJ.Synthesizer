@@ -169,7 +169,8 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // No Parameters
         
-        public FlowNode this[Func<FlowNode> func] 
+        public FlowNode this[
+            Func<FlowNode> func] 
             => func();
         
         // 1 Parameter
@@ -262,13 +263,8 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null] 
             => func(arg1, arg2, arg3, arg4, arg5);
         
-        // TODO: Dynamic for more parameters
+        // TODO: With delegate for variadic parameters
         
-        //public FlowNode this[
-        //    Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
-        //    params FlowNode[] args] 
-        //    => func(args[0], args[1], args[2]);
-            
         // Helpers
 
         private static string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)

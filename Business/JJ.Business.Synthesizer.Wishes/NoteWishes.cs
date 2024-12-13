@@ -372,9 +372,9 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Note Indexers
-        
+
         // Instrument without Parameters
-        
+
         /// <summary><code>
         /// FlowNode Flute1() <br/><br/>
         /// _[ Flute1, 0.8 ],
@@ -385,7 +385,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode> sound,
             double vol, FlowNode len = null]
             => Note(sound(), default, vol, len, sound.Method.Name);
-        
+
         /// <summary><code>
         /// FlowNode Flute1() <br/><br/>
         /// _[ Flute1 ],
@@ -397,7 +397,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
             => Note(sound(), default, vol, len, sound.Method.Name);
-        
+
         /// <summary><code>
         /// FlowNode Flute1() <br/><br/>
         /// _[ 0.00, Flute1, 0.8 ],
@@ -969,11 +969,11 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode delay, double volume,
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => _synthWishes.Note(this, delay, volume, name, callerMemberName);
-    
+
         // Note Indexers
-        
+
         // Instrument without Parameters
-        
+
         /// <summary><code>
         /// FlowNode Flute1()
         /// _
@@ -985,7 +985,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode> sound,
             double vol, FlowNode len = null]
             => _underlyingOutlet + _synthWishes[sound, vol, len];
-        
+
         /// <summary><code>
         /// FlowNode Flute1() 
         /// _
@@ -1531,7 +1531,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class CaptureIndexer
     {
         // Instrument without Parameters
-        
+
         /// <summary><code>
         /// FlowNode Flute1() <br/><br/>
         /// _[ Flute1, 0.8 ],
@@ -1541,8 +1541,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             Func<FlowNode> sound,
             double vol, FlowNode len = null]
-            => _synthWishes[sound, vol, len ] ;
-        
+            => _synthWishes[sound, vol, len];
+
         /// <summary><code>
         /// FlowNode Flute1() <br/><br/>
         /// _[ Flute1 ],
