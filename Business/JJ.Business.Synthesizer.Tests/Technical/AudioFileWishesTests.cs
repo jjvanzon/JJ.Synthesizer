@@ -58,14 +58,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Raw Extensions
             {
-                // TODO: Try this variation later, when Cache can handle more callback types (Actions instead of Funcs?)
-                //AudioFileOutput audioFileOutputRaw = null;
-                //Run(() => AsRaw().Sine().Save().Cache(x => audioFileOutputRaw = x.UnderlyingAudioFileOutput));
-                Buff buff = null;
-                Run(() => AsRaw().Sine().Save().Cache(x => buff = x));
-                IsNotNull(() => buff);
-                
-                AudioFileOutput audioFileOutputRaw = buff.UnderlyingAudioFileOutput;
+                AudioFileOutput audioFileOutputRaw = null;
+                Run(() => AsRaw().Sine().Save().Cache(x => audioFileOutputRaw = x.UnderlyingAudioFileOutput));
                 IsNotNull(() => audioFileOutputRaw);
                 IsNotNull(() => audioFileOutputRaw.AudioFileFormat);
                 AreEqual(".raw", () => audioFileOutputRaw.AudioFileFormat.GetFileExtension());
