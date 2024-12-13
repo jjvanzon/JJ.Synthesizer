@@ -12,25 +12,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class AudioFileWishesTests : SynthWishes
     {
         /// <inheritdoc cref="docs._testaudiofileextensionwishes"/>
-        [TestMethod] public void Test_AudioFileExtensionWishes() => Run(AudioFileExtensionWishes_RunTest);
-        void AudioFileExtensionWishes_RunTest()
+        [TestMethod] public void Test_AudioFileExtensionWishes()
         {
             // Channel Count => Speaker Setup
             AreEqual(SpeakerSetupEnum.Mono,   () => 1.ToSpeakerSetupEnum());
             AreEqual(SpeakerSetupEnum.Stereo, () => 2.ToSpeakerSetupEnum());
 
-            // TODO: Retry these tests once Run can handle different Delegate instancing situations.
-
             // Mono Extensions
-            //WithMono().Sine().Cache(x =>
-            //{
-            //    AudioFileOutput audioFileOutputMono = x.UnderlyingAudioFileOutput;
-            //    IsNotNull(() => audioFileOutputMono);
-            //    IsNotNull(() => audioFileOutputMono.SpeakerSetup);
-            //    AreEqual(SpeakerSetupEnum.Mono, () => audioFileOutputMono.SpeakerSetup.ToEnum());
-            //    return default;
-            //});
-
+            {
+                Buff buff = null;
+                Run(() => WithMono().Sine().Cache(x => buff = x));
+                IsNotNull(() => buff);
+                
+                AudioFileOutput audioFileOutputMono = buff.UnderlyingAudioFileOutput;
+                IsNotNull(() => audioFileOutputMono);
+                IsNotNull(() => audioFileOutputMono.SpeakerSetup);
+                AreEqual(SpeakerSetupEnum.Mono, () => audioFileOutputMono.SpeakerSetup.ToEnum());
+            }
             //Stereo Extensions
             {
                 Buff buff = null;
