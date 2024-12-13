@@ -1,5 +1,4 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
@@ -29,7 +28,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibrato" />
         [TestMethod] public void Vibrato_Test() => Run(Vibrato);
         /// <inheritdoc cref="docs._vibrato" />
-        void Vibrato() => WithMono().VibratoOverPitch(A4).Sine().Volume(Envelope * 0.9).Save().Play();
+        void Vibrato() => WithMono().VibratoFreq(A4).Sine().Volume(Envelope * 0.9).Save().Play();
         
         /// <inheritdoc cref="docs._tremolo" />
         [TestMethod] public void Tremolo_Test() => Run(Tremolo);
@@ -204,7 +203,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                             *
                                 * *    ").SetName("Depth");
 
-            WithStereo().Save(Panbrello(sound, (speed, depth))).Play();
+            WithStereo().Save(Panbrello(sound, speed, depth)).Play();
         }
 
         // PitchPan Tests

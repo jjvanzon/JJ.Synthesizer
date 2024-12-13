@@ -714,69 +714,51 @@ namespace JJ.Business.Synthesizer.Wishes
         // Tremolo
 
         /// <inheritdoc cref="docs._tremolo" />
-        public FlowNode Tremolo(FlowNode sound, (FlowNode speed, FlowNode depth) tremolo = default)
+        public FlowNode Tremolo(FlowNode sound, FlowNode speed = default, FlowNode depth = default)
         {
-            var speed = tremolo.speed ?? _[8];
-            var depth = tremolo.depth ?? _[0.33];
+            speed = speed ?? _[8];
+            depth = depth ?? _[0.33];
             var modulated = sound * (1 + Sine(speed) * depth);
             return modulated.SetName();
         }
+        
+        /// <inheritdoc cref="docs._tremolo" />
+        public FlowNode Tremolo(FlowNode sound, double speed, FlowNode depth = null) 
+            => Tremolo(sound, speed == default ? default : _[speed], depth);
 
         /// <inheritdoc cref="docs._tremolo" />
-        public FlowNode Tremolo(FlowNode sound, (FlowNode speed, double depth) tremolo)
-        {
-            var depth = tremolo.depth == default ? default : _[tremolo.depth];
-            return Tremolo(sound, (tremolo.speed, depth));
-        }
-
+        public FlowNode Tremolo(FlowNode sound, FlowNode speed, double depth) 
+            => Tremolo(sound, speed, depth == default ? default : _[depth]);
+        
         /// <inheritdoc cref="docs._tremolo" />
-        public FlowNode Tremolo(FlowNode sound, (double speed, FlowNode depth) tremolo)
-        {
-            var speed = tremolo.speed == default ? default : _[tremolo.speed];
-            return Tremolo(sound, (speed, tremolo.depth));
-        }
-
-        /// <inheritdoc cref="docs._tremolo" />
-        public FlowNode Tremolo(FlowNode sound, (double speed, double depth) tremolo)
-        {
-            var speed = tremolo.speed == default ? default : _[tremolo.speed];
-            var depth = tremolo.depth == default ? default : _[tremolo.depth];
-            return Tremolo(sound, (speed, depth));
-        }
-
+        public FlowNode Tremolo(FlowNode sound, double speed, double depth) 
+            => Tremolo(sound, speed == default ? default : _[speed],
+                              depth == default ? default : _[depth]);
+        
         // Vibrato 
 
         /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoOverPitch(FlowNode freq, (FlowNode speed, FlowNode depth) vibrato = default)
+        public FlowNode VibratoFreq(FlowNode freq, FlowNode speed = null, FlowNode depth = null)
         {
-            var speed = vibrato.speed ?? _[5.5];
-            var depth = vibrato.depth ?? _[0.0005];
+            speed = speed ?? _[5.5];
+            depth = depth ?? _[0.0005];
             var modulated = freq * (1 + Sine(speed) * depth);
             return modulated.SetName();
         }
+        
+        /// <inheritdoc cref="docs._vibrato" />
+        public FlowNode VibratoFreq(FlowNode freq, double speed, FlowNode depth = null) 
+            => VibratoFreq(freq, speed == default ? default : _[speed], depth);
 
         /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoOverPitch(FlowNode freq, (FlowNode speed, double depth) vibrato)
-        {
-            var depth = vibrato.depth == default ? default : _[vibrato.depth];
-            return VibratoOverPitch(freq, (vibrato.speed, depth));
-        }
-
+        public FlowNode VibratoFreq(FlowNode freq, FlowNode speed, double depth) 
+            => VibratoFreq(freq, speed, depth == default ? default : _[depth]);
+        
         /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoOverPitch(FlowNode freq, (double speed, FlowNode depth) vibrato)
-        {
-            var speed = vibrato.speed == default ? default : _[vibrato.speed];
-            return VibratoOverPitch(freq, (speed, vibrato.depth));
-        }
-
-        /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoOverPitch(FlowNode freq, (double speed, double depth) vibrato)
-        {
-            var speed = vibrato.speed == default ? default : _[vibrato.speed];
-            var depth = vibrato.depth == default ? default : _[vibrato.depth];
-            return VibratoOverPitch(freq, (speed, depth));
-        }
-
+        public FlowNode VibratoFreq(FlowNode freq, double speed, double depth) 
+            => VibratoFreq(freq, speed == default ? default : _[speed],
+                                 depth == default ? default : _[depth]);
+        
         // Panning
 
         /// <inheritdoc cref="docs._panning" />
@@ -823,44 +805,34 @@ namespace JJ.Business.Synthesizer.Wishes
         // Panbrello
 
         /// <inheritdoc cref="docs._panbrello" />
-        public FlowNode Panbrello(FlowNode sound, (FlowNode speed, FlowNode depth) panbrello = default)
+        public FlowNode Panbrello(FlowNode sound, FlowNode speed = null, FlowNode depth = null)
         {
-            panbrello.speed = panbrello.speed ?? _[3];
-            panbrello.depth = panbrello.depth ?? _[1];
+            speed = speed ?? _[3];
+            depth = depth ?? _[1];
 
             // 0.5 is in the middle. 0 is left, 1 is right.
-            var sine = Sine(panbrello.speed) * panbrello.depth; // [-1,+1]
-            var halfSine = 0.5 * sine; // [-0.5,+0.5]
-            var zeroToOne = 0.5 + halfSine; // [0,1]
+            var sine = Sine(speed) * depth; // [  -1, +  1]
+            var halfSine = 0.5 * sine;      // [-0.5, +0.5]
+            var zeroToOne = 0.5 + halfSine; // [   0,    1]
 
             return Panning(sound, zeroToOne).SetName();
         }
 
         /// <inheritdoc cref="docs._panbrello" />
-        public FlowNode Panbrello(
-            FlowNode sound, (FlowNode speed, double depth) panbrello)
+        public FlowNode Panbrello(FlowNode sound, double speed, FlowNode depth = null)
         {
-            var depth = panbrello.depth == default ? default : _[panbrello.depth];
-            return Panbrello(sound, (panbrello.speed, depth));
+            return Panbrello(sound, speed == default ? default : _[speed], depth);
         }
 
         /// <inheritdoc cref="docs._panbrello" />
-        public FlowNode Panbrello(
-            FlowNode sound, (double speed, FlowNode depth) panbrello)
-        {
-            var speed = panbrello.speed == default ? default : _[panbrello.speed];
-            return Panbrello(sound, (speed, panbrello.depth));
-        }
-
+        public FlowNode Panbrello(FlowNode sound, FlowNode speed, double depth)
+            => Panbrello(sound, speed, depth == default ? default : _[depth]);
+        
         /// <inheritdoc cref="docs._panbrello" />
-        public FlowNode Panbrello(
-            FlowNode sound, (double speed, double depth) panbrello)
-        {
-            var speed = panbrello.speed == default ? default : _[panbrello.speed];
-            var depth = panbrello.depth == default ? default : _[panbrello.depth];
-            return Panbrello(sound, (speed, depth));
-        }
-
+        public FlowNode Panbrello(FlowNode sound, double speed, double depth) 
+            => Panbrello(sound, speed == default ? default : _[speed], 
+                                depth == default ? default : _[depth]);
+        
         // PitchPan
 
         /// <inheritdoc cref="docs._pitchpan" />
@@ -1236,24 +1208,24 @@ namespace JJ.Business.Synthesizer.Wishes
         // Tremolo
 
         /// <inheritdoc cref="docs._tremolo" />
-        public FlowNode Tremolo(FlowNode speed = default, FlowNode depth = default) => _synthWishes.Tremolo(this, (speed, depth));
+        public FlowNode Tremolo(FlowNode speed = default, FlowNode depth = default) => _synthWishes.Tremolo(this, speed, depth);
         /// <inheritdoc cref="docs._tremolo" />
-        public FlowNode Tremolo(double speed, FlowNode depth = default) => _synthWishes.Tremolo(this, (speed, depth));
+        public FlowNode Tremolo(double speed, FlowNode depth = default) => _synthWishes.Tremolo(this, speed, depth);
         /// <inheritdoc cref="docs._tremolo" />
-        public FlowNode Tremolo(FlowNode speed, double depth) => _synthWishes.Tremolo(this, (speed, depth));
+        public FlowNode Tremolo(FlowNode speed, double depth) => _synthWishes.Tremolo(this, speed, depth);
         /// <inheritdoc cref="docs._tremolo" />
-        public FlowNode Tremolo(double speed, double depth) => _synthWishes.Tremolo(this, (speed, depth));
+        public FlowNode Tremolo(double speed, double depth) => _synthWishes.Tremolo(this, speed, depth);
 
         // Vibrato
 
         /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoFreq(FlowNode speed = default, FlowNode depth = default) => _synthWishes.VibratoOverPitch(this, (speed, depth));
+        public FlowNode VibratoFreq(FlowNode speed = default, FlowNode depth = default) => _synthWishes.VibratoFreq(this, speed, depth);
         /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoFreq(double speed, FlowNode depth = default) => _synthWishes.VibratoOverPitch(this, (speed, depth));
+        public FlowNode VibratoFreq(double speed, FlowNode depth = default) => _synthWishes.VibratoFreq(this, speed, depth);
         /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoFreq(FlowNode speed, double depth) => _synthWishes.VibratoOverPitch(this, (speed, depth));
+        public FlowNode VibratoFreq(FlowNode speed, double depth) => _synthWishes.VibratoFreq(this, speed, depth);
         /// <inheritdoc cref="docs._vibrato" />
-        public FlowNode VibratoFreq(double speed, double depth) => _synthWishes.VibratoOverPitch(this, (speed, depth));
+        public FlowNode VibratoFreq(double speed, double depth) => _synthWishes.VibratoFreq(this, speed, depth);
 
         // Panning
 
@@ -1266,19 +1238,19 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._panbrello" />
         public FlowNode Panbrello(FlowNode speed = default, FlowNode depth = default)
-            => _synthWishes.Panbrello(this, (speed, depth));
+            => _synthWishes.Panbrello(this, speed, depth);
 
         /// <inheritdoc cref="docs._panbrello" />
         public FlowNode Panbrello(FlowNode speed, double depth)
-            => _synthWishes.Panbrello(this, (speed, depth));
+            => _synthWishes.Panbrello(this, speed, depth);
 
         /// <inheritdoc cref="docs._panbrello" />
         public FlowNode Panbrello(double speed, FlowNode depth = default)
-            => _synthWishes.Panbrello(this, (speed, depth));
+            => _synthWishes.Panbrello(this, speed, depth);
 
         /// <inheritdoc cref="docs._panbrello" />
         public FlowNode Panbrello(double speed, double depth)
-            => _synthWishes.Panbrello(this, (speed, depth));
+            => _synthWishes.Panbrello(this, speed, depth);
 
         // PitchPan
 
