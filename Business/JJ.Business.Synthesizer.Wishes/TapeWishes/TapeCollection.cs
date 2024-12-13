@@ -34,13 +34,28 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             tape.Channel = _synthWishes.GetChannel;
             tape.FilePath = filePath;
             tape.FallBackName = callerMemberName;
-            
+
             // TODO: Take longest?
             tape.Duration = duration ?? _synthWishes.GetAudioLength;
             
             // Don't overwrite callback with null.
-            tape.Callback = tape.Callback ?? callback; 
+            tape.Callback = tape.Callback ?? callback;
             tape.ChannelCallback = tape.ChannelCallback ?? channelCallback; 
+
+            // Detect conflicting callback
+            if (callback != null &&
+                tape.Callback != null &&
+                tape.Callback != callback)
+            {
+                throw new Exception("Different " + nameof(tape.Callback) + " passed than already assigned to the " + nameof(Tape) + "!");
+            }
+            
+            if (channelCallback != null &&
+                tape.ChannelCallback != null &&
+                tape.ChannelCallback != channelCallback)
+            {
+                throw new Exception("Different " + nameof(tape.ChannelCallback) + " passed than already assigned to the " + nameof(Tape) + "!");
+            }
 
             return tape;
         }
