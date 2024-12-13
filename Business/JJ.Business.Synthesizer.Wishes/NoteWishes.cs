@@ -983,8 +983,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             Func<FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[sound, vol, len];
+            double vol, FlowNode len = null,
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[sound, vol, len]).SetName(callerMemberName);
 
         /// <summary><code>
         /// FlowNode Flute1();
@@ -996,8 +997,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             Func<FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[sound, vol, len];
+            FlowNode vol = null, FlowNode len = null,
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[sound, vol, len]).SetName(callerMemberName);
 
         /// <summary><code>
         /// FlowNode Flute1();
@@ -1008,8 +1010,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, Func<FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, sound, vol, len];
+            double vol, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, sound, vol, len]).SetName(callerMemberName);
 
         /// <summary><code>
         /// FlowNode Flute1();
@@ -1021,8 +1024,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, Func<FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, sound, vol, len];
+            FlowNode vol = null, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, sound, vol, len]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute1();
@@ -1033,8 +1037,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, Func<FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, sound, vol, len];
+            double vol, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, sound, vol, len]).SetName(callerMemberName);
 
         /// <summary><code>
         /// FlowNode Flute1();
@@ -1046,8 +1051,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, Func<FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, sound, vol, len];
+            FlowNode vol = null, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, sound, vol, len]).SetName(callerMemberName);
         
         // Instrument with 1 Parameter Freq
         
@@ -1060,8 +1066,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len];
+            double vol, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute2(FlowNode freq);
@@ -1073,8 +1080,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len];
+            FlowNode vol = null, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute2(FlowNode freq);
@@ -1085,8 +1093,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len];
+            double vol, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute2(FlowNode freq);
@@ -1098,8 +1107,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len];
+            FlowNode vol = null, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute2(FlowNode freq);
@@ -1110,8 +1120,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len];
+            double vol, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len]).SetName(callerMemberName);
 
         /// <summary><code>
         /// FlowNode Flute2(FlowNode freq);
@@ -1123,8 +1134,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len];
+            FlowNode vol = null, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len]).SetName(callerMemberName);
         
         // Instrument with 2 Parameters Freq and Len
         
@@ -1137,8 +1149,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len];
+            double vol, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null);
@@ -1150,8 +1163,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len];
+            FlowNode vol = null, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null);
@@ -1162,8 +1176,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len];
+            double vol, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null);
@@ -1175,8 +1190,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len];
+            FlowNode vol = null, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null);
@@ -1187,8 +1203,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len];
+            double vol, FlowNode len = null,
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len]).SetName(callerMemberName);
 
         /// <summary><code>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null);
@@ -1200,8 +1217,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len];
+            FlowNode vol = null, FlowNode len = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len]).SetName(callerMemberName);
 
         // Instruments with 1 Effect Parameter (Optional)
         
@@ -1215,8 +1233,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len, fx1];
+            double vol, FlowNode len = null, FlowNode fx1 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len, fx1]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null);
@@ -1229,8 +1248,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len, fx1];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len, fx1]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null);
@@ -1242,8 +1262,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1];
+            double vol, FlowNode len = null, FlowNode fx1 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null);
@@ -1256,8 +1277,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null);
@@ -1269,8 +1291,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1];
+            double vol, FlowNode len = null, FlowNode fx1 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1]).SetName(callerMemberName);
 
         /// <summary><code>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null);
@@ -1283,8 +1306,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound, 
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null] 
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1]).SetName(callerMemberName);
         
         // Instruments with 2 Effect Parameters (Optional)
         
@@ -1299,8 +1323,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len, fx1, fx2];
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len, fx1, fx2]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null);
@@ -1314,8 +1339,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len, fx1, fx2];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len, fx1, fx2]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null);
@@ -1328,8 +1354,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null);
@@ -1343,8 +1370,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null);
@@ -1357,8 +1385,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2]).SetName(callerMemberName);
 
         /// <summary><code>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null);
@@ -1372,8 +1401,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2]).SetName(callerMemberName);
         
         // Instruments with 3 Effect Parameters (Optional)
         
@@ -1388,8 +1418,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len, fx1, fx2, fx3];
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len, fx1, fx2, fx3]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null);
@@ -1403,8 +1434,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len, fx1, fx2, fx3];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len, fx1, fx2, fx3]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null);
@@ -1417,8 +1449,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null);
@@ -1432,8 +1465,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null);
@@ -1446,8 +1480,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3]).SetName(callerMemberName);
 
         /// <summary><code>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null);
@@ -1461,8 +1496,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3]).SetName(callerMemberName);
 
         // Instruments with 4 Effect Parameters (Optional)
         
@@ -1479,8 +1515,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len, fx1, fx2, fx3, fx4];
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len, fx1, fx2, fx3, fx4]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null);
@@ -1496,8 +1533,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _underlyingOutlet + _synthWishes[freq, sound, vol, len, fx1, fx2, fx3, fx4];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[freq, sound, vol, len, fx1, fx2, fx3, fx4]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null);
@@ -1512,8 +1550,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null);
@@ -1529,8 +1568,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null);
@@ -1545,8 +1585,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
+            double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4]).SetName(callerMemberName);
         
         /// <summary><code>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null);
@@ -1562,8 +1603,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
-            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => _underlyingOutlet + _synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4];
+            FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null, 
+            [CallerMemberName] string callerMemberName = null]
+            => Add(_synthWishes[t, freq, sound, vol, len, fx1, fx2, fx3, fx4]).SetName(callerMemberName);
     }
 
     // CaptureIndexer _[...]

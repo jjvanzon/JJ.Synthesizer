@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [ t[2,4.0], A3, Flute2, 0.50, l[1.67] ]
         [ t[3,1.0], G3, Flute3, 0.85, l[2.00] ]
         [ t[3,2.5], G4, Flute1, 0.80, l[2.50] ]
-        .WithAudioLength(t[3, 2.5] + l[2.50]).SetName();
+        .WithAudioLength(t[3, 2.5] + l[2.50]);
 
         FlowNode FluteMelody2 => _
         [ t[1,1.0], E4, Flute1, 0.59, l[1.8]  ]
@@ -201,14 +201,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [ t[2,1.0], A4, Flute2, 0.82, l[2.0]  ]
         [ t[2,2.5], B4, Flute3, 0.74, l[1.0]  ]
         [ t[2,4.0], G4, Flute2, 0.90, l[0.4]  ]
-        [ t[3,1.0], A4, Flute4, 1.00, _[1.66] ]
-        .SetName();
+        [ t[3,1.0], A4, Flute4, 1.00, _[1.66] ];
         
         FlowNode OrganChords => _
         [ ChordPitchCurve1.Stretch(bars[1]), Organ, ChordVolumeCurve, bars[8] ]
         [ ChordPitchCurve2.Stretch(bars[1]), Organ, ChordVolumeCurve, bars[8] ]
-        [ ChordPitchCurve3.Stretch(bars[1]), Organ, ChordVolumeCurve, bars[8] ]
-        .SetName();
+        [ ChordPitchCurve3.Stretch(bars[1]), Organ, ChordVolumeCurve, bars[8] ];
 
         FlowNode OrganChords2 =>
             WithAudioLength(bars[8]).Multiply
@@ -225,14 +223,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FlowNode PadChords() => _
         [ ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ]
         [ ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ]
-        [ ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ]
-        .SetName();
+        [ ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ];
         
         FlowNode PadChords2() => _
         [ ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ]
         [ ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ]
-        [ ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ]
-        .SetName();
+        [ ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ];
         
         /// <param name="volume">Used to promote clipping for distortion (only works for 16-bit, not 32-bit).</param>
         FlowNode DistortionChords(FlowNode volume = null)
@@ -252,15 +248,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._horn" />
         FlowNode HornMelody1 => _
         [ beat[09], C2, Horn, 0.7, length[3] ]
-        [ beat[13], G1, Horn, 0.5, length[4] ].WithAudioLength(beat[13] + length[4])
-        .SetName();
+        [ beat[13], G1, Horn, 0.5, length[4] ].WithAudioLength(beat[13] + length[4]);
 
         /// <inheritdoc cref="docs._horn" />
         FlowNode HornMelody2 => _
         [ b[1], A2, Horn, 0.75, l[2] ]
         [ b[5], F2, Horn, 0.85, l[2] ]
-        [ b[9], A1, Horn, 1.00, l[4] ]
-        .SetName();
+        [ b[9], A1, Horn, 1.00, l[4] ].WithAudioLength(b[9] + l[4]);
         
         /// <inheritdoc cref="docs._trombone" />
         FlowNode TromboneMelody1 => Add(
@@ -272,10 +266,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._trombone" />
         FlowNode TromboneMelody2 => WithAudioLength(beat[7] + _[1.4])._
         [ beat[3], E4, Trombone, 1, _[1.4] ]
-        [ beat[7], C4, Trombone, 1, _[1.4] ]
-        .SetName();
+        [ beat[7], C4, Trombone, 1, _[1.4] ];
 
-        FlowNode RippleBassMelody2 => _[ bar[3.5], A1, RippleBass, 1, bars[0.8] ].SetName();
+        FlowNode RippleBassMelody2 => _[ bar[3.5], A1, RippleBass, 1, bars[0.8] ];
         
         // Instruments
 
