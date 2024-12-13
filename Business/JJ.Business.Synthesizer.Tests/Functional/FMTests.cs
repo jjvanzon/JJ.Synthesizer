@@ -184,33 +184,31 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Melodies
         
         FlowNode FluteMelody1 => _
-            [ t[1, 1.0], E4, Flute1, 0.80, l[2.00] ]
-            [ t[1, 2.5], F4, Flute1, 0.70, l[2.17] ]
-            [ t[1, 4.0], G4, Flute1, 0.60, l[1.00] ]
-            [ t[2, 1.0], A4, Flute1, 0.80, l[2.33] ]
-            [ t[2, 2.5], B4, Flute2, 0.50, l[1.00] ]
-            [ t[2, 4.0], A3, Flute2, 0.50, l[1.67] ]
-            [ t[3, 1.0], G3, Flute3, 0.85, l[2.00] ]
-            [ t[3, 2.5], G4, Flute1, 0.80, l[2.50] ]
-            .WithAudioLength(t[3, 2.5] + l[2.50]).SetName();
+        [ t[1,1.0], E4, Flute1, 0.80, l[2.00] ]
+        [ t[1,2.5], F4, Flute1, 0.70, l[2.17] ]
+        [ t[1,4.0], G4, Flute1, 0.60, l[1.00] ]
+        [ t[2,1.0], A4, Flute1, 0.80, l[2.33] ]
+        [ t[2,2.5], B4, Flute2, 0.50, l[1.00] ]
+        [ t[2,4.0], A3, Flute2, 0.50, l[1.67] ]
+        [ t[3,1.0], G3, Flute3, 0.85, l[2.00] ]
+        [ t[3,2.5], G4, Flute1, 0.80, l[2.50] ]
+        .WithAudioLength(t[3, 2.5] + l[2.50]).SetName();
 
-        FlowNode FluteMelody2 => Add
-        (
-            _[ t[1,1.0], E4, Flute1, 0.59, l[1.8]  ],
-            _[ t[1,2.5], F4, Flute2, 0.68, l[1.0]  ],
-            _[ t[1,4.0], G4, Flute1, 0.74, l[0.6]  ],
-            _[ t[2,1.0], A4, Flute2, 0.82, l[2.0]  ],
-            _[ t[2,2.5], B4, Flute3, 0.74, l[1.0]  ],
-            _[ t[2,4.0], G4, Flute2, 0.90, l[0.4]  ],
-            _[ t[3,1.0], A4, Flute4, 1.00, _[1.66] ]
-        ).SetName();
+        FlowNode FluteMelody2 => _
+        [ t[1,1.0], E4, Flute1, 0.59, l[1.8]  ]
+        [ t[1,2.5], F4, Flute2, 0.68, l[1.0]  ]
+        [ t[1,4.0], G4, Flute1, 0.74, l[0.6]  ]
+        [ t[2,1.0], A4, Flute2, 0.82, l[2.0]  ]
+        [ t[2,2.5], B4, Flute3, 0.74, l[1.0]  ]
+        [ t[2,4.0], G4, Flute2, 0.90, l[0.4]  ]
+        [ t[3,1.0], A4, Flute4, 1.00, _[1.66] ]
+        .SetName();
         
-        FlowNode OrganChords => Add
-        (
-            _[ ChordPitchCurve1.Stretch(bars[1]), Organ, ChordVolumeCurve, bars[8] ],
-            _[ ChordPitchCurve2.Stretch(bars[1]), Organ, ChordVolumeCurve, bars[8] ],
-            _[ ChordPitchCurve3.Stretch(bars[1]), Organ, ChordVolumeCurve, bars[8] ]
-        ).SetName();
+        FlowNode OrganChords => _
+        [ ChordPitchCurve1.Stretch(bars[1]), Organ, ChordVolumeCurve, bars[8] ]
+        [ ChordPitchCurve2.Stretch(bars[1]), Organ, ChordVolumeCurve, bars[8] ]
+        [ ChordPitchCurve3.Stretch(bars[1]), Organ, ChordVolumeCurve, bars[8] ]
+        .SetName();
 
         FlowNode OrganChords2 =>
             WithAudioLength(bars[8]).Multiply
@@ -224,19 +222,17 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 )
             ).SetName();
         
-        FlowNode PadChords() => Add
-        (
-            _[ ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ],
-            _[ ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ],
-            _[ ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ]
-        ).SetName();
+        FlowNode PadChords() => _
+        [ ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ]
+        [ ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ]
+        [ ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve, 8).Delay(1/8d), len: bars[8] ]
+        .SetName();
         
-        FlowNode PadChords2() => Add
-        (
-            _[ ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ],
-            _[ ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ],
-            _[ ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ]
-        ).SetName();
+        FlowNode PadChords2() => _
+        [ ChordPitchCurve1.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ]
+        [ ChordPitchCurve2.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ]
+        [ ChordPitchCurve3.Stretch(bars[1]), Pad, SpeedUp(ChordVolumeCurve.Delay(1), 8), len: bars[8] ]
+        .SetName();
         
         /// <param name="volume">Used to promote clipping for distortion (only works for 16-bit, not 32-bit).</param>
         FlowNode DistortionChords(FlowNode volume = null)
@@ -254,37 +250,32 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
         
         /// <inheritdoc cref="docs._horn" />
-        FlowNode HornMelody1 => WithAudioLength(beat[13] + length[4]).Add
-        (
-            _[ beat[09], C2, Horn, 0.7, length[3] ],
-            _[ beat[13], G1, Horn, 0.5, length[4] ]
-        ).SetName();
+        FlowNode HornMelody1 => _
+        [ beat[09], C2, Horn, 0.7, length[3] ]
+        [ beat[13], G1, Horn, 0.5, length[4] ].WithAudioLength(beat[13] + length[4])
+        .SetName();
 
         /// <inheritdoc cref="docs._horn" />
-        FlowNode HornMelody2 => Add
-        (
-            _[ b[1], A2, Horn, 0.75, l[2] ],
-            _[ b[5], F2, Horn, 0.85, l[2] ],
-            _[ b[9], A1, Horn, 1.00, l[4] ]
-        ).SetName();
+        FlowNode HornMelody2 => _
+        [ b[1], A2, Horn, 0.75, l[2] ]
+        [ b[5], F2, Horn, 0.85, l[2] ]
+        [ b[9], A1, Horn, 1.00, l[4] ]
+        .SetName();
         
         /// <inheritdoc cref="docs._trombone" />
-        FlowNode TromboneMelody1 => Add
-        (
-            Trombone(A1 ).Volume(1.0).Tape(3).Delay(b[1]),
-            Trombone(E2 ).Volume(1.0).Tape(3).Delay(b[3]),
-            Trombone(Fs1).Volume(0.7).Tape(3).Delay(b[5])
+        FlowNode TromboneMelody1 => Add(
+        Trombone(A1 ).Volume(1.0).Tape(3).Delay(b[1]),
+        Trombone(E2 ).Volume(1.0).Tape(3).Delay(b[3]),
+        Trombone(Fs1).Volume(0.7).Tape(3).Delay(b[5])
         ).WithAudioLength(b[5] + 3);
 
         /// <inheritdoc cref="docs._trombone" />
-        FlowNode TromboneMelody2 => WithAudioLength(beat[7] + _[1.4]).Add
-        (
-            _[ beat[3], E4, Trombone, 1, _[1.4] ],
-            _[ beat[7], C4, Trombone, 1, _[1.4] ]
-        ).SetName();
+        FlowNode TromboneMelody2 => WithAudioLength(beat[7] + _[1.4])._
+        [ beat[3], E4, Trombone, 1, _[1.4] ]
+        [ beat[7], C4, Trombone, 1, _[1.4] ]
+        .SetName();
 
-        FlowNode RippleBassMelody2 =>
-            _[ bar[3.5], A1, RippleBass, 1, bars[0.8] ].SetName();
+        FlowNode RippleBassMelody2 => _[ bar[3.5], A1, RippleBass, 1, bars[0.8] ].SetName();
         
         // Instruments
 
