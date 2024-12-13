@@ -300,8 +300,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             sound.SetName(MemberName() + " Input");
             echoes.SetName(MemberName() + " Output");
 
-            WithAudioLength(0.2).Save(() => sound);
-            WithAudioLength(0.2 + echoDuration).Save(() => echoes).Play();
+            WithAudioLength(0.2).Save(sound);
+            WithAudioLength(0.2 + echoDuration).Save(echoes).Play();
         }
 
         [TestMethod] public void Echo_Additive_DynamicParameters_Test() => Run(Echo_Additive_DynamicParameters);
