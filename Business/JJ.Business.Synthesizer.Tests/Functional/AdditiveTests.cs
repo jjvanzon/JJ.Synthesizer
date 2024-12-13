@@ -59,24 +59,20 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         /// <inheritdoc cref="docs._metallophone"/>
-        FlowNode MetallophoneJingle() => Add
-        (
-            _[ t[1, 1.0], A4 , Metallophone, 0.9, NoteDuration ],
-            _[ t[1, 1.5], E5 , Metallophone, 1.0, NoteDuration ],
-            _[ t[1, 2.0], B4 , Metallophone, 0.5, NoteDuration ],
-            _[ t[1, 2.5], Cs5, Metallophone, 0.7, NoteDuration ],
-            _[ t[1, 4.0], Fs4, Metallophone, 0.4, NoteDuration ]
-        ).SetName();
+        FlowNode MetallophoneJingle() => _
+            [ t[1, 1.0], A4 , Metallophone, 0.9, NoteDuration ]
+            [ t[1, 1.5], E5 , Metallophone, 1.0, NoteDuration ]
+            [ t[1, 2.0], B4 , Metallophone, 0.5, NoteDuration ]
+            [ t[1, 2.5], Cs5, Metallophone, 0.7, NoteDuration ]
+            [ t[1, 4.0], Fs4, Metallophone, 0.4, NoteDuration ].SetName();
 
         /// <inheritdoc cref="docs._metallophone"/>
-        FlowNode MetallophoneChord => Add
-        (
-            _[ A4 , Metallophone, 0.9, NoteDuration ],
-            _[ E5 , Metallophone, 1.0, NoteDuration ],
-            _[ B4 , Metallophone, 0.5, NoteDuration ],
-            _[ Cs5, Metallophone, 0.7, NoteDuration ],
-            _[ Fs4, Metallophone, 0.4, NoteDuration ]
-        ).SetName();
+        FlowNode MetallophoneChord => _
+            [ A4 , Metallophone, 0.9, NoteDuration ]
+            [ E5 , Metallophone, 1.0, NoteDuration ]
+            [ B4 , Metallophone, 0.5, NoteDuration ]
+            [ Cs5, Metallophone, 0.7, NoteDuration ]
+            [ Fs4, Metallophone, 0.4, NoteDuration ].SetName();
 
         /// <inheritdoc cref="docs._metallophone"/>
         FlowNode Metallophone(FlowNode freq, FlowNode duration = null)
