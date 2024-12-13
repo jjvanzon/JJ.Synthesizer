@@ -9,8 +9,10 @@ using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 
 // ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable AssignmentInsteadOfDiscard
@@ -65,37 +67,41 @@ namespace JJ.Business.Synthesizer.Wishes
             t = new TimeIndexer(this);
         }
         
-        public void Run(Action action)
-        {
-            // Work-around for Delegate.CreateDelegate ArgumentException:
-            // "Cannot bind to the target method because its signature or security transparency
-            // is not compatible with that of the delegate type."
-            // Honestly I don't know how to solve other than catch the exception.
-            try
-            {
-                RunOnNewInstance(action);
-            }
-            catch (ArgumentException ex)
-            {
-                RunOnThisInstance(action);
-            }
-        }
+        public void Run(Action action) => RunOnNewInstance(action);
         
         private void RunOnNewInstance(Action action)
         {
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            
             // Create a new instance of the derived class
             Type concreteType = this.GetType();
             var newInstance = (SynthWishes)Activator.CreateInstance(concreteType);
             
             // Yield over settings
             newInstance.Config = Config;
-            
-            // Rebind the delegate to the new instance
+
+            // Try run on new instance
             MethodInfo methodInfo = action.Method;
-            var newAction = (Action)Delegate.CreateDelegate(typeof(Action), newInstance, methodInfo);
+            try
+            {
+                // Rebind the delegate to the new instance
+                var newAction = (Action)Delegate.CreateDelegate(typeof(Action), newInstance, methodInfo);
             
-            // Run the action on the new instance
-            newInstance.RunOnThisInstance(() => newAction());
+                // Run the action on the new instance
+                newInstance.RunOnThisInstance(() => newAction());
+            }
+            catch (ArgumentException ex)
+            {
+                // Work-around for exception:
+                // "Cannot bind to the target method because its signature or security transparency
+                // is not compatible with that of the delegate type."
+                // Honestly I don't know how to solve other than catch the exception.
+                Console.WriteLine(
+                    $"{PrettyTime()} [RUN] " +
+                    $"Unable to create new {concreteType.Name} instance for action {methodInfo.Name}. " +
+                    $"Using current instance instead. Exception: {NewLine}{ex.Message}");
+                RunOnThisInstance(action);
+            }            
         }
         
         private void RunOnThisInstance(Action action)
