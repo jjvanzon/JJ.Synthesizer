@@ -111,8 +111,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         void VibraphaseNote()
         {
-            WithMono().WithAudioLength(1 + MildEchoDuration);
-            Save(MildEcho(Vibraphase(E5) * 0.5)).Play();
+            WithMono();
+            Vibraphase(E5)[MildEcho][Volume, 0.5].AddAudioLength(MildEchoDuration).Save().Play();
         }
 
         // Jingles
