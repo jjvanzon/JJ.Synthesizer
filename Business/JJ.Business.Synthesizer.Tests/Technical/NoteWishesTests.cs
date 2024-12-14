@@ -207,19 +207,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             => Sine(freq);
         
         FlowNode Flute2Params(FlowNode freq, FlowNode len = null) 
-            => Sine(freq) * RecorderCurve.Stretch(SnapNoteLength(len));
+            => Sine(freq) * RecorderCurve.Stretch(GetNoteLength(len));
 
         FlowNode Flute3Params(FlowNode freq, FlowNode len = null, FlowNode fx1 = null)
-            => Sine(freq).Tremolo(fx1, 0.3) * RecorderCurve.Stretch(SnapNoteLength(len));
+            => Sine(freq).Tremolo(fx1, 0.3) * RecorderCurve.Stretch(GetNoteLength(len));
         
         FlowNode Flute4Params(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null)
-            => Sine(freq).Tremolo(fx1, fx2) * RecorderCurve.Stretch(SnapNoteLength(len));
+            => Sine(freq).Tremolo(fx1, fx2) * RecorderCurve.Stretch(GetNoteLength(len));
         
         FlowNode Flute5Params(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null)
-            => Sine(freq).Tremolo(fx1, fx2).Panning(fx3) * RecorderCurve.Stretch(SnapNoteLength(len));
+            => Sine(freq).Tremolo(fx1, fx2).Panning(fx3) * RecorderCurve.Stretch(GetNoteLength(len));
         
         FlowNode Flute6Params(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null)
-            => Sine(freq).Tremolo(fx1, fx2).Panning(fx3).Panbrello(fx4) * RecorderCurve.Stretch(SnapNoteLength(len));
+            => Sine(freq).Tremolo(fx1, fx2).Panning(fx3).Panbrello(fx4) * RecorderCurve.Stretch(GetNoteLength(len));
         
         FlowNode MyCurve => Curve(@"
         *
