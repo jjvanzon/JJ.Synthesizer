@@ -120,13 +120,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         // Note Length
         
         /// <inheritdoc cref="docs._notelengthfallbacktests" />
-        [TestMethod] public void Fluent_NoteLength_Fallbacks_Test() => new NoteWishesTests().Fluent_NoteLength_Fallbacks();
+        [TestMethod] public void NoteLength_Fallback_Lullaby_Test() => new NoteWishesTests().NoteLength_Fallback_Lullaby();
         /// <inheritdoc cref="docs._notelengthfallbacktests" />
-        void Fluent_NoteLength_Fallbacks()
+        void NoteLength_Fallback_Lullaby()
         {
-            // Excluding `WithAudioLength` works, but unfortunately removes lullaby effect.
-            //WithAudioLength(4); 
-            
             var    time   = _[0];
             var    volume = 0.8;
             double delta  = 0.000000000000001;
@@ -134,67 +131,67 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             FlowNode instrument(FlowNode freq = null, FlowNode noteLength = null)
             {
                 freq = freq ?? A4;
-                return Sine(freq) * RecorderCurve.Stretch(SnapNoteLength(noteLength));
+                return Sine(freq) * RecorderCurve.Stretch(GetNoteLength(noteLength).Value);
             }
             
             // Play the instrument for reference
             {
-                Play(() => instrument(G4));
+                Save(() => instrument(G4)).Play();
             }
             
             // NoteLength from config file / hard-coded default
             {
-                AreEqual(0.2, () => GetNoteLength.Value);
-                Play(() => Note(instrument(C4), time, volume));
+                AreEqual(0.2, () => GetNoteLength().Value);
+                Save(() => Note(instrument(C4), time, volume)).Play();
             }
             
             // WithNoteLength
             {
                 WithNoteLength(0.33);
-                AreEqual(0.33, () => GetNoteLength.Value);
-                Play(() => Note(instrument(D4), time, volume));
+                AreEqual(0.33, () => GetNoteLength().Value);
+                Save(() => Note(instrument(D4), time, volume)).Play();
             }
             
             // ResetNoteLength() => defaults to config file or hard-coded default
             {
                 ResetNoteLength();
-                AreEqual(0.2, () => GetNoteLength.Value);
-                Play(() => Note(instrument(E4), time, volume));
+                AreEqual(0.2, () => GetNoteLength().Value);
+                Save(() => Note(instrument(E4), time, volume)).Play();
             }
             
             // Dynamic NoteLength explicitly set
             {
                 WithNoteLength(Curve(0.75, 1.5));
-                AreEqual(1.125, () => GetNoteLength.Calculate(0.5));
-                Play(() => Note(instrument(F4), time, volume));
+                AreEqual(1.125, () => GetNoteLength().Calculate(0.5));
+                Save(() => Note(instrument(F4), time, volume)).Play();
             }
             
             // Fallback to BeatLength
             {
                 ResetNoteLength();
                 WithBeatLength(1);
-                AreEqual(1, () => GetNoteLength.Value);
-                Play(() => Note(instrument(G4), time, volume));
+                AreEqual(1, () => GetNoteLength().Value);
+                Save(() => Note(instrument(G4), time, volume)).Play();
             }
             
             // Fallback to BeatLength (dynamic)
             {
                 ResetNoteLength();
                 WithBeatLength(Curve(1.5, 2.0));
-                AreEqual(1.75, GetNoteLength.Calculate(0.5), delta);
-                Play(() => Note(instrument(A4), time, volume));
+                AreEqual(1.75, GetNoteLength().Calculate(0.5), delta);
+                Save(() => Note(instrument(A4), time, volume)).Play();
             }
             
             // StrikeNote parameter
             {
                 var noteLength = _[2.2];
-                Play(() => Note(instrument(B4, noteLength), time, volume, noteLength));
+                Save(() => Note(instrument(B4, noteLength), time, volume, noteLength)).Play();
             }
             
             // StrikeNote parameter (dynamic duration)
             {
                 var noteLength = Curve(3.5, 5);
-                Play(() => Note(instrument(C5, noteLength), time, volume, noteLength));
+                Save(() => Note(instrument(C5, noteLength), time, volume, noteLength)).Play();
             }
         }
         
