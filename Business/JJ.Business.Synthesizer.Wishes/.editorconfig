@@ -19,3 +19,6 @@ resharper_arrange_type_member_modifiers_highlighting = hint
 #resharper_int_align_tuple_components = true
 #resharper_int_align_variables = true
 
+
+# IDE0055: Fix formatting
+dotnet_diagnostic.IDE0055.severity = silent
