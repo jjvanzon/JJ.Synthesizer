@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_Chord()
         {
-            WithMono();
+            WithMono().WithNoteLength(1);
             AddAudioLength(MildEchoDuration);
             _[VibraphaseChord][MildEcho][Volume, 0.28].Save().Play();
         }
@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         void VibraphaseNote()
         {
-            WithMono();
+            WithMono().WithNoteLength(1);
             Vibraphase(E5)[MildEcho][Volume, 0.5].AddAudioLength(MildEchoDuration).Save().Play();
         }
 
@@ -246,6 +246,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             FlowNode duration = null,
             FlowNode depthAdjust1 = null, FlowNode depthAdjust2 = null)
         {
+            duration = GetNoteLength(duration);
+            
             var saw      = SemiSaw(freq);
             var jittered = Jitter(saw, depthAdjust1, depthAdjust2);
             var envelope = Curve(@"
