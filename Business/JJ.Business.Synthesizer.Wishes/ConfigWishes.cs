@@ -247,32 +247,20 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private FlowNode _noteLength;
         
-        public FlowNode GetNoteLength(SynthWishes synthWishes)
-        {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            
-            if (_noteLength != null)
-            {
-                return _noteLength;
-            }
-            
-            if (_beatLength != null)
-            {
-                return _beatLength;
-            }
-            
-            return synthWishes[_section.NoteLength ?? DefaultNoteLength];
-        }
-        
-        public FlowNode SnapNoteLength(SynthWishes synthWishes, FlowNode noteLength)
-        {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            
-            noteLength = noteLength ?? GetNoteLength(synthWishes);
+        public FlowNode GetNoteLength(SynthWishes synthWishes) => GetNoteLength(synthWishes, null);
 
+        public FlowNode GetNoteLength(SynthWishes synthWishes, FlowNode noteLength)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+
+            noteLength = noteLength ?? _noteLength ?? _beatLength;
+            noteLength = noteLength ?? synthWishes[_section.NoteLength ?? DefaultNoteLength];
+            return noteLength;
+            
             // Take snapshot value of noteLength,
             // for consistent volume curve lengths and buffer size cut-offs.
             double value = noteLength.Value;
+            
             return synthWishes.Value(value);
         }
         
@@ -368,7 +356,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._audiolength" />
-        public void WithAudioLength(FlowNode newAudioLength) => _audioLength = newAudioLength ?? throw new NullException(() => newAudioLength);
+        public void WithAudioLength(FlowNode newAudioLength) => _audioLength = newAudioLength;
         
         /// <inheritdoc cref="docs._audiolength" />
         public void WithAudioLength(double newAudioLength, SynthWishes synthWishes)
@@ -776,8 +764,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Durations
         
-        public FlowNode GetNoteLength  => Config.GetNoteLength(this);
-        public FlowNode SnapNoteLength(FlowNode noteLength)  => Config.SnapNoteLength(this, noteLength);
+        public FlowNode GetNoteLength() => Config.GetNoteLength(this);
+        public FlowNode GetNoteLength(FlowNode noteLength) => Config.GetNoteLength(this, noteLength);
         public SynthWishes WithNoteLength(FlowNode seconds) { Config.WithNoteLength(seconds); return this; }
         public SynthWishes WithNoteLength(double seconds) { Config.WithNoteLength(seconds, this); return this; }
         public SynthWishes ResetNoteLength() { Config.ResetNoteLength(); return this; }
@@ -927,8 +915,8 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Durations
         
-        public FlowNode GetNoteLength => _synthWishes.GetNoteLength;
-        public FlowNode SnapNoteLength(FlowNode noteLength) => _synthWishes.SnapNoteLength(noteLength);
+        public FlowNode GetNoteLength() => _synthWishes.GetNoteLength();
+        public FlowNode GetNoteLength(FlowNode noteLength) => _synthWishes.GetNoteLength(noteLength);
         public FlowNode WithNoteLength(FlowNode newLength) { _synthWishes.WithNoteLength(newLength); return this; }
         public FlowNode WithNoteLength(double newLength) { _synthWishes.WithNoteLength(newLength); return this; }
         public FlowNode ResetNoteLength() { _synthWishes.ResetNoteLength(); return this; }
