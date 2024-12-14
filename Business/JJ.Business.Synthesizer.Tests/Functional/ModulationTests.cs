@@ -102,8 +102,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_Chord()
         {
-            WithMono().WithAudioLength(1 + MildEchoDuration);
-            (MildEcho(VibraphaseChord) * 0.28).Save().Play();
+            WithMono();
+            AddAudioLength(MildEchoDuration);
+            _[VibraphaseChord][MildEcho][Volume, 0.28].Save().Play();
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
