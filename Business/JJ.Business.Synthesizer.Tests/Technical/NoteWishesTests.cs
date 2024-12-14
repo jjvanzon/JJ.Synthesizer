@@ -124,7 +124,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         /// <inheritdoc cref="docs._notelengthfallbacktests" />
         void Fluent_NoteLength_Fallbacks()
         {
-            WithAudioLength(4);
+            // Excluding `WithAudioLength` works, but unfortunately removes lullaby effect.
+            //WithAudioLength(4); 
             
             var    time   = _[0];
             var    volume = 0.8;
@@ -233,7 +234,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithStereo();
             WithNoteLength(0.25);
-            WithAudioLength(t[2, 1] + GetNoteLength);
             return this;
         }
 
@@ -300,6 +300,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void NoteArrangement_Flute2Params()
         {
             SetNoteArrangementOptions().Save(() => 0.1 * _
+            //SetNoteArrangementOptions().Save(0.1 * _ // BUG: Hangs the n'th time you run it individually.
             [          A4, Flute2Params                   ]
             [          A4, Flute2Params, 0.8              ]
             [          A4, Flute2Params, 0.8     , l[0.5] ]
