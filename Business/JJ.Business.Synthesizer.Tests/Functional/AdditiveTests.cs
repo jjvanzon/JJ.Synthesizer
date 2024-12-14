@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         public void Metallophone_Jingle()
         {
-            WithPlay().WithAudioLength(beat[4] + NoteDuration);
+            WithPlay();
             MetallophoneJingle().Volume(0.33).Echo().Save().Play();
         }
         
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         public void Metallophone_Chord()
         {
-            WithPlay().WithAudioLength(NoteDuration).Fluent(MetallophoneChord).Volume(0.33).Echo().Save().Play();
+            WithPlay().Fluent(MetallophoneChord).Volume(0.33).Echo().Save().Play();
         }
 
         /// <inheritdoc cref="docs._metallophone"/>
@@ -54,7 +54,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         public void Metallophone_Note()
         {
-            WithAudioLength(NoteDuration);
             Metallophone(Fs4).Echo().Volume(0.5).Save().Play();
         }
 
