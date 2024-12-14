@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_Flute_Melody1() => (FluteMelody1.MildEcho() * 0.5).Save().Play();
         
         [TestMethod] public void FM_Flute_Melody2_Test() => Run(FM_Flute_Melody2);
-        void FM_Flute_Melody2() => (FluteMelody2.WithAudioLength(bars[8]).MildEcho() * 0.5).Save().Play();
+        void FM_Flute_Melody2() => (FluteMelody2.MildEcho() * 0.5).Save().Play();
         
         [TestMethod] public void FM_Flute1_Test() => Run(FM_Flute1);
         void FM_Flute1() => (Flute1(E4).MildEcho() * 0.5).Save().Play();
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
         
         [TestMethod] public void FM_Organ_Chords_Test() => Run(FM_Organ_Chords);
-        void FM_Organ_Chords() => WithAudioLength(bars[8]).Save(OrganChords.MildEcho() * 0.2).Play();
+        void FM_Organ_Chords() => Save(OrganChords.MildEcho() * 0.2).Play();
         
         [TestMethod] public void FM_Organ_Chords2_Test() => Run(FM_Organ_Chords2);
         void FM_Organ_Chords2() => Save(OrganChords2.MildEcho() * 0.2).Play();
@@ -80,10 +80,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         }
 
         [TestMethod] public void FM_Pad_Chords_Test() => Run(FM_Pad_Chords);
-        void FM_Pad_Chords() => WithAudioLength(bars[8]).Fluent(PadChords()).MildEcho().Volume(0.14).Save().Play();
+        void FM_Pad_Chords() => Fluent(PadChords()).MildEcho().Volume(0.14).Save().Play();
         
         [TestMethod] public void FM_Pad_Chords2_Test() => Run(FM_Pad_Chords2);
-        void FM_Pad_Chords2() => WithAudioLength(bars[8]).Save(PadChords2().MildEcho() * 0.14).Play();
+        void FM_Pad_Chords2() => Save(PadChords2().MildEcho() * 0.14).Play();
         
         [TestMethod] public void FM_Distortion_Chords_Test() => Run(FM_Distortion_Chords);
         void FM_Distortion_Chords() => With16Bit()[DistortionChords, 0.92].Times(0.15).MildEcho().Save().Play();
@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._trombone" />
         [TestMethod] public void FM_Trombone_Test() => Run(FM_Trombone);
         /// <inheritdoc cref="docs._trombone" />
-        void FM_Trombone() => WithAudioLength(1).Save(Trombone(E2).MildEcho() * 0.5).Play();
+        void FM_Trombone() => Save(Trombone(E2).MildEcho() * 0.5).Play();
         
         /// <inheritdoc cref="docs._trombone" />
         [TestMethod] public void FM_Trombone_Melody1_Test() => Run(FM_Trombone_Melody1);
@@ -119,31 +119,28 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_Trombone_Melody2() => (TromboneMelody2.MildEcho() * 0.75).Save().Play();
         
         [TestMethod] public void FM_ElectricNote_Test() => Run(FM_ElectricNote);
-        void FM_ElectricNote() => WithAudioLength(1.5)[ElectricNote].MildEcho().Volume(0.2).Save().Play();
+        void FM_ElectricNote() => _[ElectricNote, _, 1.5].MildEcho().Volume(0.2).Save().Play();
         
         [TestMethod] public void FM_RippleBass_Test() => Run(FM_RippleBass);
-        void FM_RippleBass() => WithAudioLength(3)[RippleBass].DeepEcho().Volume(0.5).Save().Play();
+        void FM_RippleBass() => WithNoteLength(3)[RippleBass].DeepEcho().Volume(0.5).Save().Play();
         
         [TestMethod] public void FM_RippleBass_Melody2_Test() => Run(FM_RippleBass_Melody2);
-        void FM_RippleBass_Melody2() 
-            => WithAudioLength(bars[4])[RippleBassMelody2].DeepEcho().Volume(0.33).Save().Play();
+        void FM_RippleBass_Melody2() => _[RippleBassMelody2].DeepEcho().Volume(0.33).Save().Play();
         
         [TestMethod] public void FM_RippleNote_SharpMetallic_Test() => Run(FM_RippleNote_SharpMetallic);
-        void FM_RippleNote_SharpMetallic() 
-            => WithAudioLength(2.2).A3[RippleNote_SharpMetallic, _[2.2]].DeepEcho().Volume(0.33).Save().Play();
+        void FM_RippleNote_SharpMetallic() => A3[RippleNote_SharpMetallic, _[2.2]].DeepEcho().Volume(0.33).Save().Play();
         
         [TestMethod] public void FM_RippleSound_Clean_Test() => Run(FM_RippleSound_Clean);
-        void FM_RippleSound_Clean() => WithAudioLength(4).Fluent(RippleSound_Clean()).DeepEcho().Volume(0.5).Save().Play();
+        void FM_RippleSound_Clean() => Fluent(RippleSound_Clean(_, _[4])).DeepEcho().Volume(0.5).Save().Play();
         
         [TestMethod] public void FM_RippleSound_FantasyEffect_Test() => Run(FM_RippleSound_FantasyEffect);
-        void FM_RippleSound_FantasyEffect() 
-            => WithAudioLength(4)[RippleSound_FantasyEffect(A5)].DeepEcho().Volume(0.33).Save().Play();
+        void FM_RippleSound_FantasyEffect() => _[RippleSound_FantasyEffect(A5, _[4])].DeepEcho().Volume(0.33).Save().Play();
         
         [TestMethod] public void FM_RippleSound_CoolDouble_Test() => Run(FM_RippleSound_CoolDouble);
-        void FM_RippleSound_CoolDouble() => WithAudioLength(3)[RippleSound_CoolDouble, A5].DeepEcho().Volume(0.33).Save().Play();
+        void FM_RippleSound_CoolDouble() => _[RippleSound_CoolDouble, A5, 3].DeepEcho().Volume(0.33).Save().Play();
         
         [TestMethod] public void FM_Noise_Beating_Test() => Run(FM_Noise_Beating);
-        void FM_Noise_Beating() => WithAudioLength(5)[A4, Create_FM_Noise_Beating].MildEcho().Volume(0.25).Save().Play();
+        void FM_Noise_Beating() => _[A4, Create_FM_Noise_Beating, vol: 1, len: _[5]].MildEcho().Volume(0.25).Save().Play();
         
         // Jingle
 
@@ -176,7 +173,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                 _[ bar[5], pattern2,                len: bars[4] ]
             ).SetName("Jingle");
             
-            WithAudioLength(bars[8]);
+            EnsureAudioLength(bars[8]);
             
             return jingle;
         }
@@ -191,8 +188,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [ t[2,2.5], B4, Flute2, 0.50, l[1.00] ]
         [ t[2,4.0], A3, Flute2, 0.50, l[1.67] ]
         [ t[3,1.0], G3, Flute3, 0.85, l[2.00] ]
-        [ t[3,2.5], G4, Flute1, 0.80, l[2.50] ]
-        .WithAudioLength(t[3, 2.5] + l[2.50]);
+        [ t[3,2.5], G4, Flute1, 0.80, l[2.50] ];
 
         FlowNode FluteMelody2 => _
         [ t[1,1.0], E4, Flute1, 0.59, l[1.8]  ]
@@ -209,7 +205,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [ ChordPitchCurve3.Stretch(bars[1]), Organ, ChordVolumeCurve, bars[8] ];
 
         FlowNode OrganChords2 =>
-            WithAudioLength(bars[8]).Multiply
+            EnsureAudioLength(bars[8]).Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
                 Add
@@ -236,35 +232,35 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return Multiply
             (
                 Stretch(ChordVolumeCurve, bars[1]),
-                WithAudioLength(bars[8]).Add
+                Add
                 (
                     DistortedNote(bar[0], ChordPitchCurve1.Stretch(bars[1]), duration: bars[8]).Volume(volume),
                     DistortedNote(bar[0], ChordPitchCurve2.Stretch(bars[1]), duration: bars[8]).Volume(volume),
                     DistortedNote(bar[0], ChordPitchCurve3.Stretch(bars[1]), duration: bars[8]).Volume(volume)
-                ).SetName()
+                ).EnsureAudioLength(bars[8]).SetName()
             );
         }
         
         /// <inheritdoc cref="docs._horn" />
         FlowNode HornMelody1 => _
         [ beat[09], C2, Horn, 0.7, length[3] ]
-        [ beat[13], G1, Horn, 0.5, length[4] ].WithAudioLength(beat[13] + length[4]);
+        [ beat[13], G1, Horn, 0.5, length[4] ];
 
         /// <inheritdoc cref="docs._horn" />
         FlowNode HornMelody2 => _
         [ b[1], A2, Horn, 0.75, l[2] ]
         [ b[5], F2, Horn, 0.85, l[2] ]
-        [ b[9], A1, Horn, 1.00, l[4] ].WithAudioLength(b[9] + l[4]);
+        [ b[9], A1, Horn, 1.00, l[4] ];
         
         /// <inheritdoc cref="docs._trombone" />
         FlowNode TromboneMelody1 => Add(
         Trombone(A1 ).Volume(1.0).Tape(3).Delay(b[1]),
         Trombone(E2 ).Volume(1.0).Tape(3).Delay(b[3]),
         Trombone(Fs1).Volume(0.7).Tape(3).Delay(b[5])
-        ).WithAudioLength(b[5] + 3);
+        ).EnsureAudioLength(b[5] + 3);
 
         /// <inheritdoc cref="docs._trombone" />
-        FlowNode TromboneMelody2 => WithAudioLength(beat[7] + _[1.4])._
+        FlowNode TromboneMelody2 => _
         [ beat[3], E4, Trombone, 1, _[1.4] ]
         [ beat[7], C4, Trombone, 1, _[1.4] ];
 
@@ -456,6 +452,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var modulatedSound = fmSignal.Curve(DampedBlockCurve.Stretch(duration));
             var adjustedVolume = modulatedSound * 0.6;
             
+            EnsureAudioLength(duration);
+            
             return adjustedVolume.SetName();
         }
 
@@ -507,10 +505,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._shaperipplesound" />
         FlowNode ShapeRippleSound(FlowNode input, FlowNode duration)
         {
-            duration = duration ?? GetAudioLength;
+            duration = duration ?? GetNoteLength;
             var envelope = Stretch(RippleCurve, duration);
             var sound    = input * envelope;
-            return sound.SetName();
+            
+            return sound.EnsureAudioLength(duration).SetName();
         }
 
         /// <inheritdoc cref="docs._createfmnoisebeating" />
