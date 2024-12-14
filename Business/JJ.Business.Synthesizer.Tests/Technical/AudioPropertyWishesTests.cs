@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class AudioPropertyWishesTests : SynthWishes
     {
         /// <inheritdoc cref="docs._testaudiofileextensionwishes"/>
-        [TestMethod] public void AudioFilePropertyWishes_Test()
+        [TestMethod] public void AudioPropertyWishes_Test()
         {
             // Channel Count => Speaker Setup
             AreEqual(SpeakerSetupEnum.Mono,   () => 1.ToSpeakerSetupEnum());
