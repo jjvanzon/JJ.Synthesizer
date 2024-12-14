@@ -118,15 +118,21 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
+        private bool _isRunning;
+        
         internal IList<FlowNode> GetChannelSignals(Func<FlowNode> func)
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
             
-            LogMathOptimizationTitle();
+            AssertNotRunning();
             
             var originalChannel = GetChannel;
             try
             {
+                _isRunning = true;
+                
+                LogMathOptimizationTitle();
+                
                 WithChannel(0);
                 var channel0Signal = func();
                 
@@ -144,19 +150,24 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             finally
             {
+                _isRunning = false;
                 WithChannel(originalChannel);
             }
         }
-
+        
         private void RunChannelSignals(Action action)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
             
-            LogMathOptimizationTitle();
-            
+            AssertNotRunning();
+
             var originalChannel = GetChannel;
             try
             {
+                _isRunning = true;
+                
+                LogMathOptimizationTitle();
+            
                 WithChannel(0);
                 action();
                 
@@ -167,7 +178,20 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             finally
             {
+                _isRunning = false;
                 WithChannel(originalChannel);
+            }
+        }
+        
+        private void AssertNotRunning()
+        {
+            if (_isRunning)
+            {
+                throw new Exception(
+                    "Process already running. Nested usage, such as " +
+                    "`Run(() => Save(() => ...))`, is not supported due to potential performance penalties. " +
+                    "Use alternatives like `Run(() => ...).Save()` or `Save(() => ...)` to avoid nesting, " +
+                    "or try `Run(() => mySound.Save())` for deferred audio streaming.");
             }
         }
         
