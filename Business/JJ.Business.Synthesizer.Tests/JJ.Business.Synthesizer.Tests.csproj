@@ -134,7 +134,7 @@
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Helpers\MySynthWishes.cs" />
-    <Compile Include="Technical\AudioFileWishesTests.cs" />
+    <Compile Include="Technical\AudioPropertyWishesTests.cs" />
     <Compile Include="Helpers\CopiedFromFramework.cs" />
     <Compile Include="Accessors\SampleManagerAccessor.cs" />
     <Compile Include="Accessors\SynthWishesAccessor.cs" />

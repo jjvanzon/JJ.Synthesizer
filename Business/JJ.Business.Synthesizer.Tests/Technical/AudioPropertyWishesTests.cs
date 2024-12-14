@@ -9,10 +9,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]
-    public class AudioFileWishesTests : SynthWishes
+    public class AudioPropertyWishesTests : SynthWishes
     {
         /// <inheritdoc cref="docs._testaudiofileextensionwishes"/>
-        [TestMethod] public void Test_AudioFileExtensionWishes()
+        [TestMethod] public void AudioFilePropertyWishes_Test()
         {
             // Channel Count => Speaker Setup
             AreEqual(SpeakerSetupEnum.Mono,   () => 1.ToSpeakerSetupEnum());
