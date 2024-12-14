@@ -143,10 +143,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 FlowNode sample = tape.Signal.SynthWishes.Sample(tape.Buff, name: tape.GetName);
                 
                 // Replace All References
-                IList<Inlet> connectedInlets = tape.Signal.UnderlyingOutlet.ConnectedInlets.ToArray();
-                foreach (Inlet inlet in connectedInlets)
+                //lock (_hierarchyLock)
                 {
-                    inlet.LinkTo(sample);
+                    IList<Inlet> connectedInlets = tape.Signal.UnderlyingOutlet.ConnectedInlets.ToArray();
+                    foreach (Inlet inlet in connectedInlets)
+                    {
+                        inlet.LinkTo(sample);
+                    }
                 }
                 
                 LogAction(tape, "Stop");
@@ -163,10 +166,24 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        private static void CleanupParentChildRelationship(Tape leaf)
+        //private readonly object _hierarchyLock = new object();
+        private void CleanupParentChildRelationship(Tape leaf)
         {
-            leaf.ParentTape?.ChildTapes.Remove(leaf);
-            leaf.ParentTape = null;
+            //int retries = 3;
+            //for (int i = 1; i <= retries; i++)
+            //{
+            //    try
+            //    lock (_hierarchyLock)
+                  {
+                    leaf.ParentTape?.ChildTapes.Remove(leaf);
+                    leaf.ParentTape = null;
+                  }
+            //    catch (Exception ex)
+            //    {
+            //        LogAction(leaf, "Error removing leaf from hierarchy. " + NewLine + ex);
+            //        if (i == retries) throw;
+            //    }
+            //}
         }
         
         private void HandleTimeOut(TimeOutActionEnum timeOutAction, int timeOutInMs, int todoCount, Tape[] tapesTODO)
