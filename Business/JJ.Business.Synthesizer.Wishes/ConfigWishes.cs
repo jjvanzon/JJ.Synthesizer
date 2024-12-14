@@ -378,37 +378,34 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._audiolength" />
-        public void AddAudioLength(FlowNode additionalLength)
+        public void AddAudioLength(FlowNode additionalLength, SynthWishes synthWishes)
         {
-            if (additionalLength == null) throw new ArgumentNullException(nameof(additionalLength));
-            SynthWishes synthWishes = additionalLength.SynthWishes;
-            WithAudioLength(GetAudioLength(synthWishes) + additionalLength);
+            double value = additionalLength?.Value ?? 0;
+            WithAudioLength(GetAudioLength(synthWishes) + value);
         }
         
         /// <inheritdoc cref="docs._audiolength" />
         public void AddAudioLength(double additionalLength, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            AddAudioLength(synthWishes[additionalLength]);
+            AddAudioLength(synthWishes[additionalLength], synthWishes);
         }
         
         public void AddEchoDuration(int count, FlowNode delay, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            AddAudioLength(synthWishes.EchoDuration(count, delay));
+            AddAudioLength(synthWishes.EchoDuration(count, delay), synthWishes);
         }
         public void AddEchoDuration(int count, double delay, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            AddAudioLength(synthWishes.EchoDuration(count, delay));
+            AddAudioLength(synthWishes.EchoDuration(count, delay), synthWishes);
         }
         
         /// <inheritdoc cref="docs._audiolength" />
-        public void EnsureAudioLength(FlowNode audioLengthNeeded)
+        public void EnsureAudioLength(FlowNode audioLengthNeeded, SynthWishes synthWishes)
         {
-            if (audioLengthNeeded == null) throw new ArgumentNullException(nameof(audioLengthNeeded));
-            SynthWishes synthWishes = audioLengthNeeded.SynthWishes;
-            double value = audioLengthNeeded.Value;
+            double value = audioLengthNeeded?.Value ?? 0;
             EnsureAudioLength(value, synthWishes);
         }
         
@@ -804,7 +801,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes AddAudioLength(double additionalLength) { Config.AddAudioLength(additionalLength, this); return this; }
         /// <inheritdoc cref="docs._audiolength" />
-        public SynthWishes AddAudioLength(FlowNode additionalLength) { Config.AddAudioLength(additionalLength); return this; }
+        public SynthWishes AddAudioLength(FlowNode additionalLength) { Config.AddAudioLength(additionalLength, this); return this; }
         /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes AddEchoDuration(int count = 4, FlowNode delay = default) { Config.AddEchoDuration(count, delay, this); return this; }
         /// <inheritdoc cref="docs._audiolength" />
