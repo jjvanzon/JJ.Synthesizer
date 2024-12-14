@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Parallel.For(0, count, i =>
             {
                 LogAction(stereoTapes[i], "Start");
-                MaterializeStereoTape(stereoTapes[i]);
+                RecordStereoTape(stereoTapes[i]);
                 LogAction(stereoTapes[i], "Stop");
             });
             
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         //    AssertTapePair(tapePair);
         //    var channelSignals = GetChannelSignals(tapePair);
         //    var stereoTape = CloneTape(tapePair.Left);
-        //    MaterializeStereoTape(stereoTape, channelSignals);
+        //    RecordStereoTape(stereoTape, channelSignals);
         //    return stereoTape;
         //}
 
@@ -84,13 +84,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             FallBackName = tapePrototype.FallBackName,
             IsPlay = tapePrototype.IsPlay,
             IsSave = tapePrototype.IsSave,
-            IsCache = tapePrototype.IsCache,
+            IsIntercept = tapePrototype.IsIntercept,
             IsPadding = tapePrototype.IsPadding,
             Callback = tapePrototype.Callback
         };
         
-        private void MaterializeStereoTape(Tape stereoTape) 
-            => stereoTape.Buff = _synthWishes.MaterializeCache(
-                stereoTape.ChannelSignals, stereoTape.Duration, stereoTape.GetName);
+        private void RecordStereoTape(Tape stereoTape) 
+            => stereoTape.Buff = _synthWishes.Record(stereoTape.ChannelSignals, stereoTape.Duration, stereoTape.GetName);
     }
 }

@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void RunActions(Tape tape)
         {
-            CacheIfNeeded(tape);
+            InterceptIfNeeded(tape);
             SaveIfNeeded(tape);
             PlayIfNeeded(tape);
         }
@@ -40,14 +40,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         // Actions Per Item
         
-        public void CacheIfNeeded(Tape tape)
+        public void InterceptIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             if (tape.Channel == null) throw new NullException(() => tape.Channel);
 
             if (tape.ChannelCallback != null)
             {
-                LogAction(tape, nameof(SynthWishes.CacheChannel));
+                LogAction(tape, nameof(SynthWishes.InterceptChannel));
                 
                 Buff replacementBuff = tape.ChannelCallback(tape.Buff, tape.Channel.Value);
                 if (replacementBuff != null)
@@ -102,20 +102,20 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         public void RunActions(Tape tape)
         {
-            CacheIfNeeded(tape);
+            InterceptIfNeeded(tape);
             SaveIfNeeded(tape);
             PlayIfNeeded(tape);
         }
         
         // Run Lists per Action Type
         
-        public void CacheIfNeeded(IList<Tape> tapes)
+        public void InterceptIfNeeded(IList<Tape> tapes)
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
 
             if (!_synthWishes.IsMono) return;
             
-            tapes.ForEach(CacheIfNeeded);
+            tapes.ForEach(InterceptIfNeeded);
         }
 
         public void SaveIfNeeded(IList<Tape> tapes)
@@ -138,13 +138,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         // Actions Per Item
         
-        private void CacheIfNeeded(Tape tape)
+        private void InterceptIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
             if (tape.Callback != null)
             {
-                LogAction(tape, nameof(SynthWishes.Cache));
+                LogAction(tape, nameof(SynthWishes.Intercept));
 
                 Buff replacementBuff = tape.Callback(tape.Buff);
                 if (replacementBuff != null)
@@ -197,17 +197,17 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void RunActions(Tape tape)
         {
-            CacheIfNeeded(tape);
+            InterceptIfNeeded(tape);
             SaveIfNeeded(tape);
             PlayIfNeeded(tape);
         }
         
         // Run Lists per Action Type
         
-        public void CacheIfNeeded(IList<Tape> tapes)
+        public void InterceptIfNeeded(IList<Tape> tapes)
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
-            tapes.ForEach(CacheIfNeeded);
+            tapes.ForEach(InterceptIfNeeded);
         }
 
         public void SaveIfNeeded(IList<Tape> tapes)
@@ -224,13 +224,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         // Actions Per Item
         
-        private void CacheIfNeeded(Tape tape)
+        private void InterceptIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
         
             if (tape.Callback != null)
             {
-                LogAction(tape, nameof(SynthWishes.Cache));
+                LogAction(tape, nameof(SynthWishes.Intercept));
                 
                 Buff replacementBuff = tape.Callback(tape.Buff);
                 if (replacementBuff != null)

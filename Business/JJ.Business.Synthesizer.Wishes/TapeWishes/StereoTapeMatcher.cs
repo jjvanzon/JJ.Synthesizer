@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         /// Heuristically matches the left channel and right channel tapes together,
         /// which is non-trivial because of the rigid separation of the 2 channels in this system,
         /// which is both powerful and tricky all the same.
-        /// Only call in case of stereo. In case of mono, the tapes can be played, saved or cached
+        /// Only call in case of stereo. In case of mono, the tapes can be played, saved or intercepted
         /// individually.
         /// </summary>
         public IList<(Tape Left, Tape Right)> PairTapes(IList<Tape> tapes)
@@ -41,10 +41,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 x.IsPlay,
                 x.IsSave,
-                x.IsCache,
+                x.IsIntercept,
                 x.IsPlayChannel,
                 x.IsSaveChannel,
-                x.IsCacheChannel,
+                x.IsInterceptChannel,
                 x.IsPadding,
                 x.IsTape
             });
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 throw new Exception(
                     _unprocessedTapes.Count + " channel tapes could not be matched to a stereo tape:" + NewLine +
                     Join(NewLine, _unprocessedTapes.Select(x => "- " + GetTapeDescriptor(x) + " | " + x.Signal)) + NewLine +
-                    "To avoid duplicates, consider passing names to the Play, Save, Tape or Cache methods.");
+                    "To avoid duplicates, consider passing names to the Play, Save, Tape or Intercept methods.");
             }
             
             return _matchedPairs;

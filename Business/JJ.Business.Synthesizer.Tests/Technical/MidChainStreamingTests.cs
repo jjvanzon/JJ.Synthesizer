@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using JJ.Business.Synthesizer.Tests.Helpers;
+﻿using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Mathematics_Wishes.RandomizerWishes;
@@ -56,64 +55,75 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             };
         }
         
-        [TestMethod]
-        public void Mono_Play_Test() => Run(Mono_Play);
+        [TestMethod] public void Mono_Play_Test() => Run(Mono_Play);
         void Mono_Play()
         {
             WithMono().Sine(RandomNote).Volume(StereoDynamics).Play();
         }
         
-        [TestMethod]
-        public void Mono_Play_Test_2Calls() => Run(Mono_Play_2Calls);
+        [TestMethod] public void Mono_Play_Test_2Calls() => Run(Mono_Play_2Calls);
         void Mono_Play_2Calls()
         {
             WithMono().Sine(RandomNote).Volume(StereoDynamics).Play().SpeedUp(1.5).Play();
         }
         
-        [TestMethod]
-        public void Mono_Save_Test() => Run(Mono_Save);
+        [TestMethod] public void Mono_Save_Test() => Run(Mono_Save);
         void Mono_Save()
         { 
             WithMono().Sine(RandomNote).Volume(StereoDynamics).Save().Play();
         }
         
-        [TestMethod]
-        public void Mono_Save_Test_2Calls() => Run(Mono_Save_2Calls);
+        [TestMethod] public void Mono_Save_Test_2Calls() => Run(Mono_Save_2Calls);
         void Mono_Save_2Calls()
         { 
             WithMono().Sine(RandomNote).Volume(StereoDynamics).Save().SpeedUp(1.5).Save().Play();
         }
         
-        [TestMethod]
-        public void Mono_Cache_Test() => Run(Mono_Cache);
-        void Mono_Cache()
+        [TestMethod] public void Mono_Intercept_Test() => new MidChainStreamingTests().Mono_Intercept();
+        void Mono_Intercept()
         { 
-            WithMono().Sine(RandomNote).Volume(StereoDynamics).Cache().Play();
+            WithMono();
+            
+            Buff buff = default;
+            
+            Run(() => Sine(RandomNote).Volume(StereoDynamics).Intercept(x => buff = x));
+            
+            IsNotNull(() => buff);
+            
+            buff.Save().Play();
         }
         
-        [TestMethod]
-        public void Mono_Cache_Test_2Calls() => Run(Mono_Cache_2Calls);
-        void Mono_Cache_2Calls()
+        [TestMethod] public void Mono_Intercept_Test_2Calls() => new MidChainStreamingTests().Mono_Intercept_2Calls();
+        void Mono_Intercept_2Calls()
         { 
-            WithMono().Sine(RandomNote).Volume(StereoDynamics).Cache().SpeedUp(1.5).Cache().Play();
+            WithMono();
+            
+            Buff buff1 = default;
+            Buff buff2 = default;
+            
+            Run(() => Sine(RandomNote).Volume(StereoDynamics).
+                      Intercept(x => buff1 = x).SpeedUp(1.5).Intercept(x => buff2 = x));
+                
+            IsNotNull(() => buff1);
+            IsNotNull(() => buff2);
+            
+            buff1.Save().Play();
+            buff2.Save().Play();
         }
 
-        [TestMethod]
-        public void Mono_PlayChannel_Test() => Run(Mono_PlayChannel);
+        [TestMethod] public void Mono_PlayChannel_Test() => Run(Mono_PlayChannel);
         void Mono_PlayChannel()
         {
             WithMono().Sine(RandomNote).Volume(StereoDynamics).PlayChannel();
         }
         
-        [TestMethod]
-        public void Mono_PlayChannel_Test_2Calls() => Run(Mono_PlayChannel_2Calls);
+        [TestMethod] public void Mono_PlayChannel_Test_2Calls() => Run(Mono_PlayChannel_2Calls);
         void Mono_PlayChannel_2Calls()
         {
             WithMono().Sine(RandomNote).Volume(StereoDynamics).PlayChannel().SpeedUp(1.5).PlayChannel();
         }
         
-        [TestMethod]
-        public void Mono_PlayChannel_Test_3Calls() => Run(Mono_PlayChannel_3Calls);
+        [TestMethod] public void Mono_PlayChannel_Test_3Calls() => Run(Mono_PlayChannel_3Calls);
         void Mono_PlayChannel_3Calls()
         {
             WithMono();
@@ -128,8 +138,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ).Play();
         }
         
-        [TestMethod]
-        public void Mono_SaveChannel_Test() => Run(Mono_SaveChannel);
+        [TestMethod] public void Mono_SaveChannel_Test() => Run(Mono_SaveChannel);
         void Mono_SaveChannel()
         {
             WithMono().Sine(RandomNote).Volume(StereoDynamics).SaveChannel().Play();
@@ -142,8 +151,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithMono().Sine(RandomNote).Volume(StereoDynamics).SaveChannel().SpeedUp(1.5).SaveChannel().Play();
         }
 
-        [TestMethod]
-        public void Mono_SaveChannel_Test_3Calls() => Run(Mono_SaveChannel_3Calls);
+        [TestMethod] public void Mono_SaveChannel_Test_3Calls() => Run(Mono_SaveChannel_3Calls);
         void Mono_SaveChannel_3Calls()
         {
             WithMono();
@@ -158,124 +166,185 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ).Play();
         }
         
-        [TestMethod]
-        public void Mono_CacheChannel_Test() => Run(Mono_CacheChannel);
-        void Mono_CacheChannel()
-        {
-            WithMono().Sine(RandomNote).Volume(StereoDynamics).CacheChannel().Play();
-        }
-        
-        [TestMethod]
-        public void Mono_CacheChannel_Test_2Calls() => Run(Mono_CacheChannel_2Calls);
-        void Mono_CacheChannel_2Calls()
-        {
-            WithMono().Sine(RandomNote).Volume(StereoDynamics).CacheChannel().SpeedUp(1.5).CacheChannel().Play();
-        }
-
-        [TestMethod]
-        public void Mono_CacheChannel_Test_3Calls() => Run(Mono_CacheChannel_3Calls);
-        void Mono_CacheChannel_3Calls()
+        [TestMethod] public void Mono_InterceptChannel_Test() => new MidChainStreamingTests().Mono_InterceptChannel();
+        void Mono_InterceptChannel()
         {
             WithMono();
             
-            Play(() => Add
-            (
-                Sine(RandomNotes[5] * 1).Volume(StereoDynamics).Volume(1.0).CacheChannel(),
-                Sine(RandomNotes[5] * 2).Volume(StereoDynamics).Volume(0.05),
-                Sine(RandomNotes[5] * 3).Volume(StereoDynamics).CacheChannel().Volume(0.02),
-                Sine(RandomNotes[5] * 4).Volume(StereoDynamics).Volume(0.03),
-                Sine(RandomNotes[5] * 5).Volume(StereoDynamics).Volume(0.01).CacheChannel()
-            )).Cache();
+            Buff buff = default;
+            
+            Run(() => Sine(RandomNote).Volume(StereoDynamics).InterceptChannel((b, i) => buff = b));
+            
+            IsNotNull(() => buff);
+            
+            buff.Play();
         }
         
-        [TestMethod]
-        public void Stereo_Play_Test() => WithStereo().Run(Stereo_Play);
+        [TestMethod] public void Mono_InterceptChannel_Test_2Calls() => new MidChainStreamingTests().Mono_InterceptChannel_2Calls();
+        void Mono_InterceptChannel_2Calls()
+        {
+            WithMono();
+            
+            Buff buff1 = default;
+            Buff buff2 = default;
+            
+            Run(() => Sine(RandomNote).Volume(StereoDynamics).
+                      InterceptChannel((b, i) => buff1 = b).
+                      SpeedUp(1.5).InterceptChannel((b, i) => buff2 = b));
+                
+            IsNotNull(() => buff1);
+            IsNotNull(() => buff2);
+                
+            buff1.Play();
+            buff2.Play();
+        }
+
+        [TestMethod] public void Mono_InterceptChannel_Test_3Calls() => new MidChainStreamingTests().Mono_InterceptChannel_3Calls();
+        void Mono_InterceptChannel_3Calls()
+        {
+            WithMono();
+            
+            Buff buff1 = default;
+            Buff buff2 = default;
+            Buff buff3 = default;
+
+            Run(() => Add
+            (
+                Sine(RandomNotes[5] * 1).Volume(StereoDynamics).Volume(1.0).InterceptChannel((b, i) => buff1 = b),
+                Sine(RandomNotes[5] * 2).Volume(StereoDynamics).Volume(0.05),
+                Sine(RandomNotes[5] * 3).Volume(StereoDynamics).InterceptChannel((b, i) => buff2 = b).Volume(0.02),
+                Sine(RandomNotes[5] * 4).Volume(StereoDynamics).Volume(0.03),
+                Sine(RandomNotes[5] * 5).Volume(StereoDynamics).Volume(0.01).InterceptChannel((b, i) => buff3 = b)
+            ));
+            
+            IsNotNull(() => buff1);
+            IsNotNull(() => buff2);
+            IsNotNull(() => buff3);
+        }
+        
+        [TestMethod] public void Stereo_Play_Test() => WithStereo().Run(Stereo_Play);
         void Stereo_Play()
         {
             Sine(RandomNotes[6]).Curve(StereoDynamics).Play();
         }
         
-        [TestMethod]
-        public void Stereo_Play_Test_2Calls() => Run(Stereo_Play_2Calls);
+        [TestMethod] public void Stereo_Play_Test_2Calls() => Run(Stereo_Play_2Calls);
         void Stereo_Play_2Calls()
         { 
             WithStereo().Sine(RandomNotes[7]).Volume(StereoDynamics).Play("Play1").SpeedUp(1.5).Play("Play2");
         }
         
-        [TestMethod]
-        public void Stereo_Save_Test() => Run(Stereo_Save);
+        [TestMethod] public void Stereo_Save_Test() => Run(Stereo_Save);
         void Stereo_Save()
         { 
             WithStereo().Sine(RandomNotes[8]).Volume(StereoDynamics).Save().Play();
         }
         
-        [TestMethod]
-        public void Stereo_Save_Test_2Calls() => Run(Stereo_Save_2Calls);
+        [TestMethod] public void Stereo_Save_Test_2Calls() => Run(Stereo_Save_2Calls);
         void Stereo_Save_2Calls()
         { 
             WithStereo().Sine(RandomNotes[9]).Volume(StereoDynamics).Save().SpeedUp(1.5).Save().Play();
         }
         
-        [TestMethod]
-        public void Stereo_Cache_Test() => Run(Stereo_Cache);
-        void Stereo_Cache()
+        [TestMethod] public void Stereo_Intercept_Test() => new MidChainStreamingTests().Stereo_Intercept();
+        void Stereo_Intercept()
         { 
-            WithStereo().Sine(RandomNotes[10]).Volume(StereoDynamics).Cache().Play();
+            WithStereo();
+                
+            Buff buff = default;
+            
+            Run(() => Sine(RandomNotes[10]).Volume(StereoDynamics).Intercept(x => buff = x));
+            
+            IsNotNull(() => buff);
+            
+            buff.Save().Play();
         }
         
-        [TestMethod]
-        public void Stereo_Cache_Test_2Calls() => Run(Stereo_Cache_2Calls);
-        void Stereo_Cache_2Calls()
+        [TestMethod] public void Stereo_Intercept_Test_2Calls() => new MidChainStreamingTests().Stereo_Intercept_2Calls();
+        void Stereo_Intercept_2Calls()
         { 
-            WithStereo().Sine(RandomNotes[11]).Volume(StereoDynamics).Cache().SpeedUp(1.5).Cache().Play();
+            WithStereo();
+                
+            Buff buff1 = default;
+            Buff buff2 = default;
+            
+            Run(() => Sine(RandomNotes[11]).Volume(StereoDynamics).
+                      Intercept(x => buff1 = x).
+                      SpeedUp(1.5).Intercept(x => buff2 = x));
+            
+            IsNotNull(() => buff1);
+            IsNotNull(() => buff2);
+                
+            buff1.Save().Play();
+            buff2.Save().Play();
         }
         
-        [TestMethod]
-        public void Stereo_PlayChannel_Test() => WithStereo().Run(Stereo_PlayChannel);
+        [TestMethod] public void Stereo_PlayChannel_Test() => WithStereo().Run(Stereo_PlayChannel);
         void Stereo_PlayChannel()
         { 
             Sine(RandomNotes[12]).Volume(StereoDynamics).PlayChannel();
         }
         
-        [TestMethod]
-        public void Stereo_PlayChannel_Test_2Calls() => Run(Stereo_PlayChannel_2Calls);
+        [TestMethod] public void Stereo_PlayChannel_Test_2Calls() => Run(Stereo_PlayChannel_2Calls);
         void Stereo_PlayChannel_2Calls()
         { 
             WithStereo().Sine(RandomNotes[12]).Volume(StereoDynamics).PlayChannel().SpeedUp(1.5).PlayChannel();
         }
         
-        [TestMethod]
-        public void Stereo_SaveChannel_Test() => Run(Stereo_SaveChannel);
+        [TestMethod] public void Stereo_SaveChannel_Test() => Run(Stereo_SaveChannel);
         void Stereo_SaveChannel()
         { 
             WithStereo().Sine(RandomNotes[13]).Volume(StereoDynamics).SaveChannel().PlayChannel();
         }
         
-        [TestMethod]
-        public void Stereo_SaveChannel_Test_2Calls() => Run(Stereo_SaveChannel_2Calls);
+        [TestMethod] public void Stereo_SaveChannel_Test_2Calls() => Run(Stereo_SaveChannel_2Calls);
         void Stereo_SaveChannel_2Calls()
         { 
             WithStereo().Sine(RandomNotes[14]).Volume(StereoDynamics).SaveChannel().SpeedUp(1.5).SaveChannel().PlayChannel();
         }
         
-        [TestMethod]
-        public void Stereo_CacheChannel_Test() => Run(Stereo_CacheChannel);
-        void Stereo_CacheChannel()
+        [TestMethod] public void Stereo_InterceptChannel_Test() => new MidChainStreamingTests().Stereo_InterceptChannel();
+        void Stereo_InterceptChannel()
         { 
-            WithStereo().Sine(RandomNotes[15]).Volume(StereoDynamics).CacheChannel().PlayChannel();
+            WithStereo();
+            
+            var buffs = new Buff[2];
+            
+            Run(() => Sine(RandomNotes[15]).Volume(StereoDynamics).InterceptChannel((b,i) => buffs[i] = b));
+            
+            IsNotNull(() => buffs[0]);
+            IsNotNull(() => buffs[1]);
+            
+            buffs[0].Play();
+            buffs[1].Play();
         }
         
-        [TestMethod]
-        public void Stereo_CacheChannel_Test_2Calls() => Run(Stereo_CacheChannel_2Calls);
-        void Stereo_CacheChannel_2Calls()
-        { 
-            WithStereo().Sine(RandomNotes[16]).Volume(StereoDynamics).CacheChannel().SpeedUp(1.5).CacheChannel().PlayChannel();
+        [TestMethod] public void Stereo_InterceptChannel_Test_2Calls() => new MidChainStreamingTests().Stereo_InterceptChannel_2Calls();
+        void Stereo_InterceptChannel_2Calls()
+        {
+            WithStereo();
+            
+            var buffs1 = new Buff[2];
+            var buffs2 = new Buff[2];
+            
+            Run(() => Sine(RandomNotes[16]).Volume(StereoDynamics).
+                      InterceptChannel((b,i) => buffs1[i] = b).SpeedUp(1.5).
+                      InterceptChannel((b,i) => buffs2[i] = b));
+            
+            IsNotNull(() => buffs1[0]);
+            IsNotNull(() => buffs1[1]);
+            IsNotNull(() => buffs2[0]);
+            IsNotNull(() => buffs2[1]);
+        
+            buffs1[0].Play();
+            buffs1[1].Play();
+            buffs2[0].Play();
+            buffs2[1].Play();
         }
         
         // Complex Cases
         
-        [TestMethod]
-        public void Stereo_MultipleActions_Test() => Run(Stereo_MultipleActions);
+        [TestMethod] public void Stereo_MultipleActions_Test() => new MidChainStreamingTests().Stereo_MultipleActions();
         void Stereo_MultipleActions() 
         {
             WithStereo();
@@ -286,7 +355,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Sine(RandomNotes[17] * 2).Volume(StereoDynamics).Volume(0.2),
                 Sine(RandomNotes[17] * 3).Volume(StereoDynamics).Panning(0.03).Play("Play2").Volume(0.1),
                 Sine(RandomNotes[17] * 4).Volume(StereoDynamics).Volume(0.08),
-                Sine(RandomNotes[17] * 5).Volume(0.05).Volume(StereoDynamics).Panning(0.9).PlayChannel((b, i) => b.Save())
+                Sine(RandomNotes[17] * 5).Volume(0.05).Volume(StereoDynamics).Panning(0.9).InterceptChannel((b, i) => b.Play().Save())
             ).Play();
         }
 
@@ -303,7 +372,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // The delegate creates a non-trivial convergence point.
             
-            Save(() => Sine(RandomNotes[1]).Panning(0.1).Volume(StereoDynamics).CacheChannel((b, i) => buffs[i] = b)).Play();
+            Save(() => Sine(RandomNotes[1]).Panning(0.1).Volume(StereoDynamics).InterceptChannel((b, i) => buffs[i] = b)).Play();
             
             IsNotNull(() => buffs[0]);
             IsNotNull(() => buffs[1]);
@@ -325,7 +394,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             var buffs = new Buff[2];
             
-            Save(() => Sine(RandomNotes[2]).Panning(0.9).Volume(StereoDynamics).CacheChannel((b, i) => buffs[i] = b)).Play();
+            Save(() => Sine(RandomNotes[2]).Panning(0.9).Volume(StereoDynamics).InterceptChannel((b, i) => buffs[i] = b)).Play();
             
             Save(() => Sample(buffs[0]).Panning(0) +
                        Sample(buffs[1]).Panning(1)).Play();

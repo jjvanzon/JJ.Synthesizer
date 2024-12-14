@@ -262,8 +262,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Save to file
             // TODO: Retry Run notation later after fixes:
             //Buff buff1 = null;
-            //Run(() =>  WithAudioLength(DURATION).Cache(getSignal(), x => buff1 = x, callerMemberName));
-            Buff buff1 = WithAudioLength(DURATION).Cache(getSignal, callerMemberName);
+            //Run(() =>  WithAudioLength(DURATION).Intercept(getSignal(), x => buff1 = x, callerMemberName));
+            Buff buff1 = WithAudioLength(DURATION).Record(getSignal, callerMemberName);
             IsNotNull(() => buff1);
  
             AudioFileOutput audioFileOutput1 = buff1.UnderlyingAudioFileOutput;
@@ -290,8 +290,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Save to file again
             // TODO: Retry Run notation later after fixes:
             //Buff buff2 = null;
-            //Run(() => WithAudioLength(DURATION2).Cache(getSample(), x => buff2 = x));
-            Buff buff2 = WithAudioLength(DURATION2).Cache(getSample);
+            //Run(() => WithAudioLength(DURATION2).Intercept(getSample(), x => buff2 = x));
+            Buff buff2 = WithAudioLength(DURATION2).Record(getSample);
             IsNotNull(() => buff2);
             
             AudioFileOutput audioFileOutput2 = buff2.UnderlyingAudioFileOutput;

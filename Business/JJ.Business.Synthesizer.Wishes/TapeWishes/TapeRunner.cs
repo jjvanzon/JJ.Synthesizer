@@ -134,10 +134,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 LogAction(tape, "Start");
                 
                 // Cache Buffer
-                tape.Buff = tape.Signal.SynthWishes.MaterializeCache(tape.Signal, tape.Duration, tape.GetName);
+                tape.Buff = tape.Signal.SynthWishes.Record(tape.Signal, tape.Duration, tape.GetName);
                 
                 // Run Actions (that can't wait)
-                _channelTapeActionRunner.CacheIfNeeded(tape);
+                _channelTapeActionRunner.InterceptIfNeeded(tape);
                 
                 // Wrap in Sample
                 FlowNode sample = tape.Signal.SynthWishes.Sample(tape.Buff, name: tape.GetName);
@@ -207,8 +207,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 stereoTapes = _stereoTapeRecombiner.RecombineChannelsConcurrent(tapePairs);
             }
 
-            _monoTapeActionRunner.CacheIfNeeded(tapes);
-            _stereoTapeActionRunner.CacheIfNeeded(stereoTapes);
+            _monoTapeActionRunner.InterceptIfNeeded(tapes);
+            _stereoTapeActionRunner.InterceptIfNeeded(stereoTapes);
             
             _channelTapeActionRunner.SaveIfNeeded(tapes);
             _monoTapeActionRunner.SaveIfNeeded(tapes);

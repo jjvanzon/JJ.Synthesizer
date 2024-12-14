@@ -22,10 +22,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool IsTape { get;set; }
         public bool IsPlay { get; set; }
         public bool IsSave { get; set; }
-        public bool IsCache { get; set; }
+        public bool IsIntercept { get; set; }
         public bool IsPlayChannel { get; set; }
         public bool IsSaveChannel { get; set; }
-        public bool IsCacheChannel { get; set; }
+        public bool IsInterceptChannel { get; set; }
         public bool IsPadding { get; set; }
         
         public string FallBackName { get; set; }

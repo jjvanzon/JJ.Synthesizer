@@ -497,7 +497,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void TestBuffComplexity(FlowNode flowNode)
         {
-            Buff result = MaterializeCache(flowNode);
+            Buff result = Record(flowNode);
             IsNotNull(() => result);
             {
                 string stringify = result.Stringify();

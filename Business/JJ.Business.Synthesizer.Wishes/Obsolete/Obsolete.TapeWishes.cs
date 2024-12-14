@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             int channels = synthWishes.GetChannels;
             string[] names = GetParallelNames(termCount, name);
             string[] displayNames = names.Select(GetDisplayName).ToArray();
-            var cacheBuffs = new Buff[termCount];
+            var recordedBuffs = new Buff[termCount];
             var reloadedSamples = new FlowNode[termCount];
             
             var stopWatch = Stopwatch.StartNew();
@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 }
                 
                 // Generate audio
-                cacheBuffs[i] = synthWishes.MaterializeCache(channelSignals, synthWishes.GetAudioLength, names[i]);
+                recordedBuffs[i] = synthWishes.Record(channelSignals, synthWishes.GetAudioLength, names[i]);
                 
                 Console.WriteLine($"{PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
             });
@@ -127,13 +127,13 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             // Reload Samples
             for (int i = 0; i < termCount; i++)
             {
-                var cacheBuff = cacheBuffs[i];
+                Buff recordedBuff = recordedBuffs[i];
                 
                 // Play if needed
-                if (synthWishes.GetPlayAllTapes) synthWishes.Play(cacheBuff);
+                if (synthWishes.GetPlayAllTapes) synthWishes.Play(recordedBuff);
                 
                 // Read from bytes or file
-                reloadedSamples[i] = synthWishes.Sample(cacheBuff, name: displayNames[i]);
+                reloadedSamples[i] = synthWishes.Sample(recordedBuff, name: displayNames[i]);
                 
                 // Diagnostic actions
                 //if (GetCacheToDisk)
@@ -151,9 +151,9 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             stopWatch.Stop();
             
             // Report total real-time and complexity metrics.
-            double audioDuration = cacheBuffs.Max(x => x.UnderlyingAudioFileOutput.Duration);
+            double audioDuration = recordedBuffs.Max(x => x.UnderlyingAudioFileOutput.Duration);
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
-            int complexity = cacheBuffs.Sum(x => x.Complexity());
+            int complexity = recordedBuffs.Sum(x => x.Complexity());
             string formattedMetrics = FormatMetrics(audioDuration, calculationDuration, complexity);
             string message = $"{PrettyTime()} Totals {name} Terms: {formattedMetrics}";
             Console.WriteLine(message);

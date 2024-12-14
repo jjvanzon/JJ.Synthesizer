@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Mono Extensions
             {
                 Buff buff = null;
-                Run(() => WithMono().Sine().Cache(x => buff = x));
+                Run(() => WithMono().Sine().Intercept(x => buff = x));
                 IsNotNull(() => buff);
                 
                 AudioFileOutput audioFileOutputMono = buff.UnderlyingAudioFileOutput;
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             //Stereo Extensions
             {
                 Buff buff = null;
-                Run(() => WithStereo().Sine().Cache(x => buff = x).Save());
+                Run(() => WithStereo().Sine().Intercept(x => buff = x).Save());
                 IsNotNull(() => buff);
                 
                 AudioFileOutput audioFileOutputStereo = buff.UnderlyingAudioFileOutput;
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Wav Extensions
             {
                 Buff buff = null;
-                Run(() => AsWav().Sine().Cache(x => buff = x).Save());
+                Run(() => AsWav().Sine().Intercept(x => buff = x).Save());
                 IsNotNull(() => buff);
                 
                 AudioFileOutput audioFileOutputWav = buff.UnderlyingAudioFileOutput;
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Raw Extensions
             {
                 AudioFileOutput audioFileOutputRaw = null;
-                Run(() => AsRaw().Sine().Save().Cache(x => audioFileOutputRaw = x.UnderlyingAudioFileOutput));
+                Run(() => AsRaw().Sine().Save().Intercept(x => audioFileOutputRaw = x.UnderlyingAudioFileOutput));
                 IsNotNull(() => audioFileOutputRaw);
                 IsNotNull(() => audioFileOutputRaw.AudioFileFormat);
                 AreEqual(".raw", () => audioFileOutputRaw.AudioFileFormat.GetFileExtension());

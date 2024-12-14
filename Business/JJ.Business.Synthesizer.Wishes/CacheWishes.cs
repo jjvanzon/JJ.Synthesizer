@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.NameHelper;
 // ReSharper disable ParameterHidesMember
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Cache in SynthWishes
+    // Record in SynthWishes
 
     public partial class SynthWishes
     {
@@ -17,7 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // With Func
         
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff Cache(
+        public Buff Record(
             Func<FlowNode> func,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
@@ -25,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff Cache(
+        public Buff Record(
             Func<FlowNode> func, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
@@ -33,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff Cache(
+        public Buff Record(
             Func<FlowNode> func, bool mustPad, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
@@ -41,7 +40,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff Cache(
+        public Buff Record(
             Func<FlowNode> func, FlowNode duration, bool mustPad, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
@@ -51,7 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // With FlowNode
         
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff MaterializeCache(
+        public Buff Record(
             FlowNode signal, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
@@ -59,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff MaterializeCache(
+        public Buff Record(
             FlowNode signal, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
@@ -67,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff MaterializeCache(
+        public Buff Record(
             FlowNode signal, FlowNode duration, bool mustPad, 
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
@@ -77,7 +76,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // With List of FlowNodes
         
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff Cache(
+        public Buff Record(
             IList<FlowNode> channelSignals,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
@@ -85,7 +84,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff MaterializeCache(
+        public Buff Record(
             IList<FlowNode> channelSignals, FlowNode duration = null,
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
@@ -93,151 +92,131 @@ namespace JJ.Business.Synthesizer.Wishes
                 inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public Buff Cache(
+        public Buff Record(
             IList<FlowNode> channelSignals, FlowNode duration, bool mustPad,
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
                 channelSignals, duration, 
                 inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
         
-        // Instance Cache (Mid-Chain)
+        // Instance Intercept (Mid-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
-            FlowNode signal, [CallerMemberName] string name = null)
-            => Cache(signal, null, null, null, name);
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
-            FlowNode signal, FlowNode duration, [CallerMemberName] string name = null)
-            => Cache(signal, duration, null, null, name);
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode signal, 
             Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => Cache(signal, null, null, x => { callback(x); return x; }, callerMemberName);
+            => Intercept(signal, null, null, x => { callback(x); return x; }, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode signal, 
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => Cache(signal, null, null, callback, callerMemberName);
+            => Intercept(signal, null, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode signal, FlowNode duration,
             Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => Cache(signal, duration, null, x => { callback(x); return x; }, callerMemberName);
+            => Intercept(signal, duration, null, x => { callback(x); return x; }, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode signal, FlowNode duration,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => Cache(signal, duration, null, callback, callerMemberName);
+            => Intercept(signal, duration, null, callback, callerMemberName);
                 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode signal, string filePath,
             Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => Cache(signal, null, filePath, x => { callback(x); return x; }, callerMemberName);
+            => Intercept(signal, null, filePath, x => { callback(x); return x; }, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode signal, string filePath,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => Cache(signal, null, filePath, callback, callerMemberName);
+            => Intercept(signal, null, filePath, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode signal, FlowNode duration, string filePath,
             Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => Cache(signal, duration, filePath, x => { callback(x); return x; }, callerMemberName);
+            => Intercept(signal, duration, filePath, x => { callback(x); return x; }, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode signal, FlowNode duration, string filePath,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = _tapes.GetOrCreate(signal, duration, callback, null, filePath, callerMemberName);
-            tape.IsCache = true;
+            tape.IsIntercept = true;
             return signal;
         }
 
-        // Instance CacheChannel (Mid-Chain)
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
-            FlowNode channel, [CallerMemberName] string name = null)
-            => CacheChannel(channel, null, null, null, name);
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
-            FlowNode channel, FlowNode duration, [CallerMemberName] string name = null)
-            => CacheChannel(channel, duration, null, null, name);
+        // Instance InterceptChannel (Mid-Chain)
                 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode channel,
             Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
-            => CacheChannel(channel, null, null, (b, i) => { callback(b, i); return b; }, callerMemberName);
+            => InterceptChannel(channel, null, null, (b, i) => { callback(b, i); return b; }, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode channel,
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => CacheChannel(channel, null, null, callback, callerMemberName);
+            => InterceptChannel(channel, null, null, callback, callerMemberName);
                 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode channel, FlowNode duration, 
             Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
-            => CacheChannel(channel, duration, null, (b, i) => { callback(b, i); return b; }, callerMemberName);
+            => InterceptChannel(channel, duration, null, (b, i) => { callback(b, i); return b; }, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode channel, FlowNode duration, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => CacheChannel(channel, duration, null, callback, callerMemberName);
+            => InterceptChannel(channel, duration, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode channel, string filePath, 
             Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
-            => CacheChannel(channel, null, filePath, (b, i) => { callback(b, i); return b; }, callerMemberName);
+            => InterceptChannel(channel, null, filePath, (b, i) => { callback(b, i); return b; }, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode channel, string filePath, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => CacheChannel(channel, null, filePath, callback, callerMemberName);
+            => InterceptChannel(channel, null, filePath, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode channel, FlowNode duration, string filePath,
             Action<Buff, int> channelCallback, [CallerMemberName] string callerMemberName = null)
-            => CacheChannel(channel, duration, filePath, (b, i) => { channelCallback(b, i); return b; }, callerMemberName);
+            => InterceptChannel(channel, duration, filePath, (b, i) => { channelCallback(b, i); return b; }, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode channel, FlowNode duration, string filePath,
             Func<Buff, int, Buff> channelCallback, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = _tapes.GetOrCreate(channel, duration, null, channelCallback, filePath, callerMemberName);
-            tape.IsCacheChannel = true;
+            tape.IsInterceptChannel = true;
             return channel;
         }
 
         // Statics (Buff to Buff) (End-Of-Chain)
         
-        public static Buff Cache(
+        public static Buff Record(
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 buff,
                 inMemory: true, ConfigWishes.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
 
-        public static Buff Cache(
+        public static Buff Record(
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
@@ -248,11 +227,11 @@ namespace JJ.Business.Synthesizer.Wishes
     // Statics Turned Instance (End-of-Chain)
     
     /// <inheritdoc cref="docs._makebuff" />
-    public static class SynthWishesCacheStaticsTurnedInstanceExtensions
+    public static class SynthWishesRecordStaticsTurnedInstanceExtensions
     {
         // On Buffs (End-of-Chain)
         
-        public static SynthWishes Cache(
+        public static SynthWishes Record(
             this SynthWishes synthWishes, 
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null) 
@@ -267,7 +246,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes;
         }
 
-        public static SynthWishes Cache(
+        public static SynthWishes Record(
             this SynthWishes synthWishes, 
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null) 
@@ -285,125 +264,105 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
-        // FlowNode Cache (Mid-Chain)
+        // FlowNode Intercept (Mid-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
-            [CallerMemberName] string name = null)
-            => _synthWishes.Cache(this, null, null, null, name);
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
-            FlowNode duration, [CallerMemberName] string name = null)
-            => _synthWishes.Cache(this, duration, null, null, name);
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Cache(this, null, null, callback, callerMemberName);
+            => _synthWishes.Intercept(this, null, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Cache(this, null, null, callback, callerMemberName);
+            => _synthWishes.Intercept(this, null, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode duration,
             Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Cache(this, duration, null, callback, callerMemberName);
+            => _synthWishes.Intercept(this, duration, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode duration,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Cache(this, duration, null, callback, callerMemberName);
+            => _synthWishes.Intercept(this, duration, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             string filePath,
             Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Cache(this, null, filePath, callback, callerMemberName);
+            => _synthWishes.Intercept(this, null, filePath, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             string filePath,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Cache(this, null, filePath, callback, callerMemberName);
+            => _synthWishes.Intercept(this, null, filePath, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode duration, string filePath,
             Action<Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Cache(this, duration, filePath, callback, callerMemberName);
+            => _synthWishes.Intercept(this, duration, filePath, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Cache(
+        public FlowNode Intercept(
             FlowNode duration, string filePath,
             Func<Buff, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Cache(this, duration, filePath, callback, callerMemberName);
+            => _synthWishes.Intercept(this, duration, filePath, callback, callerMemberName);
         
-        // FlowNode CacheChannel (Mid-Chain)
-        
+        // FlowNode InterceptChannel (Mid-Chain)
+       
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
-            [CallerMemberName] string name = null)
-            => _synthWishes.CacheChannel(this, null, null, null, name);
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
-            FlowNode duration, [CallerMemberName] string name = null)
-            => _synthWishes.CacheChannel(this, duration, null, null, name);
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.CacheChannel(this, null, null, callback, callerMemberName);
+            => _synthWishes.InterceptChannel(this, null, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.CacheChannel(this, null, null, callback, callerMemberName);
+            => _synthWishes.InterceptChannel(this, null, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode duration, 
             Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.CacheChannel(this, duration, null, callback, callerMemberName);
+            => _synthWishes.InterceptChannel(this, duration, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode duration, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.CacheChannel(this, duration, null, callback, callerMemberName);
+            => _synthWishes.InterceptChannel(this, duration, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             string filePath, 
             Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.CacheChannel(this, null, filePath, callback, callerMemberName);
+            => _synthWishes.InterceptChannel(this, null, filePath, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             string filePath, 
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.CacheChannel(this, null, filePath, callback, callerMemberName);
+            => _synthWishes.InterceptChannel(this, null, filePath, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode duration, string filePath,
             Action<Buff, int> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.CacheChannel(this, duration, filePath, callback, callerMemberName);
+            => _synthWishes.InterceptChannel(this, duration, filePath, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode CacheChannel(
+        public FlowNode InterceptChannel(
             FlowNode duration, string filePath,
             Func<Buff, int, Buff> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.CacheChannel(this, duration, filePath, callback, callerMemberName);
+            => _synthWishes.InterceptChannel(this, duration, filePath, callback, callerMemberName);
         
-        // Cache on FlowNode (End-of-Chain)
+        // Record on FlowNode (End-of-Chain)
             
-        public FlowNode Cache(
+        public FlowNode Record(
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
             {
@@ -414,7 +373,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return this; 
             }
 
-        public FlowNode Cache(
+        public FlowNode Record(
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -428,16 +387,16 @@ namespace JJ.Business.Synthesizer.Wishes
     
     // Buff to Buff Extensions (End-of-Chain)
 
-    public static class CacheExtensionWishes
+    public static class RecordExtensionWishes
     {
-        public static Buff Cache(
+        public static Buff Record(
             this Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => SynthWishes.MakeBuff(
                 buff, 
                 inMemory: true, ConfigWishes.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
         
-        public static Buff Cache(
+        public static Buff Record(
             this AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => SynthWishes.MakeBuff(

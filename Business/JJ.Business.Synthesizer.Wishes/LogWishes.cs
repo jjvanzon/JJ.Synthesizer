@@ -218,9 +218,9 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.IsPlayChannel) flagStrings.Add("playc");
             if (tape.IsSave) flagStrings.Add("save");
             if (tape.IsSaveChannel) flagStrings.Add("savec");
-            if (tape.IsCache) flagStrings.Add("cache");
+            if (tape.IsIntercept) flagStrings.Add("inter");
             if (tape.Callback != null) flagStrings.Add("callback");
-            if (tape.IsCacheChannel) flagStrings.Add("cachechan");
+            if (tape.IsInterceptChannel) flagStrings.Add("interchan");
             if (tape.ChannelCallback != null) flagStrings.Add("callbackchan");
             if (tape.IsPadding) flagStrings.Add("pad");
             if (tape.Channel.HasValue) flagStrings.Add($"c{tape.Channel}");

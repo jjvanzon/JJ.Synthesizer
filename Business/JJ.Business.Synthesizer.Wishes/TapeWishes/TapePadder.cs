@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             FlowNode newNode = _synthWishes.ApplyPaddingDelay(oldTape.Signal).SetName(newName);
 
             // Add tape
-            //if (oldTape.IsTape || oldTape.IsCache)
+            //if (oldTape.IsTape || oldTape.IsIntercept)
             Tape newTape = _tapes.GetOrCreate(newNode, oldTape.Duration, null, null, oldTape.FilePath);
             newTape.Channel = oldTape.Channel;
             newTape.IsPlay = oldTape.IsPlay;
