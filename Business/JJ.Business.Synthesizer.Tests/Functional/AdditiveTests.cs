@@ -78,6 +78,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             freq = freq ?? A4;
             duration = duration ?? NoteDuration;
+            
+            EnsureAudioLength(duration);
 
             return Add
             (
