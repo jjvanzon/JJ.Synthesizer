@@ -505,7 +505,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._shaperipplesound" />
         FlowNode ShapeRippleSound(FlowNode input, FlowNode duration)
         {
-            duration = duration ?? GetNoteLength;
+            duration = GetNoteLength(duration);
             var envelope = Stretch(RippleCurve, duration);
             var sound    = input * envelope;
             
