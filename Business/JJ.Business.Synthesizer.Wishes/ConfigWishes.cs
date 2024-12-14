@@ -392,9 +392,38 @@ namespace JJ.Business.Synthesizer.Wishes
             AddAudioLength(synthWishes[additionalLength]);
         }
         
+        public void AddEchoDuration(int count, FlowNode delay, SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            AddAudioLength(synthWishes.EchoDuration(count, delay));
+        }
+        public void AddEchoDuration(int count, double delay, SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            AddAudioLength(synthWishes.EchoDuration(count, delay));
+        }
+        
+        /// <inheritdoc cref="docs._audiolength" />
+        public void EnsureAudioLength(FlowNode audioLengthNeeded)
+        {
+            if (audioLengthNeeded == null) throw new ArgumentNullException(nameof(audioLengthNeeded));
+            SynthWishes synthWishes = audioLengthNeeded.SynthWishes;
+            double value = audioLengthNeeded.Value;
+            EnsureAudioLength(value, synthWishes);
+        }
+        
+        /// <inheritdoc cref="docs._audiolength" />
+        public void EnsureAudioLength(double audioLengthNeeded, SynthWishes synthWishes)
+        {
+            if (GetAudioLength(synthWishes).Value < audioLengthNeeded)
+            {
+                WithAudioLength(audioLengthNeeded, synthWishes);
+            }
+        }
+        
         /// <inheritdoc cref="docs._audiolength" />
         public void ResetAudioLength() => _audioLength = null;
-        
+
         // LeadingSilence
         
         private FlowNode _leadingSilence;
@@ -777,10 +806,15 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes AddAudioLength(FlowNode additionalLength) { Config.AddAudioLength(additionalLength); return this; }
         /// <inheritdoc cref="docs._audiolength" />
+        public SynthWishes AddEchoDuration(int count = 4, FlowNode delay = default) { Config.AddEchoDuration(count, delay, this); return this; }
+        /// <inheritdoc cref="docs._audiolength" />
+        public SynthWishes AddEchoDuration(int count, double delay) { Config.AddEchoDuration(count, delay, this); return this; }
+        /// <inheritdoc cref="docs._audiolength" />
+        public SynthWishes EnsureAudioLength(double additionalLength) { Config.EnsureAudioLength(additionalLength, this); return this; }
+        /// <inheritdoc cref="docs._audiolength" />
+        public SynthWishes EnsureAudioLength(FlowNode additionalLength) { Config.EnsureAudioLength(additionalLength); return this; }
+        /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes ResetAudioLength() { Config.ResetAudioLength(); return this; }
-        
-        public SynthWishes AddEchoDuration(int count = 4, FlowNode delay = default) => AddAudioLength(EchoDuration(count, delay));
-        public SynthWishes AddEchoDuration(int count, double delay) => AddAudioLength(EchoDuration(count, delay));
 
         public FlowNode GetLeadingSilence => Config.GetLeadingSilence(this);
         public SynthWishes WithLeadingSilence(double seconds) { Config.WithLeadingSilence(seconds, this); return this; }
@@ -923,11 +957,16 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._audiolength" />
         public FlowNode AddAudioLength(double additionalLength) { _synthWishes.AddAudioLength(additionalLength); return this; }
         /// <inheritdoc cref="docs._audiolength" />
+        public FlowNode AddEchoDuration(int count = 4, FlowNode delay = default) { _synthWishes.AddEchoDuration(count, delay); return this; }
+        /// <inheritdoc cref="docs._audiolength" />
+        public FlowNode AddEchoDuration(int count, double delay) { _synthWishes.AddEchoDuration(count, delay); return this; }
+        /// <inheritdoc cref="docs._audiolength" />
+        public FlowNode EnsureAudioLength(FlowNode additionalLength) { _synthWishes.EnsureAudioLength(additionalLength); return this; }
+        /// <inheritdoc cref="docs._audiolength" />
+        public FlowNode EnsureAudioLength(double additionalLength) { _synthWishes.EnsureAudioLength(additionalLength); return this; }
+        /// <inheritdoc cref="docs._audiolength" />
         public FlowNode ResetAudioLength() { _synthWishes.ResetAudioLength(); return this; }
                 
-        public FlowNode AddEchoDuration(int count = 4, FlowNode delay = default) { _synthWishes.AddEchoDuration(count, delay); return this; }
-        public FlowNode AddEchoDuration(int count, double delay) { _synthWishes.AddEchoDuration(count, delay); return this; }
-
         public FlowNode GetLeadingSilence => _synthWishes.GetLeadingSilence;
         public FlowNode WithLeadingSilence(double seconds) { _synthWishes.WithLeadingSilence(seconds); return this; }
         public FlowNode WithLeadingSilence(FlowNode seconds) { _synthWishes.WithLeadingSilence(seconds); return this; }
