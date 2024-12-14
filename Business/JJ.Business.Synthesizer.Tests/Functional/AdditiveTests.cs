@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [ t[1, 1.5], E5 , Metallophone, 1.0, NoteDuration ]
         [ t[1, 2.0], B4 , Metallophone, 0.5, NoteDuration ]
         [ t[1, 2.5], Cs5, Metallophone, 0.7, NoteDuration ]
-        [ t[1, 4.0], Fs4, Metallophone, 0.4, NoteDuration ].SetName();
+        [ t[1, 4.0], Fs4, Metallophone, 0.4, NoteDuration ];
 
         /// <inheritdoc cref="docs._metallophone"/>
         FlowNode MetallophoneChord => _
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [ E5 , Metallophone, 1.0, NoteDuration ]
         [ B4 , Metallophone, 0.5, NoteDuration ]
         [ Cs5, Metallophone, 0.7, NoteDuration ]
-        [ Fs4, Metallophone, 0.4, NoteDuration ].SetName();
+        [ Fs4, Metallophone, 0.4, NoteDuration ];
 
         /// <inheritdoc cref="docs._metallophone"/>
         FlowNode Metallophone(FlowNode freq, FlowNode duration = null)
