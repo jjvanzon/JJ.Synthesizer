@@ -11,13 +11,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 {
     internal static class EchoExtensions
     {
-        public static FlowNode MildEcho(this FlowNode x)
-            => x.Echo(count: 6, magnitude: x[0.25], delay: x[0.33])
-                .AddEchoDuration(count: 6, delay: x[0.33]);
+        public static FlowNode MildEcho(this FlowNode sound)
+            => sound.Echo(count: 6, magnitude: 0.25, delay: 0.33)
+                    .AddEchoDuration(count: 6, delay: 0.33);
 
-        public static FlowNode DeepEcho(this FlowNode x) 
-            => x.Echo(count: 7, magnitude: x[0.50], delay: x[0.50])
-                .AddEchoDuration(count: 7, delay: x[0.50]);
+        public static FlowNode DeepEcho(this FlowNode sound) 
+            => sound.Echo(count: 7, magnitude: 0.50, delay: 0.50)
+                    .AddEchoDuration(count: 7, delay: 0.50);
     }
     
     /// <inheritdoc cref="docs._fmtests"/>
