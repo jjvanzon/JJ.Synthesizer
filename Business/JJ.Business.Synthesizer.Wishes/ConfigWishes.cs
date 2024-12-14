@@ -810,9 +810,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes AddEchoDuration(int count, double delay) { Config.AddEchoDuration(count, delay, this); return this; }
         /// <inheritdoc cref="docs._audiolength" />
-        public SynthWishes EnsureAudioLength(double additionalLength) { Config.EnsureAudioLength(additionalLength, this); return this; }
+        public SynthWishes EnsureAudioLength(double audioLengthNeeded) { Config.EnsureAudioLength(audioLengthNeeded, this); return this; }
         /// <inheritdoc cref="docs._audiolength" />
-        public SynthWishes EnsureAudioLength(FlowNode additionalLength) { Config.EnsureAudioLength(additionalLength); return this; }
+        public SynthWishes EnsureAudioLength(FlowNode audioLengthNeeded) { Config.EnsureAudioLength(audioLengthNeeded, this); return this; }
         /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes ResetAudioLength() { Config.ResetAudioLength(); return this; }
 
@@ -961,9 +961,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._audiolength" />
         public FlowNode AddEchoDuration(int count, double delay) { _synthWishes.AddEchoDuration(count, delay); return this; }
         /// <inheritdoc cref="docs._audiolength" />
-        public FlowNode EnsureAudioLength(FlowNode additionalLength) { _synthWishes.EnsureAudioLength(additionalLength); return this; }
+        public FlowNode EnsureAudioLength(FlowNode audioLengthNeeded) { _synthWishes.EnsureAudioLength(audioLengthNeeded); return this; }
         /// <inheritdoc cref="docs._audiolength" />
-        public FlowNode EnsureAudioLength(double additionalLength) { _synthWishes.EnsureAudioLength(additionalLength); return this; }
+        public FlowNode EnsureAudioLength(double audioLengthNeeded) { _synthWishes.EnsureAudioLength(audioLengthNeeded); return this; }
         /// <inheritdoc cref="docs._audiolength" />
         public FlowNode ResetAudioLength() { _synthWishes.ResetAudioLength(); return this; }
                 
