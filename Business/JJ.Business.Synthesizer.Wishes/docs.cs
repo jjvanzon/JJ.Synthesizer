@@ -601,7 +601,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc
         ///     cref="_default" />
-        public static object _strikenote;
+        public static object _note;
 
         /// <summary>
         /// Turns an <see cref="Operator"/> graph into a string,

@@ -310,7 +310,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Note Operator
         
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="docs._note" />
         public FlowNode Note(
             FlowNode sound, FlowNode delay = default, FlowNode volume = default, FlowNode noteLength = default, 
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -341,16 +341,19 @@ namespace JJ.Business.Synthesizer.Wishes
             // Apply Delay
             if (delayFilledIn) sound = Delay(sound, delay);
             
+            // Extend AudioLength
+            EnsureAudioLength(delay + noteLength);
+            
             return sound.SetName(resolvedName);
         }
         
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="docs._note" />
         public FlowNode Note(
             FlowNode sound, FlowNode delay, double volume, FlowNode noteLength, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => Note(sound, delay, _[volume], noteLength, name, callerMemberName);
         
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="docs._note" />
         public FlowNode Note(
             FlowNode sound, FlowNode delay, double volume,
             string name = null, [CallerMemberName] string callerMemberName = null) 
