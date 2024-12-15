@@ -224,19 +224,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             ).SetName().Tape();
         }
 
-        FlowNode BaseHarmonics(FlowNode freq, FlowNode duration)
-        {
-            freq = freq ?? A4;
-
-            return Add
-            (
-                1.00 * Sine(freq * 1),
-                0.30 * Sine(freq * 2),
-                0.15 * Sine(freq * 5),
-                0.08 * Sine(freq * 7),
-                0.10 * Sine(freq * 9)
-            ).SetName().Tape(duration);
-        }
+        FlowNode BaseHarmonics(FlowNode freq, FlowNode duration) => 
+        ( freq * 1 ) [ Sine ] [ Volume, 1.00 ] +
+        ( freq * 2 ) [ Sine ] [ Volume, 0.30 ] +
+        ( freq * 5 ) [ Sine ] [ Volume, 0.15 ] +
+        ( freq * 7 ) [ Sine ] [ Volume, 0.08 ] +
+        ( freq * 9 ) [ Sine ] [ Volume, 0.10 ] 
+        .Tape(duration).SetName();
 
         /// <inheritdoc cref="docs._detune" />
         FlowNode DetunedHarmonics(
