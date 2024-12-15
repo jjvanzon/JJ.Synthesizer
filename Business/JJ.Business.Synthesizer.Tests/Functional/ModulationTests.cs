@@ -211,18 +211,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // WaveForms
 
         /// <inheritdoc cref="docs._semisaw" />
-        FlowNode SemiSaw(FlowNode freq)
-        {
-            freq = freq ?? A4;
-
-            return Add
-            (
-                freq.Times(1).Sine().Volume(1.0).Tape(),
-                freq.Times(2).Sine().Volume(0.5).Tape(),
-                freq.Times(3).Sine().Volume(0.3).Tape(), 
-                freq.Times(4).Sine().Volume(0.2).Tape()
-            ).SetName().Tape();
-        }
+        FlowNode SemiSaw(FlowNode freq) =>
+        ( freq * 1 ) [ Sine ] [ Volume, 1.0 ] +
+        ( freq * 2 ) [ Sine ] [ Volume, 0.5 ] +
+        ( freq * 3 ) [ Sine ] [ Volume, 0.3 ] + 
+        ( freq * 4 ) [ Sine ] [ Volume, 0.2 ]
+        .SetName().Tape();
 
         FlowNode BaseHarmonics(FlowNode freq, FlowNode duration) => 
         ( freq * 1 ) [ Sine ] [ Volume, 1.00 ] +
