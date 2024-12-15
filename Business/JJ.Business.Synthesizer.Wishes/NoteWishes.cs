@@ -387,7 +387,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             Func<FlowNode> sound,
             double vol, FlowNode len = null]
-            => Note(sound(), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(), default, vol, len, ResolveName(sound)); } }
 
         /// <summary><code>
         /// FlowNode Flute1() <br/><br/>
@@ -399,7 +399,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             Func<FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => Note(sound(), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(), default, vol, len, ResolveName(sound)); } }
 
         /// <summary><code>
         /// FlowNode Flute1() <br/><br/>
@@ -410,7 +410,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, Func<FlowNode> sound,
             double vol, FlowNode len = null]
-            => Note(sound(), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute1() <br/><br/>
@@ -422,7 +422,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, Func<FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => Note(sound(), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute1() <br/><br/>
@@ -433,7 +433,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, Func<FlowNode> sound,
             double vol, FlowNode len = null]
-            => Note(sound(), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(), t, vol, len, ResolveName(sound)); } }
 
         /// <summary><code>
         /// FlowNode Flute1() <br/><br/>
@@ -445,7 +445,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, Func<FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => Note(sound(), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(), t, vol, len, ResolveName(sound)); } }
         
         // Instrument with 1 Parameter Freq
         
@@ -458,7 +458,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => Note(sound(freq), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute2(FlowNode freq) <br/><br/>
@@ -470,7 +470,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => Note(sound(freq), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute2(FlowNode freq) <br/><br/>
@@ -481,7 +481,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => Note(sound(freq), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute2(FlowNode freq) <br/><br/>
@@ -493,7 +493,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => Note(sound(freq), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute2(FlowNode freq) <br/><br/>
@@ -504,7 +504,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => Note(sound(freq), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq), t, vol, len, ResolveName(sound)); } }
 
         /// <summary><code>
         /// FlowNode Flute2(FlowNode freq) <br/><br/>
@@ -516,7 +516,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => Note(sound(freq), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq), t, vol, len, ResolveName(sound)); } }
         
         // Instrument with 2 Parameters Freq and Len
         
@@ -529,7 +529,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => Note(sound(freq, len), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
@@ -541,7 +541,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => Note(sound(freq, len), default, vol, len, ResolveName(sound));
+        { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
@@ -552,7 +552,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => Note(sound(freq, len), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
@@ -564,7 +564,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => Note(sound(freq, len), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
@@ -575,7 +575,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
-            => Note(sound(freq, len), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len), t, vol, len, ResolveName(sound)); } }
 
         /// <summary><code>
         /// FlowNode Flute3(FlowNode freq, FlowNode len = null) <br/><br/>
@@ -587,7 +587,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
-            => Note(sound(freq, len), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len), t, vol, len, ResolveName(sound)); } }
 
         // Instruments with 1 Effect Parameter (Optional)
         
@@ -601,7 +601,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null]
-            => Note(sound(freq, len, fx1), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
@@ -614,7 +614,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
-            => Note(sound(freq, len, fx1), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
@@ -626,7 +626,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null]
-            => Note(sound(freq, len, fx1), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
@@ -639,7 +639,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
-            => Note(sound(freq, len, fx1), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
@@ -651,7 +651,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null]
-            => Note(sound(freq, len, fx1), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1), t, vol, len, ResolveName(sound)); } }
 
         /// <summary><code>
         /// FlowNode Flute4(FlowNode freq, FlowNode len = null, FlowNode fx1 = null) <br/><br/>
@@ -664,7 +664,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound, 
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null] 
-            => Note(sound(freq, len, fx1), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1), t, vol, len, ResolveName(sound)); } }
         
         // Instruments with 2 Effect Parameters (Optional)
         
@@ -679,7 +679,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => Note(sound(freq, len, fx1, fx2), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
@@ -693,7 +693,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => Note(sound(freq, len, fx1, fx2), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
@@ -706,7 +706,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => Note(sound(freq, len, fx1, fx2), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
@@ -720,7 +720,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => Note(sound(freq, len, fx1, fx2), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
@@ -733,7 +733,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => Note(sound(freq, len, fx1, fx2), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2), t, vol, len, ResolveName(sound)); } }
 
         /// <summary><code>
         /// FlowNode Flute5(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null) <br/><br/>
@@ -747,7 +747,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
-            => Note(sound(freq, len, fx1, fx2), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2), t, vol, len, ResolveName(sound)); } }
         
         // Instruments with 3 Effect Parameters (Optional)
         
@@ -762,7 +762,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
@@ -776,7 +776,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
@@ -789,7 +789,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
@@ -803,7 +803,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
@@ -816,7 +816,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3), t, vol, len, ResolveName(sound)); } }
 
         /// <summary><code>
         /// FlowNode Flute6(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null) <br/><br/>
@@ -830,7 +830,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3), t, vol, len, ResolveName(sound)); } }
 
         // Instruments with 4 Effect Parameters (Optional)
         
@@ -847,7 +847,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
@@ -863,7 +863,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3, fx4), default, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
@@ -878,7 +878,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3, fx4), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3, fx4), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
@@ -894,7 +894,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3, fx4), _[t], vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3, fx4), _[t], vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
@@ -909,7 +909,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len, ResolveName(sound)); } }
         
         /// <summary><code>
         /// FlowNode Flute7(FlowNode freq, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null) <br/><br/>
@@ -925,7 +925,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
-            => Note(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len, ResolveName(sound));
+            { get { len = GetNoteLengthSnapShot(len); return Note(sound(freq, len, fx1, fx2, fx3, fx4), t, vol, len, ResolveName(sound)); } }
     }
 
     // FlowNode
