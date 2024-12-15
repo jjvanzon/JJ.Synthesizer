@@ -89,7 +89,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         [TestMethod] public void Detunica5_Test() => Run(Detunica5);
         void Detunica5() => WithNoteLength(3) [E5, Detunica5] [Volume, 0.6] [DeepEcho].AddAudioLength(DeepEchoDuration).Save().Play();
-        void Detunica5() => _[E5, Detunica5, 0.6, len:_[3]][DeepEcho].AddAudioLength(DeepEchoDuration).Save().Play();
         
         [TestMethod] public void Vibraphase_Chord_Test() => Run(Vibraphase_Chord);
         void Vibraphase_Chord()
@@ -235,8 +234,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             FlowNode duration = null,
             FlowNode depthAdjust1 = null, FlowNode depthAdjust2 = null)
         {
-            duration = GetNoteLength(duration);
-            
             var saw      = SemiSaw(freq);
             var jittered = Jitter(saw, depthAdjust1, depthAdjust2);
             var envelope = Curve(@"
