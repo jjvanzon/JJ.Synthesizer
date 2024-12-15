@@ -33,13 +33,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             DeepEcho(DetunicaJingle).Volume(0.8).Save().Play();
         }
 
-        [TestMethod] public void DetunicaBass_Test() => Run(DetunicaBass);
-        internal void DetunicaBass()
-        {
-            var duration = _[4.5];
-            WithAudioLength(duration);
-            _[E0, DetunicaBass, 0.9, duration][DeepEcho].AddAudioLength(DeepEchoDuration).Save().Play();
-        }
+        [TestMethod] public void DetunicaBass_Test() => Run(DetunicaBass); void DetunicaBass() => _
+        [ E0, DetunicaBass, 0.9, len:_[4.5] ] [DeepEcho]
+        .AddAudioLength(DeepEchoDuration).Save().Play();
 
         [TestMethod] public void Detunica1Note1_Test() => Run(Detunica1); void Detunica1() => _
         [ E2, Detunica1, 0.3, len:_[3] ] [DeepEcho]
