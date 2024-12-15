@@ -84,6 +84,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Mono_Intercept()
         { 
             WithMono();
+            WithAudioLength(0.72);
             
             Buff buff = default;
             
@@ -98,6 +99,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Mono_Intercept_2Calls()
         { 
             WithMono();
+            WithAudioLength(0.72);
             
             Buff buff1 = default;
             Buff buff2 = default;
@@ -171,6 +173,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Mono_InterceptChannel()
         {
             WithMono();
+            WithAudioLength(0.72);
             
             Buff buff = default;
             
@@ -185,6 +188,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Mono_InterceptChannel_2Calls()
         {
             WithMono();
+            WithAudioLength(0.72);
             
             Buff buff1 = default;
             Buff buff2 = default;
@@ -204,6 +208,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Mono_InterceptChannel_3Calls()
         {
             WithMono();
+            WithAudioLength(0.72);
             
             Buff buff1 = default;
             Buff buff2 = default;
@@ -221,6 +226,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => buff1);
             IsNotNull(() => buff2);
             IsNotNull(() => buff3);
+        
+            buff1.Play();
+            buff2.Play();
+            buff3.Play();
         }
         
         [TestMethod] public void Stereo_Play_Test() => WithStereo().Run(Stereo_Play);
@@ -251,6 +260,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Stereo_Intercept()
         { 
             WithStereo();
+            WithAudioLength(0.72);
                 
             Buff buff = default;
             
@@ -265,6 +275,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Stereo_Intercept_2Calls()
         { 
             WithStereo();
+            WithAudioLength(0.72);
                 
             Buff buff1 = default;
             Buff buff2 = default;
@@ -308,7 +319,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Stereo_InterceptChannel()
         { 
             WithStereo();
-            WithAudioLength(0.5);
+            WithAudioLength(0.72);
             
             var buffs = new Buff[2];
             
@@ -317,8 +328,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => buffs[0]);
             IsNotNull(() => buffs[1]);
             
-            buffs[0].Play(); Sleep(1000);
-            buffs[1].Play(); Sleep(1000);
+            buffs[0].Save().Play(); Sleep(1000);
+            buffs[1].Save().Play(); Sleep(1000);
             
             Run(() => (Sample(buffs[0]).Panning(0) +
                        Sample(buffs[1]).Panning(1)).Save().Play());
@@ -328,7 +339,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Stereo_InterceptChannel_2Calls()
         {
             WithStereo();
-            WithAudioLength(0.5);
+            WithAudioLength(0.72);
             
             var buffs1 = new Buff[2];
             var buffs2 = new Buff[2];
@@ -342,10 +353,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => buffs2[0]);
             IsNotNull(() => buffs2[1]);
         
-            buffs1[0].Play(); Sleep(1000);
-            buffs1[1].Play(); Sleep(1000);
-            buffs2[0].Play(); Sleep(1000);
-            buffs2[1].Play(); Sleep(1000);
+            buffs1[0].Save().Play(); Sleep(1000);
+            buffs1[1].Save().Play(); Sleep(1000);
+            buffs2[0].Save().Play(); Sleep(1000);
+            buffs2[1].Save().Play(); Sleep(1000);
 
             Run(() => (Sample(buffs1[0]).Panning(0) +
                        Sample(buffs1[1]).Panning(1)).Save().Play());
@@ -356,7 +367,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // Complex Cases
         
-        [TestMethod] public void Stereo_MultipleActions_Test() => new MidChainStreamingTests().Stereo_MultipleActions();
+        [TestMethod] public void Stereo_MultipleActions_Test() => Run(Stereo_MultipleActions);
         void Stereo_MultipleActions() 
         {
             WithStereo();
@@ -378,7 +389,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Stereo_RecombineChannelsExplicit() 
         {
             WithStereo();
-            WithAudioLength(0.5);
+            WithAudioLength(0.72);
             
             var buffs = new Buff[2];
             
