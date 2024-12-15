@@ -42,16 +42,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             _[DetunicaBass, E0, duration][DeepEcho].Multiply(0.9).Save().Play();
         }
 
-        /// <inheritdoc cref="docs._detunica" />
-        [TestMethod] public void Detunica1Note1_Test() => Run(Detunica1);
-        /// <inheritdoc cref="docs._detunica" />
-        void Detunica1()
-        {
-            var duration = _[3];
-            WithAudioLength(duration + DeepEchoDuration);
-            
-            _[E2, Detunica1, _, duration][DeepEcho][Volume, 0.15].Save().Play();
-        }
+        [TestMethod] public void Detunica1Note1_Test() => Run(Detunica1); void Detunica1() => _
+        [ E2, Detunica1, 0.3, len:_[3] ] [DeepEcho]
+        .AddAudioLength(DeepEchoDuration).Save().Play();
 
         [TestMethod] public void Detunica2_Test() => Run(Detunica2);
         void Detunica2()
