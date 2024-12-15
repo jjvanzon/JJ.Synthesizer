@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
@@ -125,6 +125,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var sb = new StringBuilderWithIndentationWish("   ", NewLine);
             PlotTapeHierarchy(tapes, sb, includeCalculationGraphs);
+            sb.AppendLine();
             return sb.ToString();
         }
         
@@ -132,59 +133,101 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             sb.AppendLine("Tape Tree");
             sb.AppendLine("---------");
+            sb.AppendLine();
             
-            if (tapes == null)
+            // Handle edge cases
+            if (tapes == null) { sb.AppendLine("<Tapes=null>"); return; }
+            if (tapes.Count == 0) { sb.AppendLine("<Tapes.Count=0>"); return; }
+            if (tapes.Any(x => x == null))
             {
-                sb.AppendLine("<Tapes=null>");
-                sb.AppendLine();
+                for (var i = 0; i < tapes.Count; i++)
+                {
+                    if (tapes[i] == null) sb.AppendLine($"<Tape[{i}]=null>");
+                }
                 return;
             }
             
-            if (tapes.Count == 0)
-            {
-                sb.AppendLine("<Tapes.Count=0>");
-                sb.AppendLine();
-                return;
-            }
+            var roots = tapes.Where(tape => tape.ParentTapes.Count == 0).ToArray();
             
-            IList<Tape> roots = tapes.Where(tape => tape?.ParentTape == null).ToArray();
-            if (roots.Count == 0)
+            var multiUseTapes = tapes.Where(tape => tape.ParentTapes.Count > 1).ToArray();
+            
+            // Generate List of Main Tapes
+
+            sb.AppendLine("Roots:");
+            if (roots.Length == 0)
             {
                 sb.AppendLine($"<{tapes.Count} tapes but no roots>");
-                foreach (Tape tape in tapes)
+            }
+            else
+            {
+                foreach (var tape in roots)
                 {
-                    sb.AppendLine(tape == null ? "<Tape=null>" : tape.GetName);
+                    sb.AppendLine(GetTapeDescriptor(tape));
                 }
             }
-            
-            foreach(var root in roots)
-            {
-                PlotTapeHierarchyRecursive(root, sb, includeCalculationGraphs);
-            }
-            
             sb.AppendLine();
+            
+            if (multiUseTapes.Length > 0)
+            {
+                sb.AppendLine("Multi-Use:");
+                foreach (var tape in multiUseTapes)
+                { 
+                    sb.AppendLine(GetTapeDescriptor(tape));
+                }
+            }
+            sb.AppendLine();
+            
+            // Plot Hierarchy
+            
+            foreach(var tape in roots)
+            {
+                PlotTapeHierarchyRecursive(tape, sb, includeCalculationGraphs);
+            }
+
+            sb.AppendLine();
+            
+            foreach(var tape in multiUseTapes)
+            {
+                PlotTapeHierarchyRecursive(tape, sb, includeCalculationGraphs, skipMultiUse: false);
+            }
         }
         
-        private static void PlotTapeHierarchyRecursive(Tape tape, StringBuilderWithIndentationWish sb, bool includeCalculationGraphs)
+        private static void PlotTapeHierarchyRecursive(
+            Tape tape, StringBuilderWithIndentationWish sb, bool includeCalculationGraphs, bool skipMultiUse = true)
         {
-            if (tape == null) 
-            {
-                sb.AppendLine("<Tape=null>");
-                return;
-            }
-                
-            if (tape.ChildTapes == null) 
-            {
-                sb.AppendLine("<Tape.ChildTapes=null)>");
-                return;
-            }
+            // Handle edge-cases
+            if (tape == null) { sb.AppendLine("<Tape=null>"); return; }
+            if (tape.ChildTapes == null) { sb.AppendLine("<Tape.ChildTapes=null)>"); return; }
+            if (tape.ParentTapes == null) { sb.AppendLine("<Tape.ParentTapes=null)>"); return; }
             
-            string formattedCalculation = default;
-            if (includeCalculationGraphs)
+            bool isMultiUse = tape.ParentTapes.Count > 1;
+            if (isMultiUse)
             {
-                formattedCalculation = "   | " + (tape.Signal?.ToString() ?? "<Signal=null>");
+                if (skipMultiUse)
+                {
+                    // Redirection
+                    sb.AppendLine($" => {tape.GetName} (ID {tape.Signal?.UnderlyingOperator?.ID}) ..."); 
+                    return; 
+                }
             }
-            sb.AppendLine(GetTapeDescriptor(tape) + formattedCalculation);
+
+            string formattedTape;
+            {
+                var sb2 = new StringBuilder();
+                if (isMultiUse) 
+                {
+                    // Continuation
+                    sb2.Append($"=> (ID {tape.Signal?.UnderlyingOperator?.ID}) ");
+                }
+                sb2.Append(GetTapeDescriptor(tape));
+                if (includeCalculationGraphs)
+                {
+                    sb2.Append("   | " + (tape.Signal?.ToString() ?? "<Signal=null>"));
+                }
+                
+                formattedTape = sb2.ToString();
+            }
+            sb.AppendLine(formattedTape);
             
             foreach (Tape childTape in tape.ChildTapes)
             {
@@ -237,7 +280,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return prefix + nameDescriptor + flagDescriptor;
         }
 
-        public static string FormatTapeDescriptors(IList<Tape> tapes)
+        public static string GetTapeDescriptors(IList<Tape> tapes)
         {
            if (!FilledIn(tapes)) return default;
            string[] tapeDescriptors = tapes.Where(x => x != null).Select(GetTapeDescriptor).ToArray();
@@ -254,7 +297,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (FilledIn(tapesLeft))
             {
-                return prefix + NewLine + FormatTapeDescriptors(tapesLeft);
+                return prefix + NewLine + GetTapeDescriptors(tapesLeft);
             }
             else
             {

@@ -27,9 +27,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Tape tape = _tapes.TryGet(node);
             if (tape != null)
             {
-                if (parentTape != null && tape.ParentTape == null)
+                if (parentTape != null)
                 {
-                    tape.ParentTape = parentTape;
+                    tape.ParentTapes.Add(parentTape);
                     parentTape.ChildTapes.Add(tape);
                 }
                 
@@ -45,10 +45,16 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private static void SetTapeNestingLevelsRecursive(IList<Tape> tapes)
         {
-            var roots = tapes.Where(x => x.ParentTape == null).ToArray();
+            var roots = tapes.Where(x => x.ParentTapes.Count == 0).ToArray();
             foreach (Tape root in roots)
             {
                 SetTapeNestingLevelsRecursive(root);
+            }
+
+            var multiUseTapes = tapes.Where(x => x.ParentTapes.Count > 1).ToArray();
+            foreach (Tape multiUseTape in multiUseTapes)
+            {
+                SetTapeNestingLevelsRecursive(multiUseTape);
             }
         }
 
@@ -60,6 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             foreach (Tape child in tape.ChildTapes)
             {
                 if (child == null) continue;
+                if (child.ParentTapes.Count > 1) continue;
                 SetTapeNestingLevelsRecursive(child, level);
             }
         }

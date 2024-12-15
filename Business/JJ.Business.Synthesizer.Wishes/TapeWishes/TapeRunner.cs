@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
-using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.TimeOutActionEnum;
@@ -160,30 +159,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 // Don’t let a thread crash cause the while loop for child tapes to retry infinitely.
                 // Exceptions will propagate after the while loop (where we wait for all tasks to finish),
                 // so let’s make sure the while loop can finish properly.
-                CleanupParentChildRelationship(tape);
+                
+                //lock (_hierarchyLock)
+                //{
+                tape.ClearRelationships();
+                //}
                 
                 _checkForNewLeavesReset.Set();
             }
-        }
-        
-        //private readonly object _hierarchyLock = new object();
-        private void CleanupParentChildRelationship(Tape leaf)
-        {
-            //int retries = 3;
-            //for (int i = 1; i <= retries; i++)
-            //{
-            //    try
-            //    lock (_hierarchyLock)
-                  {
-                    leaf.ParentTape?.ChildTapes.Remove(leaf);
-                    leaf.ParentTape = null;
-                  }
-            //    catch (Exception ex)
-            //    {
-            //        LogAction(leaf, "Error removing leaf from hierarchy. " + NewLine + ex);
-            //        if (i == retries) throw;
-            //    }
-            //}
         }
         
         private void HandleTimeOut(TimeOutActionEnum timeOutAction, int timeOutInMs, int todoCount, Tape[] tapesTODO)

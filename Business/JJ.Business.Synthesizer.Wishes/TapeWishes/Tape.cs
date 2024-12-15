@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
@@ -34,10 +35,25 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public Func<Buff, int, Buff> ChannelCallback { get; set; }
         public Buff Buff { get; set; }
         
-        public Tape ParentTape { get; set; }
-        public IList<Tape> ChildTapes { get; } = new List<Tape>();
+        public HashSet<Tape> ParentTapes { get; } = new HashSet<Tape>();
+        public HashSet<Tape> ChildTapes { get; } = new HashSet<Tape>();
         public int NestingLevel { get; set; }
         
+        public void ClearRelationships()
+        {
+            foreach (var parent in ParentTapes.ToArray())
+            {
+                ParentTapes.Remove(parent);
+                parent.ChildTapes.Remove(this);
+            }
+
+            foreach (var child in ChildTapes.ToArray())
+            {
+                ChildTapes.Remove(child);
+                child.ParentTapes.Remove(this);
+            }
+}
+
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }
