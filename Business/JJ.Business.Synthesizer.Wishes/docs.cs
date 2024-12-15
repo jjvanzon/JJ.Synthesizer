@@ -408,38 +408,32 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc
         ///     cref="docs._default" />
         public static object _noteindexer;
-
         
         /// <summary>
         /// Manages note length configuration and fallback logic for consistent handling in audio synthesis.
         /// Provides methods to set, reset, retrieve, and snapshot note lengths, ensuring alignment with 
         /// specified or default values set within the <see cref="SynthWishes">SynthWishes</see>.
         /// 
-        /// <p> Fallback Logic: <br/>
-        /// If <paramref name="noteLength"/> is null, the system follows a hierarchy of fallbacks: <br/>
-        /// 1. Uses the note length explicitly set using <see cref=WithNoteLength">WithNoteLength()</see>. <br/>
-        /// 2. Falls back to the <c>BeatLength</c> if available. <br/>
-        /// 3. Falls back to the <c>noteLength</c> value from the config file. <br/>
-        /// 4. Ultimately, defaults to <c>0.5</c> seconds. </p>
+        /// <para>Fallback Logic:</para>
+        /// If <paramref name="noteLength"/> is null, the system follows a hierarchy of fallbacks:
+        /// 1. Uses the note length explicitly set using <see cref="WithNoteLength">WithNoteLength()</see>.
+        /// 2. Falls back to the <c>BeatLength</c> if available.
+        /// 3. Falls back to the <c>noteLength</c> value from the config file.
+        /// 4. Ultimately defaults to <c>0.5</c> seconds.
         ///
-        /// <p> Snapshot Functionality: <br/>
-        /// - The <see cref="GetNoteLengthSnapShot">GetNoteLengthSnapShot</see> method
-        ///   resolves dynamic note lengths for a specific moment in
-        ///   <paramref name="time"/> and audio <paramref name="channel"/>. <br/>
-        /// - This ensures consistent values for operations that require fixed note lengths,
-        ///   such as buffer size cut-offs and volume curve lengths. <br/> </p>
-        /// 
-        /// <p> Members <br/>
-        /// - <see cref="GetNoteLength">GetNoteLength</see>:
-        ///   Resolves the effective note length using the fallback hierarchy. <br/>
-        /// - <see cref="WithNoteLength">WithNoteLength</see>:
-        ///    Explicitly sets the note length, either as a <see cref="FlowNode"/>FlowNode</see>
-        ///    or as a <c>double</c>.<br/>
-        /// - <see cref="ResetNoteLength">ResetNoteLength</see>
-        ///   Clears any explicitly configured note length, allowing fallbacks to take over. <br/>
-        /// - <see cref="GetNoteLengthSnapShot">GetNoteLengthSnapShot</see>:
-        ///   Captures the resolved note length at a specific time and channel, ensuring stability
-        ///   for use in scenarios requiring fixed lengths e.g., for buffer sizes and curve lengths. </p>
+        /// <para>Snapshot Functionality:</para>
+        /// The <see cref="SynthWishes.GetNoteLengthSnapShot">GetNoteLengthSnapShot</see> method resolves dynamic note lengths 
+        /// for a specific moment in <paramref name="time"/> and audio <paramref name="channel"/>.
+        /// This ensures consistent values for operations that require fixed note lengths,
+        /// such as buffer size cut-offs and volume curve lengths.
+        ///
+        /// <para>Members:</para>
+        /// <see cref="SynthWishes.GetNoteLength">GetNoteLength</see>: Resolves the effective note length using the fallback hierarchy.<br/>
+        /// <see cref="SynthWishes.WithNoteLength">WithNoteLength</see>: Explicitly sets the note length, either as a <see cref="FlowNode">FlowNode</see>
+        /// or as a <c>double</c>.<br/>
+        /// <see cref="SynthWishes.ResetNoteLength">ResetNoteLength</see>: Clears any explicitly configured note length, allowing fallbacks to take over.<br/>
+        /// <see cref="SynthWishes.GetNoteLengthSnapShot">GetNoteLengthSnapShot</see>: Captures the resolved note length at a specific time and channel, 
+        /// ensuring stability for use in scenarios requiring fixed lengths, such as buffer sizes and curve lengths.
         /// </summary>
         /// <param name="noteLength">
         /// An optional <see cref="FlowNode">FlowNode</see> specifying the desired note length. If null, the system 
