@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff =
                 MakeBuff(
                     func, duration,
-                    inMemory: !GetCacheToDisk, mustPad: true, null, name, null, callerMemberName);
+                    inMemory: true, mustPad: true, null, name, null, callerMemberName);
 
             Buff buff2 = InternalPlay(this, buff);
 
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff =
                 MakeBuff(
                     channel, duration,
-                    inMemory: !GetCacheToDisk, mustPad: true, null, name, null, callerMemberName);
+                    inMemory: true, mustPad: true, null, name, null, callerMemberName);
             
             Buff buff2 = InternalPlay(this, buff);
 
@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff =
                 MakeBuff(
                     channelSignals, duration,
-                    inMemory: !GetCacheToDisk, mustPad: true, null, name, null, callerMemberName);
+                    inMemory: true, mustPad: true, null, name, null, callerMemberName);
             
             Buff buff2 = InternalPlay(this, buff);
 

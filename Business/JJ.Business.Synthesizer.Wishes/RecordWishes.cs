@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 func, null,
-                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
+                inMemory: true, default, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Record(
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
                 func, duration,
-                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
+                inMemory: true, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Record(
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 func, null,
-                inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
+                inMemory: true, mustPad, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Record(
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
                 func, duration, 
-                inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
+                inMemory: true, mustPad, null, name, null, callerMemberName);
 
         // With FlowNode
         
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 new[] { signal }, null, 
-                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
+                inMemory: true, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Record(
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 new[] { signal }, duration,
-                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
+                inMemory: true, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Record(
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
                 new[] { signal }, duration, 
-                inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
+                inMemory: true, mustPad, null, name, null, callerMemberName);
         
         // With List of FlowNodes
         
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 channelSignals, null,
-                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
+                inMemory: true, default, null, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Record(
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
                 channelSignals, duration, 
-                inMemory: !GetCacheToDisk, default, null, name, null, callerMemberName);
+                inMemory: true, default, null, name, null, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Record(
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string name = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuff(
                 channelSignals, duration, 
-                inMemory: !GetCacheToDisk, mustPad, null, name, null, callerMemberName);
+                inMemory: true, mustPad, null, name, null, callerMemberName);
         
         // Statics (Buff to Buff) (End-Of-Chain)
         

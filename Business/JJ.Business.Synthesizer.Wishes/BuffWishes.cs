@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 IList<string> warnings = additionalMessages.Union(configWarnings).ToArray();
                 
                 // Write Audio
-                buff = MakeBuff(audioFileOutput, inMemory, GetExtraBufferFrames, warnings, name, filePath);
+                buff = MakeBuff(audioFileOutput, inMemory && !GetCacheToDisk, GetExtraBufferFrames, warnings, name, filePath);
             }
             finally
             {
