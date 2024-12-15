@@ -26,18 +26,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Tests
 
-        /// <inheritdoc cref="docs._detunica" />
         [TestMethod, TestCategory("Long")] public void Detunica_Jingle_Test() => Run(Detunica_Jingle);
-        /// <inheritdoc cref="docs._detunica" />
         internal void Detunica_Jingle()
         {
             WithPlay().WithAudioLength(bars[7] + DeepEchoDuration);
             DeepEcho(DetunicaJingle).Volume(0.8).Save().Play();
         }
 
-        /// <inheritdoc cref="docs._detunica" />
         [TestMethod] public void DetunicaBass_Test() => Run(DetunicaBass);
-        /// <inheritdoc cref="docs._detunica" />
         internal void DetunicaBass()
         {
             var duration = _[4.5];
