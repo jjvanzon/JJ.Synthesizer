@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 // is not compatible with that of the delegate type."
                 // Honestly I don't know how to solve other than catch the exception.
                 Console.WriteLine(
-                    $"{PrettyTime()} [RUN] " +
+                    $"{PrettyTime()} [RUN] Warning: " +
                     $"Unable to create new {concreteType.Name} instance for action {methodInfo.Name}. " +
                     $"Using current instance instead. Exception: {NewLine}{ex.Message}");
                 RunOnThisInstance(action);

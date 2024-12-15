@@ -147,8 +147,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 return;
             }
             
-            var roots = tapes.Where(tape => tape.ParentTapes.Count == 0).ToArray();
+            // Get Mail Lists
             
+            var roots = tapes.Where(tape => tape.ParentTapes.Count == 0).ToArray();
             var multiUseTapes = tapes.Where(tape => tape.ParentTapes.Count > 1).ToArray();
             
             // Generate List of Main Tapes
@@ -174,8 +175,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 { 
                     sb.AppendLine(GetTapeDescriptor(tape));
                 }
+                sb.AppendLine();
             }
-            sb.AppendLine();
             
             // Plot Hierarchy
             
@@ -217,7 +218,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (isMultiUse) 
                 {
                     // Continuation
-                    sb2.Append($"=> (ID {tape.Signal?.UnderlyingOperator?.ID}) ");
+                    //sb2.Append($"=> (ID {tape.Signal?.UnderlyingOperator?.ID}) ");
+                    sb2.Append("=> ");
                 }
                 sb2.Append(GetTapeDescriptor(tape));
                 if (includeCalculationGraphs)
@@ -269,15 +271,15 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.Channel.HasValue) flagStrings.Add($"c{tape.Channel}");
             if (tape.Duration != null) flagStrings.Add($"{tape.Duration.Value}s");
 
-            
-            
             string flagDescriptor = default;
             if (flagStrings.Count > 0)
             {
                 flagDescriptor = " {" + Join(",", flagStrings) + "}";
             }
-
-            return prefix + nameDescriptor + flagDescriptor;
+            
+            string idDescriptor = $" (ID {tape.Signal?.UnderlyingOperator?.ID})";
+            
+            return prefix + nameDescriptor + flagDescriptor + idDescriptor;
         }
 
         public static string GetTapeDescriptors(IList<Tape> tapes)
