@@ -229,18 +229,18 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detune" />
         FlowNode DetunedHarmonics
         (FlowNode freq, FlowNode duration, FlowNode churnRate = null, FlowNode interferenceRate = null, FlowNode chorusRate = null) =>
-        DetuneFreq(freq, 1, duration, churnRate, interferenceRate, chorusRate) [ Sine ] [ Volume, 1.00 ] +
-        DetuneFreq(freq, 2, duration, churnRate, interferenceRate, chorusRate) [ Sine ] [ Volume, 0.30 ] +
-        DetuneFreq(freq, 5, duration, churnRate, interferenceRate, chorusRate) [ Sine ] [ Volume, 0.15 ] +
-        DetuneFreq(freq, 7, duration, churnRate, interferenceRate, chorusRate) [ Sine ] [ Volume, 0.08 ] +
-        DetuneFreq(freq, 9, duration, churnRate, interferenceRate, chorusRate) [ Sine ] [ Volume, 0.10 ]
+        _[ DetuneFreq, freq, _[1], duration, churnRate, interferenceRate, chorusRate ] [ Sine ] [ Volume, 1.00 ] +
+        _[ DetuneFreq, freq, _[2], duration, churnRate, interferenceRate, chorusRate ] [ Sine ] [ Volume, 0.30 ] +
+        _[ DetuneFreq, freq, _[5], duration, churnRate, interferenceRate, chorusRate ] [ Sine ] [ Volume, 0.15 ] +
+        _[ DetuneFreq, freq, _[7], duration, churnRate, interferenceRate, chorusRate ] [ Sine ] [ Volume, 0.08 ] +
+        _[ DetuneFreq, freq, _[9], duration, churnRate, interferenceRate, chorusRate ] [ Sine ] [ Volume, 0.10 ]
         .SetName().Tape(duration);
 
         // Effects
 
         /// <inheritdoc cref="docs._detune" />
         FlowNode DetuneFreq(
-            FlowNode freq, int harmonic, FlowNode duration,
+            FlowNode freq, FlowNode harmonic, FlowNode duration,
             FlowNode churnRate = null, FlowNode interfereRate = null, FlowNode chorusRate = null)
         {
             var detunedFreq = freq;
