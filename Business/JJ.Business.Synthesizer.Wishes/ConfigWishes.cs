@@ -36,6 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Audio Lengths
         
+        /// <inheritdoc cref="docs._notelength" />
         [XmlAttribute] public double? NoteLength { get; set; }
         [XmlAttribute] public double? BarLength { get; set; }
         [XmlAttribute] public double? BeatLength { get; set; }
@@ -94,6 +95,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Audio Lengths
         
+        /// <inheritdoc cref="docs._notelength" />
         private const double DefaultNoteLength      = 0.50;
         private const double DefaultBarLength       = 1.00;
         private const double DefaultBeatLength      = 0.25;
@@ -245,10 +247,13 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // NoteLength
         
+        /// <inheritdoc cref="docs._notelength" />
         private FlowNode _noteLength;
         
+        /// <inheritdoc cref="docs._notelength" />
         public FlowNode GetNoteLength(SynthWishes synthWishes) => GetNoteLength(synthWishes, null);
 
+        /// <inheritdoc cref="docs._notelength" />
         public FlowNode GetNoteLength(SynthWishes synthWishes, FlowNode noteLength)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
@@ -256,23 +261,43 @@ namespace JJ.Business.Synthesizer.Wishes
             noteLength = noteLength ?? _noteLength ?? _beatLength;
             noteLength = noteLength ?? synthWishes[_section.NoteLength ?? DefaultNoteLength];
             return noteLength;
-            
-            // Take snapshot value of noteLength,
-            // for consistent volume curve lengths and buffer size cut-offs.
-            double value = noteLength.Value;
-            
-            return synthWishes.Value(value);
         }
         
-        public void WithNoteLength(FlowNode noteLength) => _noteLength = noteLength ?? throw new NullException(() => noteLength);
+        /// <inheritdoc cref="docs._notelength" />
+        public void WithNoteLength(FlowNode noteLength) => _noteLength = noteLength;
         
+        /// <inheritdoc cref="docs._notelength" />
         public void WithNoteLength(double noteLength, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             WithNoteLength(synthWishes[noteLength]);
         }
         
+        /// <inheritdoc cref="docs._notelength" />
         public void ResetNoteLength() => _noteLength = null;
+
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, FlowNode noteLength, double time, int channel)
+        {
+            noteLength = GetNoteLength(synthWishes, noteLength);
+            double noteLengthValue = noteLength.Calculate(time, channel);
+            return synthWishes.Value(noteLengthValue);
+        }
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes) 
+            => GetNoteLengthSnapShot(synthWishes, null, 0, 0);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, double time) 
+            => GetNoteLengthSnapShot(synthWishes, null, time, 0);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, double time, int channel) 
+            => GetNoteLengthSnapShot(synthWishes, null, time, channel);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, FlowNode noteLength) 
+            => GetNoteLengthSnapShot(synthWishes, noteLength, 0, 0);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, FlowNode noteLength, double time) 
+            => GetNoteLengthSnapShot(synthWishes, noteLength, time, 0);
         
         // BarLength
         
@@ -764,12 +789,35 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Durations
         
+        /// <inheritdoc cref="docs._notelength" />
         public FlowNode GetNoteLength() => Config.GetNoteLength(this);
+        /// <inheritdoc cref="docs._notelength" />
         public FlowNode GetNoteLength(FlowNode noteLength) => Config.GetNoteLength(this, noteLength);
+        /// <inheritdoc cref="docs._notelength" />
         public SynthWishes WithNoteLength(FlowNode seconds) { Config.WithNoteLength(seconds); return this; }
+        /// <inheritdoc cref="docs._notelength" />
         public SynthWishes WithNoteLength(double seconds) { Config.WithNoteLength(seconds, this); return this; }
+        /// <inheritdoc cref="docs._notelength" />
         public SynthWishes ResetNoteLength() { Config.ResetNoteLength(); return this; }
-        
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot() 
+            => Config.GetNoteLengthSnapShot(this);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(double time) 
+            => Config.GetNoteLengthSnapShot(this, time);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(double time, int channel) 
+            => Config.GetNoteLengthSnapShot(this, time, channel);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength) 
+            => Config.GetNoteLengthSnapShot(this, noteLength);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength, double time) 
+            => Config.GetNoteLengthSnapShot(this, noteLength, time);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength, double time, int channel) 
+            => Config.GetNoteLengthSnapShot(this, noteLength, time, channel);
+
         public FlowNode GetBarLength => Config.GetBarLength(this);
         public SynthWishes WithBarLength(FlowNode seconds) { Config.WithBarLength(seconds); return this; }
         public SynthWishes WithBarLength(double seconds) { Config.WithBarLength(seconds, this); return this; }
@@ -915,12 +963,35 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Durations
         
+        /// <inheritdoc cref="docs._notelength" />
         public FlowNode GetNoteLength() => _synthWishes.GetNoteLength();
+        /// <inheritdoc cref="docs._notelength" />
         public FlowNode GetNoteLength(FlowNode noteLength) => _synthWishes.GetNoteLength(noteLength);
+        /// <inheritdoc cref="docs._notelength" />
         public FlowNode WithNoteLength(FlowNode newLength) { _synthWishes.WithNoteLength(newLength); return this; }
+        /// <inheritdoc cref="docs._notelength" />
         public FlowNode WithNoteLength(double newLength) { _synthWishes.WithNoteLength(newLength); return this; }
+        /// <inheritdoc cref="docs._notelength" />
         public FlowNode ResetNoteLength() { _synthWishes.ResetNoteLength(); return this; }
-        
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot() 
+            => _synthWishes.GetNoteLengthSnapShot();
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(double time) 
+            => _synthWishes.GetNoteLengthSnapShot(time);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(double time, int channel) 
+            => _synthWishes.GetNoteLengthSnapShot(time, channel);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength) 
+            => _synthWishes.GetNoteLengthSnapShot(noteLength);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength, double time) 
+            => _synthWishes.GetNoteLengthSnapShot(noteLength, time);
+        /// <inheritdoc cref="docs._notelength" />
+        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength, double time, int channel) 
+            => _synthWishes.GetNoteLengthSnapShot(noteLength, time, channel);
+
         public FlowNode GetBarLength => _synthWishes.GetBarLength;
         public FlowNode WithBarLength(FlowNode newLength) { _synthWishes.WithBarLength(newLength); return this; }
         public FlowNode WithBarLength(double newLength) { _synthWishes.WithBarLength(newLength); return this; }

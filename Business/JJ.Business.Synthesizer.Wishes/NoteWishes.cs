@@ -327,7 +327,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             // Resolve NoteLength
-            noteLength = _[GetNoteLength(noteLength).Value];
+            noteLength = GetNoteLengthSnapShot(noteLength);
             
             // Apply Volume
             if (volumeFilledIn)

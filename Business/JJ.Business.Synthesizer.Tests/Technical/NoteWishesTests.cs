@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             FlowNode instrument(FlowNode freq = null, FlowNode noteLength = null)
             {
                 freq = freq ?? A4;
-                return Sine(freq) * RecorderCurve.Stretch(GetNoteLength(noteLength).Value);
+                return Sine(freq) * RecorderCurve.Stretch(GetNoteLengthSnapShot(noteLength));
             }
             
             // Play the instrument for reference
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Dynamic NoteLength explicitly set
             {
                 WithNoteLength(Curve(0.75, 1.5));
-                AreEqual(1.125, () => GetNoteLength().Calculate(0.5));
+                AreEqual(1.125, () => GetNoteLengthSnapShot(0.5).Value);
                 Save(() => Note(instrument(F4), time, volume)).Play();
             }
             

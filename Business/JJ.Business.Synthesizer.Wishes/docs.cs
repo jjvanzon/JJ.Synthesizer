@@ -409,6 +409,53 @@ namespace JJ.Business.Synthesizer.Wishes
         ///     cref="docs._default" />
         public static object _noteindexer;
 
+        
+        /// <summary>
+        /// Manages note length configuration and fallback logic for consistent handling in audio synthesis.
+        /// Provides methods to set, reset, retrieve, and snapshot note lengths, ensuring alignment with 
+        /// specified or default values set within the <see cref="SynthWishes">SynthWishes</see>.
+        /// 
+        /// <p> Fallback Logic: <br/>
+        /// If <paramref name="noteLength"/> is null, the system follows a hierarchy of fallbacks: <br/>
+        /// 1. Uses the note length explicitly set using <see cref=WithNoteLength">WithNoteLength()</see>. <br/>
+        /// 2. Falls back to the <c>BeatLength</c> if available. <br/>
+        /// 3. Falls back to the <c>noteLength</c> value from the config file. <br/>
+        /// 4. Ultimately, defaults to <c>0.5</c> seconds. </p>
+        ///
+        /// <p> Snapshot Functionality: <br/>
+        /// - The <see cref="GetNoteLengthSnapShot">GetNoteLengthSnapShot</see> method
+        ///   resolves dynamic note lengths for a specific moment in
+        ///   <paramref name="time"/> and audio <paramref name="channel"/>. <br/>
+        /// - This ensures consistent values for operations that require fixed note lengths,
+        ///   such as buffer size cut-offs and volume curve lengths. <br/> </p>
+        /// 
+        /// <p> Members <br/>
+        /// - <see cref="GetNoteLength">GetNoteLength</see>:
+        ///   Resolves the effective note length using the fallback hierarchy. <br/>
+        /// - <see cref="WithNoteLength">WithNoteLength</see>:
+        ///    Explicitly sets the note length, either as a <see cref="FlowNode"/>FlowNode</see>
+        ///    or as a <c>double</c>.<br/>
+        /// - <see cref="ResetNoteLength">ResetNoteLength</see>
+        ///   Clears any explicitly configured note length, allowing fallbacks to take over. <br/>
+        /// - <see cref="GetNoteLengthSnapShot">GetNoteLengthSnapShot</see>:
+        ///   Captures the resolved note length at a specific time and channel, ensuring stability
+        ///   for use in scenarios requiring fixed lengths e.g., for buffer sizes and curve lengths. </p>
+        /// </summary>
+        /// <param name="noteLength">
+        /// An optional <see cref="FlowNode">FlowNode</see> specifying the desired note length. If null, the system 
+        /// will fall back to internal or default values as configured.
+        /// </param>
+        /// <param name="time">
+        /// The specific time at which to calculate a dynamic note length.
+        /// </param>
+        /// <param name="channel">
+        /// The audio channel index used for calculating channel-specific note lengths.
+        /// </param>
+        /// <returns>
+        /// A <see cref="FlowNode"/> representing the resolved or calculated note length.
+        /// </returns>
+        public static object _notelength;
+        
         /// <summary>
         /// Allow specifying 1 value: make it the start and end node values.
         /// </summary>
