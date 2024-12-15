@@ -150,12 +150,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                    duration,
                    depth: _[0.5],
                    interferenceRate: Multiply(0.002, RateCurve1),
-                   chorusRate: Multiply(0.002,       RateCurve1),
+                   chorusRate:       Multiply(0.002, RateCurve1),
                    patchyEnvelope: false
                )
-               .Tremolo(15, 0.06)
-               .Panning(Stretch(Curve(0.7, 0.3), duration))
-               .Panbrello(4.8, 0.05).SetName();
+               [ Tremolo, 15, 0.06 ]
+               [ Panbrello, 4.8, 0.05 ]
+               [ Panning, Curve(0.7, 0.3).Stretch(duration) ];
 
         /// <inheritdoc cref="docs._detunica" />
         FlowNode Detunica4(FlowNode freq, FlowNode duration = null)
@@ -168,7 +168,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                )
                .Tremolo(10, 0.08)
                .Panning(Curve(0.2, 0.8).Stretch(duration))
-               .Panbrello(3.4, 0.07).SetName();
+               .Panbrello(3.4, 0.07);
 
         /// <inheritdoc cref="docs._detunica" />
         FlowNode Detunica5(FlowNode freq, FlowNode duration = null)
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                    chorusRate: _[0.001]
                )
                .Tremolo(3, 0.25)
-               .Panning(0.48).SetName();
+               .Panning(0.48);
 
         // Instruments
 
