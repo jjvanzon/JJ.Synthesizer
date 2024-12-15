@@ -87,23 +87,18 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (DeepEcho(Detunica4(D5, duration)) * 0.25).Save().Play();
         }
 
-        /// <inheritdoc cref="docs._detunica" />
         [TestMethod] public void Detunica5_Test() => Run(Detunica5);
-        /// <inheritdoc cref="docs._detunica" />
+        void Detunica5() => WithNoteLength(3) [E5, Detunica5] [Volume, 0.6] [DeepEcho].AddAudioLength(DeepEchoDuration).Save().Play();
         void Detunica5() => _[E5, Detunica5, 0.6, len:_[3]][DeepEcho].AddAudioLength(DeepEchoDuration).Save().Play();
         
-        /// <inheritdoc cref="docs._vibraphase" />
         [TestMethod] public void Vibraphase_Chord_Test() => Run(Vibraphase_Chord);
-        /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_Chord()
         {
             WithMono().WithNoteLength(1).AddAudioLength(MildEchoDuration);
             _[VibraphaseChord][MildEcho][Volume, 0.28].Save().Play();
         }
 
-        /// <inheritdoc cref="docs._vibraphase" />
         [TestMethod] public void Vibraphase_Note_Test() => Run(VibraphaseNote);
-        /// <inheritdoc cref="docs._vibraphase" />
         void VibraphaseNote()
         {
             WithMono().WithNoteLength(1).AddAudioLength(MildEchoDuration);
