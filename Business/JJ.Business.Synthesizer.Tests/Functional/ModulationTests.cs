@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         {
             var duration = _[3];
             WithAudioLength(duration + DeepEchoDuration);
-            DeepEcho(_[E5, Detunica5, 0.3, duration]).Save().Play();
+            _[E5, Detunica5, 0.3, duration][DeepEcho].Save().Play();
         }
 
         /// <inheritdoc cref="docs._vibraphase" />
@@ -102,8 +102,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         void Vibraphase_Chord()
         {
-            WithMono().WithNoteLength(1);
-            AddAudioLength(MildEchoDuration);
+            WithMono().WithNoteLength(1).AddAudioLength(MildEchoDuration);
             _[VibraphaseChord][MildEcho][Volume, 0.28].Save().Play();
         }
 
@@ -112,8 +111,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._vibraphase" />
         void VibraphaseNote()
         {
-            WithMono().WithNoteLength(1);
-            Vibraphase(E5)[MildEcho][Volume, 0.5].AddAudioLength(MildEchoDuration).Save().Play();
+            WithMono().WithNoteLength(1).AddAudioLength(MildEchoDuration);
+            Vibraphase(E5)[MildEcho][Volume, 0.5].Save().Play();
         }
 
         // Jingles
