@@ -17,13 +17,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FlowNode DeepEchoDelayL => _[0.5];
         FlowNode DeepEchoDelayR => _[0.53];
 
-        public ModulationTests()
-        {
-            WithStereo();
-            WithBeatLength(2.2);
-            WithBarLength(2.2);
-        }
-
+        public ModulationTests() => WithStereo().WithBeatLength(2.2).WithBarLength(2.2);
+        
         // Tests
 
         [TestCategory("Long")]
@@ -99,7 +94,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             [ freq * 2 , Detunica2, 0.800, duration ]
             [ freq * 4 , Detunica3, 1.000, duration ]
             [ freq * 8 , Detunica4, 0.015, duration ]
-            [ freq * 16, Detunica5, 0.001, duration ].Panbrello(2, 0.2);
+            [ freq * 16, Detunica5, 0.001, duration ]
+            [ Panbrello, 2, 0.2 ];
         }
 
         /// <inheritdoc cref="docs._detunica" />
@@ -107,67 +103,69 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             FlowNode freq, FlowNode duration = null,
             FlowNode depth = null, FlowNode chorusRate = null)
             => Detunica
-                (
-                    freq.VibratoFreq(3, 0.00010), duration,
-                    depth ?? _[0.8],
-                    chorusRate: (chorusRate ?? _[0.03]) * RateCurve1,
-                    patchyEnvelope: false
-                )
-                .Tremolo(1, 0.03).SetName();
+            (
+                freq [ VibratoFreq, 3, 0.00010 ], 
+                duration,
+                depth ?? _[0.8],
+                chorusRate: (chorusRate ?? _[0.03]) * RateCurve1,
+                patchyEnvelope: false
+            )
+            [ Tremolo, 1, 0.03 ]
+            .SetName();
         
         /// <inheritdoc cref="docs._detunica" />
         FlowNode Detunica2(FlowNode freq, FlowNode duration = null)
             => Detunica
             (
-                freq.VibratoFreq(10, 0.00020),
+                freq [ VibratoFreq, 10, 0.00020 ],
                 duration,
                 depth: _[1.0],
                 churnRate: 0.1 * RateCurve2
             )
-            .Tremolo(12, 0.1)
-            .Panning(0.4)
-            .Panbrello(2.6, 0.09).SetName()
-            [MildEcho];
+            [ Tremolo, 12, 0.1 ]
+            [ Panning, 0.4 ]
+            [ Panbrello, 2.6, 0.09 ].SetName()
+            [ MildEcho ];
         
         /// <inheritdoc cref="docs._detunica" />
         FlowNode Detunica3(FlowNode freq, FlowNode duration = null)
             => Detunica
-               (
-                   freq.VibratoFreq(5.5, 0.0005),
-                   duration,
-                   depth: _[0.5],
-                   interferenceRate: Multiply(0.002, RateCurve1),
-                   chorusRate:       Multiply(0.002, RateCurve1),
-                   patchyEnvelope: false
-               )
-               [ Tremolo, 15, 0.06 ]
-               [ Panbrello, 4.8, 0.05 ]
-               [ Panning, Curve(0.7, 0.3).Stretch(duration) ];
+            (
+                freq [ VibratoFreq, 5.5, 0.0005 ],
+                duration,
+                depth: _[0.5],
+                interferenceRate: Multiply(0.002, RateCurve1),
+                chorusRate:       Multiply(0.002, RateCurve1),
+                patchyEnvelope: false
+            )
+            [ Tremolo, 15, 0.06 ]
+            [ Panbrello, 4.8, 0.05 ]
+            [ Panning, Curve(0.7, 0.3).Stretch(duration) ];
 
         /// <inheritdoc cref="docs._detunica" />
         FlowNode Detunica4(FlowNode freq, FlowNode duration = null)
             => Detunica
-               (
-                   freq.VibratoFreq(7, 0.0003),
-                   duration,
-                   depth: _[0.5],
-                   interferenceRate: 0.003 * RateCurve3
-               )
-               .Tremolo(10, 0.08)
-               .Panning(Curve(0.2, 0.8).Stretch(duration))
-               .Panbrello(3.4, 0.07);
+            (
+                freq [ VibratoFreq, 7, 0.0003 ],
+                duration,
+                depth: _[0.5],
+                interferenceRate: 0.003 * RateCurve3
+            )
+            [ Tremolo, 10, 0.08 ]
+            [ Panbrello, 3.4, 0.07 ]
+            [ Panning, Curve(0.2, 0.8).Stretch(duration) ];
 
         /// <inheritdoc cref="docs._detunica" />
         FlowNode Detunica5(FlowNode freq, FlowNode duration = null)
             => Detunica
-               (
-                   freq.VibratoFreq(5.5, 0.00005), duration,
-                   depth: _[0.8],
-                   churnRate: 0.001 * RateCurve1,
-                   chorusRate: _[0.001]
-               )
-               .Tremolo(3, 0.25)
-               .Panning(0.48);
+            (
+                freq [ VibratoFreq, 5.5, 0.00005 ], duration,
+                depth: _[0.8],
+                churnRate: 0.001 * RateCurve1,
+                chorusRate: _[0.001]
+            )
+            [ Tremolo, 3, 0.25 ]
+            [ Panning, 0.48 ];
 
         // Instruments
 
