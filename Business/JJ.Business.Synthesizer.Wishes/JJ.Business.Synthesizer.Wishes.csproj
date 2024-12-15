@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AudioPropertyWishes.cs" />
+    <Compile Include="RecordWishes.cs" />
     <Compile Include="InterceptWishes.cs" />
     <Compile Include="CalculationWishes.cs" />
     <Compile Include="CaptureIndexer.cs" />
