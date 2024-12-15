@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._vibraphase" />
         FlowNode Vibraphase(
-            FlowNode freq = null,
+            FlowNode freq,
             FlowNode duration = null,
             FlowNode depthAdjust1 = null, FlowNode depthAdjust2 = null)
         {
