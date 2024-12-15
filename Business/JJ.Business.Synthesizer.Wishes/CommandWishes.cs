@@ -102,6 +102,45 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null]
             => func(arg1, arg2, arg3, arg4, arg5);
 
+        // 6 Parameters
+
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
+            FlowNode arg6 = null]
+            => func(arg1, arg2, arg3, arg4, arg5, arg6);
+
+        // 7 Parameters
+
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
+            FlowNode arg6 = null, FlowNode arg7 = null]
+            => func(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+
+        // 8 Parameters
+
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
+            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null]
+            => func(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+
+        // 9 Parameters
+
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
+            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null]
+            => func(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+
+        // 10 Parameters
+
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
+            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null, FlowNode arg10 = null]
+            => func(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
     }
 
     // Command Notation with FlowNodes
@@ -167,6 +206,45 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null] 
             => _synthWishes[func, this, arg2, arg3, arg4, arg5];
 
+        // 6 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null,
+            FlowNode arg6 = null] 
+            => _synthWishes[func, this, arg2, arg3, arg4, arg5, arg6];
+
+        // 7 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null,
+            FlowNode arg6 = null, FlowNode arg7 = null] 
+            => _synthWishes[func, this, arg2, arg3, arg4, arg5, arg6, arg7];
+
+        // 8 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null,
+            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null] 
+            => _synthWishes[func, this, arg2, arg3, arg4, arg5, arg6, arg7, arg8];
+
+        // 9 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null,
+            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null] 
+            => _synthWishes[func, this, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9];
+
+        // 10 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null,
+            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null, FlowNode arg10 = null] 
+            => _synthWishes[func, this, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10];
     }
     
     // Command Notation for CaptureIndexer
@@ -269,5 +347,44 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null] 
             => _synthWishes[func, arg1, arg2, arg3, arg4, arg5];
         
+        // 6 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
+            FlowNode arg6 = null] 
+            => _synthWishes[func, arg1, arg2, arg3, arg4, arg5, arg6];
+        
+        // 7 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
+            FlowNode arg6 = null, FlowNode arg7 = null] 
+            => _synthWishes[func, arg1, arg2, arg3, arg4, arg5, arg6, arg7];
+        
+        // 8 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
+            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null] 
+            => _synthWishes[func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8];
+        
+        // 9 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
+            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null] 
+            => _synthWishes[func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9];
+        
+        // 10 Parameters
+        
+        public FlowNode this[
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
+            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
+            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null, FlowNode arg10 = null] 
+            => _synthWishes[func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10];
     }
 }
