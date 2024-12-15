@@ -66,8 +66,16 @@ namespace JJ.Business.Synthesizer.Wishes
             length = new BeatsIndexer(this);
             t = new TimeIndexer(this);
         }
-        
+
         public void Run(Action action) => RunOnNewInstance(action);
+        
+        private void RunWithRecord(Action action)
+        {
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            
+            var dummy = _[0.5];
+            Buff buff = Record(() => { action(); return dummy; });
+        }
         
         private void RunOnNewInstance(Action action)
         {
