@@ -90,13 +90,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._detunica" />
         [TestMethod] public void Detunica5_Test() => Run(Detunica5);
         /// <inheritdoc cref="docs._detunica" />
-        void Detunica5()
-        {
-            var duration = _[3];
-            WithAudioLength(duration + DeepEchoDuration);
-            _[E5, Detunica5, 0.3, duration][DeepEcho].Save().Play();
-        }
-
+        void Detunica5() => _[E5, Detunica5, 0.6, len:_[3]][DeepEcho].AddAudioLength(DeepEchoDuration).Save().Play();
+        
         /// <inheritdoc cref="docs._vibraphase" />
         [TestMethod] public void Vibraphase_Chord_Test() => Run(Vibraphase_Chord);
         /// <inheritdoc cref="docs._vibraphase" />
