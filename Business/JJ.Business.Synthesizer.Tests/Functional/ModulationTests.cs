@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [TestMethod] public void Detunica1Note1_Test() => Run(Detunica1); void Detunica1() => _
         [ E2, Detunica1, 0.3, len:_[3] ] [DeepEcho]
         .AddAudioLength(DeepEchoDuration).Save().Play();
-
+        
         [TestMethod] public void Detunica2_Test() => Run(Detunica2);
         void Detunica2()
         {
@@ -54,8 +54,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             _[B4, Detunica2, 0.9, duration][DeepEcho].AddAudioLength(DeepEchoDuration).Save().Play();
         }
 
-        [TestMethod] public void Detunica3_Test() => Run(Detunica3); void Detunica3() 
-        => _[ C5, Detunica3, len:_[3] ] [DeepEcho] .AddAudioLength(DeepEchoDuration).Save().Play();
+        [TestMethod] public void Detunica3_Test() => Run(Detunica3); void Detunica3() => _
+        [ C5, Detunica3, len:_[3] ] [DeepEcho]
+        .AddAudioLength(DeepEchoDuration).Save().Play();
         
         [TestMethod] public void Detunica4_Test() => Run(Detunica4); void Detunica4()
         {
