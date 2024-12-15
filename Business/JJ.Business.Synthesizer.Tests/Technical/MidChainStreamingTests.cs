@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static System.Threading.Thread;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Mathematics_Wishes.RandomizerWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Mathematics_Copied.Randomizer_Copied;
 using static JJ.Framework.Testing.AssertHelper;
@@ -144,7 +145,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithMono().Sine(RandomNote).Volume(StereoDynamics).SaveChannel().Play();
         }
         
-        [TestMethod]
+        [TestMethod] 
         public void Mono_SaveChannel_Test_2Calls() => Run(Mono_SaveChannel_2Calls);
         void Mono_SaveChannel_2Calls()
         {
@@ -307,6 +308,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void Stereo_InterceptChannel()
         { 
             WithStereo();
+            WithAudioLength(0.5);
             
             var buffs = new Buff[2];
             
@@ -315,14 +317,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => buffs[0]);
             IsNotNull(() => buffs[1]);
             
-            buffs[0].Play();
-            buffs[1].Play();
+            buffs[0].Play(); Sleep(1000);
+            buffs[1].Play(); Sleep(1000);
+            
+            Run(() => (Sample(buffs[0]).Panning(0) +
+                       Sample(buffs[1]).Panning(1)).Save().Play());
         }
         
         [TestMethod] public void Stereo_InterceptChannel_Test_2Calls() => new MidChainStreamingTests().Stereo_InterceptChannel_2Calls();
         void Stereo_InterceptChannel_2Calls()
         {
             WithStereo();
+            WithAudioLength(0.5);
             
             var buffs1 = new Buff[2];
             var buffs2 = new Buff[2];
@@ -336,10 +342,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => buffs2[0]);
             IsNotNull(() => buffs2[1]);
         
-            buffs1[0].Play();
-            buffs1[1].Play();
-            buffs2[0].Play();
-            buffs2[1].Play();
+            buffs1[0].Play(); Sleep(1000);
+            buffs1[1].Play(); Sleep(1000);
+            buffs2[0].Play(); Sleep(1000);
+            buffs2[1].Play(); Sleep(1000);
+
+            Run(() => (Sample(buffs1[0]).Panning(0) +
+                       Sample(buffs1[1]).Panning(1)).Save().Play());
+            
+            Run(() => (Sample(buffs2[0]).Panning(0) +
+                       Sample(buffs2[1]).Panning(1)).Save().Play());
         }
         
         // Complex Cases
@@ -377,7 +389,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => buffs[0]);
             IsNotNull(() => buffs[1]);
             
-            buffs[0].Save().Play();
+            buffs[0].Save().Play(); Sleep(1000);
             buffs[1].Save().Play();
             
             // Recombination can only be done after running all tapes.
