@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         .AddAudioLength(DeepEchoDuration).Save().Play();
         
         [TestMethod] public void Vibraphase_Chord_Test() => Run(Vibraphase_Chord); void Vibraphase_Chord() =>
-        WithMono().WithNoteLength(1).AddAudioLength(MildEchoDuration)
+        WithStereo().WithNoteLength(1).AddAudioLength(MildEchoDuration)
         [VibraphaseChord] [MildEcho] [Volume, 0.28]
         .Save().Play();
 
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         /// <inheritdoc cref="docs._vibraphase" />
         FlowNode VibraphaseChord => _
-        [ A4, Vibraphase, 0.80 ]
+        [ A4, Vibraphase, 0.80 ] [ Panbrello ]
         [ B4, Vibraphase, 0.70 ]
         [ C5, Vibraphase, 0.85 ]
         [ D5, Vibraphase, 0.75 ]
