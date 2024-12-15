@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (padding == 0) return;
 
             // Apply delay
-            string newName = oldTape.GetName + " Padding";
+            string newName = oldTape.GetName + " Padded";
             FlowNode newNode = _synthWishes.ApplyPaddingDelay(oldTape.Signal).SetName(newName);
 
             // Add tape
