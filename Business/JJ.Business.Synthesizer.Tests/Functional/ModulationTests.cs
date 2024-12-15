@@ -26,11 +26,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Tests
 
-        [TestMethod, TestCategory("Long")] public void Detunica_Jingle_Test() => Run(Detunica_Jingle);
-        void Detunica_Jingle() =>
-            WithPlay()
-            [DetunicaJingle] [DeepEcho] [Volume, 0.8]
-            .AddAudioLength(DeepEchoDuration).Save().Play();
+        [TestCategory("Long")]
+        [TestMethod] public void Detunica_Jingle_Test() => Run(Detunica_Jingle); void Detunica_Jingle() => _
+        [DetunicaJingle] [DeepEcho] [Volume, 0.8]
+        .AddAudioLength(DeepEchoDuration).Save().WithPlay().Play();
 
         [TestMethod] public void DetunicaBass_Test() => Run(DetunicaBass); void DetunicaBass() => _
         [ E0, DetunicaBass, 0.9, len:_[4.5] ] [DeepEcho]
@@ -40,30 +39,22 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [ E2, Detunica1, 0.3, len:_[3] ] [DeepEcho]
         .AddAudioLength(DeepEchoDuration).Save().Play();
         
-        [TestMethod] public void Detunica2_Test() => Run(Detunica2);
-        void Detunica2()
-        {
-            var duration = _[3];
-            WithAudioLength(duration);
-            _[B4, Detunica2, 0.9, duration][DeepEcho].AddAudioLength(DeepEchoDuration).Save().Play();
-        }
+        [TestMethod] public void Detunica2_Test() => Run(Detunica2); void Detunica2() =>
+        WithAudioLength(3)
+        [ B4, Detunica2, 0.9, len: _[3] ] [DeepEcho]
+        .AddAudioLength(DeepEchoDuration).Save().Play();
 
         [TestMethod] public void Detunica3_Test() => Run(Detunica3); void Detunica3() => _
         [ C5, Detunica3, len:_[3] ] [DeepEcho]
         .AddAudioLength(DeepEchoDuration).Save().Play();
         
-        [TestMethod] public void Detunica4_Test() => Run(Detunica4); void Detunica4()
-        {
-            WithNoteLength(3)
-            [ D5, Detunica4 ] [DeepEcho]
-            .AddAudioLength(DeepEchoDuration).Save().Play();
-        }
+        [TestMethod] public void Detunica4_Test() => Run(Detunica4); void Detunica4() => _
+        [ D5, Detunica4, len:_[3] ] [DeepEcho]
+        .AddAudioLength(DeepEchoDuration).Save().Play();
 
-        [TestMethod] public void Detunica5_Test() => Run(Detunica5); void Detunica5()
-        {
-           var note = WithNoteLength(3) [E5, Detunica5] [Volume, 0.6] [DeepEcho];
-           AddAudioLength(DeepEchoDuration).Save(note).Play();
-        }
+        [TestMethod] public void Detunica5_Test() => Run(Detunica5); void Detunica5() => _
+        [ E5, Detunica5, len:_[3] ] [Volume, 0.6] [DeepEcho]
+        .AddAudioLength(DeepEchoDuration).Save().Play();
         
         [TestMethod] public void Vibraphase_Chord_Test() => Run(Vibraphase_Chord);
         void Vibraphase_Chord()
