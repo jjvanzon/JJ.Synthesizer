@@ -207,7 +207,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (skipMultiUse)
                 {
                     // Redirection
-                    sb.AppendLine($" => {tape.GetName} (ID {tape.Signal?.UnderlyingOperator?.ID}) ..."); 
+                    sb.AppendLine($" => {tape.GetName} ({GetIDDescriptor(tape)}) ..."); 
                     return; 
                 }
             }
@@ -218,7 +218,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (isMultiUse) 
                 {
                     // Continuation
-                    //sb2.Append($"=> (ID {tape.Signal?.UnderlyingOperator?.ID}) ");
                     sb2.Append("=> ");
                 }
                 sb2.Append(GetTapeDescriptor(tape));
@@ -238,6 +237,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 sb.Outdent();
             }
         }
+
+        private static string GetIDDescriptor(Tape tape) => tape.Signal?.UnderlyingOperator?.ID.ToString() ?? "no ID";
         
         public static string GetTapeDescriptor(Tape tape)
         {
@@ -277,7 +278,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 flagDescriptor = " {" + Join(",", flagStrings) + "}";
             }
             
-            string idDescriptor = $" (ID {tape.Signal?.UnderlyingOperator?.ID})";
+            string idDescriptor = $" ({GetIDDescriptor(tape)})";
             
             return prefix + nameDescriptor + flagDescriptor + idDescriptor;
         }
