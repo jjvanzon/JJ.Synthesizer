@@ -8,139 +8,161 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // No Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode> func]
-            => func();
+            Func<FlowNode> command]
+            => command();
 
         // 1 Parameter
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode> func,
-            FlowNode arg1 = null]
-            => func(arg1);
+            Func<FlowNode, FlowNode> command,
+            FlowNode param1 = null]
+            => command(param1);
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode> func,
-            double arg1]
-            => func(_[arg1]);
+            Func<FlowNode, FlowNode> command,
+            double param1]
+            => command(_[param1]);
 
         // 2 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1 = null, FlowNode arg2 = null]
-            => func(arg1, arg2);
+            Func<FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1 = null, FlowNode param2 = null]
+            => command(param1, param2);
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode> func,
-            double arg1, FlowNode arg2 = null]
-            => func(_[arg1], arg2);
+            Func<FlowNode, FlowNode, FlowNode> command,
+            double param1, FlowNode param2 = null]
+            => command(_[param1], param2);
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1, double arg2]
-            => func(arg1, _[arg2]);
+            Func<FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1, double param2]
+            => command(param1, _[param2]);
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode> func,
-            double arg1, double arg2]
-            => func(_[arg1], _[arg2]);
+            Func<FlowNode, FlowNode, FlowNode> command,
+            double param1, double param2]
+            => command(_[param1], _[param2]);
 
         // 3 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null]
-            => func(arg1, arg2, arg3);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null]
+            => command(param1, param2, param3);
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            double arg1, FlowNode arg2 = null, FlowNode arg3 = null]
-            => func(_[arg1], arg2, arg3);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            double param1, FlowNode param2 = null, FlowNode param3 = null]
+            => command(_[param1], param2, param3);
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1, double arg2, FlowNode arg3 = null]
-            => func(arg1, _[arg2], arg3);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1, double param2, FlowNode param3 = null]
+            => command(param1, _[param2], param3);
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1, FlowNode arg2, double arg3]
-            => func(arg1, arg2, _[arg3]);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1, FlowNode param2, double param3]
+            => command(param1, param2, _[param3]);
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            double arg1, double arg2, FlowNode arg3]
-            => func(_[arg1], _[arg2], arg3);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            double param1, double param2, FlowNode param3]
+            => command(_[param1], _[param2], param3);
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            double arg1, FlowNode arg2, double arg3]
-            => func(_[arg1], arg2, _[arg3]);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            double param1, FlowNode param2, double param3]
+            => command(_[param1], param2, _[param3]);
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1, double arg2, double arg3]
-            => func(arg1, _[arg2], _[arg3]);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1, double param2, double param3]
+            => command(param1, _[param2], _[param3]);
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            double arg1, double arg2, double arg3]
-            => func(_[arg1], _[arg2], _[arg3]);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            double param1, double param2, double param3]
+            => command(_[param1], _[param2], _[param3]);
 
         // 4 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null]
-            => func(arg1, arg2, arg3, arg4);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null]
+            => command(param1, param2, param3, param4);
 
         // 5 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null]
-            => func(arg1, arg2, arg3, arg4, arg5);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null]
+            => command(param1, param2, param3, param4, param5);
 
         // 6 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
-            FlowNode arg6 = null]
-            => func(arg1, arg2, arg3, arg4, arg5, arg6);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
+            FlowNode param6 = null]
+            => command(param1, param2, param3, param4, param5, param6);
 
         // 7 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
-            FlowNode arg6 = null, FlowNode arg7 = null]
-            => func(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
+            FlowNode param6 = null, FlowNode param7 = null]
+            => command(param1, param2, param3, param4, param5, param6, param7);
 
         // 8 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
-            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null]
-            => func(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
+            FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null]
+            => command(param1, param2, param3, param4, param5, param6, param7, param8);
 
         // 9 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
-            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null]
-            => func(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
+            FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null, FlowNode param9 = null]
+            => command(param1, param2, param3, param4, param5, param6, param7, param8, param9);
 
         // 10 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
-            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null, FlowNode arg10 = null]
-            => func(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
+            FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null, FlowNode param9 = null, FlowNode param10 = null]
+            => command(param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
     }
 
     // Command Notation with FlowNodes
@@ -149,102 +171,116 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // No Parameters
         
-        public FlowNode this[Func<FlowNode> func] 
-            => _synthWishes[func];
+        /// <inheritdoc cref="docs._commandindexer"/>
+        public FlowNode this[Func<FlowNode> command] 
+            => _synthWishes[command];
         
         // 1 Parameter
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode> func] 
-            => _synthWishes[func, this];
+            Func<FlowNode, FlowNode> command] 
+            => _synthWishes[command, this];
         
         // 2 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg2 = null] 
-            => _synthWishes[func, this, arg2];
+            Func<FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param2 = null] 
+            => _synthWishes[command, this, param2];
 
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode> func,
-            double arg2]
-            => _synthWishes[func, this, arg2];
+            Func<FlowNode, FlowNode, FlowNode> command,
+            double param2]
+            => _synthWishes[command, this, param2];
 
         // 3 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg2 = null, FlowNode arg3 = null] 
-            => _synthWishes[func, this, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param2 = null, FlowNode param3 = null] 
+            => _synthWishes[command, this, param2, param3];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            double arg2, FlowNode arg3 = null]
-            => _synthWishes[func, this, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            double param2, FlowNode param3 = null]
+            => _synthWishes[command, this, param2, param3];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg2, double arg3]
-            => _synthWishes[func, this, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param2, double param3]
+            => _synthWishes[command, this, param2, param3];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            double arg2, double arg3]
-            => _synthWishes[func, this, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            double param2, double param3]
+            => _synthWishes[command, this, param2, param3];
 
         // 4 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null] 
-            => _synthWishes[func, this, arg2, arg3, arg4];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null] 
+            => _synthWishes[command, this, param2, param3, param4];
 
         // 5 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null] 
-            => _synthWishes[func, this, arg2, arg3, arg4, arg5];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null] 
+            => _synthWishes[command, this, param2, param3, param4, param5];
 
         // 6 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null,
-            FlowNode arg6 = null] 
-            => _synthWishes[func, this, arg2, arg3, arg4, arg5, arg6];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
+            FlowNode param6 = null] 
+            => _synthWishes[command, this, param2, param3, param4, param5, param6];
 
         // 7 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null,
-            FlowNode arg6 = null, FlowNode arg7 = null] 
-            => _synthWishes[func, this, arg2, arg3, arg4, arg5, arg6, arg7];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
+            FlowNode param6 = null, FlowNode param7 = null] 
+            => _synthWishes[command, this, param2, param3, param4, param5, param6, param7];
 
         // 8 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null,
-            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null] 
-            => _synthWishes[func, this, arg2, arg3, arg4, arg5, arg6, arg7, arg8];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
+            FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null] 
+            => _synthWishes[command, this, param2, param3, param4, param5, param6, param7, param8];
 
         // 9 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null,
-            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null] 
-            => _synthWishes[func, this, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
+            FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null, FlowNode param9 = null] 
+            => _synthWishes[command, this, param2, param3, param4, param5, param6, param7, param8, param9];
 
         // 10 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null,
-            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null, FlowNode arg10 = null] 
-            => _synthWishes[func, this, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
+            FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null, FlowNode param9 = null, FlowNode param10 = null] 
+            => _synthWishes[command, this, param2, param3, param4, param5, param6, param7, param8, param9, param10];
     }
     
     // Command Notation for CaptureIndexer
@@ -253,138 +289,160 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // 0 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode> func] 
-            => _synthWishes[func];
+            Func<FlowNode> command] 
+            => _synthWishes[command];
         
         // 1 Parameter
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode> func, 
-            FlowNode arg1 = null] 
-            => _synthWishes[func, arg1];
+            Func<FlowNode, FlowNode> command, 
+            FlowNode param1 = null] 
+            => _synthWishes[command, param1];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode> func,
-            double arg1]
-            => _synthWishes[func, arg1];
+            Func<FlowNode, FlowNode> command,
+            double param1]
+            => _synthWishes[command, param1];
 
         // 2 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg1 = null, FlowNode arg2 = null] 
-            => _synthWishes[func, arg1, arg2];
+            Func<FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param1 = null, FlowNode param2 = null] 
+            => _synthWishes[command, param1, param2];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode> func,
-            double arg1, FlowNode arg2 = null]
-            => _synthWishes[func, arg1, arg2];
+            Func<FlowNode, FlowNode, FlowNode> command,
+            double param1, FlowNode param2 = null]
+            => _synthWishes[command, param1, param2];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1, double arg2]
-            => _synthWishes[func, arg1, arg2];
+            Func<FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1, double param2]
+            => _synthWishes[command, param1, param2];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode> func,
-            double arg1, double arg2]
-            => _synthWishes[func, arg1, arg2];
+            Func<FlowNode, FlowNode, FlowNode> command,
+            double param1, double param2]
+            => _synthWishes[command, param1, param2];
 
         // 3 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null] 
-            => _synthWishes[func, arg1, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null] 
+            => _synthWishes[command, param1, param2, param3];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            double arg1, FlowNode arg2 = null, FlowNode arg3 = null]
-            => _synthWishes[func, arg1, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            double param1, FlowNode param2 = null, FlowNode param3 = null]
+            => _synthWishes[command, param1, param2, param3];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1, double arg2, FlowNode arg3 = null]
-            => _synthWishes[func, arg1, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1, double param2, FlowNode param3 = null]
+            => _synthWishes[command, param1, param2, param3];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1, FlowNode arg2, double arg3]
-            => _synthWishes[func, arg1, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1, FlowNode param2, double param3]
+            => _synthWishes[command, param1, param2, param3];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            double arg1, double arg2, FlowNode arg3]
-            => _synthWishes[func, arg1, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            double param1, double param2, FlowNode param3]
+            => _synthWishes[command, param1, param2, param3];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            double arg1, FlowNode arg2, double arg3]
-            => _synthWishes[func, arg1, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            double param1, FlowNode param2, double param3]
+            => _synthWishes[command, param1, param2, param3];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            FlowNode arg1, double arg2, double arg3]
-            => _synthWishes[func, arg1, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            FlowNode param1, double param2, double param3]
+            => _synthWishes[command, param1, param2, param3];
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode> func,
-            double arg1, double arg2, double arg3]
-            => _synthWishes[func, arg1, arg2, arg3];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
+            double param1, double param2, double param3]
+            => _synthWishes[command, param1, param2, param3];
 
         // 4 Parameters
 
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null] 
-            => _synthWishes[func, arg1, arg2, arg3, arg4];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null] 
+            => _synthWishes[command, param1, param2, param3, param4];
         
         // 5 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null] 
-            => _synthWishes[func, arg1, arg2, arg3, arg4, arg5];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null] 
+            => _synthWishes[command, param1, param2, param3, param4, param5];
         
         // 6 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
-            FlowNode arg6 = null] 
-            => _synthWishes[func, arg1, arg2, arg3, arg4, arg5, arg6];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
+            FlowNode param6 = null] 
+            => _synthWishes[command, param1, param2, param3, param4, param5, param6];
         
         // 7 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
-            FlowNode arg6 = null, FlowNode arg7 = null] 
-            => _synthWishes[func, arg1, arg2, arg3, arg4, arg5, arg6, arg7];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
+            FlowNode param6 = null, FlowNode param7 = null] 
+            => _synthWishes[command, param1, param2, param3, param4, param5, param6, param7];
         
         // 8 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
-            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null] 
-            => _synthWishes[func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
+            FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null] 
+            => _synthWishes[command, param1, param2, param3, param4, param5, param6, param7, param8];
         
         // 9 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
-            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null] 
-            => _synthWishes[func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
+            FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null, FlowNode param9 = null] 
+            => _synthWishes[command, param1, param2, param3, param4, param5, param6, param7, param8, param9];
         
         // 10 Parameters
         
+        /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
-            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> func, 
-            FlowNode arg1 = null, FlowNode arg2 = null, FlowNode arg3 = null, FlowNode arg4 = null, FlowNode arg5 = null, 
-            FlowNode arg6 = null, FlowNode arg7 = null, FlowNode arg8 = null, FlowNode arg9 = null, FlowNode arg10 = null] 
-            => _synthWishes[func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10];
+            Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
+            FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
+            FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null, FlowNode param9 = null, FlowNode param10 = null] 
+            => _synthWishes[command, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10];
     }
 }

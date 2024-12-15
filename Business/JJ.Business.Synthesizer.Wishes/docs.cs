@@ -128,6 +128,23 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </returns> 
         public static object _captureindexer;
 
+        /// <summary>
+        /// <strong>Command Indexers</strong><br/>
+        /// Allows notation such as <c>[ Panbrello ]</c> to apply the specified command
+        /// to the current <see cref="FlowNode">FlowNode</see>.
+        /// Enables chaining and shorthand notation for effects and transformations.
+        /// <code>
+        /// [ A4, Flute, 0.80 ] [ Panbrello ]
+        /// </code>
+        /// What you put before the command will become the first parameter passed to the command.
+        /// </summary>
+        /// <param name="command">
+        /// The command to apply to the <see cref="FlowNode">FlowNode</see>.
+        /// This can be any method that takes and returns FlowNode up to 10 parameters.
+        /// </param>
+        /// <returns>A new <see cref="FlowNode"/> with the command applied.</returns>
+        public static object _commandindexer;
+        
         /// <summary> 
         /// This ConfigurationHelper internally handles null-tolerance for the data missing from the app.config file.
         /// It returns defaults if config items are missing, to make it easier to use SynthWishes.
@@ -222,7 +239,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Default speed is 3 times a second. <br/> 
         /// Default depth is 1 = full volume going up and down.
         /// </param> 
-        /// <returns> An Outlet representing the output sound. </returns> 
+        /// <returns> A FlowNode representing the output sound. </returns> 
         public static object _default;
 
         /// <summary> 
@@ -574,7 +591,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// 
         /// <para> Currently, just chaining .Play onto some previous
         /// command could make you lose the SynthWishes context.
-        /// Omitting a `this.` qualifier could do that too. </para> 
+        /// Omitting a this. qualifier could do that too. </para> 
         /// </summary> 
         public static object _playback;
 
