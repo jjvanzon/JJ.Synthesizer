@@ -56,19 +56,15 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [ E5, Detunica5, len:_[3] ] [Volume, 0.6] [DeepEcho]
         .AddAudioLength(DeepEchoDuration).Save().Play();
         
-        [TestMethod] public void Vibraphase_Chord_Test() => Run(Vibraphase_Chord);
-        void Vibraphase_Chord()
-        {
-            WithMono().WithNoteLength(1).AddAudioLength(MildEchoDuration);
-            _[VibraphaseChord] [MildEcho] [Volume, 0.28] .Save().Play();
-        }
+        [TestMethod] public void Vibraphase_Chord_Test() => Run(Vibraphase_Chord); void Vibraphase_Chord() =>
+        WithMono().WithNoteLength(1).AddAudioLength(MildEchoDuration)
+        [VibraphaseChord] [MildEcho] [Volume, 0.28]
+        .Save().Play();
 
-        [TestMethod] public void Vibraphase_Note_Test() => Run(VibraphaseNote);
-        void VibraphaseNote()
-        {
-            WithMono().WithNoteLength(1).AddAudioLength(MildEchoDuration);
-            Vibraphase(E5)[MildEcho][Volume, 0.5].Save().Play();
-        }
+        [TestMethod] public void Vibraphase_Note_Test() => Run(VibraphaseNote); void VibraphaseNote() =>
+        WithMono().WithNoteLength(1).AddAudioLength(MildEchoDuration)
+        [ E5, Vibraphase, 0.5 ] [MildEcho]
+        .Save().Play();
 
         // Jingles
 
