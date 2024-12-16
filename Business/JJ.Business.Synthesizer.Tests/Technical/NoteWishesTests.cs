@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     {
         // BarLength
         
-        [TestMethod] public void BarLength_Default_Test() => new NoteWishesTests().BarLength_Default();
+        [TestMethod] public void BarLength_Default_Test() => Run(BarLength_Default);
         void BarLength_Default()
         {
             // Default (from config or hard-coded)
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(1.0, () => GetBarLength.AsConst.Value);
         }
         
-        [TestMethod] public void BarLength_Explicit_Test() => new NoteWishesTests().BarLength_Explicit();
+        [TestMethod] public void BarLength_Explicit_Test() => Run(BarLength_Explicit);
         void BarLength_Explicit()
         {
             WithBarLength(2);
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(2, () => GetBarLength.AsConst.Value);
         }
         
-        [TestMethod] public void BarLength_From_BeatLength_Test() => new NoteWishesTests().BarLength_From_BeatLength();
+        [TestMethod] public void BarLength_From_BeatLength_Test() => Run(BarLength_From_BeatLength);
         void BarLength_From_BeatLength()
         {
             // 4 * BeatLength
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(0.48, () => GetBarLength.Value);
         }
         
-        [TestMethod] public void BarLength_Dynamic_Test() => new NoteWishesTests().BarLength_Dynamic();
+        [TestMethod] public void BarLength_Dynamic_Test() => Run(BarLength_Dynamic);
         void BarLength_Dynamic()
         {
             WithBarLength(Curve(0, 4));
@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(2, () => GetBarLength.Calculate(0.5));
         }
         
-        [TestMethod] public void BarLength_Dynamic_From_BeatLength_Test() => new NoteWishesTests().BarLength_Dynamic_From_BeatLength();
+        [TestMethod] public void BarLength_Dynamic_From_BeatLength_Test() => Run(BarLength_Dynamic_From_BeatLength);
         void BarLength_Dynamic_From_BeatLength()
         {
             // 4 * BeatLength (dynamic)
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // BeatLength
         
-        [TestMethod] public void BeatLength_Default_Test() => new NoteWishesTests().BeatLength_Default();
+        [TestMethod] public void BeatLength_Default_Test() => Run(BeatLength_Default);
         void BeatLength_Default()
         {
             // Default (from config or hard-coded)
@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(0.25, () => GetBeatLength.AsConst.Value);
         }
         
-        [TestMethod] public void BeatLength_From_BarLength_Test() => new NoteWishesTests().BeatLength_From_BarLength();
+        [TestMethod] public void BeatLength_From_BarLength_Test() => Run(BeatLength_From_BarLength);
         void BeatLength_From_BarLength()
         {
             // 1/4 BarLength
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(0.5, () => GetBeatLength.Value); // 1/4 * 2.0 = 0.5.
         }
         
-        [TestMethod] public void BeatLength_Explicit_Test() => new NoteWishesTests().BeatLength_Explicit();
+        [TestMethod] public void BeatLength_Explicit_Test() => Run(BeatLength_Explicit);
         void BeatLength_Explicit()
         {
             WithBeatLength(0.3);
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(0.3, () => GetBeatLength.AsConst.Value);
         }
         
-        [TestMethod] public void BeatLength_Dynamic_From_BarLength_Test() => new NoteWishesTests().BeatLength_Dynamic_From_BarLength();
+        [TestMethod] public void BeatLength_Dynamic_From_BarLength_Test() => Run(BeatLength_Dynamic_From_BarLength);
         void BeatLength_Dynamic_From_BarLength()
         {
             // Dynamic 1/4 BarLength
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(0.5, () => GetBeatLength.Calculate(0.5)); // 1/4 * midpoint of 2.0
         }
         
-        [TestMethod] public void BeatLength_Dynamic_Explicit_Test() => new NoteWishesTests().BeatLength_Dynamic_Explicit();
+        [TestMethod] public void BeatLength_Dynamic_Explicit_Test() => Run(BeatLength_Dynamic_Explicit);
         void BeatLength_Dynamic_Explicit()
         {
             WithBeatLength(Curve(0, 0.3));
@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         // Note Length
         
         /// <inheritdoc cref="docs._notelengthfallbacktests" />
-        [TestMethod] public void NoteLength_Fallback_Lullaby_Test() => new NoteWishesTests().NoteLength_Fallback_Lullaby();
+        [TestMethod] public void NoteLength_Fallback_Lullaby_Test() => Run(NoteLength_Fallback_Lullaby);
         /// <inheritdoc cref="docs._notelengthfallbacktests" />
         void NoteLength_Fallback_Lullaby()
         {
@@ -136,34 +136,34 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Play the instrument for reference
             {
-                Save(() => instrument(G4)).Play();
+                Save(instrument(G4)).Play();
             }
             
             // NoteLength from config file / hard-coded default
             {
                 AreEqual(0.2, () => GetNoteLength().Value);
-                Save(() => Note(instrument(C4), time, volume)).Play();
+                Save(Note(instrument(C4), time, volume)).Play();
             }
             
             // WithNoteLength
             {
                 WithNoteLength(0.33);
                 AreEqual(0.33, () => GetNoteLength().Value);
-                Save(() => Note(instrument(D4), time, volume)).Play();
+                Save(Note(instrument(D4), time, volume)).Play();
             }
             
             // ResetNoteLength() => defaults to config file or hard-coded default
             {
                 ResetNoteLength();
                 AreEqual(0.2, () => GetNoteLength().Value);
-                Save(() => Note(instrument(E4), time, volume)).Play();
+                Save(Note(instrument(E4), time, volume)).Play();
             }
             
             // Dynamic NoteLength explicitly set
             {
                 WithNoteLength(Curve(0.75, 1.5));
                 AreEqual(1.125, () => GetNoteLengthSnapShot(0.5).Value);
-                Save(() => Note(instrument(F4), time, volume)).Play();
+                Save(Note(instrument(F4), time, volume)).Play();
             }
             
             // Fallback to BeatLength
@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 ResetNoteLength();
                 WithBeatLength(1);
                 AreEqual(1, () => GetNoteLength().Value);
-                Save(() => Note(instrument(G4), time, volume)).Play();
+                Save(Note(instrument(G4), time, volume)).Play();
             }
             
             // Fallback to BeatLength (dynamic)
@@ -179,19 +179,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 ResetNoteLength();
                 WithBeatLength(Curve(1.5, 2.0));
                 AreEqual(1.75, GetNoteLength().Calculate(0.5), delta);
-                Save(() => Note(instrument(A4), time, volume)).Play();
+                Save(Note(instrument(A4), time, volume)).Play();
             }
             
             // StrikeNote parameter
             {
                 var noteLength = _[2.2];
-                Save(() => Note(instrument(B4, noteLength), time, volume, noteLength)).Play();
+                Save(Note(instrument(B4, noteLength), time, volume, noteLength)).Play();
             }
             
             // StrikeNote parameter (dynamic duration)
             {
                 var noteLength = Curve(3.5, 5);
-                Save(() => Note(instrument(C5, noteLength), time, volume, noteLength)).Play();
+                Save(Note(instrument(C5, noteLength), time, volume, noteLength)).Play();
             }
         }
         
@@ -234,12 +234,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             return this;
         }
 
-        [TestMethod] public void NoteArrangement_IndividualNotes_Test() => new NoteWishesTests().NoteArrangement_IndividualNotes();
+        [TestMethod] public void NoteArrangement_IndividualNotes_Test() => Run(NoteArrangement_IndividualNotes);
         void NoteArrangement_IndividualNotes()
         {
             SetNoteArrangementOptions();
             
-            Save(() => MyCurve);
+            Save(MyCurve);
             
             // Why do I have to define a key for both Save and Play?
             _[ t[2, 1], A5, Flute1Param, MyCurve , l[0.5] ].Save("Save1").Play("Play1");
@@ -247,10 +247,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             _[ t[1, 1], A5, Flute1Param, MyCurve          ].Save("Save3").Play("Play3");
         }
         
-        [TestMethod] public void NoteArrangement_FluteNoParams_Test() => new NoteWishesTests().NoteArrangement_FluteNoParams();
+        [TestMethod] public void NoteArrangement_FluteNoParams_Test() => Run(NoteArrangement_FluteNoParams);
         void NoteArrangement_FluteNoParams() 
         {
-            SetNoteArrangementOptions().Save(() => 0.05 * _
+            SetNoteArrangementOptions().Save(0.05 * _
             [              FluteNoParams                   ]
             [              FluteNoParams, 0.8              ]
             [              FluteNoParams, 0.8     , l[0.5] ]
@@ -269,10 +269,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             .Play();
         }
 
-        [TestMethod] public void NoteArrangement_Flute1Param_Test() => new NoteWishesTests().NoteArrangement_Flute1Param();
+        [TestMethod] public void NoteArrangement_Flute1Param_Test() => Run(NoteArrangement_Flute1Param);
         void NoteArrangement_Flute1Param()
         {
-            SetNoteArrangementOptions().Save(() => 0.1 * _
+            SetNoteArrangementOptions().Save(0.1 * _
             [          A4, Flute1Param                   ]
             [          A4, Flute1Param, 0.8              ]
             [          A4, Flute1Param, 0.8     , l[0.5] ]
@@ -292,12 +292,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        public void NoteArrangement_Flute2Params_Test() => new NoteWishesTests().NoteArrangement_Flute2Params();
-        //public void NoteArrangement_Flute2Params_Test() => Run(NoteArrangement_Flute2Params); // BUG: Hangs the n'th time you run it individually.
+        public void NoteArrangement_Flute2Params_Test() => Run(NoteArrangement_Flute2Params); 
         void NoteArrangement_Flute2Params()
         {
-            SetNoteArrangementOptions().Save(() => 0.1 * _
-            //SetNoteArrangementOptions().Save(0.1 * _ // BUG: Hangs the n'th time you run it individually.
+            SetNoteArrangementOptions().Save(0.1 * _
             [          A4, Flute2Params                   ]
             [          A4, Flute2Params, 0.8              ]
             [          A4, Flute2Params, 0.8     , l[0.5] ]
@@ -316,10 +314,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             .Play();
         }
 
-        [TestMethod] public void NoteArrangement_Flute3Params_Test() => new NoteWishesTests().NoteArrangement_Flute3Params();
+        [TestMethod] public void NoteArrangement_Flute3Params_Test() => Run(NoteArrangement_Flute3Params);
         void NoteArrangement_Flute3Params()
         {
-            SetNoteArrangementOptions().Save(() => 0.1 * _
+            SetNoteArrangementOptions().Save(0.1 * _
             [          A4, Flute3Params                   ]
             [          A4, Flute3Params, 0.8              ]
             [          A4, Flute3Params, 0.8     , l[0.5] ]
@@ -353,10 +351,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             .Play();
         }
 
-        [TestMethod] public void NoteArrangement_Flute4Params_Test() => new NoteWishesTests().NoteArrangement_Flute4Params();
+        [TestMethod] public void NoteArrangement_Flute4Params_Test() => Run(NoteArrangement_Flute4Params);
         void NoteArrangement_Flute4Params()
         {
-            SetNoteArrangementOptions().Save(() => 0.1 * _
+            SetNoteArrangementOptions().Save(0.1 * _
             [          A4, Flute4Params                   ]
             [          A4, Flute4Params, 0.8              ]
             [          A4, Flute4Params, 0.8     , l[0.5] ]
@@ -405,10 +403,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             .Play();
         }
 
-        [TestMethod] public void NoteArrangement_Flute5Params_Test() => new NoteWishesTests().NoteArrangement_Flute5Params();
+        [TestMethod] public void NoteArrangement_Flute5Params_Test() => Run(NoteArrangement_Flute5Params);
         void NoteArrangement_Flute5Params()
         {
-            SetNoteArrangementOptions().Save(() => 0.1 * _
+            SetNoteArrangementOptions().Save(0.1 * _
             [          A4, Flute5Params                   ]
             [          A4, Flute5Params, 0.8              ]
             [          A4, Flute5Params, 0.8     , l[0.5] ]
@@ -472,10 +470,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             .Play();
         }
 
-        [TestMethod] public void NoteArrangement_Flute6Params_Test() => new NoteWishesTests().NoteArrangement_Flute6Params();
+        [TestMethod] public void NoteArrangement_Flute6Params_Test() => Run(NoteArrangement_Flute6Params);
         void NoteArrangement_Flute6Params()
         {
-            SetNoteArrangementOptions().Save(() => 0.1 * _
+            SetNoteArrangementOptions().Save(0.1 * _
             [          A4, Flute6Params                   ]
             [          A4, Flute6Params, 0.8              ]
             [          A4, Flute6Params, 0.8     , l[0.5] ]
@@ -554,10 +552,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             .Play();
         }
 
-        [TestMethod] public void NoteArrangement_TimeIndexers_Test() => new NoteWishesTests().NoteArrangement_TimeIndexers();
+        [TestMethod] public void NoteArrangement_TimeIndexers_Test() => Run(NoteArrangement_TimeIndexers);
         void NoteArrangement_TimeIndexers()
         {
-            SetNoteArrangementOptions().Save(() => 0.7 * _
+            SetNoteArrangementOptions().Save(0.7 * _
             [ b[1]            , A4, Flute3Params                                ]
             [ b[2]            , C5, Flute4Params, 0.6                           ]
             [ b[3]            , G4, Flute5Params, MyCurve, len[0.5]             ]

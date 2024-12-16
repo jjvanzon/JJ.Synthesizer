@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Tests.Functional;
+﻿using System;
+using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -18,6 +19,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         /// <inheritdoc cref="docs._captureindexer" />
         public CaptureIndexer _ => _baseAccessor._;
+               
+        public void Run(Action action)
+            => _baseAccessor.Run(action);
 
         /// <inheritdoc cref="docs._flute1" />
         public FlowNode Flute1(FlowNode freq = null, FlowNode duration = null)

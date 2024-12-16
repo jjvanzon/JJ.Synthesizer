@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
@@ -175,7 +176,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             Play(shaped).Save();
         }
-
                 
         // Optimization
         
@@ -382,8 +382,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         // Complexity
         
-        [TestMethod] public void ComplexityTest() => Run(TestComplexity);
-        private void TestComplexity()
+        [TestMethod] public void ComplexityTest() => Run(TestComplexity); 
+        void TestComplexity()
         {
             WithCacheToDisk(false);
             
@@ -395,10 +395,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             {
                 var accessor = new FMTestsAccessor(new FMTests());
-                
-                // Test on Buff only once for efficiency, because they require materialization.
-                TestBuffComplexity(accessor.Jingle());
-                
                 TestComplexity(accessor.Flute1());
                 TestComplexity(accessor.Flute2());
                 TestComplexity(accessor.Flute3());
@@ -441,7 +437,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
         }
 
-        private void TestComplexity(FlowNode flowNode)
+        void TestComplexity(FlowNode flowNode)
         {
             IsNotNull(() => flowNode);
             {
@@ -495,19 +491,29 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
         }
         
-        void TestBuffComplexity(FlowNode flowNode)
+        [TestMethod] public void TestComplexityOnBuff()
         {
-            Buff result = Record(flowNode);
-            IsNotNull(() => result);
+            // Test on Buff only once for efficiency, because it requires materialization.
             {
-                string stringify = result.Stringify();
+                var  accessor = new FMTestsAccessor(new FMTests());
+                Buff buff     = null;
+                accessor.Run(() => accessor.Jingle().Intercept(x => buff = x));
+                TestBuffComplexity(buff);
+            }
+        }
+        
+        void TestBuffComplexity(Buff buff)
+        {
+            IsNotNull(() => buff);
+            {
+                string stringify = buff.Stringify();
                 IsNotNull(() => stringify);
                 int complexityOld = stringify.CountLines();
-                int complexity    = result.Complexity();
+                int complexity    = buff.Complexity();
                 AreEqual(complexityOld, () => complexity);
             }
             
-            AudioFileOutput audioFileOutput = result.UnderlyingAudioFileOutput;
+            AudioFileOutput audioFileOutput = buff.UnderlyingAudioFileOutput;
             IsNotNull(() => audioFileOutput);
             {
                 string stringify = audioFileOutput.Stringify();

@@ -15,6 +15,7 @@ using static JJ.Business.Synthesizer.Calculation.Samples.SampleCalculatorFactory
 using static JJ.Business.Synthesizer.Tests.Helpers.CopiedFromFramework;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 using static JJ.Framework.Testing.AssertHelper;
+// ReSharper disable UseObjectOrCollectionInitializer
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable once NotAccessedField.Local
@@ -34,9 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         private InterpolationType _invalidInterpolationType = new InterpolationType();
         private NodeType _invalidNodeType = new NodeType();
 
-        [TestMethod]
-        public void Test_Exceptions_InWishes() => new ThrowTests().ExceptionsInWishes();
-
+        [TestMethod] public void Test_Exceptions_InWishes() => Run(ExceptionsInWishes);
         void ExceptionsInWishes()
         {
             // Set invalid ChannelEnum
@@ -71,9 +70,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ThrowsException(() => AudioFileFormatEnum.Undefined.GetHeaderLength());
         }
 
-        [TestMethod]
-        public void Test_Exceptions_InTests() => new ThrowTests().ExceptionsInTests();
-
+        [TestMethod] public void Test_Exceptions_InTests() => Run(ExceptionsInTests);
         void ExceptionsInTests()
         {
             // ModulationTests.DeepEcho Channel NotSupported
@@ -88,9 +85,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ThrowsException(() => new AudioFormatTests().GetValueTolerance(true, InterpolationTypeEnum.Undefined, 0));
         }
 
-        [TestMethod]
-        public void Test_Exceptions_InBackEnd() => new ThrowTests().ExceptionsInBackEnd();
-
+        [TestMethod] public void Test_Exceptions_InBackEnd() => Run(ExceptionsInBackEnd);
         void ExceptionsInBackEnd()
         {
             // SampleManager.CreateSample AudioFileFormatEnumNotSupported
@@ -183,7 +178,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported
             {
                 string fileName = NameHelper.MemberName() + "_AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported.wav";
-                Save(() => Sine(), fileName);
+                Save(Sine(), fileName);
                 AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(Context);
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
                 audioFileOutput.FilePath = fileName;

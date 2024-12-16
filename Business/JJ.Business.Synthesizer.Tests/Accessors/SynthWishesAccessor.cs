@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
@@ -16,6 +17,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         /// <inheritdoc cref="docs._captureindexer" />
         public CaptureIndexer _ 
             => (CaptureIndexer)_accessor.GetFieldValue(nameof(_));
+
+        public void Run(Action action)
+            => _accessor.InvokeMethod(MemberName(), action);
 
         public IList<FlowNode> FlattenTerms(FlowNode sumOrAdd) 
             => (IList<FlowNode>)_accessor.InvokeMethod(MemberName(), sumOrAdd);

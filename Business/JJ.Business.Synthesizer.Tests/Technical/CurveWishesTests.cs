@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
-using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -9,17 +8,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class CurveWishesTests : SynthWishes
     {
         [TestMethod]
-        public void AsciiCurves_WithoutRange()
+        public void AsciiCurves_WithoutRange_Test() => Run(AsciiCurves_WithoutRange); 
+        void AsciiCurves_WithoutRange()
         {
             var curve = CreateAsciiCurve_WithoutRange();
-            WithMono().WithAudioLength(4).Save(() => curve);
+            WithMono().WithAudioLength(4).Save(curve);
         }
 
         [TestMethod]
-        public void AsciiCurves_WithRange()
+        public void AsciiCurves_WithRange_Test() => Run(AsciiCurves_WithRange); 
+        void AsciiCurves_WithRange()
         {
             var curve = CreateAsciiCurve_WithRange();
-            WithMono().WithAudioLength(4).Save(() => curve);
+            WithMono().WithAudioLength(4).Save(curve);
         }
 
         FlowNode CreateAsciiCurve_WithoutRange() => Curve(@"
