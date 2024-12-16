@@ -37,7 +37,6 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         public void Metallophone_Jingle()
         {
-            WithPlay();
             MetallophoneJingle().Volume(0.33).Echo().Save().Play();
         }
         
@@ -46,7 +45,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         /// <inheritdoc cref="docs._metallophone"/>
         public void Metallophone_Chord()
         {
-            WithPlay().Fluent(MetallophoneChord).Volume(0.33).Echo().Save().Play();
+            Fluent(MetallophoneChord).Volume(0.33).Echo().Save().Play();
         }
 
         /// <inheritdoc cref="docs._metallophone"/>

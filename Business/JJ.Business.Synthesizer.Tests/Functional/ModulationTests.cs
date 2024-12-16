@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [TestCategory("Long")]
         [TestMethod] public void Detunica_Jingle_Test() => Run(Detunica_Jingle); void Detunica_Jingle() => _
         [DetunicaJingle] [DeepEcho] [Volume, 0.8]
-        .AddAudioLength(DeepEchoDuration).Save().WithPlay().Play();
+        .AddAudioLength(DeepEchoDuration).Save().Play();
 
         [TestMethod] public void DetunicaBass_Test() => Run(DetunicaBass); void DetunicaBass() => _
         [ E0, DetunicaBass, 0.9, len:_[4.5] ] [DeepEcho]

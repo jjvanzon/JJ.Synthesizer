@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         // Tests
 
         [TestMethod, TestCategory("Long")] public void FM_Jingle_Test() => Run(FM_Jingle);
-        void FM_Jingle() => WithPlay()[Jingle].DeepEcho().Volume(0.2).Save().Play();
+        void FM_Jingle() => _[Jingle].DeepEcho().Volume(0.2).Save().Play();
         
         [TestMethod] public void FM_Flute_Melody1_Test() => Run(FM_Flute_Melody1);
         void FM_Flute_Melody1() => (FluteMelody1.MildEcho() * 0.5).Save().Play();
