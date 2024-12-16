@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Wishes
             t = new TimeIndexer(this);
         }
 
-        public void Run(Action action) => RunOnNewInstance(action);
+        public SynthWishes Run(Action action) { RunOnNewInstance(action); return this; }
         
         internal void RunOnNewInstance(Action action)
         {
