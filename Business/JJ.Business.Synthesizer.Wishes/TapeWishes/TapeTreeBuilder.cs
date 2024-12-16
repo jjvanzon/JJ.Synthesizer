@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
-    internal class TapeHierarchyBuilder
+    internal class TapeTreeBuilder
     {
         private readonly TapeCollection _tapes;
         
-        public TapeHierarchyBuilder(TapeCollection tapes)
+        public TapeTreeBuilder(TapeCollection tapes)
         {
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
         }

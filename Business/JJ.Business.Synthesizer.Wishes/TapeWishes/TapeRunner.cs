@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly TapeCollection _tapes;
         /// <inheritdoc cref="docs._tapepadder" />
         private readonly TapePadder _tapePadder;
-        private readonly TapeHierarchyBuilder _tapeHierarchyBuilder;
+        private readonly TapeTreeBuilder _tapeTreeBuilder;
         private readonly StereoTapeMatcher _stereoTapeMatcher;
         private readonly StereoTapeRecombiner _stereoTapeRecombiner;
         private readonly StereoTapeActionRunner _stereoTapeActionRunner;
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
             _tapePadder = new TapePadder(synthWishes, tapes);
-            _tapeHierarchyBuilder = new TapeHierarchyBuilder(tapes);
+            _tapeTreeBuilder = new TapeTreeBuilder(tapes);
             _stereoTapeMatcher = new StereoTapeMatcher();
             _stereoTapeRecombiner = new StereoTapeRecombiner(synthWishes);
             _stereoTapeActionRunner = new StereoTapeActionRunner(synthWishes);
@@ -70,9 +70,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             tapes = _tapes.ToArray();
             
-            _tapeHierarchyBuilder.BuildTapeHierarchyRecursive(tapes);
+            _tapeTreeBuilder.BuildTapeHierarchyRecursive(tapes);
             
-            Console.WriteLine(PlotTapeHierarchy(tapes));
+            Console.WriteLine(PlotTapeTree(tapes));
         }
         
         private readonly AutoResetEvent _checkForNewLeavesReset = new AutoResetEvent(false);

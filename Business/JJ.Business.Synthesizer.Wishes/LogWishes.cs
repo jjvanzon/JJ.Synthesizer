@@ -121,15 +121,15 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Tapes
         
-        public static string PlotTapeHierarchy(IList<Tape> tapes, bool includeCalculationGraphs = false)
+        public static string PlotTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
             var sb = new StringBuilderWithIndentationWish("   ", NewLine);
-            PlotTapeHierarchy(tapes, sb, includeCalculationGraphs);
+            PlotTapeTree(tapes, sb, includeCalculationGraphs);
             sb.AppendLine();
             return sb.ToString();
         }
         
-        private static void PlotTapeHierarchy(IList<Tape> tapes, StringBuilderWithIndentationWish sb, bool includeCalculationGraphs)
+        private static void PlotTapeTree(IList<Tape> tapes, StringBuilderWithIndentationWish sb, bool includeCalculationGraphs)
         {
             sb.AppendLine("Tape Tree");
             sb.AppendLine("---------");
