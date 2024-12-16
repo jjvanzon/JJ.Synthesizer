@@ -66,16 +66,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return stereoTape;
         }
         
-        private IList<FlowNode> GetChannelSignals((Tape Left, Tape Right) tapePair)
+        private IList<FlowNode> GetChannelSignals((Tape Left, Tape Right) tapePair) => _synthWishes.GetChannelSignals(
+        () =>
         {
-            return _synthWishes.GetChannelSignals(() =>
-            {
-                var signal = _synthWishes.Sample(tapePair.Left.Buff).Panning(0) +
-                             _synthWishes.Sample(tapePair.Right.Buff).Panning(1);
-                
-                return signal.SetName(tapePair.Left);
-            });
-        }
+            FlowNode signal = _synthWishes.Sample(tapePair.Left.Buff).Panning(0) +
+                              _synthWishes.Sample(tapePair.Right.Buff).Panning(1);
+            
+            return signal.SetName(tapePair.Left);
+        });
         
         private static Tape CloneTape(Tape tapePrototype) => new Tape
         {
