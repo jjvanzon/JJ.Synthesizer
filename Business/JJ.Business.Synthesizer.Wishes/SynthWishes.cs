@@ -77,6 +77,14 @@ namespace JJ.Business.Synthesizer.Wishes
             Buff buff = Record(() => { action(); return dummy; });
         }
         
+        private void RunWithSave(Action action)
+        {
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            
+            var dummy = _[0.5];
+            Buff buff = Save(() => { action(); return dummy; });
+        }
+        
         private void RunOnNewInstance(Action action)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
