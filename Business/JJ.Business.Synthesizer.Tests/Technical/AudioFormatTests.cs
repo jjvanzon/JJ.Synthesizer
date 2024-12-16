@@ -437,7 +437,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedL = expectedL.Select(RoundValue).ToArray();
 
-                WithCenter();
+                WithLeft();
 
                 var sampleLeft  = getSample();
 
