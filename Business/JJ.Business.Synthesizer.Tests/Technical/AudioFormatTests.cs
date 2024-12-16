@@ -414,6 +414,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(expectedValues[6], actualValues[6], valueTolerance);
                 AreEqual(expectedValues[7], actualValues[7], valueTolerance);
                 AreEqual(expectedValues[8], actualValues[8], valueTolerance);
+            
+                Run(() => sampleMono.AsWav().Save(callerMemberName + "_Values"));
             }
 
             // Stereo
@@ -525,6 +527,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(expectedR[6], actualR[6], valueTolerance);
                 AreEqual(expectedR[7], actualR[7], valueTolerance);
                 AreEqual(expectedR[8], actualR[8], valueTolerance);
+
+                // Save values for quick inspection.
+                WithMono().WithCenter().AsWav();
+                Run(() => sampleLeft.Save(callerMemberName + "_ValuesLeft"));
+                Run(() => sampleRight.Save(callerMemberName + "_ValuesRight"));
             }
         }
 
