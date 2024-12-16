@@ -178,6 +178,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 sb.AppendLine();
             }
             
+            if (roots.Length > 0 || multiUseTapes.Length > 0)
+            {
+                sb.AppendLine("All:");
+            }
+            
             // Plot Hierarchy
             
             foreach(var tape in roots)
@@ -185,11 +190,14 @@ namespace JJ.Business.Synthesizer.Wishes
                 PlotTapeHierarchyRecursive(tape, sb, includeCalculationGraphs);
             }
 
-            sb.AppendLine();
-            
-            foreach(var tape in multiUseTapes)
+            if (multiUseTapes.Length > 0)
             {
-                PlotTapeHierarchyRecursive(tape, sb, includeCalculationGraphs, skipMultiUse: false);
+                sb.AppendLine();
+            
+                foreach(var tape in multiUseTapes)
+                {
+                    PlotTapeHierarchyRecursive(tape, sb, includeCalculationGraphs, skipMultiUse: false);
+                }
             }
         }
         
@@ -264,9 +272,9 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.IsPlayChannel) flagStrings.Add("playc");
             if (tape.IsSave) flagStrings.Add("save");
             if (tape.IsSaveChannel) flagStrings.Add("savec");
-            if (tape.IsIntercept) flagStrings.Add("inter");
+            if (tape.IsIntercept) flagStrings.Add("intercept");
+            if (tape.IsInterceptChannel) flagStrings.Add("interceptchan");
             if (tape.Callback != null) flagStrings.Add("callback");
-            if (tape.IsInterceptChannel) flagStrings.Add("interchan");
             if (tape.ChannelCallback != null) flagStrings.Add("callbackchan");
             if (tape.IsPadding) flagStrings.Add("pad");
             if (tape.Channel.HasValue) flagStrings.Add($"c{tape.Channel}");
