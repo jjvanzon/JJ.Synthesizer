@@ -260,13 +260,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 }
                 return sound.SetName(callerMemberName);
             }
-
-            // Save to file
-            // TODO: Retry Run notation later after fixes:
-            //Buff buff1 = null;
-            //Run(() =>  WithAudioLength(DURATION).Intercept(getSignal(), x => buff1 = x, callerMemberName));
+            
+            // Materialize
+            WithAudioLength(DURATION);
             Buff buff1 = WithAudioLength(DURATION).Record(getSignal, callerMemberName);
+            // TODO: Retry Run notation later after fixes:
+            // Buff buff1 = null; Run(() => Intercept(getSignal(), x => buff1 = x));
             IsNotNull(() => buff1);
+            buff1.Save(callerMemberName);
  
             AudioFileOutput audioFileOutput1 = buff1.UnderlyingAudioFileOutput;
             byte[] bytes = buff1.Bytes;
@@ -289,12 +290,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 return node;
             }
             
-            // Save to file again
-            // TODO: Retry Run notation later after fixes:
-            //Buff buff2 = null;
-            //Run(() => WithAudioLength(DURATION2).Intercept(getSample(), x => buff2 = x));
-            Buff buff2 = WithAudioLength(DURATION2).Record(getSample);
+            // Materialize again
+            WithAudioLength(DURATION2);
+            //Buff buff2 = WithAudioLength(DURATION2).Record(getSample);
+            Buff buff2 = null; Run(() => getSample().Intercept(x => buff2 = x));
             IsNotNull(() => buff2);
+            buff2.Save(callerMemberName + "_Reloaded");
             
             AudioFileOutput audioFileOutput2 = buff2.UnderlyingAudioFileOutput;
             
