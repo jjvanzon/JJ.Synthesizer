@@ -41,197 +41,197 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_32Bit_Linear_Aligned() 
-            => new AudioFormatTests().GenericTest(Wav, 2, 32, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 32, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_32Bit_Linear_NonAligned() 
-            => new AudioFormatTests().GenericTest(Wav, 2, 32, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 32, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_32Bit_Blocky_Aligned() 
-            => new AudioFormatTests().GenericTest(Wav, 2, 32, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 32, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_32Bit_Blocky_NonAligned() 
-            => new AudioFormatTests().GenericTest(Wav, 2, 32, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 32, Block, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_32Bit_Linear_Aligned() 
-            => new AudioFormatTests().GenericTest(Wav, 1, 32, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 32, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_32Bit_Linear_NonAligned() 
-            => new AudioFormatTests().GenericTest(Wav, 1, 32, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 32, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_32Bit_Block_Aligned() 
-            => new AudioFormatTests().GenericTest(Wav, 1, 32, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 32, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_32Bit_Block_NonAligned()
-            => new AudioFormatTests().GenericTest(Wav, 1, 32, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 32, Block, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_16Bit_Linear_Aligned() 
-            => new AudioFormatTests().GenericTest(Wav, 2, 16, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 16, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_16Bit_Linear_NonAligned() 
-            => new AudioFormatTests().GenericTest(Wav, 2, 16, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 16, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_16Bit_Blocky_Aligned() 
-            => new AudioFormatTests().GenericTest(Wav, 2, 16, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 16, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_16Bit_Blocky_NonAligned() 
-            => new AudioFormatTests().GenericTest(Wav, 2, 16, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 16, Block, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_16Bit_Linear_Aligned() 
-            => new AudioFormatTests().GenericTest(Wav, 1, 16, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 16, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_16Bit_Linear_NonAligned() 
-            => new AudioFormatTests().GenericTest(Wav, 1, 16, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 16, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_16Bit_Block_Aligned() 
-            => new AudioFormatTests().GenericTest(Wav, 1, 16, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 16, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_16Bit_Block_NonAligned()
-            => new AudioFormatTests().GenericTest(Wav, 1, 16, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 16, Block, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_8Bit_Linear_Aligned() 
-            => new AudioFormatTests().GenericTest(Wav, 2, 8, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 8, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_8Bit_Linear_NonAligned() 
-            => new AudioFormatTests().GenericTest(Wav, 2, 8, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 8, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_8Bit_Blocky_Aligned()
-            => new AudioFormatTests().GenericTest(Wav, 2, 8, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 8, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Stereo_8Bit_Blocky_NonAligned() 
-            => new AudioFormatTests().GenericTest(Wav, 2, 8, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 2, 8, Block, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_8Bit_Linear_Aligned() 
-            => new AudioFormatTests().GenericTest(Wav, 1, 8, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 8, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_8Bit_Linear_NonAligned() 
-            => new AudioFormatTests().GenericTest(Wav, 1, 8, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 8, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_8Bit_Blocky_Aligned() 
-            => new AudioFormatTests().GenericTest(Wav, 1, 8, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 8, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Wav_Mono_8Bit_Blocky_NonAligned() 
-            => new AudioFormatTests().GenericTest(Wav, 1, 8, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Wav, 1, 8, Block, aligned: false);
         
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_32Bit_Linear_Aligned() 
-            => new AudioFormatTests().GenericTest(Raw, 2, 32, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 32, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_32Bit_Linear_NonAligned() 
-            => new AudioFormatTests().GenericTest(Raw, 2, 32, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 32, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_32Bit_Blocky_Aligned() 
-            => new AudioFormatTests().GenericTest(Raw, 2, 32, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 32, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_32Bit_Blocky_NonAligned()
-            => new AudioFormatTests().GenericTest(Raw, 2, 32, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 32, Block, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_32Bit_Linear_Aligned()
-            => new AudioFormatTests().GenericTest(Raw, 1, 32, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 32, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_32Bit_Linear_NonAligned()
-            => new AudioFormatTests().GenericTest(Raw, 1, 32, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 32, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_32Bit_Blocky_Aligned() 
-            => new AudioFormatTests().GenericTest(Raw, 1, 32, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 32, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_32Bit_Blocky_NonAligned() 
-            => new AudioFormatTests().GenericTest(Raw, 1, 32, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 32, Block, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_16Bit_Linear_Aligned() 
-            => new AudioFormatTests().GenericTest(Raw, 2, 16, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 16, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_16Bit_Linear_NonAligned() 
-            => new AudioFormatTests().GenericTest(Raw, 2, 16, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 16, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_16Bit_Blocky_Aligned() 
-            => new AudioFormatTests().GenericTest(Raw, 2, 16, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 16, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_16Bit_Blocky_NonAligned()
-            => new AudioFormatTests().GenericTest(Raw, 2, 16, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 16, Block, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_16Bit_Linear_Aligned()
-            => new AudioFormatTests().GenericTest(Raw, 1, 16, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 16, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_16Bit_Linear_NonAligned()
-            => new AudioFormatTests().GenericTest(Raw, 1, 16, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 16, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_16Bit_Blocky_Aligned() 
-            => new AudioFormatTests().GenericTest(Raw, 1, 16, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 16, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_16Bit_Blocky_NonAligned() 
-            => new AudioFormatTests().GenericTest(Raw, 1, 16, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 16, Block, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_8Bit_Linear_Aligned() 
-            => new AudioFormatTests().GenericTest(Raw, 2, 8, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 8, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_8Bit_Linear_NonAligned() 
-            => new AudioFormatTests().GenericTest(Raw, 2, 8, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 8, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_8Bit_Blocky_Aligned()
-            => new AudioFormatTests().GenericTest(Raw, 2, 8, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 8, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Stereo_8Bit_Blocky_NonAligned() 
-            => new AudioFormatTests().GenericTest(Raw, 2, 8, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 2, 8, Block, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_8Bit_Linear_Aligned() 
-            => new AudioFormatTests().GenericTest(Raw, 1, 8, Line, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 8, Line, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_8Bit_Linear_NonAligned() 
-            => new AudioFormatTests().GenericTest(Raw, 1, 8, Line, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 8, Line, aligned: false);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_8Bit_Blocky_Aligned() 
-            => new AudioFormatTests().GenericTest(Raw, 1, 8, Block, aligned: true);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 8, Block, aligned: true);
 
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_8Bit_Blocky_NonAligned() 
-            => new AudioFormatTests().GenericTest(Raw, 1, 8, Block, aligned: false);
+            => new AudioFormatTests().TestAudioFormat(Raw, 1, 8, Block, aligned: false);
 
-        void GenericTest(
+        void TestAudioFormat(
             AudioFileFormatEnum audioFormat,
             int channels,
             int bits,
