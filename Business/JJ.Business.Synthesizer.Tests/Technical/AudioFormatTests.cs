@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static System.Environment;
 using static System.IO.Path;
 using static System.Math;
 using static System.MidpointRounding;
@@ -13,7 +14,6 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Tests.Accessors.JJFrameworkIOWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
-using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.RecordObsoleteExtensions;
@@ -555,13 +555,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 (string expectedFilePathFirstPart, int number, string expectedFilePathLastPart) =
                     GetNumberedFilePathParts(expectedFilePath, "", "");
                 
-                Console.WriteLine(GetText(() => audioFileOutput.FilePath) + " = " + audioFileOutput.FilePath);
-                Console.WriteLine(GetText(() => expectedFilePathFirstPart) + " = " + expectedFilePathFirstPart);
-                Console.WriteLine(GetText(() => expectedFilePathLastPart) + " = " + expectedFilePathLastPart);
-                Console.WriteLine("");
+                var values = new 
+                { 
+                    actualValue = audioFileOutput.FilePath,
+                    expectedFirstPart = expectedFilePathFirstPart, 
+                    expectedLastPart = expectedFilePathLastPart
+                };
                 
-                IsTrue(() => audioFileOutput.FilePath.StartsWith(expectedFilePathFirstPart));
-                IsTrue(() => audioFileOutput.FilePath.EndsWith(expectedFilePathLastPart));
+                IsTrue(audioFileOutput.FilePath.StartsWith(expectedFilePathFirstPart),
+                    $"Tested Expression: audioFileOutput.FilePath.StartsWith(expectedFilePathFirstPart).{NewLine}{values}");
+                IsTrue(audioFileOutput.FilePath.EndsWith(expectedFilePathLastPart),
+                    $"Tested Expression: audioFileOutput.FilePath.EndsWith(expectedFilePathLastPart).{NewLine}{values}");
             }
             
             IsTrue(audioFileOutput.ID > 0, "audioFileOutput.ID > 0");
