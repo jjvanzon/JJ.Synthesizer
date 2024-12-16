@@ -258,7 +258,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 {
                     sound = sound.Panning(PANNING);
                 }
-                return sound;
+                return sound.SetName(callerMemberName);
             }
 
             // Save to file
