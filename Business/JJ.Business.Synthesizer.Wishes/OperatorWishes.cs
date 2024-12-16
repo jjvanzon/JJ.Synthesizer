@@ -83,6 +83,18 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._captureindexer" />
         public FlowNode this[double value] => Value(value);
+       
+        // Tape
+    
+        public FlowNode Tape(FlowNode signal, FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
+        {
+            Tape tape = _tapes.GetOrCreate(signal, duration, null, null, null, callerMemberName);
+            tape.IsTape = true;
+            return signal;
+        }
+        
+        public FlowNode Tape(FlowNode signal, double duration, [CallerMemberName] string callerMemberName = null)
+            => Tape(signal, _[duration], callerMemberName);
 
         // Add
 
@@ -1068,18 +1080,6 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode echoDuration = (count - 1) * delay;
             return echoDuration.SetName();
         }
-
-        // Tape
-    
-        public FlowNode Tape(FlowNode signal, FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
-        {
-            Tape tape = _tapes.GetOrCreate(signal, duration, null, null, null, callerMemberName);
-            tape.IsTape = true;
-            return signal;
-        }
-        
-        public FlowNode Tape(FlowNode signal, double duration, [CallerMemberName] string callerMemberName = null)
-            => Tape(signal, _[duration], callerMemberName);
     }
 
     // FlowNode
@@ -1114,6 +1114,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
+        // Tape
+    
+        public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Tape(this, duration, callerMemberName);
+        
+        public FlowNode Tape(double duration, [CallerMemberName] string callerMemberName = null)
+            => _synthWishes.Tape(this, duration, callerMemberName);
+ 
         // Add
 
         /// <inheritdoc cref="docs._add"/>
@@ -1311,13 +1319,5 @@ namespace JJ.Business.Synthesizer.Wishes
             => _synthWishes.EchoTape(this, count, magnitude, delay, callerMemberName);
         
         public FlowNode EchoDuration(int count = 4, FlowNode delay = default) => _synthWishes.EchoDuration(count, delay);
-        
-        // Tape
-    
-        public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Tape(this, duration, callerMemberName);
-        
-        public FlowNode Tape(double duration, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Tape(this, duration, callerMemberName);
     }
 }
