@@ -232,10 +232,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             => new AudioFormatTests().GenericTest(Raw, 1, 8, Block, aligned: false);
 
         void GenericTest(
-            AudioFileFormatEnum audioFileFormatEnum,
+            AudioFileFormatEnum audioFormat,
             int channels,
             int bits,
-            InterpolationTypeEnum interpolationTypeEnum,
+            InterpolationTypeEnum interpolation,
             bool aligned,
             [CallerMemberName] string callerMemberName = null)
         {
@@ -245,8 +245,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             WithChannels(channels);
             WithBits(bits);
-            WithInterpolation(interpolationTypeEnum);
-            WithAudioFormat(audioFileFormatEnum);
+            WithInterpolation(interpolation);
+            WithAudioFormat(audioFormat);
             WithSamplingRate(samplingRate);
 
             // Panned, amplified sine
@@ -276,7 +276,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 FlowNode node   = Sample(bytes, audioFileOutput1.FilePath).SetName($"{callerMemberName}_Reloaded");
                 Sample   sample = node.UnderlyingSample();
 
-                if (audioFileFormatEnum == Raw)
+                if (audioFormat == Raw)
                 {
                     // In case of RAW format, set some values explicitly.
                     sample.SamplingRate   = samplingRate;
@@ -300,19 +300,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Assert AudioFileOutput Entities
 
             string expectedFilePath1 = 
-                GetFullPath(PrettifyName(callerMemberName) + audioFileFormatEnum.GetFileExtension());
+                GetFullPath(PrettifyName(callerMemberName) + audioFormat.GetFileExtension());
             
             AssertAudioFileOutputEntities(
                 audioFileOutput1,
-                audioFileFormatEnum, channels, bits, samplingRate,
+                audioFormat, channels, bits, samplingRate,
                 expectedFilePath1, DURATION);
 
             string expectedFilePath2 = 
-                GetFullPath(PrettifyName($"{callerMemberName}_Reloaded") + audioFileFormatEnum.GetFileExtension());
+                GetFullPath(PrettifyName($"{callerMemberName}_Reloaded") + audioFormat.GetFileExtension());
             
             AssertAudioFileOutputEntities(
                 audioFileOutput2,
-                audioFileFormatEnum, channels, bits, samplingRate,
+                audioFormat, channels, bits, samplingRate,
                 expectedFilePath2, DURATION2);
 
             // Assert Samples Entities
@@ -325,7 +325,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
                 AssertSampleEntities(
                     sampleMono,
-                    audioFileFormatEnum, channels, bits, interpolationTypeEnum, samplingRate,
+                    audioFormat, channels, bits, interpolation, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
                 
                 Console.WriteLine();
@@ -339,7 +339,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 AssertSampleEntities(
                     sampleLeft,
-                    audioFileFormatEnum, channels, bits, interpolationTypeEnum, samplingRate,
+                    audioFormat, channels, bits, interpolation, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
                 Console.WriteLine();
 
@@ -349,7 +349,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 AssertSampleEntities(
                     sampleRight,
-                    audioFileFormatEnum, channels, bits, interpolationTypeEnum, samplingRate,
+                    audioFormat, channels, bits, interpolation, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
                 Console.WriteLine();
             }
@@ -364,7 +364,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 WithCenter();
 
-                var sampleWrapperMono  = getSample();
+                var sampleMono  = getSample();
 
                 double[] expectedValues =
                 {
@@ -382,18 +382,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualValues =
                 {
-                    Calculate(sampleWrapperMono, time: 0.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperMono, time: 1.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperMono, time: 2.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperMono, time: 3.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperMono, time: 4.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperMono, time: 5.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperMono, time: 6.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperMono, time: 7.0 / 8.0 / frequency),
-                    Calculate(sampleWrapperMono, time: 8.0 / 8.0 / frequency)
+                    Calculate(sampleMono, time: 0.0 / 8.0 / frequency),
+                    Calculate(sampleMono, time: 1.0 / 8.0 / frequency),
+                    Calculate(sampleMono, time: 2.0 / 8.0 / frequency),
+                    Calculate(sampleMono, time: 3.0 / 8.0 / frequency),
+                    Calculate(sampleMono, time: 4.0 / 8.0 / frequency),
+                    Calculate(sampleMono, time: 5.0 / 8.0 / frequency),
+                    Calculate(sampleMono, time: 6.0 / 8.0 / frequency),
+                    Calculate(sampleMono, time: 7.0 / 8.0 / frequency),
+                    Calculate(sampleMono, time: 8.0 / 8.0 / frequency)
                 };
 
-                double valueTolerance = GetValueTolerance(aligned, interpolationTypeEnum, bits);
+                double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequired = expectedValues.Zip(actualValues, (x,y) => Abs(x - y)).Max();
                 Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
                 Console.WriteLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
@@ -472,22 +472,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 WithRight();
 
-                var sampleWrapperRight = getSample();
+                var sampleRight = getSample();
 
                 double[] actualR =
                 {
-                    sampleWrapperRight.Calculate(time: 0.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleWrapperRight.Calculate(time: 1.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleWrapperRight.Calculate(time: 2.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleWrapperRight.Calculate(time: 3.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleWrapperRight.Calculate(time: 4.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleWrapperRight.Calculate(time: 5.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleWrapperRight.Calculate(time: 6.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleWrapperRight.Calculate(time: 7.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleWrapperRight.Calculate(time: 8.0 / 8.0 / frequency, ChannelEnum.Right)
+                    sampleRight.Calculate(time: 0.0 / 8.0 / frequency, ChannelEnum.Right),
+                    sampleRight.Calculate(time: 1.0 / 8.0 / frequency, ChannelEnum.Right),
+                    sampleRight.Calculate(time: 2.0 / 8.0 / frequency, ChannelEnum.Right),
+                    sampleRight.Calculate(time: 3.0 / 8.0 / frequency, ChannelEnum.Right),
+                    sampleRight.Calculate(time: 4.0 / 8.0 / frequency, ChannelEnum.Right),
+                    sampleRight.Calculate(time: 5.0 / 8.0 / frequency, ChannelEnum.Right),
+                    sampleRight.Calculate(time: 6.0 / 8.0 / frequency, ChannelEnum.Right),
+                    sampleRight.Calculate(time: 7.0 / 8.0 / frequency, ChannelEnum.Right),
+                    sampleRight.Calculate(time: 8.0 / 8.0 / frequency, ChannelEnum.Right)
                 };
 
-                double valueTolerance = GetValueTolerance(aligned, interpolationTypeEnum, bits);
+                double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequired = expectedL.Concat(expectedR).Zip(actualL.Concat(actualR), (x,y) => Abs(x - y)).Max();
                 Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
                 Console.WriteLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
