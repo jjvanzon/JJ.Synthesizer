@@ -125,6 +125,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return originalTapeCollection;
         }
         
+        private readonly object _hierarchyLock = new object();
         internal void RunTape(Tape tape)
         {
             try
@@ -160,10 +161,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 // Exceptions will propagate after the while loop (where we wait for all tasks to finish),
                 // so let’s make sure the while loop can finish properly.
                 
-                //lock (_hierarchyLock)
-                //{
-                tape.ClearRelationships();
-                //}
+                lock (_hierarchyLock)
+                {
+                    tape.ClearRelationships();
+                }
                 
                 _checkForNewLeavesReset.Set();
             }
