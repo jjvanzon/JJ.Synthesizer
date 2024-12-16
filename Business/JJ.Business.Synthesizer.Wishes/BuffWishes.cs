@@ -19,6 +19,7 @@ using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
+// ReSharper disable MemberCanBePrivate.Global
 
 // ReSharper disable ParameterHidesMember
 // ReSharper disable UseObjectOrCollectionInitializer
@@ -53,25 +54,6 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         // MakeBuff on Instance (Start-of-Chain)
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        internal Buff MakeBuff(
-            Func<FlowNode> func, FlowNode duration,
-            bool inMemory, bool mustPad, IList<string> additionalMessages, 
-            string name, string filePath, [CallerMemberName] string callerMemberName = null)
-        {
-            var channelSignals = GetChannelSignals(func);
-            return MakeBuff(channelSignals, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
-        }
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        internal Buff MakeBuff(
-            FlowNode channel, FlowNode duration,
-            bool inMemory, bool mustPad, IList<string> additionalMessages, 
-            string name, string filePath, [CallerMemberName] string callerMemberName = null)
-            => MakeBuff(
-                new[] { channel }, duration,
-                inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         internal Buff MakeBuff(

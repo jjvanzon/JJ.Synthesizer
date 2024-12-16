@@ -17,57 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        // Instance (Start-Of-Chain)
-
-        /// <inheritdoc cref="docs._makebuff" />
-        public Buff Save(
-            Func<FlowNode> func,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => MakeBuff(
-                func, null,
-                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
-
-        /// <inheritdoc cref="docs._makebuff" />
-        public Buff Save(
-            Func<FlowNode> func, FlowNode duration,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => MakeBuff(
-                func, duration,
-                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
-
-        /// <inheritdoc cref="docs._makebuff" />
-        public Buff MaterializeSave(
-            FlowNode channel,
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => MakeBuff(
-                channel, null,
-                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
-
-        /// <inheritdoc cref="docs._makebuff" />
-        public Buff MaterializeSave(
-            FlowNode channel, FlowNode duration,
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => MakeBuff(
-                channel, duration,
-                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
-
-        /// <inheritdoc cref="docs._makebuff" />
-        public Buff Save(
-            IList<FlowNode> channelSignals,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => MakeBuff(
-                channelSignals, null,
-                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
-
-        /// <inheritdoc cref="docs._makebuff" />
-        public Buff Save(
-            IList<FlowNode> channelSignals, FlowNode duration,
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => MakeBuff(
-                channelSignals, duration,
-                inMemory: false, mustPad: true, null, null, filePath, callerMemberName);
-
-        // Instance Save (Mid-Chain)
+        // SynthWishes Instance Save (Mid-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
@@ -85,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return channel;
         }
         
-        // Instance SaveChannel (Mid-Chain)
+        // SynthWishes Instance SaveChannel (Mid-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode SaveChannel(
@@ -103,7 +53,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return channel;
         }
 
-        // Save in Statics (Buff to Buff) (End-of-Chain)
+        // SynthWishes Save in Statics (Buff to Buff) (End-of-Chain)
         
         public static Buff Save(
             Buff buff,
@@ -188,7 +138,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
     
-    // Statics Turned Instance (from Buff) (End-of-Chain)
+    // SynthWishes Statics Turned Instance (from Buff) (End-of-Chain)
 
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesSaveStaticsTurnedInstanceExtensions
@@ -258,7 +208,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.SaveChannel(this, duration, filePath, callerMemberName);
 
-        // Save on FlowNode (End-of-Chain)
+        // FlowNode Save (End-of-Chain)
 
         public FlowNode Save(
             Buff buff, 
@@ -293,7 +243,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     }
 
-    // Buff Extensions (End-of-Chain)
+    // Save Buff Extensions (End-of-Chain)
 
     public static class SaveExtensionWishes 
     {

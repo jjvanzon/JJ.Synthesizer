@@ -16,6 +16,7 @@ using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.RecordObsoleteExtensions;
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 // ReSharper disable ConvertToConstant.Local
 

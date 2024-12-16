@@ -69,23 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public void Run(Action action) => RunOnNewInstance(action);
         
-        private void RunWithRecord(Action action)
-        {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-            
-            var dummy = _[0.5];
-            Buff buff = Record(() => { action(); return dummy; });
-        }
-        
-        private void RunWithSave(Action action)
-        {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-            
-            var dummy = _[0.5];
-            Buff buff = Save(() => { action(); return dummy; });
-        }
-        
-        private void RunOnNewInstance(Action action)
+        internal void RunOnNewInstance(Action action)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
             
@@ -120,7 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }            
         }
         
-        private void RunOnThisInstance(Action action)
+        internal void RunOnThisInstance(Action action)
         {
             RunChannelSignals(action);
             
