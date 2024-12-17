@@ -116,7 +116,11 @@ namespace JJ.Business.Synthesizer.Wishes
         internal void RunOnThisInstance(Action action)
         {
             RunChannelSignals(action);
-            
+
+            Console.WriteLine("");
+            Console.WriteLine(GetConfigLog(this));
+            Console.WriteLine("");
+
             if (GetParallelTaping)
             {
                 _tapeRunner.RunAllTapes();

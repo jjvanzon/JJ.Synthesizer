@@ -36,5 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             return text;
         }
+
+        internal static string GetDebuggerDisplay(ConfigSection configSection) => GetConfigLog(configSection, "");
     }
 }

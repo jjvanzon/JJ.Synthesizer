@@ -69,6 +69,11 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             var channelSignals = synthWishes.GetChannelSignals(func);
+
+            Console.WriteLine("");
+            Console.WriteLine(LogWishes.GetConfigLog(synthWishes));
+            Console.WriteLine("");
+
             return synthWishes.MakeBuff(channelSignals, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
         }
 
@@ -102,6 +107,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            
             return synthWishes.MakeBuff(
                 func, null,
                 inMemory: true, default, null, name, null, callerMemberName);

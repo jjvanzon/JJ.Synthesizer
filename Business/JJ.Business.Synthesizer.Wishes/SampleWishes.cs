@@ -3,6 +3,7 @@ using JJ.Persistence.Synthesizer;
 using System.IO;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.IO.StreamHelper;
 
@@ -76,7 +77,10 @@ namespace JJ.Business.Synthesizer.Wishes
             
             sample.Name = name;
             sampleOutlet.UnderlyingOperator.Name = name;
-
+            
+            Console.WriteLine(GetConfigLog(sample, "Sample Created - " + name));
+            Console.WriteLine("");
+            
             return sampleOutlet;
         }
         

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
@@ -10,6 +12,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.E
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Configuration_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Testing_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 // ReSharper disable RedundantNameQualifier
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -24,8 +27,11 @@ namespace JJ.Business.Synthesizer.Wishes
         Stop
     }
     
+    [DebuggerDisplay("{DebuggerDisplay}")]
     internal class ConfigSection
     {
+        string DebuggerDisplay => GetDebuggerDisplay(this);
+            
         // Audio Quality
         
         [XmlAttribute] public int? Bits { get; set; }
