@@ -121,7 +121,137 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Config Log
+                
+        private static string GetConfigLog(string title, string group1, string group2 = null, string group3 = null, string sep = null)
+        {
+            string titleElement = Has(title) ? GetPrettyTitle(title) + NewLine : "";
+            string[] groups = { group1, group2, group3 };
+            if (!Has(sep, false)) sep = NewLine;
+            string log = titleElement + Join(sep, groups.Where(FilledIn));
+            return log;
+        }
 
+        public static string GetTimingDescriptor(
+            double? audioLength = null, double? leadingSilence = null, double? trailingSilence = null, 
+            double? barLength = null, double? beatLength = null, double? noteLength = null)
+        {
+            var elements = new List<string>();
+            
+            if (audioLength != null) elements.Add($"{PrettyDuration(audioLength)}");
+            
+            if (leadingSilence != trailingSilence)
+            {
+                if (leadingSilence != null && leadingSilence != 0)
+                {
+                    elements.Add($"Leading Silence {leadingSilence:F2}");
+                }
+                
+                if (trailingSilence != null && trailingSilence != 0)
+                {
+                    elements.Add($"Trailing Silence {trailingSilence:F2}");
+                }
+            }
+            else
+            {
+                if (leadingSilence != null && leadingSilence != 0)
+                {
+                    elements.Add($"Padding {leadingSilence:F2}");
+                }
+            }
+
+            if (barLength != null) elements.Add($"Bar {barLength:F2}");
+            if (beatLength != null) elements.Add($"Beat {beatLength:F2}");
+            if (noteLength != null) elements.Add($"Note {noteLength:F2}");
+            
+            string descriptor = Join(" | ", elements);
+            return descriptor;
+        }
+        
+        
+        /// <summary> Example: <code> [Format] Sampling rate: 8192 Hz | 32-Bit | Mono | Wav | Linear Interpolation </code> </summary>
+        public static string GetAudioFormatDescriptor(
+            int? samplingRate = null, int? bits = null,
+            int? channelCount = null, int? channel = null, 
+            AudioFileFormatEnum? audioFormat = null, 
+            InterpolationTypeEnum? interpolation = null)
+        {
+            var elements = new List<string>();
+
+            if (Has(samplingRate)) elements.Add($"{samplingRate} Hz");
+            if (Has(bits)) elements.Add($"{bits}-Bit");
+            string channelDescriptor = GetChannelDescriptor(channelCount, channel);
+            if (Has(channelDescriptor)) elements.Add(channelDescriptor);
+            if (Has(audioFormat)) elements.Add($"{audioFormat}".ToUpper());
+            if (Has(interpolation))
+            {
+                if (interpolation == Line) elements.Add("Linear");
+                else if (interpolation == Block) elements.Add("Blocky");
+                else elements.Add($"{interpolation} Interpolation");
+            }
+            
+            string descriptor = Join(" | ", elements);
+            return descriptor;
+        }
+        
+        private static string GetChannelDescriptor(int? channelCount, int? channel)
+        {
+            if (!Has(channelCount) && channel == null)
+                return default;
+            
+            if (Has(channelCount) && channel == null) 
+            {
+                return channelCount == 1 ? "Mono" : channelCount == 2 ? "Stereo" : $"{channelCount} Channels";
+            }
+            
+            if (!Has(channelCount) && channel != null)
+            {
+                return channel == 0 ? "Left" : channel == 1 ? "Right" : $"Channel {channel}";
+            }
+            
+            if (Has(channelCount) && channel != null)
+            {
+                if (channelCount == 1)
+                {
+                    return channel == 0 ? "Mono" : $"Mono | ⚠️ Channel {channel}";
+                }
+                
+                if (channelCount == 2)
+                {
+                    return channel == 0 ? "Left" : channel == 1 ? "Right" : $"Stereo | ⚠️ Channel {channel}";
+                }
+                
+                return channel < channelCount
+                    ? $"{channelCount} Channels | Channel {channel}"
+                    : $"{channelCount} Channels | ⚠️ Channel {channel}";
+            }
+            
+            return default;
+        }
+        
+        public static string GetFeaturesDescriptor(
+            bool? audioPlayback = false, 
+            bool? diskCache = false, 
+            bool? mathBoost = false, 
+            bool? parallelProcessing = false, 
+            bool? playAllTapes = false)
+        {
+            var features = new List<string>();
+
+            if (Has(audioPlayback)) features.Add("Audio Playback"); 
+            if (Has(diskCache)) features.Add("Disk Cache");
+            if (Has(mathBoost)) features.Add("Math Boost"); 
+            if (Has(parallelProcessing)) features.Add("Parallel Processing");
+            if (Has(playAllTapes)) features.Add("Play All Tapes");
+            
+            if (!Has(audioPlayback)) features.Add("⚠️ No Audio"); 
+            if (!Has(mathBoost)) features.Add("⚠️ No Math Boost");
+            if (!Has(parallelProcessing)) features.Add("⚠️ No Parallel Processing");
+            
+            string descriptor = Join(" | ", features);
+            return descriptor;
+        }
+
+        
         public static string GetConfigLog(SynthWishes synthWishes, string sep = default)
         {
             if (!Has(sep, trimSpace: false)) sep = NewLine;
@@ -209,29 +339,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string GetConfigLog(ConfigWishes configWishes, SynthWishes synthWishes = null, string sep = " | ")
             => GetConfigLog("", configWishes, synthWishes, sep);
 
-        public static string GetConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes = null, string sep = " | ")
-        {
-            return GetConfigLog(
-                title, 
-                GetFeaturesDescriptor(configWishes), 
-                GetAudioFormatDescriptor(configWishes),
-                Has(synthWishes) ? GetTimingDescriptor(configWishes, synthWishes) : "", 
-                sep);
-            
-            if (!Has(sep, trimSpace: false)) sep = " | ";
-            
-            string[] elements =
-            {
-                Has(title) ? GetPrettyTitle(title) : "",
+        public static string GetConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes = null, string sep = " | ") 
+            => GetConfigLog(
+                title,
                 GetFeaturesDescriptor(configWishes),
                 GetAudioFormatDescriptor(configWishes),
-                Has(synthWishes) ? GetTimingDescriptor(configWishes, synthWishes) : ""
-            };
-            
-            string configLog = Join(sep, elements.Where(FilledIn));
-            return configLog;
-        }
-
+                Has(synthWishes) ? GetTimingDescriptor(configWishes, synthWishes) : "",
+                sep: sep);
+        
         public static string GetConfigLog(ConfigSection configSection, string sep = default)
             => GetConfigLog("", configSection, sep);
 
@@ -283,15 +398,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static string GetConfigLog(string title, Sample sample, string sep = " | ") 
             => GetConfigLog(title, GetAudioFormatDescriptor(sample), GetTimingDescriptor(sample), sep: sep);
-        
-        public static string GetConfigLog(string title, string group1, string group2 = null, string group3 = null, string sep = null)
-        {
-            string titleElement = Has(title) ? GetPrettyTitle(title) + NewLine : "";
-            string[] groups = { group1, group2, group3 };
-            if (!Has(sep, false)) sep = NewLine;
-            string log = titleElement + Join(sep, groups.Where(FilledIn));
-            return log;
-        }
 
         private static string GetTimingDescriptor(ConfigWishes configWishes, SynthWishes synthWishes)
         {
@@ -342,42 +448,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (sample == null) throw new ArgumentNullException(nameof(sample));
             return GetTimingDescriptor(sample.GetDuration());
-        }
-
-        public static string GetTimingDescriptor(
-            double? audioLength = null, double? leadingSilence = null, double? trailingSilence = null, 
-            double? barLength = null, double? beatLength = null, double? noteLength = null)
-        {
-            var elements = new List<string>();
-            
-            if (audioLength != null) elements.Add($"{PrettyDuration(audioLength)}");
-            
-            if (leadingSilence != trailingSilence)
-            {
-                if (leadingSilence != null && leadingSilence != 0)
-                {
-                    elements.Add($"Leading Silence {leadingSilence:F2}");
-                }
-                
-                if (trailingSilence != null && trailingSilence != 0)
-                {
-                    elements.Add($"Trailing Silence {trailingSilence:F2}");
-                }
-            }
-            else
-            {
-                if (leadingSilence != null && leadingSilence != 0)
-                {
-                    elements.Add($"Padding {leadingSilence:F2}");
-                }
-            }
-
-            if (barLength != null) elements.Add($"Bar {barLength:F2}");
-            if (beatLength != null) elements.Add($"Beat {beatLength:F2}");
-            if (noteLength != null) elements.Add($"Note {noteLength:F2}");
-            
-            string descriptor = Join(" | ", elements);
-            return descriptor;
         }
         
         private static string GetAudioFormatDescriptor(ConfigWishes configWishes)
@@ -454,66 +524,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 wavHeader.ChannelCount);
         }
 
-        /// <summary> Example: <code> [Format] Sampling rate: 8192 Hz | 32-Bit | Mono | Wav | Linear Interpolation </code> </summary>
-        public static string GetAudioFormatDescriptor(
-            int? samplingRate = null, int? bits = null,
-            int? channelCount = null, int? channel = null, 
-            AudioFileFormatEnum? audioFormat = null, 
-            InterpolationTypeEnum? interpolation = null)
-        {
-            var elements = new List<string>();
-
-            if (Has(samplingRate)) elements.Add($"{samplingRate} Hz");
-            if (Has(bits)) elements.Add($"{bits}-Bit");
-            string channelDescriptor = GetChannelDescriptor(channelCount, channel);
-            if (Has(channelDescriptor)) elements.Add(channelDescriptor);
-            if (Has(audioFormat)) elements.Add($"{audioFormat}".ToUpper());
-            if (Has(interpolation))
-            {
-                if (interpolation == Line) elements.Add("Linear");
-                else if (interpolation == Block) elements.Add("Blocky");
-                else elements.Add($"{interpolation} Interpolation");
-            }
-            
-            string descriptor = Join(" | ", elements);
-            return descriptor;
-        }
-        
-        private static string GetChannelDescriptor(int? channelCount, int? channel)
-        {
-            if (!Has(channelCount) && channel == null)
-                return default;
-            
-            if (Has(channelCount) && channel == null) 
-            {
-                return channelCount == 1 ? "Mono" : channelCount == 2 ? "Stereo" : $"{channelCount} Channels";
-            }
-            
-            if (!Has(channelCount) && channel != null)
-            {
-                return channel == 0 ? "Left" : channel == 1 ? "Right" : $"Channel {channel}";
-            }
-            
-            if (Has(channelCount) && channel != null)
-            {
-                if (channelCount == 1)
-                {
-                    return channel == 0 ? "Mono" : $"Mono | ⚠️ Channel {channel}";
-                }
-                
-                if (channelCount == 2)
-                {
-                    return channel == 0 ? "Left" : channel == 1 ? "Right" : $"Stereo | ⚠️ Channel {channel}";
-                }
-                
-                return channel < channelCount
-                    ? $"{channelCount} Channels | Channel {channel}"
-                    : $"{channelCount} Channels | ⚠️ Channel {channel}";
-            }
-            
-            return default;
-        }
-
         private static string GetFeaturesDescriptor(ConfigWishes configWishes)
         {
             if (configWishes == null) throw new ArgumentNullException(nameof(configWishes));
@@ -534,29 +544,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 configSection.MathBoost, 
                 configSection.ParallelTaping, 
                 configSection.PlayAllTapes);
-        }
-
-        public static string GetFeaturesDescriptor(
-            bool? audioPlayback = false, 
-            bool? diskCache = false, 
-            bool? mathBoost = false, 
-            bool? parallelProcessing = false, 
-            bool? playAllTapes = false)
-        {
-            var features = new List<string>();
-
-            if (Has(audioPlayback)) features.Add("Audio Playback"); 
-            if (Has(diskCache)) features.Add("Disk Cache");
-            if (Has(mathBoost)) features.Add("Math Boost"); 
-            if (Has(parallelProcessing)) features.Add("Parallel Processing");
-            if (Has(playAllTapes)) features.Add("Play All Tapes");
-            
-            if (!Has(audioPlayback)) features.Add("⚠️ No Audio"); 
-            if (!Has(mathBoost)) features.Add("⚠️ No Math Boost");
-            if (!Has(parallelProcessing)) features.Add("⚠️ No Parallel Processing");
-            
-            string descriptor = Join(" | ", features);
-            return descriptor;
         }
         
         // Tapes
