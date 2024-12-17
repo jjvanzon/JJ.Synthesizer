@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Extensions;
+﻿// ReSharper disable UnusedVariable
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Helpers;

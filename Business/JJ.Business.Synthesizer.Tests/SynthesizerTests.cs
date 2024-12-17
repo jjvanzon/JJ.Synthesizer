@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ReSharper disable UnusedVariable
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
