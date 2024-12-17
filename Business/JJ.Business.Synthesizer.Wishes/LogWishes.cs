@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return log;
         }
 
-        public static string GetTimingDescriptor(
+        public static string GetDurationsDescriptor(
             double? audioLength = null, double? leadingSilence = null, double? trailingSilence = null, 
             double? barLength = null, double? beatLength = null, double? noteLength = null)
         {
@@ -267,7 +267,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string GetConfigLog(string title, AudioInfoWish audioInfoWish, string sep = " | ")
         {
             if (!Has(sep, false)) sep = NewLine;
-            return GetConfigLog(title, GetTimingDescriptor(audioInfoWish), GetAudioFormatDescriptor(audioInfoWish), sep: sep);
+            return GetConfigLog(title, GetDurationsDescriptor(audioInfoWish), GetAudioFormatDescriptor(audioInfoWish), sep: sep);
         }
 
         public static string GetConfigLog(AudioFileInfo audioFileInfo, string sep = " | ")
@@ -276,7 +276,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string GetConfigLog(string title, AudioFileInfo audioFileInfo, string sep = " | ")
         {
             if (!Has(sep, false)) sep = NewLine;
-            return GetConfigLog(title, GetTimingDescriptor(audioFileInfo), GetAudioFormatDescriptor(audioFileInfo), sep: sep);
+            return GetConfigLog(title, GetDurationsDescriptor(audioFileInfo), GetAudioFormatDescriptor(audioFileInfo), sep: sep);
         }
 
         public static string GetConfigLog(WavHeaderStruct wavHeader, string sep = " | ")
@@ -285,7 +285,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string GetConfigLog(string title, WavHeaderStruct wavHeader, string sep = " | ")
         {
             if (!Has(sep, false)) sep = NewLine;
-            return GetConfigLog(title, GetTimingDescriptor(wavHeader), GetAudioFormatDescriptor(wavHeader), sep: sep);
+            return GetConfigLog(title, GetDurationsDescriptor(wavHeader), GetAudioFormatDescriptor(wavHeader), sep: sep);
         }
         
         public static string GetConfigLog(ConfigWishes configWishes, SynthWishes synthWishes = null, string sep = " | ")
@@ -296,7 +296,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 title,
                 GetFeaturesDescriptor(configWishes),
                 GetAudioFormatDescriptor(configWishes),
-                Has(synthWishes) ? GetTimingDescriptor(configWishes, synthWishes) : "",
+                Has(synthWishes) ? GetDurationsDescriptor(configWishes, synthWishes) : "",
                 sep: sep);
         
         public static string GetConfigLog(ConfigSection configSection, string sep = " | ")
@@ -307,7 +307,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 title,
                 GetFeaturesDescriptor(configSection),
                 GetAudioFormatDescriptor(configSection),
-                GetTimingDescriptor(configSection),
+                GetDurationsDescriptor(configSection),
                 sep: sep);
         
         public static string GetConfigLog(Tape tape, string sep = default)
@@ -335,18 +335,18 @@ namespace JJ.Business.Synthesizer.Wishes
             => GetConfigLog("Audio File Output", audioFileOutput, sep);
 
         public static string GetConfigLog(string title, AudioFileOutput audioFileOutput, string sep = " | ") 
-            => GetConfigLog(title, GetTimingDescriptor(audioFileOutput), GetAudioFormatDescriptor(audioFileOutput), sep: sep);
+            => GetConfigLog(title, GetDurationsDescriptor(audioFileOutput), GetAudioFormatDescriptor(audioFileOutput), sep: sep);
         
         public static string GetConfigLog(Sample sample, string sep = " | ")
             => GetConfigLog("Sample Settings", sample, sep);
 
         public static string GetConfigLog(string title, Sample sample, string sep = " | ") 
-            => GetConfigLog(title, GetAudioFormatDescriptor(sample), GetTimingDescriptor(sample), sep: sep);
+            => GetConfigLog(title, GetAudioFormatDescriptor(sample), GetDurationsDescriptor(sample), sep: sep);
 
-        private static string GetTimingDescriptor(ConfigWishes configWishes, SynthWishes synthWishes)
+        private static string GetDurationsDescriptor(ConfigWishes configWishes, SynthWishes synthWishes)
         {
             if (configWishes == null) throw new ArgumentNullException(nameof(configWishes));
-            return GetTimingDescriptor(
+            return GetDurationsDescriptor(
                 configWishes.GetAudioLength(synthWishes).Value,
                 configWishes.GetLeadingSilence(synthWishes).Value,
                 configWishes.GetTrailingSilence(synthWishes).Value,
@@ -355,10 +355,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 configWishes.GetNoteLength(synthWishes).Value);
         }
         
-        private static string GetTimingDescriptor(ConfigSection configSection)
+        private static string GetDurationsDescriptor(ConfigSection configSection)
         {
             if (configSection == null) throw new ArgumentNullException(nameof(configSection));
-            return GetTimingDescriptor(
+            return GetDurationsDescriptor(
                 configSection.AudioLength,
                 configSection.LeadingSilence,
                 configSection.TrailingSilence,
@@ -367,31 +367,31 @@ namespace JJ.Business.Synthesizer.Wishes
                 configSection.NoteLength);
         }
 
-        private static string GetTimingDescriptor(WavHeaderStruct wavHeader)
-            => GetTimingDescriptor(wavHeader.GetAudioLength());
+        private static string GetDurationsDescriptor(WavHeaderStruct wavHeader)
+            => GetDurationsDescriptor(wavHeader.GetAudioLength());
         
-        private static string GetTimingDescriptor(AudioFileInfo audioFileInfo)
+        private static string GetDurationsDescriptor(AudioFileInfo audioFileInfo)
         {
             if (audioFileInfo == null) throw new ArgumentNullException(nameof(audioFileInfo));
-            return GetTimingDescriptor(audioFileInfo.GetAudioLength());
+            return GetDurationsDescriptor(audioFileInfo.GetAudioLength());
         }
                 
-        private static string GetTimingDescriptor(AudioInfoWish audioInfoWish)
+        private static string GetDurationsDescriptor(AudioInfoWish audioInfoWish)
         {
             if (audioInfoWish == null) throw new ArgumentNullException(nameof(audioInfoWish));
-            return GetTimingDescriptor(audioInfoWish.GetAudioLength());
+            return GetDurationsDescriptor(audioInfoWish.GetAudioLength());
         }
 
-        private static string GetTimingDescriptor(AudioFileOutput audioFileOutput)
+        private static string GetDurationsDescriptor(AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
-            return GetTimingDescriptor(audioFileOutput.Duration);
+            return GetDurationsDescriptor(audioFileOutput.Duration);
         }
 
-        private static string GetTimingDescriptor(Sample sample)
+        private static string GetDurationsDescriptor(Sample sample)
         {
             if (sample == null) throw new ArgumentNullException(nameof(sample));
-            return GetTimingDescriptor(sample.GetDuration());
+            return GetDurationsDescriptor(sample.GetDuration());
         }
         
         private static string GetAudioFormatDescriptor(ConfigWishes configWishes)
