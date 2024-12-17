@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public HashSet<Tape> ChildTapes { get; } = new HashSet<Tape>();
         public int NestingLevel { get; set; }
         
-        private int? GetChannels()
+        public int? GetChannels()
         {
             int? channelCount = ChannelSignals?.Count;
             if (Signal != null) channelCount = 1;
