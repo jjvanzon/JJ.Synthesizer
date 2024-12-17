@@ -5,6 +5,7 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using System;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Infos;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -22,10 +23,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int SizeOf(this SampleDataTypeEnum enumValue)
             => SampleDataTypeHelper.SizeOf(enumValue);
         
-        public static int SizeOfBits(this int bits) => bits / 8;
+        public static int SizeOfBitDepth(this int bits) => bits / 8;
 
         public static int SizeOfBitDepth(this WavHeaderStruct wavHeader)
             => wavHeader.BitsPerValue * 8;
+        
+        public static int SizeOfBitDepth(this AudioFileInfo info)
+        {
+            if (info == null) throw new ArgumentNullException(nameof(info));
+            return info.ToWish().SizeOfBitDepth();
+        }
 
         public static int SizeOfBitDepth(this AudioInfoWish info)
         {
@@ -54,6 +61,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int GetBits(this WavHeaderStruct wavHeader)
             => wavHeader.BitsPerValue;
 
+        public static int GetBits(this AudioFileInfo info)
+        {
+            if (info == null) throw new ArgumentNullException(nameof(info));
+            return info.ToWish().Bits;
+        }
+
         public static int GetBits(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -71,7 +84,13 @@ namespace JJ.Business.Synthesizer.Wishes
             return SizeOfBitDepth(wavHeader) * wavHeader.ChannelCount;
         }
 
-        public static int GetFrameSize(AudioInfoWish info)
+        public static int GetFrameSize(this AudioFileInfo info)
+        {
+            if (info == null) throw new ArgumentNullException(nameof(info));
+            return info.ToWish().GetFrameSize();
+        }
+        
+        public static int GetFrameSize(this AudioInfoWish info)
         {
             if (info == null) throw new ArgumentNullException(nameof(info));
             return SizeOfBitDepth(info) * info.Channels;
@@ -113,6 +132,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => EnumFromEntityWishes.ToEnum(enumEntity).GetFileExtension();
 
         /// <inheritdoc cref="docs._fileextension"/>
+        // ReSharper disable once UnusedParameter.Global
         public static string GetFileExtension(this WavHeaderStruct wavHeader)
             => GetFileExtension(AudioFileFormatEnum.Wav);
 
@@ -139,12 +159,28 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 case SampleDataTypeEnum.Float32: return 1;
                 case SampleDataTypeEnum.Int16: return Int16.MaxValue;
+                // ReSharper disable once PossibleLossOfFraction
                 case SampleDataTypeEnum.Byte: return Byte.MaxValue / 2;
                 default:
                     throw new ValueNotSupportedException(enumValue);
             }
         }
         
+        public static double GetNominalMax(this WavHeaderStruct wavHeader) 
+            => GetNominalMax(wavHeader.GetBits());
+        
+        public static double GetNominalMax(this AudioFileInfo info)
+        {
+            if (info == null) throw new ArgumentNullException(nameof(info));
+            return info.ToWish().GetNominalMax();
+        }
+        
+        public static double GetNominalMax(this AudioInfoWish info)
+        {
+            if (info == null) throw new ArgumentNullException(nameof(info));
+            return GetNominalMax(info.Bits);
+        }
+
         public static double GetNominalMax(this Sample entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -174,6 +210,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => EnumFromEntityWishes.ToEnum(enumEntity).GetHeaderLength();
 
         /// <inheritdoc cref="docs._headerlength"/>
+        // ReSharper disable once UnusedParameter.Global
         public static int GetHeaderLength(this WavHeaderStruct wavHeader)
             => GetHeaderLength(AudioFileFormatEnum.Wav);
 
@@ -199,6 +236,36 @@ namespace JJ.Business.Synthesizer.Wishes
             int courtesyBytes = GetFrameSize(entity) * extraBufferFrames; 
             return GetHeaderLength(entity) +
                    GetFrameSize(entity) * (int)(entity.SamplingRate * entity.Duration) + courtesyBytes;
+        }
+
+        public static double GetAudioLength(this WavHeaderStruct wavHeader) 
+            => wavHeader.GetAudioInfo().GetAudioLength();
+        
+        public static double GetAudioLength(this AudioFileInfo info)
+        {
+            if (info == null) throw new ArgumentNullException(nameof(info));
+            return info.ToWish().GetAudioLength();
+        }
+
+        public static double GetAudioLength(this AudioInfoWish info)
+        {
+            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (info.FrameCount == 0) return 0;
+            if (info.Channels == 0) throw new Exception("info.Channels == 0");
+            if (info.SamplingRate == 0) throw new Exception("info.SamplingRate == 0");
+            return (double)info.FrameCount / info.Channels / info.SamplingRate;
+        }
+
+        public static double GetAudioLength(this Sample sample)
+        {
+            if (sample == null) throw new ArgumentNullException(nameof(sample));
+            return sample.GetDuration();
+        }
+
+        public static double GetAudioLength(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            return audioFileOutput.Duration;
         }
     }
 

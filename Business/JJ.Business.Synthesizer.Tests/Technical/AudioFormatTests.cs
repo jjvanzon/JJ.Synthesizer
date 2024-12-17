@@ -784,7 +784,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         private int GetByteCountTolerance(int bits, int channels) 
-            => 4 * bits.SizeOfBits() * channels; // A tolerance of 4 audio frames.
+            => 4 * bits.SizeOfBitDepth() * channels; // A tolerance of 4 audio frames.
 
         private double RoundValue(double x) => Round(x, DECIMALS, AwayFromZero);
 
