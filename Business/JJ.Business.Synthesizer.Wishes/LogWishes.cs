@@ -316,7 +316,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        
         public static void LogAction(string typeName, string message) 
             => LogActionBase(null, typeName, null, message);
         
@@ -371,8 +370,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             return text;
         }
-        
-        
         
         // Math Boost
 
