@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.StreamerObsoleteMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
@@ -71,7 +72,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             var channelSignals = synthWishes.GetChannelSignals(func);
 
             Console.WriteLine("");
-            Console.WriteLine(LogWishes.GetConfigLog(synthWishes));
+            Console.WriteLine(GetConfigLog(synthWishes));
             Console.WriteLine("");
 
             return synthWishes.MakeBuff(channelSignals, duration, inMemory, mustPad, additionalMessages, name, filePath, callerMemberName);
