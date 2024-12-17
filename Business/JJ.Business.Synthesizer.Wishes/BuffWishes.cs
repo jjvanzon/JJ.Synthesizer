@@ -20,7 +20,6 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.Str
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 // ReSharper disable MemberCanBePrivate.Global
-
 // ReSharper disable ParameterHidesMember
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable AccessToModifiedClosure

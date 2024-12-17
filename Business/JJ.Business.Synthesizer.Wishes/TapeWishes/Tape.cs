@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JJ.Business.Synthesizer.Wishes.Helpers;
+using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public IList<FlowNode> ChannelSignals { get; set; }
         
         /// <inheritdoc cref="docs._istape" />
-        public bool IsTape { get;set; }
+        public bool IsTape { get; set; }
         public bool IsPlay { get; set; }
         public bool IsSave { get; set; }
         public bool IsIntercept { get; set; }
@@ -61,6 +61,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
 }
 
-        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => GetDebuggerDisplay(this);
     }
 }

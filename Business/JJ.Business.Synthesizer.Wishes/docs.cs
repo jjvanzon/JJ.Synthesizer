@@ -27,9 +27,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary> 
         public static object _asconst;
 
-        /// <summary> 
-        /// Replacement Wish version of AudioFileInfo with more intuitive member names.
-        /// </summary> 
+        /// <summary>
+        /// A simplified "Wish" replacement for AudioFileInfo, featuring more intuitive member names.
+        /// Designed as a lightweight object to mediate between different object types, 
+        /// primarily for constructing WAV headers.
+        /// </summary>
         public static object _audioinfowish;
 
         /// <summary> 
