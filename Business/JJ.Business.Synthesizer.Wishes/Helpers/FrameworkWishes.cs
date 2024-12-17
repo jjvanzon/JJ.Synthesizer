@@ -278,15 +278,16 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         internal static class FilledInWishes
         {
             public static bool FilledIn(string value)                 => !string.IsNullOrWhiteSpace(value);
-            public static bool Has(string value)                      => !string.IsNullOrWhiteSpace(value);
             public static bool FilledIn<T>(T[] arr)                   => arr != null && arr.Length > 0;
-            public static bool Has<T>(T[] arr)                        => arr != null && arr.Length > 0;
             public static bool FilledIn<T>(IList<T> coll)             => coll != null && coll.Count > 0;
-            public static bool Has<T>(IList<T> coll)                  => coll != null && coll.Count > 0;
             public static bool FilledIn<T>(T value) where T : struct  => !Equals(value, default(T));
-            public static bool Has<T>(T value) where T : struct       => !Equals(value, default(T));
             public static bool FilledIn<T>(T? value) where T : struct => !Equals(value, default(T?)) && !Equals(value, default(T));
-            public static bool Has<T>(T? value) where T : struct      => !Equals(value, default(T?)) && !Equals(value, default(T));
+            
+            public static bool Has(string value)                      => FilledIn(value);
+            public static bool Has<T>(T[] arr)                        => FilledIn(arr);
+            public static bool Has<T>(IList<T> coll)                  => FilledIn(coll);
+            public static bool Has<T>(T value) where T : struct       => FilledIn(value);
+            public static bool Has<T>(T? value) where T : struct      => FilledIn(value);
         }
     }
 
@@ -495,7 +496,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             public static string PrettyDuration(double? durationInSeconds)
             {
                 if (!durationInSeconds.HasValue) return default;
-                return PrettyDuration(durationInSeconds);
+                return PrettyDuration(durationInSeconds.Value);
             }
             
             public static string PrettyDuration(double durationInSeconds) => PrettyTimeSpan(TimeSpan.FromSeconds(durationInSeconds));
