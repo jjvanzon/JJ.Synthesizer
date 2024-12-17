@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.IO.File;
 using static System.IO.Path;
@@ -119,6 +123,405 @@ namespace JJ.Business.Synthesizer.Wishes
             return realTimeMessage;
         }
 
+        // Config Log
+                
+        public static string GetConfigLog(FlowNode flowNode)
+        {
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return GetConfigLog(flowNode.SynthWishes);
+        }
+
+        public static string GetConfigLog(SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            return GetConfigLog(synthWishes.Config, synthWishes);
+        }
+        
+        public static string GetConfigLog(Buff buff)
+        {
+            if (buff == null) throw new ArgumentNullException(nameof(buff));
+            return GetConfigLog(buff.UnderlyingAudioFileOutput);
+        }
+
+        public static string GetConfigLog(AudioInfoWish audioInfoWish)
+        {
+            string[] descriptors =
+            {
+                GetTimingDescriptor(audioInfoWish), 
+                GetAudioFormatDescriptor(audioInfoWish)
+            };
+            
+            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            return configLog;
+        }
+
+        public static string GetConfigLog(AudioFileInfo audioFileInfo)
+        {
+            string[] descriptors =
+            {
+                GetTimingDescriptor(audioFileInfo), 
+                GetAudioFormatDescriptor(audioFileInfo)
+            };
+            
+            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            return configLog;
+        }
+
+        public static string GetConfigLog(WavHeaderStruct wavHeader)
+        {
+            string[] descriptors =
+            {
+                GetTimingDescriptor(wavHeader), 
+                GetAudioFormatDescriptor(wavHeader)
+            };
+            
+            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            return configLog;
+        }
+        
+        public static string GetConfigLog(ConfigWishes configWishes, SynthWishes synthWishes)
+        {
+            string[] descriptors =
+            {
+                GetTimingDescriptor(configWishes, synthWishes), 
+                GetAudioFormatDescriptor(configWishes), 
+                GetFeaturesDescriptor(configWishes) 
+            };
+            
+            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            return configLog;
+        }
+
+        public static string GetConfigLog(ConfigSection configSection)
+        {
+            string[] descriptors =
+            {
+                GetTimingDescriptor(configSection), 
+                GetAudioFormatDescriptor(configSection), 
+                GetFeaturesDescriptor(configSection) 
+            };
+            
+            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            return configLog;
+        }
+        
+        public static string GetConfigLog(Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            
+            if (tape.Buff != null)
+            {
+                return GetConfigLog(tape.Buff);
+            }
+
+            // Otherwise: Limited data: Duration, Channel, tape.GetChannels(),
+            //double? audioLength = tape.Buff tape.Duration?.Value;
+
+            throw new NotImplementedException();
+        }
+        
+        public static string GetConfigLog(AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            
+             string[] descriptors =
+            {
+                GetTimingDescriptor(audioFileOutput), 
+                GetAudioFormatDescriptor(audioFileOutput)
+            };
+            
+            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            return configLog;
+        }
+
+        public static string GetConfigLog(Sample sample)
+        {
+            if (sample == null) throw new ArgumentNullException(nameof(sample));
+            
+             string[] descriptors =
+            {
+                GetTimingDescriptor(sample), 
+                GetAudioFormatDescriptor(sample)
+            };
+            
+            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            return configLog;
+        }
+
+        private static string GetTimingDescriptor(ConfigWishes configWishes, SynthWishes synthWishes)
+        {
+            if (configWishes == null) throw new ArgumentNullException(nameof(configWishes));
+            return GetTimingDescriptor(
+                configWishes.GetAudioLength(synthWishes).Value,
+                configWishes.GetLeadingSilence(synthWishes).Value,
+                configWishes.GetTrailingSilence(synthWishes).Value,
+                configWishes.GetBarLength(synthWishes).Value,
+                configWishes.GetBeatLength(synthWishes).Value,
+                configWishes.GetNoteLength(synthWishes).Value);
+        }
+        
+        private static string GetTimingDescriptor(ConfigSection configSection)
+        {
+            if (configSection == null) throw new ArgumentNullException(nameof(configSection));
+            return GetTimingDescriptor(
+                configSection.AudioLength,
+                configSection.LeadingSilence,
+                configSection.TrailingSilence,
+                configSection.BarLength,
+                configSection.BeatLength,
+                configSection.NoteLength);
+        }
+
+        private static string GetTimingDescriptor(WavHeaderStruct wavHeader)
+            => GetTimingDescriptor(wavHeader.GetAudioLength());
+        
+        private static string GetTimingDescriptor(AudioFileInfo audioFileInfo)
+        {
+            if (audioFileInfo == null) throw new ArgumentNullException(nameof(audioFileInfo));
+            return GetTimingDescriptor(audioFileInfo.GetAudioLength());
+        }
+                
+        private static string GetTimingDescriptor(AudioInfoWish audioInfoWish)
+        {
+            if (audioInfoWish == null) throw new ArgumentNullException(nameof(audioInfoWish));
+            return GetTimingDescriptor(audioInfoWish.GetAudioLength());
+        }
+
+        private static string GetTimingDescriptor(AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            return GetTimingDescriptor(audioFileOutput.Duration);
+        }
+
+        private static string GetTimingDescriptor(Sample sample)
+        {
+            if (sample == null) throw new ArgumentNullException(nameof(sample));
+            return GetTimingDescriptor(sample.GetDuration());
+        }
+
+        public static string GetTimingDescriptor(
+            double? audioLength = null, double? leadingSilence = null, double? trailingSilence = null, 
+            double? barLength = null, double? beatLength = null, double? noteLength = null,
+            bool includeCategoryLabel = true)
+        {
+            var elements = new List<string>();
+            
+            if (audioLength != null) elements.Add($"Audio length: {PrettyDuration(audioLength)}");
+            
+            if (leadingSilence != trailingSilence)
+            {
+                if (leadingSilence != null && leadingSilence != 0)
+                {
+                    elements.Add($"Leading Silence {PrettyDuration(leadingSilence)}");
+                }
+                
+                if (trailingSilence != null && trailingSilence != 0)
+                {
+                    elements.Add($"Trailing Silence {PrettyDuration(trailingSilence)}");
+                }
+            }
+            else
+            {
+                if (leadingSilence != null && leadingSilence != 0)
+                {
+                    elements.Add($"Padding {PrettyDuration(leadingSilence)}");
+                }
+            }
+
+            if (barLength != null) elements.Add($"Bar {PrettyDuration(barLength)}");
+            if (beatLength != null) elements.Add($"Beat {PrettyDuration(beatLength)}");
+            if (noteLength != null) elements.Add($"Note {PrettyDuration(noteLength)}");
+            
+            string categoryLabel = default;
+            if (includeCategoryLabel) categoryLabel = "[Timing] ";
+            
+            string descriptor = categoryLabel +  Join(" | ", elements);
+            return descriptor;
+        }
+        
+        private static string GetAudioFormatDescriptor(ConfigWishes configWishes)
+        {
+            if (configWishes == null) throw new ArgumentNullException(nameof(configWishes));
+            return GetAudioFormatDescriptor(
+                configWishes.GetSamplingRate, 
+                configWishes.GetBits, 
+                configWishes.GetChannels, 
+                configWishes.GetChannel, 
+                configWishes.GetAudioFormat,
+                configWishes.GetInterpolation);
+        }
+        
+        private static string GetAudioFormatDescriptor(ConfigSection configSection)
+        {
+            if (configSection == null) throw new ArgumentNullException(nameof(configSection));
+            return GetAudioFormatDescriptor(
+                configSection.SamplingRate,
+                configSection.Bits,
+                configSection.Channels,
+                channel: null,
+                configSection.AudioFormat,
+                configSection.Interpolation);
+        }
+        
+        private static string GetAudioFormatDescriptor(AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            return GetAudioFormatDescriptor(
+                audioFileOutput.SamplingRate, 
+                audioFileOutput.GetBits(), 
+                audioFileOutput.GetChannelCount(), 
+                channel: null,
+                audioFileOutput.GetAudioFileFormatEnum(), 
+                interpolation: null);
+        }
+
+        private static string GetAudioFormatDescriptor(Sample sample)
+        {
+            if (sample == null) throw new ArgumentNullException(nameof(sample));
+            return GetAudioFormatDescriptor(
+                sample.SamplingRate, 
+                sample.GetBits(), 
+                sample.GetChannelCount(), 
+                channel: null,
+                sample.GetAudioFileFormatEnum(), 
+                sample.GetInterpolationTypeEnum());
+        }
+                
+        private static string GetAudioFormatDescriptor(AudioFileInfo audioFileInfo)
+        {
+            if (audioFileInfo == null) throw new ArgumentNullException(nameof(audioFileInfo));
+            return GetAudioFormatDescriptor(
+                audioFileInfo.SamplingRate, 
+                audioFileInfo.GetBits(), 
+                audioFileInfo.ChannelCount);
+        }
+
+        private static string GetAudioFormatDescriptor(AudioInfoWish audioInfoWish)
+        {
+            if (audioInfoWish == null) throw new ArgumentNullException(nameof(audioInfoWish));
+            return GetAudioFormatDescriptor(
+                audioInfoWish.SamplingRate, 
+                audioInfoWish.Bits, 
+                audioInfoWish.Channels);
+        }
+
+        private static string GetAudioFormatDescriptor(WavHeaderStruct wavHeader)
+        {
+            return GetAudioFormatDescriptor(
+                wavHeader.SamplingRate, 
+                wavHeader.GetBits(), 
+                wavHeader.ChannelCount);
+        }
+
+        /// <summary> Example: <code> [Format] Sampling rate: 8192 Hz | 32-Bit | Mono | Wav | Linear Interpolation </code> </summary>
+        public static string GetAudioFormatDescriptor(
+            int? samplingRate = null, int? bits = null,
+            int? channelCount = null, int? channel = null, 
+            AudioFileFormatEnum? audioFormat = null, 
+            InterpolationTypeEnum? interpolation = null,
+            bool includeCategoryLabel = true)
+        {
+            var elements = new List<string>();
+
+            if (Has(samplingRate)) elements.Add($"Sampling rate: {samplingRate} Hz");
+            if (Has(bits)) elements.Add($"{bits}-Bit");
+            string channelDescriptor = GetChannelDescriptor(channelCount, channel);
+            if (Has(channelDescriptor)) elements.Add(channelDescriptor);
+            if (Has(audioFormat)) elements.Add($"{audioFormat}".ToUpper());
+            if (Has(interpolation))
+            {
+                if (interpolation == InterpolationTypeEnum.Line) elements.Add("Linear Interpolation");
+                else if (interpolation == InterpolationTypeEnum.Block) elements.Add("Blocky Interpolation");
+                else elements.Add($"{interpolation} Interpolation");
+            }
+
+            string categoryLabel = default;
+            if (includeCategoryLabel) categoryLabel = "[Format] ";
+            
+            string descriptor = categoryLabel + Join(" | ", elements);
+            return descriptor;
+        }
+        
+        private static string GetChannelDescriptor(int? channelCount, int? channel)
+        {
+            if (!Has(channelCount) && channel == null)
+                return default;
+            
+            if (Has(channelCount) && channel == null) 
+            {
+                return channelCount == 1 ? "Mono" : channelCount == 2 ? "Stereo" : $"{channelCount} Channels";
+            }
+            
+            if (!Has(channelCount) && channel != null)
+            {
+                return channel == 0 ? "Left" : channel == 1 ? "Right" : $"Channel {channel}";
+            }
+            
+            if (Has(channelCount) && channel != null)
+            {
+                if (channelCount == 1)
+                {
+                    return channel == 0 ? "Mono" : $"Mono | ⚠️ Channel {channel}";
+                }
+                
+                if (channelCount == 2)
+                {
+                    return channel == 0 ? "Left" : channel == 1 ? "Right" : $"Stereo | ⚠️ Channel {channel}";
+                }
+                
+                return channel < channelCount
+                    ? $"{channelCount} Channels | Channel {channel}"
+                    : $"{channelCount} Channels | ⚠️ Channel {channel}";
+            }
+            
+            return default;
+        }
+
+        private static string GetFeaturesDescriptor(ConfigWishes configWishes)
+        {
+            if (configWishes == null) throw new ArgumentNullException(nameof(configWishes));
+            return GetFeaturesDescriptor(
+                configWishes.GetPlay(), 
+                configWishes.GetCacheToDisk,
+                configWishes.GetMathBoost, 
+                configWishes.GetParallelTaping,
+                configWishes.GetPlayAllTapes);
+        }
+        
+        private static string GetFeaturesDescriptor(ConfigSection configSection)
+        {
+            if (configSection == null) throw new ArgumentNullException(nameof(configSection));
+            return GetFeaturesDescriptor(
+                configSection.Play, 
+                configSection.CacheToDisk, 
+                configSection.MathBoost, 
+                configSection.ParallelTaping, 
+                configSection.PlayAllTapes);
+        }
+
+        public static string GetFeaturesDescriptor(
+            bool? audioPlayback = false, 
+            bool? diskCache = false, 
+            bool? mathBoost = false, 
+            bool? parallelProcessing = false, 
+            bool? playAllTapes = false,
+            bool includeCategoryLabel = true)
+        {
+            var features = new List<string>();
+
+            if (Has(audioPlayback)) features.Add("Audio Playback");
+            if (Has(diskCache)) features.Add("Disk Cache");
+            if (Has(mathBoost)) features.Add("Math Boost");
+            if (Has(parallelProcessing)) features.Add("Parallel Processing");
+            if (Has(playAllTapes)) features.Add("Play All Tapes");
+            
+            string categoryLabel = default;
+            if (includeCategoryLabel) categoryLabel = "[Features] ";
+            
+            string descriptor = categoryLabel + Join(" | ", features);
+            return descriptor;
+        }
+        
         // Tapes
         
         public static string PlotTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
