@@ -109,13 +109,16 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     todoCount--;
                 }
                 
-                waitCount++;
-                
-                LogAction(nameof(Tape), "No Leaf", "Wait... " + waitCount);
-                bool triggered = _checkForNewLeavesReset.WaitOne(timeOutInMs);
-                if (!triggered)
+                if (todoCount > 0)
                 {
-                    HandleTimeOut(timeOutAction, timeOutInMs, todoCount, tapesTODO);
+                    waitCount++;
+
+                    LogAction(nameof(Tape), "No Leaf", "Wait... " + waitCount);
+                    bool triggered = _checkForNewLeavesReset.WaitOne(timeOutInMs);
+                    if (!triggered)
+                    {
+                        HandleTimeOut(timeOutAction, timeOutInMs, todoCount, tapesTODO);
+                    }
                 }
             } 
             
