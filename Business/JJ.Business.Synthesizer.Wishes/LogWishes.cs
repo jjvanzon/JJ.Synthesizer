@@ -310,25 +310,34 @@ namespace JJ.Business.Synthesizer.Wishes
                 GetDurationsDescriptor(configSection),
                 sep: sep);
         
-        public static string GetConfigLog(Tape tape, string sep = default)
-            => GetConfigLog("Tape Settings", tape, sep);
+        public static string GetConfigLog(Tape tape, string sep = " | ")
+            => GetConfigLog($"{tape.GetName} Tape", tape, sep);
 
-        public static string GetConfigLog(string title, Tape tape, string sep = default)
+        public static string GetConfigLog(string title, Tape tape, string sep = " | ")
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
+
+            Buff buff = tape.Buff;
+            AudioFileOutput audioFileOutput = buff?.UnderlyingAudioFileOutput;
+
+            string audioFormatDescriptor = GetAudioFormatDescriptor(
+                audioFileOutput?.SamplingRate, 
+                audioFileOutput?.GetBits(), 
+                tape.GetChannels() ?? audioFileOutput?.GetChannelCount(), 
+                channel: tape.Channel,
+                audioFileOutput?.GetAudioFileFormatEnum(), 
+                interpolation: null);
             
-            if (tape.Buff != null)
-            {
-                return GetConfigLog(tape.Buff, title);
-            }
+            string durationsDescriptor = GetDurationsDescriptor(
+                tape.Duration?.Value ?? audioFileOutput?.Duration);
 
-            // TODO: Finish up for tapes without Buffs.
-            // Otherwise: Limited data: Duration, Channel, tape.GetChannels(),
-            //double? audioLength = tape.Buff tape.Duration?.Value;
+            string configLog = GetConfigLog(
+                title, 
+                audioFormatDescriptor,
+                durationsDescriptor,
+                sep: sep);
 
-
-            sep = sep;
-            throw new NotImplementedException();
+            return configLog;
         }
         
         public static string GetConfigLog(AudioFileOutput audioFileOutput, string sep = " | ")
