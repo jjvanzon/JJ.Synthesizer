@@ -9,6 +9,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal class Tape
     {
+        private string DebuggerDisplay => GetDebuggerDisplay(this);
+
         /// <inheritdoc cref="docs._tapename" />
         public string GetName => NameHelper.ResolveName(Signal, ChannelSignals, FallBackName, FilePath);
         
@@ -59,8 +61,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 ChildTapes.Remove(child);
                 child.ParentTapes.Remove(this);
             }
-}
-
-        private string DebuggerDisplay => GetDebuggerDisplay(this);
+        }
     }
 }
