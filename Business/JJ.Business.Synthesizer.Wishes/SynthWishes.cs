@@ -67,6 +67,8 @@ namespace JJ.Business.Synthesizer.Wishes
             t = new TimeIndexer(this);
         }
 
+        public int TapeCount => _tapes.Count;
+
         public SynthWishes Run(Action action) { RunOnNewInstance(action); return this; }
         
         internal void RunOnNewInstance(Action action)
