@@ -38,16 +38,23 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         internal static string GetDebuggerDisplay(SynthWishes synthWishes)
         {
+            string typeString = FormatTypeName(synthWishes) + " ";
             string tapesString = synthWishes.TapeCount + " Tapes | ";
             string configString = GetConfigLog(title: "", synthWishes, sep: " | ");
-            string debuggerDisplay = tapesString + configString;
+            string debuggerDisplay = typeString + tapesString + configString;
             return debuggerDisplay;
         }
         
-        internal static string GetDebuggerDisplay(ConfigWishes configWishes) => GetConfigLog(configWishes);
+        internal static string GetDebuggerDisplay(ConfigWishes configWishes) => FormatTypeName(configWishes) + " " + GetConfigLog(configWishes);
     
-        internal static string GetDebuggerDisplay(ConfigSection configSection) => GetConfigLog(configSection);
+        internal static string GetDebuggerDisplay(ConfigSection configSection) => FormatTypeName(configSection) + " " + GetConfigLog(configSection);
 
-        internal static string GetDebuggerDisplay(AudioInfoWish audioInfoWish) => GetConfigLog(audioInfoWish);
+        internal static string GetDebuggerDisplay(AudioInfoWish audioInfoWish) => FormatTypeName(audioInfoWish) + " " + GetConfigLog(audioInfoWish);
+
+        private static string FormatTypeName(object obj)
+        {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            return $"{{ {obj.GetType().Name} }}";
+        }
     }
 }
