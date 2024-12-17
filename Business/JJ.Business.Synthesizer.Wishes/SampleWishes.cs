@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.Name = name;
             sampleOutlet.UnderlyingOperator.Name = name;
             
-            Console.WriteLine(GetConfigLog(sample, "Sample Created - " + name));
+            Console.WriteLine(GetConfigLog("Sample Created - " + name, sample));
             Console.WriteLine("");
             
             return sampleOutlet;

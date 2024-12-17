@@ -14,6 +14,7 @@ using static System.Environment;
 using static System.IO.File;
 using static System.IO.Path;
 using static System.String;
+using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -47,11 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes
             lines.Add("");
 
             lines.Add($"Calculation time: {PrettyDuration(calculationDuration)}");
-            lines.Add($"Audio length: {PrettyDuration(buff.UnderlyingAudioFileOutput.Duration)}");
-            lines.Add($"Sampling rate: {buff.UnderlyingAudioFileOutput.SamplingRate} Hz " +
-                      $"| {buff.UnderlyingAudioFileOutput.GetSampleDataTypeEnum()} " +
-                      $"| {buff.UnderlyingAudioFileOutput.GetSpeakerSetupEnum()}");
-
+            lines.Add(GetConfigLog("", buff));
             lines.Add("");
 
             IList<string> warnings = buff.Messages.ToArray();
@@ -124,127 +121,184 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Config Log
-                
-        public static string GetConfigLog(FlowNode flowNode)
+        
+        public static string GetConfigLog(FlowNode flowNode, string lineSeparator = default) 
+            => GetConfigLog("FlowNode Settings", flowNode, lineSeparator);        
+        
+        public static string GetConfigLog(string title, FlowNode flowNode, string lineSeparator = default)
         {
             if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
-            return GetConfigLog(flowNode.SynthWishes);
+            return GetConfigLog(title, flowNode.SynthWishes, lineSeparator);
         }
 
-        public static string GetConfigLog(SynthWishes synthWishes)
+        public static string GetConfigLog(SynthWishes synthWishes, string lineSeparator = default)
+            => GetConfigLog("SynthWishes Settings", synthWishes, lineSeparator);
+        
+        public static string GetConfigLog(string title, SynthWishes synthWishes, string lineSeparator = default)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            return GetConfigLog(synthWishes.Config, synthWishes);
+            return GetConfigLog(title, synthWishes.Config, synthWishes, lineSeparator);
         }
         
-        public static string GetConfigLog(Buff buff)
+        public static string GetConfigLog(Buff buff, string lineSeparator)
+            => GetConfigLog("Buff Settings", buff, lineSeparator);
+        
+        public static string GetConfigLog(string title, Buff buff, string lineSeparator = default)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
-            return GetConfigLog(buff.UnderlyingAudioFileOutput);
+            return GetConfigLog(title, buff.UnderlyingAudioFileOutput, lineSeparator);
         }
 
-        public static string GetConfigLog(AudioInfoWish audioInfoWish)
+        public static string GetConfigLog(AudioInfoWish audioInfoWish, string lineSeparator = default)
+            => GetConfigLog("Audio Info", audioInfoWish, lineSeparator);
+        
+        public static string GetConfigLog(string title, AudioInfoWish audioInfoWish, string lineSeparator = default)
         {
-            string[] descriptors =
+            if (!Has(lineSeparator)) lineSeparator = NewLine;
+            
+            string[] elements =
             {
+                Has(title) ? GetPrettyTitle(title) : "",
                 GetTimingDescriptor(audioInfoWish), 
                 GetAudioFormatDescriptor(audioInfoWish)
             };
             
-            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            string configLog = Join(lineSeparator, elements.Where(FilledIn));
             return configLog;
         }
 
-        public static string GetConfigLog(AudioFileInfo audioFileInfo)
+        public static string GetConfigLog(AudioFileInfo audioFileInfo, string lineSeparator = default)
+            => GetConfigLog("Audio Info", audioFileInfo, lineSeparator);
+
+        public static string GetConfigLog(string title, AudioFileInfo audioFileInfo, string lineSeparator = default)
         {
-            string[] descriptors =
+            if (!Has(lineSeparator)) lineSeparator = NewLine;
+            
+            string[] elements =
             {
+                Has(title) ? GetPrettyTitle(title) : "",
                 GetTimingDescriptor(audioFileInfo), 
                 GetAudioFormatDescriptor(audioFileInfo)
             };
             
-            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            string configLog = Join(lineSeparator, elements.Where(FilledIn));
             return configLog;
         }
 
-        public static string GetConfigLog(WavHeaderStruct wavHeader)
+        public static string GetConfigLog(WavHeaderStruct wavHeader, string lineSeparator = default)
+            => GetConfigLog("WAV Header", wavHeader, lineSeparator);
+
+        public static string GetConfigLog(string title, WavHeaderStruct wavHeader, string lineSeparator = default)
         {
-            string[] descriptors =
+            if (!Has(lineSeparator)) lineSeparator = NewLine;
+            
+            string[] elements =
             {
+                Has(title) ? GetPrettyTitle(title) : "",
                 GetTimingDescriptor(wavHeader), 
                 GetAudioFormatDescriptor(wavHeader)
             };
             
-            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            string configLog = Join(lineSeparator, elements.Where(FilledIn));
             return configLog;
         }
         
-        public static string GetConfigLog(ConfigWishes configWishes, SynthWishes synthWishes)
+        public static string GetConfigLog(ConfigWishes configWishes, SynthWishes synthWishes, string lineSeparator = default)
+            => GetConfigLog("Config Wishes", configWishes, synthWishes, lineSeparator);
+
+        public static string GetConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes, string lineSeparator = default)
         {
-            string[] descriptors =
+            if (!Has(lineSeparator)) lineSeparator = " | ";
+            
+            string[] elements =
             {
-                GetTimingDescriptor(configWishes, synthWishes), 
-                GetAudioFormatDescriptor(configWishes), 
-                GetFeaturesDescriptor(configWishes) 
+                Has(title) ? GetPrettyTitle(title) : "",
+                GetFeaturesDescriptor(configWishes),
+                GetAudioFormatDescriptor(configWishes),
+                GetTimingDescriptor(configWishes, synthWishes)
             };
             
-            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            string configLog = Join(lineSeparator, elements.Where(FilledIn));
             return configLog;
         }
 
-        public static string GetConfigLog(ConfigSection configSection)
+        public static string GetConfigLog(ConfigSection configSection, string lineSeparator = default)
+            => GetConfigLog("", configSection, lineSeparator);
+
+        public static string GetConfigLog(string title, ConfigSection configSection, string lineSeparator = default)
         {
-            string[] descriptors =
+            if (!Has(lineSeparator)) lineSeparator = " | ";
+            
+            string[] elements =
             {
-                GetTimingDescriptor(configSection), 
+                Has(title) ? GetPrettyTitle(title) : "",
+                GetFeaturesDescriptor(configSection),
                 GetAudioFormatDescriptor(configSection), 
-                GetFeaturesDescriptor(configSection) 
+                GetTimingDescriptor(configSection)
             };
             
-            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            string configLog = Join(lineSeparator, elements.Where(FilledIn));
             return configLog;
         }
         
-        public static string GetConfigLog(Tape tape)
+        public static string GetConfigLog(Tape tape, string lineSeparator = default)
+            => GetConfigLog("Tape Settings", tape, lineSeparator);
+
+        public static string GetConfigLog(string title, Tape tape, string lineSeparator = default)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
             if (tape.Buff != null)
             {
-                return GetConfigLog(tape.Buff);
+                return GetConfigLog(tape.Buff, title);
             }
 
+            // TODO: Finish up for tapes without Buffs.
             // Otherwise: Limited data: Duration, Channel, tape.GetChannels(),
             //double? audioLength = tape.Buff tape.Duration?.Value;
 
+
+            lineSeparator = lineSeparator;
             throw new NotImplementedException();
         }
         
-        public static string GetConfigLog(AudioFileOutput audioFileOutput)
+        public static string GetConfigLog(AudioFileOutput audioFileOutput, string lineSeparator = default)
+            => GetConfigLog("Audio File Output", audioFileOutput, lineSeparator);
+
+        public static string GetConfigLog(string title, AudioFileOutput audioFileOutput, string lineSeparator = default)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+
+            if (!Has(lineSeparator)) lineSeparator = NewLine;
             
-             string[] descriptors =
+             string[] elements =
             {
+                Has(title) ? GetPrettyTitle(title) : "",
                 GetTimingDescriptor(audioFileOutput), 
                 GetAudioFormatDescriptor(audioFileOutput)
             };
             
-            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            string configLog = Join(lineSeparator, elements.Where(FilledIn));
             return configLog;
         }
 
-        public static string GetConfigLog(Sample sample)
+        public static string GetConfigLog(Sample sample, string lineSeparator = default)
+            => GetConfigLog("Sample Settings", sample, lineSeparator);
+
+        public static string GetConfigLog(string title, Sample sample, string lineSeparator = default)
         {
             if (sample == null) throw new ArgumentNullException(nameof(sample));
+
+            if (!Has(lineSeparator)) lineSeparator = NewLine;
             
-             string[] descriptors =
+            string[] elements =
             {
+                Has(title) ? GetPrettyTitle(title) : "",
                 GetTimingDescriptor(sample), 
                 GetAudioFormatDescriptor(sample)
             };
             
-            string configLog = Join(NewLine, descriptors.Where(x => !IsNullOrWhiteSpace(x)));
+            string configLog = Join(lineSeparator, elements.Where(FilledIn));
             return configLog;
         }
 
@@ -302,35 +356,35 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string GetTimingDescriptor(
             double? audioLength = null, double? leadingSilence = null, double? trailingSilence = null, 
             double? barLength = null, double? beatLength = null, double? noteLength = null,
-            bool includeCategoryLabel = true)
+            bool includeCategoryLabel = false)
         {
             var elements = new List<string>();
             
-            if (audioLength != null) elements.Add($"Audio length: {PrettyDuration(audioLength)}");
+            if (audioLength != null) elements.Add($"Audio Length: {PrettyDuration(audioLength)}");
             
             if (leadingSilence != trailingSilence)
             {
                 if (leadingSilence != null && leadingSilence != 0)
                 {
-                    elements.Add($"Leading Silence {PrettyDuration(leadingSilence)}");
+                    elements.Add($"Leading Silence {leadingSilence:F2}");
                 }
                 
                 if (trailingSilence != null && trailingSilence != 0)
                 {
-                    elements.Add($"Trailing Silence {PrettyDuration(trailingSilence)}");
+                    elements.Add($"Trailing Silence {trailingSilence:F2}");
                 }
             }
             else
             {
                 if (leadingSilence != null && leadingSilence != 0)
                 {
-                    elements.Add($"Padding {PrettyDuration(leadingSilence)}");
+                    elements.Add($"Padding {leadingSilence:F2}");
                 }
             }
 
-            if (barLength != null) elements.Add($"Bar {PrettyDuration(barLength)}");
-            if (beatLength != null) elements.Add($"Beat {PrettyDuration(beatLength)}");
-            if (noteLength != null) elements.Add($"Note {PrettyDuration(noteLength)}");
+            if (barLength != null) elements.Add($"Bar {barLength:F2}");
+            if (beatLength != null) elements.Add($"Beat {beatLength:F2}");
+            if (noteLength != null) elements.Add($"Note {noteLength:F2}");
             
             string categoryLabel = default;
             if (includeCategoryLabel) categoryLabel = "[Timing] ";
@@ -419,19 +473,19 @@ namespace JJ.Business.Synthesizer.Wishes
             int? channelCount = null, int? channel = null, 
             AudioFileFormatEnum? audioFormat = null, 
             InterpolationTypeEnum? interpolation = null,
-            bool includeCategoryLabel = true)
+            bool includeCategoryLabel = false)
         {
             var elements = new List<string>();
 
-            if (Has(samplingRate)) elements.Add($"Sampling rate: {samplingRate} Hz");
+            if (Has(samplingRate)) elements.Add($"Sampling Rate: {samplingRate} Hz");
             if (Has(bits)) elements.Add($"{bits}-Bit");
             string channelDescriptor = GetChannelDescriptor(channelCount, channel);
             if (Has(channelDescriptor)) elements.Add(channelDescriptor);
             if (Has(audioFormat)) elements.Add($"{audioFormat}".ToUpper());
             if (Has(interpolation))
             {
-                if (interpolation == InterpolationTypeEnum.Line) elements.Add("Linear Interpolation");
-                else if (interpolation == InterpolationTypeEnum.Block) elements.Add("Blocky Interpolation");
+                if (interpolation == Line) elements.Add("Linear");
+                else if (interpolation == Block) elements.Add("Blocky");
                 else elements.Add($"{interpolation} Interpolation");
             }
 
@@ -505,15 +559,19 @@ namespace JJ.Business.Synthesizer.Wishes
             bool? mathBoost = false, 
             bool? parallelProcessing = false, 
             bool? playAllTapes = false,
-            bool includeCategoryLabel = true)
+            bool includeCategoryLabel = false)
         {
             var features = new List<string>();
 
-            if (Has(audioPlayback)) features.Add("Audio Playback");
+            if (Has(audioPlayback)) features.Add("Audio Playback"); 
             if (Has(diskCache)) features.Add("Disk Cache");
-            if (Has(mathBoost)) features.Add("Math Boost");
+            if (Has(mathBoost)) features.Add("Math Boost"); 
             if (Has(parallelProcessing)) features.Add("Parallel Processing");
             if (Has(playAllTapes)) features.Add("Play All Tapes");
+            
+            if (!Has(audioPlayback)) features.Add("⚠️ No Audio"); 
+            if (!Has(mathBoost)) features.Add("⚠️ No Math Boost");
+            if (!Has(parallelProcessing)) features.Add("⚠️ No Parallel Processing");
             
             string categoryLabel = default;
             if (includeCategoryLabel) categoryLabel = "[Features] ";
