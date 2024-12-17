@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        private void SaveIfNeeded(Tape tape)
+        public void SaveIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        private void PlayIfNeeded(Tape tape)
+        public void PlayIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         // Actions Per Item
         
-        private void InterceptIfNeeded(Tape tape)
+        public void InterceptIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
@@ -154,7 +154,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        private void SaveIfNeeded(Tape tape)
+        public void SaveIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        private void PlayIfNeeded(Tape tape)
+        public void PlayIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
