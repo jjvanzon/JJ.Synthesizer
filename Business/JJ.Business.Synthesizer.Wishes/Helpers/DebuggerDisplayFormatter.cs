@@ -26,7 +26,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             
-            
             string text = default;
             
             text += $"{GetTapeDescriptor(obj)} ";
