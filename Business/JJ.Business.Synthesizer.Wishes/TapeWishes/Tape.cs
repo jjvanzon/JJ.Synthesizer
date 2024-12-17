@@ -11,16 +11,27 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     {
         private string DebuggerDisplay => GetDebuggerDisplay(this);
 
+        // Names
+
         /// <inheritdoc cref="docs._tapename" />
         public string GetName => NameHelper.ResolveName(Signal, ChannelSignals, FallBackName, FilePath);
-        
-        public FlowNode Duration { get; set; }
+        public string FallBackName { get; set; }
+        public string FilePath { get; set; }
+
+        // Signals
+
         public FlowNode Signal { get; set; }
-        public int? Channel { get; set; }
-        
         /// <summary> For stereo tapes. </summary>
         public IList<FlowNode> ChannelSignals { get; set; }
         
+        // Audio Properties
+
+        public FlowNode Duration { get; set; }
+        public int? Channel { get; set; }
+
+        
+        // Actions
+
         /// <inheritdoc cref="docs._istape" />
         public bool IsTape { get; set; }
         public bool IsPlay { get; set; }
@@ -30,13 +41,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool IsSaveChannel { get; set; }
         public bool IsInterceptChannel { get; set; }
         public bool IsPadding { get; set; }
-        
-        public string FallBackName { get; set; }
-        public string FilePath { get; set; }
         public Func<Buff, Buff> Callback { get; set; }
         public Func<Buff, int, Buff> ChannelCallback { get; set; }
+        
+        // Buff
+
         public Buff Buff { get; set; }
         
+        // Hierachy
+
         public HashSet<Tape> ParentTapes { get; } = new HashSet<Tape>();
         public HashSet<Tape> ChildTapes { get; } = new HashSet<Tape>();
         public int NestingLevel { get; set; }
