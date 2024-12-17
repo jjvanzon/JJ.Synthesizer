@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes
             lines.Add("");
 
             lines.Add($"Calculation time: {PrettyDuration(calculationDuration)}");
-            lines.Add(GetConfigLog("", buff));
+            lines.Add(GetConfigLog(buff));
             lines.Add("");
 
             IList<string> warnings = buff.Messages.ToArray();
@@ -121,40 +121,43 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Config Log
-        
-        public static string GetConfigLog(FlowNode flowNode, string lineSeparator = default) 
-            => GetConfigLog("FlowNode Settings", flowNode, lineSeparator);        
-        
-        public static string GetConfigLog(string title, FlowNode flowNode, string lineSeparator = default)
-        {
-            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
-            return GetConfigLog(title, flowNode.SynthWishes, lineSeparator);
-        }
 
-        public static string GetConfigLog(SynthWishes synthWishes, string lineSeparator = default)
-            => GetConfigLog("SynthWishes Settings", synthWishes, lineSeparator);
+        public static string GetConfigLog(SynthWishes synthWishes, string separator = default)
+        {
+            if (!Has(separator, trimSpace: false)) separator = NewLine;
+            return GetConfigLog("Settings", synthWishes, separator);
+        }
         
-        public static string GetConfigLog(string title, SynthWishes synthWishes, string lineSeparator = default)
+        public static string GetConfigLog(string title, SynthWishes synthWishes, string sep = default)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            return GetConfigLog(title, synthWishes.Config, synthWishes, lineSeparator);
+            return GetConfigLog(title, synthWishes.Config, synthWishes, sep);
         }
         
-        public static string GetConfigLog(Buff buff, string lineSeparator)
-            => GetConfigLog("Buff Settings", buff, lineSeparator);
+        public static string GetConfigLog(FlowNode flowNode, string separator = default) 
+            => GetConfigLog("FlowNode Settings", flowNode, separator);        
         
-        public static string GetConfigLog(string title, Buff buff, string lineSeparator = default)
+        public static string GetConfigLog(string title, FlowNode flowNode, string sep = default)
+        {
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return GetConfigLog(title, flowNode.SynthWishes, sep);
+        }
+        
+        public static string GetConfigLog(Buff buff, string separator = default)
+            => GetConfigLog("", buff, separator);
+        
+        public static string GetConfigLog(string title, Buff buff, string sep = default)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
-            return GetConfigLog(title, buff.UnderlyingAudioFileOutput, lineSeparator);
+            return GetConfigLog(title, buff.UnderlyingAudioFileOutput, sep);
         }
 
-        public static string GetConfigLog(AudioInfoWish audioInfoWish, string lineSeparator = default)
-            => GetConfigLog("Audio Info", audioInfoWish, lineSeparator);
+        public static string GetConfigLog(AudioInfoWish audioInfoWish, string separator = default)
+            => GetConfigLog("Audio Info", audioInfoWish, separator);
         
-        public static string GetConfigLog(string title, AudioInfoWish audioInfoWish, string lineSeparator = default)
+        public static string GetConfigLog(string title, AudioInfoWish audioInfoWish, string sep = default)
         {
-            if (!Has(lineSeparator)) lineSeparator = NewLine;
+            if (!Has(sep, trimSpace: false)) sep = NewLine;
             
             string[] elements =
             {
@@ -163,16 +166,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 GetAudioFormatDescriptor(audioInfoWish)
             };
             
-            string configLog = Join(lineSeparator, elements.Where(FilledIn));
+            string configLog = Join(sep, elements.Where(FilledIn));
             return configLog;
         }
 
-        public static string GetConfigLog(AudioFileInfo audioFileInfo, string lineSeparator = default)
-            => GetConfigLog("Audio Info", audioFileInfo, lineSeparator);
+        public static string GetConfigLog(AudioFileInfo audioFileInfo, string separator = default)
+            => GetConfigLog("Audio Info", audioFileInfo, separator);
 
-        public static string GetConfigLog(string title, AudioFileInfo audioFileInfo, string lineSeparator = default)
+        public static string GetConfigLog(string title, AudioFileInfo audioFileInfo, string sep = default)
         {
-            if (!Has(lineSeparator)) lineSeparator = NewLine;
+            if (!Has(sep, trimSpace: false)) sep = NewLine;
             
             string[] elements =
             {
@@ -181,16 +184,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 GetAudioFormatDescriptor(audioFileInfo)
             };
             
-            string configLog = Join(lineSeparator, elements.Where(FilledIn));
+            string configLog = Join(sep, elements.Where(FilledIn));
             return configLog;
         }
 
-        public static string GetConfigLog(WavHeaderStruct wavHeader, string lineSeparator = default)
-            => GetConfigLog("WAV Header", wavHeader, lineSeparator);
+        public static string GetConfigLog(WavHeaderStruct wavHeader, string separator = default)
+            => GetConfigLog("WAV Header", wavHeader, separator);
 
-        public static string GetConfigLog(string title, WavHeaderStruct wavHeader, string lineSeparator = default)
+        public static string GetConfigLog(string title, WavHeaderStruct wavHeader, string sep = default)
         {
-            if (!Has(lineSeparator)) lineSeparator = NewLine;
+            if (!Has(sep, trimSpace: false)) sep = NewLine;
             
             string[] elements =
             {
@@ -199,35 +202,35 @@ namespace JJ.Business.Synthesizer.Wishes
                 GetAudioFormatDescriptor(wavHeader)
             };
             
-            string configLog = Join(lineSeparator, elements.Where(FilledIn));
+            string configLog = Join(sep, elements.Where(FilledIn));
             return configLog;
         }
         
-        public static string GetConfigLog(ConfigWishes configWishes, SynthWishes synthWishes, string lineSeparator = default)
-            => GetConfigLog("Config Wishes", configWishes, synthWishes, lineSeparator);
+        public static string GetConfigLog(ConfigWishes configWishes, SynthWishes synthWishes = null, string sep = default)
+            => GetConfigLog("", configWishes, synthWishes, sep);
 
-        public static string GetConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes, string lineSeparator = default)
+        public static string GetConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes = null, string separator = default)
         {
-            if (!Has(lineSeparator)) lineSeparator = " | ";
+            if (!Has(separator, trimSpace: false)) separator = " | ";
             
             string[] elements =
             {
                 Has(title) ? GetPrettyTitle(title) : "",
                 GetFeaturesDescriptor(configWishes),
                 GetAudioFormatDescriptor(configWishes),
-                GetTimingDescriptor(configWishes, synthWishes)
+                Has(synthWishes) ? GetTimingDescriptor(configWishes, synthWishes) : ""
             };
             
-            string configLog = Join(lineSeparator, elements.Where(FilledIn));
+            string configLog = Join(separator, elements.Where(FilledIn));
             return configLog;
         }
 
-        public static string GetConfigLog(ConfigSection configSection, string lineSeparator = default)
-            => GetConfigLog("", configSection, lineSeparator);
+        public static string GetConfigLog(ConfigSection configSection, string separator = default)
+            => GetConfigLog("", configSection, separator);
 
-        public static string GetConfigLog(string title, ConfigSection configSection, string lineSeparator = default)
+        public static string GetConfigLog(string title, ConfigSection configSection, string sep = default)
         {
-            if (!Has(lineSeparator)) lineSeparator = " | ";
+            if (!Has(sep, trimSpace: false)) sep = " | ";
             
             string[] elements =
             {
@@ -237,14 +240,14 @@ namespace JJ.Business.Synthesizer.Wishes
                 GetTimingDescriptor(configSection)
             };
             
-            string configLog = Join(lineSeparator, elements.Where(FilledIn));
+            string configLog = Join(sep, elements.Where(FilledIn));
             return configLog;
         }
         
-        public static string GetConfigLog(Tape tape, string lineSeparator = default)
-            => GetConfigLog("Tape Settings", tape, lineSeparator);
+        public static string GetConfigLog(Tape tape, string separator = default)
+            => GetConfigLog("Tape Settings", tape, separator);
 
-        public static string GetConfigLog(string title, Tape tape, string lineSeparator = default)
+        public static string GetConfigLog(string title, Tape tape, string sep = default)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
@@ -258,18 +261,18 @@ namespace JJ.Business.Synthesizer.Wishes
             //double? audioLength = tape.Buff tape.Duration?.Value;
 
 
-            lineSeparator = lineSeparator;
+            sep = sep;
             throw new NotImplementedException();
         }
         
-        public static string GetConfigLog(AudioFileOutput audioFileOutput, string lineSeparator = default)
-            => GetConfigLog("Audio File Output", audioFileOutput, lineSeparator);
+        public static string GetConfigLog(AudioFileOutput audioFileOutput, string separator = default)
+            => GetConfigLog("Audio File Output", audioFileOutput, separator);
 
-        public static string GetConfigLog(string title, AudioFileOutput audioFileOutput, string lineSeparator = default)
+        public static string GetConfigLog(string title, AudioFileOutput audioFileOutput, string sep = default)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
 
-            if (!Has(lineSeparator)) lineSeparator = NewLine;
+            if (!Has(sep, trimSpace: false)) sep = NewLine;
             
              string[] elements =
             {
@@ -278,28 +281,41 @@ namespace JJ.Business.Synthesizer.Wishes
                 GetAudioFormatDescriptor(audioFileOutput)
             };
             
-            string configLog = Join(lineSeparator, elements.Where(FilledIn));
+            string configLog = Join(sep, elements.Where(FilledIn));
             return configLog;
         }
 
-        public static string GetConfigLog(Sample sample, string lineSeparator = default)
-            => GetConfigLog("Sample Settings", sample, lineSeparator);
+        public static string GetConfigLog(Sample sample, string separator = " | ")
+            => GetConfigLog("Sample Settings", sample, separator);
 
-        public static string GetConfigLog(string title, Sample sample, string lineSeparator = default)
+        public static string GetConfigLog(string title, Sample sample, string sep = " | ")
         {
             if (sample == null) throw new ArgumentNullException(nameof(sample));
 
-            if (!Has(lineSeparator)) lineSeparator = NewLine;
+            return GetConfigLog(
+                title, 
+                GetAudioFormatDescriptor(sample),
+                GetTimingDescriptor(sample), 
+                sep: sep);
             
             string[] elements =
             {
                 Has(title) ? GetPrettyTitle(title) : "",
-                GetTimingDescriptor(sample), 
-                GetAudioFormatDescriptor(sample)
+                GetAudioFormatDescriptor(sample),
+                GetTimingDescriptor(sample),
             };
             
-            string configLog = Join(lineSeparator, elements.Where(FilledIn));
+            string configLog = Join(sep, elements.Where(FilledIn));
             return configLog;
+        }
+        
+        public static string GetConfigLog(string title, string group1, string group2 = null, string group3 = null, string sep = null)
+        {
+            string titleElement = Has(title) ? GetPrettyTitle(title) + NewLine : "";
+            string[] groups = { group1, group2, group3 };
+            if (!Has(sep, false)) sep = NewLine;
+            string log = titleElement + Join(sep, groups.Where(FilledIn));
+            return log;
         }
 
         private static string GetTimingDescriptor(ConfigWishes configWishes, SynthWishes synthWishes)
