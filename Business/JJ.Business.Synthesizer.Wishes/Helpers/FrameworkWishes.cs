@@ -277,17 +277,19 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         
         internal static class FilledInWishes
         {
-            public static bool FilledIn(string value)                 => !string.IsNullOrWhiteSpace(value);
-            public static bool FilledIn<T>(T[] arr)                   => arr != null && arr.Length > 0;
-            public static bool FilledIn<T>(IList<T> coll)             => coll != null && coll.Count > 0;
-            public static bool FilledIn<T>(T value) where T : struct  => !Equals(value, default(T));
-            public static bool FilledIn<T>(T? value) where T : struct => !Equals(value, default(T?)) && !Equals(value, default(T));
+            public static bool FilledIn(string value)                       => FilledIn(value, false);
+            public static bool FilledIn(string value, bool trimSpace)       => trimSpace ? !string.IsNullOrWhiteSpace(value): !string.IsNullOrEmpty(value);
+            public static bool FilledIn<T>(T[] arr)                         => arr != null && arr.Length > 0;
+            public static bool FilledIn<T>(IList<T> coll)                   => coll != null && coll.Count > 0;
+            public static bool FilledIn<T>(T value)                         => !Equals(value, default(T));
+            public static bool FilledIn<T>(T? value) where T : struct       => !Equals(value, default(T?)) && !Equals(value, default(T));
             
-            public static bool Has(string value)                      => FilledIn(value);
-            public static bool Has<T>(T[] arr)                        => FilledIn(arr);
-            public static bool Has<T>(IList<T> coll)                  => FilledIn(coll);
-            public static bool Has<T>(T value) where T : struct       => FilledIn(value);
-            public static bool Has<T>(T? value) where T : struct      => FilledIn(value);
+            public static bool Has(string value)                            => FilledIn(value);
+            public static bool Has(string value, bool trimSpace)            => FilledIn(value, trimSpace);
+            public static bool Has<T>(T[] arr)                              => FilledIn(arr);
+            public static bool Has<T>(IList<T> coll)                        => FilledIn(coll);
+            public static bool Has<T>(T value)                              => FilledIn(value);
+            public static bool Has<T>(T? value) where T : struct            => FilledIn(value);
         }
     }
 
