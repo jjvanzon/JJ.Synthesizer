@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Persistence.Synthesizer;
 
@@ -73,8 +74,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return tape;
         }
         
-        
         public void Clear() => _tapes.Clear();
+
+        public Tape[] ToArray() => _tapes.Values.ToArray(); // For availability in debugger.
 
         public IEnumerator<Tape> GetEnumerator()
         {
