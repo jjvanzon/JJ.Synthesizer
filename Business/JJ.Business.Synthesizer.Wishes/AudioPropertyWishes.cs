@@ -4,8 +4,10 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using System;
+using System.Diagnostics;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
+using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -272,8 +274,11 @@ namespace JJ.Business.Synthesizer.Wishes
     // Info Type
 
     /// <inheritdoc cref="docs._audioinfowish"/>
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class AudioInfoWish
     {
+        string DebuggerDisplay => GetDebuggerDisplay(this);
+
         public int Bits { get; set; }
         public int Channels { get; set; }
         public int SamplingRate { get; set; }

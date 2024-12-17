@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using JJ.Framework.Common;
@@ -10,6 +11,7 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
+using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
@@ -19,8 +21,11 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.Str
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class SynthWishes
     {
+        string DebuggerDisplay => GetDebuggerDisplay(this);
+
         public IContext Context { get; }
 
         private ConfigWishes _config;
@@ -209,7 +214,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     "or try `Run(() => mySound.Save())` for deferred audio streaming.");
             }
         }
-        
+
         // Helpers
 
         private static string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)

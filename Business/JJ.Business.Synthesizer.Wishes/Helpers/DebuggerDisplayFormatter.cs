@@ -37,8 +37,18 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return text;
         }
 
+        internal static string GetDebuggerDisplay(SynthWishes synthWishes)
+        {
+            string tapesString = synthWishes.TapeCount + " Tapes | ";
+            string configString = GetConfigLog(title: "", synthWishes, sep: " | ");
+            string debuggerDisplay = tapesString + configString;
+            return debuggerDisplay;
+        }
+        
+        internal static string GetDebuggerDisplay(ConfigWishes configWishes) => GetConfigLog(configWishes);
+    
         internal static string GetDebuggerDisplay(ConfigSection configSection) => GetConfigLog(configSection);
 
-        internal static string GetDebuggerDisplay(ConfigWishes configWishes) => GetConfigLog(configWishes);
+        internal static string GetDebuggerDisplay(AudioInfoWish audioInfoWish) => GetConfigLog(audioInfoWish);
     }
 }
