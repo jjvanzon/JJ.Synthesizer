@@ -561,6 +561,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 IsNotNull(() => audioFileOutput.FilePath);
                 
+                // ReSharper disable once UnusedVariable
                 (string expectedFilePathFirstPart, int number, string expectedFilePathLastPart) =
                     GetNumberedFilePathParts(expectedFilePath, "", "");
                 

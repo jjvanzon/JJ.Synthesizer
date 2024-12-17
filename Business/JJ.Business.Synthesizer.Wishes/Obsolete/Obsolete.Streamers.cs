@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             if (action == null) throw new ArgumentNullException(nameof(action));
 
             var dummy = synthWishes[0.5];
-            Buff buff = synthWishes.Record(() => { action(); return dummy; });
+            synthWishes.Record(() => { action(); return dummy; });
         }
 
         [Obsolete(ObsoleteMessage, true)]
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 throw new ArgumentNullException(nameof(action));
 
             var dummy = synthWishes[0.5];
-            Buff buff = synthWishes.Save(() => { action(); return dummy; });
+            synthWishes.Save(() => { action(); return dummy; });
         }
     }
 
