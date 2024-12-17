@@ -20,8 +20,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._stringify"/>
         public string Stringify(bool singleLine = false, bool mustUseShortOperators = false) 
             => _underlyingOutlet.Stringify(singleLine, mustUseShortOperators);
-        
-        public override string ToString() => _underlyingOutlet.Stringify(true, true);
     }
 
     // Stringify Extensions

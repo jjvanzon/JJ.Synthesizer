@@ -8,6 +8,9 @@ namespace JJ.Business.Synthesizer.Wishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class FlowNode
     {
+        private string DebuggerDisplay => GetDebuggerDisplay(this);
+        public override string ToString() => _underlyingOutlet.Stringify(true, true);
+
         internal FlowNode(SynthWishes synthWishes, Outlet firstOperand)
         {
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
@@ -31,7 +34,5 @@ namespace JJ.Business.Synthesizer.Wishes
         public static implicit operator Outlet(FlowNode flowNode) => flowNode?._underlyingOutlet;
     
         public static explicit operator double(FlowNode flowNode) => flowNode.Value;
-        
-        private string DebuggerDisplay => GetDebuggerDisplay(this);
     }
 }
