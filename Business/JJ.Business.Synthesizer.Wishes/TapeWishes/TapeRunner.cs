@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 
                 // Run Actions (that can't wait)
                 _channelTapeActionRunner.InterceptIfNeeded(tape);
-                
+
                 
                 // Wrap in Sample
                 FlowNode sample = tape.Signal.SynthWishes.Sample(tape.Buff, name: tape.GetName);
