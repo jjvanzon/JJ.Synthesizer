@@ -83,8 +83,11 @@ namespace JJ.Business.Synthesizer.Wishes
     
     // ConfigWishes
     
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class ConfigWishes
     {
+        string DebuggerDisplay => GetDebuggerDisplay(this);
+
         /// <summary> For static contexts use this. </summary>
         internal static ConfigWishes Default { get; } = new ConfigWishes();
 
