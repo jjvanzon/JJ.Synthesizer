@@ -47,8 +47,8 @@ namespace JJ.Business.Synthesizer.Wishes
             lines.Add(realTimeComplexityMessage);
             lines.Add("");
 
-            lines.Add($"Calculation time: {PrettyDuration(calculationDuration)}");
-            lines.Add(GetConfigLog(buff));
+            lines.Add($"Calculation Time: {PrettyDuration(calculationDuration)}");
+            lines.Add("Audio Length: " + GetConfigLog(buff));
             lines.Add("");
 
             IList<string> warnings = buff.Messages.ToArray();
