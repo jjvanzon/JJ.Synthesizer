@@ -293,7 +293,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static string GetTapeDescriptors(IList<Tape> tapes)
         {
-           if (!FilledIn(tapes)) return default;
+           if (!Has(tapes)) return default;
            string[] tapeDescriptors = tapes.Where(x => x != null).Select(GetTapeDescriptor).ToArray();
            return Join(NewLine, tapeDescriptors);
         }
@@ -306,7 +306,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 prefix = $"{todoCount} {nameof(Tape)}(s) Left: ";
             }
             
-            if (FilledIn(tapesLeft))
+            if (Has(tapesLeft))
             {
                 return prefix + NewLine + GetTapeDescriptors(tapesLeft);
             }
@@ -349,11 +349,11 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static string GetActionMessage(Tape tape, string typeName, string action, string message)
         {
-            if (!FilledIn(typeName)) typeName = nameof(Tape);
+            if (!Has(typeName)) typeName = nameof(Tape);
             
             string text = PrettyTime() + " [" + typeName.ToUpper() + "]";
             
-            if (FilledIn(action))
+            if (Has(action))
             {
                 text += " " + action;
             }
@@ -364,7 +364,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 text += " " + @"""" + GetTapeDescriptor(tape) + @"""";
             }
             
-            if (FilledIn(message))
+            if (Has(message))
             {
                 if (!text.EndsWithPunctuation()) text += ":";
                 text += " " + message;
