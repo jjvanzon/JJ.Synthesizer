@@ -39,6 +39,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public HashSet<Tape> ChildTapes { get; } = new HashSet<Tape>();
         public int NestingLevel { get; set; }
         
+        private int? GetChannels()
+        {
+            int? channelCount = ChannelSignals?.Count;
+            if (Signal != null) channelCount = 1;
+            return channelCount;
+        }
+
         public void ClearRelationships()
         {
             foreach (var parent in ParentTapes.ToArray())
