@@ -29,6 +29,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public FlowNode Duration { get; set; }
         public int? Channel { get; set; }
 
+        public int? GetChannels()
+        {
+            int? channelCount = Signals?.Count;
+            if (Signal != null) channelCount = 1;
+            return channelCount;
+        }
         
         // Actions
 
@@ -48,19 +54,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         public Buff Buff { get; set; }
         
-        // Hierachy
+        // Hierarchy
 
         public HashSet<Tape> ParentTapes { get; } = new HashSet<Tape>();
         public HashSet<Tape> ChildTapes { get; } = new HashSet<Tape>();
         public int NestingLevel { get; set; }
         
-        public int? GetChannels()
-        {
-            int? channelCount = Signals?.Count;
-            if (Signal != null) channelCount = 1;
-            return channelCount;
-        }
-
         public void ClearRelationships()
         {
             foreach (var parent in ParentTapes.ToArray())
