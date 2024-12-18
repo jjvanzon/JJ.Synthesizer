@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             newTape.IsPadded = true;
 
             Console.WriteLine(
-                $"{PrettyTime()} Padding: Tape.Duration = {oldDuration} + " +
+                $"{PrettyTime()} [TAPE] Pad: AudioLength = {oldDuration} + " +
                 $"{leadingSilence} + {trailingSilence} = {newTape.Duration}");
         }
 
