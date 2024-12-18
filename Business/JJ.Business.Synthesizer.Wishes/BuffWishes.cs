@@ -53,113 +53,57 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        // MakeBuff on Instance (Start-of-Chain)
-
         /// <inheritdoc cref="docs._makebuff" />
-        internal Buff MakeBuff(
-            IList<FlowNode> channelSignals, FlowNode duration,
-            bool inMemory, bool mustPad, IList<string> additionalMessages, 
-            string name, string filePath, [CallerMemberName] string callerMemberName = null)
+        internal void MakeBuffNew(
+            Tape tape, [CallerMemberName] string callerMemberName = null)
         {
-            // Suppress unused parameter error.
-            additionalMessages = additionalMessages;
-
-            var dummyTape = new Tape
-            {
-                Signals = channelSignals,
-                Duration = duration,
-                IsSave = !inMemory,
-                IsPadding = mustPad,
-                FilePath = filePath,
-                FallBackName = ResolveName(name, callerMemberName),
-            };
-
-            MakeBuff(dummyTape);
-            return dummyTape.Buff;
-        }
-
-
-        /// <inheritdoc cref="docs._makebuff" />
-        internal void MakeBuff(Tape tape)
-        {
-            // Not yet used.
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            var signals = tape.Signals?.ToList() ?? new List<FlowNode>();
-            if (tape.Signal != null) signals.Add(tape.Signal);
-
-            bool inMemory = !tape.IsSave && !tape.IsSaveChannel;
-
-            tape.Buff = MakeBuffOld(signals, tape.Duration, inMemory, tape.IsPadding, null, tape.GetName, tape.FilePath);
-        }
+            var signals = tape.ConcatSignals();
 
 
-        /// <inheritdoc cref="docs._makebuff" />
-        private Buff MakeBuffOld(
-            IList<FlowNode> channelSignals, FlowNode duration,
-            bool inMemory, bool mustPad, IList<string> additionalMessages, 
-            string name, string filePath, [CallerMemberName] string callerMemberName = null)
-        {
-            // Process Parameters
-            if (channelSignals == null) throw new ArgumentNullException(nameof(channelSignals));
-            if (channelSignals.Count == 0) throw new ArgumentException("channelSignals.Count == 0", nameof(channelSignals));
-            if (channelSignals.Contains(null)) throw new ArgumentException("channelSignals.Contains(null)", nameof(channelSignals));
-            additionalMessages = additionalMessages ?? Array.Empty<string>();
-            
-            // Resolve Name
-            name = ResolveName(name, filePath, channelSignals, callerMemberName);
-           
-            Buff buff;
-            
             // Apply Padding
             var originalAudioLength = GetAudioLength;
             try
             {
-                if (mustPad)
+                if (tape.IsPadding)
                 {
-                    ApplyPadding(channelSignals);
-                }
-                
-                // Run Parallel Processing
-                if (GetParallelTaping)
-                {
-                    _tapeRunner.RunAllTapes();
+                    ApplyPadding(signals);
                 }
                 
                 // Configure AudioFileOutput (avoid backend)
-                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(channelSignals, duration, name, filePath);
-                
-                // Gather Warnings
-                IList<string> configWarnings = Config.GetWarnings(audioFileOutput.GetFileExtension());
-                IList<string> warnings = additionalMessages.Union(configWarnings).ToArray();
+                AudioFileOutput audioFileOutput = ConfigureAudioFileOutputNew(tape);
                 
                 // Write Audio
-                buff = MakeBuff(audioFileOutput, inMemory && !GetCacheToDisk, GetExtraBufferFrames, warnings, name, filePath);
+                MakeBuffNew(tape, audioFileOutput, callerMemberName);
             }
             finally
             {
                 WithAudioLength(originalAudioLength);
             }
-            
-            return buff;
         }
         
-        /// <param name="duration">Nullable. Falls back to AudioLength or else to a 1-second time span.</param>
-        private AudioFileOutput ConfigureAudioFileOutput(
-            IList<FlowNode> channelSignals, FlowNode duration, string name, string filePath)
+        internal static AudioFileOutput ConfigureAudioFileOutputNew(
+            Tape tape, [CallerMemberName] string callerMemberName = null)
         {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape.Duration == null) throw new NullException(() => tape.Duration);
+            
             // Configure AudioFileOutput (avoid backend)
 
-            var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
+            IList<FlowNode> channelSignals = tape.ConcatSignals();
+
+            var context = CreateContext();
+            var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
-            audioFileOutput.Name = ResolveName(name, filePath);
-            audioFileOutput.FilePath = ResolveFilePath(filePath, name, GetAudioFormat);
-            audioFileOutput.Amplifier = GetBits.GetNominalMax();
+            audioFileOutput.Name = ResolveName(tape.GetName, callerMemberName) ;
+            audioFileOutput.FilePath = ResolveFilePath(tape.AudioFormat, tape.FilePath, tape.FallBackName, callerMemberName);
+            audioFileOutput.Amplifier = tape.Bits.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
-            audioFileOutput.Duration = (duration ?? GetAudioLength).Calculate();
-            audioFileOutput.SetBits(GetBits, Context);
-            audioFileOutput.SetAudioFormat(GetAudioFormat, Context);
-            audioFileOutput.SamplingRate = GetSamplingRate;
+            audioFileOutput.Duration = tape.Duration.Calculate();
+            audioFileOutput.SetBits(tape.Bits, context);
+            audioFileOutput.SetAudioFormat(tape.AudioFormat, context);
+            audioFileOutput.SamplingRate = tape.SamplingRate;
             
             audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(channelSignals.Count);
             CreateOrRemoveChannels(audioFileOutput, channelSignals.Count);
@@ -181,24 +125,21 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return audioFileOutput;
         }
-
-        // MakeBuff in Statics (End-of-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
-        internal static Buff MakeBuff(
-            AudioFileOutput audioFileOutput,
-            bool inMemory, int extraBufferFrames, IList<string> additionalMessages, 
-            string name, string filePath, [CallerMemberName] string callerMemberName = null)
+        internal static void MakeBuffNew(
+            Tape tape, AudioFileOutput audioFileOutput, [CallerMemberName] string callerMemberName = null)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
-            additionalMessages = additionalMessages ?? Array.Empty<string>();
 
-            string resolvedName = ResolveName(name, filePath, audioFileOutput, callerMemberName);
-            string resolvedFilePath = ResolveFilePath(filePath, resolvedName, audioFileOutput.GetAudioFileFormatEnum(), callerMemberName);
+            // Process parameter
+            string resolvedName = ResolveName(tape.GetName, tape.FilePath, audioFileOutput, callerMemberName);
+            string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.FilePath, resolvedName, callerMemberName);
+            bool inMemory = !tape.CacheToDisk && !tape.IsSave && !tape.IsSaveChannel;
 
             audioFileOutput.Name = resolvedName;
 
-            // Assert
+            // Validate
             
             #if DEBUG
             audioFileOutput.Assert();
@@ -209,9 +150,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutputChannel.Outlet?.Assert();
             }
             
-            // Warnings
             var warnings = new List<string>();
-            warnings.AddRange(additionalMessages);
             foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
             {
                 warnings.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
@@ -225,7 +164,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (inMemory)
             {
                 // Inject an in-memory stream
-                bytes = new byte[audioFileOutput.GetFileLengthNeeded(extraBufferFrames)];
+                bytes = new byte[audioFileOutput.GetFileLengthNeeded(tape.ExtraBufferFrames)];
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
             else 
@@ -246,7 +185,7 @@ namespace JJ.Business.Synthesizer.Wishes
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
             // Result
-            var buff = new Buff
+            tape.Buff = new Buff
             {
                 Bytes = bytes, 
                 FilePath = resolvedFilePath, 
@@ -255,26 +194,8 @@ namespace JJ.Business.Synthesizer.Wishes
             };
 
             // Report
-            var reportLines = GetSynthLog(buff, calculationDuration);
+            var reportLines = GetSynthLog(tape.Buff, calculationDuration);
             reportLines.ForEach(Console.WriteLine);
-            
-            return buff;
-        }
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        internal static Buff MakeBuff(
-            Buff buff, 
-            bool inMemory, int extraBufferFrames, IList<string> additionalMessages, 
-            string name, string filePath, [CallerMemberName] string callerMemberName = null)
-        {
-            if (buff == null) throw new ArgumentNullException(nameof(buff));
-            
-            name = ResolveName(name, buff, callerMemberName);
-            
-            return MakeBuff(
-                buff.UnderlyingAudioFileOutput,
-                inMemory, extraBufferFrames, additionalMessages, 
-                name, filePath, callerMemberName);
         }
 
         // Helpers
