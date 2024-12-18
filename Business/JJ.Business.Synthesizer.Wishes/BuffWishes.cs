@@ -53,32 +53,12 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._makebuff" />
-        internal void MakeBuff(
-            Tape tape, [CallerMemberName] string callerMemberName = null)
+        internal void MakeBuff(Tape tape, [CallerMemberName] string callerMemberName = null)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            
-            //var signals = tape.ConcatSignals();
 
-            // Apply Padding
-            //var originalAudioLength = GetAudioLength;
-            //try
-            //{
-                //if (tape.IsPadding)
-                //{
-                //    ApplyPadding(signals);
-                //}
-                
-                // Configure AudioFileOutput (avoid backend)
-                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(tape);
-                
-                // Write Audio
-                MakeBuff(tape, audioFileOutput, callerMemberName);
-            //}
-            //finally
-            //{
-            //    WithAudioLength(originalAudioLength);
-            //}
+            AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(tape);
+            MakeBuff(tape, audioFileOutput, callerMemberName);
         }
         
         internal static AudioFileOutput ConfigureAudioFileOutput(

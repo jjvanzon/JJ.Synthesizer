@@ -475,9 +475,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary> 
         public static object _operand;
 
-        /// <summary> 
-        /// Shorthand for setting both LeadingSilence and TrailingSilence at the same time.
-        /// Setting returns null of LeadingSilence and TrailingSilence are different.
+        /// <summary>
+        /// Audio padding is only relevant in case of Save and Play actions. <br/>
+        /// Padding before and after the audio can be set separately with the LeadingSilence and TrailingSilence settings. <br/>
+        /// The Padding settings is shorthand for setting both LeadingSilence and TrailingSilence at the same time. <br/>
+        /// Padding setting returns null of LeadingSilence and TrailingSilence are not the same.
         /// </summary> 
         public static object _padding;
         

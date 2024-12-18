@@ -445,8 +445,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // LeadingSilence
         
+        /// <inheritdoc cref="docs._padding"/>
         private FlowNode _leadingSilence;
         
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode GetLeadingSilence(SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
@@ -459,20 +461,25 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes[_section.LeadingSilence ?? DefaultLeadingSilence];
         }
 
+        /// <inheritdoc cref="docs._padding"/>
         public void WithLeadingSilence(FlowNode seconds) => _leadingSilence = seconds ?? throw new NullException(() => seconds);
         
+        /// <inheritdoc cref="docs._padding"/>
         public void WithLeadingSilence(double seconds, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             WithLeadingSilence(synthWishes[seconds]);
         }
         
+        /// <inheritdoc cref="docs._padding"/>
         public void ResetLeadingSilence() => _leadingSilence = null;
 
         // TrailingSilence
         
+        /// <inheritdoc cref="docs._padding"/>
         private FlowNode _trailingSilence;
         
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode GetTrailingSilence(SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
@@ -485,14 +492,17 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes[_section.TrailingSilence ?? DefaultTrailingSilence];
         }
         
+        /// <inheritdoc cref="docs._padding"/>
         public void WithTrailingSilence(FlowNode seconds) => _trailingSilence = seconds ?? throw new NullException(() => seconds);
         
+        /// <inheritdoc cref="docs._padding"/>
         public void WithTrailingSilence(double seconds, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             WithTrailingSilence(synthWishes[seconds]);
         }
         
+        /// <inheritdoc cref="docs._padding"/>
         public void ResetTrailingSilence() => _trailingSilence = null;
 
         // Padding
@@ -858,14 +868,22 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes ResetAudioLength() { Config.ResetAudioLength(); return this; }
 
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode GetLeadingSilence => Config.GetLeadingSilence(this);
+        /// <inheritdoc cref="docs._padding"/>
         public SynthWishes WithLeadingSilence(double seconds) { Config.WithLeadingSilence(seconds, this); return this; }
+        /// <inheritdoc cref="docs._padding"/>
         public SynthWishes WithLeadingSilence(FlowNode seconds) { Config.WithLeadingSilence(seconds); return this; }
+        /// <inheritdoc cref="docs._padding"/>
         public SynthWishes ResetLeadingSilence() { Config.ResetLeadingSilence(); return this; }
         
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode GetTrailingSilence => Config.GetTrailingSilence(this);
+        /// <inheritdoc cref="docs._padding"/>
         public SynthWishes WithTrailingSilence(double seconds) { Config.WithTrailingSilence(seconds, this); return this; }
+        /// <inheritdoc cref="docs._padding"/>
         public SynthWishes WithTrailingSilence(FlowNode seconds) { Config.WithTrailingSilence(seconds); return this; }
+        /// <inheritdoc cref="docs._padding"/>
         public SynthWishes ResetTrailingSilence() { Config.ResetTrailingSilence(); return this; }
 
         /// <inheritdoc cref="docs._padding"/>
@@ -1032,14 +1050,22 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._audiolength" />
         public FlowNode ResetAudioLength() { _synthWishes.ResetAudioLength(); return this; }
                 
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode GetLeadingSilence => _synthWishes.GetLeadingSilence;
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode WithLeadingSilence(double seconds) { _synthWishes.WithLeadingSilence(seconds); return this; }
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode WithLeadingSilence(FlowNode seconds) { _synthWishes.WithLeadingSilence(seconds); return this; }
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode ResetLeadingSilence() { _synthWishes.ResetLeadingSilence(); return this; }
         
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode GetTrailingSilence => _synthWishes.GetTrailingSilence;
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode WithTrailingSilence(double seconds) { _synthWishes.WithTrailingSilence(seconds); return this; }
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode WithTrailingSilence(FlowNode seconds) { _synthWishes.WithTrailingSilence(seconds); return this; }
+        /// <inheritdoc cref="docs._padding"/>
         public FlowNode ResetTrailingSilence() { _synthWishes.ResetTrailingSilence(); return this; }
         
         /// <inheritdoc cref="docs._padding"/>
