@@ -6,6 +6,7 @@ using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.IO.StreamHelper;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -13,6 +14,13 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
+        internal FlowNode Sample(Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            FlowNode sample = Sample(tape.Buff, name: tape.GetName);
+            return sample;
+        }
+
         /// <inheritdoc cref="docs._sample"/>
         public FlowNode Sample(
             Buff buff,
