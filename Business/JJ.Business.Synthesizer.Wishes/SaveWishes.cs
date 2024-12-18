@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -78,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             // Materialize if Buff not written.
-            return MakeBuff(
+            return MakeBuffObsoleteExtensions.MakeBuff(
                 buff,
                 inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
         }
@@ -86,7 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Buff Save(
             AudioFileOutput audioFileOutput,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => MakeBuff(
+            => MakeBuffObsoleteExtensions.MakeBuff(
                 audioFileOutput,
                 inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
 

@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             var tapes = _tapes.ToArray();
             
-            tapes.ForEach(_tapePadder.ApplyPadding);
+            _tapePadder.PadTapesIfNeeded(tapes);
             
             tapes = _tapes.ToArray();
             
@@ -129,6 +129,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
         
         private readonly object _hierarchyLock = new object();
+        
         internal void RunTape(Tape tape)
         {
             try

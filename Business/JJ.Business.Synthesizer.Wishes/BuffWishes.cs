@@ -17,7 +17,6 @@ using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutpu
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 // ReSharper disable MemberCanBePrivate.Global
@@ -54,36 +53,35 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         /// <inheritdoc cref="docs._makebuff" />
-        internal void MakeBuffNew(
+        internal void MakeBuff(
             Tape tape, [CallerMemberName] string callerMemberName = null)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            var signals = tape.ConcatSignals();
-
+            //var signals = tape.ConcatSignals();
 
             // Apply Padding
-            var originalAudioLength = GetAudioLength;
-            try
-            {
-                if (tape.IsPadding)
-                {
-                    ApplyPadding(signals);
-                }
+            //var originalAudioLength = GetAudioLength;
+            //try
+            //{
+                //if (tape.IsPadding)
+                //{
+                //    ApplyPadding(signals);
+                //}
                 
                 // Configure AudioFileOutput (avoid backend)
-                AudioFileOutput audioFileOutput = ConfigureAudioFileOutputNew(tape);
+                AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(tape);
                 
                 // Write Audio
-                MakeBuffNew(tape, audioFileOutput, callerMemberName);
-            }
-            finally
-            {
-                WithAudioLength(originalAudioLength);
-            }
+                MakeBuff(tape, audioFileOutput, callerMemberName);
+            //}
+            //finally
+            //{
+            //    WithAudioLength(originalAudioLength);
+            //}
         }
         
-        internal static AudioFileOutput ConfigureAudioFileOutputNew(
+        internal static AudioFileOutput ConfigureAudioFileOutput(
             Tape tape, [CallerMemberName] string callerMemberName = null)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
@@ -127,7 +125,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._makebuff" />
-        internal static void MakeBuffNew(
+        internal static void MakeBuff(
             Tape tape, AudioFileOutput audioFileOutput, [CallerMemberName] string callerMemberName = null)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
@@ -199,51 +197,6 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Helpers
-        
-        internal void ApplyPadding(IList<FlowNode> channelSignals)
-        {
-            FlowNode leadingSilence = GetLeadingSilence;
-            FlowNode trailingSilence = GetTrailingSilence;
-            
-            if (leadingSilence.Value == 0 && trailingSilence.Value == 0)
-            {
-                return;
-            }
-            
-            Console.WriteLine($"{PrettyTime()} Padding: {leadingSilence} s before | {trailingSilence} s after");
-            
-            FlowNode originalAudioLength = GetAudioLength;
-            
-            // Extend AudioLength once for the two channels.
-            AddAudioLength(leadingSilence);
-            AddAudioLength(trailingSilence);
-
-            FlowNode newAudioLength = GetAudioLength;
-            
-            Console.WriteLine(
-                $"{PrettyTime()} Padding: AudioLength = {originalAudioLength} + " +
-                $"{leadingSilence} + {trailingSilence} = {newAudioLength}");
-
-            for (int i = 0; i < channelSignals.Count; i++)
-            {
-                channelSignals[i] = ApplyPaddingDelay(channelSignals[i]);
-            }
-        }
-
-        internal FlowNode ApplyPaddingDelay(FlowNode outlet)
-        {
-            FlowNode leadingSilence = GetLeadingSilence;
-            
-            if (leadingSilence.Value == 0)
-            {
-                return outlet;
-            }
-            else
-            {
-                Console.WriteLine($"{PrettyTime()} Padding: Channel Delay + {leadingSilence} s");
-                return Delay(outlet, leadingSilence);
-            }
-        }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
         internal static SpeakerSetup GetSubstituteSpeakerSetup(int channels)

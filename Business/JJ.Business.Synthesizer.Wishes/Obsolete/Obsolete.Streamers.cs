@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
@@ -101,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             {
                 if (mustPad)
                 {
-                    synthWishes.ApplyPadding(channelSignals);
+                    synthWishes.ApplyPaddingOld(channelSignals);
                 }
                 
                 // Run Parallel Processing
@@ -239,6 +240,54 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return audioFileOutput;
         }
 
+                
+        [Obsolete(ObsoleteMessage, true)]
+        private static void ApplyPaddingOld(this SynthWishes synthWishes, IList<FlowNode> channelSignals)
+        {
+            FlowNode leadingSilence = synthWishes.GetLeadingSilence;
+            FlowNode trailingSilence = synthWishes.GetTrailingSilence;
+            
+            if (leadingSilence.Value == 0 && trailingSilence.Value == 0)
+            {
+                return;
+            }
+            
+            Console.WriteLine($"{PrettyTime()} Padding: {leadingSilence} s before | {trailingSilence} s after");
+            
+            FlowNode originalAudioLength = synthWishes.GetAudioLength;
+            
+            // Extend AudioLength once for the two channels.
+            synthWishes.AddAudioLength(leadingSilence);
+            synthWishes.AddAudioLength(trailingSilence);
+
+            FlowNode newAudioLength = synthWishes.GetAudioLength;
+            
+            Console.WriteLine(
+                $"{PrettyTime()} Padding: AudioLength = {originalAudioLength} + " +
+                $"{leadingSilence} + {trailingSilence} = {newAudioLength}");
+
+            for (int i = 0; i < channelSignals.Count; i++)
+            {
+                channelSignals[i] = synthWishes.ApplyPaddingDelayOld(channelSignals[i]);
+            }
+        }
+
+        [Obsolete(ObsoleteMessage, true)]
+        private static FlowNode ApplyPaddingDelayOld(this SynthWishes synthWishes, FlowNode outlet)
+        {
+            FlowNode leadingSilence = synthWishes.GetLeadingSilence;
+            
+            if (leadingSilence.Value == 0)
+            {
+                return outlet;
+            }
+            else
+            {
+                Console.WriteLine($"{PrettyTime()} Padding: Channel Delay + {leadingSilence} s");
+                return synthWishes.Delay(outlet, leadingSilence);
+            }
+        }
+
         // MakeBuff Legacy (Start-of-Chain)
 
         [Obsolete(ObsoleteMessage)]
@@ -286,7 +335,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 AudioFormat = synthWishes.GetAudioFormat
             };
             
-            synthWishes.MakeBuffNew(dummyTape);
+            synthWishes.MakeBuff(dummyTape);
             
             return dummyTape.Buff;
         }
@@ -325,7 +374,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 AudioFormat = synthWishes.GetAudioFormat
             };
             
-            return ConfigureAudioFileOutputNew(dummyTape);
+            return SynthWishes.ConfigureAudioFileOutput(dummyTape);
         }
 
         // MakeBuff Legacy (End-of-Chain)
@@ -348,7 +397,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 CacheToDisk = !inMemory
             };
             
-            MakeBuffNew(dummyTape, audioFileOutput, callerMemberName);
+            SynthWishes.MakeBuff(dummyTape, audioFileOutput, callerMemberName);
             
             return dummyTape.Buff;
         }

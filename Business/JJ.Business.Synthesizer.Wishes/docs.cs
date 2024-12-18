@@ -683,7 +683,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary> 
         /// Adds padding to Play and Save tapes,
         /// without affecting the original tape.
-        /// </summary> 
+        /// </summary>
+        /// <returns>Returns only new Tapes that were padded.</returns>
         public static object _tapepadder;
 
         /// <summary> 
