@@ -58,7 +58,15 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._makebuff" />
         internal void MakeBuff(Tape tape)
         {
+            // Not yet used.
             if (tape == null) throw new ArgumentNullException(nameof(tape));
+            
+            var signals = tape.Signals?.ToList() ?? new List<FlowNode>();
+            if (tape.Signal != null) signals.Add(tape.Signal);
+
+            bool inMemory = !tape.IsSave && !tape.IsSaveChannel;
+
+            tape.Buff = MakeBuff(signals, tape.Duration, inMemory, tape.IsPadding, null, tape.GetName, tape.FilePath);
         }
 
         /// <inheritdoc cref="docs._makebuff" />
