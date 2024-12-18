@@ -323,8 +323,8 @@ namespace JJ.Business.Synthesizer.Wishes
             string audioFormatDescriptor = GetAudioFormatDescriptor(
                 audioFileOutput?.SamplingRate, 
                 audioFileOutput?.GetBits(), 
-                tape.GetChannels() ?? audioFileOutput?.GetChannelCount(), 
-                channel: tape.Channel,
+                tape.Channels, 
+                tape.Channel,
                 audioFileOutput?.GetAudioFileFormatEnum(), 
                 interpolation: null);
             

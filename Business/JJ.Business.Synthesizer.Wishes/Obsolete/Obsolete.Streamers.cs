@@ -324,6 +324,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             {
                 Signals = channelSignals,
                 Duration = duration ?? synthWishes.GetAudioLength,
+                LeadingSilence = synthWishes.GetLeadingSilence.Value,
+                TrailingSilence = synthWishes.GetTrailingSilence.Value,
                 IsSave = !inMemory,
                 IsPadding = mustPad,
                 FilePath = filePath,
@@ -365,6 +367,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             {
                 Signals = channelSignals,
                 Duration = duration ?? synthWishes.GetAudioLength,
+                LeadingSilence = synthWishes.GetLeadingSilence.Value,
+                TrailingSilence = synthWishes.GetTrailingSilence.Value,
                 FilePath = filePath,
                 FallBackName = name,
                 CacheToDisk = synthWishes.GetCacheToDisk,

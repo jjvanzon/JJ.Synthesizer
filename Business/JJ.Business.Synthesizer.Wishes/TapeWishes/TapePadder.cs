@@ -23,8 +23,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
             Tape[] newTapes = tapes.Select(PadIfNeeded)
-                                      .Where(x => x != null)
-                                      .ToArray();
+                                   .Where(x => x != null)
+                                   .ToArray();
             return newTapes;
         }
         
@@ -44,10 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape.IsPadding || tape.IsPadded) return null;
 
             // Get variables
-            // TODO: Get Silence variables from Tape
-            double leadingSilence = _synthWishes.GetLeadingSilence.Value;
-            double trailingSilence = _synthWishes.GetTrailingSilence.Value;
-            double padding = leadingSilence + trailingSilence;
+            double padding = tape.LeadingSilence + tape.TrailingSilence;
 
             // Don't bother if no padding.
             if (padding == 0) return null;
@@ -55,18 +52,22 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Tape paddedTape = tape;
 
             // Don't make a new tape if it's only trailed by extra silence.
-            if (leadingSilence != 0)
+            if (tape.LeadingSilence != 0)
             {
                 // Apply delay
-                FlowNode newNode = _synthWishes.Delay(tape.Signal, leadingSilence).SetName(tape.GetName + " Padded");
+                FlowNode newNode = _synthWishes.Delay(tape.Signal, tape.LeadingSilence).SetName(tape.GetName + " Padded");
                 
                 // Add tape
-                //if (oldTape.IsTape || oldTape.IsIntercept)
                 paddedTape = _tapes.GetOrCreate(newNode, tape.Duration, null, null, tape.FilePath);
 
                 // Clone Names
                 paddedTape.FallBackName = tape.FallBackName;
                 paddedTape.FilePath = tape.FilePath;
+                
+                // Clone Durations
+                paddedTape.Duration = tape.Duration;
+                paddedTape.LeadingSilence = tape.LeadingSilence;
+                paddedTape.TrailingSilence = tape.TrailingSilence;
                 
                 // Clone Audio Properties
                 paddedTape.SamplingRate = tape.SamplingRate;
@@ -103,14 +104,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 tape.IsSaveChannel = false;
                 tape.IsPadding = false;
             
-                LogAction(paddedTape, "Padding", $"Delay + {leadingSilence} s");
+                LogAction(paddedTape, "Padding", $"Delay + {tape.LeadingSilence} s");
             }
 
             // Update duration
             var oldDuration = tape.Duration;
             paddedTape.Duration = oldDuration + padding;
             
-            LogAction(paddedTape, "Padding", $"AudioLength = {leadingSilence} + {oldDuration} + {trailingSilence} = {paddedTape.Duration}");
+            LogAction(paddedTape, "Padding", $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
             
             return paddedTape;
         }

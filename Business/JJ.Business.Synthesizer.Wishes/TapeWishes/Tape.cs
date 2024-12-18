@@ -31,21 +31,24 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return signals;
         }
 
-        // Audio Properties
+        // Durations
         
         public FlowNode Duration { get; set; }
+        /// <inheritdoc cref="docs._padding"/>
+        public double LeadingSilence { get; set; }
+        /// <inheritdoc cref="docs._padding"/>
+        public double TrailingSilence { get; set; }
+
+        // Audio Properties
+        
         public int SamplingRate { get; set; }
         public int Bits { get; set; }
         public int? Channel { get; set; }
-        public int? GetChannels()
-        {
-            int? channelCount = Signals?.Count;
-            if (Signal != null) channelCount = 1;
-            return channelCount;
-        }
-        public int Channels { get; set; }
+        public int? Channels { get; set; }
+        public bool IsMono => Channels == 1;
+        public bool IsStereo => Channels == 2;
         public AudioFileFormatEnum AudioFormat { get; set; }
-
+        
         // Actions
 
         /// <inheritdoc cref="docs._istape" />

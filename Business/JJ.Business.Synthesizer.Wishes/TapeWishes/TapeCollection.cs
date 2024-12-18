@@ -35,6 +35,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             tape.Signal = signal;
 
+            // Durations
+            tape.Duration = duration ?? _synthWishes.GetAudioLength;
+            tape.LeadingSilence = _synthWishes.GetLeadingSilence.Value;
+            tape.TrailingSilence = _synthWishes.GetTrailingSilence.Value;
+
             // Audio Properties
             
             tape.SamplingRate = _synthWishes.GetSamplingRate;
@@ -42,7 +47,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             tape.Channel = _synthWishes.GetChannel;
             tape.Channels = _synthWishes.GetChannels;
             tape.AudioFormat = _synthWishes.GetAudioFormat;
-            tape.Duration = duration ?? _synthWishes.GetAudioLength;
 
              // Names
              

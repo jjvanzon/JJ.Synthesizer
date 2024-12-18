@@ -77,12 +77,16 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private static Tape CloneTape(Tape tapePrototype) => new Tape
         {
+            // Durations
+            Duration = tapePrototype.Duration,
+            LeadingSilence = tapePrototype.LeadingSilence,
+            TrailingSilence = tapePrototype.TrailingSilence,
+
             // Audio Properties
             SamplingRate = tapePrototype.SamplingRate,
             Bits = tapePrototype.Bits,
             Channels = tapePrototype.Channels,
             AudioFormat = tapePrototype.AudioFormat,
-            Duration = tapePrototype.Duration,
             
             // Names
             FilePath = tapePrototype.FilePath,
