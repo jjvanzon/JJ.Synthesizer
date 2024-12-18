@@ -61,6 +61,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             FlowNode oldDuration = oldTape.Duration ?? _synthWishes.GetAudioLength;
             newTape.Duration = oldDuration + padding;
             
+            newTape.IsPadded = true;
+
             Console.WriteLine(
                 $"{PrettyTime()} Padding: Tape.Duration = {oldDuration} + " +
                 $"{leadingSilence} + {trailingSilence} = {newTape.Duration}");
