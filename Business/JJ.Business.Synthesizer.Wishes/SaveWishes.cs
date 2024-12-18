@@ -1,6 +1,6 @@
 ﻿using JJ.Persistence.Synthesizer;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (buff == null) throw new ArgumentNullException(nameof(buff));
 
             // Reuse Buff
-            string destFilePath = ResolveFilePath(filePath, callerMemberName, buff.AudioFormat); // Resolve to use AudioFormat
+            string destFilePath = ResolveFilePath(buff.AudioFormat, filePath, callerMemberName); // Resolve to use AudioFormat
 
             if (FilledIn(buff.Bytes))
             {
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            string resolvedFilePath = ResolveFilePath(filePath, ResolveName(sample, callerMemberName));
+            string resolvedFilePath = ResolveFilePath("", filePath, ResolveName(sample, callerMemberName));
             Save(sample.Bytes, resolvedFilePath, callerMemberName);
         }
         
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            string resolvedFilePath = ResolveFilePath(filePath, callerMemberName);
+            string resolvedFilePath = ResolveFilePath("", filePath, callerMemberName);
             
             (string numberedFilePath, FileStream fileStream) = CreateSafeFileStream(resolvedFilePath);
             
@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string sourceFilePath, 
             string destFilePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            string resolvedDestFilePath = ResolveFilePath(destFilePath, sourceFilePath, callerMemberName: callerMemberName);
+            string resolvedDestFilePath = ResolveFilePath("", destFilePath, sourceFilePath, callerMemberName: callerMemberName);
             (string numberedDestFilePath, FileStream destStream) = CreateSafeFileStream(resolvedDestFilePath);
             using (var sourceStream = new FileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {

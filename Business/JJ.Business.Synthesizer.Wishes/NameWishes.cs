@@ -100,15 +100,16 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static string ResolveFileExtension(
             string fileExtension, AudioFileFormatEnum audioFileFormat = default, 
-            object filePathSource1 = null, object filePathSource2 = null)
+            params object[] filePathSources)
         {
             if (FilledIn(fileExtension))
             {
                 return fileExtension;
             }
-
+            
+            foreach (object filePathSource in filePathSources)
             {
-                string value = TryGetName(filePathSource1);
+                string value = TryGetName(filePathSource);
                 value = SanitizeFilePath(value);
                 value = GetExtension(value);
                 if (FilledIn(value))
@@ -116,50 +117,59 @@ namespace JJ.Business.Synthesizer.Wishes
                     return value;
                 } 
             }
-
-            {
-                string value = TryGetName(filePathSource2);
-                value = SanitizeFilePath(value);
-                value = GetExtension(value);
-                if (FilledIn(value))
-                {
-                    return value;
-                }
-            }
             
             if (FilledIn(audioFileFormat))
             {
                 return audioFileFormat.GetFileExtension();
             }
             
-            throw new Exception(
-                $"Could not resolve file extension from {new{fileExtension, audioFileFormat, filePathSource1, filePathSource2 }}.");
+            var exceptionInfo = new
+            {
+                fileExtension, 
+                audioFileFormat, 
+                filePathSources, 
+                filePathSource1 = filePathSources.ElementAtOrDefault(0),
+                filePathSource2 = filePathSources.ElementAtOrDefault(1),
+                filePathSource3 = filePathSources.ElementAtOrDefault(2)
+            };
+
+            throw new Exception($"Could not resolve file extension from {exceptionInfo}.");
         }
         
         // ResolveFilePath
 
-        public static string ResolveFilePath(
-            object filePathSource1,
-            object filePathSource2,
-            AudioFileFormatEnum audioFormat, 
-            [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePath(filePathSource1, filePathSource2, null, audioFormat, callerMemberName);
-        
-        public static string ResolveFilePath(
-            object filePathSource1, 
-            object filePathSource2, 
-            string fileExtension = null, 
-            [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePath(filePathSource1, filePathSource2, fileExtension, default, callerMemberName);
+        //public static string ResolveFilePath(
+        //    object filePathSource1,
+        //    object filePathSource2 = null,
+        //    object filePathSource3 = null,
+        //    [CallerMemberName] string callerMemberName = null)
+        //    => ResolveFilePath(default, default, filePathSource1, filePathSource2, filePathSource3, callerMemberName);
 
         public static string ResolveFilePath(
+            AudioFileFormatEnum audioFormat, 
+            object filePathSource1 = null,
+            object filePathSource2 = null,
+            object filePathSource3 = null,
+            [CallerMemberName] string callerMemberName = null)
+            => ResolveFilePath(default, audioFormat, filePathSource1, filePathSource2, filePathSource3, callerMemberName);
+        
+        public static string ResolveFilePath(
+            string fileExtension, 
+            object filePathSource1 = null, 
+            object filePathSource2 = null, 
+            object filePathSource3 = null, 
+            [CallerMemberName] string callerMemberName = null)
+            => ResolveFilePath(fileExtension, default, filePathSource1, filePathSource2, filePathSource3, callerMemberName);
+
+        public static string ResolveFilePath(
+            string fileExtension,
+            AudioFileFormatEnum audioFormat,
             object filePathSource1,
             object filePathSource2,
-            string fileExtension, 
-            AudioFileFormatEnum audioFormat, 
+            object filePathSource3,
             [CallerMemberName] string callerMemberName = null)
         {
-            string resolvedFileExtension = ResolveFileExtension(fileExtension, audioFormat, filePathSource1, filePathSource2);
+            string resolvedFileExtension = ResolveFileExtension(fileExtension, audioFormat, filePathSource1, filePathSource2, filePathSource3);
             string resolvedName = ResolveName(filePathSource2, callerMemberName, explicitNameSource: filePathSource1);
             string resolvedFilePath = ReformatFilePath(resolvedName, resolvedFileExtension);
             return resolvedFilePath;
