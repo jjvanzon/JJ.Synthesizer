@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 _synthWishes.WithSamplingRate(_synthWishes.GetSamplingRate);
                
                 ExecutePreProcessing();
-                var tapes = RunTapeLeavesConcurrent();
+                Tape[] tapes = RunTapeLeavesConcurrent();
                 ExecutePostProcessing(tapes);
             }
             finally
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private readonly AutoResetEvent _checkForNewLeavesReset = new AutoResetEvent(false);
         
-        private IList<Tape> RunTapeLeavesConcurrent()
+        private Tape[] RunTapeLeavesConcurrent()
         {
             // Prep settings
             int timeOutInMs = (int)(_synthWishes.GetLeafCheckTimeOut * 1000);
@@ -199,7 +199,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
         
         
-        private void ExecutePostProcessing(IList<Tape> tapes)
+        private void ExecutePostProcessing(Tape[] tapes)
         {
             IList<Tape> stereoTapes = Array.Empty<Tape>();
             if (_synthWishes.IsStereo)
