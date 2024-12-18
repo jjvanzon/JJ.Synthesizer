@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
@@ -53,6 +54,12 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class SynthWishes
     {
         // MakeBuff on Instance (Start-of-Chain)
+
+        /// <inheritdoc cref="docs._makebuff" />
+        internal void MakeBuff(Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+        }
 
         /// <inheritdoc cref="docs._makebuff" />
         internal Buff MakeBuff(
