@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 x.IsPlayChannel,
                 x.IsSaveChannel,
                 x.IsInterceptChannel,
-                x.IsPadding,
+                x.IsPadded,
                 x.IsTape
             });
             

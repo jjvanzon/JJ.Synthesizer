@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             IsPlay = tapePrototype.IsPlay,
             IsSave = tapePrototype.IsSave,
             IsIntercept = tapePrototype.IsIntercept,
-            IsPadding = tapePrototype.IsPadding,
+            IsPadded = tapePrototype.IsPadded,
             Callback = tapePrototype.Callback,
             
             // Options

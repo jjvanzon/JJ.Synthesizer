@@ -319,6 +319,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             
             // Help ReSharper not error over unused legacy parameter.
             additionalMessages = additionalMessages;
+            mustPad = mustPad;
 
             var dummyTape = new Tape
             {
@@ -327,7 +328,6 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 LeadingSilence = synthWishes.GetLeadingSilence.Value,
                 TrailingSilence = synthWishes.GetTrailingSilence.Value,
                 IsSave = !inMemory,
-                IsPadding = mustPad,
                 FilePath = filePath,
                 FallBackName = ResolveName(name, callerMemberName),
                 CacheToDisk = synthWishes.GetCacheToDisk,
@@ -422,22 +422,6 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 additionalMessages,
                 name, filePath, callerMemberName);
         }
-
-        // MakeBuff Other Variations
-        
-        ///// <inheritdoc cref="docs._makebuff" />
-        //internal void MakeBuffNewThroughOld(Tape tape)
-        //{
-        //    // Not yet used.
-        //    if (tape == null) throw new ArgumentNullException(nameof(tape));
-            
-        //    var signals = tape.Signals?.ToList() ?? new List<FlowNode>();
-        //    if (tape.Signal != null) signals.Add(tape.Signal);
-
-        //    bool inMemory = !tape.IsSave && !tape.IsSaveChannel;
-
-        //    tape.Buff = MakeBuffOld(signals, tape.Duration, inMemory, tape.IsPadding, null, tape.GetName, tape.FilePath);
-        //}
         
     }
     

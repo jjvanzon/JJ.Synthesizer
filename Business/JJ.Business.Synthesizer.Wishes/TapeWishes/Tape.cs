@@ -65,7 +65,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool ChannelIsSaved { get; set; }
         public bool IsInterceptChannel { get; set; }
         public bool ChannelIsIntercepted { get; set; }
-        public bool IsPadding { get; set; }
         public bool IsPadded { get; set; }
         public Func<Buff, Buff> Callback { get; set; }
         public Func<Buff, int, Buff> ChannelCallback { get; set; }

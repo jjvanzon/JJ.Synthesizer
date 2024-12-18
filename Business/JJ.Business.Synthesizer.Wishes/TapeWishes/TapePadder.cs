@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 !tape.IsSaveChannel) return null;
             
             // If tape already padded, don't do it again.
-            if (tape.IsPadding || tape.IsPadded) return null;
+            if (tape.IsPadded) return null;
 
             // Get variables
             double padding = tape.LeadingSilence + tape.TrailingSilence;
@@ -49,69 +49,77 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             // Don't bother if no padding.
             if (padding == 0) return null;
 
-            Tape paddedTape = tape;
-
-            // Don't make a new tape if it's only trailed by extra silence.
-            if (tape.LeadingSilence != 0)
-            {
-                // Apply delay
-                FlowNode newNode = _synthWishes.Delay(tape.Signal, tape.LeadingSilence).SetName(tape.GetName + " Padded");
-                
-                // Add tape
-                paddedTape = _tapes.GetOrCreate(newNode, tape.Duration, null, null, tape.FilePath);
-
-                // Clone Names
-                paddedTape.FallBackName = tape.FallBackName;
-                paddedTape.FilePath = tape.FilePath;
-                
-                // Clone Durations
-                paddedTape.Duration = tape.Duration;
-                paddedTape.LeadingSilence = tape.LeadingSilence;
-                paddedTape.TrailingSilence = tape.TrailingSilence;
-                
-                // Clone Audio Properties
-                paddedTape.SamplingRate = tape.SamplingRate;
-                paddedTape.Bits = tape.Bits;
-                paddedTape.Channel = tape.Channel;
-                paddedTape.Channels = tape.Channels;
-                paddedTape.AudioFormat = tape.AudioFormat;
-
-                // Set Actions
-                paddedTape.IsTape = tape.IsTape;
-                paddedTape.IsPlay = tape.IsPlay;
-                paddedTape.IsPlayed = tape.IsPlayed;
-                paddedTape.IsSave = tape.IsSave;
-                paddedTape.IsSaved = tape.IsSaved;
-                paddedTape.IsIntercept = false;
-                paddedTape.IsIntercepted = false;
-                paddedTape.IsPlayChannel = tape.IsPlayChannel;
-                paddedTape.ChannelIsPlayed = tape.ChannelIsPlayed;
-                paddedTape.IsSaveChannel = tape.IsSaveChannel;
-                paddedTape.ChannelIsSaved = tape.ChannelIsSaved;
-                paddedTape.IsInterceptChannel = false;
-                paddedTape.ChannelIsIntercepted = false;
-                paddedTape.IsPadding = true;
-                paddedTape.IsPadded = true;
-                
-                // Set Options
-                paddedTape.CacheToDisk = tape.CacheToDisk;
-                paddedTape.ExtraBufferFrames = tape.ExtraBufferFrames;
-                
-                // Remove Actions from original Tape
-                tape.IsPlay = false;
-                tape.IsSave = false;
-                tape.IsPlayChannel = false;
-                tape.IsSaveChannel = false;
-                tape.IsPadding = false;
+            Tape paddedTape = ApplyDelayIfNeeded(tape);
             
-                LogAction(paddedTape, "Padding", $"Delay + {tape.LeadingSilence} s");
-            }
-
             // Update duration
             var oldDuration = tape.Duration;
             paddedTape.Duration = oldDuration + padding;
             
             LogAction(paddedTape, "Padding", $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
+            
+            // Remove original tape if it has no other purposes.
+            if (!tape.IsIntercept && !tape.IsInterceptChannel && tape.Callback == null && tape.ChannelCallback == null)
+            {
+                _tapes.Remove(tape);
+            }
+            
+            return paddedTape;
+        }
+        
+        private Tape ApplyDelayIfNeeded(Tape tape)
+        {
+            // Don't make a new tape if it's only trailed by extra silence.
+            if (tape.LeadingSilence == 0) return tape;
+            
+            // Apply delay
+            FlowNode newNode = _synthWishes.Delay(tape.Signal, tape.LeadingSilence).SetName(tape.GetName + " Padded");
+            
+            // Add tape
+            Tape paddedTape = _tapes.GetOrCreate(newNode, tape.Duration, null, null, tape.FilePath);
+            
+            // Clone Names
+            paddedTape.FallBackName = tape.FallBackName;
+            paddedTape.FilePath = tape.FilePath;
+            
+            // Clone Durations
+            paddedTape.Duration = tape.Duration;
+            paddedTape.LeadingSilence = tape.LeadingSilence;
+            paddedTape.TrailingSilence = tape.TrailingSilence;
+            
+            // Clone Audio Properties
+            paddedTape.SamplingRate = tape.SamplingRate;
+            paddedTape.Bits = tape.Bits;
+            paddedTape.Channel = tape.Channel;
+            paddedTape.Channels = tape.Channels;
+            paddedTape.AudioFormat = tape.AudioFormat;
+            
+            // Set Actions
+            paddedTape.IsTape = tape.IsTape;
+            paddedTape.IsPlay = tape.IsPlay;
+            paddedTape.IsPlayed = tape.IsPlayed;
+            paddedTape.IsSave = tape.IsSave;
+            paddedTape.IsSaved = tape.IsSaved;
+            paddedTape.IsIntercept = false;
+            paddedTape.IsIntercepted = false;
+            paddedTape.IsPlayChannel = tape.IsPlayChannel;
+            paddedTape.ChannelIsPlayed = tape.ChannelIsPlayed;
+            paddedTape.IsSaveChannel = tape.IsSaveChannel;
+            paddedTape.ChannelIsSaved = tape.ChannelIsSaved;
+            paddedTape.IsInterceptChannel = false;
+            paddedTape.ChannelIsIntercepted = false;
+            paddedTape.IsPadded = true;
+            
+            // Set Options
+            paddedTape.CacheToDisk = tape.CacheToDisk;
+            paddedTape.ExtraBufferFrames = tape.ExtraBufferFrames;
+            
+            // Remove Actions from original Tape
+            tape.IsPlay = false;
+            tape.IsSave = false;
+            tape.IsPlayChannel = false;
+            tape.IsSaveChannel = false;
+            
+            LogAction(paddedTape, "Padding", $"Delay + {tape.LeadingSilence} s");
             
             return paddedTape;
         }

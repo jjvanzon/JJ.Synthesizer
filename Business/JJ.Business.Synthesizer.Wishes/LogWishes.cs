@@ -656,7 +656,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.IsInterceptChannel) flagStrings.Add("interceptchan");
             if (tape.Callback != null) flagStrings.Add("callback");
             if (tape.ChannelCallback != null) flagStrings.Add("callbackchan");
-            if (tape.IsPadding) flagStrings.Add("pad");
+            if (tape.IsPadded) flagStrings.Add("pad");
             if (tape.Channel.HasValue) flagStrings.Add($"c{tape.Channel}");
             if (tape.Duration != null) flagStrings.Add($"{tape.Duration.Value}s");
 

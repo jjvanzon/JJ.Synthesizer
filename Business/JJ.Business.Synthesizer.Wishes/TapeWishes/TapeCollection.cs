@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
@@ -93,6 +94,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             _tapes.TryGetValue(outlet, out Tape tape);
             return tape;
+        }
+        
+        public void Remove(Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            if (tape.Signal == null) throw new NullException(() => tape.Signal);
+            
+            _tapes.Remove(tape.Signal);
         }
         
         public void Clear() => _tapes.Clear();
