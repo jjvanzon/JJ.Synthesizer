@@ -31,14 +31,31 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 _tapes[signal] = tape = new Tape();
             }
 
+            // Signal
+            
             tape.Signal = signal;
+
+            // Audio Properties
+            
+            tape.SamplingRate = _synthWishes.GetSamplingRate;
+            tape.Bits = _synthWishes.GetBits;
             tape.Channel = _synthWishes.GetChannel;
+            tape.Channels = _synthWishes.GetChannels;
+            tape.AudioFormat = _synthWishes.GetAudioFormat;
+            tape.Duration = duration ?? _synthWishes.GetAudioLength;
+
+             // Names
+             
             tape.FilePath = filePath;
             tape.FallBackName = callerMemberName;
 
-            // TODO: Take longest?
-            tape.Duration = duration ?? _synthWishes.GetAudioLength;
+            // Options
             
+            tape.CacheToDisk = _synthWishes.GetCacheToDisk;
+            tape.ExtraBufferFrames = _synthWishes.GetExtraBufferFrames;
+
+            // Callbacks
+
             // Don't overwrite callback with null.
             tape.Callback = tape.Callback ?? callback;
             tape.ChannelCallback = tape.ChannelCallback ?? channelCallback; 
