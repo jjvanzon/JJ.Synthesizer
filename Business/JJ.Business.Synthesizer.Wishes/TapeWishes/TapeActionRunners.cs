@@ -44,16 +44,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             if (tape.Channel == null) throw new NullException(() => tape.Channel);
+            
+            if (tape.ChannelCallback == null) return;
+            if (tape.ChannelIsIntercepted) return;
 
-            if (tape.ChannelCallback != null)
+            tape.ChannelIsIntercepted = true;
+            
+            LogAction(tape, nameof(SynthWishes.InterceptChannel));
+            
+            Buff replacementBuff = tape.ChannelCallback(tape.Buff, tape.Channel.Value);
+            if (replacementBuff != null)
             {
-                LogAction(tape, nameof(SynthWishes.InterceptChannel));
-                
-                Buff replacementBuff = tape.ChannelCallback(tape.Buff, tape.Channel.Value);
-                if (replacementBuff != null)
-                {
-                    tape.Buff = replacementBuff;
-                }
+                tape.Buff = replacementBuff;
             }
         }
         
@@ -61,12 +63,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            if (tape.IsSaveChannel)
-            {
-                LogAction(tape, nameof(SynthWishes.SaveChannel));
-                
-                _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
-            }
+            if (!tape.IsSaveChannel) return;
+            if (tape.ChannelsIsSaved) return;
+
+            tape.ChannelsIsSaved = true;
+
+            LogAction(tape, nameof(SynthWishes.SaveChannel));
+            
+            _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
+            
         }
         
         public void PlayIfNeeded(Tape tape)
@@ -75,12 +80,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             bool playAllTapes = _synthWishes.GetPlayAllTapes;
             
-            if (tape.IsPlayChannel || playAllTapes)
-            {
-                LogAction(tape, nameof(SynthWishes.PlayChannel) + (playAllTapes ? " (" + nameof(SynthWishes.WithPlayAllTapes) + ")"  : null));
+            if (!tape.IsPlayChannel && !playAllTapes) return;
+            if (tape.ChannelIsPlayed) return;
+            tape.ChannelIsPlayed = true;
 
-                _synthWishes.Play(tape.Buff);
-            }
+            LogAction(tape, nameof(SynthWishes.PlayChannel) + (playAllTapes ? " (" + nameof(SynthWishes.WithPlayAllTapes) + ")"  : null));
+            
+            _synthWishes.Play(tape.Buff);
+            
         }
     }
     
@@ -142,40 +149,49 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            if (tape.Callback != null)
-            {
-                LogAction(tape, nameof(SynthWishes.Intercept));
+            if (!_synthWishes.IsMono) return;
+            
+            if (tape.Callback == null) return;
+            if (tape.IsIntercepted) return;
+            tape.IsIntercepted = true;
 
-                Buff replacementBuff = tape.Callback(tape.Buff);
-                if (replacementBuff != null)
-                {
-                    tape.Buff = replacementBuff;
-                }
-            }
+            LogAction(tape, nameof(SynthWishes.Intercept));
+            
+            Buff replacementBuff = tape.Callback(tape.Buff);
+            if (replacementBuff != null) tape.Buff = replacementBuff;
+            
         }
         
         public void SaveIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            if (tape.IsSave)
-            {
-                LogAction(tape, nameof(SynthWishes.Save));
+            if (!_synthWishes.IsMono) return;
+            
+            if (!tape.IsSave) return;
+            if (tape.IsSaved) return;
+            tape.IsSaved = true;
 
-                _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
-            }
+            LogAction(tape, nameof(SynthWishes.Save));
+            
+            _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
+            
         }
         
         public void PlayIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            if (tape.IsPlay)
-            {
-                LogAction(tape, nameof(SynthWishes.Play));
-                
-                _synthWishes.Play(tape.Buff);
-            }
+            if (!_synthWishes.IsMono) return;
+            
+            if (!tape.IsPlay) return;
+            if (tape.IsPlayed) return;
+            tape.IsPlayed = true;
+
+            LogAction(tape, nameof(SynthWishes.Play));
+            
+            _synthWishes.Play(tape.Buff);
+            
         }
     }
     
@@ -227,41 +243,40 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private void InterceptIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-        
-            if (tape.Callback != null)
-            {
-                LogAction(tape, nameof(SynthWishes.Intercept));
-                
-                Buff replacementBuff = tape.Callback(tape.Buff);
-                if (replacementBuff != null)
-                {
-                    tape.Buff = replacementBuff;
-                }
-            }
+            
+            if (tape.Callback == null) return;
+            if (tape.IsIntercepted) return;
+            tape.IsIntercepted = true;
+            
+            LogAction(tape, nameof(SynthWishes.Intercept));
+            
+            Buff replacementBuff = tape.Callback(tape.Buff);
+            if (replacementBuff != null) tape.Buff = replacementBuff;
         }
         
         private void SaveIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            if (tape.IsSave)
-            {
-                LogAction(tape, nameof(SynthWishes.Save));
-                
-                _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
-            }
+            if (!tape.IsSave) return;
+            if (tape.IsSaved) return;
+            tape.IsSaved = true;
+
+            LogAction(tape, nameof(SynthWishes.Save));
+            
+            _synthWishes.Save(tape.Buff, tape.FilePath, tape.GetName);
         }
         
         private void PlayIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            if (tape.IsPlay)
-            {
-                LogAction(tape, nameof(SynthWishes.Play));
-                
-                _synthWishes.Play(tape.Buff);
-            }
+            if (!tape.IsPlay) return;
+            if (tape.IsPlayed) return;
+
+            LogAction(tape, nameof(SynthWishes.Play));
+            
+            _synthWishes.Play(tape.Buff);
         }
     }
 }

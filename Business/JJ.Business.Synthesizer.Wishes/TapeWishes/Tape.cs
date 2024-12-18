@@ -28,25 +28,32 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         public FlowNode Duration { get; set; }
         public int? Channel { get; set; }
-
+        
         public int? GetChannels()
         {
             int? channelCount = Signals?.Count;
             if (Signal != null) channelCount = 1;
             return channelCount;
         }
-        
+
         // Actions
 
         /// <inheritdoc cref="docs._istape" />
         public bool IsTape { get; set; }
         public bool IsPlay { get; set; }
+        public bool IsPlayed { get; set; }
         public bool IsSave { get; set; }
+        public bool IsSaved { get; set; }
         public bool IsIntercept { get; set; }
+        public bool IsIntercepted { get; set; }
         public bool IsPlayChannel { get; set; }
+        public bool ChannelIsPlayed { get; set; }
         public bool IsSaveChannel { get; set; }
+        public bool ChannelsIsSaved { get; set; }
         public bool IsInterceptChannel { get; set; }
+        public bool ChannelIsIntercepted { get; set; }
         public bool IsPadding { get; set; }
+        public bool IsPadded { get; set; }
         public Func<Buff, Buff> Callback { get; set; }
         public Func<Buff, int, Buff> ChannelCallback { get; set; }
         
@@ -59,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public HashSet<Tape> ParentTapes { get; } = new HashSet<Tape>();
         public HashSet<Tape> ChildTapes { get; } = new HashSet<Tape>();
         public int NestingLevel { get; set; }
-        
+
         public void ClearRelationships()
         {
             foreach (var parent in ParentTapes.ToArray())
