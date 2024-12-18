@@ -10,6 +10,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.F
 using static System.Environment;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.MakeBuffObsoleteExtensions;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
