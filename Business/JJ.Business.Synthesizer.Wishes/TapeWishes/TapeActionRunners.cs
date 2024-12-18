@@ -61,9 +61,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
             if (!tape.IsSaveChannel) return;
-            if (tape.ChannelsIsSaved) return;
+            if (tape.ChannelIsSaved) return;
 
-            tape.ChannelsIsSaved = true;
+            tape.ChannelIsSaved = true;
 
             LogAction(tape, nameof(SynthWishes.SaveChannel));
             

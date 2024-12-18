@@ -34,8 +34,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         // Audio Properties
         
         public FlowNode Duration { get; set; }
+        public int SamplingRate { get; set; }
+        public int Bits { get; set; }
         public int? Channel { get; set; }
-        
         public int? GetChannels()
         {
             int? channelCount = Signals?.Count;
@@ -43,8 +44,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return channelCount;
         }
         public int Channels { get; set; }
-        public int SamplingRate { get; set; }
-        public int Bits { get; set; }
         public AudioFileFormatEnum AudioFormat { get; set; }
 
         // Actions
@@ -60,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool IsPlayChannel { get; set; }
         public bool ChannelIsPlayed { get; set; }
         public bool IsSaveChannel { get; set; }
-        public bool ChannelsIsSaved { get; set; }
+        public bool ChannelIsSaved { get; set; }
         public bool IsInterceptChannel { get; set; }
         public bool ChannelIsIntercepted { get; set; }
         public bool IsPadding { get; set; }
