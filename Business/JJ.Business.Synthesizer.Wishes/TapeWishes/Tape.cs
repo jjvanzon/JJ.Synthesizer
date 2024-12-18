@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
@@ -17,15 +18,21 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public string GetName => NameHelper.ResolveName(Signal, Signals, FallBackName, FilePath);
         public string FallBackName { get; set; }
         public string FilePath { get; set; }
-
+        
         // Signals
 
         public FlowNode Signal { get; set; }
         /// <summary> For stereo tapes. </summary>
         public IList<FlowNode> Signals { get; set; }
-        
-        // Audio Properties
+        public IList<FlowNode> ConcatSignals()
+        {
+            var signals = Signals?.ToList() ?? new List<FlowNode>();
+            if (Signal != null) signals.Add(Signal);
+            return signals;
+        }
 
+        // Audio Properties
+        
         public FlowNode Duration { get; set; }
         public int? Channel { get; set; }
         
@@ -35,6 +42,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (Signal != null) channelCount = 1;
             return channelCount;
         }
+        public int Channels { get; set; }
+        public int SamplingRate { get; set; }
+        public int Bits { get; set; }
+        public AudioFileFormatEnum AudioFormat { get; set; }
 
         // Actions
 
@@ -60,13 +71,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         // Buff
 
         public Buff Buff { get; set; }
-        
+                        
+        // Options
+
+        public bool CacheToDisk { get; set; }
+        public int ExtraBufferFrames { get; set; }
+
         // Hierarchy
 
         public HashSet<Tape> ParentTapes { get; } = new HashSet<Tape>();
         public HashSet<Tape> ChildTapes { get; } = new HashSet<Tape>();
         public int NestingLevel { get; set; }
-
+        
         public void ClearRelationships()
         {
             foreach (var parent in ParentTapes.ToArray())
