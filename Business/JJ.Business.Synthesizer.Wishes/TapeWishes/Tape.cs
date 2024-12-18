@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         // Names
 
         /// <inheritdoc cref="docs._tapename" />
-        public string GetName => NameHelper.ResolveName(Signal, ChannelSignals, FallBackName, FilePath);
+        public string GetName => NameHelper.ResolveName(Signal, Signals, FallBackName, FilePath);
         public string FallBackName { get; set; }
         public string FilePath { get; set; }
 
@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         public FlowNode Signal { get; set; }
         /// <summary> For stereo tapes. </summary>
-        public IList<FlowNode> ChannelSignals { get; set; }
+        public IList<FlowNode> Signals { get; set; }
         
         // Audio Properties
 
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public int? GetChannels()
         {
-            int? channelCount = ChannelSignals?.Count;
+            int? channelCount = Signals?.Count;
             if (Signal != null) channelCount = 1;
             return channelCount;
         }

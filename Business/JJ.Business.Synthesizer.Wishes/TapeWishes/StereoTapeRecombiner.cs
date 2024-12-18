@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             IList<FlowNode> channelSignals = GetChannelSignals(tapePair);
             Tape stereoTape = CloneTape(tapePair.Left);
-            stereoTape.ChannelSignals = channelSignals;
+            stereoTape.Signals = channelSignals;
             return stereoTape;
         }
         
@@ -88,6 +88,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         };
         
         private void RecordStereoTape(Tape stereoTape) 
-            => stereoTape.Buff = _synthWishes.Record(stereoTape.ChannelSignals, stereoTape.Duration, stereoTape.GetName);
+            => stereoTape.Buff = _synthWishes.Record(stereoTape.Signals, stereoTape.Duration, stereoTape.GetName);
     }
 }
