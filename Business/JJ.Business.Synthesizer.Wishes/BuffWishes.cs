@@ -56,6 +56,30 @@ namespace JJ.Business.Synthesizer.Wishes
         // MakeBuff on Instance (Start-of-Chain)
 
         /// <inheritdoc cref="docs._makebuff" />
+        internal Buff MakeBuff(
+            IList<FlowNode> channelSignals, FlowNode duration,
+            bool inMemory, bool mustPad, IList<string> additionalMessages, 
+            string name, string filePath, [CallerMemberName] string callerMemberName = null)
+        {
+            // Suppress unused parameter error.
+            additionalMessages = additionalMessages;
+
+            var dummyTape = new Tape
+            {
+                Signals = channelSignals,
+                Duration = duration,
+                IsSave = !inMemory,
+                IsPadding = mustPad,
+                FilePath = filePath,
+                FallBackName = ResolveName(name, callerMemberName),
+            };
+
+            MakeBuff(dummyTape);
+            return dummyTape.Buff;
+        }
+
+
+        /// <inheritdoc cref="docs._makebuff" />
         internal void MakeBuff(Tape tape)
         {
             // Not yet used.
@@ -66,11 +90,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
             bool inMemory = !tape.IsSave && !tape.IsSaveChannel;
 
-            tape.Buff = MakeBuff(signals, tape.Duration, inMemory, tape.IsPadding, null, tape.GetName, tape.FilePath);
+            tape.Buff = MakeBuffOld(signals, tape.Duration, inMemory, tape.IsPadding, null, tape.GetName, tape.FilePath);
         }
 
+
         /// <inheritdoc cref="docs._makebuff" />
-        internal Buff MakeBuff(
+        private Buff MakeBuffOld(
             IList<FlowNode> channelSignals, FlowNode duration,
             bool inMemory, bool mustPad, IList<string> additionalMessages, 
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
