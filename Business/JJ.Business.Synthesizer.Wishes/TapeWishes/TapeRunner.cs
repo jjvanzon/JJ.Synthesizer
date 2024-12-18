@@ -137,14 +137,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 LogAction(tape, "Start");
                 
                 // Cache Buffer
-                tape.Buff = tape.Signal.SynthWishes.Record(tape.Signal, tape.Duration, tape.GetName);
+                //tape.Buff = _synthWishes.Record(tape.Signal, tape.Duration, tape.GetName);
+                _synthWishes.Record(tape);
                 
                 // Run Actions (that can't wait)
                 _channelTapeActionRunner.InterceptIfNeeded(tape);
 
                 
                 // Wrap in Sample
-                FlowNode sample = tape.Signal.SynthWishes.Sample(tape.Buff, name: tape.GetName);
+                FlowNode sample = _synthWishes.Sample(tape.Buff, name: tape.GetName);
                 
                 // Replace All References
                 //lock (_hierarchyLock)

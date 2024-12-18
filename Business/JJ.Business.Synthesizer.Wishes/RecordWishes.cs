@@ -1,10 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
+        internal void Record(Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            tape.Buff = Record(tape.Signal, tape.Duration, tape.GetName);
+            //MakeBuff(tape);
+        }
+
         /// <inheritdoc cref="docs._makebuff" />
         public Buff Record(
             FlowNode signal, FlowNode duration,
