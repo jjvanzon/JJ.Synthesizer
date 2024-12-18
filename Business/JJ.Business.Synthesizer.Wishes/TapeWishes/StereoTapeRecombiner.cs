@@ -77,14 +77,27 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private static Tape CloneTape(Tape tapePrototype) => new Tape
         {
+            // Audio Properties
+            SamplingRate = tapePrototype.SamplingRate,
+            Bits = tapePrototype.Bits,
+            Channels = tapePrototype.Channels,
+            AudioFormat = tapePrototype.AudioFormat,
             Duration = tapePrototype.Duration,
+            
+            // Names
             FilePath = tapePrototype.FilePath,
             FallBackName = tapePrototype.FallBackName,
+            
+            // Actions
             IsPlay = tapePrototype.IsPlay,
             IsSave = tapePrototype.IsSave,
             IsIntercept = tapePrototype.IsIntercept,
             IsPadding = tapePrototype.IsPadding,
-            Callback = tapePrototype.Callback
+            Callback = tapePrototype.Callback,
+            
+            // Options
+            CacheToDisk = tapePrototype.CacheToDisk,
+            ExtraBufferFrames = tapePrototype.ExtraBufferFrames,
         };
         
         private void RecordStereoTape(Tape stereoTape) 
