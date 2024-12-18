@@ -26,6 +26,14 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         string DebuggerDisplay => GetDebuggerDisplay(this);
 
+        private readonly OperatorFactory _operatorFactory;
+        private readonly CurveFactory _curveFactory;
+        private readonly SampleManager _sampleManager;
+        private readonly TapeCollection _tapes;
+        internal readonly TapeRunner _tapeRunner;
+
+        private bool _isRunning;
+
         public IContext Context { get; }
 
         private ConfigWishes _config;
@@ -37,12 +45,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._captureindexer" />
         public readonly CaptureIndexer _;
-
-        private readonly OperatorFactory _operatorFactory;
-        private readonly CurveFactory _curveFactory;
-        private readonly SampleManager _sampleManager;
-        private readonly TapeCollection _tapes;
-        internal readonly TapeRunner _tapeRunner;
 
         public SynthWishes()
             : this(ServiceFactory.CreateContext())
@@ -137,8 +139,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 throw new Exception("Run method cannot work without ParallelTaping.");
             }
         }
-        
-        private bool _isRunning;
         
         internal IList<FlowNode> GetChannelSignals(Func<FlowNode> func)
         {
