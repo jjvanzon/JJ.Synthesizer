@@ -365,7 +365,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// e.g. a single one for Mono and 2 outlets for stereo.
         /// </param> 
         /// <param name="duration"> 
-        /// The duration of the audio in seconds. When 0, the default duration of 1 second is used.
+        /// The duration of the audio in seconds.
+        /// Nullable. Falls back to AudioLength or else to a 1-second time span.
         /// </param> 
         /// <param name="volume"> 
         /// The volume level of the audio. If null, the default volume is 1 (full volume).

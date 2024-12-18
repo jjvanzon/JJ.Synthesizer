@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly CurveFactory _curveFactory;
         private readonly SampleManager _sampleManager;
         private readonly TapeCollection _tapes;
-        private readonly TapeRunner _tapeRunner;
+        internal readonly TapeRunner _tapeRunner;
 
         public SynthWishes()
             : this(ServiceFactory.CreateContext())

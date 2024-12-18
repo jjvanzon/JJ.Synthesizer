@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -18,7 +19,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Record(
             FlowNode signal, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => MakeBuff(
+            => this.MakeBuff(
                 new[] { signal }, duration,
                 inMemory: true, default, null, name, null, callerMemberName);
 
@@ -26,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public Buff Record(
             IList<FlowNode> channelSignals, FlowNode duration = null,
             string name = null, [CallerMemberName] string callerMemberName = null) 
-            => MakeBuff(
+            => this.MakeBuff(
                 channelSignals, duration, 
                 inMemory: true, default, null, name, null, callerMemberName);
     }

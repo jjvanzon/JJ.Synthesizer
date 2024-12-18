@@ -279,7 +279,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
         
-        private void ApplyPadding(IList<FlowNode> channelSignals)
+        internal void ApplyPadding(IList<FlowNode> channelSignals)
         {
             FlowNode leadingSilence = GetLeadingSilence;
             FlowNode trailingSilence = GetTrailingSilence;
@@ -325,7 +325,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup GetSubstituteSpeakerSetup(int channels)
+        internal static SpeakerSetup GetSubstituteSpeakerSetup(int channels)
         {
             switch (channels)
             {
@@ -335,13 +335,13 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private readonly object _stereoSpeakerSetupSubstituteLock = new object();
+        private static readonly object _stereoSpeakerSetupSubstituteLock = new object();
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup _stereoSpeakerSetupSubstitute;
+        private static SpeakerSetup _stereoSpeakerSetupSubstitute;
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup GetStereoSpeakerSetupSubstitute()
+        private static SpeakerSetup GetStereoSpeakerSetupSubstitute()
         {
             if (_stereoSpeakerSetupSubstitute != null)
             {
@@ -350,7 +350,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             lock (_stereoSpeakerSetupSubstituteLock)
             {
-                var channelRepository = CreateRepository<IChannelRepository>(Context);
+                var channelRepository = CreateRepository<IChannelRepository>();
                 
                 var stereo = new SpeakerSetup
                 {
@@ -382,13 +382,13 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        private readonly object _monoSpeakerSetupSubstituteLock = new object();
+        private static readonly object _monoSpeakerSetupSubstituteLock = new object();
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup _monoSpeakerSetupSubstitute;
+        private static SpeakerSetup _monoSpeakerSetupSubstitute;
 
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private SpeakerSetup GetMonoSpeakerSetupSubstitute()
+        private static SpeakerSetup GetMonoSpeakerSetupSubstitute()
         {
             if (_monoSpeakerSetupSubstitute != null)
             { 
@@ -397,7 +397,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             lock (_monoSpeakerSetupSubstituteLock)
             {
-                var channelRepository = CreateRepository<IChannelRepository>(Context);
+                var channelRepository = CreateRepository<IChannelRepository>();
                 
                 var mono = new SpeakerSetup
                 {
@@ -423,10 +423,10 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channels)
+        internal static void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channels)
         {
             // (using a lower abstraction layer, to circumvent error-prone syncing code in back-end).
-            var audioFileOutputChannelRepository = CreateRepository<IAudioFileOutputChannelRepository>(Context);
+            var audioFileOutputChannelRepository = CreateRepository<IAudioFileOutputChannelRepository>();
 
             // Create additional channels
             for (int i = audioFileOutput.AudioFileOutputChannels.Count; i < channels; i++)
