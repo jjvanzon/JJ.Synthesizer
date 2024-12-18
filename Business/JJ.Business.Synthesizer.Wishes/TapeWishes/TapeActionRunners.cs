@@ -53,10 +53,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             LogAction(tape, nameof(SynthWishes.InterceptChannel));
             
             Buff replacementBuff = tape.ChannelCallback(tape.Buff, tape.Channel.Value);
-            if (replacementBuff != null)
-            {
-                tape.Buff = replacementBuff;
-            }
+            if (replacementBuff != null) tape.Buff = replacementBuff;
         }
         
         public void SaveIfNeeded(Tape tape)
