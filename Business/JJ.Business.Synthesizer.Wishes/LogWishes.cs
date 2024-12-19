@@ -321,6 +321,11 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
 
+            string durationsDescriptor = GetDurationsDescriptor(
+                tape.Duration?.Value,
+                tape.LeadingSilence,
+                tape.TrailingSilence);
+
             string audioFormatDescriptor = GetAudioFormatDescriptor(
                 tape.SamplingRate,
                 tape.Bits,
@@ -329,19 +334,14 @@ namespace JJ.Business.Synthesizer.Wishes
                 tape.AudioFormat,
                 interpolation: null);
             
-            string durationsDescriptor = GetDurationsDescriptor(
-                tape.Duration?.Value,
-                tape.LeadingSilence,
-                tape.TrailingSilence);
-            
             string featuresDescriptor = GetFeaturesDescriptor(
                 diskCache: tape.CacheToDisk,
                 playAllTapes: tape.PlayAllTapes);
 
             string configLog = ConfigLog(
                 title, 
-                audioFormatDescriptor,
                 durationsDescriptor,
+                audioFormatDescriptor,
                 featuresDescriptor,
                 sep: sep);
 
