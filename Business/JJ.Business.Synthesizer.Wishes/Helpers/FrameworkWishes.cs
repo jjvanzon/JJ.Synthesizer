@@ -229,6 +229,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return sanitizedFilePath;
         }
 
+        private const int FILE_EXTENSION_MAX_LENGTH_HEURISTIC = 9;
+        
         /// <summary>
         /// If the file actually exists, true is returned.
         /// If it exists as a directory, false is returned.
@@ -240,7 +242,9 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             if (File.Exists(path)) return true;
             if (Directory.Exists(path)) return false;
             if (path.Contains(Path.GetInvalidPathChars())) return false;
-            return !string.IsNullOrEmpty(Path.GetExtension(path));
+            string extension = Path.GetExtension(path);
+            if (string.IsNullOrEmpty(extension)) return false;
+            return extension.Length <= FILE_EXTENSION_MAX_LENGTH_HEURISTIC;
         }
 
     }
