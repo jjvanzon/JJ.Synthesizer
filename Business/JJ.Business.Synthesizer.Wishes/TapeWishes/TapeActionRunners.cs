@@ -44,11 +44,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (!(tape.IsPlayChannel || tape.PlayAllTapes)) return;
             if (tape.ChannelIsPlayed) return;
             tape.ChannelIsPlayed = true;
-
-            LogAction(tape, nameof(SynthWishes.PlayChannel) + (tape.PlayAllTapes ? " (" + nameof(Tape.PlayAllTapes) + ")"  : null));
+            
+            LogPlayAction(tape, nameof(SynthWishes.PlayChannel));
             
             Play(tape);
-            
         }
     }
     
@@ -94,10 +93,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape.IsPlayed) return;
             tape.IsPlayed = true;
 
-            LogAction(tape, nameof(Play) + (tape.PlayAllTapes ? " (" + nameof(Tape.PlayAllTapes) + ")"  : null));
+            LogPlayAction(tape, nameof(Play));
             
             Play(tape);
-            
         }
     }
     
@@ -141,11 +139,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape.IsPlayed) return;
             tape.IsPlayed = true;
 
-            LogAction(tape, nameof(Play) + (tape.PlayAllTapes ? " (" + nameof(Tape.PlayAllTapes) + ")"  : null));
+            LogPlayAction(tape, nameof(Play));
             
             Play(tape);
         }
     }
+    
     
     internal abstract class TapeActionRunnerBase
     {

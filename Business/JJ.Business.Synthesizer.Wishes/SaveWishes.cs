@@ -12,7 +12,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.F
 using static System.Environment;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
-using static JJ.Business.Synthesizer.Wishes.Obsolete.MakeBuffObsoleteExtensions;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -120,10 +120,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 fileStream.Write(bytes, 0, bytes.Length);
             }
             
-            Console.WriteLine("");
-            Console.WriteLine($"Output file:{NewLine}" +
-                              $"{numberedFilePath}");
-            Console.WriteLine("");
+            LogOutputFile(numberedFilePath);
         }
             
         public static void Save(
@@ -132,19 +129,14 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string resolvedDestFilePath = ResolveFilePath("", destFilePath, sourceFilePath, callerMemberName: callerMemberName);
             (string numberedDestFilePath, FileStream destStream) = CreateSafeFileStream(resolvedDestFilePath);
+            
             using (var sourceStream = new FileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (destStream)
             {
-                using (destStream)
-                {
-                    sourceStream.CopyTo(destStream);
-                } 
-            }
+                sourceStream.CopyTo(destStream);
+            } 
 
-            Console.WriteLine("");
-            Console.WriteLine($"Output file:{NewLine}" +
-                              $"{numberedDestFilePath}{NewLine}" +
-                              $"(Copied from {sourceFilePath})");
-            Console.WriteLine("");
+            LogOutputFile(numberedDestFilePath, sourceFilePath);
         }
     }
     

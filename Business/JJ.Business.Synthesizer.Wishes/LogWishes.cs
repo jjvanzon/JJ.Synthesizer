@@ -313,7 +313,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 GetDurationsDescriptor(configSection),
                 sep: sep);
 
-                
         public static string GetConfigLog(Tape tape, string sep = " | ")
             => GetConfigLog($"{tape.GetName} Tape", tape, sep);
 
@@ -648,30 +647,30 @@ namespace JJ.Business.Synthesizer.Wishes
             if (!Has(nameDescriptor)) nameDescriptor = "<Untitled>";
             
             // Add flag if true
-            IList<string> flags = new List<string>();
+            var flags = new List<string>();
             
             if (tape.IsTape) flags.Add("tape");
             
             if (tape.IsPlayed) flags.Add("played");
             else if (tape.IsPlay) flags.Add("play");
             
-            if (tape.ChannelIsPlayed) flags.Add("played-c");
-            else if (tape.IsPlayChannel) flags.Add("play-c");
+            if (tape.ChannelIsPlayed) flags.Add("c-played");
+            else if (tape.IsPlayChannel) flags.Add("c-play");
             
             if (tape.IsSaved) flags.Add("saved");
             else if (tape.IsSave) flags.Add("save");
             
-            if (tape.ChannelIsSaved) flags.Add("saved-c");
-            else if (tape.IsSaveChannel) flags.Add("save-c");
+            if (tape.ChannelIsSaved) flags.Add("c-saved");
+            else if (tape.IsSaveChannel) flags.Add("c-save");
             
             if (tape.IsIntercepted) flags.Add("intercepted");
             else if (tape.IsIntercept) flags.Add("intercept");
             
-            if (tape.ChannelIsIntercepted) flags.Add("intercepted-c");
-            else if (tape.IsInterceptChannel) flags.Add("intercept-c");
+            if (tape.ChannelIsIntercepted) flags.Add("c-intercepted");
+            else if (tape.IsInterceptChannel) flags.Add("c-intercept");
             
             if (tape.Callback != null) flags.Add("callback");
-            if (tape.ChannelCallback != null) flags.Add("callback-c");
+            if (tape.ChannelCallback != null) flags.Add("c-callback");
             
             //if (tape.Channel.HasValue) flags.Add($"c{tape.Channel}");
             flags.Add(GetChannelDescriptor(tape.Channels, tape.Channel).ToLower());
@@ -698,7 +697,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (tape.AudioFormat != synthWishes.GetAudioFormat) flags.Add($"{tape.AudioFormat}".ToLower());
             }
 
-            flags = flags.Where(FilledIn).ToArray();
+            flags = flags.Where(FilledIn).ToList();
             
             string flagDescriptor = default;
             if (flags.Count > 0)
@@ -733,6 +732,18 @@ namespace JJ.Business.Synthesizer.Wishes
             else
             {
                 return prefix + "<none>";
+            }
+        }
+
+        public static void LogPlayAction(Tape tape, string action)
+        {
+            if (tape.PlayAllTapes)
+            {
+                LogAction(tape, action + " {all}");
+            }
+            else
+            {
+                LogAction(tape, action);
             }
         }
 
@@ -790,7 +801,25 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             return text;
         }
-        
+
+        // Misc
+                
+        public static void LogSampleCreated(Sample sample)
+        {
+            if (sample == null) throw new ArgumentNullException(nameof(sample));
+            Console.WriteLine(GetConfigLog("Sample Created - " + sample.Name, sample));
+            Console.WriteLine("");
+        }
+                
+        public static void LogOutputFile(string filePath, string sourceFilePath = null)
+        {
+            string prefix = "    ";
+            string sourceString = default;
+            if (Has(sourceFilePath)) sourceString += $"(copied {sourceFilePath})";
+            string message = prefix + filePath + sourceString;
+            Console.WriteLine(message);
+        }
+
         // Math Boost
 
         public static void LogMathOptimizationTitle()

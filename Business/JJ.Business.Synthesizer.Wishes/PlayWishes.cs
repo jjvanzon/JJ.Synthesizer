@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Media;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 // ReSharper disable once ParameterHidesMember
@@ -104,14 +105,9 @@ namespace JJ.Business.Synthesizer.Wishes
             string resolvedFileExtension = ResolveFileExtension(fileExtension, synthWishes?.GetAudioFormat ?? default, filePath);
             bool mustPlay = configWishes.GetPlay(resolvedFileExtension);
             
-            var lines = new List<string>();
-
             if (mustPlay)
             {
-                lines.Add("");
-                lines.Add("Playing audio...");
-                
-                if (bytes != null && bytes.Length != 0)
+                if (Has(bytes))
                 {
                     new SoundPlayer(new MemoryStream(bytes)).PlaySync();
                 }
@@ -123,19 +119,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     throw new Exception(nameof(filePath) + " and " + nameof(bytes) + " cannot both be null or empty.");
                 }
-
-                lines.Add("");
-                lines.Add("Done.");
-
-                // Write Lines
-                lines.ForEach(x => Console.WriteLine(x ?? ""));
             }
             
             return new Buff
             {
                 Bytes = bytes,
                 FilePath = filePath,
-                Messages = lines
             };
         }
         
