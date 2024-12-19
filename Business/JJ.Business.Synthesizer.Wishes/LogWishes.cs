@@ -335,7 +335,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 tape.TrailingSilence);
             
             string featuresDescriptor = GetFeaturesDescriptor(
-                diskCache: tape.CacheToDisk);
+                diskCache: tape.CacheToDisk,
+                playAllTapes: tape.PlayAllTapes);
 
             string configLog = GetConfigLog(
                 title, 

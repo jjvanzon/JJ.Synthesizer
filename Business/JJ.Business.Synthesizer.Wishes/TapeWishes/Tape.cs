@@ -76,6 +76,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         // Options
 
         public bool CacheToDisk { get; set; }
+        public bool PlayAllTapes { get; set; }
         public int ExtraBufferFrames { get; set; }
 
         // Hierarchy

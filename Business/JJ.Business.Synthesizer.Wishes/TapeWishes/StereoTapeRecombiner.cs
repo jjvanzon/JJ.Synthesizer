@@ -101,6 +101,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             // Options
             CacheToDisk = tapePrototype.CacheToDisk,
+            PlayAllTapes = tapePrototype.PlayAllTapes,
             ExtraBufferFrames = tapePrototype.ExtraBufferFrames,
         };
         
