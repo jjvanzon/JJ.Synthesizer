@@ -88,7 +88,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape == null) throw new ArgumentNullException(nameof(tape));
 
             if (!tape.IsMono) return;
-            if (!(tape.IsPlay || tape.PlayAllTapes)) return;
+            if (!tape.IsPlay) return;
+            // Skip PlayAllTapes check: Channel already played (identical for Mono).
+            //if (!(tape.IsPlay || tape.PlayAllTapes)) return;
             if (tape.IsPlayed) return;
             tape.IsPlayed = true;
 
