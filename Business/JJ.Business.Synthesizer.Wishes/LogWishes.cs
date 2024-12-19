@@ -674,7 +674,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.ChannelCallback != null) flags.Add("c-callback");
             
             //if (tape.Channel.HasValue) flags.Add($"c{tape.Channel}");
-            flags.Add(GetChannelDescriptor(tape.Channels, tape.Channel).ToLower());
+            flags.Add(GetChannelDescriptor(tape.Channels, tape.Channel)?.ToLower());
             
             if (tape.Duration != null) flags.Add($"{tape.Duration.Value}s");
 
