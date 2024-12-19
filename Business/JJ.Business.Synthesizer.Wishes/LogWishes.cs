@@ -297,8 +297,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string ConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes = null, string sep = " | ") 
             => ConfigLog(
                 title,
-                GetFeaturesDescriptor(configWishes),
                 GetAudioFormatDescriptor(configWishes),
+                GetFeaturesDescriptor(configWishes),
                 Has(synthWishes) ? GetDurationsDescriptor(configWishes, synthWishes) : "",
                 sep: sep);
         
