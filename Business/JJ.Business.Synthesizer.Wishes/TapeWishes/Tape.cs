@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -26,8 +27,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public IList<FlowNode> Signals { get; set; }
         public IList<FlowNode> ConcatSignals()
         {
-            var signals = Signals?.ToList() ?? new List<FlowNode>();
+            var signals = new List<FlowNode>();
             if (Signal != null) signals.Add(Signal);
+            if (Signals != null) signals.AddRange(Signals.Where(FilledIn));
             return signals;
         }
 
