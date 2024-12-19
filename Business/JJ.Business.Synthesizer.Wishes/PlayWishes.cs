@@ -52,6 +52,15 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Internals (all on Buffs) (End-of-Chain)
+
+        internal static Buff InternalPlay(SynthWishes synthWishes, Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            
+            Buff buff2 = InternalPlay(synthWishes, tape.Buff);
+            
+            return buff2;
+        }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, Buff buff)
         {
@@ -132,6 +141,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Statics (End-of-Chain)
         
+        internal static Buff Play(Tape tape) => InternalPlay(null, tape);
         public static Buff Play(Buff buff) => InternalPlay(null, buff);
         public static Buff Play(AudioFileOutput entity) => InternalPlay(null, entity);
         public static Buff Play(Sample entity) => InternalPlay(null, entity);
@@ -144,6 +154,8 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesPlayStaticsTurnedInstanceExtensions
     {
+        internal static SynthWishes Play(this SynthWishes synthWishes, Tape tape) {
+            SynthWishes.InternalPlay(synthWishes, tape); return synthWishes; }
         public static SynthWishes Play(this SynthWishes synthWishes, Buff buff) {
             SynthWishes.InternalPlay(synthWishes, buff); return synthWishes; }
         public static SynthWishes Play(this SynthWishes synthWishes, Sample sample) {

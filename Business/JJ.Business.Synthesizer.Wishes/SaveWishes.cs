@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
@@ -57,6 +58,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // SynthWishes Save in Statics (Buff to Buff) (End-of-Chain)
         
+        internal static void Save(Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            if (tape.Buff == null) throw new NullException(() => tape.Buff);
+            Save(tape.Buff, tape.FilePath, tape.GetName);
+        }
+
         public static Buff Save(
             Buff buff,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
