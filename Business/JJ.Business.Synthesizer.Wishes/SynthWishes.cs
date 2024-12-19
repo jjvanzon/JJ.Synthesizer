@@ -10,7 +10,6 @@ using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
@@ -119,7 +118,7 @@ namespace JJ.Business.Synthesizer.Wishes
             RunChannelSignals(action);
 
             Console.WriteLine("");
-            Console.WriteLine(GetConfigLog(this));
+            Console.WriteLine(ConfigLog(this));
             Console.WriteLine("");
 
             if (GetParallelTaping)

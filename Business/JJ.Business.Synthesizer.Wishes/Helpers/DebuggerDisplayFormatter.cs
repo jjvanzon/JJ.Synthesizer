@@ -40,16 +40,16 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             string typeString = FormatTypeName(synthWishes) + " ";
             string tapesString = synthWishes.TapeCount + " Tapes | ";
-            string configString = GetConfigLog(title: "", synthWishes, sep: " | ");
+            string configString = ConfigLog(title: "", synthWishes, sep: " | ");
             string debuggerDisplay = typeString + tapesString + configString;
             return debuggerDisplay;
         }
         
-        internal static string GetDebuggerDisplay(ConfigWishes configWishes) => FormatTypeName(configWishes) + " " + GetConfigLog(configWishes);
+        internal static string GetDebuggerDisplay(ConfigWishes configWishes) => FormatTypeName(configWishes) + " " + ConfigLog(configWishes);
     
-        internal static string GetDebuggerDisplay(ConfigSection configSection) => FormatTypeName(configSection) + " " + GetConfigLog(configSection);
+        internal static string GetDebuggerDisplay(ConfigSection configSection) => FormatTypeName(configSection) + " " + ConfigLog(configSection);
 
-        internal static string GetDebuggerDisplay(AudioInfoWish audioInfoWish) => FormatTypeName(audioInfoWish) + " " + GetConfigLog(audioInfoWish);
+        internal static string GetDebuggerDisplay(AudioInfoWish audioInfoWish) => FormatTypeName(audioInfoWish) + " " + ConfigLog(audioInfoWish);
 
         private static string FormatTypeName(object obj)
         {

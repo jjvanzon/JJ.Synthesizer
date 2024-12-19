@@ -301,7 +301,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             var channelSignals = synthWishes.GetChannelSignals(func);
 
             Console.WriteLine("");
-            Console.WriteLine(GetConfigLog(synthWishes));
+            Console.WriteLine(ConfigLog(synthWishes));
             Console.WriteLine("");
 
             return synthWishes.MakeBuff(channelSignals, duration, inMemory, mustPad, null, name, filePath, callerMemberName);
