@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AudioPropertyWishes.cs" />
+    <Compile Include="Obsolete\Obsolete.LogWishes.cs" />
     <Compile Include="Obsolete\Obsolete.Streamers.cs" />
     <Compile Include="RecordWishes.cs" />
     <Compile Include="InterceptWishes.cs" />

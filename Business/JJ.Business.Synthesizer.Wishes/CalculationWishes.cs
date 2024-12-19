@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Linq;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -123,6 +124,18 @@ namespace JJ.Business.Synthesizer.Wishes
                                                                .Select(y => y.Operator)
                                                                .Where(y => y.IsVar()));
             return operators.Count();
+        }
+        
+        public static int Complexity(this FlowNode flowNode)
+        {
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return Complexity(flowNode.UnderlyingOutlet);
+        }
+
+        internal static int Complexity(this Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            return tape.ConcatSignals().Sum(Complexity);
         }
         
         public static int Complexity(this Buff buff)

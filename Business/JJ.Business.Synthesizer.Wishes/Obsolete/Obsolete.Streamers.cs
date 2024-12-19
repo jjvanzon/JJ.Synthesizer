@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             };
 
             // Report
-            var reportLines = GetSynthLog(buff, calculationDuration);
+            var reportLines = GetSynthLogOld(buff, calculationDuration);
             reportLines.ForEach(Console.WriteLine);
             
             return buff;

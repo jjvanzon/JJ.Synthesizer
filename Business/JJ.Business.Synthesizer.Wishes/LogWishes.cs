@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.IO.File;
@@ -25,61 +26,117 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Pretty Calculation Graphs
         
-        public static IList<string> GetSynthLog(Buff buff, double calculationDuration)
+        public static IList<string> GetSynthLog(Tape tape, double calculationDuration)
         {
-            // Get Info
-            var stringifiedChannels = new List<string>();
-
-            foreach (var audioFileOutputChannel in buff.UnderlyingAudioFileOutput.AudioFileOutputChannels)
-            {
-                string stringify = audioFileOutputChannel.Outlet?.Stringify() ?? "";
-                stringifiedChannels.Add(stringify);
-            }
-
-            // Gather Lines
             var lines = new List<string>();
 
-            lines.Add("");
-            lines.Add(GetPrettyTitle(ResolveName(buff)));
-            lines.Add("");
-
-            string realTimeComplexityMessage = FormatMetrics(buff.UnderlyingAudioFileOutput.Duration, calculationDuration, buff.Complexity());
-            lines.Add(realTimeComplexityMessage);
-            lines.Add("");
-
-            lines.Add($"Calculation Time: {PrettyDuration(calculationDuration)}");
-            lines.Add("Audio Length: " + GetConfigLog(buff));
-            lines.Add("");
-
-            IList<string> warnings = buff.Messages.ToArray();
-            if (warnings.Any())
+            // No Tape
+            
+            if (tape == null)
             {
-                lines.Add("Warnings:");
-                lines.AddRange(warnings.Select(warning => $"- {warning}"));
+                lines.Add("");
+                lines.Add(GetPrettyTitle("Synth Log"));
+                lines.Add("⚠️ Warning: No Tape!");
+                return lines;
+            }
+
+            // Title
+            
+            lines.Add("");
+            // TODO: Switch to TapeDescriptor for a tiel once the processes aren't fed with dummy tapes anymore.
+            {
+                //lines.Add(GetPrettyTitle(GetTapeDescriptor(tape)));
+            }
+            {
+                lines.Add(GetPrettyTitle(tape.GetName));
+            }
+            
+            // Properties
+            
+            lines.Add("");
+            // TODO: Switch to just reporting complexity, not real-time percentage, once that's shown in the overall process instead.
+            {
+                //lines.Add("Complexity: Ｏ (" + tape.Complexity() + ")");
+            }
+            {
+                double duration = tape.Duration?.Value ?? 0;
+                int complexity = tape.Buff?.Complexity() ?? 0;
+                string realTimeComplexityMessage = FormatMetrics(duration, calculationDuration, complexity);
+                lines.Add(realTimeComplexityMessage);
                 lines.Add("");
             }
+            
+            lines.Add("Calculation Time: " + PrettyDuration(calculationDuration));
+            lines.Add(ConfigLog(tape));
 
-            for (var i = 0; i < buff.UnderlyingAudioFileOutput.AudioFileOutputChannels.Count; i++)
+            // Warnings
+            
+            var audioFileOutput = tape.Buff?.UnderlyingAudioFileOutput;
+            if (audioFileOutput != null)
             {
-                var channelString = stringifiedChannels[i];
+                var warnings = audioFileOutput.GetWarnings();
+                var warnings2 = audioFileOutput.AudioFileOutputChannels?
+                                               .SelectMany(x => x?.Outlet?.GetWarnings())
+                                               .ToArray();
+                if (warnings2 != null) warnings.AddRange(warnings2);
 
-                lines.Add($"Calculation Channel {i + 1}:");
+                if (warnings.Any())
+                {
+                    lines.Add("");
+                    lines.Add("Warnings:");
+                    lines.AddRange(warnings.Select(warning => $"⚠️ {warning}"));
+                }
+            }
+            
+            // Calculation
+            
+            var signals = tape.ConcatSignals();
+            
+            if (signals.Count > 0)
+            {
                 lines.Add("");
-                lines.Add(channelString);
+
+                for (var i = 0; i < signals.Count; i++)
+                {
+                    FlowNode signal = signals[i];
+                    string signalString = signal.Stringify() ?? "";
+                    
+                    lines.Add($"Calculation Channel {i + 1}:");
+                    lines.Add("");
+                    lines.Add(signalString);
+                }
+            }
+            else
+            {
+                lines.Add("⚠️ Warning: No Signals!");
+            }
+            
+            // Buffer
+            
+            byte[] bytes = tape.Buff?.Bytes;
+            bool fileExists = Exists(tape.FilePath);
+            
+            if (Has(bytes))
+            {
                 lines.Add("");
+                // ReSharper disable once PossibleNullReferenceException
+                lines.Add(PrettyByteCount(bytes.Length) + " written to memory.");
             }
 
-            if (buff.Bytes != null)
+            if (fileExists)
             {
-                lines.Add($"{PrettyByteCount(buff.Bytes.Length)} written to memory.");
+                lines.Add("");
+                lines.Add("Output file: " + GetFullPath(tape.FilePath));
             }
-            if (Exists(buff.FilePath))
+
+            if (!fileExists && !Has(bytes))
             {
-                lines.Add($"Output file: {GetFullPath(buff.FilePath)}");
+                lines.Add("");
+                lines.Add("⚠️ Warning: Tape not recorded.");
             }
 
             lines.Add("");
-
+        
             return lines;
         }
 
@@ -320,7 +377,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string ConfigLog(string title, Tape tape, string sep = " | ")
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-
+                        
             string durationsDescriptor = GetDurationsDescriptor(
                 tape.Duration?.Value,
                 tape.LeadingSilence,
