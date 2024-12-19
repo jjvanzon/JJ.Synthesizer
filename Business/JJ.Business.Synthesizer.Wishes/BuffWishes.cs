@@ -37,13 +37,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public string FilePath { get; set; }
         public AudioFileOutput UnderlyingAudioFileOutput { get; set; }
 
-        private IList<string> _messages = new List<string>();
-        public IList<string> Messages
-        {
-            get => _messages;
-            set => _messages = value ?? throw new NullException(() => Messages);
-        }
-
         public AudioFileFormatEnum AudioFormat 
             => UnderlyingAudioFileOutput?.GetAudioFileFormatEnum() ?? default;
     }
@@ -127,13 +120,6 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 audioFileOutputChannel.Outlet?.Assert();
             }
-            
-            var warnings = new List<string>();
-            foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
-            {
-                warnings.AddRange(audioFileOutputChannel.Outlet?.GetWarnings() ?? Array.Empty<string>());
-            }
-            warnings.AddRange(audioFileOutput.GetWarnings());
 
             // Inject stream where back-end originally created it internally.
             byte[] bytes = null;
@@ -163,16 +149,16 @@ namespace JJ.Business.Synthesizer.Wishes
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
             // Result
+            tape.FilePath = resolvedFilePath;
             tape.Buff = new Buff
             {
                 Bytes = bytes, 
                 FilePath = resolvedFilePath, 
                 UnderlyingAudioFileOutput = audioFileOutput, 
-                Messages = warnings
             };
 
             // Report
-            var reportLines = GetSynthLog(tape.Buff, calculationDuration);
+            var reportLines = GetSynthLog(tape, calculationDuration);
             reportLines.ForEach(Console.WriteLine);
         }
 

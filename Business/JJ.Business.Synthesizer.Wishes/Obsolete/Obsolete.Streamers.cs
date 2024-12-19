@@ -18,6 +18,7 @@ using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.MakeBuffObsoleteExtensions;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteLogWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.StreamerObsoleteMessages;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
@@ -189,7 +190,6 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 Bytes = bytes, 
                 FilePath = resolvedFilePath, 
                 UnderlyingAudioFileOutput = audioFileOutput, 
-                Messages = warnings
             };
 
             // Report
