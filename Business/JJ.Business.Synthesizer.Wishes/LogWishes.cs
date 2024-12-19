@@ -355,10 +355,10 @@ namespace JJ.Business.Synthesizer.Wishes
             => ConfigLog(title, GetDurationsDescriptor(audioFileOutput), GetAudioFormatDescriptor(audioFileOutput), sep: sep);
         
         public static string ConfigLog(Sample sample, string sep = " | ")
-            => GetConfigLog("Sample Settings", sample, sep);
+            => ConfigLog(title: "", sample, sep);
 
         public static string ConfigLog(string title, Sample sample, string sep = " | ") 
-            => GetConfigLog(title, GetAudioFormatDescriptor(sample), GetDurationsDescriptor(sample), sep: sep);
+            => ConfigLog(title, GetDurationsDescriptor(sample), GetAudioFormatDescriptor(sample), sep: sep);
 
         private static string GetDurationsDescriptor(ConfigWishes configWishes, SynthWishes synthWishes)
         {
@@ -808,8 +808,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static void LogSampleCreated(Sample sample)
         {
             if (sample == null) throw new ArgumentNullException(nameof(sample));
-            Console.WriteLine(GetConfigLog("Sample Created - " + sample.Name, sample));
-            Console.WriteLine("");
+            LogAction(nameof(Sample), "Create", $"\"{sample.Name}\" {ConfigLog(sample)}");
         }
                 
         public static void LogOutputFile(string filePath, string sourceFilePath = null)
