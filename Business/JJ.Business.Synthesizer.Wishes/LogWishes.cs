@@ -315,6 +315,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static string ConfigLog(Tape tape, string sep = " | ")
             //=> ConfigLog($"{tape.GetName} Tape", tape, sep);
+            => ConfigLog("", tape, sep);
 
         public static string ConfigLog(string title, Tape tape, string sep = " | ")
         {
