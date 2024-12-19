@@ -209,11 +209,11 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         public static string GetFeaturesDescriptor(
-            bool? audioPlayback = false, 
-            bool? diskCache = false, 
-            bool? mathBoost = false, 
-            bool? parallelProcessing = false, 
-            bool? playAllTapes = false)
+            bool? audioPlayback = null, 
+            bool? diskCache = null, 
+            bool? mathBoost = null, 
+            bool? parallelProcessing = null, 
+            bool? playAllTapes = null)
         {
             var features = new List<string>();
 
@@ -223,9 +223,12 @@ namespace JJ.Business.Synthesizer.Wishes
             if (Has(parallelProcessing)) features.Add("Parallel Processing");
             if (Has(playAllTapes)) features.Add("Play All Tapes");
             
-            if (!Has(audioPlayback)) features.Add("⚠️ No Audio"); 
-            if (!Has(mathBoost)) features.Add("⚠️ No Math Boost");
-            if (!Has(parallelProcessing)) features.Add("⚠️ No Parallel Processing");
+            //if (!Has(audioPlayback)) features.Add("⚠️ No Audio"); 
+            if (audioPlayback != null && audioPlayback == false) features.Add("⚠️ No Audio"); 
+            //if (!Has(mathBoost)) features.Add("⚠️ No Math Boost");
+            if (mathBoost != null && mathBoost == false) features.Add("⚠️ No Math Boost");
+            //if (!Has(parallelProcessing)) features.Add("⚠️ No Parallel Processing");
+            if (parallelProcessing != null && parallelProcessing == false) features.Add("⚠️ No Parallel Processing");
             
             string descriptor = Join(" | ", features);
             return descriptor;
@@ -302,14 +305,15 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string GetConfigLog(ConfigSection configSection, string sep = " | ")
             => GetConfigLog("", configSection, sep);
 
-        public static string GetConfigLog(string title, ConfigSection configSection, string sep = " | ") 
+        public static string GetConfigLog(string title, ConfigSection configSection, string sep = " | ")
             => GetConfigLog(
                 title,
                 GetFeaturesDescriptor(configSection),
                 GetAudioFormatDescriptor(configSection),
                 GetDurationsDescriptor(configSection),
                 sep: sep);
-        
+
+                
         public static string GetConfigLog(Tape tape, string sep = " | ")
             => GetConfigLog($"{tape.GetName} Tape", tape, sep);
 
@@ -317,29 +321,32 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
 
-            Buff buff = tape.Buff;
-            AudioFileOutput audioFileOutput = buff?.UnderlyingAudioFileOutput;
-
             string audioFormatDescriptor = GetAudioFormatDescriptor(
-                audioFileOutput?.SamplingRate, 
-                audioFileOutput?.GetBits(), 
+                tape.SamplingRate,
+                tape.Bits,
                 tape.Channels, 
                 tape.Channel,
-                audioFileOutput?.GetAudioFileFormatEnum(), 
+                tape.AudioFormat,
                 interpolation: null);
             
             string durationsDescriptor = GetDurationsDescriptor(
-                tape.Duration?.Value ?? audioFileOutput?.Duration);
+                tape.Duration?.Value,
+                tape.LeadingSilence,
+                tape.TrailingSilence);
+            
+            string featuresDescriptor = GetFeaturesDescriptor(
+                diskCache: tape.CacheToDisk);
 
             string configLog = GetConfigLog(
                 title, 
                 audioFormatDescriptor,
                 durationsDescriptor,
+                featuresDescriptor,
                 sep: sep);
 
             return configLog;
         }
-        
+
         public static string GetConfigLog(AudioFileOutput audioFileOutput, string sep = " | ")
             => GetConfigLog("Audio File Output", audioFileOutput, sep);
 
@@ -630,40 +637,72 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static string GetTapeDescriptor(Tape tape)
         {
-            if (tape == null)
-            {
-                return "<Tape=null>";
-            }
-            
+            if (tape == null) return "<Tape=null>";
+
             string prefix;
             if (tape.Channel == null) prefix = "(Stereo) ";
             else prefix = $"(Level {tape.NestingLevel}) ";
             
             string nameDescriptor = tape.GetName;
-            if (IsNullOrWhiteSpace(nameDescriptor))
-            {
-                nameDescriptor = "<Untitled>";
-            }
+            if (!Has(nameDescriptor)) nameDescriptor = "<Untitled>";
             
             // Add flag if true
-            var flagStrings = new List<string>();
-            if (tape.IsTape) flagStrings.Add("tape");
-            if (tape.IsPlay) flagStrings.Add("play");
-            if (tape.IsPlayChannel) flagStrings.Add("playc");
-            if (tape.IsSave) flagStrings.Add("save");
-            if (tape.IsSaveChannel) flagStrings.Add("savec");
-            if (tape.IsIntercept) flagStrings.Add("intercept");
-            if (tape.IsInterceptChannel) flagStrings.Add("interceptchan");
-            if (tape.Callback != null) flagStrings.Add("callback");
-            if (tape.ChannelCallback != null) flagStrings.Add("callbackchan");
-            if (tape.IsPadded) flagStrings.Add("pad");
-            if (tape.Channel.HasValue) flagStrings.Add($"c{tape.Channel}");
-            if (tape.Duration != null) flagStrings.Add($"{tape.Duration.Value}s");
+            IList<string> flags = new List<string>();
+            
+            if (tape.IsTape) flags.Add("tape");
+            
+            if (tape.IsPlayed) flags.Add("played");
+            else if (tape.IsPlay) flags.Add("play");
+            
+            if (tape.ChannelIsPlayed) flags.Add("played-c");
+            else if (tape.IsPlayChannel) flags.Add("play-c");
+            
+            if (tape.IsSaved) flags.Add("saved");
+            else if (tape.IsSave) flags.Add("save");
+            
+            if (tape.ChannelIsSaved) flags.Add("saved-c");
+            else if (tape.IsSaveChannel) flags.Add("save-c");
+            
+            if (tape.IsIntercepted) flags.Add("intercepted");
+            else if (tape.IsIntercept) flags.Add("intercept");
+            
+            if (tape.ChannelIsIntercepted) flags.Add("intercepted-c");
+            else if (tape.IsInterceptChannel) flags.Add("intercept-c");
+            
+            if (tape.Callback != null) flags.Add("callback");
+            if (tape.ChannelCallback != null) flags.Add("callback-c");
+            
+            //if (tape.Channel.HasValue) flags.Add($"c{tape.Channel}");
+            flags.Add(GetChannelDescriptor(tape.Channels, tape.Channel).ToLower());
+            
+            if (tape.Duration != null) flags.Add($"{tape.Duration.Value}s");
 
-            string flagDescriptor = default;
-            if (flagStrings.Count > 0)
+            if (tape.IsPadded)
             {
-                flagDescriptor = " {" + Join(",", flagStrings) + "}";
+                if (tape.LeadingSilence == tape.TrailingSilence)
+                {
+                    flags.Add($"pad{tape.LeadingSilence:#.##}");
+                }
+                else
+                {
+                    flags.Add($"pad{tape.LeadingSilence:#.##},{tape.TrailingSilence:#.##}");
+                }
+            }
+
+            SynthWishes synthWishes = tape.ConcatSignals().FirstOrDefault()?.SynthWishes;
+            if (synthWishes != null)
+            {
+                if (tape.SamplingRate != synthWishes.GetSamplingRate) flags.Add($"{tape.SamplingRate}hz");
+                if (tape.Bits != synthWishes.GetBits) flags.Add($"{tape.Bits}bit");
+                if (tape.AudioFormat != synthWishes.GetAudioFormat) flags.Add($"{tape.AudioFormat}".ToLower());
+            }
+
+            flags = flags.Where(FilledIn).ToArray();
+            
+            string flagDescriptor = default;
+            if (flags.Count > 0)
+            {
+                flagDescriptor = " {" + Join(",", flags) + "}";
             }
             
             string idDescriptor = $" ({GetIDDescriptor(tape)})";
@@ -740,7 +779,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape != null)
             {
                 if (!text.EndsWithPunctuation()) text += ":";
-                text += " " + @"""" + GetTapeDescriptor(tape) + @"""";
+                text += " " + '"' + GetTapeDescriptor(tape) + '"';
             }
             
             if (Has(message))
