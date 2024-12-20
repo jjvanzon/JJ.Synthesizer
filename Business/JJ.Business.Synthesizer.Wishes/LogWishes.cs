@@ -84,29 +84,12 @@ namespace JJ.Business.Synthesizer.Wishes
             // Title
             
             lines.Add("");
-            // TODO: Switch to TapeDescriptor for a tiel once the processes aren't fed with dummy tapes anymore.
-            {
-                //lines.Add(GetPrettyTitle(GetTapeDescriptor(tape)));
-            }
-            {
-                lines.Add(GetPrettyTitle(tape.GetName));
-            }
+            lines.Add(GetPrettyTitle(GetTapeDescriptor(tape)));
             
             // Properties
             
             lines.Add("");
-            // TODO: Switch to just reporting complexity, not real-time percentage, once that's shown in the overall process instead.
-            {
-                //lines.Add("Complexity: Ｏ (" + tape.Complexity() + ")");
-            }
-            {
-                double duration = tape.Duration?.Value ?? 0;
-                int complexity = tape.Buff?.Complexity() ?? 0;
-                string realTimeComplexityMessage = FormatMetrics(duration, calculationDuration, complexity);
-                lines.Add(realTimeComplexityMessage);
-                lines.Add("");
-            }
-            
+            lines.Add("Complexity: Ｏ (" + tape.Complexity() + ")");
             lines.Add("Calculation Time: " + PrettyDuration(calculationDuration));
             lines.Add(ConfigLog(tape));
 
