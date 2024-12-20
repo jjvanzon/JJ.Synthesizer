@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private const int                   DefaultBits          = 32;
         private const int                   DefaultChannels      = 1;
-        private const int                   DefaultChannel       = 0;
+        private static int?                 DefaultChannel       = null;
         private const int                   DefaultSamplingRate  = 48000;
         private const AudioFileFormatEnum   DefaultAudioFormat   = Wav;
         private const InterpolationTypeEnum DefaultInterpolation = Line;
@@ -173,8 +173,8 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Channel
         
-        private     ChannelEnum                  _channelEnum = DefaultChannel.ToChannelEnum(DefaultChannels);
-        public int? GetChannel                => _channelEnum == default ? default(int?) : _channelEnum.ToChannel();
+        private     ChannelEnum _channelEnum = DefaultChannel.ToChannelEnum(DefaultChannels);
+        public int? GetChannel => (_channelEnum == default) ? default(int?) : _channelEnum.ToChannel();
         public void WithChannel(int? channel) => _channelEnum = channel?.ToChannelEnum(GetChannels) ?? default;
         public bool IsCenter  =>   GetChannels == 1 ? GetChannel == 0 : default;
         public void WithCenter() { WithChannels  (1); WithChannel  (0);        }
