@@ -332,11 +332,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return descriptor;
         }
         
-        public static string ConfigLog(SynthWishes synthWishes, string sep = default)
-        {
-            if (!Has(sep, false)) sep = NewLine;
-            return ConfigLog("Settings:", synthWishes, sep);
-        }
+        public static string ConfigLog(SynthWishes synthWishes) => ConfigLog("SynthWishes", synthWishes, NewLine);
+        public static string ConfigLog(SynthWishes synthWishes, string sep) => ConfigLog("SynthWishes", synthWishes, sep);
         
         public static string ConfigLog(string title, SynthWishes synthWishes, string sep = default)
         {
@@ -344,8 +341,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return ConfigLog(title, synthWishes.Config, synthWishes, sep);
         }
         
-        public static string ConfigLog(FlowNode flowNode, string sep = " | ") 
-            => ConfigLog("FlowNode Settings", flowNode, sep);        
+        public static string ConfigLog(FlowNode flowNode) => ConfigLog("FlowNode Settings", flowNode);
+        public static string ConfigLog(FlowNode flowNode, string sep) => ConfigLog("FlowNode Settings", flowNode, sep);        
         
         public static string ConfigLog(string title, FlowNode flowNode, string sep = " | ")
         {
@@ -353,17 +350,18 @@ namespace JJ.Business.Synthesizer.Wishes
             return ConfigLog(title, flowNode.SynthWishes, sep);
         }
         
-        public static string ConfigLog(Buff buff, string sep = " | ")
-            => ConfigLog("", buff, sep);
+        public static string ConfigLog(Buff buff) => ConfigLog("", buff);
+        public static string ConfigLog(Buff buff, string sep) => ConfigLog("", buff, sep);
         
         public static string ConfigLog(string title, Buff buff, string sep = " | ")
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
+            if (buff.UnderlyingAudioFileOutput == null) return default;
             return ConfigLog(title, buff.UnderlyingAudioFileOutput, sep);
         }
 
-        public static string ConfigLog(AudioInfoWish audioInfoWish, string sep = " | ")
-            => ConfigLog("Audio Info", audioInfoWish, sep);
+        public static string ConfigLog(AudioInfoWish audioInfoWish) => ConfigLog("Audio Info", audioInfoWish);
+        public static string ConfigLog(AudioInfoWish audioInfoWish, string sep) => ConfigLog("Audio Info", audioInfoWish, sep);
         
         public static string ConfigLog(string title, AudioInfoWish audioInfoWish, string sep = " | ")
         {
@@ -371,8 +369,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return ConfigLog(title, GetDurationsDescriptor(audioInfoWish), GetAudioFormatDescriptor(audioInfoWish), sep: sep);
         }
 
-        public static string ConfigLog(AudioFileInfo audioFileInfo, string sep = " | ")
-            => ConfigLog("Audio Info", audioFileInfo, sep);
+        public static string ConfigLog(AudioFileInfo audioFileInfo) => ConfigLog("Audio Info", audioFileInfo);
+        public static string ConfigLog(AudioFileInfo audioFileInfo, string sep) => ConfigLog("Audio Info", audioFileInfo, sep);
 
         public static string ConfigLog(string title, AudioFileInfo audioFileInfo, string sep = " | ")
         {
@@ -380,8 +378,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return ConfigLog(title, GetDurationsDescriptor(audioFileInfo), GetAudioFormatDescriptor(audioFileInfo), sep: sep);
         }
 
-        public static string ConfigLog(WavHeaderStruct wavHeader, string sep = " | ")
-            => ConfigLog("WAV Header", wavHeader, sep);
+        public static string ConfigLog(WavHeaderStruct wavHeader) => ConfigLog("WAV Header", wavHeader);
+        public static string ConfigLog(WavHeaderStruct wavHeader, string sep) => ConfigLog("WAV Header", wavHeader, sep);
 
         public static string ConfigLog(string title, WavHeaderStruct wavHeader, string sep = " | ")
         {
@@ -409,8 +407,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 Has(synthWishes) ? GetDurationsDescriptor(configWishes, synthWishes) : "",
                 sep: sep);
         
-        public static string ConfigLog(ConfigSection configSection, string sep = " | ")
-            => ConfigLog("", configSection, sep);
+        public static string ConfigLog(ConfigSection configSection) => ConfigLog("", configSection);
+        public static string ConfigLog(ConfigSection configSection, string sep) => ConfigLog("", configSection, sep);
 
         public static string ConfigLog(string title, ConfigSection configSection, string sep = " | ")
             => ConfigLog(
@@ -420,9 +418,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 GetDurationsDescriptor(configSection),
                 sep: sep);
 
-        public static string ConfigLog(Tape tape, string sep = " | ")
-            //=> ConfigLog($"{tape.GetName} Tape", tape, sep);
-            => ConfigLog("", tape, sep);
+        public static string ConfigLog(Tape tape) => ConfigLog("", tape);
+        public static string ConfigLog(Tape tape, string sep) => ConfigLog("", tape, sep);
 
         public static string ConfigLog(string title, Tape tape, string sep = " | ")
         {
@@ -455,14 +452,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return configLog;
         }
 
-        public static string ConfigLog(AudioFileOutput audioFileOutput, string sep = " | ")
-            => ConfigLog("Audio File Output", audioFileOutput, sep);
+        public static string ConfigLog(AudioFileOutput audioFileOutput) => ConfigLog("Audio File Output", audioFileOutput);
+        public static string ConfigLog(AudioFileOutput audioFileOutput, string sep) => ConfigLog("Audio File Output", audioFileOutput, sep);
 
         public static string ConfigLog(string title, AudioFileOutput audioFileOutput, string sep = " | ") 
             => ConfigLog(title, GetDurationsDescriptor(audioFileOutput), GetAudioFormatDescriptor(audioFileOutput), sep: sep);
         
-        public static string ConfigLog(Sample sample, string sep = " | ")
-            => ConfigLog(title: "", sample, sep);
+        public static string ConfigLog(Sample sample) => ConfigLog("", sample);
+        public static string ConfigLog(Sample sample, string sep) => ConfigLog("", sample, sep);
 
         public static string ConfigLog(string title, Sample sample, string sep = " | ") 
             => ConfigLog(title, GetDurationsDescriptor(sample), GetAudioFormatDescriptor(sample), sep: sep);
