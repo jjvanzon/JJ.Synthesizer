@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using static System.Math;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FilledInHelper;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -30,14 +34,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (!_tapes.TryGetValue(signal, out Tape tape))
             {
                 _tapes[signal] = tape = new Tape();
+                tape.Signal = signal;
             }
 
-            // Signal
-            
-            tape.Signal = signal;
-
             // Durations
-            tape.Duration = duration ?? _synthWishes.GetAudioLength;
+            
             tape.LeadingSilence = _synthWishes.GetLeadingSilence.Value;
             tape.TrailingSilence = _synthWishes.GetTrailingSilence.Value;
 
@@ -49,20 +50,21 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             tape.Channels = _synthWishes.GetChannels;
             tape.AudioFormat = _synthWishes.GetAudioFormat;
 
-             // Names
-             
-            tape.FilePath = filePath;
-            tape.FallBackName = callerMemberName;
-
             // Options
             
             tape.CacheToDisk = _synthWishes.GetCacheToDisk;
             tape.PlayAllTapes = _synthWishes.GetPlayAllTapes;
             tape.ExtraBufferFrames = _synthWishes.GetExtraBufferFrames;
+            
+            // From Parameters
 
-            // Callbacks
+            
+            if (Has(filePath)) tape.FilePathSuggested = filePath;
+            if (Has(callerMemberName)) tape.FallBackName = callerMemberName;
 
-            // Don't overwrite callback with null.
+            double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
+            tape.Duration = Max(tape.Duration, newDuration);
+
             tape.Callback = tape.Callback ?? callback;
             tape.ChannelCallback = tape.ChannelCallback ?? channelCallback; 
 

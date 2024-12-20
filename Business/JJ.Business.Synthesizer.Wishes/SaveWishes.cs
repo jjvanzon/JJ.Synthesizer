@@ -62,7 +62,8 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new NullException(() => tape);
             if (tape.Buff == null) throw new NullException(() => tape.Buff);
-            Save(tape.Buff, tape.FilePath, tape.GetName);
+            
+            Save(tape.Buff, tape.FilePathSuggested, tape.GetName);
         }
 
         public static Buff Save(

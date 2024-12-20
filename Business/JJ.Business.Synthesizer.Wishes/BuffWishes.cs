@@ -62,7 +62,6 @@ namespace JJ.Business.Synthesizer.Wishes
             Tape tape, [CallerMemberName] string callerMemberName = null)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            if (tape.Duration == null) throw new NullException(() => tape.Duration);
             
             // Configure AudioFileOutput (avoid backend)
 
@@ -71,10 +70,10 @@ namespace JJ.Business.Synthesizer.Wishes
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = ResolveName(tape.GetName, callerMemberName) ;
-            audioFileOutput.FilePath = ResolveFilePath(tape.AudioFormat, tape.FilePath, tape.FallBackName, callerMemberName);
+            audioFileOutput.FilePath = ResolveFilePath(tape.AudioFormat, tape.FilePathResolved, tape.FilePathSuggested, tape.Signal, tape.Signals, tape.FallBackName, callerMemberName);
             audioFileOutput.Amplifier = tape.Bits.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
-            audioFileOutput.Duration = tape.Duration.Calculate();
+            audioFileOutput.Duration = tape.Duration;
             audioFileOutput.SetBits(tape.Bits, Context);
             audioFileOutput.SetAudioFormat(tape.AudioFormat, Context);
             audioFileOutput.SamplingRate = tape.SamplingRate;
@@ -107,8 +106,8 @@ namespace JJ.Business.Synthesizer.Wishes
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
 
             // Process parameter
-            string resolvedName = ResolveName(tape.GetName, tape.FilePath, audioFileOutput, callerMemberName);
-            string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.FilePath, resolvedName, callerMemberName);
+            string resolvedName = ResolveName(tape.GetName, tape.FilePathSuggested, audioFileOutput, callerMemberName);
+            string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.FilePathResolved, tape.FilePathSuggested, resolvedName, callerMemberName);
             bool inMemory = !tape.CacheToDisk && !tape.IsSave && !tape.IsSaveChannel;
 
             audioFileOutput.Name = resolvedName;
@@ -152,7 +151,7 @@ namespace JJ.Business.Synthesizer.Wishes
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
 
             // Result
-            tape.FilePath = resolvedFilePath;
+            tape.FilePathResolved = resolvedFilePath;
             tape.Buff = new Buff
             {
                 Bytes = bytes, 

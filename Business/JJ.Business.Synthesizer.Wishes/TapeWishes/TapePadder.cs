@@ -75,11 +75,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             FlowNode newNode = _synthWishes.Delay(tape.Signal, tape.LeadingSilence).SetName(tape.GetName + " Padded");
             
             // Add tape
-            Tape paddedTape = _tapes.GetOrCreate(newNode, tape.Duration, null, null, tape.FilePath);
+            Tape paddedTape = _tapes.GetOrCreate(newNode, _synthWishes[tape.Duration], null, null, tape.FilePathSuggested);
             
             // Clone Names
             paddedTape.FallBackName = tape.FallBackName;
-            paddedTape.FilePath = tape.FilePath;
+            paddedTape.FilePathSuggested = tape.FilePathSuggested;
             
             // Clone Durations
             paddedTape.Duration = tape.Duration;

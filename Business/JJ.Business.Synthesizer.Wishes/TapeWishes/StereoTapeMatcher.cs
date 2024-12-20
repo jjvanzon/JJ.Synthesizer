@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 { 
                     x.GetName,
                     x.FallBackName, 
-                    x.FilePath, 
+                    x.FilePathSuggested,    
                     x.Signal?.Name, 
                     x.Signal?.UnderlyingOperator?.OperatorTypeName
 

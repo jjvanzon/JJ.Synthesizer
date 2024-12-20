@@ -120,8 +120,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 for (var i = 0; i < signals.Count; i++)
                 {
-                lines.Add("");
-
+                    lines.Add("");
+                    
                     FlowNode signal = signals[i];
                     string signalString = signal.Stringify() ?? "";
                     
@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Buffer
             
             byte[] bytes = tape.Buff?.Bytes;
-            bool fileExists = Exists(tape.FilePath);
+            bool fileExists = Exists(tape.FilePathResolved);
             
             if (Has(bytes))
             {
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (fileExists)
             {
                 lines.Add("");
-                lines.Add("Output file: " + GetFullPath(tape.FilePath));
+                lines.Add("Output file: " + GetFullPath(tape.FilePathResolved));
             }
 
             if (!fileExists && !Has(bytes))
@@ -311,7 +311,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string descriptor = Join(" | ", features);
             return descriptor;
         }
-        
+
         public static string ConfigLog(SynthWishes synthWishes) => ConfigLog("SynthWishes", synthWishes, NewLine);
         public static string ConfigLog(SynthWishes synthWishes, string sep) => ConfigLog("SynthWishes", synthWishes, sep);
         
@@ -320,7 +320,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             return ConfigLog(title, synthWishes.Config, synthWishes, sep);
         }
-        
+
         public static string ConfigLog(FlowNode flowNode) => ConfigLog("FlowNode Settings", flowNode);
         public static string ConfigLog(FlowNode flowNode, string sep) => ConfigLog("FlowNode Settings", flowNode, sep);        
         
@@ -329,7 +329,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
             return ConfigLog(title, flowNode.SynthWishes, sep);
         }
-        
+
         public static string ConfigLog(Buff buff) => ConfigLog("", buff);
         public static string ConfigLog(Buff buff, string sep) => ConfigLog("", buff, sep);
         
@@ -366,7 +366,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (!Has(sep, false)) sep = NewLine;
             return ConfigLog(title, GetDurationsDescriptor(wavHeader), GetAudioFormatDescriptor(wavHeader), sep: sep);
         }
-        
+
         public static string ConfigLog(ConfigWishes configWishes) 
             => ConfigLog("", configWishes);
         
@@ -375,7 +375,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes, string sep) 
             => ConfigLog("", configWishes, synthWishes, sep);
-
+        
         public static string ConfigLog(string title, ConfigWishes configWishes, string sep = " | ")  
             => ConfigLog(title, configWishes, null, sep);
 
@@ -386,7 +386,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 GetFeaturesDescriptor(configWishes),
                 Has(synthWishes) ? GetDurationsDescriptor(configWishes, synthWishes) : "",
                 sep: sep);
-        
+
         public static string ConfigLog(ConfigSection configSection) => ConfigLog("", configSection);
         public static string ConfigLog(ConfigSection configSection, string sep) => ConfigLog("", configSection, sep);
 
@@ -406,7 +406,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape == null) throw new ArgumentNullException(nameof(tape));
                         
             string durationsDescriptor = GetDurationsDescriptor(
-                tape.Duration?.Value,
+                tape.Duration,
                 tape.LeadingSilence,
                 tape.TrailingSilence);
 
@@ -437,7 +437,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static string ConfigLog(string title, AudioFileOutput audioFileOutput, string sep = " | ") 
             => ConfigLog(title, GetDurationsDescriptor(audioFileOutput), GetAudioFormatDescriptor(audioFileOutput), sep: sep);
-        
+
         public static string ConfigLog(Sample sample) => ConfigLog("", sample);
         public static string ConfigLog(Sample sample, string sep) => ConfigLog("", sample, sep);
 

@@ -5,6 +5,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -16,9 +17,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         // Names
 
         /// <inheritdoc cref="docs._tapename" />
-        public string GetName => NameHelper.ResolveName(Signal, Signals, FallBackName, FilePath);
+        public string GetName => ResolveName(Signal, Signals, FallBackName, FilePathSuggested, callerMemberName: null);
         public string FallBackName { get; set; }
-        public string FilePath { get; set; }
+        public string FilePathResolved { get; set; }
+        public string FilePathSuggested { get; set; }
         
         // Signals
 
@@ -35,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         // Durations
         
-        public FlowNode Duration { get; set; }
+        public double Duration { get; set; }
         /// <inheritdoc cref="docs._padding"/>
         public double LeadingSilence { get; set; }
         /// <inheritdoc cref="docs._padding"/>

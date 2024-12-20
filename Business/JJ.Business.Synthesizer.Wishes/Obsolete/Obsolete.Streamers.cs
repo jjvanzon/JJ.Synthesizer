@@ -324,11 +324,11 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             var dummyTape = new Tape
             {
                 Signals = channelSignals,
-                Duration = duration ?? synthWishes.GetAudioLength,
+                Duration = (duration ?? synthWishes.GetAudioLength).Value,
                 LeadingSilence = synthWishes.GetLeadingSilence.Value,
                 TrailingSilence = synthWishes.GetTrailingSilence.Value,
                 IsSave = !inMemory,
-                FilePath = filePath,
+                FilePathSuggested = filePath,
                 FallBackName = ResolveName(name, callerMemberName),
                 CacheToDisk = synthWishes.GetCacheToDisk,
                 PlayAllTapes = synthWishes.GetPlayAllTapes,
@@ -368,10 +368,10 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             var dummyTape = new Tape
             {
                 Signals = channelSignals,
-                Duration = duration ?? synthWishes.GetAudioLength,
+                Duration = (duration ?? synthWishes.GetAudioLength).Value,
                 LeadingSilence = synthWishes.GetLeadingSilence.Value,
                 TrailingSilence = synthWishes.GetTrailingSilence.Value,
-                FilePath = filePath,
+                FilePathSuggested = filePath,
                 FallBackName = name,
                 CacheToDisk = synthWishes.GetCacheToDisk,
                 PlayAllTapes = synthWishes.GetPlayAllTapes,
@@ -399,7 +399,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             var dummyTape = new Tape
             {
                 ExtraBufferFrames = extraBufferFrames,
-                FilePath = filePath,
+                FilePathSuggested = filePath,
                 FallBackName = name,
                 CacheToDisk = !inMemory
             };
