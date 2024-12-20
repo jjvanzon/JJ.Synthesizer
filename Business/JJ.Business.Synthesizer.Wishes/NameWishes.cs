@@ -68,15 +68,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 case FlowNode flowNode: 
                     return flowNode.Name;
                 
-                case IEnumerable<string> strings: 
-                    return strings.FirstOrDefault(x => !IsNullOrWhiteSpace(x));                    
-                
-                case IEnumerable<FlowNode> flowNodes: 
-                    return TryGetName(flowNodes.Select(x => x?.Name));
-                
-                case Delegate d: 
-                    return d.Method.Name;
-                    
                 case Tape tape:
                     return tape.GetName;
                 
@@ -85,12 +76,22 @@ namespace JJ.Business.Synthesizer.Wishes
                 
                 case AudioFileOutput audioFileOutput:
                     return TryGetName(audioFileOutput.FilePath, audioFileOutput.Name);
-                    //return TryGetName(audioFileOutput.Name, audioFileOutput.FilePath);
                 
                 case Sample sample:
                     return TryGetName(sample.Location, sample.Name);
-                    //return TryGetName(sample.Name, sample.Location);
-                
+                                    
+                case Delegate d: 
+                    return d.Method.Name;
+
+                case IEnumerable<string> strings:
+                    return strings.FirstOrDefault(FilledIn);
+
+                case IEnumerable<FlowNode> flowNodes:
+                    return TryGetName(flowNodes.Select(x => x?.Name));
+
+                case IEnumerable<object> coll:
+                    return TryGetName(coll.ToArray());
+
                 default: 
                     throw new Exception($"Unsupported {nameof(nameSource)} type: {nameSource.GetType()}.");
             }
@@ -138,28 +139,25 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // ResolveFilePath
 
-        //public static string ResolveFilePath(
-        //    object filePathSource1,
-        //    object filePathSource2 = null,
-        //    object filePathSource3 = null,
-        //    [CallerMemberName] string callerMemberName = null)
-        //    => ResolveFilePath(default, default, filePathSource1, filePathSource2, filePathSource3, callerMemberName);
-
         public static string ResolveFilePath(
             AudioFileFormatEnum audioFormat, 
             object filePathSource1 = null,
             object filePathSource2 = null,
             object filePathSource3 = null,
+            object filePathSource4 = null,
+            object filePathSource5 = null,
             [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePath(default, audioFormat, filePathSource1, filePathSource2, filePathSource3, callerMemberName);
+            => ResolveFilePathBase(default, audioFormat, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, callerMemberName);
         
         public static string ResolveFilePath(
             string fileExtension, 
             object filePathSource1 = null, 
             object filePathSource2 = null, 
             object filePathSource3 = null, 
+            object filePathSource4 = null, 
+            object filePathSource5 = null,
             [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePath(fileExtension, default, filePathSource1, filePathSource2, filePathSource3, callerMemberName);
+            => ResolveFilePathBase(fileExtension, default, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, callerMemberName);
 
         public static string ResolveFilePath(
             string fileExtension,
@@ -167,10 +165,18 @@ namespace JJ.Business.Synthesizer.Wishes
             object filePathSource1,
             object filePathSource2,
             object filePathSource3,
+            object filePathSource4,
+            object filePathSource5,
             [CallerMemberName] string callerMemberName = null)
+            => ResolveFilePathBase(fileExtension, audioFormat, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, callerMemberName);
+        
+        private static string ResolveFilePathBase(
+            string fileExtension,
+            AudioFileFormatEnum audioFormat,
+            params object[] filePathSources)
         {
-            string resolvedFileExtension = ResolveFileExtension(fileExtension, audioFormat, filePathSource1, filePathSource2, filePathSource3);
-            string resolvedName = ResolveName(filePathSource2, callerMemberName, explicitNameSource: filePathSource1);
+            string resolvedFileExtension = ResolveFileExtension(fileExtension, audioFormat, filePathSources);
+            string resolvedName = ResolveName(filePathSources, explicitNameSource: filePathSources.ElementAtOrDefault(0));
             string resolvedFilePath = ReformatFilePath(resolvedName, resolvedFileExtension);
             return resolvedFilePath;
         }
