@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Tests.Functional;
+﻿using System;
+using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -7,11 +8,13 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class ModulationTestsAccessor
     {
-        private readonly Accessor _accessor;
+        private readonly ModulationTests     _obj;
+        private readonly Accessor            _accessor;
         private readonly SynthWishesAccessor _baseAccessor;
             
         public ModulationTestsAccessor(ModulationTests obj)
         {
+            _obj          = obj ?? throw new ArgumentNullException(nameof(obj));
             _accessor     = new Accessor(obj);
             _baseAccessor = new SynthWishesAccessor(obj);
         }
@@ -19,6 +22,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         /// <inheritdoc cref="docs._captureindexer" />
         public CaptureIndexer _ => _baseAccessor._; 
 
+        public void WithLeft() => _obj.WithLeft();
+        public void WithRight() => _obj.WithRight();
+        
         /// <inheritdoc cref="docs._detunica" />
         public FlowNode Detunica1(FlowNode freq, FlowNode duration = null, FlowNode detuneDepth = null, FlowNode chorusRate = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1], detuneDepth ?? _[0.8], chorusRate ?? _[0.03]);

@@ -424,7 +424,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             {
                 var accessor = new ModulationTestsAccessor(new ModulationTests());
-                WithStereo();
+                
+                accessor.WithLeft();
+                TestComplexity(accessor.Detunica1(A4));
+                TestComplexity(accessor.Detunica2());
+                TestComplexity(accessor.Detunica3());
+                TestComplexity(accessor.Detunica4());
+                TestComplexity(accessor.Detunica5());
+                TestComplexity(accessor.DetunicaBass());
+                TestComplexity(accessor.DetunicaJingle);
+                TestComplexity(accessor.Vibraphase());
+                TestComplexity(accessor.VibraphaseChord);
+                
+                accessor.WithRight();
                 TestComplexity(accessor.Detunica1(A4));
                 TestComplexity(accessor.Detunica2());
                 TestComplexity(accessor.Detunica3());
