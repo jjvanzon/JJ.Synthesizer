@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes
             MakeBuff(tape, audioFileOutput, callerMemberName);
         }
         
-        internal static AudioFileOutput ConfigureAudioFileOutput(
+        internal AudioFileOutput ConfigureAudioFileOutput(
             Tape tape, [CallerMemberName] string callerMemberName = null)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
@@ -68,16 +68,15 @@ namespace JJ.Business.Synthesizer.Wishes
 
             IList<FlowNode> channelSignals = tape.ConcatSignals();
 
-            var context = CreateContext();
-            var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(context);
+            var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = ResolveName(tape.GetName, callerMemberName) ;
             audioFileOutput.FilePath = ResolveFilePath(tape.AudioFormat, tape.FilePath, tape.FallBackName, callerMemberName);
             audioFileOutput.Amplifier = tape.Bits.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = tape.Duration.Calculate();
-            audioFileOutput.SetBits(tape.Bits, context);
-            audioFileOutput.SetAudioFormat(tape.AudioFormat, context);
+            audioFileOutput.SetBits(tape.Bits, Context);
+            audioFileOutput.SetAudioFormat(tape.AudioFormat, Context);
             audioFileOutput.SamplingRate = tape.SamplingRate;
             
             audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(channelSignals.Count);
@@ -169,7 +168,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Helpers
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        internal static SpeakerSetup GetSubstituteSpeakerSetup(int channels)
+        internal SpeakerSetup GetSubstituteSpeakerSetup(int channels)
         {
             switch (channels)
             {
@@ -185,7 +184,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private static SpeakerSetup _stereoSpeakerSetupSubstitute;
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private static SpeakerSetup GetStereoSpeakerSetupSubstitute()
+        private SpeakerSetup GetStereoSpeakerSetupSubstitute()
         {
             if (_stereoSpeakerSetupSubstitute != null)
             {
@@ -194,7 +193,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             lock (_stereoSpeakerSetupSubstituteLock)
             {
-                var channelRepository = CreateRepository<IChannelRepository>();
+                var channelRepository = CreateRepository<IChannelRepository>(Context);
                 
                 var stereo = new SpeakerSetup
                 {
@@ -232,7 +231,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private static SpeakerSetup _monoSpeakerSetupSubstitute;
 
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        private static SpeakerSetup GetMonoSpeakerSetupSubstitute()
+        private SpeakerSetup GetMonoSpeakerSetupSubstitute()
         {
             if (_monoSpeakerSetupSubstitute != null)
             { 
@@ -241,7 +240,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             lock (_monoSpeakerSetupSubstituteLock)
             {
-                var channelRepository = CreateRepository<IChannelRepository>();
+                var channelRepository = CreateRepository<IChannelRepository>(Context);
                 
                 var mono = new SpeakerSetup
                 {
@@ -267,10 +266,10 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
-        internal static void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channels)
+        internal void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channels)
         {
             // (using a lower abstraction layer, to circumvent error-prone syncing code in back-end).
-            var audioFileOutputChannelRepository = CreateRepository<IAudioFileOutputChannelRepository>();
+            var audioFileOutputChannelRepository = CreateRepository<IAudioFileOutputChannelRepository>(Context);
 
             // Create additional channels
             for (int i = audioFileOutput.AudioFileOutputChannels.Count; i < channels; i++)

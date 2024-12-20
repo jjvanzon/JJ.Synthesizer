@@ -219,8 +219,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             audioFileOutput.SetAudioFormat(synthWishes.GetAudioFormat, synthWishes.Context);
             audioFileOutput.SamplingRate = synthWishes.GetSamplingRate;
             
-            audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(channelSignals.Count);
-            CreateOrRemoveChannels(audioFileOutput, channelSignals.Count);
+            audioFileOutput.SpeakerSetup = synthWishes.GetSubstituteSpeakerSetup(channelSignals.Count);
+            synthWishes.CreateOrRemoveChannels(audioFileOutput, channelSignals.Count);
 
             switch (channelSignals.Count)
             {
@@ -364,6 +364,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             IList<FlowNode> channelSignals, FlowNode duration, 
             string name, string filePath)
         {
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             var dummyTape = new Tape
             {
                 Signals = channelSignals,
@@ -380,7 +381,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 AudioFormat = synthWishes.GetAudioFormat
             };
             
-            return SynthWishes.ConfigureAudioFileOutput(dummyTape);
+            return synthWishes.ConfigureAudioFileOutput(dummyTape);
         }
 
         // MakeBuff Legacy (End-of-Chain)
