@@ -239,6 +239,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         /// </summary>
         public static bool IsFile(string path)
         {
+            if (!Has(path)) return false;
             if (File.Exists(path)) return true;
             if (Directory.Exists(path)) return false;
             if (path.Contains(Path.GetInvalidPathChars())) return false;
