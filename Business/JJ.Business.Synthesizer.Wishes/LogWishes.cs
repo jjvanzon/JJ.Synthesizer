@@ -389,10 +389,19 @@ namespace JJ.Business.Synthesizer.Wishes
             return ConfigLog(title, GetDurationsDescriptor(wavHeader), GetAudioFormatDescriptor(wavHeader), sep: sep);
         }
         
-        public static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes = null, string sep = " | ")
+        public static string ConfigLog(ConfigWishes configWishes) 
+            => ConfigLog("", configWishes);
+        
+        public static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes) 
+            => ConfigLog("", configWishes, synthWishes);
+        
+        public static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes, string sep) 
             => ConfigLog("", configWishes, synthWishes, sep);
 
-        public static string ConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes = null, string sep = " | ") 
+        public static string ConfigLog(string title, ConfigWishes configWishes, string sep = " | ")  
+            => ConfigLog(title, configWishes, null, sep);
+
+        public static string ConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes, string sep = " | ") 
             => ConfigLog(
                 title,
                 GetAudioFormatDescriptor(configWishes),
