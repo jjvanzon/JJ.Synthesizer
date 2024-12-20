@@ -253,7 +253,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return descriptor;
         }
         
-        
         /// <summary> Example: <code> [Format] Sampling rate: 8192 Hz | 32-Bit | Mono | Wav | Linear Interpolation </code> </summary>
         public static string GetAudioFormatDescriptor(
             int? samplingRate = null, int? bits = null,
@@ -321,11 +320,8 @@ namespace JJ.Business.Synthesizer.Wishes
             if (Has(parallelProcessing)) features.Add("Parallel Processing");
             if (Has(playAllTapes)) features.Add("Play All Tapes");
             
-            //if (!Has(audioPlayback)) features.Add("⚠️ No Audio"); 
             if (audioPlayback != null && audioPlayback == false) features.Add("⚠️ No Audio"); 
-            //if (!Has(mathBoost)) features.Add("⚠️ No Math Boost");
             if (mathBoost != null && mathBoost == false) features.Add("⚠️ No Math Boost");
-            //if (!Has(parallelProcessing)) features.Add("⚠️ No Parallel Processing");
             if (parallelProcessing != null && parallelProcessing == false) features.Add("⚠️ No Parallel Processing");
             
             string descriptor = Join(" | ", features);
