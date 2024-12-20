@@ -36,7 +36,29 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return text;
         }
 
-        internal static string GetDebuggerDisplay(SynthWishes synthWishes)
+        public static string GetDebuggerDisplay(Buff buff)
+        {
+            if (buff == null) throw new ArgumentNullException(nameof(buff));
+            
+            string bytesDescriptor = default;
+            if (Has(buff.Bytes))
+            {
+                bytesDescriptor = PrettyByteCount(buff.Bytes.Length);
+            }
+
+            string filePathDescriptor = default;
+            if (Has(buff.FilePath) && Exists(buff.FilePath))
+            {
+                filePathDescriptor = buff.FilePath;
+            }
+            
+            string[] elements = { bytesDescriptor, buff.ConfigLog(), filePathDescriptor };
+            string formattedElements = Join(" | ", elements.Where(FilledIn));
+
+            return FormatTypeName(buff) + " " + formattedElements;
+        }
+        
+        public static string GetDebuggerDisplay(SynthWishes synthWishes)
         {
             string typeString = FormatTypeName(synthWishes) + " ";
             string tapesString = synthWishes.TapeCount + " Tapes | ";

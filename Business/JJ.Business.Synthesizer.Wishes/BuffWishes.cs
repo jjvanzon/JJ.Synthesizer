@@ -30,8 +30,11 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class Buff
     {
+        string DebuggerDisplay => GetDebuggerDisplay(this);
+        
         /// <inheritdoc cref="docs._buffbytes"/>
         public byte[] Bytes { get; set; }
         public string FilePath { get; set; }
