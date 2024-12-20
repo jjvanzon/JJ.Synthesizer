@@ -995,26 +995,26 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Specialized Stringifications
 
-        internal static string Stringify(string opName, FlowNode a, string mathSymbol, FlowNode b)
+        private static string Stringify(string opName, FlowNode a, string mathSymbol, FlowNode b)
             => Stringify(opName, mathSymbol, a, b);
         
-        internal static string Stringify(string opName, string mathSymbol, params FlowNode[] operands)
+        private static string Stringify(string opName, string mathSymbol, params FlowNode[] operands)
             => Stringify(opName, mathSymbol, (IList<FlowNode>)operands);
         
-        internal static string Stringify(string opName, string mathSymbol, IList<FlowNode> operands)
+        private static string Stringify(string opName, string mathSymbol, IList<FlowNode> operands)
             => $"{opName}({Stringify(mathSymbol, operands)})";
         
-        internal static string Stringify(string mathSymbol, IList<FlowNode> operands)
+        private static string Stringify(string mathSymbol, IList<FlowNode> operands)
             => Join(" " + mathSymbol + " ", operands.Select(Stringify));
         
-        internal static string Stringify(FlowNode operand)
+        private static string Stringify(FlowNode operand)
             => operand.Stringify(true);
         
-        internal static string Stringify(
+        private static string Stringify(
             string opName, FlowNode signal, string dimension, string mathSymbol, FlowNode transform)
             => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {Stringify(transform)})";
         
-        internal static string Stringify(
+        private static string Stringify(
             string opName, FlowNode signal, string dimension, string mathSymbol, double value)
             => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {value})";
  
