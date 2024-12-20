@@ -698,7 +698,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape == null) return "<Tape=null>";
 
             string prefix;
-            if (tape.Channel == null) prefix = "(Stereo) ";
+            if (tape.IsStereo && tape.Channel == null) prefix = "(Stereo) ";
             else prefix = $"(Level {tape.NestingLevel}) ";
             
             string nameDescriptor = tape.GetName;
@@ -733,7 +733,7 @@ namespace JJ.Business.Synthesizer.Wishes
             //if (tape.Channel.HasValue) flags.Add($"c{tape.Channel}");
             flags.Add(GetChannelDescriptor(tape.Channels, tape.Channel)?.ToLower());
             
-            if (tape.Duration != null) flags.Add($"{tape.Duration.Value}s");
+            flags.Add($"{tape.Duration}s");
 
             if (tape.IsPadded)
             {
@@ -750,9 +750,9 @@ namespace JJ.Business.Synthesizer.Wishes
             SynthWishes synthWishes = tape.ConcatSignals().FirstOrDefault()?.SynthWishes;
             if (synthWishes != null)
             {
-                if (tape.SamplingRate != synthWishes.GetSamplingRate) flags.Add($"{tape.SamplingRate}hz");
-                if (tape.Bits != synthWishes.GetBits) flags.Add($"{tape.Bits}bit");
-                if (tape.AudioFormat != synthWishes.GetAudioFormat) flags.Add($"{tape.AudioFormat}".ToLower());
+                if (Has(tape.SamplingRate) && tape.SamplingRate != synthWishes.GetSamplingRate) flags.Add($"{tape.SamplingRate}hz");
+                if (Has(tape.Bits) && tape.Bits != synthWishes.GetBits) flags.Add($"{tape.Bits}bit");
+                if (Has(tape.AudioFormat) && tape.AudioFormat != synthWishes.GetAudioFormat) flags.Add($"{tape.AudioFormat}".ToLower());
             }
 
             flags = flags.Where(FilledIn).ToList();
