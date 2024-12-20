@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            // Configure AudioFileOutput (avoid backend)
+            // Configure AudioFileOutput (avoid backend, because buggy)
 
             IList<FlowNode> channelSignals = tape.ConcatSignals();
 

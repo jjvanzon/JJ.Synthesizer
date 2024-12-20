@@ -49,15 +49,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tapePair.Right.Buff == null) throw new NullException(() => tapePair.Right.Buff);
         }
 
-        //public Tape RecombineChannels((Tape Left, Tape Right) tapePair)
-        //{
-        //    AssertTapePair(tapePair);
-        //    var channelSignals = GetChannelSignals(tapePair);
-        //    var stereoTape = CloneTape(tapePair.Left);
-        //    RecordStereoTape(stereoTape, channelSignals);
-        //    return stereoTape;
-        //}
-
         private Tape CreateStereoTape((Tape Left, Tape Right) tapePair)
         {
             IList<FlowNode> channelSignals = GetChannelSignals(tapePair);

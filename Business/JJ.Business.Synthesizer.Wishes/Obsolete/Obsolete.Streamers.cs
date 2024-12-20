@@ -654,7 +654,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
     }
 
-    // Save
+    // Save (Start-of-Chain)
 
     [Obsolete(ObsoleteMessage, true)]
     internal static class SaveObsoleteExtensions

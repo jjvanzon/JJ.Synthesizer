@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             return operands.SelectMany(x =>
             {
-                if ((x.IsAdder || x.IsAdd))
+                if (x.IsAdder || x.IsAdd)
                 {
                     return FlattenTerms(x.Operands);
                 }
