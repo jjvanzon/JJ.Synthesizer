@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return text;
         }
 
-        internal static string GetDebuggerDisplay(Tape obj)
+        public static string GetDebuggerDisplay(Tape obj)
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             return text;
         }
-
+        
         public static string GetDebuggerDisplay(Buff buff)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
@@ -72,12 +72,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             string debuggerDisplay = typeString + tapesString + configString;
             return debuggerDisplay;
         }
-        
-        internal static string GetDebuggerDisplay(ConfigWishes configWishes) => FormatTypeName(configWishes) + " " + ConfigLog(configWishes);
-    
-        internal static string GetDebuggerDisplay(ConfigSection configSection) => FormatTypeName(configSection) + " " + ConfigLog(configSection);
 
-        internal static string GetDebuggerDisplay(AudioInfoWish audioInfoWish) => FormatTypeName(audioInfoWish) + " " + ConfigLog(audioInfoWish);
+        public static string GetDebuggerDisplay(ConfigWishes configWishes) => FormatTypeName(configWishes) + " " + ConfigLog(configWishes);
+    
+        public static string GetDebuggerDisplay(ConfigSection configSection) => FormatTypeName(configSection) + " " + ConfigLog(configSection);
+
+        public static string GetDebuggerDisplay(AudioInfoWish audioInfoWish) => FormatTypeName(audioInfoWish) + " " + ConfigLog(audioInfoWish);
 
         private static string FormatTypeName(object obj)
         {
