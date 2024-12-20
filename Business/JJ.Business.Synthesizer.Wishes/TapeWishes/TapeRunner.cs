@@ -43,24 +43,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public void RunAllTapes()
         {
             if (_tapes.Count == 0) return;
-            
-            // HACK: Override sampling rate with currently resolved sampling rate.
-            // (Can be customized for long-running tests,
-            // but separate threads cannot check the test category.)
-            var originalSamplingRate = _synthWishes.Config._samplingRate;
-            try
-            {
-                _synthWishes.WithSamplingRate(_synthWishes.GetSamplingRate);
-               
                 ExecutePreProcessing();
                 Tape[] tapes = RunTapeLeavesConcurrent();
                 ExecutePostProcessing(tapes);
             }
-            finally
-            {
-                _synthWishes.Config._samplingRate = originalSamplingRate;
-            }
-        }
         
         private void ExecutePreProcessing()
         {
