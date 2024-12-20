@@ -22,6 +22,47 @@ using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    internal static class LogExtensions
+    {
+        public static IList<string> GetSynthLog(this Tape tape, double calculationDuration) => LogWishes.GetSynthLog(tape, calculationDuration);
+
+        public static string ConfigLog(this SynthWishes synthWishes) => LogWishes.ConfigLog(synthWishes);
+        public static string ConfigLog(this SynthWishes synthWishes, string title) => LogWishes.ConfigLog(title, synthWishes);
+        public static string ConfigLog(this SynthWishes synthWishes, string title, string sep) => LogWishes.ConfigLog(title, synthWishes, sep);
+        public static string ConfigLog(this FlowNode flowNode) => LogWishes.ConfigLog(flowNode);
+        public static string ConfigLog(this FlowNode flowNode, string title) => LogWishes.ConfigLog(title, flowNode);
+        public static string ConfigLog(this FlowNode flowNode, string title, string sep) => LogWishes.ConfigLog(title, flowNode, sep);
+        public static string ConfigLog(this Buff buff) => LogWishes.ConfigLog(buff);
+        public static string ConfigLog(this Buff buff, string title) => LogWishes.ConfigLog(title, buff);
+        public static string ConfigLog(this Buff buff, string title, string sep) => LogWishes.ConfigLog(title, buff, sep);
+        public static string ConfigLog(this AudioInfoWish audioInfoWish) => LogWishes.ConfigLog(audioInfoWish);
+        public static string ConfigLog(this AudioInfoWish audioInfoWish, string title) => LogWishes.ConfigLog(title, audioInfoWish);
+        public static string ConfigLog(this AudioInfoWish audioInfoWish, string title, string sep) => LogWishes.ConfigLog(title, audioInfoWish, sep);
+        public static string ConfigLog(this AudioFileInfo audioFileInfo) => LogWishes.ConfigLog(audioFileInfo);
+        public static string ConfigLog(this AudioFileInfo audioFileInfo, string title) => LogWishes.ConfigLog(title, audioFileInfo);
+        public static string ConfigLog(this AudioFileInfo audioFileInfo, string title, string sep) => LogWishes.ConfigLog(title, audioFileInfo, sep);
+        public static string ConfigLog(this WavHeaderStruct wavHeader) => LogWishes.ConfigLog(wavHeader);
+        public static string ConfigLog(this WavHeaderStruct wavHeader, string title) => LogWishes.ConfigLog(title, wavHeader);
+        public static string ConfigLog(this WavHeaderStruct wavHeader, string title, string sep) => LogWishes.ConfigLog(title, wavHeader, sep);
+        public static string ConfigLog(this ConfigWishes configWishes) => LogWishes.ConfigLog(configWishes);
+        public static string ConfigLog(this ConfigWishes configWishes, SynthWishes synthWishes) => LogWishes.ConfigLog(configWishes, synthWishes);
+        public static string ConfigLog(this ConfigWishes configWishes, SynthWishes synthWishes, string sep) => LogWishes.ConfigLog(configWishes, synthWishes, sep);
+        public static string ConfigLog(this ConfigWishes configWishes, string title, string sep = " | ") => LogWishes.ConfigLog(title, configWishes, sep);
+        public static string ConfigLog(this ConfigWishes configWishes, string title, SynthWishes synthWishes, string sep = " | ") => LogWishes.ConfigLog(title, configWishes, synthWishes, sep);
+        public static string ConfigLog(this ConfigSection configSection) => LogWishes.ConfigLog(configSection);
+        public static string ConfigLog(this ConfigSection configSection, string title) => LogWishes.ConfigLog(title, configSection);
+        public static string ConfigLog(this ConfigSection configSection, string title, string sep) => LogWishes.ConfigLog(title, configSection, sep);
+        public static string ConfigLog(this Tape tape) => LogWishes.ConfigLog(tape);
+        public static string ConfigLog(this Tape tape, string title) => LogWishes.ConfigLog(title, tape);
+        public static string ConfigLog(this Tape tape, string title, string sep) => LogWishes.ConfigLog(title, tape, sep);
+        public static string ConfigLog(this AudioFileOutput audioFileOutput) => LogWishes.ConfigLog(audioFileOutput);
+        public static string ConfigLog(this AudioFileOutput audioFileOutput, string title) => LogWishes.ConfigLog(title, audioFileOutput);
+        public static string ConfigLog(this AudioFileOutput audioFileOutput, string title, string sep) => LogWishes.ConfigLog(title, audioFileOutput, sep);
+        public static string ConfigLog(this Sample sample) => LogWishes.ConfigLog(sample);
+        public static string ConfigLog(this Sample sample, string title) => LogWishes.ConfigLog(title, sample);
+        public static string ConfigLog(this Sample sample, string title, string sep) => LogWishes.ConfigLog(title, sample, sep);
+    }
+    
     internal static class LogWishes
     {
         // Pretty Calculation Graphs
