@@ -106,6 +106,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         };
         
         private void RecordStereoTape(Tape stereoTape) 
-            => stereoTape.Buff = _synthWishes.Record(stereoTape.Signals, stereoTape.Duration, stereoTape.GetName);
+            => _synthWishes.Record(stereoTape);
     }
 }

@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 }
                 
                 // Generate audio
-                recordedBuffs[i] = synthWishes.Record(channelSignals, synthWishes.GetAudioLength, names[i]);
+                recordedBuffs[i] = synthWishes.RecordOld(channelSignals, synthWishes.GetAudioLength, names[i]);
                 
                 Console.WriteLine($"{PrettyTime()} End Task: {displayNames[i]}", "SynthWishes");
             });

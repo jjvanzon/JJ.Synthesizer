@@ -89,6 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes
             throw new Exception("No audio data in either memory or file.");
         }
         
+        [Obsolete("", true)]
         public static Buff Save(
             AudioFileOutput audioFileOutput,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
@@ -142,6 +143,7 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesSaveStaticsTurnedInstanceExtensions
     {
+        [Obsolete("", true)]
         public static SynthWishes Save(
             this SynthWishes synthWishes, 
             Buff buff, 
@@ -151,6 +153,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
         }
         
+        [Obsolete("", true)]
         public static SynthWishes Save(
             this SynthWishes synthWishes, 
             AudioFileOutput audioFileOutput, 
@@ -209,6 +212,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // FlowNode Save (End-of-Chain)
 
+        [Obsolete("", true)]
         public FlowNode Save(
             Buff buff, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -217,6 +221,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
         
+        [Obsolete("", true)]
         public FlowNode Save(
             AudioFileOutput audioFileOutput, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
@@ -251,6 +256,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.Save(buff, filePath, callerMemberName);
         
+        [Obsolete("", true)]
         public static Buff Save(
             this AudioFileOutput audioFileOutput,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 

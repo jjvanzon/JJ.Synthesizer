@@ -290,7 +290,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         // MakeBuff Legacy (Start-of-Chain)
 
-        [Obsolete(ObsoleteMessage)]
+        [Obsolete(ObsoleteMessage, true)]
         public static Buff MakeBuff(
             this SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration, bool inMemory, bool mustPad,
@@ -308,7 +308,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         /// <inheritdoc cref="docs._makebuff" />
-        [Obsolete(ObsoleteMessage)]
+        [Obsolete(ObsoleteMessage, true)]
         public static Buff MakeBuff(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration, bool inMemory, bool mustPad,
@@ -386,7 +386,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         // MakeBuff Legacy (End-of-Chain)
         
-        [Obsolete(ObsoleteMessage)]
+        [Obsolete(ObsoleteMessage, true)]
         public static Buff MakeBuff(
             AudioFileOutput audioFileOutput,
             bool inMemory, int extraBufferFrames, 
@@ -409,7 +409,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return dummyTape.Buff;
         }
     
-        [Obsolete(ObsoleteMessage)]
+        [Obsolete(ObsoleteMessage, true)]
         public static Buff MakeBuff(
             Buff buff, 
             bool inMemory, int extraBufferFrames, 
@@ -436,7 +436,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         // Record With Func (Start-of-Chain)
         
-        [Obsolete("Up for deprecation. Use this instead: Buff buff = null; Run(() => MySound.Intercept(b => buff = b));")]
+        [Obsolete(ObsoleteMessage)]
         public static Buff Record(
             this SynthWishes synthWishes,
             Func<FlowNode> func,
