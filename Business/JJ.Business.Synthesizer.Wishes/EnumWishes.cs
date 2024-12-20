@@ -175,8 +175,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return channelEnumEntity.Index;
         }
 
+        public static ChannelEnum ToChannelEnum(this int? channel, int channels)
+            => ToChannelEnum(channel, channels.ToSpeakerSetupEnum());
+
         public static ChannelEnum ToChannelEnum(this int channel, int channels)
             => ToChannelEnum(channel, channels.ToSpeakerSetupEnum());
+
+        public static ChannelEnum ToChannelEnum(this int? channel, SpeakerSetupEnum speakerSetupEnum)
+            => channel.HasValue ? ToChannelEnum(channel.Value, speakerSetupEnum) : ChannelEnum.Undefined;
 
         public static ChannelEnum ToChannelEnum(this int channel, SpeakerSetupEnum speakerSetupEnum)
         {
