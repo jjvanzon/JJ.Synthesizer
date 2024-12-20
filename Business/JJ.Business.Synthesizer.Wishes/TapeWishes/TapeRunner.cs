@@ -43,10 +43,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public void RunAllTapes()
         {
             if (_tapes.Count == 0) return;
-                ExecutePreProcessing();
-                Tape[] tapes = RunTapeLeavesConcurrent();
-                ExecutePostProcessing(tapes);
-            }
+            ExecutePreProcessing();
+            Tape[] tapes = RunTapeLeavesConcurrent();
+            ExecutePostProcessing(tapes);
+        }
         
         private void ExecutePreProcessing()
         {
@@ -188,13 +188,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void ExecutePostProcessing(Tape[] tapes)
         {
+            IList<Tape> stereoChannelTapes = tapes.Where(x => x.IsStereo && x.Channel.HasValue)
+                                                  .Where(x => x.IsPlay || x.IsSave || x.Callback != null)
+                                                  .ToArray();
             IList<Tape> stereoTapes = Array.Empty<Tape>();
-            if (_synthWishes.IsStereo)
+            if (stereoChannelTapes.Count > 0)
             {
-                var tapesWithActions = tapes.Where(x => x.IsPlay ||
-                                                        x.IsSave ||
-                                                        x.Callback != null).ToArray();
-                var tapePairs = _stereoTapeMatcher.PairTapes(tapesWithActions);
+                IList<(Tape Left, Tape Right)> tapePairs = _stereoTapeMatcher.PairTapes(stereoChannelTapes);
                 stereoTapes = _stereoTapeRecombiner.RecombineChannelsConcurrent(tapePairs);
             }
 
