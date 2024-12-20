@@ -129,16 +129,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
             
-            // Calculation
+            // Calculation Graphs
             
             var signals = tape.ConcatSignals();
             
             if (signals.Count > 0)
             {
-                lines.Add("");
-
                 for (var i = 0; i < signals.Count; i++)
                 {
+                lines.Add("");
+
                     FlowNode signal = signals[i];
                     string signalString = signal.Stringify() ?? "";
                     
@@ -149,6 +149,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             else
             {
+                lines.Add("");
                 lines.Add("⚠️ Warning: No Signals!");
             }
             
