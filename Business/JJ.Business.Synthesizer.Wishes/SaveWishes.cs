@@ -86,10 +86,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return buff;
             }
             
-            // Materialize if Buff not written.
-            return MakeBuffObsoleteExtensions.MakeBuff(
-                buff,
-                inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
+            throw new Exception("No audio data in either memory or file.");
         }
         
         public static Buff Save(
