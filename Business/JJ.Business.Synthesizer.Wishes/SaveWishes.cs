@@ -286,6 +286,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class SaveExtensionWishes 
     {
+        public static Tape Save(
+            this Tape tape,
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(tape, filePath, callerMemberName);
+        
         public static Buff Save(
             this Buff buff,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 

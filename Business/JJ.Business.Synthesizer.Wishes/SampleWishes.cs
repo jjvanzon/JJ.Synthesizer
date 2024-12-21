@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        internal FlowNode Sample(
+        public FlowNode Sample(
             Tape tape, 
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
