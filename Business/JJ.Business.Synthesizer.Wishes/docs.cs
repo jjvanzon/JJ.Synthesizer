@@ -396,7 +396,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </param> 
         /// <returns> 
         /// A <see cref="Buff"> Buff </see> object with the <see cref="AudioFileOutput"/> entity in it,
-        /// and resultant data, like the file path and validation messages (warnings).
+        /// and resultant data, like the file path or the bytes array.
         /// </returns> 
         public static object _makebuff;
 

@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             return tape.ConcatSignals().Sum(Complexity);
         }
-        
+
         public static int Complexity(this Buff buff)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
