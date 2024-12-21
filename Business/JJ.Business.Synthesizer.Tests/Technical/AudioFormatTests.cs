@@ -394,6 +394,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     Calculate(sampleMono, time: 8.0 / 8.0 / frequency)
                 };
 
+                Run(() => sampleMono.AsWav().Save(callerMemberName + "_Values"));
+                WithAudioFormat(audioFormat);
+
                 double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequired = expectedValues.Zip(actualValues, (x,y) => Abs(x - y)).Max();
                 Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
@@ -414,8 +417,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(expectedValues[6], actualValues[6], valueTolerance);
                 AreEqual(expectedValues[7], actualValues[7], valueTolerance);
                 AreEqual(expectedValues[8], actualValues[8], valueTolerance);
-            
-                Run(() => sampleMono.AsWav().Save(callerMemberName + "_Values"));
             }
 
             // Stereo
@@ -490,6 +491,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sampleRight.Calculate(time: 8.0 / 8.0 / frequency, ChannelEnum.Right)
                 };
 
+                // Save values for quick inspection.
+                WithMono().WithCenter().AsWav();
+                Run(() => sampleLeft.Save(callerMemberName + "_ValuesLeft"));
+                Run(() => sampleRight.Save(callerMemberName + "_ValuesRight"));
+                WithChannels(channels).WithAudioFormat(audioFormat);
+                
                 double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequired = expectedL.Concat(expectedR).Zip(actualL.Concat(actualR), (x,y) => Abs(x - y)).Max();
                 Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
@@ -527,11 +534,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(expectedR[6], actualR[6], valueTolerance);
                 AreEqual(expectedR[7], actualR[7], valueTolerance);
                 AreEqual(expectedR[8], actualR[8], valueTolerance);
-
-                // Save values for quick inspection.
-                WithMono().WithCenter().AsWav();
-                Run(() => sampleLeft.Save(callerMemberName + "_ValuesLeft"));
-                Run(() => sampleRight.Save(callerMemberName + "_ValuesRight"));
             }
         }
 
