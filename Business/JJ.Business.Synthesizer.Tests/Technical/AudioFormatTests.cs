@@ -265,9 +265,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Materialize
             WithAudioLength(DURATION);
             Buff buff1 = WithAudioLength(DURATION).Record(getSignal, callerMemberName);
-            // TODO: Retry Run notation later after fixes:
-            //Buff buff1 = null; Run(() => Intercept(getSignal(), x => buff1 = x, callerMemberName));
             IsNotNull(() => buff1);
+            // TODO: Retry Run notation later after fixes:
+            //Tape tape1 = null; Run(() => Intercept(getSignal(), x => tape1 = x, callerMemberName));
+            //IsNotNull(() => tape1);
+            //Buff buff1 = tape1.Buff;
+            
             buff1.Save(callerMemberName);
  
             AudioFileOutput audioFileOutput1 = buff1.UnderlyingAudioFileOutput;
@@ -287,18 +290,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sample.Amplifier      = 1.0 / audioFileOutput1.GetNominalMax();
                 }
 
-                return node;
+                return node.SetName($"{callerMemberName}_Reloaded");
             }
             
             // Materialize again
             WithAudioLength(DURATION2);
             //Buff buff2 = WithAudioLength(DURATION2).Record(getSample);
-            Tape tape2 = null; Run(() => getSample().Intercept(x => tape2 = x, callerMemberName + "_Reloaded"));
+            Tape tape2 = null; Run(() => getSample().Intercept(x => tape2 = x));
             IsNotNull(() => tape2);
-            IsNotNull(() => tape2.Buff);
-            tape2.Buff.Save(callerMemberName + "_Reloaded"); // TODO: Save overload that takes Tape.
+            tape2.Save();
             
-            AudioFileOutput audioFileOutput2 = tape2.Buff.UnderlyingAudioFileOutput;
+            AudioFileOutput audioFileOutput2 = tape2.UnderlyingAudioFileOutput;
             
             // Assert AudioFileOutput Entities
 

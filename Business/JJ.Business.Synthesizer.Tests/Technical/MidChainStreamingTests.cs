@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Threading.Thread;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Mathematics_Wishes.RandomizerWishes;
@@ -88,13 +89,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithMono();
             WithAudioLength(0.7);
             
-            Buff buff = default;
+            Tape tape = default;
             
-            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).Intercept(x => buff = x.Buff));
+            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).Intercept(x => tape = x));
             
-            IsNotNull(() => buff);
+            IsNotNull(() => tape);
             
-            buff.Save().Play();
+            tape.Save().Play();
         }
         
         [TestMethod] public void Mono_Intercept_Test_2Calls() => new MidChainStreamingTests().Mono_Intercept_2Calls();
@@ -103,17 +104,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithMono();
             WithAudioLength(0.7);
 
-            Buff buff1 = default;
-            Buff buff2 = default;
+            Tape tape1 = default;
+            Tape tape2 = default;
             
             Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).
-                      Intercept(x => buff1 = x.Buff).SpeedUp(1.5).Intercept(x => buff2 = x.Buff));
-                
-            IsNotNull(() => buff1);
-            IsNotNull(() => buff2);
+                      Intercept(x => tape1 = x).SpeedUp(1.5).Intercept(x => tape2 = x));
             
-            buff1.Save().Play();
-            buff2.Save().Play();
+            IsNotNull(() => tape1);
+            IsNotNull(() => tape2);
+            
+            tape1.Save().Play();
+            tape2.Save().Play();
         }
 
         [TestMethod] public void Mono_PlayChannel_Test() => Run(Mono_PlayChannel);
@@ -177,13 +178,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithMono();
             WithAudioLength(0.7);
             
-            Buff buff = default;
+            Tape tape = default;
             
-            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => buff = x.Buff));
+            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => tape = x));
             
-            IsNotNull(() => buff);
+            IsNotNull(() => tape);
             
-            buff.Play();
+            tape.Play();
         }
         
         [TestMethod] public void Mono_InterceptChannel_Test_2Calls() => new MidChainStreamingTests().Mono_InterceptChannel_2Calls();
@@ -192,18 +193,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithMono();
             WithAudioLength(0.7);
             
-            Buff buff1 = default;
-            Buff buff2 = default;
+            Tape tape1 = default;
+            Tape tape2 = default;
             
             Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).
-                      InterceptChannel(x => buff1 = x.Buff).
-                      SpeedUp(1.5).InterceptChannel(x => buff2 = x.Buff));
+                      InterceptChannel(x => tape1 = x).
+                      SpeedUp(1.5).InterceptChannel(x => tape2 = x));
                 
-            IsNotNull(() => buff1);
-            IsNotNull(() => buff2);
+            IsNotNull(() => tape1);
+            IsNotNull(() => tape2);
                 
-            buff1.Play();
-            buff2.Play();
+            tape1.Play();
+            tape2.Play();
         }
 
         [TestMethod] public void Mono_InterceptChannel_Test_3Calls() => new MidChainStreamingTests().Mono_InterceptChannel_3Calls();
@@ -212,26 +213,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithMono();
             WithAudioLength(0.7);
             
-            Buff buff1 = default;
-            Buff buff2 = default;
-            Buff buff3 = default;
+            Tape tape1 = default;
+            Tape tape2 = default;
+            Tape tape3 = default;
 
             Run(() => Add
             (
-                Sine(RandomNotes[5] * 1).Volume(StereoDynamics * DelayedPulse).Volume(1.0).InterceptChannel(x => buff1 = x.Buff),
+                Sine(RandomNotes[5] * 1).Volume(StereoDynamics * DelayedPulse).Volume(1.0).InterceptChannel(x => tape1 = x),
                 Sine(RandomNotes[5] * 2).Volume(StereoDynamics * DelayedPulse).Volume(0.05),
-                Sine(RandomNotes[5] * 3).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => buff2 = x.Buff).Volume(0.02),
+                Sine(RandomNotes[5] * 3).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => tape2 = x).Volume(0.02),
                 Sine(RandomNotes[5] * 4).Volume(StereoDynamics * DelayedPulse).Volume(0.03),
-                Sine(RandomNotes[5] * 5).Volume(StereoDynamics * DelayedPulse).Volume(0.01).InterceptChannel(x => buff3 = x.Buff)
+                Sine(RandomNotes[5] * 5).Volume(StereoDynamics * DelayedPulse).Volume(0.01).InterceptChannel(x => tape3 = x)
             ));
             
-            IsNotNull(() => buff1);
-            IsNotNull(() => buff2);
-            IsNotNull(() => buff3);
+            IsNotNull(() => tape1);
+            IsNotNull(() => tape2);
+            IsNotNull(() => tape3);
         
-            buff1.Play();
-            buff2.Play();
-            buff3.Play();
+            tape1.Play();
+            tape2.Play();
+            tape3.Play();
         }
         
         [TestMethod] public void Stereo_Play_Test() => WithStereo().Run(Stereo_Play);
@@ -264,13 +265,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithStereo();
             WithAudioLength(0.7);
                 
-            Buff buff = default;
+            Tape tape = default;
             
-            Run(() => Sine(RandomNotes[10]).Volume(StereoDynamics * DelayedPulse).Intercept(x => buff = x.Buff));
+            Run(() => Sine(RandomNotes[10]).Volume(StereoDynamics * DelayedPulse).Intercept(x => tape = x));
             
-            IsNotNull(() => buff);
+            IsNotNull(() => tape);
             
-            buff.Save().Play();
+            tape.Save().Play();
         }
         
         [TestMethod] public void Stereo_Intercept_Test_2Calls() => new MidChainStreamingTests().Stereo_Intercept_2Calls();
@@ -279,18 +280,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithStereo();
             WithAudioLength(0.7);
                 
-            Buff buff1 = default;
-            Buff buff2 = default;
+            Tape tape1 = default;
+            Tape tape2 = default;
             
             Run(() => Sine(RandomNotes[11]).Volume(StereoDynamics * DelayedPulse).
-                      Intercept(x => buff1 = x.Buff).
-                      SpeedUp(1.5).Intercept(x => buff2 = x.Buff));
+                      Intercept(x => tape1 = x).
+                      SpeedUp(1.5).Intercept(x => tape2 = x));
             
-            IsNotNull(() => buff1);
-            IsNotNull(() => buff2);
+            IsNotNull(() => tape1);
+            IsNotNull(() => tape2);
                 
-            buff1.Save().Play();
-            buff2.Save().Play();
+            tape1.Save().Play();
+            tape2.Save().Play();
         }
         
         [TestMethod] public void Stereo_PlayChannel_Test() => WithStereo().Run(Stereo_PlayChannel);
@@ -323,18 +324,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithStereo();
             WithAudioLength(0.7);
             
-            var buffs = new Buff[2];
+            var tapes = new Tape[2];
             
-            Run(() => Sine(RandomNotes[15]).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => buffs[x.Channel.Value] = x.Buff));
+            Run(() => Sine(RandomNotes[15]).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => tapes[x.Channel.Value] = x));
             
-            IsNotNull(() => buffs[0]);
-            IsNotNull(() => buffs[1]);
+            IsNotNull(() => tapes[0]);
+            IsNotNull(() => tapes[1]);
             
-            buffs[0].Save().Play(); Sleep(1000);
-            buffs[1].Save().Play(); Sleep(1000);
+            tapes[0].Save().Play(); Sleep(1000);
+            tapes[1].Save().Play(); Sleep(1000);
             
-            Run(() => (Sample(buffs[0]).Panning(0) +
-                       Sample(buffs[1]).Panning(1)).Save().Play());
+            Run(() => (Sample(tapes[0]).Panning(0) +
+                       Sample(tapes[1]).Panning(1)).Save().Play());
         }
         
         [TestMethod] public void Stereo_InterceptChannel_Test_2Calls() => new MidChainStreamingTests().Stereo_InterceptChannel_2Calls();
@@ -343,28 +344,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithStereo();
             WithAudioLength(0.7);
             
-            var buffs1 = new Buff[2];
-            var buffs2 = new Buff[2];
+            var tapes1 = new Tape[2];
+            var tapes2 = new Tape[2];
             
             Run(() => Sine(RandomNotes[16]).Volume(StereoDynamics * DelayedPulse).
-                      InterceptChannel(x => buffs1[x.Channel.Value] = x.Buff).SpeedUp(1.5).
-                      InterceptChannel(x => buffs2[x.Channel.Value] = x.Buff));
+                      InterceptChannel(x => tapes1[x.Channel.Value] = x).SpeedUp(1.5).
+                      InterceptChannel(x => tapes2[x.Channel.Value] = x));
             
-            IsNotNull(() => buffs1[0]);
-            IsNotNull(() => buffs1[1]);
-            IsNotNull(() => buffs2[0]);
-            IsNotNull(() => buffs2[1]);
+            IsNotNull(() => tapes1[0]);
+            IsNotNull(() => tapes1[1]);
+            IsNotNull(() => tapes2[0]);
+            IsNotNull(() => tapes2[1]);
         
-            buffs1[0].Save().Play(); Sleep(1000);
-            buffs1[1].Save().Play(); Sleep(1000);
-            buffs2[0].Save().Play(); Sleep(1000);
-            buffs2[1].Save().Play(); Sleep(1000);
+            tapes1[0].Save().Play(); Sleep(1000);
+            tapes1[1].Save().Play(); Sleep(1000);
+            tapes2[0].Save().Play(); Sleep(1000);
+            tapes2[1].Save().Play(); Sleep(1000);
 
-            Run(() => (Sample(buffs1[0]).Panning(0) +
-                       Sample(buffs1[1]).Panning(1)).Save().Play());
+            Run(() => (Sample(tapes1[0]).Panning(0) +
+                       Sample(tapes1[1]).Panning(1)).Save().Play());
             
-            Run(() => (Sample(buffs2[0]).Panning(0) +
-                       Sample(buffs2[1]).Panning(1)).Save().Play());
+            Run(() => (Sample(tapes2[0]).Panning(0) +
+                       Sample(tapes2[1]).Panning(1)).Save().Play());
         }
         
         // Complex Cases
@@ -380,7 +381,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Sine(RandomNotes[17] * 2).Volume(StereoDynamics * DelayedPulse).Volume(0.2),
                 Sine(RandomNotes[17] * 3).Volume(StereoDynamics * DelayedPulse).Panning(0.03).Play("Play2").Volume(0.1),
                 Sine(RandomNotes[17] * 4).Volume(StereoDynamics * DelayedPulse).Volume(0.08),
-                Sine(RandomNotes[17] * 5).Volume(0.05).Volume(StereoDynamics * DelayedPulse).Panning(0.9).InterceptChannel(x => x.Buff.Play().Save())
+                Sine(RandomNotes[17] * 5).Volume(0.05).Volume(StereoDynamics * DelayedPulse).Panning(0.9).InterceptChannel(x => x.Play().Save())
             ).Play();
         }
     }
