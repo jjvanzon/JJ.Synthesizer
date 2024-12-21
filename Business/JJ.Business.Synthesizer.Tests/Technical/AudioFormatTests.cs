@@ -16,10 +16,11 @@ using static JJ.Business.Synthesizer.Tests.Accessors.JJFrameworkIOWishesAccessor
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static JJ.Business.Synthesizer.Wishes.Obsolete.RecordObsoleteExtensions;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
+
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 // ReSharper disable ConvertToConstant.Local
-
 // ReSharper disable RedundantArgumentDefaultValue
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -265,7 +266,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithAudioLength(DURATION);
             Buff buff1 = WithAudioLength(DURATION).Record(getSignal, callerMemberName);
             // TODO: Retry Run notation later after fixes:
-            // Buff buff1 = null; Run(() => Intercept(getSignal(), x => buff1 = x));
+            //Buff buff1 = null; Run(() => Intercept(getSignal(), x => buff1 = x, callerMemberName));
             IsNotNull(() => buff1);
             buff1.Save(callerMemberName);
  
@@ -292,11 +293,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Materialize again
             WithAudioLength(DURATION2);
             //Buff buff2 = WithAudioLength(DURATION2).Record(getSample);
-            Buff buff2 = null; Run(() => getSample().Intercept(x => buff2 = x));
-            IsNotNull(() => buff2);
-            buff2.Save(callerMemberName + "_Reloaded");
+            Tape tape2 = null; Run(() => getSample().Intercept(x => tape2 = x, callerMemberName + "_Reloaded"));
+            IsNotNull(() => tape2);
+            IsNotNull(() => tape2.Buff);
+            tape2.Buff.Save(callerMemberName + "_Reloaded"); // TODO: Save overload that takes Tape.
             
-            AudioFileOutput audioFileOutput2 = buff2.UnderlyingAudioFileOutput;
+            AudioFileOutput audioFileOutput2 = tape2.Buff.UnderlyingAudioFileOutput;
             
             // Assert AudioFileOutput Entities
 
@@ -393,7 +395,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     Calculate(sampleMono, time: 7.0 / 8.0 / frequency),
                     Calculate(sampleMono, time: 8.0 / 8.0 / frequency)
                 };
-
+                            
                 Run(() => sampleMono.AsWav().Save(callerMemberName + "_Values"));
                 WithAudioFormat(audioFormat);
 
@@ -490,7 +492,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sampleRight.Calculate(time: 7.0 / 8.0 / frequency, ChannelEnum.Right),
                     sampleRight.Calculate(time: 8.0 / 8.0 / frequency, ChannelEnum.Right)
                 };
-
+                                
                 // Save values for quick inspection.
                 WithMono().WithCenter().AsWav();
                 Run(() => sampleLeft.Save(callerMemberName + "_ValuesLeft"));

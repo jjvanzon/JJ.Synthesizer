@@ -10,24 +10,24 @@ using static JJ.Business.Synthesizer.Wishes.NameHelper;
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    internal class Tape
+    public class Tape
     {
         private string DebuggerDisplay => GetDebuggerDisplay(this);
 
         // Names
 
         /// <inheritdoc cref="docs._tapename" />
-        public string GetName => ResolveName(Signal, Signals, FallBackName, FilePathSuggested, callerMemberName: null);
-        public string FallBackName { get; set; }
-        public string FilePathResolved { get; set; }
-        public string FilePathSuggested { get; set; }
+        internal string GetName => ResolveName(Signal, Signals, FallBackName, FilePathSuggested, callerMemberName: null);
+        internal string FallBackName { get; set; }
+        internal string FilePathResolved { get; set; }
+        internal string FilePathSuggested { get; set; }
         
         // Signals
 
-        public FlowNode Signal { get; set; }
+        internal FlowNode Signal { get; set; }
         /// <summary> For stereo tapes. </summary>
-        public IList<FlowNode> Signals { get; set; }
-        public IList<FlowNode> ConcatSignals()
+        internal IList<FlowNode> Signals { get; set; }
+        internal IList<FlowNode> ConcatSignals()
         {
             var signals = new List<FlowNode>();
             if (Signal != null) signals.Add(Signal);
@@ -37,59 +37,59 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         // Durations
         
-        public double Duration { get; set; }
+        internal double Duration { get; set; }
         /// <inheritdoc cref="docs._padding"/>
-        public double LeadingSilence { get; set; }
+        internal double LeadingSilence { get; set; }
         /// <inheritdoc cref="docs._padding"/>
-        public double TrailingSilence { get; set; }
+        internal double TrailingSilence { get; set; }
 
         // Audio Properties
         
-        public int SamplingRate { get; set; }
-        public int Bits { get; set; }
-        public int? Channel { get; set; }
-        public int? Channels { get; set; }
-        public bool IsMono => Channels == 1;
-        public bool IsStereo => Channels == 2;
-        public AudioFileFormatEnum AudioFormat { get; set; }
+        internal int SamplingRate { get; set; }
+        internal int Bits { get; set; }
+        public int? Channel { get; internal set; }
+        internal int? Channels { get; set; }
+        internal bool IsMono => Channels == 1;
+        internal bool IsStereo => Channels == 2;
+        internal AudioFileFormatEnum AudioFormat { get; set; }
         
         // Actions
 
         /// <inheritdoc cref="docs._istape" />
-        public bool IsTape { get; set; }
-        public bool IsPlay { get; set; }
-        public bool IsPlayed { get; set; }
-        public bool IsSave { get; set; }
-        public bool IsSaved { get; set; }
-        public bool IsIntercept { get; set; }
-        public bool IsIntercepted { get; set; }
-        public bool IsPlayChannel { get; set; }
-        public bool ChannelIsPlayed { get; set; }
-        public bool IsSaveChannel { get; set; }
-        public bool ChannelIsSaved { get; set; }
-        public bool IsInterceptChannel { get; set; }
-        public bool ChannelIsIntercepted { get; set; }
-        public bool IsPadded { get; set; }
-        public Func<Buff, Buff> Callback { get; set; }
-        public Func<Buff, int, Buff> ChannelCallback { get; set; }
+        internal bool IsTape { get; set; }
+        internal bool IsPlay { get; set; }
+        internal bool IsPlayed { get; set; }
+        internal bool IsSave { get; set; }
+        internal bool IsSaved { get; set; }
+        internal bool IsIntercept { get; set; }
+        internal bool IsIntercepted { get; set; }
+        internal bool IsPlayChannel { get; set; }
+        internal bool ChannelIsPlayed { get; set; }
+        internal bool IsSaveChannel { get; set; }
+        internal bool ChannelIsSaved { get; set; }
+        internal bool IsInterceptChannel { get; set; }
+        internal bool ChannelIsIntercepted { get; set; }
+        internal bool IsPadded { get; set; }
+        internal Action<Tape> Callback { get; set; }
+        internal Action<Tape> ChannelCallback { get; set; }
         
         // Buff
-
-        public Buff Buff { get; set; }
+        
+        public Buff Buff { get; internal set; }
                         
         // Options
 
-        public bool CacheToDisk { get; set; }
-        public bool PlayAllTapes { get; set; }
-        public int ExtraBufferFrames { get; set; }
+        internal bool CacheToDisk { get; set; }
+        internal bool PlayAllTapes { get; set; }
+        internal int ExtraBufferFrames { get; set; }
 
         // Hierarchy
 
-        public HashSet<Tape> ParentTapes { get; } = new HashSet<Tape>();
-        public HashSet<Tape> ChildTapes { get; } = new HashSet<Tape>();
-        public int NestingLevel { get; set; }
+        internal HashSet<Tape> ParentTapes { get; } = new HashSet<Tape>();
+        internal HashSet<Tape> ChildTapes { get; } = new HashSet<Tape>();
+        internal int NestingLevel { get; set; }
         
-        public void ClearRelationships()
+        internal void ClearRelationships()
         {
             foreach (var parent in ParentTapes.ToArray())
             {

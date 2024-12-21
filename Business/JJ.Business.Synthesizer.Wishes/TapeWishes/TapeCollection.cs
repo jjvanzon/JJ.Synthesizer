@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         public Tape GetOrCreate(
             FlowNode signal, FlowNode duration, 
-            Func<Buff, Buff> callback, Func<Buff, int, Buff> channelCallback,
+            Action<Tape> callback, Action<Tape> channelCallback,
             string filePath, [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));

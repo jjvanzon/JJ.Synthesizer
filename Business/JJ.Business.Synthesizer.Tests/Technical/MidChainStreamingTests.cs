@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Buff buff = default;
             
-            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).Intercept(x => buff = x));
+            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).Intercept(x => buff = x.Buff));
             
             IsNotNull(() => buff);
             
@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Buff buff2 = default;
             
             Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).
-                      Intercept(x => buff1 = x).SpeedUp(1.5).Intercept(x => buff2 = x));
+                      Intercept(x => buff1 = x.Buff).SpeedUp(1.5).Intercept(x => buff2 = x.Buff));
                 
             IsNotNull(() => buff1);
             IsNotNull(() => buff2);
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Buff buff = default;
             
-            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).InterceptChannel((b, i) => buff = b));
+            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => buff = x.Buff));
             
             IsNotNull(() => buff);
             
@@ -196,8 +196,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Buff buff2 = default;
             
             Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).
-                      InterceptChannel((b, i) => buff1 = b).
-                      SpeedUp(1.5).InterceptChannel((b, i) => buff2 = b));
+                      InterceptChannel(x => buff1 = x.Buff).
+                      SpeedUp(1.5).InterceptChannel(x => buff2 = x.Buff));
                 
             IsNotNull(() => buff1);
             IsNotNull(() => buff2);
@@ -218,11 +218,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             Run(() => Add
             (
-                Sine(RandomNotes[5] * 1).Volume(StereoDynamics * DelayedPulse).Volume(1.0).InterceptChannel((b, i) => buff1 = b),
+                Sine(RandomNotes[5] * 1).Volume(StereoDynamics * DelayedPulse).Volume(1.0).InterceptChannel(x => buff1 = x.Buff),
                 Sine(RandomNotes[5] * 2).Volume(StereoDynamics * DelayedPulse).Volume(0.05),
-                Sine(RandomNotes[5] * 3).Volume(StereoDynamics * DelayedPulse).InterceptChannel((b, i) => buff2 = b).Volume(0.02),
+                Sine(RandomNotes[5] * 3).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => buff2 = x.Buff).Volume(0.02),
                 Sine(RandomNotes[5] * 4).Volume(StereoDynamics * DelayedPulse).Volume(0.03),
-                Sine(RandomNotes[5] * 5).Volume(StereoDynamics * DelayedPulse).Volume(0.01).InterceptChannel((b, i) => buff3 = b)
+                Sine(RandomNotes[5] * 5).Volume(StereoDynamics * DelayedPulse).Volume(0.01).InterceptChannel(x => buff3 = x.Buff)
             ));
             
             IsNotNull(() => buff1);
@@ -266,7 +266,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
             Buff buff = default;
             
-            Run(() => Sine(RandomNotes[10]).Volume(StereoDynamics * DelayedPulse).Intercept(x => buff = x));
+            Run(() => Sine(RandomNotes[10]).Volume(StereoDynamics * DelayedPulse).Intercept(x => buff = x.Buff));
             
             IsNotNull(() => buff);
             
@@ -283,8 +283,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Buff buff2 = default;
             
             Run(() => Sine(RandomNotes[11]).Volume(StereoDynamics * DelayedPulse).
-                      Intercept(x => buff1 = x).
-                      SpeedUp(1.5).Intercept(x => buff2 = x));
+                      Intercept(x => buff1 = x.Buff).
+                      SpeedUp(1.5).Intercept(x => buff2 = x.Buff));
             
             IsNotNull(() => buff1);
             IsNotNull(() => buff2);
@@ -325,7 +325,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             var buffs = new Buff[2];
             
-            Run(() => Sine(RandomNotes[15]).Volume(StereoDynamics * DelayedPulse).InterceptChannel((b,i) => buffs[i] = b));
+            Run(() => Sine(RandomNotes[15]).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => buffs[x.Channel.Value] = x.Buff));
             
             IsNotNull(() => buffs[0]);
             IsNotNull(() => buffs[1]);
@@ -347,8 +347,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var buffs2 = new Buff[2];
             
             Run(() => Sine(RandomNotes[16]).Volume(StereoDynamics * DelayedPulse).
-                      InterceptChannel((b,i) => buffs1[i] = b).SpeedUp(1.5).
-                      InterceptChannel((b,i) => buffs2[i] = b));
+                      InterceptChannel(x => buffs1[x.Channel.Value] = x.Buff).SpeedUp(1.5).
+                      InterceptChannel(x => buffs2[x.Channel.Value] = x.Buff));
             
             IsNotNull(() => buffs1[0]);
             IsNotNull(() => buffs1[1]);
@@ -380,7 +380,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Sine(RandomNotes[17] * 2).Volume(StereoDynamics * DelayedPulse).Volume(0.2),
                 Sine(RandomNotes[17] * 3).Volume(StereoDynamics * DelayedPulse).Panning(0.03).Play("Play2").Volume(0.1),
                 Sine(RandomNotes[17] * 4).Volume(StereoDynamics * DelayedPulse).Volume(0.08),
-                Sine(RandomNotes[17] * 5).Volume(0.05).Volume(StereoDynamics * DelayedPulse).Panning(0.9).InterceptChannel((b, i) => b.Play().Save())
+                Sine(RandomNotes[17] * 5).Volume(0.05).Volume(StereoDynamics * DelayedPulse).Panning(0.9).InterceptChannel(x => x.Buff.Play().Save())
             ).Play();
         }
     }

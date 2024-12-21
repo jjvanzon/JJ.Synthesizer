@@ -20,8 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             LogAction(tape, nameof(SynthWishes.InterceptChannel));
             
-            Buff newBuff = tape.ChannelCallback(tape.Buff, tape.Channel.Value);
-            tape.Buff = tape.Buff ?? newBuff;
+            tape.ChannelCallback(tape);
         }
        
         public override void SaveIfNeeded(Tape tape)
@@ -64,8 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             LogAction(tape, nameof(SynthWishes.Intercept));
             
-            Buff newBuff = tape.Callback(tape.Buff);
-            if (newBuff != null) tape.Buff = newBuff;
+            tape.Callback(tape);
         }
         
         public override void SaveIfNeeded(Tape tape)
@@ -112,8 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             LogAction(tape, nameof(SynthWishes.Intercept));
             
-            Buff newBuff = tape.Callback(tape.Buff);
-            if (newBuff != null) tape.Buff = newBuff;
+            tape.Callback(tape);
         }
         
         public override void SaveIfNeeded(Tape tape)

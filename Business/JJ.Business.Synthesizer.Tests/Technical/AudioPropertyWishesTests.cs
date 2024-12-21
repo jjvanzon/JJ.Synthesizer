@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
@@ -20,22 +21,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Mono Extensions
             {
-                Buff buff = null;
-                Run(() => WithMono().Sine().Intercept(x => buff = x));
-                IsNotNull(() => buff);
+                Tape tape = null;
+                Run(() => WithMono().Sine().Intercept(x => tape = x));
+                IsNotNull(() => tape);
+                IsNotNull(() => tape.Buff);
                 
-                AudioFileOutput audioFileOutputMono = buff.UnderlyingAudioFileOutput;
+                AudioFileOutput audioFileOutputMono = tape.Buff.UnderlyingAudioFileOutput;
                 IsNotNull(() => audioFileOutputMono);
                 IsNotNull(() => audioFileOutputMono.SpeakerSetup);
                 AreEqual(SpeakerSetupEnum.Mono, () => audioFileOutputMono.SpeakerSetup.ToEnum());
             }
             //Stereo Extensions
             {
-                Buff buff = null;
-                Run(() => WithStereo().Sine().Intercept(x => buff = x).Save());
-                IsNotNull(() => buff);
+                Tape tape = null;
+                Run(() => WithStereo().Sine().Intercept(x => tape = x).Save());
+                IsNotNull(() => tape);
+                IsNotNull(() => tape.Buff);
                 
-                AudioFileOutput audioFileOutputStereo = buff.UnderlyingAudioFileOutput;
+                AudioFileOutput audioFileOutputStereo = tape.Buff.UnderlyingAudioFileOutput;
                 IsNotNull(() => audioFileOutputStereo);
                 IsNotNull(() => audioFileOutputStereo.SpeakerSetup);
                 AreEqual(SpeakerSetupEnum.Stereo, () => audioFileOutputStereo.SpeakerSetup.ToEnum());
@@ -43,11 +46,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Wav Extensions
             {
-                Buff buff = null;
-                Run(() => AsWav().Sine().Intercept(x => buff = x).Save());
-                IsNotNull(() => buff);
+                Tape tape = null;
+                Run(() => AsWav().Sine().Intercept(x => tape = x).Save());
+                IsNotNull(() => tape);
+                IsNotNull(() => tape.Buff);
                 
-                AudioFileOutput audioFileOutputWav = buff.UnderlyingAudioFileOutput;
+                AudioFileOutput audioFileOutputWav = tape.Buff.UnderlyingAudioFileOutput;
                 IsNotNull(() => audioFileOutputWav);
                 IsNotNull(() => audioFileOutputWav.AudioFileFormat);
                 AreEqual(".wav", () => audioFileOutputWav.AudioFileFormat.GetFileExtension());
@@ -59,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Raw Extensions
             {
                 AudioFileOutput audioFileOutputRaw = null;
-                Run(() => AsRaw().Sine().Save().Intercept(x => audioFileOutputRaw = x.UnderlyingAudioFileOutput));
+                Run(() => AsRaw().Sine().Save().Intercept(x => audioFileOutputRaw = x.Buff?.UnderlyingAudioFileOutput));
                 IsNotNull(() => audioFileOutputRaw);
                 IsNotNull(() => audioFileOutputRaw.AudioFileFormat);
                 AreEqual(".raw", () => audioFileOutputRaw.AudioFileFormat.GetFileExtension());
