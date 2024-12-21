@@ -17,12 +17,9 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public FlowNode Sample(
             Tape tape, 
-            int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
+            int bytesToSkip = 0/*, string name = null, [CallerMemberName] string callerMemberName = null*/)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
-            return SampleBase(
-                null, tape.Bytes, tape.FilePathResolved, 
-                bytesToSkip, tape.GetName(name, callerMemberName), callerMemberName);
+            return SampleFromTape(tape, bytesToSkip);
         }
 
         /// <inheritdoc cref="docs._sample"/>
@@ -116,6 +113,33 @@ namespace JJ.Business.Synthesizer.Wishes
             return BytesToStream(bytes);
         }
 
+        // SampleFromTape
+        
+        private FlowNode SampleFromTape(Tape tape, int bytesToSkip = 0)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            
+            Stream stream = ResolveStream(null, tape.Bytes, tape.FilePathResolved);
+            Sample sample = _sampleManager.CreateSample(stream);
+            
+            sample.BytesToSkip = bytesToSkip;
+            sample.Name = tape.GetDescriptor();
+            sample.Amplifier = 1.0 / tape.Bits.MaxValue();
+            sample.Location = tape.GetFilePath();
+            
+            if (sample.AudioFormat() == Raw)
+            {
+                // Not detected from header, so we need to set it manually.
+                sample.SamplingRate = tape.SamplingRate;
+                sample.SetChannels(tape.Channels, Context);
+                sample.SetBits(tape.Bits, Context);
+                sample.SetInterpolation(tape.Interpolation, Context);
+            }
+            
+            var sampleNode = _[_operatorFactory.Sample(sample)];
+            return sampleNode.SetName(sample.Name);
+        }
+        
         // SampleFromFluentConfig (currently unused)
         
         /// <inheritdoc cref="docs._samplefromfluentconfig" />
