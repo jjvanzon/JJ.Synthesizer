@@ -719,7 +719,27 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private static string GetIDDescriptor(Tape tape) => tape.Signal?.UnderlyingOperator?.ID.ToString() ?? "no ID";
+        private static string GetIDDescriptor(Tape tape)
+        {
+            var ids = new List<int?>();
+           
+            if (Has(tape.Signal))
+            {
+                ids.Add(tape.Signal.UnderlyingOperator?.ID);
+            }
+            if (Has(tape.Signals))
+            {
+                ids.AddRange(tape.Signals.Select(x => x?.UnderlyingOperator?.ID));
+        }
+
+            string formattedIDs = Join("|", ids.Where(FilledIn));
+            if (!Has(formattedIDs))
+            {
+                formattedIDs = "no ID";
+            }
+
+            return formattedIDs;
+        }
         
         public static string GetDescriptor(Tape tape)
         {
