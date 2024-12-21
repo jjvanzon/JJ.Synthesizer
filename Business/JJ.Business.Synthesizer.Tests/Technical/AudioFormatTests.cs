@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_AudioFormat_Raw_Mono_8Bit_Blocky_NonAligned() 
             => new AudioFormatTests().TestAudioFormat(Raw, 1, 8, Block, aligned: false);
-
+        
         void TestAudioFormat(
             AudioFileFormatEnum audioFormat,
             int channels,
@@ -241,7 +241,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             bool aligned,
             [CallerMemberName] string callerMemberName = null)
         {
-            // Arrange
+            Console.WriteLine("");
+            Console.WriteLine("Options");
+            Console.WriteLine("-------");
+            Console.WriteLine("");
+            
             int    samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
             double frequency    = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
 
@@ -251,36 +255,46 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithInterpolation(interpolation);
             WithAudioFormat(audioFormat);
             WithSamplingRate(samplingRate);
-
-            // Panned, amplified sine
-            FlowNode getSignal()
-            {
-                var sound = Sine(frequency) * VOLUME;
-                if (IsStereo)
-                {
-                    sound = sound.Panning(PANNING);
-                }
-                return sound.SetName(callerMemberName);
-            }
             
-            // Materialize
+            Console.WriteLine(this.ConfigLog(title: ""));
+            
+            
+            Console.WriteLine("");
+            Console.WriteLine("Materialize Signal with \"Record\" (Old Method)");
+            Console.WriteLine("---------------------------------------------");
+            
             WithAudioLength(DURATION);
-            Buff buff1 = WithAudioLength(DURATION).Record(getSignal, callerMemberName);
-            IsNotNull(() => buff1);
-            // TODO: Retry Run notation later after fixes:
-            //Tape tape1 = null; Run(() => Intercept(getSignal(), x => tape1 = x, callerMemberName));
-            //IsNotNull(() => tape1);
-            //Buff buff1 = tape1.Buff;
             
+            Buff buff1 = this.Record(() => Signal(_[frequency], callerMemberName), callerMemberName);
+            IsNotNull(() => buff1);
             buff1.Save(callerMemberName);
- 
+
+            Console.WriteLine("");
+            Console.WriteLine("Materialize Signal with \"Run/Intercept\" (New Method)");
+            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine("");
+
+            Tape tape1 = null;
+            Run(() => Intercept(Signal(_[frequency], callerMemberName), x => tape1 = x, callerMemberName));
+            IsNotNull(() => tape1);
+            tape1.Save(callerMemberName);
+            
+            // TODO: Retry Run output later after fixes:
+            //Buff buff1 = tape1.Buff;
+
             AudioFileOutput audioFileOutput1 = buff1.UnderlyingAudioFileOutput;
             
             // Use sample operator
-            FlowNode getSample()
+            FlowNode ReloadSample()
             {
-                FlowNode node   = Sample(buff1).SetName($"{callerMemberName}_Reloaded");
-                Sample   sample = node.UnderlyingSample();
+                string newName = $"{callerMemberName}_Reloaded";
+                
+                FlowNode node   = Sample(buff1).SetName(newName);
+                
+                // TODO: Retry using Run output later after fixes:
+                //FlowNode node   = Sample(tape1).SetName($"{callerMemberName}_Reloaded");
+                
+                Sample sample = node.UnderlyingSample();
 
                 if (audioFormat == Raw)
                 {
@@ -291,24 +305,31 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sample.Amplifier      = 1.0 / audioFileOutput1.MaxValue();
                 }
 
-                return node.SetName($"{callerMemberName}_Reloaded");
+                return node;
             }
             
-            // Materialize again
+            Console.WriteLine("");
+            Console.WriteLine("Reload Sample with \"Run/Intercept\" (New Method)");
+            Console.WriteLine("-----------------------------------------------");
+            Console.WriteLine("");
+
             WithAudioLength(DURATION2);
-            //Buff buff2 = WithAudioLength(DURATION2).Record(getSample);
-            Tape tape2 = null; Run(() => getSample().Intercept(x => tape2 = x));
+            //Buff buff2 = Record(getSample);
+            Tape tape2 = null; Run(() => ReloadSample().Intercept(x => tape2 = x));
             IsNotNull(() => tape2);
             tape2.Save();
             
             AudioFileOutput audioFileOutput2 = tape2.UnderlyingAudioFileOutput;
             
-            // Assert AudioFileOutput Entities
+            Console.WriteLine("");
+            Console.WriteLine("Assert AudioFileOutput Properties");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("");
 
             string expectedFilePath1 = 
                 GetFullPath(PrettifyName(callerMemberName) + audioFormat.FileExtension());
             
-            AssertAudioFileOutputEntities(
+            AssertAudioFileOutputProperties(
                 audioFileOutput1,
                 audioFormat, channels, bits, samplingRate,
                 expectedFilePath1, DURATION);
@@ -316,20 +337,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             string expectedFilePath2 = 
                 GetFullPath(PrettifyName($"{callerMemberName}_Reloaded") + audioFormat.FileExtension());
             
-            AssertAudioFileOutputEntities(
+            AssertAudioFileOutputProperties(
                 audioFileOutput2,
                 audioFormat, channels, bits, samplingRate,
                 expectedFilePath2, DURATION2);
 
-            // Assert Samples Entities
+            Console.WriteLine("Done.");
+            
+            
+            Console.WriteLine("");
+            Console.WriteLine("Assert Sample Properties");
+            Console.WriteLine("------------------------");
+            Console.WriteLine("");
 
             if (channels == 1)
             {
                 WithCenter();
                 
-                var sampleMono = getSample();
+                var sampleMono = ReloadSample();
                 
-                AssertSampleEntities(
+                AssertSampleProperties(
                     sampleMono,
                     audioFormat, channels, bits, interpolation, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
@@ -341,9 +368,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 WithLeft();
                 
-                var sampleLeft  = getSample();
+                var sampleLeft  = ReloadSample();
 
-                AssertSampleEntities(
+                AssertSampleProperties(
                     sampleLeft,
                     audioFormat, channels, bits, interpolation, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
@@ -351,26 +378,31 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 WithRight();
                 
-                var sampleRight = getSample();
+                var sampleRight = ReloadSample();
 
-                AssertSampleEntities(
+                AssertSampleProperties(
                     sampleRight,
                     audioFormat, channels, bits, interpolation, samplingRate,
                     expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
                 Console.WriteLine();
             }
-            
+
+            Console.WriteLine("Done.");
+
             // Get Values
 
             // Mono
 
             if (channels == 1)
             {
-                // Get Values
+                Console.WriteLine("");
+                Console.WriteLine("Get Values from Reloaded Sample");
+                Console.WriteLine("-------------------------------");
+                Console.WriteLine("");
 
                 WithCenter();
 
-                var sampleMono  = getSample();
+                var sampleMono  = ReloadSample();
 
                 double[] expectedValues =
                 {
@@ -398,9 +430,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     Calculate(sampleMono, time: 7.0 / 8.0 / frequency),
                     Calculate(sampleMono, time: 8.0 / 8.0 / frequency)
                 };
-                            
+                                
+                Console.WriteLine("");
+                Console.WriteLine("Save Values");
+                Console.WriteLine("-----------");
+                Console.WriteLine("");
+
                 Run(() => sampleMono.AsWav().Save(callerMemberName + "_Values"));
                 WithAudioFormat(audioFormat);
+
+                Console.WriteLine("");
+                Console.WriteLine("Assert Values");
+                Console.WriteLine("-------------");
+                Console.WriteLine("");
 
                 double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequired = expectedValues.Zip(actualValues, (x,y) => Abs(x - y)).Max();
@@ -428,10 +470,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             if (channels == 2)
             {
-                // GetValues
+                Console.WriteLine("");
+                Console.WriteLine("Get Values from Reloaded Sample");
+                Console.WriteLine("-------------------------------");
+                Console.WriteLine("");
 
-                // Left
-                
+                WithLeft();
+
+                var sampleLeft  = ReloadSample();
+
                 double[] expectedL =
                 {
                     VOLUME * 0.75 *       0.0,
@@ -446,10 +493,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedL = expectedL.Select(RoundValue).ToArray();
 
-                WithLeft();
-
-                var sampleLeft  = getSample();
-
                 double[] actualL =
                 {
                     sampleLeft.Calculate(time: 0.0 / 8.0 / frequency, ChannelEnum.Left),
@@ -463,8 +506,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sampleLeft.Calculate(time: 8.0 / 8.0 / frequency, ChannelEnum.Left)
                 };
 
-                // Right
-                
+                WithRight();
+
+                var sampleRight = ReloadSample();
+
                 double[] expectedR =
                 {
                     VOLUME * 0.25 *       0.0,
@@ -479,10 +524,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedR = expectedR.Select(RoundValue).ToArray();
 
-                WithRight();
-
-                var sampleRight = getSample();
-
                 double[] actualR =
                 {
                     sampleRight.Calculate(time: 0.0 / 8.0 / frequency, ChannelEnum.Right),
@@ -495,13 +536,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sampleRight.Calculate(time: 7.0 / 8.0 / frequency, ChannelEnum.Right),
                     sampleRight.Calculate(time: 8.0 / 8.0 / frequency, ChannelEnum.Right)
                 };
-                                
-                // Save values for quick inspection.
+                
+                Console.WriteLine("");
+                Console.WriteLine("Save Values");
+                Console.WriteLine("-----------");
+                Console.WriteLine("");
+
                 WithMono().WithCenter().AsWav();
                 Run(() => sampleLeft.Save(callerMemberName + "_ValuesLeft"));
                 Run(() => sampleRight.Save(callerMemberName + "_ValuesRight"));
                 WithChannels(channels).WithAudioFormat(audioFormat);
                 
+                Console.WriteLine("");
+                Console.WriteLine("Assert Values");
+                Console.WriteLine("-------------");
+                Console.WriteLine("");
+
                 double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequired = expectedL.Concat(expectedR).Zip(actualL.Concat(actualR), (x,y) => Abs(x - y)).Max();
                 Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
@@ -513,8 +563,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Console.WriteLine($"{nameof(expectedR)} = {FormatValues(expectedR)}");
                 Console.WriteLine($"  {nameof(actualR)} = {FormatValues(actualR  )}");
                 Console.WriteLine();
-
-                // Assert Values
                 
                 // Left
 
@@ -542,7 +590,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
         }
 
-        static void AssertAudioFileOutputEntities(
+        private FlowNode Signal(FlowNode frequency, string callerMemberName)
+        {
+            var sound = Sine(frequency) * VOLUME;
+            if (IsStereo)
+            {
+                sound = sound.Panning(PANNING);
+            }
+            return sound.SetName(callerMemberName);
+        }
+
+        static void AssertAudioFileOutputProperties(
             AudioFileOutput audioFileOutput, 
             AudioFileFormatEnum audioFileFormatEnum,
             int channels, 
@@ -603,7 +661,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
         }
 
-        private void AssertSampleEntities(
+        private void AssertSampleProperties(
             FlowNode sampleFlowNode, 
             AudioFileFormatEnum audioFileFormatEnum, 
             int channels, 
