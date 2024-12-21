@@ -18,8 +18,8 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class FlowNode
     {
         /// <inheritdoc cref="docs._stringify"/>
-        public string Stringify(bool singleLine = false, bool mustUseShortOperators = false) 
-            => _underlyingOutlet.Stringify(singleLine, mustUseShortOperators);
+        public string Stringify(bool singleLine = false, bool canOmitNameForBasicMath = false) 
+            => _underlyingOutlet.Stringify(singleLine, canOmitNameForBasicMath);
     }
 
     // Stringify Extensions

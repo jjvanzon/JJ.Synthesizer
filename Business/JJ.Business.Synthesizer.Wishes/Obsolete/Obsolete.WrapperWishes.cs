@@ -460,26 +460,26 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="docs._stringify"/>
-        public static string Stringify(this OperatorWrapperBase wrapper, bool singleLine = false, bool mustUseShortOperators = false)
+        public static string Stringify(this OperatorWrapperBase wrapper, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(wrapper.Operator);
+            return new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(wrapper.Operator);
         }
 
         [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="docs._stringify"/>
-        public static string Stringify(this SampleOperatorWrapper wrapper, bool singleLine = false, bool mustUseShortOperators = false)
+        public static string Stringify(this SampleOperatorWrapper wrapper, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(wrapper.Result);
+            return new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(wrapper.Result);
         }
 
         [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="docs._stringify"/>
-        public static string Stringify(this CurveInWrapper wrapper, bool singleLine = false, bool mustUseShortOperators = false)
+        public static string Stringify(this CurveInWrapper wrapper, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier(singleLine, mustUseShortOperators).StringifyRecursive(wrapper.Result);
+            return new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(wrapper.Result);
         }
     }
 
